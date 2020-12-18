@@ -331,7 +331,15 @@
 	</#list>
 	<#if valign!=''><#local class += ' align-' + valign /></#if>
 	<td class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
+		<#-- This part is to add the "btn-just-icon" class to action buttons in tables -->
+		<#local nestedContent><#nested /></#local>
+		<#if nestedContent?has_content>
+			<#if nestedContent?contains("class=\"btn")>
+				${nestedContent?replace('class=\"btn','class=\"btn btn-just-icon')}
+			<#else>
+				<#nested />
+			</#if>
+		</#if>
 	</td>
 </#macro>
 
@@ -443,9 +451,9 @@
 <#assign hideLabel = hideLabel>
 <#assign helpKey = helpKey>
 <#if groupStyle = 'success'>
-	<#local validation = 'is-valid'>
+	<#local validation = 'has-success'>
 <#elseif groupStyle='error'>
-	<#local validation = 'is-invalid'>
+	<#local validation = 'has-error'>
 </#if>
 <#if collapsed><#local class += ' collapse' /></#if>
 <div class="form-group<#if formStyle='horizontal'> bmd-form-group row</#if><#if class!=''> ${class?trim}</#if>"<#if validation?? && validation!=''> ${validation}</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -468,7 +476,7 @@
 		<#local labelClass = 'col-12'>
 		<#local divClass = 'col-12'>
 	</#if>
-	<#local labelClass = labelClass + ' bmd-label-floating' />
+	<#-- <#local labelClass = labelClass + ' bmd-label-floating' /> -->
 	<#if labelKey!=''>
 		<@formLabel class=labelClass labelFor=labelFor labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 	</#if>
@@ -495,7 +503,7 @@
 </#macro>
 
 <#macro formHelp style='inline' class='' labelFor=''>
-<small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>
+<small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>"<#if labelFor!=''> aria-describedby="${labelFor}" </#if>style="display:block;">
 <#nested>
 </small>
 </#macro>
@@ -594,7 +602,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	</label>
 </div>
 	<script type="text/javascript">
-		$(".form-check").parents('div.form-group').addClass('is-filled');
+		$(".form-check").parents('div.form-group').find('label').removeClass('bmd-label-floating');
 	</script>
 </#macro>
 
@@ -639,7 +647,16 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#if type = 'text'>
 	<div class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 </#if>
-		<#nested>
+
+<#-- This part is to add the "sm" class to the button -->
+		<#local nestedContent><#nested /></#local>
+		<#if nestedContent?has_content>
+			<#if nestedContent?contains("class=\"btn")>
+				${nestedContent?replace('class=\"btn','class=\"btn btn-sm')}
+			<#else>
+				<#nested />
+			</#if>
+		</#if>
 <#if type = 'text'>
 	</div>
 </#if>
@@ -972,6 +989,11 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 			<#local btnStyle = style />
 		</#if>
 	</#if>
+	<#if isContainerTd??>
+		<#if hideTitle?size gt 0 && isContainerTd>
+			<#local class += ' btn-just-icon' />
+		</#if>
+	</#if>
 	
 	<#if buttonNested><#local dropdownMenu=false /></#if>
 	
@@ -1020,6 +1042,12 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	</#if>
 	
 	<#local class += alignmentSettings(align,'') />
+	<#if isContainerTd??>
+		<#local isContainerTd = isContainerTd />
+		<#if hideTitle?size gt 0 && isContainerTd>
+			<#local class += ' btn-just-icon' />
+		</#if>
+	</#if>
 	
 	<a class="${style} <#if size!=''> btn-${size}</#if> btn-${buttonColor}<#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
