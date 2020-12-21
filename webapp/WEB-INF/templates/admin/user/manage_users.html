@@ -136,7 +136,7 @@
 							  </td>
 							</#if>
 						  </#list>
-						<td>
+						<@td>
 							<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUpdate}' buttonIcon='edit' size='sm' hideTitle=['all'] />
 							<#if defaultModeUsed><@aButton href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' buttonIcon='key' size='sm' hideTitle=['all'] /></#if>
 							<@aButton href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' buttonIcon='lock' size='sm' hideTitle=['all'] />
@@ -146,7 +146,7 @@
 								<@aButton href='jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelAnonymize}' buttonIcon='user-secret' size='sm' hideTitle=['all'] />
 							</#if>
 							<@aButton color='danger' href='jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelDelete}' buttonIcon='trash' size='sm' hideTitle=['all'] />
-						</td>
+						</@td>
 					</tr>
 					</#list>
 				</@table>

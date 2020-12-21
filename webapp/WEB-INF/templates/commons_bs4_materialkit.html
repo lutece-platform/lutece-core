@@ -15,6 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet"> 
 <link href="css/admin/style/bootstrap4/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap 4.3.1 -->
 <link href="css/admin/style/bootstrap4/bootstrap-colorpicker.min.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/bootstrap-flatpickr.min.css" rel="stylesheet">
 <link href="css/admin/style/bootstrap4/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5 -->
 <link href="css/admin/style/bootstrap4/material-kit/material-kit.min.css" rel="stylesheet">
 <link href="css/admin/style/bootstrap4/material-kit/material-kit.override.css" rel="stylesheet">
@@ -30,7 +31,7 @@
 <script data-jscorelib="bootstrap-material-design" src="js/admin/style/bootstrap4/material-kit/bootstrap-material-design.min.js"></script> 
 <script data-jscorelib="moment-with-locales" src="js/admin/style/bootstrap4/material-kit/moment-with-locales.min.js"></script> 
 <script data-jscorelib="bootstrap-datetimepicker" src="js/admin/style/bootstrap4/material-kit/bootstrap-datetimepicker.js"></script>
-<!-- <script data-jscorelib="bootstrap-flatpickr" src="js/admin/bootstrap-flatpickr.min.js"></script> -->
+<script data-jscorelib="bootstrap-flatpickr" src="js/admin/bootstrap-flatpickr.min.js"></script>
 <script data-jscorelib="nouislider" src="js/admin/style/bootstrap4/material-kit/nouislider.min.js"></script> 
 <script data-jscorelib="jquery.sharrre" src="js/admin/style/bootstrap4/material-kit/jquery.sharrre.js"></script> 
 <script data-jscorelib="material-kit" src="js/admin/style/bootstrap4/material-kit/material-kit.min.js"></script> 
@@ -357,8 +358,8 @@
 	<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 </#if>
 <@btnGroup ariaLabel='sortButton'>
-	<@aButton color='default' size='xs' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' hideTitle=['all'] />
-	<@aButton color='default' size='xs' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' hideTitle=['all'] />
+	<@aButton color='default' size='sm' class='btn-just-icon' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' hideTitle=['all'] />
+	<@aButton color='default' size='sm' class='btn-just-icon' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' hideTitle=['all'] />
 </@btnGroup>
 </#macro>
 
@@ -584,7 +585,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- CHECKBOX 																							-->
-<#-- orientation: vertical/horizontal. Default is vertical 	-->
+<#-- orientation: vertical/inline. Default is vertical 	-->
 <#-- TODO  																									-->
 <#macro checkBox name id labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
 <#if labelFor = ''><#local labelFor = id /></#if>
@@ -607,7 +608,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- RADIO BUTTON -->
-<#-- orientation: vertical/horizontal. Default is vertical -->
+<#-- orientation: vertical/inline. Default is vertical -->
 <#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
 		<div class="form-check form-check-radio<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
 			<label class="form-check-label<#if orientation='horizontal'> radio-inline</#if>" for="${labelFor}">
