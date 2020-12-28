@@ -724,7 +724,7 @@ and is kept only for backwards compatibility
 			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
 		</#if>
 	</#list>
-		<th class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt;0> colspan="${colspan}"</#if><#if rowspan gt;0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+		<th class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
         <#nested>
     </th>
 </#macro>
@@ -741,7 +741,7 @@ and is kept only for backwards compatibility
 			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
 		</#if>
 	</#list>
-		<td class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if colspan gt;0> colspan="${colspan}"</#if><#if rowspan gt;0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+		<td class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</td>
 </#macro>

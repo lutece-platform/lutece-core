@@ -313,7 +313,7 @@
 		</#if>
 	</#list>
 	<#if valign!=''><#local class += ' align-' + valign /></#if>
-	<th class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt;0> colspan="${colspan}"</#if><#if rowspan gt;0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+	<th class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</th>
 </#macro>
@@ -331,7 +331,7 @@
 		</#if>
 	</#list>
 	<#if valign!=''><#local class += ' align-' + valign /></#if>
-	<td class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if colspan gt;0> colspan="${colspan}"</#if><#if rowspan gt;0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+	<td class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 		<#-- This part is to add the "btn-just-icon" class to action buttons in tables -->
 		<#local nestedContent><#nested /></#local>
 		<#if nestedContent?has_content>
