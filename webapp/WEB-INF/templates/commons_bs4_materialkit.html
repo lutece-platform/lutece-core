@@ -301,7 +301,7 @@
 
 <#-- MACRO TH -->
 <#-- valign: baseline|top|middle|bottom|bottom|text-top -->
-<#macro th id='' title='' scope='' class='' hide=[] align='' valign='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+<#macro th id='' title='' scope='' class='' hide=[] align='' valign='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params=''>
 	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'text') />
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
@@ -313,13 +313,13 @@
 		</#if>
 	</#list>
 	<#if valign!=''><#local class += ' align-' + valign /></#if>
-	<th class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if params!=''> ${params}</#if>>
+	<th class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt;0> colspan="${colspan}"</#if><#if rowspan gt;0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</th>
 </#macro>
 
 <#-- MACRO TD -->
-<#macro td id='' class='' hide=[] align='' valign='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+<#macro td id='' class='' hide=[] align='' valign='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params=''>
 	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'') />
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
@@ -331,7 +331,7 @@
 		</#if>
 	</#list>
 	<#if valign!=''><#local class += ' align-' + valign /></#if>
-	<td class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<td class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if colspan gt;0> colspan="${colspan}"</#if><#if rowspan gt;0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 		<#-- This part is to add the "btn-just-icon" class to action buttons in tables -->
 		<#local nestedContent><#nested /></#local>
 		<#if nestedContent?has_content>
