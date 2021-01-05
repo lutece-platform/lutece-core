@@ -1305,7 +1305,7 @@
 				<#if breakPoint = 'sm'>
 					<#if displayClass = ''>
 						<#local displayClass += ' d-' + breakPoint + '-none' />
-					<#elseif displayClass = 'd-none'>
+					<#elseif displayClass = 'd-none' && !breakPointsOrdered?seq_contains('md')>
 						<#local displayClass += ' d-md-${display}' />
 					</#if>
 				<#elseif breakPoint = 'md'>
