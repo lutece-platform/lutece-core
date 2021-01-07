@@ -706,9 +706,10 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- MACRO TR -->
-<#macro tr>
-	<tr>
-    <#nested>
+<#macro tr id='' class='' hide=[] params=''>
+	<#local class += ' ' + displaySettings(hide,'is-inline') + ' ' + alignmentSettings(align) />
+	<tr<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
 	</tr>
 </#macro>
 
@@ -717,7 +718,7 @@ and is kept only for backwards compatibility
 <#macro th id='' title='' scope='' class='' align='' valign='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params=''>
     <#local class += ' ' + displaySettings(hide,'is-inline') + ' ' + alignmentSettings(align) />
 	<#if valign!=''><#local class += ' align-' + valign /></#if>
-		<th<#if class!=''> class="${class?trim}"</#if><#if title=!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+		<th<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if title=!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
         <#nested>
     </th>
 </#macro>
