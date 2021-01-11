@@ -579,32 +579,21 @@ and is kept only for backwards compatibility
 	</div>
 </#macro>
 
-<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='fa fa-check' icon2='fa fa-close' offset=3 >
-<#local col = 11 - offset />
-<div class="form-group">
-    <div class="col-xs-12 col-sm-offset-${offset} col-sm-${col} col-md-offset-${offset} col-md-${col}">
+<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='save' icon2='times' offset=3>
+	<@formGroup>
         <#if url1 != ''>
-			<a class="btn btn-primary btn-flat" href="${url1}"  >
-				<i class="${icon1}"></i>&nbsp;#i18n{${i18nValue1Key}}
-			</a>
+			<@aButton href='${url1}' buttonIcon=icon1 title='#i18n{${i18nValue1Key}}' />
         <#else>
-			<button  class="btn btn-primary btn-flat" name="${button1Name}" type="submit">
-				<i class="${icon1}"></i>&nbsp;#i18n{${i18nValue1Key}}
-			</button>
+			<@button type='submit' name='${button1Name}' buttonIcon=icon1 title='#i18n{${i18nValue1Key}}' />
         </#if>
         <#if url2 != ''>
-			<a class="btn btn-default btn-flat" href="${url2}"  >
-				<i class="${icon2}"></i>&nbsp;#i18n{${i18nValue2Key}}
-			</a>
+			<@aButton href='${url2}' buttonIcon=icon2 title='#i18n{${i18nValue2Key}}' />
         <#else>
             <#if button2Name != ''>
-				<button class="btn btn-default btn-flat" name="${button2Name}" type="submit" >
-					<i class="${icon2}"></i>&nbsp;#i18n{${i18nValue2Key}}
-				</button>
+				<@button type='submit' name='${button2Name}' buttonIcon=icon2 title='#i18n{${i18nValue2Key}}' color='default' />
             </#if>
         </#if>
-    </div>
-</div>
+	</@formGroup>
 </#macro>
 
 <#macro boxSized col i18nTitleKey boxClass='box-primary' >
