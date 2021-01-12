@@ -1316,10 +1316,6 @@ and is kept only for backwards compatibility
 	</#if>
 </#macro>
 
-<#macro dropdownItem>
-			<li><#nested></li>
-</#macro>
-
 <#-- BTN TOOLBAR -->
 <#macro btnToolbar id='' class='' align='' ariaLabel='' params=''>
 <#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
@@ -1966,17 +1962,6 @@ $(function() {
     </div>
 </div>
 </#macro>
-
-
-
-<#-- HELPERS --> 
-
-<#-- Float right  -->
-<#macro fright> is-pulled-right</#macro>
-<#-- Float left  -->
-<#macro fright> is-pulled-left</#macro>
-<#-- Clearfix  -->
-<#macro fright> is-clearfix</#macro>
 
 <#-- HTML ELEMENTS -->
 <#macro img url='' alt='' title='' class='' id='' params=''> 

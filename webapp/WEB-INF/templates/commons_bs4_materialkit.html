@@ -1067,10 +1067,6 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		</#if>
 </#macro>
 
-<#macro dropdownItem>
-			<a class="dropdown-item"><#nested></a>
-</#macro>
-
 <#-- BTN TOOLBAR -->
 <#macro btnToolbar id='' class='' align='' ariaLabel='' params=''>
 <#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
@@ -1717,18 +1713,6 @@ $(function() {
 	<#nested>
 </span>
 </#macro>
-
-
-
-<#-- HELPERS --> 
-
-<#-- FLOAT -->
-<#-- Float right  -->
-<#macro fright> float-right</#macro>
-<#-- Float left  -->
-<#macro fright> float-left</#macro>
-<#-- Clearfix  -->
-<#macro fright> clearfix</#macro>
 
 <#-- RESPONSIVE -->
 
