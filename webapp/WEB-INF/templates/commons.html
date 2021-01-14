@@ -726,11 +726,7 @@ and is kept only for backwards compatibility
 <#macro td id='' class='' hide=[] align='' valign='' showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params=''>
     <#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align,'text') />
 	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
-	<#list breakpoints as breakpointkey,breakpointvalue>
-		<#if breakpointvalue!=0>
-			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
-		</#if>
-	</#list>
+	<#local class += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
 		<td class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</td>
@@ -840,25 +836,25 @@ and is kept only for backwards compatibility
 <#-- formStyle values: empty/inline/horizontal/navbar-form/navbar-left... Default is horizontal -->
 <#-- groupStyle: success/warning/error... -->
 <#-- showLabel is deprecated in Lutece v7 -->
-<#macro formGroup class='' formStyle='horizontal' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] showLabel=true collapsed=false params=''>
+<#macro formGroup class='' formStyle='horizontal' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false hideLabel=[] showLabel=true collapsed=false params=''>
 	<#local displayLabelClass = displaySettings(hideLabel,'') />
 	<#if collapsed><#local class += ' collapse' /></#if>
 	<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#if rows=1>
 			<#if labelKey!='' && formStyle='horizontal'>
-				<#local labelClass = 'col-xs-12 col-sm-3 control-label'>
-				<#local divClass = 'col-xs-12 col-sm-9 col-md-6 col-lg-6'>
+				<#local labelClass += ' col-xs-12 col-sm-3 control-label'>
+				<#local divClass = 'col-xs-12 col-sm-9 col-md-6'>
 			<#elseif formStyle = 'inline'>
-				<#local labelClass = ''>
+				<#local labelClass += ''>
 			<#else>
 				<#local divClass='col-xs-12 col-sm-offset-3 col-sm-6'>
 			</#if>
 		<#else>
-			<#local labelClass = 'col-xs-12'>
+			<#local labelClass += ' col-xs-12'>
 			<#local divClass = 'col-xs-12'>
 		</#if>
 		<#if labelKey!=''>
-		<label class="${labelClass}<#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
+		<label class="${labelClass?trim}<#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
 			<span<#if displayLabelClass!=''> class="${displayLabelClass}"</#if>>${labelKey}</span>
 			<#if mandatory=false>
 				&#160;
@@ -1016,10 +1012,36 @@ and is kept only for backwards compatibility
 
 <#-- COLUMNS -->
 <#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
-<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' align='' collapsed=false params=''>
+<#-- Push and Pull are deprecated in Bootstrap 4 -->
+<#-- offsetXs, offsetSm, offsetMd, offsetLg and offsetXl are deprecated. Use offset={} instead where the values are listed as following: offset={'xs':int, 'sm':int, 'md':int, 'lg':int, 'xl':int} -->
+<#-- Order uses flexbox. Use Order for xs/all breakpoints this way: order=int, or for other breakpoints this way: order={'sm':int, 'md':int, 'lg':int, 'xl':int} -->
+<#macro columns tag='div' offset={} offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 order={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' align='' collapsed=false params=''>
 <#if align!=''><#local class+= ' ' + alignmentSettings(align,'text') /></#if>
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<${tag} class="col-xs-${xs}<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#if align!=''><#local class+= ' ' + alignmentSettings(align,'text') /></#if>
+<#local class += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
+<#if offset?has_content>
+	<#local class += ' ' + responsiveDisplay('offset',offset) />
+<#elseif offsetXs &gt; 0 || offsetSm &gt; 0 || offsetMd &gt; 0 || offsetLg &gt; 0 || offsetXl &gt; 0>
+	<#local class += ' ' + responsiveDisplay('offset',{'xs':offsetXs, 'sm':offsetSm, 'md':offsetMd, 'lg':offsetLg, 'xl':offsetXl}) />
+</#if>
+<#if pushXs &gt; 0 || pushSm &gt; 0 || pushMd &gt; 0 || pushLg &gt; 0 || pushXl &gt; 0>
+	<#local breakpoints = {'xs':pushXs, 'sm':pushSm, 'md':pushMd, 'lg':pushLg, 'xl':pushXl} />
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#local class += ' col-${breakpointkey}-push-${breakpointvalue}' />
+		</#if>
+	</#list>
+</#if>
+<#if pullXs &gt; 0 || pullSm &gt; 0 || pullMd &gt; 0 || pullLg &gt; 0 || pullXl &gt; 0>
+	<#local breakpoints = {'xs':pullXs, 'sm':pullSm, 'md':pullMd, 'lg':pullLg, 'xl':pullXl} />
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#local class += ' col-${breakpointkey}-pull-${breakpointvalue}' />
+		</#if>
+	</#list>
+</#if>
+	<${tag}<#if class?trim!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</${tag}>
 </#macro>
@@ -1674,6 +1696,22 @@ and is kept only for backwards compatibility
 		</#list>
 	</#if>
 	<#return displayClass?trim>
+</#function>
+
+<#-- This function returns responsive classes -->
+<#-- type: col|offset -->
+<#function responsiveDisplay type='' breakpoints={}>
+	<#local responsiveDisplayClass = '' />
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#if type = 'col'>
+				<#local responsiveDisplayClass += ' ${type}-${breakpointkey}-${breakpointvalue}' />
+			<#elseif type = 'offset'>
+				<#local responsiveDisplayClass += ' col-${breakpointkey}-${type}-${breakpointvalue}' />
+			</#if>
+		</#if>
+	</#list>
+	<#return responsiveDisplayClass?trim>
 </#function>
 
 <#function alignmentSettings align='' style=''>

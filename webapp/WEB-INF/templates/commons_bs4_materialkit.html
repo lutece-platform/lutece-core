@@ -325,12 +325,7 @@
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
 	</#if>
-	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
-	<#list breakpoints as breakpointkey,breakpointvalue>
-		<#if breakpointvalue!=0>
-			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
-		</#if>
-	</#list>
+	<#local class += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
 	<#if valign!=''><#local class += ' align-' + valign /></#if>
 	<td class="<#if class?trim != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 		<#-- This part is to add the "btn-just-icon" class to action buttons in tables -->
@@ -445,7 +440,7 @@
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
 <#-- class: 						 																							-->
 <#-- groupStyle: success/error 																				-->
-<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params=''>
+<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params=''>
 <#assign mandatory = mandatory>
 <#assign labelFor = labelFor>
 <#assign labelId = labelId>
@@ -459,11 +454,10 @@
 </#if>
 <#if collapsed><#local class += ' collapse' /></#if>
 <div class="form-group<#if formStyle='horizontal'> bmd-form-group row</#if><#if class!=''> ${class?trim}</#if>"<#if validation?? && validation!=''> ${validation}</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<#local labelClass = '' />
 <#local displayClass = displaySettings(hideLabel,'inline-flex') />
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
-			<#local labelClass = 'col-12'>
+			<#local labelClass += ' col-12'>
 			<#if displayClass?contains('d-none')>
 				<#local divClass='col'>
 			<#else>	
@@ -475,10 +469,10 @@
 				<#local divClass='col-sm-12'>
 		</#if>
 	<#else>
-		<#local labelClass = 'col-12'>
+		<#local labelClass += ' col-12'>
 		<#local divClass = 'col-12'>
 	</#if>
-	<#-- <#local labelClass = labelClass + ' bmd-label-floating' /> -->
+	<#-- <#local labelClass += ' bmd-label-floating' /> -->
 	<#if labelKey!=''>
 		<@formLabel class=labelClass labelFor=labelFor labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 	</#if>
@@ -685,14 +679,26 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- COLUMNS -->
 <#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
-<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' align='' collapsed=false params=''>
+<#-- Push and Pull are deprecated in Bootstrap 4 -->
+<#-- offsetXs, offsetSm, offsetMd, offsetLg and offsetXl are deprecated. Use offset={} instead where the values are listed as following: offset={'xs':int, 'sm':int, 'md':int, 'lg':int, 'xl':int} -->
+<#-- Order uses flexbox. Use Order for xs/all breakpoints this way: order=int, or for other breakpoints this way: order={'sm':int, 'md':int, 'lg':int, 'xl':int} -->
+<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params=''>
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class+= ' ' + alignmentSettings(align,'text') /></#if>
-<#if xs=12 && sm=0 && md=0 && lg=0 && xl=0>
-<${tag} class="col<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<#else>
-<${tag} class="<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local class += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
+<#if offset?has_content>
+	<#local class += ' ' + responsiveDisplay('offset',offset) />
+<#elseif offsetXs &gt; 0 || offsetSm &gt; 0 || offsetMd &gt; 0 || offsetLg &gt; 0 || offsetXl &gt; 0>
+	<#local class += ' ' + responsiveDisplay('offset',{'xs':offsetXs, 'sm':offsetSm, 'md':offsetMd, 'lg':offsetLg, 'xl':offsetXl}) />
 </#if>
+<#if order?has_content>
+	<#if order?is_number>
+		<#local class += ' order-${order}' />
+	<#elseif order?is_hash>
+		<#local class += ' ' + responsiveDisplay('order',order) />
+	</#if>
+</#if>
+<${tag} class="<#if class?trim!=''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </${tag}>
 </#macro>
@@ -1008,9 +1014,6 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		</#if>
 		<#if buttonNested><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
-		<#if dropdownMenu>
-		&#160;<@icon style='caret-down' />
-		</#if>
 	</button>
 	
 	<#if dropdownMenu>
@@ -1397,6 +1400,22 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		</#list>
 	</#if>
 	<#return displayClass?trim>
+</#function>
+
+<#-- This function returns responsive classes or flex order classes -->
+<#-- type: col|offset|order -->
+<#function responsiveDisplay type='' breakpoints={}>
+	<#local responsiveDisplayClass = '' />
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#if breakpointkey = 'xs'>
+				<#local responsiveDisplayClass += ' ${type}-${breakpointvalue}' />
+			<#else>
+				<#local responsiveDisplayClass += ' ${type}-${breakpointkey}-${breakpointvalue}' />
+			</#if>
+		</#if>
+	</#list>
+	<#return responsiveDisplayClass?trim>
 </#function>
 
 <#function alignmentSettings align='' style=''>

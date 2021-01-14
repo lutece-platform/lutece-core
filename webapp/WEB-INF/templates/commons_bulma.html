@@ -828,12 +828,12 @@ and is kept only for backwards compatibility
 <#-- formStyle values: empty/inline/horizontal/navbar-form/navbar-left... Default is horizontal -->
 <#-- groupStyle: is-success/is-danger/is-warning... -->
 
-<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params=''>
+<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params=''>
 <#local labelDisplayClass = displaySettings(hideLabel,'') />
 <#if collapsed><#local class += ' collapse' /></#if>
 <div class="field is-horizontal<#if class!=''> ${class?trim}</#if>">
   <div class="field-label">
-    <label class="label<#if labelDisplayClass!=''> ${labelDisplayClass}</#if>">${labelKey} <#if mandatory=true>*</#if></label>
+    <label class="label<#if labelDisplayClass!=''> ${labelDisplayClass}</#if><#if labelClass!=''> ${labelClass}</#if>">${labelKey} <#if mandatory=true>*</#if></label>
   </div>
   <div class="field-body">
     <div class="field">
@@ -958,12 +958,12 @@ and is kept only for backwards compatibility
 
 <#-- COLUMNS -->
 <#-- cols -->
-<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' collapsed=false align='' params=''>
+<#macro columns tag='div' offset={} offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 order={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' collapsed=false align='' params=''>
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
-<div class="column<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<${tag} class="column<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
-</div>
+</${tag}>
 </#macro>
 
 <#-- LISTS -->

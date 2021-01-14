@@ -92,7 +92,7 @@
 <#if (paginator.pagesCount > 1) >
 	<@paginationPageLinks paginator=paginator />
 </#if>
-<div class="float-right">
+<@div align='right'>
 	<#if form == 1 >
 		<@tform type='inline'>
 			<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
@@ -100,7 +100,7 @@
 	<#else>
 		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
 	</#if>
-</div>
+</@div>
 </#macro>
 
 <#-- PAGINATION LINKS -->
@@ -178,7 +178,7 @@
 
 <#-- PAGINATION COMBO -->
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0>
-<@formGroup labelFor='${paginator.itemsPerPageParameterName}' labelKey='${paginator.labelItemCountPerPage}' formStyle='inline'>
+<@formGroup labelFor='${paginator.itemsPerPageParameterName}' labelKey='${paginator.labelItemCountPerPage}' labelClass='small mr-3' formStyle='inline'>
 <@inputGroup>
 	<@select params='data-max-item="${paginator.itemsCount}"' size='sm' name='${paginator.itemsPerPageParameterName}' id='${paginator.itemsPerPageParameterName}' title='${paginator.labelItemCountPerPage}'>
   		<#list [ "10" , "20" , "50" , "100" ] as nb>
@@ -195,7 +195,7 @@
   		</#if>
 	</@select>
 	<@inputGroupItem type='btn'>
-		<@button type='submit' color='dark' size='sm' title='#i18n{portal.util.labelRefresh}' buttonIcon='check' hideTitle=['all'] />
+		<@button type='submit' color='dark' size='xs' title='#i18n{portal.util.labelRefresh}' buttonIcon='check' hideTitle=['all'] />
 	</@inputGroupItem>
 </@inputGroup>
 </@formGroup>
@@ -264,7 +264,7 @@
 	
 <#-- TABLE -->
 <#-- class:  -->
-<#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false narrow=false collapsed=false params=''>
+<#macro table id='' class='table-borderless' responsive=true condensed=true hover=true striped=false bordered=false narrow=false collapsed=false params=''>
 	<#local class = class />
 	<#if condensed> <#local class += ' table-sm' /> </#if>
 	<#if hover>     <#local class += ' table-hover' /> </#if>
@@ -340,8 +340,8 @@
 	<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 </#if>
 <@btnGroup ariaLabel='sortButton'>
-	<@aButton color='default' size='sm' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' hideTitle=['all'] />
-	<@aButton color='default' size='sm' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' hideTitle=['all'] />
+	<@aButton color='default' size='xs' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' hideTitle=['all'] />
+	<@aButton color='default' size='xs' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' hideTitle=['all'] />
 </@btnGroup>
 </#macro>
 
@@ -426,7 +426,7 @@
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
 <#-- class: 						 								-->
 <#-- groupStyle: success/error -->
-<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' mandatory=false hideLabel=[] collapsed=false params=''>
+<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params=''>
 <#assign mandatory = mandatory>
 <#assign labelFor = labelFor>
 <#assign labelId = labelId>
@@ -440,11 +440,10 @@
 </#if>
 <#if collapsed><#local class += ' collapse' /></#if>
 <div class="form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class?trim}<#/if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<#local labelClass = '' />
-<#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
+	<#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
-			<#local labelClass = 'col-sm-12 col-lg-3 col-form-label'>
+			<#local labelClass += ' col-sm-12 col-lg-3 col-form-label text-right'>
 			<#if displayLabelClass?contains('d-none')>
 				<#local divClass='col'>
 			<#else>
@@ -452,16 +451,16 @@
 			</#if>
 		<#elseif formStyle = 'inline'>
 			<#local divClass = 'mb-2 mr-sm-2'>
+			<#local labelClass += ' mr-2' />
 		<#else>
 			<#local divClass='col-sm-12 offset-lg-3 col-lg-6'>
 		</#if>
 	<#else>
-		<#local labelClass = 'col-sm-12 col-form-label'>
+		<#local labelClass += ' col-sm-12 col-form-label'>
 		<#local divClass = 'col-sm-12'>
 	</#if>
-	<#local labelClass = labelClass>
 	<#if labelKey!=''>
-		<@formLabel class=labelClass labelFor=labelFor labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
+		<@formLabel class=labelClass?trim labelFor=labelFor labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 	</#if>
 	<#if formStyle !='inline'>
 		<div class="${divClass}">
@@ -631,15 +630,28 @@
 </#macro>
 
 <#-- COLUMNS -->
-<#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
-<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' align='' collapsed=false params=''>
+<#-- cols = col-(<544px)/ col-sm-(>=544px)/ col-md-(>=768px)/ col-lg-(>=992px)/ col-xl-(>=1200px) -->
+<#-- Push and Pull are deprecated in Bootstrap 4 -->
+<#-- offsetXs, offsetSm, offsetMd, offsetLg and offsetXl are deprecated. Use offset={} instead where the values are listed as following: offset={'xs':int, 'sm':int, 'md':int, 'lg':int, 'xl':int} -->
+<#-- Order uses flexbox. Use Order for xs/all breakpoints this way: order=int, or for other breakpoints this way: order={'sm':int, 'md':int, 'lg':int, 'xl':int} -->
+<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params=''>
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
-<#if xs=12 && sm=0 && md=0 && lg=0 && xl=0>
-<${tag} class="col<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<#else>
-<${tag} class="<#if sm!=0>col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local class += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
+<#if offset?has_content>
+	<#local class += ' ' + responsiveDisplay('offset',offset) />
+<#elseif offsetXs &gt; 0 || offsetSm &gt; 0 || offsetMd &gt; 0 || offsetLg &gt; 0 || offsetXl &gt; 0>
+	<#local class += ' ' + responsiveDisplay('offset',{'xs':offsetXs, 'sm':offsetSm, 'md':offsetMd, 'lg':offsetLg, 'xl':offsetXl}) />
 </#if>
+<#if order?has_content>
+	<#if order?is_number>
+		<#local class += ' order-${order}' />
+	<#elseif order?is_hash>
+		<#local class += ' ' + responsiveDisplay('order',order) />
+	</#if>
+</#if>
+
+<${tag} class="<#if class?trim!=''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </${tag}>
 </#macro>
@@ -648,14 +660,14 @@
 <#macro ul id='' params='' class='' hide=[] collapsed=false align=''>
 	<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<ul<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<ul<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</ul>
 </#macro>
 
 <#macro li id='' params='' class='' hide=[] align=''>
 		<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
-		<li<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<li<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 			<#nested>
 		</li>
 </#macro>
@@ -665,7 +677,7 @@
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
-	<div<#if class!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div<#if class?trim!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
@@ -674,22 +686,22 @@
 <#macro p id='' params='' class='' hide=[] collapsed=false align=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#local class += ' ' + displaySettings(hide,'block') + ' ' + alignmentSettings(align,'') />
-	<p<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<p<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</p>
 </#macro>
 
 <#-- SPAN -->
-<#macro span id='' class='' hide=[] align='' params=''>
+<#macro span id='' class='' hide=[] collapsed=false align='' params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'inline-flex') />
-	<span<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<span<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</span>
 </#macro>
 
 <#-- PRE -->
-<#macro pre id='' class='' hide=[] collapsed=true align='' params=''>
+<#macro pre id='' class='' hide=[] collapsed=false align='' params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
 	<pre<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
@@ -703,7 +715,7 @@
 <#macro tabs color='' class='' id='' hide=[] collapsed=false params=''>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<div class="<#if color!=''> ${color}</#if><#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="<#if color!=''> ${color}</#if><#if class?trim!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
@@ -924,7 +936,7 @@
 	
 	<#if buttonNested><#local dropdownMenu=false /></#if>
 	
-	<button class="<#if style!='close'>btn btn-flat</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<#if !buttonNested>
 			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
@@ -933,9 +945,6 @@
 		</#if>
 		<#if buttonNested><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
-		<#if dropdownMenu>
-		&#160;<@icon style='caret-down' />
-		</#if>
 	</button>
 	
 	<#if dropdownMenu>
@@ -974,17 +983,13 @@
 		<#assign style='text-right btn-link' />
 	</#if>
 
-	<#if size = 'xs'>
-		<#local size = 'sm' />
-	</#if>
-	
 	<#local class += alignmentSettings(align,'') />
 	
 	<#if dropdownMenu>
 		<div class="btn-group">
 	</#if>
 	
-	<a class="${style} btn-flat<#if size!=''> btn-${size}</#if><#if color!=''> ${buttonColor}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+	<a class="${style}<#if size!=''> btn-${size}</#if><#if color!=''> ${buttonColor}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<span class="${displayTitleClass}">${title}</span>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
@@ -1131,13 +1136,13 @@
 <#-- collapsed: true/false 																-->
 <#---------------------------------------------------------->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="card m-2<#if color!=''> card-${color}<#else> card-primary</#if> card-outline<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card m-2<#if color!=''> card-${color}<#else> card-transparent</#if> card-outline<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h5'>
+<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h2'>
 <div class="card-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="card-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
@@ -1332,6 +1337,22 @@
 	<#return displayClass?trim>
 </#function>
 
+<#-- This function returns responsive classes or flex order classes -->
+<#-- type: col|offset|order -->
+<#function responsiveDisplay type='' breakpoints={}>
+	<#local responsiveDisplayClass = '' />
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#if breakpointkey = 'xs'>
+				<#local responsiveDisplayClass += ' ${type}-${breakpointvalue}' />
+			<#else>
+				<#local responsiveDisplayClass += ' ${type}-${breakpointkey}-${breakpointvalue}' />
+			</#if>
+		</#if>
+	</#list>
+	<#return responsiveDisplayClass?trim>
+</#function>
+
 <#function alignmentSettings align='' style=''>
 	<#local x = ''>
 	<#if align !=''>
@@ -1370,7 +1391,7 @@
 	<div class="wrapper"><!-- Close in footer -->
 		<div class="sr-only"><a href="#main">aller au contenu principal</a></div>
 		<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
-		<nav class="main-header navbar navbar-expand-lg navbar-dark navbar-primary">
+		<nav class="main-header navbar navbar-expand-lg navbar-dark navbar-gray-dark">
 			<a class="navbar-brand" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" >
 				<img src="#dskey{portal.site.site_property.logo_url}" height="30" class="d-inline-block align-top" aria-hidden="true" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
 				<#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if>
@@ -1504,14 +1525,14 @@ ${javascript_files}
 <header>
 	<div class="row justify-content-between">
 		<div class="col-12">
-			<h3 class="ml-2">
+			<h1 class="mt-4 ml-3" style="font-size:2rem;">
 				<#if feature_url?? >
 					<@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link>
 				<#else>
 					${feature_title!''}
 				</#if>
 				<#if page_title?has_content><small>${page_title}</small></#if>
-			</h3>
+			</h1>
 		</div>
 		<@adminHeaderDocumentationLink />
 	</div>
