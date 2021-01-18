@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web.template;
 
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.template.CommonsService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.ReferenceList;
 import freemarker.template.TemplateException;
@@ -137,13 +138,30 @@ public class CommonsTest extends LuteceTestCase {
 	}
 
 	private void copyCommonsFiles(String strRootPath) throws IOException {
+            
+                AppLogService.info("Copying commons");
+
+                // commons
 		String strSourcePath = getSourcePath(strRootPath, "WEB-INF/templates");
 		File fileSourceFolder = new File(strSourcePath);
 		String strDestPath = strRootPath + "/commons";
 		File fileCommonsFolder = new File(strDestPath);
-		fileCommonsFolder.mkdir();
-		FileUtils.copyDirectory(fileSourceFolder, fileCommonsFolder,
+		fileCommonsFolder.mkdir( );
+                FileUtils.copyDirectory(fileSourceFolder, fileCommonsFolder,
 				new CommonsFileFilter());
+
+		AppLogService.info("Copying all files from " + fileSourceFolder.getAbsolutePath( ) + " to " + fileCommonsFolder.getAbsolutePath( ));
+
+		// util macros
+		strSourcePath = getSourcePath(strRootPath, "WEB-INF/templates/admin/util/calendar");
+		fileSourceFolder = new File(strSourcePath);
+		strDestPath = strRootPath + "/commons/admin/util/calendar";
+		File fileCommonsUtilFolder = new File(strDestPath);
+		fileCommonsUtilFolder.mkdir();
+		AppLogService.info( fileCommonsUtilFolder.getAbsolutePath( ) + " created");
+		FileUtils.copyDirectory(fileSourceFolder, fileCommonsUtilFolder );
+
+		AppLogService.info("Copying all files from " + fileSourceFolder.getAbsolutePath( ) + " to " + fileCommonsUtilFolder.getAbsolutePath( ));
 	}
 
 	class CommonsFileFilter implements FileFilter {
