@@ -1,30 +1,259 @@
-<@row>
-    <@columns>
-        <@box color='primary'>
-            <@boxHeader title='Generate a form' />
-            <@boxBody>
-                <@tform name='form_generation' id='form_generation'>
-                    <fieldset>
-                            <legend class="sr-only">Display an HTML form</legend>
-                            <@formGroup labelFor='text_field' labelKey='#i18n{pluginwizard.create_configurationkey.rowTitleConfigurationDescription}' mandatory=true>
-                                <@input type='text' id='text_field' name='text_field' maxlength=50 tabIndex='1' />
-                            </@formGroup>
-                            <@formGroup>
-                                <@button type='submit' tabIndex='3' title='Submit form' buttonIcon='check' size='' />
-                            </@formGroup>
-                    </fieldset>
-                </@tform>
-            </@boxBody>
-        </@box>
-    </@columns>
-</@row>
-<@row>
-    <@columns>
-        <@alert >Default</@alert>
-        <@alert color='primary' >Primary</@alert>
-        <@alert color='info' >Info</@alert>
-        <@alert color='success' >Success</@alert>
-        <@alert color='warning' >Warning</@alert>
-        <@alert color='danger' >Danger</@alert>
-    </@columns>
-</@row>
+<!-- @aButton align='' buttonIcon='' class='' color='primary' disabled=false dropdownMenu=false hideTitle=[] href='' iconPosition='left' id='' name='' params='' showTitle=true showTitleLg=true showTitleMd=true showTitleSm=true showTitleXs=true size='' style='btn-flat' tabIndex='' title=''> - </@aButton -->
+
+<@accordionContainer id='' params=''>
+	<@accordionPanel childId='' collapsed=true color='' id='' params=''>
+		<@accordionHeader boxTools=false childId=childId headerIcon='' id='' params='' parentId=parentId title=''> - </@accordionHeader>
+		<@accordionBody class=childClass expanded=expanded id=childId params=''> - </@accordionBody>
+	</@accordionPanel>
+</@accordionContainer>
+
+<@actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' icon1='save' icon2='times' offset=3 url1='' url2=''> - </@actionButtons>
+
+<#assign user = { 'userId' : 0 , 'accessibilityMode' : true , 'userLevel' : 0 } />
+<#assign token='external_var' />
+<@adminAccessibilityMode> - </@adminAccessibilityMode>
+
+
+<@adminContentHeader> - </@adminContentHeader>
+
+<#assign version='external_var' />
+<#assign javascript_files='external_var' />
+<@adminFooter> - </@adminFooter>
+
+<#assign site_name='external_var' />
+<#assign feature_group_list=[] />
+<#assign admin_url='external_var' />
+<#assign adminAvatar=true />
+<#if !(menu_pos??) ><#assign menu_pos='' /> </#if>
+<#if !(dashboard_zone_4??) ><#assign dashboard_zone_4=''/> </#if>
+<@adminHeader site_name=site_name> - </@adminHeader>
+
+<@adminHeaderDocumentationLink> - </@adminHeaderDocumentationLink>
+
+<@adminHome> - </@adminHome>
+
+<#assign lang = 'fr' />
+<#assign language = { 'code' : 'fr', 'name' : 'fr' } />
+<#assign languages = [ language ] />
+<@adminLanguage action='jsp/admin/DoChangeLanguage.jsp' lang='' languages=languages> - </@adminLanguage>
+
+<@adminLoginPage site_name='SITE_NAME' title=''> - </@adminLoginPage>
+
+<#assign message = { 'type' : 2 }  />
+<#assign text = 'external_var' />
+<@adminMessagePage title=''> - </@adminMessagePage>
+
+<@adminSiteColumnOutline columnid=''> - </@adminSiteColumnOutline>
+
+<@alert class='' color='' dismissible=false iconTitle='' id='' params='' title='' titleLevel='h3'> - </@alert>
+
+<@badge badgeIcon='' class='deprecated' color='primary' htmlEl='deprecated' style='deprecated' title='' type='deprecated'> - </@badge>
+
+
+<!-- @boxSized boxClass='box-primary' col='' i18nTitleKey=''> - </@boxSized -->
+
+<@box class='' collapsed=false color='' id='' params='' style=''>
+
+        <@boxHeader boxTools=false hideTitle=[] i18nTitleKey='' id='' params='' showTitle=true title='' titleLevel='h2'> - </@boxHeader>
+        <@boxBody align='' class='' collapsed=false id='' params=''> - </@boxBody>
+        <@boxFooter align='' class='' id='' params=''> - </@boxFooter>
+</@box>
+
+
+
+<@breadcrumbs id='' params=''> - </@breadcrumbs>
+
+<!-- @btnGroup align='' ariaLabel='' class='' hide=[] id='' params='' showLg=true showMd=true showSm=true showXl=true showXs=true size=''> - </@btnGroup -->
+
+<@btnGroupRadioCheckbox ariaLabel='' checked=false color='primary' id='' labelFor='' labelKey='' labelParams='' name='' params='' size='' tabIndex='' type='checkbox' value=''> - </@btnGroupRadioCheckbox>
+
+<@btnToolbar align='' ariaLabel='' class='' id='' params=''> - </@btnToolbar>
+
+<@button buttonIcon='' buttonNested=false buttonTargetId='' cancel=false class='' color='' disabled=false dropdownMenu=false formId='' hideTitle=[] iconPosition='left' id='' name='' params='' showTitle=true showTitleLg=true showTitleMd=true showTitleSm=true showTitleXs=true size='' style='btn-flat' tabIndex='' title='' type='button' value=''> - </@button>
+
+
+<@callOut callOutIcon='' color='' id='' params='' title='' titleLevel='h3'> - </@callOut>
+
+<@card header=false headerIcon=false headerTitle='' headerTitleIcon=''> - </@card>
+
+<@checkBox checked=false disabled=false id='' labelFor='' labelKey='' mandatory=false name='' orientation='vertical' params='' readonly=false tabIndex='' title='' value=''> - </@checkBox>
+
+<!-- @checkboxList default_values='' inline=0 items='' name=''> - </@checkboxList -->
+
+<@coloredBg color='' id='' params='' type='p'> - </@coloredBg>
+
+<@columns align='' class='' collapsed=false id='' lg=0 md=0 offset={} offsetLg=0 offsetMd=0 offsetSm=0 offsetXl=0 offsetXs=0 order={} params='' pullLg=0 pullMd=0 pullSm=0 pullXl=0 pullXs=0 pushLg=0 pushMd=0 pushSm=0 pushXl=0 pushXs=0 sm=0 tag='div' xl=0 xs=12> - </@columns>
+
+<!-- @combo default_value='' items='' name=''> - </@combo -->
+
+<!-- @comboSorted default_value='' items='' name=''> - </@comboSorted -->
+
+<!-- @comboSortedWithParams additionalParameters='' default_value='' id=name items='' name=''> - </@comboSortedWithParams -->
+
+<!-- @comboWithParams additionalParameters='' default_value='' items='' name=''> - </@comboWithParams -->
+
+<!-- @comboWithParamsAndLength additionalParameters='' default_value='' items='' max_length='' name=''> - </@comboWithParamsAndLength -->
+
+<@commonsDescription> - </@commonsDescription>
+
+<@commonsFile> - </@commonsFile>
+
+<@commonsName> - </@commonsName>
+
+<@coreAdminCSSLinks> - </@coreAdminCSSLinks>
+
+<@coreAdminJSLinks> - </@coreAdminJSLinks>
+
+
+<!-- @dataTable actionMacro="" caption="&nbsp;" dataTableManager='' summary="data table" tableClass="table table-striped table-condensed"> - </@dataTable -->
+
+<@div align='' class='' collapsed=false hide=[] id='' params=''> - </@div>
+
+<@dropdownItem class='' href='' id='' params='' title=''> - </@dropdownItem>
+
+<@dropdownList id='' params=''> - </@dropdownList>
+
+<!-- @dropdownMenu class='' id='' params=''> - </@dropdownMenu -->
+
+<@emailTemplate footer_link='https://fr.lutece.paris.fr' title='Lutece'> - </@emailTemplate>
+
+<@errorPage color='' errorType='' id='' params=''> - </@errorPage>
+
+<!-- @fieldInputCalendar cssClass='form-control' i18nHelpBlockKey='' i18nLabelKey='' inputName='' language='fr' mandatory=false value=""> - </@fieldInputCalendar -->
+
+<!-- @fieldInputCheckBox checked=false cssClass='' disabled=false i18nHelpBlockKey='' i18nLabelKey='' inputName='' value=""> - </@fieldInputCheckBox -->
+
+<!-- @fieldInputCheckBoxInline checked=false disabled=false inputName='' value=""> - </@fieldInputCheckBoxInline -->
+
+<!-- @fieldInputCombo cssClass='form-control' i18nHelpBlockKey='' i18nLabelKey='' inputName='' items='' mandatory=false value=""> - </@fieldInputCombo -->
+
+<!-- @fieldInputPassword cssClass='form-control' i18nHelpBlockKey='' i18nLabelKey='' inputName='' mandatory=false maxlength=0 value=""> - </@fieldInputPassword -->
+
+<!-- @fieldInputRadioBox checked=false cssClass='' disabled=false i18nHelpBlockKey='' i18nLabelKey='' inputName='' value=""> - </@fieldInputRadioBox -->
+
+<!-- @fieldInputRadioBoxInline checked=false disabled=false inputName='' value=""> - </@fieldInputRadioBoxInline -->
+
+<!-- @fieldInputText cssClass='form-control' i18nHelpBlockKey='' i18nLabelKey='' inputName='' mandatory=false maxlength=0 value=""> - </@fieldInputText -->
+
+<!-- @fieldInputWrapper cssClass='form-control' i18nHelpBlockKey='' i18nLabelKey='' inputName='' mandatory=false maxlength=0 value=""> - </@fieldInputWrapper -->
+
+<@fieldSet class='' disabled=false fieldsetId='' fieldsetParams='' hideLegend=[] legend='' legendClass='' legendId='' legendParams=''> - </@fieldSet>
+
+<!-- @fieldStaticText cssClass='form-control' i18nLabelKey=''> - </@fieldStaticText -->
+
+<!-- @fieldTextArea cssClass='form-control' i18nHelpBlockKey='' i18nLabelKey='' inputName='' mandatory=false maxlength=0 value=""> - </@fieldTextArea -->
+
+<!-- @filterPanel dataTableManager='' formClass="form-horizontal"> - </@filterPanel -->
+
+<@formField class=''> - </@formField>
+
+<!-- @formGroup class='' collapsed=false formStyle='horizontal' groupStyle='' helpKey='' hideLabel=[] id='' labelClass='' labelFor='' labelId='' labelKey='' mandatory=false params='' rows=1 showLabel=true> - </@formGroup -->
+
+<@formHelp class='' labelFor='' style='inline'> - </@formHelp>
+
+<!-- @formLabel class='' hideLabel=hideLabel labelFor='' labelId='' labelKey='' mandatory=true showLabel=true> - </@formLabel -->
+
+
+
+<!-- @headerButtons> - </@headerButtons -->
+
+<@icon class='' id='' params='' prefix='fa fa-' style='' title=''> - </@icon>
+
+<@iconStack class='fa-2x' id='' params=''> - </@iconStack>
+
+<@img alt='' class='' id='' params='' title='' url=''> - </@img>
+
+<@infoBox bgColor='' boxIcon='' boxNumber=0 boxText='' color='' id='' params='' progressBar='' progressDescription='' unit=''> - </@infoBox>
+
+<!-- @input class='' cols=40 disabled=false id='' inputSize=0 language='' mandatory=false max=0 maxlength=0 min=0 name='' params='' pattern='' placeHolder='' readonly=false richtext=false rows=4 size='' tabIndex='' title='' type='text' value=''> - </@input -->
+
+<!-- @inputGroup class='' id='' params='' size=''> - </@inputGroup -->
+
+<@inputGroupItem id='' params='' pos='' type='btn'> - </@inputGroupItem>
+
+<#assign item_navigator = { 'currentItemId' : 1, 'listItemSize' : 1, 'previousPageLink' : '' } />
+<@item_navigation align='' buttonColor='info' buttonSize='sm' hideButtonTitle=[] id='item-navigator' item_navigator=item_navigator> - </@item_navigation>
+
+<@li class='' id='' params=''> - </@li>
+
+<@link alt='' class='' href='' id='' name='' params='' target='' title=''> - </@link>
+
+<@listGroup id='' params=''> - </@listGroup>
+
+<@listGroupItem id='' params=''> - </@listGroupItem>
+
+<!-- @listTabs id='' params='' type='tabs'> - </@listTabs -->
+
+<@messages errors=[] errors_class="alert alert-danger" infos=[] infos_class="alert alert-info" warnings=[] warnings_class="alert alert-warning"> - </@messages>
+
+<@modal bgColor='' id='' params='' size=''>
+    <@modalHeader id='' modalTitle='' params='' titleLevel='h4'> - </@modalHeader>
+    <@modalBody id='' params=''> - </@modalBody>
+    <@modalFooter id='' params=''> - </@modalFooter>
+</@modal>
+
+<@p align='' class='' collapsed=false hide=[] id='' params=''> - </@p>
+
+<#assign paginator = { 'pageCurrent' : 1, 'pagesCount' : 1, 'firstPageLink' : 1, 'previousPageLink' : 1, 'pagesLinks' : [], 'nextPageLink' : 1, 'lastPageLink' : 1, 'itemsCount' : 1, 'labelItemCount' : 'label', 'labelItemCountPerPage' : 'label', 'labelPrevious' : 'label', 'labelNext' : 'label', 'itemsPerPageParameterName' : 'items_per_page' } />
+<@pagination paginator=paginator> - </@pagination>
+<#assign nb_items_per_page = "10" />
+<@paginationAdmin combo=0 form=1 nb_items_per_page=nb_items_per_page paginator=paginator showall=0 showcount=1> - </@paginationAdmin>
+<@paginationCombo nb_items_per_page=nb_items_per_page paginator=paginator showall=0> - </@paginationCombo>
+<@paginationItemCount combo=0 nb_items_per_page=nb_items_per_page paginator=paginator showall=0 showcount=1> - </@paginationItemCount>
+<@paginationPageLinks paginator=paginator> - </@paginationPageLinks>
+
+
+
+<@pre align='' class='' collapsed=false hide=[] id='' params=''> - </@pre>
+
+<!-- @progress color='primary' id='' max=100 min=0 params='' text='' value=0> - </@progress -->
+
+<@progressBar description='' id='' params=''> - </@progressBar>
+
+<@radioButton checked=false disabled=false id='' labelFor='' labelKey='' name='' orientation='vertical' params='' readonly=false tabIndex='' title='' value=''> - </@radioButton>
+
+<!-- @radioImageList default_value='' inline=0 items='' name=''> - </@radioImageList -->
+
+<@row align='' class='' collapsed=false id='' params=''> - </@row>
+
+<!-- @rowBox boxClass='box-primary' col=12> - </@rowBox -->
+
+<!-- @rowBoxHeader boxClass='box-primary' col=12 i18nTitleKey=''> - </@rowBoxHeader -->
+
+<@select class='' default_value="" disabled=false id=name items='' multiple=0 name='' params='' size='' sort=false tabIndex=0 title=''> - </@select>
+
+<@smallBox boxIcon='' color='' fontSize='40px' id='' params='' text='' title='' titleLevel='h3' unit='' url='' urlText=''> - </@smallBox>
+
+<@sort attribute='' id="" jsp_url=''> - </@sort>
+
+<@span align='' class='' collapsed=false hide=[] id='' params=''> - </@span>
+
+<@staticText color='' id='' inForm=true params=''> - </@staticText>
+
+<@tabContent id='' params=''> - </@tabContent>
+
+<@table bordered=false class='' collapsed=false condensed=true hover=true id='' narrow=false params='' responsive=true striped=false> - </@table>
+
+<@tableHeadBodySeparator> - </@tableHeadBodySeparator>
+
+<@tabLink active=false class='' hide=[] href='' id='' params='' tabIcon='' title=''> - </@tabLink>
+
+<@tabList color='' id='' params='' type='tabs' vertical=false> - </@tabList>
+
+<@tabPanel active=false id='' params=''> - </@tabPanel>
+
+<@tabs class='' collapsed=false color='' hide=[] id='' params=''> - </@tabs>
+
+<@tag class='' color='default' id='' params='' size='' tagIcon='' title=''> - </@tag>
+
+<@td align='' class='' colspan=0 flex=false hide=[] id='' lg=0 md=0 params='' rowspan=0 showLg=true showMd=true showSm=true showXs=true sm=0 valign='' xl=0 xs=0> - </@td>
+
+<@tform action='' align='' class='' collapsed=false hide=[] id='' method='post' name='' params='' role='form' type='horizontal'> - </@tform>
+
+<@th align='' class='' cols=0 colspan=0 flex=false hide=[] id='' lg=0 md=0 params='' rowspan=0 scope='' showLg=true showMd=true showSm=true showXl=true showXs=true sm=0 title='' valign='' xl=0 xs=0> - </@th>
+
+<@tr class='' hide=[] id='' params=''> - </@tr>
+
+<!-- @ul align='' class='' collapsed=false hide=[] id='' params=''> - </@ul -->
+
+<@unstyledList id='' params=''> - </@unstyledList>
