@@ -1,7 +1,7 @@
 <@row>
-  <@columns>
-    <@box>
-      <@boxHeader title='#i18n{portal.workgroup.manage_workgroups.pageTitle}'>
+	<@columns>
+		<@box>
+			<@boxHeader title='#i18n{portal.workgroup.manage_workgroups.pageTitle}'>
 				<@aButton href='jsp/admin/workgroup/CreateWorkgroup.jsp' buttonIcon='plus' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' hideTitle=['xs'] size='sm' />
 				<@button style='card-control collapse' buttonTargetId='#workgroupSearch' buttonIcon='search' size='sm' />
 			</@boxHeader>
@@ -30,21 +30,21 @@
 				</@tform>
 
 				<@table>
-					<tr>
-						<th>#i18n{portal.workgroup.manage_workgroups.columnTitleKey} <@sort jsp_url="jsp/admin/workgroup/ManageWorkgroups.jsp" attribute="key${sort_search_attribute}" /></th>
-						<th>#i18n{portal.workgroup.manage_workgroups.columnTitleDescription} <@sort jsp_url="jsp/admin/workgroup/ManageWorkgroups.jsp" attribute="description${sort_search_attribute}" /></th>
-						<th>#i18n{portal.workgroup.manage_workgroups.columnTitleActions}</th>
-					</tr>
+					<@tr>
+						<@th>#i18n{portal.workgroup.manage_workgroups.columnTitleKey} <@sort jsp_url="jsp/admin/workgroup/ManageWorkgroups.jsp" attribute="key${sort_search_attribute}" /></@th>
+						<@th>#i18n{portal.workgroup.manage_workgroups.columnTitleDescription} <@sort jsp_url="jsp/admin/workgroup/ManageWorkgroups.jsp" attribute="description${sort_search_attribute}" /></@th>
+						<@th>#i18n{portal.workgroup.manage_workgroups.columnTitleActions}</@th>
+					</@tr>
 					<#list workgroups_list as workgroup >
-					<tr>
-						<td>${workgroup.key}</td>
-						<td>${workgroup.description}</td>
-						<td>
+					<@tr>
+						<@td>${workgroup.key}</@td>
+						<@td>${workgroup.description}</@td>
+						<@td>
 							<@aButton href='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelModify} (${workgroup.key})' buttonIcon='edit' hideTitle=['all'] size='sm' />
 							<@aButton href='jsp/admin/workgroup/AssignUsersWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers} (${workgroup.key})' buttonIcon='user' hideTitle=['all'] size='sm' />
 							<@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete} (${workgroup.key})' buttonIcon='trash' hideTitle=['all'] color='danger' size='sm' />
-						</td>
-					</tr>
+						</@td>
+					</@tr>
 					</#list>
 				</@table>
 				<@paginationAdmin paginator=paginator />

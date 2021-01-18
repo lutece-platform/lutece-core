@@ -23,7 +23,7 @@
 	<@columns>
 		<@box color='success'>
 			<@boxHeader title='#i18n{portal.mailinglist.manage_mailinglists.boxTitle}' boxTools=true>
-				<@tform align='right' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
+				<@tform align='right' type='inline' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
 					<@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' hideLabel=['all'] formStyle='inline'>
 						<@inputGroup>
 							<@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' maxlength=100 size='sm' />
@@ -40,23 +40,23 @@
 			<@boxBody>
 				<#assign sortSearchAttribute = buildSortSearchAttribute( mailinglistFilter! ) />
 				<@table>
-					<tr>
-						<th>#i18n{portal.mailinglist.manage_mailinglists.columnTitleName} <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="name${sortSearchAttribute!}" /> </th>
-						<th class="hidden-xs">#i18n{portal.mailinglist.manage_mailinglists.columnTitleDescription} <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="description${sortSearchAttribute!}" /></th>
-						<th class="hidden-xs">#i18n{portal.mailinglist.manage_mailinglists.columnTitleWorkgroup}</th>
-            <th>#i18n{portal.mailinglist.manage_mailinglists.columnTitleActions}</th>
-					</tr>
+					<@tr>
+						<@th>#i18n{portal.mailinglist.manage_mailinglists.columnTitleName} <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="name${sortSearchAttribute!}" /> </@th>
+						<@th hide=['xs']>#i18n{portal.mailinglist.manage_mailinglists.columnTitleDescription} <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="description${sortSearchAttribute!}" /></@th>
+						<@th hide=['xs']>#i18n{portal.mailinglist.manage_mailinglists.columnTitleWorkgroup}</@th>
+						<@th>#i18n{portal.mailinglist.manage_mailinglists.columnTitleActions}</@th>
+					</@tr>
 					<#list mailinglists_list as mailinglist>
-					<tr>
-						<td>${mailinglist.name}</td>
-						<td class="hidden-xs">${mailinglist.description}</td>
-						<td class="hidden-xs">${mailinglist.workgroup}</td>
-						<td>
+					<@tr>
+						<@td>${mailinglist.name}</@td>
+						<@td hide=['xs']>${mailinglist.description}</@td>
+						<@td hide=['xs']>${mailinglist.workgroup}</@td>
+						<@td>
 							<@aButton href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='edit' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify} (${mailinglist.name?html})' hideTitle=['all'] />
 							<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='user' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})' hideTitle=['all'] />
 							<@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='trash' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name?html})' hideTitle=['all'] color='danger' />
-						</td>
-					</tr>
+						</@td>
+					</@tr>
 				</#list>
 				</@table>
 				<@paginationAdmin paginator=paginator combo=1 />

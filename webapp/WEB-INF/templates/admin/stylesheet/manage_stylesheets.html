@@ -12,7 +12,7 @@
 						</@inputGroup>
 					</@formGroup>
 				</@tform>
-				<@tform method='post' type='inline' align='right' action='jsp/admin/style/CreateStyleSheet.jsp' align='right'>
+				<@tform method='post' type='inline' align='right' action='jsp/admin/style/CreateStyleSheet.jsp'>
 					<@input type='hidden' name='mode_id' value='${mode_id}' />
 					<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.manage_stylesheets.buttonAdd}' hideTitle=['xs','sm'] size='sm' />
 				</@tform>
@@ -20,26 +20,26 @@
 			<@boxBody>
 				<@table>
 				  <thead>
-					<tr>
-					  <th>
+					<@tr>
+					  <@th>
 						#i18n{portal.style.manage_stylesheets.columnName}
 						<@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="description" />
-					  </th>
-					  <th>#i18n{portal.style.manage_stylesheets.columnFilename}
+					  </@th>
+					  <@th>#i18n{portal.style.manage_stylesheets.columnFilename}
 						<@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="file" />
-					  </th>
-					  <th>#i18n{portal.util.labelActions}</th>
-					</tr>
+					  </@th>
+					  <@th>#i18n{portal.util.labelActions}</@th>
+					</@tr>
 				  </thead>
 				  <tbody>
 					<#list stylesheet_list as stylesheet>
-					  <tr>
-						<td>${stylesheet.description}</td>
-						<td>${stylesheet.file}</td>
-						<td>
+					  <@tr>
+						<@td>${stylesheet.description}</@td>
+						<@td>${stylesheet.file}</@td>
+						<@td>
 							<@aButton href='jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}' buttonIcon='edit' hideTitle=['all'] size='sm' />
-						</td>
-					  </tr>
+						</@td>
+					  </@tr>
 					</#list>
 				  </tbody>
 				</@table>

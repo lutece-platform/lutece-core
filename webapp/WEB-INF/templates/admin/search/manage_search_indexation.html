@@ -1,23 +1,23 @@
 <@row>
 	<@columns>
-		<@box color='danger'>
+		<@box>
 			<@boxHeader title='#i18n{portal.search.manage_indexer.labelIndexersList}' boxTools=true>
 				<@tform method='get' name='doIndexing' action='jsp/admin/search/DoIndexing.jsp' class='pull-right'>
 					<@input type='hidden' name='token' value='${token}' />
-					<@button type='submit' buttonIcon='redo' title='#i18n{portal.search.manage_indexer.buttonDoIndex}' name='total' size='' />
-					<@button type='submit' buttonIcon='sync' title='#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}' name='incremental' size='' />
+					<@button type='submit' buttonIcon='redo' title='#i18n{portal.search.manage_indexer.buttonDoIndex}' name='total' size='sm' hideTitle=['xs','sm'] />
+					<@button type='submit' buttonIcon='sync' title='#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}' name='incremental' size='sm' hideTitle=['xs','sm'] />
 				</@tform>
 			</@boxHeader>
 		<@boxBody>
 			<@table>
-					<tr>
-						<th>#i18n{portal.search.manage_indexer.columnIndexerName}</th>
-						<th>#i18n{portal.search.manage_indexer.columnIndexerVersion}</th>
-						<th>#i18n{portal.search.manage_indexer.columnIndexerDescription}</th>
-					</tr>
+					<@tr>
+						<@th>#i18n{portal.search.manage_indexer.columnIndexerName}</@th>
+						<@th>#i18n{portal.search.manage_indexer.columnIndexerVersion}</@th>
+						<@th>#i18n{portal.search.manage_indexer.columnIndexerDescription}</@th>
+					</@tr>
 					<#list indexers_list as indexer>
-						<tr>
-							<td>
+						<@tr>
+							<@td>
 								<#if indexer.enable>
 									<@tag color='success' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerEnable}'>
 										<@icon style='check' />
@@ -27,10 +27,10 @@
 										<@icon style='times' />
 									</@tag>
 								</#if>&nbsp;${indexer.name}
-							</td>
-							<td>${indexer.version}</td>
-							<td>${indexer.description}</td>
-						</tr>
+							</@td>
+							<@td>${indexer.version}</@td>
+							<@td>${indexer.description}</@td>
+						</@tr>
 					</#list>
 				</@table>
 			</@boxBody>

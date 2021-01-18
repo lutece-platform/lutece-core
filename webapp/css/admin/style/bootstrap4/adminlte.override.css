@@ -20,3 +20,10 @@ div.card-header > div.d-flex form:last-of-type, div.card-header > div.d-flex > b
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
+
+pre {white-space: pre-wrap;}
+
+td .form-inline .input-group > .custom-file, 
+td .form-inline .input-group > .custom-select,
+td .form-inline .input-group > .form-control,
+td .form-inline .input-group > .form-control-plaintext {width:auto;}

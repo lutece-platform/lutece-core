@@ -11,6 +11,8 @@
     padding: .40rem .80rem;
 }
 
+.form-inline .bmd-form-group {padding-top:0;}
+
 .card-login .card-body {
     padding: 0 30px 0 30px;
 }
@@ -69,7 +71,9 @@ div.card-header > div.d-flex > :not(:first-child),
 
 .btn-toolbar .bmd-form-group {padding-top:0;}
 
-.card-header .form-control::placeholder, .card-header small, .card-header select{color:#fff;}
+.card-header input.form-control,
+.card-header select,
+.card-header small {color:#fff;}
 
 #login-page {
 	min-height:0px;
@@ -77,8 +81,6 @@ div.card-header > div.d-flex > :not(:first-child),
 
 pre {white-space:pre-wrap;}
 
-/* Colors */
-.bg-gray {background-color:#dfdfdf;}
 
 /*!
  * Datetimepicker for Bootstrap 3

@@ -1,20 +1,20 @@
 <@row>
 	<@columns>
-		<@box color='danger'>
+		<@box>
 			<@boxHeader title='#i18n{portal.system.manage_daemons.titleCacheList}' />
 			<@boxBody>
 				<@table>
-				  <tr>
-					<th></th>
-					<th>#i18n{portal.system.manage_daemons.columnTitleId}</th>
+				  <@tr>
+					<@th></@th>
+					<@th>#i18n{portal.system.manage_daemons.columnTitleId}</@th>
 					<@th hide=['xs']>#i18n{portal.system.manage_daemons.columnTitleName}</@th>
-					<th>#i18n{portal.system.manage_daemons.columnTitleInterval}</th>
-					<th>#i18n{portal.system.manage_daemons.columnTitleLastRun}</th>
-					<th>#i18n{portal.system.manage_daemons.columnTitleActions}</th>
-				  </tr>
+					<@th>#i18n{portal.system.manage_daemons.columnTitleInterval}</@th>
+					<@th>#i18n{portal.system.manage_daemons.columnTitleLastRun}</@th>
+					<@th>#i18n{portal.system.manage_daemons.columnTitleActions}</@th>
+				  </@tr>
 				  <#list daemons_list as daemon>
-					<tr>
-						<td>
+					<@tr>
+						<@td>
 						  <#if daemon.running>
 							<@tag color='success' title='#i18n{portal.util.labelEnabled}'>
 								<@icon style='check' />
@@ -24,10 +24,10 @@
 								<@icon style='times' />
 							</@tag>
 						  </#if>
-						</td>
+						</@td>
 						<@td hide=['xs']>${daemon.id}<br>(${daemon.pluginName})</@td>
 						<@td hide=['xs']>#i18n{${daemon.nameKey}}<br>#i18n{${daemon.descriptionKey}}</@td>
-						<td>
+						<@td>
 						  <#if daemon.running>
 							${daemon.interval} #i18n{portal.system.manage_daemons.unit.sec} &nbsp;
 							<small>
@@ -55,9 +55,9 @@
 								  </@formGroup>
 							  </@tform>
 						  </#if>
-						</td>
-						<td>
-						  <@box color='default box-solid' collapsed=true>
+						</@td>
+						<@td>
+						  <@box collapsed=true>
 							<#assign title>
 								<small>
 									<span rel="popover" data-original-title="${daemon.pluginName}" data-content="${daemon.lastRunLogs?html}">
@@ -72,33 +72,31 @@
 							</#if>
 							<@boxHeader title=title titleLevel='p' boxTools=boxTools>
 								<#if daemon.lastRunLogs?has_content>
-									<@button style='card-control collapse' buttonIcon='plus' />
+									<@button style='card-control collapse' buttonIcon='plus' size='sm' buttonTargetId='#daemon_${daemon?index}_logs' />
 								</#if>
 							</@boxHeader>
 							<#if daemon.lastRunLogs?has_content>
-							<@boxBody>
+							<@boxBody id='daemon_${daemon?index}_logs'>
 								<@pre>${daemon.lastRunLogs}</@pre>
 							</@boxBody>
 							</#if>
 							</@box>
-						</td>
-						<td>
-						  <div class="text-center">
+						</@td>
+						<@td>
 							<@tform method="post" action="jsp/admin/system/DoDaemonAction.jsp" type='inline'>
-							<@input type='hidden' name='daemon' value='${daemon.id}' />
-							<@input type='hidden' name='token' value='${token}' />
-							<#if daemon.running>
-								<@inputGroup>
+								<@input type='hidden' name='daemon' value='${daemon.id}' />
+								<@input type='hidden' name='token' value='${token}' />
+								<#if daemon.running>
+									<@btnGroup>
 										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}' name='action' value='STOP' buttonIcon='stop' color='danger' hideTitle=['all'] size='sm' />
 										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ${daemon.id}' name='action' value='RUN' buttonIcon='sync' color='info' hideTitle=['all'] size='sm' />
-								</@inputGroup>
-							<#else>
-								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ${daemon.id}' name='action' value='START' buttonIcon='play' color='success' hideTitle=['all'] size='sm' />
-							</#if>
+									</@btnGroup>
+								<#else>
+									<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ${daemon.id}' name='action' value='START' buttonIcon='play' color='success' hideTitle=['all'] size='sm' />
+								</#if>
 							</@tform>
-						  </div>
-						</td>
-					  </tr>
+						</@td>
+					  </@tr>
 				  </#list>
 				</@table>
 			</@boxBody>

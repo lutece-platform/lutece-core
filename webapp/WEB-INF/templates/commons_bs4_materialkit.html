@@ -332,7 +332,7 @@
 		<#local nestedContent><#nested /></#local>
 		<#if nestedContent?has_content>
 			<#if nestedContent?contains("class=\"btn")>
-				${nestedContent?replace('class=\"btn','class=\"btn btn-just-icon')}
+				${nestedContent?replace('class=\"btn ','class=\"btn btn-just-icon ')}
 			<#else>
 				<#nested />
 			</#if>

@@ -1520,7 +1520,7 @@ and is kept only for backwards compatibility
 <#-- style: solid (no top border) -->
 <#-- collapsed: true/false -->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="box<#if color!=''> box-${color}</#if><#if style!=''> box-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="box<#if color!=''> box-${color}</#if><#if style!=''> box-${style}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>

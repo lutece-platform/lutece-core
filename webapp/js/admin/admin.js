@@ -274,9 +274,9 @@ $( function(){
 // Toggle collapse buttons
 $('[data-toggle="collapse"]').click(function() {
 	if ($(this).find("i").hasClass("fa-minus")){
-    $(this).find("i").toggleClass("fa-plus");
+    $(this).find("i").addClass("fa-plus").removeClass("fa-minus");
     }
 	else if ($(this).find("i").hasClass("fa-plus")){
-    $(this).find("i").toggleClass("fa-minus");
+    $(this).find("i").addClass("fa-minus").removeClass("fa-plus");
     }
 });
