@@ -482,7 +482,7 @@
 </div>
 </#macro>
 
-<#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=hideLabel mandatory=true>
+<#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel='' mandatory=true>
 <#local labelClass = ' ' + displaySettings(hideLabel,'') />
 <label class="<#if class !=''>${class?trim}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>><span class="${labelClass}">${labelKey}</span></label>
 </#macro>
@@ -660,7 +660,7 @@
 </#macro>
 
 <#-- LISTS -->
-<#macro ul id='' params='' class='' hide=[] collapsed=false align=''>
+<#macro ul id='' class='' align='' hide=[] collapsed=false params=''>
 	<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<ul<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
@@ -830,7 +830,7 @@
 </#if>
 </#macro>
 
-<#macro progress color='primary' id='' params='' value=0 min=0 max=100 =''>
+<#macro progress color='primary' id='' params='' value=0 min=0 max=100 ='' text=''>
 <div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div id="progressbar" class="progress-bar bg-${color}" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}">
         <#if text=''>${value}%<#else>${text}</#if>
@@ -1029,7 +1029,7 @@
 </div>
 </#macro>
 
-<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='check' icon2='close' offset=3 >
+<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='save' icon2='times' offset=3 >
 	<@formGroup rows=2>
         <#if url1 != ''>
 			<@aButton href='${url1}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' />
@@ -1672,7 +1672,7 @@ $(function() {
 
 <#-- HTML ELEMENTS -->
 <#macro img url='' alt='' title='' class='' id='' params=''> 
-<img src="${url}" alt="${alt}" title="${title}" class="thumbnails thumb-list ${class}" id="${id}" ${params}>
+<img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}" class="thumbnails thumb-list<#if class!=''>  ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
 </#macro>
 
 <#-- Email Default Template -->

@@ -704,7 +704,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- LISTS -->
-<#macro ul id='' params='' class='' hide=[] collapsed=false align=''>
+<#macro ul id='' class='' align='' hide=[] collapsed=false params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
@@ -1091,7 +1091,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </div>
 </#macro>
 
-<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='check' icon2='close' offset=3 >
+<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='save' icon2='times' offset=3 >
 	<@formGroup rows=2>
         <#if url1 != ''>
 			<@aButton href='${url1}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' />
@@ -1724,7 +1724,7 @@ $(function() {
 </#macro>
 
 <#--Badge : BS badge + label  -->
-<#macro badge color=mainColor badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' >
+<#macro badge color='${mainColor}' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' >
 <span class="badge badge-${color}" <#if title != ''> title="${title}" </#if> >
     <#if badgeIcon !=''>
         <@icon style=badgeIcon />
@@ -1737,7 +1737,7 @@ $(function() {
 
 <#-- HTML ELEMENTS -->
 <#macro img url='' alt='' title='' class='' id='' params=''> 
-<img src="${url}" alt="${alt}" title="${title}" class="thumbnails thumb-list ${class}" id="${id}" ${params}>
+<img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}" class="thumbnails thumb-list<#if class!=''>  ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
 </#macro>
 
 <#-- Email Default Template -->

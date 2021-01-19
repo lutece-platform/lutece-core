@@ -584,30 +584,21 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 
-<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='fa fa-check' icon2='fa fa-close' offset=3 >
-<#assign col = 11 - offset />
-<div class="field is-horizontal">
-<#if url1 != ''>
-	<a class="button is-primary" href="${url1}"  >
-		<i class="${icon1}"></i>&nbsp;#i18n{${i18nValue1Key}}
-	</a>
-<#else>
-	<button  class="button is-primary" name="${button1Name}" type="submit">
-		<i class="${icon1}"></i>&nbsp;#i18n{${i18nValue1Key}}
-	</button>
-</#if>
-<#if url2 != ''>
-	<a class="button is-default" href="${url2}"  >
-		<i class="${icon2}"></i>&nbsp;#i18n{${i18nValue2Key}}
-	</a>
-<#else>
-	<#if button2Name != ''>
-		<button class="button is-default" name="${button2Name}" type="submit" >
-			<i class="${icon2}"></i>&nbsp;#i18n{${i18nValue2Key}}
-		</button>
-	</#if>
-</#if>
-</div>
+<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='save' icon2='times' offset=3 >
+	<@formGroup>
+		<#if url1 != ''>
+			<@aButton href='${url1}' class='button is-primary' buttonIcon=icon1 title='#i18n{${i18nValue1Key}}' />
+		<#else>
+			<@button type='submit' name=button1Name buttonIcon=icon1 title='#i18n{${i18nValue1Key}}' />
+		</#if>
+		<#if url2 != ''>
+			<@aButton href=url2 class='button is-default' buttonIcon=icon2 title='#i18n{${i18nValue2Key}}' />
+		<#else>
+			<#if button2Name != ''>
+				<@button type='submit' name=button2Name class='button is-default' buttonIcon=icon2 title='#i18n{${i18nValue2Key}' />
+			</#if>
+		</#if>
+	</@formGroup>
 </#macro>
 
 <#macro boxSized col i18nTitleKey boxClass='box-primary' >
@@ -735,7 +726,7 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
-<#macro select name items='' default_value="" id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0 disabled=false>
+<#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0 disabled=false>
 	<#switch size>
 		<#case 'xs'>
 				<#assign selectSize='small'>
@@ -780,14 +771,45 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- ICONS -->
-<#-- Icons from FontAwesome -->
+<#-- Icons from FontAwesome 5.8.1 -->
 <#macro icon prefix='fa-' style='' class='' title='' id='' params=''>
 <#if style='docker' || style = 'github' || style='gitlab' || style='java' || style='jira' || style='jenkins' || style = 'twitter' >
 	<#local prefix = 'fab ' + prefix />
 <#else>
 	<#local prefix = 'fa ' + prefix />
 </#if>
-	<i class="${prefix}${style} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+<#switch style>
+	<#case 'arrows'>
+		<#local iconStyle = 'arrows-alt' />
+	<#break>
+	<#case 'arrows-h'>
+		<#local iconStyle = 'arrows-alt-h' />
+	<#break>
+	<#case 'arrows-v'>
+		<#local iconStyle = 'arrows-alt-v' />
+	<#break>
+	<#case 'clock-o'>
+		<#local iconStyle = 'clock' />
+	<#break>
+	<#case 'close'>
+		<#local iconStyle = 'times' />
+	<#break>
+	<#case 'external-link'>
+		<#local iconStyle = 'external-link-alt' />
+	<#break>
+	<#case 'file-pdf-o'>
+		<#local iconStyle = 'file-pdf' />
+	<#break>
+	<#case 'pencil'>
+		<#local iconStyle = 'edit' />
+	<#break>
+	<#case 'refresh'>
+		<#local iconStyle = 'sync' />
+	<#break>
+	<#default>
+	<#local iconStyle = style />
+</#switch>
+	<i class="${prefix}${iconStyle} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- ICONSTACK 																					-->
@@ -932,8 +954,8 @@ and is kept only for backwards compatibility
 
 <#-- INPUT-GROUP -->
 <#-- size: ignored -->
-<#macro inputGroup size='' id='' params=''>
-<div class="field has-addons" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro inputGroup size='' id='' class='' params=''>
+<div class="field has-addons" <#if id!=''> id="${id}"</#if><#if class!=''> ${class}</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -945,6 +967,15 @@ and is kept only for backwards compatibility
 	<#nested>
 	</div>
 </div>
+</#macro>
+
+<#-- DROPDOWN MENU -->
+<#-- class: dropdown-menu-right -->
+<#-- Expected content : <li><a>Your link here</a></li> -->
+<#macro dropdownMenu class='' id='' params=''>
+	<ul class="dropdown-menu ${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</ul>
 </#macro>
 
 <#-- ROW -->
@@ -967,7 +998,7 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- LISTS -->
-<#macro ul id='' params='' collapsed=false align='' class=''>
+<#macro ul id='' class='' align='' hide=[] collapsed=false params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 	<ul<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
@@ -1068,7 +1099,7 @@ and is kept only for backwards compatibility
 <#-- ACCORDION --> 
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
 <#-- The childId argument in accordionPanel is meant to be used in the two sub-macros: accordionHeader and accordionBody -->
-<#macro accordionContainer id='' params=''>
+<#macro accordionContainer id params=''>
 <div class="accordions" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#assign parentId = id>
 	<#nested>
@@ -1663,6 +1694,22 @@ and is kept only for backwards compatibility
 	<#return displayClass?trim>
 </#function>
 
+<#-- This function returns responsive classes or flex order classes -->
+<#-- type: col|offset|order -->
+<#function responsiveDisplay type='' breakpoints={}>
+	<#local responsiveDisplayClass = '' />
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#if breakpointkey = 'xs'>
+				<#local responsiveDisplayClass += '' />
+			<#else>
+				<#local responsiveDisplayClass += '' />
+			</#if>
+		</#if>
+	</#list>
+	<#return responsiveDisplayClass?trim>
+</#function>
+
 <#function alignmentSettings align=''>
 	<#local x = ''>
 	<#if align !=''>
@@ -1965,7 +2012,7 @@ $(function() {
 
 <#-- HTML ELEMENTS -->
 <#macro img url='' alt='' title='' class='' id='' params=''> 
-<img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}" class="thumbnails thumb-list ${class}" id="${id}" ${params!} >
+<img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}" class="thumbnails thumb-list<#if class!=''>  ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
 </#macro>
 
 <#-- fieldSet  -->
