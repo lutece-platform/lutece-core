@@ -258,7 +258,7 @@
     
     <bean id="commonsBoostrap4MaterialKit" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="default" />
-        <property name="name" value="Bootstrap v4 + Material Kit (Default)" />
+        <property name="name" value="Bootstrap 4.3 + Material Kit (Default)" />
         <property name="files">
             <list>
                 <value>commons_bs4_materialkit.html</value>
@@ -269,7 +269,7 @@
     </bean>
 	<bean id="commonsBoostrap4MaterialKitBackPort" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bootstrap4MaterialKitWithBackport" />
-        <property name="name" value="Bootstrap v4 + Material Kit + Backport file (v6 compatibility)" />
+        <property name="name" value="Bootstrap 4.3 + Material Kit + Backport file (v6.x compatible)" />
         <property name="files">
             <list>
                 <value>commons_bs4_materialkit.html</value>
@@ -281,10 +281,11 @@
     </bean>
     <bean id="commonsDefault" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bootstrap3" />
-        <property name="name" value="Bootstap 3.3 + AdminLTE (Lutece v6.x compatible)" />
+        <property name="name" value="Bootstap 3.3 + AdminLTE + Backport file (v6.x compatible)" />
         <property name="files">
             <list>
                 <value>commons.html</value>
+				<value>commons_bs4_backport.html</value>
                 <value>admin/util/calendar/macro_datepicker.html</value>
                 <value>admin/util/calendar/macro_datetimepicker.html</value>
             </list>
@@ -292,7 +293,7 @@
     </bean>
     <bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bootstrap4AdminLTE" />
-        <property name="name" value="Bootstrap v4 + AdminLTE (Experimental)" />
+        <property name="name" value="Bootstrap v4.3 + AdminLTE (Experimental)" />
         <property name="files">
             <list>
                 <value>commons_bs4_adminlte.html</value>

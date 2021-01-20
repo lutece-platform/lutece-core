@@ -1,27 +1,11 @@
 <#-- WARNING : LUTECE-BACKPORT should only be use in case of error at executing an old plugin. This is a minimal compatibility service. It as to be removed asap so fix your templates ;-) ! -->
 
-<#macro comboWithParams name default_value additionalParameters items >
-<select id="${name}" name="${name}" ${additionalParameters} >
-<#list items as item>
-	<#if default_value="${item.code}">
-		<option selected="selected" value="${item.code}" >${item.name}</option>
-   	<#else>
-   		<option value="${item.code}" >${item.name}</option>
-   	</#if>
-</#list>
-</select>
+<#macro comboWithParams name default_value additionalParameters items>
+	<@select id='${name}' name='${name}' default_value=default_value items=items params='additionalParameters' />
 </#macro>
 
 <#macro comboSortedWithParams name default_value additionalParameters items id=name>
-<select id="${id}" name="${name}" ${additionalParameters} >
-<#list items?sort_by("name") as item>
-	<#if default_value="${item.code}">
-		<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-   	<#else>
-   		<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-   	</#if>
-</#list>
-</select>
+	<@select id='${id}' name='${name}' sort=true default_value=default_value items=items params='additionalParameters' />
 </#macro>
 
 <#macro comboWithParamsAndLength name default_value additionalParameters items max_length >
@@ -41,54 +25,30 @@
 </select>
 </#macro>
 
-<#macro combo name default_value items >
-<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
+<#macro combo name default_value items>
+	<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
 </#macro>
 
 <#macro comboSorted name default_value items >
-<@combo name="${name}" default_value="${default_value}" items=items?sort_by("name") />
+	<@combo name="${name}" default_value="${default_value}" items=items?sort_by("name") />
 </#macro>
 
 <#macro radioImageList name default_value items inline=0>
-<#if inline=1>
 	<#list items as item>
-		<label for="${name}" class="radio-inline">
-			<input <#if default_value="${item.code}">checked="checked"</#if> class="radio" type="radio" name="${name}" value="${item.code}">
-			<img src="${item.name}" alt="${item.name}" title="${item.name}">
-		</label>
+		<#if inline><#local orientation='inline' /><#else><#local orientation='vertical' /></#if>
+		<#if default_value='${item.code}'><#local checked=true /><#else><#local checked=false /></#if>
+		<#local radioLabelKey>
+			<img src="${item.name}" alt="${item.name}" title="${item.name}" />
+		</#local>
+		<@radioButton orientation=orientation labelFor='${name}' labelKey=radioLabelKey checked=checked name='${name}' value='${item.code}' />
 	</#list>
-<#else>
-	<#list items as item>
-		<div class="radio">
-			<label for="${name}">
-				<input <#if default_value="${item.code}">checked="checked"</#if> class="radio" type="radio" name="${name}" value="${item.code}">
-				<img src="${item.name}" alt="${item.name}" title="${item.name}">
-			</label>
-		</div>
-	</#list>
-</#if>
 </#macro>
 
 <#macro checkboxList name default_values items inline=0>
-<#if inline=1>
 	<#list items as item>
-		<label for="${name}" class="checkbox-inline">
-			<input <#if item.checked >checked</#if> class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}
-		</label>
+		<#if inline><#local orientation='inline' /><#else><#local orientation='vertical' /></#if>
+		<@checkBox orientation=orientation labelFor='${item?index}' labelKey='${item.name}' name='${name}' id='${item?index}' value='${item.code}' checked=item.checked />
 	</#list>
- <#else>
-	<#list items as item>
-		<#if item.checked >
-			<div class="checkbox">
-			<label for="document_type"><input checked class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
-			</div>
-		<#else>
-			<div class="checkbox">
-			<label for="document_type"><input class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
-			</div>
-		</#if>
-	</#list>
-</#if>
 </#macro>
 
 <#macro dataTable dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
@@ -169,205 +129,150 @@
 	</#if>
 </#macro>
 
-<#macro filterPanel dataTableManager formClass="form-horizontal" >
+<#macro filterPanel dataTableManager formClass=''>
 	<#if dataTableManager.filterPanel.listFilter?? && 0 < dataTableManager.filterPanel.listFilter?size>
-		<form class="${formClass}" method="post" action="${dataTableManager.filterPanel.formUrl}" >
-			<fieldset>
+		<@tform class='${formClass!}' method='post' action='${dataTableManager.filterPanel.formUrl}'>
+			<@fieldSet>
 				<#list dataTableManager.filterPanel.listFilter as filter>
-					<div class="form-group">
-						<label class="col-xs-12 col-sm-3 col-md-3" for="description" >#i18n{${filter.filterLabel}} :</label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<#if filter.filterType = "STRING">
-								<input type="text" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${filter.parameterName}" size="30" value="${filter.value!}"/>
-							<#elseif filter.filterType = "BOOLEAN">
-								<input type="checkbox" value="true" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${dataTableManager.filterPanelPrefix}${filter.parameterName}" <#if filter.value?? && filter.value = "true">checked="checked" </#if>/>
-							<#elseif filter.filterType = "DROPDOWNLIST">
-								<#if filter.value??>
-									<#assign filter_value = filter.value >
-								<#else>
-									<#assign filter_value = "" >
-								</#if>
-								<@combo name=dataTableManager.filterPanelPrefix+filter.parameterName default_value=filter_value items=filter.refList />
+					<@formGroup labelFor='description' labelKey='#i18n{${filter.filterLabel}}'>
+						<#if filter.filterType = "STRING">
+							<@input type='text' name='${dataTableManager.filterPanelPrefix}${filter.parameterName}' id='${filter.parameterName}' inputSize=30 value='${filter.value!}' />
+						<#elseif filter.filterType = "BOOLEAN">
+							<@checkBox labelFor='' labelKey='' name='${dataTableManager.filterPanelPrefix}${filter.parameterName}' id='${dataTableManager.filterPanelPrefix}${filter.parameterName}' value='true' checked=(filter.value?? && filter.value = 'true') />
+						<#elseif filter.filterType = "DROPDOWNLIST">
+							<#if filter.value??>
+								<#local filter_value = filter.value >
+							<#else>
+								<#local filter_value = '' >
 							</#if>
-						</div>
-					</div>
+							<@select name=dataTableManager.filterPanelPrefix+filter.parameterName default_value=filter_value items=filter.refList />
+						</#if>
+					</@formGroup>
 				</#list>
-				<div class="form-group">
-					<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
-					<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
-					<button class="btn btn-primary btn-sm" type="submit" >
-						<i class="fa fa-search"></i>
-						<span class="hidden-xs" >#i18n{portal.util.labelSearch}</span>
-					</button>
+				<@formGroup>
+					<@input type='hidden' name='${dataTableManager.filterPanelPrefix}updateFilters' id='${dataTableManager.filterPanelPrefix}updateFilters' value='true' />
+					<@input type='hidden' name='${dataTableManager.id}' id='${dataTableManager.id}' value='${dataTableManager.id}' />
+					<@button type='submit' buttonIcon='search' title='#i18n{portal.util.labelSearch}' hideTitle=['xs'] />
 					<#if dataTableManager.filterPanel.formUrl?contains("?")>
-						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "&" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
+						<#local dataTableResetUrl = dataTableManager.filterPanel.formUrl + "&" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
 					<#else>
-						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
+						<#local dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
 					</#if>
-					<a class="btn btn-primary btn-sm" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
-						<i class="fa fa-remove-circle"></i>
-						<span class="hidden-xs" >#i18n{portal.util.labelReset}</span>
-					</a>
-				</div>
-			</fieldset>
-		</form>
+					<@aButton href='${dataTableResetUrl}' title='#i18n{portal.util.labelReset}' buttonIcon='times' hideTitle=['xs'] />
+				</@formGroup>
+			</@fieldSet>
+		</@tform>
 	</#if>
 </#macro>
 
-<#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
-	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
-			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
-			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-		</div>
-	</div>
+<#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
+	<#if maxlength &gt; 0><#local params = 'maxlength=${maxlength}' /></#if>
+	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' mandatory=mandatory helpKey='#i18n{${i18nHelpBlockKey}}'>
+		<@input type='text' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' params=params! />
+	</@formGroup>
 </#macro>
 
-<#macro fieldInputPassword i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
-	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
-			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="password" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if>>
-			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-		</div>
-	</div>
+<#macro fieldInputPassword i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='#i18n{${i18nHelpBlockKey}}' cssClass=''>
+	<#if maxlength &gt; 0><#local params = 'maxlength=${maxlength}' /></#if>
+	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='' mandatory=mandatory>
+		<@input type='password' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' params=params! />
+	</@formGroup>
 </#macro>
 
 <#macro fieldInputWrapper i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
-	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
-			<#nested>
-			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-		</div>
-	</div>
+	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
+		<#nested>
+	</@formGroup>
 </#macro>
 
-<#macro fieldStaticText i18nLabelKey cssClass='form-control' >
-	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label">#i18n{${i18nLabelKey}}&nbsp; :</label>
-		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
-                    <p class="form-control-static">
+<#macro fieldStaticText i18nLabelKey cssClass=''>
+	<@formGroup labelKey='#i18n{${i18nLabelKey}}'>
+		<@staticText>
 			<#nested>
-                    </p>
-		</div>
-	</div>
+        </@staticText>
+	</@formGroup>
 </#macro>
 
 <#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='form-control' language='fr'>
-	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
-			<div class="input-group">
-				<div class="input-group-addon"><i class="fa fa-calendar">&nbsp;</i></div>
-				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" >
-			</div>
-			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-		</div>
-	</div>
-	<@getDatePickerBootstrap idField=inputName language=language />
+	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
+		<@inputGroup>
+			<@inputGroupItem type='text'>
+				<@icon style='calendar' />
+			</@inputGroupItem>
+			<@input type='text' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' />
+		</@inputGroup>
+		<@getDatePickerBootstrap idField=inputName language=language />
+	</@formGroup>
 </#macro>
 
 <#macro fieldInputCheckBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
-	<div class="form-group">
-		<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
-			<div class="checkbox<#if disabled> disabled</#if> ">
-				<label>
-					<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> >
-					#i18n{${i18nLabelKey}}
-				</label>
-			</div>
-			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-		</div>
-	</div>
+	<@formGroup helpKey='#i18n{${i18nHelpBlockKey}}'>
+		<@checkBox labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}' class='${cssClass}' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
+	</@formGroup>
 </#macro>
 
 <#macro fieldInputRadioBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
-	<div class="form-group">
-		<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
-			<div class="radio<#if disabled> disabled</#if> ">
-				<label>
-					<input class="${cssClass}" id="${inputName}" name="${inputName}" type="radio" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> >
-					#i18n{${i18nLabelKey}}
-				</label>
-			</div>
-			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-		</div>
-	</div>
+	<@formGroup helpKey='#i18n{${i18nHelpBlockKey}}'>
+		<@radioButton labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}' class='${cssClass}' id='${inputName}id' name='${inputName}' value='${value}' checked=checked disabled=disabled />
+	</@formGroup>
 </#macro>
 
-<#macro fieldInputCheckBoxInline inputName value="" disabled=false checked=false >
-	<label class="checkbox-inline<#if disabled> disabled</#if> ">
-		<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> > #i18n{${i18nLabelKey}}
-	</label>
+<#macro fieldInputCheckBoxInline inputName value="" disabled=false checked=false>
+	<@checkBox orientation='inline' labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
 </#macro>
 
-<#macro fieldInputRadioBoxInline inputName value="" disabled=false checked=false >
-	<label class="radio-inline<#if disabled> disabled</#if> ">
-		<input class="${cssClass}" id="${inputName}" name="${inputName}" type="radio" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> > #i18n{${i18nLabelKey}}
-	</label>
+<#macro fieldInputRadioBoxInline inputName value="" disabled=false checked=false>
+	<@radioButton orientation='inline' labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
 </#macro>
 
-<#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='form-control' >
-	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*&nbsp;</#if>:</label>
-		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
-			<#assign params = "class='" + cssClass + "'" >
-			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
-			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-		</div>
-	</div>
+<#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='form-control'>
+	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
+		<#assign params = "class='" + cssClass + "'" >
+		<@select name=inputName items=items default_value=value params=params />
+	</@formGroup>
 </#macro>
 
-<#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
-	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
-			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
-			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-		</div>
-	</div>
+<#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
+	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
+		<#if maxlength &gt; 0><#local params='maxlength="${maxlength}"' /></#if>
+		<@input type='textarea' name='${inputName}' id='${inputName}' class='${cssClass!}' params=params>${value!}</@input>
+	</@formGroup>
 </#macro>
 
 <#macro boxSized col i18nTitleKey boxClass='box-primary' >
-    <div class="col-md-${col}">
-        <div class="box ${boxClass}">
+    <@columns md=col>
+        <@box class=boxClass>
             <@boxHeader title=i18nTitleKey />
-            <div class="box-body">
+            <@boxBody>
                 <#nested>
-            </div>
-        </div>
-    </div>
+            </@boxBody>
+        </@box>
+    </@columns>
 </#macro>
 
 <#macro rowBox boxClass='box-primary' col=12>
-<div class="row">
-    <div class="col-xs-${col} col-sm-${col} col-md-${col}">
-        <div class="box ${boxClass}">
-            <#nested>
-        </div>
-    </div>
-</div>
+	<@row>
+		<@columns xs=12 sm=col>
+			<@box class=boxClass>
+				<#nested>
+			</@box>
+		</@columns>
+	</@row>
 </#macro>
 
 <#macro rowBoxHeader i18nTitleKey boxClass='box-primary' col=12>
-<@rowBox boxClass=boxClass col=col >
-    <@boxHeader i18nTitleKey=i18nTitleKey />
-    <div class="box-body">
-        <#nested>
-    </div>
-</@rowBox>
+	<@rowBox boxClass=boxClass col=col >
+		<@boxHeader i18nTitleKey=i18nTitleKey />
+		<@boxBody>
+			<#nested>
+		</@boxBody>
+	</@rowBox>
 </#macro>
 
 <#macro headerButtons>
-<#nested>
+	<#nested>
 </#macro>
 
-<#-- this macro is deprecated. Used for backwards compatibility with Lutece v6 only -->
-<#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
 <#macro listTabs type='tabs' id='' params=''>
-		<ul class="nav nav-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-			<#nested>
-		</ul>
+	<@tabList type=type id=id params=params />
 </#macro>
