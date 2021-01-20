@@ -1,0 +1,84 @@
+<#include "utils.html">
+<@header title='Tabs' />
+
+<@h2></@h2>
+
+<@row>
+	<@columns>
+		<@box>
+			<@boxHeader title='Box with tabs' />
+			<@boxBody>
+				<@tabs>
+					<@tabList>
+						<@tabLink href='#tab0' active=true title='Tab 0' />
+						<@tabLink href='#tab1' title='Tab 1' />
+					</@tabList>
+					<@tabContent>
+						<@tabPanel id='tab0' active=true>
+							Tab 0 contents
+						</@tabPanel>
+						<@tabPanel id='tab1' active=false>
+							Tab 1 contents
+						</@tabPanel>
+					</@tabContent>
+				</@tabs>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>
+
+<@h2># Parameters documentation</@h2>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>id</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>class</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>responsive</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>condensed</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>hover</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>striped</@th>
+    <@td>boolean</@td>
+    <@td>false</@td>
+</@tr>
+<@tr>
+    <@th>bordered</@th>
+    <@td>boolean</@td>
+    <@td>false</@td>
+</@tr>
+<@tr>
+    <@th>narrow</@th>
+    <@td>boolean</@td>
+    <@td>false</@td>
+</@tr>
+<@tr>
+    <@th>params</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+</@table>
+<@footer />

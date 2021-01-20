@@ -16,17 +16,17 @@
 	                    <@input type='text' name='description' value='${mockObject.description!\'\'}' />
 	                </@formGroup>
 
-	                <@formGroup labelKey='Enable'>
-	                    <@checkBox labelKey='Enable.help' name='enable' id='enable' value='1' />
+	                <@formGroup labelKey='Enable' helpKey='Enable.help'>
+	                    <@checkBox labelKey='Enable' name='enable' id='enable' value='1' />
 	                </@formGroup>
 
-	                <@formGroup labelKey='Status'>
-	                    <@checkBox labelKey='Status.help' name='status' id='enable' value='1' />
+	                <@formGroup labelKey='Status' helpKey='Status.help'>
+	                    <@checkBox labelKey='Status' name='status'id='status' value='1' />
 	                </@formGroup>
 												
-									<@formGroup labelKey='Radio'>
-	                    <@radioButton labelKey='Radio1.help' name='radio1' value='0' />
-	                    <@radioButton labelKey='Radio2.help' name='radio2' value='1' />
+					<@formGroup labelKey='Radio'>
+	                    <@radioButton labelFor='0' labelKey='Radio1.help' name='radio' id='0' value='0' />
+	                    <@radioButton labelFor='1' labelKey='Radio2.help' name='radio' id='1' value='1' />
 	                </@formGroup>
 
 	                <@formGroup labelKey='Ratio' helpKey='Ratio.help' mandatory=true>
