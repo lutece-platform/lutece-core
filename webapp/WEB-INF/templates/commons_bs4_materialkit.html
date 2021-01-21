@@ -767,9 +767,10 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		<#nested>
 	</div>
 	<script>
-		if ($(".card-nav-tabs").parents('.card').length) {
-			$(".card-nav-tabs").addClass("card-plain");
-		}
+		var childrentabs = $(".card-body").find($( ".card-nav-tabs" ));
+		childrentabs.each(function(index) {
+			$(this).addClass("card-plain");
+		});
 	</script>
 </#macro>
 
@@ -780,9 +781,6 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		<div class="card-header card-header-primary">
 			<div class="nav-tabs-navigation">
 				<div class="nav-tabs-wrapper">
-		</#if>
-		<#if vertical = true>
-
 		</#if>
 					<ul class="nav nav-${type}<#if type='pills'> nav-pills-icons</#if><#if vertical> flex-column mb-3</#if>" data-tabs="tabs" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
 						<#nested>

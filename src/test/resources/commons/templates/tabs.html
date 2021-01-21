@@ -1,7 +1,18 @@
 <#include "utils.html">
 <@header title='Tabs' />
 
-<@h2></@h2>
+<p>Tabs are rendered using several macros:</p>
+<ul>
+	<li>macro <strong>tabs</strong>: the global container</li>
+	<li>macro <strong>tabList</strong>: the container of the tabs list</li>
+	<li>macro <strong>tabLink</strong>: a link to each tab</li>
+	<li>macro <strong>tabContent</strong>: the container of the panels</li>
+	<li>macro <strong>tabPanel</strong>: the panel associated to each tab</li>
+</ul>
+
+<@h2>Tabs inside a box</@h2>
+
+<@h3>Tabs bar</@h3>
 
 <@row>
 	<@columns>
@@ -12,6 +23,7 @@
 					<@tabList>
 						<@tabLink href='#tab0' active=true title='Tab 0' />
 						<@tabLink href='#tab1' title='Tab 1' />
+						<@tabLink href='#tab2' title='Tab 2' />
 					</@tabList>
 					<@tabContent>
 						<@tabPanel id='tab0' active=true>
@@ -20,6 +32,9 @@
 						<@tabPanel id='tab1' active=false>
 							Tab 1 contents
 						</@tabPanel>
+						<@tabPanel id='tab2' active=false>
+							Tab 2 contents
+						</@tabPanel>
 					</@tabContent>
 				</@tabs>
 			</@boxBody>
@@ -27,7 +42,160 @@
 	</@columns>
 </@row>
 
+<pre>
+&lt;@row&gt;
+	&lt;@columns&gt;
+		&lt;@box&gt;
+			&lt;@boxHeader title='Box with tabs' /&gt;
+			&lt;@boxBody&gt;
+				&lt;@tabs&gt;
+					&lt;@tabList&gt;
+						&lt;@tabLink href='#tab0' active=true title='Tab 0' /&gt;
+						&lt;@tabLink href='#tab1' title='Tab 1' /&gt;
+						&lt;@tabLink href='#tab2' title='Tab 2' /&gt;
+					&lt;/@tabList&gt;
+					&lt;@tabContent&gt;
+						&lt;@tabPanel id='tab0' active=true&gt;
+							Tab 0 contents
+						&lt;/@tabPanel&gt;
+						&lt;@tabPanel id='tab1' active=false&gt;
+							Tab 1 contents
+						&lt;/@tabPanel&gt;
+						&lt;@tabPanel id='tab2' active=false&gt;
+							Tab 2 contents
+						&lt;/@tabPanel&gt;
+					&lt;/@tabContent&gt;
+				&lt;/@tabs&gt;
+			&lt;/@boxBody&gt;
+		&lt;/@box&gt;
+	&lt;/@columns&gt;
+&lt;/@row&gt;
+</pre>
+
+<@h3>Tabs pills</@h3>
+
+<@row>
+	<@columns md=6>
+		<@row>
+			<@columns>
+				<@box>
+					<@boxHeader title='Box with horizontal tabs' />
+					<@boxBody>
+						<@tabs>
+							<@tabList type='pills'>
+								<@tabLink href='#tab3' active=true title='Tab 0' />
+								<@tabLink href='#tab4' title='Tab 1' />
+								<@tabLink href='#tab5' title='Tab 2' />
+							</@tabList>
+							<@tabContent>
+								<@tabPanel id='tab3' active=true>
+									Tab 0 contents
+								</@tabPanel>
+								<@tabPanel id='tab4' active=false>
+									Tab 1 contents
+								</@tabPanel>
+								<@tabPanel id='tab5' active=false>
+									Tab 2 contents
+								</@tabPanel>
+							</@tabContent>
+						</@tabs>
+					</@boxBody>
+				</@box>
+			</@columns>
+		</@row>
+	</@columns>
+	<@columns md=6>
+		<@row>
+			<@columns>
+				<@box>
+					<@boxHeader title='Box with vertical tabs' />
+					<@boxBody>
+						<@row>
+							<@tabs>
+								<@columns sm=4>
+									<@tabList type='pills' vertical=true>
+										<@tabLink href='#tab6' active=true title='Tab 0' />
+										<@tabLink href='#tab7' title='Tab 1' />
+										<@tabLink href='#tab8' title='Tab 2' />
+									</@tabList>
+								</@columns>
+								<@columns sm=8>
+									<@tabContent>
+										<@tabPanel id='tab6' active=true>
+											Tab 0 contents
+										</@tabPanel>
+										<@tabPanel id='tab7' active=false>
+											Tab 1 contents
+										</@tabPanel>
+										<@tabPanel id='tab8' active=false>
+											Tab 2 contents
+										</@tabPanel>
+									</@tabContent>
+								</@columns>
+							</@tabs>
+						</@row>
+					</@boxBody>
+				</@box>
+			</@columns>
+		</@row>
+	</@columns>
+</@row>
+
+<@h2>Tabs container (without box)</@h2>
+
+<p>Tabs can also be used by themselves as a page or section container.</p>
+
+<@row>
+	<@columns>
+		<@tabs>
+			<@tabList>
+				<@tabLink href='#tab9' active=true title='Tab 0' />
+				<@tabLink href='#tab10' title='Tab 1' />
+				<@tabLink href='#tab11' title='Tab 2' />
+			</@tabList>
+			<@tabContent>
+				<@tabPanel id='tab9' active=true>
+					Tab 0 contents
+				</@tabPanel>
+				<@tabPanel id='tab10'>
+					Tab 1 contents
+				</@tabPanel>
+				<@tabPanel id='tab11'>
+					Tab 2 contents
+				</@tabPanel>
+			</@tabContent>
+		</@tabs>
+	</@columns>
+</@row>
+
+<pre>
+&lt;@row&gt;
+	&lt;@columns&gt;
+		&lt;@tabs&gt;
+			&lt;@tabList&gt;
+				&lt;@tabLink href='#tab6' active=true title='Tab 0' /&gt;
+				&lt;@tabLink href='#tab7' title='Tab 1' /&gt;
+				&lt;@tabLink href='#tab8' title='Tab 2' /&gt;
+			&lt;/@tabList&gt;
+			&lt;@tabContent&gt;
+				&lt;@tabPanel id='tab3' active=true&gt;
+					Tab 0 contents
+				&lt;/@tabPanel&gt;
+				&lt;@tabPanel id='tab4'&gt;
+					Tab 1 contents
+				&lt;/@tabPanel&gt;
+				&lt;@tabPanel id='tab5'&gt;
+					Tab 2 contents
+				&lt;/@tabPanel&gt;
+			&lt;/@tabContent&gt;
+		&lt;/@tabs&gt;
+	&lt;/@columns&gt;
+&lt;/@row&gt;
+</pre>
+
 <@h2># Parameters documentation</@h2>
+
+<@h3>Tabs</@h3>
 
 <@table>
 <@tr>
@@ -36,49 +204,34 @@
     <@th>Default</@th>
 </@tr>
 <@tr>
-    <@th>id</@th>
+    <@th>color</@th>
     <@td>string</@td>
-    <@td>none</@td>
+    <@td>-</@td>
 </@tr>
 <@tr>
     <@th>class</@th>
     <@td>string</@td>
-    <@td>none</@td>
+    <@td>-</@td>
 </@tr>
 <@tr>
-    <@th>responsive</@th>
-    <@td>boolean</@td>
-    <@td>true</@td>
+    <@th>id</@th>
+    <@td>string</@td>
+    <@td>-</@td>
 </@tr>
 <@tr>
-    <@th>condensed</@th>
-    <@td>boolean</@td>
-    <@td>true</@td>
+    <@th>hide</@th>
+    <@td>sequence</@td>
+    <@td>-</@td>
 </@tr>
 <@tr>
-    <@th>hover</@th>
-    <@td>boolean</@td>
-    <@td>true</@td>
-</@tr>
-<@tr>
-    <@th>striped</@th>
-    <@td>boolean</@td>
-    <@td>false</@td>
-</@tr>
-<@tr>
-    <@th>bordered</@th>
-    <@td>boolean</@td>
-    <@td>false</@td>
-</@tr>
-<@tr>
-    <@th>narrow</@th>
+    <@th>collapsed</@th>
     <@td>boolean</@td>
     <@td>false</@td>
 </@tr>
 <@tr>
     <@th>params</@th>
     <@td>string</@td>
-    <@td>none</@td>
+    <@td>-</@td>
 </@tr>
 </@table>
 <@footer />
