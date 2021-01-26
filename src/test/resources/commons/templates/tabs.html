@@ -72,6 +72,36 @@
 &lt;/@row&gt;
 </pre>
 
+<@h3>Tabs bar with icons</@h3>
+
+<@row>
+	<@columns>
+		<@box>
+			<@boxHeader title='Box with tabs' />
+			<@boxBody>
+				<@tabs>
+					<@tabList>
+						<@tabLink href='#tab0' active=true title='Tab 0' tabIcon='code' />
+						<@tabLink href='#tab1' title='Tab 1' tabIcon='code' />
+						<@tabLink href='#tab2' title='Tab 2' tabIcon='code' />
+					</@tabList>
+					<@tabContent>
+						<@tabPanel id='tab0' active=true>
+							Tab 0 contents
+						</@tabPanel>
+						<@tabPanel id='tab1' active=false>
+							Tab 1 contents
+						</@tabPanel>
+						<@tabPanel id='tab2' active=false>
+							Tab 2 contents
+						</@tabPanel>
+					</@tabContent>
+				</@tabs>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>
+
 <@h3>Tabs pills</@h3>
 
 <@row>
@@ -110,8 +140,8 @@
 				<@box>
 					<@boxHeader title='Box with vertical tabs' />
 					<@boxBody>
-						<@row>
-							<@tabs>
+						<@tabs>
+							<@row>
 								<@columns sm=4>
 									<@tabList type='pills' vertical=true>
 										<@tabLink href='#tab6' active=true title='Tab 0' />
@@ -132,8 +162,8 @@
 										</@tabPanel>
 									</@tabContent>
 								</@columns>
-							</@tabs>
-						</@row>
+							</@row>
+						</@tabs>
 					</@boxBody>
 				</@box>
 			</@columns>
