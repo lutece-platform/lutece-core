@@ -1,14 +1,17 @@
 <#-- WARNING : LUTECE-BACKPORT should only be use in case of error at executing an old plugin. This is a minimal compatibility service. It as to be removed asap so fix your templates ;-) ! -->
 
 <#macro comboWithParams name default_value additionalParameters items>
+<!-- WARNING : macro comboWithParams is deprecated -->
 	<@select id='${name}' name='${name}' default_value=default_value items=items params='additionalParameters' />
 </#macro>
 
 <#macro comboSortedWithParams name default_value additionalParameters items id=name>
+<!-- WARNING : macro comboSortedWithParams is deprecated -->
 	<@select id='${id}' name='${name}' sort=true default_value=default_value items=items params='additionalParameters' />
 </#macro>
 
 <#macro comboWithParamsAndLength name default_value additionalParameters items max_length >
+<!-- WARNING : macro comboWithParamsAndLength is deprecated -->
 <select id="${name}" name="${name}" ${additionalParameters} >
 	<#list items as item>
 		<#if max_length < item.name?length >
@@ -26,14 +29,17 @@
 </#macro>
 
 <#macro combo name default_value items>
+<!-- WARNING : macro combo is deprecated -->
 	<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
 </#macro>
 
 <#macro comboSorted name default_value items >
+<!-- WARNING : macro comboSorted is deprecated -->
 	<@combo name="${name}" default_value="${default_value}" items=items?sort_by("name") />
 </#macro>
 
 <#macro radioImageList name default_value items inline=0>
+<!-- WARNING : macro radioImageList is deprecated -->
 	<#list items as item>
 		<#if inline><#local orientation='inline' /><#else><#local orientation='vertical' /></#if>
 		<#if default_value='${item.code}'><#local checked=true /><#else><#local checked=false /></#if>
@@ -45,6 +51,7 @@
 </#macro>
 
 <#macro checkboxList name default_values items inline=0>
+<!-- WARNING : macro checkboxList is deprecated -->
 	<#list items as item>
 		<#if inline><#local orientation='inline' /><#else><#local orientation='vertical' /></#if>
 		<@checkBox orientation=orientation labelFor='${item?index}' labelKey='${item.name}' name='${name}' id='${item?index}' value='${item.code}' checked=item.checked />
@@ -52,6 +59,7 @@
 </#macro>
 
 <#macro dataTable dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
+<!-- WARNING : macro dataTable is deprecated -->
 	<#if 0 < dataTableManager.items?size >
 		<#if dataTableManager.enablePaginator>
 			<form class="form-inline" method="post" action="${dataTableManager.sortUrl}">
@@ -130,6 +138,7 @@
 </#macro>
 
 <#macro filterPanel dataTableManager formClass=''>
+<!-- WARNING : macro filterPanel is deprecated -->
 	<#if dataTableManager.filterPanel.listFilter?? && 0 < dataTableManager.filterPanel.listFilter?size>
 		<@tform class='${formClass!}' method='post' action='${dataTableManager.filterPanel.formUrl}'>
 			<@fieldSet>
@@ -166,6 +175,7 @@
 </#macro>
 
 <#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
+<!-- WARNING : macro fieldInputText is deprecated -->
 	<#if maxlength &gt; 0><#local params = 'maxlength=${maxlength}' /></#if>
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' mandatory=mandatory helpKey='#i18n{${i18nHelpBlockKey}}'>
 		<@input type='text' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' params=params! />
@@ -173,6 +183,7 @@
 </#macro>
 
 <#macro fieldInputPassword i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='#i18n{${i18nHelpBlockKey}}' cssClass=''>
+<!-- WARNING : macro fieldInputPassword is deprecated -->
 	<#if maxlength &gt; 0><#local params = 'maxlength=${maxlength}' /></#if>
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='' mandatory=mandatory>
 		<@input type='password' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' params=params! />
@@ -180,12 +191,14 @@
 </#macro>
 
 <#macro fieldInputWrapper i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
+<!-- WARNING : macro fieldInputWrapper is deprecated -->
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
 		<#nested>
 	</@formGroup>
 </#macro>
 
 <#macro fieldStaticText i18nLabelKey cssClass=''>
+<!-- WARNING : macro fieldStaticText is deprecated -->
 	<@formGroup labelKey='#i18n{${i18nLabelKey}}'>
 		<@staticText>
 			<#nested>
@@ -194,6 +207,7 @@
 </#macro>
 
 <#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='form-control' language='fr'>
+<!-- WARNING : macro fieldInputCalendar is deprecated -->
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
 		<@inputGroup>
 			<@inputGroupItem type='text'>
@@ -206,26 +220,31 @@
 </#macro>
 
 <#macro fieldInputCheckBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
+<!-- WARNING : macro fieldInputCheckBox is deprecated -->
 	<@formGroup helpKey='#i18n{${i18nHelpBlockKey}}'>
 		<@checkBox labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}' class='${cssClass}' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
 	</@formGroup>
 </#macro>
 
 <#macro fieldInputRadioBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
+<!-- WARNING : macro fieldInputRadioBox is deprecated -->
 	<@formGroup helpKey='#i18n{${i18nHelpBlockKey}}'>
-		<@radioButton labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}' class='${cssClass}' id='${inputName}id' name='${inputName}' value='${value}' checked=checked disabled=disabled />
+		<@radioButton labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}'  id='${inputName}id' name='${inputName}' value='${value}' checked=checked disabled=disabled />
 	</@formGroup>
 </#macro>
 
-<#macro fieldInputCheckBoxInline inputName value="" disabled=false checked=false>
-	<@checkBox orientation='inline' labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
+<#macro fieldInputCheckBoxInline inputName value="" disabled=false checked=false >
+<!-- WARNING : macro fieldInputCheckBoxInline is deprecated -->
+	<@checkBox orientation='inline' labelFor='${inputName}id'  id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
 </#macro>
 
-<#macro fieldInputRadioBoxInline inputName value="" disabled=false checked=false>
-	<@radioButton orientation='inline' labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
+<#macro fieldInputRadioBoxInline inputName value="" disabled=false checked=false >
+<!-- WARNING : macro fieldInputRadioBoxInline is deprecated -->
+	<@radioButton orientation='inline' labelFor='${inputName}id' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
 </#macro>
 
 <#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='form-control'>
+<!-- WARNING : macro fieldInputCombo is deprecated -->
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
 		<#assign params = "class='" + cssClass + "'" >
 		<@select name=inputName items=items default_value=value params=params />
@@ -233,6 +252,7 @@
 </#macro>
 
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
+<!-- WARNING : macro fieldTextArea is deprecated -->
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
 		<#if maxlength &gt; 0><#local params='maxlength="${maxlength}"' /></#if>
 		<@input type='textarea' name='${inputName}' id='${inputName}' class='${cssClass!}' params=params>${value!}</@input>
@@ -240,6 +260,7 @@
 </#macro>
 
 <#macro boxSized col i18nTitleKey boxClass='box-primary' >
+<!-- WARNING : macro boxSized is deprecated -->
     <@columns md=col>
         <@box class=boxClass>
             <@boxHeader title=i18nTitleKey />
@@ -251,6 +272,7 @@
 </#macro>
 
 <#macro rowBox boxClass='box-primary' col=12>
+<!-- WARNING : macro rowBox is deprecated -->
 	<@row>
 		<@columns xs=12 sm=col>
 			<@box class=boxClass>
@@ -261,6 +283,7 @@
 </#macro>
 
 <#macro rowBoxHeader i18nTitleKey boxClass='box-primary' col=12>
+<!-- WARNING : macro rowBoxHeader is deprecated -->
 	<@rowBox boxClass=boxClass col=col >
 		<@boxHeader i18nTitleKey=i18nTitleKey />
 		<@boxBody>
@@ -270,9 +293,17 @@
 </#macro>
 
 <#macro headerButtons>
+<!-- WARNING : macro headerButtons is deprecated -->
 	<#nested>
 </#macro>
 
 <#macro listTabs type='tabs' id='' params=''>
+<!-- WARNING : macro listTabs is deprecated -->
 	<@tabList type=type id=id params=params />
+</#macro>
+
+
+<#macro badge color='primary' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' id='' params=''>
+<!-- WARNING : macro badge is deprecated -->
+<@tag color=color class=class title=title tagIcon=badgeIcon id=id />
 </#macro>
