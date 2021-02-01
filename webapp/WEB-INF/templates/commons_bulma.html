@@ -706,7 +706,7 @@ and is kept only for backwards compatibility
 
 <#-- MACRO TH -->
 <#-- valign: baseline|top|middle|bottom|bottom|text-top -->
-<#macro th id='' title='' scope='' class='' align='' valign='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params=''>
+<#macro th id='' title='' scope='' class='' align='' valign='' hide=[]  cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params=''>
     <#local class += ' ' + displaySettings(hide,'is-inline') + ' ' + alignmentSettings(align) />
 	<#if valign!=''><#local class += ' align-' + valign /></#if>
 		<th<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
@@ -715,7 +715,8 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- MACRO TD -->
-<#macro td id='' class='' hide=[] align='' valign='' showXs=true showSm=true showMd=true showLg=true showXl=true xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params=''>
+<#macro td id='' class='' hide=[] align='' valign='' xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params='' deprecated...>
+<@deprecatedWarning args=deprecated />	
 	<#local class += ' ' + displaySettings(hide,'is-inline') + ' ' + alignmentSettings(align) />
 	<#if valign!=''><#local class += ' align-' + valign /></#if>
 		<td class="<#if class != ''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
@@ -726,7 +727,8 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
-<#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0 disabled=false>
+<#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0 disabled=false  mandatory=false >
+<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 	<#switch size>
 		<#case 'xs'>
 				<#assign selectSize='small'>
@@ -744,7 +746,7 @@ and is kept only for backwards compatibility
 				<#assign selectSize='normal'>
 	</#switch>
 <div class="select<#if selectSize!=''> is-${selectSize}</#if>">
-    <select id="${id}" name="${name}" class="field<#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if><#if mandatory?? && mandatory> required</#if><#if disabled> disabled</#if>>
+    <select id="${id}" name="${name}" class="field<#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if><#if mandatory> required</#if><#if disabled> disabled</#if>>
     <#if items?has_content>
         <#if sort=true>
             <#list items?sort_by("name") as item>
@@ -824,7 +826,8 @@ and is kept only for backwards compatibility
 
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
-<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false params=''>
+<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false params='' deprecated...>
+<@deprecatedWarning args=deprecated />	
 	<#local class = class />
 	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
@@ -850,7 +853,8 @@ and is kept only for backwards compatibility
 <#-- formStyle values: empty/inline/horizontal/navbar-form/navbar-left... Default is horizontal -->
 <#-- groupStyle: is-success/is-danger/is-warning... -->
 
-<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params=''>
+<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params='' deprecated...>
+<@deprecatedWarning args=deprecated />	
 <#local labelDisplayClass = displaySettings(hideLabel,'') />
 <#if collapsed><#local class += ' collapse' /></#if>
 <div class="field is-horizontal<#if class!=''> ${class?trim}</#if>">
@@ -859,8 +863,9 @@ and is kept only for backwards compatibility
   </div>
   <div class="field-body">
     <div class="field">
-   		<#assign mandatory = mandatory>
-   		<#nested>
+        <#assign propagateMandatory = mandatory>
+        <#nested>
+        <#assign propagateMandatory = false>
         <#if helpKey != ''><p class="help">${helpKey}</p></#if>
     </div>
   </div>
@@ -874,7 +879,8 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 
-<#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=[] mandatory=true>
+<#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=[] mandatory=true deprecated...>
+<@deprecatedWarning args=deprecated />	
 	<#local class += ' ' + displaySettings(hideLabel,'') />
 	<label class="<#if class !=''>${class?trim}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
 </#macro>
@@ -889,7 +895,8 @@ and is kept only for backwards compatibility
 <#-- type : text/textarea/password/email/file/number. Default is text -->
 <#-- size: xs/sm/lg -->
 <#-- pattern: [A-F][0-9]{5} -->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 language='' params=''>
+<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 language='' params='' mandatory=false >
+<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if size == 'xs' || size == 'sm'><#local size = 'small' />
 <#elseif size == 'md'><#local size = 'medium' />
 <#elseif size == 'lg'><#local size = 'large' />
@@ -898,16 +905,16 @@ and is kept only for backwards compatibility
 <div class="control">
 </#if>
 <#if type='textarea'>
-	<textarea name="${name}" class="textarea <#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
+	<textarea name="${name}" class="textarea <#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
-    <input class="input<#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+    <input class="input<#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 <#elseif type='date' || type='datetime'>
 	<#if type='date'>
 		<@getDatePickerBootstrap idField='${id}' language=language />
 	<#elseif type='datetime'>
 		<@getDateTimePickerBootstrap idField='${id}' language=language />
 	</#if>
-	<input class="input<#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+	<input class="input<#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 <#elseif type='hidden'>
 	<input type="hidden" name="${name}" id="${id}" value="${value}" />
 <#else><@icon style='warning' />Type not supported
@@ -928,11 +935,13 @@ and is kept only for backwards compatibility
 
 <#-- CHECKBOX -->
 <#-- orientation: vertical/inline. Default is vertical -->
-<#macro checkBox name id labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
+<#macro checkBox name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
+<@deprecatedWarning args=deprecated />	
+<#if id = ''><#local id = name /></#if>
 <#if orientation='vertical'>
 	<div class="checkbox">
 </#if>
-	<label<#if orientation!='vertical'> class="checkbox-inline"</#if><#if labelFor!=''> for="${labelFor}"</#if><#if title!=''> title="${title}"</#if>>
+	<label<#if orientation!='vertical'> class="checkbox-inline"</#if> for="${id}"<#if title!=''> title="${title}"</#if>>
 	<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
 	<#if labelKey!=''>${labelKey}</#if>
 	</label>
@@ -941,11 +950,12 @@ and is kept only for backwards compatibility
 
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/inline. Default is vertical -->
-<#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
+<#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
+<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 	<#if labelFor = '' && id != ''><#local labelFor = id /></#if>
 	<#if orientation='vertical'><div class="radio"></#if>
 	<label<#if orientation!='vertical'> class="radio-inline"</#if> for="${labelFor}">
-	<input type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory?? && mandatory> required</#if><#if params!=''> ${params}</#if> />
+	<input type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
 	<#if labelKey!=''>${labelKey}</#if>
 	</label>
 <#if orientation='vertical'></div></#if>
@@ -1099,8 +1109,12 @@ and is kept only for backwards compatibility
 <#-- ACCORDION --> 
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
 <#-- The childId argument in accordionPanel is meant to be used in the two sub-macros: accordionHeader and accordionBody -->
-<#macro accordionContainer id params=''>
-<div class="accordions" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro accordionContainer id='' params=''>
+<#if id = '' >
+   <#if accordionContainerId?? == false><#assign accordionContainerId = 1 ><#else><#assign accordionContainerId = accordionContainerId + 1 ></#if>
+   <#local id = 'accCont_'+ accordionContainerId >
+</#if>
+<div class="accordions" id="${id}"<#if params!=''> ${params}</#if>>
 	<#assign parentId = id>
 	<#nested>
 </div>
@@ -1172,7 +1186,8 @@ and is kept only for backwards compatibility
 
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
-<#macro tag color='default' class='' size='' title='' tagIcon='' id='' params=''>
+<#macro tag color='default' class='' size='' title='' tagIcon='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />	
     <#switch size>
         <#case 'xs'>
             <#assign tagSize='is-small'>
@@ -1290,7 +1305,8 @@ and is kept only for backwards compatibility
 <#-- color: default/primary/success/warning/danger/info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
 <#-- style: disabled ignored : btn-block/btn-flat/btn-app-->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='' align='' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#macro aButton name='' id='' href='' size='' color='primary' style='' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false   deprecated...>
+<@deprecatedWarning args=deprecated />	>
 <#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default' || color = 'secondary'>
 		<#assign buttonColor = 'light' />
@@ -1358,7 +1374,8 @@ and is kept only for backwards compatibility
 <#-- BTN GROUP -->
 <#-- size: sm/lg -->
 <#-- align: left/center/right -->
-<#macro btnGroup size='' align='' class='' id='' params='' ariaLabel='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true>
+<#macro btnGroup size='' align='' class='' id='' params='' ariaLabel='' hide=[]   deprecated...>
+<@deprecatedWarning args=deprecated />	
 <#local class += ' ' + displaySettings(hide,'inline-flex') />
     <#switch size>
         <#case 'sm'>
@@ -1710,7 +1727,7 @@ and is kept only for backwards compatibility
 	<#return responsiveDisplayClass?trim>
 </#function>
 
-<#function alignmentSettings align=''>
+<#function alignmentSettings align='' style=''>
 	<#local x = ''>
 	<#if align !=''>
 		<#if align = 'left'>
@@ -2027,16 +2044,7 @@ $(function() {
 </#macro>
 
 
-<#-- COMPONENTS --> 
-<#--Badge : BS badge + label  -->
-<#macro badge color='' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' >
-<span class="tag <#if color!=''>is-${color}</#if>" <#if title != ''> title="${title}" </#if> >
-    <#if badgeIcon !=''>
-        <@icon style=badgeIcon />
-    </#if>
-	<#nested>
-</span>
-</#macro>
+
 
 
 <#-- Email Default Template -->
@@ -2137,4 +2145,10 @@ $(function() {
 		<@button color='white' size='sm' type='submit' buttonIcon='eye-slash' title='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}'/>
 	</#if>
 </@tform>
+</#macro>
+
+
+<#-- Display wrong or deprecated macro arguments -->
+<#macro deprecatedWarning args=[] >
+ <#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>
 </#macro>
