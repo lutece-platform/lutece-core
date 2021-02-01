@@ -12,8 +12,8 @@
         <thead>
 					<tr>
 						<@th>#i18n{portal.xsl.manage_xsl_export.row_title}</@th>
-						<@th showXs=false>#i18n{portal.xsl.manage_xsl_export.row_description}</@th>
-						<@th showXs=false>#i18n{portal.xsl.manage_xsl_export.row_extension}</@th>
+						<@th hide=['xs']>#i18n{portal.xsl.manage_xsl_export.row_description}</@th>
+						<@th hide=['xs']>#i18n{portal.xsl.manage_xsl_export.row_extension}</@th>
 						<@th>#i18n{portal.xsl.manage_xsl_export.row_actions}</@th>
 					</tr>
         </thead>
@@ -21,8 +21,8 @@
         <#list xsl_export_list as xsl_export>
 					<tr>
 						<@td>${xsl_export.title}</@td>
-						<@td showXs=false>${xsl_export.description}</@td>
-						<@td showXs=false>${xsl_export.extension}</@td>
+						<@td hide=['xs']>${xsl_export.description}</@td>
+						<@td hide=['xs']>${xsl_export.extension}</@td>
 						<@td>
 						<#if right_modify>
 							<@aButton href='jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_modify} (${xsl_export.title?html})' buttonIcon='edit' hideTitle=['all'] size='sm' />
