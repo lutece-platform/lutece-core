@@ -767,14 +767,6 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<div class="card card-nav-tabs<#if color!=''> ${color}</#if><#if class?trim!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
-	<script type="text/javascript">
-		var tabsParent = $(".card-body");
-		tabsParent.each(function(index) {
-			if ($(this).find($( ".nav-pills" ))) {
-				$(this).parents("card").removeClass("card card-nav-tabs");
-			}
-		});
-	</script>
 </#macro>
 
 <#-- Tabs List -->
@@ -794,7 +786,17 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		</div>
 		<#else>
 			<script type="text/javascript">
-				$(".nav-pills").parent().removeClass("card card-nav-tabs");
+				var childrentabs = $(".card-body").find($( ".card.card-nav-tabs" ));
+				console.log(childrentabs);
+				childrentabs.each(function(index) {
+					if ($(this).find($(".nav-pills"))) {
+						console.log($(this));
+						$(this).removeClass("card card-nav-tabs");
+					}
+					else {
+						$(this).addClass("card-plain");
+					}
+				});
 			</script>
 		</#if>
 </#macro>
@@ -1813,14 +1815,14 @@ $(function() {
 </html>		
 </#macro>
 
-<#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' >
+<#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp'>
     <@row>
-            <@columns class="mx-4">
-                    <@icon style='language' /> #i18n{portal.admin.admin_home.language}
-            </@columns>
+		<@columns class="mx-4">
+			<@icon style='language' /> #i18n{portal.admin.admin_home.language}
+		</@columns>
     </@row>
     <@tform method='post' action=action class='form-inline'>
-    <input type="hidden" name="token" value="${token}">
+		<@input type='hidden' name='token' value='${token}' />
         <@row>
             <@columns class="mx-4">
             <#list languages as language>
