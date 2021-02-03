@@ -5,7 +5,7 @@
         <#if target?has_content>
             <#assign params>target="${target}"</#assign>
         </#if>
-        <@tform action=url type='inline' params=params>
+        <@tform action=url params=params>
             <#if list_parameters?exists>
                 <#assign keys = list_parameters?keys>
                 <#list keys as key><@input type='hidden' name='${key}' value='${list_parameters[key]}' /></#list>
@@ -14,7 +14,7 @@
         </@tform>
     </#if>
     <#if back_url?has_content>
-        <@tform action=back_url type='inline'>
+        <@tform action=back_url>
             <#if list_parameters?exists>
                 <#list keys as key><@input type='hidden' name='${key}' value='${list_parameters[key]}' /></#list>
             </#if>
@@ -26,7 +26,7 @@
 <#else>
     <#if url?has_content>
         <#assign params>target="${target}"</#assign>
-        <@tform action=url type='inline' params=params>
+        <@tform action=url params=params>
             <#if list_parameters?exists>
                 <#assign keys = list_parameters?keys>
                 <#list keys as key><@input type='hidden' name='${key}' value='${list_parameters[key]}' /></#list>
