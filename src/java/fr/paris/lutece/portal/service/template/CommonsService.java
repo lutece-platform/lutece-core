@@ -47,7 +47,7 @@ import java.util.List;
 public class CommonsService
 {
     private static final String DSKEY_CURRENT_COMMONS_INCLUDE = "core.templates.currentCommonsInclude";
-    private static final String DEFAULT_COMMONS_INCLUDE_KEY = "default";
+
 
     private CommonsService( )
     {
@@ -131,11 +131,15 @@ public class CommonsService
     public static String getCurrentCommonsKey( )
     {
         CommonsInclude ciCurrent = getCurrentCommonsInclude( );
+        
         if ( ciCurrent != null )
         {
             return ciCurrent.getKey( );
         }
-        return DEFAULT_COMMONS_INCLUDE_KEY;
+        else
+        {
+            return null;
+        }
     }
 
     /**
@@ -157,15 +161,59 @@ public class CommonsService
     }
 
     /**
+     * Get the default commons include 
+     * 
+     * @return The commons include object
+     */
+    public static CommonsInclude getDefaultCommonsInclude( )
+    {
+        // get default commons include
+        for ( CommonsInclude ci : getCommonsIncludes( ) )
+        {
+            if ( ci.isDefault( ) )
+            {
+                return ci;
+            }
+        }
+        
+        // if there's no default, returns the first one 
+        if ( getCommonsIncludes( ).size( ) > 0 )
+        {
+            return getCommonsIncludes( ).get( 0 );
+        }
+        
+        return null;
+    }
+
+    /**
      * Get the current commons include
      * 
      * @return The commons include object
      */
     public static CommonsInclude getCurrentCommonsInclude( )
     {
-        String strCurrentCommonsIncludeKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE,
-                DEFAULT_COMMONS_INCLUDE_KEY );
-        return getCommonsInclude( strCurrentCommonsIncludeKey );
+        String strCurrentCommonsIncludeKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, null );
+        
+        if ( strCurrentCommonsIncludeKey != null )
+        {
+            CommonsInclude ci = getCommonsInclude( strCurrentCommonsIncludeKey );
+            if ( ci != null ) 
+            {
+                return ci;
+            }
+        }
+        
+        CommonsInclude ci = getDefaultCommonsInclude( );
+        if ( ci != null )
+        {
+            setNewCommonsInclude( ci );
+            return ci;
+        }
+        else
+        {
+            return null;
+        }
+      
     }
 
     /**
