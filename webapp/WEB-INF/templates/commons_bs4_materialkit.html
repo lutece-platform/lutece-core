@@ -414,8 +414,9 @@
 
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
-<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false params='' deprecated...>
-<@deprecatedWarning args=deprecated />	
+<#-- enctype: multipart/form-data | text/plain -->
+<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false enctype='' params='' deprecated...>
+	<@deprecatedWarning args=deprecated />
 	<#local class = class />
 	<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
@@ -431,7 +432,7 @@
 		<#default>
 			<#local class += ' form'>
 	</#switch>
-	<form class="<#if class?trim!=''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+	<form class="<#if class?trim!=''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if method='post' && enctype!=''> enctype='${enctype}'</#if><#if params!=''> ${params}</#if>>
 		<#if type='inline'><div class="form-row"></#if>
 		<#nested>
 		<#if type='inline'></div></#if>
@@ -765,26 +766,30 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- TABS -->
 
 <#-- Tab Container -->
-<#macro tabs color='' class='' id='' hide=[] collapsed=false params=''>
+<#-- style: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
+<#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+	<#assign propagateTabStyle = style />
 	<div class="card card-nav-tabs<#if color!=''> ${color}</#if><#if class?trim!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
 <#-- Tabs List -->
-<#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
+<#-- type is deprecated -->
 <#macro tabList type='tabs' vertical=false id='' color='' params=''>
-		<#if type != 'pills'>
+	<#if propagateTabStyle?? && propagateTabStyle ><#local style = propagateTabStyle /></#if>
+	
+		<#if style != 'pills'>
 		<div class="card-header card-header-primary">
 			<div class="nav-tabs-navigation">
 				<div class="nav-tabs-wrapper">
 		</#if>
-					<ul class="nav nav-${type}<#if type='pills'> nav-pills-icons</#if><#if vertical> flex-column mb-3</#if>" data-tabs="tabs" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
+					<ul class="nav nav-${style}<#if style='pills'> nav-pills-icons</#if><#if vertical> flex-column mb-3</#if>" data-tabs="tabs" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
 						<#nested>
 					</ul>
-		<#if type != 'pills'>
+		<#if style != 'pills'>
 				</div>
 			</div>
 		</div>
@@ -806,7 +811,6 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- Tabs -->
-<#-- type:  -->
 <#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
 <li class="nav-item"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local tabLinkClass = class + ' nav-link' />

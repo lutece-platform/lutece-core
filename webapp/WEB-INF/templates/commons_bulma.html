@@ -826,8 +826,9 @@ and is kept only for backwards compatibility
 
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
-<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false params='' deprecated...>
-<@deprecatedWarning args=deprecated />	
+<#-- enctype: multipart/form-data | text/plain -->
+<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false enctype='' params='' deprecated...>
+	<@deprecatedWarning args=deprecated />	
 	<#local class = class />
 	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
@@ -844,7 +845,7 @@ and is kept only for backwards compatibility
 			<#local class += ' form'>
 	</#switch>
 
-<form class="<#if class!=''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+<form class="<#if class!=''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if method='post' && enctype!=''> enctype='${enctype}'</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </form>
 </#macro>
@@ -1062,18 +1063,21 @@ and is kept only for backwards compatibility
 <#-- TABS -->
 
 <#-- TAB -->
+<#-- style: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
 <#macro tabs color='' class='' hide=[] collapsed=false id='' params=''>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
+	<#assign propagateTabStyle = style />
 	<#if hide?? || collapsed><div class="{class?trim"}></#if>
-	<#nested>
+		<#nested>
 	<#if hide?? || collapsed></div></#if>
 </#macro>
 
 <#-- Tabs List -->
-<#-- type:  -->
+<#-- type is deprecated -->
 <#macro tabList type='tabs' vertical=false id='' params='' color=''>
-<div class="tabs is-boxed is-fullwidth<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#if propagateTabStyle?? && propagateTabStyle ><#local style = propagateTabStyle /></#if>
+<div class="tabs is-boxed is-fullwidth<#if style!=''> ${style}</#if><#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<ul<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</ul>
