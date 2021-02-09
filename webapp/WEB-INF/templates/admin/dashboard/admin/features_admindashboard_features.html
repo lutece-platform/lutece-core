@@ -95,7 +95,7 @@
 							<#if groupDisplay.order_list_state==true>
 							  <@tform method='post' type='inline' action='jsp/admin/features/DoDispatchFeature.jsp'>
 								<@input type='hidden' name='right_id' value='${right.id}' />
-								<@input type='hidden' name='group_name' value='{right.featureGroup?if_exists}' />
+								<@input type='hidden' name='group_name' value='${right.featureGroup?if_exists}' />
 								<@input type='hidden' name='token' value='${token}' />
 								<@formGroup rows=2>
 								  <@inputGroup>
