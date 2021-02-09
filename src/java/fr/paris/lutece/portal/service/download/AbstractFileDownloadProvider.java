@@ -1,3 +1,36 @@
+/*
+ * Copyright (c) 2002-2021, City of Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
 package fr.paris.lutece.portal.service.download;
 
 import java.security.GeneralSecurityException;
@@ -29,7 +62,7 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
     private static final String MESSAGE_ACCESS_DENIED = "portal.file.download.access.denied";
     private static final String PARAM_DATA = "data";
     public static final String PARAM_PROVIDER = "provider";
-    
+
     @Override
     public final String getDownloadUrl( FileDownloadData fileDownloadData )
     {
@@ -48,7 +81,7 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         }
         return null;
     }
-    
+
     @Override
     public final File getFile( HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
     {
@@ -56,10 +89,10 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         try
         {
             String data = request.getParameter( PARAM_DATA );
-            String decrypted = RsaService.decryptRsa( data  );
+            String decrypted = RsaService.decryptRsa( data );
             FileDownloadData fileDownloadData = getDecryptedData( decrypted );
             checkLinkValidity( request, fileDownloadData );
-            
+
             file = FileHome.findByPrimaryKey( fileDownloadData.getIdFile( ) );
 
             if ( file != null && file.getPhysicalFile( ) != null )
@@ -73,18 +106,19 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         }
         catch( ExpiredLinkException e )
         {
-           AppLogService.error( e.getMessage( ), e );
-           SiteMessageService.setMessage( request, MESSAGE_LINK_EXPIRED );
+            AppLogService.error( e.getMessage( ), e );
+            SiteMessageService.setMessage( request, MESSAGE_LINK_EXPIRED );
         }
         catch( AccessDeniedException e )
         {
-           SiteMessageService.setMessage( request, MESSAGE_ACCESS_DENIED );
+            SiteMessageService.setMessage( request, MESSAGE_ACCESS_DENIED );
         }
         return file;
     }
-    
+
     /**
      * Find provider by name
+     * 
      * @param providerName
      * @return
      */
@@ -99,7 +133,7 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         }
         return null;
     }
-    
+
     private String getDataToEncrypt( FileDownloadData fileDownloadData )
     {
         StringBuilder sb = new StringBuilder( );
@@ -109,17 +143,18 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         sb.append( calculateEndValidity( ) );
         return sb.toString( );
     }
-    
+
     private FileDownloadData getDecryptedData( String data )
     {
-        String[] dataArray = data.split( SEPARATOR );
-        FileDownloadData fileDownloadData = new FileDownloadData( Integer.parseInt( dataArray[1] ) , dataArray[2], Integer.parseInt( dataArray[0] ) );
-        fileDownloadData.setEndValidity( new Timestamp( Long.parseLong( dataArray[3] ) ).toLocalDateTime( ) );
-                
+        String [ ] dataArray = data.split( SEPARATOR );
+        FileDownloadData fileDownloadData = new FileDownloadData( Integer.parseInt( dataArray [1] ), dataArray [2], Integer.parseInt( dataArray [0] ) );
+        fileDownloadData.setEndValidity( new Timestamp( Long.parseLong( dataArray [3] ) ).toLocalDateTime( ) );
+
         return fileDownloadData;
     }
-    
-    private void checkLinkValidity( HttpServletRequest request, FileDownloadData fileDownloadData ) throws ExpiredLinkException, AccessDeniedException, UserNotSignedException
+
+    private void checkLinkValidity( HttpServletRequest request, FileDownloadData fileDownloadData )
+            throws ExpiredLinkException, AccessDeniedException, UserNotSignedException
     {
         if ( LocalDateTime.now( ).isAfter( fileDownloadData.getEndValidity( ) ) )
         {
@@ -127,7 +162,7 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         }
         checkUserDownloadRight( request, fileDownloadData );
     }
-    
+
     private long calculateEndValidity( )
     {
         LocalDateTime endValidity = LocalDateTime.MAX;
@@ -137,6 +172,7 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         }
         return Timestamp.valueOf( endValidity ).getTime( );
     }
-    
-    protected abstract void checkUserDownloadRight( HttpServletRequest request, FileDownloadData fileDownloadData ) throws AccessDeniedException, UserNotSignedException;
+
+    protected abstract void checkUserDownloadRight( HttpServletRequest request, FileDownloadData fileDownloadData )
+            throws AccessDeniedException, UserNotSignedException;
 }

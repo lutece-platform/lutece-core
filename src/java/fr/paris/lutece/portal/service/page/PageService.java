@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020, City of Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -707,10 +707,10 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         boolean bUserInRole = SecurityService.isAuthenticationEnable( ) ? SecurityService.getInstance( ).isUserInRole( request, strRole ) : true;
 
         boolean [ ] conditions = new boolean [ ] {
-            strRole.equals( Page.ROLE_NONE ),                   // No role is required so the portlet is visible for anyone
-            !SecurityService.isAuthenticationEnable( ),         // No authentication
-            nMode == MODE_ADMIN,                                // We are in Admin mode, so all the portlet should be visible  
-            bUserInRole                                         // The authentication is ON and the user get the role  
+                strRole.equals( Page.ROLE_NONE ), // No role is required so the portlet is visible for anyone
+                !SecurityService.isAuthenticationEnable( ), // No authentication
+                nMode == MODE_ADMIN, // We are in Admin mode, so all the portlet should be visible
+                bUserInRole // The authentication is ON and the user get the role
         };
 
         return BooleanUtils.or( conditions );
