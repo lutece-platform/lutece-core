@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.RsaService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -24,6 +26,7 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
 {
     private static final String SEPARATOR = "/";
     private static final String MESSAGE_LINK_EXPIRED = "portal.file.download.link.expired";
+    private static final String MESSAGE_ACCESS_DENIED = "portal.file.download.access.denied";
     private static final String PARAM_DATA = "data";
     public static final String PARAM_PROVIDER = "provider";
     
@@ -47,7 +50,7 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
     }
     
     @Override
-    public final File getFile( HttpServletRequest request ) throws SiteMessageException
+    public final File getFile( HttpServletRequest request ) throws SiteMessageException, UserNotSignedException
     {
         File file = null;
         try
@@ -72,6 +75,10 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         {
            AppLogService.error( e.getMessage( ), e );
            SiteMessageService.setMessage( request, MESSAGE_LINK_EXPIRED );
+        }
+        catch( AccessDeniedException e )
+        {
+           SiteMessageService.setMessage( request, MESSAGE_ACCESS_DENIED );
         }
         return file;
     }
@@ -112,7 +119,7 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         return fileDownloadData;
     }
     
-    private void checkLinkValidity( HttpServletRequest request, FileDownloadData fileDownloadData ) throws ExpiredLinkException
+    private void checkLinkValidity( HttpServletRequest request, FileDownloadData fileDownloadData ) throws ExpiredLinkException, AccessDeniedException, UserNotSignedException
     {
         if ( LocalDateTime.now( ).isAfter( fileDownloadData.getEndValidity( ) ) )
         {
@@ -131,5 +138,5 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         return Timestamp.valueOf( endValidity ).getTime( );
     }
     
-    protected abstract void checkUserDownloadRight( HttpServletRequest request, FileDownloadData fileDownloadData );
+    protected abstract void checkUserDownloadRight( HttpServletRequest request, FileDownloadData fileDownloadData ) throws AccessDeniedException, UserNotSignedException;
 }

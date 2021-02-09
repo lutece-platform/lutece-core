@@ -13,14 +13,16 @@ import fr.paris.lutece.portal.service.download.AbstractFileDownloadProvider;
 import fr.paris.lutece.portal.service.download.IFileDownloadProvider;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.PortalJspBean;
 
 public class DownloadServlet extends HttpServlet
 {
     private static final long serialVersionUID = 6622358100579620819L;
     private static final String MESSAGE_UNKNOWN_PROVIDER = "portal.file.download.provider.unknown";
     private static final String MESSAGE_UNKNOWN_FILE = "portal.file.download.file.unknown";
-    
+
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
@@ -42,7 +44,11 @@ public class DownloadServlet extends HttpServlet
         {
             response.sendRedirect( AppPathService.getSiteMessageUrl( request ) );
         }
-        
+        catch( UserNotSignedException e )
+        {
+            response.sendRedirect( PortalJspBean.redirectLogin( request ) );
+        }
+
         if ( file != null )
         {
             try ( OutputStream outputStream = response.getOutputStream( ) )
