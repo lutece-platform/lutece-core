@@ -39,6 +39,8 @@ import java.time.LocalDateTime;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
@@ -124,6 +126,10 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
      */
     public static IFileDownloadProvider findProvider( String providerName )
     {
+        if ( StringUtils.isEmpty( providerName ) )
+        {
+            return null;
+        }
         for ( IFileDownloadProvider p : SpringContextService.getBeansOfType( IFileDownloadProvider.class ) )
         {
             if ( providerName.equals( p.getProviderName( ) ) )
