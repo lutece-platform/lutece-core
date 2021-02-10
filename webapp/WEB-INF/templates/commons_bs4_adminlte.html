@@ -721,7 +721,7 @@
 
 <#-- Tab Container -->
 <#-- style: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
-<#macro tabs color='' class='' id='' hide=[] collapsed=false params=''>
+<#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<#assign propagateTabStyle = style />
@@ -733,7 +733,7 @@
 <#-- Tabs List -->
 <#-- type is deprecated -->
 <#macro tabList type='tabs' vertical=false id='' params='' color=''>
-	<#if propagateTabStyle?? && propagateTabStyle ><#local style = propagateTabStyle /></#if>
+	<#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
 		<ul class="nav nav-${style}<#if vertical> flex-column mb-3</#if>" style="margin-bottom:1.5rem;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
 			<#nested>
 		</ul>

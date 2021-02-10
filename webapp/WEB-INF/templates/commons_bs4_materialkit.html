@@ -779,7 +779,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- Tabs List -->
 <#-- type is deprecated -->
 <#macro tabList type='tabs' vertical=false id='' color='' params=''>
-	<#if propagateTabStyle?? && propagateTabStyle ><#local style = propagateTabStyle /></#if>
+	<#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
 	
 		<#if style != 'pills'>
 		<div class="card-header card-header-primary">
