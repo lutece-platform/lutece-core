@@ -1064,7 +1064,7 @@ and is kept only for backwards compatibility
 
 <#-- TAB -->
 <#-- style: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
-<#macro tabs color='' class='' hide=[] collapsed=false id='' params=''>
+<#macro tabs color='' style='tabs' class='' hide=[] collapsed=false id='' params=''>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#assign propagateTabStyle = style />
