@@ -79,7 +79,7 @@ public class DownloadServlet extends HttpServlet
         }
         catch( UserNotSignedException e )
         {
-            response.encodeRedirectURL( PortalJspBean.redirectLogin( request ) );
+            response.sendRedirect( response.encodeRedirectURL( PortalJspBean.redirectLogin( request ) ) );
         }
 
         if ( file != null )
