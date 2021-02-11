@@ -267,8 +267,8 @@
             </list>
         </property>
     </bean>
-    <bean id="commonsBoostrap4MaterialKit" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Boostrap4MaterialKit" />
+    <bean id="commonsBootstrap4MaterialKit" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="Bootstrap4MaterialKit" />
         <property name="default" value="true" />
         <property name="name" value="Bootstrap 4.3 + Material Kit  + Backport file (v6.x compatible) (Default)" />
         <property name="files">
