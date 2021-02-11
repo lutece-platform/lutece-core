@@ -770,8 +770,11 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+	<#if style = 'tabs'><#local class += ' card card-nav-tabs' /></#if>
+	<#if propagateParentMacro?? && propagateParentMacro = 'boxBody'><#local class=' card-plain' /></#if>
+	<#if color != ''><#local class += ' ' + color /></#if>
 	<#assign propagateTabStyle = style />
-	<div class="card card-nav-tabs<#if color!=''> ${color}</#if><#if class?trim!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div<#if class?trim!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
@@ -793,20 +796,6 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 				</div>
 			</div>
 		</div>
-		<#else>
-			<script type="text/javascript">
-				var childrentabs = $(".card-body").find($( ".card.card-nav-tabs" ));
-				console.log(childrentabs);
-				childrentabs.each(function(index) {
-					if ($(this).find($(".nav-pills"))) {
-						console.log($(this));
-						$(this).removeClass("card card-nav-tabs");
-					}
-					else {
-						$(this).addClass("card-plain");
-					}
-				});
-			</script>
 		</#if>
 </#macro>
 
@@ -1245,7 +1234,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 	<div class="card-body<#if class!=''> ${class}</#if>" style="border-radius:0 0 3px 3px;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
+		<#assign propagateParentMacro = 'boxBody' />
+			<#nested>
+		<#assign propagateParentMacro = '' />
 	</div>
 </#macro>
 

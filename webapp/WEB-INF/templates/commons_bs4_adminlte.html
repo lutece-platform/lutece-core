@@ -725,8 +725,14 @@
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<#assign propagateTabStyle = style />
-	<div class="<#if color!=''> ${color}</#if><#if class?trim!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="p-2<#if color!=''> ${color}</#if><#if class?trim!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#if style!='pills'>
+			<div class="card card-primary card-tabs">
+		</#if>
 		<#nested>
+		<#if style!='pills'>
+			</div>
+		</#if>
 	</div>
 </#macro>
 
@@ -734,9 +740,15 @@
 <#-- type is deprecated -->
 <#macro tabList type='tabs' vertical=false id='' params='' color=''>
 	<#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
-		<ul class="nav nav-${style}<#if vertical> flex-column mb-3</#if>" style="margin-bottom:1.5rem;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
-			<#nested>
-		</ul>
+		<#if style != 'pills'>
+			<div class="card-header p-0 pt-1">
+		</#if>
+				<ul class="nav nav-${style}<#if vertical> flex-column mb-3</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
+					<#nested>
+				</ul>
+		<#if style != 'pills'>
+			</div>
+		</#if>
 </#macro>
 
 <#-- Tabs -->
@@ -761,9 +773,11 @@
 
 <#-- TAB Content -->
 <#macro tabContent id='' params=''>
+	<div class="card-body">
 		<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</div>
+	</div>
 </#macro>
 
 <#-- Tab Panel BS4 -->

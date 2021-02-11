@@ -98,8 +98,8 @@
 		<@box>
 			<@boxHeader title='Box with horizontal tabs' />
 			<@boxBody>
-				<@tabs>
-					<@tabList type='pills'>
+				<@tabs style='pills'>
+					<@tabList>
 						<@tabLink href='#tab3' active=true title='Tab 0' />
 						<@tabLink href='#tab4' title='Tab 1' />
 						<@tabLink href='#tab5' title='Tab 2' />
@@ -130,8 +130,8 @@
 		&lt;@box&gt;
 			&lt;@boxHeader title='Box with horizontal tabs' /&gt;
 			&lt;@boxBody&gt;
-				&lt;@tabs&gt;
-					&lt;@tabList type='pills'&gt;
+				&lt;@tabs style='pills'&gt;
+					&lt;@tabList&gt;
 						&lt;@tabLink href='#tab3' active=true title='Tab 0' /&gt;
 						&lt;@tabLink href='#tab4' title='Tab 1' /&gt;
 						&lt;@tabLink href='#tab5' title='Tab 2' /&gt;
@@ -175,16 +175,16 @@
 		<@box>
 			<@boxHeader title='Box with vertical tabs' />
 			<@boxBody>
-				<@tabs>
+				<@tabs style='pills'>
 					<@row>
-						<@columns sm=4>
-							<@tabList type='pills' vertical=true>
+						<@columns sm=2>
+							<@tabList vertical=true>
 								<@tabLink href='#tab6' active=true title='Tab 0' />
 								<@tabLink href='#tab7' title='Tab 1' />
 								<@tabLink href='#tab8' title='Tab 2' />
 							</@tabList>
 						</@columns>
-						<@columns sm=8>
+						<@columns sm=10>
 							<@tabContent>
 								<@tabPanel id='tab6' active=true>
 									<p>Vivamus sit amet consectetur erat, vitae ullamcorper urna. Vestibulum semper at lorem ac pellentesque.</p>
@@ -213,16 +213,16 @@
 		&lt;@box&gt;
 			&lt;@boxHeader title='Box with vertical tabs' /&gt;
 			&lt;@boxBody&gt;
-				&lt;@tabs&gt;
+				&lt;@tabs style='pills'&gt;
 					&lt;@row&gt;
-						&lt;@columns sm=4&gt;
-							&lt;@tabList type='pills' vertical=true&gt;
+						&lt;@columns sm=2&gt;
+							&lt;@tabList vertical=true&gt;
 								&lt;@tabLink href='#tab6' active=true title='Tab 0' /&gt;
 								&lt;@tabLink href='#tab7' title='Tab 1' /&gt;
 								&lt;@tabLink href='#tab8' title='Tab 2' /&gt;
 							&lt;/@tabList&gt;
 						&lt;/@columns&gt;
-						&lt;@columns sm=8&gt;
+						&lt;@columns sm=10&gt;
 							&lt;@tabContent&gt;
 								&lt;@tabPanel id='tab6' active=true&gt;
 									&lt;p&gt;Vivamus sit amet 
