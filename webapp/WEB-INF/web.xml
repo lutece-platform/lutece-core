@@ -222,6 +222,14 @@
         <servlet-name>ParserBbCodeServlet</servlet-name>
         <servlet-class>fr.paris.lutece.portal.service.editor.ParserBbcodeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FileDownloadFoServlet</servlet-name>
+        <servlet-class>fr.paris.lutece.portal.web.download.DownloadServletFo</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FileDownloadBoServlet</servlet-name>
+        <servlet-class>fr.paris.lutece.portal.web.download.DownloadServletBo</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ImageServlet</servlet-name>
         <url-pattern>/image</url-pattern>
@@ -238,7 +246,14 @@
         <servlet-name>ParserBbCodeServlet</servlet-name>
         <url-pattern>/parser/parserBbcode</url-pattern>
     </servlet-mapping>
-
+    <servlet-mapping>
+        <servlet-name>FileDownloadFoServlet</servlet-name>
+        <url-pattern>/jsp/site/file/download</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileDownloadBoServlet</servlet-name>
+        <url-pattern>/jsp/admin/file/download</url-pattern>
+    </servlet-mapping>
     <error-page>
         <error-code>404</error-code>
         <location>/jsp/site/Error404.jsp</location>
