@@ -16,6 +16,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.RsaService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -67,7 +68,7 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
     }
     
     @Override
-    public final File getFile( User user, HttpServletRequest request, boolean bo ) throws SiteMessageException
+    public final File getFile( User user, HttpServletRequest request, boolean bo ) throws SiteMessageException, UserNotSignedException
     {
         File file = null;
         try
@@ -140,7 +141,7 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         return fileDownloadData;
     }
     
-    private void checkLinkValidity( User user, boolean bo, FileDownloadData fileDownloadData ) throws ExpiredLinkException, AccessDeniedException
+    private void checkLinkValidity( User user, boolean bo, FileDownloadData fileDownloadData ) throws ExpiredLinkException, AccessDeniedException, UserNotSignedException
     {
         if ( LocalDateTime.now( ).isAfter( fileDownloadData.getEndValidity( ) ) )
         {
@@ -163,5 +164,5 @@ public abstract class AbstractFileDownloadProvider implements IFileDownloadProvi
         return Timestamp.valueOf( endValidity ).getTime( );
     }
     
-    protected abstract void checkUserDownloadRight( User user, boolean bo, FileDownloadData fileDownloadData );
+    protected abstract void checkUserDownloadRight( User user, boolean bo, FileDownloadData fileDownloadData ) throws AccessDeniedException, UserNotSignedException;
 }

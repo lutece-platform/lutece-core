@@ -14,6 +14,7 @@ import fr.paris.lutece.portal.service.download.AbstractFileDownloadProvider;
 import fr.paris.lutece.portal.service.download.IFileDownloadProvider;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.PortalJspBean;
 
@@ -43,6 +44,10 @@ public abstract class AbstractDownloadServlet extends HttpServlet
         catch( SiteMessageException e )
         {
             response.sendRedirect( AppPathService.getSiteMessageUrl( request ) );
+        }
+        catch( UserNotSignedException e )
+        {
+            response.sendRedirect( response.encodeRedirectURL( PortalJspBean.redirectLogin( request ) ) );
         }
         
         if ( file != null )
