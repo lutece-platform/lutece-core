@@ -149,12 +149,19 @@
     <bean id="attributeCheckBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeCheckBox" />
     <bean id="attributeImage" class="fr.paris.lutece.portal.business.user.attribute.AttributeImage" />
 
-    <!-- package file -->
+    <!-- Files -->
     <bean id="fileDAO" class="fr.paris.lutece.portal.business.file.FileDAO" />
-
-    <!-- package physicalfile -->
     <bean id="physicalFileDAO" class="fr.paris.lutece.portal.business.physicalfile.PhysicalFileDAO" />
 
+    <bean id="defaultFileDownloadUrlService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileDownloadService" />
+    <bean id="defaultFileNoRBACService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileNoRBACService" />
+    
+    <bean id="localDatabaseFileService" class="fr.paris.lutece.portal.service.file.implementation.LocalDatabaseFileService" >
+            <constructor-arg ref="defaultFileDownloadUrlService" />
+            <constructor-arg ref="defaultFileNoRBACService" />
+            <property name="default" value="true" />
+    </bean>
+    
     <!-- admin dashboards -->
     <bean id="adminDashboardDAO" class="fr.paris.lutece.portal.business.dashboard.AdminDashboardDAO" />
 
@@ -304,5 +311,5 @@
             </list>
         </property>
     </bean>
-    <bean id="basicFileDownloadProvider" class="fr.paris.lutece.portal.service.download.BasicFileDownloadProvider" />
+    
 </beans>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2021, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,63 +31,29 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.download;
+package fr.paris.lutece.portal.service.file;
 
-import java.time.LocalDateTime;
+import fr.paris.lutece.api.user.User;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import java.io.Serializable;
+import java.util.Map;
 
-public class FileDownloadData
+
+/**
+ *
+ * Builds download Url. Useful when we want to share a http link, ftp link, or fylesystem link.
+ * @see JSPBlobStoreDownloadUrlService
+ */
+public interface IFileRBACService extends Serializable
 {
-    private final int _idResource;
-    private final String _resourceType;
-    private final int _idFile;
-    private LocalDateTime endValidity;
-
-    public FileDownloadData( int idResource, String resourceType, int idFile )
-    {
-        _idResource = idResource;
-        _resourceType = resourceType;
-        _idFile = idFile;
-    }
-
+    
     /**
-     * @return the idResource
+     * Check if the user has rights to access the resource
+     * 
+     * @param fileData
+     * @param user
+     * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
      */
-    public int getIdResource( )
-    {
-        return _idResource;
-    }
-
-    /**
-     * @return the resourceType
-     */
-    public String getResourceType( )
-    {
-        return _resourceType;
-    }
-
-    /**
-     * @return the idFile
-     */
-    public int getIdFile( )
-    {
-        return _idFile;
-    }
-
-    /**
-     * @return the endValidity
-     */
-    public LocalDateTime getEndValidity( )
-    {
-        return endValidity;
-    }
-
-    /**
-     * @param endValidity
-     *            the endValidity to set
-     */
-    public void setEndValidity( LocalDateTime endValidity )
-    {
-        this.endValidity = endValidity;
-    }
+    public void checkAccessRights( Map<String, String> fileData, User user ) throws AccessDeniedException;
 
 }

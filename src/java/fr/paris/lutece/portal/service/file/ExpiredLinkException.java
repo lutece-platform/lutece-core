@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.download;
+package fr.paris.lutece.portal.service.file;
 
 public class ExpiredLinkException extends Exception
 {

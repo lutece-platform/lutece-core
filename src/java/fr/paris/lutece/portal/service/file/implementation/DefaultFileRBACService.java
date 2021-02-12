@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2021, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,26 +31,40 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.download;
+package fr.paris.lutece.portal.service.file.implementation;
 
 import fr.paris.lutece.api.user.User;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.file.FileService;
+import fr.paris.lutece.portal.service.file.IFileRBACService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.rbac.RBACService;
+import java.util.Map;
 
 /**
- * Basic {@link IFileDownloadProvider} implementation with no user rights checks
- *
+ * 
+ * DefaultFileRBACService.
+ * 
  */
-public class BasicFileDownloadProvider extends AbstractFileDownloadProvider
+public class DefaultFileRBACService implements IFileRBACService
 {
-    public static final String PROVIDER_NAME = "basicFileDownloadProvider";
-
+    private static final long serialVersionUID = 1L;
+    private static final String MESSAGE_ACCESS_DENIED_KEY = "portal.file.download.access.denied";
+    
     @Override
-    public String getProviderName( )
+    public void checkAccessRights( Map<String, String> fileData, User user) throws AccessDeniedException
     {
-        return PROVIDER_NAME;
+        
+        if ( !RBACService.isAuthorized( 
+                fileData.get( FileService.PARAMATER_RESOURCE_ID  ), 
+                fileData.get( FileService.PARAMATER_RESOURCE_TYPE ), 
+                FileService.PERMISSION_VIEW, 
+                user) )
+        {
+            throw new AccessDeniedException( I18nService.getLocalizedString(MESSAGE_ACCESS_DENIED_KEY, 
+                    I18nService.getDefaultLocale( ) ) );
+        }
     }
 
-    @Override
-    protected void checkUserDownloadRight( User user, boolean bo, FileDownloadData fileDownloadData )
-    {
-    }
+
 }

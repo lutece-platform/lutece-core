@@ -41,15 +41,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.file.File;
-import fr.paris.lutece.portal.service.download.AbstractFileDownloadProvider;
-import fr.paris.lutece.portal.service.download.IFileDownloadProvider;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.file.ExpiredLinkException;
+import fr.paris.lutece.portal.service.file.FileService;
+import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
-import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.web.PortalJspBean;
 
 public abstract class AbstractDownloadServlet extends HttpServlet
 {
@@ -61,30 +60,50 @@ public abstract class AbstractDownloadServlet extends HttpServlet
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         File file = null;
+        IFileStoreServiceProvider fileStoreServiceProvider = FileService.getInstance().getFileStoreServiceProvider(
+                    request.getParameter( FileService.PARAMETER_PROVIDER ) );
+        
         try
         {
-            IFileDownloadProvider provider = AbstractFileDownloadProvider.findProvider( request.getParameter( AbstractFileDownloadProvider.PARAM_PROVIDER ) );
-            if ( provider == null )
+            if ( fileStoreServiceProvider == null )
             {
                 SiteMessageService.setMessage( request, MESSAGE_UNKNOWN_PROVIDER );
             }
-            file = provider.getFile( getUser( request ), request, isFromBo( ) );
+            else
+            {
+        
+                try
+                {
+                    if ( isFromBo( ) )
+                    {
+                        file = fileStoreServiceProvider.getFileFromRequestBO( request );
+                    }
+                    else
+                    {
+                        file = fileStoreServiceProvider.getFileFromRequestFO( request );
+                    }                
+                }
+                catch (AccessDeniedException | ExpiredLinkException ex) 
+                {
+                    SiteMessageService.setMessage( request, ex.getLocalizedMessage( ) );
+                }
+            }
+
             if ( file == null || file.getPhysicalFile( ) == null )
             {
                 SiteMessageService.setMessage( request, MESSAGE_UNKNOWN_FILE );
             }
+ 
         }
         catch( SiteMessageException e )
         {
             response.sendRedirect( AppPathService.getSiteMessageUrl( request ) );
         }
-        catch( UserNotSignedException e )
-        {
-            response.sendRedirect( response.encodeRedirectURL( PortalJspBean.redirectLogin( request ) ) );
-        }
+        
         
         if ( file != null )
         {
+            // send the file
             try ( OutputStream outputStream = response.getOutputStream( ) )
             {
                 response.setContentType( file.getMimeType( ) );
@@ -93,8 +112,6 @@ public abstract class AbstractDownloadServlet extends HttpServlet
             }
         }
     }
-    
-    protected abstract User getUser( HttpServletRequest request );
     
     protected abstract boolean isFromBo( );
 }
