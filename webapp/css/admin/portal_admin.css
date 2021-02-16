@@ -163,6 +163,12 @@ li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 .jstree-classic a.jstree-search ,.jstree-default a.jstree-search ,.jstree-apple a.jstree-search {background-color:#6277B6 !important;color:#fff !important;font-style:normal;text-decoration:underline;padding:0 10px !important;}
 .jstree-classic .jstree-clicked { padding:0 5px !important;}
 
+/* button scroll to top */
+#scroll { position:fixed; right:60px; bottom: 60px; cursor:pointer; width:50px; height:50px; background-color:#1d98f6; text-indent:-9999px; display:none; -webkit-border-radius:60px;-moz-border-radius:60px; border-radius:60px}
+#scroll span { position:absolute; top:50%;left:50%; margin-left:-8px;margin-top:-12px; height:0; width:0; border:8px solid transparent; border-bottom-color:#fff; }
+#scroll:hover { background-color:#e74c3c; opacity:1;filter:"alpha(opacity=100)"; -ms-filter:"alpha(opacity=100)" }
+
+
 /* ----------------------------------------------------------------------
 	PLUGINS ADMIN added styles
 ---------------------------------------------------------------------- */

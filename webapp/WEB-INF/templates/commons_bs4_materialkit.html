@@ -1848,6 +1848,28 @@ $(function() {
 </@tform>
 </#macro>
 
+
+<#-- scroll to top button -->
+<#macro scrollTopBtn>
+<a href="#" id="scroll" style="display: none;"><span></span></a>
+<script>
+$( function(){ 
+    $(window).scroll(function(){ 
+        if ( $(this).scrollTop() > 100) { 
+            $('#scroll').fadeIn(); 
+        } else { 
+            $('#scroll').fadeOut(); 
+        } 
+    }); 
+    $('#scroll').click(function(){ 
+        $("html, body").animate({ scrollTop: 0 }, 600); 
+        return false; 
+    }); 
+});
+</script>
+</#macro>
+
+
 <#-- Display wrong or deprecated macro arguments -->
 <#macro deprecatedWarning args=[] >
  <#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>
