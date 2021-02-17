@@ -532,7 +532,7 @@
 		<#elseif type='datetime'>
 			<@getDateTimePickerBootstrap idField='${id}' language=language />
 		</#if>
-		<#if id=''><@alert class='danger'>La saisie d'un ID pour le champ est obligatoire</@alert></#if>
+		<#if id=''><@alert color='danger'>La saisie d'un ID pour le input date est obligatoire</@alert></#if>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory > required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>
 		<input type="hidden" name="${name}" id="${id}" value="${value}" />
@@ -771,7 +771,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<#if style = 'tabs'><#local class += ' card card-nav-tabs' /></#if>
-	<#if propagateParentMacro?? && propagateParentMacro = 'boxBody'><#local class=' card-plain' /></#if>
+	<#if propagateParentMacro?? && propagateParentMacro = 'boxBody'><#local class=' card card-plain' /></#if>
 	<#if color != ''><#local class += ' ' + color /></#if>
 	<#assign propagateTabStyle = style />
 	<div<#if class?trim!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -1847,28 +1847,6 @@ $(function() {
 	</#if>
 </@tform>
 </#macro>
-
-
-<#-- scroll to top button -->
-<#macro scrollTopBtn>
-<a href="#" id="scroll" style="display: none;"><span></span></a>
-<script>
-$( function(){ 
-    $(window).scroll(function(){ 
-        if ( $(this).scrollTop() > 100) { 
-            $('#scroll').fadeIn(); 
-        } else { 
-            $('#scroll').fadeOut(); 
-        } 
-    }); 
-    $('#scroll').click(function(){ 
-        $("html, body").animate({ scrollTop: 0 }, 600); 
-        return false; 
-    }); 
-});
-</script>
-</#macro>
-
 
 <#-- Display wrong or deprecated macro arguments -->
 <#macro deprecatedWarning args=[] >
