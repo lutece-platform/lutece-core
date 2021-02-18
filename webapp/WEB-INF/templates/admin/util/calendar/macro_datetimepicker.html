@@ -1,14 +1,14 @@
-<#macro getDateTimePickerBootstrap idField language format='d-m-Y H:i'>
+<#macro getDateTimePickerBootstrap idField language format='Y-m-d H:i:S'>
 	<script src="js/admin/bootstrap-flatpickr.min.js"></script>
 	<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
-	$(  function() {
+	$( function() {
  		$('#${idField}').flatpickr({enableTime: true, dateFormat: '${format}', "locale": "<@getRegional language=language />"});
 	});
 	</script>
 </#macro>
 
-<#macro getDatePickerBootstrap idField language format='d-m-Y H:i'>
+<#macro getDatePickerBootstrap idField language format='Y-m-d H:i:S'>
 	<script src="js/admin/bootstrap-flatpickr.min.js"></script>
 	<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
@@ -23,8 +23,3 @@
  #
 -->
 <#macro getRegional language><#if !('${language}'=='en')>${language}</#if></#macro>
-<#-- -------------- jQuery UI Datepicker --------------
- # More information for jQuery UI Datepicker usage :
- # http://docs.jquery.com/UI/Datepicker
- # http://marcgrabanski.com/code/ui-datepicker/
--->
