@@ -1075,7 +1075,7 @@ and is kept only for backwards compatibility
 
 <#-- Tabs List -->
 <#-- type is deprecated -->
-<#macro tabList type='tabs' vertical=false id='' params='' color=''>
+<#macro tabList style='tabs' vertical=false id='' params='' color=''>
 	<#if propagateTabStyle??><#local style = propagateTabStyle /></#if>
 <div class="tabs is-boxed is-fullwidth<#if style!='tabs'> ${style}</#if><#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<ul<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>

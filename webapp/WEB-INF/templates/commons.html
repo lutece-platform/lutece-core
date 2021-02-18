@@ -760,7 +760,7 @@
 
 <#-- Bootstrap UL tabs -->
 <#-- type is deprecated -->
-<#macro tabList type='tabs' vertical=false id='' params='' color=''>
+<#macro tabList style='tabs' vertical=false id='' params='' color=''>
 	<#if propagateTabStyle??><#local style = propagateTabStyle /></#if>
 		<ul class="nav nav-${style}<#if vertical> nav-stacked</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if vertical> style="margin-bottom:2rem;"</#if>>
 			<#nested>

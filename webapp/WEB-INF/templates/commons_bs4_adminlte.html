@@ -738,14 +738,14 @@
 
 <#-- Tabs List -->
 <#-- type is deprecated -->
-<#macro tabList type='tabs' vertical=false id='' params='' color=''>
+<#macro tabList style='tabs' vertical=false id='' params='' color=''>
 	<#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
 		<#if style != 'pills'>
 			<div class="card-header p-0 pt-1">
 		</#if>
-				<ul class="nav nav-${style}<#if vertical> flex-column mb-3</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
-					<#nested>
-				</ul>
+		<ul class="nav nav-${style}<#if vertical> flex-column mb-3</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
+			<#nested>
+		</ul>
 		<#if style != 'pills'>
 			</div>
 		</#if>
