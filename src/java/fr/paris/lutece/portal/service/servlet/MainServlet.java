@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,12 +50,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MainServlet implements Servlet
 {
+	private ServletConfig _config;
+	
     /**
      * {@inheritDoc}
      */
     @Override
     public void init( ServletConfig config ) throws ServletException
     {
+    	_config = config;
     }
 
     /**
@@ -148,7 +151,7 @@ public class MainServlet implements Servlet
     @Override
     public ServletConfig getServletConfig( )
     {
-        throw new UnsupportedOperationException( "Not supported yet." );
+    	return _config;
     }
 
     /**
