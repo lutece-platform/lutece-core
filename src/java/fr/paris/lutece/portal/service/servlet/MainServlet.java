@@ -50,13 +50,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MainServlet implements Servlet
 {
+	private ServletConfig _config;
+	
     /**
      * {@inheritDoc}
      */
     @Override
     public void init( ServletConfig config ) throws ServletException
     {
-        // Do nothing
+    	_config = config;
     }
 
     /**
@@ -149,7 +151,7 @@ public class MainServlet implements Servlet
     @Override
     public ServletConfig getServletConfig( )
     {
-        throw new UnsupportedOperationException( "Not supported yet." );
+    	return _config;
     }
 
     /**
