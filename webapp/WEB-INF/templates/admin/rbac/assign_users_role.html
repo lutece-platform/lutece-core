@@ -7,8 +7,10 @@
 	</@boxHeader>
 	<@boxBody>
 		<@row>
-			<@columns sm=2>
-				<#if assigned_users_list?size &gt; 0 || search_is_search >
+			<#assign colUserList=6 >
+			<#if assigned_users_list?size &gt; 0 || search_is_search >
+				<#assign colUserList=4 >
+				<@columns sm=2>
 					<@tform method='post' name='search_users' action='jsp/admin/rbac/AssignUsersRole.jsp'>
 						<@input type='hidden' name='role_key' value='${role.key}' />
 						<#if (user_levels?has_content)>
@@ -71,21 +73,24 @@
 							<@button type='submit' class='btn-block' name='search_is_search' buttonIcon='search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}'  />
 						</@formGroup>
 					</@tform>
-				</#if>
-			</@columns>
-    		<@columns sm=4>
+				</@columns>
+			</#if>
+    		<@columns sm=colUserList>
         		<h3>#i18n{portal.rbac.assign_users.labelAvailableUser}</h3>
 				<#if available_users_list?size &gt; 0 >
 					<@tform name='assignUser' method='post' action='jsp/admin/rbac/DoAssignUsersRole.jsp'>
 						<@input type='hidden' name='role_key' value='${role.key}' />
 						<@input type='hidden' name='token' value='${token}' />
-						<@select name='available_users_list' default_value='' items=available_users_list multiple=15 />
-						<@button style='btn-block' type='submit' buttonIcon='check' title='#i18n{portal.rbac.assign_users.labelButtonValidate}' size=''  />
+						<@formGroup rows=2>
+							<@select name='available_users_list' default_value='' items=available_users_list multiple=16 />
+						</@formGroup>
+						<@formGroup rows=2>
+							<@button style='btn-block' type='submit' buttonIcon='check' title='#i18n{portal.rbac.assign_users.labelButtonValidate}'  />
+						</@formGroup>
 					</@tform>
 				<#else>
 					<@callOut color='warning'>
-						<@icon style='exclamation-triangle' />
-						#i18n{portal.rbac.assign_users.noUserToAssign}
+						<@icon style='exclamation-triangle' /> #i18n{portal.rbac.assign_users.noUserToAssign}
 					</@callOut>
 				</#if>
 				</h3>
@@ -132,9 +137,7 @@
 									<td>${assigned_user.firstName}</td>
 									<td><em>${assigned_user.accessCode}</em></td>
 									<td>
-										<@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'>
-											${assigned_user.email}
-										</@link>
+										<@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'>${assigned_user.email}</@link>
 									</td>
 									<td>
 										<@tform method='post' action='jsp/admin/rbac/DoUnassignUserRole.jsp'>
