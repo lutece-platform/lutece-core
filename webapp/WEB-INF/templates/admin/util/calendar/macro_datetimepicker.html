@@ -8,14 +8,14 @@
 	</script>
 </#macro>
 
-<#macro getDatePickerBootstrap idField language format='Y-m-d H:i:S'>
-	<script src="js/admin/bootstrap-flatpickr.min.js"></script>
-	<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
-	<script type="text/javascript" charset="utf-8">
-	$(  function() {
- 		$('#${idField}').flatpickr({enableTime: false, dateFormat: '${format}', "locale": "<@getRegional language=language />"});
-	});
-	</script>
+<#macro getDateFlatPicker idField language format='d/m/Y'>
+<script src="js/admin/bootstrap-flatpickr.min.js"></script>
+<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+$(  function() {
+	$('#${idField}').flatpickr({enableTime: false, dateFormat: '${format}', "locale": "<@getRegional language=language />"});
+});
+</script>
 </#macro>
 
 <#-- getRegional
