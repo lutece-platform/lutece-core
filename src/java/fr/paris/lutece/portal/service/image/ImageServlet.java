@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020, City of Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -93,7 +93,7 @@ public class ImageServlet extends HttpServlet
                 if ( getImageExist( image ) )
                 {
                     response.setContentType( image.getMimeType( ) );
-                    try( OutputStream out = response.getOutputStream( ) )
+                    try ( OutputStream out = response.getOutputStream( ) )
                     {
                         out.write( image.getImage( ) );
                     }
@@ -112,7 +112,7 @@ public class ImageServlet extends HttpServlet
                     File file = new File( strImageUrl );
                     response.setContentLength( (int) file.length( ) );
 
-                    try( FileInputStream in = new FileInputStream( file ) ; OutputStream out = response.getOutputStream( ) )
+                    try ( FileInputStream in = new FileInputStream( file ) ; OutputStream out = response.getOutputStream( ) )
                     {
                         // Copy the contents of the file to the output stream
                         byte [ ] buf = new byte [ 1024];

@@ -304,4 +304,5 @@
             </list>
         </property>
     </bean>
+    <bean id="basicFileDownloadProvider" class="fr.paris.lutece.portal.service.download.BasicFileDownloadProvider" />
 </beans>
