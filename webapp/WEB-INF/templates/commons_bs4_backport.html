@@ -259,6 +259,10 @@
 	</@formGroup>
 </#macro>
 
+<#macro getDatePickerBootstrap idField language format='' >
+   <@getDateFlatPicker idField=idField language=language  />
+</#macro>
+
 <#macro boxSized col i18nTitleKey boxClass='box-primary' >
 <!-- WARNING : macro boxSized is deprecated -->
     <@columns md=col>
