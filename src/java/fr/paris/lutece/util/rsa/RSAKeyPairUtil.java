@@ -99,7 +99,7 @@ public class RSAKeyPairUtil
         else
         {
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance( "RSA" );
-            keyGen.initialize( 1024 );
+            keyGen.initialize( 2048 );
             KeyPair pair = keyGen.generateKeyPair( );
             this._privateKey = pair.getPrivate( );
             this._publicKey = pair.getPublic( );
