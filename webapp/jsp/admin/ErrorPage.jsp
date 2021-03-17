@@ -15,6 +15,7 @@
 <%!
 	private final static String JSP_URL_MODIFY_DEFAULT_USER_PASSWORD = "jsp/admin/user/ModifyDefaultUserPassword.jsp";
 
+    private final static String PROPERTY_ADMIN_HOME_LABEL = "portal.util.error.page.buttonAdminHomeLabel";
 	private final static String PROPERTY_DEBUG = "error.page.debug";
 	private final static String PROPERTY_DEBUG_DEFAULT = "true";
 	private final static String PROPERTY_MESSAGE = "portal.util.error.page.message";
@@ -92,7 +93,7 @@
 			{
 			    //AppException calls AppLogService.error( message, this ) in the
 			    //constructor, so don't call it here again Call toString to have
-			    //the Class and the message to be able to indentify the correct
+			    //the Class and the message to be able to identify the correct
 			    //stacktrace in the preceding logs.
 			    AppLogService.error( "Error 500 : Caused by previous Critical AppException" );
 			}
@@ -124,7 +125,8 @@
 			</pre>
 			<p>
 				<a class="btn btn-danger" href="jsp/site/Portal.jsp">
-					<i class="icon-home icon-white"></i>&nbsp;Accueil du site
+					<i class="icon-home icon-white"></i>
+					   &nbsp;<%= I18nService.getLocalizedString(PROPERTY_HOME, request.getLocale() ) %>
 				</a>
 			</p>
 			<%
@@ -137,7 +139,8 @@
 			</p>
 			<p>
 				<a class="btn btn-danger" href="<%= AppPathService.getAdminMenuUrl() %>">
-					<i class="icon-home icon-white"></i>&nbsp;Accueil de l'administration du site
+					<i class="icon-home icon-white"></i>
+					&nbsp;<%= I18nService.getLocalizedString(PROPERTY_ADMIN_HOME_LABEL, request.getLocale() ) %>
 				</a>
 			</p>
 			<%
