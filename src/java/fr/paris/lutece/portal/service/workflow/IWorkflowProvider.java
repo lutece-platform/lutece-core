@@ -51,15 +51,14 @@ import javax.servlet.http.HttpServletRequest;
 public interface IWorkflowProvider
 {
     // GET
-	
 
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
      *
      * @param nIdResource
-     * 			the id of the document
+     *            the id of the document
      * @param strResourceType
-     * 			the type of the document
+     *            the type of the document
      * @param listActions
      *            the list actions
      * @param user
@@ -67,14 +66,12 @@ public interface IWorkflowProvider
      * @return a list of Action
      */
     Collection<Action> getActions( int nIdResource, String strResourceType, Collection<Action> listActions, User user );
-    
-    
-    
+
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
      * 
      * @param strResourceType
-     * 			the type of the document
+     *            the type of the document
      * @param mapActions
      *            the map actions
      * @param user
@@ -82,7 +79,6 @@ public interface IWorkflowProvider
      * @return a list of Action
      */
     Map<Integer, List<Action>> getActions( String strResourceType, Map<Integer, List<Action>> mapActions, User user );
-
 
     /**
      * Returns authorized action list
@@ -92,7 +88,7 @@ public interface IWorkflowProvider
      * @param user
      * @return authorized action list
      */
-    Collection<Action> getAuthorizedActions( Collection<Action> listActions, User user ) ;
+    Collection<Action> getAuthorizedActions( Collection<Action> listActions, User user );
 
     /**
      * returns the actions history performed on a resource.
@@ -111,9 +107,8 @@ public interface IWorkflowProvider
      *            the User
      * @return the history of actions performed on a resource
      */
-    String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale, User user);
+    String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale, User user );
 
-    
     /**
      * returns the actions history performed on a resource.
      *
@@ -131,15 +126,14 @@ public interface IWorkflowProvider
      *            The model to add to the default model
      * @param strTemplate
      *            The template
-     * @param user 
-     * 			  the User        
+     * @param user
+     *            the User
      * @return the history of actions performed on a resource
      */
-    
-    String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale,
-            Map<String, Object> model, String strTemplate,User user );
 
-     
+    String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale,
+            Map<String, Object> model, String strTemplate, User user );
+
     /**
      * returns a xml wich contains the actions history performed on a resource.
      *
@@ -156,9 +150,8 @@ public interface IWorkflowProvider
      * @param user
      * @return a xml wich contains the history of actions performed on a resource
      */
-    String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale,  User user );
+    String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale, User user );
 
-   
     /**
      * returns the tasks form.
      *
@@ -172,14 +165,13 @@ public interface IWorkflowProvider
      *            the request
      * @param locale
      *            the locale
-     * @param user 
-     * 			  the User        
- 
+     * @param user
+     *            the User
+     * 
      * @return the tasks form associated to the action
      */
-    String getDisplayTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale, User user);
+    String getDisplayTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale, User user );
 
-   
     /**
      * Get all authorized resource Id.
      *
@@ -195,10 +187,9 @@ public interface IWorkflowProvider
      *            the User
      * @return The list
      */
-    
+
     List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState, Integer nExternalParentId, User user );
 
-   
     /**
      * Get all authorized resource Id.
      *
@@ -217,7 +208,6 @@ public interface IWorkflowProvider
     List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, List<Integer> lListIdWorkflowState, Integer nExternalParentId,
             User user );
 
-   
     /**
      * return a referencelist wich contains a list enabled workflow.
      *
@@ -228,7 +218,6 @@ public interface IWorkflowProvider
      * @return a referencelist wich contains a list enabled workflow
      */
     ReferenceList getWorkflowsEnabled( User user, Locale locale );
-
 
     /**
      * returns all state of a given workflow.
@@ -241,17 +230,16 @@ public interface IWorkflowProvider
      */
     Collection<State> getAllStateByWorkflow( Collection<State> listStates, User user );
 
-
     /**
      * The user access code.
      *
      * @param request
      *            the HTTP request
-     * @param user  the RBACUser             
+     * @param user
+     *            the RBACUser
      * @return the user access code
      */
     String getUserAccessCode( HttpServletRequest request, User user );
-
 
     // CHECK
 
@@ -270,24 +258,23 @@ public interface IWorkflowProvider
      */
     boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, User user );
 
-
     /**
      * Check if the action can be proceed for the given resource.
      *
      * @param nIdResource
-     * 			the id of the resource
+     *            the id of the resource
      * @param strResourceType
-     * 			the type of the resource
+     *            the type of the resource
      * @param nIdAction
      *            the id action
      * @param request
      *            the HTTP request
-     * @param user the User          
+     * @param user
+     *            the User
      * @return true if the action can proceed, false otherwise
      */
     boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, User user );
-    
-    
+
     // DO
 
     /**
@@ -303,9 +290,10 @@ public interface IWorkflowProvider
      *            the request
      * @param locale
      *            the locale
-     * @param user the user
+     * @param user
+     *            the user
      * @return null if there is no error in the tasks form, return the error message otherwise
      */
-    String doValidateTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale , User user );
+    String doValidateTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale, User user );
 
 }

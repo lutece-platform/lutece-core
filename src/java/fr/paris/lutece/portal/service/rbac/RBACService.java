@@ -97,11 +97,12 @@ public final class RBACService
      * @param user
      *            the user trying to access the ressource
      * @return true if the user can access the given resource with the given permission, false otherwise
+     * @deprecated use isAuthorized( String, String, String, User )
      */
     @Deprecated
     public static boolean isAuthorized( String strResourceTypeCode, String strResourceId, String strPermission, AdminUser user )
     {
-        return isAuthorized(strResourceTypeCode, strResourceId, strPermission, (User) user);
+        return isAuthorized( strResourceTypeCode, strResourceId, strPermission, (User) user );
     }
 
     /**
@@ -137,11 +138,12 @@ public final class RBACService
      * @param user
      *            the user trying to access the ressource
      * @return true if the user can access the given resource with the given permission, false otherwise
+     * @deprecated use isAuthorized( RBACResource, String, User )
      */
     @Deprecated
     public static boolean isAuthorized( RBACResource resource, String strPermission, AdminUser user )
     {
-        return isAuthorized( resource, strPermission, (User) user);
+        return isAuthorized( resource, strPermission, (User) user );
     }
 
     /**
@@ -168,6 +170,7 @@ public final class RBACService
      * @param strRole
      *            The role
      * @return true if the user has the given role, false otherwise
+     * @deprecated use isUserInRole( User, String )
      */
     @Deprecated
     public static boolean isUserInRole( AdminUser user, String strRole )
@@ -215,11 +218,12 @@ public final class RBACService
      * @param user
      *            The user
      * @return A filtered collection of resources
+     * @deprecated use getAuthorizedCollection( Collection, String, User )
      */
     @Deprecated
     public static <E extends RBACResource> Collection<E> getAuthorizedCollection( Collection<E> collection, String strPermission, AdminUser user )
     {
-        return getAuthorizedCollection( collection, strPermission, (User) user);
+        return getAuthorizedCollection( collection, strPermission, (User) user );
     }
 
     /**
@@ -262,11 +266,12 @@ public final class RBACService
      * @param user
      *            The user
      * @return The filtered collection
+     * @deprecated use getAuthorizedReferenceList( ReferenceList, String, String, User )
      */
     @Deprecated
     public static ReferenceList getAuthorizedReferenceList( ReferenceList listResources, String strResourceType, String strPermission, AdminUser user )
     {
-        return getAuthorizedReferenceList(listResources, strResourceType, strPermission, (User) user );
+        return getAuthorizedReferenceList( listResources, strResourceType, strPermission, (User) user );
     }
 
     /**
@@ -309,11 +314,12 @@ public final class RBACService
      * @param user
      *            The user
      * @return The filtered collection
+     * @deprecated use getAuthorizedActionsCollection( Collection, RBACResource, User )
      */
     @Deprecated
     public static <E extends RBACAction> Collection<E> getAuthorizedActionsCollection( Collection<E> collection, RBACResource resource, AdminUser user )
     {
-         return getAuthorizedActionsCollection(collection, resource, (User) user);
+        return getAuthorizedActionsCollection( collection, resource, (User) user );
     }
 
 }
