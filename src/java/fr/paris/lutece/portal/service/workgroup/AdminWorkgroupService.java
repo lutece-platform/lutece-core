@@ -87,7 +87,7 @@ public final class AdminWorkgroupService
      * @param user
      *            The current user
      * @return true if authorized, otherwise false
-     * 
+     * @deprecated use isAuthorized( AdminWorkgroupResource, User )
      */
     @Deprecated
     public static boolean isAuthorized( AdminWorkgroupResource resource, AdminUser user )
@@ -131,6 +131,7 @@ public final class AdminWorkgroupService
      *            The collection to filter
      * @param user
      *            The user
+     * @deprecated use getAuthorizedCollection( Collection, User )
      */
     @Deprecated
     public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection, AdminUser user )
