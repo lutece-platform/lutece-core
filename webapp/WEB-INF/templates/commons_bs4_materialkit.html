@@ -1035,7 +1035,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- color: default/primary/success/warning/danger/info/ -->
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='' style='btn' align='' class='' params='' title='' tabIndex='' hideTitle=[]  buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false   deprecated...>
+<#macro aButton name='' id='' href='' target='' size='' color='' style='btn' align='' class='' params='' title='' tabIndex='' hideTitle=[]  buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false deprecated...>
 <@deprecatedWarning args=deprecated />	
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
@@ -1060,7 +1060,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		</#if>
 	</#if>
 	
-	<a class="${style} <#if size!=''> btn-${size}</#if> btn-${buttonColor}<#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+	<a class="${style} <#if size!=''> btn-${size}</#if> btn-${buttonColor}<#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<span class="${displayTitleClass}">${title}</span>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>

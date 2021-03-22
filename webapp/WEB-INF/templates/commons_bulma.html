@@ -1309,7 +1309,7 @@ and is kept only for backwards compatibility
 <#-- color: default/primary/success/warning/danger/info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
 <#-- style: disabled ignored : btn-block/btn-flat/btn-app-->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false   deprecated...>
+<#macro aButton name='' id='' href='' target='' size='' color='primary' style='' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false deprecated...>
 <@deprecatedWarning args=deprecated />	>
 <#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default' || color = 'secondary'>
@@ -1347,7 +1347,7 @@ and is kept only for backwards compatibility
 	<div class="dropdown-trigger">
 </#if>
 
-<a class="button is-grouped <#if buttonSize!=''>is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+<a class="button is-grouped <#if buttonSize!=''>is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
    <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /> &nbsp; </#if>
 	<span class="${displayTitleClass}">${title}</span>
 	<#if buttonIcon!='' && iconPosition='right'> &nbsp; <@icon style=buttonIcon /></#if>
