@@ -917,7 +917,8 @@
 <#-- buttonNested=false : If true add content inside the button else -default- outside  -->
 <#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
 
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' buttonNested=false>
+<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' deprecated...>
+	<@deprecatedWarning args=deprecated />
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
 	<#elseif !cancel && color=''>
@@ -964,25 +965,23 @@
 		</#if>
 	</#if>
 	
-	<#if buttonNested><#local dropdownMenu=false /></#if>
-	
 	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<#if !buttonNested>
+		<#local nestedContent><#nested /></#local>
+		<#local nestedContent = nestedContent?trim />
+		<#if nestedContent=''>
 			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
 				${title}
 			<#if displayTitleClass!=''></span></#if>
 		</#if>
-		<#if buttonNested><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
+		<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 	</button>
 	
 	<#if dropdownMenu>
 		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
-			<#if !buttonNested><#nested></#if>
+			<#nested>
 		</ul>
-	<#else>
-		<#if !buttonNested><#nested></#if>
 	</#if>
 </#macro>
 
