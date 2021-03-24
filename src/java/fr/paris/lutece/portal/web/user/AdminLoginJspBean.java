@@ -47,6 +47,8 @@ import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.security.AccessLogService;
+import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -102,6 +104,11 @@ public class AdminLoginJspBean implements Serializable
     private static final String CONSTANT_SLASH = "/";
     private static final String CONSTANT_HTTP = "http";
     private static final String REGEX_ID = "^[\\d]+$";
+    
+    private static final String CONSTANT_ACTION_DORESETPASSWORD = "doResetPwd";
+    private static final String CONSTANT_ACTION_DOFORGOTPASSWORD = "doForgotPwd";
+    private static final String CONSTANT_ACTION_DOFORGOTLOGIN = "doForgotLogin";
+    private static final String CONSTANT_ACTION_DOLOGOUT = "doLogout";
 
     // Jsp
     private static final String JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD = "jsp/admin/user/ModifyDefaultUserPassword.jsp";
@@ -523,6 +530,8 @@ public class AdminLoginJspBean implements Serializable
 
         MailService.sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
 
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTPASSWORD, user, null );
+
         return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
     }
 
@@ -603,6 +612,9 @@ public class AdminLoginJspBean implements Serializable
         AdminUserHome.update( user );
         AdminUserHome.insertNewPasswordInHistory( user.getPassword( ), user.getUserId( ) );
 
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DORESETPASSWORD, user, null );
+
+        
         return AdminMessageService.getMessageUrl( request, MESSAGE_RESET_PASSORWD_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
     }
 
@@ -654,6 +666,8 @@ public class AdminLoginJspBean implements Serializable
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_LOGIN, locale, model );
 
         MailService.sendMailHtml( strEmail, strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
+
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTLOGIN, null, strAccessCode );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_FORGOT_LOGIN_SENDING_SUCCESS, AdminMessage.TYPE_INFO );
     }
@@ -728,6 +742,8 @@ public class AdminLoginJspBean implements Serializable
         // Invalidation of the session
         HttpSession session = request.getSession( );
 
+        AdminUser user = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
+                
         if ( session != null )
         {
             session.invalidate( );
@@ -735,6 +751,8 @@ public class AdminLoginJspBean implements Serializable
 
         String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
 
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOLOGOUT, user, null );
+                
         return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_LOGOUT, strLoginUrl, AdminMessage.TYPE_INFO );
     }
 }

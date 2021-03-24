@@ -60,12 +60,18 @@ public final class SecurityService
      * Session attribute that stores the LuteceUser object attached to the session
      */
     private static final String ATTRIBUTE_LUTECE_USER = "lutece_user";
+    
     private static final String PROPERTY_AUTHENTICATION_CLASS = "mylutece.authentication.class";
     private static final String PROPERTY_AUTHENTICATION_ENABLE = "mylutece.authentication.enable";
     private static final String PROPERTY_PORTAL_AUTHENTICATION_REQUIRED = "mylutece.portal.authentication.required";
+    
     private static final String URL_INTERROGATIVE = "?";
     private static final String URL_AMPERSAND = "&";
     private static final String URL_EQUAL = "=";
+    
+    private static final String CONSTANT_ACTION_LOGIN_USER = "user.loginUser";
+    private static final String CONSTANT_ACTION_LOGOUT_USER = "user.logoutUser";
+    
     private static SecurityService _singleton = new SecurityService( );
     private static LuteceAuthentication _authenticationService;
     private static boolean _bEnable;
@@ -245,16 +251,22 @@ public final class SecurityService
             throws LoginException, LoginRedirectException
     {
         LuteceUser user = _authenticationService.login( strUserName, strPassword, request );
+
         _authenticationService.updateDateLastLogin( user, request );
 
         if ( _authenticationService.findResetPassword( request, strUserName ) )
         {
             String redirect = _authenticationService.getResetPasswordPageUrl( request );
             registerUser( request, user );
+            AccessLogService.getInstance( ).info(  AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null );
+            
             throw new LoginRedirectException( redirect );
         }
 
         registerUser( request, user );
+        
+        AccessLogService.getInstance( ).info(  AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null );
+
     }
 
     /**
@@ -275,8 +287,13 @@ public final class SecurityService
             return;
         }
 
+        String strUserName = (user!=null?user.getName( ):"");
+        
         _authenticationService.logout( user );
         unregisterUser( request );
+
+        AccessLogService.getInstance( ).info(  AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null );
+        
     }
 
     /**

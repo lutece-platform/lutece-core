@@ -202,12 +202,16 @@
           class="fr.paris.lutece.portal.service.prefs.BaseUserPreferencesServiceImpl">
         <property name="dao" ref="adminUserPreferencesDAO" />
     </bean>
+
     <!-- Security Token Service -->
     <bean id="securityTokenService" class="fr.paris.lutece.portal.service.security.SecurityTokenService" />
     <!-- Cleaner HTML -->
     <!-- Cleaner Jsoup HTML -->
     <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JSoupHtmlCleaner" />
 
+    <!-- Accesslogger service -->
+    <bean id="accessLogger" class="fr.paris.lutece.portal.service.security.impl.DefaultAccessLogger" />
+    
     <!-- Site Properties Groups -->
     <bean id="sitePropertiesGroup"
           class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />

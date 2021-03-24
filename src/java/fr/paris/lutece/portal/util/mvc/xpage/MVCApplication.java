@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.util.mvc.xpage;
 
+import fr.paris.lutece.portal.service.security.AccessLogService;
+import fr.paris.lutece.portal.service.security.IAccessLogger;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -56,6 +58,9 @@ import org.springframework.util.ReflectionUtils;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
@@ -90,6 +95,8 @@ public abstract class MVCApplication implements XPageApplication
     private static final String VIEW_MESSAGEBOX = "messageBox";
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String CONTENT_TYPE_XML = "application/xml";
+    private static final String PROPERTY_SITE_CODE = "lutece.code";
+    
     private static Logger _logger = MVCUtils.getLogger( );
     private List<ErrorMessage> _listErrors = new ArrayList<>( );
     private List<ErrorMessage> _listInfos = new ArrayList<>( );
@@ -143,11 +150,14 @@ public abstract class MVCApplication implements XPageApplication
                 return messageBox( request );
             }
 
+            LuteceUser registredUser = getRegistredUser( request );
+            
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
 
             if ( m != null )
             {
+                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ));
                 return (XPage) m.invoke( this, request );
             }
 
@@ -156,12 +166,14 @@ public abstract class MVCApplication implements XPageApplication
 
             if ( m != null )
             {
+                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ));
                 return (XPage) m.invoke( this, request );
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
 
+            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ));
             return (XPage) m.invoke( this, request );
         }
         catch( InvocationTargetException e )
@@ -868,5 +880,26 @@ public abstract class MVCApplication implements XPageApplication
         model.put( MARK_MESSAGE_BOX, _messageBox );
 
         return getXPage( _messageBox.getTemplate( ), getLocale( request ), model );
+    }
+    
+    /**
+     * get the registred User 
+     * 
+     * @param request
+     * @return the lutece user if registred, null otherwise
+     */
+    protected LuteceUser getRegistredUser( HttpServletRequest request )
+    {
+    	// get authenticated user if authentication is enable
+        if ( SecurityService.isAuthenticationEnable( ) ) 
+        {
+        	LuteceUser luteceUser = SecurityService.getInstance( ).getRegisteredUser( request );
+        	if ( luteceUser != null )
+        	{
+        		return luteceUser;
+        	}
+        }
+        
+        return null;
     }
 }
