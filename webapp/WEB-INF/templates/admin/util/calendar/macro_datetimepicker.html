@@ -1,11 +1,11 @@
-<#macro getDateTimePickerBootstrap idField language format='Y-m-d H:i:S'>
-	<script src="js/admin/bootstrap-flatpickr.min.js"></script>
-	<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
-	<script type="text/javascript" charset="utf-8">
-	$( function() {
- 		$('#${idField}').flatpickr({enableTime: true, dateFormat: '${format}', "locale": "<@getRegional language=language />"});
-	});
-	</script>
+<#macro getDateTimePickerBootstrap idField language format='Y-m-d H:i:S' showFormat='d-m-Y H:i'>
+<script src="js/admin/bootstrap-flatpickr.min.js"></script>
+<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+$( function() {
+	$('#${idField}').flatpickr({enableTime: true, <#if showFormat !=''>altInput:true, altFormat:'${showFormat}'</#if>, dateFormat: '${format}', "locale": "<@getRegional language=language />"});
+});
+</script>
 </#macro>
 
 <#macro getDateFlatPicker idField language format='d/m/Y'>
