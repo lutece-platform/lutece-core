@@ -1234,74 +1234,69 @@ and is kept only for backwards compatibility
 <#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
 
 <#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' deprecated...>
-	<@deprecatedWarning args=deprecated />
-	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
-		<#local buttonColor = 'default' />
-	<#elseif !cancel && color=''>
-		<#local buttonColor = 'primary' />
+<@deprecatedWarning args=deprecated />
+<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
+	<#local buttonColor = 'default' />
+<#elseif !cancel && color=''>
+	<#local buttonColor = 'primary' />
+<#else>
+	<#local buttonColor = color />
+</#if>
+<#-- Visibility of button title -->
+<#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
+<#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
+<#local showTitleClass = '' />
+<#if showTitle = false><#local showTitleClass = 'sr-only' /></#if>
+<#if showTitleXs = false><#local showTitleClass = showTitleClass + ' hidden-xs' /></#if>
+<#if showTitleSm = false><#local showTitleClass = showTitleClass + ' hidden-sm' /></#if>
+<#if showTitleMd = false><#local showTitleClass = showTitleClass + ' hidden-md' /></#if>
+<#if showTitleLg = false><#local showTitleClass = showTitleClass + ' hidden-lg' /></#if>
+<#if style != ''>
+	<#if style?contains('card-control')>
+		<#if style?contains('collapse')>
+			<#local widgetAction = 'collapse' />
+			<div style="display:none;">
+				<script type="text/javascript">
+					$(document).ready(function() {
+						<#if buttonIcon = 'minus'>
+						$("${buttonTargetId}").addClass("collapse in");
+						<#else>
+						$("${buttonTargetId}").addClass("collapse");
+						</#if>
+					});
+				</script>
+			</div>
+		<#elseif style?contains('remove')>
+			<#local widgetAction = 'remove' />
+		</#if>
+		<#local btnStyle = style?replace('collapse|remove', '', 'r')?trim />
+	<#elseif style?contains('modal')>
+		<#local widgetAction = 'modal' />
+		<#local btnStyle = style?replace('modal', '', 'r')?trim />
 	<#else>
-		<#local buttonColor = color />
+		<#local btnStyle = style />
 	</#if>
-	
-	<#-- Visibility of button title -->
-	<#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
-	
-	<#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
-	<#local showTitleClass = '' />
-	<#if showTitle = false><#local showTitleClass = 'sr-only' /></#if>
-	<#if showTitleXs = false><#local showTitleClass = showTitleClass + ' hidden-xs' /></#if>
-	<#if showTitleSm = false><#local showTitleClass = showTitleClass + ' hidden-sm' /></#if>
-	<#if showTitleMd = false><#local showTitleClass = showTitleClass + ' hidden-md' /></#if>
-	<#if showTitleLg = false><#local showTitleClass = showTitleClass + ' hidden-lg' /></#if>
-	
-	<#if style != ''>
-		<#if style?contains('card-control')>
-			<#if style?contains('collapse')>
-				<#local widgetAction = 'collapse' />
-				<div style="display:none;">
-					<script type="text/javascript">
-						$(document).ready(function() {
-							<#if buttonIcon = 'minus'>
-							$("${buttonTargetId}").addClass("collapse in");
-							<#else>
-							$("${buttonTargetId}").addClass("collapse");
-							</#if>
-						});
-					</script>
-				</div>
-			<#elseif style?contains('remove')>
-				<#local widgetAction = 'remove' />
-			</#if>
-			<#local btnStyle = style?replace('collapse|remove', '', 'r')?trim />
-		<#elseif style?contains('modal')>
-			<#local widgetAction = 'modal' />
-			<#local btnStyle = style?replace('modal', '', 'r')?trim />
-		<#else>
-			<#local btnStyle = style />
-		</#if>
+</#if>
+<button class="<#if style!='close'>button</#if><#if size!=''> is-${size}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+	<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
+	<#local nestedContent><#nested /></#local>
+	<#local nestedContent = nestedContent?trim />
+	<#if nestedContent=''>
+		<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
+			${title}
+		<#if displayTitleClass!=''></span></#if>
 	</#if>
-	
-	<button class="<#if style!='close'>button</#if><#if size!=''> is-${size}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
-		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<#local nestedContent><#nested /></#local>
-		<#local nestedContent = nestedContent?trim />
-		<#if nestedContent=''>
-			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
-				${title}
-			<#if displayTitleClass!=''></span></#if>
-		</#if>
-		<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
-		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
-		<#if dropdownMenu>
-		&#160;<@icon style='caret-down' />
-		</#if>
-	</button>
-	
+	<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
+	<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 	<#if dropdownMenu>
-		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
-			<#nested>
-		</ul>
+	  <@icon style='caret-down' />
 	</#if>
+</button>
+<#if dropdownMenu>
+	<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
+		<#nested>
+	</ul>
+</#if>
 </#macro>
 
 <#-- A BUTTON (LINK STYLED AS A BUTTON) -->
@@ -1310,43 +1305,39 @@ and is kept only for backwards compatibility
 <#-- style: disabled ignored : btn-block/btn-flat/btn-app-->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
 <#macro aButton name='' id='' href='' target='' size='' color='primary' style='' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false deprecated...>
-<@deprecatedWarning args=deprecated />	>
+<@deprecatedWarning args=deprecated />
 <#local displayTitleClass = displaySettings(hideTitle,'inline') />
-	<#if cancel || color = 'default' || color = 'secondary'>
-		<#assign buttonColor = 'light' />
-	<#elseif !cancel && color=''>
-		<#assign buttonColor = 'primary' />
-	<#else>
-		<#assign buttonColor = color />
-	</#if>
-	<#if style='card-control'>
-		<#assign style='text-right btn-link' />
-	</#if>
-
+<#if cancel || color = 'default' || color = 'secondary'>
+	<#assign buttonColor = 'light' />
+<#elseif !cancel && color=''>
+	<#assign buttonColor = 'primary' />
+<#else>
+	<#assign buttonColor = color />
+</#if>
+<#if style='card-control'>
+	<#assign style='text-right btn-link' />
+</#if>
 <#switch size>
-    <#case 'xs'>
-        <#assign buttonSize='small'>
-        <#break>
-    <#case 'sm'>
-        <#assign buttonSize='small'>
-        <#break>
-    <#case 'md'>
-        <#assign buttonSize='medium'>
-        <#break>
-    <#case 'lg'>
-        <#assign buttonSize='large'>
-        <#break>
-    <#default>
-        <#assign buttonSize='normal'>
+<#case 'xs'>
+	<#assign buttonSize='small'>
+	<#break>
+<#case 'sm'>
+	<#assign buttonSize='small'>
+	<#break>
+<#case 'md'>
+	<#assign buttonSize='medium'>
+	<#break>
+<#case 'lg'>
+	<#assign buttonSize='large'>
+	<#break>
+<#default>
+	<#assign buttonSize='normal'>
 </#switch>
-
 <#local class += alignmentSettings(align) />
-
 <#if dropdownMenu>
 <div class="dropdown">
 	<div class="dropdown-trigger">
 </#if>
-
 <a class="button is-grouped <#if buttonSize!=''>is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
    <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /> &nbsp; </#if>
 	<span class="${displayTitleClass}">${title}</span>
@@ -1356,7 +1347,7 @@ and is kept only for backwards compatibility
 		<#nested>
 	</#if>
 </a>
-	<#if dropdownMenu>
+<#if dropdownMenu>
 	</div>
 	<div class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if> role="menu">
 		<div class="dropdown-content">
@@ -1364,7 +1355,7 @@ and is kept only for backwards compatibility
 		</div>
 	</div>
 </div>
-	</#if>
+</#if>
 </#macro>
 
 <#-- BTN TOOLBAR -->
