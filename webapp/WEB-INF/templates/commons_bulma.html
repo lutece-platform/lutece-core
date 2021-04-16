@@ -9,7 +9,6 @@
 <#macro commonsName>Commons Bulma 0.7.2</#macro>
 <#macro commonsDescription>Freemarker Commons macros powered by Bulma CSS Framework v0.7.2</#macro>
 
-
 <#macro coreAdminCSSLinks>
 <link href="css/admin/style/bulma/bulma.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/style/bulma/bulma-accordion.min.css"  rel="stylesheet" > <!-- provided by core -->
@@ -1459,6 +1458,12 @@ and is kept only for backwards compatibility
 	<#nested>
 	</ul>
 </nav>
+</#macro>
+
+<#macro breadcrumbItem class='' id='' params=''>
+<li <#if class!=''>class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</li>
 </#macro>
 
 <#-- CALLOUT -->

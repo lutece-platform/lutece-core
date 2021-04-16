@@ -1115,6 +1115,12 @@
 </ol>
 </#macro>
 
+<#macro breadcrumbItem class='' id='' params=''>
+<li<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</li>
+</#macro>
+
 <#-- CALLOUT -->
 <#-- AdminLTE classes: info/warning/danger/success -->
 <#macro callOut color='' titleLevel='h3' title='' callOutIcon='' id='' params=''>

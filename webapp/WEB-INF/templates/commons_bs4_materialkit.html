@@ -1169,6 +1169,12 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </ol>
 </#macro>
 
+<#macro breadcrumbItem class='' id='' params=''>
+<li class="breadcrumb-item <#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</li>
+</#macro>
+
 <#-- CALLOUT -->
 <#-- AdminLTE classes: info/warning/danger/success -->
 <#macro callOut color='' titleLevel='h3' title='' callOutIcon='' id='' params=''>
