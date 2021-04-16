@@ -1125,9 +1125,11 @@
 
 <#-- BREADCRUMBS -->
 <#macro breadcrumbs id='' params=''>
-<ol class="breadcrumb"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</ol>
+<nav aria-label="breadcrumb">
+	<ol class="breadcrumb"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</ol>
+</nav>
 </#macro>
 
 <#-- CALLOUT -->

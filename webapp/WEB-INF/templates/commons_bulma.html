@@ -1463,9 +1463,11 @@ and is kept only for backwards compatibility
 
 <#-- BREADCRUMBS -->
 <#macro breadcrumbs id='' params=''>
-<ol class="breadcrumb"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<nav class="breadcrumb" aria-label="breadcrumbs">
+	<ul<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
-</ol>
+	</ul>
+</nav>
 </#macro>
 
 <#-- CALLOUT -->
