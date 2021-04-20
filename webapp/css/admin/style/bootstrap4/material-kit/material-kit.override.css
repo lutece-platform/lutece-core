@@ -14,6 +14,7 @@
 /* decreased font size to match new Font Awesome "fas" class */
 .btn.btn-fab, .btn.btn-just-icon {
     font-size: 20px;
+	line-height:30px;
 }
 
 .form-inline .bmd-form-group {padding-top:0;}
