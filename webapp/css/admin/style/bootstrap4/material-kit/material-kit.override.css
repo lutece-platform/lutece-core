@@ -11,6 +11,11 @@
     padding: .40rem .80rem;
 }
 
+/* decreased font size to match new Font Awesome "fas" class */
+.btn.btn-fab, .btn.btn-just-icon {
+    font-size: 20px;
+}
+
 .form-inline .bmd-form-group {padding-top:0;}
 
 .card-login .card-body {

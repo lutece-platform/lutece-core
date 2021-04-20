@@ -362,11 +362,11 @@
 
 <#-- ICONS -->
 <#-- Icons from FontAwesome 5.8.1 -->
-<#macro icon prefix='fa-' style='' class='' title='' id='' params=''>
+<#macro icon prefix='fa-' style='' class='fa-sm' title='' id='' params=''>
 <#if style='docker' || style = 'github' || style='gitlab' || style='java' || style='jira' || style='jenkins' || style = 'twitter' >
 	<#local prefix = 'fab ' + prefix />
 <#else>
-	<#local prefix = 'fa ' + prefix />
+	<#local prefix = 'fas ' + prefix />
 </#if>
 <#switch style>
 	<#case 'arrows'>
