@@ -1,5 +1,5 @@
 /*
- * BS3 + AdminLTE JS
+ * BULMA
  *
  */
 
@@ -65,13 +65,7 @@ $( function(){
 	    forcePlaceholderSize: true,
 	    zIndex: 999999
 	  });
-	  $(".lutece-dashboard .box-header, .lutece-dashboard .info-box-icon").css("cursor", "move");
-
-
-	// File Input Style
-	$(":file").not(".noBootstrapFilestyle")
-                .addClass("filestyle")
-                .filestyle({buttonText: "&nbsp;Parcourir"});
+	$(".lutece-dashboard .box-header, .lutece-dashboard .info-box-icon").css("cursor", "move");
 
 	$(".portlet-type").on('click', function(e) {
 		// Stop the link default behaviour.
@@ -154,14 +148,4 @@ $( function(){
         });
     });
 
-});
-
-// Toggle collapse buttons
-$('[data-toggle="collapse"]').click(function() {
-	if ($(this).find("i").hasClass("fa-minus")){
-    $(this).find("i").addClass("fa-plus").removeClass("fa-minus");
-    }
-	else if ($(this).find("i").hasClass("fa-plus")){
-    $(this).find("i").addClass("fa-minus").removeClass("fa-plus");
-    }
 });
