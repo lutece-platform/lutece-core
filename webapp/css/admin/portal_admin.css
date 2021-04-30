@@ -97,7 +97,48 @@ div.box-tools > * {display:inline-block;}
 }
 #footer > a{color: #fff;font-size:80%;}
 
-/* 	Helpers classes */
+/* 	Helpers classes   */
+/* Msg styles         */
+.msg-success{ color: hsl(153, 53%,  53%); font-weight: 700; }
+.msg-warning{ color: hsl(44,  100%, 77%); font-weight: 700; }
+.msg-danger{ color: hsl(348, 86%, 61%); font-weight: 700; }
+.msg-info{ color: hsl(207, 61%,  53%); font-weight: 700; }
+
+/* CSS for copyElementToClipboard commons Freemarker Macro */
+.copy-content{ 
+  position: relative;
+  width:100%;
+  display: inline-block;
+}
+
+.copy-content:hover{ 
+  cursor: copy; 
+}
+
+.copy-icon:after,
+.copy-content:hover:after{
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');
+  position: absolute;
+  margin-left: 5px;
+  top: 5px;
+  width: 15px;
+}
+
+.copy-content.copy-btn:after{
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 1px 3px;
+  content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');
+  position: absolute;
+  margin-left: 5px;
+  top: 0;
+  width: 20px;
+}
+
+.copy-content.no-hover:hover:after{
+  content: '';
+}
+
 pre {
  white-space: pre-wrap;       /* css-3 */
  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */

@@ -38,10 +38,10 @@
 
 /* 	Helpers classes */
 /* Msg styles         */
-.msg-success{ color: var( --success ); }
-.msg-warning{ color: var( --warning ); }
-.msg-danger{ color: var( --danger ); }
-.msg-info{ color: var( --info ); }
+.msg-success{ color: hsl(153, 53%,  53%); font-weight: 700; }
+.msg-warning{ color: hsl(44,  100%, 77%); font-weight: 700; }
+.msg-danger{ color: hsl(348, 86%, 61%); font-weight: 700; }
+.msg-info{ color: hsl(207, 61%,  53%); font-weight: 700; }
 
 /* CSS for copyElementToClipboard commons Freemarker Macro */
 .copy-content{ 

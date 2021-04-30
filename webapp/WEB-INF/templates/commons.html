@@ -1798,7 +1798,62 @@ $( function(){
 </script>
 </#macro>
 
-
+<#-- copyElementToClipboard a set of elements designed by a selector - param "selector" -->
+<#-- Params																				-->
+<#-- selector : Any CSS selector expression												-->
+<#-- class : Default '' : List of class with double quote with comma separator 			-->
+<#-- 		Possible values : "no-hover" No icon on hover - .no-hover portal_admin.css	-->
+<#-- 		Possible values : "copy-icon" Icon always shown - . see portal_admin.css   	-->
+<#-- 		Possible values : "copy-btn" Icon and Button styles -						-->
+<#-- 		Ex for multiple classes : "class1","class2" 								-->
+<#-- showMsg : Default false : If true a message is show after copy						-->
+<#-- msgDone : Default "Copied" : Success message 										-->
+<#-- msgError : Default "Error : not copied" : Error message							-->
+<#-- Usage																				-->
+<#-- Basic : <@copyElementToClipboard selector='.copy-content'  />						-->
+<#-- No message : <@copyElementToClipboard selector='.copy-content' showMsg=false />	-->
+<#-- No Hover : <@copyElementToClipboard selector='.copy-content' class='"no-hover"' /> -->
+<#-- With icon shown : <@copyElementToClipboard selector='.copy-content' class='"copy-icon"' />	 -->
+<#macro copyElementToClipboard selector class='' showMsg=true msgDone='Copied' msgError='Error : not copied'>
+<script>
+const elems = document.querySelectorAll('${selector!}');
+elems.forEach(elem => {
+	<#if class !=''>
+	elem.classList.add( ${class!} );
+	</#if>
+  	elem.addEventListener('click', () => {
+		const selection = window.getSelection();
+		const range = document.createRange();
+		range.selectNodeContents(elem);
+		selection.removeAllRanges();
+		selection.addRange(range);
+		try {
+			document.execCommand('copy');
+			selection.removeAllRanges();
+		<#if showMsg>
+			const original = elem.textContent;
+			elem.textContent = '${msgDone}';
+			elem.classList.add('msg-success');
+			setTimeout(() => {
+				elem.textContent = original;
+				elem.classList.remove('msg-success');
+			}, 1200);
+		</#if>
+		} catch(e) {
+		<#if showMsg>
+			const original = elem.textContent;
+			elem.textContent = '${msgError}';
+			elem.classList.add('msg-error');
+			setTimeout(() => {
+				elem.textContent = original;
+				elem.classList.remove('msg-danger');
+			}, 1200);
+		</#if>
+    	}
+  	});
+});
+</script>
+</#macro>
 
 <#-- Display wrong or deprecated macro arguments -->
 <#macro deprecatedWarning args=[] >
