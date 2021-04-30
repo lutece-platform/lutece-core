@@ -895,7 +895,7 @@ and is kept only for backwards compatibility
 <#-- type : text/textarea/password/email/file/number. Default is text -->
 <#-- size: xs/sm/lg -->
 <#-- pattern: [A-F][0-9]{5} -->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 language='' params='' mandatory=false >
+<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 language=.lang params='' mandatory=false>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if size == 'xs' || size == 'sm'><#local size = 'small' />
 <#elseif size == 'md'><#local size = 'medium' />
