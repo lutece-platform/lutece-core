@@ -34,16 +34,16 @@
 									<@input type='hidden' name='token' value='${token}' />
 									<@fieldSet legend='#i18n{portal.users.modify_user.labelIdentity}'>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
-											<@input type='text' id='access_code' name='access_code' maxlength=100 value='${user.accessCode}' />
+											<@input type='text' id='access_code' name='access_code' maxlength=100 value='${user.accessCode!}' />
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
-											<@input type='text' id='last_name' name='last_name' maxlength=100 value='${user.lastName}' />
+											<@input type='text' id='last_name' name='last_name' maxlength=100 value='${user.lastName!}' />
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelFirstName}' labelFor='first_name' rows=2 mandatory=true>
-											<@input type='text' id='first_name' name='first_name' maxlength=100 value='${user.firstName}' />
+											<@input type='text' id='first_name' name='first_name' maxlength=100 value='${user.firstName!}' />
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelEmail}' labelFor='email' rows=2 mandatory=true>
-											<@input type='email' id='email' name='email' maxlength=100 value='${user.email}' />
+											<@input type='email' id='email' name='email' maxlength=100 value='${user.email!}' />
 										</@formGroup>
 									</@fieldSet>
 								</@columns>
@@ -53,7 +53,7 @@
 											<@staticText>${level.name}</@staticText>
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' labelFor='workgroup_key' rows=2 mandatory=true>
-											<@select name='workgroup_key' default_value='${user.workgroupKey}' items=workgroup_key_list sort=true />
+											<@select name='workgroup_key' default_value='${user.workgroupKey!}' items=workgroup_key_list sort=true />
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelStatus}' labelFor='status' rows=2>
 											<@select id='status' name='status'>
@@ -67,7 +67,7 @@
 											</@select>
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelLanguage}' labelFor='language' rows=2>
-											<@select name='language' default_value='${current_language}' items=languages_list sort=true />
+											<@select name='language' default_value='${current_language!}' items=languages_list sort=true />
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='' rows=2>
 											<@checkBox labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' labelFor='accessility_mode' id='accessibility_mode' name='accessibility_mode' value='1' checked=user.accessibilityMode />
