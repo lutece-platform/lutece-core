@@ -175,7 +175,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         {
             final ReferenceItem itemUser = new ReferenceItem( );
             itemUser.setCode( Integer.toString( user.getUserId( ) ) );
-            itemUser.setName( user.getAccessCode( ) + "(" + user.getFirstName( ) + " " + user.getLastName( ) + ")" );
+            itemUser.setName( user.getFirstName( ) + " " + user.getLastName( ) + "(" + user.getAccessCode( ) + ")" );
 
             boolean bAssigned = listAssignedUsers.stream( )
                     .anyMatch( assignedUser -> Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) );
