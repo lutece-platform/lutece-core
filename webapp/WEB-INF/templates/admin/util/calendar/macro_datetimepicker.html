@@ -18,6 +18,26 @@ $(  function() {
 </script>
 </#macro>
 
+<#macro getDateRangeFlatPicker idField language format='d/m/Y'>
+<script src="js/admin/bootstrap-flatpickr.min.js"></script>
+<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+$(  function() {
+	$('#${idField}').flatpickr({enableTime: false, dateFormat: '${format}', "locale": "<@getRegional language=language />", mode: "range"});
+});
+</script>
+</#macro>
+
+<#macro getDateTimeRangeFlatPicker idField language format='d/m/Y H:i'>
+<script src="js/admin/bootstrap-flatpickr.min.js"></script>
+<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8">
+$(  function() {
+	$('#${idField}').flatpickr({enableTime: true, dateFormat: '${format}', "locale": "<@getRegional language=language />", mode: "range"});
+});
+</script>
+</#macro>
+
 <#-- getRegional
  # This macro should not be called directly
  #
