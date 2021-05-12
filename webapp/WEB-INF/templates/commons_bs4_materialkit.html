@@ -557,7 +557,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
-<#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 mandatory=false >
+<#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 maxLength=0 mandatory=false>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 	<select id="${id}" name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if><#if mandatory?? && mandatory> required</#if><#if disabled> disabled</#if>>
 	<#if items?has_content>
@@ -570,13 +570,28 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 				</#if>
 			</#list>
 		<#else>
-			<#list items as item>
-				<#if default_value="${item.code}">
-					<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-				<#else>
-					<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-				</#if>
-			</#list>
+			<#if maxLength gt 0>
+				<#list items as item>
+					<#if maxLength < item.name?length >
+						<#assign item_new = "..." + "${item.name?substring(item.name?length-maxLength+3)}" >
+					<#else>
+						<#assign item_new = "${item.name}">
+					</#if>
+					<#if default_value="${item.code}">
+						<option selected="selected" value="${item.code}" >${item_new}</option>
+					<#else>
+						<option value="${item.code}" >${item_new}</option>
+					</#if>
+				</#list>
+			<#else>
+				<#list items as item>
+					<#if default_value="${item.code}">
+						<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+					<#else>
+						<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+					</#if>
+				</#list>
+			</#if>
 		</#if>
 	<#else>
 		<#nested>

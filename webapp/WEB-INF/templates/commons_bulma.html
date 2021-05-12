@@ -726,7 +726,7 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
-<#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0 disabled=false  mandatory=false >
+<#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0 disabled=false maxLength=0 mandatory=false>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 	<#switch size>
 		<#case 'xs'>
@@ -756,13 +756,28 @@ and is kept only for backwards compatibility
                 </#if>
             </#list>
         <#else>
-            <#list items as item>
-                <#if default_value="${item.code}">
-                    <option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-                <#else>
-                    <option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-                </#if>
-            </#list>
+            <#if maxLength gt 0>
+				<#list items as item>
+					<#if maxLength < item.name?length >
+						<#assign item_new = "..." + "${item.name?substring(item.name?length-maxLength+3)}" >
+					<#else>
+						<#assign item_new = "${item.name}">
+					</#if>
+					<#if default_value="${item.code}">
+						<option selected="selected" value="${item.code}" >${item_new}</option>
+					<#else>
+						<option value="${item.code}" >${item_new}</option>
+					</#if>
+				</#list>
+			<#else>
+				<#list items as item>
+					<#if default_value="${item.code}">
+						<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+					<#else>
+						<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+					</#if>
+				</#list>
+			</#if>
         </#if>
     <#else>
         <#nested>
