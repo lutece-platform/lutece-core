@@ -96,6 +96,8 @@ div.box-tools > * {display:inline-block;}
   */
 }
 #footer > a{color: #fff;font-size:80%;}
+.footer-lutece{ background-color: #fff; margin: 0; padding: 15px 5px; float: right }
+
 
 /* 	Helpers classes   */
 /* Msg styles         */
