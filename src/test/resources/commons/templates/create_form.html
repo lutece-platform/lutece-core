@@ -64,17 +64,44 @@
 	                		<@inputGroupItem type='text'>
 	                			<@icon style='calendar' />
 	                		</@inputGroupItem>
-	                    	<@input type='text' name='date_created' value='${mockObject.dateCreated!\'\'}' />
+	                    	<@input type='date' name='date_created' value='${mockObject.dateCreated!\'\'}' />
 	                    </@inputGroup>
 	                </@formGroup>
 
 	                <@formGroup labelKey='DateUpdated' helpKey='DateUpdated.help' mandatory=true>
-										<@inputGroup>
-	                    <@input type='text' name='date_updated' value='${mockObject.dateUpdated!\'\'}' />
-	                    <@inputGroupItem type='text'>
-	                    	<@icon style='calendar' />
-	                    </@inputGroupItem>
-										</@inputGroup>
+						<@inputGroup>
+							<@input type='date' name='date_updated' value='${mockObject.dateUpdated!\'\'}' />
+							<@inputGroupItem type='text'>
+								<@icon style='calendar' />
+							</@inputGroupItem>
+						</@inputGroup>
+	                </@formGroup>
+					
+					<@formGroup labelKey='DateTime' helpKey='DateTime.help' mandatory=true>
+						<@inputGroup>
+							<@input type='datetime' name='date_range' value='${mockObject.dateTime!\'\'}' />
+							<@inputGroupItem type='text'>
+								<@icon style='calendar' />
+							</@inputGroupItem>
+						</@inputGroup>
+	                </@formGroup>
+					
+					<@formGroup labelKey='DateRange' helpKey='DateRange.help' mandatory=true>
+						<@inputGroup>
+							<@input type='daterange' name='date_range' value='${mockObject.dateRange!\'\'}' />
+							<@inputGroupItem type='text'>
+								<@icon style='calendar' />
+							</@inputGroupItem>
+						</@inputGroup>
+	                </@formGroup>
+					
+					<@formGroup labelKey='datetimerange' helpKey='DateTimeRange.help' mandatory=true>
+						<@inputGroup>
+							<@input type='datetimerange' name='datetime_range' value='${mockObject.dateTimeRange!\'\'}' />
+							<@inputGroupItem type='text'>
+								<@icon style='calendar' />
+							</@inputGroupItem>
+						</@inputGroup>
 	                </@formGroup>
 												
 					<@formGroup>
@@ -151,17 +178,44 @@
 	                		&lt;@inputGroupItem type='text'&gt;
 	                			&lt;@icon style='calendar' /&gt;
 	                		&lt;/@inputGroupItem&gt;
-	                    	&lt;@input type='text' name='date_created' value='${mockObject.dateCreated!""}' /&gt;
+	                    	&lt;@input type='date' name='date_created' value='${mockObject.dateCreated!""}' /&gt;
 	                    &lt;/@inputGroup&gt;
 	                &lt;/@formGroup&gt;
 
 	                &lt;@formGroup labelKey='DateUpdated' helpKey='DateUpdated.help' mandatory=true&gt;
 										&lt;@inputGroup&gt;
-	                    &lt;@input type='text' name='date_updated' value='${mockObject.dateUpdated!""}' /&gt;
+	                    &lt;@input type='date' name='date_updated' value='${mockObject.dateUpdated!""}' /&gt;
 	                    &lt;@inputGroupItem&gt;
 	                    	&lt;@icon style='calendar' /&gt;
 	                    &lt;/@inputGroupItem&gt;
 										 &lt;/@inputGroup&gt;
+	                &lt;/@formGroup&gt;
+					
+					&lt;@formGroup labelKey='DateTime' helpKey='DateTime.help' mandatory=true&gt;
+						&lt;@inputGroup&gt;
+							&lt;@input type='datetime' name='date_range' value='${mockObject.dateTime!\'\'}' /&gt;
+							&lt;@inputGroupItem type='text'&gt;
+								&lt;@icon style='calendar' /&gt;
+							&lt;/@inputGroupItem&gt;
+						&lt;/@inputGroup&gt;
+	                &lt;/@formGroup&gt;
+					
+					&lt;@formGroup labelKey='DateRange' helpKey='DateRange.help' mandatory=true&gt;
+						&lt;@inputGroup&gt;
+							&lt;@input type='daterange' name='date_range' value='${mockObject.dateRange!\'\'}' /&gt;
+							&lt;@inputGroupItem type='text'&gt;
+								&lt;@icon style='calendar' /&gt;
+							&lt;/@inputGroupItem&gt;
+						&lt;/@inputGroup&gt;
+	                &lt;/@formGroup&gt;
+					
+					&lt;@formGroup labelKey='datetimerange' helpKey='DateTimeRange.help' mandatory=true&gt;
+						&lt;@inputGroup&gt;
+							&lt;@input type='datetimerange' name='datetime_range' value='${mockObject.dateTimeRange!\'\'}' /&gt;
+							&lt;@inputGroupItem type='text'&gt;
+								&lt;@icon style='calendar' /&gt;
+							&lt;/@inputGroupItem&gt;
+						&lt;/@inputGroup&gt;
 	                &lt;/@formGroup&gt;
 												
 					&lt;@formGroup&gt;
@@ -273,7 +327,7 @@
 	</@tr>
 	<@tr>
 		<@th>type</@th>
-		<@td>string: text/textarea/password/email/file/number</@td>
+		<@td>string: text/textarea/password/email/file/number/date/datetime/daterange/datetimerange</@td>
 		<@td>text</@td>
 	</@tr>
 	<@tr>
