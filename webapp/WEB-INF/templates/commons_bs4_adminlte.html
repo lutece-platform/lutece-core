@@ -386,7 +386,7 @@
 	<#default>
 	<#local iconStyle = style />
 </#switch>
-	<i class="${prefix}${iconStyle} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+	<i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- ICONSTACK 																					-->
