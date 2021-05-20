@@ -9,20 +9,17 @@
 			</#assign>
 			<@boxHeader titleLevel='p' title=title boxTools=true>
 				<@btnToolbar>
-				
 					<@btnGroup hide=['xs']>
 						<@aButton href='#' id='display-full' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop fa-fw' color='secondary' size='sm' hideTitle=['all'] />
 						<@aButton href='#' id='display-940' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='tablet fa-fw' color='secondary' size='sm' hideTitle=['all'] />
 						<@aButton href='#' id='display-480' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='mobile fa-fw' color='secondary' size='sm' hideTitle=['all'] />
 					</@btnGroup>
-					
 					<#if page.id != 1>
 					<@btnGroup>
 						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' size='sm' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] />
 						<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='sm' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all'] />
 					</@btnGroup>
 					</#if>
-
 					<@btnGroup hide=['xs'] align='right'>
 					<@tform type='inline' action='jsp/admin/site/AdminSite.jsp' role='search'>
 						<@formGroup formStyle='inline' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' hideLabel=['all']>
@@ -33,10 +30,9 @@
 								</@inputGroupItem>
 							</@inputGroup>
 						</@formGroup>
-						<#if page_message!=""><p><@badge type="label" style="important">${page_message}</@badge></p></#if>
+						<#if page_message!=""><@p><@badge type="label" style="important">${page_message}</@badge></@p></#if>
 					</@tform>
 					</@btnGroup>
-					
 					<@btnGroup>
 						<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>
 						<#if portlet_types_list?has_content>
@@ -47,11 +43,13 @@
 							</#list>
 						</#if>
 						</@button>
-
-						<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
-							${extendableResourceActionsHtml!}
-						</#if>
-						
+					</@btnGroup>
+					<@btnGroup>
+					<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
+						${extendableResourceActionsHtml!}
+					</#if>
+					</@btnGroup>
+					<@btnGroup>
 						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' size='sm' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm','md'] />
 						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus' size='sm' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['xs','sm','md'] />
 						<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }' buttonIcon='sitemap' size='sm' title='Page ${page.name} - Id ${page.id}' hideTitle=['all']><@span hide=['xs','sm','md']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@aButton>
@@ -59,7 +57,6 @@
 				</@btnToolbar>
 			</@boxHeader>
 		</@box>
-			
 		<div id='admin-page-preview'>
 			${page_block}
 			<!-- HTML in jsp/admin/site/AdminSite.jsp -->

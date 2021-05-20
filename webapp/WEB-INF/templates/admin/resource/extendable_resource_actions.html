@@ -1,24 +1,25 @@
 <#if listExtendableResourceActions?? && listExtendableResourceActions?has_content>
 	<@extendableResourceAction>
-		<#list listExtendableResourceActions as resourceTypeAction>
-			<@extendableResourceActionList action=resourceTypeAction />
-		</#list>
+	<#list listExtendableResourceActions as resourceTypeAction>
+		<@extendableResourceActionList action=resourceTypeAction />
+	</#list>
+	<@li><@link href='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>Gérer les extensions</@link></@li>
 	</@extendableResourceAction>
 </#if>
 
 <#-- extendableResourceAction + extendableResourceActionList -->
 <#macro extendableResourceAction>
-	<@aButton class='dropdown-toggle' size='sm' id='extender' dropdownMenu=true href='#' title='#i18n{portal.admin.resource.extend}' buttonIcon='plus-square' hideTitle=['xs','sm','md']>
-		<#nested>
-	</@aButton>
+<@aButton class='dropdown-toggle' size='sm' id='extender' dropdownMenu=true href='#' title='#i18n{portal.admin.resource.extend}' buttonIcon='bookmark' hideTitle=['xs','sm','md']>
+	<#nested>
+</@aButton>
 </#macro>
 
 <#macro extendableResourceActionList action >
 <#if action.buttonTemplate?has_content>
-		<@dropdownItem>
-		<@tform class='form-submenu' action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp'>
-			<#include action.buttonTemplate />
-		</@tform>
-		</@dropdownItem>
+<@li>
+	<@tform type='inline' class='form-submenu' action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp' params=' target="preview"'>
+		<#include action.buttonTemplate />
+	</@tform>
+</@li>
 </#if>
 </#macro>
