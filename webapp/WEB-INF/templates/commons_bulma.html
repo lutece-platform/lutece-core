@@ -17,8 +17,8 @@
 <link href="css/admin/jquery-ui.theme.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/font-awesome.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/ionicons.min.css"  rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/skins/_all-skins.min.css"  rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/portal_admin.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/all.min.css" rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/style/bulma/portal_admin.css"  rel="stylesheet" > <!-- provided by core -->
 </#macro>
 
 <#macro coreAdminJSLinks>
@@ -825,7 +825,7 @@ and is kept only for backwards compatibility
 	<#default>
 	<#local iconStyle = style />
 </#switch>
-	<i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+	<i class="${prefix}${iconStyle} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- ICONSTACK 																					-->
@@ -1950,7 +1950,7 @@ $( function() {
 <#macro adminLoginPage title='' site_name='SITE_NAME'>
 <script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
 </head>
-<body>
+<body id="login">
 <div class=container" id="login-page">
     <img src="images/logo-header.png" id="logoLogin" title="LUTECE Back-Office" alt="LUTECE Back-Office">
     <div class="columns">
@@ -2243,6 +2243,51 @@ elems.forEach(elem => {
   	});
 });
 </script>
+</#macro>
+
+
+<#-- initToast  				-->
+<#-- Params						-->
+<#-- layout='popups' 			-->
+<#-- position='top-right' 		-->
+<#-- closer=false 				-->
+<#-- sticky=false 				-->
+<#-- progressbar=true 			-->
+<#-- theme='default'			-->
+<#-- duration=3000 				-->
+<#-- pool=5						-->
+<#macro initToast layout='popups' position='top-right' closer=true sticky=false progressbar=true insert='before' theme='default' duration=3000 pool=5 >
+<script>
+$( function(){
+	var lutecepolipop = new Polipop('lutecepop', {
+		layout: '${layout}',
+		position: '${position}',
+		theme: '${theme}',
+		life: ${duration?c},
+		insert: '${insert}',
+		closer: ${closer?c},
+		closeText : '#i18n{portal.util.labelClose}',
+		sticky: ${sticky?c},
+		progressbar: ${progressbar?c},
+		pool: ${pool},
+	});
+	<#-- Add addToast macro in your template -->
+	<#nested>
+});
+</script>
+</#macro>
+
+<#-- addToast  															-->
+<#-- Params																-->
+<#-- title : Default "Error : not copied" : Error message				-->
+<#-- msg : Default "Copied" : Success message 						  	-->
+<#-- type : Default "default" ['info', 'danger', 'success' 'warning'] 	-->
+<#macro addToast title content type='default' >
+lutecepolipop.add({
+    content: '${content}',
+    title: '${title}',
+    type: '${type}',
+});
 </#macro>
 
 <#-- Display wrong or deprecated macro arguments -->

@@ -2,36 +2,16 @@
 /* SPECIFIC LUTECE DEFAULT THEME STYLES   *
 ******************************************/
 /* ADMIN STYLES */
-body#tinymce{padding-top:0;}
-.btn-group{margin:5px 0 0 0;padding:4px;background-color:#DEDEDE}
-.btn-group form{margin-bottom:2px !important; }
-.btn-group button{opacity:0.6;margin:0 1px;background-color:#DEDEDE !important;}
-.btn-group button:hover{opacity:1;background-color:#DEDEDE !important;}
+body#tinymce{ padding-top: 0 }
 
-.form-in-dropdown{color:#555555;padding:5px;margin:0px;}
-.form-in-dropdown button{width:100%;}
+.site-toolbar{ justify-content: flex-end; }
+.site-toolbar .btn-group .btn{ opacity: .8; padding: .375rem .55rem; }
+.site-toolbar .btn-group .btn .fas, .site-toolbar .btn-group .btn .fa, .site-toolbar .btn-group .btn .paris-icon{ margin-right: 0; }
+.site-toolbar .btn-group .btn:hover{ opacity: 1 }
+.site-toolbar .btn-group > .form-inline .btn{ border-radius: 0 }
+.site-toolbar + *:hover{  box-shadow: 2px 2px 12px -1px rgba(0,0,0,0.5);-webkit-box-shadow: 2px 2px 12px -1px rgba(0,0,0,0.5); -moz-box-shadow: 2px 2px 12px -1px rgba(0,0,0,0.5);}
 
-.admin_column_outline:hover {
-	outline: 1px dotted grey;
-}
-.admin_column_id {
-	display: none;
-}
-.admin_column_outline:hover .admin_column_id {
-	display: block;
-	position: absolute;
-	height: 20px;
-	width: 10em;
-	top: -20px;
-	z-index: 1030;
-	padding-left: 0.5em;
-	background: rgba(200, 200, 200, 0.75);
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-}
-.admin_column_outline > div:empty {
-	height: 100px;
-}
-
-/* For portlet admin buttons */
-.d-none{display:none;}
+.admin_column_outline{ min-height: 5rem; outline: 1px dotted transparent; }
+.admin_column_outline:hover{ outline-color: #888; }
+.admin_column_outline .admin_column_id{ display: none; position: absolute; top: -30px; left: 15px; padding: 5px; color: #fff; background: #000;}
+.admin_column_outline:hover .admin_column_id{ display: block; }

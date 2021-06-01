@@ -8,6 +8,8 @@
   overflow: hidden;
 }
 
+#login .footer{ display: none;} /* Footer not displayed in login page */
+
 /* Navbar           */
 /* Fixed navbar     */
 .main-header {

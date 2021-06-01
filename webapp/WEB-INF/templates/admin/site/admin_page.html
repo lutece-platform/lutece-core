@@ -30,7 +30,6 @@
 								</@inputGroupItem>
 							</@inputGroup>
 						</@formGroup>
-						<#if page_message!=""><@p><@badge type="label" style="important">${page_message}</@badge></@p></#if>
 					</@tform>
 					</@btnGroup>
 					<@btnGroup>
@@ -45,9 +44,9 @@
 						</@button>
 					</@btnGroup>
 					<@btnGroup>
-					<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
-						${extendableResourceActionsHtml!}
-					</#if>
+						<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
+							${extendableResourceActionsHtml!}
+						</#if>
 					</@btnGroup>
 					<@btnGroup>
 						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' size='sm' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm','md'] />
@@ -63,3 +62,9 @@
 		</div>
 	</@columns>
 </@row>
+
+<#if page_message!="">
+<@initToast>
+<@addToast title='#i18n{portal.util.labelWarning}' content=page_message?js_string type='warning' />
+</@initToast>
+</#if>

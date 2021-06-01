@@ -1946,6 +1946,51 @@ elems.forEach(elem => {
 </script>
 </#macro>
 
+
+<#-- initToast  				-->
+<#-- Params						-->
+<#-- layout='popups' 			-->
+<#-- position='top-right' 		-->
+<#-- closer=false 				-->
+<#-- sticky=false 				-->
+<#-- progressbar=true 			-->
+<#-- theme='default'			-->
+<#-- duration=3000 				-->
+<#-- pool=5						-->
+<#macro initToast layout='popups' position='top-right' closer=true sticky=false progressbar=true insert='before' theme='default' duration=3000 pool=5 >
+<script>
+$( function(){
+	var lutecepolipop = new Polipop('lutecepop', {
+		layout: '${layout}',
+		position: '${position}',
+		theme: '${theme}',
+		life: ${duration?c},
+		insert: '${insert}',
+		closer: ${closer?c},
+		closeText : '#i18n{portal.util.labelClose}',
+		sticky: ${sticky?c},
+		progressbar: ${progressbar?c},
+		pool: ${pool},
+	});
+	<#-- Add addToast macro in your template -->
+	<#nested>
+});
+</script>
+</#macro>
+
+<#-- addToast  															-->
+<#-- Params																-->
+<#-- title : Default "Error : not copied" : Error message				-->
+<#-- msg : Default "Copied" : Success message 						  	-->
+<#-- type : Default "default" ['info', 'danger', 'success' 'warning'] 	-->
+<#macro addToast title content type='default' >
+lutecepolipop.add({
+    content: '${content}',
+    title: '${title}',
+    type: '${type}',
+});
+</#macro>
+
 <#-- Display wrong or deprecated macro arguments -->
 <#macro deprecatedWarning args=[] >
  <#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>

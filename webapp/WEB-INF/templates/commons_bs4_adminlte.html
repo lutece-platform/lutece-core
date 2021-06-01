@@ -386,7 +386,7 @@
 	<#default>
 	<#local iconStyle = style />
 </#switch>
-	<i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+	<i class="${prefix}${iconStyle} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- ICONSTACK 																					-->
@@ -1602,7 +1602,7 @@ ${javascript_files}
 <#macro adminLoginPage title='' site_name='SITE_NAME'>
 <script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
 </head>
-<body>
+<body id="login">
 <img src="images/logo-header.png" class="fixed-top m-4" aria-hidden="true" title="LUTECE Back-Office" alt="LUTECE Back-Office">
 <section id="login-page">
 	<div class="container">
@@ -1900,6 +1900,51 @@ elems.forEach(elem => {
   	});
 });
 </script>
+</#macro>
+
+
+<#-- initToast  				-->
+<#-- Params						-->
+<#-- layout='popups' 			-->
+<#-- position='top-right' 		-->
+<#-- closer=false 				-->
+<#-- sticky=false 				-->
+<#-- progressbar=true 			-->
+<#-- theme='default'			-->
+<#-- duration=3000 				-->
+<#-- pool=5						-->
+<#macro initToast layout='popups' position='top-right' closer=true sticky=false progressbar=true insert='before' theme='default' duration=3000 pool=5 >
+<script>
+$( function(){
+	var lutecepolipop = new Polipop('lutecepop', {
+		layout: '${layout}',
+		position: '${position}',
+		theme: '${theme}',
+		life: ${duration?c},
+		insert: '${insert}',
+		closer: ${closer?c},
+		closeText : '#i18n{portal.util.labelClose}',
+		sticky: ${sticky?c},
+		progressbar: ${progressbar?c},
+		pool: ${pool},
+	});
+	<#-- Add addToast macro in your template -->
+	<#nested>
+});
+</script>
+</#macro>
+
+<#-- addToast  															-->
+<#-- Params																-->
+<#-- title : Default "Error : not copied" : Error message				-->
+<#-- msg : Default "Copied" : Success message 						  	-->
+<#-- type : Default "default" ['info', 'danger', 'success' 'warning'] 	-->
+<#macro addToast title content type='default' >
+lutecepolipop.add({
+    content: '${content}',
+    title: '${title}',
+    type: '${type}',
+});
 </#macro>
 
 <#-- Display wrong or deprecated macro arguments -->

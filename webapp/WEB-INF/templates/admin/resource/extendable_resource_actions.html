@@ -1,10 +1,14 @@
+<#compress>
 <#if listExtendableResourceActions?? && listExtendableResourceActions?has_content>
-	<@extendableResourceAction>
+<@extendableResourceAction>
+	<@listGroup>
 	<#list listExtendableResourceActions as resourceTypeAction>
-		<@extendableResourceActionList action=resourceTypeAction />
+		<#if resourceTypeAction.buttonTemplate?? && resourceTypeAction.buttonTemplate!=''>
+			<@listGroupItem><@extendableResourceActionList action=resourceTypeAction /></@listGroupItem>
+		</#if>
 	</#list>
-	<@li><@link href='jsp/admin/plugins/extend/ManageResourceExtendersByResource.jsp'>Gérer les extensions</@link></@li>
-	</@extendableResourceAction>
+	</@listGroup>
+</@extendableResourceAction>
 </#if>
 
 <#-- extendableResourceAction + extendableResourceActionList -->
@@ -14,12 +18,7 @@
 </@aButton>
 </#macro>
 
-<#macro extendableResourceActionList action >
-<#if action.buttonTemplate?has_content>
-<@li>
-	<@tform type='inline' class='form-submenu' action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp' params=' target="preview"'>
-		<#include action.buttonTemplate />
-	</@tform>
-</@li>
-</#if>
+<#macro extendableResourceActionList action target='_top'>
+<#if action.buttonTemplate?has_content><#include action.buttonTemplate /></#if>
 </#macro>
+</#compress>

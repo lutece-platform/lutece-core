@@ -4,6 +4,8 @@
     <#if url?has_content>
         <#if target?has_content>
             <#assign params>target="${target}"</#assign>
+        <#else>
+            <#assign params>target="_top"</#assign>
         </#if>
         <@tform action=url params=params>
             <#if list_parameters?exists>
