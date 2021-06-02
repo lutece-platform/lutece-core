@@ -609,30 +609,22 @@
 <@deprecatedWarning args=deprecated />	
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if id = ''><#local id = name /></#if>
-	<#if orientation='vertical'>
-	<div class="checkbox">
-	</#if>
-	<label<#if orientation!='vertical'> class="checkbox-inline"</#if> for="${id}" <#if title!=''> title="${title}"</#if>>
-	<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
-		<#if labelKey!=''>
-			${labelKey}
-		<#else>
-			&#160;
-		</#if>
-	</label>
-	<#if orientation='vertical'></div></#if>
+<#if orientation='vertical'><div class="checkbox"></#if>
+<label<#if orientation!='vertical'> class="checkbox-inline"</#if> for="${id}" <#if title!=''> title="${title}"</#if>>
+<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
+<#if labelKey!=''>${labelKey}<#else><#nested></#if>
+</label>
+<#if orientation='vertical'></div></#if>
 </#macro>
 
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/inline. Default is vertical -->
 <#macro radioButton name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
-<#if orientation='vertical'>
-	<div class="radio">
-</#if>
+<#if orientation='vertical'><div class="radio"></#if>
 <label<#if orientation!='vertical'> class="radio-inline"</#if> for="${labelFor}">
 <input type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
-<#if labelKey!=''>${labelKey}<#else>&#160;</#if>
+<#if labelKey!=''>${labelKey}<#else><#nested></#if>
 </label>
 <#if orientation='vertical'></div></#if>
 </#macro>
