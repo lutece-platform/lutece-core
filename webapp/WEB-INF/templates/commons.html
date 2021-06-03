@@ -1685,7 +1685,7 @@ enableBSToppltip: false
 <#-- RESPONSIVE -->
 
 <#-- HTML ELEMENTS -->
-<#macro img url='' 	 class='' id='' params=''> 
+<#macro img url='' alt='' title='' class='' id='' params=''> 
 <img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}" class="thumbnails thumb-list<#if class!=''>  ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
 </#macro>
 
