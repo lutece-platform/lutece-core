@@ -12,7 +12,7 @@
 
 <#macro comboWithParamsAndLength name default_value additionalParameters items max_length >
 <!-- WARNING : macro comboWithParamsAndLength is deprecated -->
-	<@select id='${id}' name='${name}' default_value=default_value items=items maxLength=max_length params='additionalParameters' />
+	<@select id='${name}' name='${name}' default_value=default_value items=items maxLength=max_length params='additionalParameters' />
 </#macro>
 
 <#macro combo name default_value items>
