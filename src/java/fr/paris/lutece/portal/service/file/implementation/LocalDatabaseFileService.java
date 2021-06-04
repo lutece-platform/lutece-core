@@ -46,6 +46,8 @@ import fr.paris.lutece.portal.service.file.IFileDownloadUrlService;
 import fr.paris.lutece.portal.service.file.IFileRBACService;
 import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
+
 import java.io.InputStream;
 
 import org.apache.commons.lang.StringUtils;
@@ -53,7 +55,6 @@ import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.portal.service.util.AppException;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -72,7 +73,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     /**
      * name defaulted to databaseBlobstore - only one can be supported by webapp
      */
-    private static final String FILE_STORE_PROVIDER_NAME = "defaultDatabaseFileStoreProvider";
+    public static final String FILE_STORE_PROVIDER_NAME = "defaultDatabaseFileStoreProvider";
 
     private IFileDownloadUrlService _fileDownloadUrlService ;
     private IFileRBACService _fileRBACService ;
@@ -319,7 +320,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * {@inheritDoc}
      */
     @Override
-    public void checkAccessRights(Map<String, String> fileData, User user) throws AccessDeniedException
+    public void checkAccessRights(Map<String, String> fileData, User user) throws AccessDeniedException, UserNotSignedException
     {
         if (_fileRBACService != null )
         {
@@ -340,7 +341,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * {@inheritDoc}
      */
     @Override
-    public File getFileFromRequestBO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException
+    public File getFileFromRequestBO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException
     {
         Map<String, String> fileData = _fileDownloadUrlService.getRequestDataBO( request );
         
@@ -350,7 +351,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         // check validity
         checkLinkValidity( fileData );
 
-        String strFileId = fileData.get( FileService.PARAMATER_FILE_ID );
+        String strFileId = fileData.get( FileService.PARAMETER_FILE_ID );
 
         return getFile( strFileId );            
     }
@@ -359,7 +360,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * {@inheritDoc}
      */
     @Override
-    public File getFileFromRequestFO(HttpServletRequest request) throws AccessDeniedException, ExpiredLinkException
+    public File getFileFromRequestFO(HttpServletRequest request) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException
     {
         
         Map<String, String> fileData = _fileDownloadUrlService.getRequestDataFO( request );
@@ -370,7 +371,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         // check validity
         checkLinkValidity( fileData );
 
-        String strFileId = fileData.get( FileService.PARAMATER_FILE_ID );
+        String strFileId = fileData.get( FileService.PARAMETER_FILE_ID );
 
         return getFile( strFileId );            
     }
