@@ -35,12 +35,11 @@ package fr.paris.lutece.portal.service.file.implementation;
 
 import fr.paris.lutece.portal.service.file.ExpiredLinkException;
 import fr.paris.lutece.portal.service.file.FileService;
-import static fr.paris.lutece.portal.service.file.FileService.PARAMATER_VALIDITY_TIME;
+import static fr.paris.lutece.portal.service.file.FileService.PARAMETER_VALIDITY_TIME;
 import fr.paris.lutece.portal.service.file.IFileDownloadUrlService;
 import fr.paris.lutece.portal.service.security.RsaService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 import java.security.GeneralSecurityException;
 import java.sql.Timestamp;
@@ -60,14 +59,13 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     private static final long serialVersionUID = 1L;
 
     // constants
+    protected static final String URL_FO = "jsp/site/file/download";
+    protected static final String URL_BO = "jsp/admin/file/download";
     private static final String SERVICE_NAME = "DefaultFileDownloadService";
     private static final String SEPARATOR = "/";
     
     // Keys
     public static final String KEY_LINK_VALIDITY_TIME = "link_validity_time";
-    
-    // properties
-    private static final int LINK_VALIDITY_TIME = AppPropertiesService.getPropertyInt("lutece.file.download.validity", 0 ) ;
     
     /**
      * Build the additionnel data map to provide encryption data
@@ -81,9 +79,9 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     {
         Map<String,String> map = new HashMap<>( );
         
-        map.put( FileService.PARAMATER_FILE_ID, strFileId );
-        map.put( FileService.PARAMATER_RESOURCE_ID, strResourceId );
-        map.put( FileService.PARAMATER_RESOURCE_TYPE, strResourceType );
+        map.put( FileService.PARAMETER_FILE_ID, strFileId );
+        map.put( FileService.PARAMETER_RESOURCE_ID, strResourceId );
+        map.put( FileService.PARAMETER_RESOURCE_TYPE, strResourceType );
         
         return map;
     }
@@ -106,13 +104,13 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
         StringBuilder sbUrl = new StringBuilder( );
 
         sbUrl.append( AppPathService.getBaseUrl( null ) );
-        sbUrl.append( "jsp/site/file/download" );
+        sbUrl.append( URL_FO );
 
         if ( additionnalData == null )
         {
             additionnalData = new HashMap<>();
         }
-        additionnalData.put( FileService.PARAMATER_FILE_ID, strFileKey );
+        additionnalData.put( FileService.PARAMETER_FILE_ID, strFileKey );
         
         return getEncryptedUrl( sbUrl.toString( ), getDataToEncrypt( additionnalData ), strFileStorageServiceProviderName );
     }
@@ -135,13 +133,13 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
         StringBuilder sbUrl = new StringBuilder( );
 
         sbUrl.append( AppPathService.getBaseUrl( null ) );
-        sbUrl.append( "jsp/admin/file/download" );
+        sbUrl.append( URL_BO );
         
         if ( additionnalData == null )
         {
             additionnalData = new HashMap<>();
         }
-        additionnalData.put( FileService.PARAMATER_FILE_ID, strFileKey );
+        additionnalData.put( FileService.PARAMETER_FILE_ID, strFileKey );
         
         return getEncryptedUrl( sbUrl.toString( ), getDataToEncrypt( additionnalData ), strFileStorageServiceProviderName );
     }
@@ -154,7 +152,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * 
      * @return the url, null otherwise 
      */
-    private String getEncryptedUrl( String strUrl, String dataToEncrypt, String strFileStorageServiceProviderName )
+    protected String getEncryptedUrl( String strUrl, String dataToEncrypt, String strFileStorageServiceProviderName )
     {
         UrlItem item = new UrlItem( strUrl );
         
@@ -192,9 +190,9 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     private String getDataToEncrypt( Map<String,String> additionnalData )
     {
         StringBuilder sb = new StringBuilder( );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMATER_FILE_ID ),"") ).append( SEPARATOR );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMATER_RESOURCE_ID ),"" ) ).append( SEPARATOR );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMATER_RESOURCE_TYPE ), "" ) ).append( SEPARATOR );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_FILE_ID ),"") ).append( SEPARATOR );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_ID ),"" ) ).append( SEPARATOR );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_TYPE ), "" ) ).append( SEPARATOR );
         sb.append( calculateEndValidity( ) );
         
         return sb.toString( );
@@ -205,10 +203,10 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * 
      * @return the end time of url validity
      */
-    private long calculateEndValidity( )
+    protected long calculateEndValidity( )
     {
         LocalDateTime endValidity = LocalDateTime.MAX;
-        if ( LINK_VALIDITY_TIME > 0 )
+        if ( getValidityTime( ) > 0 )
         {
             endValidity = LocalDateTime.now( ).plusMinutes( LINK_VALIDITY_TIME );
         }
@@ -261,11 +259,11 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * @param data
      * @return the map of  
      */
-    private Map<String,String> getDecryptedData( String strData )
+    protected Map<String,String> getDecryptedData( String strData )
     {
         String[ ] data = strData.split( SEPARATOR );
         Map<String,String> fileData = buildAdditionnalDatas(data[0] , data[1], data[2] );
-        fileData.put(PARAMATER_VALIDITY_TIME, data[3] );
+        fileData.put(PARAMETER_VALIDITY_TIME, data[3] );
 
         return fileData;
     }
@@ -276,7 +274,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     @Override
     public void checkLinkValidity( Map<String,String> fileData) throws ExpiredLinkException
     {
-        LocalDateTime validityTime = new Timestamp( Long.parseLong( fileData.get( FileService.PARAMATER_VALIDITY_TIME ) ) ).toLocalDateTime( );
+        LocalDateTime validityTime = new Timestamp( Long.parseLong( fileData.get( FileService.PARAMETER_VALIDITY_TIME ) ) ).toLocalDateTime( );
         
         if ( LocalDateTime.now( ).isAfter( validityTime ) )
         {

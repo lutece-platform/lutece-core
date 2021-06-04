@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.file;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
+
 import java.io.Serializable;
 import java.util.Map;
 
@@ -53,7 +55,8 @@ public interface IFileRBACService extends Serializable
      * @param fileData
      * @param user
      * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
+     * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
-    public void checkAccessRights( Map<String, String> fileData, User user ) throws AccessDeniedException;
+    public void checkAccessRights( Map<String, String> fileData, User user ) throws AccessDeniedException, UserNotSignedException;
 
 }

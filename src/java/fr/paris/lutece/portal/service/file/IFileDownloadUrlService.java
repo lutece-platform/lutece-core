@@ -37,6 +37,8 @@ import java.io.Serializable;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 
 /**
  *
@@ -45,6 +47,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface IFileDownloadUrlService extends Serializable
 {
+    static final int LINK_VALIDITY_TIME = AppPropertiesService.getPropertyInt("lutece.file.download.validity", 0 ) ;
+    
     /**
      * get Front Office user download URL
      * @param strFileKey the file key
@@ -104,4 +108,14 @@ public interface IFileDownloadUrlService extends Serializable
      * @throws ExpiredLinkException if link is invadid
      */
     void checkLinkValidity( Map<String,String> fileData) throws ExpiredLinkException;
+    
+    /**
+     * Return the validity duration of a link (in minutes) <br />
+     * if equal to 0, there is no limit
+     * @return
+     */
+    default int getValidityTime( )
+    {
+        return LINK_VALIDITY_TIME;
+    }
 }

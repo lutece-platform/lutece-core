@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service.file;
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
+
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Map;
@@ -151,8 +153,9 @@ public interface IFileStoreServiceProvider extends Serializable
      * @return the file
      * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
      * @throws fr.paris.lutece.portal.service.download.ExpiredLinkException
+     * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
-    File getFileFromRequestBO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException;
+    File getFileFromRequestBO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException;
 
     /**
      * get requested file from FO
@@ -161,8 +164,9 @@ public interface IFileStoreServiceProvider extends Serializable
      * @return the file
      * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
      * @throws fr.paris.lutece.portal.service.download.ExpiredLinkException
+     * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
-    File getFileFromRequestFO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException;
+    File getFileFromRequestFO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException;
     
     /**
      * check if current user can access the file
@@ -170,8 +174,9 @@ public interface IFileStoreServiceProvider extends Serializable
      * @param fileData
      * @param user the current user
      * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
+     * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
-    void checkAccessRights(Map<String, String> fileData, User user) throws AccessDeniedException;
+    void checkAccessRights(Map<String, String> fileData, User user) throws AccessDeniedException, UserNotSignedException;
 
     /**
      * check  if link is valid
