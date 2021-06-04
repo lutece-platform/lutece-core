@@ -46,11 +46,12 @@ import java.util.Map;
 public class FileService {
     
     // parameters
-    public static final String PARAMATER_FILE_ID = "file_id";
-    public static final String PARAMATER_RESOURCE_ID = "resource_id";
-    public static final String PARAMATER_RESOURCE_TYPE = "resource_type";
-    public static final String PARAMATER_VALIDITY_TIME = "validity_time";
+    public static final String PARAMETER_FILE_ID = "file_id";
+    public static final String PARAMETER_RESOURCE_ID = "resource_id";
+    public static final String PARAMETER_RESOURCE_TYPE = "resource_type";
+    public static final String PARAMETER_VALIDITY_TIME = "validity_time";
     public static final String PARAMETER_DATA = "data";
+    public static final String PARAMETER_BO = "is_bo";
     public static final String PARAMETER_PROVIDER = "provider";
     
     // constants

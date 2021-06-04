@@ -56,8 +56,8 @@ public class DefaultFileRBACService implements IFileRBACService
     {
         
         if ( !RBACService.isAuthorized( 
-                fileData.get( FileService.PARAMATER_RESOURCE_ID  ), 
-                fileData.get( FileService.PARAMATER_RESOURCE_TYPE ), 
+                fileData.get( FileService.PARAMETER_RESOURCE_ID  ), 
+                fileData.get( FileService.PARAMETER_RESOURCE_TYPE ), 
                 FileService.PERMISSION_VIEW, 
                 user) )
         {
