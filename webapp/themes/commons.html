@@ -730,7 +730,7 @@ and is kept only for backwards compatibility
 
 <#-- FORM -->
 <#-- class: form-inline/form-horizontal/navbar-form/navbar-left/search-form... Default is horizontal -->
-<#macro tform class='form-horizontal' class2='' action='' method='post' name='' id='' role='form' params=''>
+<#macro tform class='form-horizontal' class2='' action='' method='post' name='' id='' role='' params=''>
 	<form class="${class}<#if class2!=''> ${class2}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</form>

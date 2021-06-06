@@ -402,7 +402,7 @@
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
 <#-- enctype: multipart/form-data | text/plain -->
-<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false enctype='' params='' deprecated...>
+<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='' collapsed=false enctype='' params='' deprecated...>
 	<@deprecatedWarning args=deprecated />	
 	<#local class = class />
 	<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
