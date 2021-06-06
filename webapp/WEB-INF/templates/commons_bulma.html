@@ -685,7 +685,7 @@ and is kept only for backwards compatibility
     <#if bordered>  <#local class += ' is-bordered'  /> </#if>
 	<#if collapsed> <#local class += ' collapse' /> </#if>
     
-    <table class="table is-fullwidth ${class?trim}" id="${id}"<#if params!=''> ${params}</#if>>
+    <table class="table is-fullwidth ${class?trim}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
         <#nested>
     </table>
 </#macro>

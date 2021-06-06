@@ -306,7 +306,7 @@
 <#if bordered>  <#local class += ' table-bordered'  /> </#if>
 <#if collapsed> <#local class += ' collapse' /> </#if>
 <#if responsive><div class="table-responsive"></#if>
-<table class="table ${class?trim}" id="${id}"<#if params!=''> ${params}</#if>>
+<table class="table ${class?trim}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if caption!=''><caption>${caption}</caption></#if>
 <#if headBody><thead></#if>
 	<#nested>
