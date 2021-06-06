@@ -183,7 +183,7 @@ Example:
 <#macro getDatePicker idField language >
 	<script src="js/admin/jquery/plugins/ui/jquery-ui.min.js"></script>
 	<script src="js/admin/jquery/plugins/ui/ui.datepicker-fr.js"></script>
-	<script type="text/javascript" charset="utf-8">
+	<script charset="utf-8">
 	$(document).ready(function(){
 		$('#${idField}').datepicker({language: '<@getRegional language=language />'});
 	});
@@ -205,7 +205,7 @@ Example:
 <#macro getDatePickerRange idFieldFrom idFieldTo language >
 	<script src="js/admin/jquery/plugins/ui/jquery-ui.min.js"></script>
 	<script src="js/admin/jquery/plugins/ui/ui.datepicker-fr.js"></script>
-	<script type="text/javascript" charset="utf-8">
+	<script charset="utf-8">
 	$(document).ready(function() {
 		<#-- <@setDefaultsDatePicker /> -->
 		$('#${idFieldFrom}').datepicker();

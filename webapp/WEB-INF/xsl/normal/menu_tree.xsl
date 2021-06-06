@@ -6,7 +6,7 @@
     <xsl:template match="menu-list">
         <xsl:variable name="menu-list" select="menu" />
 
-        <script type="text/javascript">
+        <script>
             $(document).ready(function(){
             $("#tree").treeview({
                 animated: "fast",
