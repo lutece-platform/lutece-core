@@ -193,7 +193,7 @@
 					
 					&lt;@formGroup labelKey='DateTime' helpKey='DateTime.help' mandatory=true&gt;
 						&lt;@inputGroup&gt;
-							&lt;@input type='datetime' name='date_range' value='${mockObject.dateTime!\'\'}' /&gt;
+							&lt;@input type='datetime' name='date_range' value='${mockObject.dateTime!""}' /&gt;
 							&lt;@inputGroupItem type='text'&gt;
 								&lt;@icon style='calendar' /&gt;
 							&lt;/@inputGroupItem&gt;
@@ -202,7 +202,7 @@
 					
 					&lt;@formGroup labelKey='DateRange' helpKey='DateRange.help' mandatory=true&gt;
 						&lt;@inputGroup&gt;
-							&lt;@input type='daterange' name='date_range' value='${mockObject.dateRange!\'\'}' /&gt;
+							&lt;@input type='daterange' name='date_range' value='${mockObject.dateRange!""}' /&gt;
 							&lt;@inputGroupItem type='text'&gt;
 								&lt;@icon style='calendar' /&gt;
 							&lt;/@inputGroupItem&gt;
@@ -211,7 +211,7 @@
 					
 					&lt;@formGroup labelKey='datetimerange' helpKey='DateTimeRange.help' mandatory=true&gt;
 						&lt;@inputGroup&gt;
-							&lt;@input type='datetimerange' name='datetime_range' value='${mockObject.dateTimeRange!\'\'}' /&gt;
+							&lt;@input type='datetimerange' name='datetime_range' value='${mockObject.dateTimeRange!""}' /&gt;
 							&lt;@inputGroupItem type='text'&gt;
 								&lt;@icon style='calendar' /&gt;
 							&lt;/@inputGroupItem&gt;
