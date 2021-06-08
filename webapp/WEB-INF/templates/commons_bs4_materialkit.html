@@ -522,7 +522,7 @@
 		</#if>
 		<input class="<#if type='file'>inputFileHidden<#else>form-control</#if><#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 		<#if type='file'>
-		<script type="text/javascript">
+		<script>
 			$(".inputFileHidden").parents('div.form-group').addClass('form-file-upload form-file-simple');
 		</script>
 		</#if>
@@ -551,7 +551,7 @@
 <p class="<#if inForm>form-control-plaintext</#if><#if color!=''> text-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </p>
-<script type="text/javascript">
+<script>
 $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </script>
 </#macro>
@@ -597,7 +597,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		<#nested>
 	</#if>
 	</select>
-	<script type="text/javascript">
+	<script>
 		$("select").parents('div.form-group').addClass('is-filled');
 	</script>
 </#macro>
@@ -617,7 +617,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	</span>
 	</label>
 </div>
-	<script type="text/javascript">
+	<script>
 		$(".form-check").parents('div.form-group').find('label').removeClass('bmd-label-floating');
 	</script>
 </#macro>
@@ -635,9 +635,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	</span>
 </label>
 </div>
-<script type="text/javascript">
-$(".form-check").parents('div.form-group').addClass('is-filled');
-</script>
+	<script>
+		$(".form-check").parents('div.form-group').addClass('is-filled');
+	</script>
 </#macro>
 
 
@@ -647,7 +647,7 @@ $(".form-check").parents('div.form-group').addClass('is-filled');
 	<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
-		<script type="text/javascript">
+		<script>
 			$(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-static').removeClass("bmd-label-floating");
 		</script>
 </#macro>
@@ -992,7 +992,7 @@ $(".form-check").parents('div.form-group').addClass('is-filled');
 			<#if style?contains('collapse')>
 				<#local widgetAction = 'collapse' />
 				<div style="display:none;">
-					<script type="text/javascript">
+					<script>
 						$(document).ready(function() {
 							<#if buttonIcon = 'minus'>
 							$("${buttonTargetId}").addClass("show");

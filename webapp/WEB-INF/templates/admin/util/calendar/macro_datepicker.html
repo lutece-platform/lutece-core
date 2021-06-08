@@ -21,7 +21,7 @@
 <#macro getDatePickerBootstrap idField language parse="false">
 	<script src="js/admin/bootstrap-datepicker.js"></script>
 	<script src="js/admin/locales/bootstrap-datepicker.<@getRegional language=language />.js" charset="utf-8"></script>
-	<script type="text/javascript" charset="utf-8">
+	<script charset="utf-8">
 	$(document).ready( function() {
 		<#-- boostrap version -->
  		$('#${idField}').datepicker({language: '<@getRegional language=language />', autoclose: true, forceParse: ${parse}});
@@ -32,7 +32,7 @@
 <#macro getDatePickerBootstrapClass idForm language >
 	<script src="js/admin/bootstrap-datepicker.min.js"></script>
 	<script src="js/admin/locales/bootstrap-datepicker.<@getRegional language=language />.js" charset="utf-8"></script>
-	<script type="text/javascript" charset="utf-8">
+	<script charset="utf-8">
 	$(document).ready( function() {
 		<#-- boostrap version -->
  		$("#${idForm} .dtBootstrap").datepicker({language: '<@getRegional language=language />', autoclose: true});
@@ -44,7 +44,7 @@
 <#macro getDatePicker idField language >
 	<script src="js/admin/jquery/plugins/ui/jquery-ui.min.js"></script>
 	<script src="js/admin/jquery/plugins/ui/ui.datepicker-fr.js"></script>
-	<script type="text/javascript" charset="utf-8">
+	<script charset="utf-8">
 	$(document).ready(function(){
 		$('#${idField}').datepicker({language: '<@getRegional language=language />'});
 	});
@@ -69,7 +69,7 @@
 <#macro getDatePickerRangeBootstrap language >
 	<script src="js/admin/bootstrap-datepicker.js"></script>
 	<script src="js/admin/locales/bootstrap-datepicker.<@getRegional language=language />.js" charset="utf-8"></script>
-	<script type="text/javascript" charset="utf-8">
+	<script charset="utf-8">
 	$(document).ready( function() {
 		<#-- The range must be defined with a <div class="input-daterange">..</div> englobing 2 input fields as shown beside.
 		Example:
@@ -94,7 +94,7 @@
 <#macro getDatePickerRange idFieldFrom idFieldTo language >
 	<script src="js/admin/jquery/plugins/ui/jquery-ui.min.js"></script>
 	<script src="js/admin/jquery/plugins/ui/ui.datepicker-fr.js"></script>
-	<script type="text/javascript" charset="utf-8">
+	<script charset="utf-8">
 	$(document).ready(function() {
 		<#-- <@setDefaultsDatePicker /> -->
 		$('#${idFieldFrom}').datepicker();

@@ -11,7 +11,7 @@
                 <xsl:apply-templates select="space" />
             </ul>
         </div>
-        <script type="text/javascript">
+        <script>
             jQuery(function($) {
             $("#tree").jstree({"plugins" : [ "themes", "html_data", "cookies" ]});
             });

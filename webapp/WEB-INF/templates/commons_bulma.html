@@ -1138,7 +1138,7 @@ and is kept only for backwards compatibility
 	<#assign parentId = id>
 	<#nested>
 </div>
-<script type='text/javascript'>
+<script>
     var accordions = bulmaAccordion.attach();     
 </script>
 </#macro>
@@ -1272,7 +1272,7 @@ and is kept only for backwards compatibility
 		<#if style?contains('collapse')>
 			<#local widgetAction = 'collapse' />
 			<div style="display:none;">
-				<script type="text/javascript">
+				<script>
 					$(document).ready(function() {
 						<#if buttonIcon = 'minus'>
 						$("${buttonTargetId}").addClass("collapse in");
