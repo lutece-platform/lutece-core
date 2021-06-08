@@ -284,7 +284,7 @@
 	<#if responsive>
 	<div class="table-responsive">
 	</#if>
-	<table class="table ${class?trim}" id="${id}"<#if params!=''> ${params}</#if>>
+	<table class="table ${class?trim}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</table>
 	<#if responsive>

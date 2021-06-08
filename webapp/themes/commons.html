@@ -681,7 +681,7 @@ and is kept only for backwards compatibility
 	<#if responsive>
 	<div class="table-responsive">
 	</#if>
-		<table class="table table-hover table-condensed<#if class!=''> ${class}</#if>" id="${id}"<#if params!=''> ${params}</#if>>
+		<table class="table table-hover table-condensed<#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</table>
 	<#if responsive>
