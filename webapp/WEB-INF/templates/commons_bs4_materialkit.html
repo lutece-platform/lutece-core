@@ -415,7 +415,7 @@
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
 <#-- enctype: multipart/form-data | text/plain -->
-<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false enctype='' params='' deprecated...>
+<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='' collapsed=false enctype='' params='' deprecated...>
 	<@deprecatedWarning args=deprecated />
 	<#local class = class />
 	<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
@@ -611,14 +611,10 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <div class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
 	<label class="form-check-label" for="${id}"<#if title!=''> title="${title}"</#if>>
 	<input type="checkbox" id="${id}" name="${name}" class="form-check-input" <#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
-		<#if labelKey!=''>
-			${labelKey}
-		<#else>
-			&#160;
-		</#if>
-		<span class="form-check-sign">
-			<span class="check"></span>
-		</span>
+	<#if labelKey!=''>${labelKey}<#else><#nested></#if>
+	<span class="form-check-sign">
+		<span class="check"></span>
+	</span>
 	</label>
 </div>
 	<script>
@@ -630,18 +626,14 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- orientation: vertical/inline. Default is vertical -->
 <#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
-		<div class="form-check form-check-radio<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
-			<label class="form-check-label<#if orientation='horizontal'> radio-inline</#if>" for="${labelFor}">
-				<input type="radio" id="${id}" name="${name}" class="form-check-input" <#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
-			<#if labelKey!=''>
-					${labelKey}
-			<#else>
-					&#160;
-			</#if>
-			<span class="circle">
-				<span class="check"></span>
-			</span>
-			</label>
+<div class="form-check form-check-radio<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
+	<label class="form-check-label<#if orientation='horizontal'> radio-inline</#if>" for="${labelFor}">
+	<input type="radio" id="${id}" name="${name}" class="form-check-input" <#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
+	<#if labelKey!=''>${labelKey}<#else><#nested></#if>
+	<span class="circle">
+		<span class="check"></span>
+	</span>
+</label>
 </div>
 	<script>
 		$(".form-check").parents('div.form-group').addClass('is-filled');
