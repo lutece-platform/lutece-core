@@ -40,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
+
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 
@@ -73,28 +75,7 @@ public final class DateUtil
 
         if ( strDate != null )
         {
-            DateFormat dateFormat = null;
-
-            if ( locale != null )
-            {
-                String strLocalizedDateFormat = I18nService.getDateFormatShortPattern( locale );
-
-                if ( ( strLocalizedDateFormat != null ) && !strLocalizedDateFormat.equals( "" ) )
-                {
-                    dateFormat = new SimpleDateFormat( strLocalizedDateFormat );
-                }
-                else
-                {
-                    dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, locale );
-                }
-            }
-            else
-            {
-                dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
-            }
-
-            dateFormat.setLenient( false );
-
+            DateFormat dateFormat = getDateFormat( locale );
             try
             {
                 date = dateFormat.parse( strDate );
@@ -107,7 +88,7 @@ public final class DateUtil
 
         return date;
     }
-
+    
     /**
      * Get the date from String date
      * 
@@ -300,5 +281,37 @@ public final class DateUtil
     public static long convertDaysInMiliseconds( long lDays )
     {
         return CONSTANT_NUMBER_MILISECONDS_IN_DAY * lDays;
+    }
+    
+    /**
+     * Get the Date format for the locale
+     * @param locale
+     * @return
+     */
+    public static DateFormat getDateFormat( Locale locale )
+    {
+        DateFormat dateFormat = null;
+
+        if ( locale != null )
+        {
+            String strLocalizedDateFormat = I18nService.getDateFormatShortPattern( locale );
+
+            if ( StringUtils.isNotEmpty( strLocalizedDateFormat ) )
+            {
+                dateFormat = new SimpleDateFormat( strLocalizedDateFormat );
+            }
+            else
+            {
+                dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, locale );
+            }
+        }
+        else
+        {
+            dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
+        }
+
+        dateFormat.setLenient( false );
+        
+        return dateFormat;
     }
 }
