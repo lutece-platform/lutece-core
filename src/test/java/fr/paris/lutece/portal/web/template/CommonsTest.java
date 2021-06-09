@@ -59,6 +59,20 @@ public class CommonsTest extends LuteceTestCase {
 	private static final String MARK_FOREIGN_KEYS_LIST = "id_foreigns_list";
 	private static final String[] CHARTERS_FOLDERS = { "css", "fonts", "js" };
 
+    private CommonsInclude currentCommonsInclude;
+
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        currentCommonsInclude = CommonsService.getCurrentCommonsInclude( );
+    }
+
+    protected void tearDown( ) throws Exception
+    {
+        CommonsService.activateCommons( currentCommonsInclude.getKey( ) );
+        super.tearDown( );
+    }
+
 	@Test
 	public void testCommonsTemplates() throws IOException, TemplateException {
 		String strPath = getClass().getResource(TEMPLATES_FOLDER).getPath();
