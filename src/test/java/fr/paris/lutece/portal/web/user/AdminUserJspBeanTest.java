@@ -81,9 +81,12 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPasswordFactory;
+import javax.servlet.http.HttpServletRequest;
 
 public class AdminUserJspBeanTest extends LuteceTestCase
 {
+    public static final String RIGHT_CORE_USERS_MANAGEMENT = "CORE_USERS_MANAGEMENT"; 
+    
     public void testDoCreateAdminUser( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
@@ -165,7 +168,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "user_level", "0" );
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
             request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -179,7 +182,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "user_level", "0" );
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
             request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -194,7 +197,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "first_password", randomUserName );
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
             request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -209,7 +212,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "first_password", randomUserName );
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
             request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -227,7 +230,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "language", "fr" ); // NPE if absent
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
             request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNull( message );
@@ -266,7 +269,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
             request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" )
                     + "b" );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doCreateAdminUser( request );
             fail( "Should have thrown" );
         }
@@ -304,7 +307,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "status", Integer.toString( AdminUser.ACTIVE_CODE ) ); // NPE if absent
             request.addParameter( "language", "fr" ); // NPE if absent
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doCreateAdminUser( request );
             fail( "Should have thrown" );
         }
@@ -330,7 +333,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUser user = new AdminUser( );
         user.setUserLevel( 1 );
         Map<String, Right> rights = new HashMap<>( 1 );
-        rights.put( "CORE_USERS_MANAGEMENT", new Right( ) );
+        rights.put( RIGHT_CORE_USERS_MANAGEMENT, new Right( ) );
         user.setRights( rights );
         return user;
     }
@@ -340,7 +343,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUser user = new AdminUser( );
         user.setUserLevel( 0 );
         Map<String, Right> rights = new HashMap<>( 1 );
-        rights.put( "CORE_USERS_MANAGEMENT", new Right( ) );
+        rights.put( RIGHT_CORE_USERS_MANAGEMENT, new Right( ) );
         user.setRights( rights );
         return user;
     }
@@ -577,7 +580,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
         user.setPassword( passwordFactory.getPasswordFromCleartext( "PASSWORD" ) );
         AdminUserHome.create( user );
-        AdminUserHome.createRightForUser( user.getUserId( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserHome.createRightForUser( user.getUserId( ), RIGHT_CORE_USERS_MANAGEMENT );
         AdminUserHome.createRoleForUser( user.getUserId( ), "all_site_manager" );
         return AdminUserHome.findByPrimaryKey( user.getUserId( ) );
     }
@@ -589,7 +592,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUserHome.remove( user.getUserId( ) );
     }
 
-    public void testDoUseAdvancedSecurityParametersDoNotChangePassword( ) throws AccessDeniedException
+    public void testDoUseAdvancedSecurityParametersDoNotChangePassword( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean bUseAdvancesSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserJspBean bean = new AdminUserJspBean( );
@@ -597,7 +600,10 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             LuteceDefaultAdminUser admin = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( 1 );
             assertTrue( admin.getPassword( ).check( "adminadmin" ) );
-            MockHttpServletRequest request = new MockHttpServletRequest( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );     
+            registerAdminUserAdmin(request );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT);
+        
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
             bean.doUseAdvancedSecurityParameters( request );
             admin = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( 1 );
@@ -623,7 +629,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserJspBean bean = new AdminUserJspBean( );
             MockHttpServletRequest request = new MockHttpServletRequest( );
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.getCreateAdminUser( request );
         }
         catch( AppException e )
@@ -695,7 +701,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
             request.setParameter( "id_user", Integer.toString( 1 ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             String html = bean.getModifyUserPassword( request );
             assertNotNull( html );
             assertTrue( html.contains( I18nService.getLocalizedString( "portal.users.modify_user_password.pageTitle", Locale.FRANCE ) ) );
@@ -737,7 +743,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.setParameter( "first_password", password );
             request.setParameter( "second_password", password );
             request.setParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "portal.users.modify_user_password.pageTitle" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             String url = bean.doModifyAdminUserPassword( request );
             assertEquals( "ManageUsers.jsp", url );
             assertTrue( AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) ).getPassword( ).check( password ) );
@@ -761,7 +767,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.setParameter( "first_password", password );
             request.setParameter( "second_password", password );
             request.setParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "portal.users.modify_user_password.pageTitle" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doModifyAdminUserPassword( request );
             fail( "should have thrown" );
         }
@@ -788,7 +794,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             assertFalse( AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) ).getPassword( ).check( password ) );
             request.setParameter( "second_password", password );
             request.setParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "portal.users.modify_user_password.pageTitle" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doModifyAdminUserPassword( request );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -814,7 +820,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             String password = "CHANGEDCHANGED";
             assertFalse( AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) ).getPassword( ).check( password ) );
             request.setParameter( "first_password", password );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doModifyAdminUserPassword( request );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -841,7 +847,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.setParameter( "first_password", password );
             request.setParameter( "second_password", password + "-" );
             request.setParameter( "token", SecurityTokenService.getInstance( ).getToken( request, "portal.users.modify_user_password.pageTitle" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doModifyAdminUserPassword( request );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -868,7 +874,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             assertFalse( AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) ).getPassword( ).check( password ) );
             request.setParameter( "first_password", password );
             request.setParameter( "second_password", password );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doModifyAdminUserPassword( request );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -894,7 +900,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             assertFalse( AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) ).getPassword( ).check( password ) );
             request.setParameter( "first_password", password );
             request.setParameter( "second_password", password );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doModifyAdminUserPassword( request );
             fail( "Should have thrown" );
         }
@@ -922,7 +928,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.setParameter( "first_password", password );
             request.setParameter( "second_password", password );
             request.setParameter( "token", "invalid" );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doModifyAdminUserPassword( request );
             fail( "Should have thrown" );
         }
@@ -945,7 +951,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             for ( Right right : RightHome.getRightsList( ) )
             {
-                if ( "CORE_USERS_MANAGEMENT".equals( right.getId( ) ) )
+                if ( RIGHT_CORE_USERS_MANAGEMENT.equals( right.getId( ) ) )
                 {
                     assertTrue( AdminUserHome.hasRight( user, right.getId( ) ) );
                 }
@@ -985,7 +991,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             for ( Right right : RightHome.getRightsList( ) )
             {
-                if ( "CORE_USERS_MANAGEMENT".equals( right.getId( ) ) )
+                if ( RIGHT_CORE_USERS_MANAGEMENT.equals( right.getId( ) ) )
                 {
                     assertTrue( AdminUserHome.hasRight( user, right.getId( ) ) );
                 }
@@ -1010,7 +1016,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
             for ( Right right : RightHome.getRightsList( ) )
             {
-                if ( "CORE_USERS_MANAGEMENT".equals( right.getId( ) ) )
+                if ( RIGHT_CORE_USERS_MANAGEMENT.equals( right.getId( ) ) )
                 {
                     assertTrue( AdminUserHome.hasRight( stored, right.getId( ) ) );
                 }
@@ -1035,7 +1041,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             for ( Right right : RightHome.getRightsList( ) )
             {
-                if ( "CORE_USERS_MANAGEMENT".equals( right.getId( ) ) )
+                if ( RIGHT_CORE_USERS_MANAGEMENT.equals( right.getId( ) ) )
                 {
                     assertTrue( AdminUserHome.hasRight( user, right.getId( ) ) );
                 }
@@ -1058,7 +1064,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
             for ( Right right : RightHome.getRightsList( ) )
             {
-                if ( "CORE_USERS_MANAGEMENT".equals( right.getId( ) ) )
+                if ( RIGHT_CORE_USERS_MANAGEMENT.equals( right.getId( ) ) )
                 {
                     assertTrue( AdminUserHome.hasRight( stored, right.getId( ) ) );
                 }
@@ -1196,7 +1202,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminWorkgroupHome.create( workgroup );
             assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, workgroup.getKey( ) ) );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
             request.setParameter( "workgroup", workgroup.getKey( ) );
             request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -1231,7 +1237,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminWorkgroupHome.create( workgroup );
             assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, workgroup.getKey( ) ) );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
             request.setParameter( "workgroup", workgroup.getKey( ) );
             request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -1270,7 +1276,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminWorkgroupHome.create( workgroup );
             assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, workgroup.getKey( ) ) );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
             request.setParameter( "workgroup", workgroup.getKey( ) );
             bean.doModifyAdminUserWorkgroups( request );
@@ -1312,10 +1318,16 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoAnonymizeAdminUser( ) throws AccessDeniedException
+    public void testDoAnonymizeAdminUser( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );        
+        registerAdminUserAdmin(request );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT);
+        
+        AdminUser the_user = AdminUserService.getAdminUser( request );
+        
         AdminUser user = getUserToModify( );
         try
         {
@@ -1489,7 +1501,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doConfirmRemoveAdminUser( request );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -1512,7 +1524,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                     SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/DoRemoveUser.jsp" ) );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doRemoveAdminUser( request );
             assertNull( AdminMessageService.getMessage( request ) );
             AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
@@ -1535,7 +1547,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                     SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/DoRemoveUser.jsp" ) + "b" );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doRemoveAdminUser( request );
             fail( "Should have thrown" );
         }
@@ -1560,7 +1572,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             bean.doRemoveAdminUser( request );
             fail( "Should have thrown" );
         }
@@ -1583,7 +1595,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ImportUser.jsp" ) );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> fileItems = new ArrayList<>( );
         FileItem file = new DiskFileItem( "import_file", "application/csv", true, "junit.csv", 1024, new File( System.getProperty( "java.io.tmpdir" ) ) );
@@ -1625,7 +1637,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
                 + "b" );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> fileItems = new ArrayList<>( );
         FileItem file = new DiskFileItem( "import_file", "application/csv", true, "junit.csv", 1024, new File( System.getProperty( "java.io.tmpdir" ) ) );
@@ -1664,7 +1676,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> fileItems = new ArrayList<>( );
         FileItem file = new DiskFileItem( "import_file", "application/csv", true, "junit.csv", 1024, new File( System.getProperty( "java.io.tmpdir" ) ) );
@@ -1705,7 +1717,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
         request.setParameter( "id_expression", "1" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         try
         {
             bean.doInsertRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
@@ -1726,7 +1738,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         request.setParameter( "id_expression", "1" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" )
                 + "b" );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         try
         {
             bean.doInsertRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
@@ -1750,7 +1762,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
         request.setParameter( "id_expression", "1" );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         try
         {
             bean.doInsertRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
@@ -1866,7 +1878,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.setParameter( "status", Integer.toString( AdminUser.ANONYMIZED_CODE ) );
         request.setParameter( "user_level", "10" );
         request.setParameter( "notify_user", "false" );
@@ -1900,7 +1912,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.setParameter( "status", Integer.toString( AdminUser.ANONYMIZED_CODE ) );
         request.setParameter( "user_level", "10" );
         request.setParameter( "notify_user", "false" );
@@ -1939,7 +1951,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.setParameter( "status", Integer.toString( AdminUser.ANONYMIZED_CODE ) );
         request.setParameter( "user_level", "10" );
         request.setParameter( "notify_user", "false" );
@@ -1986,7 +1998,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
         request.setParameter( "force_change_password_reinit", origForceChangePasswordReinit ? Boolean.FALSE.toString( ) : Boolean.TRUE.toString( ) );
         request.setParameter( "password_minimum_length", Integer.toString( origPasswordMinimumLength + 1 ) );
@@ -2052,7 +2064,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" )
                 + "b" );
         request.setParameter( "force_change_password_reinit", origForceChangePasswordReinit ? Boolean.FALSE.toString( ) : Boolean.TRUE.toString( ) );
@@ -2123,7 +2135,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.setParameter( "force_change_password_reinit", origForceChangePasswordReinit ? Boolean.FALSE.toString( ) : Boolean.TRUE.toString( ) );
         request.setParameter( "password_minimum_length", Integer.toString( origPasswordMinimumLength + 1 ) );
         request.setParameter( "reset_token_validity", Integer.toString( origResetTokenValidity + 1 ) );
@@ -2180,7 +2192,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
         request.setParameter( "is_email_pattern_set_manually", Boolean.FALSE.toString( ) );
         request.setParameter( "email_pattern", origEmailPattern + "b" );
@@ -2256,7 +2268,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" )
                 + "b" );
         request.setParameter( "is_email_pattern_set_manually", Boolean.FALSE.toString( ) );
@@ -2286,7 +2298,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" )
                 + "b" );
         request.setParameter( "is_email_pattern_set_manually", Boolean.FALSE.toString( ) );
@@ -2360,7 +2372,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoRemoveAdvancedSecurityParameters( ) throws AccessDeniedException
+    public void testDoRemoveAdvancedSecurityParameters( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
@@ -2368,6 +2380,9 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             AdminUserJspBean bean = new AdminUserJspBean( );
             MockHttpServletRequest request = new MockHttpServletRequest( );
+            registerAdminUserAdmin(request );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT);
+        
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
             bean.doRemoveAdvancedSecurityParameters( request );
             assertFalse( AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
@@ -2443,14 +2458,17 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoUseAdvancedSecurityParameters( ) throws AccessDeniedException
+    public void testDoUseAdvancedSecurityParameters( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
         try
         {
             AdminUserJspBean bean = new AdminUserJspBean( );
-            MockHttpServletRequest request = new MockHttpServletRequest( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );     
+            registerAdminUserAdmin(request );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT);
+        
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
             bean.doUseAdvancedSecurityParameters( request );
             assertTrue( AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
@@ -2534,7 +2552,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         try
         {
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.setParameter( "id_expression", "1" );
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
             bean.doRemoveRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
@@ -2553,7 +2571,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         try
         {
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.setParameter( "id_expression", "1" );
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" )
                     + "b" );
@@ -2576,7 +2594,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         request.setParameter( "id_expression", "1" );
         try
         {
@@ -2605,7 +2623,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserJspBean bean = new AdminUserJspBean( );
             MockHttpServletRequest request = new MockHttpServletRequest( );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
             request.setParameter( "reset", "reset" );
             bean.doModifyEmailPattern( request );
@@ -2631,7 +2649,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserJspBean bean = new AdminUserJspBean( );
             MockHttpServletRequest request = new MockHttpServletRequest( );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" )
                     + "b" );
             request.setParameter( "reset", "reset" );
@@ -2661,7 +2679,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserJspBean bean = new AdminUserJspBean( );
             MockHttpServletRequest request = new MockHttpServletRequest( );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.setParameter( "reset", "reset" );
             bean.doModifyEmailPattern( request );
             fail( "Should have thrown" );
@@ -2675,5 +2693,23 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserService.doModifyEmailPattern( origEmailPattern, isEmailPatternSetManually( ) );
             disposeOfUser( user );
         }
+    }
+    
+    /**
+     * register admin adminUser for tests
+     * 
+     * @param request
+     * @throws AccessDeniedException
+     * @throws UserNotSignedException 
+     */
+    private void registerAdminUserAdmin( HttpServletRequest request) throws AccessDeniedException, UserNotSignedException 
+    {
+        AdminUser adminUser = new AdminUser( );
+        adminUser.setAccessCode( "admin");
+        adminUser.setLastName( "test");
+        adminUser.setStatus( 0 );
+        adminUser.setUserLevel( 0 );
+        
+        AdminAuthenticationService.getInstance( ).registerUser(request, adminUser);
     }
 }
