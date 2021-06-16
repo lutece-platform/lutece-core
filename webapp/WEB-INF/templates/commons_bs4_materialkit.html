@@ -958,6 +958,29 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	</span>
 </#macro>
 
+<#-- NAVBAR -->
+<#macro navBar tag='nav' class='' id='' params=''>
+<${tag} class="navbar<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</${tag}>
+</#macro>
+
+<#-- NAV -->
+<#macro nav tag='nav' type='tab' class='' id='' params=''>
+<${tag} class="nav nav-${type!}<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</${tag}>
+</#macro>
+
+<#-- NAVITEM -->
+<#macro navItem href='' name='' active=false title='' alt='' target='' tag='li' class='' id='' params=''>
+<${tag} class="nav-link<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#if href !='' >
+		<@link class='nav-link' href=href name=name title=title alt=alt target=target active=active /> 
+	</#if>
+	<#nested>
+</#${tag}>
+</#macro>
 
 <#-- BUTTON -->
 <#-- bootstrap 3 : size: btn-xs/btn-sm/btn-lg -->

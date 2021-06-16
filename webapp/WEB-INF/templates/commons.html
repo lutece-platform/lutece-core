@@ -1294,9 +1294,33 @@
 </#macro>
 
 <#macro dropdownItem class='' href='' title='' id='' params=''>
-	<li>
-		<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
-	</li>
+<li>
+	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
+</li>
+</#macro>
+
+<#-- NAVBAR -->
+<#macro navBar tag='nav' class='' id='' params=''>
+<${tag} class="navbar<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</${tag}>
+</#macro>
+
+<#-- NAV -->
+<#macro nav tag='nav' type='tab' class='' id='' params=''>
+<${tag} class="nav nav-${type!}<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</${tag}>
+</#macro>
+
+<#-- NAVITEM -->
+<#macro navItem href='' name='' active=false title='' alt='' target='' tag='li' class='' id='' params=''>
+<${tag} class="nav-link<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#if href !='' >
+		<@link class='nav-link' href=href name=name title=title alt=alt target=target active=active /> 
+	</#if>
+	<#nested>
+</#${tag}>
 </#macro>
 
 <#-- CARDS -->
