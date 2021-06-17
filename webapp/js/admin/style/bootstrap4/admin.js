@@ -68,11 +68,6 @@ $( function(){
 	  $(".lutece-dashboard .box-header, .lutece-dashboard .info-box-icon").css("cursor", "move");
 
 
-	// File Input Style
-	$(":file").not(".noBootstrapFilestyle")
-                .addClass("filestyle")
-                .filestyle({buttonText: "&nbsp;Parcourir"});
-
 	$(".portlet-type").on('click', function(e) {
 		// Stop the link default behaviour.
 		e.preventDefault();
