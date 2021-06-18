@@ -163,7 +163,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
             
             if ( file != null )
             {
-                file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( file.getIdFile( ) ) );
+                file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) ) );
                 return file;
             }
         }
