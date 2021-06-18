@@ -677,7 +677,8 @@ and is kept only for backwards compatibility
 	
 <#-- TABLE -->
 <#-- class:  -->
-<#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false narrow=false collapsed=false params=''>
+<#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false narrow=false collapsed=false caption='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />	
 	<#local class = class />
     <#if condensed> <#local class += ' is-narrow' /> </#if>
     <#if hover>     <#local class += ' is-hoverable' /> </#if>
@@ -686,13 +687,32 @@ and is kept only for backwards compatibility
 	<#if collapsed> <#local class += ' collapse' /> </#if>
     
     <table class="table is-fullwidth ${class?trim}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#if caption!=''><caption>${caption}</caption></#if>
         <#nested>
     </table>
 </#macro>
 
-<#macro tableHeadBodySeparator>
+<#macro tableHead id='' class='' params=''>
+<thead<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
 </thead>
-<tbody>
+</#macro>
+
+<#macro tableBody id='' class='' params=''>
+<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</tbody>
+</#macro>
+
+<#macro tableFoot id='' class='' params=''>
+<tfoo <#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</tfoot>
+</#macro>
+
+<#macro tableHeadBodySeparator id='' class='' params=''>
+</thead>
+<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 </#macro>
 
 <#-- MACRO TR -->

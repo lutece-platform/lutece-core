@@ -13,10 +13,6 @@
 <#macro coreAdminCSSLinks>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet"> 
-<link href="js/admin/lib/polipop/css/polipop.core.min.css" rel="stylesheet" > <!-- provided by core -->
-<link href="js/admin/lib/polipop/css/polipop.default.min.css" rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/jquery-ui.min.css" rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/jquery-ui.structure.min.css" rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/style/bootstrap4/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap 4.3.1 -->
 <link href="css/admin/style/bootstrap4/bootstrap-colorpicker.min.css" rel="stylesheet">
 <link href="css/admin/style/bootstrap4/bootstrap-flatpickr.min.css" rel="stylesheet">
@@ -278,7 +274,8 @@
 
 <#-- TABLE -->
 <#-- class:  -->
-<#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false narrow=false collapsed=false params=''>
+<#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false narrow=false collapsed=false caption='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />	
 	<#local class = class />
 	<#if condensed> <#local class += ' table-sm' /> </#if>
 	<#if hover>     <#local class += ' table-hover' /> </#if>
@@ -289,11 +286,35 @@
 	<div class="table-responsive">
 	</#if>
 	<table class="table ${class?trim}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#if caption!=''><caption>${caption}</caption></#if>
 		<#nested>
 	</table>
 	<#if responsive>
 	</div>
 	</#if>
+</#macro>
+
+<#macro tableHead id='' class='' params=''>
+<thead<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</thead>
+</#macro>
+
+<#macro tableBody id='' class='' params=''>
+<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</tbody>
+</#macro>
+
+<#macro tableFoot id='' class='' params=''>
+<tfoo <#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</tfoot>
+</#macro>
+
+<#macro tableHeadBodySeparator id='' class='' params=''>
+</thead>
+<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 </#macro>
 
 <#-- MACRO TR -->
@@ -344,12 +365,6 @@
 		</#if>
 	</td>
 </#macro>
-
-<#macro tableHeadBodySeparator>
-</thead>
-<tbody>
-</#macro>
-
 
 <#-- SORT -->
 <#macro sort jsp_url attribute id="" >

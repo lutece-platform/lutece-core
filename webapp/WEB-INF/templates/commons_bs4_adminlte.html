@@ -11,31 +11,24 @@
 <#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 4.3</#macro>
 
 <#macro coreAdminCSSLinks>
-<link href="js/admin/lib/polipop/css/polipop.core.min.css" rel="stylesheet" > <!-- provided by core -->
-<link href="js/admin/lib/polipop/css/polipop.default.min.css" rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/jquery-ui.min.css" rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/jquery-ui.structure.min.css" rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/jquery-ui.theme.min.css" rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/style/bootstrap4/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap 4.3.1 -->
-<link href="css/admin/style/bootstrap4/bootstrap-colorpicker.min.css" rel="stylesheet"><!-- provided by core -->
-<link href="css/admin/style/bootstrap4/bootstrap-datepicker.min.css" rel="stylesheet"><!-- provided by core -->
-<link href="css/admin/style/bootstrap4/bootstrap-flatpickr.min.css" rel="stylesheet"><!-- provided by core -->
-<link href="css/admin/style/bootstrap4/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1 --><!-- provided by core -->
-<link href="css/admin/style/bootstrap4/portal_admin.css" rel="stylesheet"><!-- provided by core -->
-<link href="css/admin/style/bootstrap4/adminlte.min.css" rel="stylesheet"><!-- provided by core -->
-<link href="css/admin/style/bootstrap4/adminlte.override.css" rel="stylesheet"><!-- provided by core -->
-<link href="css/admin/style/bootstrap4/bootstrap4.override.css" rel="stylesheet"> <!-- Bootstrap 4.3.1 --><!-- provided by core -->
+<link href="css/admin/style/bootstrap4/bootstrap-colorpicker.min.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/bootstrap-datepicker.min.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/bootstrap-flatpickr.min.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1 -->
+<link href="css/admin/style/bootstrap4/portal_admin.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/adminlte.min.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/adminlte.override.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/bootstrap4.override.css" rel="stylesheet"> <!-- Bootstrap 4.3.1 -->
 </#macro>
 
 <#macro coreAdminJSLinks>
-<script src="js/admin/lib/polipop/polipop.min.js"></script> <!-- provided by core -->
-<script src="css/admin/style/bootstrap4/bootstrap.bundle.min.js"></script> <!-- provided by core -->
-<script src="css/admin/style/bootstrap4/bootstrap-colorpicker.min.js"></script> <!-- provided by core -->
-<script src="css/admin/style/bootstrap4/bootstrap-datepicker.min.js"></script><!-- provided by core -->
-<script src="css/admin/style/bootstrap4/bootstrap-flatpickr.min.js"></script><!-- provided by core -->
-<script src="css/admin/style/bootstrap4/adminlte.min.js"></script><!-- provided by core -->
-<script src="js/admin/jquery/jquery-ui.min.js"></script> <!-- provided by core -->
-<script src="js/admin/style/bootstrap4/admin.js"></script> <!-- provided by core -->
+<script src="css/admin/style/bootstrap4/bootstrap.bundle.min.js"></script> 
+<script src="css/admin/style/bootstrap4/bootstrap-colorpicker.min.js"></script> 
+<script src="css/admin/style/bootstrap4/bootstrap-datepicker.min.js"></script>
+<script src="css/admin/style/bootstrap4/bootstrap-flatpickr.min.js"></script>
+<script src="css/admin/style/bootstrap4/adminlte.min.js"></script>
+<script src="js/admin/style/bootstrap4/admin.js"></script> 
 </#macro>
 
 <#global gClassActive='active' />
@@ -270,7 +263,8 @@
 	
 <#-- TABLE -->
 <#-- class:  -->
-<#macro table id='' class='table-borderless' responsive=true condensed=true hover=true striped=false bordered=false narrow=false collapsed=false params=''>
+<#macro table id='' class='table-borderless' responsive=true condensed=true hover=true striped=false bordered=false narrow=false collapsed=false caption='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />	
 	<#local class = class />
 	<#if condensed> <#local class += ' table-sm' /> </#if>
 	<#if hover>     <#local class += ' table-hover' /> </#if>
@@ -281,12 +275,37 @@
 	<div class="table-responsive-sm">
 	</#if>
 	<table class="table ${class?trim}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#if caption!=''><caption>${caption}</caption></#if>
 		<#nested>
 	</table>
 	<#if responsive>
 	</div>
 	</#if>
 </#macro>
+
+<#macro tableHead id='' class='' params=''>
+<thead<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</thead>
+</#macro>
+
+<#macro tableBody id='' class='' params=''>
+<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</tbody>
+</#macro>
+
+<#macro tableFoot id='' class='' params=''>
+<tfoo <#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</tfoot>
+</#macro>
+
+<#macro tableHeadBodySeparator id='' class='' params=''>
+</thead>
+<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+</#macro>
+
 
 <#-- MACRO TR -->
 <#macro tr id='' class='' hide=[] params=''>
@@ -336,10 +355,6 @@
 	</td>
 </#macro>
 
-<#macro tableHeadBodySeparator>
-</thead>
-<tbody>
-</#macro>
 
 <#-- SORT -->
 <#macro sort jsp_url attribute id="" >
@@ -902,13 +917,12 @@
 <#-- color: default/primary/success/info/warning/danger/ -->
 <#macro tag color='default' class='' size='' title='' tagIcon='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
-	
-	<span class="badge bg-${color}<#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
-		<#if tagIcon !=''>
+<span class="badge bg-${color}<#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+	<#if tagIcon !=''>
 		<@icon style=tagIcon />
-		</#if>
-		<#nested>
-	</span>
+	</#if>
+	<#nested>
+</span>
 </#macro>
 
 
