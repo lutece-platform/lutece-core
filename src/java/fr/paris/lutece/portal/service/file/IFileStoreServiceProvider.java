@@ -152,7 +152,7 @@ public interface IFileStoreServiceProvider extends Serializable
      * @param request
      * @return the file
      * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
-     * @throws fr.paris.lutece.portal.service.download.ExpiredLinkException
+     * @throws fr.paris.lutece.portal.service.file.ExpiredLinkException
      * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
     File getFileFromRequestBO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException;
@@ -163,7 +163,7 @@ public interface IFileStoreServiceProvider extends Serializable
      * @param request
      * @return the file
      * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
-     * @throws fr.paris.lutece.portal.service.download.ExpiredLinkException
+     * @throws fr.paris.lutece.portal.service.file.ExpiredLinkException
      * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
     File getFileFromRequestFO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException;
