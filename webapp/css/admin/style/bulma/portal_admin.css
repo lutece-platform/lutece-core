@@ -91,7 +91,6 @@
 iframe#preview { 
   display: block; 
   overflow: auto; 
-  border: 0; 
   padding: 0; 
   margin:-10px auto; 
   border:2px solid #DEDEDE; 
@@ -232,7 +231,7 @@ li.portlet-type a:hover{
 .card-theme.default-theme .avatar img{ border-color:  #3C763D }
 .theme-selected{ display: none }
 .card-theme.default-theme .theme-selected{
-  display: block; width: 200px; background: #3C763D; top: 25px; left: -50px; text-align: center; line-height: 50px;  letter-spacing: 1px;
+  display: block; width: 200px; background: #3C763D; text-align: center; line-height: 50px;  letter-spacing: 1px;
   font-weight: bold; font-size: 16px; color: #fff; box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg);
 }
 

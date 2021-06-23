@@ -142,7 +142,7 @@ ul.pagination{ margin-top: 0; }
 .plugin{ min-height: 300px; max-height: 300px; }
 
 /* Admin Site                                 */
-iframe#preview {display: block; overflow: auto; border: 0; padding: 0; margin:-10px auto; border: 2px solid var( --gray-color ); max-height:400px}
+iframe#preview {display: block; overflow: auto; padding: 0; margin:-10px auto; border: 2px solid var( --gray-color ); max-height:400px }
 
 /* Portlets                                   */
 li.portlet-type a:hover{ background:var( --primary-color ) url(); color:var( --white-color );}
@@ -220,7 +220,7 @@ div.box-upload { min-height: 100px; }
 .card-theme .avatar img{ width: 100px; height: 100px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; border: 5px solid rgba(0,0,30,0.8) }
 .card-theme.default-theme .avatar img{ border-color:  var( --success-color ) }
 .theme-selected{ display: none }
-.card-theme.default-theme .theme-selected{ display: block; width: 200px; background: var( --success-color ); top: 25px; left: -50px; text-align: center; line-height: 50px; letter-spacing: 1px; font-weight: bold; font-size: 16px; color: var( --white-color ); box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg); }
+.card-theme.default-theme .theme-selected{ display: block; width: 200px; background: var( --success-color ); text-align: center; line-height: 50px; letter-spacing: 1px; font-weight: bold; font-size: 16px; color: var( --white-color ); box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg); }
 
 /*==================================================
 =            Bootstrap 3 Media Queries             =

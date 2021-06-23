@@ -28,7 +28,7 @@
 .copy-content.no-hover:hover:after{ content: '';}
 
 /* Admin Site       */
-iframe#preview {  display: block; overflow: auto; border: 0; padding: 0; margin:-10px auto; border:2px solid #DEDEDE; max-height:400px }
+iframe#preview {  display: block; overflow: auto; padding: 0; margin:-10px auto; border:2px solid #DEDEDE; max-height:400px }
 
 /* Portlets         */
 li.portlet-type a:hover{  background:#6D84CB;  color:#fff; }
