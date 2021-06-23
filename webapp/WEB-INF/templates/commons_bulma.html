@@ -25,6 +25,8 @@
 <script src="js/admin/style/bulma/bulma-accordion.min.js"></script> <!-- provided by core -->
 <script src="js/admin/jquery/jquery-ui.min.js"></script> <!-- provided by core -->
 <script src="js/admin/style/bulma/admin.js"></script> <!-- provided by core -->
+<script src="js/admin/bootstrap-flatpickr.min.js"></script>
+<script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script>
 </#macro>
 
 <#global gClassActive='is-active' />
@@ -930,7 +932,7 @@ and is kept only for backwards compatibility
 <#-- type : text/textarea/password/email/file/number. Default is text -->
 <#-- size: xs/sm/lg -->
 <#-- pattern: [A-F][0-9]{5} -->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.lang minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime=''>
+<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.lang minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' dateRangeEndId=''>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if size == 'xs' || size == 'sm'><#local size = 'small' />
 <#elseif size == 'md'><#local size = 'medium' />
@@ -949,7 +951,9 @@ and is kept only for backwards compatibility
 	<#elseif type='datetime'>
 		<@getDateTimePickerBootstrap idField='${id}' language=language />
 	<#elseif type='daterange'>
-		<@getDateRangeFlatPicker idField='${id}' language=language />
+		<#if dateRangeEndId != ''>
+			<@getDateRangeFlatPicker idField='${id}' idEndField='${dateRangeEndId}' language=language />
+		</#if>
 	<#elseif type='datetimerange'>
 		<@getDateTimeRangeFlatPicker idField='${id}' language=language />
 	</#if>
