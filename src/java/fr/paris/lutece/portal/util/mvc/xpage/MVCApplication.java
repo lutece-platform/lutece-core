@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.util.mvc.xpage;
 
 import fr.paris.lutece.portal.service.security.AccessLogService;
-import fr.paris.lutece.portal.service.security.IAccessLogger;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -58,6 +57,7 @@ import org.springframework.util.ReflectionUtils;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import static fr.paris.lutece.portal.service.security.AccessLogService.CONSTANT_FO;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
@@ -86,17 +86,21 @@ import fr.paris.lutece.util.url.UrlItem;
 public abstract class MVCApplication implements XPageApplication
 {
     private static final long serialVersionUID = 6093635383465830355L;
+    
+    // markers
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
     private static final String MARK_MESSAGE_BOX = "messageBox";
+    
+    // constants
     private static final String URL_PORTAL = "Portal.jsp";
     private static final String PATH_PORTAL = "jsp/site/";
     private static final String VIEW_MESSAGEBOX = "messageBox";
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String CONTENT_TYPE_XML = "application/xml";
-    private static final String PROPERTY_SITE_CODE = "lutece.code";
     
+    // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
     private List<ErrorMessage> _listErrors = new ArrayList<>( );
     private List<ErrorMessage> _listInfos = new ArrayList<>( );
@@ -157,7 +161,8 @@ public abstract class MVCApplication implements XPageApplication
 
             if ( m != null )
             {
-                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ));
+                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), 
+                        registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), CONSTANT_FO );
                 return (XPage) m.invoke( this, request );
             }
 
@@ -166,14 +171,16 @@ public abstract class MVCApplication implements XPageApplication
 
             if ( m != null )
             {
-                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ));
+                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), 
+                        registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), CONSTANT_FO );
                 return (XPage) m.invoke( this, request );
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
 
-            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ));
+            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), 
+                    registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), CONSTANT_FO );
             return (XPage) m.invoke( this, request );
         }
         catch( InvocationTargetException e )

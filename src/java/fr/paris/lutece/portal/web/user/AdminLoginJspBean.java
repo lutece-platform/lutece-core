@@ -109,6 +109,7 @@ public class AdminLoginJspBean implements Serializable
     private static final String CONSTANT_ACTION_DOFORGOTPASSWORD = "doForgotPwd";
     private static final String CONSTANT_ACTION_DOFORGOTLOGIN = "doForgotLogin";
     private static final String CONSTANT_ACTION_DOLOGOUT = "doLogout";
+    private static final String CONSTANT_BO = "BO";
 
     // Jsp
     private static final String JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD = "jsp/admin/user/ModifyDefaultUserPassword.jsp";
@@ -530,7 +531,7 @@ public class AdminLoginJspBean implements Serializable
 
         MailService.sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTPASSWORD, user, null );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTPASSWORD, user, null, CONSTANT_BO );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
     }
@@ -612,7 +613,7 @@ public class AdminLoginJspBean implements Serializable
         AdminUserHome.update( user );
         AdminUserHome.insertNewPasswordInHistory( user.getPassword( ), user.getUserId( ) );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DORESETPASSWORD, user, null );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DORESETPASSWORD, user, null, CONSTANT_BO );
 
         
         return AdminMessageService.getMessageUrl( request, MESSAGE_RESET_PASSORWD_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
@@ -667,7 +668,7 @@ public class AdminLoginJspBean implements Serializable
 
         MailService.sendMailHtml( strEmail, strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTLOGIN, null, strAccessCode );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTLOGIN, null, strAccessCode, CONSTANT_BO );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_FORGOT_LOGIN_SENDING_SUCCESS, AdminMessage.TYPE_INFO );
     }
@@ -751,7 +752,7 @@ public class AdminLoginJspBean implements Serializable
 
         String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOLOGOUT, user, null );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOLOGOUT, user, null, CONSTANT_BO );
                 
         return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_LOGOUT, strLoginUrl, AdminMessage.TYPE_INFO );
     }

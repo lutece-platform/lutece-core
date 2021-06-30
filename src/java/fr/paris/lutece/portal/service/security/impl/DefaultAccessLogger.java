@@ -47,6 +47,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.security.IAccessLogger;
 
 import java.text.MessageFormat;
+import org.apache.log4j.Priority;
 
 /**
  * This class provides a default implementation for AccessLogger Service 
@@ -83,66 +84,79 @@ public final class DefaultAccessLogger implements IAccessLogger
             DEFAULT_ACCESSLOG_MESSAGE_FORMAT_SEPARATOR );
     
     
-    public static final String LOGGER_ACCESS_LOG = "lutece.accessLogger";
-    private static Logger _logger = Logger.getLogger( LOGGER_ACCESS_LOG );
+    public static final String DEFAULT_LOGGER_ACCESS_LOG = "lutece.accessLogger";
+    public static final String FRONTOFFICE_ACCESS =  "FO";
+    public static final String BACKOFFICE_ACCESS = "BO";
+    private static Logger _defaultLogger = Logger.getLogger( DEFAULT_LOGGER_ACCESS_LOG );
+    private static Logger _foLogger = Logger.getLogger(DEFAULT_LOGGER_ACCESS_LOG + "." + FRONTOFFICE_ACCESS );
+    private static Logger _boLogger = Logger.getLogger(DEFAULT_LOGGER_ACCESS_LOG + "." + BACKOFFICE_ACCESS );
     
 
     /**
-     * Log a message object with the INFO level.It is logged in application.log
-     *
-     * @param strEventType
-     * @param strAppEventCode
-     * @param data
-     *            the message object to log
+     * {@inheritDoc}
      */
     @Override
-    public void info( String strEventType, String strAppEventCode, User connectedUser, Object data )
+    public void info( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
     {
-        if ( _logger.isInfoEnabled( ) )
+        Logger logger = getLogger( specificOrigin );
+
+        if ( logger.isInfoEnabled( ) )
         {
             String strAppId = AppPropertiesService.getProperty( AccessLoggerConstants.PROPERTY_SITE_CODE, "?" );
             String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, (connectedUser!=null?connectedUser.getAccessCode():"null"), data );
 
-            _logger.info( logMessage );
+            logger.info( logMessage );
         }
     }
 
     /**
-     * Log a message object with the DEBUG level.It is logged in application.log
-     *
-     * @param strEventType
-     * @param strAppEventCode
-     * @param data
-     *            the message object to log
+     * {@inheritDoc}
      */
     @Override
-    public void debug( String strEventType, String strAppEventCode, User connectedUser, Object data )
+    public void debug( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
     {
-        if ( _logger.isDebugEnabled( ) )
+        Logger logger = getLogger( specificOrigin );
+
+        if ( logger.isDebugEnabled( ) )
         {
             String strAppId = AppPropertiesService.getProperty( AccessLoggerConstants.PROPERTY_SITE_CODE, "?" );
             String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, (connectedUser!=null?connectedUser.getAccessCode():"null"), data );
 
-            _logger.debug( logMessage );
+            logger.debug( logMessage );
         }
     }
 
     /**
-     * Log a message object with the TRACE level.It is logged in application.log
-     *
-     * @param strEventType
-     * @param strAppEventCode
-     * @param data
+     * {@inheritDoc}
      */
     @Override
-    public void trace( String strEventType, String strAppEventCode, User connectedUser, Object data )
+    public void trace( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
     {
-        if ( _logger.isTraceEnabled( ) )
+        Logger logger = getLogger( specificOrigin );
+
+        if ( logger.isTraceEnabled( ) )
         {
             String strAppId = AppPropertiesService.getProperty( AccessLoggerConstants.PROPERTY_SITE_CODE, "?" );
             String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, (connectedUser!=null?connectedUser.getAccessCode():"null"), data );
 
-            _logger.trace( logMessage );
+            logger.trace( logMessage );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void warn( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
+    {
+        Logger logger = getLogger( specificOrigin );
+
+        if ( logger.isEnabledFor( Priority.WARN ) )
+        {
+            String strAppId = AppPropertiesService.getProperty( AccessLoggerConstants.PROPERTY_SITE_CODE, "?" );
+            String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, (connectedUser!=null?connectedUser.getAccessCode():"null"), data );
+
+            logger.warn( logMessage );
         }
     }
 
@@ -248,7 +262,7 @@ public final class DefaultAccessLogger implements IAccessLogger
         try
         {
 
-            int idx = message.indexOf( _messageFormatSeparator, message.indexOf( LOGGER_ACCESS_LOG ) );
+            int idx = message.indexOf( _messageFormatSeparator, message.indexOf( DEFAULT_LOGGER_ACCESS_LOG ) );
             String hash = message.substring( idx + 1, idx + 33 );
             String data = "||" +  message.substring( idx + 34 );
 
@@ -272,4 +286,25 @@ public final class DefaultAccessLogger implements IAccessLogger
         return _bAddHashToLogs;
     }
 
+    /**
+     * get logger 
+     * 
+     * @param strSpecificLogger
+     * @return the logger
+     */
+    private Logger getLogger( String specificOrigin )
+    {
+        if ( FRONTOFFICE_ACCESS.equals( specificOrigin ) && _foLogger != null )
+        {
+            return _foLogger;
+        }
+        else if ( BACKOFFICE_ACCESS.equals( specificOrigin ) && _boLogger != null )
+        {
+            return _boLogger;
+        }
+        else
+        {
+            return _defaultLogger;
+        }
+    }
 }

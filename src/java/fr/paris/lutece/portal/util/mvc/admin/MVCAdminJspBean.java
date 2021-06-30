@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.util.mvc.admin;
 
 import fr.paris.lutece.portal.service.security.AccessLogService;
-import fr.paris.lutece.portal.service.security.IAccessLogger;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -57,13 +56,11 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import static fr.paris.lutece.portal.service.security.AccessLogService.CONSTANT_BO;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
-import fr.paris.lutece.portal.service.security.LuteceUser;
-import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessage;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
@@ -79,10 +76,16 @@ import fr.paris.lutece.util.url.UrlItem;
 public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 {
     private static final long serialVersionUID = 278165302545398831L;
+    
+    // markers
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
+    
+    // properties
     private static final String PROPERTY_SITE_CODE = "lutece.code";
+
+    // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
     private List<ErrorMessage> _listErrors = new ArrayList<>( );
     private List<ErrorMessage> _listInfos = new ArrayList<>( );
@@ -117,7 +120,8 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             
             if ( m != null )
             {
-                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ) );
+                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), 
+                        adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), CONSTANT_BO );
                 return (String) m.invoke( this, request );
             }
 
@@ -126,14 +130,16 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             if ( m != null )
             {
-                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ));
+                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), 
+                        adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), CONSTANT_BO);
                 return (String) m.invoke( this, request );
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
 
-            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ));
+            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), 
+                    adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), CONSTANT_BO);
             return (String) m.invoke( this, request );
         }
         catch( InvocationTargetException e )

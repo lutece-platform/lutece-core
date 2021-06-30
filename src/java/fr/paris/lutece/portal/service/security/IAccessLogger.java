@@ -36,41 +36,113 @@ package fr.paris.lutece.portal.service.security;
 import fr.paris.lutece.api.user.User;
 
 /**
- * This class provides writing services in the application logs files
+ * Interface for access loggers
  */
 public interface IAccessLogger
 {
 
     /**
-     * Log a message object with the INFO level.It is logged in application.log
+     * Log a message object with the INFO level.
      *
-     * @param strEventType
-     * @param strAppEventCode
-     * @param connectedUser
+     * @param strEventType the event type
+     * @param strAppEventCode the event code
+     * @param connectedUser the user connected
+     * @param data
+     *            the message object to log
+     * @param specificOrigin specific origin of the event to log
+     */
+    public void info( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin );
+
+    /**
+     * Log a message object with the INFO level.
+     *
+     * @param strEventType the event type
+     * @param strAppEventCode the event code
+     * @param connectedUser the user connected
      * @param data
      *            the message object to log
      */
-    public void info( String strEventType, String strAppEventCode, User connectedUser, Object data );
+    public default void info( String strEventType, String strAppEventCode, User connectedUser, Object data ) 
+    {
+        info( strEventType, strAppEventCode, connectedUser, data, null );
+    }
 
     /**
-     * Log a message object with the DEBUG level. It is logged in application.log
+     * Log a message object with the DEBUG level.
      *
-     * @param strEventType
-     * @param strAppEventCode
-     * @param connectedUser
+     * @param strEventType the event type
+     * @param strAppEventCode the event code
+     * @param connectedUser the user connected
+     * @param data
+     *            the message object to log
+     * @param specificOrigin specific origin of the event to log
+     */
+    public void debug( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin );
+
+    /**
+     * Log a message object with the DEBUG level.
+     *
+     * @param strEventType the event type
+     * @param strAppEventCode the event code
+     * @param connectedUser the user connected
      * @param data
      *            the message object to log
      */
-    public void debug( String strEventType, String strAppEventCode, User connectedUser, Object data );
+    public default void debug( String strEventType, String strAppEventCode, User connectedUser, Object data )
+    {
+        debug( strEventType, strAppEventCode, connectedUser, data, null );
+    }
 
     /**
-     * Log a message object with the TRACE level.It is logged in application.log
+     * Log a message object with the TRACE level.
      *
-     * @param strEventType
-     * @param strAppEventCode
-     * @param connectedUser
+     * @param strEventType the event type
+     * @param strAppEventCode the event code
+     * @param connectedUser the user connected
      * @param data
+     *            the message object to log
+     * @param specificOrigin specific origin of the event to log
      */
-    public void trace( String strEventType, String strAppEventCode, User connectedUser, Object data );
+    public void trace( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin );
+
+    /**
+     * Log a message object with the TRACE level.
+     *
+     * @param strEventType the event type
+     * @param strAppEventCode the event code
+     * @param connectedUser the user connected
+     * @param data
+     *            the message object to log
+     */
+    public default void trace( String strEventType, String strAppEventCode, User connectedUser, Object data )
+    {
+        trace( strEventType, strAppEventCode, connectedUser, data, null );
+    }
+
+    /**
+     * Log a message object with the WARN level.
+     *
+     * @param strEventType the event type
+     * @param strAppEventCode the event code
+     * @param connectedUser the user connected
+     * @param data
+     *            the message object to log
+     * @param specificOrigin specific origin of the event to log
+     */
+    public void warn( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin );
+
+    /**
+     * Log a message object with the WARN level.
+     *
+     * @param strEventType the event type
+     * @param strAppEventCode the event code
+     * @param connectedUser the user connected
+     * @param data
+     *            the message object to log
+     */
+    public default void warn( String strEventType, String strAppEventCode, User connectedUser, Object data )
+    {
+        warn( strEventType, strAppEventCode, connectedUser, data, null );
+    }
 
 }

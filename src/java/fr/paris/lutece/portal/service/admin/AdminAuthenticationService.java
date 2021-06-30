@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.service.admin;
 
 import fr.paris.lutece.portal.service.security.AccessLogService;
-import fr.paris.lutece.portal.service.security.IAccessLogger;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.stream.Collectors;
@@ -54,7 +53,6 @@ import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
 /**
@@ -72,6 +70,7 @@ public final class AdminAuthenticationService
 
     private static final String CONSTANT_ACTION_LOGIN_ADMINUSER = "user.loginAdminUser";
     private static final String CONSTANT_ACTION_LOGOUT_ADMINUSER = "user.logoutAdminUser";
+    private static final String CONSTANT_BO = "BO";
 
     private static AdminAuthenticationService _singleton = new AdminAuthenticationService( );
     private static AdminAuthentication _authentication;
@@ -195,7 +194,7 @@ public final class AdminAuthenticationService
     {
         AdminUser user = _authentication.login( strAccessCode, strPassword, request );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_ADMINUSER, user, null );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_ADMINUSER, user, null, CONSTANT_BO );
 
         try
         {
@@ -231,7 +230,7 @@ public final class AdminAuthenticationService
         _authentication.logout( user );
         unregisterUser( request );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_ADMINUSER, user, null );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_ADMINUSER, user, null, CONSTANT_BO );
 
     }
 

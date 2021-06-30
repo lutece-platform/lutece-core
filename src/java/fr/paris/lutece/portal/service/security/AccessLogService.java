@@ -53,6 +53,7 @@ import java.util.List;
  * 
  * To log specific actions, use :
  * 
+ * AccessLogService.getInstance( ).warn( String strEventType, String strAppEventCode, String strConnectedUserLogin, Object data );
  * AccessLogService.getInstance( ).info( String strEventType, String strAppEventCode, String strConnectedUserLogin, Object data );
  * AccessLogService.getInstance( ).debug( String strEventType, String strAppEventCode, String strConnectedUserLogin, Object data );
  * AccessLogService.getInstance( ).trace( String strEventType, String strAppEventCode, String strConnectedUserLogin, Object data );
@@ -62,9 +63,12 @@ import java.util.List;
  */
 public final class AccessLogService
 {
+    // constants
+    public static final String BEAN_ACCESS_LOGGER = "accessLogger";    
+    public static final String CONSTANT_FO = "FO";
+    public static final String CONSTANT_BO = "BO";
 
-    public static final String BEAN_ACCESS_LOGGER = "accessLogger";
-
+    
     private final List<IAccessLogger> _accessLoggerList;
     private static AccessLogService _singleton = new AccessLogService( );
 
@@ -89,15 +93,45 @@ public final class AccessLogService
     /**
      * Log action with info level
      * 
+     * @param strEventType the event type
+     * @param strAppEventCode the event code
+     * @param connectedUser the user connected
+     * @param data the message object to log
+     * @param specificOrigin specific origin of the event to log
+     */
+    public void info( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
+    {
+        _accessLoggerList.forEach(accessLogger -> {
+            accessLogger.info( strEventType, strAppEventCode, connectedUser, data, specificOrigin );
+        });
+    }
+
+    /**
+     * Log action with info level
+     * 
+     * @param strEventType the event type
+     * @param strAppEventCode the event code
+     * @param connectedUser the user connected
+     * @param data the message object to log
+     */
+    public void info( String strEventType, String strAppEventCode, User connectedUser, Object data )
+    {
+        info( strEventType, strAppEventCode, connectedUser, data, null);
+    }
+
+    /**
+     * Log action with Debug level
+     * 
      * @param strEventType
      * @param strAppEventCode
      * @param connectedUser
      * @param data
+     * @param specificOrigin
      */
-    public void info( String strEventType, String strAppEventCode, User connectedUser, Object data )
+    public void debug( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
     {
         _accessLoggerList.forEach(accessLogger -> {
-            accessLogger.info( strEventType, strAppEventCode, connectedUser, data );
+            accessLogger.debug( strEventType, strAppEventCode, connectedUser, data, specificOrigin );
         });
     }
 
@@ -111,8 +145,22 @@ public final class AccessLogService
      */
     public void debug( String strEventType, String strAppEventCode, User connectedUser, Object data )
     {
+        debug( strEventType, strAppEventCode, connectedUser, data, null );
+    }
+
+    /**
+     * Log action with trace level
+     * 
+     * @param strEventType
+     * @param strAppEventCode
+     * @param connectedUser
+     * @param data
+     * @param specificOrigin
+     */
+    public void trace( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
+    {
         _accessLoggerList.forEach(accessLogger -> {
-            accessLogger.debug( strEventType, strAppEventCode, connectedUser, data );
+            accessLogger.trace( strEventType, strAppEventCode, connectedUser, data, specificOrigin );
         });
     }
 
@@ -126,9 +174,37 @@ public final class AccessLogService
      */
     public void trace( String strEventType, String strAppEventCode, User connectedUser, Object data )
     {
+        trace( strEventType, strAppEventCode, connectedUser, data, null );
+    }
+
+        /**
+     * Log action with warn level
+     * 
+     * @param strEventType
+     * @param strAppEventCode
+     * @param connectedUser
+     * @param data
+     * @param specificOrigin
+     */
+    public void warn( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
+    {
         _accessLoggerList.forEach(accessLogger -> {
-            accessLogger.trace( strEventType, strAppEventCode, connectedUser, data );
+            accessLogger.warn( strEventType, strAppEventCode, connectedUser, data, specificOrigin );
         });
     }
 
+    /**
+     * Log action with warn level
+     * 
+     * @param strEventType
+     * @param strAppEventCode
+     * @param connectedUser
+     * @param data
+     */
+    public void warn( String strEventType, String strAppEventCode, User connectedUser, Object data )
+    {
+        warn( strEventType, strAppEventCode, connectedUser, data, null );
+    }
+
+    
 }

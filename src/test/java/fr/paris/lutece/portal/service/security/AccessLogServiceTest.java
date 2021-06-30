@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.security;
 
 import fr.paris.lutece.test.LuteceTestCase;
 import static junit.framework.TestCase.fail;
-import org.eclipse.jetty.server.Authentication;
 
 /**
  * This class provides writing services in the application logs files
@@ -46,6 +45,7 @@ public final class AccessLogServiceTest extends LuteceTestCase
     private final String EVENT_TYPE = "eventType";
     private final String APP_EVENT_CODE = "appEventCode";
     private final String DATA = "some data";
+    private final String CONSTANT_TEST_ORIGIN = "TEST";
 
     /**
      * Log action with info level
@@ -57,7 +57,7 @@ public final class AccessLogServiceTest extends LuteceTestCase
         try
         {
             MokeLuteceAuthentication auth = new MokeLuteceAuthentication( );
-            AccessLogService.getInstance( ).info( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser("test", auth), DATA );
+            AccessLogService.getInstance( ).info( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser("test", auth), DATA, CONSTANT_TEST_ORIGIN );
         }
         catch( Exception e )
         {
@@ -73,7 +73,7 @@ public final class AccessLogServiceTest extends LuteceTestCase
         try
         {
             MokeLuteceAuthentication auth = new MokeLuteceAuthentication( );
-            AccessLogService.getInstance( ).debug( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser("test", auth), DATA );
+            AccessLogService.getInstance( ).debug( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser("test", auth), DATA, CONSTANT_TEST_ORIGIN );
         }
         catch( Exception e )
         {
@@ -89,7 +89,7 @@ public final class AccessLogServiceTest extends LuteceTestCase
         try
         {
             MokeLuteceAuthentication auth = new MokeLuteceAuthentication( );
-            AccessLogService.getInstance( ).trace( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser("test", auth), DATA );
+            AccessLogService.getInstance( ).trace( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser("test", auth), DATA, CONSTANT_TEST_ORIGIN );
         }
         catch( Exception e )
         {

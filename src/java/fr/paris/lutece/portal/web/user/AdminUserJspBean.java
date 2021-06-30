@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.web.user;
 
 import fr.paris.lutece.portal.service.security.AccessLogService;
-import fr.paris.lutece.portal.service.security.IAccessLogger;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -130,6 +129,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String CONSTANT_USER_MSG = "User ";
     private static final String CONSTANT_NOT_AUTHORIZED = " is not authorized to permission ";
     private static final String CONSTANT_ADVANCED_PARAMS = "core.advanced_parameters.";
+    private static final String CONSTANT_BO = "BO";
 
     // Beans
     private static final String BEAN_IMPORT_ADMIN_USER_SERVICE = "adminUserImportService";
@@ -743,7 +743,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                         TEMPLATE_NOTIFY_USER );
             }
             
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_CREATE_ADMINUSER, getUser( ), user.getAccessCode( ) );
+            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_CREATE_ADMINUSER, getUser( ), user.getAccessCode( ), CONSTANT_BO );
         }
         else
         {
@@ -762,7 +762,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             AdminUserHome.create( user );
             AdminUserFieldService.doCreateUserFields( user, request, getLocale( ) );
             
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_CREATE_ADMINUSER, getUser( ), user.getAccessCode( ));
+            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_CREATE_ADMINUSER, getUser( ), user.getAccessCode( ), CONSTANT_BO);
         }
 
         return JSP_MANAGE_USER;
@@ -968,7 +968,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
     
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser, user.getAccessCode( ) );
+            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser, user.getAccessCode( ), CONSTANT_BO );
         }
         else
         {
@@ -994,7 +994,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
 
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser, user.getAccessCode( ) );
+            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser, user.getAccessCode( ), CONSTANT_BO );
         }
 
         
@@ -1129,7 +1129,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             AdminUserHome.update( user, PasswordUpdateMode.UPDATE );
 
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_PASSWORD, currentUser, user.getAccessCode( ));
+            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_PASSWORD, currentUser, user.getAccessCode( ), CONSTANT_BO);
         }
 
         return JSP_MANAGE_USER;
@@ -1231,7 +1231,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             List<CSVMessageDescriptor> listMessages = _importAdminUserService.readCSVFile( fileItem, 0, false, false, bSkipFirstLine,
                     AdminUserService.getLocale( request ), AppPathService.getBaseUrl( request ) );
 
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_IMPORT_ADMINUSERS, getUser( ), fileItem.getName( ) );
+            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_IMPORT_ADMINUSERS, getUser( ), fileItem.getName( ), CONSTANT_BO );
 
             request.setAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES, listMessages );
 
@@ -1455,7 +1455,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUserHome.removeAllPasswordHistoryForUser( nUserId );
         AdminUserHome.remove( nUserId );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADMINUSER, currentUser, strUserId + " : " + strRemovedUserAccessCode);
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADMINUSER, currentUser, 
+                strUserId + " : " + strRemovedUserAccessCode, CONSTANT_BO );
 
         return JSP_MANAGE_USER;
     }
@@ -1717,7 +1718,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String,String[]> mapData = new HashMap<>( );
         mapData.put( user.getAccessCode( ), arrayRights ); 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_RIGHTS, currentUser, mapData );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_RIGHTS, currentUser, mapData, CONSTANT_BO );
         
 
         if ( user.getUserId( ) == currentUser.getUserId( ) )
@@ -1884,7 +1885,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String,String[]> mapData = new HashMap<>( );
         mapData.put( selectedUser.getAccessCode( ), arrayRoles ); 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_ROLES, currentUser, mapData);
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_ROLES, currentUser, mapData, CONSTANT_BO);
 
         return JSP_MANAGE_USER_ROLES + "?" + PARAMETER_USER_ID + "=" + nUserId;
     }
@@ -1932,7 +1933,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String,String[]> mapData = new HashMap<>( );
         mapData.put( user.getAccessCode( ), arrayWorkspaces ); 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_GROUPS, currentUser, mapData);
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_GROUPS, currentUser, mapData, CONSTANT_BO);
 
 
         return JSP_MANAGE_USER_WORKGROUPS + "?" + PARAMETER_USER_ID + "=" + nUserId;
@@ -1999,7 +2000,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         logParametersMap.put( AdminUserService.DSKEY_DEFAULT_USER_LEVEL, request.getParameter( PARAMETER_USER_LEVEL ) );
         logParametersMap.put( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION, request.getParameter( PARAMETER_NOTIFY_USER ) );
         logParametersMap.put( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE, request.getParameter( PARAMETER_LANGUAGE ) );
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_DEFAULT_PARAMETERS, getUser( ), logParametersMap);
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_DEFAULT_PARAMETERS, getUser( ), logParametersMap, CONSTANT_BO);
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
     }
@@ -2122,7 +2123,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
 
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_DEFAULT_SECURITY, getUser( ), logParametersMap);
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_DEFAULT_SECURITY, getUser( ), logParametersMap, CONSTANT_BO);
 
         
         return JSP_MANAGE_ADVANCED_PARAMETERS;
@@ -2285,7 +2286,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
         AdminUserService.useAdvancedSecurityParameters( );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_USE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null);
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_USE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null, CONSTANT_BO);
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
     }
@@ -2307,7 +2308,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
         AdminUserService.removeAdvancedSecurityParameters( );
         
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null);
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null, CONSTANT_BO);
 
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
@@ -2460,7 +2461,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         AdminUserService.anonymizeUser( nUserId, getLocale( ) );
         
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_ANONYMIZE_ADMINUSER, getUser( ), user.getAccessCode( ) );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_ANONYMIZE_ADMINUSER, getUser( ), user.getAccessCode( ), CONSTANT_BO );
 
         return JSP_MANAGE_USER;
     }

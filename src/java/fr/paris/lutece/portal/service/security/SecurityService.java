@@ -71,6 +71,7 @@ public final class SecurityService
     
     private static final String CONSTANT_ACTION_LOGIN_USER = "user.loginUser";
     private static final String CONSTANT_ACTION_LOGOUT_USER = "user.logoutUser";
+    private static final String CONSTANT_FO = "FO";
     
     private static SecurityService _singleton = new SecurityService( );
     private static LuteceAuthentication _authenticationService;
@@ -258,14 +259,14 @@ public final class SecurityService
         {
             String redirect = _authenticationService.getResetPasswordPageUrl( request );
             registerUser( request, user );
-            AccessLogService.getInstance( ).info(  AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null );
+            AccessLogService.getInstance( ).info(  AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null, CONSTANT_FO );
             
             throw new LoginRedirectException( redirect );
         }
 
         registerUser( request, user );
         
-        AccessLogService.getInstance( ).info(  AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null );
+        AccessLogService.getInstance( ).info(  AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null, CONSTANT_FO );
 
     }
 
@@ -287,12 +288,10 @@ public final class SecurityService
             return;
         }
 
-        String strUserName = (user!=null?user.getName( ):"");
-        
         _authenticationService.logout( user );
         unregisterUser( request );
 
-        AccessLogService.getInstance( ).info(  AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null );
+        AccessLogService.getInstance( ).info(  AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null, CONSTANT_FO );
         
     }
 
