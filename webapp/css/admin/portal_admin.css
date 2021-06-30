@@ -123,7 +123,8 @@ div.thumbnail div.caption{ background: var( --gray-color ); }
 .no-margin{ margin: 0; }
 /* Append right and left 2px space          */
 .spaced{ margin: 0 2px; }
-
+/* Text elipsis class */
+.truncate {  width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 /* Pager XS Sized                           */
 .pager-xs{ margin: 2px 5px; }
 .pager-xs > li > a{ padding: 1px 8px; }
