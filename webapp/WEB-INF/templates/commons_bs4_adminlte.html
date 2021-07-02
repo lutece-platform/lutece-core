@@ -103,6 +103,7 @@
 </@div>
 </#macro>
 
+
 <#-- PAGINATION LINKS -->
 <#macro paginationPageLinks paginator >
 <#assign nbLinkPagesToDisplay = 10 />
@@ -115,65 +116,67 @@
 	<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 	<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 </#if>
+<@nav params='aria-label="#i18n{portal.util.labelItemList}"'>
 <@ul class='pagination pagination-sm'>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
-	<li>
-		<@link href='${paginator.firstPageLink?xhtml}'>
+	<@li class='page-item'>
+		<@link class='page-link' href='${paginator.firstPageLink?xhtml}'>
 			${paginator.labelFirst}
 		</@link>
-	</li>
+	</@li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
-	<li class="previous">
-		<@link href='${paginator.previousPageLink?xhtml}'>
+	<@li class='page-item previous'>
+		<@link class='page-link' href='${paginator.previousPageLink?xhtml}'>
 			${paginator.labelPrevious}
 		</@link>
-	</li>
+	</@li>
 <#else>
-	<li class="disabled">
-		<@link href='${paginator.firstPageLink?xhtml}'>${paginator.labelPrevious}</@link>
-	</li>
+	<@li class='page-item disabled'>
+		<@link class='page-link' href='${paginator.firstPageLink?xhtml}'>${paginator.labelPrevious}</@link>
+	</@li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
-	<li>
-		<@link href='${(paginator.pagesLinks?first).url?xhtml}'><strong>...</strong></@link>
-	</li>
+	<@li class='page-item'>
+		<@link class='page-link' href='${(paginator.pagesLinks?first).url?xhtml}'><strong>...</strong></@link>
+	</@li>
 </#if>
 <#list paginator.pagesLinks as pageLink>
 	<#if ( pageLink.index == paginator.pageCurrent )>
-		<li class="active">
-			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
-		</li>
+		<@li class='page-item active'>
+			<@link class='page-link' href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
+		</@li>
 	<#else>
-		<li>
-			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
-		</li>
+		<@li class='page-item'>
+			<@link class='page-link' href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
+		</@li>
 	</#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-	<li>
-		<@link href='${(paginator.pagesLinks?last).url?xhtml}'><strong>...</strong></@link>
-	</li>
+	<@li class='page-item'>
+		<@link class='page-link' href='${(paginator.pagesLinks?last).url?xhtml}'><strong>...</strong></@link>
+	</@li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
-	<li class="next">
-		<@link href="${paginator.nextPageLink?xhtml}">
+	<@li class='page-item next'>
+		<@link class='page-link' href="${paginator.nextPageLink?xhtml}">
 			${paginator.labelNext}
 		</@link>
-	</li>
+	</@li>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-		<li class="next">
-			<@link href='${paginator.lastPageLink?xhtml}'>
+		<@li class='page-item'>
+			<@link class='page-link' href='${paginator.lastPageLink?xhtml}'>
 				${paginator.labelLast}
 			</@link>
-		</li>
+		</@li>
 	</#if>
 <#else>
-	<li class="disabled">
-		<@link href='${paginator.lastPageLink?xhtml}'>${paginator.labelNext}</@link>
-	</li>
+	<@li class='page-item'>
+		<@link class='page-link' href='${paginator.lastPageLink?xhtml}'>${paginator.labelNext}</@link>
+	</@li>
 </#if>
 </@ul>
+</@nav>
 </#macro>
 
 <#-- PAGINATION COMBO -->
