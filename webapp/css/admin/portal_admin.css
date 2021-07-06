@@ -251,6 +251,7 @@ div.box-upload { min-height: 100px; }
 
 @media screen and ( max-width: 560px ) {
 	 #admin-wrapper{ margin: 2px; }
+   .truncate{ width: 150px; }
 }
 
 /* Extra Small Devices, Phones */
