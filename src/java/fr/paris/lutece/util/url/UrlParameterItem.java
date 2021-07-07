@@ -33,6 +33,10 @@
  */
 package fr.paris.lutece.util.url;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 /**
  * This class provides utility methods to manipulate an url parameter
  */
@@ -60,8 +64,8 @@ public class UrlParameterItem
      */
     public UrlParameterItem( String strName, String strValue )
     {
-        _strName = strName;
-        _strValue = strValue;
+        _strName = encodeValue( strName );
+        _strValue = encodeValue( strValue );
     }
 
     /**
@@ -74,7 +78,7 @@ public class UrlParameterItem
      */
     public UrlParameterItem( String strName, int nValue )
     {
-        _strName = strName;
+        _strName = encodeValue( strName );
         _strValue = Integer.toString( nValue );
     }
 
@@ -103,5 +107,21 @@ public class UrlParameterItem
     public String getCodeEntity( boolean bFirst )
     {
         return ( ( bFirst ) ? "?" : "&#38;" ) + _strName + "=" + _strValue;
+    }
+
+    /**
+     * Return the url-encoded string, handling special characters
+     *
+     * @param value
+     *           Raw url parameter
+     *
+     * @return String The url-encoded string
+     */
+    private static String encodeValue(String value) {
+        try {
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException ex) {
+            throw new RuntimeException(ex.getCause());
+        }
     }
 }

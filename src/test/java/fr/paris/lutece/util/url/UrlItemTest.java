@@ -62,6 +62,34 @@ public class UrlItemTest extends LuteceTestCase
         assertEquals( "http://myhost/mypage.jsp?param2=value2&param=value", url.toString( ) );
     }
 
+    public void testUrlItemWithSpecialCharacterInKey( )
+    {
+        String strName = "Lutèce";
+        String strValue = "value";
+        Integer strValueInt = 11;
+
+        // Add a parameter to an url that have no parameter
+        UrlItem url = new UrlItem( "http://myhost/mypage.jsp" );
+        url.addParameter( strName, strValue );
+        assertEquals( "http://myhost/mypage.jsp?Lut%C3%A8ce=value", url.getUrl( ) );
+
+        // Add a parameter to an url that have no parameter
+        url = new UrlItem( "http://myhost/mypage.jsp" );
+        url.addParameter( strName, strValueInt );
+        assertEquals( "http://myhost/mypage.jsp?Lut%C3%A8ce=11", url.getUrl( ) );
+    }
+
+    public void testUrlItemWithSpecialCharacterInValue( )
+    {
+        String strName = "param";
+        String strValue = "Árvíztűrőfúrógép";
+
+        // Add a parameter to an url that have no parameter
+        UrlItem url = new UrlItem( "http://myhost/mypage.jsp" );
+        url.addParameter( strName, strValue );
+        assertEquals( "http://myhost/mypage.jsp?param=%C3%81rv%C3%ADzt%C5%B1r%C5%91f%C3%BAr%C3%B3g%C3%A9p", url.getUrl( ) );
+    }
+
     /**
      * Test of addAnchor method, of class fr.paris.lutece.util.url.UrlItem.
      */
