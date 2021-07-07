@@ -129,8 +129,16 @@ div.thumbnail div.caption{ background: var( --gray-color ); }
 .pager-xs{ margin: 2px 5px; }
 .pager-xs > li > a{ padding: 1px 8px; }
 
-/* Lutece extra-icons                        */
-.icon-lutece-logo{ background: url( ../img/lutece-logo.png); width: 18px; height: 18px }
+/* selectIcon macro slim-select js lib styles */
+.ss-main.form-control{ width: 250px !important; }
+.ss-content.ss-open{ margin-left: -12px !important }
+.ss-main .ss-single-selected {
+    border: 0 !important;
+    background-color: transparent !important;
+    transition: none !important;
+    height: 20px !important;
+    padding: 0 !important;
+}
 
 /* 	Insert services                          */
 div.insert-service{ margin: 10px; }

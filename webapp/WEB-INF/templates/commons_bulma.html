@@ -16,7 +16,8 @@
 <link href="css/admin/jquery-ui.structure.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/jquery-ui.theme.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/font-awesome.min.css"  rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/ionicons.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/tabler-icons.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/bootstrap-icons.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/all.min.css" rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/style/bulma/portal_admin.css"  rel="stylesheet" > <!-- provided by core -->
 </#macro>
@@ -2012,7 +2013,7 @@ $( function() {
                     </div>
                     <#nested>
                     <p class='has-text-centered'>
-                        <@aButton href='http://lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' hideTitle=['all'] color='secondary'>
+                        <@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' hideTitle=['all'] color='secondary'>
                             <img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
                         </@aButton>
                     </p>
@@ -2114,7 +2115,7 @@ $(function() {
 
 
 <#-- Email Default Template -->
-<#macro emailTemplate title='Lutece' footer_link='https://lutece.paris.fr'> 
+<#macro emailTemplate title='Lutece' footer_link='https://fr.lutece.paris.fr'> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -2333,6 +2334,80 @@ lutecepolipop.add({
     title: '${title}',
     type: '${type}',
 });
+</#macro>
+
+<#-- selectIconFont  																-->
+<#-- Params																			-->
+<#-- id : Default "selectIcon" : Id for select										-->
+<#-- class : Default '' : List of class for select 									-->
+<#-- name : Default "resource-icon" : Name for submit   		  	    			-->
+<#-- showListLabel : Default true : Show icons' label  								-->
+<#-- showListIcon : Default true : Show icons' icon  								-->
+<#-- searchShow : Default true : Show search field in select						-->
+<#-- searchFocus : Default false : It true set focus in search fiedl				-->
+<#-- searchHighlight : Default true : Highlight searched chars in list				-->
+<#-- type : Default 'yaml' : Possible values : ['yaml','json']						-->
+<#-- prefix : Default 'fa' : ['fa','bi-', [ti ti-],...]	Prefix for icon family		-->
+<#-- iconsUrl : Default '' : File url to retrieve icon name list					-->
+<#-- resources : Default true : If true load slimselect js lib and css. 			-->
+<#-- Only needed once, so set to false if you user this macro more than once		-->
+<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='yaml' prefix='fa' iconsUrl='https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/metadata/icons.yml' resources=true >
+<@select name='icon' id='${id}' />
+<#if resources>
+<link rel="stylesheet" href="js/admin/plugins/forms/slimselect.min.css">
+<script src="js/admin/plugins/forms/slimselect.min.js"></script>
+<#if type='yaml'>
+<!-- js yaml parser -->
+<script src="js/admin/plugins/forms/js-yaml.min.js"></script>
+</#if>
+</#if>
+<script>
+$.get('${iconsUrl}', function(data) {
+<#if type='yaml'>
+	let parsedIcons = jsyaml.load(data)
+<#else>
+	let parsedIcons='';
+	if( typeof data === 'object' ){
+		parsedIcons = data;
+	} else { 
+		parsedIcons = JSON.parse( data )
+	}
+</#if>
+$.each( parsedIcons, function(index, icon){
+	let i=0, prefix='${prefix}';
+	<#if type='yaml'>
+		while( i < icon.styles.length ){
+			switch ( icon.styles[i] ) {
+				case 'regular':
+					prefix = 'far'
+					break;
+				case 'solid':
+					prefix = 'fas'
+					break;
+				case 'light':
+					prefix = 'fal'
+					break;
+				case 'brands':
+					prefix = 'fab'
+					break;
+			}
+			$('#${id}').append('<option value="' + prefix + index + '"> <#if showListIcon><span class="' + prefix + ' fa-' + index + ' mr-1"></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
+			i++;
+		}
+	<#else>
+		$('#${id}').append('<option value="' + prefix + index + '"> <#if showListIcon><span class="' + prefix + index + '"></span>&nbsp;</#if>' <#if showListLabel>+ index </#if>+ '</option>');
+	</#if>
+});
+new SlimSelect({ 
+	select: '#${id}',
+	showSearch: ${searchShow?c},
+	searchText: "#i18n{portal.util.labelNoItem}",
+	searchPlaceholder: '#i18n{portal.util.labelSearch}',
+	searchFocus: ${searchFocus?c}, // Whether or not to focus on the search input field
+	searchHighlight: ${searchHighlight?c}
+})
+});
+</script>
 </#macro>
 
 <#-- Display wrong or deprecated macro arguments -->
