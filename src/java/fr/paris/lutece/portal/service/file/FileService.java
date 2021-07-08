@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,8 +43,9 @@ import java.util.Map;
  *
  * @author SLE
  */
-public class FileService {
-    
+public class FileService
+{
+
     // parameters
     public static final String PARAMETER_FILE_ID = "file_id";
     public static final String PARAMETER_RESOURCE_ID = "resource_id";
@@ -53,24 +54,23 @@ public class FileService {
     public static final String PARAMETER_DATA = "data";
     public static final String PARAMETER_BO = "is_bo";
     public static final String PARAMETER_PROVIDER = "provider";
-    
+
     // constants
     public static final String PERMISSION_VIEW = "VIEW";
-    
-    // messages
-    private static final String MSG_NO_FILE_SERVICE= "No file service Available";
 
-    private Map<String,IFileStoreServiceProvider> _fileStoreServiceProviders = new HashMap<>( );
-    private IFileStoreServiceProvider _currentFileStoreServiceProvider ;
+    // messages
+    private static final String MSG_NO_FILE_SERVICE = "No file service Available";
+
+    private Map<String, IFileStoreServiceProvider> _fileStoreServiceProviders = new HashMap<>( );
+    private IFileStoreServiceProvider _currentFileStoreServiceProvider;
     private static FileService _instance = new FileService( );
-    
 
     /**
      * init
      */
     private FileService( )
     {
-        List<IFileStoreServiceProvider> fileStoreServiceProviderList = SpringContextService.getBeansOfType(IFileStoreServiceProvider.class);
+        List<IFileStoreServiceProvider> fileStoreServiceProviderList = SpringContextService.getBeansOfType( IFileStoreServiceProvider.class );
         if ( !fileStoreServiceProviderList.isEmpty( ) )
         {
             for ( IFileStoreServiceProvider fss : fileStoreServiceProviderList )
@@ -78,7 +78,7 @@ public class FileService {
                 _fileStoreServiceProviders.put( fss.getName( ), fss );
             }
         }
-        
+
         _currentFileStoreServiceProvider = getDefaultServiceProvider( );
     }
 
@@ -110,8 +110,8 @@ public class FileService {
      */
     public IFileStoreServiceProvider getFileStoreServiceProvider( String strFileStoreServiceProviderName )
     {
-        IFileStoreServiceProvider fss = _fileStoreServiceProviders.get( strFileStoreServiceProviderName) ;
-        if (fss != null)
+        IFileStoreServiceProvider fss = _fileStoreServiceProviders.get( strFileStoreServiceProviderName );
+        if ( fss != null )
         {
             return fss;
         }
@@ -120,7 +120,7 @@ public class FileService {
             throw new AppException( MSG_NO_FILE_SERVICE );
         }
     }
- 
+
     /**
      * get the current FileStoreService provider
      * 
@@ -128,8 +128,8 @@ public class FileService {
      */
     public void setFileStoreServiceProvider( String strFileStoreServiceProviderName )
     {
-        IFileStoreServiceProvider fss = _fileStoreServiceProviders.get( strFileStoreServiceProviderName) ;
-        if (fss != null)
+        IFileStoreServiceProvider fss = _fileStoreServiceProviders.get( strFileStoreServiceProviderName );
+        if ( fss != null )
         {
             _currentFileStoreServiceProvider = fss;
         }
@@ -144,14 +144,14 @@ public class FileService {
      * 
      * @return the provider
      */
-    private IFileStoreServiceProvider getDefaultServiceProvider( ) 
+    private IFileStoreServiceProvider getDefaultServiceProvider( )
     {
         if ( _fileStoreServiceProviders.size( ) == 1 )
         {
-            return _fileStoreServiceProviders.get( (String) _fileStoreServiceProviders.keySet( ).toArray()[0] );
+            return _fileStoreServiceProviders.get( (String) _fileStoreServiceProviders.keySet( ).toArray( ) [0] );
         }
-        
-        for (String keyName : _fileStoreServiceProviders.keySet()) 
+
+        for ( String keyName : _fileStoreServiceProviders.keySet( ) )
         {
             IFileStoreServiceProvider fss = _fileStoreServiceProviders.get( keyName );
             if ( fss.isDefault( ) )
@@ -159,8 +159,8 @@ public class FileService {
                 return fss;
             }
         }
-        
+
         // otherwise
-        throw new AppException( MSG_NO_FILE_SERVICE );      
+        throw new AppException( MSG_NO_FILE_SERVICE );
     }
 }

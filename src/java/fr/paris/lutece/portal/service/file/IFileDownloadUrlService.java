@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,79 +39,92 @@ import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-
 /**
  *
  * Builds download Url. Useful when we want to share a http link, ftp link, or fylesystem link.
+ * 
  * @see JSPBlobStoreDownloadUrlService
  */
 public interface IFileDownloadUrlService extends Serializable
 {
-    static final int LINK_VALIDITY_TIME = AppPropertiesService.getPropertyInt("lutece.file.download.validity", 0 ) ;
-    
+    static final int LINK_VALIDITY_TIME = AppPropertiesService.getPropertyInt( "lutece.file.download.validity", 0 );
+
     /**
      * get Front Office user download URL
-     * @param strFileKey the file key
-     * @return the  url
+     * 
+     * @param strFileKey
+     *            the file key
+     * @return the url
      */
     String getFileDownloadUrlFO( String strFileKey, String strFileStorageServiceProviderName );
 
     /**
      * get Front Office user download URL
-     * @param strFileKey the file key
-     * @param additionnalData  the data used to build the url
-     * @return the  url
+     * 
+     * @param strFileKey
+     *            the file key
+     * @param additionnalData
+     *            the data used to build the url
+     * @return the url
      */
-    String getFileDownloadUrlFO( String strFileKey, Map<String,String> additionnalData, String strFileStorageServiceProviderName );
+    String getFileDownloadUrlFO( String strFileKey, Map<String, String> additionnalData, String strFileStorageServiceProviderName );
 
     /**
      * get Back Office user download URL
-     * @param strFileKey the file key
+     * 
+     * @param strFileKey
+     *            the file key
      * @return the url
      */
     String getFileDownloadUrlBO( String strFileKey, String strFileStorageServiceProviderName );
-    
+
     /**
      * get Back Office user download URL
-     * @param strFileKey the file key
-     * @param additionnalData the data used to build the url
+     * 
+     * @param strFileKey
+     *            the file key
+     * @param additionnalData
+     *            the data used to build the url
      * @return the url
      */
-    String getFileDownloadUrlBO( String strFileKey, Map<String,String> additionnalData, String strFileStorageServiceProviderName );
-    
+    String getFileDownloadUrlBO( String strFileKey, Map<String, String> additionnalData, String strFileStorageServiceProviderName );
+
     /**
      * get service name
+     * 
      * @return the service name
      */
-    String getName();
-    
+    String getName( );
+
     /**
      * get BO file data from request
      * 
      * @param request
-     * @return the map of file data 
+     * @return the map of file data
      */
-    Map<String,String> getRequestDataBO( HttpServletRequest request );
-    
+    Map<String, String> getRequestDataBO( HttpServletRequest request );
+
     /**
-     * get FO file data from request 
+     * get FO file data from request
      * 
      * @param request
-     * @return the map of file data 
+     * @return the map of file data
      */
-    Map<String,String> getRequestDataFO( HttpServletRequest request );
-    
+    Map<String, String> getRequestDataFO( HttpServletRequest request );
+
     /**
      * check link validity
      * 
      * @param fileData
-     * @throws ExpiredLinkException if link is invadid
+     * @throws ExpiredLinkException
+     *             if link is invadid
      */
-    void checkLinkValidity( Map<String,String> fileData) throws ExpiredLinkException;
-    
+    void checkLinkValidity( Map<String, String> fileData ) throws ExpiredLinkException;
+
     /**
      * Return the validity duration of a link (in minutes) <br />
      * if equal to 0, there is no limit
+     * 
      * @return
      */
     default int getValidityTime( )

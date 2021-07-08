@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,46 +44,49 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.fileupload.FileItem;
 
-
 /**
  * File Store Service Provider Interface. InputStream methods should be used for very large blobs
  */
 public interface IFileStoreServiceProvider extends Serializable
 {
-    
+
     /**
      * get the service name
      * 
      * @return the service name
      */
     public String getName( );
-    
+
     /**
-     * get the default 
+     * get the default
      * 
      * @return true if default
      */
     public boolean isDefault( );
-    
+
     /**
      * Stores a file Lutece File
      * 
-     * @param file  the file
+     * @param file
+     *            the file
      * @return The key of the stored file
      */
     String storeFile( File file );
 
     /**
-     * Stores a  org.apache.commons.fileupload.FileItem
+     * Stores a org.apache.commons.fileupload.FileItem
      * 
-     * @param fileItem  the fileItem
+     * @param fileItem
+     *            the fileItem
      * @return The key of the blob
      */
     String storeFileItem( FileItem fileItem );
 
     /**
      * Stores an input stream
-     * @param inputStream the input stream
+     * 
+     * @param inputStream
+     *            the input stream
      * @return The key of the blob
      */
     String storeInputStream( InputStream inputStream );
@@ -91,60 +94,75 @@ public interface IFileStoreServiceProvider extends Serializable
     /**
      * Store a blob from a bytes array
      * 
-     * @param blob The blob
+     * @param blob
+     *            The blob
      * @return The key of the blob
      */
-    String storeBytes( byte[] blob );
+    String storeBytes( byte [ ] blob );
 
     /**
      * Get a file
-     * @param strKey The key of the file
-     * @return  The file
+     * 
+     * @param strKey
+     *            The key of the file
+     * @return The file
      */
     File getFile( String strKey );
 
     /**
      * Gets a blob as {@link InputStream}
-     * @param strKey the key
+     * 
+     * @param strKey
+     *            the key
      * @return the {@link InputStream}
      */
     InputStream getInputStream( String strKey );
 
     /**
      * Delete a blob
-     * @param strKey The key of the blob
+     * 
+     * @param strKey
+     *            The key of the blob
      */
     void delete( String strKey );
 
     /**
      * Gets the file download url for Front Office Lutece users
-     * @param strKey the
+     * 
+     * @param strKey
+     *            the
      * @return the download link
      */
     String getFileDownloadUrlFO( String strKey );
 
     /**
      * Gets the file download url for Front Office Lutece users
-     * @param strKey the
+     * 
+     * @param strKey
+     *            the
      * @param additionnalData
      * @return the download link
      */
-    String getFileDownloadUrlFO( String strKey, Map<String,String> additionnalData );
+    String getFileDownloadUrlFO( String strKey, Map<String, String> additionnalData );
 
     /**
      * Gets the file download url for Back Office admin Lutece users
-     * @param strKey the
+     * 
+     * @param strKey
+     *            the
      * @return the download link
      */
     String getFileDownloadUrlBO( String strKey );
 
     /**
      * Gets the file download url for Back Office admin Lutece users
-     * @param strKey the
+     * 
+     * @param strKey
+     *            the
      * @param additionnalData
      * @return the download link
      */
-    String getFileDownloadUrlBO( String strKey, Map<String,String> additionnalData );
+    String getFileDownloadUrlBO( String strKey, Map<String, String> additionnalData );
 
     /**
      * get requested file from BO
@@ -167,22 +185,23 @@ public interface IFileStoreServiceProvider extends Serializable
      * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
     File getFileFromRequestFO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException;
-    
+
     /**
      * check if current user can access the file
      * 
      * @param fileData
-     * @param user the current user
+     * @param user
+     *            the current user
      * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
      * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
-    void checkAccessRights(Map<String, String> fileData, User user) throws AccessDeniedException, UserNotSignedException;
+    void checkAccessRights( Map<String, String> fileData, User user ) throws AccessDeniedException, UserNotSignedException;
 
     /**
-     * check  if link is valid
+     * check if link is valid
      * 
      * @param fileData
-     * @throws ExpiredLinkException 
+     * @throws ExpiredLinkException
      */
-    void checkLinkValidity( Map<String,String> fileData ) throws ExpiredLinkException;
+    void checkLinkValidity( Map<String, String> fileData ) throws ExpiredLinkException;
 }
