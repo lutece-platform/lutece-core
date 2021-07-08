@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,10 +63,10 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     protected static final String URL_BO = "jsp/admin/file/download";
     private static final String SERVICE_NAME = "DefaultFileDownloadService";
     private static final String SEPARATOR = "/";
-    
+
     // Keys
     public static final String KEY_LINK_VALIDITY_TIME = "link_validity_time";
-    
+
     /**
      * Build the additionnel data map to provide encryption data
      * 
@@ -75,14 +75,14 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * @param strResourceType
      * @return the map
      */
-    public static Map<String, String>  buildAdditionnalDatas( String strFileId, String strResourceId, String strResourceType ) 
+    public static Map<String, String> buildAdditionnalDatas( String strFileId, String strResourceId, String strResourceType )
     {
-        Map<String,String> map = new HashMap<>( );
-        
+        Map<String, String> map = new HashMap<>( );
+
         map.put( FileService.PARAMETER_FILE_ID, strFileId );
         map.put( FileService.PARAMETER_RESOURCE_ID, strResourceId );
         map.put( FileService.PARAMETER_RESOURCE_TYPE, strResourceType );
-        
+
         return map;
     }
 
@@ -90,8 +90,9 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * {@inheritDoc}
      */
     @Override
-    public String getFileDownloadUrlFO(String strFileKey, String strFileStorageServiceProviderName) {
-        
+    public String getFileDownloadUrlFO( String strFileKey, String strFileStorageServiceProviderName )
+    {
+
         return getFileDownloadUrlFO( strFileKey, null, strFileStorageServiceProviderName );
     }
 
@@ -99,7 +100,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * {@inheritDoc}
      */
     @Override
-    public String getFileDownloadUrlFO(String strFileKey, Map<String, String> additionnalData, String strFileStorageServiceProviderName) 
+    public String getFileDownloadUrlFO( String strFileKey, Map<String, String> additionnalData, String strFileStorageServiceProviderName )
     {
         StringBuilder sbUrl = new StringBuilder( );
 
@@ -108,10 +109,10 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
 
         if ( additionnalData == null )
         {
-            additionnalData = new HashMap<>();
+            additionnalData = new HashMap<>( );
         }
         additionnalData.put( FileService.PARAMETER_FILE_ID, strFileKey );
-        
+
         return getEncryptedUrl( sbUrl.toString( ), getDataToEncrypt( additionnalData ), strFileStorageServiceProviderName );
     }
 
@@ -119,28 +120,29 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * {@inheritDoc}
      */
     @Override
-    public String getFileDownloadUrlBO(String strFileKey, String strFileStorageServiceProviderName) {
-        return getFileDownloadUrlBO(strFileKey, null, strFileStorageServiceProviderName);
+    public String getFileDownloadUrlBO( String strFileKey, String strFileStorageServiceProviderName )
+    {
+        return getFileDownloadUrlBO( strFileKey, null, strFileStorageServiceProviderName );
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getFileDownloadUrlBO(String strFileKey, Map<String,String> additionnalData, String strFileStorageServiceProviderName) 
+    public String getFileDownloadUrlBO( String strFileKey, Map<String, String> additionnalData, String strFileStorageServiceProviderName )
     {
-        
+
         StringBuilder sbUrl = new StringBuilder( );
 
         sbUrl.append( AppPathService.getBaseUrl( null ) );
         sbUrl.append( URL_BO );
-        
+
         if ( additionnalData == null )
         {
-            additionnalData = new HashMap<>();
+            additionnalData = new HashMap<>( );
         }
         additionnalData.put( FileService.PARAMETER_FILE_ID, strFileKey );
-        
+
         return getEncryptedUrl( sbUrl.toString( ), getDataToEncrypt( additionnalData ), strFileStorageServiceProviderName );
     }
 
@@ -150,19 +152,19 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * @param strUrl
      * @param additionnalData
      * 
-     * @return the url, null otherwise 
+     * @return the url, null otherwise
      */
     protected String getEncryptedUrl( String strUrl, String dataToEncrypt, String strFileStorageServiceProviderName )
     {
         UrlItem item = new UrlItem( strUrl );
-        
+
         try
         {
             String idEncrytped = RsaService.encryptRsa( dataToEncrypt );
-            
+
             item.addParameter( FileService.PARAMETER_PROVIDER, strFileStorageServiceProviderName );
             item.addParameter( FileService.PARAMETER_DATA, idEncrytped );
-            
+
             return item.getUrlWithEntity( );
         }
         catch( GeneralSecurityException e )
@@ -186,15 +188,15 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * 
      * @param fileDownloadData
      * @return the map of datas to encrypt in the url
-     */    
-    private String getDataToEncrypt( Map<String,String> additionnalData )
+     */
+    private String getDataToEncrypt( Map<String, String> additionnalData )
     {
         StringBuilder sb = new StringBuilder( );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_FILE_ID ),"") ).append( SEPARATOR );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_ID ),"" ) ).append( SEPARATOR );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_FILE_ID ), "" ) ).append( SEPARATOR );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_ID ), "" ) ).append( SEPARATOR );
         sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_TYPE ), "" ) ).append( SEPARATOR );
         sb.append( calculateEndValidity( ) );
-        
+
         return sb.toString( );
     }
 
@@ -217,10 +219,10 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * {@inheritDoc}
      */
     @Override
-    public Map<String,String> getRequestDataBO( HttpServletRequest request )
+    public Map<String, String> getRequestDataBO( HttpServletRequest request )
     {
         String strEncryptedData = request.getParameter( FileService.PARAMETER_DATA );
-        
+
         try
         {
             String strDecryptedData = RsaService.decryptRsa( strEncryptedData );
@@ -237,10 +239,10 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * {@inheritDoc}
      */
     @Override
-    public Map<String,String> getRequestDataFO( HttpServletRequest request )
+    public Map<String, String> getRequestDataFO( HttpServletRequest request )
     {
         String strEncryptedData = request.getParameter( FileService.PARAMETER_DATA );
-        
+
         try
         {
             String strDecryptedData = RsaService.decryptRsa( strEncryptedData );
@@ -252,18 +254,18 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
             return null;
         }
     }
-    
+
     /**
      * get map of datas from encrypted url data parameter
      * 
      * @param data
-     * @return the map of  
+     * @return the map of
      */
-    protected Map<String,String> getDecryptedData( String strData )
+    protected Map<String, String> getDecryptedData( String strData )
     {
-        String[ ] data = strData.split( SEPARATOR );
-        Map<String,String> fileData = buildAdditionnalDatas(data[0] , data[1], data[2] );
-        fileData.put(PARAMETER_VALIDITY_TIME, data[3] );
+        String [ ] data = strData.split( SEPARATOR );
+        Map<String, String> fileData = buildAdditionnalDatas( data [0], data [1], data [2] );
+        fileData.put( PARAMETER_VALIDITY_TIME, data [3] );
 
         return fileData;
     }
@@ -272,10 +274,10 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      * {@inheritDoc}
      */
     @Override
-    public void checkLinkValidity( Map<String,String> fileData) throws ExpiredLinkException
+    public void checkLinkValidity( Map<String, String> fileData ) throws ExpiredLinkException
     {
         LocalDateTime validityTime = new Timestamp( Long.parseLong( fileData.get( FileService.PARAMETER_VALIDITY_TIME ) ) ).toLocalDateTime( );
-        
+
         if ( LocalDateTime.now( ).isAfter( validityTime ) )
         {
             throw new ExpiredLinkException( "Link expired on : " + validityTime.toString( ) );

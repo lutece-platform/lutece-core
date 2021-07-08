@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,15 +40,15 @@ import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import java.io.Serializable;
 import java.util.Map;
 
-
 /**
  *
  * Builds download Url. Useful when we want to share a http link, ftp link, or fylesystem link.
+ * 
  * @see JSPBlobStoreDownloadUrlService
  */
 public interface IFileRBACService extends Serializable
 {
-    
+
     /**
      * Check if the user has rights to access the resource
      * 

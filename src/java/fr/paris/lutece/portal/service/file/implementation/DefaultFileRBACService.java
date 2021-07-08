@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,21 +50,16 @@ public class DefaultFileRBACService implements IFileRBACService
 {
     private static final long serialVersionUID = 1L;
     private static final String MESSAGE_ACCESS_DENIED_KEY = "portal.file.download.access.denied";
-    
+
     @Override
-    public void checkAccessRights( Map<String, String> fileData, User user) throws AccessDeniedException
+    public void checkAccessRights( Map<String, String> fileData, User user ) throws AccessDeniedException
     {
-        
-        if ( !RBACService.isAuthorized( 
-                fileData.get( FileService.PARAMETER_RESOURCE_ID  ), 
-                fileData.get( FileService.PARAMETER_RESOURCE_TYPE ), 
-                FileService.PERMISSION_VIEW, 
-                user) )
+
+        if ( !RBACService.isAuthorized( fileData.get( FileService.PARAMETER_RESOURCE_ID ), fileData.get( FileService.PARAMETER_RESOURCE_TYPE ),
+                FileService.PERMISSION_VIEW, user ) )
         {
-            throw new AccessDeniedException( I18nService.getLocalizedString(MESSAGE_ACCESS_DENIED_KEY, 
-                    I18nService.getDefaultLocale( ) ) );
+            throw new AccessDeniedException( I18nService.getLocalizedString( MESSAGE_ACCESS_DENIED_KEY, I18nService.getDefaultLocale( ) ) );
         }
     }
-
 
 }

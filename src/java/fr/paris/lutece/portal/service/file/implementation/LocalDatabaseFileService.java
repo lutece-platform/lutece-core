@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,6 @@ import java.io.InputStream;
 
 import org.apache.commons.lang.StringUtils;
 
-
 import fr.paris.lutece.portal.service.util.AppException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -75,37 +74,39 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      */
     public static final String FILE_STORE_PROVIDER_NAME = "defaultDatabaseFileStoreProvider";
 
-    private IFileDownloadUrlService _fileDownloadUrlService ;
-    private IFileRBACService _fileRBACService ;
+    private IFileDownloadUrlService _fileDownloadUrlService;
+    private IFileRBACService _fileRBACService;
     private boolean _bDefault;
-    
+
     /**
      * init
+     * 
      * @param _fileDownloadUrlService
      * @param _fileRBACService
      */
-    public LocalDatabaseFileService(IFileDownloadUrlService _fileDownloadUrlService, IFileRBACService _fileRBACService) {
+    public LocalDatabaseFileService( IFileDownloadUrlService _fileDownloadUrlService, IFileRBACService _fileRBACService )
+    {
         this._fileDownloadUrlService = _fileDownloadUrlService;
         this._fileRBACService = _fileRBACService;
     }
 
-    
-    
     /**
      * get the FileRBACService
      * 
      * @return the FileRBACService
      */
-    public IFileRBACService getFileRBACService() {
+    public IFileRBACService getFileRBACService( )
+    {
         return _fileRBACService;
     }
 
     /**
      * set the FileRBACService
      * 
-     * @param fileRBACService 
+     * @param fileRBACService
      */
-    public void setFileRBACService(IFileRBACService fileRBACService) {
+    public void setFileRBACService( IFileRBACService fileRBACService )
+    {
         this._fileRBACService = fileRBACService;
     }
 
@@ -147,7 +148,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     {
         int nfileId = Integer.parseInt( strKey );
         FileHome.remove( nfileId );
-        
+
     }
 
     /**
@@ -160,7 +161,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         {
             int nfileId = Integer.parseInt( strKey );
             File file = FileHome.findByPrimaryKey( nfileId );
-            
+
             if ( file != null )
             {
                 file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) ) );
@@ -181,7 +182,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         PhysicalFile physicalFile = new PhysicalFile( );
         physicalFile.setValue( blob );
         file.setPhysicalFile( physicalFile );
-        
+
         int nFileId = FileHome.create( file );
 
         return String.valueOf( nFileId );
@@ -195,18 +196,21 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     {
         File file = new File( );
         PhysicalFile physicalFile = new PhysicalFile( );
-        
-        byte[] buffer;
-        
-        try {
-            buffer = new byte[ inputStream.available( ) ];
-        } catch (IOException ex) {
-            throw new AppException( ex.getMessage( ) , ex);
+
+        byte [ ] buffer;
+
+        try
+        {
+            buffer = new byte [ inputStream.available( )];
         }
-        
+        catch( IOException ex )
+        {
+            throw new AppException( ex.getMessage( ), ex );
+        }
+
         physicalFile.setValue( buffer );
         file.setPhysicalFile( physicalFile );
-        
+
         int nFileId = FileHome.create( file );
 
         return String.valueOf( nFileId );
@@ -218,28 +222,28 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     @Override
     public String storeFileItem( FileItem fileItem )
     {
-        
+
         File file = new File( );
         file.setTitle( fileItem.getName( ) );
-        file.setSize( (int)fileItem.getSize( ) );
+        file.setSize( (int) fileItem.getSize( ) );
         file.setMimeType( fileItem.getContentType( ) );
-        
+
         PhysicalFile physicalFile = new PhysicalFile( );
-        
-        byte[] byteArray;
+
+        byte [ ] byteArray;
 
         try
         {
-            byteArray = IOUtils.toByteArray( fileItem.getInputStream( ) );       
+            byteArray = IOUtils.toByteArray( fileItem.getInputStream( ) );
         }
-        catch (IOException ex)
+        catch( IOException ex )
         {
-            throw new AppException( ex.getMessage( ) , ex);
+            throw new AppException( ex.getMessage( ), ex );
         }
 
         physicalFile.setValue( byteArray );
         file.setPhysicalFile( physicalFile );
-        
+
         int nFileId = FileHome.create( file );
 
         return String.valueOf( nFileId );
@@ -256,7 +260,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         return String.valueOf( nFileId );
     }
 
-    public void setDefault(boolean bDefault) 
+    public void setDefault( boolean bDefault )
     {
         this._bDefault = bDefault;
     }
@@ -265,7 +269,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * {@inheritDoc}
      */
     @Override
-    public boolean isDefault( ) 
+    public boolean isDefault( )
     {
         return _bDefault;
     }
@@ -274,18 +278,20 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * {@inheritDoc}
      */
     @Override
-    public InputStream getInputStream(String strKey) {
-        
+    public InputStream getInputStream( String strKey )
+    {
+
         File file = getFile( strKey );
-        
-        return new ByteArrayInputStream( file.getPhysicalFile( ).getValue( ) ) ;
+
+        return new ByteArrayInputStream( file.getPhysicalFile( ).getValue( ) );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getFileDownloadUrlFO(String strKey) {
+    public String getFileDownloadUrlFO( String strKey )
+    {
         return _fileDownloadUrlService.getFileDownloadUrlFO( strKey, getName( ) );
     }
 
@@ -293,16 +299,16 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * {@inheritDoc}
      */
     @Override
-    public String getFileDownloadUrlFO(String strKey, Map<String,String> additionnalData) 
+    public String getFileDownloadUrlFO( String strKey, Map<String, String> additionnalData )
     {
         return _fileDownloadUrlService.getFileDownloadUrlFO( strKey, additionnalData, getName( ) );
     }
- 
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getFileDownloadUrlBO(String strKey) 
+    public String getFileDownloadUrlBO( String strKey )
     {
         return _fileDownloadUrlService.getFileDownloadUrlBO( strKey, getName( ) );
     }
@@ -311,7 +317,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * {@inheritDoc}
      */
     @Override
-    public String getFileDownloadUrlBO(String strKey, Map<String,String> additionnalData)  
+    public String getFileDownloadUrlBO( String strKey, Map<String, String> additionnalData )
     {
         return _fileDownloadUrlService.getFileDownloadUrlBO( strKey, additionnalData, getName( ) );
     }
@@ -320,19 +326,19 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * {@inheritDoc}
      */
     @Override
-    public void checkAccessRights(Map<String, String> fileData, User user) throws AccessDeniedException, UserNotSignedException
+    public void checkAccessRights( Map<String, String> fileData, User user ) throws AccessDeniedException, UserNotSignedException
     {
-        if (_fileRBACService != null )
+        if ( _fileRBACService != null )
         {
-            _fileRBACService.checkAccessRights( fileData, user);
+            _fileRBACService.checkAccessRights( fileData, user );
         }
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public void checkLinkValidity( Map<String,String> fileData ) throws ExpiredLinkException
+    public void checkLinkValidity( Map<String, String> fileData ) throws ExpiredLinkException
     {
         _fileDownloadUrlService.checkLinkValidity( fileData );
     }
@@ -344,7 +350,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     public File getFileFromRequestBO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException
     {
         Map<String, String> fileData = _fileDownloadUrlService.getRequestDataBO( request );
-        
+
         // check access rights
         checkAccessRights( fileData, AdminAuthenticationService.getInstance( ).getRegisteredUser( request ) );
 
@@ -353,26 +359,26 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
 
         String strFileId = fileData.get( FileService.PARAMETER_FILE_ID );
 
-        return getFile( strFileId );            
+        return getFile( strFileId );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public File getFileFromRequestFO(HttpServletRequest request) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException
+    public File getFileFromRequestFO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException
     {
-        
+
         Map<String, String> fileData = _fileDownloadUrlService.getRequestDataFO( request );
 
         // check access rights
-        checkAccessRights( fileData, SecurityService.getInstance().getRegisteredUser(request) );
+        checkAccessRights( fileData, SecurityService.getInstance( ).getRegisteredUser( request ) );
 
         // check validity
         checkLinkValidity( fileData );
 
         String strFileId = fileData.get( FileService.PARAMETER_FILE_ID );
 
-        return getFile( strFileId );            
+        return getFile( strFileId );
     }
 }

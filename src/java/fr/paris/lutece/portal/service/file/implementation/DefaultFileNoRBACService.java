@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,12 +47,11 @@ public class DefaultFileNoRBACService implements IFileRBACService
 {
     private static final long serialVersionUID = 1L;
     private static final String MESSAGE_ACCESS_DENIED_KEY = "portal.file.download.access.denied";
-    
+
     @Override
-    public void checkAccessRights( Map<String, String> fileData, User user) throws AccessDeniedException
+    public void checkAccessRights( Map<String, String> fileData, User user ) throws AccessDeniedException
     {
         // allow all
     }
-
 
 }
