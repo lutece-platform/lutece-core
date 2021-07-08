@@ -2336,6 +2336,7 @@ lutecepolipop.add({
 });
 </#macro>
 
+
 <#-- selectIconFont  																-->
 <#-- Params																			-->
 <#-- id : Default "selectIcon" : Id for select										-->
@@ -2348,11 +2349,12 @@ lutecepolipop.add({
 <#-- searchHighlight : Default true : Highlight searched chars in list				-->
 <#-- type : Default 'yaml' : Possible values : ['yaml','json']						-->
 <#-- prefix : Default 'fa' : ['fa','bi-', [ti ti-],...]	Prefix for icon family		-->
-<#-- iconsUrl : Default '' : File url to retrieve icon name list					-->
+<#-- iconsUrl : Default 'css/admin/font-awesome-icons.yml' : File url to retrieve icon name list -->
 <#-- resources : Default true : If true load slimselect js lib and css. 			-->
 <#-- Only needed once, so set to false if you user this macro more than once		-->
-<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='yaml' prefix='fa' iconsUrl='https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/metadata/icons.yml' resources=true >
-<@select name='icon' id='${id}' />
+<#-- FontAwesome icons yaml dowloaded from https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/metadata/icons.yml  -->
+<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='yaml' prefix='fa-' iconsUrl='css/admin/font-awesome-icons.yml' resources=true >
+<@select name='${name}' id='${id}' />
 <#if resources>
 <link rel="stylesheet" href="js/admin/plugins/forms/slimselect.min.css">
 <script src="js/admin/plugins/forms/slimselect.min.js"></script>
@@ -2366,6 +2368,7 @@ $.get('${iconsUrl}', function(data) {
 <#if type='yaml'>
 	let parsedIcons = jsyaml.load(data)
 <#else>
+	<#-- Json / Object -->
 	let parsedIcons='';
 	if( typeof data === 'object' ){
 		parsedIcons = data;
@@ -2376,6 +2379,7 @@ $.get('${iconsUrl}', function(data) {
 $.each( parsedIcons, function(index, icon){
 	let i=0, prefix='${prefix}';
 	<#if type='yaml'>
+		<#-- FontAwesome specific / Other lib add another test/treatment -->
 		while( i < icon.styles.length ){
 			switch ( icon.styles[i] ) {
 				case 'regular':
@@ -2395,6 +2399,7 @@ $.each( parsedIcons, function(index, icon){
 			i++;
 		}
 	<#else>
+		<#-- Json / Object -->
 		$('#${id}').append('<option value="' + prefix + index + '"> <#if showListIcon><span class="' + prefix + index + '"></span>&nbsp;</#if>' <#if showListLabel>+ index </#if>+ '</option>');
 	</#if>
 });
