@@ -38,9 +38,7 @@
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
 <script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script>
 </#macro>
-
 <#global gClassActive='active' />
-
 <#macro sort jsp_url attribute id="" >
 <#if jsp_url?contains("?")>
 	<#local sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
@@ -56,7 +54,6 @@
 	</a>
 </div>
 </#macro>
-
 <#macro pagination paginator >
 <#local nbLinkPagesToDisplay = 10 />
 <#local offsetPrev = nbLinkPagesToDisplay / 2 />
@@ -109,7 +106,6 @@
 	</#if>
 </#if>
 </#macro>
-
 <#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
 <#if (paginator.pagesCount > 1) >
 	<@paginationPageLinks paginator=paginator />
@@ -124,7 +120,6 @@
 	</#if>
 </@div>
  </#macro>
-
 <#macro paginationPageLinks paginator >
 <#local nbLinkPagesToDisplay = 10 />
 <#local offsetPrev = nbLinkPagesToDisplay / 2 />
@@ -896,9 +891,6 @@
 </div>
 </#macro>
 
-
-
-
 <#-- INFO-BOX AdminTLE (widget) -->
 <#-- color: only for the left side showing the icon. -->
 <#-- bgColor: for the right side containing the text -->
@@ -947,7 +939,6 @@
 <#-- formId: contains the form ID if the button is outside of the form -->
 <#-- buttonTargetId: contains the target element ID -->
 <#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
-
 <#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' deprecated...>
 	<@deprecatedWarning args=deprecated />
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
@@ -1171,8 +1162,6 @@
 </div>
 </#macro>
 
-
-
 <#---------------------------------------->
 <#-- AdminLTE Box -->
 <#-- color: default/primary/info/success/warning/danger -->
@@ -1211,8 +1200,8 @@
 	<#nested>
 </div>
 </#macro>
-<#---------------------------------------->
 
+<#---------------------------------------->
 <#-- AdminLTE Small Box -->
 <#-- color: Bootstrap + AdminLTE colors -->
 <#-- unit: %,... -->
@@ -1520,7 +1509,6 @@
 	
 </#macro>
 
-
 <#-- MACRO adminFooter -->
 <#macro adminFooter >
 <!-- end content section -->
@@ -1814,7 +1802,6 @@ enableBSToppltip: false
 </@tform>
 </#macro>
 
-
 <#-- scroll to top button -->
 <#macro scrollTopBtn>
 <a href="#" id="scroll" style="display: none;"><span></span></a>
@@ -2019,4 +2006,3 @@ new SlimSelect({
 <#macro deprecatedWarning args=[] >
  <#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>
 </#macro>
-
