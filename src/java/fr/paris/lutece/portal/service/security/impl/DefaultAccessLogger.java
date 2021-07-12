@@ -85,12 +85,8 @@ public final class DefaultAccessLogger implements IAccessLogger
     
     
     public static final String DEFAULT_LOGGER_ACCESS_LOG = "lutece.accessLogger";
-    public static final String FRONTOFFICE_ACCESS =  "FO";
-    public static final String BACKOFFICE_ACCESS = "BO";
     private static Logger _defaultLogger = Logger.getLogger( DEFAULT_LOGGER_ACCESS_LOG );
-    private static Logger _foLogger = Logger.getLogger(DEFAULT_LOGGER_ACCESS_LOG + "." + FRONTOFFICE_ACCESS );
-    private static Logger _boLogger = Logger.getLogger(DEFAULT_LOGGER_ACCESS_LOG + "." + BACKOFFICE_ACCESS );
-    
+     
 
     /**
      * {@inheritDoc}
@@ -294,17 +290,12 @@ public final class DefaultAccessLogger implements IAccessLogger
      */
     private Logger getLogger( String specificOrigin )
     {
-        if ( FRONTOFFICE_ACCESS.equals( specificOrigin ) && _foLogger != null )
+        if ( specificOrigin != null && !"".equals( specificOrigin ))
         {
-            return _foLogger;
+            return Logger.getLogger(DEFAULT_LOGGER_ACCESS_LOG + "." + specificOrigin );
         }
-        else if ( BACKOFFICE_ACCESS.equals( specificOrigin ) && _boLogger != null )
-        {
-            return _boLogger;
-        }
-        else
-        {
-            return _defaultLogger;
-        }
+        
+          return _defaultLogger;
+        
     }
 }

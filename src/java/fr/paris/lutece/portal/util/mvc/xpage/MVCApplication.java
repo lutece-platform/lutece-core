@@ -57,7 +57,6 @@ import org.springframework.util.ReflectionUtils;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import static fr.paris.lutece.portal.service.security.AccessLogService.CONSTANT_FO;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
@@ -162,7 +161,7 @@ public abstract class MVCApplication implements XPageApplication
             if ( m != null )
             {
                 AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), 
-                        registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), CONSTANT_FO );
+                        registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
                 return (XPage) m.invoke( this, request );
             }
 
@@ -172,7 +171,7 @@ public abstract class MVCApplication implements XPageApplication
             if ( m != null )
             {
                 AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), 
-                        registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), CONSTANT_FO );
+                        registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
                 return (XPage) m.invoke( this, request );
             }
 
@@ -180,7 +179,7 @@ public abstract class MVCApplication implements XPageApplication
             m = MVCUtils.findDefaultViewMethod( methods );
 
             AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), 
-                    registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), CONSTANT_FO );
+                    registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
             return (XPage) m.invoke( this, request );
         }
         catch( InvocationTargetException e )

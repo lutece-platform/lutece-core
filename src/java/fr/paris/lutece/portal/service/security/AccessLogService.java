@@ -64,9 +64,8 @@ import java.util.List;
 public final class AccessLogService
 {
     // constants
-    public static final String BEAN_ACCESS_LOGGER = "accessLogger";    
-    public static final String CONSTANT_FO = "FO";
-    public static final String CONSTANT_BO = "BO";
+    public static final String ACCESS_LOG_FO = "fo";
+    public static final String ACCESS_LOG_BO = "bo";
 
     
     private final List<IAccessLogger> _accessLoggerList;
