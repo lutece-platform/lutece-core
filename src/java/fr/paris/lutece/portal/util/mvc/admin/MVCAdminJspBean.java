@@ -56,7 +56,6 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import static fr.paris.lutece.portal.service.security.AccessLogService.ACCESS_LOG_BO;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
@@ -121,7 +120,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             if ( m != null )
             {
                 AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), 
-                        adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), ACCESS_LOG_BO );
+                        adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
                 return (String) m.invoke( this, request );
             }
 
@@ -131,7 +130,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             if ( m != null )
             {
                 AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), 
-                        adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), ACCESS_LOG_BO);
+                        adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO);
                 return (String) m.invoke( this, request );
             }
 
@@ -139,7 +138,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             m = MVCUtils.findDefaultViewMethod( methods );
 
             AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), 
-                    adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), ACCESS_LOG_BO);
+                    adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO);
             return (String) m.invoke( this, request );
         }
         catch( InvocationTargetException e )
