@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.message;
 
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.Map;
@@ -330,6 +331,40 @@ public final class SiteMessageService
         setMessage( request, message );
 
         throw new SiteMessageException( );
+    }
+
+    /**
+     * Set the custom message, store it in session and throw a LuteceSiteMessageException
+     * 
+     * @param request
+     * @param title
+     * @param text
+     * @param nMessageType
+     * @param strBackUrl
+     * @throws SiteMessageException
+     */
+    public static void setCustomMessage( HttpServletRequest request, String title, String text, String strUrl, int nMessageType, String strBackUrl )
+            throws SiteMessageException
+    {
+        String strTitle = title != null ? title : I18nService.getLocalizedString( getDefaultTitle( nMessageType ), request.getLocale( ) );
+        SiteMessage message = new CustomSiteMessage( strTitle, text, strUrl, nMessageType, getTypeButton( nMessageType, strBackUrl ), strBackUrl );
+
+        setMessage( request, message );
+
+        throw new SiteMessageException( );
+    }
+
+    /**
+     * Set the custom message, store it in session and throw a LuteceSiteMessageException
+     * 
+     * @param request
+     * @param text
+     * @param nMessageType
+     * @throws SiteMessageException
+     */
+    public static void setCustomMessage( HttpServletRequest request, String text, int nMessageType ) throws SiteMessageException
+    {
+        setCustomMessage( request, null, text, null, nMessageType, null );
     }
 
     /**
