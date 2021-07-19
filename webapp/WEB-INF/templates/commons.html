@@ -1938,7 +1938,7 @@ lutecepolipop.add({
 <#-- resources : Default true : If true load slimselect js lib and css. 			-->
 <#-- Only needed once, so set to false if you user this macro more than once		-->
 <#-- FontAwesome icons yaml dowloaded from https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/metadata/icons.yml  -->
-<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='yaml' prefix='fa-' iconsUrl='css/admin/font-awesome-icons.yml' resources=true >
+<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='yaml' prefix='fa-' iconsUrl='css/admin/font-awesome-icons.yml' resources=true defaultValue=''>
 <@select name='${name}' id='${id}' />
 <#if resources>
 <link rel="stylesheet" href="js/admin/lib/slimselect/slimselect.min.css">
@@ -1963,6 +1963,7 @@ $.get('${iconsUrl}', function(data) {
 </#if>
 $.each( parsedIcons, function(index, icon){
 	let i=0, prefix='${prefix}';
+	let selected = '${defaultValue}' == index ? 'selected' : '';
 	<#if type='yaml'>
 		<#-- FontAwesome specific / Other lib add another test/treatment -->
 		while( i < icon.styles.length ){
@@ -1980,12 +1981,12 @@ $.each( parsedIcons, function(index, icon){
 					prefix = 'fab'
 					break;
 			}
-			$('#${id}').append('<option value="' + prefix + index + '"> <#if showListIcon><span class="' + prefix + ' fa-' + index + ' mr-1"></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
+			$('#${id}').append('<option value="' + prefix + index + '"> <#if showListIcon><span class="' + prefix + ' fa-' + index + ' mr-1" ' + selected + ' ></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
 			i++;
 		}
 	<#else>
 		<#-- Json / Object -->
-		$('#${id}').append('<option value="' + prefix + index + '"> <#if showListIcon><span class="' + prefix + index + '"></span>&nbsp;</#if>' <#if showListLabel>+ index </#if>+ '</option>');
+		$('#${id}').append('<option value="' + prefix + index + '" ' + selected + ' > <#if showListIcon><span class="' + prefix + index + '"></span>&nbsp;</#if>' <#if showListLabel>+ index </#if>+ '</option>');
 	</#if>
 });
 new SlimSelect({ 
