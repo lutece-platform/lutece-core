@@ -2049,11 +2049,11 @@ lutecepolipop.add({
 <#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='yaml' prefix='fa-' iconsUrl='css/admin/font-awesome-icons.yml' resources=true >
 <@select name='${name}' id='${id}' />
 <#if resources>
-<link rel="stylesheet" href="js/admin/plugins/forms/slimselect.min.css">
-<script src="js/admin/plugins/forms/slimselect.min.js"></script>
+<link rel="stylesheet" href="js/admin/lib/slimselect/slimselect.min.css">
+<script src="js/admin/lib/slimselect/slimselect.min.js"></script>
 <#if type='yaml'>
 <!-- js yaml parser -->
-<script src="js/admin/plugins/forms/js-yaml.min.js"></script>
+<script src="js/admin/lib/slimselect/js-yaml.min.js"></script>
 </#if>
 </#if>
 <script>
