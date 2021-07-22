@@ -366,6 +366,20 @@ public final class SiteMessageService
     {
         setCustomMessage( request, null, text, null, nMessageType, null );
     }
+    
+    /**
+     * Set the custom message, store it in session and throw a LuteceSiteMessageException
+     * 
+     * @param request
+     * @param text
+     * @param title
+     * @param nMessageType
+     * @throws SiteMessageException
+     */
+    public static void setCustomMessage( HttpServletRequest request, String title, String text, int nMessageType ) throws SiteMessageException
+    {
+        setCustomMessage( request, title, text, null, nMessageType, null );
+    }
 
     /**
      * Returns the message associated to the current request
