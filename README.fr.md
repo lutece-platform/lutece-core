@@ -3,27 +3,34 @@
 [![Line of code](https://dev.lutece.paris.fr/sonar/api/project_badges/measure?project=fr.paris.lutece%3Alutece-core&metric=ncloc)](https://dev.lutece.paris.fr/sonar/dashboard?id=fr.paris.lutece%3Alutece-core)
 [![Coverage](https://dev.lutece.paris.fr/sonar/api/project_badges/measure?project=fr.paris.lutece%3Alutece-core&metric=coverage)](https://dev.lutece.paris.fr/sonar/dashboard?id=fr.paris.lutece%3Alutece-core)
 
-# Bienvenue sur le projet Lutece
+# Qu'est-ce que Lutèce ?
 
-Lutece est un moteur de portail qui vous permet de créer rapidement un site internet ou intranet dynamique basé sur du contenu HTML, XML...
+![Lutece logo](https://github.com/lutece-platform/lutece-core/blob/develop/webapp/images/Lutece-logo.png?raw=true)
 
-Son architecture très modulaire est basée sur des plugins. [Consulter la liste des plugins](http://dev.lutece.paris.fr/fr/available-plugins.html) 
+Lutece est une plate-forme ouverte qui permet aux municipalités de partager, de réutiliser et d'adapter les services numériques créés par d'autres villes. Lutece est gratuit, modulable et sécurisé.
 
-Ce logiciel Open Source est écrit en Java et repose sur des briques logicielles Open Source reconnues (SpringFramework, Lucene, Freemarker, Ehcache, Jakarta-commons, PDFBox, ...).
+Grâce à Lutece, découvrez plus de 400 modules prêts à l'emploi pour alimenter vos services numériques et répondre aux besoins des résidents.
 
-Lutece fournit une interface d'administration très simple qui peut être utilisée par des utilisateurs qui n'ont pas de compétences techniques particulières. Lutece est gratuit, distribué sous une licence équivalente à la licence BSD.
+Vous pouvez facilement personnaliser et améliorer les modules pour répondre aux besoins de leur ville ou créer des modules numériques à partir de zéro et les partager avec la communauté Lutece.
+
+
+| Gratuit| Modulaire| Sécurisé|
+|-----------------|-----------------|-----------------|
+| Lutece est basé sur l'open source, ce qui signifie que son code source est disponible gratuitement.| Lutece vous permet de personnaliser l'un des 400 modules du commerce ou de créer le vôtre pour répondre à vos besoins spécifiques.| Lutece est une plate-forme éprouvée, stable et sécurisée qui est utilisée par les organisations du secteur public du monde entier.|
+
 
 # Informations sur le projet
 
- [Résumé du projet](project-summary.html) : informations sur le projet
-
- [Gestion des anomalies](http://dev.lutece.paris.fr/jira/browse/LUTECE) : accès au système de contrôle des livraisons pour ce projet. Des entrées (bogues, dispositifs, demandes de changement) peuvent être créées et consultées en utilisant ce lien.
-
- [Dépôt de sources](https://github.com/lutece-platform/lutece-core/) : accès au dépôt de sources en ligne via un navigateur web.
-
- [Dépendences](dependencies.html) : liste des dépendances du projets, informations complémentaires.
-
- [Licence](license.html) : licence du projet.
+ 
+* Le site officiel de Lutèce : [https://lutece.paris.fr](https://lutece.paris.fr) 
+* La [Licence de projet](LICENSE) open source
+* Documentation technique [Lutece WIKI](https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki) 
+*  [MOOC Lutece](https://mooc.lutece.paris.fr/) : Ce cours vous apprendra toutes les bases du développement avec Lutece.
+* Le [site de démonstration Lutece](http://dev.lutece.paris.fr/site-demo/) en ligne (réinitialisation des données toutes les 3 heures)
+*  [Lutece docker hub](https://hub.docker.com/u/lutece)  : images Docker du projet
+*  [Référentiel source de la plateforme Lutece](https://github.com/lutece-platform/)  : le référentiel en ligne de tous les plugins Lutece.
+*  [Référentiel de packages de la plateforme Lutece](https://dev.lutece.paris.fr/nexus/#view-repositories) : le référentiel de packages pour tous les plugins Lutece.
+*  [Issue Tracking](http://dev.lutece.paris.fr/jira/browse/LUTECE) : système de gestion des faits de ce projet (necessite un compte jira).
 
 
 [Maven documentation and reports](https://dev.lutece.paris.fr/plugins/lutece-core/)
