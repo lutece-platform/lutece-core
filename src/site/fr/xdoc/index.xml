@@ -1,46 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <document>
-      <properties>
-          <title>
-              Lutèce : Introduction
-          </title>
-      </properties>
-      <body>
-          <section name="Bienvenue sur le projet Lutece">
-              <p>
-                  Lutece est un moteur de portail qui vous permet de créer rapidement un site internet ou intranet dynamique basé sur du contenu HTML, XML...
-              </p>
-              <p>
-                  Son architecture très modulaire est basée sur des plugins. 
-                  <a href="http://dev.lutece.paris.fr/fr/available-plugins.html">Consulter la liste des plugins</a>
-                  
-              </p>
-              <p>
-                  Ce logiciel Open Source est écrit en Java et repose sur des briques logicielles Open Source reconnues
-                  (SpringFramework, Lucene, Freemarker, Ehcache, Jakarta-commons, PDFBox, ...).
-              </p>
-              <p>
-                  Lutece fournit une interface d'administration très simple qui peut être utilisée par des utilisateurs qui n'ont pas de compétences techniques particulières.
-                  Lutece est gratuit, distribué sous une licence équivalente à la licence BSD.
-              </p>
-          </section>
-		  <section name="Informations sur le projet">
-			<p>
-				<a href="project-summary.html">Résumé du projet</a> : informations sur le projet
-			</p>	
-			<p>
-				<a href="http://dev.lutece.paris.fr/jira/browse/LUTECE" target="_blank">Gestion des anomalies</a> : accès au système de contrôle des livraisons pour ce projet. Des entrées (bogues, dispositifs, demandes de changement) peuvent être créées et consultées en utilisant ce lien.
-			</p>	
-			<p>
-				<a href="https://github.com/lutece-platform/lutece-core/" target="_blank">Dépôt de sources</a> : accès au dépôt de sources en ligne via un navigateur web.
-			</p>
-			<p>
-				<a href="dependencies.html">Dépendences</a> : liste des dépendances du projets, informations complémentaires.
-			</p>
-			<p>
-				<a href="license.html">Licence</a> : licence du projet.
-			</p>
-		  </section>
-      </body>
-  </document>
-          
+<document>
+    <properties>
+        <titre>
+            Lutèce : Introduction
+        </titre>
+    </properties>
+    <body>
+        <section name="Qu'est-ce que Lutèce ?">
+            <p align="center">
+                <img src="https://github.com/lutece-platform/lutece-core/blob/develop/webapp/images/Lutece-logo.png?raw=true" alt="Lutece logo" title="Lutece logo" />
+            </p>
+            <p>
+                Lutece est une plate-forme ouverte qui permet aux municipalités de partager, de réutiliser et d'adapter les services numériques créés par d'autres villes. Lutece est gratuit, modulable et sécurisé.
+            </p>
+            <p>
+                Grâce à Lutece, découvrez plus de 400 modules prêts à l'emploi pour alimenter vos services numériques et répondre aux besoins des résidents.
+            </p>
+            <p>
+                Vous pouvez facilement personnaliser et améliorer les modules pour répondre aux besoins de leur ville ou créer des modules numériques à partir de zéro et les partager avec la communauté Lutece.
+            </p>
+            <p>
+                
+                <table>
+                    <tr>
+                        <th>Gratuit</th>
+                        <th>Modulaire</th>
+                        <th>Sécurisé</th>
+                    </tr>
+                    <tr>
+                        <td>Lutece est basé sur l'open source, ce qui signifie que son code source est disponible gratuitement.</td>
+                        <td>Lutece vous permet de personnaliser l'un des 400 modules du commerce ou de créer le vôtre pour répondre à vos besoins spécifiques.</td>
+                        <td>Lutece est une plate-forme éprouvée, stable et sécurisée qui est utilisée par les organisations du secteur public du monde entier.</td>
+                    </tr>
+                </table>
+
+            </p>
+
+        </section>
+        <section name="Informations sur le projet">
+            <ul>
+                <li>
+                    Le site officiel de Lutèce : <a href="https://lutece.paris.fr" target="_blank">https://lutece.paris.fr</a>
+                </li>
+                        
+                <li>
+                    La <a href="LICENSE" target="_blank">Licence de projet</a> open source
+                </li>
+                        
+                <li>
+                    Documentation technique <a href="https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki" target="_blank">Lutece WIKI</a>
+                </li>
+                        
+                <li>
+                    <a href="https://mooc.lutece.paris.fr/" target="_blank">MOOC Lutece</a> : Ce cours vous apprendra toutes les bases du développement avec Lutece.
+                </li>
+                        
+                <li>
+                    Le <a href="http://dev.lutece.paris.fr/site-demo/" target="_blank"> site de démonstration Lutece </a> en ligne (réinitialisation des données toutes les 3 heures)
+                </li>
+                        
+                <li>
+                    <a href="https://hub.docker.com/u/lutece" target="_blank">Lutece docker hub</a> : images  Docker du projet
+                </li>
+                                
+                <li>
+                    <a href="https://github.com/lutece-platform/" target="_blank">Référentiel source de la plateforme Lutece</a> : le référentiel en ligne de tous les plugins Lutece.
+                </li>
+                <li>
+                    <a href="https://dev.lutece.paris.fr/nexus/#view-repositories" target="_blank">Référentiel de packages de la plateforme Lutece</a> : le référentiel de packages pour tous les plugins Lutece.
+                </li>
+                        
+                <li>
+                    <a href="http://dev.lutece.paris.fr/jira/browse/LUTECE" target="_blank">Issue Tracking</a> :  système de gestion des faits de ce projet (necessite un compte jira).
+                </li>
+            </ul>
+        </section>
+    </body>
+</document>
