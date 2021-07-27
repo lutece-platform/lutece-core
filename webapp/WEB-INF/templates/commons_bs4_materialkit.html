@@ -528,13 +528,13 @@
 </small>
 </#macro>
 
-<#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE -->
-<#-- type : text/textarea/password/email/file/number. Default is text -->
-<#-- size: sm/lg/EMPTY for medium size -->
-<#-- incoming Bootstrap 4 size: form-control-sm/form-control-lg or empty for the normal size -->
-<#-- pattern: [A-F][0-9]{5} -->
-<#-- language: for input type DATE and datepickers -->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.lang minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' dateRangeEndId=''>
+<#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE 											-->
+<#-- type : text/textarea/password/email/file/number. Default is text 							-->
+<#-- size: sm/lg/EMPTY for medium size 															-->
+<#-- incoming Bootstrap 4 size: form-control-sm/form-control-lg or empty for the normal size 	-->
+<#-- pattern: [A-F][0-9]{5} 																	-->
+<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.lang dateRangeEndId='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
@@ -549,6 +549,7 @@
 		</script>
 		</#if>
 	<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange'>
+		<#-- DEPRECATED USE inputDate instead -->
 		<#if type='date'>
 			<@getDatePickerBootstrap idField='${id}' language=language />
 		<#elseif type='datetime'>
@@ -567,6 +568,24 @@
 	<#else>
 		<@icon style='warning' /> Type not supported
 	</#if>
+</#macro>
+
+<#-- INPUT DATE 										-->
+<#-- language: for input type DATE and datepickers  	-->
+<#macro inputDate name id type='date' value='' class='' size='' tabIndex='' disabled=false readonly=false placeHolder='' title='' mandatory=false language=.lang format='' showFormat='' dateRangeEndId='' params=''>
+<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
+<#if type='date'>
+	<@getDatePickerBootstrap idField='${id}' language=language format=format showFormat=showFormat />
+<#elseif type='datetime'>
+	<@getDateTimePickerBootstrap idField='${id}' language=language format=format showFormat=showFormat  />
+<#elseif type='daterange'>
+	<#if dateRangeEndId != ''>
+		<@getDateRangeFlatPicker idField='${id}' idEndField='${dateRangeEndId}' language=language format=format showFormat=showFormat  />
+	</#if>
+<#elseif type='datetimerange'>
+	<@getDateTimeRangeFlatPicker idField='${id}' language=language />
+</#if>
+<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 </#macro>
 
 <#-- STATIC TEXT -->

@@ -3,37 +3,37 @@
 <script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
 <script charset="utf-8">
 $( function() {
-	$('#${idField}').flatpickr({enableTime: true, <#if showFormat !=''>altInput:true, altFormat:'${showFormat}'</#if>, dateFormat: '${format}', "locale": "<@getRegional language=language />"});
+	$('#${idField}').flatpickr({enableTime: true, <#if showFormat !=''>altInput:true, altFormat:'${showFormat}', </#if>dateFormat: '${format}', "locale": "<@getRegional language=language />"});
 });
 </script>
 </#macro>
 
-<#macro getDateFlatPicker idField language format='d/m/Y'>
+<#macro getDateFlatPicker idField language format='d/m/Y' showFormat='d-m-Y'>
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
 <script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
 <script charset="utf-8">
 $(  function() {
-	$('#${idField}').flatpickr({enableTime: false, dateFormat: '${format}', "locale": "<@getRegional language=language />"});
+	$('#${idField}').flatpickr({enableTime: false, <#if showFormat !=''>altInput:true, altFormat:'${showFormat}', </#if>dateFormat: '${format}', "locale": "<@getRegional language=language />"});
 });
 </script>
 </#macro>
 
-<#macro getDateRangeFlatPicker idField language idEndField='' format='d/m/Y'>
+<#macro getDateRangeFlatPicker idField language idEndField='' format='d/m/Y'  showFormat='d-m-Y'>
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
 <script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
 <script charset="utf-8">
 $(  function() {
-	$('#${idField}').flatpickr({"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: false, dateFormat: '${format}', "locale": "<@getRegional language=language />", mode: "range"});
+	$('#${idField}').flatpickr({"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: false, <#if showFormat !=''>altInput:true, altFormat:'${showFormat}', </#if>dateFormat: '${format}', "locale": "<@getRegional language=language />", mode: "range"});
 });
 </script>
 </#macro>
 
-<#macro getDateTimeRangeFlatPicker idField language format='d/m/Y H:i'>
+<#macro getDateTimeRangeFlatPicker idField language format='yyyy-MM-dd"T"HH:mm:ss\\Z' showFormat='d-m-Y H:i' >
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
 <script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
 <script charset="utf-8">
 $(  function() {
-	$('#${idField}').flatpickr({enableTime: true, dateFormat: '${format}', "locale": "<@getRegional language=language />", mode: "range"});
+	$('#${idField}').flatpickr({enableTime: true, <#if showFormat !=''>altInput:true, altFormat:'${showFormat}', </#if>dateFormat: '${format}', "locale": "<@getRegional language=language />", mode: "range"});
 });
 </script>
 </#macro>
