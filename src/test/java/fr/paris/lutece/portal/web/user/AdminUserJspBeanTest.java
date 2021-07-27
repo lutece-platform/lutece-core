@@ -348,10 +348,6 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         return user;
     }
 
-    public void testDoModifyAdminUserLegacyPassword( )
-    {
-
-    }
 
     public void testDoModifyAdminUser( ) throws AccessDeniedException, UserNotSignedException
     {
@@ -1720,7 +1716,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
         try
         {
-            bean.doInsertRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
+            assertNotNull( bean.doInsertRegularExpression( request ) ) ; 
         }
         finally
         {
@@ -2555,7 +2551,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
             request.setParameter( "id_expression", "1" );
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
-            bean.doRemoveRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
+            assertNotNull( bean.doRemoveRegularExpression( request ) ); 
         }
         finally
         {
