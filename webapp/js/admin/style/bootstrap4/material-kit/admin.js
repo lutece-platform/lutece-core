@@ -160,3 +160,13 @@ $('[data-toggle="collapse"]').click(function() {
     $(this).find("i").addClass("fa-minus").removeClass("fa-plus");
     }
 });
+
+
+function prettySize( bytes, separator=' ', postFix=''){
+	if (bytes) {
+		const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To'];
+		const i = Math.min(parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10), sizes.length - 1);
+		return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
+	}
+	return 'n/a';
+	}
