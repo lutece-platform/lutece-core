@@ -929,11 +929,11 @@ and is kept only for backwards compatibility
 </p>
 </#macro>
 
-<#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE 					-->
-<#-- type : text/textarea/password/email/file/number. Default is text 	-->
-<#-- size: xs/sm/lg 													-->
-<#-- pattern: [A-F][0-9]{5} 											-->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.lang minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' dateRangeEndId=''>
+<#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE -->
+<#-- type : text/textarea/password/email/file/number. Default is text -->
+<#-- size: xs/sm/lg -->
+<#-- pattern: [A-F][0-9]{5} -->
+<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.lang minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' format='' showFormat='' dateRangeEndId=''>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if size == 'xs' || size == 'sm'><#local size = 'small' />
 <#elseif size == 'md'><#local size = 'medium' />
@@ -947,14 +947,13 @@ and is kept only for backwards compatibility
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
     <input class="input<#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 <#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange'>
-	<#-- DEPRECATED USE inputDate instead -->
 	<#if type='date'>
-		<@getDatePickerBootstrap idField='${id}' language=language />
+		<@getDatePickerBootstrap idField='${id}' language=language format=format showFormat=showFormat />
 	<#elseif type='datetime'>
-		<@getDateTimePickerBootstrap idField='${id}' language=language />
+		<@getDateTimePickerBootstrap idField='${id}' language=language format=format showFormat=showFormat />
 	<#elseif type='daterange'>
 		<#if dateRangeEndId != ''>
-			<@getDateRangeFlatPicker idField='${id}' idEndField='${dateRangeEndId}' language=language />
+			<@getDateRangeFlatPicker idField='${id}' idEndField='${dateRangeEndId}' language=language format=format showFormat=showFormat />
 		</#if>
 	<#elseif type='datetimerange'>
 		<@getDateTimeRangeFlatPicker idField='${id}' language=language />
@@ -967,24 +966,6 @@ and is kept only for backwards compatibility
 <#if type != 'hidden'>
 </div>
 </#if>
-</#macro>
-
-<#-- INPUT DATE 									-->
-<#-- language: for input type DATE and datepickers  -->
-<#macro inputDate name id type='date' value='' class='' size='' tabIndex='' disabled=false readonly=false placeHolder='' title='' mandatory=false language=.lang format='' showFormat='' dateRangeEndId='' params=''>
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
-<#if type='date'>
-	<@getDatePickerBootstrap idField='${id}' language=language format=format showFormat=showFormat />
-<#elseif type='datetime'>
-	<@getDateTimePickerBootstrap idField='${id}' language=language format=format showFormat=showFormat  />
-<#elseif type='daterange'>
-	<#if dateRangeEndId != ''>
-		<@getDateRangeFlatPicker idField='${id}' idEndField='${dateRangeEndId}' language=language format=format showFormat=showFormat  />
-	</#if>
-<#elseif type='datetimerange'>
-	<@getDateTimeRangeFlatPicker idField='${id}' language=language />
-</#if>
-<input class="form-control<#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if placeHolder!=''>placeholder=${placeHolder}</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 </#macro>
 
 <#-- STATIC TEXT -->
