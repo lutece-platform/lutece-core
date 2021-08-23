@@ -18,7 +18,7 @@
 -->
 
 <#-- New Bootstrap Date picker to use -->
-<#macro getDatePickerBootstrap idField language parse="false">
+<#macro getDatePickerBootstrap idField language parse="false" showFormat='d-m-Y'>
 	<script src="js/admin/bootstrap-datepicker.js"></script>
 	<script src="js/admin/locales/bootstrap-datepicker.<@getRegional language=language />.js" charset="utf-8"></script>
 	<script charset="utf-8">
@@ -66,7 +66,7 @@
 -->
 
 <#-- New Bootstrap Date range picker to use -->
-<#macro getDatePickerRangeBootstrap language >
+<#macro getDatePickerRangeBootstrap language showFormat='d-m-Y'>
 	<script src="js/admin/bootstrap-datepicker.js"></script>
 	<script src="js/admin/locales/bootstrap-datepicker.<@getRegional language=language />.js" charset="utf-8"></script>
 	<script charset="utf-8">
@@ -91,7 +91,7 @@
 </#macro>
 
 <#-- Deprecated -->
-<#macro getDatePickerRange idFieldFrom idFieldTo language >
+<#macro getDatePickerRange idFieldFrom idFieldTo language showFormat='d-m-Y'>
 	<script src="js/admin/jquery/plugins/ui/jquery-ui.min.js"></script>
 	<script src="js/admin/jquery/plugins/ui/ui.datepicker-fr.js"></script>
 	<script charset="utf-8">

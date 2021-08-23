@@ -13,7 +13,7 @@
  # <@getDatePickerBootstrap idField="my_date" language=locale.language />
  #
 -->
-<#macro getDatePickerBootstrap idField language >
+<#macro getDatePickerBootstrap idField language showFormat='d-m-Y'>
 <#local idt18n><@getRegional language=language /></#local>
 <#local dtFormat></#local>
 <#switch idt18n>
@@ -100,7 +100,7 @@ $( function() {
  # <@getDatePickerBootstrap idField="my_date" language=locale.language />
  #
 -->
-<#macro getDatePickerRangeBootstrap language >
+<#macro getDatePickerRangeBootstrap language showFormat='d-m-Y'>
 <#-- The range must be defined with id "datetimepicker_start" for start date input and another id "datetimepicker_end" for end date input.
 Example:
 <div class="form-group">
