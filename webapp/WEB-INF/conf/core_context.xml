@@ -293,7 +293,7 @@
     </bean>
     <bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bootstrap4AdminLTE" />
-        <property name="name" value="Bootstrap v4.3 + AdminLTE (Experimental) + Backport file (v6.x compatible)" />
+        <property name="name" value="Bootstrap 4.3 + AdminLTE (Experimental) + Backport file (v6.x compatible)" />
         <property name="files">
             <list>
                 <value>commons_bs4_adminlte.html</value>                
@@ -315,5 +315,15 @@
             </list>
         </property>
     </bean>
-    
+    <bean id="commonsTabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="Tabler" />
+        <property name="name" value="Bootstrap 5.1 + Tabler 1.0 - (Experimental)" />
+        <property name="files">
+            <list>
+                <value>commons_tabler.html</value>
+                <value>admin/util/calendar/macro_datepicker.html</value>
+				<value>admin/util/calendar/macro_datetimepicker.html</value>
+            </list>
+        </property>
+    </bean>
 </beans>

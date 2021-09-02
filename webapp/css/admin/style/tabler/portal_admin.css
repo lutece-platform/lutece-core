@@ -1,0 +1,101 @@
+/*  Login page            */
+#login-page { background: #fff url("../../images/admin/skin/bg_login1.jpg"); background-size: cover; background-attachment: fixed;  overflow: hidden;}
+
+/* Navbar                 */
+/* Fixed navbar           */
+.main-header { padding-top: 60px;}
+
+/* Dashboard Card Button  */
+.box-tools{ position: absolute; top: 5px; right: 5px;}
+
+/* Language Menu          */
+.fr{ background: transparent url( img/flags/fr.svg ) no-repeat top/cover;  width: 18px; height: 18px; padding: 0; }
+.en{ background: transparent url( img/flags/gb.svg ) no-repeat top/cover;  width: 18px; height: 18px; padding: 0; }
+
+/* Helpers classes        */
+/* Msg styles             */
+.msg-success{ color: var( --success ); }
+.msg-warning{ color: var( --warning ); }
+.msg-danger{ color: var( --danger ); }
+.msg-info{ color: var( --info ); }
+
+/* Progress               */
+.progress{ height: 50%; transform: translateY(50%);}
+
+/* Table                  */
+.table .img-responsive{ padding-top: 0 };
+
+.table{  background-color: #fff;}
+.table > :not(caption) > * > *, .markdown > table > :not(caption) > * > * {  box-shadow: inset 0 0 0 9999px #fff; }
+
+/* Dark theme             */
+.theme-dark .footer-transparent{ background-color: #34383d69 !important; }
+.theme-dark .bg-white{ background-color: #1f2936 !important; }
+.theme-dark .table{  color: #f4f6fa;  background-color: #1f2936;}
+.theme-dark .table > :not(caption) > * > *, .markdown > table > :not(caption) > * > * {  box-shadow: inset 0 0 0 9999px #1f2936; }
+.theme-dark .alert h1,.theme-dark .alert p{  color: #000;}
+  
+/* CSS for copyElementToClipboard commons Freemarker Macro */
+.copy-content{ position: relative; width:100%; display: inline-block;}
+.copy-content:hover{ cursor: copy;}
+.copy-icon{ position: relative; }
+.copy-icon:after, .copy-content:hover:after{ content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');position: absolute; margin-left: 5px; top: 5px; width: 15px;}
+.copy-content.copy-btn:after{border: 1px solid #000; border-radius: 5px; padding: 1px 3px; content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');position: absolute; margin-left: 5px; top: 0; width: 20px;}
+.copy-content.no-hover:hover:after{ content: '';}
+
+/* Admin Site             */
+iframe#preview {  display: block; overflow: auto; border: 0; padding: 0; margin:-10px auto; border:2px solid #DEDEDE; max-height:400px }
+#preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
+#fullscreen.open{ position:fixed; top:0; right: 15px; z-index: 10000; padding: 5px; }
+
+/* Documentation          */
+#lutece-doc-link{ position: fixed; bottom: 0; right: 0; z-index: 2 }
+#lutece-doc-link:hover span{ position: relative; width:auto; height:auto ;}
+
+/* Portlets               */
+li.portlet-type a:hover{ background:#6D84CB;  color:#fff; }
+#content-portlet{  padding:0 10px;}
+#preview{ left:0;  width:100%;  height:850px;  min-height:850px;  position:relative;  z-index:0; }
+.richtext{ width:100%; }
+
+/* Site Map               */
+.sitemap{  min-height:650px;}
+.sitemap #map{  margin-top:20px;}
+.jstree-classic a.jstree-search ,.jstree-default a.jstree-search ,.jstree-apple a.jstree-search {  background-color:#6277B6 !important; color:#fff !important;  font-style:normal; text-decoration:underline; padding:0 10px !important;}
+.jstree-classic .jstree-clicked { padding:0 5px !important;}
+
+/* PLUGINS ADMIN added styles */
+/* Plugins EXTEND             */
+#extender-content .list-group-item{ border-color: transparent; padding: 2px }
+#extender-content .list-group-item .btn-link{ padding: 0; text-align: left; }
+
+/* Plugin THEME               */
+#preview-frame-container{ display: none; }
+#back-to-preview{ position:fixed;  right:150px;  top:80px;  z-index:999 }
+#back-to-preview a{ display: block; padding:15px 20px; background: #000; color: #FFF; text-decoration: none; border-radius: 100px; -moz-border-radius: 100px; -webkit-border-radius: 100px }
+
+#preview-frame{ border-radius: 50px; -moz-border-radius: 50px; -webkit-border-radius: 50px; border: 8px solid #7c7c7c; position:fixed; background:#7c7c7c; width:90%; height:800px;top:60px;  left:60px; overflow: auto; z-index: 999; box-shadow: -3px 3px 50px #7c7; -webkit-box-shadow: -3px 3px 50px #7c7; -moz-box-shadow: -3px 3px 50px #7c7; padding: 20px }
+
+.oyh { overflow-y: hidden }
+.callout-theme{	padding: 6px 30px 6px 15px; margin-right: 15px }
+.card-theme{ overflow: hidden; position: relative; border: 1px solid #CCC; border-radius: 8px; text-align: center; padding: 0; background-color: #3C8DBC; color: #FFF; margin: 15px auto }
+.card-theme.header-bg{ position: absolute; top: 0; left: 0; width: 100%; height: 70px; border-bottom: 1px #FFF solid; z-index: 1 }
+.card-theme .card-header{ border-bottom: 4px solid #000 }
+.card-theme.default-theme .card-header{ border-bottom-color: #3C763D }
+.card-theme.default-theme { border: 1px solid #3C763D }
+.card-theme .avatar { position: relative; padding: 15px 0; z-index: 100 }
+.card-theme .card-content{ padding: 20px 0 }
+.card-theme .card-content h2{ padding: 10px 0; font-weight: bold; border-bottom: 2px solid #fff; color:#fff }
+.card-theme .card-content h2 a{ color: #fff }
+.card-theme ul li{ margin-left: 20%; text-align: left }
+.card-theme li a{color: #fff}
+.card-theme .avatar img{ width: 100px; height: 100px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; border: 5px solid rgba(0,0,30,0.8) }
+.card-theme.default-theme .avatar img{ border-color:  #3C763D }
+.theme-selected{ display: none }
+.card-theme.default-theme .theme-selected{
+  display: block; width: 200px; background: #3C763D; top: 25px; left: -50px; text-align: center; line-height: 50px;  letter-spacing: 1px;
+  font-weight: bold; font-size: 16px; color: #fff; box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg);
+}
+
+/* spaces between elements when display is set to flex. intended for buttons */
+.card-header .d-flex > * + *, .card-body .d-flex > * + * {	margin-left: 0.2rem; }
