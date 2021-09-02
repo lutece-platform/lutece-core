@@ -20,6 +20,9 @@
 .msg-danger{ color: var( --danger ); }
 .msg-info{ color: var( --info ); }
 
+.empty{ display: flex; justify-content: center;  flex-direction: column;  align-items: center; }
+.empty-title{  margin-top: 15px;}
+
 /* CSS for copyElementToClipboard commons Freemarker Macro */
 .copy-content{ position: relative; width:100%; display: inline-block;}
 .copy-content:hover{ cursor: copy;}
@@ -28,7 +31,9 @@
 .copy-content.no-hover:hover:after{ content: '';}
 
 /* Admin Site       */
-iframe#preview {  display: block; overflow: auto; padding: 0; margin:-10px auto; border:2px solid #DEDEDE; max-height:400px }
+iframe#preview {  display: block; overflow: auto; border: 0; padding: 0; margin:-10px auto; border:2px solid #DEDEDE; max-height:400px }
+#preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
+#fullscreen.open{ position:fixed; top:0; right: 15px; z-index: 10000; padding: 5px; }
 
 /* Portlets         */
 li.portlet-type a:hover{  background:#6D84CB;  color:#fff; }

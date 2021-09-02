@@ -78,48 +78,45 @@ $( function(){
 	// Admin responsive preview
 	function _fix() {
 		var h = $(window).height();
-        var w = $(window).width();
-        $("#preview").css({
+		var w = $(window).width();
+		$("#preview").css({
 			width: (w - 30) + "px",
-            height: (h - 50) + "px"
-			});
-        }
+			height: (h - 50) + "px"
+		});
+	}
+	_fix();
+	
+	$(window).resize(function() {
 		_fix();
-        $(window).resize(function() {
-			_fix();
-        });
+	});
 
-        function iframe_width(width) {
-			$("#preview").animate({width: width}, 500);
-        }
+	function iframe_width(width) {
+		$("#preview").animate({width: width}, 500);
+	}
 
-        $("#display-full").click(function(e){
-			e.preventDefault();
-            iframe_width("100%");
-        });
+	$("#display-full").click(function(e){
+		e.preventDefault();
+		iframe_width("100%");
+	});
 
-        $("#display-940").click(function(e){
-			e.preventDefault();
-            iframe_width("940px");
-        });
+	$("#display-940").click(function(e){
+		e.preventDefault();
+		iframe_width("940px");
+	});
 
-        $("#display-480").click(function(e){
-			e.preventDefault();
-            iframe_width("480px");
-        });
+	$("#display-480").click(function(e){
+		e.preventDefault();
+		iframe_width("480px");
+	});
 
 	// Admin Preview fullscreen
 	if ( $("#fullscreen").length > 0 ){
 		$("#fullscreen").on('click', function(e) {
 			// Stop the link default behaviour.
 			e.preventDefault();
-			// Set the iframe src with the clicked link href.
-			$('body').toggleClass("bs-fixed-body");
-			$('.content-header').toggle();
-			$('.page-header').toggle();
-			$('header').toggle();
-			$(this).children().toggleClass('fa-arrows-alt').toggleClass('fa-remove');
-
+			// Set preview fulscreen
+			$('#preview').toggleClass('open');
+			$(this).toggleClass('open');
 		});
 	}
 
@@ -149,24 +146,14 @@ $( function(){
         });
     });
 
-});
-
-// Toggle collapse buttons
-$('[data-toggle="collapse"]').click(function() {
-	if ($(this).find("i").hasClass("fa-minus")){
-    $(this).find("i").addClass("fa-plus").removeClass("fa-minus");
-    }
+	// Toggle collapse buttons
+	$('[data-toggle="collapse"]').click(function() {
+		if ($(this).find("i").hasClass("fa-minus")){
+		$(this).find("i").addClass("fa-plus").removeClass("fa-minus");
+	}
 	else if ($(this).find("i").hasClass("fa-plus")){
-    $(this).find("i").addClass("fa-minus").removeClass("fa-plus");
-    }
+		$(this).find("i").addClass("fa-minus").removeClass("fa-plus");
+	}
+	});
+
 });
-
-
-function prettySize( bytes, separator=' ', postFix=''){
-	if (bytes) {
-		const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To'];
-		const i = Math.min(parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10), sizes.length - 1);
-		return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
-	}
-	return 'n/a';
-	}

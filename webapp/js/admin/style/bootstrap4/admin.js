@@ -64,9 +64,14 @@ $( function(){
 	    handle: ".box-header, .info-box-icon",
 	    forcePlaceholderSize: true,
 	    zIndex: 999999
-	  });
-	  $(".lutece-dashboard .box-header, .lutece-dashboard .info-box-icon").css("cursor", "move");
+	});
+	$(".lutece-dashboard .box-header, .lutece-dashboard .info-box-icon").css("cursor", "move");
 
+
+	// File Input Style
+	$(":file").not(".noBootstrapFilestyle")
+		.addClass("filestyle")
+		.filestyle({buttonText: "&nbsp;Parcourir"});
 
 	$(".portlet-type").on('click', function(e) {
 		// Stop the link default behaviour.
@@ -82,44 +87,41 @@ $( function(){
         $("#preview").css({
 			width: (w - 30) + "px",
             height: (h - 50) + "px"
-			});
-        }
+		});
+	}
+	_fix();
+
+	$(window).resize(function() {
 		_fix();
-        $(window).resize(function() {
-			_fix();
-        });
+	});
 
-        function iframe_width(width) {
-			$("#preview").animate({width: width}, 500);
-        }
+	function iframe_width(width) {
+		$("#preview").animate({width: width}, 500);
+	}
 
-        $("#display-full").click(function(e){
-			e.preventDefault();
-            iframe_width("100%");
-        });
+	$("#display-full").click(function(e){
+		e.preventDefault();
+		iframe_width("100%");
+	});
 
-        $("#display-940").click(function(e){
-			e.preventDefault();
-            iframe_width("940px");
-        });
+	$("#display-940").click(function(e){
+		e.preventDefault();
+		iframe_width("940px");
+	});
 
-        $("#display-480").click(function(e){
-			e.preventDefault();
-            iframe_width("480px");
-        });
+	$("#display-480").click(function(e){
+		e.preventDefault();
+		iframe_width("480px");
+	});
 
 	// Admin Preview fullscreen
 	if ( $("#fullscreen").length > 0 ){
 		$("#fullscreen").on('click', function(e) {
 			// Stop the link default behaviour.
 			e.preventDefault();
-			// Set the iframe src with the clicked link href.
-			$('body').toggleClass("bs-fixed-body");
-			$('.content-header').toggle();
-			$('.page-header').toggle();
-			$('header').toggle();
-			$(this).children().toggleClass('fa-arrows-alt').toggleClass('fa-remove');
-
+			// Set preview fulscreen
+			$('#preview').toggleClass('open');
+			$(this).toggleClass('open');
 		});
 	}
 

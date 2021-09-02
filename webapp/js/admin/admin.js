@@ -118,13 +118,9 @@ $( function(){
 		$("#fullscreen").on('click', function(e) {
 			// Stop the link default behaviour.
 			e.preventDefault();
-			// Set the iframe src with the clicked link href.
-			$('body').toggleClass("bs-fixed-body");
-			$('.content-header').toggle();
-			$('.page-header').toggle();
-			$('header').toggle();
-			$(this).children().toggleClass('fa-arrows-alt').toggleClass('fa-remove');
-
+			// Set preview fulscreen
+			$('#preview').toggleClass('open');
+			$(this).toggleClass('open');
 		});
 	}
 
@@ -154,16 +150,15 @@ $( function(){
         });
     });
 
-});
-
-// Toggle collapse buttons
-$('[data-toggle="collapse"]').click(function() {
-	if ($(this).find("i").hasClass("fa-minus")){
-    $(this).find("i").addClass("fa-plus").removeClass("fa-minus");
-    }
-	else if ($(this).find("i").hasClass("fa-plus")){
-    $(this).find("i").addClass("fa-minus").removeClass("fa-plus");
-    }
+	// Toggle collapse buttons
+	$('[data-toggle="collapse"]').click(function() {
+		if ($(this).find("i").hasClass("fa-minus")){
+		$(this).find("i").addClass("fa-plus").removeClass("fa-minus");
+		}
+		else if ($(this).find("i").hasClass("fa-plus")){
+		$(this).find("i").addClass("fa-minus").removeClass("fa-plus");
+		}
+	});
 });
 
 function prettySize( bytes, separator=' ', postFix=''){

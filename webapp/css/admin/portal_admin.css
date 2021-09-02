@@ -93,6 +93,9 @@ div.box-tools > * { display:inline-block; }
 .msg-danger{ color: var( --danger-color ); font-weight: 700; }
 .msg-info{ color: var( --info-color ); font-weight: 700; }
 
+.empty{ display: flex; justify-content: center;  flex-direction: column;  align-items: center; }
+.empty-title{  margin-top: 15px;}
+
 /* CSS for copyElementToClipboard commons Freemarker Macro */
 .copy-content{ position: relative; width:100%; display: inline-block; }
 p.copy-content:hover{ cursor: copy; }
@@ -123,22 +126,16 @@ div.thumbnail div.caption{ background: var( --gray-color ); }
 .no-margin{ margin: 0; }
 /* Append right and left 2px space          */
 .spaced{ margin: 0 2px; }
-/* Text elipsis class */
-.truncate {  width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Documentation */
+#lutece-doc-link{ position: fixed; bottom: 15px; right: 15px;}
+
 /* Pager XS Sized                           */
 .pager-xs{ margin: 2px 5px; }
 .pager-xs > li > a{ padding: 1px 8px; }
 
-/* selectIcon macro slim-select js lib styles */
-.ss-main.form-control{ width: 250px !important; }
-.ss-content.ss-open{ margin-left: -12px !important }
-.ss-main .ss-single-selected {
-    border: 0 !important;
-    background-color: transparent !important;
-    transition: none !important;
-    height: 20px !important;
-    padding: 0 !important;
-}
+/* Lutece extra-icons                        */
+.icon-lutece-logo{ background: url( ../img/lutece-logo.png); width: 18px; height: 18px }
 
 /* 	Insert services                          */
 div.insert-service{ margin: 10px; }
@@ -151,7 +148,9 @@ ul.pagination{ margin-top: 0; }
 .plugin{ min-height: 300px; max-height: 300px; }
 
 /* Admin Site                                 */
-iframe#preview {display: block; overflow: auto; padding: 0; margin:-10px auto; border: 2px solid var( --gray-color ); max-height:400px }
+iframe#preview {display: block; overflow: auto; border: 0; padding: 0; margin:-10px auto; border: 2px solid var( --gray-color ); max-height:400px}
+#preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
+#fullscreen.open{ position:fixed; top:0; right: 15px; z-index: 10000; padding: 5px; }
 
 /* Portlets                                   */
 li.portlet-type a:hover{ background:var( --primary-color ) url(); color:var( --white-color );}
@@ -229,7 +228,7 @@ div.box-upload { min-height: 100px; }
 .card-theme .avatar img{ width: 100px; height: 100px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; border: 5px solid rgba(0,0,30,0.8) }
 .card-theme.default-theme .avatar img{ border-color:  var( --success-color ) }
 .theme-selected{ display: none }
-.card-theme.default-theme .theme-selected{ display: block; width: 200px; background: var( --success-color ); text-align: center; line-height: 50px; letter-spacing: 1px; font-weight: bold; font-size: 16px; color: var( --white-color ); box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg); }
+.card-theme.default-theme .theme-selected{ display: block; width: 200px; background: var( --success-color ); top: 25px; left: -50px; text-align: center; line-height: 50px; letter-spacing: 1px; font-weight: bold; font-size: 16px; color: var( --white-color ); box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg); }
 
 /*==================================================
 =            Bootstrap 3 Media Queries             =
@@ -259,7 +258,6 @@ div.box-upload { min-height: 100px; }
 
 @media screen and ( max-width: 560px ) {
 	 #admin-wrapper{ margin: 2px; }
-   .truncate{ width: 150px; }
 }
 
 /* Extra Small Devices, Phones */

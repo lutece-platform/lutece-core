@@ -112,13 +112,9 @@ $( function(){
 		$("#fullscreen").on('click', function(e) {
 			// Stop the link default behaviour.
 			e.preventDefault();
-			// Set the iframe src with the clicked link href.
-			$('body').toggleClass("bs-fixed-body");
-			$('.content-header').toggle();
-			$('.page-header').toggle();
-			$('header').toggle();
-			$(this).children().toggleClass('fa-arrows-alt').toggleClass('fa-remove');
-
+			// Set preview fulscreen
+			$('#preview').toggleClass('open');
+			$(this).toggleClass('open');
 		});
 	}
 
@@ -148,13 +144,22 @@ $( function(){
         });
     });
 
+	// Toggle collapse buttons
+	$('[data-toggle="collapse"]').click(function() {
+		if ($(this).find("i").hasClass("fa-minus")){
+		$(this).find("i").addClass("fa-plus").removeClass("fa-minus");
+		}
+		else if ($(this).find("i").hasClass("fa-plus")){
+		$(this).find("i").addClass("fa-minus").removeClass("fa-plus");
+		}
+	});
 });
 
 function prettySize( bytes, separator=' ', postFix=''){
-	if (bytes) {
-		const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To'];
-		const i = Math.min(parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10), sizes.length - 1);
-		return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
-	}
-	return 'n/a';
+if (bytes) {
+	const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To'];
+	const i = Math.min(parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10), sizes.length - 1);
+	return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
+}
+return 'n/a';
 }
