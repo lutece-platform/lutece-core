@@ -305,7 +305,7 @@
     </bean>
     <bean id="commonsBulma" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bulma" />
-        <property name="name" value="Bulma 0.7 (Experimental) + Backport file (v6.x compatible)" />
+        <property name="name" value="Bulma 0.9.3 (Experimental) + Backport file (v6.x compatible)" />
         <property name="files">
             <list>
                 <value>commons_bulma.html</value>             
@@ -317,10 +317,11 @@
     </bean>
     <bean id="commonsTabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Tabler" />
-        <property name="name" value="Bootstrap 5.1 + Tabler 1.0 - (Experimental)" />
+        <property name="name" value="Bootstrap 5.1 + Tabler 1.0 + Backport file (v6.x compatible) (Experimental)" />
         <property name="files">
             <list>
                 <value>commons_tabler.html</value>
+                <value>commons_bs4_backport.html</value>
                 <value>admin/util/calendar/macro_datepicker.html</value>
 				<value>admin/util/calendar/macro_datetimepicker.html</value>
             </list>
