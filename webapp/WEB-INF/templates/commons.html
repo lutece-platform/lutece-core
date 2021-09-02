@@ -1128,7 +1128,7 @@
 <div class="small-box<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div class="inner">
 		<p>${text}</p>
-		<${titleLevel} style="font-size:${fontSize};">${title}<#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
+		<${titleLevel} style="font-size:${fontSize};"><span>${title}</span><#if unit!=''> ${unit}</#if></${titleLevel}>
 	</div>
 	<div class="icon">
 		<@icon style=boxIcon />

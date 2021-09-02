@@ -1496,7 +1496,7 @@ and is kept only for backwards compatibility
 		<div class="media-content">
 		<div class="content">	
             <p>${text}</p>
-            <${titleLevel} style="font-size:${fontSize};">${title}<#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
+            <${titleLevel} style="font-size:${fontSize};"><span>${title}</span><#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
 		</div>
 		<#if url!=''>
 		<a class="small-box-footer" href="${url}">${urlText} <@icon style='arrow-circle-right' /></a>

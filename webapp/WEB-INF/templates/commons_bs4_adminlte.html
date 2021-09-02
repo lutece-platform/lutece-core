@@ -1167,9 +1167,9 @@
 <#-- color: Bootstrap + AdminLTE colors -->
 <#-- unit: %,... -->
 <#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h3' unit='' url='' urlText='' id='' params='' fontSize='40px'>
-<div class="small-box<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="small-box m-2<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div class="inner">
-		<${titleLevel} style="font-size:${fontSize};">${title}<#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
+		<${titleLevel} style="font-size:${fontSize};"><span>${title}</span><#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
 		<p>${text}</p>
 	</div>
 	<div class="icon">

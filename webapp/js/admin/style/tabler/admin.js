@@ -23,7 +23,7 @@ $( function(){
 	// Set Mode
 	themeMode( luteceTheme );
 
-	$('.widget .counter').each( function () {
+	$('.box-widget .counter').each( function () {
 		nCounter = $(this).text();
 		var sVal = "";
 		var thisTXT = $(this).text().split("/");

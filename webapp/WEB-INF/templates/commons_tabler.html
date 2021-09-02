@@ -252,7 +252,7 @@
 </#macro>
 <#-- TABLE -->
 <#-- class:  -->
-<#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false headBody=false collapsed=false caption='' params='' deprecated...>
+<#macro table id='' class='' responsive=true condensed=true hover=true striped=false headBody=false bordered=false narrow=false collapsed=false caption='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local class = class />
 <#if condensed> <#local class += ' table-condensed' /> </#if>
@@ -1137,7 +1137,7 @@
 <#-- color: Bootstrap +  -->
 <#-- unit: %,... -->
 <#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px'>
-<div class="card card-sm mb-3"<#if id!=''> id="${id}" data-id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card card-sm mb-3 box-widget"<#if id!=''> id="${id}" data-id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div class="card-body">
 		<div class="row align-items-center">
 			<div class="col-auto">

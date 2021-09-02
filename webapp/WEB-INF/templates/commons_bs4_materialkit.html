@@ -1204,9 +1204,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- color: Bootstrap -->
 <#-- unit: %,... -->
 <#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h5' unit='' url='' urlText='' id='' params='' fontSize='40px'>
-<div class="card m-2 <#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card m-2 small-box<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div class="card-body">
-		<#if url!=''>	<a class="card-link<#if color!=''> text-white</#if>" href="${url}"></#if>
+		<#if url!=''><a class="card-link<#if color!=''> text-white</#if>" href="${url}"></#if>
 		<${titleLevel} class="card-title"><@icon style=boxIcon /> 
 		<#if unit!=''> ${unit}</#if></${titleLevel}>
 		<#if url!=''></a></#if>

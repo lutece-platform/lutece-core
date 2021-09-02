@@ -9,10 +9,10 @@ $( function(){
 	var nMax = "";
 
 	// Count effect
-	$('.small-box .inner h3').each( function () {
+	$('.small-box .inner h3 span').each( function () {
 		nCounter = $(this).text();
 		var sVal = "";
-		var thisTXT = $(this).text().split("/");
+		var thisTXT = $(this).text().split(" ");
 		if ( thisTXT.length > 1 ){
 			nCounter = thisTXT[0];
 			sVal = " / " + thisTXT[1];
@@ -25,33 +25,6 @@ $( function(){
 				easing: 'swing',
 				step: function (now) {
 					$(this).text( Math.ceil(now) + sVal );
-				}
-			});
-		}
-	});
-
-	// Count effect dyn-info
-	$('.info-box .info-box-number').each( function () {
-		nCounter = $(this).text();
-		var sVal = "";
-		var thisTXT = $(this).text().split("/");
-
-		if ( thisTXT.length > 1 ){
-			nCounter = thisTXT[0];
-			nMax = thisTXT[1]
-			sVal = " / " + thisTXT[1];
-		}
-
-		if ( $.isNumeric( nCounter ) && $.isNumeric( nMax ) ) {
-			$(this).prop('Counter',0).animate({
-				Counter: nCounter
-			}, {
-				duration: 1000,
-				easing: 'swing',
-				step: function (now) {
-					$(this).text( Math.ceil(now) + sVal );
-					var pg = "width:" + ( Math.ceil(now) / nMax * 100 ) + "%" ;
-					$(this).next().children().attr("style",  pg );
 				}
 			});
 		}
