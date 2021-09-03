@@ -8,12 +8,41 @@ $( function() {
 </script>
 </#macro>
 
-<#macro getDateFlatPicker idField language format='d/m/Y' showFormat='d-m-Y'>
+<#macro getDateFlatPickerScript idField language format='' showFormat=''>
+<#if showFormat==''>
+  <#local showFormat><#if language=="en">n/j/Y<#else>d/m/Y</#if></#local>
+</#if>
+<#-- The server parses dates on a per locale basis. The formats here much match those specified by lutece.format.date.short -->
+<#if format==''>    
+  <#local format><#if language=="en">m/d/Y<#else>d/m/Y</#if></#local>
+</#if>
+$('#${idField}').flatpickr({allowInput: true, enableTime: false, dateFormat: '${format}', altInput: true, altFormat: '${showFormat}', "locale": "${language}"});
+</#macro>
+
+<#macro getDateFlatPicker idField language format='' showFormat=''>
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
+<#if language!='en'>  
+  <script src="js/admin/locales/bootstrap-flatpickr.${language}.js" charset="utf-8"></script>
+</#if>
 <script charset="utf-8">
-$(  function() {
-	$('#${idField}').flatpickr({enableTime: false, <#if showFormat !=''>altInput:true, altFormat:'${showFormat}', </#if>dateFormat: '${format}', "locale": "<@getRegional language=language />"});
+$(function() {  
+  <@getDateFlatPickerScript idField=idField language=language format=format showFormat=showFormat />
+});     
+</script>
+</#macro>
+
+<#-- The server format must be hh:mm -->
+<#macro getTimeFlatPicker idField language format='H:i' showFormat=''>
+<#if showFormat==''>
+  <#local showFormat><#if language=="en">h:i K<#else>H:i</#if></#local>
+</#if>
+<script src="js/admin/bootstrap-flatpickr.min.js"></script>
+<#if language!='en'>  
+  <script src="js/admin/locales/bootstrap-flatpickr.${language}.js" charset="utf-8"></script>
+</#if>
+<script charset="utf-8">
+$(function() {
+    $('#${idField}').flatpickr({allowInput: true, enableTime: true, noCalendar: true, dateFormat: '${format}', altInput: true, altFormat: '${showFormat}', "locale": "${language}"});
 });
 </script>
 </#macro>
