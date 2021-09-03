@@ -209,9 +209,8 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.c
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '&lt;privacy text&gt;');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', 'images/logo-header-icon.png');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.locale.default', 'fr');
--- LUTECE 
 INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'images/admin/skin/unknown.png');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', '\'images/admin/skin/bg_login1.jpg\' , \'images/admin/skin/bg_login2.jpg\' , \'images/admin/skin/bg_login3.jpg\' , \'images/admin/skin/bg_login4.jpg\'');
+INSERT INTO core_datastore (entity_key, entity_value) VALUES ('portal.site.site_property.back_images', '\'images/admin/skin/bg_login1.svg\' , \'images/admin/skin/bg_login2.svg\' , \'images/admin/skin/bg_login3.svg\' , \'images/admin/skin/bg_login4.svg\'');
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
@@ -224,7 +223,6 @@ INSERT INTO core_admin_user_anonymize_field (field_name, anonymize) VALUES ('acc
 INSERT INTO core_admin_user_anonymize_field (field_name, anonymize) VALUES ('last_name', 1);
 INSERT INTO core_admin_user_anonymize_field (field_name, anonymize) VALUES ('first_name', 1);
 INSERT INTO core_admin_user_anonymize_field (field_name, anonymize) VALUES ('email', 1);
-
 
 INSERT INTO core_template VALUES ('core_first_alert_mail', 'Bonjour ${first_name} ! Votre compte utilisateur arrive à expiration. Pour prolonger sa validité, veuillez <a href="${url}">cliquer ici</a>.</br>Si vous ne le faites pas avant le ${date_valid}, il sera désactivé.');
 INSERT INTO core_template VALUES ('core_expiration_mail', 'Bonjour ${first_name} ! Votre compte a expiré. Vous ne pourrez plus vous connecter avec, et les données vous concernant ont été anonymisées');
