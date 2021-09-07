@@ -14,11 +14,11 @@
 <link href="css/admin/jquery-ui.structure.min.css" rel="stylesheet">
 <link href="css/admin/jquery-ui.theme.min.css" rel="stylesheet">
 <link href="css/admin/font-awesome.min.css" rel="stylesheet">
-<link href="css/admin/tabler-icons.min.css"  rel="stylesheet" > <!-- Tabler Icons -->
-<link href="css/admin/bootstrap-icons.css"  rel="stylesheet" > <!-- Bootstrap Icons -->
 <link href="js/admin/lib/polipop/css/polipop.core.min.css" rel="stylesheet">
 <link href="js/admin/lib/polipop/css/polipop.default.min.css" rel="stylesheet"> 
-<link href="css/all.min.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1 -->
+<link href="css/admin/tabler-icons.min.css" rel="stylesheet"> <!-- Tabler Icons --> 
+<link href="css/admin/bootstrap-icons.css" rel="stylesheet"  <!-- Bootstrap Icons --> 
 <link href="css/admin/style/bulma/portal_admin.css" rel="stylesheet" >
 </#macro>
 <#macro coreAdminJSLinks>
@@ -699,22 +699,22 @@ and is kept only for backwards compatibility
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
 <#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0 disabled=false maxLength=0 mandatory=false>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
-	<#switch size>
-		<#case 'xs'>
-				<#assign selectSize='small'>
-				<#break>
-		<#case 'sm'>
-				<#assign selectSize='small'>
-				<#break>
-		<#case 'md'>
-				<#assign selectSize='medium'>
-				<#break>
-		<#case 'lg'>
-				<#assign selectSize='large'>
-				<#break>
-		<#default>
-				<#assign selectSize='normal'>
-	</#switch>
+<#switch size>
+	<#case 'xs'>
+		<#assign selectSize='small'>
+		<#break>
+	<#case 'sm'>
+		<#assign selectSize='small'>
+		<#break>
+	<#case 'md'>
+		<#assign selectSize='medium'>
+		<#break>
+	<#case 'lg'>
+		<#assign selectSize='large'>
+		<#break>
+	<#default>
+		<#assign selectSize='normal'>
+</#switch>
 <div class="select<#if selectSize!=''> is-${selectSize}</#if>">
     <select id="${id}" name="${name}" class="field<#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if><#if mandatory> required</#if><#if disabled> disabled</#if>>
     <#if items?has_content>
@@ -758,7 +758,7 @@ and is kept only for backwards compatibility
 </#macro>
 <#-- ICONS -->
 <#-- Icons from FontAwesome 5.8.1 -->
-<#macro icon prefix='fa-' style='' class='fa-lg' title='' id='' params=''>
+<#macro icon prefix='fa-' style='fa-lg' class='' title='' id='' params=''>
 <#if style='docker' || style = 'github' || style='gitlab' || style='java' || style='jira' || style='jenkins' || style = 'twitter' >
 	<#local prefix = 'fab ' + prefix />
 <#else>
@@ -1444,10 +1444,11 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='p'>
-<header class="card-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' class='' params='' boxTools=false titleLevel='div' deprecated...>
+<@deprecatedWarning args=deprecated />
+<header class="card-header<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="card-header-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
-	<#nested>
+<#nested>
 </header>
 </#macro>
 <#macro boxBody class='' collapsed=false align='' id='' params=''>
@@ -1576,8 +1577,8 @@ and is kept only for backwards compatibility
 		</div>
 	</div>
 </#macro>
-<#macro dropdownItem class='' href='' title='' id='' params=''>
-		<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
+<#macro dropdownItem class='' href='' title='' target='' id='' params=''>
+		<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if target!=''> target="${target}"</#if>>${title}</a>
 </#macro>
 <#-- CARDS -->
 <#macro card header=false headerTitle='' headerIcon=false headerTitleIcon=''>
@@ -1944,7 +1945,7 @@ $(function() {
 		<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>
 		<#if portlet_types_list?has_content>
 			<#list portlet_types_list?sort_by("name") as portlet_type>
-				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>
+				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}'>
 					${portlet_type.name}
 				</@dropdownItem>
 			</#list>

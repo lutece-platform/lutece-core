@@ -1138,8 +1138,9 @@
 </div>
 </#macro>
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h2'>
-<div class="card-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' class='' params='' boxTools=false titleLevel='h2' deprecated...>
+<@deprecatedWarning args=deprecated />
+<div class="card-header<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="card-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
@@ -1241,8 +1242,8 @@
 	<#nested>
 </div>
 </#macro>
-<#macro dropdownItem class='' href='' title='' id='' params=''>
-	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
+<#macro dropdownItem class='' href='' title='' target='' id='' params=''>
+	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if target!=''> target="${target}"</#if>>${title}</a>
 </#macro>
 <#-- CARDS -->
 <#macro card header=false headerTitle='' headerIcon=false headerTitleIcon=''>
@@ -1619,7 +1620,7 @@ $(function() {
 		<@btnGroup class='btn-group-sm'>
 			<@button title='#i18n{portal.site.admin_page.labelPortletPage}' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm']>
 				<#list portlet_types_list?sort_by("name") as portlet_type>
-					<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>
+					<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}'>
 						${portlet_type.name}
 					</@dropdownItem>
 				</#list>

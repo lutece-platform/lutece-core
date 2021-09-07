@@ -286,8 +286,8 @@
     </#if>
 </#macro>
 <#---------------------------NEW MACROS------------------------------>
-<#-- TABLE -->
-<#-- class:  -->
+<#-- TABLE 		-->
+<#-- class:  	-->
 <#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false headBody=false collapsed=false caption='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local class = class />
@@ -306,30 +306,30 @@
 <#if responsive></div></#if>
 </#macro>
 <#macro tableHead id='' class='' params=''>
-<thead<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<thead<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </thead>
 </#macro>
 <#macro tableBody id='' class='' params=''>
-<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tbody<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </tbody>
 </#macro>
 <#macro tableFoot id='' class='' params=''>
-<tfoo <#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tfoo <#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </tfoot>
 </#macro>
 <#macro tableHeadBodySeparator id='' class='' params=''>
 </thead>
-<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tbody<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 </#macro>
 <#-- MACRO TR -->
 <#macro tr id='' class='' hide=[] params=''>
-	<#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align) />
-	<tr<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</tr>
+<#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align) />
+<tr<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</tr>
 </#macro>
 <#-- MACRO TH -->
 <#-- valign: baseline|top|middle|bottom|bottom|text-top -->
@@ -341,7 +341,7 @@
 		<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
 	</#if>
 </#list>
-<th class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+<th<#if class?trim != ''> class="${class?trim}"</#if><#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </th>
 </#macro>
@@ -352,7 +352,7 @@
 <#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align,'text') />
 <#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
 <#local class += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
-<td class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+<td<#if class?trim != ''> class="${class?trim}"</#if><#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </td>
 </#macro>
@@ -494,7 +494,7 @@
 		<#local divClass = 'col-xs-12'>
 	</#if>
 	<#if labelKey!=''>
-	<label class="${labelClass?trim}" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
+	<label class="${labelClass?trim}<#if hideLabel?seq_contains('all')> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
 		<span<#if displayLabelClass!=''> class="${displayLabelClass}"</#if>>${labelKey}</span>
 		<#if mandatory=false>
 			&#160;
@@ -1096,8 +1096,9 @@
 </div>
 </#macro>
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h2'>
-<div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' class='' params='' boxTools=false titleLevel='h2' deprecated...>
+<@deprecatedWarning args=deprecated />	
+<div class="box-header with-border<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
@@ -1199,9 +1200,9 @@
 	<#nested>
 </ul>
 </#macro>
-<#macro dropdownItem class='' href='' title='' id='' params=''>
+<#macro dropdownItem class='' href='' title='' target='' id='' params=''>
 <li>
-	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
+	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if target!=''> target="${target}"</#if>>${title}</a>
 </li>
 </#macro>
 <#-- NAVBAR -->
@@ -1586,7 +1587,7 @@ enableBSToppltip: false
 		<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>
 		<#if portlet_types_list?has_content>
 			<#list portlet_types_list?sort_by("name") as portlet_type>
-				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>
+				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}'>
 					${portlet_type.name}
 				</@dropdownItem>
 			</#list>
