@@ -320,7 +320,7 @@
         <property name="name" value="Bootstrap 5.1 + Tabler 1.0 + Backport file (v6.x compatible) (Experimental)" />
         <property name="files">
             <list>
-                <value>commons_tabler.html</value>
+                <value>commons_bs5_tabler.html</value>
                 <value>commons_bs4_backport.html</value>
                 <value>admin/util/calendar/macro_datepicker.html</value>
 				<value>admin/util/calendar/macro_datetimepicker.html</value>

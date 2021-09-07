@@ -6,7 +6,7 @@
 <#-- Information about this commons file -->
 <#macro commonsFile>commons_tabler.html</#macro>
 <#macro commonsName>Commons Table 1.0</#macro>
-<#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 4 + Tabler 1</#macro>
+<#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 5 + Tabler 1</#macro>
 <#macro coreAdminCSSLinks>
 <link href="css/admin/style/tabler/tabler.min.css" rel="stylesheet"><!-- Tabler main -->
 <link href="css/admin/style/tabler/tabler-flags.min.css" rel="stylesheet"><!-- Tabler flags -->
@@ -25,6 +25,7 @@
 </#macro>
 <#macro coreAdminJSLinks>
 <script src="js/admin/jquery/jquery-ui.min.js"></script>
+<script src="js/admin/style/tabler/popper.min.js"></script> 
 <script src="js/admin/style/tabler/Sortable.min.js"></script> 
 <script src="js/admin/lib/polipop/polipop.min.js"></script>
 <script src="js/admin/style/tabler/bootstrap-filestyle.min.js"></script> 
@@ -91,7 +92,7 @@
 </#if>
 <@div align='right'>
 	<#if form == 1 >
-		<@tform type='inline'>
+		<@tform type=''>
 			<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
 		</@tform>
 	<#else>
@@ -113,68 +114,68 @@
 </#if>
 <@ul class='pagination pagination-sm'>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
-	<li>
+	<@li>
 		<@link href='${paginator.firstPageLink?xhtml}'>
 			${paginator.labelFirst}
 		</@link>
-	</li>
+	</@li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
-	<li class="previous">
+	<@li class="previous">
 		<@link href='${paginator.previousPageLink?xhtml}'>
 			${paginator.labelPrevious}
 		</@link>
-	</li>
+	</@li>
 <#else>
-	<li class="disabled">
+	<@li class="disabled">
 		<@link href='${paginator.firstPageLink?xhtml}'>${paginator.labelPrevious}</@link>
-	</li>
+	</@li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
-	<li>
+	<@li>
 		<@link href='${(paginator.pagesLinks?first).url?xhtml}'><strong>...</strong></@link>
-	</li>
+	</@li>
 </#if>
 <#list paginator.pagesLinks as pageLink>
 	<#if ( pageLink.index == paginator.pageCurrent )>
-		<li class="active">
+		<@li class="active">
 			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
-		</li>
+		</@li>
 	<#else>
-		<li>
+		<@li>
 			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
-		</li>
+		</@li>
 	</#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-	<li>
+	<@li>
 		<@link href='${(paginator.pagesLinks?last).url?xhtml}'><strong>...</strong></@link>
-	</li>
+	</@li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
-	<li class="next">
+	<@li class="next">
 		<@link href="${paginator.nextPageLink?xhtml}">
 			${paginator.labelNext}
 		</@link>
-	</li>
+	</@li>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-		<li class="next">
+		<@li class="next">
 			<@link href='${paginator.lastPageLink?xhtml}'>
 				${paginator.labelLast}
 			</@link>
-		</li>
+		</@li>
 	</#if>
 <#else>
-	<li class="disabled">
+	<@li class="disabled">
 		<@link href='${paginator.lastPageLink?xhtml}'>${paginator.labelNext}</@link>
-	</li>
+	</@li>
 </#if>
 </@ul>
 </#macro>
 <#-- PAGINATION COMBO -->
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0>
 <@formGroup labelFor='${paginator.itemsPerPageParameterName}' labelKey='${paginator.labelItemCountPerPage}' labelClass='small mr-3' formStyle='inline'>
-<@inputGroup>
+<@inputGroup size='sm'>
 	<@select params='data-max-item="${paginator.itemsCount}"' size='sm' name='${paginator.itemsPerPageParameterName}' id='${paginator.itemsPerPageParameterName}' title='${paginator.labelItemCountPerPage}'>
   		<#list [ "10" , "20" , "50" , "100" ] as nb>
   			<#if nb_items_per_page = nb >
@@ -190,7 +191,7 @@
   		</#if>
 	</@select>
 	<@inputGroupItem type='btn'>
-		<@button type='submit' color='dark' size='xs' title='#i18n{portal.util.labelRefresh}' buttonIcon='check' hideTitle=['all'] />
+		<@button type='submit' color='oultine' size='xs' title='#i18n{portal.util.labelRefresh}' buttonIcon='check' hideTitle=['all'] />
 	</@inputGroupItem>
 </@inputGroup>
 </@formGroup>
@@ -280,7 +281,7 @@
 </tbody>
 </#macro>
 <#macro tableFoot id='' class='' params=''>
-<tfoo <#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tfoot <#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </tfoot>
 </#macro>
@@ -356,37 +357,37 @@
 <#local prefix = prefix />
 </#if>
 <#switch style>
-	<#case 'arrows'>
-		<#local iconStyle = 'arrows-alt' />
-	<#break>
-	<#case 'arrows-h'>
-		<#local iconStyle = 'arrows-alt-h' />
-	<#break>
-	<#case 'arrows-v'>
-		<#local iconStyle = 'arrows-alt-v' />
-	<#break>
-	<#case 'clock-o'>
-		<#local iconStyle = 'clock' />
-	<#break>
-	<#case 'close'>
-		<#local iconStyle = 'times' />
-	<#break>
-	<#case 'external-link'>
-		<#local iconStyle = 'external-link-alt' />
-	<#break>
-	<#case 'file-pdf-o'>
-		<#local iconStyle = 'file-pdf' />
-	<#break>
-	<#case 'pencil'>
-		<#local iconStyle = 'edit' />
-	<#break>
-	<#case 'refresh'>
-		<#local iconStyle = 'sync' />
-	<#break>
-	<#default>
-	<#local iconStyle = style />
+<#case 'arrows'>
+	<#local iconStyle = 'arrows-alt' />
+<#break>
+<#case 'arrows-h'>
+	<#local iconStyle = 'arrows-alt-h' />
+<#break>
+<#case 'arrows-v'>
+	<#local iconStyle = 'arrows-alt-v' />
+<#break>
+<#case 'clock-o'>
+	<#local iconStyle = 'clock' />
+<#break>
+<#case 'close'>
+	<#local iconStyle = 'times' />
+<#break>
+<#case 'external-link'>
+	<#local iconStyle = 'external-link-alt' />
+<#break>
+<#case 'file-pdf-o'>
+	<#local iconStyle = 'file-pdf' />
+<#break>
+<#case 'pencil'>
+	<#local iconStyle = 'edit' />
+<#break>
+<#case 'refresh'>
+	<#local iconStyle = 'sync' />
+<#break>
+<#default>
+<#local iconStyle = style />
 </#switch>
-	<i class="${prefix}${iconStyle} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+<i class="${prefix}${iconStyle} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 <#-- ICONSTACK 																					-->
 <#-- iconStack 																					-->
@@ -401,24 +402,24 @@
 <#-- type: inline/horizontal/form -->
 <#-- enctype: multipart/form-data | text/plain -->
 <#macro tform type='' class='' align='' hide=[] action='' method='post' name='' id='' role='' collapsed=false enctype='' params='' deprecated...>
-	<@deprecatedWarning args=deprecated />	
-	<#local class = class />
-	<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
-	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
-	<#if collapsed><#local class += ' collapse' /></#if>
-	<#switch type>
-		<#case 'horizontal'>
-			<#local class += ''>
-			<#break>
-		<#case 'inline'>
-			<#local class += ' row row-cols-lg-auto align-items-center'>
-			<#break>
-		<#default>
-			<#local class += ''>
-	</#switch>
-	<form <#if class!=''>class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if method='post' && enctype!=''> enctype='${enctype}'</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</form>
+<@deprecatedWarning args=deprecated />	
+<#local class = class />
+<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
+<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+<#if collapsed><#local class += ' collapse' /></#if>
+<#switch type>
+	<#case 'horizontal'>
+		<#local class += ''>
+		<#break>
+	<#case 'inline'>
+		<#local class += ' row row-cols-lg-auto align-items-center'>
+		<#break>
+	<#default>
+		<#local class += ''>
+</#switch>
+<form <#if class!=''>class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if method='post' && enctype!=''> enctype='${enctype}'</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</form>
 </#macro>
 <#-- FORM ELEMENT STRUCTURE 												  								-->
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
@@ -475,7 +476,7 @@
 <#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=[] mandatory=true deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#local labelClass = ' ' + displaySettings(hideLabel,'') />
-<label class="form-label<#if mandatory=true> required</#if><#if class !=''> ${class?trim}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>><span class="${labelClass}">${labelKey} </span></label>
+<label class="form-label<#if mandatory=true> required</#if><#if class !=''> ${class?trim}</#if><#if hideLabel?seq_contains('all')> sr-only</#if>  " for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>><span class="${labelClass}">${labelKey} </span></label>
 </#macro>
 <#macro formHelp style='inline' class='' labelFor=''>
 <small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>
@@ -494,34 +495,34 @@
 <#-- language: for input type DATE and datepickers -->
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.lang minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' format='Y-m-d H:i:S' showFormat='d-m-Y H:i' dateRangeEndId=''>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
-	<#if type='textarea'>
-		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
-	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
-		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
-	<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange'>
-		<#if type='date'>
-			<@getDatePickerBootstrap idField='${id}' language=language format=format showFormat=showFormat />
-		<#elseif type='datetime'>
-			<@getDateTimePickerBootstrap idField='${id}' language=language format=format showFormat=showFormat />
-		<#elseif type='daterange'>
-			<#if dateRangeEndId != ''>
-				<@getDateRangeFlatPicker idField='${id}' idEndField='${dateRangeEndId}' language=language format=format showFormat=showFormat />
-			</#if>
-		<#elseif type='datetimerange'>
-			<@getDateTimeRangeFlatPicker idField='${id}' language=language />
+<#if type='textarea'>
+	<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
+<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
+	<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange'>
+	<#if type='date'>
+		<@getDatePickerBootstrap idField='${id}' language=language format=format showFormat=showFormat />
+	<#elseif type='datetime'>
+		<@getDateTimePickerBootstrap idField='${id}' language=language format=format showFormat=showFormat />
+	<#elseif type='daterange'>
+		<#if dateRangeEndId != ''>
+			<@getDateRangeFlatPicker idField='${id}' idEndField='${dateRangeEndId}' language=language format=format showFormat=showFormat />
 		</#if>
-		<#if id=''><@alert class='danger'>La saisie d'un ID pour le champ est obligatoire</@alert></#if>
-		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
-	<#elseif type='hidden'>
-		<input type="hidden" name="${name}" <#if id!=''>id="${id}"</#if> value="${value}" />
-	<#else><@icon style='warning' />Type not supported
+	<#elseif type='datetimerange'>
+		<@getDateTimeRangeFlatPicker idField='${id}' language=language />
 	</#if>
+	<#if id=''><@alert class='danger'>La saisie d'un ID pour le champ est obligatoire</@alert></#if>
+	<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+<#elseif type='hidden'>
+	<input type="hidden" name="${name}" <#if id!=''>id="${id}"</#if> value="${value}" />
+<#else><@icon style='warning' />Type not supported
+</#if>
 </#macro>
 <#-- STATIC TEXT -->
 <#-- Bootstrap colors: primary/secondary/success/info/warning/danger/light/black/muted/white/text-black-50/text-white-50 -->
 <#macro staticText inForm=true color='' id='' params=''>
 <p class="<#if inForm>form-control-plaintext</#if><#if color!=''> text-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
+<#nested>
 </p>
 </#macro>
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
@@ -529,40 +530,40 @@
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <select id="${id}" name="${name}" class="form-select<#if size!=''> form-control-${size}</#if><#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if><#if mandatory> required</#if><#if disabled> disabled</#if>>
 <#if items?has_content>
-	<#if sort=true>
-		<#list items?sort_by("name") as item>
-			<#if default_value="${item.code}">
-				<option selected="selected" title="${item.name}" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-			<#else>
-				<option value="${item.code}" title="${item.name}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-			</#if>
-		</#list>
-	<#else>
-		<#if maxLength gt 0>
-			<#list items as item>
-				<#if maxLength < item.name?length >
-					<#assign item_new = "..." + "${item.name?substring(item.name?length-maxLength+3)}" >
-				<#else>
-					<#assign item_new = "${item.name}">
-				</#if>
-				<#if default_value="${item.code}">
-					<option selected="selected" title="${item.name}" value="${item.code}" >${item_new}</option>
-				<#else>
-					<option title="${item.name}" value="${item.code}" >${item_new}</option>
-				</#if>
-			</#list>
-		<#else>
-			<#list items as item>
-				<#if default_value="${item.code}">
-					<option selected="selected" title="${item.name}" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-				<#else>
-					<option title="${item.name}" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-				</#if>
-			</#list>
-		</#if>
-	</#if>
+<#if sort=true>
+<#list items?sort_by("name") as item>
+<#if default_value="${item.code}">
+	<option selected="selected" title="${item.name}" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
 <#else>
-	<#nested>
+	<option value="${item.code}" title="${item.name}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+</#if>
+</#list>
+<#else>
+<#if maxLength gt 0>
+	<#list items as item>
+	<#if maxLength < item.name?length >
+		<#assign item_new = "..." + "${item.name?substring(item.name?length-maxLength+3)}" >
+	<#else>
+		<#assign item_new = "${item.name}">
+	</#if>
+	<#if default_value="${item.code}">
+		<option selected="selected" title="${item.name}" value="${item.code}" >${item_new}</option>
+	<#else>
+		<option title="${item.name}" value="${item.code}" >${item_new}</option>
+	</#if>
+	</#list>
+<#else>
+	<#list items as item>
+	<#if default_value="${item.code}">
+		<option selected="selected" title="${item.name}" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+	<#else>
+		<option title="${item.name}" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+	</#if>
+	</#list>
+</#if>
+</#if>
+<#else>
+<#nested>
 </#if>
 </select>
 </#macro>
@@ -1109,8 +1110,8 @@
 </div>
 </#macro>
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h3'>
-<div class="card-header<#if boxTools> page-header-button</#if>"<#if id!=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' class='' params='' boxTools=false titleLevel='h3' skipHeader=false>
+<div class="card-header<#if class!=''> ${class}</#if><#if skipHeader> skip-header</#if>"<#if id!=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
 	<${titleLevel} class="card-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
@@ -1215,8 +1216,10 @@
 <#nested>
 </div>
 </#macro>
-<#macro dropdownItem class='' href='' title='' id='' params=''>
-<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
+<#macro dropdownItem class='' href='' target='' title='' id='' params=''>
+<li>
+	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if target!=''> target="${target}"</#if>>${title}</a>
+</li>
 </#macro>
 <#-- CARDS -->
 <#macro card header=false headerTitle='' headerIcon=false headerTitleIcon=''>
@@ -1610,7 +1613,7 @@ $(function() {
 <div class="row justify-content-between align-items-center">
 	<div class="col-3">
 	<@tform type='inline' action='jsp/admin/site/AdminSite.jsp' role='search'>
-		<@inputGroup>
+		<@inputGroup size='sm'>
 			<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' />
 			<@inputGroupItem >
 				<@button type='submit' color='link' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' size='sm' />
@@ -1621,10 +1624,10 @@ $(function() {
 	<div class="col-3">
 		<@btnToolbar>
 			<@btnGroup hide=['xs']>
-				<@aButton href='#' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt' color='outline-secondary btn-icon' size='md' hideTitle=['all'] />
-				<@aButton href='#' id='display-full' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop' color='outline-secondary btn-icon' size='md' hideTitle=['all'] />
-				<@aButton href='#' id='display-940' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='tablet' color='outline-secondary btn-icon' size='md' hideTitle=['all'] />
-				<@aButton href='#' id='display-480' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='mobile' color='outline-secondary btn-icon' size='md' hideTitle=['all'] />
+				<@aButton href='#' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt' color='outline-secondary btn-icon'  hideTitle=['all'] />
+				<@aButton href='#' id='display-full' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop' color='outline-secondary btn-icon'hideTitle=['all'] />
+				<@aButton href='#' id='display-940' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='tablet' color='outline-secondary btn-icon' hideTitle=['all'] />
+				<@aButton href='#' id='display-480' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='mobile' color='outline-secondary btn-icon' hideTitle=['all'] />
 			</@btnGroup>
 		</@btnToolbar>
 	</div>
@@ -1640,7 +1643,7 @@ $(function() {
 		<@btnGroup>
 			<@button title='#i18n{portal.site.admin_page.labelPortletPage}' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' >
 				<#list portlet_types_list?sort_by("name") as portlet_type>
-					<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>
+					<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}'>
 						${portlet_type.name}
 					</@dropdownItem>
 				</#list>
