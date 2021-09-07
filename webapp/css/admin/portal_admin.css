@@ -87,6 +87,11 @@ div.box-tools > * { display:inline-block; }
 #login #footer{ display: none;} /* Footer not displayed in login page */
 
 /* 	Helpers classes   */
+/* BS + Styles */
+.d-flex{ display: flex !important;}
+.align-items-center{ align-items: center; }
+.justify-content-around{ justify-content: space-around; }
+.justify-content-between{ justify-content: space-between; }
 /* Msg styles         */
 .msg-success{ color: var( --success-color ); font-weight: 700; }
 .msg-warning{ color: var( --warning-color ); font-weight: 700; }
@@ -159,7 +164,7 @@ li.portlet-type a:hover{ background:var( --primary-color ) url(); color:var( --w
 .richtext{ width:100%; }
 
 /* Site Map                                   */
-.sitemap{ border: 2px solid var( --black-color ); min-height: 650px; }
+.sitemap{  min-height: 80vh; padding: 15px }
 .jstree-classic a.jstree-search ,.jstree-default a.jstree-search ,.jstree-apple a.jstree-search{ background-color: var( --primary-color ) !important; color:var( --white-color ) !important; font-style: normal; text-decoration: underline; padding: 0 10px !important;}
 .jstree-classic .jstree-clicked { padding: 0 5px !important; }
 
