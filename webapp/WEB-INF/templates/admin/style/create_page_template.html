@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
 		<@box color='info'>
-			<@boxHeader title='#i18n{portal.style.create_page_template.boxTitle}' />
+			<@boxHeader title='#i18n{portal.style.create_page_template.boxTitle}' skipHeader=true />
 			<@boxBody>
 				<@tform method='post' name='create_page_template' params='enctype="multipart/form-data"' action='jsp/admin/style/DoCreatePageTemplate.jsp'>
 					<@input type='hidden' name='token' value='${token}' />

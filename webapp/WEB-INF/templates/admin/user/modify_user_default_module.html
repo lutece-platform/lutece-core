@@ -1,19 +1,16 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-			<#assign headerIcon>
-				<@icon style='user' />
-			</#assign>
-			<@boxHeader title='${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
-					<@item_navigation item_navigator=item_navigator />
+			<#assign headerIcon><@icon style='user' /></#assign>
+			<@boxHeader title='${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true skipHeader=true>
+				<@item_navigation item_navigator=item_navigator />
 			</@boxHeader>
 			<@boxBody>
-					<@tabs>
+				<@tabs>
 					<@tabList>
 						<@tabLink active=true href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
 						<@tabLink href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' />
-						<@tabLink 
-						href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
+						<@tabLink href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
 						<@tabLink href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
 						<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
 					</@tabList>
@@ -57,13 +54,13 @@
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelStatus}' labelFor='status' rows=2>
 											<@select id='status' name='status'>
-												<#if user.status == 0 >
-													<option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
-													<option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
-													<#else>
-													<option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
-													<option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
-													</#if>
+											<#if user.status == 0 >
+												<option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
+												<option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
+												<#else>
+												<option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
+												<option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
+											</#if>
 											</@select>
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelLanguage}' labelFor='language' rows=2>
@@ -78,29 +75,29 @@
 									<#assign sm = 4>
 									<#assign md = 4>
 									<#assign lg = 4>
-								<@columns sm=sm md=md lg=lg>
-									<@fieldSet legend='#i18n{portal.users.modify_user.labelComplementaryAttributes}'>
-										<@row>
-											<@columns>
+									<@columns sm=sm md=md lg=lg>
+										<@fieldSet legend='#i18n{portal.users.modify_user.labelComplementaryAttributes}'>
+											<@row>
+												<@columns>
 												<#list attributes_list as attribute>
-												<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
-												<#assign idAttribute = "" + attribute.idAttribute>
-												${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
-												</#if>
+													<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+														<#assign idAttribute = "" + attribute.idAttribute>
+														${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+													</#if>
 												</#list>
-											</@columns>
-											<@columns>
+												</@columns>
+												<@columns>
 												<#list attributes_list as attribute>
-												<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
-												<#assign idAttribute = "" + attribute.idAttribute>
-												${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
-												<#break>
-												</#if>
+													<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+														<#assign idAttribute = "" + attribute.idAttribute>
+														${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+														<#break>
+													</#if>
 												</#list>
-											</@columns>
-										</@row>
-									</@fieldSet>
-								</@columns>
+												</@columns>
+											</@row>
+										</@fieldSet>
+									</@columns>
 								</#if>
 							</@row> 
 							<@row>
@@ -114,18 +111,7 @@
 						</@tform>
 					</@tabContent>
 				</@tabs>
-      </@boxBody>
-    </@box>
-  </@columns>
+      		</@boxBody>
+    	</@box>
+  	</@columns>
 </@row>
-<script src="js/admin/jquery/plugins/jquery.complexify.js"></script>
-<script>
-$(document).ready(function(){	
-	$("#first_password").complexify({}, function (valid, complexity) {
-		var progressBar = $('#progressbar');
-		progressBar.toggleClass('progress-bar-success', valid);
-		progressBar.toggleClass('progress-bar-danger', !valid);
-		progressBar.css({'width': complexity + '%'});
-		$('#complexity').html(Math.round(complexity) + '%');
-	});
-})</script>

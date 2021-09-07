@@ -1,10 +1,9 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-			<@boxHeader title='#i18n{portal.users.import_users_from_file.labelImportUsers}, #i18n{portal.users.export_users.labelExportUsers}' />
-		</@box>
-		
-		<@tform method='post' name='import_users_from_file' action='jsp/admin/user/DoExportUsers.jsp'>
+			<@boxHeader title='#i18n{portal.users.import_users_from_file.labelImportUsers}, #i18n{portal.users.export_users.labelExportUsers}' skipHeader=true />
+			<@boxBody>
+			<@tform method='post' name='import_users_from_file' action='jsp/admin/user/DoExportUsers.jsp'>
 			<@tabs>
 				<@tabList>
 					<@tabLink active=true href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.export_users.labelExportUsers}' />
@@ -13,9 +12,9 @@
 				<@tabContent>
 					<@formGroup labelKey='#i18n{portal.users.export_users.labelXslt}' labelFor='xsl_export_id'>
 						<@select id='xsl_export_id' name='xsl_export_id'>
-							<#list refListXsl as xsl>
-								<option value="${xsl.code}" >${xsl.name}</option>
-							</#list>
+						<#list refListXsl as xsl>
+							<option value="${xsl.code}" >${xsl.name}</option>
+						</#list>
 						</@select>
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.users.export_users.labelExportAttributes}' labelFor='export_attributes' helpKey='#i18n{portal.users.export_users.labelHelpExportAttributes}'>
@@ -37,5 +36,7 @@
 				</@tabContent>
 			</@tabs>
 		</@tform>
+		</@boxBody>
+		</@box>
 	</@columns>
 </@row>

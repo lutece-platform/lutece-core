@@ -1,7 +1,5 @@
 <#include "admindashboard_utils.html">
-
 <@adminDashboardPanel title='#i18n{portal.users.adminDashboard.pageTitle}' icon='users' parentId='technical_settings' childId='users_advanced_parameters'>
-
 <@row>
 	<@columns lg=3>
 		<@tabs>
@@ -16,7 +14,6 @@
 			</@tabList>
 		</@tabs>
 	</@columns>
-
 	<@columns lg=9>
 		<@tabContent>
 			<#include "user_admindashboard_advanced.html" />
@@ -28,4 +25,3 @@
 	</@columns>
 </@row>
 </@adminDashboardPanel>
-

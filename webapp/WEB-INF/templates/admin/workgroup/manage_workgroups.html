@@ -1,40 +1,39 @@
 <@row>
 	<@columns>
 		<@box>
-			<@boxHeader title='#i18n{portal.workgroup.manage_workgroups.pageTitle}'>
+			<@boxHeader title='#i18n{portal.workgroup.manage_workgroups.pageTitle}' boxTools=true skipHeader=true>
 				<@aButton href='jsp/admin/workgroup/CreateWorkgroup.jsp' buttonIcon='plus' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' hideTitle=['xs'] size='sm' />
 				<@button style='card-control collapse' buttonTargetId='#workgroupSearch' buttonIcon='search' size='sm' />
 			</@boxHeader>
 			<@boxBody>
-				<@tform method='post' name='search_workgroups' action='jsp/admin/workgroup/ManageWorkgroups.jsp' id='workgroupSearch' class='collapse'>
-					<@fieldSet legend='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}'>
-						<@formGroup labelKey='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}' labelFor='key'>
-							<@input type='text' id='key' name='search_key' value='${search_admin_workgroup_filter.key}' maxlength=50 inputSize=10 />
-						</@formGroup>
-						<@formGroup labelKey='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription}' labelFor='description'>
-							<@input type='text' id='description' name='search_description' value='${search_admin_workgroup_filter.description}' maxlength=50 inputSize=30 />
-						</@formGroup>
-						<@formGroup>
-							<@button type='submit' buttonIcon='search' name='search_is_search' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' />
-						</@formGroup>
-					</@fieldSet>
-				</@tform>
-				
-				<@tform method='post' action='jsp/admin/workgroup/ManageWorkgroups.jsp'>
-				<@paginationAdmin paginator=paginator combo=1 form=0 />
-					<#if search_is_search >
-					<@input type='hidden' name='search_is_search' value='true' />
-					<@input type='hidden' name='search_key' value='${search_admin_workgroup_filter.key}' />
-					<@input type='hidden' name='search_description' value='${search_admin_workgroup_filter.description}' />
-					</#if>
-				</@tform>
-
+			<@tform method='post' name='search_workgroups' action='jsp/admin/workgroup/ManageWorkgroups.jsp' id='workgroupSearch' class='collapse'>
+				<@fieldSet legend='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}'>
+					<@formGroup labelKey='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}' labelFor='key'>
+						<@input type='text' id='key' name='search_key' value='${search_admin_workgroup_filter.key}' maxlength=50 inputSize=10 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription}' labelFor='description'>
+						<@input type='text' id='description' name='search_description' value='${search_admin_workgroup_filter.description}' maxlength=50 inputSize=30 />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='search' name='search_is_search' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' />
+					</@formGroup>
+				</@fieldSet>
+			</@tform>
+			<@tform method='post' action='jsp/admin/workgroup/ManageWorkgroups.jsp'>
+				<#if search_is_search >
+				<@input type='hidden' name='search_is_search' value='true' />
+				<@input type='hidden' name='search_key' value='${search_admin_workgroup_filter.key}' />
+				<@input type='hidden' name='search_description' value='${search_admin_workgroup_filter.description}' />
+				</#if>
+			</@tform>
+			<#if workgroups_list?size gt 0>
 				<@table>
 					<@tr>
 						<@th>#i18n{portal.workgroup.manage_workgroups.columnTitleKey} <@sort jsp_url="jsp/admin/workgroup/ManageWorkgroups.jsp" attribute="key${sort_search_attribute}" /></@th>
 						<@th>#i18n{portal.workgroup.manage_workgroups.columnTitleDescription} <@sort jsp_url="jsp/admin/workgroup/ManageWorkgroups.jsp" attribute="description${sort_search_attribute}" /></@th>
 						<@th>#i18n{portal.workgroup.manage_workgroups.columnTitleActions}</@th>
 					</@tr>
+					<@tableHeadBodySeparator />
 					<#list workgroups_list as workgroup >
 					<@tr>
 						<@td>${workgroup.key}</@td>
@@ -47,8 +46,11 @@
 					</@tr>
 					</#list>
 				</@table>
-				<@paginationAdmin paginator=paginator />
+			<#else>
+				<@empty />
+			</#if>
 			</@boxBody>
 		</@box>
+	<@paginationAdmin paginator=paginator combo=1 form=0 />
 	</@columns>
 </@row>

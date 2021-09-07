@@ -1,6 +1,6 @@
 <@row>	
 	<@columns>
-		<h3><a href="jsp/admin/AdminTechnicalMenu.jsp"><@icon style='cog' /> #i18n{portal.admindashboard.view_dashboards.title}</a></h3>
+		<h3><@link href='jsp/admin/AdminTechnicalMenu.jsp'><@icon style='cog' /> #i18n{portal.admindashboard.view_dashboards.title}</@link></h3>
 		<@accordionContainer id='technical_settings'>
 			<#if column_content_1?has_content>
 				${column_content_1}
@@ -21,11 +21,9 @@ function manageTab( hc ){
 		$(k).parent().addClass('active');
 		$('.tab-pane').removeClass('active').removeClass('in');
 		$(hc).addClass('active in');
-		$('html, body').animate({scrollTop: $(hc).offset().top}, 800);
-		
+		$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
 	}
 }
-
 $( function(){
 	var hasTechCookie=Cookies.get('technnicaltab');
 	manageTab( hasTechCookie )

@@ -1,8 +1,8 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-      <@boxHeader title='#i18n{portal.users.modify_attribute_field.pageTitle} : ${attribute.title?html}' />
-      <@boxBody>
+      		<@boxHeader title='#i18n{portal.users.modify_attribute_field.pageTitle} : ${attribute.title?html}' />
+      		<@boxBody>
 				<@tform role='form' action='jsp/admin/user/attribute/DoModifyAttributeField.jsp#list' method='post'>
 					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute_field.labelTitle} *' labelFor='attr_title' mandatory=true>

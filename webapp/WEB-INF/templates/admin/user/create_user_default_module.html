@@ -63,7 +63,7 @@
 									</@inputGroupItem>
 									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' />
 									<@inputGroupItem>
-										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='' color='secondary' />
+										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='sm' color='secondary' />
 									</@inputGroupItem>
 								</@inputGroup>
 							</@formGroup>
@@ -76,9 +76,9 @@
 								</@inputGroup>
 							</@formGroup>
 							<@formGroup rows=2>
-								<@progressBar />
+								<@progress />
 							</@formGroup>
-							<div class="clearfix">&nbsp;</div>
+							<@div class='clearfix'></@div>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelNotify}' rows=2>
 								<#if default_user_notification = 1>
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value='1' checked=true />
@@ -94,26 +94,26 @@
 						<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelStatus}' labelFor='status' rows=2>
 								<@select id='status' name='status'>
-									<#if default_user_status = 1>
+								<#if default_user_status = 1>
 									<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
 									<option value="1" selected="selected">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-									<#else>
+								<#else>
 									<option value="0" selected="selected">#i18n{portal.users.create_user.statusLabelEnabled}</option>
 									<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-									</#if>
+								</#if>
 								</@select>
 							</@formGroup>
 							<#if displayFieldset( user_levels attributes_list )>
 								<#if (user_levels?has_content)>
 									<@formGroup labelKey='#i18n{portal.users.create_user.userLevelLabel}' labelFor='user_level' rows=2>
 										<@select name='user_level'>
-											<#list user_levels as user_level>
-												<#if user_level.id = default_user_level.id>
-												<option value="${user_level.id}" selected="selected">${user_level.name}</option>
-												<#else>
-												<option value="${user_level.id}">${user_level.name}</option>
-												</#if>
-											</#list>
+										<#list user_levels as user_level>
+										<#if user_level.id = default_user_level.id>
+											<option value="${user_level.id}" selected="selected">${user_level.name}</option>
+										<#else>
+											<option value="${user_level.id}">${user_level.name}</option>
+										</#if>
+										</#list>
 										</@select>
 									</@formGroup>
 									<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' rows=2 mandatory=true>
@@ -159,19 +159,20 @@
 <script src="js/admin/jquery/plugins/jquery.complexify.js"></script>
 <script src="js/admin/jquery/plugins/generatepassword/jquery.password.min.js"></script>
 <script>
-$(document).ready(function(){	
+$( function(){	
 	$("#generate_password").click(function(){
 		var pwd = $.password(${randomPasswordSize}, true);
 		$("#first_password").val(pwd);
 		$("#second_password").val(pwd);
 		$("#first_password").trigger("propertychange");
     });
-
 	$("#first_password").complexify({}, function (valid, complexity) {
 		var progressBar = $('#progressbar');
 		progressBar.toggleClass('progress-bar-success', valid);
 		progressBar.toggleClass('progress-bar-danger', !valid);
 		progressBar.css({'width': complexity + '%'});
-		$('#complexity').html(Math.round(complexity) + '%');
+		progressBar.html( Math.round( complexity ) + '%');
+		progressBar.attr( 'aria-valuenow', Math.round( complexity ));
 	});
-})</script>
+})
+</script>

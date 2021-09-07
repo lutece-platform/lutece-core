@@ -18,26 +18,32 @@
 </#if>
 <#return sortSearchAttribute + "&amp;session=sesssion" />
 </#function>
-
 <@row>
 	<@columns>
 		<@box color='success'>
-			<@boxHeader title='#i18n{portal.mailinglist.manage_mailinglists.boxTitle}' boxTools=true>
-				<@tform align='right' type='inline' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
-					<@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' hideLabel=['all'] formStyle='inline'>
-						<@inputGroup>
-							<@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' maxlength=100 size='sm' />
-							<@inputGroupItem>
-								<@button type='submit' buttonIcon='search' title='#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}' hideTitle=['all'] size='sm'/>
-							</@inputGroupItem>
-						</@inputGroup>
-					</@formGroup>
-				</@tform>
-				<@tform align='right' method='post' action='jsp/admin/mailinglist/CreateMailingList.jsp'>
-					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}' hideTitle=['xs'] size='sm' />
-				</@tform>
+			<@boxHeader title='#i18n{portal.mailinglist.manage_mailinglists.boxTitle}' boxTools=true skipHeader=true>
+				<@row class='align-items-center'>
+					<@columns sm=9>
+					<@tform align='right' type='inline' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
+						<@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' hideLabel=['all'] formStyle='inline'>
+							<@inputGroup size='sm' >
+								<@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' maxlength=100 size='sm' />
+								<@inputGroupItem>
+									<@button type='submit' buttonIcon='search' title='#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}' hideTitle=['all']  color='link'/>
+								</@inputGroupItem>
+							</@inputGroup>
+						</@formGroup>
+					</@tform>
+					</@columns>
+					<@columns sm=3>
+						<@tform align='right' method='post' action='jsp/admin/mailinglist/CreateMailingList.jsp'>
+							<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}' hideTitle=['xs'] size='sm' />
+						</@tform>
+					</@columns>
+				</@row>
 			</@boxHeader>
 			<@boxBody>
+			<#if mailinglists_list?size gt 0>
 				<#assign sortSearchAttribute = buildSortSearchAttribute( mailinglistFilter! ) />
 				<@table>
 					<@tr>
@@ -60,6 +66,9 @@
 				</#list>
 				</@table>
 				<@paginationAdmin paginator=paginator combo=1 />
+			<#else>
+				<@empty />
+			</#if>
 			</@boxBody>
 		</@box>
 	</@columns>

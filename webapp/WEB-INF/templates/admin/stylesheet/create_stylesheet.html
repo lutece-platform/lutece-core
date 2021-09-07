@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
 		<@box color='info'>
-			<@boxHeader title='#i18n{portal.style.create_stylesheet.title}' />
+			<@boxHeader title='#i18n{portal.style.create_stylesheet.title}' skipHeader=true />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/style/DoCreateStyleSheet.jsp' params='enctype="multipart/form-data"' name='create_stylesheet'>
 					<@input type='hidden' name='token' value='${token}' />

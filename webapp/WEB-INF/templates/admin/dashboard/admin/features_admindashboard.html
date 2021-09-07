@@ -1,7 +1,5 @@
 <#include "admindashboard_utils.html">
-
 <@adminDashboardPanel title='#i18n{portal.admin.adminFeature.features_management.name}' icon='sitemap' parentId='technical_settings' childId='admin_features'>
-
 <@row>
 	<@columns lg=3>
 		<@tabs>
@@ -14,11 +12,10 @@
 	</@columns>
 	<@columns lg=9>
 		<@tabContent>
-  	<#include "features_admindashboard_groups.html" />
-    <#include "features_admindashboard_features.html" />
-    <#include "features_admindashboard_external.html" />
+		<#include "features_admindashboard_groups.html" />
+		<#include "features_admindashboard_features.html" />
+		<#include "features_admindashboard_external.html" />
 		</@tabContent>
 	</@columns>
 </@row>
 </@adminDashboardPanel>
-

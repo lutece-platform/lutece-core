@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-			<@boxHeader title='#i18n{portal.role.modify_role.boxTitle} ${role.role}' />
+			<@boxHeader title='#i18n{portal.role.modify_role.boxTitle} <strong class="px-2"> ${role.role}</strong>' skipHeader=true />
 			<@boxBody>
 				<@tform name='modify_page_role' action='jsp/admin/role/DoModifyPageRole.jsp'>
 					<@input type='hidden' name='role' value='${role.role}' />
