@@ -19,10 +19,8 @@ function themeMode(mode){
 $( function(){
 	var nCounter = "";
 	var luteceTheme=localStorage.getItem('theme-bo-lutece');
-
 	// Set Mode
 	themeMode( luteceTheme );
-
 	$('.box-widget .counter').each( function () {
 		nCounter = $(this).text();
 		var sVal = "";
@@ -80,12 +78,12 @@ $( function(){
 	})
 
 	// Page Header button Management
-	if( $('.page-header-button').length > 0 ){
-		var title=$('.page-header-button .card-title').html();
+	if( $('.skip-header').length > 0 ){
+		var title=$('.skip-header .card-title').html();
 		$('.page-title').html(title);
-		$('.page-header-button .card-title').remove();
-		var headerContent = $('.page-header-button').html();
-		$('.page-header-button').remove();
+		$('.skip-header .card-title').remove();
+		var headerContent = $('.skip-header').html();
+		$('.skip-header').remove();
 		$('#page-header-buttons').prepend(headerContent);
 	}
 
@@ -93,13 +91,6 @@ $( function(){
 	$(":file").not(".noBootstrapFilestyle")
 		.addClass("filestyle")
 		.filestyle({buttonText: "&nbsp;Parcourir"});
-
-	$(".portlet-type").on('click', function(e) {
-		// Stop the link default behaviour.
-		e.preventDefault();
-		// Set the iframe src with the clicked link href.
-		$('#preview').attr('src', $(this).children().attr('href') );
-	});
 
 	// Admin responsive preview
 	function _fix() {
@@ -182,6 +173,7 @@ $( function(){
 		$(this).attr( 'data-bs-toggle', 'collapse' );
 		$(this).attr( 'data-bs-target', $(this).attr('data-target') );
 	});
+
 	
 	// Toggle collapse buttons
 	$('[data-toggle="collapse"]').click(function() {
