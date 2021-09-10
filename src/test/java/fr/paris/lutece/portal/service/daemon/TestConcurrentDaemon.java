@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service.daemon;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.TimeoutException;
 
+import fr.paris.lutece.portal.service.util.AppException;
+
 public final class TestConcurrentDaemon extends Daemon
 {
     private TestDaemon _other;
@@ -55,8 +57,8 @@ public final class TestConcurrentDaemon extends Daemon
         }
         catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace( );
+            throw new AppException( e.getMessage( ), e );
+            
         }
     }
 

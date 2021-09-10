@@ -33,8 +33,11 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import org.junit.Test;
+
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.test.LuteceTestCase;
 
 public class AppDaemonServiceTest extends LuteceTestCase
@@ -45,43 +48,76 @@ public class AppDaemonServiceTest extends LuteceTestCase
     private DaemonEntry _entry;
 
     @Override
-    protected void setUp( ) throws Exception
+    protected void setUp( )
     {
-        super.setUp( );
+        try
+        {
+            super.setUp( );
+        }
+        catch (Exception e)
+        {
+            throw new AppException( e.getMessage( ), e );
+        }
         _entry = new DaemonEntry( );
         _entry.setId( JUNIT_DAEMON );
         _entry.setNameKey( JUNIT_DAEMON );
         _entry.setDescriptionKey( JUNIT_DAEMON );
         _entry.setClassName( TestDaemon.class.getName( ) );
         _entry.setPluginName( "core" );
-        // AppDaemonService.registerDaemon will copy this datastore value in the
-        // entry.
+        _entry.setOnStartUp( true );
+        
         DatastoreService.setInstanceDataValue( DAEMON_INTERVAL_DSKEY, "1" );
-        AppDaemonService.registerDaemon( _entry );
+        try
+        {
+            AppDaemonService.registerDaemon( _entry );
+        }
+        catch (LuteceInitException e)
+        {
+            throw new AppException( e.getMessage( ), e );
+        }
+        AppDaemonService.startDaemon( JUNIT_DAEMON );
     }
 
     @Override
-    protected void tearDown( ) throws Exception
+    protected void tearDown( ) 
     {
         DatastoreService.removeInstanceData( DAEMON_INTERVAL_DSKEY );
-        AppDaemonService.stopDaemon( JUNIT_DAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
-        super.tearDown( );
+        
+        try
+        {
+            super.tearDown( );
+        }
+        catch (Exception e)
+        {
+            throw new AppException( e.getMessage( ), e );
+        }
     }
 
-    public void testRegisterDaemonTwiceIgnored( ) throws LuteceInitException
+    @Test
+    public void testRegisterDaemonTwiceIgnored( )
     {
         assertTrue( AppDaemonService.getDaemonEntries( ).contains( _entry ) );
         DaemonEntry duplicate = new DaemonEntry( );
-        duplicate.setId( JUNIT_DAEMON );
-        duplicate.setNameKey( JUNIT_DAEMON );
+        duplicate.setId( JUNIT_DAEMON + "duplicate" );
+        duplicate.setNameKey( JUNIT_DAEMON + "duplicate" );
         duplicate.setDescriptionKey( JUNIT_DAEMON + "duplicate" );
         duplicate.setClassName( TestDaemon.class.getName( ) );
         duplicate.setPluginName( "core" );
+        DatastoreService.setInstanceDataValue( DAEMON_INTERVAL_DSKEY, "1" );
+        
 
-        AppDaemonService.registerDaemon( duplicate );
+        try
+        {
+            AppDaemonService.registerDaemon( duplicate );
+        }
+        catch (LuteceInitException e)
+        {
+            throw new AppException( e.getMessage( ), e );
+        }
+        AppDaemonService.startDaemon( JUNIT_DAEMON + "duplicate" );
 
-        assertFalse( AppDaemonService.getDaemonEntries( ).contains( duplicate ) );
+        assertTrue( AppDaemonService.getDaemonEntries( ).contains( duplicate ) );
         assertTrue( AppDaemonService.getDaemonEntries( ).contains( _entry ) );
         DaemonEntry registeredEntry = AppDaemonService.getDaemonEntries( ).stream( ).filter( entry -> JUNIT_DAEMON.equals( entry.getId( ) ) ).findFirst( )
                 .orElseThrow( AssertionError::new );

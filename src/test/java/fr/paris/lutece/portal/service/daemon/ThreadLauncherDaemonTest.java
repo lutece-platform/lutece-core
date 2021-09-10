@@ -43,7 +43,10 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.junit.Test;
+
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -56,9 +59,15 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     private DaemonEntry _threadLauncherDaemonEntry;
 
     @Override
-    protected void setUp( ) throws Exception
+    protected void setUp( )
     {
-        super.setUp( );
+        try {
+            super.setUp( );
+        }
+        catch (Exception e)
+        {
+            throw new AppException( e.getMessage( ), e );
+        }
         // we ensure the ThreadLauncherDeamon is started
         AppLogService.info( "Ensure ThreadLauncherDeamon is started" );
         for ( DaemonEntry daemonEntry : AppDaemonService.getDaemonEntries( ) )
@@ -75,7 +84,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     }
 
     @Override
-    protected void tearDown( ) throws Exception
+    protected void tearDown( )
     {
         // restore threadLauncherDaemon state
         AppLogService.info( "restore threadLauncherDaemon state (" + _bThreadLauncherDaemonInitialState + ")" );
@@ -83,15 +92,30 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
         {
             AppDaemonService.stopDaemon( "threadLauncherDaemon" );
         }
-        super.tearDown( );
+        try
+        {
+            super.tearDown( );
+        }
+        catch (Exception e)
+        {
+            throw new AppException( e.getMessage( ), e );
+        }
     }
 
-    public void testAddItemToQueue( ) throws InterruptedException, BrokenBarrierException, TimeoutException
+    @Test
+    public void testAddItemToQueue( )
     {
         CyclicBarrier barrier = new CyclicBarrier( 2 );
         _runnableTimedOut = false;
         
-        dumpStateWhileWaiting( 0L ); // for debugging test failure
+        try
+        {
+            dumpStateWhileWaiting( 0L );
+        } 
+        catch (InterruptedException e1) 
+        {
+            throw new AppException( e1.getMessage( ), e1 );
+        }
         
         Instant start = Instant.now( );
         ThreadLauncherDaemon.addItemToQueue( ( ) -> {
@@ -106,9 +130,23 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
             }
         }, "key", PluginService.getCore( ) );
 
-        dumpStateWhileWaiting( 500L ); // for debugging test failure
+        try
+        {
+            dumpStateWhileWaiting( 500L );
+        } 
+        catch (InterruptedException e)
+        {
+            throw new AppException( e.getMessage( ), e );
+        } 
 
-        barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
+        try
+        {
+            barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
+        }
+        catch (InterruptedException | BrokenBarrierException | TimeoutException e)
+        {
+            throw new AppException( e.getMessage( ), e );
+        }
         AppLogService.info( "ThreadLauncherDaemonTest#testAddItemToQueue : task executed after "
                 + Duration.between( start, Instant.now( ) ).toMillis( ) + "ms" );
         AppLogService.info( "Last Run Logs : " + _threadLauncherDaemonEntry.getLastRunLogs( ) );

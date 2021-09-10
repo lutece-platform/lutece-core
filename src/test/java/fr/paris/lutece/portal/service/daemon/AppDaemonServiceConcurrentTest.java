@@ -36,7 +36,11 @@ package fr.paris.lutece.portal.service.daemon;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.TimeoutException;
 
+import org.junit.Test;
+
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -52,9 +56,16 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
     private DaemonEntry _otherEntry;
 
     @Override
-    protected void setUp( ) throws Exception
+    protected void setUp( )
     {
-        super.setUp( );
+        try
+        {
+            super.setUp( );
+        }
+        catch (Exception e1)
+        {
+            throw new AppException( e1.getMessage( ), e1 );
+        }
         log( "Creating daemon " + JUNIT_DAEMON );
         _entry = new DaemonEntry( );
         _entry.setId( JUNIT_DAEMON );
@@ -62,10 +73,16 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
         _entry.setDescriptionKey( JUNIT_DAEMON );
         _entry.setClassName( TestDaemon.class.getName( ) );
         _entry.setPluginName( "core" );
-        // AppDaemonService.registerDaemon will copy this datastore value in the
-        // entry.
+        
         DatastoreService.setInstanceDataValue( DAEMON_INTERVAL_DSKEY, INTERVAL_VALUE );
-        AppDaemonService.registerDaemon( _entry );
+        try
+        {
+            AppDaemonService.registerDaemon( _entry );
+        }
+        catch (LuteceInitException e1)
+        {
+            throw new AppException( e1.getMessage( ), e1 );
+        }
 
         log( "Creating daemon " + JUNIT_OTHERDAEMON );
         _otherEntry = new DaemonEntry( );
@@ -74,10 +91,16 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
         _otherEntry.setDescriptionKey( JUNIT_OTHERDAEMON );
         _otherEntry.setClassName( TestConcurrentDaemon.class.getName( ) );
         _otherEntry.setPluginName( "core" );
-        // AppDaemonService.registerDaemon will copy this datastore value in the
-        // entry.
+        
         DatastoreService.setInstanceDataValue( OTHERDAEMON_INTERVAL_DSKEY, INTERVAL_VALUE );
-        AppDaemonService.registerDaemon( _otherEntry );
+        try
+        {
+            AppDaemonService.registerDaemon( _otherEntry );
+        }
+        catch (LuteceInitException e)
+        {
+            throw new AppException( e.getMessage( ), e );
+        }
     }
 
     private void log( String message )
@@ -86,17 +109,22 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
     }
 
     @Override
-    protected void tearDown( ) throws Exception
-    {
+    protected void tearDown( ) {
         DatastoreService.removeInstanceData( DAEMON_INTERVAL_DSKEY );
-        AppDaemonService.stopDaemon( JUNIT_DAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
         DatastoreService.removeInstanceData( OTHERDAEMON_INTERVAL_DSKEY );
-        AppDaemonService.stopDaemon( JUNIT_OTHERDAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_OTHERDAEMON );
-        super.tearDown( );
+        try
+        {
+            super.tearDown( );
+        }
+        catch (Exception e)
+        {
+            throw new AppException( e.getMessage( ), e );
+        }
     }
 
+    @Test
     public void testConcurrentDaemonRun( )
     {
         assertTrue( AppDaemonService.getDaemonEntries( ).contains( _entry ) );

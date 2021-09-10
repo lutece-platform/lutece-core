@@ -87,7 +87,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
     private String _strWorkgroupKey;
     private HashMap<String, Object> _userInfo = new HashMap<>( );
     /** User's workgroups */
-    private List<String> _workgroups = new ArrayList<String>( );
+    private List<String> _workgroups = new ArrayList<>( );
 
     /**
      * User's rights. We use a HashMap instead of a Map so that the field is forced to be serializable.
