@@ -8,42 +8,156 @@ $( function() {
 </script>
 </#macro>
 
-<#macro getDateFlatPickerScript idField language format='' showFormat=''>
-<#if showFormat==''>
-  <#local showFormat><#if language=="en">n/j/Y<#else>d/m/Y</#if></#local>
-</#if>
-<#-- The server parses dates on a per locale basis. The formats here much match those specified by lutece.format.date.short -->
-<#if format==''>    
-  <#local format><#if language=="en">m/d/Y<#else>d/m/Y</#if></#local>
-</#if>
-$('#${idField}').flatpickr({allowInput: true, enableTime: false, dateFormat: '${format}', altInput: true, altFormat: '${showFormat}', "locale": "${language}"});
+<#-- The server parses dates on a per locale basis. The formats here much match those specified by
+  -- lutece.format.date.short. The language will default to moment.locale().
+  -->
+<#macro getDateFlatPickerScript idField language='' format='' showFormat='' minDate='' maxDate=''>
+{
+  let lang = '${language}';
+  let format = '${format}';
+  let show_format = '${showFormat}';
+
+  if (lang === '') {
+    lang = moment.locale();
+  }
+
+  if (format === '') {
+    switch (lang) {
+      case 'en': {
+        format = 'm/d/Y';
+        break;
+      }
+      case 'fr': {
+        format = 'd/m/Y';
+        break;
+      }
+      default: {
+        format = 'd/m/Y';
+        break;
+      }
+    }
+  }
+
+  if (show_format === '') {
+    switch (lang) {
+      case 'en': {
+        show_format = 'n/j/Y';
+        break;
+      }
+      case 'fr': {
+        show_format = 'd/m/Y';
+        break;
+      }
+      default: {
+        show_format = 'd/m/Y';
+        break;
+      }
+    }
+  }
+
+  let locale = '';
+
+  switch (lang) {
+    case 'en': {
+      locale = 'en';
+      break;
+    }
+    case 'fr': {
+      locale = fr;
+      break;
+    }
+    default: {
+      locale = 'en';
+      break;
+     }
+  }
+
+  $('#${idField}').flatpickr({allowInput: true, enableTime: false, dateFormat: format, altInput: true, altFormat: show_format, 
+    <#if minDate?has_content>
+      minDate: '${minDate}',
+    </#if>
+    <#if maxServerDate?has_content>
+      maxDate: '${maxDate}',
+    </#if>
+    locale: locale});
+}
 </#macro>
 
-<#macro getDateFlatPicker idField language format='' showFormat=''>
+<#macro getDateFlatPicker idField language='' format='' showFormat='' minDate='' maxDate=''>
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<#if language!='en'>  
+<#if language==''>
+  <script src="js/admin/locales/bootstrap-flatpickr.fr.js" charset="utf-8"></script>
+<#elseif language!='en'>
   <script src="js/admin/locales/bootstrap-flatpickr.${language}.js" charset="utf-8"></script>
 </#if>
 <script charset="utf-8">
 $(function() {  
-  <@getDateFlatPickerScript idField=idField language=language format=format showFormat=showFormat />
+  <@getDateFlatPickerScript idField=idField language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate />
 });     
 </script>
 </#macro>
 
+
 <#-- The server format must be hh:mm -->
-<#macro getTimeFlatPicker idField language format='H:i' showFormat=''>
-<#if showFormat==''>
-  <#local showFormat><#if language=="en">h:i K<#else>H:i</#if></#local>
-</#if>
+<#macro getTimeFlatPickerScript idField language='' format='H:i' showFormat='' >
+{
+  let lang = '${language}';
+  let format = '${format}';
+  let show_format = '${showFormat}';
+
+  if (lang === '') {
+    lang = moment.locale();
+  }
+
+  if (show_format === '') {
+    switch (lang) {
+      case 'en': {
+        show_format = 'h:i K';
+        break;
+      }
+      case 'fr': {
+        show_format = 'H:i';
+        break;
+      }
+      default: {
+        show_format = 'H:i';
+        break;
+      }
+    }
+  }
+
+  let locale = '';
+
+  switch (lang) {
+    case 'en': {
+      locale = 'en';
+      break;
+    }
+    case 'fr': {
+      locale = fr;
+      break;
+    }
+    default: {
+      locale = 'en';
+      break;
+     }
+  }
+
+  $('#${idField}').flatpickr({allowInput: true, enableTime: true, noCalendar: true, dateFormat: format, altInput: true, altFormat: show_format, locale: locale});
+}
+</#macro>
+
+<#macro getTimeFlatPicker idField language='' format='H:i' showFormat=''>
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<#if language!='en'>  
+<#if language==''>
+  <script src="js/admin/locales/bootstrap-flatpickr.fr.js" charset="utf-8"></script>
+<#elseif language!='en'>
   <script src="js/admin/locales/bootstrap-flatpickr.${language}.js" charset="utf-8"></script>
 </#if>
 <script charset="utf-8">
-$(function() {
-    $('#${idField}').flatpickr({allowInput: true, enableTime: true, noCalendar: true, dateFormat: '${format}', altInput: true, altFormat: '${showFormat}', "locale": "${language}"});
-});
+$(function() {  
+  <@getTimeFlatPickerScript idField=idField language=language format=format showFormat=showFormat />
+});     
 </script>
 </#macro>
 
