@@ -2,8 +2,7 @@
   	<#list services_list as service>
   	<@columns>
 		<@box color=''>
-			<@boxHeader title='${service.name}' boxTools=true skipHeader=true >
-			</@boxHeader>
+			<@boxHeader title='${service.name}' skipHeader=true />
 			<@boxBody>
 				<h4>Configuration</h4>
 				<@pre>${service.infos}</@pre>

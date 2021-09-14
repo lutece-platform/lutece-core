@@ -1,9 +1,9 @@
 <@row>
 	<@columns>
-		<@box>
+		<@box collapsed=true>
 			<@boxHeader title='#i18n{portal.workgroup.manage_workgroups.pageTitle}' boxTools=true skipHeader=true>
-				<@aButton href='jsp/admin/workgroup/CreateWorkgroup.jsp' buttonIcon='plus' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' hideTitle=['xs'] size='sm' />
-				<@button style='card-control collapse' buttonTargetId='#workgroupSearch' buttonIcon='search' size='sm' />
+				<@aButton style='card-header-icon' href='jsp/admin/workgroup/CreateWorkgroup.jsp' buttonIcon='plus' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' hideTitle=['xs'] size='sm' />
+				<@button style='card-control card-header-icon collapse' buttonTargetId='#workgroupSearch' buttonIcon='search' size='sm' />
 			</@boxHeader>
 			<@boxBody>
 			<@tform method='post' name='search_workgroups' action='jsp/admin/workgroup/ManageWorkgroups.jsp' id='workgroupSearch' class='collapse'>
@@ -15,10 +15,14 @@
 						<@input type='text' id='description' name='search_description' value='${search_admin_workgroup_filter.description}' maxlength=50 inputSize=30 />
 					</@formGroup>
 					<@formGroup>
-						<@button type='submit' buttonIcon='search' name='search_is_search' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' />
+						<@button type='submit' buttonIcon='search' name='search_is_search' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' color='primary' />
 					</@formGroup>
 				</@fieldSet>
 			</@tform>
+			</@boxBody>
+		</@box>
+		<@box class='box'>
+			<@boxBody>
 			<@tform method='post' action='jsp/admin/workgroup/ManageWorkgroups.jsp'>
 				<#if search_is_search >
 				<@input type='hidden' name='search_is_search' value='true' />
@@ -51,6 +55,6 @@
 			</#if>
 			</@boxBody>
 		</@box>
-	<@paginationAdmin paginator=paginator combo=1 form=0 />
+		<@paginationAdmin paginator=paginator combo=1 form=0 />
 	</@columns>
 </@row>

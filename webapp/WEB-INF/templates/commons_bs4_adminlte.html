@@ -268,7 +268,7 @@
 <table class="table ${class?trim}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if caption!=''><caption>${caption}</caption></#if>
 <#if headBody><thead></#if>
-	<#nested>
+<#nested>
 <#if headBody></tbody></#if>
 </table>
 <#if responsive></div></#if>
@@ -294,48 +294,48 @@
 </#macro>
 <#-- MACRO TR -->
 <#macro tr id='' class='' hide=[] params=''>
-	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align) />
-	<tr<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</tr>
+<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align) />
+<tr<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</tr>
 </#macro>
 <#-- MACRO TH -->
 <#-- valign: baseline|top|middle|bottom|bottom|text-top -->
 <#macro th id='' title='' scope='' class='' align='' valign='' hide=[]  cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params=''>
-	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'text') />
-	<#if cols!=0>
-		<#local class += ' col-${cols}' />
+<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'text') />
+<#if cols!=0>
+	<#local class += ' col-${cols}' />
+</#if>
+<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
+<#list breakpoints as breakpointkey,breakpointvalue>
+	<#if breakpointvalue!=0>
+		<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
 	</#if>
-	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
-	<#list breakpoints as breakpointkey,breakpointvalue>
-		<#if breakpointvalue!=0>
-			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
-		</#if>
-	</#list>
-	<#if valign!=''><#local class += ' align-' + valign /></#if>
-	<#if flex><#local class += ' d-flex' /></#if>
-	<th<#if class?trim != ''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</th>
+</#list>
+<#if valign!=''><#local class += ' align-' + valign /></#if>
+<#if flex><#local class += ' d-flex' /></#if>
+<th<#if class?trim != ''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</th>
 </#macro>
 <#-- MACRO TD -->
 <#macro td id='' class='' hide=[] align='' valign='' cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
-	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'') />
-	<#if cols!=0>
-		<#local class += ' col-${cols}' />
+<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'') />
+<#if cols!=0>
+	<#local class += ' col-${cols}' />
+</#if>
+<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
+<#list breakpoints as breakpointkey,breakpointvalue>
+	<#if breakpointvalue!=0>
+		<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
 	</#if>
-	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
-	<#list breakpoints as breakpointkey,breakpointvalue>
-		<#if breakpointvalue!=0>
-			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
-		</#if>
-	</#list>
-	<#if valign!=''><#local class += ' align-' + valign /></#if>
-	<#if flex><#local class += ' d-flex' /></#if>
-	<td<#if class?trim != ''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</td>
+</#list>
+<#if valign!=''><#local class += ' align-' + valign /></#if>
+<#if flex><#local class += ' d-flex' /></#if>
+<td<#if class?trim != ''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</td>
 </#macro>
 <#-- SORT -->
 <#macro sort jsp_url attribute id="" >
@@ -760,9 +760,9 @@
 </#macro>
 <#-- Tab Panel BS4 -->
 <#macro tabPanel id params='' active=false>
-		<div class="tab-pane fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
-			<#nested>
-		</div>
+<div class="tab-pane mt-2 fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
+<#nested>
+</div>
 </#macro>
 <#-- ACCORDION --> 
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
@@ -1608,7 +1608,7 @@ $(function() {
 			</@btnGroup>
 		</@btnToolbar>
 	</div>
-	<div class="col-6">
+	<div class="col-7">
 	<@btnToolbar>
 		<#if page.id != 1>
 			<@btnGroup class='btn-group-sm'>

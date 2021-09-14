@@ -15,13 +15,9 @@
 	<@columns>
 		<@box color='danger'>
 		<#if groupDisplay.feature_group.order !=0>
-			<#assign title>
-				#i18n{${groupDisplay.feature_group.labelKey}} <@link name='${groupDisplay.feature_group.id?if_exists}'>&nbsp;</@link>
-			</#assign>
+			<#assign title>#i18n{${groupDisplay.feature_group.labelKey}} <@link name='${groupDisplay.feature_group.id?if_exists}'> </@link></#assign>
 		<#else>
-			<#assign title>
-				#i18n{portal.features.nogroup.title}
-			</#assign>
+			<#assign title>#i18n{portal.features.nogroup.title}</#assign>
 		</#if>
 		<#if groupDisplay.feature_list?has_content>
 			<#assign boxTools=true>
@@ -29,21 +25,21 @@
 			<#assign boxTools=false>
 		</#if>
 		<@boxHeader title=title boxTools=boxTools>
-			<#if groupDisplay.feature_list?has_content>
-				<#if groupDisplay.feature_group.order !=0>
-					<#if groupDisplay.order_list_state==false>
-					<@tform method='post' action='jsp/admin/features/DoReinitFeatures.jsp'>
-						<@input type='hidden' name='group_id' value='${groupDisplay.feature_group.id?if_exists}' />
-						<@input type='hidden' name='token' value='${token}' />
-						<@button type='submit' title='#i18n{portal.features.dispatch_features.reinitFeatureOrders}' buttonIcon='check' color='warning' size='sm' />
-					</@tform>
-					</#if>
+		<#if groupDisplay.feature_list?has_content>
+			<#if groupDisplay.feature_group.order !=0>
+				<#if groupDisplay.order_list_state==false>
+				<@tform method='post' action='jsp/admin/features/DoReinitFeatures.jsp'>
+					<@input type='hidden' name='group_id' value='${groupDisplay.feature_group.id?if_exists}' />
+					<@input type='hidden' name='token' value='${token}' />
+					<@button type='submit' title='#i18n{portal.features.dispatch_features.reinitFeatureOrders}' buttonIcon='check' color='warning' size='sm' />
+				</@tform>
 				</#if>
 			</#if>
+		</#if>
 		</@boxHeader>
 		<@boxBody>
 			<#if groupDisplay.feature_list?has_content>
-			<@table>
+			<@table headBody=true>
 			<@tr>
 				<@th sm=4 md=5 lg=6 xl=7>#i18n{portal.features.dispatch_features.tableLabelFeatureName}</@th>
 				<@th sm=4 md=4 lg=4 xl=3>#i18n{portal.features.dispatch_features.tableLabelGroup}</@th>
@@ -58,8 +54,8 @@
 					<@tform method='post' type='inline' action='jsp/admin/features/DoDispatchFeature.jsp'>
 						<@input type='hidden' name='right_id' value='${right.id}' />
 						<@input type='hidden' name='token' value='${token}' />
-						<@formGroup rows=2>
-							<@inputGroup>
+						<@formGroup rows=2 class='has-addons'>
+							<@inputGroup class=''>
 								<@select id='group_name-${right.id}' name='group_name' title='' size='sm'>
 								<#if right.featureGroup?if_exists = no_group.feature_group.id?if_exists>
 									<option selected="selected" label="${i18n(no_group.feature_group.descriptionKey)?html}" value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
@@ -87,8 +83,8 @@
 						<@input type='hidden' name='right_id' value='${right.id}' />
 						<@input type='hidden' name='group_name' value='${right.featureGroup?if_exists}' />
 						<@input type='hidden' name='token' value='${token}' />
-						<@formGroup rows=2>
-							<@inputGroup>
+						<@formGroup rows=2 class='has-addons'>
+							<@inputGroup class=''>
 							<@select name='order_id' id='order_id-${right.id}' title='#i18n{portal.features.dispatch_features.tableLabelOrder}' size='sm'>
 							<#list 1..groupDisplay.feature_list?size as i>
 							<#if "${right.order}" == "${i}">

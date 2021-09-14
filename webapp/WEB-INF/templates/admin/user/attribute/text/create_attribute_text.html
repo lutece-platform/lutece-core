@@ -6,7 +6,7 @@
 				<@tform role='form' action='jsp/admin/user/attribute/DoCreateAttribute.jsp' method='post'>
 					<@input type='hidden' name='token' value='${token}' />
 					<@input type='hidden' name='attribute_type_class_name' value='${attribute_type.className}' />
-					<@formGroup labelKey='#i18n{portal.users.create_attribute.labelTitle} *' labelFor='attr_title' helpKey='#i18n{portal.users.create_attribute.labelTitleComment}' mandatory=true>
+					<@formGroup labelKey='#i18n{portal.users.create_attribute.labelTitle}' labelFor='attr_title' helpKey='#i18n{portal.users.create_attribute.labelTitleComment}' mandatory=true>
 						<@input type='text' name='title' id='attr_title' inputSize=80 value='' maxlength=255 />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.users.create_attribute.labelHelpMessage}' labelFor='help_message' helpKey='#i18n{portal.users.create_attribute.labelHelpMessageComment}'>
@@ -24,16 +24,16 @@
 					<@formGroup>
 						<@checkBox name='mandatory' id='mandatory' labelKey='#i18n{portal.users.create_attribute.labelMandatory}' value='1' />
 					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.users.create_attribute.labelWidth} *' labelFor='width'>
+					<@formGroup labelKey='#i18n{portal.users.create_attribute.labelWidth}' labelFor='width'>
 						<@input type='text' name='width' id='width' value=50 />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.users.create_attribute.labelMaxSizeEnter}' labelFor='max_size_enter'>
 						<@input type='text' name='max_size_enter' id='max_size_enter' />
 					</@formGroup>
 					<@formGroup>
-						<@button type='submit' name='validate' value='validate' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonValidate}'  size='' />
-						<@button type='submit' name='apply' value='apply' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonApply}'  size='' />
-						<@button type='submit' name='cancel' value='cancel' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' cancel=true size='' />
+						<@button type='submit' name='validate' value='validate' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonValidate}' color='primary' />
+						<@button type='submit' name='apply' value='apply' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonApply}' color='primary' />
+						<@button type='submit' name='cancel' value='cancel' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' cancel=true color='secondary'  />
 					</@formGroup>
 				</@tform>
 			</@boxBody>

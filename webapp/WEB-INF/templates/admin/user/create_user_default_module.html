@@ -25,7 +25,7 @@
 									<@inputGroupItem type='text'>
 										<@icon style='user' />
 									</@inputGroupItem>
-									<@input type='text' id='last_name' name='last_name' value='' maxlength=100 />
+									<@input type='text' id='last_name' name='last_name' value='' maxlength=100 size='' />
 								</@inputGroup>
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name' rows=2 mandatory=true>
@@ -33,7 +33,7 @@
 									<@inputGroupItem type='text'>
 										<@icon style='user' />
 									</@inputGroupItem>
-									<@input type='text' id='first_name' name='first_name' value='' maxlength=100 />
+									<@input type='text' id='first_name' name='first_name' value='' maxlength=100 size=''  />
 								</@inputGroup>
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email' rows=2 mandatory=true>
@@ -41,7 +41,7 @@
 									<@inputGroupItem type='text'>
 										<@icon style='envelope' />
 									</@inputGroupItem>
-									<@input type='text' id='email' name='email' value='' maxlength=100 />
+									<@input type='text' id='email' name='email' value='' maxlength=100 size=''  />
 								</@inputGroup>
 							</@formGroup>
 							</@fieldSet>
@@ -50,20 +50,20 @@
 							<@fieldSet legend='#i18n{portal.users.create_user.labelAccount}'>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='text'>
+									<@inputGroupItem type='text' >
 										<@icon style='star' />
 									</@inputGroupItem>
-									<@input type='text' id='access_code' name='access_code' value='' maxlength=100 />
+									<@input type='text' id='access_code' name='access_code' value='' maxlength=100 size='' />
 								</@inputGroup>
 							</@formGroup>
-							<@formGroup labelFor='first_password' labelKey='#i18n{portal.users.create_user.labelFirstPassword}' helpKey='${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}' mandatory=true rows=2>
-								<@inputGroup>
+							<@formGroup labelFor='first_password' labelKey='#i18n{portal.users.create_user.labelFirstPassword}' helpKey='${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}' mandatory=true groupStyle='addons' rows=2>
+								<@inputGroup class='control has-icons-left is-expanded is-flex'>
 									<@inputGroupItem type='text'>
 										<@icon style='lock' />
 									</@inputGroupItem>
-									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' />
-									<@inputGroupItem>
-										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='sm' color='secondary' />
+									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' size='' />
+									<@inputGroupItem type='btn' pos='is-expanded'>
+										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='' color='secondary' />
 									</@inputGroupItem>
 								</@inputGroup>
 							</@formGroup>
@@ -72,7 +72,7 @@
 									<@inputGroupItem type='text'>
 										<@icon style='lock' />
 									</@inputGroupItem>
-									<@input type='password' id='second_password' name='second_password' maxlength=100 value='' />
+									<@input type='password' id='second_password' name='second_password' maxlength=100 value='' size='' />
 								</@inputGroup>
 							</@formGroup>
 							<@formGroup rows=2>
@@ -146,8 +146,8 @@
 					<@row>
 						<@columns md=4 lg=4>
 							<@formGroup rows=2>
-								<@button size='' type='submit' buttonIcon='check' title='#i18n{portal.users.manage_users.buttonLabelAddUser}'  />
-								<@aButton size='' href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
+								<@button  type='submit' buttonIcon='check' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' color='primary' />
+								<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
 							</@formGroup>
 						</@columns>
 					</@row>
@@ -168,11 +168,7 @@ $( function(){
     });
 	$("#first_password").complexify({}, function (valid, complexity) {
 		var progressBar = $('#progressbar');
-		progressBar.toggleClass('progress-bar-success', valid);
-		progressBar.toggleClass('progress-bar-danger', !valid);
-		progressBar.css({'width': complexity + '%'});
-		progressBar.html( Math.round( complexity ) + '%');
-		progressBar.attr( 'aria-valuenow', Math.round( complexity ));
+		progress( progressBar, complexity, valid );
 	});
 })
 </script>

@@ -1,9 +1,9 @@
 <#macro dashboardTable items=[] list_available_orders_column=[] order=true>
-<#if items?exists && items?size &gt; 0>
+<#if items?exists && items?size gt 0>
 <@table>
 <@tr>
-	<th>#i18n{portal.admindashboard.table.title.name}</th>
-	<th>#i18n{portal.admindashboard.table.title.column}</th>
+	<@th>#i18n{portal.admindashboard.table.title.name}</@th>
+	<@th>#i18n{portal.admindashboard.table.title.column}</@th>
 	<#if order><th>#i18n{portal.admindashboard.table.title.order}</th></#if>
 </@tr>
 <@tableHeadBodySeparator />

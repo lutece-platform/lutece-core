@@ -316,7 +316,7 @@
 </tbody>
 </#macro>
 <#macro tableFoot id='' class='' params=''>
-<tfoo <#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tfoot <#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </tfoot>
 </#macro>
@@ -479,7 +479,7 @@
 <@deprecatedWarning args=deprecated />	
 <#local displayLabelClass = displaySettings(hideLabel,'') />
 <#if collapsed><#local class += ' collapse' /></#if>
-<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class?trim!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
 			<#local labelClass += ' col-xs-12 col-sm-3 control-label'>
@@ -609,9 +609,9 @@
 <#-- INPUT-GROUP -->
 <#-- size: sm/lg/no size-->
 <#macro inputGroup size='' class='' id='' params=''>
-	<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</div>
+<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</div>
 </#macro>
 <#macro inputGroupItem pos='' type='btn' id='' params=''>
 <#-- type: btn/text. default is btn-->
@@ -619,7 +619,7 @@
 	<#local type = 'addon' />
 </#if>
 <span class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
+<#nested>
 </span>
 </#macro>
 <#-- DROPDOWN MENU -->
@@ -769,9 +769,9 @@
 </#macro>
 <#-- Tab Panel BS3 -->
 <#macro tabPanel id params='' active=false>
-		<div class="tab-pane fade<#if active> in active</#if>" role="tabpanel" id="${id}"<#if params!=''> ${params}</#if>>
-			<#nested>
-		</div>
+<div class="tab-pane mt-2 fade<#if active> in active</#if>" role="tabpanel" id="${id}"<#if params!=''> ${params}</#if>>
+<#nested>
+</div>
 </#macro>
 <#-- ACCORDION --> 
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
@@ -1571,17 +1571,17 @@ enableBSToppltip: false
 		<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='sm' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all'] />
 	</@btnGroup>
 	</#if>
-	<@btnGroup hide=['xs'] align='right'>
-	<@tform type='inline' action='jsp/admin/site/AdminSite.jsp' role='search'>
-		<@formGroup formStyle='inline' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' hideLabel=['all']>
-			<@inputGroup>
-				<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' size='sm' />
-				<@inputGroupItem type='btn' pos='append'>
-					<@button type='submit' color='default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' size='sm' />
-				</@inputGroupItem>
-			</@inputGroup>
-		</@formGroup>
-	</@tform>
+	<@btnGroup hide=['xs']>
+		<@tform type='inline' action='jsp/admin/site/AdminSite.jsp' role='search'>
+			<@formGroup labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' hideLabel=['all']>
+				<@inputGroup>
+					<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' size='sm' />
+					<@inputGroupItem>
+						<@button type='submit' color='default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' size='sm' />
+					</@inputGroupItem>
+				</@inputGroup>
+			</@formGroup>
+		</@tform>
 	</@btnGroup>
 	<@btnGroup>
 		<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>

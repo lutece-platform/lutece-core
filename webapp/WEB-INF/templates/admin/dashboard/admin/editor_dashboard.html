@@ -1,5 +1,7 @@
 <#include "admindashboard_utils.html">
 <@adminDashboardPanel title='#i18n{portal.admindashboard.editorChoice.title}' icon='edit' parentId='technical_settings' childId='editors' >
+<@row>
+<@columns sm=0>
 <@fieldSet legend='#i18n{portal.admindashboard.editorChoice.editorBackOffice}' >
 <@tform action='jsp/admin/admindashboard/DoUpdateBackOfficeEditor.jsp'>
 <@input type='hidden' name='token' value='${token}' />
@@ -8,10 +10,12 @@
 <@select name='editor_back_office' items=listEditorsBackOffice default_value=current_editor_back_office />
 </@formGroup>
 <@formGroup>
-<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' size='' />
+<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' color='primary' />
 </@formGroup>
 </@tform>
 </@fieldSet>
+</@columns>
+<@columns sm=0>
  <@fieldSet legend='#i18n{portal.admindashboard.editorChoice.editorFrontOffice}' >   
 <@tform action='jsp/admin/admindashboard/DoUpdateFrontOfficeEditor.jsp'>
 <@input type='hidden' name='token' value='${token}' />
@@ -20,8 +24,10 @@
 <@select name='editor_front_office' items=listEditorsFrontOffice default_value=current_editor_front_office />
 </@formGroup>
 <@formGroup>
-<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' size='' />
+<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' color='primary' />
 </@formGroup>
 </@tform>
 </@fieldSet>
+</@columns>
+</@row>
 </@adminDashboardPanel>

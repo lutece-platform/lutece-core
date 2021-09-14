@@ -1,8 +1,8 @@
 <@row>
  	<@columns>
     	<@box>
-      		<@boxHeader title='#i18n{portal.features.external_features.create_external_feature.pageTitle}' />
-			<@boxBody>
+		<@boxHeader title='#i18n{portal.features.external_features.manage_external_features.create}' />
+		<@boxBody>
 			<@tform method='post' name='create_external_feature' action='jsp/admin/features/DoCreateExternalFeature.jsp'>
 			<@input type='hidden' name='token' value='${token}' />
 			<@messages errors=errors />
@@ -35,11 +35,11 @@
 				<@input type='text' name='documentation_url' value='' />
 			</@formGroup>
 			<@formGroup>
-				<@button type='submit' title='OK' name='createExternalFeature' buttonIcon='check' size='' />
-				<@aButton href='jsp/admin/AdminTechnicalMenu.jsp?#features_management' title='Cancel' name='cancel' buttonIcon='close' size='' color='secondary' />
+				<@button type='submit' title='OK' name='createExternalFeature' buttonIcon='check' color='primary' />
+				<@aButton href='jsp/admin/AdminTechnicalMenu.jsp?#features_management' title='Cancel' name='cancel' buttonIcon='close' color='secondary' />
 			</@formGroup>
 			</@tform>
-			</@boxBody>
+		</@boxBody>
     	</@box>
 	</@columns>
 </@row>

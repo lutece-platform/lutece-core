@@ -1,15 +1,15 @@
 <@row>
 	<@columns>
-		<@box color='primary' collapsed=false>
+		<@box color='primary' collapsed=true>
 			<@boxHeader title='#i18n{portal.users.manage_users.titleUserList}' skipHeader=true boxTools=true>
 				<#if permission_advanced_parameter>
-					<@aButton size='sm' href='jsp/admin/AdminTechnicalMenu.jsp?#users_advanced_parameters_management' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' hideTitle=['xs','sm'] />
+					<@aButton color='' style='card-header-icon' size='sm' href='jsp/admin/AdminTechnicalMenu.jsp?#users_advanced_parameters_management' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' hideTitle=['xs','sm'] />
 				</#if>
 				<#if permission_import_export_users>
-					<@aButton size='sm' href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' hideTitle=['xs','sm'] />
+					<@aButton color='' style='card-header-icon' size='sm' href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' hideTitle=['xs','sm'] />
 				</#if>
-				<@aButton size='sm' href='${url_user_creation}' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' hideTitle=['xs','sm'] />
-				<@button style='card-control collapse' buttonTargetId='#userSearch' buttonIcon='search' size='sm' />
+				<@aButton style='card-header-icon' color='' size='sm' href='${url_user_creation}' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' hideTitle=['xs','sm'] />
+				<@button style='card-control card-header-icon collapse' buttonTargetId='#userSearch' buttonIcon='search' size='sm' />
 			</@boxHeader>
 			<@boxBody>
 				<@tform method='post' name='search_users' action='jsp/admin/user/ManageUsers.jsp' id='userSearch' class='collapse border-bottom mb-3' >
@@ -25,30 +25,30 @@
 					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelStatus}' labelFor='status'>
 						<@select id='status' name='search_status'>
 						<#switch search_admin_user_filter.status>
-							<#case 0 >
-								<option value="noValue">#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-								<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-								<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								<option value="10">#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-								<#break>
-							<#case 1 >
-								<option value="noValue">#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-								<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-								<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								<option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-								<#break>
-							<#case 10 >
-								<option value="noValue">#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-								<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-								<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								<option value="10" selected="selected" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-								<#break>
-							<#default>
-								<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-								<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-								<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								<option value="10">#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-								<#break>
+						<#case 0 >
+							<option value="noValue">#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+							<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+							<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
+							<option value="10">#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
+							<#break>
+						<#case 1 >
+							<option value="noValue">#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+							<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
+							<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+							<option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
+							<#break>
+						<#case 10 >
+							<option value="noValue">#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+							<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
+							<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
+							<option value="10" selected="selected" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
+							<#break>
+						<#default>
+							<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+							<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
+							<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
+							<option value="10">#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
+							<#break>
 						</#switch>
 						</@select>
 					</@formGroup>
@@ -58,9 +58,13 @@
 					</#if>
 					</#list>
 					<@formGroup>
-						<@button type='submit' name='search_is_search' buttonIcon='search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' />
+						<@button type='submit' name='search_is_search' buttonIcon='search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' color='primary'/>
 					</@formGroup>
 				</@tform>
+			</@boxBody>
+		</@box>
+		<@box >
+			<@boxBody>
 				<@tform method='post' action='jsp/admin/user/ManageUsers.jsp'>
 					<#if search_is_search >
 						<@input type='hidden' name='search_is_search' value='true' />
@@ -80,7 +84,7 @@
 						</#if>
 					</#if>
 				</@tform>
-				<@table class='hover'>
+				<@table>
 					<@tr>
 						<#if adminAvatar><@th>&nbsp;</@th></#if>
 						<@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleLastName} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName${sort_search_attribute}" /></@th>
@@ -96,6 +100,7 @@
 						</#list>
 						<@th>#i18n{portal.users.manage_users.columnTitleActions}</@th>
 					</@tr>
+					<@tableHeadBodySeparator />
 					<#list user_list as user>
 					<@tr>
 						<#if adminAvatar>

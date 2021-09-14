@@ -1,10 +1,14 @@
 <#include "admindashboard_utils.html">
 <@tabPanel id='external_features'>
-<@tform type='inline' align='right' method='post' name='create_external_feature' action='jsp/admin/features/CreateExternalFeature.jsp'>
-	<@button type='submit' title='#i18n{portal.features.external_features.manage_external_features.create}' buttonIcon='plus' size='sm' hideTitle=['xs','sm'] />
-</@tform>
+<@box>
+<@boxHeader title='#i18n{portal.features.manage_groups.title}' boxTools=true>
+	<@tform type='inline' align='right' method='post' name='create_external_feature' action='jsp/admin/features/CreateExternalFeature.jsp' class='has-addons'>
+		<@button type='submit' title='#i18n{portal.features.external_features.manage_external_features.create}' buttonIcon='plus' size='sm' hideTitle=['xs','sm'] />
+	</@tform>
+</@boxHeader>
+<@boxBody>
 <@p><em>#i18n{portal.features.external_features.featureDescription}</em></@p>
-<@table>  
+<@table headBody=true>  
 <@tr>
 	<@th>#i18n{portal.features.external_features.manage_external_features.name}</@th>
 	<@th>#i18n{portal.features.external_features.manage_external_features.url}</@th>
@@ -24,4 +28,6 @@
 </@tr>
 </#list>
 </@table>
+</@boxBody>
+</@box>
 </@tabPanel>

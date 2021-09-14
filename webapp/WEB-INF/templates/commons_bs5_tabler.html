@@ -32,6 +32,7 @@
 <script src="js/admin/style/tabler/bootstrap-colorpicker.js"></script> 
 <script src="js/admin/style/tabler/bootstrap-datepicker.min.js"></script>
 <script src="js/admin/style/tabler/bootstrap-flatpickr.min.js"></script>
+<script src="js/admin/locales/bootstrap-flatpickr.fr.js"></script>
 <script src="js/admin/style/tabler/tabler.min.js"></script> 
 <script src="js/admin/style/tabler/admin.js"></script>  
 </#macro>
@@ -412,7 +413,7 @@
 		<#local class += ''>
 		<#break>
 	<#case 'inline'>
-		<#local class += ' row row-cols-lg-auto align-items-center'>
+		<#local class += ''>
 		<#break>
 	<#default>
 		<#local class += ''>
@@ -741,7 +742,7 @@
 </#macro>
 <#-- Tab Panel BS4 -->
 <#macro tabPanel id params='' active=false>
-<div class="tab-pane fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
+<div class="tab-pane mt-2 fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
 <#nested>
 </div>
 </#macro>

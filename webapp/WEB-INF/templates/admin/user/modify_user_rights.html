@@ -5,12 +5,6 @@
 			<@boxHeader title='${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true skipHeader=true>
 				<#if can_delegate = 'true'><p>#i18n{portal.users.modify_user_rights.informationRightModification}</p></#if>
 				<@item_navigation item_navigator=item_navigator />
-				<@tform align='right' method='post' action='jsp/admin/user/ModifyUserRights.jsp'>	
-					<@input type='hidden' name='delegate_rights' value='${can_delegate}' />
-					<@input type='hidden' name='id_user' value='${user.userId}' />
-					<@input type='hidden' name='select' value='all' />
-					<@button type='submit' size='' buttonIcon='filter' size='sm' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' hideTitle=['xs','sm']   />
-				</@tform>
 			</@boxHeader>
 			<@boxBody>
 			<@tabs>
@@ -22,6 +16,10 @@
 					<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
 				</@tabList>
 				<@tabContent>
+					<@p class='pb-3'>
+						<@button buttonIcon='filter' size='sm' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' hideTitle=['xs','sm']  params=' data-check="check" ' />
+						<@button buttonIcon='times' size='sm' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' hideTitle=['xs','sm']  params=' data-check="uncheck" ' />
+					</@p>
 					<@tform method='post' action='jsp/admin/user/DoModifyUserRights.jsp'>
 					<@input type='hidden' name='delegate_rights' value='${can_delegate}' />
 					<@input type='hidden' name='id_user' value='${user.userId}' />
@@ -49,8 +47,8 @@
 						</@columns>
 					</@row>
 					<@formGroup rows=2>
-						<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}'  size='' />
-						<@aButton size='' href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' color='primary'  />
+						<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
 					</@formGroup>
 					</@tform>
 				</@tabContent>
@@ -59,3 +57,9 @@
         </@box>
     </@columns>
 </@row>
+<script>
+$('.toggleCheck').click( function(){
+	var isChecked = $(this).attr('data-check') === 'check' ? true : false;
+    $("input:checkbox").prop('checked', isChecked );
+});
+</script>

@@ -800,9 +800,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 <#-- Tab Panel BS4 -->
 <#macro tabPanel id params='' active=false>
-		<div class="tab-pane fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
-			<#nested>
-		</div>
+<div class="tab-pane  mt-2 fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
+<#nested>
+</div>
 </#macro>
 <#-- ACCORDION --> 
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->

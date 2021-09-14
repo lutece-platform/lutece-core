@@ -1,24 +1,24 @@
 <#include "admindashboard_utils.html">
 <@tabPanel id='userAttributes'>
+<@box>
+<@boxHeader title='#i18n{portal.users.manage_attributes.pageTitle}' boxTools=true>
 	<@tform type='inline' method='post' action='jsp/admin/user/attribute/CreateAttribute.jsp'>
-		<@fieldSet legend='#i18n{portal.users.manage_attributes.pageTitle}'>
-			<@formGroup labelKey='&#160;' labelFor='attribute_type_class_name' formStyle='inline'>
-				<@btnGroup align='right'>
-					<@inputGroup>
-						<@select id='attribute_type_class_name' name='attribute_type_class_name' size='sm'>
-							<#list attribute_types_list as attribute_type>
-								<option value="${attribute_type.className}">${attribute_type.name}</option>
-							</#list>
-						</@select>
-						<@inputGroupItem>
-							<@button type='submit' buttonIcon='plus' title='#i18n{portal.users.manage_attributes.addNewAttributes}' hideTitle=['all'] size='sm' />
-						</@inputGroupItem>
-					</@inputGroup>
-				</@btnGroup>
-			</@formGroup>
-		</@fieldSet>
+		<@formGroup labelKey='&#160;' labelFor='attribute_type_class_name' formStyle='inline' class='has-addons'>
+			<@inputGroup class=''>
+				<@select id='attribute_type_class_name' name='attribute_type_class_name' size='sm'>
+					<#list attribute_types_list as attribute_type>
+						<option value="${attribute_type.className}">${attribute_type.name}</option>
+					</#list>
+				</@select>
+				<@inputGroupItem>
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.users.manage_attributes.addNewAttributes}' hideTitle=['all'] size='sm' />
+				</@inputGroupItem>
+			</@inputGroup>
+	</@formGroup>
 	</@tform>
-	<@table>
+</@boxHeader>
+<@boxBody>
+	<@table headBody=true>
 		<@tr>
 			<@th>#i18n{portal.users.manage_attributes.columnTitle}</@th>
 			<@th>#i18n{portal.users.manage_attributes.columnType}</@th>
@@ -73,4 +73,6 @@
 		</@tr>
 		</#list>
 	</@table>
+</@boxBody>
+</@box>
 </@tabPanel>

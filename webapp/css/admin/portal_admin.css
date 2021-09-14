@@ -63,6 +63,8 @@ body > .header .navbar span#zone4{ min-width: 180px; display: inline-block; }
 #login-page img#logoLogin { position:absolute; top: 50px; left: 50px; }
 .login-box .login-logo{ margin-bottom: 0; color: var( --white-color ) }
 .login-box .login-logo a{ color: var( --white-color ) }
+.avatar { margin-top: -70px; padding-bottom: 20px; }
+.avatar img { padding: 5px; background: #fff; border-radius: 50%; -webkit-box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1); box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);}
 .login-wrapper #footer{ display: none; }
 /* Header */
 .home{ background-color:var( --white-color ) !important; color:var( --white-color ); margin: 0; display:block; }
@@ -88,6 +90,7 @@ div.box-tools > * { display:inline-block; }
 
 /* 	Helpers classes   */
 /* BS + Styles */
+/* .form-inline{ display: inline-block;} */
 .d-flex{ display: flex !important;}
 .align-items-center{ align-items: center; }
 .justify-content-around{ justify-content: space-around; }
@@ -187,6 +190,9 @@ li.portlet-type a:hover{ background:var( --primary-color ) url(); color:var( --w
 #extender-content .list-group{ margin-bottom: 0; }
 #extender-content .list-group-item{ border-color: transparent; padding: 4px 2px }
 #extender-content .list-group-item .btn-link{ padding: 0; text-align: left; }
+.extend-action-menu{display: flex; justify-content: space-between; align-items: center;}
+.list-group-item-action{ padding:.5rem; font-size: .8rem }
+.list-group-item-action .extend-action-menu .btn-xs{ padding:.2rem; }
 
 /* 	Plugin SUGGEST           */
 .f-nav{ z-index: 9999; position: fixed; left: 0; top: 4.4%; background-color: var( --white-color ); padding: 1% 2% 1% 2%; -moz-box-shadow: 0px 5px 5px 0px var( --dark-gray-color ); -webkit-box-shadow: 0px 5px 5px 0px var( --dark-gray-color );-o-box-shadow: 0px 5px 5px 0px var( --dark-gray-color );box-shadow: 0px 5px 5px 0px var( --dark-gray-color );filter:progid:DXImageTransform.Microsoft.Shadow(color=var( --dark-gray-color ), Direction=180, Strength=5);}
@@ -195,8 +201,6 @@ li.portlet-type a:hover{ background:var( --primary-color ) url(); color:var( --w
 .modal-top{ top:20% !important; }
 
 /* Plugin FILES2DOCS        */
-/* SWFUPLOAD Fieldset       */
-div.box-upload { min-height: 100px; }
 /* Error                    */
 .red{ border : 1px solid var( --danger-color ); background-color: var( --danger-color ); }
 /* Current                  */
@@ -209,8 +213,13 @@ div.box-upload { min-height: 100px; }
 .progressBarError{ width: 100%; background-color: var( --danger-color ); visibility: hidden; }
 .progressBarStatus{ margin-top: 2px; width: 337px ; font-size: 7pt; font-family: Arial; text-align: left; white-space: nowrap; }
 
-/* SWFUpload Object Styles  */
-.swfupload {vertical-align : top; position : absolute;z-index : 1;}
+/* Asynchronous Upload */
+.list-file-item{ display: flex; align-items: center; padding-bottom: 5px }
+.list-file-item div > label{ display: flex; justify-content: space-between; margin: 0 5px; }
+.list-file-item div > label > .uploaded_check{ margin: auto 5px }
+.list-file-item div .truncate{ margin-right: auto } 
+.list-file-item figure{ flex-shrink: 0; }
+.list-file-item figure + div{ flex-grow: 1 ; margin-left: auto }
 
 /* Plugin THEME             */
 #preview-frame-container{ display:none }

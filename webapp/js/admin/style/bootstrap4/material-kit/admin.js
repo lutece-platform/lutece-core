@@ -130,3 +130,34 @@ $( function(){
 	});
 
 });
+
+/* Pretty print file size */
+function prettySize( bytes, separator=' ', postFix=''){
+if (bytes) {
+	const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To'];
+	const i = Math.min(parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10), sizes.length - 1);
+	return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
+}
+return 'n/a';
+}
+
+/* Tab management for advanced user parameters */
+function manageTab( hc ){
+if( hc != undefined ){
+	$(hc).parents('.collapse').addClass('in');
+	$('.nav li').removeClass('active');
+	var k='a[href="' + hc + '"]';
+	$(k).parent().addClass('active');
+	$('.tab-pane').removeClass('active').removeClass('in');
+	$(hc).addClass('active in');
+	$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
+}
+}
+
+/* Manage progress bar  */
+function progress( bar, complexity, valid ){
+bar.toggleClass('progress-bar-success', valid);
+bar.toggleClass('progress-bar-danger', !valid);
+bar.css({'width': complexity + '%'});
+bar.html( Math.round( complexity ) + '%');
+}

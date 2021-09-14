@@ -1,7 +1,7 @@
 <#include "admindashboard_utils.html">
 <@adminDashboardPanel title='#i18n{portal.admin.adminFeature.features_management.name}' icon='sitemap' parentId='technical_settings' childId='admin_features'>
-<@row>
-	<@columns lg=3>
+<@row class='tabs-parent'>
+	<@columns sm=3>
 		<@tabs>
 			<@tabList style='pills' vertical=true>
 				<@tabLink active=true href='#feature_groups' title='#i18n{portal.features.manage_groups.title}' tabIcon='folder' />
@@ -10,7 +10,7 @@
 			</@tabList>
 		</@tabs>
 	</@columns>
-	<@columns lg=9>
+	<@columns sm=9>
 		<@tabContent>
 		<#include "features_admindashboard_groups.html" />
 		<#include "features_admindashboard_features.html" />

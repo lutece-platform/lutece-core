@@ -19,15 +19,15 @@
 						<@select name='portlet_type' default_value='0' items=portlet_type_list />
 					</@formGroup>
 					<@formGroup>
-						<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.create_style.buttonCreate}'  size='' />
-						<@aButton href='jsp/admin/style/ManageStyles.jsp' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}'  size='' color='secondary' />
+						<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.create_style.buttonCreate}' color='primary' />
+						<@aButton href='jsp/admin/style/ManageStyles.jsp' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' color='secondary' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>
 		</@box>
 	</@columns>
 </@row>
-<script language="javascript">
+<script>
 if( document.create_style.portal_component.value == '0' ) {
 	document.create_style.portlet_type.disabled=false;
 } else {

@@ -78,14 +78,14 @@
     		<@columns sm=colUserList>
         		<h3>#i18n{portal.rbac.assign_users.labelAvailableUser}</h3>
 				<#if available_users_list?size &gt; 0 >
-					<@tform name='assignUser' method='post' action='jsp/admin/rbac/DoAssignUsersRole.jsp'>
+					<@tform  name='assignUser' method='post' action='jsp/admin/rbac/DoAssignUsersRole.jsp'>
 						<@input type='hidden' name='role_key' value='${role.key}' />
 						<@input type='hidden' name='token' value='${token}' />
 						<@formGroup rows=2>
-							<@select name='available_users_list' default_value='' items=available_users_list multiple=16 />
+							<@select class='is-fullwidth' name='available_users_list' default_value='' items=available_users_list multiple=16 />
 						</@formGroup>
 						<@formGroup rows=2>
-							<@button style='btn-block' type='submit' buttonIcon='check' title='#i18n{portal.rbac.assign_users.labelButtonValidate}'  />
+							<@button color='primary btn-block' type='submit' buttonIcon='check' title='#i18n{portal.rbac.assign_users.labelButtonValidate}'  />
 						</@formGroup>
 					</@tform>
 				<#else>

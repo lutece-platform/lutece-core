@@ -5,10 +5,10 @@
 		<@messages infos=infos />
 		<@fieldSet legend='#i18n{portal.templates.manage_autoincludes.commonsChange}' >
 		<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
-			<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' hideLabel=['all'] rows=2>
+			<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' hideLabel=['all'] class='has-addons' rows=2>
 			<@input type='hidden' name='action' value='activate' />
-			<@inputGroup size='sm'>
-				<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list />
+			<@inputGroup class=''>
+				<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' />
 				<@inputGroupItem>
 					<@button type='submit' color='oultine' buttonIcon='random' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' hideTitle=['all'] />
 				</@inputGroupItem>
