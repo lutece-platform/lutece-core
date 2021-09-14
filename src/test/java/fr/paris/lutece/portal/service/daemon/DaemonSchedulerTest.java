@@ -108,15 +108,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testEnqueue( true );
     }
 
+    /**
+     * test if the enqueue service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testEnqueue( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException,
             BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newSingleThreadExecutor( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = (TestDaemon) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
             scheduler.enqueue( entry, 0L, TimeUnit.MILLISECONDS );
@@ -124,6 +135,10 @@ public class DaemonSchedulerTest extends LuteceTestCase
             testDaemon.go( 250L, TimeUnit.MILLISECONDS );
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
+        }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
         }
         finally
         {
@@ -143,15 +158,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testEnqueueDelay( true );
     }
 
+    /**
+     * test if the enqueue delay service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testEnqueueDelay( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException,
             BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newSingleThreadExecutor( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = (TestDaemon) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
             Instant start = Instant.now( );
@@ -162,22 +188,37 @@ public class DaemonSchedulerTest extends LuteceTestCase
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
         }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
+        }
         finally
         {
             scheduler.shutdown( );
         }
     }
 
+    /**
+     * test if the enqueue delay illegalstate exception service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     public void testEnqueueDelayIllegalState( ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException,
             BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newSingleThreadExecutor( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         scheduler.shutdown( );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName );
             scheduler.enqueue( entry, 500L, TimeUnit.MILLISECONDS );
             fail( "Should not be able to enqueue after shutdown" );
         }
@@ -217,15 +258,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testEnqueueFull( true );
     }
 
+    /**
+     * test if the enqueue full service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testEnqueueFull( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException,
             BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( 1 );
         ExecutorService executor = new TestExecutorService( runnable -> runnable.run( ) );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry executing = getDaemonEntry( "JUNIT-executing" );
+            DaemonEntry executing = getDaemonEntry( "JUNIT-executing" + strMethodName + shouldThrow );
             TestDaemon executingDaemon = (TestDaemon) executing.getDaemon( );
             executingDaemon.setRunThrows( shouldThrow );
             assertTrue( scheduler.enqueue( executing, 0L, TimeUnit.MILLISECONDS ) );
@@ -239,6 +291,10 @@ public class DaemonSchedulerTest extends LuteceTestCase
             executingDaemon.waitForCompletion( );
             inqueueDaemon.go( );
             inqueueDaemon.waitForCompletion( );
+        }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
         }
         finally
         {
@@ -258,15 +314,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testSchedule( true );
     }
 
+    /**
+     * test if the schedule service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testSchedule( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException,
             BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newSingleThreadExecutor( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow);
             TestDaemon testDaemon = (TestDaemon) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
             Instant start = Instant.now( );
@@ -280,6 +347,10 @@ public class DaemonSchedulerTest extends LuteceTestCase
             assertTrue( 1000L <= Duration.between( start, Instant.now( ) ).toMillis( ) );
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
+        }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
         }
         finally
         {
@@ -299,15 +370,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testScheduleDelay( true );
     }
 
+    /**
+     * test if the schedule delay service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testScheduleDelay( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException,
             BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newSingleThreadExecutor( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = (TestDaemon) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
             Instant start = Instant.now( );
@@ -317,6 +399,10 @@ public class DaemonSchedulerTest extends LuteceTestCase
             assertTrue( 500L <= Duration.between( start, Instant.now( ) ).toMillis( ) );
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
+        }
+        catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
         }
         finally
         {
@@ -336,15 +422,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testScheduleTwice( true );
     }
 
+    /**
+     * test if the schedule twice service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testScheduleTwice( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException,
             BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newSingleThreadExecutor( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = (TestDaemon) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
             Instant start = Instant.now( );
@@ -360,20 +457,35 @@ public class DaemonSchedulerTest extends LuteceTestCase
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
         }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
+        }
         finally
         {
             scheduler.shutdown( );
         }
     }
 
+    /**
+     * test if the unschedule not scheduled service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     public void testUnScheduleNotScheduled( ) throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newSingleThreadExecutor( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName );
             scheduler.unSchedule( entry );
             // not sure how to assert something here
         }
@@ -398,15 +510,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testUnSchedule( true );
     }
 
+    /**
+     * test if the unschedule not scheduled service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testUnSchedule( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException,
             BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newSingleThreadExecutor( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = (TestDaemon) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
             scheduler.schedule( entry, 0L, TimeUnit.MILLISECONDS );
@@ -428,6 +551,10 @@ public class DaemonSchedulerTest extends LuteceTestCase
                 // OK
             }
         }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
+        }
         finally
         {
             scheduler.shutdown( );
@@ -446,15 +573,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testUnScheduleWhileRunning( true );
     }
 
+    /**
+     * test if the unschedule not scheduled service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testUnScheduleWhileRunning( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException,
             IllegalAccessException, InterruptedException, BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newSingleThreadExecutor( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = ( TestDaemon ) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
             scheduler.schedule( entry, 0L, TimeUnit.MILLISECONDS );
@@ -479,6 +617,10 @@ public class DaemonSchedulerTest extends LuteceTestCase
                 // OK
             }
         }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
+        }
         finally
         {
             scheduler.shutdown( );
@@ -497,15 +639,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testEnqueueWhileRunning( true );
     }
 
+    /**
+     * test if the enqueue while running service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testEnqueueWhileRunning( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
             InterruptedException, BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newCachedThreadPool( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry executing = getDaemonEntry( "JUNIT-executing" );
+            DaemonEntry executing = getDaemonEntry( "JUNIT-executing" + strMethodName + shouldThrow );
             TestDaemon executingDaemon = (TestDaemon) executing.getDaemon( );
             executingDaemon.setRunThrows( shouldThrow );
             assertTrue( scheduler.enqueue( executing, 0L, TimeUnit.MILLISECONDS ) );
@@ -523,6 +676,10 @@ public class DaemonSchedulerTest extends LuteceTestCase
             executingDaemon.waitForCompletion( );
             executingDaemon.go( );
             executingDaemon.waitForCompletion( );
+        }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
         }
         finally
         {
@@ -542,15 +699,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testEnqueueCoalesce( true );
     }
 
+    /**
+     * test if the enqueue coalesce service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testEnqueueCoalesce( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
             InterruptedException, BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = new TestExecutorService( runnable -> runnable.run( ) );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry executing = getDaemonEntry( "JUNIT-executing" );
+            DaemonEntry executing = getDaemonEntry( "JUNIT-executing" + strMethodName + shouldThrow);
             TestDaemon executingDaemon = (TestDaemon) executing.getDaemon( );
             executingDaemon.setRunThrows( shouldThrow );
             assertTrue( scheduler.enqueue( executing, 0L, TimeUnit.MILLISECONDS ) );
@@ -573,6 +741,10 @@ public class DaemonSchedulerTest extends LuteceTestCase
 
             }
         }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
+        }
         finally
         {
             scheduler.shutdown( );
@@ -591,15 +763,26 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testShutdown( true );
     }
 
+    /**
+     * test if the shutdown service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testShutdown( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
             InterruptedException, BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = Executors.newCachedThreadPool( );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = ( TestDaemon ) entry.getDaemon( );
             testDaemon.setStopThrows( shouldThrow );
             scheduler.schedule( entry, 0L, TimeUnit.MILLISECONDS );
@@ -621,6 +804,10 @@ public class DaemonSchedulerTest extends LuteceTestCase
             assertEquals( 1, testDaemon.getStopCallNumber( ) );
             assertEquals( 1, testDaemon2.getStopCallNumber( ) );
         }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
+        }
         finally
         {
             scheduler.shutdown( );
@@ -639,16 +826,27 @@ public class DaemonSchedulerTest extends LuteceTestCase
         testShutdownWhileRunning( true );
     }
 
+    /**
+     * test if the shutdown while running service does not fail when a daemon throws a RunTimeException
+     *
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws InterruptedException
+     * @throws BrokenBarrierException
+     * @throws TimeoutException
+     */
     private void testShutdownWhileRunning( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException,
             IllegalAccessException, InterruptedException, BrokenBarrierException, TimeoutException
     {
+        String strMethodName = new Object( ){ }.getClass( ).getEnclosingMethod( ).getName( );
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = new TestExecutorService(
                 runnable -> ForkJoinPool.commonPool( ).execute( runnable ) );
         DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
         try
         {
-            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            DaemonEntry entry = getDaemonEntry( "JUNIT" + strMethodName + shouldThrow );
             TestDaemon testDaemon = ( TestDaemon ) entry.getDaemon( );
             testDaemon.setStopThrows( shouldThrow );
             scheduler.schedule( entry, 0L, TimeUnit.MILLISECONDS );
@@ -661,6 +859,10 @@ public class DaemonSchedulerTest extends LuteceTestCase
             Thread.sleep( 10L ); // leave some time to the daemon to exit
                                  // executing daemons
             assertEquals( 1, testDaemon.getStopCallNumber( ) );
+        }
+        catch (InterruptedException |BrokenBarrierException | TimeoutException e )
+        {
+            fail( e.getMessage( ) );       
         }
         finally
         {

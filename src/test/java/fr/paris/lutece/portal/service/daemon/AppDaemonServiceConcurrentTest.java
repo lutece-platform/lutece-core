@@ -43,8 +43,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class AppDaemonServiceConcurrentTest extends LuteceTestCase
 {
     private static final String INTERVAL_VALUE = "10000";
-    private static final String JUNIT_DAEMON = "JUNIT";
-    private static final String JUNIT_OTHERDAEMON = "OTHERJUNIT";
+    private static final String JUNIT_DAEMON = "JUNITAppDaemonServiceConcurrentTest";
+    private static final String JUNIT_OTHERDAEMON = "OTHERJUNITAppDaemonServiceConcurrentTest";
     private static final String DAEMON_INTERVAL_DSKEY = "core.daemon." + JUNIT_DAEMON + ".interval";
     private static final String OTHERDAEMON_INTERVAL_DSKEY = "core.daemon." + JUNIT_OTHERDAEMON + ".interval";
 
@@ -89,10 +89,8 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
     protected void tearDown( ) throws Exception
     {
         DatastoreService.removeInstanceData( DAEMON_INTERVAL_DSKEY );
-        AppDaemonService.stopDaemon( JUNIT_DAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
         DatastoreService.removeInstanceData( OTHERDAEMON_INTERVAL_DSKEY );
-        AppDaemonService.stopDaemon( JUNIT_OTHERDAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_OTHERDAEMON );
         super.tearDown( );
     }
