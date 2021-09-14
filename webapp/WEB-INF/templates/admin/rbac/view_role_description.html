@@ -11,7 +11,13 @@
 				</@formGroup>
 				<@formGroup labelKey='#i18n{portal.rbac.modify_role.labelDescription}' labelFor='role_description' mandatory=true rows=2>
 					<@input type='text' id='role_description' name='role_description' value='${role.description}' inputSize=100 maxlength=255 />
+
 				</@formGroup>
+				 <#if has_right_manage_front_role>
+						<@formGroup labelFor='can_be_assigned_to_user_front'>
+							 <@checkBox name='can_be_assigned_to_user_front' id='can_be_assigned_to_user_front' value='true' labelKey='#i18n{portal.rbac.modify_role.labelCanBeAssignedToUserFront}' labelFor='exist_front_role' checked=exist_front_role />
+						</@formGroup>
+					</#if>	
 				<@formGroup rows=2>
 					<@button type='submit' name='apply' title='#i18n{portal.util.labelValidate}' buttonIcon='check' />
 					<@aButton href='jsp/admin/rbac/ManageRoles.jsp' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' color='default' />
