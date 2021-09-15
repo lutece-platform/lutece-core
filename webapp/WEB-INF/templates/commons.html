@@ -1959,7 +1959,7 @@ $.each( parsedIcons, function(index, icon){
 					prefix = 'fab'
 					break;
 			}
-			$('#${id}').append('<option value="' + index + '"> <#if showListIcon><span class="' + prefix + ' fa-'+ index + ' mr-1" ' + selected + ' ></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
+			$('#${id}').append('<option value="' + index + '"' + selected + '> <#if showListIcon><span class="' + prefix + ' fa-'+ index + ' mr-1" ' + selected + ' ></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
 			i++;
 		}
 	<#else>

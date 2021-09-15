@@ -1494,7 +1494,7 @@ ${title}
 <#macro alert class='' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
 <div class="notification ${class}<#if color!=''> is-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if dismissible><@button color='' size='' class='delete' params='data-dismiss="alert" aria-hidden="true"'>&times;</@button></#if>
-<#if title!=''><${titleLevel}><#if iconTitle!=''><@icon style=iconTitle /></#if>${title}</${titleLevel}></#if>
+<#if title!=''><${titleLevel}><#if iconTitle!=''><@icon style=iconTitle /></#if><span>${title}</span></${titleLevel}></#if>
 <#nested>
 </div>
 </#macro>
@@ -2381,7 +2381,7 @@ $.each( parsedIcons, function(index, icon){
 					prefix = 'fab'
 					break;
 			}
-			$('#${id}').append('<option value="' + index + '"> <#if showListIcon><span class="' + prefix + ' fa-'+ index + ' mr-1" ' + selected + ' ></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
+			$('#${id}').append('<option value="' + index + '"' + selected + '> <#if showListIcon><span class="' + prefix + ' fa-'+ index + ' mr-1" ' + selected + ' ></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
 			i++;
 		}
 	<#else>
