@@ -305,7 +305,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         role.setDescription( strRoleDescription );
         RBACRoleHome.create( role );
 
-        if( getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT) && strCanBeAssignedToUserFront!=null && !RoleHome.findExistRole(role.getKey()))
+        if( getUser() != null &&  getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT) && strCanBeAssignedToUserFront!=null && !RoleHome.findExistRole(role.getKey()))
         {
         	 Role roleFront = new Role( );
         	 roleFront.setRole( strRoleKey );
@@ -351,7 +351,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             RBACRole role = RBACRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
             role.setDescription( strRoleDescription );
-            if( getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT) && strCanBeAssignedToUserFront!=null && !RoleHome.findExistRole(role.getKey()))
+            if( getUser() != null && getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT) && strCanBeAssignedToUserFront!=null && !RoleHome.findExistRole(role.getKey()))
             {
             	 Role roleFront = new Role( );
             	 roleFront.setRole( role.getKey() );
