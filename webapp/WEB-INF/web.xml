@@ -4,6 +4,10 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd"
     version="3.1">
 
+    <context-param>
+        <param-name>log4jConfiguration</param-name>
+        <param-value>/WEB-INF/conf/log.properties</param-value>
+    </context-param>
     <listener>
         <display-name>Lutece context listener</display-name>
         <listener-class>fr.paris.lutece.portal.service.init.AppInitListener</listener-class>

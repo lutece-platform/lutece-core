@@ -45,7 +45,8 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.util.ReferenceList;
@@ -106,7 +107,7 @@ public final class PoolManager
      */
     private void init( InputStream is ) throws LuteceInitException
     {
-        _logger = Logger.getLogger( LOGGER_NAME );
+        _logger = LogManager.getLogger( LOGGER_NAME );
 
         Properties dbProps = new Properties( );
 

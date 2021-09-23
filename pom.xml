@@ -36,6 +36,7 @@
     </repositories>
 
     <dependencies>
+ 
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
@@ -114,18 +115,29 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>
-        </dependency>
+            <version>1.7.21</version>           
+        </dependency>        
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.21</version>
-        </dependency>
+        	<groupId>org.apache.logging.log4j</groupId>
+        	<artifactId>log4j-api</artifactId>
+        	<version>2.14.1</version>
+    	</dependency>   	       	      
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
+		    <version>2.14.1</version>
         </dependency>
+         <dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.14.1</version>
+        </dependency>
+        <!-- To avoid problems the Log4j shutdown hook will automatically be disabled when the log4j-web jar is included. -->
+        <dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-web</artifactId>
+		    <version>2.14.1</version>
+		</dependency>
         <!--
           commons-logging is a transitive dependency of many libraries with different versions.
           Specify the latest version here to not depend on the order of declaration.

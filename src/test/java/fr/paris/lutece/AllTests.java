@@ -33,17 +33,19 @@
  */
 package fr.paris.lutece;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.apache.log4j.Logger;
 
 /**
  * This Class is the main Test Suite class to launch all the unit tests of Lutece
  */
 public final class AllTests
 {
-    private static Logger _logger = Logger.getLogger( AllTests.class );
+    private static Logger _logger = LogManager.getLogger( AllTests.class );
 
     /**
      * Constructor

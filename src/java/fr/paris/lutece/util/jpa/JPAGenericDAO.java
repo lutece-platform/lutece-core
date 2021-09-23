@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.util.jpa;
 
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
@@ -59,7 +59,7 @@ import javax.persistence.Query;
  */
 public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
 {
-    private static final Logger LOG = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    private static final Logger LOG = LogManager.getLogger( JPAConstants.JPA_LOGGER );
     private Class<E> _entityClass;
     private EntityManager _defaultEM;
 

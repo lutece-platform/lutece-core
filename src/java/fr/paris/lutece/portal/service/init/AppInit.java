@@ -129,8 +129,6 @@ public final class AppInit
             long lStart = System.currentTimeMillis( );
 
             Thread.currentThread( ).setName( "Lutece-MainThread" );
-            // Initializes a very basic logging system (everything to stdout)
-            AppLogService.preinit( );
             // Initializes the properties download files containing the variables used by
             // the application
             AppPropertiesService.init( strConfPath );
@@ -147,9 +145,7 @@ public final class AppInit
                 // variables used by the application
                 initProperties( strRealPath );
             }
-
-            // Initializes the log service from the property files
-            AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
+            
             AppLogService.info( AppInfo.LUTECE_BANNER_VERSION + "  Starting  version " + AppInfo.getVersion( ) + "...\n" );
 
             // BeanUtil initialization, considering Lutèce availables locales and date

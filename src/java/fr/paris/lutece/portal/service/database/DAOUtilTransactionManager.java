@@ -39,9 +39,8 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.util.sql.TransactionManager;
 
 import org.apache.commons.lang.StringUtils;
-
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import java.io.PrintWriter;
@@ -60,7 +59,7 @@ import javax.sql.DataSource;
 public class DAOUtilTransactionManager extends DataSourceTransactionManager implements PluginEventListener
 {
     private static final long serialVersionUID = -654531540978261621L;
-    private transient Logger _logger = Logger.getLogger( "lutece.debug.sql.tx" );
+    private transient Logger _logger = LogManager.getLogger( "lutece.debug.sql.tx" );
     private String _strPluginName;
     private boolean _bInit;
 
@@ -139,7 +138,7 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
     {
         if ( _logger == null )
         {
-            _logger = Logger.getLogger( "lutece.debug.sql.tx" );
+            _logger = LogManager.getLogger( "lutece.debug.sql.tx" );
         }
         return _logger;
     }

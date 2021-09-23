@@ -38,8 +38,6 @@ import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-import org.apache.log4j.Logger;
-
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +48,9 @@ import javax.mail.SendFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * MailSender Daemon
@@ -77,8 +78,7 @@ public class MailSenderDaemon extends Daemon
     @Override
     public synchronized void run( )
     {
-        Logger logger = Logger.getLogger( "lutece.mail" );
-        logger.setAdditivity( false );
+        Logger logger = LogManager.getLogger( "lutece.mail" );
 
         String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
         String strUsername = AppPropertiesService.getProperty( PROPERTY_MAIL_USERNAME, null );

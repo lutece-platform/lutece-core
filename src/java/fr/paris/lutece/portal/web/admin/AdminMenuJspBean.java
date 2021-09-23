@@ -45,7 +45,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
@@ -139,7 +140,7 @@ public class AdminMenuJspBean implements Serializable
     private static boolean _bResetAdminStylesheets;
     private static String _strJavascripts;
     private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
-    private static Logger _loggerAccess = Logger.getLogger( LOGGER_ACCESS );
+    private static Logger _loggerAccess = LogManager.getLogger( LOGGER_ACCESS );
 
     /**
      * Returns the Administration header menu

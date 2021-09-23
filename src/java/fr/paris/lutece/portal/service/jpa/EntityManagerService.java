@@ -35,18 +35,19 @@ package fr.paris.lutece.portal.service.jpa;
 
 import fr.paris.lutece.util.jpa.JPAConstants;
 
-import org.apache.log4j.Logger;
-
 import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Class EntityManagerService
  */
 public class EntityManagerService
 {
-    private static Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    private static Logger _log = LogManager.getLogger( JPAConstants.JPA_LOGGER );
     private static Map<String, EntityManagerFactory> _mapFactories;
 
     /**

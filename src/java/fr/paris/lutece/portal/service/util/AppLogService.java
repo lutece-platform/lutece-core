@@ -33,15 +33,8 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import fr.paris.lutece.util.stream.StreamUtil;
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-
-import java.io.File;
-import java.io.InputStream;
-
-import java.util.Properties;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class provides writing services in the application logs files
@@ -52,93 +45,16 @@ public final class AppLogService
     private static final String LOGGER_EVENTS = "lutece.event";
     private static final String LOGGER_DEBUG = "lutece.debug";
     private static final String LOGGER_ERRORS = "lutece.error";
-    private static final String SYSTEM_PROPERTY_LOG4J_CONFIGURATION = "log4j.configuration";
-
-    /** alternate log4j property file */
-    private static final String ALTERNATE_LOG_OVERRIDE_PATH = "override";
-    private static final String ALTERNATE_LOG_FILE = "log.properties";
-    private static Logger _loggerEvents = Logger.getLogger( LOGGER_EVENTS );
-    private static Logger _loggerErrors = Logger.getLogger( LOGGER_ERRORS );
-    private static Logger _loggerDebug = Logger.getLogger( LOGGER_DEBUG );
+    private static Logger _loggerEvents = LogManager.getLogger( LOGGER_EVENTS );
+    private static Logger _loggerErrors = LogManager.getLogger( LOGGER_ERRORS );
+    private static Logger _loggerDebug = LogManager.getLogger( LOGGER_DEBUG );
 
     /**
      * Creates a new AppLogService object.
      */
     private AppLogService( )
     {
-    }
-
-    /**
-     * Initializes a very basic logging system (everything to stdout)
-     */
-    public static void preinit( )
-    {
-        BasicConfigurator.configure( );
-        info( "Lutece logs pre-initialized: sending all logs to stdout." );
-    }
-
-    /**
-     * initializes the errors log file and the application log file
-     * 
-     * @param strConfigPath
-     *            The strConfigPath
-     * @param strConfigFile
-     *            The strConfigFile
-     */
-    public static void init( String strConfigPath, String strConfigFile )
-    {
-        BasicConfigurator.resetConfiguration( );
-        // Initialize the logger and configures it with the values of the properties file : config.properties
-        InputStream is = null;
-        try
-        {
-            String strAbsoluteConfigDirectoryPath = AppPathService.getAbsolutePathFromRelativePath( strConfigPath );
-            String strAlternateFilePath = strAbsoluteConfigDirectoryPath + ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ? "" : "/" )
-                    + ALTERNATE_LOG_OVERRIDE_PATH;
-
-            File alternateLogFile = new File( strAlternateFilePath + File.separator + ALTERNATE_LOG_FILE );
-            boolean bAlternateConfigFile = alternateLogFile.exists( );
-            String strLog4jConfigFile;
-
-            if ( bAlternateConfigFile )
-            {
-                // Load loggers configuration from the log.properties
-                is = AppPathService.getResourceAsStream( strConfigPath + ( strConfigPath.endsWith( "/" ) ? "" : "/" ) + ALTERNATE_LOG_OVERRIDE_PATH + "/",
-                        ALTERNATE_LOG_FILE );
-                strLog4jConfigFile = alternateLogFile.getAbsolutePath( );
-            }
-            else
-            {
-                // Load loggers configuration from the config.properties
-                is = AppPathService.getResourceAsStream( strConfigPath, strConfigFile );
-                strLog4jConfigFile = strAbsoluteConfigDirectoryPath + ( ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ) ? "" : "/" ) + strConfigFile;
-            }
-
-            Properties props = new Properties( );
-            props.load( is );
-            PropertyConfigurator.configure( props );
-            is.close( );
-
-            // Define the config.properties as log4j configuration file for other libraries using
-            // the System property "log4j.configuration"
-            System.setProperty( SYSTEM_PROPERTY_LOG4J_CONFIGURATION, strLog4jConfigFile );
-
-            if ( bAlternateConfigFile )
-            {
-                debug( "Loaded log properties from alternate log.properties file " );
-            }
-        }
-        catch( Exception e )
-        {
-            error( "Bad Configuration of Log4j : " + e );
-        }
-        finally
-        {
-            StreamUtil.safeClose( is );
-        }
-        info( "Lutece logs initialized, using configured property files to define levels and appenders." );
-    }
-
+    } 
     // //////////////////////////////////////////////////////////////////////////
     // Log4j wrappers
 
@@ -175,7 +91,7 @@ public final class AppLogService
      */
     public static boolean isDebugEnabled( String strLogger )
     {
-        Logger logger = Logger.getLogger( strLogger );
+        Logger logger = LogManager.getLogger( strLogger );
 
         return logger.isDebugEnabled( );
     }
@@ -190,7 +106,7 @@ public final class AppLogService
      */
     public static void debug( String strLogger, Object objToLog )
     {
-        Logger logger = Logger.getLogger( strLogger );
+        Logger logger = LogManager.getLogger( strLogger );
 
         if ( logger.isDebugEnabled( ) )
         {

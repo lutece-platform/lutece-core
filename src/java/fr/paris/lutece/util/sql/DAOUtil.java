@@ -40,8 +40,8 @@ import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.NoDatabaseException;
 
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -221,7 +221,7 @@ public class DAOUtil implements AutoCloseable
 
         // Use the logger name "lutece.debug.sql.<plugin_name>" to filter logs by
         // plugins
-        _logger = Logger.getLogger( LOGGER_DEBUG_SQL + _strPluginName );
+        _logger = LogManager.getLogger( LOGGER_DEBUG_SQL + _strPluginName );
 
         if ( _logger.isDebugEnabled( ) )
         {

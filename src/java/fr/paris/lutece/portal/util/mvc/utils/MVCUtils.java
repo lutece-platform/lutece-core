@@ -36,14 +36,15 @@ package fr.paris.lutece.portal.util.mvc.utils;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 
-import org.apache.log4j.Logger;
-
 import java.lang.reflect.Method;
 
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Utils for MVC components
@@ -55,7 +56,7 @@ public final class MVCUtils
     public static final String PARAMETER_PAGE = "page";
     private static final String PREFIX_VIEW = "view_";
     private static final String PREFIX_ACTION = "action_";
-    private static Logger _logger = Logger.getLogger( "lutece.mvc" );
+    private static Logger _logger = LogManager.getLogger( "lutece.mvc" );
 
     /**
      * Private constructor

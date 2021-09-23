@@ -33,13 +33,14 @@
  */
 package fr.paris.lutece.util.pool.service;
 
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import org.apache.logging.log4j.Logger;
 
 /**
  * Database Connection Service Interface

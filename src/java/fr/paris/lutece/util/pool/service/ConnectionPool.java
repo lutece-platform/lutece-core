@@ -36,7 +36,7 @@ package fr.paris.lutece.util.pool.service;
 import fr.paris.lutece.portal.service.util.AppException;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.io.PrintWriter;
 
@@ -313,9 +313,7 @@ public class ConnectionPool implements DataSource
 
         // wrap connection so this connection pool is used when conn.close() is called
         conn = LuteceConnectionFactory.newInstance( this, conn );
-
-        _logger.info( "New connection created. Connections count is : " + ( getConnectionCount( ) + 1 ) );
-
+        _logger.info( "New connection created. Connections count is : " + ( getConnectionCount( ) + 1 ) );      
         return conn;
     }
 

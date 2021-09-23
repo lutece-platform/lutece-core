@@ -49,7 +49,7 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.springframework.util.ReflectionUtils;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
