@@ -144,7 +144,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.10.3</version>
+            <version>1.14.2</version>
         </dependency>
         <dependency>
             <groupId>com.sun.mail</groupId>
@@ -323,7 +323,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workflow-core</artifactId>
-            <version>1.2.6</version>
+            <version>1.2.7</version>
             <type>jar</type>
         </dependency>
         <dependency>
