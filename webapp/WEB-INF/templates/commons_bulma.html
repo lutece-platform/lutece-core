@@ -2419,7 +2419,12 @@ new SlimSelect({
 <#macro deprecatedWarning args=[] >
  <#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>
 </#macro>
-<#-- getRegional
- # This macro should not be called directly
- #
--->
+<#macro adminDashboardPanel title='' parentId='' childId='' icon='' color=''>
+<#assign parentId = parentId />
+<@accordionPanel color=color collapsed=true childId=childId>
+<@accordionHeader id=id title=title headerIcon=icon></@accordionHeader>
+<@accordionBody>
+<#nested>
+</@accordionBody>    
+</@accordionPanel>
+</#macro>
