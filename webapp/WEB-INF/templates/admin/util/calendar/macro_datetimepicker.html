@@ -95,7 +95,7 @@ $(function() {
 
 
 <#-- The server format must be hh:mm -->
-<#macro getTimeFlatPickerScript idField language='' format='H:i' showFormat='' >
+<#macro getTimeFlatPickerScript idField language='' format='' showFormat='' >
 {
   let lang = '${language}';
   let format = '${format}';
@@ -120,6 +120,10 @@ $(function() {
         break;
       }
     }
+  }
+
+  if (format === '') {
+    format = 'H:i';
   }
 
   let locale = '';
@@ -230,29 +234,161 @@ $(function() {
 </script>
 </#macro>
 
+<#macro getDateRangeFlatPickerScript idField language='' format='' showFormat='' minDate='' maxDate=''>
+{
+  let lang = '${language}';
+  let format = '${format}';
+  let show_format = '${showFormat}';
 
-<#macro getDateRangeFlatPicker idField language idEndField='' format='d/m/Y'  showFormat='d-m-Y'>
+  if (lang === '') {
+    lang = moment.locale();
+  }
+
+  if (format === '') {
+    switch (lang) {
+      case 'en': {
+        format = 'm/d/Y';
+        break;
+      }
+      case 'fr': {
+        format = 'd/m/Y';
+        break;
+      }
+      default: {
+        format = 'd/m/Y';
+        break;
+      }
+    }
+  }
+
+  if (show_format === '') {
+    switch (lang) {
+      case 'en': {
+        show_format = 'n/j/Y';
+        break;
+      }
+      case 'fr': {
+        show_format = 'd/m/Y';
+        break;
+      }
+      default: {
+        show_format = 'd/m/Y';
+        break;
+      }
+    }
+  }
+
+  let locale = '';
+
+  switch (lang) {
+    case 'en': {
+      locale = 'en';
+      break;
+    }
+    case 'fr': {
+      locale = fr;
+      break;
+    }
+    default: {
+      locale = 'en';
+      break;
+     }
+  }
+
+  $('#${idField}').flatpickr({"plugins": [new rangePlugin({ input: "#${idEndField}"})], {allowInput: true, enableTime: false, dateFormat: format, altInput: true, altFormat: show_format, 
+    <#if minDate?has_content>
+      minDate: '${minDate}',
+    </#if>
+    <#if maxServerDate?has_content>
+      maxDate: '${maxDate}',
+    </#if>
+    locale: locale});
+}
+</#macro>
+
+<#macro getDateRangeFlatPicker idField language='' format='' showFormat='' minDate='' maxDate=''>
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
+<#if language==''>
+  <script src="js/admin/locales/bootstrap-flatpickr.fr.js" charset="utf-8"></script>
+<#elseif language!='en'>
+  <script src="js/admin/locales/bootstrap-flatpickr.${language}.js" charset="utf-8"></script>
+</#if>
 <script charset="utf-8">
-$(  function() {
-	$('#${idField}').flatpickr({"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: false, <#if showFormat !=''>altInput:true, altFormat:'${showFormat}', </#if>dateFormat: '${format}', "locale": "<@getRegional language=language />", mode: "range"});
-});
+$(function() {  
+  <@getDateRangeFlatPickerScript idField=idField language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate />
+});     
 </script>
 </#macro>
 
-<#macro getDateTimeRangeFlatPicker idField language format='yyyy-MM-dd"T"HH:mm:ss\\Z' showFormat='d-m-Y H:i' >
-<script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
-<script charset="utf-8">
-$(  function() {
-	$('#${idField}').flatpickr({enableTime: true, <#if showFormat !=''>altInput:true, altFormat:'${showFormat}', </#if>dateFormat: '${format}', "locale": "<@getRegional language=language />", mode: "range"});
-});
-</script>
+<#macro getDateTimeRangeFlatPickerScript idField language='' format='' showFormat='' minDate='' maxDate=''>
+{
+  let lang = '${language}';
+  let format = '${format}';
+  let show_format = '${showFormat}';
+
+  if (lang === '') {
+    lang = moment.locale();
+  }
+
+  if (show_format === '') {
+    switch (lang) {
+      case 'en': {
+        show_format = 'n/j/Y h:i K';
+        break;
+      }
+      case 'fr': {
+        show_format = 'd/m/Y H:i';
+        break;
+      }
+      default: {
+        show_format = 'd/m/Y H:i';
+        break;
+      }
+    }
+  }
+
+  if (format === '') {
+    format = 'Y-m-d H:i:S';
+  }
+
+  let locale = '';
+
+  switch (lang) {
+    case 'en': {
+      locale = 'en';
+      break;
+    }
+    case 'fr': {
+      locale = fr;
+      break;
+    }
+    default: {
+      locale = 'en';
+      break;
+     }
+  }
+
+  $('#${idField}').flatpickr({allowInput: true, enableTime: true, dateFormat: format, altInput: true, altFormat: show_format, mode: 'range',
+    <#if minDate?has_content>
+      minDate: '${minDate}',
+    </#if>
+    <#if maxServerDate?has_content>
+      maxDate: '${maxDate}',
+    </#if>
+    locale: locale});
+}
 </#macro>
 
-<#-- getRegional
- # This macro should not be called directly
- #
--->
-<#macro getRegional language><#if !('${language}'=='en')>${language}</#if></#macro>
+<#macro getDateTimeRangeFlatPicker idField language='' format='' showFormat='' minDate='' maxDate=''>
+<script src="js/admin/bootstrap-flatpickr.min.js"></script>
+<#if language==''>
+  <script src="js/admin/locales/bootstrap-flatpickr.fr.js" charset="utf-8"></script>
+<#elseif language!='en'>
+  <script src="js/admin/locales/bootstrap-flatpickr.${language}.js" charset="utf-8"></script>
+</#if>
+<script charset="utf-8">
+$(function() {  
+  <@getDateTimeRangeFlatPickerScript idField=idField language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate />
+});     
+</script>
+</#macro>
