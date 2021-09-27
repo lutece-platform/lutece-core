@@ -36,6 +36,7 @@
 <script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script>
 <script src="js/admin/app.min.js"></script> <!-- provided by core -->
 <script src="js/admin/admin.js"></script> <!-- provided by core -->
+<script src="js/util/progress-manager.js"></script> <!-- provided by core -->
 </#macro>
 <#global gClassActive='active' />
 <#macro sort jsp_url attribute id="" >
@@ -286,8 +287,8 @@
     </#if>
 </#macro>
 <#---------------------------NEW MACROS------------------------------>
-<#-- TABLE -->
-<#-- class:  -->
+<#-- TABLE 		-->
+<#-- class:  	-->
 <#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false headBody=false collapsed=false caption='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local class = class />
@@ -306,30 +307,30 @@
 <#if responsive></div></#if>
 </#macro>
 <#macro tableHead id='' class='' params=''>
-<thead<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<thead<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </thead>
 </#macro>
 <#macro tableBody id='' class='' params=''>
-<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tbody<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </tbody>
 </#macro>
 <#macro tableFoot id='' class='' params=''>
-<tfoo <#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tfoot <#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </tfoot>
 </#macro>
 <#macro tableHeadBodySeparator id='' class='' params=''>
 </thead>
-<tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+<tbody<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 </#macro>
 <#-- MACRO TR -->
 <#macro tr id='' class='' hide=[] params=''>
-	<#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align) />
-	<tr<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</tr>
+<#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align) />
+<tr<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</tr>
 </#macro>
 <#-- MACRO TH -->
 <#-- valign: baseline|top|middle|bottom|bottom|text-top -->
@@ -341,7 +342,7 @@
 		<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
 	</#if>
 </#list>
-<th class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+<th<#if class?trim != ''> class="${class?trim}"</#if><#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </th>
 </#macro>
@@ -352,7 +353,7 @@
 <#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align,'text') />
 <#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
 <#local class += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />
-<td class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
+<td<#if class?trim != ''> class="${class?trim}"</#if><#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if colspan gt 0> colspan="${colspan}"</#if><#if rowspan gt 0> rowspan="${rowspan}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </td>
 </#macro>
@@ -479,7 +480,7 @@
 <@deprecatedWarning args=deprecated />	
 <#local displayLabelClass = displaySettings(hideLabel,'') />
 <#if collapsed><#local class += ' collapse' /></#if>
-<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class?trim!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
 			<#local labelClass += ' col-xs-12 col-sm-3 control-label'>
@@ -494,7 +495,7 @@
 		<#local divClass = 'col-xs-12'>
 	</#if>
 	<#if labelKey!=''>
-	<label class="${labelClass?trim}" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
+	<label class="${labelClass?trim}<#if hideLabel?seq_contains('all')> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
 		<span<#if displayLabelClass!=''> class="${displayLabelClass}"</#if>>${labelKey}</span>
 		<#if mandatory=false>
 			&#160;
@@ -609,9 +610,9 @@
 <#-- INPUT-GROUP -->
 <#-- size: sm/lg/no size-->
 <#macro inputGroup size='' class='' id='' params=''>
-	<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</div>
+<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</div>
 </#macro>
 <#macro inputGroupItem pos='' type='btn' id='' params=''>
 <#-- type: btn/text. default is btn-->
@@ -619,7 +620,7 @@
 	<#local type = 'addon' />
 </#if>
 <span class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
+<#nested>
 </span>
 </#macro>
 <#-- DROPDOWN MENU -->
@@ -769,9 +770,9 @@
 </#macro>
 <#-- Tab Panel BS3 -->
 <#macro tabPanel id params='' active=false>
-		<div class="tab-pane fade<#if active> in active</#if>" role="tabpanel" id="${id}"<#if params!=''> ${params}</#if>>
-			<#nested>
-		</div>
+<div class="tab-pane mt-2 fade<#if active> in active</#if>" role="tabpanel" id="${id}"<#if params!=''> ${params}</#if>>
+<#nested>
+</div>
 </#macro>
 <#-- ACCORDION --> 
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
@@ -836,13 +837,25 @@
 	<span class="progress-description">${description}</span>
 </#if>
 </#macro>
-<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text='' >
+
+<#-- Progress macro
+    token : the progress manager Feed Token
+    interval : refresh period in milli seconds (if the feed token is provided) 
+    showReport : display the messages report (if the feed token is provided) -->
+<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 >
+<#if label!='' >
+<div id="${progressId}-label" >${label}</div>
+</#if>
 <div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<div id="progressbar" class="progress-bar progress-bar-${color}" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}">
+	<div id="${progressId}" class="progress-bar progress-bar-${color}<#if token!=''> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
         <#if text=''>${value}%<#else>${text}</#if>
-	</div>
+	</div>       
 </div>
+<#if showReport >
+<div id="${progressId}-report" class="progress-bar-report" lastline=0></div>
+</#if>
 </#macro>
+
 <#-- INFO-BOX AdminTLE (widget) -->
 <#-- color: only for the left side showing the icon. -->
 <#-- bgColor: for the right side containing the text -->
@@ -1096,8 +1109,9 @@
 </div>
 </#macro>
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h2'>
-<div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' class='' params='' boxTools=false titleLevel='h2' deprecated...>
+<@deprecatedWarning args=deprecated />	
+<div class="box-header with-border<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
@@ -1199,9 +1213,9 @@
 	<#nested>
 </ul>
 </#macro>
-<#macro dropdownItem class='' href='' title='' id='' params=''>
+<#macro dropdownItem class='' href='' title='' target='' id='' params=''>
 <li>
-	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
+	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if target!=''> target="${target}"</#if>>${title}</a>
 </li>
 </#macro>
 <#-- NAVBAR -->
@@ -1570,23 +1584,23 @@ enableBSToppltip: false
 		<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='sm' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all'] />
 	</@btnGroup>
 	</#if>
-	<@btnGroup hide=['xs'] align='right'>
-	<@tform type='inline' action='jsp/admin/site/AdminSite.jsp' role='search'>
-		<@formGroup formStyle='inline' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' hideLabel=['all']>
-			<@inputGroup>
-				<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' size='sm' />
-				<@inputGroupItem type='btn' pos='append'>
-					<@button type='submit' color='default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' size='sm' />
-				</@inputGroupItem>
-			</@inputGroup>
-		</@formGroup>
-	</@tform>
+	<@btnGroup hide=['xs']>
+		<@tform type='inline' action='jsp/admin/site/AdminSite.jsp' role='search'>
+			<@formGroup labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' hideLabel=['all']>
+				<@inputGroup>
+					<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' size='sm' />
+					<@inputGroupItem>
+						<@button type='submit' color='default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' size='sm' />
+					</@inputGroupItem>
+				</@inputGroup>
+			</@formGroup>
+		</@tform>
 	</@btnGroup>
 	<@btnGroup>
 		<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>
 		<#if portlet_types_list?has_content>
 			<#list portlet_types_list?sort_by("name") as portlet_type>
-				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>
+				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}'>
 					${portlet_type.name}
 				</@dropdownItem>
 			</#list>
@@ -1958,7 +1972,7 @@ $.each( parsedIcons, function(index, icon){
 					prefix = 'fab'
 					break;
 			}
-			$('#${id}').append('<option value="' + index + '"> <#if showListIcon><span class="' + prefix + ' fa-'+ index + ' mr-1" ' + selected + ' ></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
+			$('#${id}').append('<option value="' + index + '"' + selected + '> <#if showListIcon><span class="' + prefix + ' fa-'+ index + ' mr-1" ' + selected + ' ></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
 			i++;
 		}
 	<#else>
@@ -1980,4 +1994,13 @@ new SlimSelect({
 <#-- Display wrong or deprecated macro arguments -->
 <#macro deprecatedWarning args=[] >
  <#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>
+</#macro>
+<#macro adminDashboardPanel title='' parentId='' childId='' icon='' color=''>
+<#assign parentId = parentId />
+<@accordionPanel color=color collapsed=true childId=childId>
+<@accordionHeader id=id title=title headerIcon=icon></@accordionHeader>
+<@accordionBody>
+<#nested>
+</@accordionBody>    
+</@accordionPanel>
 </#macro>

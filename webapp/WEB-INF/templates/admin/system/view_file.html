@@ -2,12 +2,21 @@
 	<@columns>
 		<@box color='danger'>
 			<#assign path>
-				<@aButton href='jsp/admin/system/ManageFilesSytemDir.jsp?dir=${files_system_directory}'  title='${files_system_directory}' />
+			<@breadcrumbs>
+				<@breadcrumbItem>
+					<@link href='jsp/admin/system/ManageFilesSystem.jsp'><@icon style='home'/></@link>
+				</@breadcrumbItem>
+				<@breadcrumbItem>
+					<@link href='jsp/admin/system/ManageFilesSytemDir.jsp?dir=${files_system_directory}'>${files_system_directory?remove_beginning('/')?remove_ending('/')}</@link>
+				</@breadcrumbItem>
+				<@breadcrumbItem class='active'>
+					${file_system_name?replace('${files_system_directory}','')}
+				</@breadcrumbItem>
+			</@breadcrumbs>
 			</#assign>
-      <@boxHeader title='#i18n{portal.system.view_file.boxTitle} ${path}' />
+			<@boxHeader title=path skipHeader=true />
 			<@boxBody>
-				<p><strong>#i18n{portal.system.view_file.labelFile} </strong>&nbsp;&nbsp;${file_system_name}</p>
-				<pre>${file_system_data?html}</pre>
+				<@pre>${file_system_data?html}</@pre>
 			</@boxBody>
 		</@box>
 	</@columns>

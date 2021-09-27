@@ -1,32 +1,32 @@
+<#assign title>
+<@breadcrumbs class='breadcrumb-arrows has-arrow-separator'>
+<#if page.id=1>
+	<@breadcrumbItem>
+	${page.name} [${page.id}] 
+	</@breadcrumbItem>
+<#else>
+	<@breadcrumbItem>
+		<@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'>
+			#i18n{portal.site.page_home.label}
+		</@link>
+	</@breadcrumbItem>
+	<#if page.parentPageId gt 1>
+		<@breadcrumbItem>
+			<@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' title='${page.name}'>
+			... [${page.parentPageId}]
+			</@link>
+		</@breadcrumbItem>
+	</#if>
+	<@breadcrumbItem class='active'>
+		${page.name} [${page.id}] 
+	</@breadcrumbItem>
+</#if>
+</@breadcrumbs>
+</#assign>
 <@row>
   	<@columns>
     	<@box>
-			<#assign title>
-			<@breadcrumbs class='breadcrumb-arrows'>
-				<#if page.id=1>
-					<@breadcrumbItem>
-					${page.name} [${page.id}] 
-					</@breadcrumbItem>
-				<#else>
-					<@breadcrumbItem>
-						<@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'>
-							#i18n{portal.site.page_home.label}
-						</@link>
-					</@breadcrumbItem>
-					<#if page.parentPageId gt 1>
-						<@breadcrumbItem>
-							<@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' title='${page.name}'>
-							... [${page.parentPageId}]
-							</@link>
-						</@breadcrumbItem>
-					</#if>
-					<@breadcrumbItem class='active'>
-						${page.name} [${page.id}] 
-					</@breadcrumbItem>
-				</#if>
-			</@breadcrumbs>
-			</#assign>
-			<@boxHeader title=title boxTools=true>
+			<@boxHeader title=title boxTools=true skipHeader=true>
 				<@adminSiteToolbar />
 			</@boxHeader>
 		</@box>

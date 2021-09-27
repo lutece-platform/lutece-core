@@ -46,13 +46,6 @@ $( function(){
 		.addClass("filestyle")
 		.filestyle({buttonText: "&nbsp;Parcourir"});
 
-	$(".portlet-type").on('click', function(e) {
-		// Stop the link default behaviour.
-		e.preventDefault();
-		// Set the iframe src with the clicked link href.
-		$('#preview').attr('src', $(this).children().attr('href') );
-	});
-
 	// Admin responsive preview
 	function _fix() {
 		var h = $(window).height();
@@ -134,4 +127,27 @@ function prettySize( bytes, separator=' ', postFix=''){
 		return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
 	}
 	return 'n/a';
+}
+
+
+/* Tab management for advanced user parameters */
+function manageTab( hc ){
+	if( hc != undefined ){
+		$(hc).parents('.collapse').addClass('in');
+		$('.nav li').removeClass('active');
+		var k='a[href="' + hc + '"]';
+		$(k).parent().addClass('active');
+		$('.tab-pane').removeClass('active').removeClass('in');
+		$(hc).addClass('active in');
+		$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
+	}
+}
+
+
+/* Manage progress bar  */
+function progress( bar, complexity, valid ){
+	bar.toggleClass('progress-bar-success', valid);
+	bar.toggleClass('progress-bar-danger', !valid);
+	bar.css({'width': complexity + '%'});
+	bar.html( Math.round( complexity ) + '%');
 }

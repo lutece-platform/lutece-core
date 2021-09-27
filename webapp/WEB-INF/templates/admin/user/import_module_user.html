@@ -30,30 +30,28 @@
 			<#assign boxtitle>#i18n{portal.users.import_module_user.resultBoxTitle}</#assign>
 			<@boxHeader title=boxtitle />
 			<@boxBody>
-				<@table class='no-padding'>
-					<thead>
-						<tr>
-							<th>#i18n{portal.users.import_module_user.resultColumnTitleLastName}</th>
-							<th>#i18n{portal.users.import_module_user.resultColumnTitleFirstName}</th>
-							<th>#i18n{portal.users.import_module_user.resultColumnTitleEmail}</th>
-							<th>#i18n{portal.users.import_module_user.resultColumnTitleActions}</th>
-							<th>
-						</tr>
-					</thead>
-					<tbody>
-					<#list import_user_list as user >
-						<tr>
-							<td>${user.lastName!}</td>
-							<td>${user.firstName!}</td>
-							<td>${user.email!}</td>
-							<td>
-								<@tform type='inline' name='importUsers' id='importUsers' action='jsp/admin/user/DoSelectImportUser.jsp' >
-									<@input type='hidden' name='access_code' value='${user.accessCode!}' />
-									<@button type='submit' title='#i18n{portal.users.import_module_user.resultButtonLabelImportUser}' buttonIcon='file-import' />
-								</@tform>
-							</td>
-						</tr>
-					</#list>
+				<@table headBody=true>
+				<@tr>
+					<@th>#i18n{portal.users.import_module_user.resultColumnTitleLastName}</@th>
+					<@th>#i18n{portal.users.import_module_user.resultColumnTitleFirstName}</@th>
+					<@th>#i18n{portal.users.import_module_user.resultColumnTitleEmail}</@th>
+					<@th>#i18n{portal.users.import_module_user.resultColumnTitleActions}</@th>
+					<@th>
+				</@tr>
+				<@tableHeadBodySeparator />
+				<#list import_user_list as user >
+				<@tr>
+					<@td>${user.lastName!}</@td>
+					<@td>${user.firstName!}</@td>
+					<@td>${user.email!}</@td>
+					<@td>
+						<@tform name='importUsers' id='importUsers' action='jsp/admin/user/DoSelectImportUser.jsp' >
+							<@input type='hidden' name='access_code' value='${user.accessCode!}' />
+							<@button type='submit' title='#i18n{portal.users.import_module_user.resultButtonLabelImportUser}' buttonIcon='file-import' color='primary' />
+						</@tform>
+					</@td>
+				</@tr>
+				</#list>
 				</@table>
 			</@boxBody>
 		</@box>

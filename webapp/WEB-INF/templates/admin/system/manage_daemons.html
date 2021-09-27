@@ -3,7 +3,7 @@
 		<@box>
 			<@boxHeader title='#i18n{portal.system.manage_daemons.titleCacheList}' />
 			<@boxBody>
-				<@table>
+				<@table headBody=true>
 				  <@tr>
 					<@th></@th>
 					<@th>#i18n{portal.system.manage_daemons.columnTitleId}</@th>
@@ -12,6 +12,7 @@
 					<@th>#i18n{portal.system.manage_daemons.columnTitleLastRun}</@th>
 					<@th>#i18n{portal.system.manage_daemons.columnTitleActions}</@th>
 				  </@tr>
+				  <@tableHeadBodySeparator />
 				  <#list daemons_list as daemon>
 					<@tr>
 						<@td>
@@ -45,11 +46,11 @@
 							  <@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='inline'>
 								  <@input type='hidden' name='daemon' value='${daemon.id}' />
 								  <@input type='hidden' name='token' value='${token}' />
-								  <@formGroup labelFor='interval' hideLabel=['all'] labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' rows=2 formStyle='inline'>
-								  <@inputGroup>
-									<@input type='text' name='interval' id='interval' value='${daemon.interval}' size='sm' />
+								  <@formGroup labelFor='interval' hideLabel=['all'] labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' rows=2 formStyle='inline' class='has-addons'>
+								  <@inputGroup class=''>
+									<@input type='text' name='interval' id='interval' value='${daemon.interval}' size='sm' params='addons'/>
 									<@inputGroupItem>
-										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateInterval}' name='action' value='UPDATE_INTERVAL' buttonIcon='check' hideTitle=['all'] size='sm' />
+										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateInterval}' name='action' value='UPDATE_INTERVAL' buttonIcon='check' color='link' hideTitle=['all'] size='sm' />
 									</@inputGroupItem>
 								  </@inputGroup>
 								  </@formGroup>
@@ -58,22 +59,20 @@
 						</@td>
 						<@td>
 						  <@box collapsed=true>
-							<#assign title>
-								<small>
-									<span rel="popover" data-original-title="${daemon.pluginName}" data-content="${daemon.lastRunLogs?html}">
-										${daemon.lastRunDate} - Logs ${daemon.id} - ${daemon.pluginName}...
-									</span>
-								</small>
-							</#assign>
+							<#assign title='[${daemon.lastRunDate}] ${daemon.id}...' />
+							<#assign boxTools=false>
 							<#if daemon.lastRunLogs?has_content>
 								<#assign boxTools=true>
-							<#else>
-								<#assign boxTools=false>
 							</#if>
-							<@boxHeader title=title titleLevel='p' boxTools=boxTools>
-								<#if daemon.lastRunLogs?has_content>
-									<@button style='card-control collapse' buttonIcon='plus' size='sm' buttonTargetId='#daemon_${daemon?index}_logs' />
-								</#if>
+							<@boxHeader title=title  titleLevel='p' boxTools=true>
+							<#if daemon.lastRunLogs?has_content>
+							<div class="d-flex justify-content-between align-items-lg-start is-flex is-align-items-center ">
+								<small class="has-tooltip-left has-tooltip-arrow has-tooltipl-multiline" data-toggle="popover" data-bs-trigger="hover" title="${daemon.pluginName}" data-bs-html="true" data-content="${daemon.lastRunLogs}" data-bs-content="${daemon.lastRunLogs}" data-tooltip="${daemon.lastRunLogs}">
+									<#if daemon.lastRunLogs?length gt 40>${daemon.lastRunLogs?truncate(40)}<#else>${daemon.lastRunLogs}</#if>
+								</small>							
+								<@button style='card-control collapse card-header-icon' buttonIcon='plus' size='sm' buttonTargetId='#daemon_${daemon?index}_logs' />
+							</div>
+							</#if>
 							</@boxHeader>
 							<#if daemon.lastRunLogs?has_content>
 							<@boxBody id='daemon_${daemon?index}_logs'>
@@ -83,7 +82,7 @@
 							</@box>
 						</@td>
 						<@td>
-							<@tform method="post" action="jsp/admin/system/DoDaemonAction.jsp" type='inline'>
+							<@tform method="post" action="jsp/admin/system/DoDaemonAction.jsp" type=''>
 								<@input type='hidden' name='daemon' value='${daemon.id}' />
 								<@input type='hidden' name='token' value='${token}' />
 								<#if daemon.running>
@@ -104,10 +103,13 @@
     </@columns>
 </@row>
 <script>
-  $(document).ready(function() {
-    $("span[rel=popover]").popover({
-      trigger: 'hover',
-      placement: 'left'
-    });
-  });
+$( function() {
+if ($.isFunction($.fn.popover)) {
+	$('[data-toggle="popover"]').popover({
+	 	trigger: 'hover',
+	 	html: true,
+	 	placement: 'left'
+	});
+}
+});
 </script>

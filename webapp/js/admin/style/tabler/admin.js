@@ -15,14 +15,11 @@ function themeMode(mode){
 	}
 }
 
-
 $( function(){
 	var nCounter = "";
 	var luteceTheme=localStorage.getItem('theme-bo-lutece');
-
 	// Set Mode
 	themeMode( luteceTheme );
-
 	$('.box-widget .counter').each( function () {
 		nCounter = $(this).text();
 		var sVal = "";
@@ -80,12 +77,12 @@ $( function(){
 	})
 
 	// Page Header button Management
-	if( $('.page-header-button').length > 0 ){
-		var title=$('.page-header-button .card-title').html();
+	if( $('.skip-header').length > 0 ){
+		var title=$('.skip-header .card-title').html();
 		$('.page-title').html(title);
-		$('.page-header-button .card-title').remove();
-		var headerContent = $('.page-header-button').html();
-		$('.page-header-button').remove();
+		$('.skip-header .card-title').remove();
+		var headerContent = $('.skip-header').html();
+		$('.skip-header').remove();
 		$('#page-header-buttons').prepend(headerContent);
 	}
 
@@ -93,13 +90,6 @@ $( function(){
 	$(":file").not(".noBootstrapFilestyle")
 		.addClass("filestyle")
 		.filestyle({buttonText: "&nbsp;Parcourir"});
-
-	$(".portlet-type").on('click', function(e) {
-		// Stop the link default behaviour.
-		e.preventDefault();
-		// Set the iframe src with the clicked link href.
-		$('#preview').attr('src', $(this).children().attr('href') );
-	});
 
 	// Admin responsive preview
 	function _fix() {
@@ -178,12 +168,19 @@ $( function(){
 		$(this).attr( 'data-bs-toggle', 'modal' );
 		$(this).attr( 'data-bs-target', $(this).attr('data-target') );
 	});
+
+	// Translate data-toggle attr to data-bs-dropdown
+	$('[data-toggle="dropdown"]').each( function() { 
+		$(this).attr( 'data-bs-toggle', 'dropdown' );
+		$(this).attr( 'data-bs-target', $(this).attr('data-target') );
+	});
+
+	// Toggle collapse buttons
 	$('[data-toggle="collapse"]').each( function() { 
 		$(this).attr( 'data-bs-toggle', 'collapse' );
 		$(this).attr( 'data-bs-target', $(this).attr('data-target') );
 	});
 	
-	// Toggle collapse buttons
 	$('[data-toggle="collapse"]').click(function() {
 		if ($(this).find("i").hasClass("fa-minus")){
 		$(this).find("i").addClass("fa-plus").removeClass("fa-minus");
@@ -194,6 +191,7 @@ $( function(){
 	});
 });
 
+/* Pretty print file size */
 function prettySize( bytes, separator=' ', postFix=''){
 if (bytes) {
 	const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To'];
@@ -201,4 +199,25 @@ if (bytes) {
 	return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
 }
 return 'n/a';
+}
+
+/* Manage progress bar  */
+function progress( bar, complexity, valid ){
+bar.toggleClass('progress-bar-success', valid);
+bar.toggleClass('progress-bar-danger', !valid);
+bar.css({'width': complexity + '%'});
+bar.html( Math.round( complexity ) + '%');
+}
+
+/* Tab management for advanced user parameters */
+function manageTab( hc ){
+if( hc != undefined ){
+	$(hc).parents('.collapse').addClass('in');
+	$('.nav li').removeClass('active');
+	var k='a[href="' + hc + '"]';
+	$(k).parent().addClass('active');
+	$('.tab-pane').removeClass('active').removeClass('in');
+	$(hc).addClass('active in');
+	$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
+}
 }

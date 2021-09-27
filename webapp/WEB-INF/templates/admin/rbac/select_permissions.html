@@ -28,7 +28,7 @@
 					</@formGroup>
 					<@formGroup>
 						<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' color='default' />
-						<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' />
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' color='primary'/>
 					</@formGroup>
 				</@tform>
 			</@boxBody>
@@ -36,7 +36,7 @@
 	</@columns>
 </@row>
 <script>
-jQuery( document ).ready(function( $ ) {
+$(function( $ ) {
 	$(":checkbox").click( function(){
 		if( $( ":checked" ).length > 1 ){
 			$("#select_choose").prop("checked", true );

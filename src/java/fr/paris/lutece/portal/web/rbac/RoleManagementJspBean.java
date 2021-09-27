@@ -46,12 +46,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
-import fr.paris.lutece.portal.business.rbac.RBACRole;
-import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
+import fr.paris.lutece.portal.business.role.Role;
+import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -66,9 +68,11 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.role.RoleJspBean;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
@@ -112,6 +116,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_AVAILABLE_USER_LIST = "available_users_list";
     private static final String PARAMETER_ID_USER = "id_user";
     private static final String PARAMETER_ANCHOR = "anchor";
+    private static final String PARAMETER_CAN_BE_ASSIGNED_TO_USER_FRONT = "can_be_assigned_to_user_front";
 
     // markers
     private static final String MARK_PERMISSIONS_LIST = "permissions_list";
@@ -131,6 +136,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_ASSIGNED_USERS_NUMBER = "assigned_users_number";
     private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
     private static final String MARK_USER_LEVELS_LIST = "user_levels";
+    private static final String MARK_EXIST_FRONT_ROLE_MAP = "exist_front_role_map";
+    private static final String MARK_EXIST_FRONT_ROLE = "exist_front_role";
+    private static final String MARK_HAS_RIGHT_MANAGE_FRONT_ROLE = "has_right_manage_front_role";
 
     // properties
     private static final String PROPERTY_CONFIRM_DELETE_ROLE = "portal.rbac.message.confirmDeleteRole";
@@ -224,12 +232,15 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // PAGINATOR
         LocalizedPaginator<RBACRole> paginator = new LocalizedPaginator<>( listRole, _nItemsPerPage, url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
+        
+        Map<String,Boolean> mapExistRole= paginator.getPageItems( ).stream().collect(Collectors.toMap(RBACRole::getKey, x->RoleHome.findExistRole(x.getKey())));
+
 
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_ROLE_LIST, paginator.getPageItems( ) );
-
+        model.put( MARK_EXIST_FRONT_ROLE_MAP, mapExistRole );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ROLES, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -245,11 +256,14 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     public String getCreateRole( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_ROLE_CREATION_PAGETITLE );
-
+        
         Map<String, Object> model = new HashMap<>( 1 );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_ROLE ) );
+        model.put(MARK_HAS_RIGHT_MANAGE_FRONT_ROLE, getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT));
+        
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ROLE, getLocale( ), model );
 
+        
         return getAdminPage( template.getHtml( ) );
     }
 
@@ -266,6 +280,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strRoleDescription = request.getParameter( PARAMETER_ROLE_DESCRIPTION );
+        String strCanBeAssignedToUserFront=request.getParameter( PARAMETER_CAN_BE_ASSIGNED_TO_USER_FRONT);
+
 
         if ( StringUtils.isBlank( strRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
@@ -283,12 +299,22 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-
+        
         RBACRole role = new RBACRole( );
         role.setKey( strRoleKey.trim( ) );
         role.setDescription( strRoleDescription );
         RBACRoleHome.create( role );
 
+        if( getUser() != null &&  getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT) && strCanBeAssignedToUserFront!=null && !RoleHome.findExistRole(role.getKey()))
+        {
+        	 Role roleFront = new Role( );
+        	 roleFront.setRole( strRoleKey );
+        	 roleFront.setRoleDescription( strRoleDescription );
+        	 roleFront.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+        	 
+             RoleHome.create( roleFront );	
+        }
+        
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
     }
 
@@ -307,7 +333,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         String strOldRoleKey = request.getParameter( PARAMETER_ROLE_KEY_PREVIOUS );
         String strNewRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strRoleDescription = request.getParameter( PARAMETER_ROLE_DESCRIPTION );
-
+        String strCanBeAssignedToUserFront=request.getParameter( PARAMETER_CAN_BE_ASSIGNED_TO_USER_FRONT);
+        
         // check that new role key is valid
         if ( StringUtils.isBlank( strNewRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
@@ -324,6 +351,17 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             RBACRole role = RBACRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
             role.setDescription( strRoleDescription );
+            if( getUser() != null && getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT) && strCanBeAssignedToUserFront!=null && !RoleHome.findExistRole(role.getKey()))
+            {
+            	 Role roleFront = new Role( );
+            	 roleFront.setRole( role.getKey() );
+            	 roleFront.setRoleDescription( strRoleDescription );
+            	 roleFront.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+            	 
+                 RoleHome.create( roleFront );	
+            }
+            
+            
             RBACRoleHome.update( strOldRoleKey, role );
         }
         else
@@ -347,6 +385,15 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
             // update the role key in the role-resource associations
             RBACHome.updateRoleKey( strOldRoleKey, strNewRoleKey );
+            
+            if( getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT) && strCanBeAssignedToUserFront!=null && !RoleHome.findExistRole(strNewRoleKey))
+            {
+            	 Role roleFront = new Role( );
+            	 roleFront.setRole( strNewRoleKey);
+            	 roleFront.setRoleDescription( strRoleDescription );
+                 RoleHome.create( roleFront );	
+            }
+            
         }
 
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strNewRoleKey;
@@ -440,7 +487,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             return getManageRoles( request );
         }
 
+        
         Map<String, Object> model = new HashMap<>( );
+        
+        model.put(MARK_EXIST_FRONT_ROLE,RoleHome.findExistRole(adminRole.getKey()));
+        model.put(MARK_HAS_RIGHT_MANAGE_FRONT_ROLE, getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT));
         model.put( MARK_ROLE, adminRole );
         model.put( MARK_CONTROLED_RESOURCE_LIST, listResources );
         model.put( MARK_RESOURCE_TYPE_LIST, listResourceTypes );

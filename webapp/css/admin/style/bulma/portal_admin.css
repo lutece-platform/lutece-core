@@ -1,56 +1,80 @@
-/*  Login page      */
-#login-page { background: #fff url("../../images/admin/skin/bg_login1.jpg"); background-size: cover; background-attachment: fixed; min-height: 922px; height: 100vh; overflow: hidden;}
+/*  BULMA overrides        */
+/*  Login page              */
 #login .footer{ display: none;} /* Footer not displayed in login page */
+#login-page { background: #fff url("../../images/admin/skin/bg_login1.jpg"); background-size: cover; background-attachment: fixed; min-height: 922px; height: 100vh; overflow: hidden; }
+#login-page .avatar { margin-top: -70px; padding-bottom: 20px; }
+#login-page .avatar img { padding: 5px; background: #fff; border-radius: 50%; -webkit-box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1); box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1); }
 
-/* Navbar           */
-/* Fixed navbar     */
-.main-header { padding-top: 60px;}
+/* Wrapper              */
+.wrapper{ display: flex; flex-direction: column; min-height: 100vh; padding: 0 1vw; }
+.footer{ margin-top: -20vh; }
+
+/* Navbar               */
+/* Fixed navbar         */
+.main-header{ padding-top: 15px;}
+.user-image{ background-color: hsl(0, 0%, 71%); margin: 0 15px; border-radius: 15px; }
 
 /* Dashboard Card Button */
 .box-tools{ position: absolute; top: 5px; right: 5px;}
 
-/* Language Menu */
-.fr{  background: transparent url( ../../../../images/fr.png ) no-repeat top/cover; width: 24px; height: 24px; padding: 0;}
-.en{ background: transparent url( ../../../../images/en.png ) no-repeat top/cover; width: 24px; height: 24px; padding: 0;}
+/* Language Menu        */
+.fr{ text-transform: capitalize; background: transparent url( ../../../../images/fr.png ) no-repeat right/contain; width: 24px; height: 24px; padding: 0;}
+.en{ background: transparent url( ../../../../images/en.png ) no-repeat right/contain; width: 24px; height: 24px; padding: 0;}
 
-/* 	Helpers classes */
-/* Msg styles         */
+/* Helpers classes      */
+/* Msg styles           */
 .msg-success{ color: hsl(153, 53%,  53%); font-weight: 700; }
 .msg-warning{ color: hsl(44,  100%, 77%); font-weight: 700; }
 .msg-danger{ color: hsl(348, 86%, 61%); font-weight: 700; }
 .msg-info{ color: hsl(207, 61%,  53%); font-weight: 700; }
 
 .empty{ display: flex; justify-content: center;  flex-direction: column;  align-items: center; }
-.empty-title{  margin-top: 15px;}
+.empty-title{ margin-top: 15px;}
+
+.body-hidden{position: fixed; left: -99999px; display: none}
 
 /* CSS for copyElementToClipboard commons Freemarker Macro */
 .copy-content{ position: relative; width:100%; display: inline-block;}
 .copy-content:hover{  cursor: copy; }
-.copy-icon:after,
-.copy-content:hover:after{ content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');position: absolute; margin-left: 5px; top: 5px; width: 15px;}
-
+.copy-icon:after, .copy-content:hover:after{ content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');position: absolute; margin-left: 5px; top: 5px; width: 15px;}
 .copy-content.copy-btn:after{ border: 1px solid #000; border-radius: 5px; padding: 1px 3px; content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');position: absolute; margin-left: 5px; top: 0; width: 20px;}
 .copy-content.no-hover:hover:after{ content: '';}
 
-/* Admin Site       */
+/* Documentation        */
+#lutece-doc-link{ position: fixed; bottom: 0; right: 0; z-index: 2 }
+#lutece-doc-link:hover span{ position: relative; width:auto; height:auto ;}
+
+/* Admin Site           */
 iframe#preview { display: block; overflow: auto; border: 0;  padding: 0;  margin:-10px auto;  border:2px solid #DEDEDE;  max-height:400px }
 #preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
 #fullscreen.open{ position:fixed; top:0; right: 15px; z-index: 10000; padding: 5px; }
 
-/* Portlets         */
+/* Portlets             */
 li.portlet-type a:hover{ background:#6D84CB; color:#fff; }
 #content-portlet{ padding:0 10px;}
 #preview{ left:0; width:100%; height:850px; min-height:850px; position:relative; z-index:0;}
 .richtext{ width:100%;}
 
-/* Site Map           */
+/* Site Map             */
 .sitemap{ min-height:650px;}
 .sitemap #map{ margin-top:20px;}
 .jstree-classic a.jstree-search ,.jstree-default a.jstree-search ,.jstree-apple a.jstree-search {  background-color:#6277B6 !important; color:#fff !important; font-style:normal; text-decoration:underline; padding:0 10px !important;}
 .jstree-classic .jstree-clicked {  padding:0 5px !important;}
 
-/* PLUGINS ADMIN added styles */
-/* Plugin THEME               */
+/* HTML defaults */
+pre{ white-space: pre-wrap;}
+
+/* Pagination */
+/* .showcount{ min-width: 14vw } */
+/* Accordion            */
+.accordion .accordion-header .title{ font-size: inherit ;}
+
+/* Tabs */
+.tab-pane{ display: none;}
+.tab-pane.show{ display: block;}
+
+/* PLUGINS              */
+/* Plugin THEME         */
 #preview-frame-container{  display:none }
 #back-to-preview{ position:fixed; right:150px; top:80px; z-index:999 }
 #back-to-preview a{ display: block; padding:15px 20px; background: #000; color: #FFF; text-decoration: none; border-radius: 100px; -moz-border-radius: 100px;-webkit-border-radius: 100px }
@@ -73,5 +97,24 @@ li.portlet-type a:hover{ background:#6D84CB; color:#fff; }
 .theme-selected{ display: none }
 .card-theme.default-theme .theme-selected{  display: block; width: 200px; background: #3C763D; top: 25px; left: -50px; text-align: center; line-height: 50px;  letter-spacing: 1px; font-weight: bold; font-size: 16px; color: #fff; box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg);}
 
-/* spaces between elements when display is set to flex. intended for buttons */
+/* Spaces between elements when display is set to flex. intended for buttons */
 .card-header .d-flex > * + *,.card-body .d-flex > * + * {	margin-left: 0.2rem;}
+
+/* Extend */
+/* #extender-content .list-group-item{padding: 2px } */
+/* #extender-content .list-group-item .btn-link{ padding: 0; text-align: left; } */
+#extender-content .extend-action-menu{ display: flex; justify-content: space-between; align-items: center; flex-grow: 1;}
+#extender-content .panel-block{ padding:.5rem; font-size: .8rem }
+#extender-content .panel-block .form-submenu{ padding: 0; font-size: .8rem; width: 100% }
+#extender-content .panel-block .form-submenu .extend-action-menu span{ display: inline-block; width: 100% }
+#extender-content .panel-block .extend-action-menu .button{ padding-right:.5em; }
+.dropdown-menu { top:60%; }
+.dropdown-content { padding-bottom: 0; padding-top: 0; }
+
+/* Asynchronous Upload */
+.list-file-item{ display: flex; align-items: center; padding-bottom: 5px }
+.list-file-item div > label{ display: flex; justify-content: space-between; margin: 0 5px; }
+.list-file-item div > label > .uploaded_check{ margin: auto 5px }
+.list-file-item div .truncate{ margin-right: auto } 
+.list-file-item figure{ flex-shrink: 0; }
+.list-file-item figure + div{ flex-grow: 1 ; margin-left: auto }

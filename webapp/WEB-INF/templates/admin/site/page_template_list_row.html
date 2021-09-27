@@ -1,10 +1,9 @@
-<#if checked = 'checked="checked"'>
-	<#assign radioChecked = true>
-<#else>
-	<#assign radioChecked = false>
-</#if>
-<#assign labelKey>
-${page_template.description} <img src="images/admin/skin/page_templates/${page_template.picture}" alt="">
-</#assign>
-
-<@radioButton name='page_template_id' id='${page_template.id}' value='${page_template.id}' checked=radioChecked labelFor='${page_template.id}' labelKey=labelKey />
+<#if checked = 'checked="checked"'><#assign radioChecked = true><#else><#assign radioChecked = false></#if>
+<@div class='d-flex is-flex mb-1'>
+	<@div class='flex-grow-1 is-flex-grow-3 pl-3'>
+		<@radioButton name='page_template_id' id='${page_template.id}' value='${page_template.id}' checked=radioChecked labelFor='${page_template.id}' labelKey=page_template.description />
+	</@div>
+	<@div class='flex-shrink-0 is-flex-shrink-0'>
+		 <@img class='img-fluid img-responsive' url='images/admin/skin/page_templates/${page_template.picture}' alt='${page_template.description}' title='${page_template.description}' params='aria-hidden="true"' />
+	</@div>
+</@div>

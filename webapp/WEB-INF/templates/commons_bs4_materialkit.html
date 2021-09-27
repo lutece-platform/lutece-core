@@ -38,7 +38,9 @@
 <script src="js/admin/style/bootstrap4/material-kit/material-kit-forms.js"></script> 
 <script src="js/admin/lib/polipop/polipop.min.js"></script> <!-- provided by core -->
 <script src="js/admin/style/bootstrap4/material-kit/admin.js"></script> <!-- provided by core -->
+<script src="js/util/progress-manager.js"></script>
 </#macro>
+
 <#global gClassActive='active' />
 <#assign mainColor = 'info' />
 <#-- PAGINATION  -->
@@ -800,9 +802,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 <#-- Tab Panel BS4 -->
 <#macro tabPanel id params='' active=false>
-		<div class="tab-pane fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
-			<#nested>
-		</div>
+<div class="tab-pane  mt-2 fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
+<#nested>
+</div>
 </#macro>
 <#-- ACCORDION --> 
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
@@ -867,13 +869,25 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<span class="progress-description">${description}</span>
 </#if>
 </#macro>
-<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text=''>
+
+<#-- Progress macro
+    token : the progress manager Feed Token
+    interval : refresh period in milli seconds (if the feed token is provided) 
+    showReport : display the messages report (if the feed token is provided) -->
+<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 >
+<#if label!='' >
+<div id="${progressId}-label" >${label}</div>
+</#if>
 <div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<div id="progressbar" class="progress-bar bg-${color}" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}">
+	<div id="${progressId}" class="progress-bar progress-bar-${color}<#if token!=''> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
         <#if text=''>${value}%<#else>${text}</#if>
-	</div>
+	</div>       
 </div>
+<#if showReport >
+<div id="${progressId}-report" class="progress-bar-report" lastline=0></div>
+</#if>
 </#macro>
+
 <#-- INFO-BOX AdminTLE (widget) -->
 <#-- color: only for the left side showing the icon. -->
 <#-- bgColor: for the right side containing the text -->
@@ -1174,8 +1188,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	</div>
 </#macro>
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h5'>
-	<div class="card-header card-header-info text-white d-flex justify-content-between"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' class='' params='' boxTools=false titleLevel='h5' deprecated...>
+<@deprecatedWarning args=deprecated />
+	<div class="card-header card-header-info text-white d-flex justify-content-between<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 		<#local nested><#nested></#local>
 		<#if nested?has_content>
@@ -1275,8 +1290,8 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<#nested>
 </div>
 </#macro>
-<#macro dropdownItem class='' href='' title='' id='' params=''>
-	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
+<#macro dropdownItem class='' href='' title='' target='' id='' params=''>
+	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if target!=''> target="${target}"</#if>>${title}</a>
 </#macro>
 <#-- CARDS -->
 <#macro card header=false headerTitle='' headerIcon=false headerTitleIcon=''>
@@ -1655,7 +1670,7 @@ $(function() {
 		<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>
 		<#if portlet_types_list?has_content>
 			<#list portlet_types_list?sort_by("name") as portlet_type>
-				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>
+				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}'>
 					${portlet_type.name}
 				</@dropdownItem>
 			</#list>
@@ -2038,7 +2053,7 @@ $.each( parsedIcons, function(index, icon){
 					prefix = 'fab'
 					break;
 			}
-			$('#${id}').append('<option value="' + index + '"> <#if showListIcon><span class="' + prefix + ' fa-'+ index + ' mr-1" ' + selected + ' ></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
+			$('#${id}').append('<option value="' + index + '"' + selected + '> <#if showListIcon><span class="' + prefix + ' fa-'+ index + ' mr-1" ' + selected + ' ></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
 			i++;
 		}
 	<#else>
@@ -2060,4 +2075,13 @@ new SlimSelect({
 <#-- Display wrong or deprecated macro arguments -->
 <#macro deprecatedWarning args=[] >
  <#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>
+</#macro>
+<#macro adminDashboardPanel title='' parentId='' childId='' icon='' color=''>
+<#assign parentId = parentId />
+<@accordionPanel color=color collapsed=true childId=childId>
+<@accordionHeader id=id title=title headerIcon=icon></@accordionHeader>
+<@accordionBody>
+<#nested>
+</@accordionBody>    
+</@accordionPanel>
 </#macro>

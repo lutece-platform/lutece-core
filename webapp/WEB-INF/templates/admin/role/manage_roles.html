@@ -1,39 +1,42 @@
 <@row>
-  <@columns>
-    <@box color='success'>
-      <@boxHeader title='#i18n{portal.role.manage_roles.boxTitle}' boxTools=true>
-          <@tform type='inline' method='post' action='jsp/admin/role/CreatePageRole.jsp'>
-            <@button type='submit' buttonIcon='plus' title='#i18n{portal.role.manage_roles.buttonLabelCreate}' size='' hideTitle=['xs','sm'] size='sm' />
-          </@tform>
-      </@boxHeader>
-      <!-- /.box-header -->
-      <@boxBody>
-				<@table class='table-hover table-striped'>
-					<thead>
-						<tr>
-							<th>#i18n{portal.role.manage_roles.columnTitleId}</th>
-							 <th>#i18n{portal.role.manage_roles.columnTitleDescription}</th>
-							 <th>#i18n{portal.role.manage_roles.columnTitleWorkgroup}</th>
-							 <th>#i18n{portal.role.manage_roles.columnTitleActions}</th>
-						 </tr>
-					</thead>
-					<tbody>
-						<#list roles_list as role>
-							<#if role.role !="none">
-							<tr>
-								<td>${role.role}</td>
-								<td>${role.roleDescription}</td>
-								<td>${role.workgroup}</td>
-								<td>
-									<@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelModify} (${role.role})' buttonIcon='edit' size='sm' hideTitle=['all'] />
-									<@aButton color='danger' href='jsp/admin/role/RemovePageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelDelete} (${role.role})' buttonIcon='trash' size='sm' hideTitle=['all'] />
-								</td>
-							</tr>
-							</#if>
-						</#list>
-					</tbody>
+  	<@columns>
+    	<@box color='success'>
+			<@boxHeader title='#i18n{portal.role.manage_roles.boxTitle}' skipHeader=true boxTools=true>
+				<@tform type='inline' method='post' action='jsp/admin/role/CreatePageRole.jsp'>
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.role.manage_roles.buttonLabelCreate}' hideTitle=['xs','sm'] size='sm' style='card-header-icon'  />
+				</@tform>
+			</@boxHeader>
+			<@boxBody>
+			<#if roles_list?size gt 1>
+				<@table class='table-hover table-striped is-fullwidth'>
+				<@tr>
+					<@th>#i18n{portal.role.manage_roles.columnTitleId}</@th>
+					<@th>#i18n{portal.role.manage_roles.columnTitleDescription}</@th>
+					<@th>#i18n{portal.role.manage_roles.columnTitleWorkgroup}</@th>
+					<@th>#i18n{portal.role.manage_roles.columnTitleActions}</@th>
+				</@tr>
+				<@tableHeadBodySeparator />
+				<#list roles_list as role>
+					<#if role.role !="none">
+					<@tr>
+						<@td>${role.role}</@td>
+						<@td>${role.roleDescription}</@td>
+						<@td>${role.workgroup}</@td>
+						<@td>
+							<@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelModify} (${role.role})' buttonIcon='edit' color='primary' size='sm' hideTitle=['all'] />
+							<#if exist_rbac_map?has_content && exist_rbac_map[role.role]>
+								<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.role}' title='#i18n{portal.role.manage_roles.labelViewRbacRole} (${role.role})' buttonIcon='link' color='primary' size='sm' hideTitle=['all'] />
+							</#if>	
+							<@aButton color='danger' href='jsp/admin/role/RemovePageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelDelete} (${role.role})' buttonIcon='trash' size='sm' hideTitle=['all'] />
+						</@td>
+					</@tr>
+					</#if>
+				</#list>
 				</@table>
-      </@boxBody>
-    </@box>
-  </@columns>
+			<#else>
+				<@empty />
+			</#if>
+			</@boxBody>
+    	</@box>
+  	</@columns>
 </@row>

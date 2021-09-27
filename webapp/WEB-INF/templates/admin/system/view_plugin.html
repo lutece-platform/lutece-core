@@ -7,16 +7,15 @@
 				</@link>
 			</@boxHeader>
 			<@boxBody>
-				<p>#i18n{portal.system.view_plugin.labelVersion} ${version}</p>
-		        <p>#i18n{portal.system.view_plugin.labelDescription} #i18n{${description}}</p>
-		        <p>#i18n{portal.system.view_plugin.labelAuthor} #i18n{${provider}}</p>
-		        <p>#i18n{portal.system.view_plugin.labelProvider} <@link href='${providerUrl}' target='_blank'>${providerUrl}</@link></p>
-		        <p>#i18n{portal.system.view_plugin.labelCoreCompatibility} min : ${minCoreVersion?default("")} - max : ${maxCoreVersion?default("")}</p>
+				<@p>#i18n{portal.system.view_plugin.labelVersion} ${version}</@p>
+		        <@p>#i18n{portal.system.view_plugin.labelDescription} #i18n{${description}}</@p>
+		        <@p>#i18n{portal.system.view_plugin.labelAuthor} #i18n{${provider}}</@p>
+		        <@p>#i18n{portal.system.view_plugin.labelProvider} <@link href='${providerUrl}' target='_blank'>${providerUrl}</@link></@p>
+		        <@p>#i18n{portal.system.view_plugin.labelCoreCompatibility} min : ${minCoreVersion?default("")} - max : ${maxCoreVersion?default("")}</@p>
 	      </@boxBody>
-    </@box>
-  </@columns>
+    	</@box>
+  	</@columns>
 </@row>
-
 <#if rights?has_content>
 <@row>
 	<@columns>
@@ -25,52 +24,50 @@
 			<@boxBody>
 				<@ul>
 					<#list rights as feature>
-						<li>
+						<@li>
 							<#if feature.iconUrl?exists>
 								<@img url=feature.iconUrl alt=name title=name />
 							</#if>
 							<h3>${feature.name}</h3>
-							<p>${feature.description}</p>
-						</li>
+							<@p>${feature.description}</@p>
+						</@li>
 					</#list>
 				</@ul>
 			</@boxBody>
-    </@box>
-  </@columns>
+    	</@box>
+  	</@columns>
 </@row>
 </#if>
-
 <#if portletTypes?has_content>
 <@row>
 	<@columns>
-    <@box>
-      <@boxHeader title='#i18n{portal.system.view_plugin.boxTitlePortletsType}' />
-		<@boxBody>
-			<@ul>
-	  			<#list portletTypes as portlet >
-				<li>
-					<h3>${portlet.name}</h3>
-				</li>		
-	  			</#list>
-			</@ul>
-		</@boxBody>
-    </@box>
-  </@columns>
+    	<@box>
+			<@boxHeader title='#i18n{portal.system.view_plugin.boxTitlePortletsType}' />
+			<@boxBody>
+				<@ul>
+					<#list portletTypes as portlet >
+					<@li>
+						<h3>${portlet.name}</h3>
+					</@li>		
+					</#list>
+				</@ul>
+			</@boxBody>
+    	</@box>
+  	</@columns>
 </@row>     
 </#if> 
-
 <#if applications?has_content>
 <@row>
 	<@columns>
 		<@box>
-      <@boxHeader title='#i18n{portal.system.view_plugin.boxTitleXpageApplications}' />
+      		<@boxHeader title='#i18n{portal.system.view_plugin.boxTitleXpageApplications}' />
 			<@boxBody>
 				<@ul>
 					<#list applications as application >
-						<li>
+						<@li>
 							<h3>${application.id}<#if !application.enabled> <@tag><@icon style='ban' /> ${i18n("portal.system.view_plugin.disabled")}</@tag></#if></h3>
 							<p>${application.className!}</p>
-						</li>		
+						</@li>		
 					</#list>
 				</@ul>
 			</@boxBody>
@@ -78,7 +75,6 @@
   </@columns>
 </@row>      
 </#if> 
-
 <#if contentServices?has_content>
 <@row>
 	<@columns>
@@ -87,9 +83,9 @@
 			<@boxBody>
 				<@ul>
 					<#list contentServices as contentService >
-						<li>
+						<@li>
 							<h3>${contentService.className}</h3>
-						</li>		
+						</@li>		
 					</#list>
 				</@ul>
 			</@boxBody>
@@ -97,7 +93,6 @@
 	</@columns>
 </@row>        
 </#if> 
-
 <#if insertServices?has_content>
 <@row>
 	<@columns>
@@ -106,13 +101,13 @@
 			<@boxBody>
 				<@ul>
 					<#list insertServices as insertService >
-					<li>
+					<@li>
 						<h3>${insertService.name}</h3>
-					</li>		
+					</@li>		
 					</#list>
 				</@ul>
 			</@boxBody>
-    </@box>
-  </@columns>
+   		</@box>
+  	</@columns>
 </@row>   
 </#if>

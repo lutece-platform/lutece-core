@@ -1,23 +1,28 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-			<@boxHeader title='#i18n{portal.mailinglist.view_users.boxTitle}' />
+			<@boxHeader title='#i18n{portal.mailinglist.view_users.boxTitle}' skipHeader=true boxTools=true>
+				<@button type='submit' buttonIcon='times' title='#i18n{portal.util.labelBack}' class='card-header-icon' size='' params='onclick="javascript:window.history.back();"' />
+			</@boxHeader>
 			<@boxBody>
-				<@table>
-					<tr>
-						<th>#i18n{portal.mailinglist.view_users.columnTitleName}</th>
-						<th>#i18n{portal.mailinglist.view_users.columnTitleEmail}</th>
-					</tr>
-					<#list recipients_list as recipient>
-						<tr>
-							<td>${recipient.name}</td>
-							<td>${recipient.email}</td>
-						</tr>
-					</#list>
-				</@table>
-				<@formGroup rows=2>
-					<@button type='submit' buttonIcon='remove' title='#i18n{portal.util.labelBack}'  size='' cancel=true params='onclick="javascript:window.history.back();"' />
-				</@formGroup>
+			<#if recipients_list?size gt 0>
+			<@table>
+				<@tr>
+					<@th>#i18n{portal.mailinglist.view_users.columnTitleName}</@th>
+					<@th>#i18n{portal.mailinglist.view_users.columnTitleEmail}</@th>
+				</@tr>
+				<@tableHeadBodySeparator />					
+				<#list recipients_list as recipient>
+				<@tr>
+					<@td>${recipient.name}</@td>
+					<@td>${recipient.email}</@td>
+				</@tr>
+				</#list>
+			</@table>
+			<#else>
+				<@empty />
+			</#if>
+			
 			</@boxBody>
 		</@box>
   </@columns>

@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.web.role;
 
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -51,10 +53,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.james.mime4j.io.LineReaderInputStreamAdaptor;
 
 /**
  * JspBean for Role management
@@ -77,14 +81,17 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
     // Markers
     private static final String MARK_ROLES_LIST = "roles_list";
+    private static final String MARK_EXIST_RBAC_MAP = "exist_rbac_map";
+    
     private static final String MARK_ROLE = "role";
     private static final String MARK_DEFAULT_VALUE_WORKGROUP_KEY = "workgroup_key_default_value";
     private static final String MARK_WORKGROUP_KEY_LIST = "workgroup_key_list";
-
+ 
     // Parameters
     private static final String PARAMETER_PAGE_ROLE = "role";
     private static final String PARAMETER_PAGE_ROLE_DESCRIPTION = "role_description";
     private static final String PARAMETER_PAGE_WORKGROUP = "workgroup_key";
+    
 
     // Templates
     private static final String TEMPLATE_MANAGE_ROLES = "admin/role/manage_roles.html";
@@ -127,8 +134,12 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<>( );
         Collection<Role> listRoles = RoleHome.findAll( );
         listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, getUser( ) );
-        model.put( MARK_ROLES_LIST, listRoles );
+        Map<String,Boolean> mapExistRbac= listRoles.stream().collect(Collectors.toMap(Role::getRole, x->RBACRoleHome.checkExistRole(x.getRole())));
 
+        model.put( MARK_ROLES_LIST, listRoles );
+        model.put( MARK_EXIST_RBAC_MAP, mapExistRbac );
+        
+        
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ROLES, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -199,7 +210,9 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         role.setRoleDescription( strPageRoleDescription );
         role.setWorkgroup( strPageWorkgroup );
         RoleHome.create( role );
-
+        
+        
+        
         return getHomeUrl( request );
     }
 
@@ -248,6 +261,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         String strPageRoleDescription = request.getParameter( PARAMETER_PAGE_ROLE_DESCRIPTION );
         String strPageWorkgroup = request.getParameter( PARAMETER_PAGE_WORKGROUP );
 
+
         // Mandatory field
         if ( ( strPageRoleDescription == null ) || strPageRoleDescription.equals( "" ) || ( strPageWorkgroup == null ) )
         {
@@ -264,6 +278,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         role.setRoleDescription( strPageRoleDescription );
         role.setWorkgroup( strPageWorkgroup );
         RoleHome.update( role );
+        
 
         return getHomeUrl( request );
     }
