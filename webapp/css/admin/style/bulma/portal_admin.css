@@ -11,6 +11,7 @@
 
 /* Navbar               */
 /* Fixed navbar         */
+.logo{ background-color: #0d6dfd; margin-right: 10px; border: 1px solid #0d6dfd; border-radius: 5px; }
 .main-header{ padding-top: 15px;}
 .user-image{ background-color: hsl(0, 0%, 71%); margin: 0 15px; border-radius: 15px; }
 
