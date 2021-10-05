@@ -6,10 +6,10 @@
 function themeMode(mode){
 	var switchMode=$('#switch-darkmode');
 	if( mode != 'dark'){
-		switchMode.children('span').text('Activer');
+		switchMode.children('span').text('sombre');
 		if( $('body').hasClass('theme-dark') ) $('body').removeClass('theme-dark');
 	} else{
-		switchMode.children('span').text('Supprimer');
+		switchMode.children('span').text('clair');
 		$('body').addClass('theme-dark');
 		switchMode.children('.ti').removeClass('ti-moon').addClass('ti-sun');
 	}
