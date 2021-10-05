@@ -10,23 +10,37 @@
 				<@accordionPanel collapsed=true childId='group${group?index}_childId'>
 					<@accordionHeader title='${group.name}' id='group${group?index}_headerId' />
 					<@accordionBody>
-					<@p>${group.description}</@p>
+					<h3 class="h6">${group.description}</h3>
+					<#assign currentPropName=''>
 					<#list group.localizedDataList as property>
 						<#if property.help?length gt 0>
 							<#assign helpText = property.help>
 						<#else>
 							<#assign helpText = property.key>
 						</#if>
-						<@formGroup labelKey=property.label labelFor=property.key helpKey=helpText>
+						<#assign propPrefix=property.key?keep_before(".site_property")  >
+						<#assign propName=property.key?replace("${propPrefix}.site_property.","") >
+						<#assign propName=propName?keep_before(".") >
+						<#if currentPropName != propName>
+							<#if currentPropName != ''>
+								</fieldset>
+							</#if>
+							<fieldset class="group-property">
+								<legend>#i18n{${propPrefix}.site_property.${propName}.group}</legend>
+							<#assign currentPropName=propName>
+						</#if>
+						<#assign labelText=property.label>
+						<#if property.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
+						<@formGroup class='property' labelKey=labelText labelFor=property.key helpKey=helpText params=' data-property="${propName}"'>
 							<#if property.key?ends_with( ".textblock" )>
 								<@input type='textarea' name=property.key id=property.key>${property.value?html}</@input>
 							<#elseif property.key?ends_with( ".htmlblock" )>
 								<@input type='textarea' name=property.key id=property.key class='richtext'>${property.value?html}</@input>
 							<#elseif property.key?ends_with( ".checkbox" )>
 								<#if property.value == "1">
-									<@checkBox name=property.key id=property.key value='1' checked=true />
+									<@checkBox orientation='switch' name=property.key id=property.key labelKey=property.label  value='1' checked=true />
 								<#else>
-									<@checkBox name=property.key id=property.key value='1' checked=false />
+									<@checkBox orientation='switch' name=property.key id=property.key labelKey=property.label  value='1' checked=false />
 								</#if>
 								<@input type='hidden' name='${property.key}' value='0' />
 							<#else>
