@@ -577,12 +577,19 @@
 <#macro checkBox name id='' labelKey='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if id = ''><#local id = name /></#if>
-<#if orientation='vertical'><div class="custom-control custom-checkbox"></#if>
-<input type="checkbox" class="custom-control-input" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
-<label class="custom-control-label<#if orientation!='vertical'> checkbox-inline</#if>" for="${id}" <#if title!=''> title="${title}"</#if>>
-<#if labelKey!=''>${labelKey}<#else><#nested></#if>
-</label>
-<#if orientation='vertical'></div></#if>
+<#if orientation!='switch'>
+	<#if orientation='vertical'><div class="custom-control custom-checkbox"></#if>
+	<input type="checkbox" class="custom-control-input" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
+	<label class="custom-control-label<#if orientation!='vertical'> checkbox-inline</#if>" for="${id}" <#if title!=''> title="${title}"</#if>>
+	<#if labelKey!=''>${labelKey}<#else><#nested></#if>
+	</label>
+	<#if orientation='vertical'></div></#if>
+<#else>
+	<label class="form-check form-switch" for="${id}" <#if title!=''> title="${title}"</#if>>
+    	<input class="form-check-input" type="checkbox"  id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if>>
+   		 <span class="form-check-label"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
+  </label>
+</#if>
 </#macro>
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/inline. Default is vertical -->
@@ -788,9 +795,9 @@
 	</h2>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
-	<div class="box-tools">
+	<#if boxTools><div class="box-tools"></#if>
 		${nested}
-	</div>
+	<#if boxTools></div></#if>
 	</#if>
 </div>
 <#assign parentId = parentId />
