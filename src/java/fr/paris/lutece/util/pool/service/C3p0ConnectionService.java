@@ -37,7 +37,6 @@ package fr.paris.lutece.util.pool.service;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import fr.paris.lutece.util.env.EnvUtil;
 
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -45,6 +44,9 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * C3P0 connection service
@@ -64,7 +66,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * Log4j logger
      */
-    private Logger _logger = Logger.getLogger( this.getClass( ) );
+    private Logger _logger = LogManager.getLogger( this.getClass( ) );
 
     /**
      * {@inheritDoc }

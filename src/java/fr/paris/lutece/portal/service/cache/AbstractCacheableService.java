@@ -41,10 +41,11 @@ import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.event.CacheEventListener;
 
-import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Base implementation for a cacheable service
@@ -53,7 +54,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
 {
     private Cache _cache;
     private boolean _bEnable;
-    private Logger _logger = Logger.getLogger( "lutece.cache" );
+    private Logger _logger = LogManager.getLogger( "lutece.cache" );
 
     /**
      * Init the cache. Should be called by the service at its initialization.

@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.pool.service;
 
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -44,6 +43,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import javax.sql.DataSource;
+
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class provides a ConnectionService based on Tomcat

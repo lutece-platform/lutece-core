@@ -39,9 +39,8 @@ import fr.paris.lutece.util.annotation.AnnotationUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
-
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.orm.jpa.persistenceunit.PersistenceUnitPostProcessor;
 
@@ -60,7 +59,7 @@ import javax.persistence.MappedSuperclass;
  */
 public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProcessor
 {
-    private static final Logger _Log = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    private static final Logger _Log = LogManager.getLogger( JPAConstants.JPA_LOGGER );
     private static final String PATH_CONF = "/WEB-INF/classes/";
     private static final String SUFFIX_ORM_XML = ".orm.xml";
     private static final String CLASSPATH_PATH_IDENTIFIER = "fr" + File.separator + "paris";

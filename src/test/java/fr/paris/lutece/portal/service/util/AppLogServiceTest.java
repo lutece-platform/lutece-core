@@ -41,26 +41,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class AppLogServiceTest extends LuteceTestCase
 {
     /**
-     * Test of init method, of class AppLogService.
-     */
-    public void testInit( )
-    {
-        try
-        {
-            System.out.println( "init" );
-
-            String strConfigPath = "/WEB-INF/conf/";
-            String strConfigFile = "config.properties";
-
-            AppLogService.init( strConfigPath, strConfigFile );
-        }
-        catch ( Exception e )
-        {
-            fail( );
-        }
-    }
-
-    /**
      * Test of debug method, of class AppLogService.
      */
     public void testDebug( )

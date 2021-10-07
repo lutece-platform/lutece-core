@@ -36,6 +36,7 @@
     </repositories>
 
     <dependencies>
+ 
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
@@ -114,28 +115,53 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>
+            <version>1.7.21</version>           
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.21</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.14.1</version>
         </dependency>
+	<dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+        <!-- To avoid problems the Log4j shutdown hook will automatically be disabled when the log4j-web jar is included. -->
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-web</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+	    <!--The Log4j 2 SLF4J Binding allows applications coded to the SLF4J API to use Log4j 2 as the implementation -->
+        <dependency>
+	    <groupId>org.apache.logging.log4j</groupId>
+	    <artifactId>log4j-slf4j-impl</artifactId>
+	    <version>2.14.1</version>
+        </dependency>
+        <!-- he Log4j 1.2 Bridge allows applications coded to use Log4j 1.2 API to use Log4j 2 instead 
+	see requirements https://logging.apache.org/log4j/2.x/log4j-1.2-api -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-1.2-api</artifactId>
+            <version>2.14.1</version>
+        </dependency>        
+        <!-- The Commons Logging Bridge allows applications coded to the Commons Logging API to use Log4j 2 as the implementation. -->
+	<dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-jcl</artifactId>
+            <version>2.14.1</version>
         </dependency>
         <!--
           commons-logging is a transitive dependency of many libraries with different versions.
           Specify the latest version here to not depend on the order of declaration.
           When we manage to get rid of commons-logging, we can safely remove this dependency.
-        -->
-        <dependency>
+         -->
+	 <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
-        </dependency>
+	</dependency>
         <dependency>
             <groupId>jtidy</groupId>
             <artifactId>jtidy</artifactId>
@@ -333,14 +359,13 @@
             <type>jar</type> 
         </dependency>
         
-        <!-- Lutece Freemarker --> 
+        <!-- Lutece Freemarker -->       
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-freemarker</artifactId>
-            <version>1.3.2</version>
-            <type>jar</type>
+            <version>1.3.3-SNAPSHOT</version>
+            <type>jar</type>            
         </dependency>
-
         
         <!-- Lutece JMX API Library -->                                              
         <dependency>

@@ -34,7 +34,6 @@
 package fr.paris.lutece.util.pool.service;
 
 import fr.paris.lutece.util.env.EnvUtil;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -44,6 +43,8 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import org.apache.logging.log4j.Logger;
 
 /**
  * Lutece Connection Service

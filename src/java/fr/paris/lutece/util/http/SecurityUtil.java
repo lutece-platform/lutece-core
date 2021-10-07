@@ -38,14 +38,14 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.string.StringUtil;
 
-import org.apache.log4j.Logger;
-
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.util.AntPathMatcher;
 
 /**
@@ -113,7 +113,7 @@ public final class SecurityUtil
             {
                 if ( SecurityUtil.containsXssCharacters( request, values [i], strXssCharacters ) )
                 {
-                    Logger logger = Logger.getLogger( LOGGER_NAME );
+                    Logger logger = LogManager.getLogger( LOGGER_NAME );
                     logger.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS" + dumpRequest( request ) );
 
                     return false;
@@ -156,7 +156,7 @@ public final class SecurityUtil
 
         if ( bContains )
         {
-            Logger logger = Logger.getLogger( LOGGER_NAME );
+            Logger logger = LogManager.getLogger( LOGGER_NAME );
             logger.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED" + dumpRequest( request ) );
         }
 
@@ -176,7 +176,7 @@ public final class SecurityUtil
         {
             if ( StringUtils.indexOfIgnoreCase( strValue, strTerm ) >= 0 )
             {
-                Logger logger = Logger.getLogger( LOGGER_NAME );
+                Logger logger = LogManager.getLogger( LOGGER_NAME );
                 logger.warn( "SECURITY WARNING : XXE TERMS DETECTED : " + dumpRequest( LocalVariables.getRequest( ) ) );
                 return true;
             }
@@ -199,7 +199,7 @@ public final class SecurityUtil
         {
             if ( strValue.contains( strTerm ) )
             {
-                Logger logger = Logger.getLogger( LOGGER_NAME );
+                Logger logger = LogManager.getLogger( LOGGER_NAME );
                 logger.warn( "SECURITY WARNING : PATH_MANIPULATION DETECTED : " + dumpRequest( request ) );
                 return true;
             }
@@ -347,7 +347,7 @@ public final class SecurityUtil
         }
 
         // the Url does not match the allowed patterns
-        Logger logger = Logger.getLogger( LOGGER_NAME );
+        Logger logger = LogManager.getLogger( LOGGER_NAME );
         logger.warn( "SECURITY WARNING : OPEN_REDIRECT DETECTED : " + dumpRequest( request ) );
 
         return false;

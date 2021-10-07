@@ -48,14 +48,15 @@ import net.sf.ehcache.constructs.web.AlreadyGzippedException;
 import net.sf.ehcache.constructs.web.filter.FilterNonReentrantException;
 import net.sf.ehcache.constructs.web.filter.SimpleCachingHeadersPageCachingFilter;
 
-import org.apache.log4j.Logger;
-
 import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Headers Page Caching Filter based on EHCACHE WEB
@@ -65,7 +66,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     private static final String BLOCKING_TIMEOUT_MILLIS = "blockingTimeoutMillis";
     private static final String INIT_PARAM_CACHE_NAME = "cacheName";
     private Cache _cache;
-    private Logger _logger = Logger.getLogger( "lutece.cache" );
+    private Logger _logger = LogManager.getLogger( "lutece.cache" );
     private boolean _bInit;
     private boolean _bEnable = true;
     private String _strCacheName;

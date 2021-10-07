@@ -37,7 +37,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,7 +46,9 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.security.IAccessLogger;
 
 import java.text.MessageFormat;
-import org.apache.log4j.Priority;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class provides a default implementation for AccessLogger Service 
@@ -85,7 +86,7 @@ public final class DefaultAccessLogger implements IAccessLogger
     
     
     public static final String DEFAULT_LOGGER_ACCESS_LOG = "lutece.accessLogger";
-    private static Logger _defaultLogger = Logger.getLogger( DEFAULT_LOGGER_ACCESS_LOG );
+    private static Logger _defaultLogger = LogManager.getLogger( DEFAULT_LOGGER_ACCESS_LOG );
      
 
     /**
@@ -147,7 +148,7 @@ public final class DefaultAccessLogger implements IAccessLogger
     {
         Logger logger = getLogger( specificOrigin );
 
-        if ( logger.isEnabledFor( Priority.WARN ) )
+        if ( logger.isEnabled( Level.WARN ) )
         {
             String strAppId = AppPropertiesService.getProperty( AccessLoggerConstants.PROPERTY_SITE_CODE, "?" );
             String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, (connectedUser!=null?connectedUser.getAccessCode():"null"), data );
@@ -292,7 +293,7 @@ public final class DefaultAccessLogger implements IAccessLogger
     {
         if ( specificOrigin != null && !"".equals( specificOrigin ))
         {
-            return Logger.getLogger(DEFAULT_LOGGER_ACCESS_LOG + "." + specificOrigin );
+            return LogManager.getLogger(DEFAULT_LOGGER_ACCESS_LOG + "." + specificOrigin );
         }
         
           return _defaultLogger;

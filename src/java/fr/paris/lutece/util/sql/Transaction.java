@@ -39,8 +39,8 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppException;
 
 import org.apache.commons.lang.StringUtils;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -323,7 +323,7 @@ public class Transaction
             throw new AppException( "Database access error. Please check component installations and db.properties." );
         }
 
-        _logger = Logger.getLogger( LOGGER_DEBUG_SQL + _strPluginName );
+        _logger = LogManager.getLogger( LOGGER_DEBUG_SQL + _strPluginName );
         _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - BEGIN TRANSACTION" );
 
         try
