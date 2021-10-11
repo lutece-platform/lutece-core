@@ -33,8 +33,10 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.util.Supplier;
 
 /**
  * This class provides writing services in the application logs files
@@ -75,13 +77,33 @@ public final class AppLogService
      *            the message object to log
      */
     public static void debug( Object objToLog )
-    {
-        if ( _loggerDebug.isDebugEnabled( ) )
-        {
-            _loggerDebug.debug( objToLog );
-        }
+    {       
+        _loggerDebug.debug( objToLog );       
+    }
+    
+    /**
+     * Logs a message with parameters at the {@link Level#DEBUG DEBUG} level.
+     *
+     * @param message the message to log; the format depends on the message factory.
+     * @param params parameters to the message.
+     * @see #getMessageFactory()
+     */
+    public static void debug(String message, Object... params)
+    { 
+        _loggerDebug.debug(message, params);       
     }
 
+    /**
+     * Logs a message with parameters which are only to be constructed if the logging level is the {@link Level#DEBUG
+     * DEBUG} level.
+     *
+     * @param message the message to log; the format depends on the message factory.
+     * @param paramSuppliers An array of functions, which when called, produce the desired log message parameters.
+     */
+    public static  void debug(String message, Supplier<?>... paramSuppliers)
+    {
+    	_loggerDebug.debug( message, paramSuppliers);
+    }
     /**
      * Tells if the logger accepts debug messages. If not it prevents to build consuming messages that will be ignored.
      * 
@@ -107,11 +129,8 @@ public final class AppLogService
     public static void debug( String strLogger, Object objToLog )
     {
         Logger logger = LogManager.getLogger( strLogger );
-
-        if ( logger.isDebugEnabled( ) )
-        {
-            logger.debug( objToLog );
-        }
+        logger.debug( objToLog );
+        
     }
 
     /**
@@ -122,10 +141,7 @@ public final class AppLogService
      */
     public static void error( Object objToLog )
     {
-        if ( _loggerErrors != null )
-        {
-            _loggerErrors.error( objToLog );
-        }
+         _loggerErrors.error( objToLog );
     }
 
     /**
@@ -138,12 +154,42 @@ public final class AppLogService
      */
     public static void error( Object message, Throwable t )
     {
-        if ( _loggerErrors != null )
-        {
-            _loggerErrors.error( message, t );
-        }
+        _loggerErrors.error( message, t );     
+    }
+    /**
+     * Logs a message with parameters at the {@link Level#ERROR ERROR} level.
+     *
+     * @param message the message to log; the format depends on the message factory.
+     * @param params parameters to the message.
+     * @see #getMessageFactory()
+     */
+    public static void error(String message, Object... params) {
+    	
+    	_loggerErrors.error(message, params);
+    }
+    
+    /**
+     * Logs a message with parameters which are only to be constructed if the logging level is the {@link Level#ERROR
+     * ERROR} level.
+     *
+     * @param message the message to log; the format depends on the message factory.
+     * @param paramSuppliers An array of functions, which when called, produce the desired log message parameters.
+     */
+    public static void error(String message, Supplier<?>... paramSuppliers) {
+    	
+    	_loggerErrors.error( message, paramSuppliers);
     }
 
+    /**
+     * Tells if the logger accepts error messages. If not it prevents to build consuming messages that will be ignored.
+     * 
+     * @return True if the logger accepts error messages, otherwise false.
+     */
+    public static boolean isErrorEnabled( )
+    {
+        return _loggerErrors.isErrorEnabled( );
+    }
+    
     /**
      * Log a message object with the INFO Level in application.log
      *
@@ -151,10 +197,41 @@ public final class AppLogService
      *            the message object to log
      */
     public static void info( Object objToLog )
+    {   
+        _loggerEvents.info( objToLog );
+        
+    }
+    
+    /**
+     * Logs a message with parameters at the {@link Level#INFO INFO} level.
+     *
+     * @param message the message to log; the format depends on the message factory.
+     * @param params parameters to the message.
+     * @see #getMessageFactory()
+     */
+    public static void info(String message, Object... params)
     {
-        if ( ( _loggerEvents != null ) && _loggerEvents.isInfoEnabled( ) )
-        {
-            _loggerEvents.info( objToLog );
-        }
+        _loggerEvents.info( message, params );   
+    }    
+    /**
+     * Logs a message with parameters which are only to be constructed if the logging level is the {@link Level#INFO
+     * INFO} level.
+     *
+     * @param message the message to log; the format depends on the message factory.
+     * @param paramSuppliers An array of functions, which when called, produce the desired log message parameters.
+     */
+    public static void info(String message, Supplier<?>... paramSuppliers)
+    {
+    	_loggerEvents.info( message,  paramSuppliers);
+    }
+    
+    /**
+     * Tells if the logger accepts info messages. If not it prevents to build consuming messages that will be ignored.
+     * 
+     * @return True if the logger accepts info messages, otherwise false.
+     */
+    public static boolean isInfoEnabled( )
+    {
+        return _loggerEvents.isInfoEnabled( );
     }
 }
