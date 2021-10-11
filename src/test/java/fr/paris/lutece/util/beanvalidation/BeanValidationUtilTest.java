@@ -33,20 +33,15 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
 import java.math.BigDecimal;
-
-import java.sql.Date;
-
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import javax.validation.Validator;
 
 /**
  * BeanValidationUtilTest

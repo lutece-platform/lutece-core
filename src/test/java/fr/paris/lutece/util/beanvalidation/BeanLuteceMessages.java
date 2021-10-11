@@ -38,8 +38,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
-
-import java.sql.Date;
+import java.util.Date;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
