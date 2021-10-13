@@ -8,6 +8,22 @@
         <param-name>log4jConfiguration</param-name>
         <param-value>/WEB-INF/conf/log.properties</param-value>
     </context-param>
+     <context-param>
+    	<!-- auto-shutdown stops log4j when the web fragment unloads, but that
+         is too early because it is before the listeners shut down. To 
+         compensate, we use a Log4jShutdownOnContextDestroyedListener and
+         we register it before any other listeners which means it will shut
+         down *after* all other listeners. -->
+        <param-name>isLog4jAutoShutdownDisabled</param-name>
+        <param-value>true</param-value>
+    </context-param>
+	 <listener>
+	   <!-- we ensure logging stops after other listeners by registering
+	        the shutdown listener first -->
+	    <listener-class>
+	       org.apache.logging.log4j.web.Log4jShutdownOnContextDestroyedListener
+	    </listener-class>
+	</listener>
     <listener>
         <display-name>Lutece context listener</display-name>
         <listener-class>fr.paris.lutece.portal.service.init.AppInitListener</listener-class>
