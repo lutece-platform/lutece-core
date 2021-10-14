@@ -160,6 +160,7 @@
             <constructor-arg ref="defaultFileDownloadUrlService" />
             <constructor-arg ref="defaultFileNoRBACService" />
             <property name="default" value="true" />
+            <property name="name" value="defaultDatabaseFileStoreProvider" />
     </bean>
     
     <!-- admin dashboards -->

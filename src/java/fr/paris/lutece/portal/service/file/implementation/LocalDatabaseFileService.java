@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.service.file.implementation;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
@@ -47,18 +58,7 @@ import fr.paris.lutece.portal.service.file.IFileRBACService;
 import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
-
-import java.io.InputStream;
-
-import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.service.util.AppException;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.io.IOUtils;
 
 /**
  * 
@@ -69,13 +69,9 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
 {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * name defaulted to databaseBlobstore - only one can be supported by webapp
-     */
-    public static final String FILE_STORE_PROVIDER_NAME = "defaultDatabaseFileStoreProvider";
-
     private IFileDownloadUrlService _fileDownloadUrlService;
     private IFileRBACService _fileRBACService;
+    private String _strName;
     private boolean _bDefault;
 
     /**
@@ -137,7 +133,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     @Override
     public String getName( )
     {
-        return FILE_STORE_PROVIDER_NAME;
+        return _strName;
     }
 
     /**
@@ -263,6 +259,11 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     public void setDefault( boolean bDefault )
     {
         this._bDefault = bDefault;
+    }
+    
+    public void setName( String strName )
+    {
+        _strName = strName;
     }
 
     /**
