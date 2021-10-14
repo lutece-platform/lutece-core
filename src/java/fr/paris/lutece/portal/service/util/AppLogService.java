@@ -84,6 +84,11 @@ public final class AppLogService
     /**
      * Logs a message with parameters at the {@link Level#DEBUG DEBUG} level.
      *
+     * To improve performance, do not use String concatenation such as :
+     *    AppLogService.error( "my message with param1 " + param1 + " and " + param2, myexception ) ;
+     * Recommended use :
+     *    AppLogService.error( "my message with param1 {} and param2 {}", param1, param2, myexception ) ;
+     *
      * @param message the message to log; the format depends on the message factory.
      * @param params parameters to the message.
      * @see #getMessageFactory()
@@ -159,6 +164,11 @@ public final class AppLogService
     /**
      * Logs a message with parameters at the {@link Level#ERROR ERROR} level.
      *
+     * To improve performance, do not use String concatenation such as :
+     *    AppLogService.error( "my message with param1 " + param1 + " and " + param2, myexception ) ;
+     * Recommended use :
+     *    AppLogService.error( "my message with param1 {} and param2 {}", param1, param2, myexception ) ;
+     *
      * @param message the message to log; the format depends on the message factory.
      * @param params parameters to the message.
      * @see #getMessageFactory()
@@ -204,6 +214,11 @@ public final class AppLogService
     
     /**
      * Logs a message with parameters at the {@link Level#INFO INFO} level.
+     *
+     * To improve performance, do not use String concatenation such as :
+     *    AppLogService.error( "my message with param1 " + param1 + " and " + param2, myexception ) ;
+     * Recommended use :
+     *    AppLogService.error( "my message with param1 {} and param2 {}", param1, param2, myexception ) ;
      *
      * @param message the message to log; the format depends on the message factory.
      * @param params parameters to the message.
