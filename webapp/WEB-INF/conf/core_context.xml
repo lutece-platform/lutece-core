@@ -274,7 +274,6 @@
             <list>
                 <value>commons.html</value>
 				<value>commons_bs4_backport.html</value>
-                <value>admin/util/calendar/macro_datepicker.html</value>
                 <value>admin/util/calendar/macro_datetimepicker.html</value>
             </list>
         </property>
@@ -287,7 +286,6 @@
             <list>
                 <value>commons_bs4_materialkit.html</value>                
 				<value>commons_bs4_backport.html</value>
-                <!-- <value>admin/util/calendar/macro_datepicker_materialkit.html</value> -->
 				<value>admin/util/calendar/macro_datetimepicker.html</value>
             </list>
         </property>
@@ -299,7 +297,6 @@
             <list>
                 <value>commons_bs4_adminlte.html</value>                
 				<value>commons_bs4_backport.html</value>
-                <value>admin/util/calendar/macro_datepicker.html</value>
 				<value>admin/util/calendar/macro_datetimepicker.html</value>
             </list>
         </property>
@@ -311,7 +308,6 @@
             <list>
                 <value>commons_bulma.html</value>             
 				<value>commons_bs4_backport.html</value>
-                <value>admin/util/calendar/macro_datepicker.html</value>
 				<value>admin/util/calendar/macro_datetimepicker.html</value>
             </list>
         </property>
@@ -323,7 +319,6 @@
             <list>
                 <value>commons_bs5_tabler.html</value>
                 <value>commons_bs4_backport.html</value>
-                <value>admin/util/calendar/macro_datepicker.html</value>
 				<value>admin/util/calendar/macro_datetimepicker.html</value>
             </list>
         </property>
