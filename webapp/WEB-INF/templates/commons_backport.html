@@ -246,10 +246,6 @@
 	</@formGroup>
 </#macro>
 
-<#macro getDatePickerBootstrap idField language format='' showFormat='' >
-   <@getDateFlatPicker idField=idField language=language  />
-</#macro>
-
 <#macro boxSized col i18nTitleKey boxClass='box-primary' >
 <!-- WARNING : macro boxSized is deprecated -->
     <@columns md=col>
@@ -293,16 +289,12 @@
 	<@tabList style=type id=id params=params />
 </#macro>
 
-
 <#macro badge color='primary' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' id='' params=''>
 <!-- WARNING : macro badge is deprecated -->
 <@tag color=color class=class title=title tagIcon=badgeIcon id=id />
 </#macro>
 
-
-
 <#-- DEPRECATED/RENAMED DATEPICKER MACROS -->
-
 <#macro getDatePickerBootstrap idField language parse='false' showFormat='d-m-Y' format=''>
 	<@getDate idField=idField language=language format=format showFormat=showFormat />
 </#macro>
@@ -313,4 +305,16 @@
 
 <#macro getDatePickerRangeBootstrap language showFormat=''>
 	<@alert color='danger'>Not compatible with core v7. Please update the DatePicker code in the templates</@alert>
+</#macro>
+
+<#macro getDatePickerFlatPicker idField language >
+	<@getDate idField=idField language=language />
+</#macro>
+
+<#macro getDatePicker idField language >
+	<@getDate idField=idField language=language />
+</#macro>
+
+<#macro getDatePickerRange idFieldFrom idFieldTo language >	
+	<@getDateRange idField=idFieldFrom language=language idEndField=idFieldTo >
 </#macro>
