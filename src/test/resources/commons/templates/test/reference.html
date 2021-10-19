@@ -155,9 +155,10 @@
 
 <@formLabel class='' hideLabel=hideLabel labelFor='' labelId='' labelKey='' mandatory=true showLabel=true> - </@formLabel>
 
-<@getDateTimePickerBootstrap idField='test1' language=lang />
-<@getDatePickerBootstrap idField='test2' language=lang showFormat='d-m-Y' />
-<@getDateFlatPicker idField='test3' language=lang />
+<@getDate idField language format='yyyy-MM-dd' showFormat='d-m-Y' />
+<@getDateTime idField language format='yyyy-MM-dd"T"HH:mm:ss\\Z' showFormat='d-m-Y H:i' />
+<@getDateRange idField language idEndField='' format='yyyy-MM-dd'  showFormat='d-m-Y' />
+<@getDateTimeRange idField language format='yyyy-MM-dd"T"HH:mm:ss\\Z' showFormat='d-m-Y H:i' />
 
 <@headerButtons> - </@headerButtons >
 
