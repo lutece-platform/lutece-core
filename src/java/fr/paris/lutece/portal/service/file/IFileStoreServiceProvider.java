@@ -58,6 +58,12 @@ public interface IFileStoreServiceProvider extends Serializable
     public String getName( );
 
     /**
+     * set the service name
+     * 
+     */
+    public void setName( String strName );
+
+    /**
      * get the default
      * 
      * @return true if default
