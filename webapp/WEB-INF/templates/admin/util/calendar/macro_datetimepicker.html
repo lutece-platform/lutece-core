@@ -1,4 +1,4 @@
-<#macro getDate idField language format='d/m/Y' showFormat='d-m-Y'>
+<#macro getDate idField language format='yyyy-MM-dd' showFormat='d-m-Y'>
 	<#if datePickerIsLoaded?? && datePickerIsLoaded>
 	<#else>
 		<script src="js/admin/bootstrap-flatpickr.min.js"></script>
@@ -24,7 +24,7 @@
 	});
 	</script>
 </#macro>
-<#macro getDateRange idField language idEndField='' format='d/m/Y'  showFormat='d-m-Y'>
+<#macro getDateRange idField language idEndField='' format='yyyy-MM-dd'  showFormat='d-m-Y'>
 	<#if datePickerIsLoaded?? && datePickerIsLoaded>
 	<#else>
 		<script src="js/admin/bootstrap-flatpickr.min.js"></script>
