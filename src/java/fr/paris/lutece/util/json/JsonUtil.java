@@ -70,7 +70,7 @@ public class JsonUtil
         }
         catch( JsonProcessingException e )
         {
-            AppLogService.error( e );
+            AppLogService.error( e.getMessage(), e );
         }
 
         return strJsonResponse;

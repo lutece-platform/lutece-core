@@ -353,7 +353,7 @@ public class PortalJspBean
         }
         else
         {
-            AppLogService.error( "Error 500 : " + exception.getMessage( ), exception );
+            AppLogService.error( "Error 500 : {}", exception.getMessage( ), exception );
         }
 
         String strCause = null;
@@ -431,7 +431,7 @@ public class PortalJspBean
             }
             catch( UnsupportedEncodingException ex )
             {
-                AppLogService.error( "Redirection error while encoding URL : " + ex.getMessage( ), ex );
+                AppLogService.error( "Redirection error while encoding URL : {}", ex.getMessage( ), ex );
             }
         }
 

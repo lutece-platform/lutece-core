@@ -78,7 +78,7 @@ public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProce
         for ( File ormFile : getListORMFiles( ) )
         {
             String ormAbsolutePath = ormFile.getAbsolutePath( );
-            _Log.info( "Found ORM file : " + ormAbsolutePath );
+            _Log.info( "Found ORM file : {}",  ormAbsolutePath );
             pui.addMappingFileName( ormAbsolutePath.substring( ormAbsolutePath.indexOf( CLASSPATH_PATH_IDENTIFIER ) ) );
         }
 
@@ -90,7 +90,7 @@ public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProce
 
         for ( String strClass : entityClasses )
         {
-            _Log.info( "Found entity class : " + strClass );
+            _Log.info( "Found entity class : {}",  strClass );
 
             if ( !pui.getManagedClassNames( ).contains( strClass ) )
             {

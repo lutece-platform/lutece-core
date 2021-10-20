@@ -106,7 +106,7 @@ public class AttributeComparator implements Comparator<Object>, Serializable
         }
         catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e )
         {
-            AppLogService.error( e );
+            AppLogService.error( e.getMessage(), e );
         }
 
         if ( !_bIsASC )
@@ -185,7 +185,7 @@ public class AttributeComparator implements Comparator<Object>, Serializable
         }
         catch( Exception e )
         {
-            AppLogService.error( e );
+            AppLogService.error( e.getMessage(), e );
         }
 
         return method;

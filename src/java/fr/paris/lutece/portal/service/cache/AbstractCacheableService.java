@@ -272,7 +272,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         // Remove the element from the cache
         _cache.remove( element.getKey( ) );
-        _logger.debug( "Object removed from the cache : " + cache.getName( ) + " - key : " + element.getKey( ) );
+        _logger.debug( "Object removed from the cache : {}  - key : {}", cache.getName( ), element.getKey( ) );
     }
 
     /**

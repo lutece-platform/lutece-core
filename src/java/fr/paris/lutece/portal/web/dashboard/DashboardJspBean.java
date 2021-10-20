@@ -101,7 +101,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         }
         catch( NumberFormatException nfe )
         {
-            AppLogService.error( "DashboardJspBean.doReorderColumn : " + nfe.getMessage( ), nfe );
+            AppLogService.error( "DashboardJspBean.doReorderColumn : {}", nfe.getMessage( ), nfe );
 
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }

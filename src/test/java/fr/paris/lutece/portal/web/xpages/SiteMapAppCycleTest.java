@@ -109,7 +109,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
 
     private void setRootPageId( int nRootPageId ) throws IOException
     {
-        AppLogService.info( "Setting root page id to " + nRootPageId );
+        AppLogService.info( "Setting root page id to {}", nRootPageId );
         File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
         Properties props = new Properties( );
         try ( InputStream is = new FileInputStream( luteceProperties ) )
@@ -134,7 +134,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
         }
         catch ( Throwable t )
         {
-            AppLogService.error( "Could not remove page " + nPageId, t );
+            AppLogService.error( "Could not remove page {}", nPageId, t );
         }
     }
 

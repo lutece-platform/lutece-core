@@ -69,7 +69,7 @@ public final class ResourceTypeManager
     public static void registerResourceType( ResourceType rt )
     {
         _mapResourceTypes.put( rt.getResourceTypeKey( ), rt );
-        AppLogService.info( "New RBAC resource type registered : " + rt.getResourceTypeKey( ) );
+        AppLogService.info( "New RBAC resource type registered : {}", rt.getResourceTypeKey( ) );
     }
 
     /**

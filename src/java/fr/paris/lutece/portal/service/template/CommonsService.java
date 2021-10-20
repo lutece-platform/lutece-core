@@ -90,7 +90,7 @@ public class CommonsService
                 if ( ( listAutoIncludes != null ) && listAutoIncludes.contains( strExclude ) )
                 {
                     serviceFMT.removeAutoInclude( strExclude );
-                    AppLogService.info( "Existing Freemarker AutoInclude removed : " + strExclude );
+                    AppLogService.info( "Existing Freemarker AutoInclude removed : {}", strExclude );
                 }
             }
         }
@@ -100,7 +100,7 @@ public class CommonsService
             if ( ( listAutoIncludes != null ) && !listAutoIncludes.contains( strInclude ) )
             {
                 serviceFMT.addAutoInclude( strInclude );
-                AppLogService.info( "New Freemarker AutoInclude added : " + strInclude );
+                AppLogService.info( "New Freemarker AutoInclude added : {}", strInclude );
             }
         }
 

@@ -377,12 +377,12 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     {
         try
         {
-            _logger.debug( "Redirect :" + strTarget );
+            _logger.debug( "Redirect : {}", strTarget );
             _response.sendRedirect( strTarget );
         }
         catch( IOException e )
         {
-            _logger.error( "Unable to redirect : " + strTarget + " : " + e.getMessage( ), e );
+            _logger.error( "Unable to redirect : {} : {}", strTarget, e.getMessage( ), e );
         }
 
         return null;

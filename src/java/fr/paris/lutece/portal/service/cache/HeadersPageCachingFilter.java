@@ -96,7 +96,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
                 CacheService.getInstance( ).createCache( _strCacheName );
                 _cache = CacheManager.getInstance( ).getCache( _strCacheName );
                 CacheService.registerCacheableService( this );
-                _logger.debug( "Initializing cache : " + _strCacheName );
+                _logger.debug( "Initializing cache : {}",  _strCacheName );
 
                 setCacheNameIfAnyConfigured( filterConfig );
 
@@ -187,7 +187,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
         if ( _bEnable )
         {
             super.doFilter( request, response, chain );
-            _logger.debug( "URI served from cache : " + request.getRequestURI( ) );
+            _logger.debug( "URI served from cache : {}", request.getRequestURI( ) );
         }
         else
         {

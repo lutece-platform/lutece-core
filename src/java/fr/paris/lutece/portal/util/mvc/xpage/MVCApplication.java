@@ -549,12 +549,12 @@ public abstract class MVCApplication implements XPageApplication
 
         try
         {
-            _logger.debug( "Redirect :" + strTarget );
+            _logger.debug( "Redirect :{}", strTarget );
             response.sendRedirect( strTarget );
         }
         catch( IOException e )
         {
-            _logger.error( "Unable to redirect : " + strTarget + " : " + e.getMessage( ), e );
+            _logger.error( "Unable to redirect : {} : {}", strTarget, e.getMessage( ), e );
         }
 
         return new XPage( );

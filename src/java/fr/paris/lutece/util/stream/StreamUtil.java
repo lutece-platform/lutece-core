@@ -63,7 +63,7 @@ public class StreamUtil
             }
             catch( IOException ex )
             {
-                AppLogService.error( "Error closing the stream : " + ex.getMessage( ), ex );
+                AppLogService.error( "Error closing the stream : {}", ex.getMessage( ), ex );
             }
         }
     }

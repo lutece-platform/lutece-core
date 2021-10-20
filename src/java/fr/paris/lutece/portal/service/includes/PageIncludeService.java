@@ -72,7 +72,7 @@ public final class PageIncludeService
             PageInclude pageInclude = (PageInclude) Class.forName( entry.getClassName( ) ).newInstance( );
             entry.setPageInclude( pageInclude );
             _mapPageIncludes.put( entry.getId( ), entry );
-            AppLogService.info( "New Page Include Service registered : " + entry.getId( ) + ( ( !entry.isEnabled( ) ) ? " (disabled)" : "" ) );
+            AppLogService.info( "New Page Include Service registered : {} {}",  entry.getId( ), ( ( !entry.isEnabled( ) ) ? " (disabled)" : "" ) );
         }
         catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
         {

@@ -124,7 +124,7 @@ public final class LocaleService
                     if ( strISOLang.equals( dsLang ) )
                     {
                         _locale = new Locale( dsLang );
-                        AppLogService.info( "LocaleService : default locale set to : " + dsLang );
+                        AppLogService.info( "LocaleService : default locale set to : {}", dsLang );
 
                         return _locale;
                     }
@@ -133,7 +133,7 @@ public final class LocaleService
 
             // otherwise, get the default locale from properties
             _locale = new Locale( AppPropertiesService.getProperty( PROPERTY_LANG_DEFAULT ) );
-            AppLogService.error( "LocaleService : invalid defined locale " + dsLang + " - default set to " + _locale.getLanguage( ) );
+            AppLogService.error( "LocaleService : invalid defined locale {} - default set to {}", dsLang, _locale.getLanguage( ) );
 
             return _locale;
         }

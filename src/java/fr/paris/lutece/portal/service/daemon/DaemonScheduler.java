@@ -98,7 +98,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             boolean queued = _queue.offer( entry );
             if ( !queued )
             {
-                AppLogService.error( "Failed to enqueue a run of daemon " + entry.getId( ) );
+                AppLogService.error( "Failed to enqueue a run of daemon {}", entry.getId( ) );
             }
             return queued;
         }
@@ -188,7 +188,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             }
             catch( Throwable t )
             {
-                AppLogService.error( "Failed to stop daemon " + entry.getId( ), t );
+                AppLogService.error( "Failed to stop daemon {}",  entry.getId( ), t );
             }
         }
     }

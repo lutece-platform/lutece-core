@@ -63,12 +63,12 @@ public final class StartUpServiceManager
         {
             try
             {
-                AppLogService.info( "Processing StartUp service : " + service.getName( ) );
+                AppLogService.info( "Processing StartUp service : {}", service.getName( ) );
                 service.process( );
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error while processing StartUp service : " + service.getName( ), e );
+                AppLogService.error( "Error while processing StartUp service : {}",  service.getName( ), e );
             }
         }
     }

@@ -123,7 +123,7 @@ public final class CryptoService
         }
         catch( NoSuchAlgorithmException e )
         {
-            AppLogService.error( strAlgorithm + " not found", e );
+            AppLogService.error( "{} not found", strAlgorithm , e );
             return null;
         }
         byte [ ] buffer = new byte [ 1024];

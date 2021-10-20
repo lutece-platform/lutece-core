@@ -82,7 +82,7 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
 
     private void log( String message )
     {
-        AppLogService.info( this.getClass( ).getName( ) + ": " + message );
+        AppLogService.info( "{} : {}", this.getClass( ).getName( ), message );
     }
 
     @Override

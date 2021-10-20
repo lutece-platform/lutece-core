@@ -139,7 +139,7 @@ public class PropertiesService
         }
         catch( IOException ex )
         {
-            AppLogService.error( "Error loading property file : " + ex, ex );
+            AppLogService.error( "Error loading property file : {}", ex.getMessage( ), ex );
         }
     }
 
@@ -220,7 +220,7 @@ public class PropertiesService
         }
         catch( NumberFormatException e )
         {
-            AppLogService.info( e );
+            AppLogService.info( e.getMessage(), e );
         }
 
         return nValue;
@@ -249,7 +249,7 @@ public class PropertiesService
         }
         catch( NumberFormatException e )
         {
-            AppLogService.info( e );
+            AppLogService.info( e.getMessage(), e );
         }
 
         return lValue;

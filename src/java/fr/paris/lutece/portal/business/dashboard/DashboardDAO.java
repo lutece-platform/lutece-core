@@ -47,7 +47,7 @@ import java.util.List;
  */
 public class DashboardDAO implements IDashboardDAO
 {
-    private static final String LOG_ERROR_NOT_FOUND = "Dashboard named %s not found";
+    private static final String LOG_ERROR_NOT_FOUND = "Dashboard named {} not found";
     private static final String SQL_QUERY_MAX_ORDER = "SELECT max(dashboard_order) FROM core_dashboard";
     private static final String SQL_QUERY_MAX_ORDER_COLUMN = SQL_QUERY_MAX_ORDER + " WHERE dashboard_column = ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_dashboard ";
@@ -152,7 +152,7 @@ public class DashboardDAO implements IDashboardDAO
                 }
                 else
                 {
-                    AppLogService.error( String.format( LOG_ERROR_NOT_FOUND, strBeanName ) );
+                    AppLogService.error(  LOG_ERROR_NOT_FOUND, strBeanName  );
                 }
             }
 
@@ -189,7 +189,7 @@ public class DashboardDAO implements IDashboardDAO
                 }
                 else
                 {
-                    AppLogService.error( String.format( LOG_ERROR_NOT_FOUND, strBeanName ) );
+                    AppLogService.error(  LOG_ERROR_NOT_FOUND, strBeanName  );
                 }
             }
 
@@ -275,7 +275,7 @@ public class DashboardDAO implements IDashboardDAO
                 }
                 else
                 {
-                    AppLogService.error( String.format( LOG_ERROR_NOT_FOUND, strBeanName ) );
+                    AppLogService.error(  LOG_ERROR_NOT_FOUND, strBeanName  );
                 }
             }
 

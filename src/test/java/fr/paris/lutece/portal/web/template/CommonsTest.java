@@ -150,7 +150,7 @@ public class CommonsTest extends LuteceTestCase {
                 FileUtils.copyDirectory(fileSourceFolder, fileCommonsFolder,
 				new CommonsFileFilter());
 
-		AppLogService.info("Copying all files from " + fileSourceFolder.getAbsolutePath( ) + " to " + fileCommonsFolder.getAbsolutePath( ));
+		AppLogService.info("Copying all files from {} to {}", fileSourceFolder.getAbsolutePath( ), fileCommonsFolder.getAbsolutePath( ));
 
 		// util macros
 		strSourcePath = getSourcePath(strRootPath, "WEB-INF/templates/admin/util/calendar");
@@ -161,7 +161,7 @@ public class CommonsTest extends LuteceTestCase {
 		AppLogService.info( fileCommonsUtilFolder.getAbsolutePath( ) + " created");
 		FileUtils.copyDirectory(fileSourceFolder, fileCommonsUtilFolder );
 
-		AppLogService.info("Copying all files from " + fileSourceFolder.getAbsolutePath( ) + " to " + fileCommonsUtilFolder.getAbsolutePath( ));
+		AppLogService.info("Copying all files from {} to {}", fileSourceFolder.getAbsolutePath( ), fileCommonsUtilFolder.getAbsolutePath( ));
 	}
 
 	class CommonsFileFilter implements FileFilter {
