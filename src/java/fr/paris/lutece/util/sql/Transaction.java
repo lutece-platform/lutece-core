@@ -210,7 +210,7 @@ public class Transaction
      */
     public void executeStatement( ) throws SQLException
     {
-        _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - EXECUTE STATEMENT : " + _strSQL );
+        _logger.debug( "{} {}' - EXECUTE STATEMENT : {}",MESSAGE_PLUGIN, _strPluginName, _strSQL );
         _statement.executeUpdate( );
     }
 
@@ -223,11 +223,11 @@ public class Transaction
         {
             if ( _connection == null )
             {
-                throw new SQLException( MESSAGE_PLUGIN + _strPluginName + "' - Transaction has already been closed and can not be committed" );
+                throw new SQLException(  MESSAGE_PLUGIN + _strPluginName + "' - Transaction has already been closed and can not be committed" ) ;
             }
 
             _connection.commit( );
-            _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - COMMIT TRANSACTION" );
+            _logger.debug("{} {}' - COMMIT TRANSACTION", MESSAGE_PLUGIN, _strPluginName );
             closeTransaction( COMMITTED );
         }
         catch( SQLException e )
@@ -254,7 +254,7 @@ public class Transaction
     {
         if ( e != null )
         {
-            _logger.error( "Transaction Error - Rollback in progress " + e.getMessage( ), e.getCause( ) );
+            _logger.error( "Transaction Error - Rollback in progress {}", e.getMessage( ), e.getCause( ) );
         }
 
         try
@@ -262,16 +262,16 @@ public class Transaction
             if ( _connection != null )
             {
                 _connection.rollback( );
-                _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - ROLLBACK TRANSACTION" );
+                _logger.debug("{} {}' - ROLLBACK TRANSACTION", MESSAGE_PLUGIN, _strPluginName );
             }
             else
             {
-                _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - TRANSACTION HAS ALREADY BEEN ROLLED BACK" );
+                _logger.debug( "{} {}' - TRANSACTION HAS ALREADY BEEN ROLLED BACK", MESSAGE_PLUGIN, _strPluginName );
             }
         }
         catch( SQLException ex )
         {
-            _logger.error( "Transaction Error - Rollback error : " + ex.getMessage( ), ex.getCause( ) );
+            _logger.error( "Transaction Error - Rollback error : {}", ex.getMessage( ), ex );
         }
         finally
         {
@@ -324,7 +324,7 @@ public class Transaction
         }
 
         _logger = LogManager.getLogger( LOGGER_DEBUG_SQL + _strPluginName );
-        _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - BEGIN TRANSACTION" );
+        _logger.debug( "{}{}' - BEGIN TRANSACTION", MESSAGE_PLUGIN, _strPluginName );
 
         try
         {
@@ -365,7 +365,7 @@ public class Transaction
         }
         catch( SQLException ex )
         {
-            _logger.error( "Transaction Error - Unable to close transaction " + ex.getMessage( ), ex.getCause( ) );
+            _logger.error( "Transaction Error - Unable to close transaction {}", ex.getMessage( ), ex );
         }
         finally
         {

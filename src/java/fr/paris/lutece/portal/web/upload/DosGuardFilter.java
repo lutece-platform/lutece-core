@@ -142,7 +142,7 @@ public class DosGuardFilter implements Filter
      */
     public synchronized boolean isAllowed( String strRemoteAddr, int iContentLength )
     {
-        AppLogService.debug( "DosGuard : isAllowed(" + strRemoteAddr + ", " + iContentLength + ")" );
+        AppLogService.debug( "DosGuard : isAllowed({}, {})", strRemoteAddr, iContentLength );
 
         // Ignore the requests under the minimum size
         if ( iContentLength < _nMinContentLength )
@@ -154,11 +154,11 @@ public class DosGuardFilter implements Filter
 
         // Record the time of this request
         long lRequestTime = System.currentTimeMillis( );
-        AppLogService.debug( "Request time : " + lRequestTime );
+        AppLogService.debug( "Request time : {}", lRequestTime );
 
         // Test if IP was previously recorded
         Long previousRequestTime = _mapLastRequestTimes.get( strRemoteAddr );
-        AppLogService.debug( "Previous request time : " + previousRequestTime );
+        AppLogService.debug( "Previous request time : {}", previousRequestTime );
 
         if ( previousRequestTime != null )
         {
@@ -212,7 +212,7 @@ public class DosGuardFilter implements Filter
             // Expired entries are those where the IP can't be blocked anymore
             long lMinTime = System.currentTimeMillis( ) - _nMinInterval;
 
-            AppLogService.debug( "Min time : " + lMinTime );
+            AppLogService.debug( "Min time : {}", lMinTime );
 
             // Read entries from the list, remove them as long as they are expired
             boolean bDone = false;
@@ -229,7 +229,7 @@ public class DosGuardFilter implements Filter
                     _mapLastRequestTimes.remove( lastEntry.getRemoteAddr( ) );
                     _listOrderedRequests.removeLast( );
 
-                    AppLogService.debug( "Removing [" + lastEntry.getRemoteAddr( ) + ", " + lastEntry.getRequestTime( ) + "]" );
+                    AppLogService.debug( "Removing [{}, {}]", lastEntry.getRemoteAddr( ), lastEntry.getRequestTime( ) );
                 }
                 else
                 {

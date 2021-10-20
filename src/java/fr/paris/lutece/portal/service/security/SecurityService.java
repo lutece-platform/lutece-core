@@ -312,7 +312,7 @@ public final class SecurityService
             try
             {
                 authentication = (LuteceAuthentication) Class.forName( strAuthenticationClass ).newInstance( );
-                AppLogService.info( "Authentication service loaded : " + authentication.getAuthServiceName( ) );
+                AppLogService.info( "Authentication service loaded : {}", authentication.getAuthServiceName( ) );
             }
             catch ( InstantiationException | IllegalAccessException | ClassNotFoundException e )
             {

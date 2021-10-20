@@ -166,7 +166,7 @@ public class AdminDocumentationJspBean
         }
         catch( Exception e )
         {
-            AppLogService.error( "Can't parse XML: " + e.getMessage( ), e );
+            AppLogService.error( "Can't parse XML: {}", e.getMessage( ), e );
 
             return null;
         }

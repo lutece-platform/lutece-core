@@ -434,7 +434,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
             if ( checkCoreMinCompatibility( minCoreVersion, coreVersion ) )
             {
-                AppLogService.debug( "Min core version ok : " + plugin.getMinCoreVersion( ) );
+                AppLogService.debug( "Min core version ok : {}", plugin.getMinCoreVersion( ) );
                 bMin = true;
             }
         }
@@ -448,7 +448,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
             if ( checkCoreMaxCompatibility( maxCoreVersion, coreVersion ) )
             {
-                AppLogService.debug( "Max core version ok : " + plugin.getMaxCoreVersion( ) );
+                AppLogService.debug( "Max core version ok : {}", plugin.getMaxCoreVersion( ) );
                 bMax = true;
             }
         }

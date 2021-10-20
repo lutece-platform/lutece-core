@@ -84,7 +84,7 @@ public class EntityManagerService
 
         if ( emf == null )
         {
-            _log.error( "EntityManagerService Error - No factory was found for pool : " + strPoolName );
+            _log.error( "EntityManagerService Error - No factory was found for pool : {}", strPoolName );
         }
 
         return emf;

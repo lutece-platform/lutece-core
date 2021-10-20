@@ -341,7 +341,7 @@ public class AttributeImage extends AbstractAttribute
         }
         catch( IOException e )
         {
-            AppLogService.error( e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         return listUserFields;

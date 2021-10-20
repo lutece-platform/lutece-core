@@ -84,16 +84,16 @@ public final class ServletService
             HttpServlet servlet = (HttpServlet) Class.forName( entry.getServletClass( ) ).newInstance( );
             LuteceServlet s = new LuteceServlet( entry.getName( ), servlet, entry.getMappingUrlPattern( ), plugin, entry.getInitParameters( ) );
             _listServlets.add( s );
-            AppLogService.info( "New Servlet registered : " + entry.getName( ) );
+            AppLogService.info( "New Servlet registered : {}", entry.getName( ) );
 
             for ( String strKey : entry.getInitParameters( ).keySet( ) )
             {
-                AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" + entry.getInitParameters( ).get( strKey ) + "'" );
+                AppLogService.info( " * init parameter - name : '{}' - value : '{}'", strKey , entry.getInitParameters( ).get( strKey ) );
             }
         }
         catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
         {
-            AppLogService.error( "Error registering a servlet : " + e.getMessage( ), e );
+            AppLogService.error( "Error registering a servlet : {}", e.getMessage( ), e );
         }
     }
 
@@ -131,12 +131,12 @@ public final class ServletService
                     // Create a ServletConfig wrapper to provide init parameters to the servlet
                     LuteceServletConfig servletConfig = new LuteceServletConfig( servlet.getName( ), _context, servlet.getInitParameters( ) );
                     servlet.getServlet( ).init( servletConfig );
-                    AppLogService.info( " * servlet '" + servlet.getName( ) + "' from plugin " + servlet.getPlugin( ).getName( ) + " initialized." );
+                    AppLogService.info( " * servlet '{}' from plugin {} initialized.", servlet.getName( ), servlet.getPlugin( ).getName( ) );
                 }
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error execution init() method - Servlet " + servlet.getName( ), e );
+                AppLogService.error( "Error execution init() method - Servlet {}", servlet.getName( ), e );
                 throw new LuteceInitException( "Error execution init() method - Servlet " + servlet.getName( ), e );
             }
         }

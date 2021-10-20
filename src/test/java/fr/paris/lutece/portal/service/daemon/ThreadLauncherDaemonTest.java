@@ -78,7 +78,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     protected void tearDown( ) throws Exception
     {
         // restore threadLauncherDaemon state
-        AppLogService.info( "restore threadLauncherDaemon state (" + _bThreadLauncherDaemonInitialState + ")" );
+        AppLogService.info( "restore threadLauncherDaemon state ( {} )", _bThreadLauncherDaemonInitialState  );
         if ( !_bThreadLauncherDaemonInitialState.booleanValue( ) )
         {
             AppDaemonService.stopDaemon( "threadLauncherDaemon" );
@@ -109,9 +109,9 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
         dumpStateWhileWaiting( 500L ); // for debugging test failure
 
         barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
-        AppLogService.info( "ThreadLauncherDaemonTest#testAddItemToQueue : task executed after "
-                + Duration.between( start, Instant.now( ) ).toMillis( ) + "ms" );
-        AppLogService.info( "Last Run Logs : " + _threadLauncherDaemonEntry.getLastRunLogs( ) );
+        AppLogService.info( "ThreadLauncherDaemonTest#testAddItemToQueue : task executed after {} ms",
+                ()-> Duration.between( start, Instant.now( ) ).toMillis( ) );
+        AppLogService.info( "Last Run Logs : {}", _threadLauncherDaemonEntry.getLastRunLogs( ) );
         assertFalse( _runnableTimedOut );
     }
 
@@ -138,6 +138,6 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
             }
             dump.append( "\n\n" );
         }
-        AppLogService.info( "Current state : " + dump );
+        AppLogService.info( "Current state : {}", dump );
     }
 }

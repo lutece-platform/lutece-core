@@ -210,7 +210,7 @@ public final class PluginService
         }
         else
         {
-            AppLogService.error( "No plugin class defined in file : " + file.getAbsolutePath( ) );
+            AppLogService.error( "No plugin class defined in file : {}", file.getAbsolutePath( ) );
         }
     }
 
@@ -225,7 +225,7 @@ public final class PluginService
         _mapPlugins.put( plugin.getName( ), plugin );
 
         String strStatusWarning = ( plugin.isInstalled( ) ) ? "" : " *** Warning : current status is 'disabled' ***";
-        AppLogService.info( "New Plugin registered : " + plugin.getName( ) + strStatusWarning );
+        AppLogService.info( "New Plugin registered : {} {}", plugin.getName( ), strStatusWarning );
     }
 
     /**
@@ -307,7 +307,7 @@ public final class PluginService
         }
         catch( Exception e )
         {
-            AppLogService.error( "Error loading plugin defined in file : " + file.getAbsolutePath( ), e );
+            AppLogService.error( "Error loading plugin defined in file : {}", file.getAbsolutePath( ), e );
         }
 
         // If the keys aren't found in the datastore then create a key in it
@@ -372,8 +372,7 @@ public final class PluginService
 
         if ( strPoolname.equals( AppConnectionService.NO_POOL_DEFINED ) && plugin.isDbPoolRequired( ) && !plugin.getName( ).equals( CORE ) )
         {
-            AppLogService.info( " *** WARNING *** - The plugin '" + plugin + "' has no pool defined in db.properties or datastore. Using the default pool '"
-                    + AppConnectionService.DEFAULT_POOL_NAME + "' instead." );
+            AppLogService.info( " *** WARNING *** - The plugin '{}' has no pool defined in db.properties or datastore. Using the default pool '{}' instead.", plugin, AppConnectionService.DEFAULT_POOL_NAME  );
             strPoolname = AppConnectionService.DEFAULT_POOL_NAME;
         }
 

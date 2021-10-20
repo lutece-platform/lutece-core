@@ -114,7 +114,7 @@ public class LuteceConnectionService implements ConnectionService
 
         if ( url == null )
         {
-            _logger.error( "No URL specified for the pool " + getPoolName( ) );
+            _logger.error( "No URL specified for the pool {}", getPoolName( ) );
         }
         else
         {
@@ -125,7 +125,7 @@ public class LuteceConnectionService implements ConnectionService
 
         if ( user == null )
         {
-            _logger.error( "No user specified for the pool " + getPoolName( ) );
+            _logger.error( "No user specified for the pool {}",  getPoolName( ) );
         }
         else
         {
@@ -150,15 +150,15 @@ public class LuteceConnectionService implements ConnectionService
         {
             Driver driver = (Driver) Class.forName( strDiverClassName ).newInstance( );
             DriverManager.registerDriver( driver );
-            _logger.info( "Registered JDBC driver " + strDiverClassName );
+            _logger.info( "Registered JDBC driver {}",  strDiverClassName );
         }
         catch( NullPointerException e )
         {
-            _logger.error( "Can't register JDBC driver: " + strDiverClassName + " because the property driver is not defined", e );
+            _logger.error( "Can't register JDBC driver: {} because the property driver is not defined", strDiverClassName , e );
         }
         catch( Exception e )
         {
-            _logger.error( "Can't register JDBC driver: " + strDiverClassName, e );
+            _logger.error( "Can't register JDBC driver: {}", strDiverClassName, e );
         }
 
         int maxConns = ( htParamsConnectionPool.get( getPoolName( ) + ".maxconns" ) == null ) ? 0

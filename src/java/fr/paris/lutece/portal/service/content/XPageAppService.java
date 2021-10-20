@@ -108,7 +108,7 @@ public class XPageAppService extends ContentService
             }
 
             _mapApplications.put( entry.getId( ), entry );
-            AppLogService.info( "New XPage application registered : " + entry.getId( ) + ( entry.isEnabled( ) ? "" : " (disabled)" ) );
+            AppLogService.info( "New XPage application registered : {} {}",  entry::getId, () -> ( entry.isEnabled( ) ? "" : " (disabled)" ) );
         }
         catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
         {
@@ -197,8 +197,7 @@ public class XPageAppService extends ContentService
         // TODO : Handle entry == null
         if ( ( entry == null ) || ( !entry.isEnable( ) ) )
         {
-            AppLogService.error( "The specified Xpage '" + SecurityUtil.logForgingProtect( strName )
-                    + "' cannot be retrieved. Check installation of your Xpage application." );
+            AppLogService.error( "The specified Xpage '{}' cannot be retrieved. Check installation of your Xpage application.", () -> SecurityUtil.logForgingProtect( strName ) );
             SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
 
             return null; // unreachable because SiteMessageService.setMessage throws
@@ -305,7 +304,7 @@ public class XPageAppService extends ContentService
         {
             application = getApplicationInstance( entry );
             session.setAttribute( strAttribute, application );
-            AppLogService.debug( "New XPage instance of " + entry.getClassName( ) + " created and attached to session " + session );
+            AppLogService.debug( "New XPage instance of {} created and attached to session {}", entry.getClassName( ), session );
         }
 
         return application;

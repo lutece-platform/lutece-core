@@ -63,12 +63,12 @@ public final class ShutdownServiceManager
         {
             try
             {
-                AppLogService.info( "Processing shutdown service : " + service.getName( ) );
+                AppLogService.info( "Processing shutdown service : {}", service.getName( ) );
                 service.process( );
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error while processing shutdown service : " + service.getName( ), e );
+                AppLogService.error( "Error while processing shutdown service : {}",  service.getName( ), e );
             }
         }
     }

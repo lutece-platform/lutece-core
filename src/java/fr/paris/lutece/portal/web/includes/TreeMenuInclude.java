@@ -94,7 +94,7 @@ public class TreeMenuInclude implements PageInclude
             }
             catch( NumberFormatException nfe )
             {
-                AppLogService.info( "TreeMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage( ) );
+                AppLogService.info( "TreeMenuInclude.fillTemplate() : {}", nfe.getLocalizedMessage( ) );
                 nCurrentPageId = 0;
             }
 

@@ -71,7 +71,7 @@ public final class QueryListenersService
     public void registerQueryListener( QueryEventListener listener )
     {
         _listListeners.add( listener );
-        AppLogService.info( "New Query Event Listener registered : " + listener.getClass( ).getName( ) );
+        AppLogService.info( "New Query Event Listener registered : {}", listener.getClass( ).getName( ) );
     }
 
     /**
@@ -90,7 +90,7 @@ public final class QueryListenersService
             catch ( Exception e )
             {
                 // Catch any exception in order to stay in the loop to notify all listeners
-                AppLogService.error( "Error while processing query event : " + e.getMessage( ), e );
+                AppLogService.error( "Error while processing query event : {}", e.getMessage( ), e );
             }
         }
     }

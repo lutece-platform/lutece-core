@@ -710,7 +710,7 @@ public class DataTableManager<T> implements Serializable
         }
         catch( Exception e )
         {
-            AppLogService.debug( e );
+            AppLogService.debug( e.getMessage(), e );
         }
 
         return method;

@@ -133,7 +133,7 @@ public final class BeanUtil
             catch( Exception e )
             {
                 String error = "La valeur du champ " + field.getName( ) + " de la classe " + bean.getClass( ).getName( ) + " n'a pas pu être récupéré ";
-                AppLogService.error( error );
+                AppLogService.error( error, e );
                 throw new AppException( error, e );
             }
         }

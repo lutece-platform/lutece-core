@@ -60,7 +60,7 @@ public final class ImageResourceManager
     public static void registerProvider( ImageResourceProvider resourceProvider )
     {
         _mapResourceTypes.put( resourceProvider.getResourceTypeId( ), resourceProvider );
-        AppLogService.info( "New ImageResourceType registered : " + resourceProvider.getClass( ).getName( ) );
+        AppLogService.info( "New ImageResourceType registered : {}",  resourceProvider.getClass( ).getName( ) );
     }
 
     /**

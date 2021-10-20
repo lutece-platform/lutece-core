@@ -249,7 +249,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
         catch( NumberFormatException nfe )
         {
-            AppLogService.error( "PageService.getPage() : " + nfe.getLocalizedMessage( ), nfe );
+            AppLogService.error( "PageService.getPage() : {}",  nfe.getLocalizedMessage( ), nfe );
 
             throw new PageNotFoundException( );
         }
@@ -267,7 +267,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             }
             catch( IOException e )
             {
-                AppLogService.error( "Error on sendRedirect for " + strPage );
+                AppLogService.error( "Error on sendRedirect for {}", strPage );
             }
         }
 
@@ -303,7 +303,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 {
                     boolean bCanBeCached = true;
 
-                    AppLogService.debug( "Page generation " + strKey );
+                    AppLogService.debug( "Page generation {}", strKey );
 
                     RedirectionResponseWrapper response = new RedirectionResponseWrapper( LocalVariables.getResponse( ) );
 
@@ -321,7 +321,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
                     if ( response.getRedirectLocation( ) != null )
                     {
-                        AppLogService.debug( "Redirection found " + response.getRedirectLocation( ) );
+                        AppLogService.debug( "Redirection found {}",  response.getRedirectLocation( ) );
                         strPage = REDIRECTION_KEY + response.getRedirectLocation( );
                     }
 
@@ -334,13 +334,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 }
                 else
                 {
-                    AppLogService.debug( "Page read from cache after synchronisation " + strKey );
+                    AppLogService.debug( "Page read from cache after synchronisation {}",  strKey );
                 }
             }
         }
         else
         {
-            AppLogService.debug( "Page read from cache " + strKey );
+            AppLogService.debug( "Page read from cache {}", strKey );
         }
 
         return strPage;
@@ -813,7 +813,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     public static void addPageEventListener( PageEventListener listener )
     {
         _listEventListeners.add( listener );
-        AppLogService.info( "New Page Event Listener registered : " + listener.getClass( ).getName( ) );
+        AppLogService.info( "New Page Event Listener registered : {}",  listener.getClass( ).getName( ) );
     }
 
     /**

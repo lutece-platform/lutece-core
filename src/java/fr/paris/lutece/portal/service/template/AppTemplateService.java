@@ -101,7 +101,7 @@ public final class AppTemplateService
     {
         for ( String strFileName : plugin.getFreeMarkerMacrosFiles( ) )
         {
-            AppLogService.info( "New freemarker autoinclude : " + strFileName + " from " + plugin.getName( ) );
+            AppLogService.info( "New freemarker autoinclude : {} from {}", strFileName, plugin.getName( ) );
             getFreeMarkerTemplateService( ).addPluginMacros( strFileName );
         }
     }

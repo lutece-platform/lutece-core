@@ -142,16 +142,16 @@ public final class AdminDashboardService
 
             if ( bRegistered )
             {
-                AppLogService.info( "New Admin Dashboard Component registered : " + entry.getName( ) );
+                AppLogService.info( "New Admin Dashboard Component registered : {}", entry.getName( ) );
             }
             else
             {
-                AppLogService.error( " Admin Dashboard Component not registered : " + entry.getName( ) + " : " + entry.getComponentClass( ) );
+                AppLogService.error( " Admin Dashboard Component not registered : {} : {}",  entry.getName( ), entry.getComponentClass( ) );
             }
         }
         catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
         {
-            AppLogService.error( "Error registering an Admin DashboardComponent : " + e.getMessage( ), e );
+            AppLogService.error( "Error registering an Admin DashboardComponent : {}", e.getMessage( ), e );
         }
     }
 

@@ -70,11 +70,11 @@ public final class HttpSessionListenerService
         {
             HttpSessionListener listener = (HttpSessionListener) Class.forName( strListenerClass ).newInstance( );
             LIST_LISTENERS.add( listener );
-            AppLogService.info( "New Listener registered : " + strListenerClass );
+            AppLogService.info( "New Listener registered : {}", strListenerClass );
         }
         catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
         {
-            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage( ), e );
+            AppLogService.error( "Error registering the listener {} : {}",strListenerClass, e.getMessage( ), e );
         }
     }
 

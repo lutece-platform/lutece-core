@@ -55,7 +55,7 @@ import fr.paris.lutece.portal.web.LocalVariables;
 public class ImageServlet extends HttpServlet
 {
     private static final long serialVersionUID = -5713203328367191908L;
-    private static final String ERROR_MSG = "ImageServlet error : ";
+    private static final String ERROR_MSG = "ImageServlet error : {}";
     private static final String PARAMETER_RESOURCE_TYPE = "resource_type";
     private static final String PARAMETER_ID = "id";
     private static final String PROPERTY_PATH_IMAGES = "path.images.root";
@@ -99,7 +99,7 @@ public class ImageServlet extends HttpServlet
                     }
                     catch( IOException ex )
                     {
-                        AppLogService.error( ERROR_MSG + ex.getMessage( ), ex );
+                        AppLogService.error( ERROR_MSG,  ex.getMessage( ), ex );
                     }
                 }
                 else
@@ -125,7 +125,7 @@ public class ImageServlet extends HttpServlet
                     }
                     catch( IOException ex )
                     {
-                        AppLogService.error( ERROR_MSG + ex.getMessage( ), ex );
+                        AppLogService.error( ERROR_MSG,  ex.getMessage( ), ex );
                     }
                 }
             }
