@@ -41,6 +41,9 @@ import java.util.Properties;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.UniqueIDGenerator;
@@ -53,6 +56,8 @@ public final class XmlTransformerService
 {
     private static final String XSLSOURCE_STYLE_PREFIX_ID = UniqueIDGenerator.getNewId( );
     private static final String LOGGER_XML_CONTENT = "lutece.debug.xmlContent";
+    private static final Logger _log = LogManager.getLogger( LOGGER_XML_CONTENT ); 
+
 
     /**
      * This method performs XSL transformation with cache.
@@ -153,12 +158,8 @@ public final class XmlTransformerService
         XmlTransformer xmlTransformer = new XmlTransformer( );
 
         try
-        {
-            if ( AppLogService.isDebugEnabled( LOGGER_XML_CONTENT ) )
-            {
-                AppLogService.debug( LOGGER_XML_CONTENT, strXml );
-            }
-
+        {           
+        	_log.debug( strXml );            
             strContent = xmlTransformer.transform( sourceDocument, sourceStyleSheet, strStyleSheetId, params, outputProperties );
         }
         catch( Exception e )

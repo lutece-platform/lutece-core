@@ -49,7 +49,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -73,11 +72,9 @@ public class AuthenticationFilter implements Filter
     private static final String PROPERTY_URL_PREFIX = "path.jsp.admin.public.";
     private static final String PROPERTY_URL_SUFFIX_LIST = "list";
     private static final String CONSTANT_LIST_SEPARATOR = ",";
-    private static final String LOGGER_NAME = "lutece.authentication";
     private static final String PROPERTY_RESET_EXCEPTION_MESSAGE = "User must reset his password.";
     private static final String PROPERTY_JSP_URL_ADMIN_LOGOUT = "lutece.admin.logout.url";
     private static final String JSP_URL_ADMIN_LOGIN = "jsp/admin/AdminLogin.jsp";
-
     /**
      * {@inheritDoc}
      */
@@ -105,7 +102,7 @@ public class AuthenticationFilter implements Filter
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
 
-        AppLogService.debug( LOGGER_NAME, "Accessing url : " + getResquestedUrl( req ) );
+        AppLogService.debug( "Accessing url : {}", ()-> getResquestedUrl( req ) );
 
         if ( isPrivateUrl( req ) )
         {
@@ -121,14 +118,14 @@ public class AuthenticationFilter implements Filter
 
                 if ( AdminAuthenticationService.getInstance( ).isExternalAuthentication( ) )
                 {
-                    AppLogService.debug( LOGGER_NAME, "New session behind external authentication : " + getResquestedUrl( req ) );
+                	AppLogService.debug( "New session behind external authentication : {}", ()->getResquestedUrl( req ) );
 
                     strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NEW_SESSION, getRedirectUrlExternalAuthentication( req ),
                             AdminMessage.TYPE_INFO );
                 }
                 else
                 {
-                    AppLogService.debug( LOGGER_NAME, "Access NOT granted to url : " + getResquestedUrl( req ) );
+                	AppLogService.debug( "Access NOT granted to url : {}", ()->getResquestedUrl( req ) );
 
                     strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NOT_AUTHENTICATED, getRedirectUrl( req ),
                             AdminMessage.TYPE_WARNING );
@@ -140,7 +137,7 @@ public class AuthenticationFilter implements Filter
             }
             catch( AccessDeniedException e )
             {
-                AppLogService.debug( LOGGER_NAME, "Access NOT granted to url : " + getResquestedUrl( req ) );
+            	AppLogService.debug( "Access NOT granted to url : {}", getResquestedUrl( req ) );
 
                 String strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_AUTH_FAILURE, getRedirectUrl( req ), AdminMessage.TYPE_ERROR );
                 resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
