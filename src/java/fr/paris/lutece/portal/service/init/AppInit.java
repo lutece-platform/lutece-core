@@ -146,7 +146,7 @@ public final class AppInit
                 initProperties( strRealPath );
             }
             
-            AppLogService.info( AppInfo.LUTECE_BANNER_VERSION + "  Starting  version " + AppInfo.getVersion( ) + "...\n" );
+            AppLogService.info( " {} {} {} ...\\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version",  AppInfo.getVersion( ) );
 
             // BeanUtil initialization, considering Lutèce availables locales and date
             // format properties
@@ -296,7 +296,7 @@ public final class AppInit
     {
         for ( ContentService cs : PortalService.getContentServicesList( ) )
         {
-            AppLogService.info( "Content Service '" + cs.getName( ) + "' is loaded " + ( cs.isCacheEnable( ) ? " [ cache enable ] " : " [ cache disable ] " ) );
+            AppLogService.info( "Content Service '{}' is loaded {} ", cs.getName( ), ( cs.isCacheEnable( ) ? " [ cache enable ] " : " [ cache disable ] " ) );
         }
     }
 

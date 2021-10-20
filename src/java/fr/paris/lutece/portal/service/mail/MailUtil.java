@@ -672,7 +672,7 @@ final class MailUtil
         catch( IOException e )
         {
             // Document is ignored
-            AppLogService.info( urlAttachement.getContentLocation( ) + MSG_ATTACHMENT_NOT_FOUND );
+            AppLogService.info( "{} {} ",urlAttachement.getContentLocation( ), MSG_ATTACHMENT_NOT_FOUND );
         }
         finally
         {
@@ -692,7 +692,7 @@ final class MailUtil
             }
             catch( IOException e )
             {
-                AppLogService.error( e );
+                AppLogService.error( e.getMessage(), e );
             }
         }
 

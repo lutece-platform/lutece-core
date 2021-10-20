@@ -126,7 +126,7 @@ public class AttributeDAO implements IAttributeDAO
                 }
                 catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
                 {
-                    AppLogService.error( e );
+                    AppLogService.error( e.getMessage(), e );
                 }
 
                 if ( attribute != null )
@@ -248,7 +248,7 @@ public class AttributeDAO implements IAttributeDAO
                 }
                 catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
                 {
-                    AppLogService.error( e );
+                    AppLogService.error( e.getMessage( ), e );
                 }
 
                 if ( attribute != null )
@@ -306,7 +306,7 @@ public class AttributeDAO implements IAttributeDAO
                 }
                 catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
                 {
-                    AppLogService.error( e );
+                    AppLogService.error( e.getMessage(), e );
                 }
 
                 if ( attribute != null )
@@ -358,7 +358,7 @@ public class AttributeDAO implements IAttributeDAO
                 }
                 catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
                 {
-                    AppLogService.error( e );
+                    AppLogService.error( e.getMessage(), e );
                 }
 
                 if ( attribute != null )

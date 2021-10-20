@@ -59,7 +59,7 @@ import net.sf.ehcache.management.ManagementService;
  */
 public final class CacheService
 {
-    private static final String ERROR_NUMERIC_PROP = "Invalid numeric property : ";
+    private static final String ERROR_NUMERIC_PROP = "Invalid numeric property : {} {} = {}";
     private static final String PROPERTY_PATH_CONF = "path.conf";
     private static final String PROPERTY_IS_ENABLED = ".enabled";
     private static final String FILE_CACHES_STATUS = "caches.dat";
@@ -304,7 +304,7 @@ public final class CacheService
         }
         catch( Exception e )
         {
-            AppLogService.error( "Error loading caches status defined in file : " + file.getAbsolutePath( ), e );
+            AppLogService.error( "Error loading caches status defined in file : {}",  file.getAbsolutePath(), e );
         }
     }
 
@@ -411,7 +411,7 @@ public final class CacheService
             }
             catch( NumberFormatException e )
             {
-                AppLogService.error( ERROR_NUMERIC_PROP + strCacheName + strProperty + "=" + strValue, e );
+                AppLogService.error( ERROR_NUMERIC_PROP , strCacheName, strProperty, strValue, e );
             }
         }
 
@@ -445,7 +445,7 @@ public final class CacheService
             }
             catch( NumberFormatException e )
             {
-                AppLogService.error( ERROR_NUMERIC_PROP + strCacheName + strProperty + "=" + strValue, e );
+                AppLogService.error( ERROR_NUMERIC_PROP, strCacheName, strProperty, strValue, e );
             }
         }
 

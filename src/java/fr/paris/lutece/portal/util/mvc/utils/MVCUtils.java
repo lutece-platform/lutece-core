@@ -150,13 +150,13 @@ public final class MVCUtils
             {
                 if ( m.isAnnotationPresent( View.class ) && strView.equals( m.getAnnotation( View.class ).value( ) ) )
                 {
-                    _logger.debug( "MVC controller - process view : '" + strView + "'" );
+                    _logger.debug( "MVC controller - process view : '{}'", strView );
 
                     return m;
                 }
             }
 
-            _logger.warn( "MVC controller - No method found to process view : '" + strView + "'" );
+            _logger.warn( "MVC controller - No method found to process view : '{}'", strView );
         }
 
         return null;
@@ -181,13 +181,13 @@ public final class MVCUtils
             {
                 if ( m.isAnnotationPresent( Action.class ) && strAction.equals( m.getAnnotation( Action.class ).value( ) ) )
                 {
-                    _logger.debug( "MVC controller - process action : '" + strAction + "'" );
+                    _logger.debug( "MVC controller - process action : '{}'", strAction );
 
                     return m;
                 }
             }
 
-            _logger.warn( "MVC controller - No method found to process action : '" + strAction + "'" );
+            _logger.warn( "MVC controller - No method found to process action : '{}'", strAction );
         }
 
         return null;

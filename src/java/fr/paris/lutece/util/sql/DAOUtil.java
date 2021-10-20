@@ -406,24 +406,13 @@ public class DAOUtil implements AutoCloseable
     }
 
     /**
-     * Writes logs
-     */
-    private void writeLogs( )
-    {
-        if ( _logger.isDebugEnabled( ) )
-        {
-            _logger.debug( _sbLogs.toString( ) );
-        }
-    }
-
-    /**
      * Free connection
      */
     public final void free( )
     {
         if ( !_bReleased )
         {
-            writeLogs( );
+        	_logger.debug( _sbLogs );
         }
 
         try
@@ -3349,8 +3338,8 @@ public class DAOUtil implements AutoCloseable
         {
             free( );
             AppLogService
-                    .error( "A call to DAOUtil.free() seems to be missing or an unexpected exception has occured during the use of a DAOUtil object - plugin : "
-                            + _strPluginName + " - SQL statement : " + _strSQL );
+                    .error( "A call to DAOUtil.free() seems to be missing or an unexpected exception has occured during the use of a DAOUtil object - plugin : {} - SQL statement : {}",
+                            _strPluginName, _strSQL );
         }
 
         super.finalize( );

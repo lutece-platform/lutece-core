@@ -151,8 +151,8 @@ public final class PoolManager
                 htParamsPool.put( name, props.getProperty( name ) );
                 htPools.put( strPoolName, htParamsPool );
 
-                _logger.debug( "property " + name );
-                _logger.debug( "pool name " + strPoolName );
+                _logger.debug( "property {}", name );
+                _logger.debug( "pool name {}", strPoolName );
             }
             catch( Exception e )
             {

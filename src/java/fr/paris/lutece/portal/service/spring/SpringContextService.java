@@ -161,7 +161,7 @@ public final class SpringContextService implements PluginEventListener
             XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader( gwac );
             xmlReader.loadBeanDefinitions( strContextFile );
 
-            AppLogService.info( "Context file loaded : " + FILE_CORE_CONTEXT );
+            AppLogService.info( "Context file loaded : {}", FILE_CORE_CONTEXT );
 
             // Load all context files found in the conf/plugins directory
             // Files are loaded separatly with an individual try/catch block
@@ -206,11 +206,11 @@ public final class SpringContextService implements PluginEventListener
             _context = gwac;
 
             AppLogService
-                    .info( "Spring context loaded in " + ( new Date( ).getTime( ) - dateBegin.getTime( ) ) + "ms" );
+                    .info( "Spring context loaded in {} ms", () -> ( new Date( ).getTime( ) - dateBegin.getTime( ) )  );
         }
         catch ( Exception e )
         {
-            AppLogService.error( "Error initializing Spring Context Service " + e.getMessage( ), e );
+            AppLogService.error( "Error initializing Spring Context Service {}", e.getMessage( ), e );
             throw new LuteceInitException( "Error initializing Spring Context Service", e );
         }
     }
@@ -264,12 +264,12 @@ public final class SpringContextService implements PluginEventListener
                 try
                 {
                     xmlReader.loadBeanDefinitions( file );
-                    AppLogService.info( "Context file loaded : " + fileContext );
+                    AppLogService.info( "Context file loaded : {}", fileContext );
                 }
                 catch ( Exception e )
                 {
                     AppLogService.error(
-                            "Unable to load Spring context file : " + fileContext + " - cause : " + e.getMessage( ), e );
+                            "Unable to load Spring context file : {} - cause :  {}", fileContext, e.getMessage( ), e );
                 }
             }
         }
@@ -366,8 +366,8 @@ public final class SpringContextService implements PluginEventListener
                 || event.getEventType( ) == PluginEvent.PLUGIN_UNINSTALLED ) && !_mapBeansOfType.isEmpty( ) )
         {
             _mapBeansOfType.clear( );
-            AppLogService.info( "SpringService cache cleared due to a plugin installation change - Plugin : "
-                    + event.getPlugin( ).getName( ) );
+            AppLogService.info( "SpringService cache cleared due to a plugin installation change - Plugin : {}",
+                     event.getPlugin( ).getName( ) );
         }
     }
 

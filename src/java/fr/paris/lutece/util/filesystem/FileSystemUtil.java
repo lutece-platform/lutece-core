@@ -175,7 +175,7 @@ public final class FileSystemUtil
         }
         catch( IOException e )
         {
-            AppLogService.error( e );
+            AppLogService.error( e.getMessage(), e );
 
             return DEFAULT_MIME_TYPE;
         }

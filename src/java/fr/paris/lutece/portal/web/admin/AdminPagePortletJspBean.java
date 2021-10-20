@@ -68,7 +68,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     private static final long serialVersionUID = -7578155683931873195L;
     // Right
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
-    private static final String MSG_ERROR_PORTLET = "Error looking for portlet with id ";
+    private static final String MSG_ERROR_PORTLET = "Error looking for portlet with id {}";
     private static final String PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS = "portal.site.message.warningPortletAlias";
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE_PORTLET = "portal.site.message.confirmRemovePortlet";
     private static final String MESSAGE_CANNOT_REMOVE_PORTLET = "portal.site.message.cannotRemovePortlet";
@@ -158,7 +158,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         catch( NullPointerException e )
         {
-            AppLogService.error( MSG_ERROR_PORTLET + nPortletId, e );
+            AppLogService.error( MSG_ERROR_PORTLET, nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
@@ -226,7 +226,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         catch( NullPointerException e )
         {
-            AppLogService.error( MSG_ERROR_PORTLET + nPortletId, e );
+            AppLogService.error( MSG_ERROR_PORTLET, nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
@@ -279,7 +279,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         catch( NullPointerException e )
         {
-            AppLogService.error( MSG_ERROR_PORTLET + nPortletId, e );
+            AppLogService.error( MSG_ERROR_PORTLET, nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
@@ -339,7 +339,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         catch( NullPointerException e )
         {
-            AppLogService.error( MSG_ERROR_PORTLET + nPortletId, e );
+            AppLogService.error( MSG_ERROR_PORTLET, nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {

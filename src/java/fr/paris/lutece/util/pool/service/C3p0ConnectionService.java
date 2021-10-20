@@ -104,11 +104,11 @@ public class C3p0ConnectionService implements ConnectionService
         }
         catch( Exception e )
         {
-            _logger.error( "Error while initializing the pool " + getPoolName( ), e );
+            _logger.error( "Error while initializing the pool {}", getPoolName( ), e );
         }
 
-        _logger.info( "Initialization of the C3P0 pool named '" + getPoolName( ) + "', Min/Max pool size : " + _dataSource.getMinPoolSize( ) + "/"
-                + _dataSource.getMaxPoolSize( ) );
+        _logger.info( "Initialization of the C3P0 pool named '{}', Min/Max pool size : {} / {}", ()->getPoolName( ), _dataSource::getMinPoolSize
+                ,_dataSource::getMaxPoolSize );
     }
 
     /**
@@ -127,14 +127,17 @@ public class C3p0ConnectionService implements ConnectionService
 
                 if ( conn != null )
                 {
-                    _logger.debug(
-                            "The connexion is get, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers( ) + "/" + _dataSource.getMaxPoolSize( ) );
+                	if(_logger.isDebugEnabled())
+                	{
+                		_logger.debug(
+                            "The connexion is get, Current/Max pool : {}/{}", _dataSource.getNumConnectionsAllUsers( ), _dataSource.getMaxPoolSize( ) );
+                	}
                 }
             }
         }
         catch( Exception e )
         {
-            _logger.error( "Erreur when getting the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "Erreur when getting the connexion with the pool : {}", getPoolName( ), e );
         }
 
         return conn;
@@ -150,15 +153,20 @@ public class C3p0ConnectionService implements ConnectionService
         {
             conn.close( );
 
-            _logger.debug( "The connexion is released, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers( ) + "/" + _dataSource.getMaxPoolSize( ) );
+            if(_logger.isDebugEnabled())
+            {
+            	
+            	_logger.debug( "The connexion is released, Current/Max pool : {}/{}", _dataSource.getNumConnectionsAllUsers( ), _dataSource.getMaxPoolSize( ) );
+        	
+            }
         }
         catch( SQLException e )
         {
-            _logger.error( "SQL error when releasing the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "SQL error when releasing the connexion with the pool : {}", getPoolName( ), e );
         }
         catch( Exception e )
         {
-            _logger.error( "Error while releasing the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "Error while releasing the connexion with the pool : {}", getPoolName( ), e );
         }
     }
 
@@ -221,7 +229,7 @@ public class C3p0ConnectionService implements ConnectionService
         }
         catch( SQLException ex )
         {
-            _logger.error( "GetCurrentConnections error : " + ex.getMessage( ), ex );
+            _logger.error( "GetCurrentConnections error : {}", ex.getMessage( ), ex );
         }
 
         return nCurrentConnections;

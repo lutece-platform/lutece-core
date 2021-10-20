@@ -87,7 +87,7 @@ public class DaemonThread implements Runnable
             currentThread.setName( "Lutece-Daemon-" + _entry.getId( ) );
 
             Daemon daemon = _entry.getDaemon( );
-            AppLogService.info( _strDaemonName + " - starts processing." );
+            AppLogService.info("{} - starts processing.", _strDaemonName );
 
             try
             {
@@ -105,15 +105,15 @@ public class DaemonThread implements Runnable
             }
             catch( Throwable t )
             {
-                AppLogService.error( "Could not process Daemon: " + _entry.getId( ), t );
+                AppLogService.error( "Could not process Daemon: {}", _entry.getId( ), t );
             }
 
-            AppLogService.info( _strDaemonName + " - end of process." );
+            AppLogService.info("{} - end of process.", _strDaemonName );
             currentThread.setName( strPooledThreadName );
         }
         else
         {
-            AppLogService.error( "Daemon's " + _entry.getId( ) + " run not processed because it has been stopped. Will unschedule." );
+            AppLogService.error( "Daemon's {} run not processed because it has been stopped. Will unschedule.", _entry.getId( ) );
             AppDaemonService.cancelScheduledThread( _entry.getId( ) );
         }
     }

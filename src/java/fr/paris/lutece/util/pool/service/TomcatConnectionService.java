@@ -68,16 +68,13 @@ public class TomcatConnectionService implements ConnectionService
             if ( _ds != null )
             {
                 conn = _ds.getConnection( );
-
-                if ( conn != null )
-                {
-                    _logger.debug( "The connexion is get" );
-                }
+                _logger.debug( "The connexion is get" );
+                
             }
         }
         catch( Exception e )
         {
-            _logger.error( "Erreur when getting the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "Erreur when getting the connexion with the pool : {}",  getPoolName( ), e );
         }
 
         return conn;
@@ -95,11 +92,11 @@ public class TomcatConnectionService implements ConnectionService
         }
         catch( SQLException e )
         {
-            _logger.error( "SQL error when releasing the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "SQL error when releasing the connexion with the pool : {}", getPoolName( ), e );
         }
         catch( Exception e )
         {
-            _logger.error( "Error while releasing the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "Error while releasing the connexion with the pool : {}", getPoolName( ), e );
         }
     }
 
@@ -118,10 +115,10 @@ public class TomcatConnectionService implements ConnectionService
         }
         catch( Exception e )
         {
-            _logger.error( "Error while initializing the pool " + getPoolName( ), e );
+            _logger.error( "Error while initializing the pool {}", getPoolName( ), e );
         }
 
-        _logger.info( "Initialization of the pool " + getPoolName( ) );
+        _logger.info( "Initialization of the pool {}", getPoolName( ) );
     }
 
     /**

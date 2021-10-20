@@ -73,7 +73,7 @@ public class MainMenuInclude implements PageInclude
             }
             catch( NumberFormatException nfe )
             {
-                AppLogService.info( "MainMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage( ) );
+                AppLogService.info( "MainMenuInclude.fillTemplate() : {}",  nfe.getLocalizedMessage( ) );
                 nCurrentPageId = 0;
             }
 

@@ -57,7 +57,7 @@ public final class ContentPostProcessorService
     {
         for ( ContentPostProcessor processor : SpringContextService.getBeansOfType( ContentPostProcessor.class ) )
         {
-            AppLogService.info( "New Content Post Processor registered : " + processor.getName( ) );
+            AppLogService.info( "New Content Post Processor registered : {}", processor.getName( ) );
         }
     }
 

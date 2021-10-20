@@ -109,7 +109,7 @@ public final class XmlTransformer
             try
             {
                 result = TransformerFactory.newInstance( ).newTemplates( stylesheet );
-                AppLogService.debug( " --  XML Templates instantiation : strStyleSheetId=" + strStyleSheetId );
+                AppLogService.debug( " --  XML Templates instantiation : strStyleSheetId= {}", strStyleSheetId );
             }
             catch( TransformerConfigurationException e )
             {

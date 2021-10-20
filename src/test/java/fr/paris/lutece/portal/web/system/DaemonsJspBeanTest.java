@@ -174,7 +174,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         assertTrue( _entry.isRunning( ) );
         _testDaemon.go( );
         lScheduledTime = System.nanoTime( );
-        AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
+        AppLogService.info( "Daemon scheduled after {} ms",  ( ( lScheduledTime - lReadyTime ) / 1000000 )  );
 
         _testDaemon.waitForCompletion( ); // Complete first run without a timeout
 
@@ -183,7 +183,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         lScheduledTime = System.nanoTime( );
         long lRescheduleDurationMilliseconds = ( ( lScheduledTime - lReadyTime ) / 1000000 );
         long lMarginMilliseconds = 250;
-        AppLogService.info( "Daemon scheduled after " + lRescheduleDurationMilliseconds + " ms" );
+        AppLogService.info( "Daemon scheduled after {} ms", lRescheduleDurationMilliseconds );
 
         _testDaemon.waitForCompletion( ); // Complete second run without a timeout. More runs would follow if we
                                           // continued
@@ -351,7 +351,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
                                                       // interval of 1000s
         _testDaemon.go( );
         lScheduledTime = System.nanoTime( );
-        AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
+        AppLogService.info( "Daemon scheduled after {} ms", ( ( lScheduledTime - lReadyTime ) / 1000000 ) );
 
         _testDaemon.waitForCompletion( );
 
@@ -366,7 +366,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
 
         _testDaemon.go( ); // It should run in less than 1000 seconds !
         lScheduledTime = System.nanoTime( );
-        AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
+        AppLogService.info( "Daemon scheduled after {} ms", ( ( lScheduledTime - lReadyTime ) / 1000000 ));
 
         _testDaemon.waitForCompletion( );
     }
@@ -385,7 +385,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
                                                       // interval of 1000s
         _testDaemon.go( );
         lScheduledTime = System.nanoTime( );
-        AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
+        AppLogService.info( "Daemon scheduled after {} ms",  ( ( lScheduledTime - lReadyTime ) / 1000000 )  );
 
         _testDaemon.waitForCompletion( );
 
@@ -430,7 +430,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
                                                       // interval of 1000s
         _testDaemon.go( );
         lScheduledTime = System.nanoTime( );
-        AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
+        AppLogService.info( "Daemon scheduled after {} ms", ( ( lScheduledTime - lReadyTime ) / 1000000 ) );
 
         _testDaemon.waitForCompletion( );
 

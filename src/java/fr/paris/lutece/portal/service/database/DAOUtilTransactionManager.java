@@ -114,13 +114,13 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
                     catch( Exception ex )
                     {
                         _bInit = false;
-                        getLogger( ).error( "An error occured getting pool for DAOUtilTransactionManager for plugin " + event.getPlugin( ).getName( )
-                                + ", please check plugin is activated and pool is correctly set : " + ex.getMessage( ), ex );
+                        getLogger( ).error( "An error occured getting pool for DAOUtilTransactionManager for plugin {} , please check plugin is activated and pool is correctly set : {}", event.getPlugin( ).getName( ),
+                                ex.getMessage( ), ex );
                     }
                 }
                 else
                 {
-                    getLogger( ).debug( "Pool for plugin " + event.getPlugin( ).getName( ) + " is set to null, clearing transaction manager" );
+                    getLogger( ).debug( "Pool for plugin {} is set to null, clearing transaction manager", event.getPlugin( ).getName( ) );
                     setDataSource( null );
                     _bInit = false;
                 }

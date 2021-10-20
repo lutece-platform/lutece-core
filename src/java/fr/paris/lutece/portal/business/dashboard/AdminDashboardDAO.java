@@ -48,7 +48,7 @@ import java.util.List;
  */
 public class AdminDashboardDAO implements IAdminDashboardDAO
 {
-    private static final String LOG_ERROR_NOT_FOUND = "Admindashboard named %s not found";
+    private static final String LOG_ERROR_NOT_FOUND = "Admindashboard named {} not found";
     private static final String SQL_QUERY_MAX_ORDER = "SELECT max(dashboard_order) FROM core_admin_dashboard";
     private static final String SQL_QUERY_MAX_ORDER_COLUMN = SQL_QUERY_MAX_ORDER + " WHERE dashboard_column = ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_admin_dashboard ";
@@ -153,7 +153,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
                 }
                 else
                 {
-                    AppLogService.error( String.format( LOG_ERROR_NOT_FOUND, strBeanName ) );
+                    AppLogService.error( LOG_ERROR_NOT_FOUND, strBeanName  );
                 }
             }
 
@@ -189,7 +189,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
                 }
                 else
                 {
-                    AppLogService.error( String.format( LOG_ERROR_NOT_FOUND, strBeanName ) );
+                    AppLogService.error( LOG_ERROR_NOT_FOUND, strBeanName  );
                 }
             }
 
@@ -277,7 +277,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
                 }
                 else
                 {
-                    AppLogService.error( String.format( LOG_ERROR_NOT_FOUND, strBeanName ) );
+                    AppLogService.error(  LOG_ERROR_NOT_FOUND, strBeanName  );
                 }
             }
 

@@ -254,7 +254,7 @@ public class SiteMapApp implements XPageApplication
     {
         if ( !seenPages.add( nPageId ) )
         {
-            AppLogService.error( "SiteMapApp : A cycle exists in pages; page id " + nPageId + " was already processed" );
+            AppLogService.error( "SiteMapApp : A cycle exists in pages; page id {} was already processed", nPageId );
             return;
         }
         Page page = PageHome.getPage( nPageId );

@@ -164,7 +164,7 @@ public class HtmlDocument
                 catch( MalformedURLException e )
                 {
                     // ignored document
-                    AppLogService.info( strSrc + " not found, location ignored." );
+                    AppLogService.info( " {} not found, location ignored.", strSrc );
                 }
             }
         }
@@ -230,7 +230,7 @@ public class HtmlDocument
                 catch( MalformedURLException e )
                 {
                     // ignored document
-                    AppLogService.info( strSrc + " not found, location ignored." );
+                    AppLogService.info( " {} not found, location ignored.", strSrc );
                 }
             }
         }

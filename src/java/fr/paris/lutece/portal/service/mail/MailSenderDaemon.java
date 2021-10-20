@@ -102,7 +102,7 @@ public class MailSenderDaemon extends Daemon
             }
             catch( NoSuchProviderException e )
             {
-                AppLogService.error( e );
+                AppLogService.error( e.getMessage(), e );
             }
 
             if ( transportSmtp != null )
@@ -119,13 +119,13 @@ public class MailSenderDaemon extends Daemon
                 {
                     sbLogs.append( MESSAGE_ERROR_MAIL_MESSAGING );
                     sbLogs.append( e.getMessage( ) );
-                    AppLogService.error( MESSAGE_ERROR_MAIL_MESSAGING + e.getMessage( ), e );
+                    AppLogService.error( "{} {} ", MESSAGE_ERROR_MAIL_MESSAGING, e.getMessage( ), e );
                 }
                 catch( Exception e )
                 {
                     sbLogs.append( MESSAGE_ERROR_MAIL );
                     sbLogs.append( e.getMessage( ) );
-                    AppLogService.error( MESSAGE_ERROR_MAIL + e.getMessage( ), e );
+                    AppLogService.error( "{} {} ", MESSAGE_ERROR_MAIL, e.getMessage( ), e );
                 }
             }
 
@@ -257,7 +257,7 @@ public class MailSenderDaemon extends Daemon
             // a wrongly formatted address is encountered in the list of recipients
             sbLogsLine.append( MESSAGE_STATUS_FAILED );
             sbLogsLine.append( e.getMessage( ) );
-            AppLogService.error( MESSAGE_ERROR_MAIL + e.getMessage( ), e );
+            AppLogService.error("{} {} ", MESSAGE_ERROR_MAIL, e.getMessage( ), e );
         }
         catch( MessagingException e )
         {
@@ -265,7 +265,7 @@ public class MailSenderDaemon extends Daemon
             // we put the mail in the queue before end process
             sbLogsLine.append( MESSAGE_STATUS_FAILED );
             sbLogsLine.append( e.getMessage( ) );
-            AppLogService.error( MESSAGE_ERROR_MAIL + e.getMessage( ), e );
+            AppLogService.error( "{} {} ",MESSAGE_ERROR_MAIL, e.getMessage( ), e );
             throw e;
         }
     }

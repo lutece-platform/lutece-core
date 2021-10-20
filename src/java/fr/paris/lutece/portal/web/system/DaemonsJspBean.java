@@ -143,7 +143,7 @@ public class DaemonsJspBean extends AdminPageJspBean
                 AppDaemonService.modifyDaemonInterval( strDaemonKey, strDaemonInterval );
                 break;
             default:
-                AppLogService.error( "Unknown daemon action : " + strAction );
+                AppLogService.error( "Unknown daemon action : {}", strAction );
         }
 
         return getHomeUrl( request );

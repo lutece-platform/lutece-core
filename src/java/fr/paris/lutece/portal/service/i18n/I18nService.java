@@ -95,7 +95,7 @@ public final class I18nService
         catch( AppException e )
         {
             // the key is unknown. Message override will be deactivated
-            AppLogService.error( "property " + PROPERTY_PATH_OVERRIDE + " is undefined. Message overriding will be disabled." );
+            AppLogService.error( "property {} is undefined. Message overriding will be disabled.", PROPERTY_PATH_OVERRIDE );
         }
 
         URL [ ] overrideURL = null;
@@ -110,7 +110,7 @@ public final class I18nService
             }
             catch( MalformedURLException e )
             {
-                AppLogService.error( "Error initializing message overriding: " + e.getMessage( ), e );
+                AppLogService.error( "Error initializing message overriding: {}", e.getMessage( ), e );
             }
         }
 

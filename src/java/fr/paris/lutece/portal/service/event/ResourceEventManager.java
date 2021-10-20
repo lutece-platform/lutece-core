@@ -65,7 +65,7 @@ public final class ResourceEventManager
     public static void register( EventRessourceListener listener )
     {
         _lstListeners.add( listener );
-        AppLogService.info( "New resource evnt listener registered : " + listener.getName( ) );
+        AppLogService.info( "New resource evnt listener registered : {}", listener.getName () );
     }
 
     /**

@@ -86,16 +86,16 @@ public final class FilterService
             LuteceFilter f = new LuteceFilter( entry.getName( ), filter, entry.getMappingUrlPattern( ), plugin, entry.getInitParameters( ) );
             f.setOrder( entry.getOrder( ) );
             _listFilters.add( f );
-            AppLogService.info( "New Filter registered : " + entry.getName( ) );
+            AppLogService.info( "New Filter registered : {}",  entry.getName( ) );
 
             for ( String strKey : entry.getInitParameters( ).keySet( ) )
             {
-                AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" + entry.getInitParameters( ).get( strKey ) + "'" );
+                AppLogService.info( " * init parameter - name : '{}' - value : '{}'", ()-> strKey, ()-> entry.getInitParameters( ).get( strKey )  );
             }
         }
         catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
         {
-            AppLogService.error( "Error registering a filter : " + e.getMessage( ), e );
+            AppLogService.error( "Error registering a filter : {}",  e.getMessage( ), e );
         }
     }
 
@@ -133,12 +133,12 @@ public final class FilterService
                     // Create a FilterConfig wrapper to provide init parameters to the filter
                     LuteceFilterConfig filterConfig = new LuteceFilterConfig( filter.getName( ), _context, filter.getInitParameters( ) );
                     filter.getFilter( ).init( filterConfig );
-                    AppLogService.info( " * filter '" + filter.getName( ) + "' from plugin " + filter.getPlugin( ).getName( ) + " initialized." );
+                    AppLogService.info( " * filter '{}' from plugin {} initialized.",  filter.getName( ), filter.getPlugin( ).getName( ) );
                 }
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error execution init() method - Filter " + filter.getName( ), e );
+                AppLogService.error( "Error execution init() method - Filter {}",  filter.getName( ), e );
                 throw new LuteceInitException( "Error execution init() method - Filter " + filter.getName( ), e );
             }
         }

@@ -70,8 +70,7 @@ public final class AdminDashboardFactory
 
         if ( _mapAdminDashboardComponents.containsKey( strName ) )
         {
-            AppLogService.error( "Error while registering admin dashboard for " + strName + " class=" + adminDashboardComponent.getClass( )
-                    + ", factory already contains class=" + _mapAdminDashboardComponents.get( strName ) );
+            AppLogService.error( "Error while registering admin dashboard for {} class= {}, factory already contains class= {} ", strName, adminDashboardComponent.getClass( ), _mapAdminDashboardComponents.get( strName ) );
 
             return false;
         }

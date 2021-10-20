@@ -74,7 +74,7 @@ public class ExtendableResourceJspBean extends AdminFeaturesPageJspBean
 
         if ( action != null )
         {
-            AppLogService.debug( "Processing resource action " + action.getName( ) );
+            AppLogService.debug( "Processing resource action {}", action.getName( ) );
 
             return action.process( request, response, getUser( ), null );
         }

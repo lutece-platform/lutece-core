@@ -69,19 +69,19 @@ public class AnonymizationDaemon extends Daemon
             for ( Integer nIdUser : expiredUserIdList )
             {
                 AdminUserService.anonymizeUser( nIdUser, locale );
-                AppLogService.info( "AnonymizationService - Admin user with id " + Integer.toString( nIdUser ) + " has been anonymized" );
+                AppLogService.info( "AnonymizationService - Admin user with id {}  has been anonymized ", nIdUser );
             }
 
             sbLogs.append( "AnonymizationService - " );
             sbLogs.append( nbUserFound );
             sbLogs.append( " admin user(s) have been anonymized" );
-            AppLogService.info( sbLogs.toString( ) );
+            AppLogService.info( sbLogs );
             sbResult.append( sbLogs.toString( ) );
         }
         else
         {
             sbLogs.append( CONSTANT_NO_EXPIRED_USER );
-            AppLogService.info( sbLogs.toString( ) );
+            AppLogService.info( "{}", sbLogs );
             sbResult.append( sbLogs.toString( ) );
         }
 

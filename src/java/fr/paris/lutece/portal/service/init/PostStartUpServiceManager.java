@@ -63,12 +63,12 @@ public final class PostStartUpServiceManager
         {
             try
             {
-                AppLogService.info( "Processing PostStartUp service : " + service.getName( ) );
+                AppLogService.info( "Processing PostStartUp service : {}", service.getName( ) );
                 service.process( );
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error while processing PostStartUp service : " + service.getName( ), e );
+                AppLogService.error( "Error while processing PostStartUp service : {}", service.getName( ), e );
             }
         }
     }

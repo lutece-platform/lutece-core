@@ -268,7 +268,7 @@ public class LinksInclude implements PageInclude
         }
         catch( URISyntaxException e )
         {
-            AppLogService.error( "Invalid cssStyleSheetURI : " + strResourceURI, e );
+            AppLogService.error( "Invalid cssStyleSheetURI : {}", strResourceURI, e );
             return null;
         }
     }
@@ -293,7 +293,7 @@ public class LinksInclude implements PageInclude
         }
         catch( IOException e )
         {
-            AppLogService.error( "Error while closing stream for " + strResourceURI, e );
+            AppLogService.error( "Error while closing stream for {}", strResourceURI, e );
         }
         return resourceURI;
     }

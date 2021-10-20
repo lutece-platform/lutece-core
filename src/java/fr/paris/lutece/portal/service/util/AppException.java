@@ -113,7 +113,13 @@ public class AppException extends RuntimeException
 
     private void writeToLogs( )
     {
-        StringBuilder sb = new StringBuilder( "Critical AppException" );
+        
+        AppLogService.error( "{}", ()-> buildLogs(), ()->this );
+    }
+    
+    private String buildLogs() {
+    	
+    	StringBuilder sb = new StringBuilder( "Critical AppException" );
 
         Throwable strRootCause = ExceptionUtils.getRootCause( this );
         if ( strRootCause != null )
@@ -131,7 +137,6 @@ public class AppException extends RuntimeException
             sb.append( strMessage );
         }
 
-        String strHeader = sb.toString( );
-        AppLogService.error( strHeader, this );
+        return  sb.toString( );
     }
 }

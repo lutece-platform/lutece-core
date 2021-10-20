@@ -313,7 +313,7 @@ public class LuceneSearchEngine implements SearchEngine
             catch ( ParseException e )
             {
                 AppLogService
-                        .error( "Bad Date Format for indexed item \"" + item.getTitle( ) + "\" : " + e.getMessage( ) );
+                        .error( "Bad Date Format for indexed item \"{}\" : {}",  item.getTitle( ), e.getMessage( ), e );
             }
 
             result.setUrl( item.getUrl( ) );
