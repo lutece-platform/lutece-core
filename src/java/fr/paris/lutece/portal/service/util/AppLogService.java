@@ -91,7 +91,7 @@ public final class AppLogService
      *
      * @param message the message to log; the format depends on the message factory.
      * @param params parameters to the message.
-     * @see #getMessageFactory()
+     * @see Logger##getMessageFactory()
      */
     public static void debug(String message, Object... params)
     { 
@@ -121,21 +121,6 @@ public final class AppLogService
         Logger logger = LogManager.getLogger( strLogger );
 
         return logger.isDebugEnabled( );
-    }
-
-    /**
-     * Log a message object with the DEBUG level. It is logged in application.log
-     *
-     * @param strLogger
-     *            The Logger name
-     * @param objToLog
-     *            the message object to log
-     */
-    public static void debug( String strLogger, Object objToLog )
-    {
-        Logger logger = LogManager.getLogger( strLogger );
-        logger.debug( objToLog );
-        
     }
 
     /**
@@ -171,7 +156,7 @@ public final class AppLogService
      *
      * @param message the message to log; the format depends on the message factory.
      * @param params parameters to the message.
-     * @see #getMessageFactory()
+     * @see Logger#getMessageFactory()
      */
     public static void error(String message, Object... params) {
     	
@@ -222,7 +207,7 @@ public final class AppLogService
      *
      * @param message the message to log; the format depends on the message factory.
      * @param params parameters to the message.
-     * @see #getMessageFactory()
+     * @see Logger##getMessageFactory()
      */
     public static void info(String message, Object... params)
     {
