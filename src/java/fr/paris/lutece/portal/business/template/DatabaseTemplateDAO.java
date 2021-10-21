@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.business.template;
 
 import fr.paris.lutece.util.sql.DAOUtil;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Implementation of interface IDatabaseTemplateDAO

@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

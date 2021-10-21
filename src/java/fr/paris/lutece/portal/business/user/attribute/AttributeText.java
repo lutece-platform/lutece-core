@@ -40,7 +40,7 @@ import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

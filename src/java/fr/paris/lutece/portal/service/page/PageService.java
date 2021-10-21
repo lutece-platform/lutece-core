@@ -47,7 +47,7 @@ import java.util.Properties;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 
 import fr.paris.lutece.portal.business.page.Page;

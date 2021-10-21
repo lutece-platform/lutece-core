@@ -35,7 +35,7 @@ package fr.paris.lutece.util.sql;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
-import org.apache.commons.lang.NotImplementedException;
+import org.apache.commons.lang3.NotImplementedException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

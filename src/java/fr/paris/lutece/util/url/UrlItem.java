@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.util.url;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 // Java Util
 import java.util.ArrayList;

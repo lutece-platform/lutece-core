@@ -41,7 +41,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
@@ -78,7 +78,7 @@ public class ParserBbcodeServlet extends HttpServlet
     protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         String strValue = request.getParameter( PARAMETER_DATA );
-        String strEscaped = StringEscapeUtils.escapeHtml( strValue );
+        String strEscaped = StringEscapeUtils.escapeHtml4( strValue );
         String strValueReturn = ( strValue != null ) ? EditorBbcodeService.getInstance( ).parse( strEscaped ) : "";
 
         OutputStream out = response.getOutputStream( );

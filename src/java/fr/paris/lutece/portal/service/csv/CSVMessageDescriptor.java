@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.csv;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Describe an error that occurred during the reading of a CSV file.

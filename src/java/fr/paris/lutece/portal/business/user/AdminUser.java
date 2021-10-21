@@ -44,7 +44,7 @@ import fr.paris.lutece.portal.service.regularexpression.RegularExpressionRemoval
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
