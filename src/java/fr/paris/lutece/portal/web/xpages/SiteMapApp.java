@@ -50,7 +50,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
 import fr.paris.lutece.util.xml.XmlUtil;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;

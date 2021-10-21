@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.business.user.parameter;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Class DefaultUserParameterHome.

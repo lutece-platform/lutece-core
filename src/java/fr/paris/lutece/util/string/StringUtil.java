@@ -38,7 +38,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.text.Normalizer;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class provides String utils.

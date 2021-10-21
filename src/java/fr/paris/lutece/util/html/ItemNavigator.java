@@ -35,7 +35,7 @@ package fr.paris.lutece.util.html;
 
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 

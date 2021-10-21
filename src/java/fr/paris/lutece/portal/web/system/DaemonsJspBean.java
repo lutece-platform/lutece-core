@@ -44,7 +44,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 

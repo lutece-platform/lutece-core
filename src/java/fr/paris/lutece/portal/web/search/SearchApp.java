@@ -57,7 +57,7 @@ import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;

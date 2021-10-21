@@ -41,7 +41,7 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.Serializable;
 
@@ -131,9 +131,9 @@ public abstract class InsertServiceJspBean implements Serializable
     protected String buildLink( String strText, String strUrl, String strTitle, String strTarget )
     {
         HashMap<String, Object> model = new HashMap<>( );
-        model.put( MARK_TEXT, StringEscapeUtils.escapeHtml( strText ) );
+        model.put( MARK_TEXT, StringEscapeUtils.escapeHtml4( strText ) );
         model.put( MARK_URL, strUrl );
-        model.put( MARK_TITLE, StringEscapeUtils.escapeHtml( strTitle ) );
+        model.put( MARK_TITLE, StringEscapeUtils.escapeHtml4( strTitle ) );
         model.put( MARK_TARGET, strTarget );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_LINK, LocaleService.getDefault( ), model );

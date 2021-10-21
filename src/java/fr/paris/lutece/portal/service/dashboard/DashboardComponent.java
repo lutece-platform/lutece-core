@@ -39,7 +39,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import java.util.Locale;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * Dashboard Component

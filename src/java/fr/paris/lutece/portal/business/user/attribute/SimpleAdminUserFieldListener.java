@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
