@@ -71,6 +71,8 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.3.3</version>
         </dependency>
+        <!-- commons-httpclient deprecated, use httpclient5 instead. To be removed in the future -->
+        <!-- Not upgrading to httpClient 4, because for new projects we should use httpclient5, and for old projects -->
        <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
@@ -79,6 +81,29 @@
                 <exclusion>
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+		    <artifactId>httpclient5</artifactId>
+		    <version>5.1</version>
+		    <exclusions>
+                <exclusion>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+        			<artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                     <groupId>org.apache.logging.log4j</groupId>
+       			     <artifactId>log4j-slf4j-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                     <groupId>org.apache.logging.log4j</groupId>
+      			     <artifactId>log4j-core</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -140,7 +165,7 @@
 	    <version>2.14.1</version>
         </dependency>
         <!-- he Log4j 1.2 Bridge allows applications coded to use Log4j 1.2 API to use Log4j 2 instead 
-	see requirements https://logging.apache.org/log4j/2.x/log4j-1.2-api -->
+		see requirements https://logging.apache.org/log4j/2.x/log4j-1.2-api -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>

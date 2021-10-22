@@ -42,11 +42,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpEntity;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -104,7 +103,6 @@ public class UploadServletTest extends LuteceTestCase
         ObjectMapper objectMapper = new ObjectMapper( );
         JsonNode objectNodeRef = objectMapper.readTree( strRefJson );
         JsonNode objectNodeJson = objectMapper.readTree( strResponseJson );
-
         assertEquals( objectNodeRef, objectNodeJson );
     }
 
@@ -233,17 +231,17 @@ public class UploadServletTest extends LuteceTestCase
         byte [ ] fileContent = new byte [ ] {
                 1, 2, 3
         };
-        Part [ ] parts = new Part [ ] {
-            new FilePart( "file1", new ByteArrayPartSource( "file1", fileContent ) )
-        };
-        MultipartRequestEntity multipartRequestEntity = new MultipartRequestEntity( parts, new PostMethod( ).getParams( ) );
+      
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.addBinaryBody("upfile", fileContent, ContentType.DEFAULT_BINARY, "file1");        
+        HttpEntity entity = builder.build();
         // Serialize request body
         ByteArrayOutputStream requestContent = new ByteArrayOutputStream( );
-        multipartRequestEntity.writeRequest( requestContent );
+        entity.writeTo(requestContent);
         // Set request body to HTTP servlet request
         request.setContent( requestContent.toByteArray( ) );
         // Set content type to HTTP servlet request (important, includes Mime boundary string)
-        request.setContentType( multipartRequestEntity.getContentType( ) );
+        request.setContentType( entity.getContentType( ) );
         request.setMethod( "POST" );
         return request;
     }
