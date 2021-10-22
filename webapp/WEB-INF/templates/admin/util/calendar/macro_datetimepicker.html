@@ -61,7 +61,7 @@ const showFormat = '${showFormat}';
 </#if>
 <#-- The server parses dates on a per locale basis. The formats here much match those specified by lutece.format.date.short -->
 <#if format == ''>    
-const dtFormat='Z'; // ISO Date format - Ex: 2017-03-04T01:23:43.000Z default for most DB
+const dtFormat='Y-m-d H:i:S'; // Default for most DB
 <#else>
 const dtFormat='${format}';
 </#if>
