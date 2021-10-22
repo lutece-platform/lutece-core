@@ -1,320 +1,287 @@
 <#-- WARNING : LUTECE-BACKPORT should only be use in case of error at executing an old plugin. This is a minimal compatibility service. It as to be removed asap so fix your templates ;-) ! -->
-
 <#macro comboWithParams name default_value additionalParameters items>
 <!-- WARNING : macro comboWithParams is deprecated -->
 	<@select id='${name}' name='${name}' default_value=default_value items=items params=additionalParameters />
 </#macro>
-
 <#macro comboSortedWithParams name default_value additionalParameters items id=name>
 <!-- WARNING : macro comboSortedWithParams is deprecated -->
 	<@select id='${id}' name='${name}' sort=true default_value=default_value items=items params=additionalParameters />
 </#macro>
-
 <#macro comboWithParamsAndLength name default_value additionalParameters items max_length >
 <!-- WARNING : macro comboWithParamsAndLength is deprecated -->
 	<@select id='${name}' name='${name}' default_value=default_value items=items maxLength=max_length params=additionalParameters />
 </#macro>
-
 <#macro combo name default_value items>
-<!-- WARNING : macro combo is deprecated -->
-	<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
+<#-- WARNING : macro combo is deprecated -->
+<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
 </#macro>
-
 <#macro comboSorted name default_value items >
-<!-- WARNING : macro comboSorted is deprecated -->
-	<@combo name="${name}" default_value="${default_value}" items=items?sort_by("name") />
+<#-- WARNING : macro comboSorted is deprecated -->
+<@combo name="${name}" default_value="${default_value}" items=items?sort_by("name") />
 </#macro>
-
 <#macro radioImageList name default_value items inline=0>
-<!-- WARNING : macro radioImageList is deprecated -->
-	<#list items as item>
-		<#if inline><#local orientation='inline' /><#else><#local orientation='vertical' /></#if>
-		<#if default_value='${item.code}'><#local checked=true /><#else><#local checked=false /></#if>
-		<#local radioLabelKey>
-			<img src="${item.name}" alt="${item.name}" title="${item.name}" />
-		</#local>
-		<@radioButton orientation=orientation labelFor='${name}' labelKey=radioLabelKey checked=checked name='${name}' value='${item.code}' />
-	</#list>
+<#-- WARNING : macro radioImageList is deprecated -->
+<#list items as item>
+<#if inline><#local orientation='inline' /><#else><#local orientation='vertical' /></#if>
+<#if default_value='${item.code}'><#local checked=true /><#else><#local checked=false /></#if>
+<#local radioLabelKey>
+<img src="${item.name}" alt="${item.name}" title="${item.name}" />
+</#local>
+<@radioButton orientation=orientation labelFor='${name}' labelKey=radioLabelKey checked=checked name='${name}' value='${item.code}' />
+</#list>
 </#macro>
-
 <#macro checkboxList name default_values items inline=0>
-<!-- WARNING : macro checkboxList is deprecated -->
-	<#list items as item>
-		<#if inline><#local orientation='inline' /><#else><#local orientation='vertical' /></#if>
-		<@checkBox orientation=orientation labelFor='${item?index}' labelKey='${item.name}' name='${name}' id='${item?index}' value='${item.code}' checked=item.checked />
-	</#list>
+<#-- WARNING : macro checkboxList is deprecated -->
+<#list items as item>
+	<#if inline><#local orientation='inline' /><#else><#local orientation='vertical' /></#if>
+	<@checkBox orientation=orientation labelFor='${item?index}' labelKey='${item.name}' name='${name}' id='${item?index}' value='${item.code}' checked=item.checked />
+</#list>
 </#macro>
-
-<#macro dataTable dataTableManager actionMacro='' tableClass='' caption='&nbsp;' summary='data table'>
-<!-- WARNING : macro dataTable is deprecated -->
-	<#if 0 < dataTableManager.items?size >
-		<#if dataTableManager.enablePaginator>
-			<@tform type='inline' method='post' action='${dataTableManager.sortUrl}'>
-			    <#if (dataTableManager.paginator.pagesCount > 1) >
-			        <@paginationPageLinks paginator=dataTableManager.paginator />
-			    </#if>
-			    <@div>
-					<@paginationItemCount paginator=dataTableManager.paginator combo=1 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string />
-				</@div>
-				<@input type='hidden' name='${dataTableManager.id}' id='${dataTableManager.id}' value='${dataTableManager.id}' />
-			</@tform>
-		</#if>
-		<@table class='${tableClass}' summary='${summary}'>
-			<caption>${caption}</caption>
-			<@tr>
-				<#list dataTableManager.listColumn as column>
-					<@th scope='col'>
-						#i18n{${column.titleKey}}
-						<#if !(column.typeColumn = "ACTION") && column.sortable>
-							<@sort jsp_url=dataTableManager.sortUrl attribute=column.parameterName />
-						</#if>
-					</@th>
-				</#list>
-			</@tr>
-			<#list dataTableManager.items as item>
-				<@tr>
-					<#list dataTableManager.listColumn as column>
-						<#if column.typeColumn = "STRING">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<@td>${value!}</@td>
-						<#elseif column.typeColumn = "LABEL">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<@td>#i18n{${value!}}</@td>
-						<#elseif column.typeColumn = "BOOLEAN">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<#if value?? && value>
-								<@td><@tag color='success' title='#i18n{${column.labelTrue!}}'><@icon style='check' />#i18n{${column.labelTrue!}}</@tag></@td>
-							<#else>
-								<@td><@tag color='danger' title='#i18n{${column.labelFalse!}}'><@icon style='times' />#i18n{${column.labelFalse!}}</@tag></@td>
-							</#if>
-						<#elseif column.typeColumn = "EMAIL">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<@td><#if value?? && value != ""><@link href='mailto:${value}' title='${value}'>${value}</@link></#if></@td>
-						<#elseif column.typeColumn = "ACTION">
-							<#if column.parameterName?? && column.parameterName != "">
-								<#assign macroName = column.parameterName>
-							<#elseif actionMacro?? && actionMacro != "">
-								<#assign macroName = actionMacro>
-							</#if>
-							<#if macroName?? && macroName != "">
-								<@td><@.vars[macroName] item=item /></@td>
-							</#if>
-						</#if>
-					</#list>
-				</@tr>
-			</#list>
-		</@table>
-		<#if dataTableManager.enablePaginator>
-			<@tform type='inline' method='post' action='${dataTableManager.sortUrl}'>
-			    <#if (dataTableManager.paginator.pagesCount > 1) >
-			        <@paginationPageLinks paginator=dataTableManager.paginator />
-			    </#if>
-			    <@div align='right'>
-					<@paginationItemCount paginator=dataTableManager.paginator combo=0 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string />
-				</@div>
-				<@input type='hidden' name='${dataTableManager.id}' id='${dataTableManager.id}' value='${dataTableManager.id}' />
-			</@tform>
-		</#if>
-	<#else>
-		#i18n{portal.util.labelNoItem}
-	</#if>
-</#macro>
-
-<#macro filterPanel dataTableManager formClass=''>
-<!-- WARNING : macro filterPanel is deprecated -->
-	<#if dataTableManager.filterPanel.listFilter?? && 0 < dataTableManager.filterPanel.listFilter?size>
-		<@tform class='${formClass!}' method='post' action='${dataTableManager.filterPanel.formUrl}'>
-			<@fieldSet>
-				<#list dataTableManager.filterPanel.listFilter as filter>
-					<@formGroup labelFor='description' labelKey='#i18n{${filter.filterLabel}}'>
-						<#if filter.filterType = "STRING">
-							<@input type='text' name='${dataTableManager.filterPanelPrefix}${filter.parameterName}' id='${filter.parameterName}' inputSize=30 value='${filter.value!}' />
-						<#elseif filter.filterType = "BOOLEAN">
-							<@checkBox labelFor='' labelKey='' name='${dataTableManager.filterPanelPrefix}${filter.parameterName}' id='${dataTableManager.filterPanelPrefix}${filter.parameterName}' value='true' checked=(filter.value?? && filter.value = 'true') />
-						<#elseif filter.filterType = "DROPDOWNLIST">
-							<#if filter.value??>
-								<#local filter_value = filter.value >
-							<#else>
-								<#local filter_value = '' >
-							</#if>
-							<@select name=dataTableManager.filterPanelPrefix+filter.parameterName default_value=filter_value items=filter.refList />
-						</#if>
-					</@formGroup>
-				</#list>
-				<@formGroup>
-					<@input type='hidden' name='${dataTableManager.filterPanelPrefix}updateFilters' id='${dataTableManager.filterPanelPrefix}updateFilters' value='true' />
-					<@input type='hidden' name='${dataTableManager.id}' id='${dataTableManager.id}' value='${dataTableManager.id}' />
-					<@button type='submit' buttonIcon='search' title='#i18n{portal.util.labelSearch}' hideTitle=['xs'] />
-					<#if dataTableManager.filterPanel.formUrl?contains("?")>
-						<#local dataTableResetUrl = dataTableManager.filterPanel.formUrl + "&" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
-					<#else>
-						<#local dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
-					</#if>
-					<@aButton href='${dataTableResetUrl}' title='#i18n{portal.util.labelReset}' buttonIcon='times' hideTitle=['xs'] />
-				</@formGroup>
-			</@fieldSet>
+<#macro dataTable dataTableManager actionMacro='' tableClass='' caption='' summary='data table'>
+<#-- WARNING : macro dataTable is deprecated -->
+<#if 0 < dataTableManager.items?size >
+	<#if dataTableManager.enablePaginator>
+		<@tform type='inline' method='post' action='${dataTableManager.sortUrl}'>
+			<#if (dataTableManager.paginator.pagesCount > 1) >
+				<@paginationPageLinks paginator=dataTableManager.paginator />
+			</#if>
+			<@div>
+				<@paginationItemCount paginator=dataTableManager.paginator combo=1 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string />
+			</@div>
+			<@input type='hidden' name='${dataTableManager.id}' id='${dataTableManager.id}' value='${dataTableManager.id}' />
 		</@tform>
 	</#if>
+	<@table class='${tableClass}' summary='${summary}' caption='${caption}'>
+		<@tr>
+			<#list dataTableManager.listColumn as column>
+				<@th scope='col'>
+					#i18n{${column.titleKey}}
+					<#if !(column.typeColumn = "ACTION") && column.sortable>
+						<@sort jsp_url=dataTableManager.sortUrl attribute=column.parameterName />
+					</#if>
+				</@th>
+			</#list>
+		</@tr>
+		<#list dataTableManager.items as item>
+			<@tr>
+				<#list dataTableManager.listColumn as column>
+					<#if column.typeColumn = "STRING">
+						<#assign propName = "item." + column.parameterName>
+						<#assign value = propName?eval>
+						<@td>${value!}</@td>
+					<#elseif column.typeColumn = "LABEL">
+						<#assign propName = "item." + column.parameterName>
+						<#assign value = propName?eval>
+						<@td>#i18n{${value!}}</@td>
+					<#elseif column.typeColumn = "BOOLEAN">
+						<#assign propName = "item." + column.parameterName>
+						<#assign value = propName?eval>
+						<#if value?? && value>
+							<@td><@tag color='success' title='#i18n{${column.labelTrue!}}'><@icon style='check' />#i18n{${column.labelTrue!}}</@tag></@td>
+						<#else>
+							<@td><@tag color='danger' title='#i18n{${column.labelFalse!}}'><@icon style='times' />#i18n{${column.labelFalse!}}</@tag></@td>
+						</#if>
+					<#elseif column.typeColumn = "EMAIL">
+						<#assign propName = "item." + column.parameterName>
+						<#assign value = propName?eval>
+						<@td><#if value?? && value != ""><@link href='mailto:${value}' title='${value}'>${value}</@link></#if></@td>
+					<#elseif column.typeColumn = "ACTION">
+						<#if column.parameterName?? && column.parameterName != "">
+							<#assign macroName = column.parameterName>
+						<#elseif actionMacro?? && actionMacro != "">
+							<#assign macroName = actionMacro>
+						</#if>
+						<#if macroName?? && macroName != "">
+							<@td><@.vars[macroName] item=item /></@td>
+						</#if>
+					</#if>
+				</#list>
+			</@tr>
+		</#list>
+	</@table>
+	<#if dataTableManager.enablePaginator>
+		<@tform type='inline' method='post' action='${dataTableManager.sortUrl}'>
+			<#if (dataTableManager.paginator.pagesCount > 1) >
+				<@paginationPageLinks paginator=dataTableManager.paginator />
+			</#if>
+			<@div align='right'>
+				<@paginationItemCount paginator=dataTableManager.paginator combo=0 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string />
+			</@div>
+			<@input type='hidden' name='${dataTableManager.id}' id='${dataTableManager.id}' value='${dataTableManager.id}' />
+		</@tform>
+	</#if>
+<#else>
+	#i18n{portal.util.labelNoItem}
+</#if>
 </#macro>
-
+<#macro filterPanel dataTableManager formClass=''>
+<#-- WARNING : macro filterPanel is deprecated -->
+<#if dataTableManager.filterPanel.listFilter?? && 0 < dataTableManager.filterPanel.listFilter?size>
+	<@tform class='${formClass!}' method='post' action='${dataTableManager.filterPanel.formUrl}'>
+		<@fieldSet>
+			<#list dataTableManager.filterPanel.listFilter as filter>
+				<@formGroup labelFor='description' labelKey='#i18n{${filter.filterLabel}}'>
+					<#if filter.filterType = "STRING">
+						<@input type='text' name='${dataTableManager.filterPanelPrefix}${filter.parameterName}' id='${filter.parameterName}' inputSize=30 value='${filter.value!}' />
+					<#elseif filter.filterType = "BOOLEAN">
+						<@checkBox labelFor='' labelKey='' name='${dataTableManager.filterPanelPrefix}${filter.parameterName}' id='${dataTableManager.filterPanelPrefix}${filter.parameterName}' value='true' checked=(filter.value?? && filter.value = 'true') />
+					<#elseif filter.filterType = "DROPDOWNLIST">
+						<#if filter.value??>
+							<#local filter_value = filter.value >
+						<#else>
+							<#local filter_value = '' >
+						</#if>
+						<@select name=dataTableManager.filterPanelPrefix+filter.parameterName default_value=filter_value items=filter.refList />
+					</#if>
+				</@formGroup>
+			</#list>
+			<@formGroup>
+				<@input type='hidden' name='${dataTableManager.filterPanelPrefix}updateFilters' id='${dataTableManager.filterPanelPrefix}updateFilters' value='true' />
+				<@input type='hidden' name='${dataTableManager.id}' id='${dataTableManager.id}' value='${dataTableManager.id}' />
+				<@button type='submit' buttonIcon='search' title='#i18n{portal.util.labelSearch}' hideTitle=['xs'] />
+				<#if dataTableManager.filterPanel.formUrl?contains("?")>
+					<#local dataTableResetUrl = dataTableManager.filterPanel.formUrl + "&" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
+				<#else>
+					<#local dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
+				</#if>
+				<@aButton href='${dataTableResetUrl}' title='#i18n{portal.util.labelReset}' buttonIcon='times' hideTitle=['xs'] />
+			</@formGroup>
+		</@fieldSet>
+	</@tform>
+</#if>
+</#macro>
 <#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
-<!-- WARNING : macro fieldInputText is deprecated -->
-	<#if maxlength &gt; 0><#local params = 'maxlength=${maxlength}' /></#if>
+<#-- WARNING : macro fieldInputText is deprecated -->
+	<#if maxlength gt 0><#local params = 'maxlength=${maxlength}' /></#if>
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' mandatory=mandatory helpKey='#i18n{${i18nHelpBlockKey}}'>
 		<@input type='text' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' params=params! />
 	</@formGroup>
 </#macro>
-
 <#macro fieldInputPassword i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='#i18n{${i18nHelpBlockKey}}' cssClass=''>
-<!-- WARNING : macro fieldInputPassword is deprecated -->
-	<#if maxlength &gt; 0><#local params = 'maxlength=${maxlength}' /></#if>
+<#-- WARNING : macro fieldInputPassword is deprecated -->
+	<#if maxlength gt 0><#local params = 'maxlength=${maxlength}' /></#if>
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='' mandatory=mandatory>
 		<@input type='password' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' params=params! />
 	</@formGroup>
 </#macro>
-
 <#macro fieldInputWrapper i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
-<!-- WARNING : macro fieldInputWrapper is deprecated -->
+<#-- WARNING : macro fieldInputWrapper is deprecated -->
 	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
 		<#nested>
 	</@formGroup>
 </#macro>
-
 <#macro fieldStaticText i18nLabelKey cssClass=''>
-<!-- WARNING : macro fieldStaticText is deprecated -->
+<#-- WARNING : macro fieldStaticText is deprecated -->
 	<@formGroup labelKey='#i18n{${i18nLabelKey}}'>
 		<@staticText>
 			<#nested>
         </@staticText>
 	</@formGroup>
 </#macro>
-
 <#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='form-control' language='fr'>
-<!-- WARNING : macro fieldInputCalendar is deprecated -->
-	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
-		<@inputGroup>
-			<@inputGroupItem type='text'>
-				<@icon style='calendar' />
-			</@inputGroupItem>
-			<@input type='text' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' />
-		</@inputGroup>
-		<@getDateFlatPicker idField=inputName language=language />
-	</@formGroup>
+<#-- WARNING : macro fieldInputCalendar is deprecated -->
+<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
+	<@inputGroup>
+		<@inputGroupItem type='text'>
+			<@icon style='calendar' />
+		</@inputGroupItem>
+		<@input type='text' name='${inputName}' id='${inputName}' class='${cssClass!}' value='${value}' />
+	</@inputGroup>
+	<@getDateFlatPicker idField=inputName language=language />
+</@formGroup>
 </#macro>
-
 <#macro fieldInputCheckBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
-<!-- WARNING : macro fieldInputCheckBox is deprecated -->
-	<@formGroup helpKey='#i18n{${i18nHelpBlockKey}}'>
-		<@checkBox labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}' class='${cssClass}' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
-	</@formGroup>
+<#-- WARNING : macro fieldInputCheckBox is deprecated 		-->
+<@formGroup helpKey='#i18n{${i18nHelpBlockKey}}'>
+	<@checkBox labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}' class='${cssClass}' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
+</@formGroup>
 </#macro>
-
 <#macro fieldInputRadioBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
-<!-- WARNING : macro fieldInputRadioBox is deprecated -->
-	<@formGroup helpKey='#i18n{${i18nHelpBlockKey}}'>
-		<@radioButton labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}'  id='${inputName}id' name='${inputName}' value='${value}' checked=checked disabled=disabled />
-	</@formGroup>
+<#-- WARNING : macro fieldInputRadioBox is deprecated 		-->
+<@formGroup helpKey='#i18n{${i18nHelpBlockKey}}'>
+	<@radioButton labelFor='${inputName}id' labelKey='#i18n{${i18nLabelKey}}'  id='${inputName}id' name='${inputName}' value='${value}' checked=checked disabled=disabled />
+</@formGroup>
 </#macro>
-
 <#macro fieldInputCheckBoxInline inputName value="" disabled=false checked=false >
-<!-- WARNING : macro fieldInputCheckBoxInline is deprecated -->
-	<@checkBox orientation='inline' labelFor='${inputName}id'  id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
+<#-- WARNING : macro fieldInputCheckBoxInline is deprecated -->
+<@checkBox orientation='inline' labelFor='${inputName}id'  id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
 </#macro>
-
 <#macro fieldInputRadioBoxInline inputName value="" disabled=false checked=false >
-<!-- WARNING : macro fieldInputRadioBoxInline is deprecated -->
-	<@radioButton orientation='inline' labelFor='${inputName}id' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
+<#-- WARNING : macro fieldInputRadioBoxInline is deprecated -->
+<@radioButton orientation='inline' labelFor='${inputName}id' id='${inputName}id' name='${inputName}' value='${value}' disabled=disabled checked=checked />
 </#macro>
-
 <#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='form-control'>
-<!-- WARNING : macro fieldInputCombo is deprecated -->
-	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
-		<#assign params = "class='" + cssClass + "'" >
-		<@select name=inputName items=items default_value=value params=params />
-	</@formGroup>
+<#-- WARNING : macro fieldInputCombo is deprecated 			-->
+<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
+	<#assign params = "class='" + cssClass + "'" >
+	<@select name=inputName items=items default_value=value params=params />
+</@formGroup>
 </#macro>
-
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
-<!-- WARNING : macro fieldTextArea is deprecated -->
-	<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
-		<#if maxlength &gt; 0><#local params='maxlength="${maxlength}"' /></#if>
-		<@input type='textarea' name='${inputName}' id='${inputName}' class='${cssClass!}' params=params>${value!}</@input>
-	</@formGroup>
+<#-- WARNING : macro fieldTextArea is deprecated 			-->
+<@formGroup labelFor='${inputName}' labelKey='#i18n{${i18nLabelKey}}' helpKey='#i18n{${i18nHelpBlockKey}}' mandatory=mandatory>
+	<#if maxlength gt 0><#local params='maxlength="${maxlength}"' /></#if>
+	<@input type='textarea' name='${inputName}' id='${inputName}' class='${cssClass!}' params=params>${value!}</@input>
+</@formGroup>
 </#macro>
-
 <#macro boxSized col i18nTitleKey boxClass='box-primary' >
-<!-- WARNING : macro boxSized is deprecated -->
-    <@columns md=col>
-        <@box class=boxClass>
-            <@boxHeader title=i18nTitleKey />
-            <@boxBody>
-                <#nested>
-            </@boxBody>
-        </@box>
-    </@columns>
-</#macro>
-
-<#macro rowBox boxClass='box-primary' col=12>
-<!-- WARNING : macro rowBox is deprecated -->
-	<@row>
-		<@columns xs=12 sm=col>
-			<@box class=boxClass>
-				<#nested>
-			</@box>
-		</@columns>
-	</@row>
-</#macro>
-
-<#macro rowBoxHeader i18nTitleKey boxClass='box-primary' col=12>
-<!-- WARNING : macro rowBoxHeader is deprecated -->
-	<@rowBox boxClass=boxClass col=col >
-		<@boxHeader i18nTitleKey=i18nTitleKey />
+<#-- WARNING : macro boxSized is deprecated 				-->
+<@columns md=col>
+	<@box class=boxClass>
+		<@boxHeader title=i18nTitleKey />
 		<@boxBody>
 			<#nested>
 		</@boxBody>
-	</@rowBox>
+	</@box>
+</@columns>
 </#macro>
-
+<#macro rowBox boxClass='box-primary' col=12>
+<#-- WARNING : macro rowBox is deprecated 					-->
+<@row>
+	<@columns xs=12 sm=col>
+		<@box class=boxClass>
+			<#nested>
+		</@box>
+	</@columns>
+</@row>
+</#macro>
+<#macro rowBoxHeader i18nTitleKey boxClass='box-primary' col=12>
+<#-- WARNING : macro rowBoxHeader is deprecated 			-->
+<@rowBox boxClass=boxClass col=col >
+	<@boxHeader i18nTitleKey=i18nTitleKey />
+	<@boxBody>
+		<#nested>
+	</@boxBody>
+</@rowBox>
+</#macro>
 <#macro headerButtons>
-<!-- WARNING : macro headerButtons is deprecated -->
-	<#nested>
+<#-- WARNING : macro headerButtons is deprecated 			-->
+<#nested>
 </#macro>
-
 <#macro listTabs type='tabs' id='' params=''>
-<!-- WARNING : macro listTabs is deprecated -->
-	<@tabList style=type id=id params=params />
+<#-- WARNING : macro listTabs is deprecated 				-->
+<@tabList style=type id=id params=params />
 </#macro>
-
 <#macro badge color='primary' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' id='' params=''>
-<!-- WARNING : macro badge is deprecated -->
+<#-- WARNING : macro badge is deprecated 					-->
 <@tag color=color class=class title=title tagIcon=badgeIcon id=id />
 </#macro>
-
-<#-- DEPRECATED/RENAMED DATEPICKER MACROS -->
+<#-- DEPRECATED/RENAMED DATEPICKER MACROS 					-->
 <#macro getDatePickerBootstrap idField language parse='false' showFormat='d-m-Y' format=''>
-	<@getDate idField=idField language=language format=format showFormat=showFormat />
+<@getDate idField=idField language=language format=format showFormat=showFormat />
 </#macro>
-
 <#macro getDatePickerBootstrapClass idForm language>
-	<@alert color='danger'>Not compatible with core v7. Please update the DatePicker code in the templates</@alert>
+<@alert color='danger'>Not compatible with core v7. Please update the DatePicker code in the templates</@alert>
 </#macro>
-
 <#macro getDatePickerRangeBootstrap language showFormat=''>
-	<@alert color='danger'>Not compatible with core v7. Please update the DatePicker code in the templates</@alert>
+<@getDateRange idField='date_begin' idEndField='date_end' language=language />	
 </#macro>
-
 <#macro getDatePickerFlatPicker idField language >
-	<@getDate idField=idField language=language />
+<@getDate idField=idField language=language />
 </#macro>
-
 <#macro getDatePicker idField language >
-	<@getDate idField=idField language=language />
+<@getDate idField=idField language=language />
 </#macro>
-
 <#macro getDatePickerRange idFieldFrom idFieldTo language >	
-	<@getDateRange idField=idFieldFrom language=language idEndField=idFieldTo />
+<@getDateRange idField=idFieldFrom  idEndField=idFieldTo language=language />
 </#macro>
