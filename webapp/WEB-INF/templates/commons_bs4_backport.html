@@ -2,17 +2,17 @@
 
 <#macro comboWithParams name default_value additionalParameters items>
 <!-- WARNING : macro comboWithParams is deprecated -->
-	<@select id='${name}' name='${name}' default_value=default_value items=items params='additionalParameters' />
+	<@select id='${name}' name='${name}' default_value=default_value items=items params=additionalParameters />
 </#macro>
 
 <#macro comboSortedWithParams name default_value additionalParameters items id=name>
 <!-- WARNING : macro comboSortedWithParams is deprecated -->
-	<@select id='${id}' name='${name}' sort=true default_value=default_value items=items params='additionalParameters' />
+	<@select id='${id}' name='${name}' sort=true default_value=default_value items=items params=additionalParameters />
 </#macro>
 
 <#macro comboWithParamsAndLength name default_value additionalParameters items max_length >
 <!-- WARNING : macro comboWithParamsAndLength is deprecated -->
-	<@select id='${name}' name='${name}' default_value=default_value items=items maxLength=max_length params='additionalParameters' />
+	<@select id='${name}' name='${name}' default_value=default_value items=items maxLength=max_length params=additionalParameters />
 </#macro>
 
 <#macro combo name default_value items>
