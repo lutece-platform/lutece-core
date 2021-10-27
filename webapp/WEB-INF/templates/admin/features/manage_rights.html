@@ -1,27 +1,26 @@
 <@row>
 	<@columns>
-		<@box color='success'>
-			<@boxHeader title='#i18n{portal.features.manage_rights.boxTitle}' />
+		<@box>
 			<@boxBody>
-			<@table>
-			<@tr>            
-				<@th>#i18n{portal.features.manage_rights.columnTitleName}</@th>
-				<@th>#i18n{portal.features.manage_rights.columnTitleDescription}</@th>
-				<@th>#i18n{portal.features.manage_rights.columnTitleLevel}</@th>
-				<@th>#i18n{portal.features.manage_rights.columnTitleActions}</@th>
-			</@tr>
-			<@tableHeadBodySeparator />
-			<#list rights_list?sort_by('name') as right >
-				<@tr>
-					<@td>${right.name}</@td>
-					<@td>${right.description}</@td>
-					<@td>${right.level}</@td>
-					<@td>
-						<@aButton href='jsp/admin/features/AssignUsersRight.jsp?id_right=${right.id}' buttonIcon='user' color='primary' title='#i18n{portal.features.manage_rights.buttonLabelAssignUsers}' hideTitle=['all'] />
-					</@td>
+				<@table>
+				<@tr>            
+					<@th>#i18n{portal.features.manage_rights.columnTitleName}</@th>
+					<@th>#i18n{portal.features.manage_rights.columnTitleDescription}</@th>
+					<@th>#i18n{portal.features.manage_rights.columnTitleLevel}</@th>
+					<@th>#i18n{portal.features.manage_rights.columnTitleActions}</@th>
 				</@tr>
-			</#list>
-			</@table>
+				<@tableHeadBodySeparator />
+				<#list rights_list?sort_by('name') as right >
+					<@tr>
+						<@td>${right.name}</@td>
+						<@td>${right.description}</@td>
+						<@td>${right.level}</@td>
+						<@td>
+							<@aButton href='jsp/admin/features/AssignUsersRight.jsp?id_right=${right.id}' buttonIcon='user' color='primary' title='#i18n{portal.features.manage_rights.buttonLabelAssignUsers}' hideTitle=['all'] />
+						</@td>
+					</@tr>
+				</#list>
+				</@table>
 			</@boxBody>
 		</@box>
 	</@columns>

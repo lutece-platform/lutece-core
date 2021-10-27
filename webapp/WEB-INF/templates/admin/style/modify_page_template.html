@@ -1,8 +1,11 @@
+<#assign imageHelpKey>#i18n{portal.style.modify_page_template.labelCurrentPicture}</#assign>
 <@tform method='post' params='enctype="multipart/form-data"' action='jsp/admin/style/DoModifyPageTemplate.jsp' name='modify_page_template'>
 <@row>
 	<@columns>
 		<@box color='info'>
-			<@boxHeader title='#i18n{portal.style.modify_page_template.boxTitle}&nbsp;<strong>${page_template.description}</strong>' skipHeader=true boxTools=true />
+			<@boxHeader title='#i18n{portal.style.modify_page_template.boxTitle} <strong>${page_template.description}</strong>' skipHeader=true boxTools=true>
+				<@img url='images/admin/skin/page_templates/${page_template.picture}' class='is-32x32 p-3' alt='' title='${i18n("portal.style.manage_page_templates.picturealt",page_template.description?html)}' />
+			</@boxHeader>
 			<@boxBody>
 				<@input type='hidden' name='page_template_id' value='${page_template.id}' />
 				<@input type='hidden' name='token' value='${token}' />
@@ -13,17 +16,13 @@
 					<@input type='file' name='page_template_file' id='page_template_file' />
 					<@checkBox name='update_file' id='update_file' labelKey='#i18n{portal.style.modify_page_template.labelReloadFile}' labelFor='update_file'/>
 				</@formGroup>
-				<#assign imageHelpKey>
-					#i18n{portal.style.modify_page_template.labelCurrentPicture}
-					<@img url='images/admin/skin/page_templates/${page_template.picture}' alt='' title='${i18n("portal.style.manage_page_templates.picturealt",page_template.description?html)}' />
-				</#assign>
 				<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelPictureTitle}' labelFor='page_template_picture' helpKey=imageHelpKey>
 					<@input type='file' name='page_template_picture' id='page_template_picture' />
 					<@checkBox name='update_image' id='update_image' labelKey='#i18n{portal.style.modify_page_template.labelReloadPicture}' />
 				</@formGroup>
-				<@formGroup>
-					<@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_mode.buttonLabelValidate}'  size='' />
-					<@aButton href='jsp/admin/style/ManagePageTemplates.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}'  size='' color='secondary' />
+				<@formGroup class='mt-2'>
+					<@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_mode.buttonLabelValidate}' size='' />
+					<@aButton href='jsp/admin/style/ManagePageTemplates.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}' size='' color='secondary' />
 				</@formGroup>
 			</@boxBody>
 		</@box>

@@ -1,23 +1,23 @@
 <#compress>
 <#if listExtendableResourceActions?? && listExtendableResourceActions?has_content>
 <@extendableResourceAction>
-	<@listGroup>
+<@listGroup>
 	<#list listExtendableResourceActions as resourceTypeAction>
 		<#if resourceTypeAction.buttonTemplate?? && resourceTypeAction.buttonTemplate!=''>
 			<@listGroupItem><@extendableResourceActionList action=resourceTypeAction /></@listGroupItem>
 		</#if>
 	</#list>
-	</@listGroup>
+</@listGroup>
 </@extendableResourceAction>
 </#if>
-
 <#-- extendableResourceAction + extendableResourceActionList -->
 <#macro extendableResourceAction>
-<@aButton class='dropdown-toggle' size='sm' id='extender' dropdownMenu=true href='#' title='#i18n{portal.admin.resource.extend}' buttonIcon='bookmark' hideTitle=['xs','sm','md']>
-	<#nested>
-</@aButton>
+<@btnGroup class='ms-1 ml-1'>
+	<@aButton class='dropdown-toggle' id='extender' dropdownMenu=true href='#' title='#i18n{portal.admin.resource.extend}' buttonIcon='bookmark' hideTitle=['xs','sm','md']>
+		<#nested>
+	</@aButton>
+</@btnGroup>
 </#macro>
-
 <#macro extendableResourceActionList action target='_top'>
 <#if action.buttonTemplate?has_content><#include action.buttonTemplate /></#if>
 </#macro>

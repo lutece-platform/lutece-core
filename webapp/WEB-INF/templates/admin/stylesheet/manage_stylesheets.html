@@ -3,11 +3,11 @@
 		<@box color='info'>
 			<@boxHeader title='#i18n{portal.style.manage_stylesheets.title}' skipHeader=true boxTools=true>
 				<@row class='align-items-center'>
-					<@columns sm=6>
+					<@columns>
 						<@tform method='post' type='inline'>
-							<@formGroup formStyle='inline' labelKey='#i18n{portal.style.manage_stylesheets.labelSortByMode}' labelFor='mode_id' hideLabel=['all'] class='has-addons'> 
+							<@formGroup formStyle='inline' labelKey='#i18n{portal.style.manage_stylesheets.labelSortByMode}' labelFor='mode_id' hideLabel=['all'] groupStyle='addons'> 
 								<@inputGroup size='sm' class=''>
-									<@select name='mode_id' default_value='${mode_id}' items=mode_list size='sm' />
+									<@select name='mode_id' default_value='${mode_id}' items=mode_list size='sm' params='addons' />
 									<@inputGroupItem>
 										<@button type='submit' buttonIcon='filter' title='#i18n{portal.util.labelFilter}' hideTitle=['all'] color='link' size='sm' />
 									</@inputGroupItem>
@@ -15,10 +15,10 @@
 							</@formGroup>
 						</@tform>
 					</@columns>
-					<@columns sm=6>
+					<@columns>
 						<@tform method='post' type='inline' align='right' action='jsp/admin/style/CreateStyleSheet.jsp'>
 							<@input type='hidden' name='mode_id' value='${mode_id}' />
-							<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.manage_stylesheets.buttonAdd}' hideTitle=['xs','sm'] size='sm' />
+							<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.manage_stylesheets.buttonAdd}' color='primary' size='sm' />
 						</@tform>
 					</@columns>
 				</@row>

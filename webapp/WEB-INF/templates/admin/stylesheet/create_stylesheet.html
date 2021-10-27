@@ -17,7 +17,7 @@
 					<@formGroup labelKey='#i18n{portal.style.create_stylesheet.labelMode}' labelFor='mode_stylesheet' mandatory=true>
 						<@select name='mode_stylesheet' default_value='${mode_id}' items=mode_list sort=true  size='sm'/>
 					</@formGroup>
-					<@formGroup>
+					<@formGroup rows=2 class='mt-2'>
 						<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.create_stylesheet.buttonCreate}' color='primary' size='' />
 						<@aButton href='jsp/admin/style/ManageStyleSheets.jsp' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' size='' color='secondary' />
 					</@formGroup>

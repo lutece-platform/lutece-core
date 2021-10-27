@@ -1,4 +1,31 @@
-/*  BULMA overrides        */
+/*  BULMA    */
+/* Variables */
+:root {
+    --light: #f4f6fa;
+    --dark-light: #dadcde;
+      --dark-gray: #555;
+    --dark: #232e3c;
+    --blue: #206bc4;
+    --primary: var( --blue );
+    --azure: #4299e1;
+    --indigo: #4263eb;
+    --info: var( --indigo );
+    --purple: #ae3ec9;
+    --pink: #d6336c;
+    --red: #d63939;
+    --danger: var( --red );
+    --orange: #f76707;
+    --warning: var( --orange );
+    --yellow: #f59f00;
+    --lime: #74b816;
+    --green: #2fb344;
+    --success: var( --green );
+    --teal: #0ca678;
+    --cyan: #17a2b8;
+    --black: #000000;
+    --white: #ffffff;
+}
+
 /*  Login page              */
 #login .footer{ display: none;} /* Footer not displayed in login page */
 #login-page { background: #fff url("../../images/admin/skin/bg_login1.jpg"); background-size: cover; background-attachment: fixed; min-height: 922px; height: 100vh; overflow: hidden; }
@@ -17,6 +44,13 @@
 
 /* Dashboard Card Button */
 .box-tools{ position: absolute; top: 5px; right: 5px;}
+.widget.lutece-dashboard .card{ margin-bottom: 1rem }
+
+/* Classes updates */
+.select.is-multiple, .select select[multiple]{ width: 100%; }
+.field{ margin-left:.25rem}
+.field>.label:not(:last-child){margin-bottom: 0}
+.field:not(:last-child) {margin-bottom: 0;}
 
 /* Language Menu        */
 .fr{ text-transform: capitalize; background: transparent url( ../../../../images/fr.png ) no-repeat right/contain; width: 24px; height: 24px; padding: 0;}
@@ -34,6 +68,16 @@
 
 .body-hidden{position: fixed; left: -99999px; display: none}
 
+/* thumbnail list                           */
+/* Image size for thumbnails                */
+.thumbnail-xs{ width:16px; }
+.thumbnail-sm{ width:32px; }
+.thumbnail-md{ width:64px; }
+.thumbnail-lg{ width:128px; }
+
+/* Default */
+td{ vertical-align: middle;}
+
 /* CSS for copyElementToClipboard commons Freemarker Macro */
 .copy-content{ position: relative; width:100%; display: inline-block;}
 .copy-content:hover{  cursor: copy; }
@@ -46,6 +90,14 @@
 #lutece-doc-link:hover span{ position: relative; width:auto; height:auto ;}
 
 /* Admin Site           */
+.admin-site{  padding: .2rem .5rem;}
+.admin-menu{ display: flex; justify-content: space-between; align-items: center;}
+.admin-menu > nav { margin: 0 !important;}
+.admin-menu .field.is-grouped{ align-items: center; }
+.admin-site .breadcrumb-item{ font-size: 1.4rem }
+.admin-site .breadcrumb a i{ padding: .25em .75em; }
+.admin-site-toolbar{ margin-top: -1rem }
+.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
 iframe#preview { display: block; overflow: auto; border: 0;  padding: 0;  margin:-10px auto;  border:2px solid #DEDEDE;  max-height:400px }
 #preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
 #fullscreen.open{ position:fixed; top:0; right: 15px; z-index: 10000; padding: 5px; }
@@ -55,6 +107,13 @@ li.portlet-type a:hover{ background:#6D84CB; color:#fff; }
 #content-portlet{ padding:0 10px;}
 #preview{ left:0; width:100%; height:850px; min-height:850px; position:relative; z-index:0;}
 .richtext{ width:100%;}
+.manage-portlet label{ font-size: .8em;}
+.manage-portlet > .card-content{ padding: 5px 0 0 5px }
+.portlet-options.column.is-1, .portlet-options.column.is-1-tablet { width: 4.333%; } 
+.portlet-options.column.is-2, .portlet-options.column.is-2-tablet { width: 6.333%; }
+.portlet-options.column.is-2 .help { margin-top: .6rem; }
+.portlet-toolbar{ position: relative; background-color: var( --dark-light ); }
+.display-options{ display: inline-flex; }
 
 /* Site Map             */
 .sitemap{ min-height:650px;}

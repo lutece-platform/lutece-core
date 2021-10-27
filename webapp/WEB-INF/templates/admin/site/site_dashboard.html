@@ -1,39 +1,36 @@
 <#if last_modified_page??>
 <@adminDashboardWidget title='#i18n{portal.site.adminFeature.admin_site.name}' id='site_dashboard' url=url  >
-<h5>#i18n{portal.site.dashboard.columnLastModifiedPage}</h5>
-<@table>
-	<@tr>
-		<@td>
-			<@tag color='info' title='#i18n{portal.site.dashboard.labelPageId}'>${last_modified_page.id}</@tag>
-			<span title="${i18n( 'portal.site.dashboard.labelDateModification', last_modified_page.dateUpdate)}">
-				<#if last_modified_page.name?length gt 35>${last_modified_page.name?substring(0,35)}...<#else>${last_modified_page.name}</#if>
-			</span>
-		</@td>
-		<@td>
-			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=5' title='#i18n{portal.site.admin_page.titleAddChildPage}' buttonIcon='plus' size='sm' color='success' hideTitle=['all'] />
-			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}' title='#i18n{portal.site.admin_page.tabPageManagement}' buttonIcon='edit' size='sm' hideTitle=['all'] />
-			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=2' title='#i18n{portal.site.admin_page.titlePageProperties}' buttonIcon='wrench' size='sm' hideTitle=['all'] />
-		</@td>
-	</@tr>
-</@table>
-<#if last_modified_portlet??>
-<h5>#i18n{portal.site.dashboard.columnLastModifiedPortlet}</h5>
-<@table>
-	<@tr>
-		<@td>
-			<#if last_modified_portlet.status = 0>
-				<@tag color='success' title='#i18n{portal.site.dashboard.publishedStatus}'><@icon style='thumbs-up' /></@tag>&#160;
-			<#else>
-				<@tag color='warning' title='#i18n{portal.site.dashboard.unpublishedStatus}'><@icon style='thumbs-down' /></@tag>&#160;
-			</#if>
-			<span title="Portlet Id: ${last_modified_portlet.id}">${last_modified_portlet.name} - #i18n{${last_modified_portlet.portletTypeName}}</span>
-		</@td>
-		<@td>
-			<@aButton href='jsp/admin/DoModifyPortlet.jsp?portlet_id=${last_modified_portlet.id}' title='${last_modified_portlet.name} - #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_portlet.dateUpdate}' buttonIcon='edit' size='sm' hideTitle=['all'] class='pull-right' />
-		</@td>
-	</@tr>
-</@table>
+<@p class="lead font-weight-bold">#i18n{portal.site.dashboard.columnLastModifiedPage}</@p>
+<@div class='d-flex justify-content-between is-flex is-justify-content-space-between'>
+	<#assign param>title="${i18n( 'portal.site.dashboard.labelDateModification', last_modified_page.dateUpdate)}"</#assign>
+	<@p>
+		<@tag color='info' title='#i18n{portal.site.dashboard.labelPageId}'>${last_modified_page.id}</@tag> <#if last_modified_page.name?length gt 35>${last_modified_page.name?substring(0,35)}...<#else>${last_modified_page.name}</#if>
+		<@span class='text-sm text-muted' params=param> [${i18n( 'portal.site.dashboard.labelDateModification', last_modified_page.dateUpdate)} ]</@span>
+	</@p>
+	<@p>
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=5' title='#i18n{portal.site.admin_page.titleAddChildPage}' buttonIcon='plus' size='sm' color='success' hideTitle=['all'] />
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}' title='#i18n{portal.site.admin_page.tabPageManagement}' buttonIcon='edit' size='sm' hideTitle=['all'] />
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=2' title='#i18n{portal.site.admin_page.titlePageProperties}' buttonIcon='wrench' size='sm' hideTitle=['all'] />
+		<@aButton href='jsp/site/Portal.jsp?page_id=${last_modified_page.id}' title='#i18n{portal.site.page.permission.view} [#i18n{portal.site.portal_footer.newWindow}]' buttonIcon='link' size='sm' hideTitle=['all'] />
+	</@p>
+</@div>
 
+<#if last_modified_portlet??>
+<@p class="lead font-weight-bold">#i18n{portal.site.dashboard.columnLastModifiedPortlet}</@p>
+<@div class='d-flex justify-content-between is-flex is-justify-content-space-between'>
+	<@p>
+		<#if last_modified_portlet.status = 0>
+			<@tag color='success' title='#i18n{portal.site.dashboard.publishedStatus}'>#i18n{portal.site.dashboard.publishedStatus}</@tag> 
+		<#else>
+			<@tag color='warning' title='#i18n{portal.site.dashboard.unpublishedStatus}'>#i18n{portal.site.dashboard.unpublishedStatus}</@tag> 
+		</#if>
+		<@span>${last_modified_portlet.name} - #i18n{${last_modified_portlet.portletTypeName}}</@span>
+	</@p>
+	<@p>
+		<@aButton href='jsp/admin/DoModifyPortlet.jsp?portlet_id=${last_modified_portlet.id}' title='${last_modified_portlet.name} - #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_portlet.dateUpdate}' buttonIcon='edit' size='sm' hideTitle=['all'] />
+		<@aButton href='jsp/site/Portal.jsp?page_id=${last_modified_portlet.pageId}' title='#i18n{portal.site.page.permission.view} [#i18n{portal.site.portal_footer.newWindow}]' buttonIcon='link' size='sm' hideTitle=['all'] />
+	</@p>
+</@div>
 </#if>
 </@adminDashboardWidget>
 </#if>

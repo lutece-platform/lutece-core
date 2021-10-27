@@ -5,12 +5,14 @@
 	<@formGroup labelFor='email' labelKey='#i18n{portal.admin.admin_login.emailLabel}' hideLabel=['all'] rows=2>
 		<@inputGroup>
 			<@inputGroupItem type='text'><@icon style='envelope' /></@inputGroupItem>
-			<@input type='text' name='email' params='autofocus' placeHolder='#i18n{portal.admin.admin_forgot_login.emailLabel}' />
+			<@input type='email' name='email' params='autofocus' placeHolder='#i18n{portal.admin.admin_forgot_login.emailLabel}' />
 		</@inputGroup>
 	</@formGroup>
-	<p class='text-center'>
-		<@button type='submit' title='#i18n{portal.admin.admin_forgot_password.buttonSubmit}' buttonIcon='check'  />
-		<@aButton href='jsp/admin/AdminLogin.jsp' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='close'  color='secondary' />
-	</p>
+	<@formGroup rows=2>
+		<@p class='control mt-2 d-flex is-flex justify-content-center is-justify-content-center'>
+			<@button type='submit' title='#i18n{portal.admin.admin_forgot_password.buttonSubmit}' buttonIcon='check' size='' />
+			<@aButton href='jsp/admin/AdminLogin.jsp' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='close'  color='secondary ml-2' size='' />
+		</@p>
+	</@formGroup>
 </@tform>
 </@adminLoginPage>

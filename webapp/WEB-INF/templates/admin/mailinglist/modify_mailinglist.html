@@ -15,8 +15,8 @@
 					<@formGroup labelKey='#i18n{portal.mailinglist.modify_mailinglist.labelWorkgroup}' labelFor='workgroup' mandatory=true rows=2>
 						<@select name='workgroup' id='workgroup' default_value='${mailinglist.workgroup}' items=workgroups_list sort=true />
 					</@formGroup>
-					<@formGroup rows=2>
-						<@button type='submit' buttonIcon='edit' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify}' size=''  />
+					<@formGroup rows=2 class='mt-3'>
+						<@button type='submit' buttonIcon='edit' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify}' size='' color='primary' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>
@@ -29,19 +29,19 @@
 			<#if mailinglist.filters?size lt 1>
 				<@tform type='inline' method='get' action='jsp/admin/mailinglist/AddUsers.jsp'>
 					<@input type='hidden' name='id_mailinglist' value='${mailinglist.id!}' />
-					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' size='sm' hideTitle=['xs','sm','md'] />
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' size='sm' color='primary' />
 				</@tform>
 			<#else>
 				<@columns sm=6>
 					<@tform type='inline' method='get' action='jsp/admin/mailinglist/AddUsers.jsp'>
 						<@input type='hidden' name='id_mailinglist' value='${mailinglist.id!}' />
-						<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' size='sm' hideTitle=['xs','sm','md'] />
+						<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' size='sm' color='primary'  />
 					</@tform>
 				</@columns>
 				<@columns sm=6>
 					<@tform type='inline' method='get' action='jsp/admin/mailinglist/ViewUsers.jsp'>
 						<@input type='hidden' name='id_mailinglist' value='${mailinglist.id!}' />
-						<@button type='submit' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}' size='sm' hideTitle=['xs','sm','md'] />
+						<@button type='submit' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}' size='sm'  />
 					</@tform>
 				</@columns>
 			</#if>

@@ -4,7 +4,7 @@
 			<@boxHeader title='#i18n{portal.style.modify_stylesheet.title}' boxTools=true skipHeader=true >
 				<@tform method='post' action='ViewStyleSheetFile' name='modify_stylesheet' type='inline'>
 					<@input type='hidden' name='stylesheet_id' value='${stylesheet.id}' />
-					<@button type='submit' buttonIcon='download' title='#i18n{portal.style.modify_stylesheet.buttonView}' size='sm' />
+					<@button type='submit' buttonIcon='download' title='#i18n{portal.style.modify_stylesheet.buttonView}' size='' />
 				</@tform>
 			</@boxHeader>
 			<@boxBody>
@@ -23,9 +23,9 @@
 				<@formGroup labelKey='#i18n{portal.style.modify_stylesheet.labelMode}' labelFor='mode_stylesheet' mandatory=true>
 					<@select name='mode_stylesheet' default_value='${stylesheet.modeId}' items=mode_list  size='sm'/>
 				</@formGroup>
-				<@formGroup>
-					<@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_stylesheet.buttonModify}'  size='sm' color='primary'/>
-					<@aButton href='jsp/admin/style/ManageStyleSheets.jsp' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}'  size='sm' color='secondary' />
+				<@formGroup rows=2 class='mt-2'>
+					<@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_stylesheet.buttonModify}'  size='' color='primary'/>
+					<@aButton href='jsp/admin/style/ManageStyleSheets.jsp' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}'  size='' color='secondary' />
 				</@formGroup>
 			</@tform>
 			</@boxBody>

@@ -4,8 +4,8 @@
 			<#assign headerIcon>
 				<@icon style='user' />
 			</#assign>
-			<@boxHeader title='#i18n{portal.users.manage_user_roles.titleRoleList} : ${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
-				<div class="pull-right spaced"><@item_navigation item_navigator=item_navigator /></div>
+			<@boxHeader title='#i18n{portal.users.manage_user_roles.titleRoleList} : ${headerIcon} ${user.lastName} ${user.firstName}' boxTools=true>
+				
 				<@tform align='right' method='post' name='modifyform' action='jsp/admin/user/ModifyUserRoles.jsp'>
 					<@input type='hidden' name='id_user' value='${user.userId}' />
 					<@input type='hidden' name='delegate_rights' value='false' />
@@ -27,19 +27,20 @@
 					</@tabList>
 					<@tabContent>
 						<@table>
-							<tr>
-								<th>#i18n{portal.users.manage_user_roles.columnTitleKey}</th>
-								<th>#i18n{portal.users.manage_user_roles.columnTitleDescription}</th>
-							</tr>
-							<#list user_role_list?sort_by('key') as role>
-							<tr>
-								<td>${role.key}</td>
-								<td>${role.description}</td>            
-							</tr>
-							</#list>
+						<@tr>
+							<@th>#i18n{portal.users.manage_user_roles.columnTitleKey}</@th>
+							<@th>#i18n{portal.users.manage_user_roles.columnTitleDescription}</@th>
+						</@tr>
+						<#list user_role_list?sort_by('key') as role>
+						<@tr>
+							<@td>${role.key}</@td>
+							<@td>${role.description}</@td>            
+						</@tr>
+						</#list>
 						</@table>
 					</@tabContent>
 				</@tabs>
+				<@item_navigation item_navigator=item_navigator />
 			</@boxBody>
     	</@box>
 	</@columns>

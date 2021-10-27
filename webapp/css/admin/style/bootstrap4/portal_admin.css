@@ -1,3 +1,30 @@
+/* BS4          */
+/* Variables    */
+:root {
+    --light: #f4f6fa;
+    --dark-light: #dadcde;
+      --dark-gray: #555;
+    --dark: #232e3c;
+    --blue: #206bc4;
+    --primary: var( --blue );
+    --azure: #4299e1;
+    --indigo: #4263eb;
+    --info: var( --indigo );
+    --purple: #ae3ec9;
+    --pink: #d6336c;
+    --red: #d63939;
+    --danger: var( --red );
+    --orange: #f76707;
+    --warning: var( --orange );
+    --yellow: #f59f00;
+    --lime: #74b816;
+    --green: #2fb344;
+    --success: var( --green );
+    --teal: #0ca678;
+    --cyan: #17a2b8;
+    --black: #000000;
+    --white: #ffffff;
+}
 /*  Login page                    */
 #login-page { background: #fff url("../../images/admin/skin/bg_login1.jpg"); background-size: cover; background-attachment: fixed; min-height: 922px; height: 100vh; overflow: hidden;}
 #login .footer{ display: none;} /* Footer not displayed in login page */
@@ -23,6 +50,16 @@
 .empty{ display: flex; justify-content: center;  flex-direction: column;  align-items: center; }
 .empty-title{  margin-top: 15px;}
 
+/* thumbnail list                           */
+/* Image size for thumbnails                */
+.thumbnail-xs{ width:16px; }
+.thumbnail-sm{ width:32px; }
+.thumbnail-md{ width:64px; }
+.thumbnail-lg{ width:128px; }
+
+/* Default */
+td{ vertical-align: middle;}
+
 /* CSS for copyElementToClipboard Commons Freemarker Macro */
 .copy-content{ position: relative; width:100%; display: inline-block;}
 .copy-content:hover{ cursor: copy;}
@@ -31,6 +68,14 @@
 .copy-content.no-hover:hover:after{ content: '';}
 
 /* Admin Site                     */
+.admin-site{  padding: .2rem .5rem;}
+.admin-menu{ display: flex; justify-content: space-between; align-items: center;}
+.admin-menu > * { margin: 0; padding: 0;}
+.admin-menu > nav > ol { margin: .25rem ; padding: .25rem .5rem; }
+.admin-site .breadcrumb-item{ font-size: 1.4rem }
+.admin-site-toolbar{ margin-top: -1rem }
+.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
+
 iframe#preview {  display: block; overflow: auto; border: 0; padding: 0; margin:-10px auto; border:2px solid #DEDEDE; max-height:400px }
 #preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
 #fullscreen.open{ position:fixed; top:0; right: 15px; z-index: 10000; padding: 5px; }
@@ -40,6 +85,18 @@ li.portlet-type a:hover{  background:#6D84CB; color:#fff; }
 #content-portlet{ padding:0 10px;}
 #preview{ left:0;  width:100%;  height:850px;  min-height:850px;  position:relative;  z-index:0; }
 .richtext{ width:100%;}
+
+.manage-portlet label{ font-size: .8em;}
+.portlet-options.col-sm-1{ flex-basis: 5.333%; } 
+.portlet-options.col-sm-2{ flex-basis: 6.333%; }
+.manage-portlet .col-sm-3{ flex-basis: 22%; }
+.manage-portlet .custom-switch{ padding-left: 1.25rem; }
+.manage-portlet .custom-switch .custom-control-label{ padding-left: 0.6rem ;}
+.manage-portlet .custom-switch .custom-control-label::before { left: -1.25rem; top: .2rem }
+.manage-portlet .custom-switch .custom-control-label::after { left: calc(-1.25rem + 2px);  top: .3rem} 
+.portlet-options .radio, .portlet-options .form-check, .manage-portlet .custom-control{ display: inline-block;} 
+.display-options .form-check{ display: inline-flex; }
+.portlet-toolbar{ position: relative; background-color: var( --dark-light ); padding: 15px }
 
 /* Site Map                       */
 .sitemap{ min-height:650px; }

@@ -8,11 +8,8 @@
 <#macro commonsName>Commons Bootstrap 3</#macro>
 <#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 3.3</#macro>
 <#macro coreAdminCSSLinks>
-<!-- <link href="css/admin/bootstrap2-compatibility.css" rel="stylesheet" >  provided by core -->
 <link href="css/admin/bootstrap.min.css" rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/bootstrap-colorpicker.css" rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/bootstrap-datepicker.min.css" rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/bootstrap-flatpickr.min.css" rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/jquery-ui.min.css" rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/jquery-ui.structure.min.css" rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/jquery-ui.theme.min.css" rel="stylesheet" > <!-- provided by core -->
@@ -32,8 +29,6 @@
 <script src="js/admin/bootstrap-colorpicker.js"></script> <!-- provided by core -->
 <script src="js/admin/bootstrap-filestyle.min.js"></script> <!-- provided by core -->
 <script src="js/admin/lib/polipop/polipop.min.js"></script> <!-- provided by core -->
-<script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script>
 <script src="js/admin/app.min.js"></script> <!-- provided by core -->
 <script src="js/admin/admin.js"></script> <!-- provided by core -->
 <script src="js/util/progress-manager.js"></script> <!-- provided by core -->
@@ -100,8 +95,6 @@
 				<i class="fa fa-angle-double-right"></i>&nbsp;#i18n{portal.util.labelLast}
 			</a>
 		</#if>
-	<#else>
-		&nbsp;&nbsp;
 	</#if>
 </#if>
 </#macro>
@@ -222,7 +215,7 @@
 <#-- Display item count -->
 <#if showcount == 1 >
 <span class="showcount">
-	<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&nbsp;-&nbsp;${paginator.labelItemCount} : </#if> ${paginator.itemsCount}
+	<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content> - ${paginator.labelItemCount} : </#if> ${paginator.itemsCount}
 </span>
 </#if>
 </#macro>
@@ -399,6 +392,20 @@
 </#if>
 </select>
 </#macro>
+<#--- MACRO OPTIONS  --->
+<#--- items : list with label, value, selected values  --->
+<#macro options items selected='' id=false class='' params=''>
+<#if items??>
+	<#list items as item>
+		<#local idItem><#if id>${item.code}_${item?index}<#else></#if></#local>
+		<#local selectedItem><#if selected !=''><#if item.code?string=selected>true<#else>false</#if><#else>${item.selected?c}</#if></#local>
+		<@option label=item.name value=item.code id=idItem class=class selected=selectedItem?boolean disabled=item.disabled params=params /> 
+	</#list>
+</#if>
+</#macro>
+<#macro option label value id='' class='' selected=false disabled=false params=''>
+<option<#if id!=''>id="${id}</#if><#if class!=''> class="${class}</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if params!=''> ${params}</#if>>${label!} <#nested></option>
+</#macro>
 <#-- ICONS -->
 <#-- Icons from FontAwesome 5.8.1 -->
 <#macro icon prefix='fa-' style='' class='' title='' id='' params=''>
@@ -554,7 +561,7 @@
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.lang minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' format='Y-m-d H:i:S' showFormat='d-m-Y H:i' dateRangeEndId=''>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 	<#if type='textarea'>
-		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
+		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange'>
@@ -862,19 +869,13 @@
 <#-- color: only for the left side showing the icon. -->
 <#-- bgColor: for the right side containing the text -->
 <#macro infoBox color='' boxText='' boxIcon='' boxNumber='' unit='' bgColor='' progressBar='' progressDescription='' id='' params=''>
-<div class="info-box<#if bgColor!=''> ${bgColor}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<span class="info-box-icon<#if color!=''> ${color}</#if>"><@icon style=boxIcon /></span>
+<div class="info-box"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<span class="<#if bgColor!=''>${bgColor}</#if> info-box-icon"><@icon style=boxIcon /></span><#if boxText !=''><span class="info-box-text ml-2">${boxText}</span></#if>
 	<div class="info-box-content">
-		<span class="info-box-text">${boxText}</span>
-		<span class="info-box-number">${boxNumber?string(",000")}<#if unit!=''> <small>${unit}</small></#if></span>
-		<#if bgColor!='' && progressBar!=''>
-		<div class="progress">
-			<div class="progress-bar" style="width: ${progressBar}%"></div>
-		</div>
-		</#if>
-		<#if progressDescription!=''>
-		<span class="progress-description">${progressDescription}</span>
-		</#if>
+		<#if boxNumber!='0'><span class="info-box-number">${boxNumber?trim}<#if unit!=''> <small>${unit}</small></#if></span></#if>
+		<#if bgColor!='' && progressBar!=''><div class="progress"><div class="progress-bar" style="width: ${(boxNumber?trim?number/progressBar?trim?number*100)?string.computer}%"></div></div></#if>
+		<#if progressDescription!=''><span class="progress-description">${progressDescription}</span></#if>
+		<#nested />
 	</div>
 </div>
 </#macro>
@@ -1105,10 +1106,16 @@
 <#-- color: default/primary/info/success/warning/danger -->
 <#-- style: solid (no top border) -->
 <#-- collapsed: true/false -->
-<#macro box color='' id='' style='' class='' params='' collapsed=false>
+<#macro box color='' id='' style='' class='' title='' params='' collapsed=false>
 <div class="box<#if color!=''> box-${color}</#if><#if style!=''> box-${style}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#if title=''>	
 	<#nested>
+<#else>
+	<@boxHeader title=title params=params skipHeader=true />
+	<@boxBody><#nested></@boxBody>
+</#if>
 </div>
+
 </#macro>
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' class='' params='' boxTools=false titleLevel='h2' deprecated...>
@@ -1193,25 +1200,25 @@
 	<#nested>
 </${type}>
 </#macro>
-<#macro listGroup id='' params=''>
-<ul class="list-group"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro listGroup id='' class='' params=''>
+<ul class="list-group list-unstyled"<#if id!=''> id="${id}"</#if><#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </ul>
 </#macro>
-<#macro listGroupItem id='' params=''>
-<li class="list-group-item"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro listGroupItem id='' class='' params=''>
+<li class="list-group-item"<#if id!=''> id="${id}"</#if><#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </li>
 </#macro>
-<#macro unstyledList id='' params=''>
-<ul class="unstyled"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro unstyledList id=''class='' params=''>
+<ul class="list-unstyled"<#if id!=''> id="${id}"</#if><#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if>>
 	<#assign liClass = "margin">
 	<#nested>
 </ul>
 </#macro>
 <#-- DROPDOWN MENU LIST -->
-<#macro dropdownList id='' params=''>
-<ul class="dropdown-menu"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro dropdownList id=''  class='' params=''>
+<ul class="dropdown-menu"<#if id!=''> id="${id}"</#if><#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </ul>
 </#macro>
@@ -1574,50 +1581,52 @@ enableBSToppltip: false
 <#-- MACRO adminSiteToolbar  -->
 <#macro adminSiteToolbar >
 <@btnToolbar>
-	<@btnGroup hide=['xs']>
-		<@aButton href='#' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt' color='secondary' size='sm' hideTitle=['all'] />
-		<@aButton href='#' id='display-full' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop fa-fw' color='secondary' size='sm' hideTitle=['all'] />
-		<@aButton href='#' id='display-940' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='tablet fa-fw' color='secondary' size='sm' hideTitle=['all'] />
-		<@aButton href='#' id='display-480' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='mobile fa-fw' color='secondary' size='sm' hideTitle=['all'] />
-	</@btnGroup>
-	<#if page.id != 1>
 	<@btnGroup>
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' size='sm' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] />
-		<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='sm' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all'] />
-	</@btnGroup>
-	</#if>
-	<@btnGroup hide=['xs']>
 		<@tform type='inline' action='jsp/admin/site/AdminSite.jsp' role='search'>
-			<@formGroup labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' hideLabel=['all']>
-				<@inputGroup>
-					<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' size='sm' />
-					<@inputGroupItem>
-						<@button type='submit' color='default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' size='sm' />
-					</@inputGroupItem>
-				</@inputGroup>
-			</@formGroup>
+			<@inputGroup>
+			<@input type='number' name='page_id' id='page_id' title='${i18n("portal.site.admin_page.buttonSearchPage")}' placeHolder='22' params=' style="width:8rem;"' />
+			<@inputGroupItem>
+			<@button type='submit' color='primary' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' />
+			</@inputGroupItem>
+			</@inputGroup>
 		</@tform>
 	</@btnGroup>
-	<@btnGroup>
-		<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>
-		<#if portlet_types_list?has_content>
+	<@btnGroup class='ms-1 ml-1'>
+		<@aButton href='' id='display-full' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop' color='primary'hideTitle=['all'] />
+		<@aButton href='' id='display-940' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='tablet' color='primary' hideTitle=['all'] />
+		<@aButton href='' id='display-480' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='mobile' color='primary' hideTitle=['all'] />
+	</@btnGroup>
+	<#if page.id != 1>
+		<@btnGroup class='ms-1 ml-1'>
+			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] />
+			<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger btn-icon' buttonIcon='trash text-white' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all']  />
+		</@btnGroup>
+	</#if>
+	<@btnGroup class='ms-1 ml-1'>
+	<#if portlet_types_list?has_content>
+		<@aButton class='dropdown-toggle' id='portlet-type' dropdownMenu=true href='#' title='#i18n{portal.site.admin_page.labelPortletPage}' buttonIcon='th-large' hideTitle=['xs','sm','md']>
 			<#list portlet_types_list?sort_by("name") as portlet_type>
 				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}'>
 					${portlet_type.name}
 				</@dropdownItem>
 			</#list>
-		</#if>
-		</@button>
+		</@aButton>
+	</#if>
+	<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
+		${extendableResourceActionsHtml!}
+	</#if>
 	</@btnGroup>
-	<@btnGroup>
-		<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
-			${extendableResourceActionsHtml!}
-		</#if>
+	<@btnGroup class='ms-1 ml-1'>
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm','md'] />
 	</@btnGroup>
-	<@btnGroup>
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' size='sm' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm','md'] />
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus' size='sm' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['xs','sm','md'] />
-		<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }' buttonIcon='sitemap' size='sm' title='Page ${page.name} - Id ${page.id}' hideTitle=['all']><@span hide=['xs','sm','md']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@aButton>
+	<@btnGroup class='ms-1 ml-1'>
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['xs','sm','md'] />
+	</@btnGroup>
+	<@btnGroup class='ms-1 ml-1'>
+		<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }' buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] ><@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@aButton>
+	</@btnGroup>
+	<@btnGroup class='ms-1 ml-1'>
+		<@aButton href='' id='fullscreen' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt' color='secondary'  hideTitle=['all'] />
 	</@btnGroup>
 </@btnToolbar>
 </#macro>

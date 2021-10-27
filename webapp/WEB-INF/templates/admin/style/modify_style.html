@@ -20,7 +20,7 @@
 						<@select name='portlet_type' default_value='${style.portletTypeId}' items=portlet_type_list />
 					</@formGroup>
 					</#if>
-					<@formGroup>
+					<@formGroup class='mt-2'>
 						<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.modify_style.buttonModify}' color='primary'/>
 						<@aButton href='jsp/admin/style/ManageStyles.jsp' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' color='secondary' />
 					</@formGroup>

@@ -1,33 +1,26 @@
 <@row>
 	<@columns>
-		<@box collapsed=true>
+		<@box>
 			<@boxHeader title='#i18n{portal.workgroup.manage_workgroups.pageTitle}' boxTools=true skipHeader=true>
-				<@aButton style='card-header-icon' href='jsp/admin/workgroup/CreateWorkgroup.jsp' buttonIcon='plus' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' hideTitle=['xs'] size='sm' />
-				<@button style='card-control card-header-icon collapse' buttonTargetId='#workgroupSearch' buttonIcon='search' size='sm' />
+				<@aButton href='jsp/admin/workgroup/CreateWorkgroup.jsp' buttonIcon='plus' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}'  />
 			</@boxHeader>
 			<@boxBody>
-			<@tform method='post' name='search_workgroups' action='jsp/admin/workgroup/ManageWorkgroups.jsp' id='workgroupSearch' class='collapse'>
-				<@fieldSet legend='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}'>
-					<@formGroup labelKey='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}' labelFor='key'>
-						<@input type='text' id='key' name='search_key' value='${search_admin_workgroup_filter.key}' maxlength=50 inputSize=10 />
-					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription}' labelFor='description'>
-						<@input type='text' id='description' name='search_description' value='${search_admin_workgroup_filter.description}' maxlength=50 inputSize=30 />
-					</@formGroup>
-					<@formGroup>
-						<@button type='submit' buttonIcon='search' name='search_is_search' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' color='primary' />
-					</@formGroup>
-				</@fieldSet>
+			<@tform type='inline' class='border-bottom' method='post' name='search_workgroups' action='jsp/admin/workgroup/ManageWorkgroups.jsp' id='workgroupSearch'>
+				<@formGroup title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}' labelFor='key' rows=2>
+					<@input type='text' id='key' name='search_key' value='${search_admin_workgroup_filter.key}' maxlength=50  placeHolder='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}'  size=''/>
+				</@formGroup>
+				<@formGroup title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription}' labelFor='description'  rows=2>
+					<@input type='text' id='description' name='search_description' value='${search_admin_workgroup_filter.description}' maxlength=50 placeHolder='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription}' size=''/>
+				</@formGroup>
+				<@formGroup rows=2>
+					<@button type='submit' buttonIcon='search' name='search_is_search' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' color='primary' size='' />
+				</@formGroup>
 			</@tform>
-			</@boxBody>
-		</@box>
-		<@box class='box'>
-			<@boxBody>
 			<@tform method='post' action='jsp/admin/workgroup/ManageWorkgroups.jsp'>
 				<#if search_is_search >
-				<@input type='hidden' name='search_is_search' value='true' />
-				<@input type='hidden' name='search_key' value='${search_admin_workgroup_filter.key}' />
-				<@input type='hidden' name='search_description' value='${search_admin_workgroup_filter.description}' />
+					<@input type='hidden' name='search_is_search' value='true' />
+					<@input type='hidden' name='search_key' value='${search_admin_workgroup_filter.key}' />
+					<@input type='hidden' name='search_description' value='${search_admin_workgroup_filter.description}' />
 				</#if>
 			</@tform>
 			<#if workgroups_list?size gt 0>
@@ -50,11 +43,11 @@
 					</@tr>
 					</#list>
 				</@table>
+				<@paginationAdmin paginator=paginator combo=1 />
 			<#else>
 				<@empty />
 			</#if>
 			</@boxBody>
 		</@box>
-		<@paginationAdmin paginator=paginator combo=1 form=0 />
 	</@columns>
 </@row>

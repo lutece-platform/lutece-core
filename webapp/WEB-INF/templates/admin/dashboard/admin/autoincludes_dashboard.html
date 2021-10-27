@@ -7,9 +7,9 @@
 			<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' hideLabel=['all'] class='has-addons' rows=2>
 			<@input type='hidden' name='action' value='activate' />
 			<@inputGroup class=''>
-				<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' />
+				<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
 				<@inputGroupItem>
-					<@button type='submit' color='oultine' buttonIcon='random' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' hideTitle=['all'] />
+					<@button type='submit' color='oultine' buttonIcon='random' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' hideTitle=['all'] size='' />
 				</@inputGroupItem>
 			</@inputGroup>
 			</@formGroup>

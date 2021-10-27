@@ -1,37 +1,37 @@
-<@adminDashboardPanel title='#i18n{portal.xsl.manage_xsl_export.page_title}' icon='download' parentId='technical_settings' childId='xslexportManagement' >
+<@adminDashboardPanel title='#i18n{portal.xsl.manage_xsl_export.page_title}' icon='file-code' parentId='technical_settings' childId='xslexportManagement' >
 <@box>
-<@boxHeader title='#i18n{portal.xsl.manage_xsl_export.title}' boxTools=true >
-<@tform type='inline' method='post' action='jsp/admin/xsl/CreateXslExport.jsp'>
-<@btnGroup align='right'>
-<@button type='submit' title='#i18n{portal.xsl.manage_xsl_export.button_create}' buttonIcon='plus' size='sm' />
-</@btnGroup>
-</@tform>
-</@boxHeader>
-<@boxBody>
-<@table headBody=true params='aria-describedby="manage_xsl_export"'>
-<@tr>
-	<@th>#i18n{portal.xsl.manage_xsl_export.row_title}</@th>
-	<@th hide=['xs']>#i18n{portal.xsl.manage_xsl_export.row_description}</@th>
-	<@th hide=['xs']>#i18n{portal.xsl.manage_xsl_export.row_extension}</@th>
-	<@th>#i18n{portal.xsl.manage_xsl_export.row_actions}</@th>
-</@tr>
-<@tableHeadBodySeparator />
-<#list xsl_export_list as xsl_export>
-<@tr>
-	<@td>${xsl_export.title}</@td>
-	<@td hide=['xs']>${xsl_export.description}</@td>
-	<@td hide=['xs']>${xsl_export.extension}</@td>
-	<@td>
-	<#if right_modify>
-		<@aButton href='jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_modify} (${xsl_export.title?html})' buttonIcon='edit' hideTitle=['all'] size='sm' />
-	</#if>
-	<#if right_delete>
-		<@aButton href='jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_delete} (${xsl_export.title?html})' buttonIcon='trash' hideTitle=['all'] color='danger' size='sm' />
-	</#if>
-	</@td>
-</@tr>
-</#list>
-</@table>
-</@boxBody>
+	<@boxHeader title='#i18n{portal.xsl.manage_xsl_export.title}' boxTools=true>
+		<@tform type='inline' method='post' action='jsp/admin/xsl/CreateXslExport.jsp'>
+			<@btnGroup align='right'>
+				<@button type='submit' title='#i18n{portal.xsl.manage_xsl_export.button_create}' buttonIcon='plus' size='sm' />
+			</@btnGroup>
+		</@tform>
+	</@boxHeader>
+	<@boxBody>
+		<@table headBody=true params='aria-describedby="manage_xsl_export"'>
+		<@tr>
+			<@th>#i18n{portal.xsl.manage_xsl_export.row_title}</@th>
+			<@th hide=['xs']>#i18n{portal.xsl.manage_xsl_export.row_description}</@th>
+			<@th hide=['xs']>#i18n{portal.xsl.manage_xsl_export.row_extension}</@th>
+			<@th>#i18n{portal.xsl.manage_xsl_export.row_actions}</@th>
+		</@tr>
+		<@tableHeadBodySeparator />
+		<#list xsl_export_list as xsl_export>
+			<@tr>
+				<@td>${xsl_export.title}</@td>
+				<@td hide=['xs']>${xsl_export.description}</@td>
+				<@td hide=['xs']>${xsl_export.extension}</@td>
+				<@td>
+				<#if right_modify>
+					<@aButton href='jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_modify} (${xsl_export.title?html})' buttonIcon='edit' hideTitle=['all'] size='sm' />
+				</#if>
+				<#if right_delete>
+					<@aButton href='jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_delete} (${xsl_export.title?html})' buttonIcon='trash' hideTitle=['all'] color='danger' size='sm' />
+				</#if>
+				</@td>
+			</@tr>
+		</#list>
+		</@table>
+	</@boxBody>
 </@box>
 </@adminDashboardPanel>

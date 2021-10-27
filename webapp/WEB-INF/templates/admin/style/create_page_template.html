@@ -14,8 +14,8 @@
 					<@formGroup labelKey='#i18n{portal.style.create_page_template.labelPicture}' labelFor='page_template_picture' mandatory=true>
 						<@input type='file' name='page_template_picture' id='page_template_picture' />
 					</@formGroup>
-					<@formGroup>
-						<@button type='submit' buttonIcon='check' title='#i18n{portal.style.create_mode.buttonLabelCreate}'  size='' />
+					<@formGroup class='mt-2'>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.style.create_mode.buttonLabelCreate}' color='primary' size='' />
 						<@aButton href='jsp/admin/style/ManagePageTemplates.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}'  size='' color='secondary' />
 					</@formGroup>
 				</@tform>

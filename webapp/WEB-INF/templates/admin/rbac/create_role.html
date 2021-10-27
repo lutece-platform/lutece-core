@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
 		<@box>
-		  <@boxHeader title='#i18n{portal.rbac.create_role.titleCreateRole}' />
+		  <@boxHeader title='#i18n{portal.rbac.create_role.titleCreateRole}'  skipHeader=true  />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoCreateRole.jsp' name='create_role'>
 					<@input type='hidden' name='token' value='${token}' />

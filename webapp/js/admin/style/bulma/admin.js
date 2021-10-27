@@ -160,20 +160,23 @@ $( function(){
 	$('.tabs').each( function(index) {
 		var $tabParent = $(this);
 		var $tabs = $tabParent.find('li');
-		var $contents = $tabParent.next('.tabs-content').find('.tab-content');
+		var $contents = $tabParent.next('.tab-content').find('.tab-pane');
 		console.log(  $contents.length );
-		$tabs.click(function(e) {
-			if(  $contents.length > 0 ){
-				e.preventDefault();
-				var curIndex = $(this).index();
-				// toggle tabs
-				$tabs.removeClass('is-active');
-				$tabs.eq(curIndex).addClass('is-active');
-				// toggle contents
-				$contents.removeClass('is-active');
-				$contents.eq(curIndex).addClass('is-active');
-			}
+		$tabs.each( function(){
+			$(this).click(function(e) {
+				if(  $contents.length > 0 ){
+					e.preventDefault();
+					var curIndex = $(this).index();
+					// toggle tabs
+					$tabs.removeClass('is-active');
+					$tabs.eq(curIndex).addClass('is-active');
+					// toggle contents
+					$contents.removeClass('show').removeClass('active');
+					$contents.eq(curIndex).addClass('show');
+				}
+			});
 		});
+			
 	});
 
 	/* Tabs Panel Vertical */

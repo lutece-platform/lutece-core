@@ -2,7 +2,7 @@
 	<@columns>
 		<@box color='success'>
 			<#assign headerIcon><@icon style='user' /></#assign>
-			<@boxHeader title='#i18n{portal.users.manage_user_rights.titleRightList} : ${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
+			<@boxHeader title='#i18n{portal.users.manage_user_rights.titleRightList} : ${headerIcon} ${user.lastName} ${user.firstName}' boxTools=true>
 				<@item_navigation item_navigator=item_navigator />
 			</@boxHeader>
 			<@boxBody>
@@ -18,12 +18,12 @@
 					<@input type='hidden' name='id_user' value='${user.userId}' />
 					<@input type='hidden' name='delegate_rights' value='false' />
 					<@btnGroup>
-					<#if can_modify>
-						<@button type='submit' buttonIcon='edit' title='#i18n{portal.users.manage_user_rights.buttonLabelModifyRights}' size='sm' hideTitle=['xs','sm'] color='primary' />
-					</#if>
-					<#if can_delegate>
-						<@button type='submit' buttonIcon='exchange-alt' title='#i18n{portal.users.manage_user_rights.buttonLabelDelegateRights}' size='sm' hideTitle=['xs','sm'] color='secondary' />
-					</#if>
+						<#if can_modify>
+							<@button type='submit' buttonIcon='edit' title='#i18n{portal.users.manage_user_rights.buttonLabelModifyRights}' size='sm' hideTitle=['xs','sm'] color='primary' />
+						</#if>
+						<#if can_delegate>
+							<@button type='submit' buttonIcon='exchange-alt' title='#i18n{portal.users.manage_user_rights.buttonLabelDelegateRights}' size='sm' hideTitle=['xs','sm'] color='secondary' />
+						</#if>
 					</@btnGroup>
 					</@tform>
 					<@table>
@@ -41,7 +41,6 @@
 					</@tr>
 					</#list>
 					</@table>
-					
 				</@tabContent>
 			</@tabs>
 			</@boxBody>

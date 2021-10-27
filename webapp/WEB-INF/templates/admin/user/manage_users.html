@@ -1,70 +1,46 @@
 <@row>
 	<@columns>
-		<@box color='primary' collapsed=true>
+		<@box color='primary'>
 			<@boxHeader title='#i18n{portal.users.manage_users.titleUserList}' skipHeader=true boxTools=true>
 				<#if permission_advanced_parameter>
-					<@aButton color='' style='card-header-icon' size='sm' href='jsp/admin/AdminTechnicalMenu.jsp?#users_advanced_parameters_management' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' hideTitle=['xs','sm'] />
+					<@aButton color='primary' size='sm' href='jsp/admin/AdminTechnicalMenu.jsp#users_advanced_parameters' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' hideTitle=['xs','sm'] />
 				</#if>
 				<#if permission_import_export_users>
-					<@aButton color='' style='card-header-icon' size='sm' href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' hideTitle=['xs','sm'] />
+					<@aButton color='primary' size='sm' href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' hideTitle=['xs','sm'] />
 				</#if>
-				<@aButton style='card-header-icon' color='' size='sm' href='${url_user_creation}' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' hideTitle=['xs','sm'] />
-				<@button style='card-control card-header-icon collapse' buttonTargetId='#userSearch' buttonIcon='search' size='sm' />
+				<@aButton color='primary' size='sm' href='${url_user_creation}' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' hideTitle=['xs','sm'] />
 			</@boxHeader>
 			<@boxBody>
-				<@tform method='post' name='search_users' action='jsp/admin/user/ManageUsers.jsp' id='userSearch' class='collapse border-bottom mb-3' >
-					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelAccessCode}' labelFor='access_code'>
-						<@input type='text' id='access_code' name='search_access_code' value='${search_admin_user_filter.accessCode}' />
+				<@tform type='inline' method='post' name='search_users' action='jsp/admin/user/ManageUsers.jsp' id='userSearch' class='border-bottom pb-3'>
+					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelAccessCode}' labelFor='access_code' hideLabel=['all'] rows=2>
+						<@input type='text' id='access_code' name='search_access_code' value='${search_admin_user_filter.accessCode}' placeHolder='#i18n{portal.users.manage_users.search_users.labelAccessCode}'  size='' />
 					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelLastName}' labelFor='last_name'>
-						<@input type='text' id='last_name' name='search_last_name' value='${search_admin_user_filter.lastName}' maxlength=100 />
+					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelLastName}' labelFor='last_name' hideLabel=['all'] rows=2>
+						<@input type='text' id='last_name' name='search_last_name' value='${search_admin_user_filter.lastName}' maxlength=100 placeHolder='#i18n{portal.users.manage_users.search_users.labelLastName}'  size='' />
 					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelEmail}' labelFor='email'>
-						<@input type='text' id='email' name='search_email' value='${search_admin_user_filter.email}' maxlength=100 />
+					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelEmail}' labelFor='email' hideLabel=['all'] rows=2>
+						<@input type='text' id='email' name='search_email' value='${search_admin_user_filter.email}' maxlength=100 placeHolder='#i18n{portal.users.manage_users.search_users.labelEmail}'  size=''/>
 					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelStatus}' labelFor='status'>
-						<@select id='status' name='search_status'>
-						<#switch search_admin_user_filter.status>
-						<#case 0 >
-							<option value="noValue">#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-							<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-							<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-							<option value="10">#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-							<#break>
-						<#case 1 >
-							<option value="noValue">#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-							<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-							<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-							<option value="10" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-							<#break>
-						<#case 10 >
-							<option value="noValue">#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-							<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-							<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-							<option value="10" selected="selected" >#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-							<#break>
-						<#default>
-							<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-							<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-							<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-							<option value="10">#i18n{portal.users.anonymize_user.statusLabelAnonymize}</option>
-							<#break>
-						</#switch>
+					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelStatus}' labelFor='status' hideLabel=['all'] rows=2>
+						<@select id='status' name='search_status' size=''>
+						<#assign statusOptions = [
+							{"name":"#i18n{portal.users.manage_users.search_users.labelAllStatus}", "code": "noValue", "selected" : false, "disabled" : false },
+							{"name":"#i18n{portal.users.create_user.statusLabelEnabled}", "code": "0", "selected" : false, "disabled" : false },
+							{"name":"#i18n{portal.users.create_user.statusLabelDisabled}", "code": "1", "selected" : false, "disabled" : false },
+							{"name":"#i18n{portal.users.anonymize_user.statusLabelAnonymize}", "code": "10", "selected" : false, "disabled" : false }
+						]>
+						<@options items=statusOptions selected=search_admin_user_filter.status?string />
 						</@select>
 					</@formGroup>
 					<#list attributes_list as attribute>
-					<#if attribute.shownInSearch>
-					  ${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
-					</#if>
+						<#if attribute.shownInSearch>
+						${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
+					  	</#if>
 					</#list>
-					<@formGroup>
-						<@button type='submit' name='search_is_search' buttonIcon='search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' color='primary'/>
+					<@formGroup rows=2>
+						<@button type='submit' name='search_is_search' buttonIcon='search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' color='primary' size='' />
 					</@formGroup>
 				</@tform>
-			</@boxBody>
-		</@box>
-		<@box >
-			<@boxBody>
 				<@tform method='post' action='jsp/admin/user/ManageUsers.jsp'>
 					<#if search_is_search >
 						<@input type='hidden' name='search_is_search' value='true' />
@@ -86,7 +62,7 @@
 				</@tform>
 				<@table>
 					<@tr>
-						<#if adminAvatar><@th>&nbsp;</@th></#if>
+						<#if adminAvatar><@th></@th></#if>
 						<@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleLastName} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName${sort_search_attribute}" /></@th>
 						<@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleFirstName} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName${sort_search_attribute}" /></@th>
 						<@th hide=['xs','sm']>#i18n{portal.users.manage_users.columnTitleAccessCode} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode${sort_search_attribute}" /></@th>
@@ -104,25 +80,21 @@
 					<#list user_list as user>
 					<@tr>
 						<#if adminAvatar>
-						<@td>
-						  <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='direct-chat-img' alt='' title='Avatar' />
-						</@td>
+							<@td>
+								<@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='direct-chat-img' alt='' title='Avatar' />
+							</@td>
 						</#if>
-						<@td hide=['xs']><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if></@td>
+						<@td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if></@td>
 						<@td hide=['xs']><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></@td>
 						<@td hide=['xs','sm']><em><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em></@td>
-						<@td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else><@link href='mailto:${user.email}' title='${user.email}'>${user.email}</@link></#if></@td>
+						<@td><span class='copy-content'><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.email}</#if></span></@td>
 						<@td hide=['xs']>${user.dateLastLogin!}</@td>
 						<@td hide=['xs']>
-						  <#if user.status == 0 >
-							<@tag color='success'>
-								<@icon style='check-circle' /> #i18n{portal.util.labelEnabled}
-							</@tag>
-						  <#else>
-							<@tag color='danger'>
-								<@icon style='times-circle' /> #i18n{portal.util.labelDisabled}
-							</@tag>
-						  </#if>
+						  	<#if user.status == 0 >
+								<@tag color='success'><@icon style='check-circle' /> #i18n{portal.util.labelEnabled}</@tag>
+						 	<#else>
+								<@tag color='danger'><@icon style='times-circle' /> #i18n{portal.util.labelDisabled}</@tag>
+						  	</#if>
 						</@td>
 						<#assign list_user_fields = map_id_user_list_user_fields["" + user.userId]>
 						<#list attributes_list as attribute>
@@ -131,9 +103,7 @@
 									<#assign index_user_field = 0>
 									<#list list_user_fields as user_field>
 										<#if user_field.attribute.idAttribute == attribute.idAttribute>
-										  <#if index_user_field != 0>
-										  <br />
-										  </#if>
+										  <#if index_user_field != 0><br /></#if>
 										  <#assign index_user_field = index_user_field + 1>
 										<#if user.status != 10 >${attribute.getHtmlValue( locale, user_field )}</#if>
 										</#if>
@@ -160,3 +130,4 @@
 		</@box>
 	</@columns>
 </@row>
+<@copyElementToClipboard selector='.copy-content' class='"copy-icon"' />

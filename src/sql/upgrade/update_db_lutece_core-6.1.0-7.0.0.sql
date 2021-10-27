@@ -63,3 +63,4 @@ UPDATE core_mode SET output_xsl_standalone=NULL WHERE output_xsl_omit_xml_dec='y
 DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.menu.position';
 DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.back_images';
 INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.back_images', '\'images/admin/skin/bg_login1.svg\' , \'images/admin/skin/bg_login2.svg\' , \'images/admin/skin/bg_login3.svg\' , \'images/admin/skin/bg_login4.svg\'');
+INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.portlet.title.maxlength', '75');

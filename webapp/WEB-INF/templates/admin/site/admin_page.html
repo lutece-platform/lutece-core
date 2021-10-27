@@ -1,41 +1,32 @@
 <#assign title>
 <@breadcrumbs class='breadcrumb-arrows has-arrow-separator'>
 <#if page.id=1>
-	<@breadcrumbItem>
-	${page.name} [${page.id}] 
-	</@breadcrumbItem>
+	<@breadcrumbItem><@icon style='home' /></@breadcrumbItem>
 <#else>
 	<@breadcrumbItem>
-		<@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'>
-			#i18n{portal.site.page_home.label}
-		</@link>
+		<@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /></@link>
 	</@breadcrumbItem>
 	<#if page.parentPageId gt 1>
 		<@breadcrumbItem>
-			<@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' title='${page.name}'>
-			... [${page.parentPageId}]
-			</@link>
+			<@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' title='${page.name}'>... [${page.parentPageId}]</@link>
 		</@breadcrumbItem>
 	</#if>
-	<@breadcrumbItem class='active'>
-		${page.name} [${page.id}] 
-	</@breadcrumbItem>
+	<@breadcrumbItem class='active'>${page.name} [${page.id}]</@breadcrumbItem>
 </#if>
 </@breadcrumbs>
 </#assign>
-<@row>
-  	<@columns>
-    	<@box>
-			<@boxHeader title=title boxTools=true skipHeader=true>
-				<@adminSiteToolbar />
-			</@boxHeader>
-		</@box>
-		<@div id="admin-page-preview">
+<@box>
+	<@boxBody class='admin-site'>
+		<@div class='admin-menu'>
+			${title}
+			<@adminSiteToolbar />
+		</@div>
+		<@div id='admin-page-preview'>
 			${page_block}
 			<!-- HTML in jsp/admin/site/AdminSite.jsp -->
 		</@div>
-	</@columns>
-</@row>
+	</@boxBody>
+</@box>
 <#if page_message!="">
 <@initToast>
 <@addToast title='#i18n{portal.util.labelWarning}' content=page_message?js_string type='warning' />

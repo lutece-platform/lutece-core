@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
 		<@box>
-			<@boxHeader title='#i18n{portal.rbac.add_control_to_role.titleAddControl}' />
+			<@boxHeader title='#i18n{portal.rbac.add_control_to_role.titleAddControl}' skipHeader=true />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoSelectResources.jsp' name='add_control'>
 					<@input type='hidden' name='role_key' value='${role_key}' />
@@ -13,8 +13,7 @@
 						<#else>
 							<@input type='hidden' name='select_resources' value='all' />
 							<@tag color='info'>
-								<@icon style='info-circle' />
-								&nbsp;#i18n{portal.rbac.add_control_to_role.labelNoResourcesList}
+								<@icon style='info-circle' /> #i18n{portal.rbac.add_control_to_role.labelNoResourcesList}
 							</@tag>
 						</#if>
 					</@formGroup>

@@ -22,17 +22,11 @@
     </#if>
 	<@select name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' multiple=multiple>
 		<#if !isMultiple( attribute.listAttributeFields )>
-			<option value="">
-				#i18n{portal.users.attribute.labelAll}
-			</option>
+			<@option label='#i18n{portal.users.attribute.labelAll}' value='' />
 		</#if>
 		<#list attribute.listAttributeFields as attributeField>
 			<#if attributeField.title?exists && attributeField.value != "">
-				<option value="${attributeField.idField}"
-					<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
-						selected="selected"
-					</#if>
-				>
+				<option value="${attributeField.idField}" <#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) > selected="selected" </#if>>
 					${attributeField.title?html}
 				</option>
 			</#if>

@@ -2,7 +2,7 @@
 	<@columns>
 		<@box color='success'>
 			<#assign headerIcon><@icon style='user' /></#assign>
-			<@boxHeader title='${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true skipHeader=true>
+			<@boxHeader title='${headerIcon} ${user.lastName} ${user.firstName}' boxTools=true skipHeader=true>
 				<@item_navigation item_navigator=item_navigator />
 			</@boxHeader>
 			<@boxBody>
@@ -75,13 +75,11 @@
 									</@formGroup>
 									<@formGroup labelKey='#i18n{portal.users.modify_user.labelStatus}' labelFor='status' rows=2>
 										<@select id='status' name='status'>
-										<#if user.status == 0 >
-											<option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
-											<option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
-											<#else>
-											<option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
-											<option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
-										</#if>
+										<#assign statusOptions = [
+											{"name":"#i18n{portal.users.modify_user.statusLabelEnabled}", "code": "0", "selected" : false, "disabled" : false },
+											{"name":"#i18n{portal.users.modify_user.statusLabelDisabled}", "code": "1", "selected" : false, "disabled" : false }
+										]>
+										<@options items=statusOptions selected=user.status?string />
 										</@select>
 									</@formGroup>
 									<@formGroup labelKey='#i18n{portal.users.modify_user.labelLanguage}' labelFor='language' rows=2>
@@ -99,16 +97,12 @@
 								<@box>
 									<@boxHeader title='#i18n{portal.users.modify_user.labelComplementaryAttributes}' />
 									<@boxBody>
-									<@row>
-										<@columns>
 										<#list attributes_list as attribute>
 											<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
 												<#assign idAttribute = "" + attribute.idAttribute>
 												${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
 											</#if>
 										</#list>
-										</@columns>
-										<@columns>
 										<#list attributes_list as attribute>
 											<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
 												<#assign idAttribute = "" + attribute.idAttribute>
@@ -116,8 +110,6 @@
 												<#break>
 											</#if>
 										</#list>
-										</@columns>
-									</@row>
 									</@boxBody>
 								</@box>
 								</@columns>
@@ -126,8 +118,8 @@
 						<@row>
 							<@columns>
 								<@formGroup rows=2>
-									<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user.buttonLabelModify}' color='primary'  />
-									<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
+									<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user.buttonLabelModify}' color='primary' size='' />
+									<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
 								</@formGroup>
 							</@columns>
 						</@row>   

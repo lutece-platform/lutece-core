@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
 		<@box>
-			<@boxHeader title='#i18n{portal.rbac.select_permissions.titleSelectPermissions}' />
+			<@boxHeader title='#i18n{portal.rbac.select_permissions.titleSelectPermissions}'  skipHeader=true />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoSelectPermissions.jsp' name='add_control'>
 					<@input type='hidden' name='role_key' value='${role_key}' />

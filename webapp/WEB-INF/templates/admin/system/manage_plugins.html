@@ -1,38 +1,32 @@
 <@row>
 	<@columns>
 		<@box>
-			<@boxHeader title='Liste des plugins' boxTools=true skipHeader=true>
-				<@row>
-					<@columns sm=6>
-					<@tform method='post' type='inline'>
-						<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline' class='has-addons'>
-							<@inputGroup size='sm' class=''>
-								<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' size='sm'  params='autocomplete="off" addons' />
-								<@inputGroupItem>
-									<@button type='submit' color='link' title='#i18n{portal.system.manage_plugins.buttonFilter}' size='sm'  buttonIcon='filter' hideTitle=['all'] />
-								</@inputGroupItem>
-							</@inputGroup>
-						</@formGroup>
-					</@tform>
-					</@columns>
-					<@columns sm=6>
-					<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' type='inline' hide=['xs']>
-						<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type' hideLabel=['all'] formStyle='inline' class='has-addons'>
-							<@inputGroup size='sm' class=''>
-								<@select sort=true name='plugin_type' default_value='${current_filter}' size='sm'  items=filter_list params='addons' />
-								<@inputGroupItem>
-									<@button type='submit' size='sm' color='link' buttonIcon='search' title='Search' hideTitle=['all'] />
-								</@inputGroupItem>
-							</@inputGroup>
-						</@formGroup>
-					</@tform>
-					</@columns>
-				</@row>
+			<@boxHeader title='Liste des plugins' boxTools=true>
+				<@tform method='post' type='inline'>
+					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline' class='has-addons'>
+						<@inputGroup  class=''>
+							<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' size='sm'  params='autocomplete="off" addons' />
+							<@inputGroupItem>
+								<@button type='submit' color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' size='' buttonIcon='filter' hideTitle=['all'] />
+							</@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+				</@tform>
+				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' type='inline' >
+					<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type' hideLabel=['all'] formStyle='inline' class='has-addons'>
+						<@inputGroup  class=''>
+							<@select sort=true name='plugin_type' default_value='${current_filter}' size='sm'  items=filter_list params='addons' />
+							<@inputGroupItem>
+								<@button type='submit' color='primary' buttonIcon='search' title='Search' size='' hideTitle=['all'] />
+							</@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+				</@tform>
 			</@boxHeader>
      	 	<@boxBody>
        		<#if plugins_list?has_content >
-				<@row id='plugins'>
-					<@columns md=4 class='plugins'>
+				<@row id='plugins' class='is-flex-wrap-wrap'>
+					<@columns sm=4 class='plugins'>
 						<@box id='' params='data-plugin="${core.name}"' class='plugin-box plugin'>
 							<#assign logo>
 								<@img url=core.iconUrl alt='logo' title=core.name />
@@ -46,9 +40,9 @@
 									<@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${core.providerUrl}' target='_blank'>${core.providerUrl}</@link></em>
 								</@p> 
 							</@boxBody>
-							<@boxFooter>
+							<@boxFooter class='is-justify-content-end'>
 								<@tform method='post' type='inline' align='right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}'>
-									<@button type='submit' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' hideTitle=['all'] />
+									<@button type='submit' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' size='' color='info' hideTitle=['all'] />
 								</@tform>
 							</@boxFooter>
 						</@box>
@@ -80,39 +74,39 @@
               				</@boxBody>
 							<@boxFooter class='is-justify-content-end'>
 								<@btnToolbar class='justify-content-between align-items-center'>
-								<#if plugin.installed>
-									<#if plugin.dbPoolRequired>
-									<@tform method='post' type='inline' align='right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
-									<@input type='hidden' name='plugin_name' value='${plugin.name}' />
-									<@input type='hidden' name='token' value='${token}' />
-									<@formGroup rows=2 groupStyle='inline' formStyle='' class='has-addons mr-2'> 
-										<@inputGroup class=''>
-											<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true size='sm' />
-											<@inputGroupItem>
-												<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' color='primary' hideTitle=['all'] />
-											</@inputGroupItem>
-										</@inputGroup>
-										</@formGroup>
-										</@tform>
-									</#if>   
-								</#if>
-								<@btnGroup>
-									<@tform method='post' type='inline' align='right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}'>
-										<@button type='submit' title='' buttonIcon='info-circle' size='sm' hideTitle=['all'] />
-									</@tform>
-									<#if plugin.installed >
-									<@tform method='post' type='inline' align='right' action='jsp/admin/system/ConfirmUninstallPlugin.jsp'>
-										<@input type='hidden' name='plugin_name' value='${plugin.name}' />
-										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' hideTitle=['all'] color='danger' />
-									</@tform>
-									<#else>
-									<@tform method='post' type='inline' align='right' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
-										<@input type='hidden' name='plugin_name' value='${plugin.name}' />
-										<@input type='hidden' name='token' value='${token}' />
-										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' hideTitle=['all'] color='success' />
-                  					</@tform>
+									<#if plugin.installed>
+										<#if plugin.dbPoolRequired>
+											<@tform method='post' type='inline' align='right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
+											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
+											<@input type='hidden' name='token' value='${token}' />
+											<@formGroup rows=2 groupStyle='inline' formStyle='' class='has-addons mr-2'> 
+												<@inputGroup class=''>
+													<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true size='sm' />
+													<@inputGroupItem>
+														<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' color='primary' size='' hideTitle=['all'] />
+													</@inputGroupItem>
+												</@inputGroup>
+											</@formGroup>
+											</@tform>
+										</#if>   
 									</#if>
-								</@btnGroup>
+									<@btnGroup>
+										<@tform method='post' type='inline' align='right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}'>
+											<@button type='submit' title='' buttonIcon='info-circle' color='info'  size='' hideTitle=['all'] />
+										</@tform>
+										<#if plugin.installed >
+										<@tform method='post' type='inline' align='right' action='jsp/admin/system/ConfirmUninstallPlugin.jsp'>
+											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
+											<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' size='' hideTitle=['all'] color='danger' />
+										</@tform>
+										<#else>
+										<@tform method='post' type='inline' align='right' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
+											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
+											<@input type='hidden' name='token' value='${token}' />
+											<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' hideTitle=['all'] size='' color='success' />
+										</@tform>
+										</#if>
+									</@btnGroup>
 								</@btnToolbar>
 							</@boxFooter>
 						</@box>
@@ -127,21 +121,20 @@
   </@columns>
 </@row>
 <script>
-/* Filter plugins list */
-$("#search_plugins").on("keyup", function () {
-	var addOrAll;
-	var search = $("#search_plugins").val();
-	$(".plugin-box").each(function (index) {
-		var pluginName = $(this).attr("data-plugin");
-		if ( pluginName.match(search) == null ){
-			$(this).parent().slideUp(200).fadeOut(500);
-		} else {
-			$(this).parent().slideDown(200).fadeIn(500);
-		}
-	});
-});
-
 $( function(){
-	switchList();
-});
+	/* Filter plugins list */
+		$("#search_plugins").on("keyup", function () {
+		var addOrAll;
+		var search = $("#search_plugins").val();
+		$(".plugin-box").each(function (index) {
+			var pluginName = $(this).attr("data-plugin");
+			if ( pluginName.match(search) == null ){
+				$(this).parent().slideUp(200).fadeOut(500);
+			} else {
+				$(this).parent().slideDown(200).fadeIn(500);
+			}
+		});
+	});
+})
+
 </script>

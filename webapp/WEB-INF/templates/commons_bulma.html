@@ -8,8 +8,8 @@
 <#macro commonsName>Commons Bulma 0.7.2</#macro>
 <#macro commonsDescription>Freemarker Commons macros powered by Bulma CSS Framework v0.7.2</#macro>
 <#macro coreAdminCSSLinks>
-<!-- <link href="css/admin/style/bulma/bulma.min.css" rel="stylesheet"> -->
 <link href="css/admin/style/bulma/lutecebulma.css" rel="stylesheet">
+<link href="css/admin/style/bulma/bulma-switch.min.css" rel="stylesheet">
 <link href="css/admin/style/bulma/bulma-tooltip.min.css" rel="stylesheet">
 <link href="css/admin/style/bulma/bulma-accordion.min.css" rel="stylesheet">
 <link href="css/admin/jquery-ui.min.css" rel="stylesheet">
@@ -22,8 +22,6 @@
 <link href="js/admin/lib/polipop/css/polipop.core.min.css" rel="stylesheet">
 <link href="js/admin/lib/polipop/css/polipop.core.min.css" rel="stylesheet">
 <link href="css/admin/style/tabler/bootstrap-colorpicker.min.css" rel="stylesheet"><!-- BS colorpicker -->
-<link href="css/admin/style/tabler/bootstrap-datepicker.min.css" rel="stylesheet"><!-- BS datepicker -->
-<link href="css/admin/style/tabler/bootstrap-flatpickr.min.css" rel="stylesheet"><!-- BS FlatPicker -->
 <link href="css/admin/style/bulma/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1 -->
 <link href="css/admin/style/bulma/portal_admin.css" rel="stylesheet" >
 </#macro>
@@ -37,96 +35,6 @@
 <script src="js/admin/style/bulma/admin.js"></script>
 </#macro>
 <#global gClassActive='is-active' />
-<#macro comboWithParams name default_value additionalParameters items >
-<div class="select">
-    <select id="${name}" name="${name}" ${additionalParameters}>
-    <#list items as item>
-        <#if default_value="${item.code}">
-            <option selected="selected" value="${item.code}" >${item.name}</option>
-        <#else>
-            <option value="${item.code}" >${item.name}</option>
-        </#if>
-    </#list>
-    </select>
-</div>    
-</#macro>
-<#macro comboSortedWithParams name default_value additionalParameters items id=name>
-<div class="select">
-    <select id="${id}" name="${name}" ${additionalParameters}>
-    <#list items?sort_by("name") as item>
-        <#if default_value="${item.code}">
-            <option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-        <#else>
-            <option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-        </#if>
-    </#list>
-    </select>
-</div>
-</#macro>
-<#macro comboWithParamsAndLength name default_value additionalParameters items max_length class=''>
-<div class="select">
-    <select id="${name}" name="${name}" ${additionalParameters}>
-		<#list items as item>
-    	    <#if max_length < item.name?length >
-            	<#assign item_new = "..." + "${item.name?substring(item.name?length-max_length+3)}" >
-            <#else>
-              	<#assign item_new = "${item.name}">
-            </#if>
-			<#if default_value="${item.code}">
-      			<option selected="selected" value="${item.code}" >${item_new}</option>
-      		<#else>
-      			<option value="${item.code}" >${item_new}</option>
-      		</#if>
-    	</#list>
-	</select>
-</div>
-</#macro>
-<#macro combo name default_value items >
-	<@comboWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
-</#macro>
-<#macro comboSorted name default_value items >
-	<@combo name="${name}" default_value="${default_value}" items=items?sort_by("name") />
-</#macro>
-<#macro radioImageList name default_value items inline=0>
-<#if inline=1>
-	<#list items as item>
-		<label for="${name}" class="radio-inline">
-			<input <#if default_value="${item.code}">checked="checked"</#if> class="radio" type="radio" name="${name}" value="${item.code}">
-			<img src="${item.name}" alt="${item.name}" title="${item.name}">
-		</label>
-	</#list>
-<#else>
-	<#list items as item>
-		<div class="radio">
-			<label for="${name}">
-				<input <#if default_value="${item.code}">checked="checked"</#if> class="radio" type="radio" name="${name}" value="${item.code}">
-				<img src="${item.name}" alt="${item.name}" title="${item.name}">
-			</label>
-		</div>
-	</#list>
-</#if>
-</#macro>
-<#macro checkboxList name default_values items inline=0>
-<#if inline=1>
-	<#list items as item>
-		<label for="${name}" class="checkbox-inline">
-			<input <#if item.checked >checked</#if> class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}
-		</label>
-	</#list>
- <#else>
-	<#list items as item>
-		<#if item.checked >
-			<div class="checkbox">
-			<label for="document_type"><input checked class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
-			</div>
-		<#else>
-			<div class="checkbox">
-			<label for="document_type"><input class="checkbox" type="checkbox" name="${name}" value="${item.code}" />&nbsp;${item.name}</label>
-			</div>
-		</#if>
-	</#list>
-</#if>
-</#macro>
 <#macro sort jsp_url attribute id="" >
 	<#if jsp_url?contains("?")>
 		<#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
@@ -335,237 +243,6 @@
 </div>
 </nav>
 </#macro>
-<#--
-MACRO DEPRECATED SET
-This is now empty because it should not be used anymore
-and is kept only for backwards compatibility
--->
-<#macro dataTable dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
-	<#if 0 < dataTableManager.items?size >
-		<#if dataTableManager.enablePaginator>
-			<form class="form-inline" method="post" action="${dataTableManager.sortUrl}">
-			    <#if (dataTableManager.paginator.pagesCount > 1) >
-			        <@paginationPageLinks paginator=dataTableManager.paginator />
-			    </#if>
-			    <div class="pull-right">
-					<@paginationItemCount paginator=dataTableManager.paginator combo=1 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string />
-				</div>
-				<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
-			</form>
-		</#if>
-		<table class="${tableClass}" summary="${summary}">
-			<caption>${caption}</caption>
-			<tr>
-				<#list dataTableManager.listColumn as column>
-					<th scope="col">
-						#i18n{${column.titleKey}}
-						<#if !(column.typeColumn = "ACTION") && column.sortable>
-							<@sort jsp_url=dataTableManager.sortUrl attribute=column.parameterName />
-						</#if>
-					</th>
-				</#list>
-			</tr>
-			<#list dataTableManager.items as item>
-				<tr>
-					<#list dataTableManager.listColumn as column>
-						<#if column.typeColumn = "STRING">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<td>${value!}</td>
-						<#elseif column.typeColumn = "LABEL">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<td>#i18n{${value!}}</td>
-						<#elseif column.typeColumn = "BOOLEAN">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<#if value?? && value>
-								<td><span class="label label-success" title="#i18n{${column.labelTrue!}}"><i class="glyphicon glyphicon-ok-sign icon-white"></i>#i18n{${column.labelTrue!}}</span></td>
-							<#else>
-								<td><span class="label label-important" title="#i18n{${column.labelFalse!}}"><i class="glyphicon glyphicon-remove-sign icon-white"></i>#i18n{${column.labelFalse!}}</span></td>
-							</#if>
-						<#elseif column.typeColumn = "EMAIL">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<td><#if value?? && value != ""><a href="mailto:${value}" title="${value}" >${value}</a></#if></td>
-						<#elseif column.typeColumn = "ACTION">
-							<#if column.parameterName?? && column.parameterName != "">
-								<#assign macroName = column.parameterName>
-							<#elseif actionMacro?? && actionMacro != "">
-								<#assign macroName = actionMacro>
-							</#if>
-							<#if macroName?? && macroName != "">
-								<td><@.vars[macroName] item=item /></td>
-							</#if>
-						</#if>
-					</#list>
-				</tr>
-			</#list>
-		</table>
-		<#if dataTableManager.enablePaginator>
-			<form class="form-inline" method="post" action="${dataTableManager.sortUrl}">
-			    <#if (dataTableManager.paginator.pagesCount > 1) >
-			        <@paginationPageLinks paginator=dataTableManager.paginator />
-			    </#if>
-			    <div class="pull-right">
-					<@paginationItemCount paginator=dataTableManager.paginator combo=0 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string />
-				</div>
-				<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
-			</form>
-		</#if>
-	<#else>
-		#i18n{portal.util.labelNoItem}
-	</#if>
-</#macro>
-<#macro filterPanel dataTableManager formClass="form-horizontal" >
-	<#if dataTableManager.filterPanel.listFilter?? && 0 < dataTableManager.filterPanel.listFilter?size>
-		<form class="${formClass}" method="post" action="${dataTableManager.filterPanel.formUrl}" >
-			<fieldset>
-				<#list dataTableManager.filterPanel.listFilter as filter>
-					<div class="field is-horizontal">
-						<label class="col-xs-12 col-sm-3 col-md-3" for="description" >#i18n{${filter.filterLabel}} :</label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<#if filter.filterType = "STRING">
-								<input type="text" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${filter.parameterName}" size="30" value="${filter.value!}"/>
-							<#elseif filter.filterType = "BOOLEAN">
-								<input type="checkbox" value="true" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${dataTableManager.filterPanelPrefix}${filter.parameterName}" <#if filter.value?? && filter.value = "true">checked="checked" </#if>/>
-							<#elseif filter.filterType = "DROPDOWNLIST">
-								<#if filter.value??>
-									<#assign filter_value = filter.value >
-								<#else>
-									<#assign filter_value = "" >
-								</#if>
-								<@combo name=dataTableManager.filterPanelPrefix+filter.parameterName default_value=filter_value items=filter.refList />
-							</#if>
-						</div>
-					</div>
-				</#list>
-				<div class="field is-horizontal">
-					<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
-					<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
-					<button class="button is-primary is-medium" type="submit" >
-						<span class="icon"><i class="fa fa-search"></i></span>
-						<span class="hidden-xs" >#i18n{portal.util.labelSearch}</span>
-					</button>
-					<#if dataTableManager.filterPanel.formUrl?contains("?")>
-						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "&" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
-					<#else>
-						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
-					</#if>
-					<a class="button is-primary is-medium" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
-                        <span class="icon"><i class="fa fa-remove-circle"></i></span>
-						<span class="hidden-xs" >#i18n{portal.util.labelReset}</span>
-					</a>
-				</div>
-			</fieldset>
-		</form>
-	</#if>
-</#macro>
-<#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input field-body'>
-<div class="field is-horizontal">
-	<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-	<p class="control">
-		<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
-	</p>
-	<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-</div>
-</#macro>
-<#macro fieldInputPassword i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input field-body'>
-<div class="field is-horizontal">
-	<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-	<div class="control">
-		<input class="${cssClass}" id="${inputName}" name="${inputName}" type="password" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if>>
-		<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-	</div>
-</div>
-</#macro>
-<#macro fieldInputWrapper i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input field-body'>
-<div class="field is-horizontal">
-	<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-	<div class="control">
-		<#nested>
-		<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-	</div>
-</div>
-</#macro>
-<#macro fieldStaticText i18nLabelKey cssClass='input' >
-<div class="field is-horizontal">
-	<label class="field-label">#i18n{${i18nLabelKey}}&nbsp; :</label>
-	<div class="control">
-		<p class="field-static">
-		<#nested>
-		</p>
-	</div>
-</div>
-</#macro>
-<#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='input' language='fr'>
-<div class="field is-horizontal">
-	<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-	<div class="control">
-		<div class="input-group">
-			<div class="input-group-addon"><span class="icon"><i class="fa fa-calendar">&nbsp;</i></span></div>
-			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" >
-		</div>
-		<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-	</div>
-</div>
-<@getDatePickerBootstrap idField=inputName language=language />
-</#macro>
-<#macro fieldInputCheckBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
-<div class="field is-horizontal">
-	<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
-		<div class="checkbox<#if disabled> disabled</#if> ">
-			<label>
-				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> >
-				#i18n{${i18nLabelKey}}
-			</label>
-		</div>
-		<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-	</div>
-</div>
-</#macro>
-<#macro fieldInputRadioBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
-<div class="field is-horizontal">
-	<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
-		<div class="radio<#if disabled> disabled</#if> ">
-			<label>
-				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="radio" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> >
-				#i18n{${i18nLabelKey}}
-			</label>
-		</div>
-		<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-	</div>
-</div>
-</#macro>
-<#macro fieldInputCheckBoxInline inputName value="" disabled=false checked=false >
-<label class="checkbox-inline<#if disabled> disabled</#if> ">
-	<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> > #i18n{${i18nLabelKey}}
-</label>
-</#macro>
-<#macro fieldInputRadioBoxInline inputName value="" disabled=false checked=false >
-<label class="radio-inline<#if disabled> disabled</#if> ">
-	<input class="${cssClass}" id="${inputName}" name="${inputName}" type="radio" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> > #i18n{${i18nLabelKey}}
-</label>
-</#macro>
-<#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='input' >
-<div class="field is-horizontal">
-	<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*&nbsp;</#if>:</label>
-	<div class="control">
-		<#assign params = "class='" + cssClass + "'" >
-		<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
-		<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-	</div>
-</div>
-</#macro>
-<#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input'>
-<div class="field is-horizontal">
-	<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-	<div class="control">
-		<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
-		<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-	</div>
-</div>
-</#macro>
 <#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='save' icon2='times' offset=3 >
 	<@formGroup>
 		<#if url1 != ''>
@@ -577,43 +254,11 @@ and is kept only for backwards compatibility
 			<@aButton href=url2 class='button is-default' buttonIcon=icon2 title='#i18n{${i18nValue2Key}}' />
 		<#else>
 			<#if button2Name != ''>
-				<@button type='submit' name=button2Name class='button is-default' buttonIcon=icon2 title='#i18n{${i18nValue2Key}' />
+				<@button type='submit' name=button2Name class='button is-default' buttonIcon=icon2 title='#i18n{${i18nValue2Key}}' />
 			</#if>
 		</#if>
 	</@formGroup>
 </#macro>
-<#macro boxSized col i18nTitleKey boxClass='box-primary' >
-<div class="col-md-${col}">
-	<div class="box ${boxClass}">
-		<@boxHeader title=i18nTitleKey />
-		<div class="box-body">
-			<#nested>
-		</div>
-	</div>
-</div>
-</#macro>
-<#macro rowBox boxClass='box-primary' col=12>
-<div class="columns">
-    <div class="column">
-        <div class="card">
-            <#nested>
-        </div>
-    </div>
-</div>
-</#macro>
-<#--
-<#macro rowBoxHeader i18nTitleKey boxClass='box-primary' col=12>
-<@rowBox boxClass=boxClass col=col >
-    <@boxHeader i18nTitleKey=i18nTitleKey />
-    <div class="card-header">
-        <#nested>
-    </div>
-</@rowBox>
-</#macro>
-<#macro headerButtons>
-<#nested>
-</#macro>
--->
 <#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
 <#if errors??>
 	<#if errors?size &gt; 0 >
@@ -776,7 +421,7 @@ and is kept only for backwards compatibility
 			<#local class += ' is-horizontal'>
 			<#break>
 		<#case 'inline'>
-			<#local class += 'is-flex is-justify-content-flex-start card-header-icon'>
+			<#local class += 'is-flex is-justify-content-flex-start is-align-items-center card-header-icon'>
 			<#break>
 		<#default>
 			<#local class += ''>
@@ -791,16 +436,17 @@ and is kept only for backwards compatibility
 <#-- groupStyle: is-success/is-danger/is-warning... -->
 <#macro formGroup formStyle='' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
+<#assign propagateAddons = false>
+<#if groupStyle='addons'><#assign propagateAddons = true></#if>
 <#switch formStyle>
-<#case 'horizontal'>
-	<#local class += ' is-horizontal'>
-	<#break>
-<#default>
-	<#local class += ''>
+	<#case 'horizontal'>
+		<#local class += ' is-horizontal'>
+		<#break>
+	<#default>
+		<#local class += ''>
 </#switch>
 <#local labelDisplayClass = displaySettings(hideLabel,'') />
 <#if collapsed><#local class += ' collapse' /></#if>
-<#if groupStyle='addons'><label class="label<#if labelDisplayClass!=''> ${labelDisplayClass}</#if><#if labelClass!=''> ${labelClass}</#if>">${labelKey} <#if mandatory=true>*</#if></label></#if>
 <div class="field<#if class?trim!=''> ${class?trim}</#if><#if groupStyle!=''> has-${groupStyle}</#if>">
 	<#if groupStyle!='addons'><label class="label<#if labelDisplayClass!=''> ${labelDisplayClass}</#if><#if labelClass!=''> ${labelClass}</#if>">${labelKey} <#if mandatory=true>*</#if></label></#if>
   	<#if formStyle='horizontal'> 
@@ -815,7 +461,7 @@ and is kept only for backwards compatibility
 	</div>
 	</#if>
 </div>
-<#if helpKey != ''><p class="help pb-2">${helpKey}</p></#if>
+<#if helpKey !=''><p class="help pb-2">${helpKey}</p></#if>
 </#macro>
 <#macro formField class=''>
 <div class="control ${class}">
@@ -863,7 +509,7 @@ and is kept only for backwards compatibility
 		<#assign selectSize='normal'>
 </#switch>
 	<#if type='textarea'>
-		<textarea name="${name}" class="textarea<#if selectSize!=''> is-${selectSize}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
+		<textarea name="${name}" class="textarea<#if selectSize!=''> is-${selectSize}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='number'>
 		<#if params?contains('addons')><div class="control"></#if>
 		<input class="input<#if selectSize!=''> is-${selectSize}</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
@@ -913,24 +559,24 @@ and is kept only for backwards compatibility
 <#macro checkBox name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if id = ''><#local id = name /></#if>
-<#if orientation='vertical'><div class="checkbox"></#if>
-<label class="checkbox" for="${id}"<#if title!=''> title="${title}"</#if>>
-<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
+<#if orientation!='switch'><label class="checkbox" for="${id}"<#if title!=''> title="${title}"</#if>><#else><div class="field"></#if>
+<input type="checkbox" <#if orientation='switch'>class="switch is-small"</#if>id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
+<#if orientation='switch'><label for="${id}"<#if title!=''> title="${title}"</#if>></#if>
 <#if labelKey!=''>${labelKey}<#else><#nested></#if>
 </label>
-<#if orientation='vertical'></div></#if>
+<#if orientation='switch'></div></#if>
 </#macro>
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/inline. Default is vertical -->
-<#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
+<#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='inline' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if labelFor = '' && id != ''><#local labelFor = id /></#if>
-<#if orientation='vertical'><div class="radio"></#if>
+<#if orientation='inline'><div class="radio"></#if>
 <label class="<#if orientation!='vertical'>radio<#else></#if>" for="${labelFor}">
 <input type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
 <#if labelKey!=''>${labelKey}<#else><#nested></#if>
 </label>
-<#if orientation='vertical'></div></#if>
+<#if orientation='inline'></div></#if>
 </#macro>
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
 <#macro select name items='' default_value='' id=name class='' size='sm' sort=false multiple=0 params='' title='' tabIndex=0 disabled=false maxLength=0 mandatory=false>
@@ -952,8 +598,8 @@ and is kept only for backwards compatibility
 		<#assign selectSize='normal'>
 </#switch>
 <#if params?contains('addons')><div class="control"></#if>
-<div class="select<#if selectSize!=''> is-${selectSize}</#if><#if multiple!=0> is-multiple</#if><#if class!=''> ${class}</#if>">
-    <select id="${id}" name="${name}"<#if class!=''> class="${class}"</#if><#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if><#if mandatory> required</#if><#if disabled> disabled</#if>>
+<span class="select<#if selectSize!=''> is-${selectSize}</#if><#if multiple!=0> is-multiple</#if><#if class!=''> ${class}</#if>">
+    <select id="${id}" name="${name}"<#if class!=''> class="${class}"</#if><#if multiple gt 0>multiple rows="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if><#if mandatory> required</#if><#if disabled> disabled</#if>>
     <#if items?has_content>
         <#if sort=true>
             <#list items?sort_by("name") as item>
@@ -991,21 +637,35 @@ and is kept only for backwards compatibility
         <#nested>
     </#if>
     </select>
-</div>
+</span>
 <#if params?contains('addons')></div></#if>
 </#macro>
-<#-- INPUT-GROUP -->
-<#-- size: ignored -->
+<#--- MACRO OPTIONS  --->
+<#--- items : list with label, value, selected values  --->
+<#macro options items selected='' id=false class='' params=''>
+<#if items??>
+	<#list items as item>
+		<#local idItem><#if id>${item.code}_${item?index}<#else></#if></#local>
+		<#local selectedItem><#if selected !=''><#if item.code?string=selected>true<#else>false</#if><#else>${item.selected?c}</#if></#local>
+		<@option label=item.name value=item.code id=idItem class=class selected=selectedItem?boolean disabled=item.disabled params=params /> 
+	</#list>
+</#if>
+</#macro>
+<#macro option label value id='' class='' selected=false disabled=false params=''>
+<option<#if id!=''>id="${id}</#if><#if class!=''> class="${class}</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if params!=''> ${params}</#if>>${label!} <#nested></option>
+</#macro>
+<#-- INPUT-GROUP 	-->
+<#-- size: ignored 	-->
 <#macro inputGroup size='' id='' class='control has-icons-left is-expanded' params=''>
 <#if class!=''><div class="${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></#if>
 <#nested>
-<#if class!=''></div></#if>
+<#if class!=''><#if !propagateAddons></div></#if></#if>
 </#macro>
 <#macro inputGroupItem pos='is-left' type='btn' id='' params=''>
 <#-- type: btn/text. default is btn-->
 <#if type='btn'>
 <div class="control<#if pos!=''> ${pos}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<#nested>
+	<#nested>
 </div>
 <#else>
 <span class="icon<#if pos!=''> ${pos}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -1024,7 +684,7 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 <#-- ROW -->
-<#macro row class='is-multiline' id='' collapsed=false align='' params=''>
+<#macro row class='' id='' collapsed=false align='' params=''>
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 <div class="columns<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -1384,7 +1044,7 @@ ${title}
 <a class="<#if buttonSize!=''>is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if style!=''> ${style}<#else> button</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 <#if buttonIcon!='' && iconPosition='left'><span class="icon"><@icon style=buttonIcon /></span></#if>
 <#if displayTitleClass!='is-sr-only'><span class="${displayTitleClass}">${title}</span></#if>
-<#if buttonIcon!='' && iconPosition='right'><span class="icon"><@icon style=buttonIcon /><</span></#if>
+<#if buttonIcon!='' && iconPosition='right'><# class="icon"><@icon style=buttonIcon /><</span></#if>
 <#if dropdownMenu>&#160;<@icon style='caret-down' /></#if>
 <#if !dropdownMenu>
 	<#nested>
@@ -1520,9 +1180,14 @@ ${title}
 <#-- color: default/primary/info/success/warning/danger -->
 <#-- style: solid (no top border) -->
 <#-- collapsed: true/false -->
-<#macro box color='' id='' style='' class='' params='' collapsed=false>
+<#macro box color='' id='' style='' class='' title='' params='' collapsed=false>
 <div class="card<#if color!=''> has-${color}</#if><#if style!=''> box-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<#nested>
+<#if title=''>
+	<#nested>
+<#else>
+	<@boxHeader title=title params=params skipHeader=true />
+	<@boxBody><#nested></@boxBody>
+</#if>
 </div>
 </#macro>
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
@@ -1550,19 +1215,24 @@ ${title}
 <#-- INFO-BOX AdminTLE (widget) -->
 <#-- color: only for the left side showing the icon. -->
 <#-- bgColor: for the right side containing the text -->
-<#macro infoBox color='' boxText='' boxIcon='' boxNumber='' unit='' bgColor='' progressBar='' progressDescription='' id='' params=''>
+<#macro infoBox color='' boxText='' boxIcon='' boxNumber='0' unit='' bgColor='' progressBar='' progressDescription='' id='' params=''>
 <div class="box<#if bgColor!=''> ${bgColor}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<span class="info-box-icon<#if color!=''> ${color}</#if>"><@icon style=boxIcon /></span>
-	<div class="info-box-content">
-		<span class="info-box-text">${boxText}</span>
-		<span class="info-box-number">${boxNumber?string(",000")}<#if unit!=''> <small>${unit}</small></#if></span>
-		<#if bgColor!='' && progressBar!=''>
-			<progress class="progress is-primary" value="${progressBar}" max="100"> ${progressBar}%</progress>
-		</#if>
-		<#if progressDescription!=''>
-		<p>${progressDescription}</p>
-		</#if>
-	</div>
+	<article class="media">
+		<div class="media-left">
+			<figure class="image">
+				<@icon style=boxIcon class='has-text-dark' />
+			</figure>
+		</div>
+		<div class="media-content">
+			<div class="content">	
+				<#if boxText !=''><p class="font-weight-bold">${boxText}</p></#if>
+				<#if boxNumber !='0'><p>${boxNumber?trim} / ${progressBar?trim} <#if unit!=''> <small>${unit}</small></#if></p></#if>
+				<#if bgColor!='' && progressBar!=''><progress class="progress is-primary" value="${(boxNumber?trim?number/progressBar?trim?number*100)?string.computer}" max="100"> ${boxNumber}% </progress></#if>
+				<#if progressDescription!=''><p>${progressDescription}</p></#if>
+				<#nested />
+			</div>
+		</div>
+	</article>
 </div>
 </#macro>	
 <#-- AdminLTE Small Box -->
@@ -1577,11 +1247,11 @@ ${title}
 			</figure>
 		</div>
 		<div class="media-content">
-		<div class="content">	
-            <h4><#if url!=''><a class="has-text-primary-light" href="${url}"></#if>${text}<#if url!=''></a></#if></h4>
-            <${titleLevel} class="has-text-primary-light"" style="font-size:${fontSize};"><span>${title}</span><#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
+			<div class="content">	
+				<h4><#if url!=''><a class="has-text-primary-light" href="${url}"></#if>${text}<#if url!=''></a></#if></h4>
+				<${titleLevel} class="has-text-primary-light"" style="font-size:${fontSize};"><span>${title}</span><#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
+			</div>
 		</div>
-		
 	</article>
 </div>
 </#macro>
@@ -2003,50 +1673,48 @@ $(function() {
 <#-- MACRO adminSiteToolbar  -->
 <#macro adminSiteToolbar >
 <@btnToolbar>
-	<@btnGroup class='mb-0'>
-		<@aButton href='#' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt' color='secondary' size='sm' hideTitle=['all'] />
-		<@aButton href='#' id='display-full' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop fa-fw' color='secondary' size='sm' hideTitle=['all'] />
-		<@aButton href='#' id='display-940' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='tablet fa-fw' color='secondary' size='sm' hideTitle=['all'] />
-		<@aButton href='#' id='display-480' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='mobile fa-fw' color='secondary' size='sm' hideTitle=['all'] />
-	</@btnGroup>
-	<#if page.id != 1>
-	<@btnGroup class='mb-0 ml-2'>
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' size='sm' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] />
-		<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='sm' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all'] />
-	</@btnGroup>
-	</#if>
-	<@btnGroup class='mb-0 ml-2'>
-		<@tform action='jsp/admin/site/AdminSite.jsp' role='search'>
-			<@formGroup formStyle='' class='has-addons' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' hideLabel=['all']>
-				<@inputGroup class=''>
-					<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' />
-					<@inputGroupItem type='btn' pos='append'>
-						<@button type='submit' color='default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' size='sm' />
-					</@inputGroupItem>
-				</@inputGroup>
-			</@formGroup>
+	<@btnGroup>
+		<@tform type='inline' action='jsp/admin/site/AdminSite.jsp' role='search'>
+			<@input type='number' size='xs' name='page_id' id='page_id' title='${i18n("portal.site.admin_page.buttonSearchPage")}' placeHolder='22' params=' style="width:4rem;"' />
+			<@button type='submit' color='primary' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' />
 		</@tform>
 	</@btnGroup>
-	<@btnGroup class='mb-0 ml-2'>
-		<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>
-		<#if portlet_types_list?has_content>
+	<@btnGroup class='ms-1 ml-1'>
+		<@aButton href='' id='display-full' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop' color='primary'hideTitle=['all'] />
+		<@aButton href='' id='display-940' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='tablet' color='primary' hideTitle=['all'] />
+		<@aButton href='' id='display-480' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='mobile' color='primary' hideTitle=['all'] />
+	</@btnGroup>
+	<#if page.id != 1>
+		<@btnGroup class='ms-1 ml-1'>
+			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] />
+			<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger btn-icon' buttonIcon='trash text-white' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all']  />
+		</@btnGroup>
+	</#if>
+	<@btnGroup class='ms-1 ml-1'>
+	<#if portlet_types_list?has_content>
+		<@aButton class='dropdown-toggle' id='portlet-type' dropdownMenu=true href='#' title='#i18n{portal.site.admin_page.labelPortletPage}' buttonIcon='th-large' hideTitle=['xs','sm','md']>
 			<#list portlet_types_list?sort_by("name") as portlet_type>
 				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}'>
 					${portlet_type.name}
 				</@dropdownItem>
 			</#list>
-		</#if>
-		</@button>
+		</@aButton>
+	</#if>
+	<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
+		${extendableResourceActionsHtml!}
+	</#if>
 	</@btnGroup>
-	<@btnGroup class='mb-0 ml-2'>
-		<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
-			${extendableResourceActionsHtml!}
-		</#if>
+	<@btnGroup class='ms-1 ml-1'>
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm','md'] />
 	</@btnGroup>
-	<@btnGroup class='mb-0 ml-2'>
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' size='sm' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm','md'] />
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus' size='sm' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['xs','sm','md'] />
-		<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }' buttonIcon='sitemap' size='sm' title='Page ${page.name} - Id ${page.id}' hideTitle=['all']><@span hide=['xs','sm','md']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@aButton>
+	<@btnGroup class='ms-1 ml-1'>
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['xs','sm','md'] />
+	</@btnGroup>
+	<@btnGroup class='ms-1 ml-1'>
+		<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }' buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] ><@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@aButton>
+	</@btnGroup>
+	<@btnGroup class='ms-1 ml-1'>
+		<@aButton href='' id='fullscreen' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt' color='secondary'  hideTitle=['all'] />
 	</@btnGroup>
 </@btnToolbar>
 </#macro>

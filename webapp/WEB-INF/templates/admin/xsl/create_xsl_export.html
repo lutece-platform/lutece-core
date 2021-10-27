@@ -1,7 +1,7 @@
 <@row>
   	<@columns>
     	<@box color='danger'>
-      	<@boxHeader title='#i18n{portal.xsl.create_xsl_export.title}' />
+      	<@boxHeader title='#i18n{portal.xsl.create_xsl_export.title}' skipHeader=true />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/xsl/DoCreateXslExport.jsp' params='enctype="multipart/form-data"'>
 					<@input type='hidden' name='token' value='${token}' />

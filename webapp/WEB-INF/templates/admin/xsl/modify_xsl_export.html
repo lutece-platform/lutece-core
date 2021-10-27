@@ -1,7 +1,7 @@
 <@row>
   	<@columns>
     	<@box color='danger'>
-      	<@boxHeader title='#i18n{portal.xsl.modify_xsl_export.title}' />
+      	<@boxHeader title='#i18n{portal.xsl.modify_xsl_export.title}' skipHeader=true />
 		<@boxBody>
 			<@tform method='post' action='jsp/admin/xsl/DoModifyXslExport.jsp' params='enctype="multipart/form-data"'>
 				<@input type='hidden' name='id_xsl_export' value='${xsl_export.idXslExport}' />
@@ -26,7 +26,7 @@
 						<@aButton href='jsp/admin/xsl/DoDownloadXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.labelDownload} ${xsl_export.file.title?html}' buttonIcon='download' title='${xsl_export.file.title} (${xsl_export.file.size} o)' size='' color='info' />
 					</#if>
 					<@button type='submit' buttonIcon='check' title='#i18n{portal.xsl.create_xsl_export.button_save}' size='' />
-					<@aButton href='jsp/admin/xsl/ManageXslExport.jsp' buttonIcon='close' title='#i18n{portal.xsl.create_xsl_export.button_cancel}' color='secondary' size='' />
+					<@button buttonIcon='close' title='#i18n{portal.xsl.create_xsl_export.button_cancel}' color='secondary' size='' params=' onclick="history.back();"' />
 				</@formGroup>
 			</@tform>
 		</@boxBody>

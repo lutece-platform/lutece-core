@@ -2,7 +2,7 @@
 	<@columns>
 		<@box color='success'>
 			<#assign headerIcon><@icon style='user' /></#assign>
-			<@boxHeader title='${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true skipHeader=true>
+			<@boxHeader title='${headerIcon} ${user.lastName} ${user.firstName}' boxTools=true skipHeader=true>
 				<@item_navigation item_navigator=item_navigator />
 			</@boxHeader>
 			<@boxBody>
@@ -15,30 +15,28 @@
 					<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
 				</@tabList>
 				<@tabContent>
+					<@p class='pb-3'>
+						<@button buttonIcon='filter' size='sm' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}'  params=' data-check="check" ' />
+						<@button buttonIcon='times' size='sm' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" ' />
+					</@p>
 					<@tform role='form' method='post' action='jsp/admin/user/DoModifyUserRoles.jsp'>
 						<@input type='hidden' name='id_user' value='${user.userId}' />
 						<@input type='hidden' name='token' value='${token}' />
 						<@row>
 							<@columns>
 								<@listGroup>
-									<#list all_role_list?sort_by('key') as role>
-									<#assign checked = false >
-									<#list user_role_list as user_role>
-									<#if user_role.key = role.key >
-									<#assign checked = true>
-									<#break>
-									</#if>
-									</#list>
+								<#list all_role_list?sort_by('key') as role> <#assign checked = false >
+									<#list user_role_list as user_role> <#if user_role.key = role.key > <#assign checked = true> <#break> </#if></#list>
 									<@listGroupItem>
-										<@checkBox id='${role.key}' name='roles' value='${role.key}' labelKey='${role.key} - ${role.description}' checked=checked mandatory=false />
+										<@checkBox orientation='switch' id='${role.key}' name='roles' value='${role.key}' labelKey='${role.key} - ${role.description}' checked=checked mandatory=false />
 									</@listGroupItem>
-									</#list>
+								</#list>
 								</@listGroup> 
 							</@columns>
 						</@row>
 						<@formGroup rows=2>
-							<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}' color='primary'  />
-							<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
+							<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}' color='primary' size='' />
+							<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
 						</@formGroup>
 					</@tform>
 				</@tabContent>
@@ -47,3 +45,9 @@
         </@box>
     </@columns>
 </@row>
+<script>
+	$('.toggleCheck').click( function(){
+		var isChecked = $(this).attr('data-check') === 'check' ? true : false;
+		$("input:checkbox").prop('checked', isChecked );
+	});
+	</script>
