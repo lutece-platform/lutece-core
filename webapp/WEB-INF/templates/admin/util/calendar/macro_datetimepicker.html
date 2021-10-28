@@ -10,7 +10,7 @@
 $( function() {
 	<@getDateFormat format=format showFormat=showFormat />
 	<#assign dtOptions><#if dateOptions?size gt 0><#list dateOptions as Options><#list Options as optionKey, optionVal>${optionKey} : ${optionVal}</#list>, </#list></#if></#assign>
-	$('#${idField}').flatpickr( {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getRegional language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${dtOptions!} });
+	$('#${idField}').flatpickr( {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${dtOptions!} });
 });
 </script>
 </#macro>
@@ -20,7 +20,7 @@ $( function() {
 $( function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
 	<#assign dtOptions><#if dateOptions?size gt 0><#list dateOptions as Options><#list Options as optionKey, optionVal>${optionKey!} : ${optionVal!}</#list>, </#list></#if></#assign>
-	$('#${idField}').flatpickr({ enableTime: true,  altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getRegional language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${dtOptions!} });
+	$('#${idField}').flatpickr({ enableTime: true,  altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${dtOptions!} });
 });
 </script>
 </#macro>
@@ -30,7 +30,7 @@ $( function() {
 $( function() {
 	<@getDateFormat format=format showFormat=showFormat />
 	<#assign dtOptions><#if dateOptions?size gt 0><#list dateOptions as Options><#list Options as optionKey, optionVal>${optionKey} : ${optionVal}</#list>, </#list></#if></#assign>
-	$('#${idField}').flatpickr( {"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getRegional language=language />", mode: "range"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${dtOptions!} });
+	$('#${idField}').flatpickr( {"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${dtOptions!} });
 });
 </script>
 </#macro>
@@ -40,15 +40,15 @@ $( function() {
 $( function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
 	<#assign dtOptions><#if dateOptions?size gt 0><#list dateOptions as Options><#list Options as optionKey, optionVal>${optionKey} : ${optionVal}</#list>, </#list></#if></#assign>
-	$('#${idField}').flatpickr({enableTime: true, altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getRegional language=language />", mode: "range"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${dtOptions!} });
+	$('#${idField}').flatpickr({enableTime: true, altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${dtOptions!} });
 });
 </script>
 </#macro>
-<#-- getRegional
+<#-- getLanguageInLocale
  # This macro should not be called directly
  #
 -->
-<#macro getRegional language><#if language?index_of("_") gt 0>${language?keep_before("_")}<#else>${language}</#if></#macro>
+<#macro getLanguageInLocale language><#if language?index_of("_") gt 0>${language?keep_before("_")}<#else>${language}</#if></#macro>
 <#-- getDateFormat
  # This macro should not be called directly
  #
@@ -79,10 +79,10 @@ const dtFormat='${format}';
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
 <#if range ><script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script></#if>
 <#assign isEn=language?starts_with("en")?c />
-<#if !isEn?boolean ><script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js"></script></#if>
+<#if !isEn?boolean ><script src="js/admin/locales/bootstrap-flatpickr.<@getLanguageInLocale language=language />.js"></script></#if>
 <script>
 // Get list of browser locale and filter to current locale
-const browserCurrentLocale = getBrowserLocales( ).filter( lang => lang.startsWith( '<@getRegional language=language />' ))[0]
+const browserCurrentLocale = getBrowserLocales( ).filter( lang => lang.startsWith( '<@getLanguageInLocale language=language />' ))[0]
 loadStyle( '${styleUrl}' )
 <#assign datePickerIsLoaded = true />
 </#if>
