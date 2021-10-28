@@ -281,8 +281,7 @@
     </bean>
     <bean id="commonsBootstrap4MaterialKit" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bootstrap4MaterialKit" />
-        <property name="default" value="true" />
-        <property name="name" value="Bootstrap 4.3 + Material Kit  + Backport file (v6.x compatible) (Default)" />
+        <property name="name" value="Bootstrap 4.3 + Material Kit  + Backport file (v6.x compatible) " />
         <property name="files">
             <list>
                 <value>commons_bs4_materialkit.html</value>                
@@ -294,7 +293,7 @@
     </bean>
     <bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bootstrap4AdminLTE" />
-        <property name="name" value="Bootstrap 4.3 + AdminLTE (Experimental) + Backport file (v6.x compatible)" />
+        <property name="name" value="Bootstrap 4.3 + AdminLTE + Backport file (v6.x compatible)" />
         <property name="files">
             <list>
                 <value>commons_bs4_adminlte.html</value>                
@@ -306,7 +305,7 @@
     </bean>
     <bean id="commonsBulma" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bulma" />
-        <property name="name" value="Bulma 0.9.3 (Experimental) + Backport file (v6.x compatible)" />
+        <property name="name" value="Bulma 0.9.3 + Backport file (v6.x compatible)" />
         <property name="files">
             <list>
                 <value>commons_bulma.html</value>             
@@ -316,9 +315,10 @@
             </list>
         </property>
     </bean>
-    <bean id="commonsTabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Tabler" />
-        <property name="name" value="Bootstrap 5.1 + Tabler 1.0 + Backport file (v6.x compatible) (Experimental)" />
+    <bean id="commonsBoostrap5Tabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="Boostrap5Tabler" />
+         <property name="default" value="true" />
+        <property name="name" value="Bootstrap 5.1 + Tabler 1.0 + Backport file (v6.x compatible) (Default)" />
         <property name="files">
             <list>
                 <value>commons_bs5_tabler.html</value>
