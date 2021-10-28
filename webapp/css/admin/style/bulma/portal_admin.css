@@ -6,7 +6,8 @@
       --dark-gray: #555;
     --dark: #232e3c;
     --blue: #206bc4;
-    --primary: var( --blue );
+    --dark-blue: #071F32;
+    --primary: var( --dark-blue );
     --azure: #4299e1;
     --indigo: #4263eb;
     --info: var( --indigo );
@@ -28,7 +29,7 @@
 
 /*  Login page              */
 #login .footer{ display: none;} /* Footer not displayed in login page */
-#login-page { background: #fff url("../../images/admin/skin/bg_login1.jpg"); background-size: cover; background-attachment: fixed; min-height: 922px; height: 100vh; overflow: hidden; }
+#login-page { background: var( --dark-blue ) url("../../images/admin/skin/bg_login1.svg"); background-size: cover; background-attachment: fixed; min-height: 922px; height: 100vh; overflow: hidden; }
 #login-page .avatar { margin-top: -70px; padding-bottom: 20px; }
 #login-page .avatar img { padding: 5px; background: #fff; border-radius: 50%; -webkit-box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1); box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1); }
 

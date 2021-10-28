@@ -6,7 +6,8 @@
 	--dark-gray: #555;
   --dark: #232e3c;
   --blue: #206bc4;
-  --primary: var( --blue );
+  --dark-blue: #071F32;
+  --primary: var( --dark-blue );
   --azure: #4299e1;
   --indigo: #4263eb;
   --info: var( --indigo );
@@ -26,44 +27,44 @@
   --white: #ffffff;
 }
 
-/*  Login page            */
-#login-page { background: var( --white ) url("../../images/admin/skin/bg_login1.jpg"); background-size: cover; background-attachment: fixed;  overflow: hidden;}
+/*  Login page                              */
+#login-page { background: var( --dark-blue ) url("../../images/admin/skin/bg_login1.svg"); background-size: cover; background-attachment: fixed;  overflow: hidden;}
 
-/* Navbar                 */
-/* Fixed navbar           */
+/* Navbar                                                   */
+/* Fixed navbar                                             */
 .main-header { padding-top: 60px;}
 
-/* Dashboard Card Button  */
+/* Dashboard Card Button                                    */
 .box-tools{ position: absolute; top: 5px; right: 5px;}
 
-/* Language Menu          */
+/* Language Menu                                            */
 .fr{ background: transparent url( img/flags/fr.svg ) no-repeat top/cover;  width: 18px; height: 18px; padding: 0; }
 .en{ background: transparent url( img/flags/gb.svg ) no-repeat top/cover;  width: 18px; height: 18px; padding: 0; }
 
-/* Helpers classes        */
-/* Msg styles             */
+/* Helpers classes                                          */
+/* Msg styles                                               */
 .msg-success{ color: var( --success ); }
 .msg-warning{ color: var( --warning ); }
 .msg-danger{ color: var( --danger ); }
 .msg-info{ color: var( --info ); }
 
-/* thumbnail list                           */
-/* Image size for thumbnails                */
+/* thumbnail list                                             */
+/* Image size for thumbnails                                  */
 .thumbnail-xs{ width:16px; }
 .thumbnail-sm{ width:32px; }
 .thumbnail-md{ width:64px; }
 .thumbnail-lg{ width:128px; }
 
-/* Default */
+/* Default                                                    */
 td{ vertical-align: middle; }
 
-/* Progress               */
+/* Progress                                                   */
 .progress{ height: 1rem;}
 
 /* Group */
 .group-property > legend{ border-bottom: 2px solid var(--dark-light); margin-bottom: .75rem; }
 
-/* Table                  */
+/* Table                                                      */
 .table .img-responsive{ padding-top: 0 };
 .table{ background-color: var( --white ) ;}
 .table > :not(caption) > * > *, .markdown > table > :not(caption) > * > * { box-shadow: inset 0 0 0 9999px var( --white ); }
@@ -71,22 +72,23 @@ td{ vertical-align: middle; }
 /* Dark theme FIXES ! May be remove with next Tabler Release   */
 .theme-dark a:not(.btn){ color: var( --tblr-gray-600) ;}
 .theme-dark :is( .accordion-button, .alert, .btn-link, .bg-white, .footer-transparent, .table ){ background-color: var( --dark ) !important;   color: inherit; }
-.theme-dark .table > :not(caption) > * > *, .markdown > table > :not(caption) > * > * { box-shadow: inset 0 0 0 9999px var( --dark ); } */
+.theme-dark .table > :not(caption) > * > *, .markdown > table > :not(caption) > * > * { box-shadow: inset 0 0 0 9999px var( --dark ); }
   
-/* CSS for copyElementToClipboard commons Freemarker Macro */
-.copy-content{ position: relative; width: 100%; display: inline-block;}
-.copy-content:hover{ cursor: copy; }
-.copy-icon{ position: relative; }
-.copy-icon:after, .copy-content:hover:after{ content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');position: absolute; margin-left: 5px;  width: 15px; padding-top: 3px }
-.copy-content.copy-btn:after{ border: 1px solid var( --black ) ; border-radius: 5px; padding: 1px 3px; content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');position: absolute; margin-left: 5px; top: 0; width: 20px;}
-.copy-content.no-hover:hover:after{ content: '';}
+/* CSS for copyElementToClipboard commons Freemarker Macro      */
+.copy-content{ position: relative; width: 100%; display: inline-block }
+.copy-content:hover{ cursor: copy }
+.copy-icon{ position: relative }
+.copy-icon:after, .copy-content:hover:after{ content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');position: absolute; margin-left: 5px;  width: 15px; padding-top: 3px }
+.theme-dark .copy-icon:after,.theme-dark .copy-content:hover:after{ content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>'); }
+.copy-content.copy-btn:after{ border: 1px solid var( --black ) ; border-radius: 5px; padding: 1px 3px; content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>');position: absolute; margin-left: 5px; top: 0; width: 20px;}
+.copy-content.no-hover:hover:after{ content: '' }
 
-/* Icon select */
+/* Icon select                                                  */
 .ss-main{ padding: 0  !important }
 .ss-main > .ss-single-selected{ padding-top: .4375rem !important; padding-bottom: .4375rem !important }
 
-/* Admin Site             */
-/* .page-title .breadcrumb-item{ font-size: 1rem } */
+/* Admin Site                                                   */
+/* .page-title .breadcrumb-item{ font-size: 1rem }              */
 .admin-site{  padding: .2rem .5rem;}
 .admin-menu{ display: flex; justify-content: space-between; align-items: center;}
 .admin-site .breadcrumb-item{ font-size: 1.4rem }
@@ -97,11 +99,11 @@ iframe#preview {  display: block; overflow: auto; border: 0; padding: 0; margin:
 #preview.open{ position: fixed; width: 100% !important; height: 100vh !important; max-height: 100vh !important; top: 0; left:0; z-index: 9999; }
 #fullscreen.open{ position: fixed; top: 0; right: 15px; z-index: 10000; padding: 5px; }
 
-/* Documentation          */
+/* Documentation                                                */
 #lutece-doc-link{ position: fixed; bottom: 0; right: 0; z-index: 2 }
 #lutece-doc-link:hover span{ position: relative; width:auto; height:auto ;}
 
-/* Portlets               */
+/* Portlets                                                      */
 li.portlet-type a:hover{ background:var( --azure ) ;  color:var( --white ) ; }
 #content-portlet{ padding: 0 10px;}
 #preview{ left: 0; width: 100%; height: 850px; min-height: 850px; position: relative; z-index: 0; }
