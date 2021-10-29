@@ -3,7 +3,7 @@
  * 
  * @return the Date format pattern
  **/
-function getFlatPickrDateFormat( lang ) {
+function getFlatPickerDateFormat( lang ) {
   lang = lang.search(/-/) < 0 ? lang + '-' + lang.toUpperCase() : lang
   const dformats = {
     "ar-DZ": "d-M-y",
@@ -109,7 +109,7 @@ function getFlatPickrDateFormat( lang ) {
  * 
  * @return the time format pattern
  **/
-function getFlatPickrTimeFormat( lang ) {
+function getFlatPickerTimeFormat( lang ) {
   const tformats = {
 	"es-MX": "H:i", 
 	"ar-BH": "h:i K", 
