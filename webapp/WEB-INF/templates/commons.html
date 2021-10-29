@@ -1495,7 +1495,7 @@ enableBSToppltip: false
 </@row>
 </#macro>
 <#-- MACRO adminDashboardWidget -->
-<#macro adminDashboardWidget id title color='primary' url='' class='' bodyClass='table-responsive no-padding' params='' >
+<#macro adminDashboardWidget id title color='primary' url='' class='' bodyClass='table-responsive' params='' >
 <@box style='solid' color='${color}' id='${id}_dashboard_card'>
 	<@boxHeader titleLevel='h5' title='${title}'>
 		<#if url!=''><@aButton color="link" class='card-control' href='${url!}' title='${title!}' size='sm' buttonIcon='cog' hideTitle=['all']  /></#if>
