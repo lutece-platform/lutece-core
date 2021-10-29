@@ -1322,8 +1322,6 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         registerAdminUserAdmin(request );
         bean.init( request, RIGHT_CORE_USERS_MANAGEMENT);
         
-        AdminUser the_user = AdminUserService.getAdminUser( request );
-        
         AdminUser user = getUserToModify( );
         try
         {
