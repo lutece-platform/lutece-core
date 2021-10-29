@@ -3,44 +3,40 @@
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
 <#assign styleUrl='css/bootstrap-flatpickr.min.css' />
-<#assign dtOptions='' />
-<#macro getDate idField language format='' showFormat='' minDate='' maxDate='' defaultDate='' dateOptions=[] >
-<@initScriptFlatPicker language=language />
-<script>
-$( function() {
-	<@getDateFormat format=format showFormat=showFormat />
-	<#assign dtOptions><#if dateOptions?size gt 0><#list dateOptions as Options><#list Options as optionKey, optionVal>${optionKey} : ${optionVal}</#list>, </#list></#if></#assign>
-	$('#${idField}').flatpickr( {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${dtOptions!} });
-});
-</script>
-</#macro>
-<#macro getDateTime idField language format='' showFormat='' minDate='' maxDate='' defaultDate='' minTime='' maxTime='' dateOptions=[] >
+<#macro getDate idField language format='' showFormat='' minDate='' maxDate='' defaultDate='' dateOptions={} >
+<#local dtOptions=dateOptions />
 <@initScriptFlatPicker language=language />
 <script>
 $( function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
-	<#assign dtOptions><#if dateOptions?size gt 0><#list dateOptions as Options><#list Options as optionKey, optionVal>${optionKey!} : ${optionVal!}</#list>, </#list></#if></#assign>
-	$('#${idField}').flatpickr({ enableTime: true,  altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${dtOptions!} });
+	$('#${idField}').flatpickr( {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${setFlatPickerOptions( dtOptions )} });
 });
 </script>
 </#macro>
-<#macro getDateRange idField idEndField language format='' showFormat='' minDate='' maxDate='' defaultDate='' dateOptions=[] >
+<#macro getDateTime idField language format='' showFormat='' minDate='' maxDate='' defaultDate='' minTime='' maxTime='' dateOptions={} >
+<@initScriptFlatPicker language=language />
+<script>
+$( function() {
+	<@getDateFormat format=format showFormat=showFormat time=true />
+	$('#${idField}').flatpickr({ enableTime: true,  altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
+});
+</script>
+</#macro>
+<#macro getDateRange idField idEndField language format='' showFormat='' minDate='' maxDate='' defaultDate='' dateOptions={} >
 <@initScriptFlatPicker language=language range=true/>
 <script>
 $( function() {
 	<@getDateFormat format=format showFormat=showFormat />
-	<#assign dtOptions><#if dateOptions?size gt 0><#list dateOptions as Options><#list Options as optionKey, optionVal>${optionKey} : ${optionVal}</#list>, </#list></#if></#assign>
-	$('#${idField}').flatpickr( {"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${dtOptions!} });
+	$('#${idField}').flatpickr( {"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 </script>
 </#macro>
-<#macro getDateTimeRange idField idEndField language format='' showFormat='' minDate='' maxDate='' defaultDate='' minTime='' maxTime='' dateOptions=[]>
+<#macro getDateTimeRange idField idEndField language format='' showFormat='' minDate='' maxDate='' defaultDate='' minTime='' maxTime='' dateOptions={}>
 <@initScriptFlatPicker language=language range=true />
 <script>
 $( function() {
 	<@getDateFormat format=format showFormat=showFormat time=true />
-	<#assign dtOptions><#if dateOptions?size gt 0><#list dateOptions as Options><#list Options as optionKey, optionVal>${optionKey} : ${optionVal}</#list>, </#list></#if></#assign>
-	$('#${idField}').flatpickr({enableTime: true, altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${dtOptions!} });
+	$('#${idField}').flatpickr({enableTime: true, altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 </script>
 </#macro>
@@ -55,7 +51,7 @@ $( function() {
 -->
 <#macro getDateFormat format showFormat time=false>
 <#if showFormat == ''>
-const showFormat = getFlatPickrDateFormat( browserCurrentLocale )<#if time> + ' ' + getFlatPickrTimeFormat( browserCurrentLocale )</#if>;
+const showFormat = getFlatPickerDateFormat( browserCurrentLocale )<#if time> + ' ' + getFlatPickerTimeFormat( browserCurrentLocale )</#if>;
 <#else>
 const showFormat = '${showFormat}';
 </#if>
@@ -88,3 +84,8 @@ loadStyle( '${styleUrl}' )
 </#if>
 </script>
 </#macro>
+<#function setFlatPickerOptions options>
+<#assign strOptions=''>
+<#if options?size gt 0><#assign strOptions><#list options as optionKey, optionVal>"${optionKey}" : <#if optionVal?is_boolean>${optionVal?c}<#elseif optionVal?is_number>${optionVal}<#else>"${optionVal}"</#if>,</#list> </#assign></#if>
+<#return strOptions>
+</#function>
