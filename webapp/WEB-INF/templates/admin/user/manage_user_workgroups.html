@@ -1,14 +1,14 @@
 <@row>
 	<@columns>
-		<@box color='success'>
+		<@box >
 			<#assign headerIcon> <@icon style='user' />	</#assign>
 			<@boxHeader title='#i18n{portal.users.manage_user_workgroups.titleRightList} : ${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true skipHeader=true >
 				<@item_navigation item_navigator=item_navigator />
 				<#if can_delegate && can_modify>
-				<@tform align='right' method='post' name='modifyform' action='jsp/admin/user/ModifyUserWorkgroups.jsp'>
+				<@tform type='inline' class='mt-1' method='post' name='modifyform' action='jsp/admin/user/ModifyUserWorkgroups.jsp'>
 					<@input type='hidden' name='id_user' value='${user.userId}' />
 					<@input type='hidden' name='delegate_rights' value='false' />
-					<@button type='submit' buttonIcon='share' title='#i18n{portal.users.manage_user_workgroups.buttonLabelDelegate}' size='' hideTitle=['xs','sm'] />
+					<@button type='submit' buttonIcon='share' title='#i18n{portal.users.manage_user_workgroups.buttonLabelDelegate}' />
 				</@tform>
         		</#if>
       		</@boxHeader>
