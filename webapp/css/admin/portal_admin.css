@@ -190,7 +190,7 @@ ul.pagination{ margin-top: 0; }
 .admin-site-toolbar{ margin-top: -1rem }
 .extend-menu-item{ width: 100%; display: flex; justify-content: space-between; min-width: 180px; }
 
-iframe#preview {display: block; overflow: auto; border: 0; padding: 0; margin:-10px auto; border: 2px solid var( --gray-color ); max-height:400px}
+iframe#preview {display: block; overflow: auto; padding: 0; margin:-10px auto; border: 2px solid var( --gray-color ); max-height:400px}
 #preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
 #fullscreen.open{ position:fixed; top:0; right: 15px; z-index: 10000; padding: 5px; }
 
@@ -253,7 +253,7 @@ li.portlet-type a:hover{ background:var( --primary ) url(); color:var( --white )
 .progressBarInProgress, .progressBarComplete, .progressBarError{ font-size: 0; width: 0; height: 2px; background-color: var( --primary ); margin-top: 2px; }
 .progressBarComplete{ width: 100%; background-color: var( --success ); visibility: hidden; }
 .progressBarError{ width: 100%; background-color: var( --danger ); visibility: hidden; }
-.progressBarStatus{ margin-top: 2px; width: 337px ; font-size: 7pt; font-family: Arial; text-align: left; white-space: nowrap; }
+.progressBarStatus{ margin-top: 2px; width: 337px ; font-size: 7pt; font-family: Arial, Helvetica, sans-serif; text-align: left; white-space: nowrap; }
 
 /* Asynchronous Upload */
 .list-file-item{ display: flex; align-items: center; padding-bottom: 5px }
@@ -284,7 +284,7 @@ li.portlet-type a:hover{ background:var( --primary ) url(); color:var( --white )
 .card-theme .avatar img{ width: 100px; height: 100px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; border: 5px solid rgba(0,0,30,0.8) }
 .card-theme.default-theme .avatar img{ border-color:  var( --success ) }
 .theme-selected{ display: none }
-.card-theme.default-theme .theme-selected{ display: block; width: 200px; background: var( --success ); top: 25px; left: -50px; text-align: center; line-height: 50px; letter-spacing: 1px; font-weight: bold; font-size: 16px; color: var( --white ); box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg); }
+.card-theme.default-theme .theme-selected{ display: block; width: 200px; background: var( --success ); text-align: center; line-height: 50px; letter-spacing: 1px; font-weight: bold; font-size: 16px; color: var( --white ); box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg); }
 
 /*==================================================
 =            Bootstrap 3 Media Queries             =

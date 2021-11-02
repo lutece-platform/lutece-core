@@ -40,13 +40,13 @@ $( function(){
 			});
 		}
 	});
-	
+		
 	// Sortable Widgets
-	var wSortables = [].slice.call(document.querySelectorAll('.dashboard-widgets .widget-col'));
+	const dashSortables = [].slice.call(document.querySelectorAll('.dashboard-widgets .widget-col'));
 
 	// Loop through each nested sortable element
-	for ( var i = 0; i < wSortables.length; i++) {
-		new Sortable( wSortables[i], {
+	for ( var i = 0; i < dashSortables.length; i++) {
+		var sortableDash = new Sortable( dashSortables[i], {
 			group: 'widget-dashboard',
 			swapThreshold: 0.65,
 			draggable: '.box-widget',
@@ -63,7 +63,7 @@ $( function(){
 		});
 	}
 
-	$(".widget-col > .card > .card-header, .widget-col > .card .avatar").css("cursor", "move");
+	$(".widget-col > .card > .card-header, .widget-col > .card .avatar, .widget-col > .card .info-box-icon").css("cursor", "move");
 
 	$('#switch-darkmode').on('click', function(){
 		var boTheme=localStorage.getItem('theme-bo-lutece');

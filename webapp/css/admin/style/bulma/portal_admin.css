@@ -99,7 +99,7 @@ td{ vertical-align: middle;}
 .admin-site .breadcrumb a i{ padding: .25em .75em; }
 .admin-site-toolbar{ margin-top: -1rem }
 .extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
-iframe#preview { display: block; overflow: auto; border: 0;  padding: 0;  margin:-10px auto;  border:2px solid #DEDEDE;  max-height:400px }
+iframe#preview { display: block; overflow: auto; padding: 0;  margin:-10px auto;  border:2px solid #DEDEDE;  max-height:400px }
 #preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
 #fullscreen.open{ position:fixed; top:0; right: 15px; z-index: 10000; padding: 5px; }
 
@@ -156,7 +156,7 @@ pre{ white-space: pre-wrap;}
 .card-theme .avatar img{ width: 100px; height: 100px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; border: 5px solid rgba(0,0,30,0.8) }
 .card-theme.default-theme .avatar img{ border-color:  #3C763D }
 .theme-selected{ display: none }
-.card-theme.default-theme .theme-selected{  display: block; width: 200px; background: #3C763D; top: 25px; left: -50px; text-align: center; line-height: 50px;  letter-spacing: 1px; font-weight: bold; font-size: 16px; color: #fff; box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg);}
+.card-theme.default-theme .theme-selected{  display: block; width: 200px; background: #3C763D; text-align: center; line-height: 50px;  letter-spacing: 1px; font-weight: bold; font-size: 16px; color: #fff; box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg);}
 
 /* Spaces between elements when display is set to flex. intended for buttons */
 .card-header .d-flex > * + *,.card-body .d-flex > * + * {	margin-left: 0.2rem;}
