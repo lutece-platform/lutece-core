@@ -82,12 +82,15 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPasswordFactory;
 import javax.servlet.http.HttpServletRequest;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class AdminUserJspBeanTest extends LuteceTestCase
 {
     public static final String RIGHT_CORE_USERS_MANAGEMENT = "CORE_USERS_MANAGEMENT"; 
     
-    public void testDoCreateAdminUser( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    public void test_01_DoCreateAdminUser( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -250,7 +253,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoCreateAdminUserInvalidToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    public void test_02_DoCreateAdminUserInvalidToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -290,7 +293,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoCreateAdminUserNoToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    public void test_03_DoCreateAdminUserNoToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -349,7 +352,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     }
 
 
-    public void testDoModifyAdminUser( ) throws AccessDeniedException, UserNotSignedException
+    public void test_04_DoModifyAdminUser( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUser userToModify = getUserToModify( );
         try
@@ -456,7 +459,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserSuccess( ) throws AccessDeniedException, UserNotSignedException
+    public void test_05_DoModifyAdminUserSuccess( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUser userToModify = getUserToModify( );
         try
@@ -490,7 +493,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserNoToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_06_DoModifyAdminUserNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUser userToModify = getUserToModify( );
         try
@@ -525,7 +528,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_07_DoModifyAdminUserInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUser userToModify = getUserToModify( );
         try
@@ -588,7 +591,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUserHome.remove( user.getUserId( ) );
     }
 
-    public void testDoUseAdvancedSecurityParametersDoNotChangePassword( ) throws AccessDeniedException, UserNotSignedException
+    public void test_08_DoUseAdvancedSecurityParametersDoNotChangePassword( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean bUseAdvancesSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserJspBean bean = new AdminUserJspBean( );
@@ -618,7 +621,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testGetCreateAdminUserTEMPLATE_DEFAULT_CREATE_USER( ) throws PasswordResetException, AccessDeniedException
+    public void test_09_GetCreateAdminUserTEMPLATE_DEFAULT_CREATE_USER( ) throws PasswordResetException, AccessDeniedException
     {
         try
         {
@@ -634,7 +637,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testGetModifyUserPasswordUserNotfound( ) throws AccessDeniedException, UserNotSignedException
+    public void test_10_GetModifyUserPasswordUserNotfound( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -650,7 +653,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testGetModifyUserPasswordNotDefaultModule( ) throws AccessDeniedException, UserNotSignedException
+    public void test_11_GetModifyUserPasswordNotDefaultModule( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -671,7 +674,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testGetModifyUserPasswordNoRight( ) throws AccessDeniedException, UserNotSignedException
+    public void test_12_GetModifyUserPasswordNoRight( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -688,7 +691,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testGetModifyUserPassword( ) throws AccessDeniedException, UserNotSignedException
+    public void test_13_GetModifyUserPassword( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -708,7 +711,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserPasswordNoRight( )
+    public void test_14_DoModifyAdminUserPasswordNoRight( )
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -725,7 +728,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserPassword( ) throws AccessDeniedException, UserNotSignedException
+    public void test_15_DoModifyAdminUserPassword( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -750,7 +753,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserPasswordNotFound( ) throws AccessDeniedException, UserNotSignedException
+    public void test_16_DoModifyAdminUserPasswordNotFound( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -777,7 +780,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserPasswordNoFirst( ) throws AccessDeniedException, UserNotSignedException
+    public void test_17_DoModifyAdminUserPasswordNoFirst( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -803,7 +806,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserPasswordNoSecond( ) throws AccessDeniedException, UserNotSignedException
+    public void test_18_DoModifyAdminUserPasswordNoSecond( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -829,7 +832,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserPasswordDifferentSecond( ) throws AccessDeniedException, UserNotSignedException
+    public void test_19_DoModifyAdminUserPasswordDifferentSecond( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -856,7 +859,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserPasswordWeak( ) throws AccessDeniedException, UserNotSignedException
+    public void test_20_DoModifyAdminUserPasswordWeak( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -883,7 +886,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserPasswordNoToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_21_DoModifyAdminUserPasswordNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -910,7 +913,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserPasswordInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_22_DoModifyAdminUserPasswordInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -938,7 +941,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserRights( ) throws AccessDeniedException, UserNotSignedException
+    public void test_23_DoModifyAdminUserRights( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -978,7 +981,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserRightsInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_24_DoModifyAdminUserRightsInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1028,7 +1031,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserRightsNoToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_25_DoModifyAdminUserRightsNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1076,7 +1079,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserRoles( ) throws AccessDeniedException, UserNotSignedException
+    public void test_26_DoModifyAdminUserRoles( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1110,7 +1113,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserRolesInvladidToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_27_DoModifyAdminUserRolesInvladidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1148,7 +1151,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserRolesNoToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_28_DoModifyAdminUserRolesNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1184,7 +1187,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAdminUserWorkgroups( ) throws AccessDeniedException, UserNotSignedException
+    public void test_29_DoModifyAdminUserWorkgroups( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1219,7 +1222,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
 
     }
 
-    public void testDoModifyAdminUserWorkgroupsInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_30_DoModifyAdminUserWorkgroupsInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1258,7 +1261,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
 
     }
 
-    public void testDoModifyAdminUserWorkgroupsNoToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_31_DoModifyAdminUserWorkgroupsNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1295,7 +1298,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
 
     }
 
-    public void testGetAnonymizeAdminUser( )
+    public void test_32_GetAnonymizeAdminUser( )
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1314,7 +1317,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoAnonymizeAdminUser( ) throws AccessDeniedException, UserNotSignedException
+    public void test_33_DoAnonymizeAdminUser( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
 
@@ -1344,7 +1347,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoAnonymizeAdminUserInvalidToken( ) throws AccessDeniedException
+    public void test_34_DoAnonymizeAdminUserInvalidToken( ) throws AccessDeniedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1372,7 +1375,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoAnonymizeAdminUserNoToken( ) throws AccessDeniedException
+    public void test_35_DoAnonymizeAdminUserNoToken( ) throws AccessDeniedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1398,7 +1401,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoChangeFieldAnonymizeAdminUsers( ) throws AccessDeniedException
+    public void test_36_DoChangeFieldAnonymizeAdminUsers( ) throws AccessDeniedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1426,7 +1429,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoChangeFieldAnonymizeAdminUsersInvalidToken( ) throws AccessDeniedException
+    public void test_37_DoChangeFieldAnonymizeAdminUsersInvalidToken( ) throws AccessDeniedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1458,7 +1461,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoChangeFieldAnonymizeAdminUsersNoToken( ) throws AccessDeniedException
+    public void test_38_DoChangeFieldAnonymizeAdminUsersNoToken( ) throws AccessDeniedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1488,7 +1491,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoConfirmRemoveAdminUser( ) throws AccessDeniedException, UserNotSignedException
+    public void test_39_DoConfirmRemoveAdminUser( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1509,7 +1512,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoRemoveAdminUser( ) throws AccessDeniedException, UserNotSignedException
+    public void test_40_DoRemoveAdminUser( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1532,7 +1535,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoRemoveAdminUserInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_41_DoRemoveAdminUserInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1559,7 +1562,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoRemoveAdminUserNoToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_42_DoRemoveAdminUserNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1584,7 +1587,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoImportUsersFromFile( ) throws AccessDeniedException, UserNotSignedException, IOException
+    public void test_43_DoImportUsersFromFile( ) throws AccessDeniedException, UserNotSignedException, IOException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1625,7 +1628,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoImportUsersFromFileInvalidToken( ) throws AccessDeniedException, UserNotSignedException, IOException
+    public void test_44_DoImportUsersFromFileInvalidToken( ) throws AccessDeniedException, UserNotSignedException, IOException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1666,7 +1669,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoImportUsersFromFileNoToken( ) throws AccessDeniedException, UserNotSignedException, IOException
+    public void test_45_DoImportUsersFromFileNoToken( ) throws AccessDeniedException, UserNotSignedException, IOException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1705,7 +1708,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoInsertRegularExpression( ) throws AccessDeniedException, UserNotSignedException
+    public void test_46_DoInsertRegularExpression( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1725,7 +1728,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoInsertRegularExpressionInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_47_DoInsertRegularExpressionInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1751,7 +1754,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoInsertRegularExpressionNoToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_48_DoInsertRegularExpressionNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -1775,7 +1778,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAccountLifeTimeEmails( ) throws AccessDeniedException
+    public void test_49_DoModifyAccountLifeTimeEmails( ) throws AccessDeniedException
     {
         String origEmailSender = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" );
         String origEmailSubject = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" );
@@ -1802,7 +1805,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAccountLifeTimeEmailsInvalidToken( )
+    public void test_50_DoModifyAccountLifeTimeEmailsInvalidToken( )
     {
         String origEmailSender = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" );
         String origEmailSubject = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" );
@@ -1834,7 +1837,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAccountLifeTimeEmailsNoToken( )
+    public void test_51_DoModifyAccountLifeTimeEmailsNoToken( )
     {
         String origEmailSender = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" );
         String origEmailSubject = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" );
@@ -1864,7 +1867,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyDefaultUserParameterValues( ) throws AccessDeniedException, UserNotSignedException
+    public void test_52_DoModifyDefaultUserParameterValues( ) throws AccessDeniedException, UserNotSignedException
     {
         String origDefaultStatus = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_STATUS );
         String origDefaultLevel = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LEVEL );
@@ -1898,7 +1901,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyDefaultUserParameterValuesInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_53_DoModifyDefaultUserParameterValuesInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         String origDefaultStatus = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_STATUS );
         String origDefaultLevel = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LEVEL );
@@ -1937,7 +1940,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyDefaultUserParameterValuesNoToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_54_DoModifyDefaultUserParameterValuesNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         String origDefaultStatus = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_STATUS );
         String origDefaultLevel = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LEVEL );
@@ -1974,7 +1977,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyDefaultUserSecurityValues( ) throws AccessDeniedException, UserNotSignedException
+    public void test_55_DoModifyDefaultUserSecurityValues( ) throws AccessDeniedException, UserNotSignedException
     {
         assertFalse( "Test does not account for advanced security parameters",
                 AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
@@ -2040,7 +2043,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyDefaultUserSecurityValuesInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_56_DoModifyDefaultUserSecurityValuesInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         assertFalse( "Test does not account for advanced security parameters",
                 AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
@@ -2111,7 +2114,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyDefaultUserSecurityValuesNoToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_57_DoModifyDefaultUserSecurityValuesNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         assertFalse( "Test does not account for advanced security parameters",
                 AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
@@ -2180,7 +2183,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyEmailPattern( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    public void test_58_DoModifyEmailPattern( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         String origEmailPattern = getEmailPattern( );
         assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
@@ -2256,7 +2259,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         return bIsSetManually;
     }
 
-    public void testDoModifyEmailPatternInvalidToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    public void test_59_DoModifyEmailPatternInvalidToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         String origEmailPattern = getEmailPattern( );
         assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
@@ -2286,7 +2289,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyEmailPatternNoToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    public void test_60_DoModifyEmailPatternNoToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         String origEmailPattern = getEmailPattern( );
         assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
@@ -2316,7 +2319,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testGetChangeUseAdvancedSecurityParametersToFalse( )
+    public void test_61_GetChangeUseAdvancedSecurityParametersToFalse( )
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
@@ -2342,7 +2345,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testGetChangeUseAdvancedSecurityParametersToTrue( )
+    public void test_62_GetChangeUseAdvancedSecurityParametersToTrue( )
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
@@ -2368,7 +2371,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoRemoveAdvancedSecurityParameters( ) throws AccessDeniedException, UserNotSignedException
+    public void test_63_DoRemoveAdvancedSecurityParameters( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
@@ -2396,7 +2399,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoRemoveAdvancedSecurityParametersInvalidToken( ) throws AccessDeniedException
+    public void test_64_DoRemoveAdvancedSecurityParametersInvalidToken( ) throws AccessDeniedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
@@ -2426,7 +2429,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoRemoveAdvancedSecurityParametersNoToken( ) throws AccessDeniedException
+    public void test_65_DoRemoveAdvancedSecurityParametersNoToken( ) throws AccessDeniedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
@@ -2454,7 +2457,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoUseAdvancedSecurityParameters( ) throws AccessDeniedException, UserNotSignedException
+    public void test_66_DoUseAdvancedSecurityParameters( ) throws AccessDeniedException, UserNotSignedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
@@ -2482,7 +2485,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoUseAdvancedSecurityParametersInvalidToken( ) throws AccessDeniedException
+    public void test_67_DoUseAdvancedSecurityParametersInvalidToken( ) throws AccessDeniedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
@@ -2512,7 +2515,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoUseAdvancedSecurityParametersNoToken( ) throws AccessDeniedException
+    public void test_68_DoUseAdvancedSecurityParametersNoToken( ) throws AccessDeniedException
     {
         boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
@@ -2540,7 +2543,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoRemoveRegularExpression( ) throws AccessDeniedException, UserNotSignedException
+    public void test_69_DoRemoveRegularExpression( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -2559,7 +2562,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoRemoveRegularExpressionInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_70_DoRemoveRegularExpressionInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -2584,7 +2587,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoRemoveRegularExpressionNoToken( ) throws AccessDeniedException, UserNotSignedException
+    public void test_71_DoRemoveRegularExpressionNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -2607,7 +2610,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyEmailPatternReset( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    public void test_72_DoModifyEmailPatternReset( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         String origEmailPattern = getEmailPattern( );
         assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
@@ -2633,7 +2636,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyEmailPatternResetInvalidToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    public void test_73_DoModifyEmailPatternResetInvalidToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         String origEmailPattern = getEmailPattern( );
         assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
@@ -2663,7 +2666,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyEmailPatternResetNoToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    public void test_74_DoModifyEmailPatternResetNoToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         String origEmailPattern = getEmailPattern( );
         assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
