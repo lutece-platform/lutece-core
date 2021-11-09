@@ -2732,12 +2732,13 @@ public class AdminUserJspBeanTest extends LuteceTestCase
      */
     private void registerAdminUserAdmin( HttpServletRequest request ) throws AccessDeniedException, UserNotSignedException
     {
-        AdminUser adminUser = new AdminUser( );
-        adminUser.setAccessCode( "admin" );
-        adminUser.setLastName( "test" );
+        AdminUser adminUser = AdminUserHome.findUserByLogin( "admin" );
         adminUser.setStatus( 0 );
         adminUser.setUserLevel( 0 );
-         
-        AdminAuthenticationService.getInstance( ).registerUser( request, adminUser );
+        adminUser.setPasswordReset( false );
+        
+        AdminUserHome.update( adminUser );
+        
+        AdminAuthenticationService.getInstance( ).registerUser(request, adminUser);
     }
 }
