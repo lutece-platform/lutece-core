@@ -57,14 +57,14 @@ public abstract class AbstractDownloadServlet extends HttpServlet
     private static final long serialVersionUID = 6622358100579620819L;
     private static final String MESSAGE_UNKNOWN_PROVIDER = "portal.file.download.provider.unknown";
     private static final String MESSAGE_UNKNOWN_FILE = "portal.file.download.file.unknown";
-    
+
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         File file = null;
-        IFileStoreServiceProvider fileStoreServiceProvider = FileService.getInstance().getFileStoreServiceProvider(
-                    request.getParameter( FileService.PARAMETER_PROVIDER ) );
-        
+        IFileStoreServiceProvider fileStoreServiceProvider = FileService.getInstance( )
+                .getFileStoreServiceProvider( request.getParameter( FileService.PARAMETER_PROVIDER ) );
+
         try
         {
             if ( fileStoreServiceProvider == null )
@@ -73,7 +73,7 @@ public abstract class AbstractDownloadServlet extends HttpServlet
             }
             else
             {
-        
+
                 try
                 {
                     if ( isFromBo( ) )
@@ -83,9 +83,9 @@ public abstract class AbstractDownloadServlet extends HttpServlet
                     else
                     {
                         file = fileStoreServiceProvider.getFileFromRequestFO( request );
-                    }                
+                    }
                 }
-                catch (AccessDeniedException | ExpiredLinkException ex) 
+                catch( AccessDeniedException | ExpiredLinkException ex )
                 {
                     SiteMessageService.setMessage( request, ex.getLocalizedMessage( ) );
                 }
@@ -99,14 +99,13 @@ public abstract class AbstractDownloadServlet extends HttpServlet
             {
                 SiteMessageService.setMessage( request, MESSAGE_UNKNOWN_FILE );
             }
- 
+
         }
         catch( SiteMessageException e )
         {
             response.sendRedirect( AppPathService.getSiteMessageUrl( request ) );
         }
-        
-        
+
         if ( file != null )
         {
             // send the file
@@ -118,6 +117,6 @@ public abstract class AbstractDownloadServlet extends HttpServlet
             }
         }
     }
-    
+
     protected abstract boolean isFromBo( );
 }

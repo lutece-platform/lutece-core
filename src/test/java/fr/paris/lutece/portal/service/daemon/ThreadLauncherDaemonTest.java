@@ -78,7 +78,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     protected void tearDown( ) throws Exception
     {
         // restore threadLauncherDaemon state
-        AppLogService.info( "restore threadLauncherDaemon state ( {} )", _bThreadLauncherDaemonInitialState  );
+        AppLogService.info( "restore threadLauncherDaemon state ( {} )", _bThreadLauncherDaemonInitialState );
         if ( !_bThreadLauncherDaemonInitialState.booleanValue( ) )
         {
             AppDaemonService.stopDaemon( "threadLauncherDaemon" );
@@ -90,9 +90,9 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     {
         CyclicBarrier barrier = new CyclicBarrier( 2 );
         _runnableTimedOut = false;
-        
+
         dumpStateWhileWaiting( 0L ); // for debugging test failure
-        
+
         Instant start = Instant.now( );
         ThreadLauncherDaemon.addItemToQueue( ( ) -> {
             try
@@ -100,7 +100,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
                 AppLogService.info( "testAddItemToQueue: Inside the task, going to await" );
                 barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
             }
-            catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
+            catch( InterruptedException | BrokenBarrierException | TimeoutException e )
             {
                 _runnableTimedOut = true;
             }
@@ -110,7 +110,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
 
         barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
         AppLogService.info( "ThreadLauncherDaemonTest#testAddItemToQueue : task executed after {} ms",
-                ()-> Duration.between( start, Instant.now( ) ).toMillis( ) );
+                ( ) -> Duration.between( start, Instant.now( ) ).toMillis( ) );
         AppLogService.info( "Last Run Logs : {}", _threadLauncherDaemonEntry.getLastRunLogs( ) );
         assertFalse( _runnableTimedOut );
     }
@@ -121,7 +121,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
         Thread.sleep( lWait );
         final StringBuilder dump = new StringBuilder( );
         final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean( );
-        final ThreadInfo[ ] threadInfos = threadMXBean.getThreadInfo( threadMXBean.getAllThreadIds( ), 100 );
+        final ThreadInfo [ ] threadInfos = threadMXBean.getThreadInfo( threadMXBean.getAllThreadIds( ), 100 );
         for ( ThreadInfo threadInfo : threadInfos )
         {
             dump.append( '"' );
@@ -130,7 +130,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
             final Thread.State state = threadInfo.getThreadState( );
             dump.append( "\n   java.lang.Thread.State: " );
             dump.append( state );
-            final StackTraceElement[ ] stackTraceElements = threadInfo.getStackTrace( );
+            final StackTraceElement [ ] stackTraceElements = threadInfo.getStackTrace( );
             for ( final StackTraceElement stackTraceElement : stackTraceElements )
             {
                 dump.append( "\n        at " );

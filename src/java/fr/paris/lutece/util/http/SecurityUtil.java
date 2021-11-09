@@ -67,6 +67,7 @@ public final class SecurityUtil
 
     public static final String PROPERTY_REDIRECT_URL_SAFE_PATTERNS = "lutece.security.redirectUrlSafePatterns";
     public static final Logger _log = LogManager.getLogger( LOGGER_NAME );
+
     /**
      * Private Constructor
      */
@@ -113,7 +114,7 @@ public final class SecurityUtil
             {
                 if ( SecurityUtil.containsXssCharacters( request, values [i], strXssCharacters ) )
                 {
-                    _log.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS {}", ()-> dumpRequest( request ) );
+                    _log.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS {}", ( ) -> dumpRequest( request ) );
 
                     return false;
                 }
@@ -155,7 +156,7 @@ public final class SecurityUtil
 
         if ( bContains )
         {
-            _log.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED {}", ()->dumpRequest( request ) );
+            _log.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED {}", ( ) -> dumpRequest( request ) );
         }
 
         return bContains;
@@ -174,7 +175,7 @@ public final class SecurityUtil
         {
             if ( StringUtils.indexOfIgnoreCase( strValue, strTerm ) >= 0 )
             {
-                _log.warn( "SECURITY WARNING : XXE TERMS DETECTED : {}", ()-> dumpRequest( LocalVariables.getRequest( ) ) );
+                _log.warn( "SECURITY WARNING : XXE TERMS DETECTED : {}", ( ) -> dumpRequest( LocalVariables.getRequest( ) ) );
                 return true;
             }
         }
@@ -196,7 +197,7 @@ public final class SecurityUtil
         {
             if ( strValue.contains( strTerm ) )
             {
-                _log.warn( "SECURITY WARNING : PATH_MANIPULATION DETECTED : {}", ()-> dumpRequest( request ) );
+                _log.warn( "SECURITY WARNING : PATH_MANIPULATION DETECTED : {}", ( ) -> dumpRequest( request ) );
                 return true;
             }
         }
@@ -343,7 +344,7 @@ public final class SecurityUtil
         }
 
         // the Url does not match the allowed patterns
-        _log.warn( "SECURITY WARNING : OPEN_REDIRECT DETECTED : {}", ()-> dumpRequest( request ) );
+        _log.warn( "SECURITY WARNING : OPEN_REDIRECT DETECTED : {}", ( ) -> dumpRequest( request ) );
 
         return false;
 

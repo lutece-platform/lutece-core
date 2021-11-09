@@ -142,8 +142,8 @@ public class SiteMapAppTest extends LuteceTestCase
                 // test menu content with no user
                 HttpServletRequest request = new MockHttpServletRequest( );
                 XPage sitemap = instance.getPage( request, 0, null );
-                assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")", sitemap
-                        .getContent( ).contains( pageNoRole.getName( ) ) );
+                assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
+                        sitemap.getContent( ).contains( pageNoRole.getName( ) ) );
                 assertFalse( "Site map should not contain page associated with role " + ROLE1 + " named " + pageRole1.getName( ) + " (call " + ( i + 1 ) + ")",
                         sitemap.getContent( ).contains( pageRole1.getName( ) ) );
                 assertFalse( "Site map should not contain page associated with role " + ROLE2 + " named " + pageRole2.getName( ) + " (call " + ( i + 1 ) + ")",
@@ -163,8 +163,8 @@ public class SiteMapAppTest extends LuteceTestCase
 
                 request.getSession( ).setAttribute( "lutece_user", user );
                 sitemap = instance.getPage( request, 0, null );
-                assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")", sitemap
-                        .getContent( ).contains( pageNoRole.getName( ) ) );
+                assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
+                        sitemap.getContent( ).contains( pageNoRole.getName( ) ) );
                 assertFalse( "Site map should not contain page associated with role " + ROLE1 + " named " + pageRole1.getName( ) + " (call " + ( i + 1 ) + ")",
                         sitemap.getContent( ).contains( pageRole1.getName( ) ) );
                 assertFalse( "Site map should not contain page associated with role " + ROLE2 + " named " + pageRole2.getName( ) + " (call " + ( i + 1 ) + ")",
@@ -172,8 +172,8 @@ public class SiteMapAppTest extends LuteceTestCase
                 // test menu content with ROLE1
                 user.setRoles( Arrays.asList( ROLE1 ) );
                 sitemap = instance.getPage( request, 0, null );
-                assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")", sitemap
-                        .getContent( ).contains( pageNoRole.getName( ) ) );
+                assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
+                        sitemap.getContent( ).contains( pageNoRole.getName( ) ) );
                 assertTrue( "Site map should contain page associated with role " + ROLE1 + " named " + pageRole1.getName( ) + " (call " + ( i + 1 ) + ")",
                         sitemap.getContent( ).contains( pageRole1.getName( ) ) );
                 assertFalse( "Site map should not contain page associated with role " + ROLE2 + " named " + pageRole2.getName( ) + " (call " + ( i + 1 ) + ")",
@@ -182,8 +182,8 @@ public class SiteMapAppTest extends LuteceTestCase
                 // test menu content with ROLE2
                 user.setRoles( Arrays.asList( ROLE2 ) );
                 sitemap = instance.getPage( request, 0, null );
-                assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")", sitemap
-                        .getContent( ).contains( pageNoRole.getName( ) ) );
+                assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
+                        sitemap.getContent( ).contains( pageNoRole.getName( ) ) );
                 assertFalse( "Site map should not contain page associated with role " + ROLE1 + " named " + pageRole1.getName( ) + " (call " + ( i + 1 ) + ")",
                         sitemap.getContent( ).contains( pageRole1.getName( ) ) );
                 assertTrue( "Site map should contain page associated with role " + ROLE2 + " named " + pageRole2.getName( ) + " (call " + ( i + 1 ) + ")",
@@ -192,8 +192,8 @@ public class SiteMapAppTest extends LuteceTestCase
                 // test menu content with ROLE1 and ROLE2
                 user.setRoles( Arrays.asList( ROLE1, ROLE2 ) );
                 sitemap = instance.getPage( request, 0, null );
-                assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")", sitemap
-                        .getContent( ).contains( pageNoRole.getName( ) ) );
+                assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
+                        sitemap.getContent( ).contains( pageNoRole.getName( ) ) );
                 assertTrue( "Site map should contain page associated with role " + ROLE1 + " named " + pageRole1.getName( ) + " (call " + ( i + 1 ) + ")",
                         sitemap.getContent( ).contains( pageRole1.getName( ) ) );
                 assertTrue( "Site map should contain page associated with role " + ROLE2 + " named " + pageRole2.getName( ) + " (call " + ( i + 1 ) + ")",

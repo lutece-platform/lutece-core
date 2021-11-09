@@ -56,7 +56,7 @@ public class AppPathServiceTest extends LuteceTestCase
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
     private static final String FRAGMENT_END_PATH_XSL = "/WEB-INF/xsl/";
     private static final String FRAGMENT_END_PATH_CONF = "/WEB-INF/conf/";
-    
+
     /**
      * Test of getPath method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
@@ -69,9 +69,8 @@ public class AppPathServiceTest extends LuteceTestCase
         String result = AppPathService.getPath( strKey );
         assertNotNull( expResult );
         assertTrue( result.endsWith( expResult ) );
-        System.out.println( result ); 
+        System.out.println( result );
     }
-    
 
     /**
      * Test of getWebAppPath method, of class fr.paris.lutece.portal.service.util.AppPathService. FIXME : uncomment this method when a better way to find real

@@ -116,7 +116,7 @@ public class UploadServletTest extends LuteceTestCase
         Map<String, List<FileItem>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
         mapParameters.put( "handler", new String [ ] {
-            BEAN_NAME
+                BEAN_NAME
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, mapFiles, mapParameters );
 
@@ -171,7 +171,7 @@ public class UploadServletTest extends LuteceTestCase
         Map<String, List<FileItem>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
         mapParameters.put( "handler", new String [ ] {
-            BEAN_NAME
+                BEAN_NAME
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, mapFiles, mapParameters );
 
@@ -234,7 +234,7 @@ public class UploadServletTest extends LuteceTestCase
                 1, 2, 3
         };
         Part [ ] parts = new Part [ ] {
-            new FilePart( "file1", new ByteArrayPartSource( "file1", fileContent ) )
+                new FilePart( "file1", new ByteArrayPartSource( "file1", fileContent ) )
         };
         MultipartRequestEntity multipartRequestEntity = new MultipartRequestEntity( parts, new PostMethod( ).getParams( ) );
         // Serialize request body

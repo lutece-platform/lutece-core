@@ -88,7 +88,7 @@ public final class ServletService
 
             for ( String strKey : entry.getInitParameters( ).keySet( ) )
             {
-                AppLogService.info( " * init parameter - name : '{}' - value : '{}'", strKey , entry.getInitParameters( ).get( strKey ) );
+                AppLogService.info( " * init parameter - name : '{}' - value : '{}'", strKey, entry.getInitParameters( ).get( strKey ) );
             }
         }
         catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )

@@ -53,7 +53,7 @@ public final class TestConcurrentDaemon extends Daemon
             // wait for other to start
             _other.go( );
         }
-        catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
+        catch( InterruptedException | BrokenBarrierException | TimeoutException e )
         {
             // TODO Auto-generated catch block
             e.printStackTrace( );

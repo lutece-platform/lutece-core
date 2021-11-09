@@ -53,7 +53,8 @@ public class MockFreemarkerTemplateService extends AbstractFreeMarkerTemplateSer
 
     /**
      * Constructor
-     * @param strAbsolutePath 
+     * 
+     * @param strAbsolutePath
      */
     public MockFreemarkerTemplateService( String strAbsolutePath )
     {
@@ -78,37 +79,40 @@ public class MockFreemarkerTemplateService extends AbstractFreeMarkerTemplateSer
         return DateUtil.getDefaultPattern( locale );
     }
 
-
-
     /**
      * {@inheritDoc }
      */
     @Override
     public void init( String strTemplatePath )
     {
-        super.init( strTemplatePath ); 
+        super.init( strTemplatePath );
         getAutoIncludes( ); // force to initialize a cfg
     }
-    
+
     /**
-     * Write a file 
-     * @param strTemplateFilename The template filename
-     * @param strOutputFolder The output directory
-     * @param model The model
-     * @throws IOException if an error occurs
+     * Write a file
+     * 
+     * @param strTemplateFilename
+     *            The template filename
+     * @param strOutputFolder
+     *            The output directory
+     * @param model
+     *            The model
+     * @throws IOException
+     *             if an error occurs
      */
     void write( String strTemplateFilename, String strOutputFolder, Map<String, Object> model ) throws IOException
     {
-        Locale locale = Locale.getDefault();
+        Locale locale = Locale.getDefault( );
         HtmlTemplate template = loadTemplate( "/", strTemplateFilename, locale, model );
-        String strLocalized = I18nService.localize( template.getHtml(), locale );
+        String strLocalized = I18nService.localize( template.getHtml( ), locale );
         template = new HtmlTemplate( strLocalized );
-        template = new HtmlTemplate( DatastoreService.replaceKeys( template.getHtml() ) );
+        template = new HtmlTemplate( DatastoreService.replaceKeys( template.getHtml( ) ) );
 
         String strFileName = strOutputFolder + "/" + strTemplateFilename;
         FileWriter writer = new FileWriter( strFileName );
-        writer.write( template.getHtml() );
-        writer.close();
+        writer.write( template.getHtml( ) );
+        writer.close( );
     }
 
 }

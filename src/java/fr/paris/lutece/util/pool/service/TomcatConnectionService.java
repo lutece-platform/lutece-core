@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.pool.service;
 
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -69,12 +68,12 @@ public class TomcatConnectionService implements ConnectionService
             {
                 conn = _ds.getConnection( );
                 _logger.debug( "The connexion is get" );
-                
+
             }
         }
         catch( Exception e )
         {
-            _logger.error( "Erreur when getting the connexion with the pool : {}",  getPoolName( ), e );
+            _logger.error( "Erreur when getting the connexion with the pool : {}", getPoolName( ), e );
         }
 
         return conn;

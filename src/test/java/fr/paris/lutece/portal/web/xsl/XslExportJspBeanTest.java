@@ -108,7 +108,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
 
         _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
@@ -119,21 +119,21 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
         String randomName = getRandomName( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( "title", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "description", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "extension", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.html" )
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> fileItems = new ArrayList<>( );
@@ -146,8 +146,8 @@ public class XslExportJspBeanTest extends LuteceTestCase
         try
         {
             _instance.doCreateXslExport( new MultipartHttpServletRequest( request, multipartFiles, parameters ) );
-            assertTrue( XslExportHome.getList( ).stream( )
-                    .anyMatch( e -> randomName.equals( e.getTitle( ) ) && randomName.equals( e.getDescription( ) ) && randomName.equals( e.getExtension( ) ) ) );
+            assertTrue( XslExportHome.getList( ).stream( ).anyMatch(
+                    e -> randomName.equals( e.getTitle( ) ) && randomName.equals( e.getDescription( ) ) && randomName.equals( e.getExtension( ) ) ) );
         }
         finally
         {
@@ -159,21 +159,21 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
         String randomName = getRandomName( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( "title", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "description", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "extension", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.html" ) + "b"
+                SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.html" ) + "b"
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> fileItems = new ArrayList<>( );
@@ -190,8 +190,8 @@ public class XslExportJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException ade )
         {
-            assertFalse( XslExportHome.getList( ).stream( )
-                    .anyMatch( e -> randomName.equals( e.getTitle( ) ) && randomName.equals( e.getDescription( ) ) && randomName.equals( e.getExtension( ) ) ) );
+            assertFalse( XslExportHome.getList( ).stream( ).anyMatch(
+                    e -> randomName.equals( e.getTitle( ) ) && randomName.equals( e.getDescription( ) ) && randomName.equals( e.getExtension( ) ) ) );
         }
         finally
         {
@@ -203,18 +203,18 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
         String randomName = getRandomName( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( "title", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "description", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "extension", new String [ ] {
-            randomName
+                randomName
         } );
 
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
@@ -232,8 +232,8 @@ public class XslExportJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException ade )
         {
-            assertFalse( XslExportHome.getList( ).stream( )
-                    .anyMatch( e -> randomName.equals( e.getTitle( ) ) && randomName.equals( e.getDescription( ) ) && randomName.equals( e.getExtension( ) ) ) );
+            assertFalse( XslExportHome.getList( ).stream( ).anyMatch(
+                    e -> randomName.equals( e.getTitle( ) ) && randomName.equals( e.getDescription( ) ) && randomName.equals( e.getExtension( ) ) ) );
         }
         finally
         {
@@ -252,7 +252,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
         request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );
         _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
@@ -263,24 +263,24 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
         String randomName = getRandomName( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( "title", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "description", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "extension", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "id_xsl_export", new String [ ] {
-            Integer.toString( _xslExport.getIdXslExport( ) )
+                Integer.toString( _xslExport.getIdXslExport( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.html" )
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
 
@@ -299,24 +299,24 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
         String randomName = getRandomName( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( "title", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "description", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "extension", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "id_xsl_export", new String [ ] {
-            Integer.toString( _xslExport.getIdXslExport( ) )
+                Integer.toString( _xslExport.getIdXslExport( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.html" ) + "b"
+                SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.html" ) + "b"
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
 
@@ -341,21 +341,21 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
         String randomName = getRandomName( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( "title", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "description", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "extension", new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( "id_xsl_export", new String [ ] {
-            Integer.toString( _xslExport.getIdXslExport( ) )
+                Integer.toString( _xslExport.getIdXslExport( ) )
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
 
@@ -380,7 +380,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
 
         request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );
@@ -396,7 +396,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
 
         request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );
@@ -414,7 +414,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
 
         request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );
@@ -438,7 +438,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        user.setRoles(RBACRoleHome.findAll( ).stream( ).collect(Collectors.toMap(RBACRole::getKey, Function.identity( ) ) ) );
+        user.setRoles( RBACRoleHome.findAll( ).stream( ).collect( Collectors.toMap( RBACRole::getKey, Function.identity( ) ) ) );
         Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
 
         request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );

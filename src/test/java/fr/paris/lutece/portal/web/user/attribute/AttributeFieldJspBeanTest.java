@@ -245,7 +245,8 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
         assertEquals( 4, stored.getListAttributeFields( ).size( ) );
-        assertEquals( 1, stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
+        assertEquals( 1,
+                stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
     }
 
     public void testDoCreateAttributeFieldInvalidToken( ) throws AccessDeniedException
@@ -277,8 +278,8 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
             IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( 3, stored.getListAttributeFields( ).size( ) );
-            assertEquals( 0, stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) )
-                    .count( ) );
+            assertEquals( 0,
+                    stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
         }
     }
 
@@ -309,8 +310,8 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
             IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( 3, stored.getListAttributeFields( ).size( ) );
-            assertEquals( 0, stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) )
-                    .count( ) );
+            assertEquals( 0,
+                    stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
         }
     }
 
@@ -359,7 +360,8 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
         assertEquals( 3, stored.getListAttributeFields( ).size( ) );
-        assertEquals( 1, stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
+        assertEquals( 1,
+                stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
     }
 
     public void testDoModifyAttributeFieldInvalidToken( ) throws AccessDeniedException
@@ -392,8 +394,8 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
             IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( 3, stored.getListAttributeFields( ).size( ) );
-            assertEquals( 0, stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) )
-                    .count( ) );
+            assertEquals( 0,
+                    stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
         }
     }
 
@@ -425,8 +427,8 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
             IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( 3, stored.getListAttributeFields( ).size( ) );
-            assertEquals( 0, stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) )
-                    .count( ) );
+            assertEquals( 0,
+                    stored.getListAttributeFields( ).stream( ).filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
         }
     }
 

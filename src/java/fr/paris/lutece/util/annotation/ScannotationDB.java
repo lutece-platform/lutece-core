@@ -108,7 +108,7 @@ public class ScannotationDB implements IAnnotationDB
         }
         else
         {
-            AppLogService.info( "Using {} as filename filter", getFileFilter( )  );
+            AppLogService.info( "Using {} as filename filter", getFileFilter( ) );
         }
 
         Date start = new Date( );
@@ -144,7 +144,7 @@ public class ScannotationDB implements IAnnotationDB
             AppLogService.error( e.getMessage( ), e );
         }
 
-        AppLogService.info( "ScannotationDB Classpath scanned in {} ms", ()-> ( new Date( ).getTime( ) - start.getTime( ) ) );
+        AppLogService.info( "ScannotationDB Classpath scanned in {} ms", ( ) -> ( new Date( ).getTime( ) - start.getTime( ) ) );
     }
 
     /**

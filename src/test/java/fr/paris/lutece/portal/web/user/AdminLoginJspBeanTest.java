@@ -422,8 +422,8 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
-        Date timestamp = new Date( new Date( ).getTime( ) + 1
-                + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
+        Date timestamp = new Date(
+                new Date( ).getTime( ) + 1 + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
         String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
         request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
         request.setParameter( "token", token );

@@ -76,7 +76,7 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
         IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
         HtmlTemplate template = freeMarkerTemplateService.loadTemplate( strPath, strTemplate, LocaleService.getDefault( ), model );
         assertNotNull( template );
-        assertTrue( StringUtils.isNotEmpty( template.getHtml( ) ));
+        assertTrue( StringUtils.isNotEmpty( template.getHtml( ) ) );
     }
 
     /**

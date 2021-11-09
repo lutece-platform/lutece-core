@@ -68,7 +68,7 @@ public class AdminMessageJspBeanTest extends LuteceTestCase
         String strTitle = "WARNING_MESSAGE";
         boolean bCancelButton = false;
         Object [ ] messageArgs = {
-            "WARNING_MESSAGE"
+                "WARNING_MESSAGE"
         };
         AdminMessage message = new AdminMessage( "WARNING_MESSAGE", messageArgs, strTitle, "", "", AdminMessage.TYPE_WARNING, bCancelButton );
         HttpSession session = request.getSession( true );

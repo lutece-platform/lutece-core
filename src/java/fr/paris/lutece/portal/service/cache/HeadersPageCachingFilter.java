@@ -96,7 +96,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
                 CacheService.getInstance( ).createCache( _strCacheName );
                 _cache = CacheManager.getInstance( ).getCache( _strCacheName );
                 CacheService.registerCacheableService( this );
-                _logger.debug( "Initializing cache : {}",  _strCacheName );
+                _logger.debug( "Initializing cache : {}", _strCacheName );
 
                 setCacheNameIfAnyConfigured( filterConfig );
 

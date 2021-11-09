@@ -412,7 +412,7 @@ public class DAOUtil implements AutoCloseable
     {
         if ( !_bReleased )
         {
-        	_logger.debug( _sbLogs );
+            _logger.debug( _sbLogs );
         }
 
         try
@@ -3221,15 +3221,15 @@ public class DAOUtil implements AutoCloseable
     }
 
     /**
-     * Adds a set of parameters to this <code>PreparedStatement</code>
-     * object's batch of commands.
+     * Adds a set of parameters to this <code>PreparedStatement</code> object's batch of commands.
+     * 
      * @since 7.0.0
      */
-    public void addBatch(  )
+    public void addBatch( )
     {
         try
         {
-            _statement.addBatch();
+            _statement.addBatch( );
         }
         catch( SQLException e )
         {
@@ -3237,20 +3237,17 @@ public class DAOUtil implements AutoCloseable
             throw new AppException( getErrorMessage( e ), e );
         }
     }
-    
+
     /**
-     * Adds the given SQL command to the current list of commands for this
-     * <code>Statement</code> object. The commands in this list can be
-     * executed as a batch by calling the method <code>executeBatch</code>.
+     * Adds the given SQL command to the current list of commands for this <code>Statement</code> object. The commands in this list can be executed as a batch
+     * by calling the method <code>executeBatch</code>.
      * <P>
-     *<strong>Note:</strong>This method cannot be called on a
-     * <code>PreparedStatement</code> or <code>CallableStatement</code>.
+     * <strong>Note:</strong>This method cannot be called on a <code>PreparedStatement</code> or <code>CallableStatement</code>.
+     * 
      * @since 7.0.0
-     * @param sql typically this is a SQL <code>INSERT</code> or
-     * <code>UPDATE</code> statement
-     * this method is called on a closed <code>Statement</code>, the
-     * driver does not support batch updates, the method is called on a
-     * <code>PreparedStatement</code> or <code>CallableStatement</code>
+     * @param sql
+     *            typically this is a SQL <code>INSERT</code> or <code>UPDATE</code> statement this method is called on a closed <code>Statement</code>, the
+     *            driver does not support batch updates, the method is called on a <code>PreparedStatement</code> or <code>CallableStatement</code>
      * @see #executeBatch
      * @see DatabaseMetaData#supportsBatchUpdates
      */
@@ -3258,7 +3255,7 @@ public class DAOUtil implements AutoCloseable
     {
         try
         {
-            _statement.addBatch(sql);
+            _statement.addBatch( sql );
         }
         catch( SQLException e )
         {
@@ -3266,36 +3263,39 @@ public class DAOUtil implements AutoCloseable
             throw new AppException( getErrorMessage( e ), e );
         }
     }
+
     /**
      * Empties this <code>Statement</code> object's current list of SQL commands.
+     * 
      * @since 7.0.0
      * @see #addBatch
      * @see DatabaseMetaData#supportsBatchUpdates
      */
     void clearBatch( )
     {
-    	 
-    	try
-         {
-             _statement.clearBatch( );
-         }
-         catch( SQLException e )
-         {
-             free( );
-             throw new AppException( getErrorMessage( e ), e );
-         }
+
+        try
+        {
+            _statement.clearBatch( );
+        }
+        catch( SQLException e )
+        {
+            free( );
+            throw new AppException( getErrorMessage( e ), e );
+        }
     }
+
     /**
      * Clears the current parameter values immediately.
-     * <P>In general, parameter values remain in force for repeated use of a
-     * statement. Setting a parameter value automatically clears its
-     * previous value.  However, in some cases it is useful to immediately
-     * release the resources used by the current parameter values; this can
-     * be done by calling the method <code>clearParameters</code>.
+     * <P>
+     * In general, parameter values remain in force for repeated use of a statement. Setting a parameter value automatically clears its previous value. However,
+     * in some cases it is useful to immediately release the resources used by the current parameter values; this can be done by calling the method
+     * <code>clearParameters</code>.
+     * 
      * @since 7.0.0
      */
-    public void clearParameters ( ) 
-    {	
+    public void clearParameters( )
+    {
         try
         {
             _statement.clearParameters( );
@@ -3306,28 +3306,27 @@ public class DAOUtil implements AutoCloseable
             throw new AppException( getErrorMessage( e ), e );
         }
     }
-    
 
     /**
-     * Submits a batch of commands to the database for execution and 
-     * if all commands execute successfully, returns an array of update counts.
+     * Submits a batch of commands to the database for execution and if all commands execute successfully, returns an array of update counts.
+     * 
      * @since 7.0.0
-     * @return The elements of the array that is returned are ordered
-     * to correspond to the commands in the batch, which are ordered
-     * according to the order in which they were added to the batch.
+     * @return The elements of the array that is returned are ordered to correspond to the commands in the batch, which are ordered according to the order in
+     *         which they were added to the batch.
      */
-    public int[] executeBatch() 
-    {	
-    	try 
-    	{		
-			return _statement.executeBatch( );
-    	} 
-    	catch (SQLException e) 
-    	{			
-			free( );
+    public int [ ] executeBatch( )
+    {
+        try
+        {
+            return _statement.executeBatch( );
+        }
+        catch( SQLException e )
+        {
+            free( );
             throw new AppException( getErrorMessage( e ), e );
-		}
+        }
     }
+
     /**
      * {@inheritDoc}
      */
@@ -3337,9 +3336,9 @@ public class DAOUtil implements AutoCloseable
         if ( !_bReleased )
         {
             free( );
-            AppLogService
-                    .error( "A call to DAOUtil.free() seems to be missing or an unexpected exception has occured during the use of a DAOUtil object - plugin : {} - SQL statement : {}",
-                            _strPluginName, _strSQL );
+            AppLogService.error(
+                    "A call to DAOUtil.free() seems to be missing or an unexpected exception has occured during the use of a DAOUtil object - plugin : {} - SQL statement : {}",
+                    _strPluginName, _strSQL );
         }
 
         super.finalize( );

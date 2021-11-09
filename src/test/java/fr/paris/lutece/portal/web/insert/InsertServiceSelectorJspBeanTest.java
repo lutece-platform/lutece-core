@@ -44,8 +44,7 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class InsertServiceSelectorJspBeanTest extends LuteceTestCase
 {
     /**
-     * Test of getServicesListPage method, of class
-     * fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
+     * Test of getServicesListPage method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
      */
     public void testGetServicesListPage( )
     {
@@ -59,8 +58,7 @@ public class InsertServiceSelectorJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of displayService method, of class
-     * fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
+     * Test of displayService method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
      */
     public void testDisplayService( )
     {

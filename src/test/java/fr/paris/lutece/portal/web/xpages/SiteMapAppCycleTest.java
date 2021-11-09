@@ -69,7 +69,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
     protected void setUp( ) throws Exception
     {
         super.setUp( );
-        _pageService = ( IPageService ) SpringContextService.getBean( "pageService" );
+        _pageService = (IPageService) SpringContextService.getBean( "pageService" );
         // create pages
         _top = getPage( null );
         _middle = getPage( _top.getId( ) );
@@ -132,7 +132,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
         {
             _pageService.removePage( nPageId );
         }
-        catch ( Throwable t )
+        catch( Throwable t )
         {
             AppLogService.error( "Could not remove page {}", nPageId, t );
         }

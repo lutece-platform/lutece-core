@@ -153,7 +153,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
                 }
                 else
                 {
-                    AppLogService.error( LOG_ERROR_NOT_FOUND, strBeanName  );
+                    AppLogService.error( LOG_ERROR_NOT_FOUND, strBeanName );
                 }
             }
 
@@ -189,7 +189,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
                 }
                 else
                 {
-                    AppLogService.error( LOG_ERROR_NOT_FOUND, strBeanName  );
+                    AppLogService.error( LOG_ERROR_NOT_FOUND, strBeanName );
                 }
             }
 
@@ -277,7 +277,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
                 }
                 else
                 {
-                    AppLogService.error(  LOG_ERROR_NOT_FOUND, strBeanName  );
+                    AppLogService.error( LOG_ERROR_NOT_FOUND, strBeanName );
                 }
             }
 

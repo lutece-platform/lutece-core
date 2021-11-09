@@ -115,8 +115,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         assertNotNull( instance.getCreateAttribute( request ) );
     }
 
-    public void testDoCreateAttribute( ) throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException,
-            ClassNotFoundException
+    public void testDoCreateAttribute( )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
@@ -125,8 +125,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    private void testDoCreateAttribute( AttributeType type ) throws PasswordResetException, AccessDeniedException, InstantiationException,
-            IllegalAccessException, ClassNotFoundException
+    private void testDoCreateAttribute( AttributeType type )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "attribute_type_class_name", type.getClassName( ) );
@@ -154,8 +154,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoCreateAttributeInvalidToken( ) throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException,
-            ClassNotFoundException
+    public void testDoCreateAttributeInvalidToken( )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
@@ -164,8 +164,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    private void testDoCreateAttributeInvalidToken( AttributeType type ) throws PasswordResetException, AccessDeniedException, InstantiationException,
-            IllegalAccessException, ClassNotFoundException
+    private void testDoCreateAttributeInvalidToken( AttributeType type )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "attribute_type_class_name", type.getClassName( ) );
@@ -197,8 +197,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoCreateAttributeNoToken( ) throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException,
-            ClassNotFoundException
+    public void testDoCreateAttributeNoToken( )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
@@ -207,8 +207,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    private void testDoCreateAttributeNoToken( AttributeType type ) throws PasswordResetException, AccessDeniedException, InstantiationException,
-            IllegalAccessException, ClassNotFoundException
+    private void testDoCreateAttributeNoToken( AttributeType type )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "attribute_type_class_name", type.getClassName( ) );
@@ -260,8 +260,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         assertNotNull( instance.getModifyAttribute( request ) );
     }
 
-    public void testDoModifyAttribute( ) throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException,
-            ClassNotFoundException
+    public void testDoModifyAttribute( )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
@@ -270,8 +270,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    private void testDoModifyAttribute( AttributeType type ) throws PasswordResetException, AccessDeniedException, InstantiationException,
-            IllegalAccessException, ClassNotFoundException
+    private void testDoModifyAttribute( AttributeType type )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         IAttribute attribute = _attributes.get( type );
@@ -294,8 +294,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         assertEquals( strTitle, stored.getTitle( ) );
     }
 
-    public void testDoModifyAttributeInvalidToken( ) throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException,
-            ClassNotFoundException
+    public void testDoModifyAttributeInvalidToken( )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
@@ -304,8 +304,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    private void testDoModifyAttributeInvalidToken( AttributeType type ) throws PasswordResetException, AccessDeniedException, InstantiationException,
-            IllegalAccessException, ClassNotFoundException
+    private void testDoModifyAttributeInvalidToken( AttributeType type )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         IAttribute attribute = _attributes.get( type );
@@ -335,8 +335,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoModifyAttributeNoToken( ) throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException,
-            ClassNotFoundException
+    public void testDoModifyAttributeNoToken( )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
@@ -345,8 +345,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    private void testDoModifyAttributeNoToken( AttributeType type ) throws PasswordResetException, AccessDeniedException, InstantiationException,
-            IllegalAccessException, ClassNotFoundException
+    private void testDoModifyAttributeNoToken( AttributeType type )
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         IAttribute attribute = _attributes.get( type );

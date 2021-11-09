@@ -61,7 +61,7 @@ public class SecurityServiceTest extends LuteceTestCase
         try
         {
             SecurityService securityService = SecurityService.getInstance( );
-            MokeLuteceAuthentication mockLuteceAuthentication = new MokeLuteceAuthentication( );  
+            MokeLuteceAuthentication mockLuteceAuthentication = new MokeLuteceAuthentication( );
             ReflectionTestUtils.setField( securityService, "_authenticationService", mockLuteceAuthentication );
 
             securityService.loginUser( request, strUserName, strPassword );

@@ -43,27 +43,27 @@ public final class DefaultAccessLoggerTest extends LuteceTestCase
 {
 
     private final String TEST_MESSAGE_TRUE = "09/04/21 15:59:13 INFO  [http-nio-8080-exec-9] lutece.accessLogger - |ffa2bcacdcc721223d1a7211f273ec15|<the application code>|CONNECT|user.loginAdminUser|BO:admin||";
-    private final String TEST_MESSAGE_FALSE  = "09/04/21 15:59:13 INFO  [http-nio-8080-exec-9] lutece.accessLogger - |badhashhhhhhhhhhhhhhhhhhhhhhhhhh|<the application code>|CONNECT|user.loginAdminUser|BO:admin||";
-    
+    private final String TEST_MESSAGE_FALSE = "09/04/21 15:59:13 INFO  [http-nio-8080-exec-9] lutece.accessLogger - |badhashhhhhhhhhhhhhhhhhhhhhhhhhh|<the application code>|CONNECT|user.loginAdminUser|BO:admin||";
+
     /**
-     * test valid hash 
+     * test valid hash
      *
      */
     public void testValidHashMessage( )
     {
         DefaultAccessLogger logger = new DefaultAccessLogger( );
-        
+
         assertTrue( logger.verifyMessageHash( TEST_MESSAGE_TRUE ) );
     }
-    
+
     /**
-     * test wrong hash 
+     * test wrong hash
      *
      */
     public void testWrongHashMessage( )
     {
         DefaultAccessLogger logger = new DefaultAccessLogger( );
-        
+
         assertFalse( logger.verifyMessageHash( TEST_MESSAGE_FALSE ) );
     }
 }

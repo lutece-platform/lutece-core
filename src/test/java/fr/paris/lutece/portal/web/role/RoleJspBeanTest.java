@@ -126,7 +126,8 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role", name );
         request.setParameter( "role_description", name );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" ) );
 
         assertNull( RoleHome.findByPrimaryKey( name ) );
         try
@@ -151,8 +152,8 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role", name );
         request.setParameter( "role_description", name );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" )
-                + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" ) + "b" );
 
         assertNull( RoleHome.findByPrimaryKey( name ) );
         try
@@ -200,7 +201,8 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role", role.getRole( ) );
         request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" ) );
 
         assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         bean.doModifyPageRole( request );
@@ -213,8 +215,8 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role", role.getRole( ) );
         request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" )
-                + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" ) + "b" );
 
         assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         try

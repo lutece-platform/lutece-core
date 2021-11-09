@@ -68,7 +68,7 @@ public class AppInitTest extends LuteceTestCase
      */
     public void testInitConfigProperties( )
     {
-        assertEquals("UTF-8", AppPropertiesService.getProperty( "lutece.encoding" ) );
+        assertEquals( "UTF-8", AppPropertiesService.getProperty( "lutece.encoding" ) );
     }
 
     /**

@@ -56,7 +56,7 @@ public final class AppLogService
      */
     private AppLogService( )
     {
-    } 
+    }
     // //////////////////////////////////////////////////////////////////////////
     // Log4j wrappers
 
@@ -77,38 +77,42 @@ public final class AppLogService
      *            the message object to log
      */
     public static void debug( Object objToLog )
-    {       
-        _loggerDebug.debug( objToLog );       
-    }
-    
-    /**
-     * Logs a message with parameters at the {@link Level#DEBUG DEBUG} level.
-     *
-     * To improve performance, do not use String concatenation such as :
-     *    AppLogService.error( "my message with param1 " + param1 + " and " + param2, myexception ) ;
-     * Recommended use :
-     *    AppLogService.error( "my message with param1 {} and param2 {}", param1, param2, myexception ) ;
-     *
-     * @param message the message to log; the format depends on the message factory.
-     * @param params parameters to the message.
-     * @see Logger##getMessageFactory()
-     */
-    public static void debug(String message, Object... params)
-    { 
-        _loggerDebug.debug(message, params);       
+    {
+        _loggerDebug.debug( objToLog );
     }
 
     /**
-     * Logs a message with parameters which are only to be constructed if the logging level is the {@link Level#DEBUG
-     * DEBUG} level.
+     * Logs a message with parameters at the {@link Level#DEBUG DEBUG} level.
      *
-     * @param message the message to log; the format depends on the message factory.
-     * @param paramSuppliers An array of functions, which when called, produce the desired log message parameters.
+     * To improve performance, do not use String concatenation such as : 
+     * AppLogService.error( "my message with param1 " + param1 + " and " + param2, myexception ); 
+     * Recommended use : 
+     * AppLogService.error( "my message with param1 {} and param2 {}", param1, param2, myexception );
+     *
+     * @param message
+     *            the message to log; the format depends on the message factory.
+     * @param params
+     *            parameters to the message.
+     * @see Logger##getMessageFactory()
      */
-    public static  void debug(String message, Supplier<?>... paramSuppliers)
+    public static void debug( String message, Object... params )
     {
-    	_loggerDebug.debug( message, paramSuppliers);
+        _loggerDebug.debug( message, params );
     }
+
+    /**
+     * Logs a message with parameters which are only to be constructed if the logging level is the {@link Level#DEBUG DEBUG} level.
+     *
+     * @param message
+     *            the message to log; the format depends on the message factory.
+     * @param paramSuppliers
+     *            An array of functions, which when called, produce the desired log message parameters.
+     */
+    public static void debug( String message, Supplier<?>... paramSuppliers )
+    {
+        _loggerDebug.debug( message, paramSuppliers );
+    }
+
     /**
      * Tells if the logger accepts debug messages. If not it prevents to build consuming messages that will be ignored.
      * 
@@ -131,7 +135,7 @@ public final class AppLogService
      */
     public static void error( Object objToLog )
     {
-         _loggerErrors.error( objToLog );
+        _loggerErrors.error( objToLog );
     }
 
     /**
@@ -144,35 +148,41 @@ public final class AppLogService
      */
     public static void error( Object message, Throwable t )
     {
-        _loggerErrors.error( message, t );     
+        _loggerErrors.error( message, t );
     }
+
     /**
      * Logs a message with parameters at the {@link Level#ERROR ERROR} level.
      *
-     * To improve performance, do not use String concatenation such as :
-     *    AppLogService.error( "my message with param1 " + param1 + " and " + param2, myexception ) ;
-     * Recommended use :
-     *    AppLogService.error( "my message with param1 {} and param2 {}", param1, param2, myexception ) ;
+     * To improve performance, do not use String concatenation such as : 
+     * AppLogService.error( "my message with param1 " + param1 + " and " + param2, myexception); 
+     * Recommended use : 
+     * AppLogService.error( "my message with param1 {} and param2 {}", param1, param2, myexception );
      *
-     * @param message the message to log; the format depends on the message factory.
-     * @param params parameters to the message.
+     * @param message
+     *            the message to log; the format depends on the message factory.
+     * @param params
+     *            parameters to the message.
      * @see Logger#getMessageFactory()
      */
-    public static void error(String message, Object... params) {
-    	
-    	_loggerErrors.error(message, params);
+    public static void error( String message, Object... params )
+    {
+
+        _loggerErrors.error( message, params );
     }
-    
+
     /**
-     * Logs a message with parameters which are only to be constructed if the logging level is the {@link Level#ERROR
-     * ERROR} level.
+     * Logs a message with parameters which are only to be constructed if the logging level is the {@link Level#ERROR ERROR} level.
      *
-     * @param message the message to log; the format depends on the message factory.
-     * @param paramSuppliers An array of functions, which when called, produce the desired log message parameters.
+     * @param message
+     *            the message to log; the format depends on the message factory.
+     * @param paramSuppliers
+     *            An array of functions, which when called, produce the desired log message parameters.
      */
-    public static void error(String message, Supplier<?>... paramSuppliers) {
-    	
-    	_loggerErrors.error( message, paramSuppliers);
+    public static void error( String message, Supplier<?>... paramSuppliers )
+    {
+
+        _loggerErrors.error( message, paramSuppliers );
     }
 
     /**
@@ -184,7 +194,7 @@ public final class AppLogService
     {
         return _loggerErrors.isErrorEnabled( );
     }
-    
+
     /**
      * Log a message object with the INFO Level in application.log
      *
@@ -192,39 +202,43 @@ public final class AppLogService
      *            the message object to log
      */
     public static void info( Object objToLog )
-    {   
+    {
         _loggerEvents.info( objToLog );
-        
+
     }
-    
+
     /**
      * Logs a message with parameters at the {@link Level#INFO INFO} level.
      *
      * To improve performance, do not use String concatenation such as :
-     *    AppLogService.error( "my message with param1 " + param1 + " and " + param2, myexception ) ;
-     * Recommended use :
-     *    AppLogService.error( "my message with param1 {} and param2 {}", param1, param2, myexception ) ;
+     * AppLogService.error( "my message with param1 " + param1 + " and " + param2, myexception ); 
+     * Recommended use : 
+     * AppLogService.error( "my message with param1 {} and param2 {}", param1, param2, myexception );
      *
-     * @param message the message to log; the format depends on the message factory.
-     * @param params parameters to the message.
+     * @param message
+     *            the message to log; the format depends on the message factory.
+     * @param params
+     *            parameters to the message.
      * @see Logger##getMessageFactory()
      */
-    public static void info(String message, Object... params)
+    public static void info( String message, Object... params )
     {
-        _loggerEvents.info( message, params );   
-    }    
-    /**
-     * Logs a message with parameters which are only to be constructed if the logging level is the {@link Level#INFO
-     * INFO} level.
-     *
-     * @param message the message to log; the format depends on the message factory.
-     * @param paramSuppliers An array of functions, which when called, produce the desired log message parameters.
-     */
-    public static void info(String message, Supplier<?>... paramSuppliers)
-    {
-    	_loggerEvents.info( message,  paramSuppliers);
+        _loggerEvents.info( message, params );
     }
-    
+
+    /**
+     * Logs a message with parameters which are only to be constructed if the logging level is the {@link Level#INFO INFO} level.
+     *
+     * @param message
+     *            the message to log; the format depends on the message factory.
+     * @param paramSuppliers
+     *            An array of functions, which when called, produce the desired log message parameters.
+     */
+    public static void info( String message, Supplier<?>... paramSuppliers )
+    {
+        _loggerEvents.info( message, paramSuppliers );
+    }
+
     /**
      * Tells if the logger accepts info messages. If not it prevents to build consuming messages that will be ignored.
      * 

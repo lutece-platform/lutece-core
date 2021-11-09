@@ -46,43 +46,43 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class FileUtilTest extends LuteceTestCase
 {
 
-    
     public void testHasImageExtension( )
     {
         assertTrue( FileUtil.hasImageExtension( "temp.jpg" ) );
         assertFalse( FileUtil.hasImageExtension( "temp.html" ) );
     }
-    
+
     public void testHasHtmlExtension( )
     {
         assertFalse( FileUtil.hasHtmlExtension( "temp.jpg" ) );
         assertTrue( FileUtil.hasHtmlExtension( "temp.html" ) );
     }
-    
+
     public void testZipFiles( )
     {
-        try {
-            Path tempFolder = Paths.get( System.getProperty( "java.io.tmpdir" )  );
-            
+        try
+        {
+            Path tempFolder = Paths.get( System.getProperty( "java.io.tmpdir" ) );
+
             Path f1 = Paths.get( tempFolder.toFile( ).getAbsolutePath( ), "test1.txt" );
             f1.toFile( ).createNewFile( );
             Files.write( f1, "hello".getBytes( ) );
             Path f2 = Paths.get( tempFolder.toFile( ).getAbsolutePath( ), "test2.txt" );
             f2.toFile( ).createNewFile( );
-            
+
             Path zip = Paths.get( tempFolder.toFile( ).getAbsolutePath( ), "test.zip" );
-            
+
             FileUtil.zipFiles( zip, f1, f2 );
-            
+
             ZipInputStream zis = new ZipInputStream( Files.newInputStream( zip ) );
-            
+
             List<String> entries = new ArrayList<>( );
             ZipEntry entry;
             while ( ( entry = zis.getNextEntry( ) ) != null )
             {
                 entries.add( entry.getName( ) );
             }
-            
+
             assertEquals( 2, entries.size( ) );
             assertTrue( entries.contains( "test1.txt" ) );
             assertTrue( entries.contains( "test2.txt" ) );
@@ -90,11 +90,12 @@ public class FileUtilTest extends LuteceTestCase
             Files.delete( f2 );
             Files.delete( zip );
         }
-        catch (Exception e) {
+        catch( Exception e )
+        {
             fail( e.getMessage( ) );
         }
     }
-    
+
     public void testNormalizeFileName( )
     {
         String input = "Test éèà:ô";

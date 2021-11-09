@@ -107,10 +107,10 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         final String desc = getRandomName( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
-            desc
+                desc
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" )
         } );
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
         Map<String, List<FileItem>> files = new HashMap<>( );
@@ -142,10 +142,10 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         final String desc = getRandomName( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
-            desc
+                desc
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" ) + "b"
+                SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" ) + "b"
         } );
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
         Map<String, List<FileItem>> files = new HashMap<>( );
@@ -181,7 +181,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         final String desc = getRandomName( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
-            desc
+                desc
         } );
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
         Map<String, List<FileItem>> files = new HashMap<>( );
@@ -235,13 +235,13 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( pageTemplate.getId( ) )
+                Integer.toString( pageTemplate.getId( ) )
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
-            desc + "mod"
+                desc + "mod"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" )
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
@@ -265,13 +265,13 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( pageTemplate.getId( ) )
+                Integer.toString( pageTemplate.getId( ) )
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
-            desc + "mod"
+                desc + "mod"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" ) + "b"
+                SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" ) + "b"
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
@@ -299,10 +299,10 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( pageTemplate.getId( ) )
+                Integer.toString( pageTemplate.getId( ) )
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
-            desc + "mod"
+                desc + "mod"
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
@@ -327,7 +327,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         instance.getConfirmRemovePageTemplate( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
-        if( message.getRequestParameters( ) != null )
+        if ( message.getRequestParameters( ) != null )
         {
             assertNotNull( message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
             assertEquals( TEST_PAGE_TEMPLATE_ID, message.getRequestParameters( ).get( Parameters.PAGE_TEMPLATE_ID ) );

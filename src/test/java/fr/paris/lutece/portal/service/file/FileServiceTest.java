@@ -74,204 +74,205 @@ public class FileServiceTest extends LuteceTestCase
     public void testStoreFile( ) throws UnsupportedEncodingException
     {
         File file = getOneLuteceFile( );
-        
+
         String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeFile( file );
-        
+
         File storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFile( strFileId );
-        
+
         assertEquals( file.getTitle( ), storedFile.getTitle( ) );
-        
-        // test  delete
+
+        // test delete
         FileService.getInstance( ).getFileStoreServiceProvider( ).delete( strFileId );
         storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFile( strFileId );
-        
+
         assertNull( storedFile );
-        
+
     }
-    
+
     /**
-     * test store 
+     * test store
      * 
-     * @throws IOException 
+     * @throws IOException
      */
     public void testStoreBytes( ) throws IOException
     {
         java.io.File file = getOneFile( );
-        byte[] fileInBytes = FileUtils.readFileToByteArray( file );
-        
-        String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeBytes( fileInBytes ) ;
-        
+        byte [ ] fileInBytes = FileUtils.readFileToByteArray( file );
+
+        String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeBytes( fileInBytes );
+
         File storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFile( strFileId );
-        
-        assertEquals( fileInBytes.length, storedFile.getPhysicalFile( ).getValue( ).length );        
+
+        assertEquals( fileInBytes.length, storedFile.getPhysicalFile( ).getValue( ).length );
     }
-    
+
     /**
      * test store fileitem
      * 
-     * @throws IOException 
+     * @throws IOException
      */
     public void testStoreFileItem( ) throws IOException
     {
         java.io.File file = getOneFile( );
-        FileItem  fileItem = getOneFileItem( file );
-        
-        byte[] fileInBytes = FileUtils.readFileToByteArray( file );
+        FileItem fileItem = getOneFileItem( file );
+
+        byte [ ] fileInBytes = FileUtils.readFileToByteArray( file );
         InputStream inputStream = new FileInputStream( file );
-        
+
         String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeFileItem( fileItem );
-        
+
         File storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFile( strFileId );
-        
+
         assertEquals( fileInBytes.length, storedFile.getPhysicalFile( ).getValue( ).length );
     }
-    
- 
+
     /**
      * test store fileitem
      * 
-     * @throws IOException 
-     * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException 
-     * @throws fr.paris.lutece.portal.service.file.ExpiredLinkException 
-     * @throws fr.paris.lutece.portal.service.security.UserNotSignedException 
+     * @throws IOException
+     * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
+     * @throws fr.paris.lutece.portal.service.file.ExpiredLinkException
+     * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
     public void testDownloadFileBO( ) throws IOException, AccessDeniedException, ExpiredLinkException, UserNotSignedException
     {
         File file = getOneLuteceFile( );
-        
+
         String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeFile( file );
-        
-        Map<String,String> data = new HashMap<>( );
-        data.put( FileService.PARAMETER_RESOURCE_ID, "123");
-        data.put( FileService.PARAMETER_RESOURCE_TYPE,"TEST");
-        
-        String strUrl = FileService.getInstance( ).getFileStoreServiceProvider( ).getFileDownloadUrlBO( strFileId , data);
+
+        Map<String, String> data = new HashMap<>( );
+        data.put( FileService.PARAMETER_RESOURCE_ID, "123" );
+        data.put( FileService.PARAMETER_RESOURCE_TYPE, "TEST" );
+
+        String strUrl = FileService.getInstance( ).getFileStoreServiceProvider( ).getFileDownloadUrlBO( strFileId, data );
         assertNotNull( strUrl );
-        
-        List<NameValuePair> params = URLEncodedUtils.parse( strUrl , Charset.forName("UTF-8"));
+
+        List<NameValuePair> params = URLEncodedUtils.parse( strUrl, Charset.forName( "UTF-8" ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        for (NameValuePair param : params) {
-            request.addParameter(param.getName() , param.getValue() );
+        for ( NameValuePair param : params )
+        {
+            request.addParameter( param.getName( ), param.getValue( ) );
         }
-        
+
         // add mock BO authentication
         registerAdminUserAdmin( request );
-        
+
         File storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFileFromRequestBO( request );
-        
+
         assertEquals( file.getPhysicalFile( ).getValue( ).length, storedFile.getPhysicalFile( ).getValue( ).length );
-        
+
     }
 
-        /**
+    /**
      * test store fileitem
      * 
-     * @throws IOException 
-     * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException 
-     * @throws fr.paris.lutece.portal.service.file.ExpiredLinkException 
-     * @throws fr.paris.lutece.portal.service.security.UserNotSignedException 
+     * @throws IOException
+     * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
+     * @throws fr.paris.lutece.portal.service.file.ExpiredLinkException
+     * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
     public void testDownloadFileFO( ) throws IOException, AccessDeniedException, ExpiredLinkException, UserNotSignedException
     {
         File file = getOneLuteceFile( );
-        
+
         String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeFile( file );
-        
-        Map<String,String> data = new HashMap<>( );
-        data.put( FileService.PARAMETER_RESOURCE_ID, "123");
-        data.put( FileService.PARAMETER_RESOURCE_TYPE,"TEST");
-        
+
+        Map<String, String> data = new HashMap<>( );
+        data.put( FileService.PARAMETER_RESOURCE_ID, "123" );
+        data.put( FileService.PARAMETER_RESOURCE_TYPE, "TEST" );
+
         String strUrl = FileService.getInstance( ).getFileStoreServiceProvider( ).getFileDownloadUrlFO( strFileId, data );
         assertNotNull( strUrl );
-        
-        List<NameValuePair> params = URLEncodedUtils.parse( strUrl , Charset.forName("UTF-8"));
+
+        List<NameValuePair> params = URLEncodedUtils.parse( strUrl, Charset.forName( "UTF-8" ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        for (NameValuePair param : params) {
-            request.addParameter(param.getName() , param.getValue() );
+        for ( NameValuePair param : params )
+        {
+            request.addParameter( param.getName( ), param.getValue( ) );
         }
-        
+
         // no authentication
-        
+
         File storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFileFromRequestFO( request );
-        
+
         assertEquals( file.getPhysicalFile( ).getValue( ).length, storedFile.getPhysicalFile( ).getValue( ).length );
-        
+
     }
 
     /**
      * get lutece test file
+     * 
      * @return a file
      */
     private File getOneLuteceFile( ) throws UnsupportedEncodingException
     {
-        File file = new File();
-        file.setTitle("test");
-        file.setDateCreation( DateUtil.formatTimestamp( "1/1/2000", Locale.FRANCE));
-        file.setExtension("txt");
-        file.setMimeType("text/plain");
-        file.setSize(12);
-        
+        File file = new File( );
+        file.setTitle( "test" );
+        file.setDateCreation( DateUtil.formatTimestamp( "1/1/2000", Locale.FRANCE ) );
+        file.setExtension( "txt" );
+        file.setMimeType( "text/plain" );
+        file.setSize( 12 );
+
         PhysicalFile physicalFile = new PhysicalFile( );
         physicalFile.setIdPhysicalFile( 1 );
-        physicalFile.setValue("some content".getBytes( "UTF-8") );
-        
+        physicalFile.setValue( "some content".getBytes( "UTF-8" ) );
+
         file.setPhysicalFile( physicalFile );
-        
+
         return file;
     }
-    
+
     /**
      * get java.io.file
      * 
      * @return the file
-     * @throws IOException 
+     * @throws IOException
      */
     private java.io.File getOneFile( ) throws IOException
     {
-        java.io.File file = java.io.File.createTempFile("test","txt");
-        
-        FileWriter fileWriter = new FileWriter( file.getPath( ) , true);
+        java.io.File file = java.io.File.createTempFile( "test", "txt" );
+
+        FileWriter fileWriter = new FileWriter( file.getPath( ), true );
         PrintWriter printWriter = new PrintWriter( fileWriter );
-        
-        printWriter.print("some content");
+
+        printWriter.print( "some content" );
         printWriter.close( );
-        
+
         return file;
     }
-    
+
     /**
-     * get test FileItem 
+     * get test FileItem
      * 
      * @return the file
      */
     private FileItem getOneFileItem( java.io.File file ) throws IOException
     {
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-        FileItem fileItem = factory.createItem(file.getName( ), "text/plain", false,
-                file.getPath( ) );
-        
+        DiskFileItemFactory factory = new DiskFileItemFactory( );
+        FileItem fileItem = factory.createItem( file.getName( ), "text/plain", false, file.getPath( ) );
+
         fileItem.getOutputStream( ).write( FileUtils.readFileToByteArray( file ) );
-        
+
         return fileItem;
     }
-    
+
     /**
-    * register admin adminUser for tests
-    * 
-    * @param request
-    * @throws AccessDeniedException
-    * @throws UserNotSignedException 
-    */
-    private void registerAdminUserAdmin( HttpServletRequest request) throws AccessDeniedException, UserNotSignedException 
+     * register admin adminUser for tests
+     * 
+     * @param request
+     * @throws AccessDeniedException
+     * @throws UserNotSignedException
+     */
+    private void registerAdminUserAdmin( HttpServletRequest request ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUser adminUser = new AdminUser( );
-        adminUser.setAccessCode( "admin");
-        adminUser.setLastName( "test");
+        adminUser.setAccessCode( "admin" );
+        adminUser.setLastName( "test" );
         adminUser.setStatus( 0 );
         adminUser.setUserLevel( 0 );
 
-        AdminAuthenticationService.getInstance( ).registerUser(request, adminUser);
+        AdminAuthenticationService.getInstance( ).registerUser( request, adminUser );
     }
 }

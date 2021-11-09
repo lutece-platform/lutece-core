@@ -109,7 +109,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         }
         catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
         {
-            AppLogService.error( e.getMessage(), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         if ( attribute == null )
@@ -156,7 +156,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             }
             catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
             {
-                AppLogService.error( e.getMessage(), e );
+                AppLogService.error( e.getMessage( ), e );
             }
 
             if ( attribute == null )

@@ -37,7 +37,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paris.lutece.api.user.User;
@@ -51,19 +50,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * This class provides a default implementation for AccessLogger Service 
+ * This class provides a default implementation for AccessLogger Service
  * 
- * A specific log format can be set in the properties file 
+ * A specific log format can be set in the properties file
  * 
- * - portal.defaultAccessLogger.messageFormat
- * - portal.defaultAccessLogger.messageFormatSeparator
+ * - portal.defaultAccessLogger.messageFormat - portal.defaultAccessLogger.messageFormatSeparator
  * 
  * Log lines could be certified with a hash, that could be verified, whith this property set to true :
  * 
  * - portal.defaultAccessLogger.addHashToLogs
  * 
  */
-public final class DefaultAccessLogger implements IAccessLogger 
+public final class DefaultAccessLogger implements IAccessLogger
 {
 
     private static final String CONSTANT_HASH_ENCODING = "UTF-8";
@@ -75,19 +73,15 @@ public final class DefaultAccessLogger implements IAccessLogger
     private static final String DEFAULT_ACCESSLOG_MESSAGE_FORMAT = "|{0}|{1}|{2}|{3}|{4}|{5}|";
     private static final String DEFAULT_ACCESSLOG_MESSAGE_FORMAT_SEPARATOR = "|";
 
-    
     private static final String ERROR_MSG = "ERROR : unable to create json from data";
-    
+
     private final boolean _bAddHashToLogs = AppPropertiesService.getPropertyBoolean( PROPERTY_ADD_HASH_TO_LOGS, false );
-    private final String _messageFormat = AppPropertiesService.getProperty( PROPERTY_ACCESSLOG_MESSAGE_FORMAT, 
-            DEFAULT_ACCESSLOG_MESSAGE_FORMAT );
+    private final String _messageFormat = AppPropertiesService.getProperty( PROPERTY_ACCESSLOG_MESSAGE_FORMAT, DEFAULT_ACCESSLOG_MESSAGE_FORMAT );
     private final String _messageFormatSeparator = AppPropertiesService.getProperty( PROPERTY_ACCESSLOG_MESSAGE_FORMAT_SEPARATOR,
             DEFAULT_ACCESSLOG_MESSAGE_FORMAT_SEPARATOR );
-    
-    
+
     public static final String DEFAULT_LOGGER_ACCESS_LOG = "lutece.accessLogger";
     private static Logger _defaultLogger = LogManager.getLogger( DEFAULT_LOGGER_ACCESS_LOG );
-     
 
     /**
      * {@inheritDoc}
@@ -100,7 +94,8 @@ public final class DefaultAccessLogger implements IAccessLogger
         if ( logger.isInfoEnabled( ) )
         {
             String strAppId = AppPropertiesService.getProperty( AccessLoggerConstants.PROPERTY_SITE_CODE, "?" );
-            String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, (connectedUser!=null?connectedUser.getAccessCode():"null"), data );
+            String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, ( connectedUser != null ? connectedUser.getAccessCode( ) : "null" ),
+                    data );
 
             logger.info( logMessage );
         }
@@ -117,7 +112,8 @@ public final class DefaultAccessLogger implements IAccessLogger
         if ( logger.isDebugEnabled( ) )
         {
             String strAppId = AppPropertiesService.getProperty( AccessLoggerConstants.PROPERTY_SITE_CODE, "?" );
-            String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, (connectedUser!=null?connectedUser.getAccessCode():"null"), data );
+            String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, ( connectedUser != null ? connectedUser.getAccessCode( ) : "null" ),
+                    data );
 
             logger.debug( logMessage );
         }
@@ -134,7 +130,8 @@ public final class DefaultAccessLogger implements IAccessLogger
         if ( logger.isTraceEnabled( ) )
         {
             String strAppId = AppPropertiesService.getProperty( AccessLoggerConstants.PROPERTY_SITE_CODE, "?" );
-            String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, (connectedUser!=null?connectedUser.getAccessCode():"null"), data );
+            String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, ( connectedUser != null ? connectedUser.getAccessCode( ) : "null" ),
+                    data );
 
             logger.trace( logMessage );
         }
@@ -151,7 +148,8 @@ public final class DefaultAccessLogger implements IAccessLogger
         if ( logger.isEnabled( Level.WARN ) )
         {
             String strAppId = AppPropertiesService.getProperty( AccessLoggerConstants.PROPERTY_SITE_CODE, "?" );
-            String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, (connectedUser!=null?connectedUser.getAccessCode():"null"), data );
+            String logMessage = getLogMessage( strAppId, strEventType, strAppEventCode, ( connectedUser != null ? connectedUser.getAccessCode( ) : "null" ),
+                    data );
 
             logger.warn( logMessage );
         }
@@ -261,7 +259,7 @@ public final class DefaultAccessLogger implements IAccessLogger
 
             int idx = message.indexOf( _messageFormatSeparator, message.indexOf( DEFAULT_LOGGER_ACCESS_LOG ) );
             String hash = message.substring( idx + 1, idx + 33 );
-            String data = "||" +  message.substring( idx + 34 );
+            String data = "||" + message.substring( idx + 34 );
 
             return ( hash != null && ( hash.equals( "" ) || hash.equals( getHash( data ) ) ) );
 
@@ -284,19 +282,19 @@ public final class DefaultAccessLogger implements IAccessLogger
     }
 
     /**
-     * get logger 
+     * get logger
      * 
      * @param strSpecificLogger
      * @return the logger
      */
     private Logger getLogger( String specificOrigin )
     {
-        if ( specificOrigin != null && !"".equals( specificOrigin ))
+        if ( specificOrigin != null && !"".equals( specificOrigin ) )
         {
-            return LogManager.getLogger(DEFAULT_LOGGER_ACCESS_LOG + "." + specificOrigin );
+            return LogManager.getLogger( DEFAULT_LOGGER_ACCESS_LOG + "." + specificOrigin );
         }
-        
-          return _defaultLogger;
-        
+
+        return _defaultLogger;
+
     }
 }

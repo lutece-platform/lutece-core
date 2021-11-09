@@ -115,7 +115,7 @@ public final class JobSchedulerService
             }
             catch( SchedulerException e )
             {
-                AppLogService.error( "Error scheduling job {}",  job.getKey( ).getName( ), e );
+                AppLogService.error( "Error scheduling job {}", job.getKey( ).getName( ), e );
             }
         }
 

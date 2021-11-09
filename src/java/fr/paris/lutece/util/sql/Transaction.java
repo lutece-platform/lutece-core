@@ -210,7 +210,7 @@ public class Transaction
      */
     public void executeStatement( ) throws SQLException
     {
-        _logger.debug( "{} {}' - EXECUTE STATEMENT : {}",MESSAGE_PLUGIN, _strPluginName, _strSQL );
+        _logger.debug( "{} {}' - EXECUTE STATEMENT : {}", MESSAGE_PLUGIN, _strPluginName, _strSQL );
         _statement.executeUpdate( );
     }
 
@@ -223,11 +223,11 @@ public class Transaction
         {
             if ( _connection == null )
             {
-                throw new SQLException(  MESSAGE_PLUGIN + _strPluginName + "' - Transaction has already been closed and can not be committed" ) ;
+                throw new SQLException( MESSAGE_PLUGIN + _strPluginName + "' - Transaction has already been closed and can not be committed" );
             }
 
             _connection.commit( );
-            _logger.debug("{} {}' - COMMIT TRANSACTION", MESSAGE_PLUGIN, _strPluginName );
+            _logger.debug( "{} {}' - COMMIT TRANSACTION", MESSAGE_PLUGIN, _strPluginName );
             closeTransaction( COMMITTED );
         }
         catch( SQLException e )
@@ -262,7 +262,7 @@ public class Transaction
             if ( _connection != null )
             {
                 _connection.rollback( );
-                _logger.debug("{} {}' - ROLLBACK TRANSACTION", MESSAGE_PLUGIN, _strPluginName );
+                _logger.debug( "{} {}' - ROLLBACK TRANSACTION", MESSAGE_PLUGIN, _strPluginName );
             }
             else
             {

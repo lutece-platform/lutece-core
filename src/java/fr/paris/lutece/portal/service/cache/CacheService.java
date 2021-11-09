@@ -304,7 +304,7 @@ public final class CacheService
         }
         catch( Exception e )
         {
-            AppLogService.error( "Error loading caches status defined in file : {}",  file.getAbsolutePath(), e );
+            AppLogService.error( "Error loading caches status defined in file : {}", file.getAbsolutePath( ), e );
         }
     }
 
@@ -411,7 +411,7 @@ public final class CacheService
             }
             catch( NumberFormatException e )
             {
-                AppLogService.error( ERROR_NUMERIC_PROP , strCacheName, strProperty, strValue, e );
+                AppLogService.error( ERROR_NUMERIC_PROP, strCacheName, strProperty, strValue, e );
             }
         }
 

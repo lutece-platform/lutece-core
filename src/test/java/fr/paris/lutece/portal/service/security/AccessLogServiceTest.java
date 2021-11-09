@@ -52,12 +52,11 @@ public final class AccessLogServiceTest extends LuteceTestCase
      */
     public void testInfo( )
     {
-        
-        
+
         try
         {
             MokeLuteceAuthentication auth = new MokeLuteceAuthentication( );
-            AccessLogService.getInstance( ).info( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser("test", auth), DATA, CONSTANT_TEST_ORIGIN );
+            AccessLogService.getInstance( ).info( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser( "test", auth ), DATA, CONSTANT_TEST_ORIGIN );
         }
         catch( Exception e )
         {
@@ -73,7 +72,7 @@ public final class AccessLogServiceTest extends LuteceTestCase
         try
         {
             MokeLuteceAuthentication auth = new MokeLuteceAuthentication( );
-            AccessLogService.getInstance( ).debug( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser("test", auth), DATA, CONSTANT_TEST_ORIGIN );
+            AccessLogService.getInstance( ).debug( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser( "test", auth ), DATA, CONSTANT_TEST_ORIGIN );
         }
         catch( Exception e )
         {
@@ -89,7 +88,7 @@ public final class AccessLogServiceTest extends LuteceTestCase
         try
         {
             MokeLuteceAuthentication auth = new MokeLuteceAuthentication( );
-            AccessLogService.getInstance( ).trace( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser("test", auth), DATA, CONSTANT_TEST_ORIGIN );
+            AccessLogService.getInstance( ).trace( EVENT_TYPE, APP_EVENT_CODE, new MokeLuteceUser( "test", auth ), DATA, CONSTANT_TEST_ORIGIN );
         }
         catch( Exception e )
         {

@@ -52,13 +52,13 @@ public final class AccessLoggerConstants
     public static final String EVENT_TYPE_RIGHTS = "RIGHTS";
 
     public static final String PROPERTY_SITE_CODE = "lutece.code";
-    
+
     /**
      * constructor
      */
-    private AccessLoggerConstants ( )
+    private AccessLoggerConstants( )
     {
-        // private constructor for utility classes 
+        // private constructor for utility classes
     }
 
 }

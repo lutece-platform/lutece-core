@@ -39,7 +39,6 @@ import org.apache.logging.log4j.Logger;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * This Class is the main Test Suite class to launch all the unit tests of Lutece
  */

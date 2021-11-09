@@ -98,7 +98,7 @@ public class MainFilter implements Filter
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error execution doFilter method - Filter {}",  filter.getName( ), e );
+                AppLogService.error( "Error execution doFilter method - Filter {}", filter.getName( ), e );
             }
         }
 

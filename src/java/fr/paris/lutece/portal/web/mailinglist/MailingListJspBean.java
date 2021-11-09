@@ -263,7 +263,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( !StringUtils.isNumeric( strMailingListId ) )
         {
-            AppLogService.error(  " {} is not a valid mailing list id.", ()-> SecurityUtil.logForgingProtect( strMailingListId ) );
+            AppLogService.error( " {} is not a valid mailing list id.", ( ) -> SecurityUtil.logForgingProtect( strMailingListId ) );
 
             return getManageMailinglists( request );
         }
@@ -273,7 +273,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( mailinglist == null )
         {
-            AppLogService.error( "{} is not a valid mailing list id.", ()-> SecurityUtil.logForgingProtect( strMailingListId ));
+            AppLogService.error( "{} is not a valid mailing list id.", ( ) -> SecurityUtil.logForgingProtect( strMailingListId ) );
 
             return getManageMailinglists( request );
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Servlet to manage progress feeds
  * 
@@ -73,8 +72,11 @@ public class ProgressManagerServlet extends HttpServlet
 
     /**
      * Initialize the servlet
-     * @param config The servlet config
-     * @throws ServletException If an exception occurs that interrupts the servlet's normal operation
+     * 
+     * @param config
+     *            The servlet config
+     * @throws ServletException
+     *             If an exception occurs that interrupts the servlet's normal operation
      */
     public void init( ServletConfig config ) throws ServletException
     {
@@ -83,21 +85,25 @@ public class ProgressManagerServlet extends HttpServlet
 
     /**
      * Process HTTP Post request
-     * @param request The http request
-     * @param response The http response
-     * @throws ServletException If an exception occurs that interrupts the servlet's normal operation
-     * @throws IOException If an I/O exception occurs
+     * 
+     * @param request
+     *            The http request
+     * @param response
+     *            The http response
+     * @throws ServletException
+     *             If an exception occurs that interrupts the servlet's normal operation
+     * @throws IOException
+     *             If an I/O exception occurs
      */
     @Override
-    public void doPost( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         response.setContentType( CONTENT_TYPE );
-        PrintWriter out = response.getWriter(  );
-        
+        PrintWriter out = response.getWriter( );
+
         // token
         String strToken = (String) request.getParameter( PARAMETER_TOKEN );
-        
+
         if ( strToken == null || strToken.isEmpty( ) )
         {
             out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
@@ -105,7 +111,7 @@ public class ProgressManagerServlet extends HttpServlet
             out.close( );
             return;
         }
-        
+
         ProgressManagerService progressManagerService = ProgressManagerService.getInstance( );
 
         if ( !progressManagerService.isRegistred( strToken ) )
@@ -123,33 +129,34 @@ public class ProgressManagerServlet extends HttpServlet
             out.close( );
             return;
         }
-        else if ( request.getParameter( PARAMETER_REPORT ) != null )
-        {
-            int iFromLine = -1;
-            try 
-            {
-                iFromLine = Integer.parseInt( request.getParameter( PARAMETER_FROM_LINE ) );
-            }
-            catch ( NumberFormatException e )
-            { 
-                out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_BAD_PARAMETER ) ) );
-            }
-            
-            Map<String, Object> mapResponse = new HashMap<>( );
-            List<String> reportLines = progressManagerService.getReport( strToken, iFromLine );
-            mapResponse.put( ATTRIBUTE_NAME_LAST_LINE , iFromLine + reportLines.size( ) );
-            mapResponse.put( ATTRIBUTE_NAME_LINES , reportLines );
-            out.println( JsonUtil.buildJsonResponse( new JsonResponse( mapResponse ) ) );
-            out.flush( );
-            out.close( );
-            return;
-        }
         else
-        {
-            out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
-        }
-        
+            if ( request.getParameter( PARAMETER_REPORT ) != null )
+            {
+                int iFromLine = -1;
+                try
+                {
+                    iFromLine = Integer.parseInt( request.getParameter( PARAMETER_FROM_LINE ) );
+                }
+                catch( NumberFormatException e )
+                {
+                    out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_BAD_PARAMETER ) ) );
+                }
+
+                Map<String, Object> mapResponse = new HashMap<>( );
+                List<String> reportLines = progressManagerService.getReport( strToken, iFromLine );
+                mapResponse.put( ATTRIBUTE_NAME_LAST_LINE, iFromLine + reportLines.size( ) );
+                mapResponse.put( ATTRIBUTE_NAME_LINES, reportLines );
+                out.println( JsonUtil.buildJsonResponse( new JsonResponse( mapResponse ) ) );
+                out.flush( );
+                out.close( );
+                return;
+            }
+            else
+            {
+                out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
+            }
+
         out.flush( );
         out.close( );
-    }    
+    }
 }

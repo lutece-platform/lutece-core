@@ -53,7 +53,7 @@ public class AppLogServiceTest extends LuteceTestCase
 
             AppLogService.debug( objToLog );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( );
         }
@@ -72,7 +72,7 @@ public class AppLogServiceTest extends LuteceTestCase
 
             AppLogService.error( objToLog, new AppException( "JUnit test exception" ) );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( );
         }
@@ -91,7 +91,7 @@ public class AppLogServiceTest extends LuteceTestCase
 
             AppLogService.info( objToLog );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( );
         }

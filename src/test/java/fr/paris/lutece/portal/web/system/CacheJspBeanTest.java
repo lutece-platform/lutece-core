@@ -97,7 +97,8 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
         CacheJspBean.doResetCaches( request );
         assertEquals( "Not all AbstractCacheableService were reset", registeredListener, cacheEventListener.getCallCount( ) );
     }
@@ -112,8 +113,8 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" )
-                + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
         try
         {
             CacheJspBean.doResetCaches( request );
@@ -169,7 +170,8 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
         CacheJspBean.doResetCaches( request );
         assertEquals( "Only one cache should have been reset", 1, allCacheEventListener.getCallCount( ) );
         assertEquals( "The target cache should have been reset", 1, cacheEventListener.getCallCount( ) );
@@ -198,8 +200,8 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" )
-                + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
         try
         {
             CacheJspBean.doResetCaches( request );
@@ -261,8 +263,8 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( "There should be at least one active AbstractCacheableService", cacheIndex == -1 );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) );
         try
         {
             assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
@@ -289,8 +291,8 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( "There should be at least one active AbstractCacheableService", cacheIndex == -1 );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) + "b" );
         try
         {
             assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
@@ -394,7 +396,8 @@ public class CacheJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
 
         CacheJspBean instance = new CacheJspBean( );
         instance.doReloadProperties( request );
@@ -422,8 +425,8 @@ public class CacheJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" )
-                + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
 
         CacheJspBean instance = new CacheJspBean( );
         try

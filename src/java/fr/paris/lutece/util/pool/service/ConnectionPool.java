@@ -109,9 +109,9 @@ public class ConnectionPool implements DataSource
                 : DEFAULT_CHECK_VALID_CONNECTION_SQL;
 
         String lf = System.getProperty( "line.separator" );
-        _logger.debug( "{} url={}{} user= {}{} password= {}{} initconns= {}{} maxConns={}{} logintimeout={}", lf, strUrl, lf, _strUser, lf, _strPassword, lf, nInitConns, lf, 
-        		_nMaxConns,lf, _nTimeOut );
-        _logger.debug( ()-> getStats( ) );
+        _logger.debug( "{} url={}{} user= {}{} password= {}{} initconns= {}{} maxConns={}{} logintimeout={}", lf, strUrl, lf, _strUser, lf, _strPassword, lf,
+                nInitConns, lf, _nMaxConns, lf, _nTimeOut );
+        _logger.debug( ( ) -> getStats( ) );
     }
 
     /**
@@ -313,7 +313,7 @@ public class ConnectionPool implements DataSource
 
         // wrap connection so this connection pool is used when conn.close() is called
         conn = LuteceConnectionFactory.newInstance( this, conn );
-        _logger.info( "New connection created. Connections count is : " + ( getConnectionCount( ) + 1 ) );      
+        _logger.info( "New connection created. Connections count is : " + ( getConnectionCount( ) + 1 ) );
         return conn;
     }
 
@@ -330,7 +330,7 @@ public class ConnectionPool implements DataSource
         _nCheckedOut--;
         notifyAll( );
         _logger.debug( "Returned connection to pool" );
-        _logger.debug( ()->getStats( ) );
+        _logger.debug( ( ) -> getStats( ) );
     }
 
     /**

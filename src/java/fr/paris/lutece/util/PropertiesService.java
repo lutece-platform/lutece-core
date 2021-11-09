@@ -220,7 +220,7 @@ public class PropertiesService
         }
         catch( NumberFormatException e )
         {
-            AppLogService.info( e.getMessage(), e );
+            AppLogService.info( e.getMessage( ), e );
         }
 
         return nValue;
@@ -249,7 +249,7 @@ public class PropertiesService
         }
         catch( NumberFormatException e )
         {
-            AppLogService.info( e.getMessage(), e );
+            AppLogService.info( e.getMessage( ), e );
         }
 
         return lValue;

@@ -145,16 +145,16 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         Map<String, String [ ]> parameters = new HashMap<>( );
         final String randomName = getRandomName( );
         parameters.put( Parameters.STYLESHEET_NAME, new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( Parameters.STYLES, new String [ ] {
-            Integer.toString( style.getId( ) )
+                Integer.toString( style.getId( ) )
         } );
         parameters.put( Parameters.MODE_STYLESHEET, new String [ ] {
-            "0"
+                "0"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.html" )
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );
@@ -181,16 +181,16 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         Map<String, String [ ]> parameters = new HashMap<>( );
         final String randomName = getRandomName( );
         parameters.put( Parameters.STYLESHEET_NAME, new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( Parameters.STYLES, new String [ ] {
-            Integer.toString( style.getId( ) )
+                Integer.toString( style.getId( ) )
         } );
         parameters.put( Parameters.MODE_STYLESHEET, new String [ ] {
-            "0"
+                "0"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.html" ) + "b"
+                SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.html" ) + "b"
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );
@@ -221,13 +221,13 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         Map<String, String [ ]> parameters = new HashMap<>( );
         final String randomName = getRandomName( );
         parameters.put( Parameters.STYLESHEET_NAME, new String [ ] {
-            randomName
+                randomName
         } );
         parameters.put( Parameters.STYLES, new String [ ] {
-            Integer.toString( style.getId( ) )
+                Integer.toString( style.getId( ) )
         } );
         parameters.put( Parameters.MODE_STYLESHEET, new String [ ] {
-            "0"
+                "0"
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );
@@ -276,19 +276,19 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.STYLESHEET_ID, new String [ ] {
-            Integer.toString( stylesheet.getId( ) )
+                Integer.toString( stylesheet.getId( ) )
         } );
         parameters.put( Parameters.STYLESHEET_NAME, new String [ ] {
-            stylesheet.getDescription( ) + "_mod"
+                stylesheet.getDescription( ) + "_mod"
         } );
         parameters.put( Parameters.STYLES, new String [ ] {
-            Integer.toString( stylesheet.getStyleId( ) )
+                Integer.toString( stylesheet.getStyleId( ) )
         } );
         parameters.put( Parameters.MODE_STYLESHEET, new String [ ] {
-            Integer.toString( stylesheet.getModeId( ) )
+                Integer.toString( stylesheet.getModeId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" )
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );
@@ -311,19 +311,19 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.STYLESHEET_ID, new String [ ] {
-            Integer.toString( stylesheet.getId( ) )
+                Integer.toString( stylesheet.getId( ) )
         } );
         parameters.put( Parameters.STYLESHEET_NAME, new String [ ] {
-            stylesheet.getDescription( ) + "_mod"
+                stylesheet.getDescription( ) + "_mod"
         } );
         parameters.put( Parameters.STYLES, new String [ ] {
-            Integer.toString( stylesheet.getStyleId( ) )
+                Integer.toString( stylesheet.getStyleId( ) )
         } );
         parameters.put( Parameters.MODE_STYLESHEET, new String [ ] {
-            Integer.toString( stylesheet.getModeId( ) )
+                Integer.toString( stylesheet.getModeId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" ) + "b"
+                SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" ) + "b"
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );
@@ -350,16 +350,16 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.STYLESHEET_ID, new String [ ] {
-            Integer.toString( stylesheet.getId( ) )
+                Integer.toString( stylesheet.getId( ) )
         } );
         parameters.put( Parameters.STYLESHEET_NAME, new String [ ] {
-            stylesheet.getDescription( ) + "_mod"
+                stylesheet.getDescription( ) + "_mod"
         } );
         parameters.put( Parameters.STYLES, new String [ ] {
-            Integer.toString( stylesheet.getStyleId( ) )
+                Integer.toString( stylesheet.getStyleId( ) )
         } );
         parameters.put( Parameters.MODE_STYLESHEET, new String [ ] {
-            Integer.toString( stylesheet.getModeId( ) )
+                Integer.toString( stylesheet.getModeId( ) )
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );

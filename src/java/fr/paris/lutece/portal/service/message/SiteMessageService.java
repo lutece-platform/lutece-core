@@ -337,17 +337,17 @@ public final class SiteMessageService
      * Set the custom message, store it in session and throw a LuteceSiteMessageException
      * 
      * @param request
-     *          The HttpRequest
+     *            The HttpRequest
      * @param title
-     *          The title 
+     *            The title
      * @param strUrl
      *            The Url of the Ok button
      * @param text
-     *          The message
+     *            The message
      * @param nMessageType
-     *           The message type
+     *            The message type
      * @param strBackUrl
-     *           The Url of back button
+     *            The Url of back button
      * @throws SiteMessageException
      */
     public static void setCustomMessage( HttpServletRequest request, String title, String text, String strUrl, int nMessageType, String strBackUrl )
@@ -365,29 +365,29 @@ public final class SiteMessageService
      * Set the custom message, store it in session and throw a LuteceSiteMessageException
      * 
      * @param request
-     *          The HttpRequest
+     *            The HttpRequest
      * @param strText
-     *          The message
+     *            The message
      * @param nMessageType
-     *           The message type
+     *            The message type
      * @throws SiteMessageException
      */
     public static void setCustomMessage( HttpServletRequest request, String strText, int nMessageType ) throws SiteMessageException
     {
         setCustomMessage( request, null, strText, null, nMessageType, null );
     }
-    
+
     /**
      * Set the custom message, store it in session and throw a LuteceSiteMessageException
      * 
      * @param request
-     *          The HttpRequest
+     *            The HttpRequest
      * @param strText
-     *          The message
-     * @param strTitle 
-     *          The title 
+     *            The message
+     * @param strTitle
+     *            The title
      * @param nMessageType
-     *           The message type
+     *            The message type
      * @throws SiteMessageException
      */
     public static void setCustomMessage( HttpServletRequest request, String strTitle, String strText, int nMessageType ) throws SiteMessageException

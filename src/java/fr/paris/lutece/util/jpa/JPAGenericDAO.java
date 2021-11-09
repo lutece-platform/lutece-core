@@ -217,7 +217,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     @Override
     public E findById( K key )
     {
-        LOG.debug( "Selecting entity {} by Id ", ()-> getEntityClassName( ), key::toString );
+        LOG.debug( "Selecting entity {} by Id ", ( ) -> getEntityClassName( ), key::toString );
 
         return getEM( ).find( _entityClass, key );
     }
@@ -228,7 +228,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     @Override
     public List<E> findAll( )
     {
-        LOG.debug( "Selecting all entities of type : {}", ()->getEntityClassName( ) );
+        LOG.debug( "Selecting all entities of type : {}", ( ) -> getEntityClassName( ) );
 
         Query query = getEM( ).createQuery( "SELECT e FROM " + getEntityClassName( ) + " e " );
 

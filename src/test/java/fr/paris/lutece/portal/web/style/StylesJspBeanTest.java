@@ -155,8 +155,8 @@ public class StylesJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.STYLE_NAME, name );
         String portalComponantId = "1";
         request.addParameter( Parameters.PORTAL_COMPONENT, portalComponantId );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_style.html" )
-                + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_style.html" ) + "b" );
         try
         {
             instance.doCreateStyle( request );
@@ -242,8 +242,8 @@ public class StylesJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.STYLE_ID, Integer.toString( nStyleId ) );
         request.addParameter( Parameters.PORTAL_COMPONENT, Integer.toString( style.getPortalComponentId( ) ) );
         request.addParameter( Parameters.STYLE_NAME, style.getDescription( ) + "_mod" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_style.html" )
-                + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_style.html" ) + "b" );
         try
         {
             instance.doModifyStyle( request );
@@ -333,7 +333,8 @@ public class StylesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyle.jsp" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyle.jsp" ) );
         instance.doRemoveStyle( request );
         assertNull( StyleHome.findByPrimaryKey( style.getId( ) ) );
     }
@@ -342,8 +343,8 @@ public class StylesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyle.jsp" )
-                + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyle.jsp" ) + "b" );
         try
         {
             instance.doRemoveStyle( request );

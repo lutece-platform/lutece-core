@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2020, City of Paris
+ * Copyright (c) 2002-2021, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -244,7 +244,7 @@ public final class ProgressManagerService
     {
         return getReport( strFeedToken, -1 );
     }
-    
+
     /**
      * get the report list
      * 
@@ -257,21 +257,22 @@ public final class ProgressManagerService
         if ( _progressFeeds.get( strFeedToken ) != null )
         {
             List<String> reportList = _progressFeeds.get( strFeedToken ).getReportList( );
-            
+
             if ( iFromLine > 0 && iFromLine < reportList.size( ) )
             {
                 // clone to avoid ConcurrentModificationException
-                ArrayList<String> clonedReport = (ArrayList<String>) ((ArrayList<String>)reportList).clone( );
-                return clonedReport.subList( iFromLine -1, clonedReport.size( ) - 1 ) ;                
-            }
-            else if ( iFromLine >= reportList.size( ) )
-            {
-                return new ArrayList<String>( ) ;
+                ArrayList<String> clonedReport = (ArrayList<String>) ( (ArrayList<String>) reportList ).clone( );
+                return clonedReport.subList( iFromLine - 1, clonedReport.size( ) - 1 );
             }
             else
-            {
-                return reportList ;
-            }
+                if ( iFromLine >= reportList.size( ) )
+                {
+                    return new ArrayList<String>( );
+                }
+                else
+                {
+                    return reportList;
+                }
         }
 
         return null;

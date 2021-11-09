@@ -37,7 +37,6 @@ package fr.paris.lutece.util.pool.service;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import fr.paris.lutece.util.env.EnvUtil;
 
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -107,8 +106,8 @@ public class C3p0ConnectionService implements ConnectionService
             _logger.error( "Error while initializing the pool {}", getPoolName( ), e );
         }
 
-        _logger.info( "Initialization of the C3P0 pool named '{}', Min/Max pool size : {} / {}", ()->getPoolName( ), _dataSource::getMinPoolSize
-                ,_dataSource::getMaxPoolSize );
+        _logger.info( "Initialization of the C3P0 pool named '{}', Min/Max pool size : {} / {}", ( ) -> getPoolName( ), _dataSource::getMinPoolSize,
+                _dataSource::getMaxPoolSize );
     }
 
     /**
@@ -127,11 +126,11 @@ public class C3p0ConnectionService implements ConnectionService
 
                 if ( conn != null )
                 {
-                	if(_logger.isDebugEnabled())
-                	{
-                		_logger.debug(
-                            "The connexion is get, Current/Max pool : {}/{}", _dataSource.getNumConnectionsAllUsers( ), _dataSource.getMaxPoolSize( ) );
-                	}
+                    if ( _logger.isDebugEnabled( ) )
+                    {
+                        _logger.debug( "The connexion is get, Current/Max pool : {}/{}", _dataSource.getNumConnectionsAllUsers( ),
+                                _dataSource.getMaxPoolSize( ) );
+                    }
                 }
             }
         }
@@ -153,11 +152,11 @@ public class C3p0ConnectionService implements ConnectionService
         {
             conn.close( );
 
-            if(_logger.isDebugEnabled())
+            if ( _logger.isDebugEnabled( ) )
             {
-            	
-            	_logger.debug( "The connexion is released, Current/Max pool : {}/{}", _dataSource.getNumConnectionsAllUsers( ), _dataSource.getMaxPoolSize( ) );
-        	
+
+                _logger.debug( "The connexion is released, Current/Max pool : {}/{}", _dataSource.getNumConnectionsAllUsers( ), _dataSource.getMaxPoolSize( ) );
+
             }
         }
         catch( SQLException e )

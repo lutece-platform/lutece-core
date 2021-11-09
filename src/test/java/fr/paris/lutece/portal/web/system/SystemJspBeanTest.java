@@ -65,7 +65,7 @@ public class SystemJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
 
         instance = new SystemJspBean( );
-       instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
     }
 
     /**

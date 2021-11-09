@@ -44,25 +44,32 @@ public interface IAccessLogger
     /**
      * Log a message object with the INFO level.
      *
-     * @param strEventType the event type
-     * @param strAppEventCode the event code
-     * @param connectedUser the user connected
+     * @param strEventType
+     *            the event type
+     * @param strAppEventCode
+     *            the event code
+     * @param connectedUser
+     *            the user connected
      * @param data
      *            the message object to log
-     * @param specificOrigin specific origin of the event to log
+     * @param specificOrigin
+     *            specific origin of the event to log
      */
     public void info( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin );
 
     /**
      * Log a message object with the INFO level.
      *
-     * @param strEventType the event type
-     * @param strAppEventCode the event code
-     * @param connectedUser the user connected
+     * @param strEventType
+     *            the event type
+     * @param strAppEventCode
+     *            the event code
+     * @param connectedUser
+     *            the user connected
      * @param data
      *            the message object to log
      */
-    public default void info( String strEventType, String strAppEventCode, User connectedUser, Object data ) 
+    public default void info( String strEventType, String strAppEventCode, User connectedUser, Object data )
     {
         info( strEventType, strAppEventCode, connectedUser, data, null );
     }
@@ -70,21 +77,28 @@ public interface IAccessLogger
     /**
      * Log a message object with the DEBUG level.
      *
-     * @param strEventType the event type
-     * @param strAppEventCode the event code
-     * @param connectedUser the user connected
+     * @param strEventType
+     *            the event type
+     * @param strAppEventCode
+     *            the event code
+     * @param connectedUser
+     *            the user connected
      * @param data
      *            the message object to log
-     * @param specificOrigin specific origin of the event to log
+     * @param specificOrigin
+     *            specific origin of the event to log
      */
     public void debug( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin );
 
     /**
      * Log a message object with the DEBUG level.
      *
-     * @param strEventType the event type
-     * @param strAppEventCode the event code
-     * @param connectedUser the user connected
+     * @param strEventType
+     *            the event type
+     * @param strAppEventCode
+     *            the event code
+     * @param connectedUser
+     *            the user connected
      * @param data
      *            the message object to log
      */
@@ -96,21 +110,28 @@ public interface IAccessLogger
     /**
      * Log a message object with the TRACE level.
      *
-     * @param strEventType the event type
-     * @param strAppEventCode the event code
-     * @param connectedUser the user connected
+     * @param strEventType
+     *            the event type
+     * @param strAppEventCode
+     *            the event code
+     * @param connectedUser
+     *            the user connected
      * @param data
      *            the message object to log
-     * @param specificOrigin specific origin of the event to log
+     * @param specificOrigin
+     *            specific origin of the event to log
      */
     public void trace( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin );
 
     /**
      * Log a message object with the TRACE level.
      *
-     * @param strEventType the event type
-     * @param strAppEventCode the event code
-     * @param connectedUser the user connected
+     * @param strEventType
+     *            the event type
+     * @param strAppEventCode
+     *            the event code
+     * @param connectedUser
+     *            the user connected
      * @param data
      *            the message object to log
      */
@@ -122,21 +143,28 @@ public interface IAccessLogger
     /**
      * Log a message object with the WARN level.
      *
-     * @param strEventType the event type
-     * @param strAppEventCode the event code
-     * @param connectedUser the user connected
+     * @param strEventType
+     *            the event type
+     * @param strAppEventCode
+     *            the event code
+     * @param connectedUser
+     *            the user connected
      * @param data
      *            the message object to log
-     * @param specificOrigin specific origin of the event to log
+     * @param specificOrigin
+     *            specific origin of the event to log
      */
     public void warn( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin );
 
     /**
      * Log a message object with the WARN level.
      *
-     * @param strEventType the event type
-     * @param strAppEventCode the event code
-     * @param connectedUser the user connected
+     * @param strEventType
+     *            the event type
+     * @param strAppEventCode
+     *            the event code
+     * @param connectedUser
+     *            the user connected
      * @param data
      *            the message object to log
      */

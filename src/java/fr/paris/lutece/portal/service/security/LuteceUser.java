@@ -138,7 +138,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     private static final long serialVersionUID = -8733640540563208835L;
 
     /** Map containing users info */
-    private Map<String,String> _mapUserInfo = new HashMap<>( );
+    private Map<String, String> _mapUserInfo = new HashMap<>( );
 
     /** User's name */
     private String _strUserName;
@@ -158,7 +158,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     /** Authentication Service */
     private String _strAuthenticationType;
     /** User's workgroups */
-    private List<String> _workgroups=new ArrayList<String>();
+    private List<String> _workgroups = new ArrayList<String>( );
 
     /**
      * Constructor
@@ -175,16 +175,15 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
         _luteceAuthenticationService = authenticationService;
     }
 
-    
     /**
      * Gets the user info map
+     * 
      * @return The user info map
      */
     public final Map<String, String> getUserInfos( )
     {
         return _mapUserInfo;
     }
-
 
     /**
      * Add an user's info
@@ -198,18 +197,19 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     {
         _mapUserInfo.put( key, value );
     }
-    
-    
+
     /**
      * Gets the user info value
-     * @param key The info key
+     * 
+     * @param key
+     *            The info key
      * @return the user info value
      */
-    
-    public final  String getUserInfo( String key )
+
+    public final String getUserInfo( String key )
     {
-    	 String strInfo = _mapUserInfo.get( key );
-         return ( strInfo == null ) ? "" : strInfo; 
+        String strInfo = _mapUserInfo.get( key );
+        return ( strInfo == null ) ? "" : strInfo;
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -286,21 +286,20 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
         return _roles;
     }
 
-
     /**
      * {@inheritDoc }
      */
     @Override
     public Map<String, UserRole> getUserRoles( )
     {
-        Map<String, UserRole> mapRoles = new HashMap<>();
-        for( String strRole : _roles )
+        Map<String, UserRole> mapRoles = new HashMap<>( );
+        for ( String strRole : _roles )
         {
-            mapRoles.put( strRole , new RBACRole( strRole , strRole ));
+            mapRoles.put( strRole, new RBACRole( strRole, strRole ) );
         }
         return mapRoles;
     }
-    
+
     /**
      * add user's roles
      * 
@@ -493,49 +492,49 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     {
         return null;
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getAccessCode()
+    public String getAccessCode( )
     {
-    	return getName();
+        return getName( );
     }
-   
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String getLastName( )
     {
-    	return this.getUserInfo(LuteceUser.NAME_FAMILY);
+        return this.getUserInfo( LuteceUser.NAME_FAMILY );
     }
-    
+
     /**
      * {@inheritDoc}
      */
-    public @Override
-    String getFirstName( )
+    public @Override String getFirstName( )
     {
-     	return this.getUserInfo(LuteceUser.NAME_GIVEN);
-    
+        return this.getUserInfo( LuteceUser.NAME_GIVEN );
+
     }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<String >getUserWorkgroups()
-    {
-    	return _workgroups;
-    }
+
     /**
      * {@inheritDoc}
      */
     @Override
-	public String getRealm() 
+    public List<String> getUserWorkgroups( )
     {
-    	return USER_REALM;
-	}
+        return _workgroups;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getRealm( )
+    {
+        return USER_REALM;
+    }
 }

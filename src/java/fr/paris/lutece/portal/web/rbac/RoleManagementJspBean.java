@@ -232,9 +232,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // PAGINATOR
         LocalizedPaginator<RBACRole> paginator = new LocalizedPaginator<>( listRole, _nItemsPerPage, url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
-        
-        Map<String,Boolean> mapExistRole= paginator.getPageItems( ).stream().collect(Collectors.toMap(RBACRole::getKey, x->RoleHome.findExistRole(x.getKey())));
 
+        Map<String, Boolean> mapExistRole = paginator.getPageItems( ).stream( )
+                .collect( Collectors.toMap( RBACRole::getKey, x -> RoleHome.findExistRole( x.getKey( ) ) ) );
 
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
@@ -256,14 +256,13 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     public String getCreateRole( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_ROLE_CREATION_PAGETITLE );
-        
+
         Map<String, Object> model = new HashMap<>( 1 );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_ROLE ) );
-        model.put(MARK_HAS_RIGHT_MANAGE_FRONT_ROLE, getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT));
-        
+        model.put( MARK_HAS_RIGHT_MANAGE_FRONT_ROLE, getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ROLE, getLocale( ), model );
 
-        
         return getAdminPage( template.getHtml( ) );
     }
 
@@ -280,8 +279,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strRoleDescription = request.getParameter( PARAMETER_ROLE_DESCRIPTION );
-        String strCanBeAssignedToUserFront=request.getParameter( PARAMETER_CAN_BE_ASSIGNED_TO_USER_FRONT);
-
+        String strCanBeAssignedToUserFront = request.getParameter( PARAMETER_CAN_BE_ASSIGNED_TO_USER_FRONT );
 
         if ( StringUtils.isBlank( strRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
@@ -299,22 +297,23 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-        
+
         RBACRole role = new RBACRole( );
         role.setKey( strRoleKey.trim( ) );
         role.setDescription( strRoleDescription );
         RBACRoleHome.create( role );
 
-        if( getUser() != null &&  getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT) && strCanBeAssignedToUserFront!=null && !RoleHome.findExistRole(role.getKey()))
+        if ( getUser( ) != null && getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) && strCanBeAssignedToUserFront != null
+                && !RoleHome.findExistRole( role.getKey( ) ) )
         {
-        	 Role roleFront = new Role( );
-        	 roleFront.setRole( strRoleKey );
-        	 roleFront.setRoleDescription( strRoleDescription );
-        	 roleFront.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
-        	 
-             RoleHome.create( roleFront );	
+            Role roleFront = new Role( );
+            roleFront.setRole( strRoleKey );
+            roleFront.setRoleDescription( strRoleDescription );
+            roleFront.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+
+            RoleHome.create( roleFront );
         }
-        
+
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
     }
 
@@ -333,8 +332,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         String strOldRoleKey = request.getParameter( PARAMETER_ROLE_KEY_PREVIOUS );
         String strNewRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strRoleDescription = request.getParameter( PARAMETER_ROLE_DESCRIPTION );
-        String strCanBeAssignedToUserFront=request.getParameter( PARAMETER_CAN_BE_ASSIGNED_TO_USER_FRONT);
-        
+        String strCanBeAssignedToUserFront = request.getParameter( PARAMETER_CAN_BE_ASSIGNED_TO_USER_FRONT );
+
         // check that new role key is valid
         if ( StringUtils.isBlank( strNewRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
@@ -351,17 +350,17 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             RBACRole role = RBACRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
             role.setDescription( strRoleDescription );
-            if( getUser() != null && getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT) && strCanBeAssignedToUserFront!=null && !RoleHome.findExistRole(role.getKey()))
+            if ( getUser( ) != null && getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) && strCanBeAssignedToUserFront != null
+                    && !RoleHome.findExistRole( role.getKey( ) ) )
             {
-            	 Role roleFront = new Role( );
-            	 roleFront.setRole( role.getKey() );
-            	 roleFront.setRoleDescription( strRoleDescription );
-            	 roleFront.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
-            	 
-                 RoleHome.create( roleFront );	
+                Role roleFront = new Role( );
+                roleFront.setRole( role.getKey( ) );
+                roleFront.setRoleDescription( strRoleDescription );
+                roleFront.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+
+                RoleHome.create( roleFront );
             }
-            
-            
+
             RBACRoleHome.update( strOldRoleKey, role );
         }
         else
@@ -385,15 +384,16 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
             // update the role key in the role-resource associations
             RBACHome.updateRoleKey( strOldRoleKey, strNewRoleKey );
-            
-            if( getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT) && strCanBeAssignedToUserFront!=null && !RoleHome.findExistRole(strNewRoleKey))
+
+            if ( getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) && strCanBeAssignedToUserFront != null
+                    && !RoleHome.findExistRole( strNewRoleKey ) )
             {
-            	 Role roleFront = new Role( );
-            	 roleFront.setRole( strNewRoleKey);
-            	 roleFront.setRoleDescription( strRoleDescription );
-                 RoleHome.create( roleFront );	
+                Role roleFront = new Role( );
+                roleFront.setRole( strNewRoleKey );
+                roleFront.setRoleDescription( strRoleDescription );
+                RoleHome.create( roleFront );
             }
-            
+
         }
 
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strNewRoleKey;
@@ -487,11 +487,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             return getManageRoles( request );
         }
 
-        
         Map<String, Object> model = new HashMap<>( );
-        
-        model.put(MARK_EXIST_FRONT_ROLE,RoleHome.findExistRole(adminRole.getKey()));
-        model.put(MARK_HAS_RIGHT_MANAGE_FRONT_ROLE, getUser().checkRight(RoleJspBean.RIGHT_ROLES_MANAGEMENT));
+
+        model.put( MARK_EXIST_FRONT_ROLE, RoleHome.findExistRole( adminRole.getKey( ) ) );
+        model.put( MARK_HAS_RIGHT_MANAGE_FRONT_ROLE, getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) );
         model.put( MARK_ROLE, adminRole );
         model.put( MARK_CONTROLED_RESOURCE_LIST, listResources );
         model.put( MARK_RESOURCE_TYPE_LIST, listResourceTypes );
@@ -912,7 +911,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             final ReferenceItem itemUser = new ReferenceItem( );
             itemUser.setCode( Integer.toString( user.getUserId( ) ) );
-            itemUser.setName( user.getLastName( ) + " " + user.getFirstName( ) + " (" + user.getAccessCode( )  + ")" );
+            itemUser.setName( user.getLastName( ) + " " + user.getFirstName( ) + " (" + user.getAccessCode( ) + ")" );
 
             boolean bAssigned = listAssignedUsers.stream( )
                     .anyMatch( assignedUser -> Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) );

@@ -40,25 +40,22 @@ import java.util.List;
 /**
  * Access Log service
  *
- *  - Report all actions regarding authentication, user or rights management.
- *  - All messages should contain the application Id, the event type, a specific application event code, the logged user, and specific contextual data.
- *  - The logger should implement the interface IAccessLogger of lutece core
+ * - Report all actions regarding authentication, user or rights management. - All messages should contain the application Id, the event type, a specific
+ * application event code, the logged user, and specific contextual data. - The logger should implement the interface IAccessLogger of lutece core
  * 
  * Use "debug" or "trace" level for fine access control history, use "info" level otherwise
  * 
- * By default : 
- *  - Lutece authentication, user and rights management are logged at INFO level, 
- *  - action requests at DEBUG level, 
- *  - views requests are logged at TRACE level.
+ * By default : - Lutece authentication, user and rights management are logged at INFO level, - action requests at DEBUG level, - views requests are logged at
+ * TRACE level.
  * 
  * To log specific actions, use :
  * 
- * AccessLogService.getInstance( ).warn( String strEventType, String strAppEventCode, String strConnectedUserLogin, Object data );
- * AccessLogService.getInstance( ).info( String strEventType, String strAppEventCode, String strConnectedUserLogin, Object data );
- * AccessLogService.getInstance( ).debug( String strEventType, String strAppEventCode, String strConnectedUserLogin, Object data );
- * AccessLogService.getInstance( ).trace( String strEventType, String strAppEventCode, String strConnectedUserLogin, Object data );
+ * AccessLogService.getInstance( ).warn( String strEventType, String strAppEventCode, String strConnectedUserLogin, Object data ); AccessLogService.getInstance(
+ * ).info( String strEventType, String strAppEventCode, String strConnectedUserLogin, Object data ); AccessLogService.getInstance( ).debug( String strEventType,
+ * String strAppEventCode, String strConnectedUserLogin, Object data ); AccessLogService.getInstance( ).trace( String strEventType, String strAppEventCode,
+ * String strConnectedUserLogin, Object data );
  * 
- * Event types are available in AccessLoggerConstants class. 
+ * Event types are available in AccessLoggerConstants class.
  * 
  */
 public final class AccessLogService
@@ -67,7 +64,6 @@ public final class AccessLogService
     public static final String ACCESS_LOG_FO = "fo";
     public static final String ACCESS_LOG_BO = "bo";
 
-    
     private final List<IAccessLogger> _accessLoggerList;
     private static AccessLogService _singleton = new AccessLogService( );
 
@@ -92,30 +88,39 @@ public final class AccessLogService
     /**
      * Log action with info level
      * 
-     * @param strEventType the event type
-     * @param strAppEventCode the event code
-     * @param connectedUser the user connected
-     * @param data the message object to log
-     * @param specificOrigin specific origin of the event to log
+     * @param strEventType
+     *            the event type
+     * @param strAppEventCode
+     *            the event code
+     * @param connectedUser
+     *            the user connected
+     * @param data
+     *            the message object to log
+     * @param specificOrigin
+     *            specific origin of the event to log
      */
     public void info( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
     {
-        _accessLoggerList.forEach(accessLogger -> {
+        _accessLoggerList.forEach( accessLogger -> {
             accessLogger.info( strEventType, strAppEventCode, connectedUser, data, specificOrigin );
-        });
+        } );
     }
 
     /**
      * Log action with info level
      * 
-     * @param strEventType the event type
-     * @param strAppEventCode the event code
-     * @param connectedUser the user connected
-     * @param data the message object to log
+     * @param strEventType
+     *            the event type
+     * @param strAppEventCode
+     *            the event code
+     * @param connectedUser
+     *            the user connected
+     * @param data
+     *            the message object to log
      */
     public void info( String strEventType, String strAppEventCode, User connectedUser, Object data )
     {
-        info( strEventType, strAppEventCode, connectedUser, data, null);
+        info( strEventType, strAppEventCode, connectedUser, data, null );
     }
 
     /**
@@ -129,9 +134,9 @@ public final class AccessLogService
      */
     public void debug( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
     {
-        _accessLoggerList.forEach(accessLogger -> {
+        _accessLoggerList.forEach( accessLogger -> {
             accessLogger.debug( strEventType, strAppEventCode, connectedUser, data, specificOrigin );
-        });
+        } );
     }
 
     /**
@@ -158,9 +163,9 @@ public final class AccessLogService
      */
     public void trace( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
     {
-        _accessLoggerList.forEach(accessLogger -> {
+        _accessLoggerList.forEach( accessLogger -> {
             accessLogger.trace( strEventType, strAppEventCode, connectedUser, data, specificOrigin );
-        });
+        } );
     }
 
     /**
@@ -176,7 +181,7 @@ public final class AccessLogService
         trace( strEventType, strAppEventCode, connectedUser, data, null );
     }
 
-        /**
+    /**
      * Log action with warn level
      * 
      * @param strEventType
@@ -187,9 +192,9 @@ public final class AccessLogService
      */
     public void warn( String strEventType, String strAppEventCode, User connectedUser, Object data, String specificOrigin )
     {
-        _accessLoggerList.forEach(accessLogger -> {
+        _accessLoggerList.forEach( accessLogger -> {
             accessLogger.warn( strEventType, strAppEventCode, connectedUser, data, specificOrigin );
-        });
+        } );
     }
 
     /**
@@ -205,5 +210,4 @@ public final class AccessLogService
         warn( strEventType, strAppEventCode, connectedUser, data, null );
     }
 
-    
 }

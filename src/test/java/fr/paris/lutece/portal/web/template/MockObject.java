@@ -40,297 +40,340 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 /**
  * This is the business class for the object MockObject
- */ 
+ */
 public class MockObject
 {
-        // Variables declarations 
-        private int _nIdObject;
-        private String _strName;
-        private String _strDescription;
-        private boolean _bEnable;
-        private int _nStatus;
-        private double _dRatio;
-        private String _strPassword;
-        private long _lElapsedTime;
-        private int _nIdForeign;
-        private String _strEmail;
-        private String _strText;
-        private List _listAttributes = new ArrayList();
-        private Map _mapParameters = new HashMap();
-        private Date _dateDateCreated;
-        private Timestamp _dateDateUpdated;
-    
-    
-       /**
-        * Returns the IdObject
-        * @return The IdObject
-        */ 
-        public int getIdObject()
-        {
-            return _nIdObject;
-        }
-    
-       /**
-        * Sets the IdObject
-        * @param nIdObject The IdObject
-        */ 
-        public void setIdObject( int nIdObject )
-        {
-            _nIdObject = nIdObject;
-        }
-    
-       /**
-        * Returns the Name
-        * @return The Name
-        */ 
-        public String getName()
-        {
-            return _strName;
-        }
-    
-       /**
-        * Sets the Name
-        * @param strName The Name
-        */ 
-        public void setName( String strName )
-        {
-            _strName = strName;
-        }
-    
-       /**
-        * Returns the Description
-        * @return The Description
-        */ 
-        public String getDescription()
-        {
-            return _strDescription;
-        }
-    
-       /**
-        * Sets the Description
-        * @param strDescription The Description
-        */ 
-        public void setDescription( String strDescription )
-        {
-            _strDescription = strDescription;
-        }
-    
-       /**
-        * Returns the Enable
-        * @return The Enable
-        */ 
-        public boolean getEnable()
-        {
-            return _bEnable;
-        }
-    
-       /**
-        * Sets the Enable
-        * @param bEnable The Enable
-        */ 
-        public void setEnable( boolean bEnable )
-        {
-            _bEnable = bEnable;
-        }
-    
-       /**
-        * Returns the Status
-        * @return The Status
-        */ 
-        public int getStatus()
-        {
-            return _nStatus;
-        }
-    
-       /**
-        * Sets the Status
-        * @param nStatus The Status
-        */ 
-        public void setStatus( int nStatus )
-        {
-            _nStatus = nStatus;
-        }
-    
-       /**
-        * Returns the Ratio
-        * @return The Ratio
-        */ 
-        public double getRatio()
-        {
-            return _dRatio;
-        }
-    
-       /**
-        * Sets the Ratio
-        * @param dRatio The Ratio
-        */ 
-        public void setRatio( double dRatio )
-        {
-            _dRatio = dRatio;
-        }
-    
-       /**
-        * Returns the Password
-        * @return The Password
-        */ 
-        public String getPassword()
-        {
-            return _strPassword;
-        }
-    
-       /**
-        * Sets the Password
-        * @param strPassword The Password
-        */ 
-        public void setPassword( String strPassword )
-        {
-            _strPassword = strPassword;
-        }
-    
-       /**
-        * Returns the ElapsedTime
-        * @return The ElapsedTime
-        */ 
-        public long getElapsedTime()
-        {
-            return _lElapsedTime;
-        }
-    
-       /**
-        * Sets the ElapsedTime
-        * @param lElapsedTime The ElapsedTime
-        */ 
-        public void setElapsedTime( long lElapsedTime )
-        {
-            _lElapsedTime = lElapsedTime;
-        }
-    
-       /**
-        * Returns the IdForeign
-        * @return The IdForeign
-        */ 
-        public int getIdForeign()
-        {
-            return _nIdForeign;
-        }
-    
-       /**
-        * Sets the IdForeign
-        * @param nIdForeign The IdForeign
-        */ 
-        public void setIdForeign( int nIdForeign )
-        {
-            _nIdForeign = nIdForeign;
-        }
-    
-       /**
-        * Returns the Email
-        * @return The Email
-        */ 
-        public String getEmail()
-        {
-            return _strEmail;
-        }
-    
-       /**
-        * Sets the Email
-        * @param strEmail The Email
-        */ 
-        public void setEmail( String strEmail )
-        {
-            _strEmail = strEmail;
-        }
-    
-       /**
-        * Returns the Text
-        * @return The Text
-        */ 
-        public String getText()
-        {
-            return _strText;
-        }
-    
-       /**
-        * Sets the Text
-        * @param strText The Text
-        */ 
-        public void setText( String strText )
-        {
-            _strText = strText;
-        }
-    
-       /**
-        * Returns the Attributes
-        * @return The Attributes
-        */ 
-        public List getAttributes()
-        {
-            return _listAttributes;
-        }
-    
-       /**
-        * Sets the Attributes
-        * @param listAttributes The Attributes
-        */ 
-        public void setAttributes( List listAttributes )
-        {
-            _listAttributes = listAttributes;
-        }
-    
-       /**
-        * Returns the Parameters
-        * @return The Parameters
-        */ 
-        public Map getParameters()
-        {
-            return _mapParameters;
-        }
-    
-       /**
-        * Sets the Parameters
-        * @param mapParameters The Parameters
-        */ 
-        public void setParameters( Map mapParameters )
-        {
-            _mapParameters = mapParameters;
-        }
-    
-       /**
-        * Returns the DateCreated
-        * @return The DateCreated
-        */ 
-        public Date getDateCreated()
-        {
-            return _dateDateCreated;
-        }
-    
-       /**
-        * Sets the DateCreated
-        * @param dateDateCreated The DateCreated
-        */ 
-        public void setDateCreated( Date dateDateCreated )
-        {
-            _dateDateCreated = dateDateCreated;
-        }
-    
-       /**
-        * Returns the DateUpdated
-        * @return The DateUpdated
-        */ 
-        public Timestamp getDateUpdated()
-        {
-            return _dateDateUpdated;
-        }
-    
-       /**
-        * Sets the DateUpdated
-        * @param dateDateUpdated The DateUpdated
-        */ 
-        public void setDateUpdated( Timestamp dateDateUpdated )
-        {
-            _dateDateUpdated = dateDateUpdated;
-        }
- }
+    // Variables declarations
+    private int _nIdObject;
+    private String _strName;
+    private String _strDescription;
+    private boolean _bEnable;
+    private int _nStatus;
+    private double _dRatio;
+    private String _strPassword;
+    private long _lElapsedTime;
+    private int _nIdForeign;
+    private String _strEmail;
+    private String _strText;
+    private List _listAttributes = new ArrayList( );
+    private Map _mapParameters = new HashMap( );
+    private Date _dateDateCreated;
+    private Timestamp _dateDateUpdated;
+
+    /**
+     * Returns the IdObject
+     * 
+     * @return The IdObject
+     */
+    public int getIdObject( )
+    {
+        return _nIdObject;
+    }
+
+    /**
+     * Sets the IdObject
+     * 
+     * @param nIdObject
+     *            The IdObject
+     */
+    public void setIdObject( int nIdObject )
+    {
+        _nIdObject = nIdObject;
+    }
+
+    /**
+     * Returns the Name
+     * 
+     * @return The Name
+     */
+    public String getName( )
+    {
+        return _strName;
+    }
+
+    /**
+     * Sets the Name
+     * 
+     * @param strName
+     *            The Name
+     */
+    public void setName( String strName )
+    {
+        _strName = strName;
+    }
+
+    /**
+     * Returns the Description
+     * 
+     * @return The Description
+     */
+    public String getDescription( )
+    {
+        return _strDescription;
+    }
+
+    /**
+     * Sets the Description
+     * 
+     * @param strDescription
+     *            The Description
+     */
+    public void setDescription( String strDescription )
+    {
+        _strDescription = strDescription;
+    }
+
+    /**
+     * Returns the Enable
+     * 
+     * @return The Enable
+     */
+    public boolean getEnable( )
+    {
+        return _bEnable;
+    }
+
+    /**
+     * Sets the Enable
+     * 
+     * @param bEnable
+     *            The Enable
+     */
+    public void setEnable( boolean bEnable )
+    {
+        _bEnable = bEnable;
+    }
+
+    /**
+     * Returns the Status
+     * 
+     * @return The Status
+     */
+    public int getStatus( )
+    {
+        return _nStatus;
+    }
+
+    /**
+     * Sets the Status
+     * 
+     * @param nStatus
+     *            The Status
+     */
+    public void setStatus( int nStatus )
+    {
+        _nStatus = nStatus;
+    }
+
+    /**
+     * Returns the Ratio
+     * 
+     * @return The Ratio
+     */
+    public double getRatio( )
+    {
+        return _dRatio;
+    }
+
+    /**
+     * Sets the Ratio
+     * 
+     * @param dRatio
+     *            The Ratio
+     */
+    public void setRatio( double dRatio )
+    {
+        _dRatio = dRatio;
+    }
+
+    /**
+     * Returns the Password
+     * 
+     * @return The Password
+     */
+    public String getPassword( )
+    {
+        return _strPassword;
+    }
+
+    /**
+     * Sets the Password
+     * 
+     * @param strPassword
+     *            The Password
+     */
+    public void setPassword( String strPassword )
+    {
+        _strPassword = strPassword;
+    }
+
+    /**
+     * Returns the ElapsedTime
+     * 
+     * @return The ElapsedTime
+     */
+    public long getElapsedTime( )
+    {
+        return _lElapsedTime;
+    }
+
+    /**
+     * Sets the ElapsedTime
+     * 
+     * @param lElapsedTime
+     *            The ElapsedTime
+     */
+    public void setElapsedTime( long lElapsedTime )
+    {
+        _lElapsedTime = lElapsedTime;
+    }
+
+    /**
+     * Returns the IdForeign
+     * 
+     * @return The IdForeign
+     */
+    public int getIdForeign( )
+    {
+        return _nIdForeign;
+    }
+
+    /**
+     * Sets the IdForeign
+     * 
+     * @param nIdForeign
+     *            The IdForeign
+     */
+    public void setIdForeign( int nIdForeign )
+    {
+        _nIdForeign = nIdForeign;
+    }
+
+    /**
+     * Returns the Email
+     * 
+     * @return The Email
+     */
+    public String getEmail( )
+    {
+        return _strEmail;
+    }
+
+    /**
+     * Sets the Email
+     * 
+     * @param strEmail
+     *            The Email
+     */
+    public void setEmail( String strEmail )
+    {
+        _strEmail = strEmail;
+    }
+
+    /**
+     * Returns the Text
+     * 
+     * @return The Text
+     */
+    public String getText( )
+    {
+        return _strText;
+    }
+
+    /**
+     * Sets the Text
+     * 
+     * @param strText
+     *            The Text
+     */
+    public void setText( String strText )
+    {
+        _strText = strText;
+    }
+
+    /**
+     * Returns the Attributes
+     * 
+     * @return The Attributes
+     */
+    public List getAttributes( )
+    {
+        return _listAttributes;
+    }
+
+    /**
+     * Sets the Attributes
+     * 
+     * @param listAttributes
+     *            The Attributes
+     */
+    public void setAttributes( List listAttributes )
+    {
+        _listAttributes = listAttributes;
+    }
+
+    /**
+     * Returns the Parameters
+     * 
+     * @return The Parameters
+     */
+    public Map getParameters( )
+    {
+        return _mapParameters;
+    }
+
+    /**
+     * Sets the Parameters
+     * 
+     * @param mapParameters
+     *            The Parameters
+     */
+    public void setParameters( Map mapParameters )
+    {
+        _mapParameters = mapParameters;
+    }
+
+    /**
+     * Returns the DateCreated
+     * 
+     * @return The DateCreated
+     */
+    public Date getDateCreated( )
+    {
+        return _dateDateCreated;
+    }
+
+    /**
+     * Sets the DateCreated
+     * 
+     * @param dateDateCreated
+     *            The DateCreated
+     */
+    public void setDateCreated( Date dateDateCreated )
+    {
+        _dateDateCreated = dateDateCreated;
+    }
+
+    /**
+     * Returns the DateUpdated
+     * 
+     * @return The DateUpdated
+     */
+    public Timestamp getDateUpdated( )
+    {
+        return _dateDateUpdated;
+    }
+
+    /**
+     * Sets the DateUpdated
+     * 
+     * @param dateDateUpdated
+     *            The DateUpdated
+     */
+    public void setDateUpdated( Timestamp dateDateUpdated )
+    {
+        _dateDateUpdated = dateDateUpdated;
+    }
+}

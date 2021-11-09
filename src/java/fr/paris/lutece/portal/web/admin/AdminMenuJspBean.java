@@ -161,7 +161,7 @@ public class AdminMenuJspBean implements Serializable
         model.put( MARK_MENU_POS, DatastoreService.getInstanceDataValue( PROPERTY_MENU_DATASTORE_POS, PROPERTY_MENU_DEFAULT_POS ) );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
         model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( ) );
-        model.put( MARK_PROD_BASE_URL, AppPathService.getProdUrl(request) );
+        model.put( MARK_PROD_BASE_URL, AppPathService.getProdUrl( request ) );
         model.put( MARK_USER, user );
 
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );

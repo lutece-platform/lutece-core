@@ -95,7 +95,8 @@ public class MailingListJspBeanTest extends LuteceTestCase
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/add_users.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/add_users.html" ) );
 
         MailingListUsersFilter filter = new MailingListUsersFilter( );
         filter.setRole( AdminMailingListService.ALL_ROLES );
@@ -113,8 +114,8 @@ public class MailingListJspBeanTest extends LuteceTestCase
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/add_users.html" )
-                + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/add_users.html" ) + "b" );
 
         MailingListUsersFilter filter = new MailingListUsersFilter( );
         filter.setRole( AdminMailingListService.ALL_ROLES );

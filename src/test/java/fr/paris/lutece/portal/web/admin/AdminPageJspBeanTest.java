@@ -276,7 +276,8 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePage.jsp" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePage.jsp" ) );
         _bean.doRemovePage( request );
         assertFalse( PageHome.checkPageExist( _page.getId( ) ) );
     }
@@ -300,8 +301,8 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePage.jsp" )
-                + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePage.jsp" ) + "b" );
         try
         {
             _bean.doRemovePage( request );
@@ -330,31 +331,31 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertEquals( _randomPageName, _page.getDescription( ) );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
-            Integer.toString( _page.getId( ) )
+                Integer.toString( _page.getId( ) )
         } );
         parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
-            descriptionMod
+                descriptionMod
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( _page.getPageTemplateId( ) )
+                Integer.toString( _page.getPageTemplateId( ) )
         } );
         parameters.put( Parameters.META_KEYWORDS, new String [ ] {
-            _page.getMetaKeywords( )
+                _page.getMetaKeywords( )
         } );
         parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
-            _page.getMetaDescription( )
+                _page.getMetaDescription( )
         } );
         parameters.put( "node_status", new String [ ] {
-            Integer.toString( _page.getNodeStatus( ) )
+                Integer.toString( _page.getNodeStatus( ) )
         } );
         parameters.put( Parameters.PAGE_NAME, new String [ ] {
-            _page.getName( )
+                _page.getName( )
         } );
         parameters.put( Parameters.PARENT_ID, new String [ ] {
-            Integer.toString( _page.getParentPageId( ) )
+                Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
         } );
         _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -368,32 +369,32 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
-            Integer.toString( _page.getId( ) )
+                Integer.toString( _page.getId( ) )
         } );
         parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
-            _page.getDescription( )
+                _page.getDescription( )
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( _page.getPageTemplateId( ) )
+                Integer.toString( _page.getPageTemplateId( ) )
         } );
         parameters.put( Parameters.META_KEYWORDS, new String [ ] {
-            _page.getMetaKeywords( )
+                _page.getMetaKeywords( )
         } );
         parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
-            _page.getMetaDescription( )
+                _page.getMetaDescription( )
         } );
         parameters.put( "node_status", new String [ ] {
-            Integer.toString( _page.getNodeStatus( ) )
+                Integer.toString( _page.getNodeStatus( ) )
         } );
         // empty page name parameter
         parameters.put( Parameters.PAGE_NAME, new String [ ] {
-            ""
+                ""
         } );
         parameters.put( Parameters.PARENT_ID, new String [ ] {
-            Integer.toString( _page.getParentPageId( ) )
+                Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
         } );
         _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -409,31 +410,31 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
-            Integer.toString( _page.getId( ) )
+                Integer.toString( _page.getId( ) )
         } );
         parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
-            _page.getDescription( )
+                _page.getDescription( )
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( _page.getPageTemplateId( ) )
+                Integer.toString( _page.getPageTemplateId( ) )
         } );
         parameters.put( Parameters.META_KEYWORDS, new String [ ] {
-            _page.getMetaKeywords( )
+                _page.getMetaKeywords( )
         } );
         parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
-            _page.getMetaDescription( )
+                _page.getMetaDescription( )
         } );
         parameters.put( "node_status", new String [ ] {
-            Integer.toString( _page.getNodeStatus( ) )
+                Integer.toString( _page.getNodeStatus( ) )
         } );
         parameters.put( Parameters.PAGE_NAME, new String [ ] {
-            _page.getName( )
+                _page.getName( )
         } );
         parameters.put( Parameters.PARENT_ID, new String [ ] {
-            "567894535"
+                "567894535"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
         } );
         _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -448,34 +449,34 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
-            Integer.toString( _page.getId( ) )
+                Integer.toString( _page.getId( ) )
         } );
         parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
-            _page.getDescription( )
+                _page.getDescription( )
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( _page.getPageTemplateId( ) )
+                Integer.toString( _page.getPageTemplateId( ) )
         } );
         parameters.put( Parameters.META_KEYWORDS, new String [ ] {
-            _page.getMetaKeywords( )
+                _page.getMetaKeywords( )
         } );
         parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
-            _page.getMetaDescription( )
+                _page.getMetaDescription( )
         } );
         parameters.put( "node_status", new String [ ] {
-            Integer.toString( _page.getNodeStatus( ) )
+                Integer.toString( _page.getNodeStatus( ) )
         } );
         parameters.put( Parameters.PAGE_NAME, new String [ ] {
-            _page.getName( )
+                _page.getName( )
         } );
         parameters.put( Parameters.PARENT_ID, new String [ ] {
-            Integer.toString( _page.getParentPageId( ) )
+                Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( "update_image", new String [ ] {
-            "update_image"
+                "update_image"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
         } );
         Map<String, List<FileItem>> fileItems = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );
@@ -498,31 +499,31 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertEquals( _randomPageName, _page.getDescription( ) );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
-            Integer.toString( _page.getId( ) )
+                Integer.toString( _page.getId( ) )
         } );
         parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
-            descriptionMod
+                descriptionMod
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( _page.getPageTemplateId( ) )
+                Integer.toString( _page.getPageTemplateId( ) )
         } );
         parameters.put( Parameters.META_KEYWORDS, new String [ ] {
-            _page.getMetaKeywords( )
+                _page.getMetaKeywords( )
         } );
         parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
-            _page.getMetaDescription( )
+                _page.getMetaDescription( )
         } );
         parameters.put( "node_status", new String [ ] {
-            Integer.toString( _page.getNodeStatus( ) )
+                Integer.toString( _page.getNodeStatus( ) )
         } );
         parameters.put( Parameters.PAGE_NAME, new String [ ] {
-            _page.getName( )
+                _page.getName( )
         } );
         parameters.put( Parameters.PARENT_ID, new String [ ] {
-            Integer.toString( _page.getParentPageId( ) )
+                Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" ) + "b"
+                SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" ) + "b"
         } );
         try
         {
@@ -543,28 +544,28 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertEquals( _randomPageName, _page.getDescription( ) );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
-            Integer.toString( _page.getId( ) )
+                Integer.toString( _page.getId( ) )
         } );
         parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
-            descriptionMod
+                descriptionMod
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( _page.getPageTemplateId( ) )
+                Integer.toString( _page.getPageTemplateId( ) )
         } );
         parameters.put( Parameters.META_KEYWORDS, new String [ ] {
-            _page.getMetaKeywords( )
+                _page.getMetaKeywords( )
         } );
         parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
-            _page.getMetaDescription( )
+                _page.getMetaDescription( )
         } );
         parameters.put( "node_status", new String [ ] {
-            Integer.toString( _page.getNodeStatus( ) )
+                Integer.toString( _page.getNodeStatus( ) )
         } );
         parameters.put( Parameters.PAGE_NAME, new String [ ] {
-            _page.getName( )
+                _page.getName( )
         } );
         parameters.put( Parameters.PARENT_ID, new String [ ] {
-            Integer.toString( _page.getParentPageId( ) )
+                Integer.toString( _page.getParentPageId( ) )
         } );
         try
         {
@@ -583,41 +584,41 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
-            Integer.toString( _page.getId( ) )
+                Integer.toString( _page.getId( ) )
         } );
         parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
-            _page.getDescription( )
+                _page.getDescription( )
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( _page.getPageTemplateId( ) )
+                Integer.toString( _page.getPageTemplateId( ) )
         } );
         parameters.put( Parameters.META_KEYWORDS, new String [ ] {
-            _page.getMetaKeywords( )
+                _page.getMetaKeywords( )
         } );
         parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
-            _page.getMetaDescription( )
+                _page.getMetaDescription( )
         } );
         parameters.put( "node_status", new String [ ] {
-            Integer.toString( _page.getNodeStatus( ) )
+                Integer.toString( _page.getNodeStatus( ) )
         } );
         parameters.put( Parameters.PAGE_NAME, new String [ ] {
-            _page.getName( )
+                _page.getName( )
         } );
         parameters.put( Parameters.PARENT_ID, new String [ ] {
-            Integer.toString( _page.getParentPageId( ) )
+                Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
         } );
         parameters.put( Parameters.PARAMETER_DISPLAY_UPDATE_DATE, new String [ ] {
-            Boolean.toString( _page.getDisplayDateUpdate( ) )
+                Boolean.toString( _page.getDisplayDateUpdate( ) )
         } );
         parameters.put( Parameters.PARAMETER_ENABLE_MANUAL_UPDATE_DATE, new String [ ] {
-            Boolean.toString( _page.getIsManualDateUpdate( ) )
+                Boolean.toString( _page.getIsManualDateUpdate( ) )
         } );
         // Missing Update Date value
         parameters.put( Parameters.PARAMETER_MANUAL_UPDATE_DATE, new String [ ] {
-            ""
+                ""
         } );
         _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -640,40 +641,40 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
-            Integer.toString( _page.getId( ) )
+                Integer.toString( _page.getId( ) )
         } );
         parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
-            _page.getDescription( )
+                _page.getDescription( )
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( _page.getPageTemplateId( ) )
+                Integer.toString( _page.getPageTemplateId( ) )
         } );
         parameters.put( Parameters.META_KEYWORDS, new String [ ] {
-            _page.getMetaKeywords( )
+                _page.getMetaKeywords( )
         } );
         parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
-            _page.getMetaDescription( )
+                _page.getMetaDescription( )
         } );
         parameters.put( "node_status", new String [ ] {
-            Integer.toString( _page.getNodeStatus( ) )
+                Integer.toString( _page.getNodeStatus( ) )
         } );
         parameters.put( Parameters.PAGE_NAME, new String [ ] {
-            _page.getName( ) + "_child"
+                _page.getName( ) + "_child"
         } );
         parameters.put( Parameters.PARENT_ID, new String [ ] {
-            Integer.toString( _page.getParentPageId( ) )
+                Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( Parameters.PARAMETER_DISPLAY_UPDATE_DATE, new String [ ] {
-            Boolean.toString( _page.getDisplayDateUpdate( ) )
+                Boolean.toString( _page.getDisplayDateUpdate( ) )
         } );
         parameters.put( Parameters.PARAMETER_ENABLE_MANUAL_UPDATE_DATE, new String [ ] {
-            Boolean.toString( _page.getIsManualDateUpdate( ) )
+                Boolean.toString( _page.getIsManualDateUpdate( ) )
         } );
         parameters.put( Parameters.PARAMETER_MANUAL_UPDATE_DATE, new String [ ] {
-            "01/01/2017"
+                "01/01/2017"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_childpage.html" )
+                SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_childpage.html" )
         } );
 
         Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
@@ -700,31 +701,31 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
-            Integer.toString( _page.getId( ) )
+                Integer.toString( _page.getId( ) )
         } );
         parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
-            _page.getDescription( )
+                _page.getDescription( )
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( _page.getPageTemplateId( ) )
+                Integer.toString( _page.getPageTemplateId( ) )
         } );
         parameters.put( Parameters.META_KEYWORDS, new String [ ] {
-            _page.getMetaKeywords( )
+                _page.getMetaKeywords( )
         } );
         parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
-            _page.getMetaDescription( )
+                _page.getMetaDescription( )
         } );
         parameters.put( "node_status", new String [ ] {
-            Integer.toString( _page.getNodeStatus( ) )
+                Integer.toString( _page.getNodeStatus( ) )
         } );
         parameters.put( Parameters.PAGE_NAME, new String [ ] {
-            _page.getName( ) + "_child"
+                _page.getName( ) + "_child"
         } );
         parameters.put( Parameters.PARENT_ID, new String [ ] {
-            Integer.toString( _page.getParentPageId( ) )
+                Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_childpage.html" ) + "b"
+                SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_childpage.html" ) + "b"
         } );
         Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
         assertNotNull( children );
@@ -754,28 +755,28 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, new String [ ] {
-            Integer.toString( _page.getId( ) )
+                Integer.toString( _page.getId( ) )
         } );
         parameters.put( Parameters.PAGE_DESCRIPTION, new String [ ] {
-            _page.getDescription( )
+                _page.getDescription( )
         } );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
-            Integer.toString( _page.getPageTemplateId( ) )
+                Integer.toString( _page.getPageTemplateId( ) )
         } );
         parameters.put( Parameters.META_KEYWORDS, new String [ ] {
-            _page.getMetaKeywords( )
+                _page.getMetaKeywords( )
         } );
         parameters.put( Parameters.META_DESCRIPTION, new String [ ] {
-            _page.getMetaDescription( )
+                _page.getMetaDescription( )
         } );
         parameters.put( "node_status", new String [ ] {
-            Integer.toString( _page.getNodeStatus( ) )
+                Integer.toString( _page.getNodeStatus( ) )
         } );
         parameters.put( Parameters.PAGE_NAME, new String [ ] {
-            _page.getName( ) + "_child"
+                _page.getName( ) + "_child"
         } );
         parameters.put( Parameters.PARENT_ID, new String [ ] {
-            Integer.toString( _page.getParentPageId( ) )
+                Integer.toString( _page.getParentPageId( ) )
         } );
         Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
         assertNotNull( children );

@@ -145,8 +145,8 @@ public final class AppInit
                 // variables used by the application
                 initProperties( strRealPath );
             }
-            
-            AppLogService.info( " {} {} {} ...\\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version",  AppInfo.getVersion( ) );
+
+            AppLogService.info( " {} {} {} ...\\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version", AppInfo.getVersion( ) );
 
             // BeanUtil initialization, considering Lutèce availables locales and date
             // format properties

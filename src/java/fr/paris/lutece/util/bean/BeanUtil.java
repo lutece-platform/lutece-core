@@ -84,10 +84,10 @@ public final class BeanUtil
             DateConverter dateConverter = new DateConverter( null );
             dateConverter.setPattern( I18nService.getDateFormatShortPattern( locale ) );
             beanUtilsBean.getConvertUtils( ).register( dateConverter, Date.class );
-            
+
             SqlTimeConverter sqlTimeConverter = new SqlTimeConverter( null );
             beanUtilsBean.getConvertUtils( ).register( sqlTimeConverter, Timestamp.class );
-            
+
             _mapBeanUtilsBeans.put( locale.getLanguage( ), beanUtilsBean );
         }
     }
@@ -124,7 +124,7 @@ public final class BeanUtil
             try
             {
                 // for all boolean field, init to false
-                if ( Boolean.class.isAssignableFrom( field.getType( ) ) || boolean.class.isAssignableFrom( field.getType( ) ) ) 
+                if ( Boolean.class.isAssignableFrom( field.getType( ) ) || boolean.class.isAssignableFrom( field.getType( ) ) )
                 {
                     field.setAccessible( true );
                     field.set( bean, false );

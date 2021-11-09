@@ -50,15 +50,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MainServlet implements Servlet
 {
-	private ServletConfig _config;
-	
+    private ServletConfig _config;
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void init( ServletConfig config ) throws ServletException
     {
-    	_config = config;
+        _config = config;
     }
 
     /**
@@ -151,7 +151,7 @@ public class MainServlet implements Servlet
     @Override
     public ServletConfig getServletConfig( )
     {
-    	return _config;
+        return _config;
     }
 
     /**

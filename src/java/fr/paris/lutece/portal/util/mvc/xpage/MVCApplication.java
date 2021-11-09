@@ -85,20 +85,20 @@ import fr.paris.lutece.util.url.UrlItem;
 public abstract class MVCApplication implements XPageApplication
 {
     private static final long serialVersionUID = 6093635383465830355L;
-    
+
     // markers
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
     private static final String MARK_MESSAGE_BOX = "messageBox";
-    
+
     // constants
     private static final String URL_PORTAL = "Portal.jsp";
     private static final String PATH_PORTAL = "jsp/site/";
     private static final String VIEW_MESSAGEBOX = "messageBox";
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String CONTENT_TYPE_XML = "application/xml";
-    
+
     // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
     private List<ErrorMessage> _listErrors = new ArrayList<>( );
@@ -154,14 +154,14 @@ public abstract class MVCApplication implements XPageApplication
             }
 
             LuteceUser registredUser = getRegistredUser( request );
-            
+
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
 
             if ( m != null )
             {
-                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), 
-                        registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
+                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), registredUser,
+                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
                 return (XPage) m.invoke( this, request );
             }
 
@@ -170,16 +170,16 @@ public abstract class MVCApplication implements XPageApplication
 
             if ( m != null )
             {
-                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), 
-                        registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
+                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
+                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
                 return (XPage) m.invoke( this, request );
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
 
-            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), 
-                    registredUser, request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
+            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
+                    request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
             return (XPage) m.invoke( this, request );
         }
         catch( InvocationTargetException e )
@@ -887,25 +887,25 @@ public abstract class MVCApplication implements XPageApplication
 
         return getXPage( _messageBox.getTemplate( ), getLocale( request ), model );
     }
-    
+
     /**
-     * get the registred User 
+     * get the registred User
      * 
      * @param request
      * @return the lutece user if registred, null otherwise
      */
     protected LuteceUser getRegistredUser( HttpServletRequest request )
     {
-    	// get authenticated user if authentication is enable
-        if ( SecurityService.isAuthenticationEnable( ) ) 
+        // get authenticated user if authentication is enable
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
-        	LuteceUser luteceUser = SecurityService.getInstance( ).getRegisteredUser( request );
-        	if ( luteceUser != null )
-        	{
-        		return luteceUser;
-        	}
+            LuteceUser luteceUser = SecurityService.getInstance( ).getRegisteredUser( request );
+            if ( luteceUser != null )
+            {
+                return luteceUser;
+            }
         }
-        
+
         return null;
     }
 }

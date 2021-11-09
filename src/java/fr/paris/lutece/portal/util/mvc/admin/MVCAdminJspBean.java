@@ -75,12 +75,12 @@ import fr.paris.lutece.util.url.UrlItem;
 public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 {
     private static final long serialVersionUID = 278165302545398831L;
-    
+
     // markers
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
-    
+
     // properties
     private static final String PROPERTY_SITE_CODE = "lutece.code";
 
@@ -116,11 +116,11 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
 
             AdminUser adminUser = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
-            
+
             if ( m != null )
             {
-                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), 
-                        adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
+                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
+                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
                 return (String) m.invoke( this, request );
             }
 
@@ -129,16 +129,16 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             if ( m != null )
             {
-                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), 
-                        adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO);
+                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), adminUser,
+                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
                 return (String) m.invoke( this, request );
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
 
-            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), 
-                    adminUser , request.getRequestURL( )+ "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO);
+            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
+                    request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
             return (String) m.invoke( this, request );
         }
         catch( InvocationTargetException e )

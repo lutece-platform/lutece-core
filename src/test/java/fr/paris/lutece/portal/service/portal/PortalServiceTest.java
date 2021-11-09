@@ -155,7 +155,7 @@ public class PortalServiceTest extends LuteceTestCase
 
     private String loadExpected( String strExpectedFileName ) throws IOException
     {
-        try( Scanner s = new Scanner( this.getClass( ).getResourceAsStream( this.getClass( ).getSimpleName( ) + "_" + strExpectedFileName ), "UTF-8" ) )
+        try ( Scanner s = new Scanner( this.getClass( ).getResourceAsStream( this.getClass( ).getSimpleName( ) + "_" + strExpectedFileName ), "UTF-8" ) )
         {
             Scanner delimited = s.useDelimiter( "\\A" );
             return delimited.hasNext( ) ? delimited.next( ) : "";

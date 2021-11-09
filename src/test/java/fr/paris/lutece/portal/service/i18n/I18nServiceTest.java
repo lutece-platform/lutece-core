@@ -102,9 +102,9 @@ public class I18nServiceTest extends LuteceTestCase
         int nDateFormat = DateFormat.SHORT;
 
         String expResultJava8 = "01/01/70";
-	String expResultJava10 = "01/01/1970";
-	String result = fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedDate( date, locale, nDateFormat );
-	assertTrue(expResultJava8.equals(result) || expResultJava10.equals(result));    
+        String expResultJava10 = "01/01/1970";
+        String result = fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedDate( date, locale, nDateFormat );
+        assertTrue( expResultJava8.equals( result ) || expResultJava10.equals( result ) );
     }
 
     /**
@@ -122,7 +122,7 @@ public class I18nServiceTest extends LuteceTestCase
         String expResultJava8 = "01/01/70 01:00";
         String expResultJava10 = "01/01/1970 01:00";
         String result = fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedDateTime( date, locale, nDateFormat, nTimeFormat );
-        assertTrue(expResultJava8.equals(result) || expResultJava10.equals(result));    
+        assertTrue( expResultJava8.equals( result ) || expResultJava10.equals( result ) );
     }
 
     /**

@@ -109,7 +109,8 @@ public class DAOUtilTest extends LuteceTestCase
             daoUtildelete.setString( 1, key );
             daoUtildelete.executeUpdate( );
         }
-        catch (Exception e) {
+        catch( Exception e )
+        {
             fail( );
         }
     }
@@ -123,7 +124,8 @@ public class DAOUtilTest extends LuteceTestCase
             daoUtil.setString( 2, TESTVALUE );
             daoUtil.executeUpdate( );
         }
-        catch (Exception e) {
+        catch( Exception e )
+        {
             fail( );
         }
 
@@ -132,7 +134,8 @@ public class DAOUtilTest extends LuteceTestCase
             daoUtildelete.setString( 1, key );
             daoUtildelete.executeUpdate( );
         }
-        catch (Exception e) {
+        catch( Exception e )
+        {
             fail( );
         }
     }
