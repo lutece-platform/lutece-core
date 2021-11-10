@@ -267,21 +267,26 @@
 <@tag color=color class=class title=title tagIcon=badgeIcon id=id />
 </#macro>
 <#-- DEPRECATED/RENAMED DATEPICKER MACROS 					-->
-<#macro getDatePickerBootstrap idField language parse='false' showFormat='d-m-Y' format=''>
+<#macro getDatePickerBootstrap idField language parse='false' showFormat='' format='d/m/Y'>
+<#-- WARNING : macro deprecated, use @getDate 			-->
 <@getDate idField=idField language=language format=format showFormat=showFormat />
 </#macro>
 <#macro getDatePickerBootstrapClass idForm language>
 <@alert color='danger'>Not compatible with core v7. Please update the DatePicker code in the templates</@alert>
 </#macro>
 <#macro getDatePickerRangeBootstrap language showFormat=''>
+<#-- WARNING : macro deprecated, use @getDateRange                  -->
 <@getDateRange idField='date_begin' idEndField='date_end' language=language />	
 </#macro>
 <#macro getDatePickerFlatPicker idField language >
+<#-- WARNING : macro deprecated, use @getDate                  -->
 <@getDate idField=idField language=language />
 </#macro>
 <#macro getDatePicker idField language >
+<#-- WARNING : macro deprecated, use @getDate                  -->
 <@getDate idField=idField language=language />
 </#macro>
 <#macro getDatePickerRange idFieldFrom idFieldTo language >	
+<#-- WARNING : macro deprecated, use @getDateRange                  -->
 <@getDateRange idField=idFieldFrom  idEndField=idFieldTo language=language />
 </#macro>
