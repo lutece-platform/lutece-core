@@ -36,7 +36,7 @@ function getFlatPickerDateFormat( lang ) {
     "en-NZ": "d/M/y",
     "en-PH": "M/d/y",
     "en-SG": "d/M/y",
-    "en-US": "M/d/y",
+    "en-US": "m/d/Y",
     "en-ZA": "y/M/d",
     "en-ZW": "M/d/y",
     "es-CL": "d-M-y",
