@@ -71,6 +71,7 @@ const dtFormat='${format}';
 <#macro initScriptFlatPicker language range=false>
 <#if datePickerIsLoaded?? && datePickerIsLoaded>
 <#else>
+<link rel="stylesheet" href="css/bootstrap-flatpickr.min.css">
 <script src="js/util/lutece.js"></script>
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
 <#if range ><script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script></#if>
