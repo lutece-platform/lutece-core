@@ -48,6 +48,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import org.junit.Test;
 
@@ -91,6 +93,25 @@ public class AppTemplateServiceTest extends LuteceTestCase
 
     }
 
+    /**
+     * test direct render without freemarker
+     * 
+     */
+    @Test
+    public void testRenderTemplateWithoutFreemarkers( ) 
+    {
+        String strTemplateTest = AppTemplateService.KEY_REPLACE_SIMPLE_MODEL_VARS_ONLY + "test = ${result}";
+        Map<String, Object> model = new HashMap<>( );
+        model.put( "result", "ok!" );
+        
+        HtmlTemplate generated_template = AppTemplateService.getTemplateFromStringFtl( strTemplateTest , LocaleService.getDefault( ), model );
+        
+        System.out.println( "testRenderTemplateWithoutFreemarkers : " + generated_template.getHtml( ) ) ;
+        
+        // the KEY_REPLACE_MODEL_VARS_ONLY and ${var} should not be present
+        assertTrue("test = ok!".equals( generated_template.getHtml( ) ) );
+    }
+    
     /**
      * read file
      *

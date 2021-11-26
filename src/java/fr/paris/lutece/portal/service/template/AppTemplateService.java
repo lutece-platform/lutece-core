@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * This Service is used to retreive HTML templates, stored as files in the WEB-INF/templates directory of the webapp, to build the user interface. It provides a
@@ -53,6 +54,8 @@ public final class AppTemplateService
     private static String _strTemplateDefaultPath;
     private static IFreeMarkerTemplateService _freeMarkerTemplateService;
 
+    public static String KEY_REPLACE_SIMPLE_MODEL_VARS_ONLY = "<!-- REPLACE_SIMPLE_MODEL_VARS_ONLY -->";
+    
     /**
      * Protected constructor
      */
@@ -283,7 +286,16 @@ public final class AppTemplateService
     private static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object model )
     {
         HtmlTemplate template;
-        template = getFreeMarkerTemplateService( ).loadTemplate( strTemplateData, locale, model );
+        
+        if ( strTemplateData.startsWith(KEY_REPLACE_SIMPLE_MODEL_VARS_ONLY ) )
+        {
+            // replace only the variables in the model whithout using freemarker
+            template = loadTemplate( strTemplateData, model );
+        } 
+        else
+        {
+            template = getFreeMarkerTemplateService( ).loadTemplate( strTemplateData, locale, model );
+        }
 
         if ( locale != null )
         {
@@ -308,5 +320,27 @@ public final class AppTemplateService
         }
 
         return _freeMarkerTemplateService;
+    }
+    
+    /**
+     * Search & replace string variables of the model only, without calling freemarker
+     * (this should be used only for performance reasons)
+     * 
+     * @param strTemplateData
+     * @param model
+     * @return the rendered template
+     */
+    private static HtmlTemplate loadTemplate( String strTemplateData, Object model )
+    {
+        Map<String, String> map = (Map<String, String>) model;
+
+        strTemplateData = strTemplateData.replace(KEY_REPLACE_SIMPLE_MODEL_VARS_ONLY, "");
+
+        for (Map.Entry<String, String> entry : map.entrySet( ) ) 
+        {
+            strTemplateData = strTemplateData.replace("${" + entry.getKey( ) + "}", (String)entry.getValue( ) );
+        }        
+
+        return new HtmlTemplate( strTemplateData );
     }
 }
