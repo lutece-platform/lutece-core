@@ -56,8 +56,6 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
 {
     private static final String CONSTANT_LOST_PASSWORD_URL = "jsp/admin/AdminForgotPassword.jsp";
     private static final String CONSTANT_LOST_LOGIN_URL = "jsp/admin/AdminForgotLogin.jsp";
-    private static final String PROPERTY_MAX_ACCESS_FAILED = "access_failures_max";
-    private static final String PROPERTY_INTERVAL_MINUTES = "access_failures_interval";
     private ILuteceDefaultAdminUserDAO _dao;
 
     @Inject
@@ -99,8 +97,8 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     public AdminUser login( String strAccessCode, String strUserPassword, HttpServletRequest request ) throws LoginException
     {
         // Test the number of errors during an interval of minutes
-        int nMaxFailed = AdminUserService.getIntegerSecurityParameter( PROPERTY_MAX_ACCESS_FAILED );
-        int nIntervalMinutes = AdminUserService.getIntegerSecurityParameter( PROPERTY_INTERVAL_MINUTES );
+        int nMaxFailed = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX );
+        int nIntervalMinutes = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL );
 
         if ( ( nMaxFailed > 0 ) && ( nIntervalMinutes > 0 ) )
         {
