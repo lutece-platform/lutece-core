@@ -41,6 +41,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import fr.paris.lutece.util.PropertiesService;
+import fr.paris.lutece.util.env.EnvUtil;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * this class provides management services for properties files
@@ -87,6 +89,8 @@ public final class AppPropertiesService
         _propertiesService.addPropertiesDirectory( confPath + PATH_PLUGINS );
         _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_CORE );
         _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_PLUGINS );
+
+        resolveEnvironmentVariables( );
     }
 
     /**
@@ -163,6 +167,8 @@ public final class AppPropertiesService
     public static void reloadAll( )
     {
         _propertiesService.reloadAll( );
+
+        resolveEnvironmentVariables( );
     }
 
     /**
@@ -174,6 +180,8 @@ public final class AppPropertiesService
     public static void reload( String strFilename )
     {
         _propertiesService.reload( strFilename );
+
+        resolveEnvironmentVariables( );
     }
 
     /**
@@ -235,5 +243,31 @@ public final class AppPropertiesService
         }
 
         return listKeys;
+    }
+
+    /**
+     * Replace env vars if exists 
+     * for properties values that matches the pattern "\\$\\{(.+?)\\}"
+     */
+    private static void resolveEnvironmentVariables( )
+    {
+        Enumeration<?> eList = _propertiesService.getProperties( ).keys( );
+
+        while ( eList.hasMoreElements( ) )
+        {
+            String strKey = (String) eList.nextElement( );
+            String strValue = (String) _propertiesService.getProperties( ).get( strKey ) ;
+
+            // Try to read the env variable 
+            // Returns empty string if the value does not match the pattern 
+            //  or if the env var does not exist.
+            String strEnvValue = EnvUtil.evaluate( strValue.trim( ) );
+
+            // update properties only if the env var was found
+            if (!StringUtils.isBlank( strEnvValue ) )
+            {
+                _propertiesService.getProperties( ).setProperty( strKey, strEnvValue );
+            }
+        }
     }
 }
