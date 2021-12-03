@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
  */
 public final class DateUtil
 {
+    public static final String ISO_PATTERN_DATE = "yyyy-MM-dd HH:mm:ss";
     private static final String CONSTANTE_PATTERN_DATE = "dd/MM/yyyy";
     private static final long CONSTANT_NUMBER_MILISECONDS_IN_DAY = 86400000;
 
@@ -313,5 +314,44 @@ public final class DateUtil
         dateFormat.setLenient( false );
         
         return dateFormat;
+    }
+    
+    /**
+     * Parse a date from ISO format ( yyyy-MM-dd HH:mm:ss )
+     * @param strDate
+     * @return
+     */
+    public static Date parseIsoDate( String strDate )
+    {
+        Date date = null;
+        if ( StringUtils.isNotBlank( strDate ) )
+        {
+            SimpleDateFormat format = new SimpleDateFormat( ISO_PATTERN_DATE );
+            try
+            {
+                date = format.parse( strDate );
+            }
+            catch( ParseException e )
+            {
+                return null;
+            }
+        }
+        return date;
+    }
+    
+    /**
+     * Get the ISO format ( yyyy-MM-dd HH:mm:ss ) of a date
+     * @param date
+     * @return
+     */
+    public static String getIsoDateString( Date date )
+    {
+        String strDate = null;
+        if ( date != null )
+        {
+            SimpleDateFormat format = new SimpleDateFormat( ISO_PATTERN_DATE );
+            strDate = format.format( date );
+        }
+        return strDate; 
     }
 }
