@@ -13,7 +13,7 @@ $( function() {
 });
 </script>
 </#macro>
-<#macro getDateTime idField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' minTime='' maxTime='' dateOptions={} >
+<#macro getDateTime idField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' dateOptions={} >
 <@initScriptFlatPicker language=language />
 <script>
 $( function() {
@@ -31,7 +31,7 @@ $( function() {
 });
 </script>
 </#macro>
-<#macro getDateTimeRange idField idEndField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' minTime='' maxTime='' dateOptions={}>
+<#macro getDateTimeRange idField idEndField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' dateOptions={}>
 <@initScriptFlatPicker language=language range=true />
 <script>
 $( function() {
