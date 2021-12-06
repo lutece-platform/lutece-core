@@ -319,7 +319,8 @@ public final class DateUtil
     /**
      * Parse a date from ISO format ( yyyy-MM-dd HH:mm:ss )
      * @param strDate
-     * @return
+     * @since 7.0.1
+     * @return parsed {@link Date} or null if the string can't be parsed
      */
     public static Date parseIsoDate( String strDate )
     {
@@ -342,7 +343,8 @@ public final class DateUtil
     /**
      * Get the ISO format ( yyyy-MM-dd HH:mm:ss ) of a date
      * @param date
-     * @return
+     * @since 7.0.1
+     * @return string of the date in iso format, or null if param is null
      */
     public static String getIsoDateString( Date date )
     {
