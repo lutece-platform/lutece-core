@@ -35,6 +35,7 @@ html{ /* Sticky footer styles */ position: relative; min-height: 100%; }
 
 /*  Dropdown menus */
 .dropdown-menu > li  { color: var( --white ); }
+.dropdown-menu > li > a{ width: 310px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dropdown-menu > li > a:hover,.dropdown-menu > li > a:focus { background-color: var( --black ); background-image: none;color: var( --white );}
 .navbar-nav .open .dropdown-menu > li > a:hover,.dropdown-menu > li > a:focus { background-color: var( --black ); background-image: none;color: var( --white );}
 .dropdown-menu > li > ul > li > a{ background-color: var( --white ); color: var( --black ); }
