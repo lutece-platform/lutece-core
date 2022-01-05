@@ -96,19 +96,19 @@
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' />
 					</@columns>	
 				</@row>
-				<@row>
-					<@columns class='is-flex-grow-5'>
-						<#if portletType.modifySpecificTemplate != "" ><#include portletType.modifySpecificTemplate /></#if>
-						<#if portletType.modifySpecificFormTemplate != "" ><#include portletType.modifySpecificFormTemplate /></#if>
-					</@columns>
-				</@row>
 			</@columns>
 		</@row>
-		<@row>
+		<@row class='m-1'>
+			<@columns class='is-flex-grow-5'>
+				<#if portletType.modifySpecificTemplate != "" ><#include portletType.modifySpecificTemplate /></#if>
+				<#if portletType.modifySpecificFormTemplate != "" ><#include portletType.modifySpecificFormTemplate /></#if>
+			</@columns>
+		</@row>
+		<@row class='m-1'>
 			<@columns>
 				<@formGroup rows=2>
-					<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' />
-					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet.pageId}' params='target="_top"' color='secondary' buttonIcon='close' title='#i18n{portal.site.create_portlet.buttonBack}' />
+					<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' color='primary' size='' />
+					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet.pageId}' params='target="_top"' color='secondary' buttonIcon='close' title='#i18n{portal.site.create_portlet.buttonBack}' size='' />
 				</@formGroup>
 			</@columns>	
 		</@row>
