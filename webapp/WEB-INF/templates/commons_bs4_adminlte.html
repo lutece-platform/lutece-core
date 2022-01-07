@@ -1171,18 +1171,14 @@
 <#-- classes: alert-success/alert-info/alert-warning/alert-danger + alert-dismissible -->
 <#-- color: primary/success/info/warning/danger -->
 <#macro alert class='' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="alert<#if class!=''> ${class}</#if><#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="alert d-flex align-items-center<#if class!=''> ${class}</#if><#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if dismissible>
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 			&times;
 		</button>
 	</#if>
-	<#if title!=''>
-	<${titleLevel}>
-		<#if iconTitle!=''><@icon style=iconTitle /></#if>
-		${title}
-	</${titleLevel}>
-	</#if>
+	<#if iconTitle!=''><@icon style=iconTitle class='mr-2' /></#if>
+	<#if title!=''><${titleLevel}>${title}</${titleLevel}></#if>
 	<#nested>
 </div>
 </#macro>

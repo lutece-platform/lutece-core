@@ -1199,18 +1199,14 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- classes: alert-success/alert-info/alert-warning/alert-danger + alert-dismissible -->
 <#-- color: primary/success/info/warning/danger -->
 <#macro alert class='' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="alert<#if class!=''> ${class}</#if><#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="alert d-flex align-items-center<#if class!=''> ${class}</#if><#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if dismissible>
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 			&times;
 		</button>
 	</#if>
-	<#if title!=''>
-	<${titleLevel}>
-		<#if iconTitle!=''><@icon style=iconTitle /></#if>
-		${title}
-	</${titleLevel}>
-	</#if>
+	<#if iconTitle!=''><@icon style=iconTitle class='mr-2' /></#if>
+	<#if title!=''><${titleLevel}>${title}</${titleLevel}></#if>
 	<#nested>
 </div>
 </#macro>
@@ -1237,7 +1233,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' class='' params='' boxTools=false titleLevel='h5' deprecated...>
 <@deprecatedWarning args=deprecated />
-	<div class="card-header card-header-info text-white d-flex justify-content-between<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="card-header card-header-info d-flex justify-content-between<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 		<#local nested><#nested></#local>
 		<#if nested?has_content>

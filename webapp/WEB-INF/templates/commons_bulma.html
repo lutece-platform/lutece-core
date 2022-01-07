@@ -1202,9 +1202,10 @@ ${title}
 <#-- class:  -->
 <#-- color: success/info/warning/danger -->
 <#macro alert class='' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="notification ${class}<#if color!=''> is-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="notification is-flex is-align-items-center<#if class!=''> ${class}</#if><#if color!=''> is-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if dismissible><@button color='' size='' class='delete' params='data-dismiss="alert" aria-hidden="true"'>&times;</@button></#if>
-<#if title!=''><${titleLevel}><#if iconTitle!=''><@icon style=iconTitle /></#if><span>${title}</span></${titleLevel}></#if>
+<#if iconTitle!=''><@icon style=iconTitle class='mr-3' /></#if>
+<#if title!=''><${titleLevel}><span>${title}</span></${titleLevel}></#if>
 <#nested>
 </div>
 </#macro>

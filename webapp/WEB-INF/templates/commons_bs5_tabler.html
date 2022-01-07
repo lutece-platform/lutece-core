@@ -1136,10 +1136,11 @@
 <#-- color: primary/success/info/warning/danger -->
 <#macro alert class='' color='' titleLevel='h4' title='' iconTitle='' dismissible=false id='' params=''>
 <div class="alert alert-<#if class!=''>${class}</#if><#if color!=''> alert-${color}</#if><#if dismissible> alert-dismissible</#if>"<#if id!=''> id="${id}"</#if>>
-	<div class="d-flex<#if params!=''> ${params}</#if>">
+	<div class="d-flex align-items-center <#if params!=''> ${params}</#if>">
+		<#if color!=''><#assign txtColor> text-${color}</#assign></#if>
+	<#if iconTitle!=''><@icon style=iconTitle class='mx-2${txtColor}' /></#if>
 	<#if title!=''>
 	<${titleLevel} class="alert-title">
-		<#if iconTitle!=''><@icon style=iconTitle /></#if>
 		${title}
 	</${titleLevel}>
 	</#if>
