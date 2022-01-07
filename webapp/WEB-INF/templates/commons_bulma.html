@@ -1077,7 +1077,7 @@ ${title}
 <a class="<#if buttonSize!=''>is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if style!=''> ${style}<#else> button</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 <#if buttonIcon!='' && iconPosition='left'><span class="icon"><@icon style=buttonIcon /></span></#if>
 <#if displayTitleClass!='is-sr-only'><span class="${displayTitleClass}">${title}</span></#if>
-<#if buttonIcon!='' && iconPosition='right'><# class="icon"><@icon style=buttonIcon /><</span></#if>
+<#if buttonIcon!='' && iconPosition='right'><span class="icon"><@icon style=buttonIcon /></span></#if>
 <#if dropdownMenu>&#160;<@icon style='caret-down' /></#if>
 <#if !dropdownMenu>
 	<#nested>
