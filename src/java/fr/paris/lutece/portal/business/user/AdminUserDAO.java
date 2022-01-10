@@ -96,7 +96,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_SELECT_USER_ROLE = " SELECT id_user FROM core_user_role WHERE id_user = ? AND role_key = ? ";
     private static final String SQL_QUERY_DELETE_ROLE_FOR_USER = " DELETE FROM core_user_role WHERE id_user = ? AND role_key = ? ";
     private static final String SQL_QUERY_SELECT_USER_FROM_SEARCH = " SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, accessibility_mode "
-            + " FROM core_admin_user WHERE access_code LIKE ? AND last_name LIKE ? AND email LIKE ? ";
+            + " FROM core_admin_user WHERE access_code LIKE ? AND last_name LIKE ? AND email LIKE ? AND first_name LIKE ? ";
     private static final String SQL_QUERY_SELECT_USERS_BY_RIGHT = " SELECT  u.id_user , u.access_code, u.last_name , u.first_name, u.email, u.status, u.locale, u.level_user, u.accessibility_mode "
             + " FROM core_admin_user u INNER JOIN core_user_right r ON u.id_user = r.id_user WHERE r.id_right = ? ";
     private static final String SQL_QUERY_SELECT_USER_RIGHT = " SELECT id_user FROM core_user_right WHERE id_user = ? AND id_right = ? ";
@@ -858,25 +858,20 @@ public class AdminUserDAO implements IAdminUserDAO
 
         try ( DAOUtil daoUtil = new DAOUtil( query ) )
         {
-            daoUtil.setString( 1, CONSTANT_PERCENT + auFilter.getAccessCode( ) + CONSTANT_PERCENT );
-            daoUtil.setString( 2, CONSTANT_PERCENT + auFilter.getLastName( ) + CONSTANT_PERCENT );
-            daoUtil.setString( 3, CONSTANT_PERCENT + auFilter.getEmail( ) + CONSTANT_PERCENT );
+            int nIndex = 0;
+            daoUtil.setString( ++nIndex, CONSTANT_PERCENT + auFilter.getAccessCode( ) + CONSTANT_PERCENT );
+            daoUtil.setString( ++nIndex, CONSTANT_PERCENT + auFilter.getLastName( ) + CONSTANT_PERCENT );
+            daoUtil.setString( ++nIndex, CONSTANT_PERCENT + auFilter.getEmail( ) + CONSTANT_PERCENT );
+            daoUtil.setString( ++nIndex, CONSTANT_PERCENT + auFilter.getFirstName( ) + CONSTANT_PERCENT );
 
             if ( auFilter.getStatus( ) != -1 )
             {
-                daoUtil.setInt( 4, auFilter.getStatus( ) );
-
-                if ( auFilter.getUserLevel( ) != -1 )
-                {
-                    daoUtil.setInt( 5, auFilter.getUserLevel( ) );
-                }
+                daoUtil.setInt( ++nIndex, auFilter.getStatus( ) );
             }
-            else
+
+            if ( auFilter.getUserLevel( ) != -1 )
             {
-                if ( auFilter.getUserLevel( ) != -1 )
-                {
-                    daoUtil.setInt( 4, auFilter.getUserLevel( ) );
-                }
+                daoUtil.setInt( ++nIndex, auFilter.getUserLevel( ) );
             }
 
             daoUtil.executeQuery( );
