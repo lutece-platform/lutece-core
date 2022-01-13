@@ -40,6 +40,15 @@ $( function() {
 });
 </script>
 </#macro>
+<#macro getTime idField language=.lang format='H:i' showFormat='H:i' defaultDate='' minTime='' maxTime='' time_24hr=true dateOptions={}>
+<@initScriptFlatPicker language=language range=true />
+<script>
+$( function() {
+	<@getDateFormat format=format showFormat=showFormat time=true />
+	$('#${idField}').flatpickr({enableTime: true, noCalendar:true, altInput:true, <#if time_24hr == true>time_24hfr:true,</#if> altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime?time("hh:mm")}"</#if><#if maxTime !=''>, maxTime : "${maxTime?time("hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if><#if dateOptions?size gt 0>, ${setFlatPickerOptions( dateOptions )}</#if> });
+});
+</script>
+</#macro>
 <#-- getLanguageInLocale
  # This macro should not be called directly
  #
