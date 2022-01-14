@@ -139,6 +139,9 @@ li.portlet-type a:hover{ background:var( --azure ) ;  color:var( --white ) ; }
 .input-group-text > .btn.btn-primary{  color:var( --tblr-primary );}
 .theme-dark .input-group-text > .btn {  color: var( --tblr-light ); }
 
+/* index log */
+.index-logs:empty{ display: none; }
+
 /* PLUGINS ADMIN added styles                                       */
 /* Plugins EXTEND                                                   */
 .extend-action-menu{ display: flex; justify-content: space-between; align-items: center;}
