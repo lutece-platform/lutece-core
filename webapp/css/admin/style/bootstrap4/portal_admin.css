@@ -118,6 +118,9 @@ li.portlet-type a:hover{  background:#6D84CB; color:#fff; }
 /* Spaces between elements when display is set to flex. intended for buttons */
 .card-header .d-flex > * + *, .card-body .d-flex > * + * {	margin-left: 0.2rem; }
 
+/* index log */
+.index-logs:empty{ display: none; }
+
 /* PLUGINS ADMIN added styles     */
 /* Plugins EXTEND                 */
 #extender-content .list-group-item{ border-color: transparent; padding: 2px }
@@ -153,7 +156,6 @@ li.portlet-type a:hover{  background:#6D84CB; color:#fff; }
 .card-theme.default-theme .avatar img{ border-color:  #3C763D }
 .theme-selected{ display: none }
 .card-theme.default-theme .theme-selected{ display: block; width: 200px; background: #3C763D; text-align: center; line-height: 50px;  letter-spacing: 1px; font-weight: bold; font-size: 16px; color: #fff; box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg); }
-
 
 /* Asynchronous Upload */
 .list-file-item{ display: flex; align-items: center; padding-bottom: 5px }

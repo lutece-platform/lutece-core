@@ -501,23 +501,33 @@ public final class IndexationService
      */
     private static void error( String strTitle, Exception e, String strMessage )
     {
-        _sbLogs.append( "<strong class=\"alert\">" );
+        _sbLogs.append( "</pre>\r\n" );
+        _sbLogs.append( "<div class=\"alert alert-danger\">\r\n" );
         _sbLogs.append( strTitle );
         _sbLogs.append( " - ERROR : " );
+        _sbLogs.append( "<strong>\r\n" );
         _sbLogs.append( e.getMessage( ) );
+        _sbLogs.append( "</strong>\r\n" );
 
         if ( e.getCause( ) != null )
         {
             _sbLogs.append( " : " );
+            _sbLogs.append( "<strong>\r\n" );
             _sbLogs.append( e.getCause( ).getMessage( ) );
+            _sbLogs.append( "</strong>\r\n" );
         }
 
         if ( StringUtils.isNotBlank( strMessage ) )
         {
-            _sbLogs.append( " - " ).append( strMessage );
+            _sbLogs.append( " - " );
+            _sbLogs.append( "<strong>\r\n" );
+            _sbLogs.append( strMessage );
+            _sbLogs.append( "</strong>\r\n" );
         }
 
-        _sbLogs.append( "</strong>\r\n" );
+        _sbLogs.append( "</div>\r\n" );
+        _sbLogs.append( "<pre>" );
+
         AppLogService.error( "Indexing error : " + e.getMessage( ), e );
     }
 

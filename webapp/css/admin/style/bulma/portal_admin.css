@@ -125,8 +125,10 @@ li.portlet-type a:hover{ background:#6D84CB; color:#fff; }
 /* HTML defaults */
 pre{ white-space: pre-wrap;}
 
+/* index log */
+.index-logs:empty{ display: none; }
+
 /* Pagination */
-/* .showcount{ min-width: 14vw } */
 /* Accordion            */
 .accordion .accordion-header .title{ font-size: inherit ;}
 
