@@ -143,15 +143,15 @@ return 'n/a';
 
 /* Tab management for advanced user parameters */
 function manageTab( hc ){
-if( hc != undefined ){
-	$(hc).parents('.collapse').addClass('in');
-	$('.nav li').removeClass('active');
-	var k='a[href="' + hc + '"]';
-	$(k).parent().addClass('active');
-	$('.tab-pane').removeClass('active').removeClass('in');
-	$(hc).addClass('active in');
-	$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
-}
+	if( hc != undefined ){
+		$(hc).parents('.collapse').addClass('show');
+		$('.nav li a').removeClass('active');
+		var k='a[href="' + hc + '"]';
+		$(k).addClass('active');
+		$('.tab-pane').removeClass('active').removeClass('in');
+		$(hc).addClass('active show');
+		$('html, body').animate( { scrollTop: $(hc).offset.top }, 800 );	
+	}
 }
 
 /* Manage progress bar  */
