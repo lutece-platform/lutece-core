@@ -6,7 +6,6 @@
 /* Specific script for back office */
 $( function(){
 	var nCounter = "";
-	var nMax = "";
 
 	// Count effect
 	$('.small-box .inner h3 span').each( function () {
@@ -153,7 +152,7 @@ function progress( bar, complexity, valid ){
 }
 
 /* Tab management for advanced user parameters */
-function manageTab( hc ){
+function manageAdminFeatureTab( hc ){
 	if( hc != undefined ){
 		$(hc).parents('.collapse').addClass('in');
 		$('.nav li').removeClass('active');
@@ -163,4 +162,12 @@ function manageTab( hc ){
 		$(hc).addClass('active in');
 		$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
 	}
+	
+	$('[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		Cookies.set('technnicaltab', e.target.hash, { sameSite: 'Strict' } )
+	});
+	
+	$('[data-toggle="collapse"]').on('click', function(e){
+		Cookies.remove('technnicaltab');
+	});
 }

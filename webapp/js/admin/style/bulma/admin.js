@@ -161,7 +161,6 @@ $( function(){
 		var $tabParent = $(this);
 		var $tabs = $tabParent.find('li');
 		var $contents = $tabParent.next('.tab-content').find('.tab-pane');
-		console.log(  $contents.length );
 		$tabs.each( function(){
 			$(this).click(function(e) {
 				if(  $contents.length > 0 ){
@@ -176,7 +175,6 @@ $( function(){
 				}
 			});
 		});
-			
 	});
 
 	/* Tabs Panel Vertical */
@@ -184,7 +182,6 @@ $( function(){
 		// var $tabParent = $('.tabs-parent');
 		var $tabs = $(this).find('li');
 		var $contents = $(this).parents('.tabs-parent').find('.tab-content > .tab-pane');
-		
 		$tabs.click(function(e) {
 			e.preventDefault();
 		  	var curIndex = $(this).index();
@@ -196,7 +193,20 @@ $( function(){
 		  	$contents.eq(curIndex).addClass('active').addClass('show');
 		});
 	});
+
+	// Admin Features
+	var admfeatlink = $('#admin_features .menu-list > li > a');
+	if ( admfeatlink.length > 0 ){
+		admfeatlink.each( function( ) {
+			$(this).on('click', function( e ) {
+			 	Cookies.set('technnicaltab',  e.target.hash , { sameSite: 'Strict' } );
+			});
+		})
+	} 
 	
+	$('#technical_settings .accordion .accordion-header').on('click', function(e){
+		Cookies.remove('technnicaltab');
+	});
 
 });
 
@@ -219,14 +229,14 @@ bar.attr( 'value', Math.round( complexity ));
 }
 
 /* Tab management for advanced user parameters */
-function manageTab( hc ){
-if( hc != undefined ){
-	$(hc).parents('.collapse').addClass('in');
-	$('.menu-list li').removeClass('active');
-	var k='a[href="' + hc + '"]';
-	$(k).parent().addClass('active');
-	$('.tab-pane').removeClass('active').removeClass('in');
-	$(hc).addClass('active in');
-	$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
-}
+function manageAdminFeatureTab( hc ){
+	if( hc != undefined ){
+		$(hc).parents('.accordion').addClass('is-active');
+		$('.menu-list li').removeClass('is-active');
+		var k='a[href="' + hc + '"]';
+		$(k).parent().addClass('is-active');
+		$('.tab-pane').removeClass('is-active show');
+		$(hc).addClass('show');
+		$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
+	}
 }	

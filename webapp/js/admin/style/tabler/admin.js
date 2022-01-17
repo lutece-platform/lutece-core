@@ -210,7 +210,7 @@ bar.html( Math.round( complexity ) + '%');
 }
 
 /* Tab management for advanced user parameters */
-function manageTab( hc ){
+function manageAdminFeatureTab( hc ){
 	if( hc != undefined ){
 		$(hc).parents('.collapse').addClass('show');
 		$('.nav li').removeClass('active');
@@ -220,4 +220,12 @@ function manageTab( hc ){
 		$(hc).addClass('active show');
 		$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
 	}
+	
+	$('[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
+		Cookies.set('technnicaltab', e.target.hash, { sameSite: 'Strict' } )
+	});
+	
+	$('[data-bs-toggle="collapse"]').on('click', function(e){
+		Cookies.remove('technnicaltab');
+	});
 }

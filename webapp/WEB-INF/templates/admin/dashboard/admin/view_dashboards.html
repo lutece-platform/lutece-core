@@ -15,14 +15,6 @@
 <script>
 $( function(){
 	var hasTechCookie=Cookies.get('technnicaltab');
-	manageTab( hasTechCookie )
-	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-		var tt = e.target.hash;
-		Cookies.set('technnicaltab', e.target.hash, { sameSite: 'Strict' } )
-	});
-	
-	$('.collapsed').on('click', function(e){
-		Cookies.remove('technnicaltab');
-	});
+	manageAdminFeatureTab( hasTechCookie );
 });
 </script>

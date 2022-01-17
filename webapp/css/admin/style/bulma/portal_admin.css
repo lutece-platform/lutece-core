@@ -133,6 +133,7 @@ pre{ white-space: pre-wrap;}
 /* Tabs */
 .tab-pane{ display: none;}
 .tab-pane.show{ display: block;}
+.tabs-parent .is-active > a{ font-weight: 700; border-left: 4px solid var( --indigo ); color: var( --indigo ) !important }
 
 /* PLUGINS              */
 /* Plugin THEME         */
