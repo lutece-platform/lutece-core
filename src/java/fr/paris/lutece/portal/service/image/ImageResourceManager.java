@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,7 +60,7 @@ public final class ImageResourceManager
     public static void registerProvider( ImageResourceProvider resourceProvider )
     {
         _mapResourceTypes.put( resourceProvider.getResourceTypeId( ), resourceProvider );
-        AppLogService.info( "New ImageResourceType registered : {}",  resourceProvider.getClass( ).getName( ) );
+        AppLogService.info( "New ImageResourceType registered : {}", resourceProvider.getClass( ).getName( ) );
     }
 
     /**

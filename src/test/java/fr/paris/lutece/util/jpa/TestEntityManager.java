@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -376,7 +376,7 @@ final class TestEntityManager implements EntityManager
     }
 
     @Override
-    public boolean isJoinedToTransaction()
+    public boolean isJoinedToTransaction( )
     {
         // TODO Auto-generated method stub
         return false;
@@ -392,18 +392,18 @@ final class TestEntityManager implements EntityManager
     @Override
     public EntityGraph<?> createEntityGraph( String string )
     {
-        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException( "Not supported yet." ); // To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public EntityGraph<?> getEntityGraph( String string )
     {
-        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException( "Not supported yet." ); // To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public <T> List<EntityGraph<? super T>> getEntityGraphs( Class<T> type )
     {
-        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException( "Not supported yet." ); // To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,12 +47,11 @@ public class CommonsService
 {
     private static final String DSKEY_CURRENT_COMMONS_INCLUDE = "core.templates.currentCommonsInclude";
 
-
     private CommonsService( )
     {
         // Ctor
     }
-    
+
     /**
      * Get the list of commons includes
      * 
@@ -66,7 +65,8 @@ public class CommonsService
     /**
      * Activate a commons library
      * 
-     * @param strKey The commons key
+     * @param strKey
+     *            The commons key
      */
     public static void activateCommons( String strKey )
     {
@@ -130,7 +130,7 @@ public class CommonsService
     public static String getCurrentCommonsKey( )
     {
         CommonsInclude ciCurrent = getCurrentCommonsInclude( );
-        
+
         if ( ciCurrent != null )
         {
             return ciCurrent.getKey( );
@@ -144,7 +144,8 @@ public class CommonsService
     /**
      * Get a commons include by its key
      * 
-     * @param strKey The key
+     * @param strKey
+     *            The key
      * @return The commons include object
      */
     public static CommonsInclude getCommonsInclude( String strKey )
@@ -160,7 +161,7 @@ public class CommonsService
     }
 
     /**
-     * Get the default commons include 
+     * Get the default commons include
      * 
      * @return The commons include object
      */
@@ -174,13 +175,13 @@ public class CommonsService
                 return ci;
             }
         }
-        
-        // if there's no default, returns the first one 
+
+        // if there's no default, returns the first one
         if ( getCommonsIncludes( ).size( ) > 0 )
         {
             return getCommonsIncludes( ).get( 0 );
         }
-        
+
         return null;
     }
 
@@ -192,16 +193,16 @@ public class CommonsService
     public static CommonsInclude getCurrentCommonsInclude( )
     {
         String strCurrentCommonsIncludeKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, null );
-        
+
         if ( strCurrentCommonsIncludeKey != null )
         {
             CommonsInclude ci = getCommonsInclude( strCurrentCommonsIncludeKey );
-            if ( ci != null ) 
+            if ( ci != null )
             {
                 return ci;
             }
         }
-        
+
         CommonsInclude ci = getDefaultCommonsInclude( );
         if ( ci != null )
         {
@@ -212,13 +213,14 @@ public class CommonsService
         {
             return null;
         }
-      
+
     }
 
     /**
      * Define the new commons include
      * 
-     * @param ciNew the new commons include
+     * @param ciNew
+     *            the new commons include
      */
     private static void setNewCommonsInclude( CommonsInclude ciNew )
     {

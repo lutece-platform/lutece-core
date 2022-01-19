@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,8 +65,8 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         assertEquals( TestAdminUserMenuItemProvider.ITEM, items.get( 0 ) );
     }
 
-    public void testSetClassNameProviderAlreadySetDirectly( ) throws InstantiationException, IllegalAccessException, IllegalStateException,
-            ClassNotFoundException
+    public void testSetClassNameProviderAlreadySetDirectly( )
+            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
         _instance.setProvider( new TestAdminUserMenuItemProvider( ) );
         try
@@ -80,8 +80,8 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         }
     }
 
-    public void testSetClassNameProviderAlreadySetByClassName( ) throws InstantiationException, IllegalAccessException, IllegalStateException,
-            ClassNotFoundException
+    public void testSetClassNameProviderAlreadySetByClassName( )
+            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
         _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
         try
@@ -106,8 +106,8 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         assertEquals( TestAdminUserMenuItemProvider.ITEM, items.get( 0 ) );
     }
 
-    public void testSetProviderProviderAlreadySetDirectly( ) throws InstantiationException, IllegalAccessException, IllegalStateException,
-            ClassNotFoundException
+    public void testSetProviderProviderAlreadySetDirectly( )
+            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
         _instance.setProvider( new TestAdminUserMenuItemProvider( ) );
         try
@@ -121,8 +121,8 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         }
     }
 
-    public void testSetProviderProviderAlreadySetByClassName( ) throws InstantiationException, IllegalAccessException, IllegalStateException,
-            ClassNotFoundException
+    public void testSetProviderProviderAlreadySetByClassName( )
+            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
         _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
         try

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -87,7 +87,7 @@ public class DaemonThread implements Runnable
             currentThread.setName( "Lutece-Daemon-" + _entry.getId( ) );
 
             Daemon daemon = _entry.getDaemon( );
-            AppLogService.info("{} - starts processing.", _strDaemonName );
+            AppLogService.info( "{} - starts processing.", _strDaemonName );
 
             try
             {
@@ -108,7 +108,7 @@ public class DaemonThread implements Runnable
                 AppLogService.error( "Could not process Daemon: {}", _entry.getId( ), t );
             }
 
-            AppLogService.info("{} - end of process.", _strDaemonName );
+            AppLogService.info( "{} - end of process.", _strDaemonName );
             currentThread.setName( strPooledThreadName );
         }
         else

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -108,7 +108,7 @@ public class XPageAppService extends ContentService
             }
 
             _mapApplications.put( entry.getId( ), entry );
-            AppLogService.info( "New XPage application registered : {} {}",  entry::getId, () -> ( entry.isEnabled( ) ? "" : " (disabled)" ) );
+            AppLogService.info( "New XPage application registered : {} {}", entry::getId, ( ) -> ( entry.isEnabled( ) ? "" : " (disabled)" ) );
         }
         catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
         {
@@ -197,7 +197,8 @@ public class XPageAppService extends ContentService
         // TODO : Handle entry == null
         if ( ( entry == null ) || ( !entry.isEnable( ) ) )
         {
-            AppLogService.error( "The specified Xpage '{}' cannot be retrieved. Check installation of your Xpage application.", () -> SecurityUtil.logForgingProtect( strName ) );
+            AppLogService.error( "The specified Xpage '{}' cannot be retrieved. Check installation of your Xpage application.",
+                    ( ) -> SecurityUtil.logForgingProtect( strName ) );
             SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
 
             return null; // unreachable because SiteMessageService.setMessage throws

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,7 +56,7 @@ public class ReferenceListTest extends LuteceTestCase
         ReferenceList instance = new ReferenceList( );
 
         instance.addItem( strCode, strName );
-        
+
         ReferenceItem item = instance.get( 0 );
         assertEquals( strCode, item.getCode( ) );
         assertEquals( strName, item.getName( ) );

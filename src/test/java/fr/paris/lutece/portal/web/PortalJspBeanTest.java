@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -130,7 +130,7 @@ public class PortalJspBeanTest extends LuteceTestCase
             assertTrue( StringUtils.isNotEmpty( result ) );
         }
     }
-    
+
     /**
      * Test of getLoginNextUrl method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */

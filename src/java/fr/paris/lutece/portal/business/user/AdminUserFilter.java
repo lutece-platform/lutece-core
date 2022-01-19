@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -128,7 +128,8 @@ public class AdminUserFilter implements Serializable
     }
 
     /**
-     * @param strFirstName the strFirstName to set
+     * @param strFirstName
+     *            the strFirstName to set
      */
     public void setFirstName( String strFirstName )
     {

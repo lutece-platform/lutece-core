@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -86,8 +86,10 @@ public class LuceneSearchEngine implements SearchEngine
     /**
      * Return search results
      *
-     * @param strQuery The search query
-     * @param request  The HTTP request
+     * @param strQuery
+     *            The search query
+     * @param request
+     *            The HTTP request
      * @return Results as a collection of SearchResult
      */
     public List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request )
@@ -99,20 +101,20 @@ public class LuceneSearchEngine implements SearchEngine
         {
             LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
-            Query[] filtersRole = null;
+            Query [ ] filtersRole = null;
 
             if ( user != null )
             {
-                String[] userRoles = SecurityService.getInstance( ).getRolesByUser( user );
+                String [ ] userRoles = SecurityService.getInstance( ).getRolesByUser( user );
 
                 if ( userRoles != null )
                 {
-                    filtersRole = new Query[userRoles.length + 1];
+                    filtersRole = new Query [ userRoles.length + 1];
 
                     for ( int i = 0; i < userRoles.length; i++ )
                     {
-                        Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, userRoles[i] ) );
-                        filtersRole[i] = queryRole;
+                        Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, userRoles [i] ) );
+                        filtersRole [i] = queryRole;
                     }
                 }
                 else
@@ -122,44 +124,43 @@ public class LuceneSearchEngine implements SearchEngine
             }
             else
             {
-                filtersRole = new Query[1];
+                filtersRole = new Query [ 1];
             }
 
             if ( !bFilterResult )
             {
                 Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, Page.ROLE_NONE ) );
-                filtersRole[filtersRole.length - 1] = queryRole;
+                filtersRole [filtersRole.length - 1] = queryRole;
                 BooleanQuery.Builder booleanQueryBuilderRole = new BooleanQuery.Builder( );
-                Arrays.asList( filtersRole ).stream( )
-                    .forEach( filterRole -> booleanQueryBuilderRole.add( filterRole, BooleanClause.Occur.SHOULD ) );
-                
+                Arrays.asList( filtersRole ).stream( ).forEach( filterRole -> booleanQueryBuilderRole.add( filterRole, BooleanClause.Occur.SHOULD ) );
+
                 listFilter.add( booleanQueryBuilderRole.build( ) );
             }
         }
-        
-        String[] typeFilter = request.getParameterValues( PARAMETER_TYPE_FILTER );
+
+        String [ ] typeFilter = request.getParameterValues( PARAMETER_TYPE_FILTER );
         String strDateAfter = request.getParameter( PARAMETER_DATE_AFTER );
         String strDateBefore = request.getParameter( PARAMETER_DATE_BEFORE );
         Query allFilter = buildFinalFilter( listFilter, strDateAfter, strDateBefore, typeFilter, request.getLocale( ) );
-        
+
         String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
         return search( strTagFilter, strQuery, allFilter, request, bFilterResult );
     }
-    
-    private Query buildFinalFilter( List<Query> listFilter, String strDateAfter, String strDateBefore, String[] typeFilter, Locale locale )
+
+    private Query buildFinalFilter( List<Query> listFilter, String strDateAfter, String strDateBefore, String [ ] typeFilter, Locale locale )
     {
         Query filterDate = createFilterDate( strDateAfter, strDateBefore, locale );
         if ( filterDate != null )
         {
             listFilter.add( filterDate );
         }
-        
+
         Query filterType = createFilterType( typeFilter );
         if ( filterType != null )
         {
             listFilter.add( filterType );
         }
-        
+
         Query allFilter = null;
         if ( CollectionUtils.isNotEmpty( listFilter ) )
         {
@@ -172,22 +173,22 @@ public class LuceneSearchEngine implements SearchEngine
         }
         return allFilter;
     }
-    
-    private Query createFilterType( String[] typeFilter )
+
+    private Query createFilterType( String [ ] typeFilter )
     {
-        if ( ArrayUtils.isNotEmpty( typeFilter ) && !typeFilter[0].equals( SearchService.TYPE_FILTER_NONE ) )
+        if ( ArrayUtils.isNotEmpty( typeFilter ) && !typeFilter [0].equals( SearchService.TYPE_FILTER_NONE ) )
         {
             BooleanQuery.Builder booleanQueryBuilder = new BooleanQuery.Builder( );
             for ( int i = 0; i < typeFilter.length; i++ )
             {
-                Query queryType = new TermQuery( new Term( SearchItem.FIELD_TYPE, typeFilter[i] ) );
+                Query queryType = new TermQuery( new Term( SearchItem.FIELD_TYPE, typeFilter [i] ) );
                 booleanQueryBuilder.add( queryType, BooleanClause.Occur.SHOULD );
             }
             return booleanQueryBuilder.build( );
         }
         return null;
     }
-    
+
     private Query createFilterDate( String strDateAfter, String strDateBefore, Locale locale )
     {
         boolean bDateAfter = false;
@@ -217,12 +218,10 @@ public class LuceneSearchEngine implements SearchEngine
         return null;
     }
 
-    private List<SearchResult> search( String strTagFilter, String strQuery, Query allFilter,
-            HttpServletRequest request, boolean bFilterResult )
+    private List<SearchResult> search( String strTagFilter, String strQuery, Query allFilter, HttpServletRequest request, boolean bFilterResult )
     {
         List<SearchItem> listResults = new ArrayList<>( );
-        try ( Directory directory = IndexationService.getDirectoryIndex( );
-                IndexReader ir = DirectoryReader.open( directory ); )
+        try ( Directory directory = IndexationService.getDirectoryIndex( ) ; IndexReader ir = DirectoryReader.open( directory ) ; )
         {
             IndexSearcher searcher = new IndexSearcher( ir );
 
@@ -269,11 +268,11 @@ public class LuceneSearchEngine implements SearchEngine
 
             // Get results documents
             TopDocs topDocs = searcher.search( query, MAX_RESPONSES );
-            ScoreDoc[] hits = topDocs.scoreDocs;
+            ScoreDoc [ ] hits = topDocs.scoreDocs;
 
             for ( int i = 0; i < hits.length; i++ )
             {
-                int docId = hits[i].doc;
+                int docId = hits [i].doc;
                 Document document = searcher.doc( docId );
                 SearchItem si = new SearchItem( document );
 
@@ -284,7 +283,7 @@ public class LuceneSearchEngine implements SearchEngine
                 }
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -294,7 +293,8 @@ public class LuceneSearchEngine implements SearchEngine
     /**
      * Convert a list of Lucene items into a list of generic search items
      * 
-     * @param listSource The list of Lucene items
+     * @param listSource
+     *            The list of Lucene items
      * @return A list of generic search items
      */
     private List<SearchResult> convertList( List<SearchItem> listSource )
@@ -310,10 +310,9 @@ public class LuceneSearchEngine implements SearchEngine
             {
                 result.setDate( DateTools.stringToDate( item.getDate( ) ) );
             }
-            catch ( ParseException e )
+            catch( ParseException e )
             {
-                AppLogService
-                        .error( "Bad Date Format for indexed item \"{}\" : {}",  item.getTitle( ), e.getMessage( ), e );
+                AppLogService.error( "Bad Date Format for indexed item \"{}\" : {}", item.getTitle( ), e.getMessage( ), e );
             }
 
             result.setUrl( item.getUrl( ) );

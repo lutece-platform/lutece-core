@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ public class FilterServiceTest extends LuteceTestCase
         Plugin plugin = null;
         FilterService instance = FilterService.getInstance( );
         instance.registerFilter( entry, plugin );
-        
+
         LuteceFilter f = instance.getFilters( ).get( 0 );
         assertNotNull( f );
         assertEquals( entry.getName( ), f.getName( ) );

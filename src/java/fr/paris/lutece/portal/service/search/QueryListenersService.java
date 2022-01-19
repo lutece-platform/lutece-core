@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,8 @@ public final class QueryListenersService
     /**
      * Register a new listener
      * 
-     * @param listener The listener to register
+     * @param listener
+     *            The listener to register
      */
     public void registerQueryListener( QueryEventListener listener )
     {
@@ -77,7 +78,8 @@ public final class QueryListenersService
     /**
      * Notify all registered listeners
      * 
-     * @param event The query event to notify
+     * @param event
+     *            The query event to notify
      */
     public void notifyListeners( QueryEvent event )
     {
@@ -87,7 +89,7 @@ public final class QueryListenersService
             {
                 listener.processQueryEvent( event );
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
                 // Catch any exception in order to stay in the loop to notify all listeners
                 AppLogService.error( "Error while processing query event : {}", e.getMessage( ), e );

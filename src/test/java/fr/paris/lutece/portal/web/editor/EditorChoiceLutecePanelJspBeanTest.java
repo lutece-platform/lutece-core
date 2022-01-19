@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,6 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
         RichTextEditorService.updateFrontOfficeDefaultEditor( _foDefaultEditor );
         super.tearDown( );
     }
-
 
     public void testDoUpdateBackOfficeEditor( ) throws AccessDeniedException
     {

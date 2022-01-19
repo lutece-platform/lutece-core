@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -372,7 +372,8 @@ public final class PluginService
 
         if ( strPoolname.equals( AppConnectionService.NO_POOL_DEFINED ) && plugin.isDbPoolRequired( ) && !plugin.getName( ).equals( CORE ) )
         {
-            AppLogService.info( " *** WARNING *** - The plugin '{}' has no pool defined in db.properties or datastore. Using the default pool '{}' instead.", plugin, AppConnectionService.DEFAULT_POOL_NAME  );
+            AppLogService.info( " *** WARNING *** - The plugin '{}' has no pool defined in db.properties or datastore. Using the default pool '{}' instead.",
+                    plugin, AppConnectionService.DEFAULT_POOL_NAME );
             strPoolname = AppConnectionService.DEFAULT_POOL_NAME;
         }
 

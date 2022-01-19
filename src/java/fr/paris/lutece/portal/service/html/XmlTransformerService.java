@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,8 +56,7 @@ public final class XmlTransformerService
 {
     private static final String XSLSOURCE_STYLE_PREFIX_ID = UniqueIDGenerator.getNewId( );
     private static final String LOGGER_XML_CONTENT = "lutece.debug.xmlContent";
-    private static final Logger _log = LogManager.getLogger( LOGGER_XML_CONTENT ); 
-
+    private static final Logger _log = LogManager.getLogger( LOGGER_XML_CONTENT );
 
     /**
      * This method performs XSL transformation with cache.
@@ -158,8 +157,8 @@ public final class XmlTransformerService
         XmlTransformer xmlTransformer = new XmlTransformer( );
 
         try
-        {           
-        	_log.debug( strXml );            
+        {
+            _log.debug( strXml );
             strContent = xmlTransformer.transform( sourceDocument, sourceStyleSheet, strStyleSheetId, params, outputProperties );
         }
         catch( Exception e )

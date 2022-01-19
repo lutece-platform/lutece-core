@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -137,7 +137,7 @@ public class AccountLifeTimeDaemon extends Daemon
             sbLogs.append( MESSAGE_DAEMON_NAME );
             sbLogs.append( Integer.toString( nbAccountToExpire ) );
             sbLogs.append( " account(s) have expired" );
-            AppLogService.info( "runSetExpiredUser: {}",sbLogs );
+            AppLogService.info( "runSetExpiredUser: {}", sbLogs );
             sbResult.append( sbLogs.toString( ) );
             sbResult.append( "\n" );
         }

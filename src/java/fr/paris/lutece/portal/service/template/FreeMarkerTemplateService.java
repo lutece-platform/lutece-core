@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,8 +50,7 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
 {
     public static final String BEAN_SERVICE = "freeMarkerTemplateService";
     private static final String PROPERTY_TEMPLATE_UPDATE_DELAY = "service.freemarker.templateUpdateDelay";
-    private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService
-            .getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY, 5 );
+    private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY, 5 );
     private static FreeMarkerTemplateService _singleton;
 
     /**

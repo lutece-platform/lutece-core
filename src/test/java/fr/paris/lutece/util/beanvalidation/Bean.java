@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ package fr.paris.lutece.util.beanvalidation;
 
 import java.math.BigDecimal;
 import java.util.Date;
-
 
 /**
  *

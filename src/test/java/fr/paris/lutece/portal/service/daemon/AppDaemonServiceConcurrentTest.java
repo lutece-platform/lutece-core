@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,8 +103,8 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
         AppDaemonService.startDaemon( JUNIT_DAEMON );
         AppDaemonService.startDaemon( JUNIT_OTHERDAEMON );
 
-        final TestDaemon daemon = ( TestDaemon ) _entry.getDaemon( );
-        ( ( TestConcurrentDaemon ) _otherEntry.getDaemon( ) ).setOther( daemon );
+        final TestDaemon daemon = (TestDaemon) _entry.getDaemon( );
+        ( (TestConcurrentDaemon) _otherEntry.getDaemon( ) ).setOther( daemon );
 
         AppDaemonService.signalDaemon( JUNIT_DAEMON );
         AppDaemonService.signalDaemon( JUNIT_OTHERDAEMON );
@@ -113,7 +113,7 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
             // daemon only passes the "go" barrier if otherDeamon runs
             daemon.waitForCompletion( );
         }
-        catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
+        catch( InterruptedException | BrokenBarrierException | TimeoutException e )
         {
             fail( "The timeout indicates that the two daemons could not run simultaneously" );
         }

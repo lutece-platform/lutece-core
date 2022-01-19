@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,33 +62,34 @@ public class EnvUtilTest
 
     /**
      * Test of evaluate method, of class EnvUtil.
+     * 
      * @throws java.net.URISyntaxException
      */
     @Test
-    public void testEvaluate() throws URISyntaxException
+    public void testEvaluate( ) throws URISyntaxException
     {
         System.out.println( "testEvaluate" );
 
-        Map<String, String> mapEnv = new HashMap<>();
-        mapEnv.put( ENV_LUTECE_DB_USER_VAR, ENV_LUTECE_DB_USER_VALUE);
+        Map<String, String> mapEnv = new HashMap<>( );
+        mapEnv.put( ENV_LUTECE_DB_USER_VAR, ENV_LUTECE_DB_USER_VALUE );
         mapEnv.put( ENV_LUTECE_DB_NAME_VAR, ENV_LUTECE_DB_NAME_VALUE );
         mapEnv.put( ENV_LUTECE_DB_HOST_VAR, ENV_LUTECE_DB_HOST_VALUE );
-        URL url = getClass().getClassLoader().getResource( ENV_LUTECE_DB_PWD_FILE_VALUE );
-        File file = Paths.get(url.toURI()).toFile();
-        mapEnv.put( ENV_LUTECE_DB_PWD_FILE_VAR, file.getAbsolutePath() );
-        
+        URL url = getClass( ).getClassLoader( ).getResource( ENV_LUTECE_DB_PWD_FILE_VALUE );
+        File file = Paths.get( url.toURI( ) ).toFile( );
+        mapEnv.put( ENV_LUTECE_DB_PWD_FILE_VAR, file.getAbsolutePath( ) );
+
         // Try a real env variable
         String strSource = "${JAVA_HOME}";
         String result = EnvUtil.evaluate( strSource );
         System.out.println( strSource + ":" + result );
-        
+
         EnvUtil.setMockMapEnv( mapEnv );
         strSource = "${" + ENV_LUTECE_DB_USER_VAR + "}";
         result = EnvUtil.evaluate( strSource );
         System.out.println( strSource + ":" + result );
         assertEquals( ENV_LUTECE_DB_USER_VALUE, result );
         strSource = "${" + EnvUtil.PREFIX_ENV + ENV_LUTECE_DB_USER_VAR + "}";
-        result = EnvUtil.evaluate( strSource , EnvUtil.PREFIX_ENV );
+        result = EnvUtil.evaluate( strSource, EnvUtil.PREFIX_ENV );
         System.out.println( strSource + ":" + result );
         assertEquals( ENV_LUTECE_DB_USER_VALUE, result );
         result = EnvUtil.evaluate( ENV_LUTECE_DB_USER_VAR );
@@ -97,13 +98,11 @@ public class EnvUtilTest
         assertEquals( URL_EXPECTED, result );
         result = EnvUtil.evaluate( PASSWORD );
         System.out.println( result );
-        assertEquals( PASSWORD_EXPECTED , result );
-        
-        System.out.println(EnvUtil.evaluate( null ));
-        System.out.println(EnvUtil.evaluate( "${DUMMY}" ));
-        
-        
-        
+        assertEquals( PASSWORD_EXPECTED, result );
+
+        System.out.println( EnvUtil.evaluate( null ) );
+        System.out.println( EnvUtil.evaluate( "${DUMMY}" ) );
+
     }
-    
+
 }

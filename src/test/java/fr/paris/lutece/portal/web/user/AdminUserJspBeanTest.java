@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -82,7 +82,6 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPasswordFactory;
 import javax.servlet.http.HttpServletRequest;
-
 
 public class AdminUserJspBeanTest extends LuteceTestCase
 {
@@ -2736,9 +2735,9 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         adminUser.setStatus( 0 );
         adminUser.setUserLevel( 0 );
         adminUser.setPasswordReset( false );
-        
+
         AdminUserHome.update( adminUser );
-        
-        AdminAuthenticationService.getInstance( ).registerUser(request, adminUser);
+
+        AdminAuthenticationService.getInstance( ).registerUser( request, adminUser );
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -343,7 +343,7 @@ public final class DatastoreService
 
                     if ( VALUE_MISSING.equals( strValue ) )
                     {
-                        AppLogService.error( "Datastore Key missing : {} - Please fix to avoid performance issues.",  strKey);
+                        AppLogService.error( "Datastore Key missing : {} - Please fix to avoid performance issues.", strKey );
                     }
 
                     matcher.appendReplacement( sb, strValue );

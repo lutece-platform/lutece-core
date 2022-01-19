@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -329,7 +329,7 @@ public final class IndexationService
         _writer.deleteDocuments( new Term( SearchItem.FIELD_TYPE, PARAM_TYPE_PAGE ) );
         _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments( );
     }
-    
+
     private static void processIndexAction( IndexerAction action ) throws IOException, InterruptedException, SiteMessageException
     {
         SearchIndexer indexer = _mapIndexers.get( action.getIndexerName( ) );
@@ -346,9 +346,8 @@ public final class IndexationService
             {
                 for ( Document doc : luceneDocuments )
                 {
-                    if ( ( action.getIdPortlet( ) == ALL_DOCUMENT )
-                            || ( ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) != null ) && ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID )
-                                    .equals( doc.get( SearchItem.FIELD_UID ) + "&" + action.getIdPortlet( ) ) ) ) )
+                    if ( ( action.getIdPortlet( ) == ALL_DOCUMENT ) || ( ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) != null )
+                            && ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ).equals( doc.get( SearchItem.FIELD_UID ) + "&" + action.getIdPortlet( ) ) ) ) )
                     {
                         processDocument( action, doc );
                     }
@@ -358,7 +357,7 @@ public final class IndexationService
 
         removeIndexerAction( action.getIdAction( ) );
     }
-    
+
     /**
      * Delete a document from the index
      *
@@ -374,7 +373,8 @@ public final class IndexationService
         if ( action.getIdPortlet( ) != ALL_DOCUMENT )
         {
             // delete only the index linked to this portlet
-            _writer.deleteDocuments( new Term( SearchItem.FIELD_DOCUMENT_PORTLET_ID, action.getIdDocument( ) + "&" + Integer.toString( action.getIdPortlet( ) ) ) );
+            _writer.deleteDocuments(
+                    new Term( SearchItem.FIELD_DOCUMENT_PORTLET_ID, action.getIdDocument( ) + "&" + Integer.toString( action.getIdPortlet( ) ) ) );
         }
         else
         {

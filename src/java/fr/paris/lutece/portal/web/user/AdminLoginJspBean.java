@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -104,7 +104,7 @@ public class AdminLoginJspBean implements Serializable
     private static final String CONSTANT_SLASH = "/";
     private static final String CONSTANT_HTTP = "http";
     private static final String REGEX_ID = "^[\\d]+$";
-    
+
     private static final String CONSTANT_ACTION_DORESETPASSWORD = "doResetPwd";
     private static final String CONSTANT_ACTION_DOFORGOTPASSWORD = "doForgotPwd";
     private static final String CONSTANT_ACTION_DOFORGOTLOGIN = "doForgotLogin";
@@ -615,7 +615,6 @@ public class AdminLoginJspBean implements Serializable
 
         AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DORESETPASSWORD, user, null, CONSTANT_BO );
 
-        
         return AdminMessageService.getMessageUrl( request, MESSAGE_RESET_PASSORWD_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
     }
 
@@ -744,7 +743,7 @@ public class AdminLoginJspBean implements Serializable
         HttpSession session = request.getSession( );
 
         AdminUser user = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
-                
+
         if ( session != null )
         {
             session.invalidate( );
@@ -753,7 +752,7 @@ public class AdminLoginJspBean implements Serializable
         String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
 
         AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOLOGOUT, user, null, CONSTANT_BO );
-                
+
         return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_LOGOUT, strLoginUrl, AdminMessage.TYPE_INFO );
     }
 }

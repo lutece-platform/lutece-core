@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,11 +58,9 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
 /**
- * This class provides a way to use Spring Framework ligthweight containers
- * offering IoC (Inversion of Control) features.
+ * This class provides a way to use Spring Framework ligthweight containers offering IoC (Inversion of Control) features.
  * 
- * @see <a href=
- *      "http://www.springframework.org">http://www.springframework.org</a>
+ * @see <a href= "http://www.springframework.org">http://www.springframework.org</a>
  */
 public final class SpringContextService implements PluginEventListener
 {
@@ -83,28 +81,29 @@ public final class SpringContextService implements PluginEventListener
     }
 
     /**
-     * Return an instance, which may be shared or independent, of the given bean
-     * name. This method allows a Spring BeanFactory to be used as a replacement for
+     * Return an instance, which may be shared or independent, of the given bean name. This method allows a Spring BeanFactory to be used as a replacement for
      * the Singleton or Prototype design pattern.<br>
-     * The bean is retreived from the main context defined in the
-     * WEB-INF/conf/core_context.xml.
+     * The bean is retreived from the main context defined in the WEB-INF/conf/core_context.xml.
      *
-     * @param         <T> the generic type
-     * @param strName The bean's name
+     * @param <T>
+     *            the generic type
+     * @param strName
+     *            The bean's name
      * @return The instance of the bean
      */
     public static <T> T getBean( String strName )
     {
         return (T) _context.getBean( strName );
     }
-    
+
     /**
-     * Return an instance of the given bean name loaded by the a Spring BeanFactory.
-     * The bean is retreived from a plugin context defined in the
+     * Return an instance of the given bean name loaded by the a Spring BeanFactory. The bean is retreived from a plugin context defined in the
      * WEB-INF/conf/plugins/[plugin_name]_context.xml.
      * 
-     * @param strPluginName The Plugin's name
-     * @param strName       The bean's name
+     * @param strPluginName
+     *            The Plugin's name
+     * @param strName
+     *            The bean's name
      * @return The instance of the bean
      * @deprecated use {@link #getBean(String)} instead
      */
@@ -113,16 +112,15 @@ public final class SpringContextService implements PluginEventListener
     {
         return _context.getBean( strName );
     }
-    
+
     /**
      * Indicates if a bean, referenced by its name, is part of an enabled plugin.
      * 
-     * Per Lutece convention, the plugin is determined from the bean's name prefix.
-     * If no prefix is present, the bean is considered enabled.
+     * Per Lutece convention, the plugin is determined from the bean's name prefix. If no prefix is present, the bean is considered enabled.
      * 
-     * @param strBeanName The bean's name
-     * @return <code>true</code> if the bean is part of an enabled plugin,
-     *         <code>false</code> otherwise
+     * @param strBeanName
+     *            The bean's name
+     * @return <code>true</code> if the bean is part of an enabled plugin, <code>false</code> otherwise
      */
     public static boolean isBeanEnabled( String strBeanName )
     {
@@ -131,14 +129,14 @@ public final class SpringContextService implements PluginEventListener
     }
 
     /**
-     * Initialize a global Application Context containing all beans (core + plugins)
-     * Now uses GenericApplicationContext for better performances. A wrong formatted
-     * file will not block block context to be built (without the file), but a wrong
-     * bean (i.e. cannot be instantiated) will cause a full context failure. Context
-     * is less "failure-friendly"
+     * Initialize a global Application Context containing all beans (core + plugins) Now uses GenericApplicationContext for better performances. A wrong
+     * formatted file will not block block context to be built (without the file), but a wrong bean (i.e. cannot be instantiated) will cause a full context
+     * failure. Context is less "failure-friendly"
      * 
-     * @param servletContext The servlet context
-     * @throws LuteceInitException The lutece init exception
+     * @param servletContext
+     *            The servlet context
+     * @throws LuteceInitException
+     *             The lutece init exception
      * @since 2.4
      */
     public static void init( ServletContext servletContext ) throws LuteceInitException
@@ -171,7 +169,7 @@ public final class SpringContextService implements PluginEventListener
             String strConfPluginsPath = strConfPath + DIR_PLUGINS;
             File dirConfPlugins = new File( strConfPluginsPath );
             FilenameFilter filterContext = new ContextFileFilter( );
-            String[] filesContext = dirConfPlugins.list( filterContext );
+            String [ ] filesContext = dirConfPlugins.list( filterContext );
 
             loadContexts( filesContext, strConfPluginsPath, xmlReader );
 
@@ -197,7 +195,7 @@ public final class SpringContextService implements PluginEventListener
 
             if ( dirConfOverridePlugins.exists( ) )
             {
-                String[] filesOverrideContext = dirConfOverridePlugins.list( filterContext );
+                String [ ] filesOverrideContext = dirConfOverridePlugins.list( filterContext );
                 loadContexts( filesOverrideContext, strConfPluginsOverridePath, xmlReader );
             }
 
@@ -205,10 +203,9 @@ public final class SpringContextService implements PluginEventListener
 
             _context = gwac;
 
-            AppLogService
-                    .info( "Spring context loaded in {} ms", () -> ( new Date( ).getTime( ) - dateBegin.getTime( ) )  );
+            AppLogService.info( "Spring context loaded in {} ms", ( ) -> ( new Date( ).getTime( ) - dateBegin.getTime( ) ) );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             AppLogService.error( "Error initializing Spring Context Service {}", e.getMessage( ), e );
             throw new LuteceInitException( "Error initializing Spring Context Service", e );
@@ -218,7 +215,8 @@ public final class SpringContextService implements PluginEventListener
     /**
      * Returns a name for this context
      * 
-     * @param servletContext the servlet context
+     * @param servletContext
+     *            the servlet context
      * @return name for this context
      */
     private static String getContextName( ServletContext servletContext )
@@ -246,19 +244,22 @@ public final class SpringContextService implements PluginEventListener
     /**
      * Loads plugins contexts.
      * 
-     * @param filesContext       context files names
-     * @param strConfPluginsPath full path
-     * @param xmlReader          the xml reader
+     * @param filesContext
+     *            context files names
+     * @param strConfPluginsPath
+     *            full path
+     * @param xmlReader
+     *            the xml reader
      */
-    private static void loadContexts( String[] filesContext, String strConfPluginsPath,
-            XmlBeanDefinitionReader xmlReader )
+    private static void loadContexts( String [ ] filesContext, String strConfPluginsPath, XmlBeanDefinitionReader xmlReader )
     {
         if ( filesContext != null )
         {
             for ( String fileContext : filesContext )
             {
-                String[] file =
-                { PROTOCOL_FILE + strConfPluginsPath + fileContext };
+                String [ ] file = {
+                        PROTOCOL_FILE + strConfPluginsPath + fileContext
+                };
 
                 // Safe loading of plugin context file
                 try
@@ -266,10 +267,9 @@ public final class SpringContextService implements PluginEventListener
                     xmlReader.loadBeanDefinitions( file );
                     AppLogService.info( "Context file loaded : {}", fileContext );
                 }
-                catch ( Exception e )
+                catch( Exception e )
                 {
-                    AppLogService.error(
-                            "Unable to load Spring context file : {} - cause :  {}", fileContext, e.getMessage( ), e );
+                    AppLogService.error( "Unable to load Spring context file : {} - cause :  {}", fileContext, e.getMessage( ), e );
                 }
             }
         }
@@ -286,11 +286,12 @@ public final class SpringContextService implements PluginEventListener
     }
 
     /**
-     * Returns a list of bean among all that implements a given interface or extends
-     * a given class
+     * Returns a list of bean among all that implements a given interface or extends a given class
      * 
-     * @param          <T> The class type
-     * @param classDef The class type
+     * @param <T>
+     *            The class type
+     * @param classDef
+     *            The class type
      * @return A list of beans
      */
     public static <T> List<T> getBeansOfType( Class<T> classDef )
@@ -307,7 +308,7 @@ public final class SpringContextService implements PluginEventListener
         list = new ArrayList<>( );
 
         Map<String, T> map = _context.getBeansOfType( classDef );
-        String[] sBeanNames = map.keySet( ).toArray( new String[map.size( )] );
+        String [ ] sBeanNames = map.keySet( ).toArray( new String [ map.size( )] );
 
         for ( String strBeanName : sBeanNames )
         {
@@ -327,7 +328,8 @@ public final class SpringContextService implements PluginEventListener
     /**
      * Gets the prefix of the bean (supposed to be the plugin name)
      * 
-     * @param strBeanName The bean name
+     * @param strBeanName
+     *            The bean name
      * @return The prefix
      */
     private static String getPrefix( String strBeanName )
@@ -345,7 +347,8 @@ public final class SpringContextService implements PluginEventListener
     /**
      * Analyze a bean prefix to tell if it matchs an activated plugin
      * 
-     * @param strPrefix The prefix of a bean
+     * @param strPrefix
+     *            The prefix of a bean
      * @return True if the prefix matchs an activated plugin
      */
     private static boolean isEnabled( String strPrefix )
@@ -362,12 +365,11 @@ public final class SpringContextService implements PluginEventListener
     public void processPluginEvent( PluginEvent event )
     {
         // Reset cache of beansOfType if a plugin is installed or uninstalled
-        if ( ( event.getEventType( ) == PluginEvent.PLUGIN_INSTALLED
-                || event.getEventType( ) == PluginEvent.PLUGIN_UNINSTALLED ) && !_mapBeansOfType.isEmpty( ) )
+        if ( ( event.getEventType( ) == PluginEvent.PLUGIN_INSTALLED || event.getEventType( ) == PluginEvent.PLUGIN_UNINSTALLED )
+                && !_mapBeansOfType.isEmpty( ) )
         {
             _mapBeansOfType.clear( );
-            AppLogService.info( "SpringService cache cleared due to a plugin installation change - Plugin : {}",
-                     event.getPlugin( ).getName( ) );
+            AppLogService.info( "SpringService cache cleared due to a plugin installation change - Plugin : {}", event.getPlugin( ).getName( ) );
         }
     }
 
@@ -392,8 +394,10 @@ public final class SpringContextService implements PluginEventListener
         /**
          * Filter filename
          * 
-         * @param file    The current file
-         * @param strName The file name
+         * @param file
+         *            The current file
+         * @param strName
+         *            The file name
          * @return true if the file is a context file otherwise false
          */
         @Override

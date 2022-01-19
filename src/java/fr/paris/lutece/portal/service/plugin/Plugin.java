@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -620,7 +620,7 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         // Load the Type
         int nPluginTypeFlags = 0;
-        
+
         if ( CollectionUtils.isNotEmpty( _listXPageApplications ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_APPLICATION;

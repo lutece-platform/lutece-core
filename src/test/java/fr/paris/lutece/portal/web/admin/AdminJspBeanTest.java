@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,7 @@ public class AdminJspBeanTest extends LuteceTestCase
 
         AdminPageJspBean instance = new AdminPageJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
-        
+
         assertTrue( StringUtils.isNotEmpty( instance.getAdminPage( request ) ) );
     }
 

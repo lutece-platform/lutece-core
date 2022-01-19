@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -84,7 +83,6 @@ public class SearchJspBeanTest extends LuteceTestCase
         }
         super.tearDown( );
     }
-
 
     public void testDoModifyAdvancedParameters( ) throws AccessDeniedException
     {

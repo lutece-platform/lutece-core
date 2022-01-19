@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2022, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -89,7 +89,7 @@ public final class DateUtil
 
         return date;
     }
-    
+
     /**
      * Get the date from String date
      * 
@@ -283,9 +283,10 @@ public final class DateUtil
     {
         return CONSTANT_NUMBER_MILISECONDS_IN_DAY * lDays;
     }
-    
+
     /**
      * Get the Date format for the locale
+     * 
      * @param locale
      * @return
      */
@@ -312,12 +313,13 @@ public final class DateUtil
         }
 
         dateFormat.setLenient( false );
-        
+
         return dateFormat;
     }
-    
+
     /**
      * Parse a date from ISO format ( yyyy-MM-dd HH:mm:ss )
+     * 
      * @param strDate
      * @since 7.0.1
      * @return parsed {@link Date} or null if the string can't be parsed
@@ -339,9 +341,10 @@ public final class DateUtil
         }
         return date;
     }
-    
+
     /**
      * Get the ISO format ( yyyy-MM-dd HH:mm:ss ) of a date
+     * 
      * @param date
      * @since 7.0.1
      * @return string of the date in iso format, or null if param is null
@@ -354,6 +357,6 @@ public final class DateUtil
             SimpleDateFormat format = new SimpleDateFormat( ISO_PATTERN_DATE );
             strDate = format.format( date );
         }
-        return strDate; 
+        return strDate;
     }
 }
