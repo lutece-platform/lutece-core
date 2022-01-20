@@ -153,14 +153,43 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     @Override
     public File getFile( String strKey )
     {
+        return getFile( strKey, true );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public File getFileMetaData( String strKey )
+    {
+        return getFile( strKey, false );
+    }
+
+    /**
+     * get file from database
+     * 
+     * @param strKey
+     * @param withPhysicalFile
+     * 
+     * @return the file with the physical file content if withPhysicalFile is true
+     */
+    public File getFile( String strKey, boolean withPhysicalFile )
+    {
         if ( StringUtils.isNotBlank( strKey ) )
         {
             int nfileId = Integer.parseInt( strKey );
+            
+            // get meta data
             File file = FileHome.findByPrimaryKey( nfileId );
 
             if ( file != null )
             {
-                file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) ) );
+                if ( withPhysicalFile )
+                {
+                    // get file content
+                    file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) ) );
+                }
+                
                 return file;
             }
         }

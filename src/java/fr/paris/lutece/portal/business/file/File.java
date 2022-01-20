@@ -46,13 +46,31 @@ import java.sql.Timestamp;
 public class File implements Serializable
 {
     private static final long serialVersionUID = -2014847000871390972L;
-    private int _nIdFile;
+    private String _strFileKey;
     private PhysicalFile _physicalFile;
     private String _strTitle;
     private int _nSize;
     private String _strExtension;
     private String _strMimeType;
     private Timestamp _dateCreation;
+    private String _url;
+
+    /**
+     * get file key
+     * @return the key
+     */
+    public String getFileKey() {
+        return _strFileKey;
+    }
+
+    /**
+     * set file key
+     * 
+     * @param strFileKey 
+     */
+    public void setFileKey(String strFileKey) {
+        this._strFileKey = strFileKey;
+    }
 
     /**
      *
@@ -60,7 +78,7 @@ public class File implements Serializable
      */
     public int getIdFile( )
     {
-        return _nIdFile;
+        return Integer.parseInt( _strFileKey );
     }
 
     /**
@@ -71,7 +89,7 @@ public class File implements Serializable
      */
     public void setIdFile( int idFile )
     {
-        _nIdFile = idFile;
+        _strFileKey = String.valueOf( idFile );
     }
 
     /**
@@ -192,6 +210,24 @@ public class File implements Serializable
     public void setDateCreation( Timestamp dateCreation )
     {
         _dateCreation = dateCreation;
+    }
+
+    /**
+     * get url
+     * 
+     * @return  the url
+     */
+    public String getUrl() {
+        return _url;
+    }
+
+    /**
+     * set url
+     * 
+     * @param strUrl the url to set
+     */
+    public void setUrl(String strUrl) {
+        this._url = strUrl;
     }
 
 }
