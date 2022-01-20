@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE digester-rules PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" "src/java/fr/paris/lutece/portal/service/plugin/digester-rules.dtd">
+<!DOCTYPE digester-rules PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" "digester-rules.dtd">
 <digester-rules>
 	<pattern value="plug-in">
 		<bean-property-setter-rule pattern="name" />
