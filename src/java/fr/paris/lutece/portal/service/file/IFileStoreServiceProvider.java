@@ -110,6 +110,16 @@ public interface IFileStoreServiceProvider extends Serializable
     File getFile( String strKey );
 
     /**
+     * Get a file object only filled with the meta data (name, size ...) 
+     * without the physical file content
+     * 
+     * @param strKey
+     *            The key of the file
+     * @return The file
+     */
+    File getFileMetaData( String strKey );
+
+    /**
      * Gets a blob as {@link InputStream}
      * 
      * @param strKey
