@@ -75,7 +75,6 @@ td{ vertical-align: middle;}
 .admin-menu > nav > ol { margin: .25rem ; padding: .25rem .5rem; }
 .admin-site .breadcrumb-item{ font-size: 1.4rem }
 .admin-site-toolbar{ margin-top: -1rem }
-.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
 
 iframe#preview {  display: block; overflow: auto; padding: 0; margin:-10px auto; border:2px solid #DEDEDE; max-height:400px }
 #preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
@@ -120,6 +119,8 @@ li.portlet-type a:hover{  background:#6D84CB; color:#fff; }
 .extend-action-menu{display: flex; justify-content: space-between; align-items: center;}
 .list-group-item-action{ padding:.5rem; font-size: .8rem }
 .list-group-item-action .extend-action-menu .btn-xs{ padding:.2rem; }
+.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
+.form-submenu, .extend-action-menu{ width: 100% }
 
 /* Plugin THEME                   */
 #preview-frame-container{ display: none; }

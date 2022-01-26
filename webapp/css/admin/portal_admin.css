@@ -189,7 +189,6 @@ ul.pagination{ margin-top: 0; }
 .admin-menu > * { margin: 0; padding: 0;}
 .admin-site .breadcrumb-item{ font-size: 1.4rem }
 .admin-site-toolbar{ margin-top: -1rem }
-.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; min-width: 180px; }
 
 iframe#preview {display: block; overflow: auto; padding: 0; margin:-10px auto; border: 2px solid var( --gray-color ); max-height:400px}
 #preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
@@ -236,6 +235,8 @@ li.portlet-type a:hover{ background:var( --primary ) url(); color:var( --white )
 .extend-action-menu{display: flex; justify-content: space-between; align-items: center;}
 .list-group-item-action{ padding:.5rem; font-size: .8rem }
 .list-group-item-action .extend-action-menu .btn-xs{ padding:.2rem; }
+.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
+.form-submenu, .extend-action-menu{ width: 100% }
 
 /* 	Plugin SUGGEST           */
 .f-nav{ z-index: 9999; position: fixed; left: 0; top: 4.4%; background-color: var( --white ); padding: 1% 2% 1% 2%; -moz-box-shadow: 0px 5px 5px 0px var( --dark-gray ); -webkit-box-shadow: 0px 5px 5px 0px var( --dark-gray );-o-box-shadow: 0px 5px 5px 0px var( --dark-gray );box-shadow: 0px 5px 5px 0px var( --dark-gray );filter:progid:DXImageTransform.Microsoft.Shadow(color=var( --dark-gray ), Direction=180, Strength=5);}
