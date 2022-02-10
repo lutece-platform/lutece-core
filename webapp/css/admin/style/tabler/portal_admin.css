@@ -94,6 +94,7 @@ td{ vertical-align: middle; }
 .admin-menu{ display: flex; justify-content: space-between; align-items: center;}
 .admin-site .breadcrumb-item{ font-size: 1.4rem }
 .admin-site-toolbar{ margin-top: -1rem }
+.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
 
 iframe#preview {  display: block; overflow: auto; padding: 0; margin: -10px auto; border: 2px solid var( --light ); max-height: 400px }
 #preview.open{ position: fixed; width: 100% !important; height: 100vh !important; max-height: 100vh !important; top: 0; left:0; z-index: 9999; }
@@ -102,6 +103,10 @@ iframe#preview {  display: block; overflow: auto; padding: 0; margin: -10px auto
 /* Documentation                                                */
 #lutece-doc-link{ position: fixed; bottom: 0; right: 0; z-index: 2 }
 #lutece-doc-link:hover span{ position: relative; width:auto; height:auto ;}
+
+/* Toggle Collapse */
+.collapsed > .fa-minus-square:before{ content: "\f0fe" } */
+
 
 /* Portlets                                                      */
 li.portlet-type a:hover{ background:var( --azure ) ;  color:var( --white ) ; }
@@ -136,13 +141,17 @@ li.portlet-type a:hover{ background:var( --azure ) ;  color:var( --white ) ; }
 
 /* PLUGINS ADMIN added styles                                       */
 /* Plugins EXTEND                                                   */
-.extend-action-menu{display: flex; justify-content: space-between; align-items: center;}
+.extend-action-menu{ display: flex; justify-content: space-between; align-items: center;}
 .list-group-item-action{ padding:.5rem; font-size: .8rem }
 .list-group-item-action .extend-action-menu .btn-xs{ padding:.2rem; }
 #extender-content .list-group-item{ border-color: transparent; padding: 2px }
 #extender-content .list-group-item .btn-link{ padding: 0; text-align: left; }
-.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
-.form-submenu, .extend-action-menu{ width: 100% }
+
+/* timeline */
+.timeline{ display: flex; flex-direction: column; }
+.timeline li > i { display: none; }
+.timeline li .timeline-item article{ padding: 1rem 2rem }
+.timeline.sub-comments{ margin-top: 1rem; }
 
 /* Plugin THEME                                                     */
 #preview-frame-container{ display: none; }

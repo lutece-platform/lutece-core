@@ -12,6 +12,7 @@
 <link href="css/admin/style/bulma/bulma-switch.min.css" rel="stylesheet">
 <link href="css/admin/style/bulma/bulma-tooltip.min.css" rel="stylesheet">
 <link href="css/admin/style/bulma/bulma-accordion.min.css" rel="stylesheet">
+<link href="css/admin/style/bulma/bulma-timeline.min.css" rel="stylesheet">
 <link href="css/admin/jquery-ui.min.css" rel="stylesheet">
 <link href="css/admin/jquery-ui.structure.min.css" rel="stylesheet">
 <link href="css/admin/jquery-ui.theme.min.css" rel="stylesheet">
@@ -34,6 +35,7 @@
 <script src="js/util/progress-manager.js"></script>
 <script src="js/admin/style/bulma/admin.js"></script>
 </#macro>
+<#assign propagateAddons = false>
 <#global gClassActive='is-active' />
 <#macro sort jsp_url attribute id="" >
 	<#if jsp_url?contains("?")>
@@ -190,27 +192,26 @@
 	<div class="field has-addons">
 		<div class="control is-expanded">
 			<div class="select is-small is-fullwidth">
-			<select data-max-item="${paginator.itemsCount}" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
-			<#list [ "10" , "20" , "50" , "100" ] as nb>
-				<#if nb_items_per_page = nb >
-					<option selected="selected" value="${nb}">${nb}</option>
-				<#else>
-					<option value="${nb}">${nb}</option>
+				<select data-max-item="${paginator.itemsCount}" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
+				<#list [ "10" , "20" , "50" , "100" ] as nb>
+					<#if nb_items_per_page = nb >
+						<option selected="selected" value="${nb}">${nb}</option>
+					<#else>
+						<option value="${nb}">${nb}</option>
+					</#if>
+				</#list>
+				<#if showall ==1>
+					<#if paginator.itemsCount &gt; 100 >
+						<option <#if nb_items_per_page?number = paginator.itemsCount?number >selected="selected"</#if> value="${paginator.itemsCount}" class="${nb_items_per_page}">#i18n{portal.util.labelAll}</option>
+					</#if>
 				</#if>
-			</#list>
-			<#if showall ==1>
-				<#if paginator.itemsCount &gt; 100 >
-					<option <#if nb_items_per_page?number = paginator.itemsCount?number >selected="selected"</#if> value="${paginator.itemsCount}" class="${nb_items_per_page}">#i18n{portal.util.labelAll}</option>
-				</#if>
-			</#if>
-			</select>
+				</select>
 			</div>
 		</div>
 		<div class="control">
 			<button class="button is-default is-small" type="submit" title="#i18n{portal.util.labelRefresh}">
 				#i18n{portal.util.labelRefresh}
 			</button>
-		</span>
 		</div>
 	</div>
 </div>
@@ -366,35 +367,35 @@
 	<#local prefix = 'fas ' + prefix />
 </#if>
 <#switch style>
-	<#case 'arrows'>
-		<#local iconStyle = 'arrows-alt' />
-	<#break>
-	<#case 'arrows-h'>
-		<#local iconStyle = 'arrows-alt-h' />
-	<#break>
-	<#case 'arrows-v'>
-		<#local iconStyle = 'arrows-alt-v' />
-	<#break>
-	<#case 'clock-o'>
-		<#local iconStyle = 'clock' />
-	<#break>
-	<#case 'close'> 	
-		<#local iconStyle = 'times' />
-	<#break>
-	<#case 'external-link'>
-		<#local iconStyle = 'external-link-alt' />
-	<#break>
-	<#case 'file-pdf-o'>
-		<#local iconStyle = 'file-pdf' />
-	<#break>
-	<#case 'pencil'>
-		<#local iconStyle = 'edit' />
-	<#break>
-	<#case 'refresh'>
-		<#local iconStyle = 'sync' />
-	<#break>
-	<#default>
-	<#local iconStyle = style />
+<#case 'arrows'>
+	<#local iconStyle = 'arrows-alt' />
+<#break>
+<#case 'arrows-h'>
+	<#local iconStyle = 'arrows-alt-h' />
+<#break>
+<#case 'arrows-v'>
+	<#local iconStyle = 'arrows-alt-v' />
+<#break>
+<#case 'clock-o'>
+	<#local iconStyle = 'clock' />
+<#break>
+<#case 'close'> 	
+	<#local iconStyle = 'times' />
+<#break>
+<#case 'external-link'>
+	<#local iconStyle = 'external-link-alt' />
+<#break>
+<#case 'file-pdf-o'>
+	<#local iconStyle = 'file-pdf' />
+<#break>
+<#case 'pencil'>
+	<#local iconStyle = 'edit' />
+<#break>
+<#case 'refresh'>
+	<#local iconStyle = 'sync' />
+<#break>
+<#default>
+<#local iconStyle = style />
 </#switch>
 	<i class="${prefix}${iconStyle} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
@@ -411,23 +412,23 @@
 <#-- type: inline/horizontal/form -->
 <#-- enctype: multipart/form-data | text/plain -->
 <#macro tform type='' class='' align='' hide=[] action='' method='post' name='' id='' role='' collapsed=false enctype='' params='' deprecated...>
-	<@deprecatedWarning args=deprecated />	
-	<#local class = class />
-	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
-	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
-	<#if collapsed><#local class += ' collapse' /></#if>
-	<#switch type>
-		<#case 'horizontal'>
-			<#local class += ' is-horizontal'>
-			<#break>
-		<#case 'inline'>
-			<#local class += 'is-flex is-justify-content-flex-start is-align-items-center card-header-icon'>
-			<#break>
-		<#default>
-			<#local class += ''>
-	</#switch>
+<@deprecatedWarning args=deprecated />	
+<#local class = class />
+<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+<#if collapsed><#local class += ' collapse' /></#if>
+<#switch type>
+	<#case 'horizontal'>
+		<#local class += ' is-horizontal'>
+		<#break>
+	<#case 'inline'>
+		<#local class += 'is-flex is-justify-content-flex-start  is-align-items-center card-header-icon'>
+		<#break>
+	<#default>
+		<#local class += ''>
+</#switch>
 <form class="<#if class!=''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if method='post' && enctype!=''> enctype='${enctype}'</#if><#if params!=''> ${params}</#if>>
-	<#nested>
+<#nested>
 </form>
 </#macro>
 <#-- FORM ELEMENT STRUCTURE -->
@@ -436,14 +437,13 @@
 <#-- groupStyle: is-success/is-danger/is-warning... -->
 <#macro formGroup formStyle='' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
-<#assign propagateAddons = false>
 <#if groupStyle='addons'><#assign propagateAddons = true></#if>
 <#switch formStyle>
-	<#case 'horizontal'>
-		<#local class += ' is-horizontal'>
-		<#break>
-	<#default>
-		<#local class += ''>
+<#case 'horizontal'>
+	<#local class += ' is-horizontal'>
+	<#break>
+<#default>
+	<#local class += ''>
 </#switch>
 <#local labelDisplayClass = displaySettings(hideLabel,'') />
 <#if collapsed><#local class += ' collapse' /></#if>
@@ -476,9 +476,11 @@
 </label>
 </#macro>
 <#macro formHelp style='inline' class='' labelFor=''>
-<p class="help<#if class!=''> ${class}</#if>" <#if labelFor!=''>id="${labelFor}_help"</#if>>
-<#nested>
-</p>
+<#if style='inline'>
+<p class="help<#if class!=''> ${class}</#if>" <#if labelFor!=''>id="${labelFor}_help"</#if>><#nested></p>
+<#else>
+<span class="help has-tooltip-bottom has-tooltip-multiline" data-bs-toggle="tooltip" data-bs-placement="bottom" data-tooltip="<#nested>">?</span>
+</#if>
 </#macro>
 <#-- INPUTS & TEXTAREA  							-->
 <#-- ---------------------------------------------- -->
@@ -538,9 +540,9 @@
 	<#if type='textarea'>
 		<textarea name="${name}" class="textarea<#if selectSize!=''> is-${selectSize}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='range' || type='tel'>
-		<#if params?contains('addons')><div class="control"></#if>
+		<#if propagateAddons><div class="control"></#if>
 		<input class="input<#if selectSize!=''> is-${selectSize}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
-		<#if  params?contains('addons')></div></#if>
+		<#if propagateAddons></div></#if>
 	<#elseif type='file' >
 		<div class="file has-name is-right is-fullwidth<#if selectSize!=''> is-${selectSize}</#if>">
 			<label class="file-label">
@@ -554,7 +556,7 @@
 			  	<span class="file-name"></span>
 			</label>
 		</div>
-	<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange'>
+	<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange' || type='time'>
 		<input class="input<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 		<#if type='date'>
 			<@getDate idField='${id}' language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate defaultDate=defaultDate dateOptions=dateParams />
@@ -596,7 +598,7 @@
 <#if id = ''><#local id = name /></#if>
 <#if orientation!='switch'><label class="checkbox" for="${id}"<#if title!=''> title="${title}"</#if>><#else><div class="field"></#if>
 <input type="checkbox" <#if orientation='switch'>class="switch is-small"</#if>id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
-<#if orientation='switch'><label for="${id}"<#if title!=''> title="${title}"</#if>></#if>
+<label for="${id}"<#if title!=''> title="${title}"</#if>>
 <#if labelKey!=''>${labelKey}<#else><#nested></#if>
 </label>
 <#if orientation='switch'></div></#if>
@@ -692,20 +694,21 @@
 <#-- INPUT-GROUP 	-->
 <#-- size: ignored 	-->
 <#macro inputGroup size='' id='' class='control has-icons-left is-expanded' params=''>
-<#if class!=''><div class="${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></#if>
+<#local localClass><#if propagateAddons><#else>${class}</#if></#local>
+<#if localClass!=''><div class="${localClass}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></#if>
 <#nested>
-<#if class!=''><#if !propagateAddons></div></#if></#if>
+<#if localClass!=''></div></#if>
 </#macro>
 <#macro inputGroupItem pos='is-left' type='btn' id='' params=''>
-<#-- type: btn/text. default is btn-->
+<#-- type: btn/text. default is btn -->
 <#if type='btn'>
-<div class="control<#if pos!=''> ${pos}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</div>
+	<div class="control<#if pos!=''> ${pos}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</div>
 <#else>
-<span class="icon<#if pos!=''> ${pos}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<#nested>
-</span>
+	<span class="icon<#if pos!=''> ${pos}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</span>
 </#if>
 </#macro>
 <#-- DROPDOWN MENU -->
@@ -713,8 +716,8 @@
 <#-- Expected content : <li><a>Your link here</a></li> -->
 <#macro dropdownMenu class='' id='' params=' role="menu"'>
 <div class="dropdown-menu ${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<div class="dropdown-content"
-	<#nested>
+	<div class="dropdown-content">
+		<#nested>
 	</div>
 </div>
 </#macro>
@@ -796,8 +799,8 @@
 <#nested>
 </pre>
 </#macro>
-<#-- TABS -->
-<#-- TAB -->
+<#-- TABS 	-->
+<#-- TAB 	-->
 <#-- style: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
 <#macro tabs color='' style='tabs' class='' hide=[] collapsed=false id='' params=''>
 <#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
@@ -836,9 +839,7 @@ ${title} <#nested>
 <#-- Tab Panel -->
 <#macro tabPanel id params='' active=false>
 <div class="tab-pane fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
-<div class="container-fluid box">
-<#nested>
-</div>
+<div class="container-fluid box"><#nested></div>
 </div>
 </#macro>
 <#-- ACCORDION --> 
@@ -873,24 +874,19 @@ ${title} <#nested>
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params='' headerIcon='' >
 <div class="accordion-header toggle has-background-light"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<h2 class="title has-text-primary">
-	<#if headerIcon!=''><@icon style=headerIcon /></#if> &nbsp;
-${title}
-    </h2>
-	<#local nested><#nested></#local>
-	<#if nested?has_content>
-	<div class="is-pulled-right">
-		${nested}
-	</div>
-	</#if>
+<h2 class="title has-text-primary"><#if headerIcon!=''><@icon style=headerIcon /></#if> ${title}</h2>
+<#local nested><#nested></#local>
+<#if nested?has_content>
+<div class="is-pulled-right">${nested}</div>
+</#if>
 </div>
 <#assign parentId=parentId />
 </#macro>
 <#macro accordionBody id=childId class=childClass expanded=expanded params=''>
 <div id="${id}" class="accordion-body ${class}" aria-expanded="${expanded}"<#if params!=''> ${params}</#if>>
-	<@boxBody>
-		<#nested>
-	</@boxBody>
+<@boxBody>
+<#nested>
+</@boxBody>
 </div>
 </#macro>
 <#macro progressBar description='' id='' params=''>
@@ -903,7 +899,6 @@ ${title}
 <span class="progress-description">${description}</span>
 </#if>
 </#macro>
-
 <#-- Progress macro
     token : the progress manager Feed Token
     interval : refresh period in milli seconds (if the feed token is provided) 
@@ -919,7 +914,6 @@ ${title}
 <div id="${progressId}-report" class="progress-bar-report" lastline=0></div>
 </#if>
 </#macro>
-
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
 <#macro tag color='default' class='' size='' title='' tagIcon='' id='' params='' deprecated...>
@@ -968,27 +962,23 @@ ${title}
 	<#nested>
 </#${tag}>
 </#macro>
-<#-- BUTTON -->
-<#-- bootstrap 3 : size: btn-xs/btn-sm/btn-lg -->
-<#-- upcoming bootstrap 4 : size: btn-sm for small buttons/empty for medium buttons/btn-lg for large buttons -->
-<#-- color: default[bootstrap4 : secondary]/primary/success/warning/danger/info -->
-<#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
-<#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... -->
-<#-- type: button/submit/reset -->
-<#-- params: data-toggle/data-target/data-dismiss... -->
-<#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
-<#-- iconPosition: left/right -->
-<#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#-- formId: contains the form ID if the button is outside of the form -->
-<#-- buttonTargetId: contains the target element ID -->
-<#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
-<#macro button name='' id='' type='button' size='sm' color='default' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' deprecated...>
+<#-- BUTTON 																																-->
+<#-- bootstrap 3 : size: btn-xs/btn-sm/btn-lg 																								-->
+<#-- upcoming bootstrap 4 : size: btn-sm for small buttons/empty for medium buttons/btn-lg for large buttons 								-->
+<#-- color: default[bootstrap4 : secondary]/primary/success/warning/danger/info 															-->
+<#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-...			-->
+<#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... 																			-->
+<#-- type: button/submit/reset 																												-->
+<#-- params: data-toggle/data-target/data-dismiss... 																						-->
+<#-- buttonIcon: icon name ex: info/check/comment/envelope... 																				-->
+<#-- iconPosition: left/right 																												-->
+<#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class 	-->
+<#-- formId: contains the form ID if the button is outside of the form 																		-->
+<#-- buttonTargetId: contains the target element ID 																						-->
+<#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 												-->
+<#macro button name='' id='' type='button' size='sm' color='primary' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
-	<#local buttonColor = '' />
-<#else>
-	<#local buttonColor = color />
-</#if>
+<#if color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'><#local buttonColor = '' /><#else><#local buttonColor = color /></#if>
 <#-- Visibility of button title -->
 <#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
 <#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
@@ -999,20 +989,20 @@ ${title}
 <#if showTitleMd = false><#local showTitleClass = showTitleClass + ' is-hidden-desktop-only' /></#if>
 <#if showTitleLg = false><#local showTitleClass = showTitleClass + ' is-hidden-widescreen-only' /></#if>
 <#switch size>
-<#case 'xs'>
-	<#assign buttonSize='small'>
-	<#break>
-<#case 'sm'>
-	<#assign buttonSize='small'>
-	<#break>
-<#case 'md'>
-	<#assign buttonSize='medium'>
-	<#break>
-<#case 'lg'>
-	<#assign buttonSize='large'>
-	<#break>
-<#default>
-	<#assign buttonSize='normal'>
+	<#case 'xs'>
+		<#assign buttonSize='small'>
+		<#break>
+	<#case 'sm'>
+		<#assign buttonSize='small'>
+		<#break>
+	<#case 'md'>
+		<#assign buttonSize='medium'>
+		<#break>
+	<#case 'lg'>
+		<#assign buttonSize='large'>
+		<#break>
+	<#default>
+		<#assign buttonSize='normal'>
 </#switch>
 <#if dropdownMenu>
 <div class="dropdown">
@@ -1025,9 +1015,7 @@ ${title}
 	<#if nestedContent='' && displayTitleClass !='is-sr-only'><span<#if displayTitleClass!=''> class="${displayTitleClass}${showTitleClass}"</#if>>${title}</span></#if>
 	<#if nestedContent!='' && !dropdownMenu><span<#if displayTitleClass!=''> class="${displayTitleClass}"</#if>><#nested></#if>
 	<#if buttonIcon!='' && iconPosition='right'><span class="icon"><@icon style=buttonIcon /></span></#if>
-	<#if dropdownMenu>
-	  <@icon style='caret-down' />
-	</#if>
+	<#if dropdownMenu><@icon style='caret-down' /></#if>
 </button>
 <#if dropdownMenu>
 		<div class="dropdown-menu" id="${id!}-content" role="menu">
@@ -1332,6 +1320,7 @@ ${title}
 </#macro>
 <#macro listGroup id='' class='' params=''>
 <div class="panel <#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<p>PROUT</p>
 <#nested>
 </div>
 </#macro>
@@ -1445,11 +1434,11 @@ ${title}
 <#local x = ''>
 <#if align !=''>
 <#if align = 'left'>
-	<#local x = 'is-left' />
+	<#local x = 'is-left is-justify-content-flex-start' />
 <#elseif align = 'right'>
-	<#local x = 'is-right' />
+	<#local x = 'is-right is-justify-content-flex-end' />
 <#elseif align = 'center'>
-	<#local x = 'is-centered' />
+	<#local x = 'is-centered is-justify-content-flex-center' />
 </#if>
 </#if>
 <#return x>
@@ -1924,6 +1913,24 @@ $(function() {
 	  	</a>
 	</div>
 	</#if>
+</div>
+</#macro>
+<#macro timeline class='' id='' params=''>
+<div class="timeline<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<#nested>
+</div>
+</#macro>
+<#macro timelineLabel bg='primary' label=''  class='' id='' params=''>
+<!-- no label -->
+</#macro>
+<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer=''  class='' id='' params=''>
+<div class="timeline-item<#if class !=''> ${class}</#if>" <#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<#assign timelineIcon>${iconFace} ${iconBg}</#assign>
+	<div class="timeline-marker<#if iconFace !=''> is-icon</#if>"><#if iconFace !=''><@icon style=timelineIcon /></#if></div>
+	<div class="timeline-content">
+		<#if label !=''><p class="heading">${label}</p></#if>
+		<#nested>
+	</div>
 </div>
 </#macro>
 <#-- scroll to top button -->

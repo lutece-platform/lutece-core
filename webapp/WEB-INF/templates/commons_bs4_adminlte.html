@@ -76,8 +76,6 @@
 				<@icon style='angle-double-right' />&nbsp;#i18n{portal.util.labelLast}
 			</@link>
 		</#if>
-	<#else>
-		&nbsp;&nbsp;
 	</#if>
 </#if>
 </#macro>
@@ -110,43 +108,43 @@
 </#if>
 <@ul class='pagination pagination-sm'>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
-	<li>
-		<@link href='${paginator.firstPageLink?xhtml}'>
-			${paginator.labelFirst}
-		</@link>
-	</li>
+<li>
+	<@link href='${paginator.firstPageLink?xhtml}'>
+		${paginator.labelFirst}
+	</@link>
+</li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
-	<li class="previous">
-		<@link href='${paginator.previousPageLink?xhtml}'>
-			${paginator.labelPrevious}
-		</@link>
-	</li>
+<li class="previous">
+	<@link href='${paginator.previousPageLink?xhtml}'>
+		${paginator.labelPrevious}
+	</@link>
+</li>
 <#else>
-	<li class="disabled">
-		<@link href='${paginator.firstPageLink?xhtml}'>${paginator.labelPrevious}</@link>
-	</li>
+<li class="disabled">
+	<@link href='${paginator.firstPageLink?xhtml}'>${paginator.labelPrevious}</@link>
+</li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
-	<li>
-		<@link href='${(paginator.pagesLinks?first).url?xhtml}'><strong>...</strong></@link>
-	</li>
+<li>
+	<@link href='${(paginator.pagesLinks?first).url?xhtml}'><strong>...</strong></@link>
+</li>
 </#if>
 <#list paginator.pagesLinks as pageLink>
-	<#if ( pageLink.index == paginator.pageCurrent )>
-		<li class="active">
-			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
-		</li>
-	<#else>
-		<li>
-			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
-		</li>
-	</#if>
+<#if ( pageLink.index == paginator.pageCurrent )>
+	<li class="active">
+		<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
+	</li>
+<#else>
+	<li>
+		<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
+	</li>
+</#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-	<li>
-		<@link href='${(paginator.pagesLinks?last).url?xhtml}'><strong>...</strong></@link>
-	</li>
+<li>
+	<@link href='${(paginator.pagesLinks?last).url?xhtml}'><strong>...</strong></@link>
+</li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
 	<li class="next">
@@ -478,9 +476,13 @@
 </label>
 </#macro>
 <#macro formHelp style='inline' class='' labelFor=''>
+<#if style='inline'>
 <small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>
-<#nested>
+	<#nested>
 </small>
+<#else>
+<span class="form-help" data-toggle="popover" data-trigger="hover focus" data-html="true" data-content="<#nested>">?</span>
+</#if>
 </#macro>
 <#-- INPUTS & TEXTAREA  							-->
 <#-- ---------------------------------------------- -->
@@ -1801,35 +1803,35 @@ $(function(){
 </head>
 <body>
 <table class="body-wrap">
-	<tr>
-		<td class="container">
-				<!-- Message start -->
-				<table>
-						<tr>
-							<td align="center" class="masthead">
-								<h1>${title}</h1>
-							</td>
-						</tr>
-						<tr>
-							<td class="content">
-								<#nested>
-							</td>
-						</tr>
-				</table>
-		</td>
-	</tr>
-	<tr>
-		<td class="container">
-			<!-- Message start -->
-			<table>
-					<tr>
-						<td class="content footer" align="center">
-							<p><a href="${footer_link}">Lutece</a></p>
-						</td>
-					</tr>
-			</table>
-		</td>
-	</tr>
+<tr>
+	<td class="container">
+		<!-- Message start -->
+		<table>
+				<tr>
+					<td align="center" class="masthead">
+						<h1>${title}</h1>
+					</td>
+				</tr>
+				<tr>
+					<td class="content">
+						<#nested>
+					</td>
+				</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td class="container">
+		<!-- Message start -->
+		<table>
+				<tr>
+					<td class="content footer" align="center">
+						<p><a href="${footer_link}">Lutece</a></p>
+					</td>
+				</tr>
+		</table>
+	</td>
+</tr>
 </table>
 </body>
 </html>		
@@ -1894,6 +1896,28 @@ $(function(){
 	  	</a>
 	</div>
 	</#if>
+</div>
+</#macro>
+<#macro timeline class='' id='' params=''>
+<div class="timeline<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<#nested>
+</div>
+</#macro>
+<#macro timelineLabel bg='primary' label='' class='' id='' params=''>
+<div class="time-label<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<span class="bg-${bg}"><#if label!=''>${label}<#else><#nested></#if></span>
+</div>
+</#macro>
+<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params=''>
+<div<#if class !=''> class="${class}"</#if><#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<#assign timelineIcon>${iconFace} ${iconBg}</#assign>
+	<@icon style=timelineIcon />
+	<div class="timeline-item">
+		<#if time !=''><span class="time"><i class="fa fa-clock-o"></i> ${time}</span></#if>
+		<h3 class="timeline-header">${label}</h3>
+		<div class="timeline-body"><#nested></div>
+		<#if footer !=''><div class="timeline-footer">${footer}</div></#if>
+	</div>
 </div>
 </#macro>
 <#-- scroll to top button -->

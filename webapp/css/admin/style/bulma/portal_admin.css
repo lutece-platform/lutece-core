@@ -98,7 +98,7 @@ td{ vertical-align: middle;}
 .admin-site .breadcrumb-item{ font-size: 1.4rem }
 .admin-site .breadcrumb a i{ padding: .25em .75em; }
 .admin-site-toolbar{ margin-top: -1rem }
-
+.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
 iframe#preview { display: block; overflow: auto; padding: 0;  margin:-10px auto;  border:2px solid #DEDEDE;  max-height:400px }
 #preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
 #fullscreen.open{ position:fixed; top:0; right: 15px; z-index: 10000; padding: 5px; }
@@ -158,10 +158,11 @@ pre{ white-space: pre-wrap;}
 .card-theme.default-theme .avatar img{ border-color:  #3C763D }
 .theme-selected{ display: none }
 .card-theme.default-theme .theme-selected{  display: block; width: 200px; background: #3C763D; text-align: center; line-height: 50px;  letter-spacing: 1px; font-weight: bold; font-size: 16px; color: #fff; box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg);}
+
 /* Spaces between elements when display is set to flex. intended for buttons */
 .card-header .d-flex > * + *,.card-body .d-flex > * + * {	margin-left: 0.2rem;}
 
-/* Plugin EXTEND                 */
+/* Extend                                                                     */
 #extender-content .extend-action-menu{ display: flex; justify-content: space-between; align-items: center; flex-grow: 1;}
 #extender-content .panel-block{ padding:.5rem; font-size: .8rem }
 #extender-content .panel-block .form-submenu{ padding: 0; font-size: .8rem; width: 100% }
@@ -169,13 +170,19 @@ pre{ white-space: pre-wrap;}
 #extender-content .panel-block .extend-action-menu .button{ padding-right:.5em; }
 .dropdown-menu { top:60%; }
 .dropdown-content { padding-bottom: 0; padding-top: 0; }
-.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
-.form-submenu, .extend-action-menu{ width: 100% }
 
-/* Plugin Asynchronous Upload */
+/* Asynchronous Upload                                                        */
 .list-file-item{ display: flex; align-items: center; padding-bottom: 5px }
 .list-file-item div > label{ display: flex; justify-content: space-between; margin: 0 5px; }
 .list-file-item div > label > .uploaded_check{ margin: auto 5px }
 .list-file-item div .truncate{ margin-right: auto } 
 .list-file-item figure{ flex-shrink: 0; }
 .list-file-item figure + div{ flex-grow: 1 ; margin-left: auto }
+
+/* Forms Help                                                                
+.help{ display: flex; font-weight: 600; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; font-size: .75rem; color: var( --light ); text-align: center; text-decoration: none; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; background: var(--blue );border-radius: 50%; transition: background-color .3s,color .3s; }
+*/
+
+/* Form Help */
+.help{ display: inline-flex; font-weight: 600; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; font-size: .75rem; color: #626976; text-align: center; text-decoration: none; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; background: var(--tblr-border-color-light); border-radius: 100rem; transition: background-color .3s,color .3s; }
+.help:hover{ color: #fff; background: #206bc4;}

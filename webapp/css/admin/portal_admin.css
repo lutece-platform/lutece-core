@@ -106,8 +106,8 @@ div.box-tools > * { display:inline-block; }
 .footer-lutece{ background-color: var( --white ); margin: 0; padding: 15px 5px; float: right }
 #login #footer{ display: none;} /* Footer not displayed in login page */
 
-/* 	Helpers classes   */
-/* BS + Styles */
+/* 	Helpers classes        */
+/* BS + Styles              */
 /* .form-inline{ display: inline-block;} */
 .d-flex{ display: flex !important;}
 .align-items-center{ align-items: center; }
@@ -189,6 +189,7 @@ ul.pagination{ margin-top: 0; }
 .admin-menu > * { margin: 0; padding: 0;}
 .admin-site .breadcrumb-item{ font-size: 1.4rem }
 .admin-site-toolbar{ margin-top: -1rem }
+.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; min-width: 180px; }
 
 iframe#preview {display: block; overflow: auto; padding: 0; margin:-10px auto; border: 2px solid var( --gray-color ); max-height:400px}
 #preview.open{ position:fixed; width:100% !important; height:100vh !important; max-height:100vh !important; top:0; left:0; z-index: 9999; }
@@ -219,7 +220,11 @@ li.portlet-type a:hover{ background:var( --primary ) url(); color:var( --white )
 #scroll:hover { background-color:var( --warning ); opacity:1; filter:"alpha(opacity=100)"; -ms-filter:"alpha(opacity=100)" }
 
 /* Polipop Library */
-#lutecepop{z-index: 1050;}
+#lutecepop{ z-index: 1050 }
+
+/* Form Help */
+.form-help { display: inline-flex; font-weight: 600; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; font-size: 1.5rem; color: #626976; text-align: center; text-decoration: none; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; background: var(--tblr-border-color-light); border-radius: 100rem; transition: background-color .3s,color .3s; }
+.form-help:hover, .form-help[aria-describedby] { color: #fff; background: #206bc4;}
 
 /* ----------------------------------------------------------------------
 	PLUGINS ADMIN added styles
@@ -235,8 +240,12 @@ li.portlet-type a:hover{ background:var( --primary ) url(); color:var( --white )
 .extend-action-menu{display: flex; justify-content: space-between; align-items: center;}
 .list-group-item-action{ padding:.5rem; font-size: .8rem }
 .list-group-item-action .extend-action-menu .btn-xs{ padding:.2rem; }
-.extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
-.form-submenu, .extend-action-menu{ width: 100% }
+
+/* timeline */
+.timeline{ display: flex; flex-direction: column; }
+.timeline li .list-timeline-icon{ display: none; }
+.timeline li .timeline-item article{ padding: 1rem 2rem }
+.timeline>li>.fas{ width: 30px; height: 30px; font-size: 15px; line-height: 30px; position: absolute; border-radius: 50%; text-align: center; left: 18px; top: 0;}
 
 /* 	Plugin SUGGEST           */
 .f-nav{ z-index: 9999; position: fixed; left: 0; top: 4.4%; background-color: var( --white ); padding: 1% 2% 1% 2%; -moz-box-shadow: 0px 5px 5px 0px var( --dark-gray ); -webkit-box-shadow: 0px 5px 5px 0px var( --dark-gray );-o-box-shadow: 0px 5px 5px 0px var( --dark-gray );box-shadow: 0px 5px 5px 0px var( --dark-gray );filter:progid:DXImageTransform.Microsoft.Shadow(color=var( --dark-gray ), Direction=180, Strength=5);}

@@ -491,54 +491,59 @@
 </label>
 </#macro>
 <#macro formHelp style='inline' class='' labelFor=''>
-<small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>"<#if labelFor!=''> aria-describedby="${labelFor}" </#if>style="display:block;">
-<#nested>
-</small>
+<#if style='inline'>
+	<small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>
+	<#nested>
+	</small>
+<#else>
+	<span class="form-help" data-toggle="popover" data-trigger="hover focus" data-html="true" data-content="<#nested>">?</span>
+</#if>
 </#macro>
-<#-- INPUTS & TEXTAREA  							-->
-<#-- ---------------------------------------------- -->
-<#-- name : Mandatory : Name for field 				-->
-<#-- type : text/textarea/password/email/file/number/range/color/hidden/tel. Default : text -->
-<#-- value: ''					 					-->
-<#-- class: ''					 					-->
-<#-- id: ''						 					-->
-<#-- title:  ''  			 						-->
-<#-- size: ''										-->
-<#-- inputSize: 0									-->
-<#-- maxlength: 0					 				-->
-<#-- placeHolder: ''				 				-->
-<#-- rows: 4 Textarea specific		 				-->
-<#-- cols: 40 Textarea specific				    	-->
-<#-- pattern:  '' [A-F][0-9]{5} 					-->
-<#-- tabIndex:  ''  			 					-->
-<#-- disabled:  false  			 					-->
-<#-- readonly:  false  			 					-->
-<#-- min: 0					 						-->
-<#-- max: 0					 						-->
-<#-- min: 0					 						-->
-<#-- params: ''				 						-->
-<#-- mandatory: false		 						-->
-<#-- language: for input type DATE and datepickers 	-->
-<#-- defaultDate: Format must be "yyyy-MM-dd hh:mm" -->
-<#-- minDate: Format must be "yyyy-MM-dd hh:mm" 	-->
-<#-- maxDate: Format must be "yyyy-MM-dd hh:mm" 	-->
-<#-- defaultHour: Format must be "hh" 				-->
-<#-- defaultMinute: Format must be "mm" 			-->
-<#-- minTime : Format must be "hh:mm" 				-->
-<#-- maxTime : Format must be "hh:mm" 				-->
-<#-- format='' 										-->
-<#-- showFormat='' 									-->
-<#-- dateRangeEndId='' 								-->
-<#-- dateParams : [] Look at https://flatpickr.js.org/options/ for options list -->
-<#--  Example : dateParams=[{'inline': 'true'},{'hourIncrement': '4'}]          -->
-<#-- ---------------------------------------------- -->
+<#-- -------------------------------------------------------------------------------------------------- -->
+<#-- INPUTS & TEXTAREA  																				-->
+<#-- -------------------------------------------------------------------------------------------------- -->
+<#-- name : Mandatory : Name for field 																	-->
+<#-- type : text/textarea/password/email/file/number/range/color/hidden/tel. Default : text 			-->
+<#-- value: ''					 																		-->
+<#-- class: ''					 																		-->
+<#-- id: ''						 																		-->
+<#-- title:  ''  			 																			-->
+<#-- size: ''																							-->
+<#-- inputSize: 0																						-->
+<#-- maxlength: 0					 																	-->
+<#-- placeHolder: ''				 																	-->
+<#-- rows: 4 Textarea specific		 																	-->
+<#-- cols: 40 Textarea specific				    														-->
+<#-- pattern:  '' [A-F][0-9]{5} 																		-->
+<#-- tabIndex:  ''  			 																		-->
+<#-- disabled:  false  			 																		-->
+<#-- readonly:  false  			 																		-->
+<#-- min: 0					 																			-->
+<#-- max: 0					 																			-->
+<#-- min: 0					 																			-->
+<#-- params: ''				 																			-->
+<#-- mandatory: false		 																			-->
+<#-- language: for input type DATE and datepickers 														-->
+<#-- defaultDate: Format must be "yyyy-MM-dd hh:mm" 													-->
+<#-- minDate: Format must be "yyyy-MM-dd hh:mm" 														-->
+<#-- maxDate: Format must be "yyyy-MM-dd hh:mm" 														-->
+<#-- defaultHour: Format must be "hh" 																	-->
+<#-- defaultMinute: Format must be "mm" 																-->
+<#-- minTime : Format must be "hh:mm" 																	-->
+<#-- maxTime : Format must be "hh:mm" 																	-->
+<#-- format='' 																							-->
+<#-- showFormat='' 																						-->
+<#-- dateRangeEndId='' 																					-->
+<#-- dateParams : [] Look at https://flatpickr.js.org/options/ for options list 						-->
+<#--  Example : dateParams=[{'inline': 'true'},{'hourIncrement': '4'}]          						-->
+<#-- -------------------------------------------------------------------------------------------------- -->
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.locale minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' time_24hr=true format='' showFormat='' dateRangeEndId='' dateParams=[]>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='range' || type='tel'>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
-	<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange'>
+	<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange' || type='time'>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 		<#if type='date'>
 			<@getDate idField='${id}' language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate defaultDate=defaultDate dateOptions=dateParams />
@@ -565,8 +570,13 @@
 	<#else><@icon style='warning' />Type not supported
 	</#if>
 </#macro>
-<#-- STATIC TEXT -->
-<#-- Bootstrap colors: primary/secondary/success/info/warning/danger/light/black/muted/white/text-black-50/text-white-50 -->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- STATICTEXT		  																										-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- inForm : true / false : Is in a form																					-->
+<#-- color: primary / secondary / success / etc...	and any css class 												 		-->
+<#-- id: ''	 :					 																							-->
+<#-- params: ''						 																						-->
 <#macro staticText inForm=true color='' id='' params=''>
 <p class="<#if inForm>form-control-plaintext</#if><#if color!=''> text-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
@@ -620,8 +630,14 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		$("select").parents('div.form-group').addClass('is-filled');
 	</script>
 </#macro>
-<#--- MACRO OPTIONS  --->
-<#--- items : list with label, value, selected values  --->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- OPTIONS		  																										-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- items : list with label, value.				  																		-->
+<#-- selected : Selected value 																								-->
+<#-- id : 																													-->
+<#-- class : 																												-->
+<#-- params : 																												-->
 <#macro options items selected='' id=false class='' params=''>
 <#if items??>
 	<#list items as item>
@@ -631,12 +647,35 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	</#list>
 </#if>
 </#macro>
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- OPTION 		  																										-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- label : Mandatory 			  																							-->
+<#-- value : Mandatory 			  																							-->
+<#-- selected : Selected value 																								-->
+<#-- disabled : false  : Bool 																								-->
+<#-- id : 																													-->
+<#-- class : 																												-->
+<#-- params : 																												-->
 <#macro option label value id='' class='' selected=false disabled=false params=''>
 <option<#if id!=''>id="${id}</#if><#if class!=''> class="${class}</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if params!=''> ${params}</#if>>${label!} <#nested></option>
 </#macro>
-<#-- CHECKBOX 																							-->
-<#-- orientation: vertical/inline. Default is vertical 	-->
-<#-- TODO  																									-->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- CHECKBOX 		  																										-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- name 	: Mandatory 			  																						-->
+<#-- id 	: 																												-->
+<#-- class 	: 																												-->
+<#-- labelKey : '' 			  																								-->
+<#-- orientation : 'vertical' / String																						-->
+<#-- value : ''  / String																									-->
+<#-- tabIndex : ''  / String																								-->
+<#-- title : ''  / String																									-->
+<#-- disabled : false  / Bool 																								-->
+<#-- readonly : false  / Bool 																								-->
+<#-- checked : false / Bool 																								-->
+<#-- mandatory : false / Bool 																								-->
+<#-- params : 																												-->
 <#macro checkBox name id='' labelKey=''  orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if id = ''><#local id = name /></#if>
@@ -653,8 +692,22 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		$(".form-check").parents('div.form-group').find('label').removeClass('bmd-label-floating');
 	</script>
 </#macro>
-<#-- RADIO BUTTON -->
-<#-- orientation: vertical/inline. Default is vertical -->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- RADIOBUTTON 		  																									-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- name 	: Mandatory 			  																						-->
+<#-- id 	: 																												-->
+<#-- class 	: 																												-->
+<#-- labelKey : '' 			  																								-->
+<#-- orientation : 'vertical' / String																						-->
+<#-- value : ''  / String																									-->
+<#-- tabIndex : ''  / String																								-->
+<#-- title : ''  / String																									-->
+<#-- disabled : false  / Bool 																								-->
+<#-- readonly : false  / Bool 																								-->
+<#-- checked : false / Bool 																								-->
+<#-- mandatory : false / Bool 																								-->
+<#-- params : 																												-->
 <#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <div class="form-check form-check-radio<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
@@ -666,61 +719,86 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	</span>
 </label>
 </div>
-	<script>
-		$(".form-check").parents('div.form-group').addClass('is-filled');
-	</script>
+<script>
+$(".form-check").parents('div.form-group').addClass('is-filled');
+</script>
 </#macro>
-<#-- INPUT-GROUP -->
-<#-- size: sm/lg/no size-->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- INPUTGROUP 		  																									-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- size 	: '' / string / sm or lg or no																					-->
+<#-- id 	: '' / string 																									-->
+<#-- class 	: '' / string 																									-->
+<#-- params : '' / string 																									-->
 <#macro inputGroup size='' class='' id='' params=''>
-	<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</div>
-		<script>
-			$(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-static').removeClass("bmd-label-floating");
-		</script>
+<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</div>
+<script>
+$(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-static').removeClass("bmd-label-floating");
+</script>
 </#macro>
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- INPUTGROUPITEM		  																									-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- pos 	: 'append' / string / append or prepend																			-->
+<#-- type 	: 'btn' / string / btn or text																					-->
+<#-- id 	: '' / string 																									-->
+<#-- params : '' / string 																									-->
 <#macro inputGroupItem pos='append' type='btn' id='' params=''>
-<#-- pos: append / prepend | Default append -->
-<#-- type: btn/text. default is btn	-->
 <div class="input-group-${pos}">
-<#if type = 'text'>
-	<div class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-</#if>
+<#if type = 'text'><div class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></#if>
 <#-- This part is to add the "sm" class to the button -->
-		<#local nestedContent><#nested /></#local>
-		<#if nestedContent?has_content>
-			<#if nestedContent?contains("class=\"btn")>
-				${nestedContent?replace('class=\"btn','class=\"btn btn-sm')}
-			<#else>
-				<#nested />
-			</#if>
-		</#if>
-<#if type = 'text'>
-	</div>
+<#local nestedContent><#nested /></#local>
+<#if nestedContent?has_content>
+	<#if nestedContent?contains("class=\"btn")>
+		${nestedContent?replace('class=\"btn','class=\"btn btn-sm')}
+	<#else>
+		<#nested />
+	</#if>
 </#if>
+<#if type = 'text'></div></#if>
 </div>
 </#macro>
-<#-- DROPDOWN MENU -->
-<#-- class: dropdown-menu-right -->
-<#-- Expected content : <li><a>Your link here</a></li> -->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- DROPDOWNMENU		  																									-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- class 	: '' / string  																									-->
+<#-- id 	: '' / string 																									-->
+<#-- params : '' / string 																									-->
 <#macro dropdownMenu class='' id='' params=''>
-	<ul class="dropdown-menu ${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</ul>
+<ul class="dropdown-menu ${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</ul>
 </#macro>
-<#-- ROW -->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- ROW		  																											-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- class 	: '' / string  																									-->
+<#-- id 	: '' / string 																									-->
+<#-- align 	: '' / string 																									-->
+<#-- collapsed : false / Bool 																								-->
+<#-- params : '' / string 																									-->
 <#macro row class='' id='' align='' collapsed=false params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
-	<div class="row<#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</div>
+<div class="row<#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</div>
 </#macro>
-<#-- COLUMNS -->
-<#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
-<#-- Push and Pull are deprecated in Bootstrap 4 -->
-<#-- offsetXs, offsetSm, offsetMd, offsetLg and offsetXl are deprecated. Use offset={} instead where the values are listed as following: offset={'xs':int, 'sm':int, 'md':int, 'lg':int, 'xl':int} -->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- COLUMNS	  																											-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- tag 	: 'div' / string / Any html tag																					-->
+<#-- class 	: '' / string  																									-->
+<#-- id 	: '' / string 																									-->
+<#-- align 	: '' / string 																									-->
+<#-- collapsed : false / Bool 																								-->
+<#-- params : '' / string 																									-->
+<#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) 						-->
+<#-- Push and Pull are deprecated in Bootstrap 4 																			-->
+<#-- offsetXs, offsetSm, offsetMd, offsetLg and offsetXl are deprecated. 													-->
+<#-- Use offset={} Values are listed as following: offset={'xs':int, 'sm':int, 'md':int, 'lg':int, 'xl':int} 				-->
 <#-- Order uses flexbox. Use Order for xs/all breakpoints this way: order=int, or for other breakpoints this way: order={'sm':int, 'md':int, 'lg':int, 'xl':int} -->
 <#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params=''>
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
@@ -742,85 +820,134 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<#nested>
 </${tag}>
 </#macro>
-<#-- LISTS -->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- UL	  																													-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- class 	: '' / string  																									-->
+<#-- id 	: '' / string 																									-->
+<#-- align 	: '' / string 																									-->
+<#-- hide 	: [] / array 																									-->
+<#-- collapsed : false / Bool 																								-->
+<#-- params : '' / string 																									-->
 <#macro ul id='' class='' align='' hide=[] collapsed=false params=''>
-	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
-	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
-	<ul<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
-		<#nested>
-	</ul>
+<#if collapsed><#local class += ' ' + 'collapse' /></#if>
+<#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
+<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+<ul<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<#nested>
+</ul>
 </#macro>
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- LI	  																													-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- class 	: '' / string  																									-->
+<#-- id 	: '' / string 																									-->
+<#-- align 	: '' / string 																									-->
+<#-- hide 	: [] / array 																									-->
+<#-- collapsed : false / Bool 																								-->
+<#-- params : '' / string 																									-->
 <#macro li id='' params='' class='' hide=[] align=''>
-		<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
-		<li<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
-			<#nested>
-		</li>
+<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
+<li<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+<#nested>
+</li>
 </#macro>
-<#-- DIV -->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- DIV	  																												-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- class 	: '' / string  																									-->
+<#-- id 	: '' / string 																									-->
+<#-- align 	: '' / string 																									-->
+<#-- hide 	: [] / array 																									-->
+<#-- collapsed : false / Bool 																								-->
+<#-- params : '' / string 																									-->
 <#macro div id='' class='' hide=[] collapsed=false align='' params=''>
-	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
-	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
-	<div<#if class?trim!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</div>
+<#if collapsed><#local class += ' ' + 'collapse' /></#if>
+<#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
+<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+<div<#if class?trim!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</div>
 </#macro>
-<#-- PARAGRAPH -->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- P	  																													-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- class 	: '' / string  																									-->
+<#-- id 	: '' / string 																									-->
+<#-- align 	: '' / string 																									-->
+<#-- hide 	: [] / array 																									-->
+<#-- collapsed : false / Bool 																								-->
+<#-- params : '' / string 																									-->
 <#macro p id='' class='' hide=[] collapsed=false align='' params=''>
-	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
-	<p<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
-		<#nested>
-	</p>
+<#if collapsed><#local class += ' ' + 'collapse' /></#if>
+<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
+<p<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+<#nested>
+</p>
 </#macro>
-<#-- SPAN -->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- SPAN  																													-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- class 	: '' / string  																									-->
+<#-- id 	: '' / string 																									-->
+<#-- align 	: '' / string 																									-->
+<#-- hide 	: [] / array 																									-->
+<#-- collapsed : false / Bool 																								-->
+<#-- params : '' / string 																									-->
 <#macro span id='' class='' hide=[] collapsed=false align='' params=''>
-	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'inline-flex') />
-	<span<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
-		<#nested>
-	</span>
+<#if collapsed><#local class += ' ' + 'collapse' /></#if>
+<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'inline-flex') />
+<span<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+<#nested>
+</span>
 </#macro>
 <#-- PRE -->
 <#macro pre id='' class='' hide=[] collapsed=false align='' params=''>
-	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
-	<pre<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
-		<#nested>
-	</pre>
+<#if collapsed><#local class += ' ' + 'collapse' /></#if>
+<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
+<pre<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+<#nested>
+</pre>
 </#macro>
-<#-- TABS -->
-<#-- Tab Container -->
-<#-- style: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
+<#-- --------------------------------------------------------------------------------------------------------------------- 	-->
+<#-- TABS  																													-->
+<#-- ---------------------------------------------------------------------------------------------------------------------  -->
+<#-- class 	: '' / string  																									-->
+<#-- id 	: '' / string 																									-->
+<#-- align 	: '' / string 																									-->
+<#-- hide 	: [] / array 																									-->
+<#-- collapsed : false / Bool 																								-->
+<#-- params : '' / string 																									-->
+<#-- Tab Container 																											-->
+<#-- style: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified 											-->
 <#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false params=''>
-	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
-	<#if style = 'tabs'><#local class += ' card card-nav-tabs' /></#if>
-	<#if propagateParentMacro?? && propagateParentMacro = 'boxBody'><#local class=' card card-plain' /></#if>
-	<#if color != ''><#local class += ' ' + color /></#if>
-	<#assign propagateTabStyle = style />
-	<div<#if class?trim!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</div>
+<#if collapsed><#local class += ' ' + 'collapse' /></#if>
+<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+<#if style = 'tabs'><#local class += ' card card-nav-tabs' /></#if>
+<#if propagateParentMacro?? && propagateParentMacro = 'boxBody'><#local class=' card card-plain' /></#if>
+<#if color != ''><#local class += ' ' + color /></#if>
+<#assign propagateTabStyle = style />
+<div<#if class?trim!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</div>
 </#macro>
 <#-- Tabs List -->
 <#-- type is deprecated -->
 <#macro tabList style='tabs' vertical=false id='' color='' params=''>
-	<#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
-		<#if style != 'pills'>
-		<div class="card-header card-header-primary">
-			<div class="nav-tabs-navigation">
-				<div class="nav-tabs-wrapper">
-		</#if>
-					<ul class="nav nav-${style}<#if style='pills'> nav-pills-icons</#if><#if vertical> flex-column mb-3</#if>" data-tabs="tabs" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
-						<#nested>
-					</ul>
-		<#if style != 'pills'>
-				</div>
-			</div>
+<#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
+<#if style != 'pills'>
+<div class="card-header card-header-primary">
+	<div class="nav-tabs-navigation">
+		<div class="nav-tabs-wrapper">
+</#if>
+<ul class="nav nav-${style}<#if style='pills'> nav-pills-icons</#if><#if vertical> flex-column mb-3</#if>" data-tabs="tabs" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
+	<#nested>
+</ul>
+<#if style != 'pills'>
 		</div>
-		</#if>
+	</div>
+</div>
+</#if>
 </#macro>
 <#-- Tabs -->
 <#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
@@ -834,19 +961,19 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#else>
 	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
 </#if>
-	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
-		<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}&nbsp;
-		<#nested>
-	</@link>
+<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
+	<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}&nbsp;
+	<#nested>
+</@link>
 </li>
 </#macro>
 <#-- TAB Content -->
 <#macro tabContent id='' params=''>
-	<div class="card-body">
-		<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-			<#nested>
-		</div>
+<div class="card-body">
+	<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
 	</div>
+</div>
 </#macro>
 <#-- Tab Panel BS4 -->
 <#macro tabPanel id params='' active=false>
@@ -1920,6 +2047,28 @@ $(function() {
 	  	</a>
 	</div>
 	</#if>
+</div>
+</#macro>
+<#macro timeline class='' id='' params=''>
+<div class="timeline<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<#nested>
+</div>
+</#macro>
+<#macro timelineLabel bg='primary' label='' class='' id='' params=''>
+<div class="time-label<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<span class="bg-${bg}"><#if label!=''>${label}<#else><#nested></#if></span>
+</div>
+</#macro>
+<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params=''>
+<div<#if class !=''> class="${class}"</#if><#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<#assign timelineIcon>${iconFace} ${iconBg}</#assign>
+	<@icon style=timelineIcon />
+	<div class="timeline-item">
+		<#if time !=''><span class="time"><i class="fa fa-clock-o"></i> ${time}</span></#if>
+		<h3 class="timeline-header">${label}</h3>
+		<div class="timeline-body"><#nested></div>
+		<#if footer !=''><div class="timeline-footer">${footer}</div></#if>
+	</div>
 </div>
 </#macro>
 <#-- scroll to top button -->

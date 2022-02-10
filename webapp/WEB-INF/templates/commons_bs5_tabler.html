@@ -480,9 +480,13 @@
 </label>
 </#macro>
 <#macro formHelp style='inline' class='' labelFor=''>
-<small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>
-<#nested>
-</small>
+<#if style='inline'>
+	<small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>
+	<#nested>
+	</small>
+<#else>
+	<span class="form-help" data-bs-toggle="popover" data-bs-placement="bottom" data-bs-trigger="hover" data-bs-html="true" data-bs-content="<#nested>">?</span>
+</#if>
 </#macro>
 <#-- INPUTS & TEXTAREA  							-->
 <#-- ---------------------------------------------- -->
@@ -527,7 +531,7 @@
 	<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='range' || type='tel'>
 	<input class="form-control<#if size!=''> input-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
-<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange'>
+<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange' || type='time'>
 	<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#if type='date'>
 		<@getDate idField='${id}' language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate defaultDate=defaultDate dateOptions=dateParams />
@@ -642,9 +646,9 @@
 <#macro radioButton name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if orientation='vertical'><div class="radio">	</#if>
-<label<#if orientation!='vertical'> class="radio-inline"</#if> for="${labelFor}">
-<input type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
-<#if labelKey!=''>${labelKey}<#else><#nested></#if>
+<label  class="form-check<#if orientation!='vertical'> form-check-inline</#if>" for="${labelFor}">
+<input class="form-check-input"type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
+<span class="form-check-label"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
 </label>
 <#if orientation='vertical'></div></#if>
 </#macro>
@@ -771,8 +775,8 @@
 </#macro>
 <#-- Tabs -->
 <#-- type:  -->
-<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
-<li class="nav-item"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' tabClass='' params=''>
+<li class="nav-item<#if tabClass!=''> ${tabClass}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
 <#local tabLinkSettings = 'role="tab" aria-expanded="${active?c}" aria-controls="${href?remove_beginning("#")}"' />
@@ -782,10 +786,14 @@
 <#else>
 	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
 </#if>
-<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
-	<#if tabIcon!=''><@icon style=tabIcon class='mr-1 me-1'/></#if> ${title} 
+<#if href=''>
 	<#nested>
-</@link>
+<#else>
+	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
+		<#if tabIcon!=''><@icon style=tabIcon class='mr-1 me-1'/></#if> ${title} 
+		<#nested>
+	</@link>
+</#if>
 </li>
 </#macro>
 <#-- TAB Content -->
@@ -1867,6 +1875,25 @@ p, ul, ol { font-size: 16px; font-weight: normal; margin-bottom: 20px; }
 </div>
 </#if>
 </div>
+</#macro>
+<#macro timeline class='' id='' params=''>
+<ul class="list list-timeline<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<#nested>
+</ul>
+</#macro>
+<#macro timelineLabel bg='primary' label='' class='' id='' params=''>
+<!-- no label -->
+</#macro>
+<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params=''>
+<li<#if class !=''> class="${class}"</#if><#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<#if iconFace !=''><div class="list-timeline-icon ${iconBg}"><@icon style=iconFace /></div></#if>
+	<div class="list-timeline-content">
+		<#if time !=''><div class="list-timeline-time">${time}</div></#if>
+		<p class="list-timeline-title">${label}</p>
+		<div class="list-timeline-body"><#nested></div>
+		<#if footer !=''><div class="timeline-footer">${footer}</div></#if>
+	</div>
+</li>
 </#macro>
 <#-- scroll to top button -->
 <#macro scrollTopBtn>

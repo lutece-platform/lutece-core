@@ -544,9 +544,13 @@
 </label>
 </#macro>
 <#macro formHelp style='inline' class='' labelFor=''>
-<span class="help-block<#if class!=''> ${class}</#if>" <#if labelFor!=''>id="${labelFor}_help"</#if>>
-<#nested>
-</span>
+<#if style='inline'>
+	<small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>
+	<#nested>
+	</small>
+<#else>
+	<span class="form-help" data-toggle="popover" data-html="true" data-trigger="hover" data-placement="bottom" data-content="<#nested>">?</span>
+</#if>
 </#macro>
 <#-- INPUTS & TEXTAREA  							-->
 <#-- ---------------------------------------------- -->
@@ -591,7 +595,7 @@
 		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='range' || type='tel'>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
-	<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange'>
+	<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange' || type='time'>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 		<#if type='date'>
 			<@getDate idField='${id}' language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate defaultDate=defaultDate dateOptions=dateParams />
@@ -1834,6 +1838,28 @@ enableBSToppltip: false
 	</div>
 	</#if>
 </div>
+</#macro>
+<#macro timeline class='' id='' params=''>
+<ul class="timeline<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<#nested>
+</ul>
+</#macro>
+<#macro timelineLabel bg='primary' label='' class='' id='' params=''>
+<li class="time-label<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<span class="bg-${bg}"><#if label!=''>${label}<#else><#nested></#if></span>
+</li>
+</#macro>
+<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params=''>
+<li<#if class !=''> class="${class}"</#if><#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+	<#assign timelineIcon>${iconFace} ${iconBg}</#assign>
+	<i class="fas fa-${timelineIcon}"></i>
+	<div class="timeline-item clearfix">
+		<#if time !=''><span class="time"><i class="fa fa-clock-o"></i> ${time}</span></#if>
+		<h3 class="timeline-header">${label}</h3>
+		<div class="timeline-body"><#nested></div>
+		<#if footer !=''><div class="timeline-footer">${footer}</div></#if>
+	</div>
+</li>
 </#macro>
 <#-- scroll to top button -->
 <#macro scrollTopBtn>
