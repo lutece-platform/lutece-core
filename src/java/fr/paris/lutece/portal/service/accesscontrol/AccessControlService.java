@@ -151,7 +151,7 @@ public final class AccessControlService
      * @param resourceType
      * @return
      */
-    public XPage doExecuteAccessControl( HttpServletRequest request, int idResource, String resourceType )
+    public XPage doExecuteAccessControl( HttpServletRequest request, int idResource, String resourceType, Object destination )
     {
         if ( isAvailable( ) )
         {
@@ -162,6 +162,10 @@ public final class AccessControlService
                 if ( sessionData == null || !sessionData.isAccessControlResult( ) )
                 {
                     return _provider.redirectToAccessControlXPage( request, idResource, resourceType, idAccessControl );
+                }
+                if ( sessionData.isAccessControlResult( ) )
+                {
+                    _provider.applyPersistentData( sessionData, destination ); 
                 }
             }
         }
