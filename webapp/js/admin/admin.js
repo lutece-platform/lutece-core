@@ -2,7 +2,6 @@
  * BS3 + AdminLTE JS
  *
  */
-
 /* Specific script for back office */
 $( function(){
 	var nCounter = "";
@@ -131,6 +130,8 @@ $( function(){
 		$(this).find("i").addClass("fa-minus").removeClass("fa-plus");
 		}
 	});
+
+	$('[data-toggle="popover"]').popover()
 });
 
 /* Pretty print file size */
