@@ -34,6 +34,8 @@
 package fr.paris.lutece.portal.business.accesscontrol;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AccessControlSessionData implements Serializable
 {
@@ -41,12 +43,22 @@ public class AccessControlSessionData implements Serializable
 
     private static final String SESSION_KEY = "access_control_data";
 
+    private final int _nIdResource;
+    private final String _strTypeResource;
     private String _strReturnQueryString;
     private boolean _bAccessControlResult;
+    private Map<Integer, Serializable> _persistentData = new HashMap<>( );
 
-    public static final String getSessionKey( int nIdResource, String strResourceType )
+    
+    /**
+     * Constructor
+     * @param nIdResource
+     * @param strTypeResource
+     */
+    public AccessControlSessionData( int nIdResource, String strTypeResource )
     {
-        return SESSION_KEY + "_" + nIdResource + "_" + strResourceType;
+        _nIdResource = nIdResource;
+        _strTypeResource = strTypeResource;
     }
 
     /**
@@ -81,5 +93,60 @@ public class AccessControlSessionData implements Serializable
     public void setAccessControlResult( boolean bAccessControlResult )
     {
         _bAccessControlResult = bAccessControlResult;
+    }
+    
+    /**
+     * Add param to persistent data map.
+     * @param key the id of the controller that handles the persistent data
+     * @param value
+     */
+    public void addPersistentParam( int key, Serializable value )
+    {
+        _persistentData.put( key, value );
+    }
+    
+    /**
+     * Get persistent data
+     * @return
+     */
+    public Map<Integer, Serializable> getPersistentData( )
+    {
+        return _persistentData;
+    }
+
+    /**
+     * @return the nIdResource
+     */
+    public int getIdResource( )
+    {
+        return _nIdResource;
+    }
+
+    /**
+     * @return the strTypeResource
+     */
+    public String getTypeResource( )
+    {
+        return _strTypeResource;
+    }
+    
+    /**
+     * Get the session key for this ession data
+     * @return
+     */
+    public String getSessionKey( )
+    {
+        return getSessionKey( _nIdResource, _strTypeResource );
+    }
+    
+    /**
+     * Get the session key for the given parameters
+     * @param nIdResource
+     * @param strResourceType
+     * @return
+     */
+    public static final String getSessionKey( int nIdResource, String strResourceType )
+    {
+        return SESSION_KEY + "_" + nIdResource + "_" + strResourceType;
     }
 }

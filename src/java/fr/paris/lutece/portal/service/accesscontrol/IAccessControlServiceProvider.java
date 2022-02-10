@@ -103,4 +103,11 @@ public interface IAccessControlServiceProvider
      * @param resourceType
      */
     void deleteSessionDataForResource( HttpServletRequest request, int idResource, String resourceType );
+    
+    /**
+     * Apply the session data to the destination object
+     * @param sessionData
+     * @param destination
+     */
+    void applyPersistentData( AccessControlSessionData sessionData, Object destination );
 }
