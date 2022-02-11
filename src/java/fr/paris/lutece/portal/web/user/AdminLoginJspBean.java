@@ -204,18 +204,6 @@ public class AdminLoginJspBean implements Serializable
 
         Locale locale = AdminUserService.getLocale( request );
 
-        Enumeration<String> enumParams = request.getParameterNames( );
-        ReferenceList listParams = new ReferenceList( );
-        String strParamName;
-
-        while ( enumParams.hasMoreElements( ) )
-        {
-            strParamName = enumParams.nextElement( );
-
-            String strParamValue = request.getParameter( strParamName );
-            listParams.addItem( strParamName, strParamValue );
-        }
-
         StringBuilder sbUrl = new StringBuilder( );
 
         if ( AppHTTPSService.isHTTPSSupportEnabled( ) )
@@ -236,7 +224,6 @@ public class AdminLoginJspBean implements Serializable
 
         model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
         model.put( MARK_SITE_NAME, PortalService.getSiteName( ) );
-        model.put( MARK_PARAMS_LIST, listParams );
         model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getLostPasswordPageUrl( ) );
         model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance( ).getLostLoginPageUrl( ) );
         model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString( ) );

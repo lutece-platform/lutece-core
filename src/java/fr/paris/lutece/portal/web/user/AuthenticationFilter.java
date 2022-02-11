@@ -179,21 +179,6 @@ public class AuthenticationFilter implements Filter
 
         UrlItem url = new UrlItem( strLoginUrl );
 
-        Enumeration<String> enumParams = request.getParameterNames( );
-
-        String strParamName;
-
-        while ( enumParams.hasMoreElements( ) )
-        {
-            strParamName = enumParams.nextElement( );
-
-            if ( !strParamName.equals( Parameters.ACCESS_CODE ) && !strParamName.equals( Parameters.PASSWORD )
-                    && !strParamName.equals( SecurityTokenService.PARAMETER_TOKEN ) )
-            {
-                url.addParameter( strParamName, request.getParameter( strParamName ) );
-            }
-        }
-
         return url.getUrl( );
     }
 
