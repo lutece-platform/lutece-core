@@ -33,11 +33,6 @@
  */
 package fr.paris.lutece.util.http;
 
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.LocalVariables;
-import fr.paris.lutece.util.string.StringUtil;
-
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +42,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.util.AntPathMatcher;
+
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.LocalVariables;
+import fr.paris.lutece.util.string.StringUtil;
 
 /**
  * Security utils
@@ -100,7 +100,6 @@ public final class SecurityUtil
     {
         String key;
         String [ ] values;
-
         Enumeration<String> e = request.getParameterNames( );
 
         while ( e.hasMoreElements( ) )
@@ -112,7 +111,7 @@ public final class SecurityUtil
 
             for ( int i = 0; i < length; i++ )
             {
-                if ( SecurityUtil.containsXssCharacters( request, values [i], strXssCharacters ) )
+                if ( SecurityUtil.containsXssCharacters( request, values [i], strXssCharacters ) || SecurityUtil.containsXssCharacters( request, key, strXssCharacters )  )
                 {
                     _log.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS {}", ( ) -> dumpRequest( request ) );
 
