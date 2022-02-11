@@ -51,7 +51,7 @@
 						<@columns sm=4 class='plugins'>
 						<@box id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"' class='plugin-box plugin'>
 							<#assign logo>
-								<@img url='${plugin.iconUrl}' alt='logo' title='${plugin.name}' />
+								<@img url='${plugin.iconUrl}' alt='logo' title='${plugin.name}' params='onerror="this.onerror=null;this.src=\'images/admin/skin/feature_default_icon.png\';"' />
 							</#assign>
 							<@boxHeader title='${logo} ${plugin.name}' class='is-align-items-center' boxTools=true>
 								<#if plugin.installed>
