@@ -682,10 +682,10 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- checked : false / Bool 																								-->
 <#-- mandatory : false / Bool 																								-->
 <#-- params : 																												-->
-<#macro checkBox name id='' labelKey=''  orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
+<#macro checkBox name id='' class='' labelKey='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if id = ''><#local id = name /></#if>
-<div class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
+<div class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if><#if class!=''> ${class}</#if>">
 	<label class="form-check-label" for="${id}"<#if title!=''> title="${title}"</#if>>
 	<input type="checkbox" id="${id}" name="${name}" class="form-check-input" <#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
 	<#if labelKey!=''>${labelKey}<#else><#nested></#if>
@@ -694,9 +694,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	</span>
 	</label>
 </div>
-	<script>
-		$(".form-check").parents('div.form-group').find('label').removeClass('bmd-label-floating');
-	</script>
+<script>$(".form-check").parents('div.form-group').find('label').removeClass('bmd-label-floating');</script>
 </#macro>
 <#-- --------------------------------------------------------------------------------------------------------------------- 	-->
 <#-- RADIOBUTTON 		  																									-->

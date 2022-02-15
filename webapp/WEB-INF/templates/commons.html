@@ -639,13 +639,13 @@
 <#-- CHECKBOX -->
 <#-- orientation: vertical/inline. Default is vertical -->
 <#-- TODO  -->
-<#macro checkBox name id='' labelKey=''  orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false  deprecated...>
+<#macro checkBox name id='' class='' labelKey='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false  deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if id = ''><#local id = name /></#if>
 <#if orientation='vertical'><div class="checkbox"></#if>
 <label<#if orientation!='vertical'> class="checkbox-inline"</#if> for="${id}" <#if title!=''> title="${title}"</#if>>
-<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
+<input type="checkbox" id="${id}"<#if class!=''> class="${class}"</#if> name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
 <#if labelKey!=''>${labelKey}<#else><#nested></#if>
 </label>
 <#if orientation='vertical'></div></#if>
