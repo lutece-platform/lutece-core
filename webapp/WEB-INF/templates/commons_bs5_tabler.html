@@ -2165,3 +2165,9 @@ $(function(){
 <#macro deprecatedWarning args=[] >
 <#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>
 </#macro>
+<#macro codeHighLight >
+<link rel="stylesheet" href="js/admin/lib/prism/prism.css">
+<link rel="stylesheet" href="js/admin/lib/prism/prism-live.css">
+<script src="js/admin/lib/prism/prism.js"></script>
+<script src="js/admin/lib/prism/prism-live.js"></script>
+</#macro>

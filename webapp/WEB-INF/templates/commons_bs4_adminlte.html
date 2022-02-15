@@ -2135,3 +2135,60 @@ new SlimSelect({
 </@accordionBody>    
 </@accordionPanel>
 </#macro>
+<#-- JStree Macro -->
+<#macro jsTreeInit id='tree' btntreeSearch='treesearch' multiple=false plugins=[] style='proton/style.min.css'>
+<link rel="stylesheet" href="js/admin/lib/jstree/themes/proton/style.min.css" >
+<script src="js/admin/lib/jstree/jstree.min.js"></script>
+<script>
+$(function(){
+	let selectedTree=jsTreeId=localStorage.getItem('jsTreeSelectedId' );
+
+	$('#tree').jstree({
+		'core': {
+			'multiple' : false,
+            'themes': {
+                'name': 'proton',
+                'responsive': true
+            }
+        },
+	 	'plugins' : [  'search' , 'wholerow' ,'changed'  ]
+	}).on('click', function( e ){
+		window.location.replace( e.target.getAttributeNode('href').value );
+	}).on("changed.jstree", function (e, data) {
+		localStorage.setItem( 'jsTreeSelectedId', data.changed.selected );
+    });
+
+	$('#tree').jstree( 'select_node', jsTreeId );
+   
+	var to = false;
+	$('#treesearch').keyup(function () {
+		if(to) { clearTimeout(to); }
+		to = setTimeout(function () {
+		var v = $('#treesearch').val();
+		$('#tree').jstree(true).search(v);
+		}, 250);
+	});
+
+});
+</script>
+</#macro>
+<#macro jsTreeSearch >
+<@formGroup formStyle='inline' labelKey='#i18n{portal.site.admin_page.buttonSearchPage}' hideLabel=['all']>
+	<@inputGroup size='sm'>
+		<@input type='text' id='tree_search' name='tree_search' placeHolder='#i18n{portal.site.admin_page.buttonSearchPage}' />
+		<@inputGroupItem>
+			<@button id='btn-tree_search' color='link' type='button' title='#i18n{portal.site.admin_page.buttonSearchPage}' buttonIcon='search' hideTitle=['all'] />
+		</@inputGroupItem>
+	</@inputGroup>
+</@formGroup>
+</#macro>
+<#-- Display wrong or deprecated macro arguments -->
+<#macro deprecatedWarning args=[] >
+<#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>
+</#macro>
+<#macro codeHighLight >
+<link rel="stylesheet" href="js/admin/lib/prism/prism.css">
+<link rel="stylesheet" href="js/admin/lib/prism/prism-live.css">
+<script src="js/admin/lib/prism/prism.js"></script>
+<script src="js/admin/lib/prism/prism-live.js"></script>
+</#macro>
