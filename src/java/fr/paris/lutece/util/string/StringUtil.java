@@ -36,7 +36,14 @@ package fr.paris.lutece.util.string;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.Normalizer;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -49,6 +56,7 @@ public final class StringUtil
     private static final String EMAIL_PATTERN = "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$";
     private static final String STRING_CODE_PATTERN = "^[\\w]+$";
     private static final String CONSTANT_AT = "@";
+    private static final String CONSTANT_UTF8 = "UTF-8";
 
     // The characters that are considered dangerous for XSS attacks
     private static char [ ] _aXssCharacters;
@@ -343,5 +351,65 @@ public final class StringUtil
             }
         }
         return false;
+    }
+
+    /**
+     * compress
+     * 
+     * @param the string to compress
+     * @return the compressed string
+     * @throws IOException
+     */
+    public static byte[] compress(String str) throws IOException {
+
+        if (str == null || str.length() == 0) {
+            return "".getBytes( );
+        }
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        GZIPOutputStream gzip = new GZIPOutputStream(out);
+        gzip.write(str.getBytes());
+        gzip.close();
+
+        return out.toByteArray();
+    }
+
+    /**
+     * uncompress (with default UTF-8 encoding)
+     * 
+     * @param the compressed string
+     * @return the uncompressed string
+     * @throws IOException
+     */
+    public static String decompress(byte[] bytes) throws IOException {
+    	return decompress( bytes, CONSTANT_UTF8);
+    }
+
+    /**
+     * uncompress
+     * 
+     * @param the compressed string
+     * @param the encoding
+     * @return the uncompressed string
+     * @throws IOException
+     */
+    public static String decompress(byte[] bytes, String encoding) throws IOException {
+
+        if (bytes == null || bytes.length == 0) {
+            return "";
+        }
+
+        GZIPInputStream gis = new GZIPInputStream(new ByteArrayInputStream(bytes));
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        byte[] b = new byte[4096];
+        int len;
+        while ( (len = gis.read( b ) ) >= 0 )
+        {
+            out.write(b, 0, len);
+        }
+
+        return out.toString(encoding);
     }
 }

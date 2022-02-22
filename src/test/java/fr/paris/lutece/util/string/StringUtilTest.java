@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.util.string;
 
+import java.io.IOException;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -109,5 +111,22 @@ public class StringUtilTest extends LuteceTestCase
         String result = fr.paris.lutece.util.string.StringUtil.getXssCharactersAsString( );
         // The result should not be empty
         assertTrue( result.length( ) > 0 );
+    }
+
+    /**
+     * Test of compress & decompress method, of class fr.paris.lutece.util.string.StringUtil.
+     */
+    public void testCompress( )
+    {
+    	String source = "test compress [ é$âë  \"€ \r\n 123 ]";
+    	System.out.println( "Compress" );
+
+        byte[] bytes;
+		try {
+			bytes = fr.paris.lutece.util.string.StringUtil.compress( source );
+			assertEquals( source, fr.paris.lutece.util.string.StringUtil.decompress( bytes ) );
+		} catch (IOException e) {
+			fail( e.getLocalizedMessage( ) );
+		}
     }
 }
