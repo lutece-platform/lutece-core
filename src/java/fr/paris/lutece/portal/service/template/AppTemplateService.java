@@ -214,10 +214,8 @@ public final class AppTemplateService
     }
 
     /**
-     * Returns a reference on a template object
+     * Returns a reference on a template object  using the template data passed in parameter or getting from cache if present
      *
-     * <br>
-     * Using Freemarker without cache is huge CPU consuming, , only user this method for dynamic templates
      *
      * @param strFreemarkerTemplateData
      *            The content of the template
@@ -230,10 +228,40 @@ public final class AppTemplateService
      */
     public static HtmlTemplate getTemplateFromStringFtl( String strFreemarkerTemplateData, Locale locale, Object model )
     {
-        HtmlTemplate template;
-        // Load the template from the file
-        template = loadTemplate( strFreemarkerTemplateData, locale, model );
+        HtmlTemplate template = getFreeMarkerTemplateService( ).loadTemplateFromStringFtl( strFreemarkerTemplateData, locale, model );
 
+        if ( locale != null )
+        {
+            String strLocalized = I18nService.localize( template.getHtml( ), locale );
+            template = new HtmlTemplate( strLocalized );
+        }
+        return template;
+    }
+    
+    
+    /**
+     * Returns a reference on a template object using the template data passed in parameter or getting from cache if present
+     *
+     * @param strFreemarkerTemplateName The name of the template ( Must be a Fully qualified name for example skin.plugins.myplugin.manage_my_objects )
+     * @param strFreemarkerTemplateData
+     *            The content of the template
+     * @param locale
+     *            The current {@link Locale} to localize the template
+     * @param model
+     *            The model
+     * @param bResetCache true if the template stored in cache must be updated by the content of the strFreemarkerTemplateDa            
+     * @return The template object
+     * @since 7.0.5
+     */
+    public static HtmlTemplate getTemplateFromStringFtl( String strFreemarkerTemplateName,String strFreemarkerTemplateData, Locale locale, Object model,boolean bResetCache )
+    {
+        HtmlTemplate template = getFreeMarkerTemplateService( ).loadTemplateFromStringFtl( strFreemarkerTemplateName,strFreemarkerTemplateData, locale, model,bResetCache );
+
+        if ( locale != null )
+        {
+            String strLocalized = I18nService.localize( template.getHtml( ), locale );
+            template = new HtmlTemplate( strLocalized );
+        }
         return template;
     }
 
@@ -262,34 +290,6 @@ public final class AppTemplateService
         }
 
         template = new HtmlTemplate( DatastoreService.replaceKeys( template.getHtml( ) ) );
-
-        return template;
-    }
-
-    /**
-     * Load the template from the file WARNING : This method must not be used in front office (no cache management available).
-     *
-     * <br>
-     * Using Freemarker without cache is huge CPU consuming, only use this method for dynamic templates
-     *
-     * @param strTemplateData
-     *            The data of the template
-     * @param locale
-     *            The current locale to localize the template
-     * @param model
-     *            the model to use for loading
-     * @return The loaded template
-     */
-    private static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object model )
-    {
-        HtmlTemplate template;
-        template = getFreeMarkerTemplateService( ).loadTemplate( strTemplateData, locale, model );
-
-        if ( locale != null )
-        {
-            String strLocalized = I18nService.localize( template.getHtml( ), locale );
-            template = new HtmlTemplate( strLocalized );
-        }
 
         return template;
     }
