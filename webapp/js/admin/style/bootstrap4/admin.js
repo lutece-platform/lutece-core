@@ -29,6 +29,17 @@ $( function(){
 		}
 	});
 
+	// Disable Double Click on submit Buttons -> * NOT WORKING WITH IE *
+	let numForms = document.forms.length;
+	if( numForms > 0 ){
+		let aForms = Array.from(document.forms);
+		aForms.forEach( function(form){
+			form.addEventListener( 'submit', function(e) {
+				e.submitter.setAttribute('disabled', 'disabled');
+			}, false);
+		});
+	}
+
 	//Make the dashboard widgets sortable Using jquery UI
 	$(".lutece-dashboard").sortable({
 	    placeholder: "sort-highlight",
