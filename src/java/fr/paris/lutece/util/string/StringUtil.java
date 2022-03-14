@@ -354,7 +354,7 @@ public final class StringUtil
     }
 
     /**
-     * compress
+     * compress (with default UTF-8 encoding)
      * 
      * @param the string to compress
      * @return the compressed string
@@ -363,13 +363,13 @@ public final class StringUtil
     public static byte[] compress(String str) throws IOException {
 
         if (str == null || str.length() == 0) {
-            return "".getBytes( );
+            return "".getBytes( CONSTANT_UTF8 );
         }
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         GZIPOutputStream gzip = new GZIPOutputStream(out);
-        gzip.write(str.getBytes());
-        gzip.close();
+        gzip.write( str.getBytes( CONSTANT_UTF8 ) );
+        gzip.close( );
 
         return out.toByteArray();
     }
