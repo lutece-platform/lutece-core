@@ -1140,7 +1140,7 @@ ${title} <#nested>
 <#-- MODAL 						-->
 <#-- bgColor: card / content 	-->
 <#macro modal id params='' bgColor='card' size=''>
-<div class="modal" tabindex="-1" role="dialog" id="${id}" data-toggle="modal"<#if params!=''> ${params}</#if>>
+<div class="modal" role="dialog" id="${id}" data-toggle="modal"<#if params!=''> ${params}</#if>>
 	<div class="modal-background"></div>
 	<div class="modal-${bgColor}">
 		<#nested>
