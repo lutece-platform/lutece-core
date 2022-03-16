@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web.template;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.i18n.I18nTemplateMethod;
 import fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -59,6 +60,7 @@ public class MockFreemarkerTemplateService extends AbstractFreeMarkerTemplateSer
     public MockFreemarkerTemplateService( String strAbsolutePath )
     {
         _strAbsolutePath = strAbsolutePath;
+        setSharedVariable( "i18n", new I18nTemplateMethod( ) );
     }
 
     /**
