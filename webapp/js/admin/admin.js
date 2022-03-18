@@ -34,7 +34,7 @@ $( function(){
 	// 	let aForms = Array.from(document.forms);
 	// 	aForms.forEach( function(form){
 	// 		form.addEventListener( 'submit', function(e) {
-	// 			e.submitter.setAttribute('visibi', 'disabled');
+	// 			e.submitter.classList.add('submitted');
 	// 		}, false);
 	// 	});
 	// }

@@ -29,15 +29,15 @@ $( function(){
 	});
 
 	// Disable Double Click on submit Buttons -> * NOT WORKING WITH IE *
-	let numForms = document.forms.length;
-	if( numForms > 0 ){
-		let aForms = Array.from(document.forms);
-		aForms.forEach( function(form){
-			form.addEventListener( 'submit', function(e) {
-				e.submitter.setAttribute('disabled', 'disabled');
-			}, false);
-		});
-	}
+	// let numForms = document.forms.length;
+	// if( numForms > 0 ){
+	// 	let aForms = Array.from(document.forms);
+	// 	aForms.forEach( function(form){
+	// 		form.addEventListener( 'submit', function(e) {
+	// 			e.submitter.setAttribute('disabled', 'disabled');
+	// 		}, false);
+	// 	});
+	// }
 
 	// Admin responsive preview
 	function _fix() {
