@@ -35,6 +35,7 @@
 .main-header { padding-top: 60px;}
 
 /* Dashboard Card Button                                    */
+.widget-col .card .card-body{ max-height: 350px; }
 .box-tools{ position: absolute; top: 5px; right: 5px;}
 
 /* Language Menu                                            */
@@ -124,7 +125,6 @@ iframe#preview {  display: block; overflow: auto; padding: 0; margin: -10px auto
 .media-selector .media-desc{ text-align: center; padding: 5px; color: #000; white-space: nowrap; overflow: hidden;  text-overflow: ellipsis; }
 .media-selector .media-desc:hover{ color: rgb(99, 99, 99); transition: all 0.15s; }
 .media-selector .footer{ margin: 0 0 0 5px; padding: 0; position: absolute; bottom: 0; width: 100%; }
-
 
 /* Portlets                                                      */
 li.portlet-type a:hover{ background:var( --azure ) ;  color:var( --white ) ; }

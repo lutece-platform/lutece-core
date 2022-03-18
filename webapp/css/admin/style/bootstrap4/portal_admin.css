@@ -35,6 +35,7 @@
 .main-header { padding-top: 60px;}
 
 /* Dashboard Card Button          */
+.widget .card .card-body{ max-height: 350px; }
 .box-tools{ position: absolute; top: 5px; right: 5px;}
 
 /* Language Menu                  */
