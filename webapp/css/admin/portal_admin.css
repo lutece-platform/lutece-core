@@ -90,7 +90,7 @@ body > .header .navbar span#zone4{ min-width: 180px; display: inline-block; }
 .user-image{ margin-right: 5px }
 
 /* Dashboard */
-div.widget .box-body{ max-height: 350px; overflow: hidden }
+div.widget .box-body{ max-height: 350px; }
 a.dashboard-title{ color:var( --white ) !important; }
 
 /* Card headers forms and buttons */
@@ -102,6 +102,7 @@ div.box-tools > * { display:inline-block; }
   height: 60px;
   */
 }
+
 #footer > a{ color: var( --white ); font-size: 80%; }
 .footer-lutece{ background-color: var( --white ); margin: 0; padding: 15px 5px; float: right }
 #login #footer{ display: none;} /* Footer not displayed in login page */
