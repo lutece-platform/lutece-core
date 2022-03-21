@@ -290,6 +290,7 @@ li.portlet-type a:hover{ background:var( --primary ) url(); color:var( --white )
 .list-file-item div .truncate{ margin-right: auto } 
 .list-file-item figure{ flex-shrink: 0; }
 .list-file-item figure + div{ flex-grow: 1 ; margin-left: auto }
+.bootstrap-filestyle.input-group > .form-control{ height: 30px }
 
 /* Plugin THEME             */
 #preview-frame-container{ display:none }
