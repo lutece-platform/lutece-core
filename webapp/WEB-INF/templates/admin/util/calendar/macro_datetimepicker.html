@@ -79,20 +79,37 @@ const dtFormat='${format}';
 -->
 <#macro initScriptFlatPicker language range=false>
 <#if datePickerIsLoaded?? && datePickerIsLoaded>
+	<#if rangePluginIsLoaded?? && rangePluginIsLoaded>
+	<#else>
+		<#if range>
+			<script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script>
+			<#assign rangePluginIsLoaded = true />
+		<#else>
+			<#assign rangePluginIsLoaded = false />
+		</#if>
+	</#if>
 <#else>
 <link rel="stylesheet" href="css/bootstrap-flatpickr.min.css">
 <script src="js/util/lutece.js"></script>
 <script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<#if range ><script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script></#if>
+<#if rangePluginIsLoaded?? && rangePluginIsLoaded>
+<#else>
+	<#if range>
+		<script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script>
+		<#assign rangePluginIsLoaded = true />
+	<#else>
+		<#assign rangePluginIsLoaded = false />
+	</#if>
+</#if>
 <#assign isEn=language?starts_with("en")?c />
 <#if !isEn?boolean ><script src="js/admin/locales/bootstrap-flatpickr.<@getLanguageInLocale language=language />.js"></script></#if>
 <script>
 // Get list of browser locale and filter to current locale
-const browserCurrentLocale = getBrowserLocales( ).filter( lang => lang.startsWith( '<@getLanguageInLocale language=language />' ))[0]
-loadStyle( '${styleUrl}' )
+const browserCurrentLocale = getBrowserLocales( ).filter( lang => lang.startsWith( '<@getLanguageInLocale language=language />' ))[0];
+loadStyle( '${styleUrl}' );
 <#assign datePickerIsLoaded = true />
-</#if>
 </script>
+</#if>
 </#macro>
 <#function setFlatPickerOptions options>
 <#assign strOptions=''>

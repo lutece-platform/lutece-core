@@ -1,0 +1,182 @@
+<#include "utils.html">
+<@header title='Form fields'/>
+
+<@row>
+    <@columns>
+        <@box>
+            <@boxBody>
+				<@fieldSet legend='Text fields'>
+					<@formGroup labelKey='Text' helpKey='Name.help' mandatory=true>
+						<@input type='text' name='name' value='${mockObject.name!\'\'}' />
+					</@formGroup>
+					<@formGroup labelKey='Textarea' helpKey='Text.help' mandatory=true>
+						<@input type='textarea' name='text' value='${mockObject.text!\'\'}' />
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<pre>
+			
+			</pre>
+			
+			<@boxBody>
+				<@fieldSet legend='Email field'>
+					<@formGroup labelKey='Email' helpKey='Email.help' mandatory=true>
+						<@input type='email' name='email' value='${mockObject.email!\'\'}' />
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<pre>
+			
+			</pre>
+			
+			<@boxBody>
+				<@fieldSet legend='Password field'>
+					<@formGroup labelKey='Password' helpKey='Password.help' mandatory=true>
+						<@input type='password' name='password' value='${mockObject.password!\'\'}' />
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<pre>
+			
+			</pre>
+			
+			<@boxBody>
+				<@fieldSet legend='Number field'>
+					<@formGroup labelKey='Number' helpKey='Number.help' mandatory=true>
+						<@input type='number' name='elapsed_time' value='${mockObject.elapsedTime!\'\'}' />
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<pre>
+			
+			</pre>
+			
+			<@boxBody>
+				<@fieldSet legend='Select field'>
+					<@formGroup labelKey='IdForeign' helpKey='Select.help' mandatory=true>
+						<@select name='id_foreign' items=id_foreigns_list default_value='${mockObject.idForeign}' />
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<pre>
+			
+			</pre>
+			
+			<@boxBody>
+				<@fieldSet legend='Simple text field'>
+					<@formGroup labelKey='Simple text' helpKey='RegisteredEmail.help'>
+						<@staticText>
+							example@example.com
+						</@staticText>
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<pre>
+			
+			</pre>
+			
+			<@boxBody>
+				<@fieldSet legend='Checkbox fields'>
+					<@formGroup labelKey='Enable' helpKey='Enable.help'>
+						<@checkBox labelKey='Enable' name='enable' id='enable' value='1' />
+					</@formGroup>
+
+					<@formGroup labelKey='Status' helpKey='Status.help'>
+						<@checkBox labelKey='Status' name='status'id='status' value='1' />
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<pre>
+			
+			</pre>
+					
+			<@boxBody>
+				<@fieldSet legend='Radio button fields'>
+					<@formGroup labelKey='Radio'>
+						<@radioButton labelFor='0' labelKey='Radio1.help' name='radio' id='0' value='0' />
+						<@radioButton labelFor='1' labelKey='Radio2.help' name='radio' id='1' value='1' />
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<pre>
+			
+			</pre>
+			
+			<@boxBody>
+				<@fieldSet legend='Date fields'>
+
+					<@formGroup labelKey='Date' helpKey='DateCreated.help' mandatory=true>
+						<@inputGroup>
+							<@inputGroupItem type='text'>
+								<@icon style='calendar' />
+							</@inputGroupItem>
+							<@input type='date' name='date_created' id='date_created' value='${mockObject.dateCreated!\'\'}' />
+						</@inputGroup>
+					</@formGroup>
+
+					<@formGroup labelKey='DateTime' helpKey='DateTime.help' mandatory=true>
+						<@inputGroup>
+							<@input type='datetime' name='datetime' id='datetime' value='${mockObject.dateTime!\'\'}' />
+							<@inputGroupItem type='text'>
+								<@icon style='calendar' />
+							</@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+					
+					<@formGroup labelKey='DateRange' helpKey='DateRange.help' mandatory=true>
+						<@row>
+							<@columns xs=12 sm=6>
+								<@inputGroup>
+									<@input type='daterange' name='date_range' id='date_range'  dateRangeEndId='date_range_end' value='${mockObject.dateRange!\'\'}' />
+									<@inputGroupItem type='text'>
+										<@icon style='calendar' />
+									</@inputGroupItem>
+								</@inputGroup>
+							</@columns>
+							<@columns xs=12 sm=6>
+								<@inputGroup>
+									<@input type='date' name='date_range_end' id='date_range_end' value='${mockObject.dateRange!\'\'}' />
+									<@inputGroupItem type='text'>
+										<@icon style='calendar' />
+									</@inputGroupItem>
+								</@inputGroup>
+							</@columns>
+						</@row>
+					</@formGroup>
+					
+					<@formGroup labelKey='DateTimeRange' helpKey='DateTimeRange.help'>
+						<@inputGroup>
+							<@inputGroupItem type='text'>
+								<@icon style='calendar' />
+							</@inputGroupItem>
+							<@input type='datetimerange' name='datetime_range' id='datetime_range'  dateRangeEndId='datetime_range' value='${mockObject.dateTimeRange!\'\'}' />
+						</@inputGroup>
+					</@formGroup>
+					
+					<@formGroup labelKey='Time' helpKey='Time.help'>
+						<@inputGroup>
+							<@input type='time' name='time' id='time' value='${mockObject.time!\'\'}' />
+							<@inputGroupItem type='text'>
+								<@icon style='clock' />
+							</@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<pre>
+			
+			</pre>
+        </@box>
+    </@columns>
+</@row>
+
+<@footer />
