@@ -312,7 +312,7 @@
         </property>
     </bean>
     <bean id="commonsBoostrap5Tabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Boostrap5Tabler" />
+        <property name="key" value="Bootstrap5Tabler" />
          <property name="default" value="true" />
         <property name="name" value="Bootstrap 5.1 + Tabler 1.0 + Backport file (v6.x compatible) (Default)" />
         <property name="files">
