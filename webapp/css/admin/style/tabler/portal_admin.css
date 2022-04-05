@@ -58,6 +58,7 @@
 
 /* Default                                                    */
 td{ vertical-align: middle; }
+legend {float:none;}
 
 /* Progress                                                   */
 .progress{ height: 1rem;}
