@@ -106,62 +106,62 @@
 	<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 	<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 </#if>
-<@ul class='pagination pagination-sm'>
+<@ul class='pagination mt-4'>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
-<li>
-	<@link href='${paginator.firstPageLink?xhtml}'>
+<li class="page-item">
+	<@link href='${paginator.firstPageLink?xhtml}' class='page-link'>
 		${paginator.labelFirst}
 	</@link>
 </li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
-<li class="previous">
-	<@link href='${paginator.previousPageLink?xhtml}'>
+<li class="page-item previous">
+	<@link href='${paginator.previousPageLink?xhtml}' class='page-link'>
 		${paginator.labelPrevious}
 	</@link>
 </li>
 <#else>
-<li class="disabled">
-	<@link href='${paginator.firstPageLink?xhtml}'>${paginator.labelPrevious}</@link>
+<li class="page-item disabled">
+	<@link href='${paginator.firstPageLink?xhtml}' class='page-link'>${paginator.labelPrevious}</@link>
 </li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 <li>
-	<@link href='${(paginator.pagesLinks?first).url?xhtml}'><strong>...</strong></@link>
+	<@link href='${(paginator.pagesLinks?first).url?xhtml}' class='page-link'><strong>...</strong></@link>
 </li>
 </#if>
 <#list paginator.pagesLinks as pageLink>
 <#if ( pageLink.index == paginator.pageCurrent )>
-	<li class="active">
-		<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
+	<li class="page-item active">
+		<@link href='${pageLink.url?xhtml}' class='page-link'>${pageLink.name}</@link>
 	</li>
 <#else>
 	<li>
-		<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
+		<@link href='${pageLink.url?xhtml}' class='page-link'>${pageLink.name}</@link>
 	</li>
 </#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 <li>
-	<@link href='${(paginator.pagesLinks?last).url?xhtml}'><strong>...</strong></@link>
+	<@link href='${(paginator.pagesLinks?last).url?xhtml}' class='page-link'><strong>...</strong></@link>
 </li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
-	<li class="next">
-		<@link href="${paginator.nextPageLink?xhtml}">
+	<li class="page-item next">
+		<@link href="${paginator.nextPageLink?xhtml}" class='page-link'>
 			${paginator.labelNext}
 		</@link>
 	</li>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-		<li class="next">
-			<@link href='${paginator.lastPageLink?xhtml}'>
+		<li class="page-item next">
+			<@link href='${paginator.lastPageLink?xhtml}' class='page-link'>
 				${paginator.labelLast}
 			</@link>
 		</li>
 	</#if>
 <#else>
-	<li class="disabled">
-		<@link href='${paginator.lastPageLink?xhtml}'>${paginator.labelNext}</@link>
+	<li class="page-item disabled">
+		<@link href='${paginator.lastPageLink?xhtml}' class='page-link'>${paginator.labelNext}</@link>
 	</li>
 </#if>
 </@ul>
@@ -420,7 +420,7 @@
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
 <#-- class: 						 								-->
 <#-- groupStyle: success/error -->
-<#macro formGroup id='' formStyle='' groupStyle='' class='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params='' deprecated...>
+<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if groupStyle = 'success'>
 	<#local validation = 'is-valid'>
@@ -1594,7 +1594,7 @@ ${javascript_files}
 <header>
 	<div class="row justify-content-between">
 		<div class="col-10">
-			<h1 class="mt-4 ml-3" style="font-size:2rem;">
+			<h1 class="mt-4 ml-3" style="font-size:2rem;" id="feature-title">
 				<#if feature_url?? >
 					<@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link>
 				<#else>
