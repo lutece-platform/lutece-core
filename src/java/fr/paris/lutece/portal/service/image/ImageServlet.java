@@ -56,8 +56,8 @@ public class ImageServlet extends HttpServlet
 {
     private static final long serialVersionUID = -5713203328367191908L;
     private static final String ERROR_MSG = "ImageServlet error : {}";
-    private static final String PARAMETER_RESOURCE_TYPE = "resource_type";
-    private static final String PARAMETER_ID = "id";
+    public static final String PARAMETER_RESOURCE_TYPE = "resource_type";
+    public static final String PARAMETER_ID = "id";
     private static final String PROPERTY_PATH_IMAGES = "path.images.root";
     private static final String PROPERTY_IMAGE_PAGE_DEFAULT = "image.page.default";
 

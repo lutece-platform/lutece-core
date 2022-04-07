@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.image;
 
+import org.apache.commons.fileupload.FileItem;
+
 /**
  * This class provide ImageResourceProvider Interface
  *
@@ -54,4 +56,11 @@ public interface ImageResourceProvider
      * @return The Resource Image
      */
     ImageResource getImageResource( int nIdResource );
+    
+    /**
+     * 
+     * @param fileItem
+     * @return
+     */
+	String addImageResource( FileItem fileItem );
 }

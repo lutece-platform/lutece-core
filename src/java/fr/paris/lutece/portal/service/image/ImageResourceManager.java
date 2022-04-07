@@ -34,9 +34,12 @@
 package fr.paris.lutece.portal.service.image;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.fileupload.FileItem;
 
 /**
  * ImageResourceManager
@@ -45,6 +48,7 @@ public final class ImageResourceManager
 {
     /** resource type registry */
     private static Map<String, ImageResourceProvider> _mapResourceTypes = new HashMap<>( );
+    public static String IMAGE_SERVLET_BASE_URL = "image";
 
     /** Private constructor */
     private ImageResourceManager( )
@@ -82,5 +86,38 @@ public final class ImageResourceManager
         }
 
         return null;
+    }
+    
+    /**
+     * Add Image Resource
+     * @param strResourceTypeId
+     * @param fileItem
+     * @return Image Resource Key
+     */
+    public static String addImageResource( String strResourceTypeId, FileItem fileItem )
+    {
+    	ImageResourceProvider resourceProvider = _mapResourceTypes.get( strResourceTypeId );
+
+        if ( resourceProvider != null )
+        {
+            return resourceProvider.addImageResource( fileItem);
+        }
+
+        return null;
+    }
+    
+    /**
+     * Get Image URL
+     * @param strResourceTypeId
+     * @param nResourceId
+     * @return the URL
+     */
+    public static String getImageUrl( String strResourceTypeId, int nResourceId )
+    {
+    	UrlItem item = new UrlItem( IMAGE_SERVLET_BASE_URL );
+    	item.addParameter( ImageServlet.PARAMETER_ID, nResourceId );
+    	item.addParameter( ImageServlet.PARAMETER_RESOURCE_TYPE, strResourceTypeId );
+    	return item.getUrl( );
+    	
     }
 }

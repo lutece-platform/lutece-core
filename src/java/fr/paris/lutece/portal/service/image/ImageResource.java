@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.image;
 
 import java.io.Serializable;
 
+import fr.paris.lutece.portal.business.file.File;
+
 /**
  * Image resource
  */
@@ -46,6 +48,17 @@ public class ImageResource implements Serializable
     private byte [ ] _strImage;
     private String _strMimeType;
 
+    public ImageResource( File file )
+    {
+    	this.setImage( file.getPhysicalFile( ).getValue( ) );
+        this.setMimeType( file.getMimeType( ) );
+    }
+    
+    public ImageResource( )
+    {
+    	
+    }
+    
     /**
      * Returns the Image
      *
