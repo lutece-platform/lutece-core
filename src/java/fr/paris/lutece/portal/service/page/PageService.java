@@ -48,6 +48,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang3.BooleanUtils;
 
 import fr.paris.lutece.portal.business.page.Page;
@@ -78,6 +79,7 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -106,7 +108,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /** Access denied template */
     public static final String TEMPLATE_PAGE_ACCESS_DENIED = "/skin/site/page_access_denied.html";
 
-    /** Access Controled template */
+    /** Access Controlled template */
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
     private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.html";
     private static final String TEMPLATE_COLUMN_OUTLINE = "/admin/column_outline.html";
@@ -1139,4 +1141,5 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             }
         }
     }
+
 }

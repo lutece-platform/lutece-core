@@ -33,40 +33,32 @@
  */
 package fr.paris.lutece.portal.service.fileimage;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.fileupload.FileItem;
 
 import fr.paris.lutece.portal.business.file.File;
-import fr.paris.lutece.portal.business.file.FileHome;
-import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
-import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
-import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.file.FileService;
+import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.file.FileUtil;
 
-/**
- * Service for AdminUser image attributes. Provide ImageResource management
- */
-public class FileImageService implements ImageResourceProvider
+public class FileImagePublicService extends AbstractCacheableService implements ImageResourceProvider 
 {
-    private static FileImageService _singleton = new FileImageService( );
-    private static final String IMAGE_RESOURCE_TYPE_ID = "core_attribute_img";
-
-    /**
+	private static FileImagePublicService _singleton = new FileImagePublicService( );
+	public static final String IMAGE_RESOURCE_TYPE_ID = "public_image_resource";
+	private static final IFileStoreServiceProvider _fileStoreService = FileService.getInstance( ).getFileStoreServiceProvider( );
+	
+	/**
      * Creates a new instance of FileImgService
      */
-    private FileImageService( )
+    private FileImagePublicService( )
     {
+    	initCache();
     }
-
+    
     /**
      * Init
      *
@@ -77,7 +69,7 @@ public class FileImageService implements ImageResourceProvider
     {
         getInstance( ).register( );
     }
-
+    
     /**
      * Initializes the service
      */
@@ -91,40 +83,13 @@ public class FileImageService implements ImageResourceProvider
      *
      * @return The unique instance
      */
-    public static FileImageService getInstance( )
+    public static FileImagePublicService getInstance( )
     {
         return _singleton;
     }
 
-    /**
-     * Return the Resource id
-     *
-     * @param nIdResource
-     *            The resource identifier
-     * @return The Resource Image
-     */
-    public ImageResource getImageResource( int nIdResource )
-    {
-        
-        if ( !isAuthorized( nIdResource ) ) return null;
-        
-        File file = FileHome.findByPrimaryKey( nIdResource );
-
-        if ( ( file != null ) && ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
-        {
-            PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) );
-            ImageResource imageResource = new ImageResource( );
-            imageResource.setImage( physicalFile.getValue( ) );
-            imageResource.setMimeType( file.getMimeType( ) );
-
-            return imageResource;
-        }
-        
-
-        return null;
-    }
-
-    /**
+	@Override
+	/**
      * Return the Resource Type id
      *
      * @return The Resource Type Id
@@ -134,27 +99,61 @@ public class FileImageService implements ImageResourceProvider
         return IMAGE_RESOURCE_TYPE_ID;
     }
 
-    /**
-     * check rights
-     *
-     * @param nIdResource
-     * @return true if authorized
-     */
-    private static boolean isAuthorized(  int nIdResource  )
-    {
-        HttpServletRequest request = LocalVariables.getRequest( );
-        AdminUser user = AdminUserService.getAdminUser( request );
-
-        return ( user == null || !AdminUserFieldHome.existsWithFile( nIdResource ) );
-    }
-    
-    /**
-     * Add Image Resource
-     * @param fileItem
-     * @return the Image File Key
-     */
-    public String addImageResource( FileItem fileItem )
+	@Override
+	public ImageResource getImageResource( int nIdResource )
 	{
-		return FileService.getInstance( ).getFileStoreServiceProvider( ).storeFileItem( fileItem );
+        /*get from cache*/
+		String cacheKey = getCacheKey( nIdResource );
+		ImageResource imageresource = (ImageResource) getFromCache( cacheKey );
+		if ( imageresource != null )
+		{
+			return imageresource;
+		}
+		else
+		{
+			/*if no cache*/
+	        File file = _fileStoreService.getFile( String.valueOf( nIdResource ) );
+	
+	        if ( ( file != null ) && ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
+	        {
+	        	ImageResource imageResource = new ImageResource( file );
+	        	putInCache( cacheKey, imageResource);
+	            return imageResource;
+	        }
+		}
+
+        return null;
 	}
+	
+	/**
+     * Return the Resource id
+     *
+     * @param iImageResource
+     *            The resource identifier
+     * @return The New Resource Id
+     */
+	public String addImageResource( FileItem fileItem )
+    {
+        return _fileStoreService.storeFileItem( fileItem ) ;
+    }
+
+	@Override
+	public String getName( )
+	{
+		return IMAGE_RESOURCE_TYPE_ID;
+	}
+	
+	/**
+     * get the cache key
+     * 
+     * @param nId
+     * @param user
+     * @return the key
+     */
+    private static String getCacheKey( int nId )
+    {
+        StringBuilder sbKey = new StringBuilder( );
+        return sbKey.append( "[" ).append( IMAGE_RESOURCE_TYPE_ID ).append( ":" ).append( nId )
+        		.append( "]" ).toString( );
+    }
 }
