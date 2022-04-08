@@ -294,15 +294,7 @@ public final class WorkflowService
             catch( Exception e )
             {
                 TransactionManager.rollBack( null );
-                if ( bIsAutomatic )
-                {
-                    AppLogService.error( "An error occurred processing Action {} for resource Id {} of type {} ",
-                    		nIdAction, nIdResource, strResourceType ,  e);
-                }
-                else
-                {
-                    throw new AppException( e.getMessage( ), e );
-                }
+                throw new AppException( e.getMessage( ), e );
             }
         }
     }
