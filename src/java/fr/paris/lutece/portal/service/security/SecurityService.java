@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import fr.paris.lutece.portal.business.event.LuteceUserSuccessfulLoginEvent;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.event.LuteceEventManager;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -348,6 +350,8 @@ public final class SecurityService
     {
         HttpSession session = request.getSession( true );
         session.setAttribute( ATTRIBUTE_LUTECE_USER, user );
+        
+        LuteceEventManager.notifyListeners( new LuteceUserSuccessfulLoginEvent( user ) );
     }
 
     /**
