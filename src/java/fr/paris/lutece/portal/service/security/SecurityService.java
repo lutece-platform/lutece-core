@@ -33,7 +33,10 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import fr.paris.lutece.portal.business.event.LuteceUserEvent;
+import fr.paris.lutece.portal.business.event.LuteceUserEventType;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.event.LuteceUserEventManager;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -348,6 +351,11 @@ public final class SecurityService
     {
         HttpSession session = request.getSession( true );
         session.setAttribute( ATTRIBUTE_LUTECE_USER, user );
+        
+        if ( user != null )
+        {
+        	LuteceUserEventManager.getInstance().notifyListeners( new LuteceUserEvent( user, LuteceUserEventType.LOGIN_SUCCESSFUL ) );
+        }
     }
 
     /**
@@ -359,7 +367,13 @@ public final class SecurityService
     public void unregisterUser( HttpServletRequest request )
     {
         HttpSession session = request.getSession( true );
-        session.removeAttribute( ATTRIBUTE_LUTECE_USER );
+        LuteceUser user = (LuteceUser)session.getAttribute( ATTRIBUTE_LUTECE_USER );
+        
+        if ( user != null )
+        {
+        	session.removeAttribute( ATTRIBUTE_LUTECE_USER );
+        	LuteceUserEventManager.getInstance().notifyListeners( new LuteceUserEvent( user,LuteceUserEventType.LOGOUT ) );
+        }
     }
 
     /**
