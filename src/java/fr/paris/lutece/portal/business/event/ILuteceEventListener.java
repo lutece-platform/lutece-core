@@ -23,6 +23,6 @@ public interface ILuteceEventListener<T extends AbstractLuteceEvent> extends Eve
     * @param event
     *            the event for the added resource
     */
-   void onEvent( AbstractLuteceEvent event );
+   void onEvent( T event );
 
 }
