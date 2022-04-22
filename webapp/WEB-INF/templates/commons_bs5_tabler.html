@@ -767,14 +767,16 @@
 <#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 <#assign propagateTabStyle = style />
 <div class="card<#if color!=''> ${color}</#if><#if class?trim!=''> ${class?trim}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<#nested>
+	<div class="card-body">
+	<#nested>
+	</div>
 </div>
 </#macro>
 <#-- Tabs List -->
 <#-- type is deprecated -->
 <#macro tabList style='tabs' vertical=false id='' params='' color=''>
 <#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
-<ul class="nav nav-${style}<#if vertical> flex-column mb-3</#if>" data-bs-toggle="tabs"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
+<ul class="nav nav-${style}<#if vertical> flex-column mb-3</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
 <#nested>
 </ul>
 </#macro>
@@ -788,6 +790,7 @@
 <#if href?contains('#') && href?contains('.jsp') == false>
 	<#local tabLinkSettings += ' data-bs-toggle="tab"' />
 	<#local tabLinkId = '${href?remove_beginning("#")}-tab' />
+	<#local tabLinkSettings += ' data-bs-target="#${href?remove_beginning("#")}"' />
 <#else>
 	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
 </#if>
@@ -803,13 +806,11 @@
 </#macro>
 <#-- TAB Content -->
 <#macro tabContent id='' params=''>
-<div class="card-body">
 <div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </div>
-</div>
 </#macro>
-<#-- Tab Panel BS4 -->
+<#-- Tab Panel BS5 -->
 <#macro tabPanel id params='' active=false>
 <div class="tab-pane mt-2 fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
 <#nested>
