@@ -882,8 +882,8 @@
 <#if label!='' >
 <div id="${progressId}-label" >${label}</div>
 </#if>
-<div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<div id="${progressId}" class="progress-bar progress-bar-${color}<#if token!=''> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
+<div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> style="height:20px;">
+	<div id="${progressId}" class="progress-bar bg-${color} progress-bar-striped<#if token!=''> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
         <#if text=''>${value}%<#else>${text}</#if>
 	</div>       
 </div>
@@ -913,7 +913,7 @@
 <@deprecatedWarning args=deprecated />	
 <span class="badge bg-${color}<#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
 	<#if tagIcon !=''>
-	<@icon style=tagIcon />
+	<@icon style=tagIcon /> 
 	</#if>
 	<#nested>
 </span>
