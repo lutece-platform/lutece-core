@@ -19,6 +19,7 @@
 <link href="js/admin/lib/polipop/css/polipop.core.min.css" rel="stylesheet">
 <link href="js/admin/lib/polipop/css/polipop.default.min.css" rel="stylesheet">
 <link href="css/admin/style/tabler/portal_admin.css" rel="stylesheet"><!-- Lutece main admin CSS -->
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script> <!-- main JQuery file -->
 </#macro>
 <#macro coreAdminJSLinks>
 <script src="js/admin/jquery/jquery-ui.min.js"></script>
@@ -767,16 +768,14 @@
 <#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 <#assign propagateTabStyle = style />
 <div class="card<#if color!=''> ${color}</#if><#if class?trim!=''> ${class?trim}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<div class="card-body">
-	<#nested>
-	</div>
+<#nested>
 </div>
 </#macro>
 <#-- Tabs List -->
 <#-- type is deprecated -->
 <#macro tabList style='tabs' vertical=false id='' params='' color=''>
 <#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
-<ul class="nav nav-${style}<#if vertical> flex-column mb-3</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
+<ul class="nav nav-${style}<#if vertical> flex-column mb-3</#if>" data-bs-toggle="tabs"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
 <#nested>
 </ul>
 </#macro>
@@ -790,7 +789,6 @@
 <#if href?contains('#') && href?contains('.jsp') == false>
 	<#local tabLinkSettings += ' data-bs-toggle="tab"' />
 	<#local tabLinkId = '${href?remove_beginning("#")}-tab' />
-	<#local tabLinkSettings += ' data-bs-target="#${href?remove_beginning("#")}"' />
 <#else>
 	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
 </#if>
@@ -806,11 +804,13 @@
 </#macro>
 <#-- TAB Content -->
 <#macro tabContent id='' params=''>
+<div class="card-body">
 <div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </div>
+</div>
 </#macro>
-<#-- Tab Panel BS5 -->
+<#-- Tab Panel BS4 -->
 <#macro tabPanel id params='' active=false>
 <div class="tab-pane mt-2 fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
 <#nested>
@@ -882,8 +882,8 @@
 <#if label!='' >
 <div id="${progressId}-label" >${label}</div>
 </#if>
-<div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> style="height:20px;">
-	<div id="${progressId}" class="progress-bar bg-${color} progress-bar-striped<#if token!=''> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
+<div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div id="${progressId}" class="progress-bar progress-bar-${color}<#if token!=''> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
         <#if text=''>${value}%<#else>${text}</#if>
 	</div>       
 </div>
@@ -913,7 +913,7 @@
 <@deprecatedWarning args=deprecated />	
 <span class="badge bg-${color}<#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
 	<#if tagIcon !=''>
-	<@icon style=tagIcon /> 
+	<@icon style=tagIcon />
 	</#if>
 	<#nested>
 </span>
@@ -954,7 +954,7 @@
 <#-- buttonTargetId: contains the target element ID -->
 <#-- buttonNested=false : If true add content inside the button else -default- outside  -->
 <#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
-<#macro button name='' id='' type='button' size='sm' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' deprecated...>
+<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' deprecated...>
 	<@deprecatedWarning args=deprecated />
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
@@ -991,9 +991,24 @@
 			<#local btnStyle = style />
 		</#if>
 	</#if>
-	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
-		<#local buttonClass><#if displayTitleClass!=''>fa-fw<#else>me-1 mr-1</#if></#local>
-		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon class=buttonClass /></#if>
+	<#-- Size class -->
+	<#if size == 'xs'>
+		<#local buttonSize = 'sm' />
+	<#elseif size == 'sm' || size == ''>
+		<#local buttonSize = '' />
+	<#elseif size == 'lg'>
+		<#local buttonSize = size />
+	<#else>
+		<#local buttonSize = '' />
+	</#if>
+	<button class="<#if style!='close'>btn</#if><#if buttonSize!=''> btn-${buttonSize}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-bs-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-bs-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-bs-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+		<#if buttonIcon!='' && iconPosition='left'>
+			<#if hideTitle?size &gt; 0 || title == ''>
+				<@icon style=buttonIcon />
+			<#else>
+				<@icon style=buttonIcon class='me-1 mr-1' />
+			</#if>
+		</#if>
 		<#local nestedContent><#nested /></#local>
 		<#local nestedContent = nestedContent?trim />
 		<#if nestedContent=''>
@@ -1002,7 +1017,13 @@
 			<#if displayTitleClass!=''></span></#if>
 		</#if>
 		<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
-		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon class='ms-1 ml-1' /></#if>
+		<#if buttonIcon!='' && iconPosition='right'>
+			<#if hideTitle?size &gt; 0 || title == ''>
+				<@icon style=buttonIcon />
+			<#else>
+				<@icon style=buttonIcon class='ms-1 ml-1' />
+			</#if>
+		</#if>
 	</button>
 	<#if dropdownMenu>
 		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
@@ -1010,14 +1031,14 @@
 		</ul>
 	</#if>
 </#macro>
-<#-- A BUTTON (LINK STYLED AS A BUTTON) -->
+<#-- ANCHOR BUTTON (LINK STYLED AS A BUTTON) -->
 <#-- size: sm/lg/or EMPTY for medium size-->
 <#-- Bootstrap colors: default/primary/success/warning/danger/info -->
 <#-- AdminLTE colors: black/gray-dark/gray/light/indigo/navy/purple/fuchsia/pink/maroon/orange/lime/teal/olive -->
 <#-- style: btn-block/btn-flat/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
 <#-- ShowTitleXs is UNUSED in Bootstrap 4. -->
-<#macro aButton name='' id='' href='' target='' size='sm' color='primary' style='btn' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  deprecated...>
+<#macro aButton name='' id='' href='' target='' size='lg' color='primary' style='btn' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#-- Visibility of button title -->
 <#local displayTitleClass = displaySettings(hideTitle,'inline') />
@@ -1036,12 +1057,35 @@
 	<#assign style='text-right btn-link' />
 </#if>
 <#local class += alignmentSettings(align,'') />
+<#-- Size class -->
+<#if size == 'xs'>
+	<#local buttonSize = 'sm' />
+<#elseif size == 'sm' || size == ''>
+	<#local buttonSize = '' />
+<#elseif size == 'lg'>
+	<#local buttonSize = size />
+<#else>
+	<#local buttonSize = '' />
+</#if>
 <#if dropdownMenu>
 <div class="btn-group">
 </#if>
-<a class="${style}<#if size!=''> btn-${size}</#if><#if color!=''> ${buttonColor}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
-	<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon class='me-1 mr-1' /></#if>
-	<span class="${displayTitleClass}">${title}</span> <#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon class='ms-1 ll-1' /></#if>
+<a class="${style}<#if buttonSize!=''> btn-${buttonSize}</#if><#if color!=''> ${buttonColor}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+	<#if buttonIcon!='' && iconPosition='left'>
+		<#if hideTitle?size &gt; 0 || title == ''>
+			<@icon style=buttonIcon />
+		<#else>
+			<@icon style=buttonIcon class='me-1 mr-1' />
+		</#if>
+	</#if>
+	<span class="${displayTitleClass}">${title}</span>
+	<#if buttonIcon!='' && iconPosition='right'>
+		<#if hideTitle?size &gt; 0 || title == ''>
+			<@icon style=buttonIcon />
+		<#else>
+			<@icon style=buttonIcon class='ms-1 ml-1' />
+		</#if>
+	</#if>
 	<#if !dropdownMenu>
 	<#nested>
 	</#if>
@@ -1417,8 +1461,6 @@
 -------------------------------------------------- -->
 <#-- MACRO adminHeader -->
 <#macro adminHeader site_name=site_name>
-<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
-<script src="js/admin/jquery/jquery-migrate-3.3.1.min.js"></script>
 <script>$(".wrapper").hide();</script>
 </head>
 <body class="antialiased<#if false> theme-dark</#if>">
@@ -1796,7 +1838,7 @@ $(function() {
 <#-- HTML ELEMENTS 	-->
 <#-- MACRO img  -->
 <#macro img url='' alt='' title='' class='' id='' params=''> 
-<img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}" class="<#if class!=''>  ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
+<img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}" class="thumbnails thumb-list<#if class!=''>  ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
 </#macro>
 <#-- Email Default Template -->
 <#macro emailTemplate title='Lutece' footer_link='https://fr.lutece.paris.fr'> 
