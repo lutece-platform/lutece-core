@@ -802,7 +802,7 @@
 </#macro>
 <#-- Tabs -->
 <#-- type:  -->
-<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
+<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabClass='' tabIcon='' params=''>
 <#local tabLinkClass = class />
 <#if active><#local tabLinkClass += ' active' /></#if>
 <li class="${tabLinkClass?trim}" role="presentation"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
