@@ -83,11 +83,11 @@ iframe#preview {  display: block; overflow: auto; padding: 0; margin:-10px auto;
 #fullscreen.open{ position:fixed; top:0; right: 15px; z-index: 10000; padding: 5px; }
 
 /* 	Insert services                          */
-.media-selector{ height: 90vh; margin: 0 -15px;}
+.media-selector{ margin: 15px; }
 .media-selector .nav.nav-tabs{ margin: 5px }
 .media-selector .nav.nav-tabs .navbar-right button{ margin-right: 30px }
 .media-selector .tab-content{ margin: 15px 30px }
-.media-selector .media-container{ display: flex; flex-wrap: wrap; justify-content: flex-start; border-radius: 4px; overflow: hidden; padding: 5px; }
+.media-selector .media-container { display: flex; flex-wrap: wrap; justify-content: center; border-radius: 4px; overflow: hidden; gap: 15px; }
 .media-selector .media { display: flex; flex-direction: column; border-radius: 4px; align-items: left; margin: 5px; padding: 0; width: 130px; background: #fff; box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.1);}
 .media-selector .media-image { position: relative; width: 100%;  display: block; max-width: 130px; height: 95px; border-top-left-radius: 4px; border-top-right-radius: 4px; overflow: hidden;}
 .media-selector .media-image img { width: 100%;  display: block;}
