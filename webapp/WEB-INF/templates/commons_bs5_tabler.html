@@ -955,7 +955,7 @@
 <#-- buttonTargetId: contains the target element ID -->
 <#-- buttonNested=false : If true add content inside the button else -default- outside  -->
 <#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' deprecated...>
+<#macro button name='' id='' type='button' size='xs' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' deprecated...>
 	<@deprecatedWarning args=deprecated />
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
@@ -1039,7 +1039,7 @@
 <#-- style: btn-block/btn-flat/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
 <#-- ShowTitleXs is UNUSED in Bootstrap 4. -->
-<#macro aButton name='' id='' href='' target='' size='sm' color='primary' style='btn' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  deprecated...>
+<#macro aButton name='' id='' href='' target='' size='xs' color='primary' style='btn' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#-- Visibility of button title -->
 <#local displayTitleClass = displaySettings(hideTitle,'inline') />
