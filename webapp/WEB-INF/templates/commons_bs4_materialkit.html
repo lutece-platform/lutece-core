@@ -21,7 +21,7 @@
 <link href="js/admin/lib/polipop/css/polipop.default.min.css" rel="stylesheet"> 
 <link href="css/admin/style/bootstrap4/bootstrap4.override.css" rel="stylesheet"> <!-- Bootstrap 4.3.1 -->
 <link href="css/admin/style/bootstrap4/portal_admin.css" rel="stylesheet">
-<link href="css/admin/portal_admin_site.css" rel="stylesheet"><!-- Site ovveride admin CSS -Empty by default- -->
+<link href="css/admin/portal_admin_site.css" rel="stylesheet"><!-- Site override admin CSS -Empty by default- -->
 </#macro>
 <#macro coreAdminJSLinks>
 <script src="js/admin/jquery/jquery-ui.min.js"></script> 
@@ -500,55 +500,70 @@
 	<span class="form-help" data-toggle="popover" data-trigger="hover focus" data-html="true" data-content="<#nested>">?</span>
 </#if>
 </#macro>
-<#-- -------------------------------------------------------------------------------------------------- -->
-<#-- INPUTS & TEXTAREA  																				-->
-<#-- -------------------------------------------------------------------------------------------------- -->
-<#-- name : Mandatory : Name for field 																	-->
-<#-- type : text/textarea/password/email/file/number/range/color/hidden/tel. Default : text 			-->
-<#-- value: ''					 																		-->
-<#-- class: ''					 																		-->
-<#-- id: ''						 																		-->
-<#-- title:  ''  			 																			-->
-<#-- size: ''																							-->
-<#-- inputSize: 0																						-->
-<#-- maxlength: 0					 																	-->
-<#-- placeHolder: ''				 																	-->
-<#-- rows: 4 Textarea specific		 																	-->
-<#-- cols: 40 Textarea specific				    														-->
-<#-- pattern:  '' [A-F][0-9]{5} 																		-->
-<#-- tabIndex:  ''  			 																		-->
-<#-- disabled:  false  			 																		-->
-<#-- readonly:  false  			 																		-->
-<#-- min: 0					 																			-->
-<#-- max: 0					 																			-->
-<#-- min: 0					 																			-->
-<#-- params: ''				 																			-->
-<#-- mandatory: false		 																			-->
-<#-- language: for input type DATE and datepickers 														-->
-<#-- defaultDate: Format must be "yyyy-MM-dd hh:mm" 													-->
-<#-- minDate: Format must be "yyyy-MM-dd hh:mm" 														-->
-<#-- maxDate: Format must be "yyyy-MM-dd hh:mm" 														-->
-<#-- defaultHour: Format must be "hh" 																	-->
-<#-- defaultMinute: Format must be "mm" 																-->
-<#-- minTime : Format must be "hh:mm" 																	-->
-<#-- maxTime : Format must be "hh:mm" 																	-->
-<#-- format='' 																							-->
-<#-- showFormat='' 																						-->
-<#-- dateRangeEndId='' 																					-->
-<#-- dateParams : [] Look at https://flatpickr.js.org/options/ for options list 						-->
-<#--  Example : dateParams=[{'inline': 'true'},{'hourIncrement': '4'}]          						-->
-<#-- -------------------------------------------------------------------------------------------------- -->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.locale minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' time_24hr=true format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName=''>
+<#-- ------------------------------------------------------------------------------------------------------------------------------------------ -->
+<#-- INPUTS & TEXTAREA 																															-->
+<#-- ------------------------------------------------------------------------------------------------------------------------------------------ -->
+<#-- name : Mandatory : Name for field 																											-->
+<#-- type : text/textarea/password/email/file/number/range/color/hidden/tel. Default : text 													-->
+<#-- value: '' 																																	-->
+<#-- class: '' 																																	-->
+<#-- id: '' 																																	-->
+<#-- title:  '' 																																-->
+<#-- size: ''																																	-->
+<#-- inputSize: 0																																-->
+<#-- maxlength: 0																																-->
+<#-- placeHolder: ''																															-->
+<#-- rows: 4 Textarea specific																													-->
+<#-- cols: 40 Textarea specific																													-->
+<#-- pattern:  '' [A-F][0-9]{5}																													-->
+<#-- tabIndex:  ''																																-->
+<#-- disabled:  false 																															-->
+<#-- readonly:  false 																															-->
+<#-- min: 0 																																	-->
+<#-- max: 0 																																	-->
+<#-- min: 0 																																	-->
+<#-- params: '' 																																-->
+<#-- mandatory: false 																															-->
+<#-- language: for input type DATE and datepickers																								-->
+<#-- defaultDate: Format must be "yyyy-MM-dd hh:mm"																								-->
+<#-- minDate: Format must be "yyyy-MM-dd hh:mm"																									-->
+<#-- maxDate: Format must be "yyyy-MM-dd hh:mm"																									-->
+<#-- defaultHour: Format must be "hh"																											-->
+<#-- defaultMinute: Format must be "mm"																											-->
+<#-- minTime : Format must be "hh:mm"																											-->
+<#-- maxTime : Format must be "hh:mm"																											-->
+<#-- format='' : Format for DB 																													-->
+<#-- showFormat='' 	Format for User																												-->
+<#-- dateRangeEndId='' Id for date range date end																								-->
+<#-- dateParams : [] https://flatpickr.js.org/options/ for options list | Example : dateParams=[{'inline': 'true'},{'hourIncrement': '4'}] 		-->
+<#-- showFileUrl=false 																															-->
+<#-- fileURL='' 																																-->
+<#-- fileName='' 																																-->
+<#-- datalist='' To comma separated list of values Example : datalist='titi,tata'																-->
+<#-- ------------------------------------------------------------------------------------------------------------------------------------------ -->
+<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.locale minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' time_24hr=true format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist=''>
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
-	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='range' || type='tel'>
-		<input class="form-control<#if size!=''> input-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='range' || type='tel' || type='datalist'>
+		<input class="form-control<#if size!=''> input-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if><#if type='datalist'> list="${name}_list"</#if>>
 		<#if type='file'>
-		<input type="hidden" id=${id}Key name="${name}Key" value="${value}" />
-		<#if showFileUrl && fileURL?? && fileName??>
-		<@link href="${fileURL}">${fileName}</@link>
+			<input type="hidden" id=${id}Key name="${name}Key" value="${value}" />
+			<#if showFileUrl && fileURL?? && fileName??>
+				<@link href="${fileURL}">${fileName}</@link>
+			</#if>
 		</#if>
+		<#if type='datalist'>
+			<#if id !='' && datalist !='' >
+				<datalist id="${name}_list">
+				<#assign options = datalist?split(',')>
+				<#list options as opt>
+					<option value="${opt!}">
+				</#list>
+				</datalist>
+			<#else>
+				<!-- Missing id or params attribute for macro @input for type "datalist" -->
+			</#if>
 		</#if>
 	<#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange' || type='time'>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
