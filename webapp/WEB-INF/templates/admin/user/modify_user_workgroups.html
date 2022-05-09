@@ -29,7 +29,7 @@
 								<@listGroup>
 									<#list all_workgroup_list?sort_by('code') as workgroup>
 									<@listGroupItem>
-										<@checkBox orientation='switch' name='workgroup' id='workgroup' value='${workgroup.code}' checked=workgroup.checked labelKey='${workgroup.name}' mandatory=false />
+										<@checkBox orientation='switch' name='workgroup' id='workgroup_'+workgroup?index value='${workgroup.code}' checked=workgroup.checked labelKey='${workgroup.name}' mandatory=false />
 									</@listGroupItem>
 									</#list>        
 								</@listGroup>	
