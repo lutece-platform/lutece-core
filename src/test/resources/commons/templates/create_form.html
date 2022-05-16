@@ -6,31 +6,23 @@
         <@box>
             <@boxHeader title='Title' />
             <@boxBody>
-                <@tform name='create_mockobject' action='jsp/admin/plugins//ManageMockObjects.jsp'>
+                <@tform name='create_mockobject' action='jsp/admin/plugins/ManageMockObjects.jsp'>
                     <@messages errors=errors />
 	                <@formGroup labelKey='Name' helpKey='Name.help' mandatory=true>
 	                    <@input type='text' name='name' value='${mockObject.name!\'\'}' />
 	                </@formGroup>
 
 	                <@formGroup labelKey='Description' helpKey='Description.help' mandatory=true>
-	                    <@input type='text' name='description' value='${mockObject.description!\'\'}' />
+	                    <@input type='textarea' name='description' value='${mockObject.description!\'\'}' />
 	                </@formGroup>
 
 	                <@formGroup labelKey='Enable' helpKey='Enable.help'>
 	                    <@checkBox labelKey='Enable' name='enable' id='enable' value='1' />
 	                </@formGroup>
 
-	                <@formGroup labelKey='Status' helpKey='Status.help'>
-	                    <@checkBox labelKey='Status' name='status'id='status' value='1' />
-	                </@formGroup>
-												
 					<@formGroup labelKey='Radio'>
 	                    <@radioButton labelFor='0' labelKey='Radio1.help' name='radio' id='0' value='0' />
 	                    <@radioButton labelFor='1' labelKey='Radio2.help' name='radio' id='1' value='1' />
-	                </@formGroup>
-
-	                <@formGroup labelKey='Ratio' helpKey='Ratio.help' mandatory=true>
-	                    <@input type='text' name='ratio' value='${mockObject.ratio!\'\'}' />
 	                </@formGroup>
 
 	                <@formGroup labelKey='Password' helpKey='Password.help' mandatory=true>
@@ -54,11 +46,7 @@
 	                <@formGroup labelKey='Email' helpKey='Email.help' mandatory=true>
 	                    <@input type='email' name='email' value='${mockObject.email!\'\'}' />
 	                </@formGroup>
-
-	                <@formGroup labelKey='Text' helpKey='Text.help' mandatory=true>
-	                    <@input type='textarea' name='text' value='${mockObject.text!\'\'}' />
-	                </@formGroup>
-
+					
 	                <@formGroup labelKey='DateCreated' helpKey='DateCreated.help' mandatory=true>
 	                	<@inputGroup>
 	                		<@inputGroupItem type='text'>
@@ -67,43 +55,7 @@
 	                    	<@input type='date' name='date_created' value='${mockObject.dateCreated!\'\'}' />
 	                    </@inputGroup>
 	                </@formGroup>
-
-	                <@formGroup labelKey='DateUpdated' helpKey='DateUpdated.help' mandatory=true>
-						<@inputGroup>
-							<@input type='date' name='date_updated' value='${mockObject.dateUpdated!\'\'}' />
-							<@inputGroupItem type='text'>
-								<@icon style='calendar' />
-							</@inputGroupItem>
-						</@inputGroup>
-	                </@formGroup>
 					
-					<@formGroup labelKey='DateTime' helpKey='DateTime.help' mandatory=true>
-						<@inputGroup>
-							<@input type='datetime' name='date_range' value='${mockObject.dateTime!\'\'}' />
-							<@inputGroupItem type='text'>
-								<@icon style='calendar' />
-							</@inputGroupItem>
-						</@inputGroup>
-	                </@formGroup>
-					
-					<@formGroup labelKey='DateRange' helpKey='DateRange.help' mandatory=true>
-						<@inputGroup>
-							<@input type='daterange' name='date_range' value='${mockObject.dateRange!\'\'}' />
-							<@inputGroupItem type='text'>
-								<@icon style='calendar' />
-							</@inputGroupItem>
-						</@inputGroup>
-	                </@formGroup>
-					
-					<@formGroup labelKey='datetimerange' helpKey='DateTimeRange.help' mandatory=true>
-						<@inputGroup>
-							<@input type='datetimerange' name='datetime_range' value='${mockObject.dateTimeRange!\'\'}' />
-							<@inputGroupItem type='text'>
-								<@icon style='calendar' />
-							</@inputGroupItem>
-						</@inputGroup>
-	                </@formGroup>
-												
 					<@formGroup>
 						<@button type='submit' name='action_createMockObject' buttonIcon='check' />
 						<@button type='submit' name='view_manageMockObject' buttonIcon='eye' />
@@ -127,24 +79,16 @@
 	                &lt;/@formGroup&gt;
 
 	                &lt;@formGroup labelKey='Description' helpKey='Description.help' mandatory=true&gt;
-	                    &lt;@input type='text' name='description' value='${mockObject.description!""}' /&gt;
+	                    &lt;@input type='textarea' name='description' value='${mockObject.description!""}' /&gt;
 	                &lt;/@formGroup&gt;
 
-	                &lt;@formGroup labelKey='Enable'&gt;
-	                    &lt;@checkBox labelKey='Enable.help' name='enable' id='enable' value='1' /&gt;
+	                &lt;@formGroup labelKey='Enable' helpKey='Enable.help'&gt;
+	                    &lt;@checkBox labelKey='Enable' name='enable' id='enable' value='1' /&gt;
 	                &lt;/@formGroup&gt;
 
-	                &lt;@formGroup labelKey='Status'&gt;
-	                    &lt;@checkBox labelKey='Status.help' name='status' id='enable' value='1' /&gt;
-	                &lt;/@formGroup&gt;
-												
-					 &lt;@formGroup labelKey='Radio'&gt;
-	                    &lt;@radioButton labelKey='Radio1.help' name='radio1' value='0' /&gt;
-	                    &lt;@radioButton labelKey='Radio2.help' name='radio2' value='1' /&gt;
-	                &lt;/@formGroup&gt;
-
-	                &lt;@formGroup labelKey='Ratio' helpKey='Ratio.help' mandatory=true&gt;
-	                    &lt;@input type='text' name='ratio' value='${mockObject.ratio!""}' /&gt;
+					&lt;@formGroup labelKey='Radio'&gt;
+	                    &lt;@radioButton labelFor='0' labelKey='Radio1.help' name='radio' id='0' value='0' /&gt;
+	                    &lt;@radioButton labelFor='1' labelKey='Radio2.help' name='radio' id='1' value='1' /&gt;
 	                &lt;/@formGroup&gt;
 
 	                &lt;@formGroup labelKey='Password' helpKey='Password.help' mandatory=true&gt;
@@ -168,11 +112,7 @@
 	                &lt;@formGroup labelKey='Email' helpKey='Email.help' mandatory=true&gt;
 	                    &lt;@input type='email' name='email' value='${mockObject.email!""}' /&gt;
 	                &lt;/@formGroup&gt;
-
-	                &lt;@formGroup labelKey='Text' helpKey='Text.help' mandatory=true&gt;
-	                    &lt;@input type='textarea' name='text' value='${mockObject.text!""}' /&gt;
-	                &lt;/@formGroup&gt;
-
+					
 	                &lt;@formGroup labelKey='DateCreated' helpKey='DateCreated.help' mandatory=true&gt;
 	                	&lt;@inputGroup&gt;
 	                		&lt;@inputGroupItem type='text'&gt;
@@ -181,43 +121,7 @@
 	                    	&lt;@input type='date' name='date_created' value='${mockObject.dateCreated!""}' /&gt;
 	                    &lt;/@inputGroup&gt;
 	                &lt;/@formGroup&gt;
-
-	                &lt;@formGroup labelKey='DateUpdated' helpKey='DateUpdated.help' mandatory=true&gt;
-										&lt;@inputGroup&gt;
-	                    &lt;@input type='date' name='date_updated' value='${mockObject.dateUpdated!""}' /&gt;
-	                    &lt;@inputGroupItem&gt;
-	                    	&lt;@icon style='calendar' /&gt;
-	                    &lt;/@inputGroupItem&gt;
-										 &lt;/@inputGroup&gt;
-	                &lt;/@formGroup&gt;
 					
-					&lt;@formGroup labelKey='DateTime' helpKey='DateTime.help' mandatory=true&gt;
-						&lt;@inputGroup&gt;
-							&lt;@input type='datetime' name='date_range' value='${mockObject.dateTime!""}' /&gt;
-							&lt;@inputGroupItem type='text'&gt;
-								&lt;@icon style='calendar' /&gt;
-							&lt;/@inputGroupItem&gt;
-						&lt;/@inputGroup&gt;
-	                &lt;/@formGroup&gt;
-					
-					&lt;@formGroup labelKey='DateRange' helpKey='DateRange.help' mandatory=true&gt;
-						&lt;@inputGroup&gt;
-							&lt;@input type='daterange' name='date_range' value='${mockObject.dateRange!""}' /&gt;
-							&lt;@inputGroupItem type='text'&gt;
-								&lt;@icon style='calendar' /&gt;
-							&lt;/@inputGroupItem&gt;
-						&lt;/@inputGroup&gt;
-	                &lt;/@formGroup&gt;
-					
-					&lt;@formGroup labelKey='datetimerange' helpKey='DateTimeRange.help' mandatory=true&gt;
-						&lt;@inputGroup&gt;
-							&lt;@input type='datetimerange' name='datetime_range' value='${mockObject.dateTimeRange!""}' /&gt;
-							&lt;@inputGroupItem type='text'&gt;
-								&lt;@icon style='calendar' /&gt;
-							&lt;/@inputGroupItem&gt;
-						&lt;/@inputGroup&gt;
-	                &lt;/@formGroup&gt;
-												
 					&lt;@formGroup&gt;
 						&lt;@button type='submit' name='action_createMockObject' buttonIcon='check' /&gt;
 						&lt;@button type='submit' name='view_manageMockObject' buttonIcon='eye' /&gt;
@@ -247,7 +151,7 @@
 	</@tr>
 	<@tr>
 		<@th>formStyle</@th>
-		<@td>string: horizontal/inline</@td>
+		<@td>string: horizontal, inline</@td>
 		<@td>horizontal</@td>
 	</@tr>
 	<@tr>
@@ -281,6 +185,11 @@
 		<@td>none</@td>
 	</@tr>
 	<@tr>
+		<@th>labelClass</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
 		<@th>helpKey</@th>
 		<@td>string</@td>
 		<@td>none</@td>
@@ -296,333 +205,7 @@
 		<@td>none</@td>
 	</@tr>
 	<@tr>
-		<@th>params</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-</@table>
-
-<@h3># Macro input</@h3>
-
-<@table>
-	<@tr>
-		<@th>Parameter</@th>
-		<@th>Value</@th>
-		<@th>Default</@th>
-	</@tr>
-	<@tr>
-		<@th>name*</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>id</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>class</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>type</@th>
-		<@td>string: text/textarea/password/email/file/number/date/datetime/daterange/datetimerange</@td>
-		<@td>text</@td>
-	</@tr>
-	<@tr>
-		<@th>value</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>size</@th>
-		<@td>string: sm/lg</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>inputSize</@th>
-		<@td>integer</@td>
-		<@td>0</@td>
-	</@tr>
-	<@tr>
-		<@th>maxLength</@th>
-		<@td>integer</@td>
-		<@td>0</@td>
-	</@tr>
-	<@tr>
-		<@th>placeHolder</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>rows</@th>
-		<@td>integer</@td>
-		<@td>4</@td>
-	</@tr>
-	<@tr>
-		<@th>cols</@th>
-		<@td>integer</@td>
-		<@td>40</@td>
-	</@tr>
-	<@tr>
-		<@th>richtext</@th>
-		<@td>boolean</@td>
-		<@td>false</@td>
-	</@tr>
-	<@tr>
-		<@th>disabled</@th>
-		<@td>boolean</@td>
-		<@td>false</@td>
-	</@tr>
-	<@tr>
-		<@th>readonly</@th>
-		<@td>boolean</@td>
-		<@td>false</@td>
-	</@tr>
-	<@tr>
-		<@th>pattern</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>params</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>title</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>min</@th>
-		<@td>integer</@td>
-		<@td>0</@td>
-	</@tr>
-	<@tr>
-		<@th>max</@th>
-		<@td>integer</@td>
-		<@td>0</@td>
-	</@tr>
-</@table>
-
-<@h3># Macro select</@h3>
-
-<@table>
-	<@tr>
-		<@th>Parameter</@th>
-		<@th>Value</@th>
-		<@th>Default</@th>
-	</@tr>
-	<@tr>
-		<@th>name*</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>id</@th>
-		<@td>string</@td>
-		<@td>name</@td>
-	</@tr>
-	<@tr>
-		<@th>class</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>items</@th>
-		<@td>hash</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>default_value</@th>
-		<@td>hash</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>size</@th>
-		<@td>string: sm/lg</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>sort</@th>
-		<@td>boolean</@td>
-		<@td>false</@td>
-	</@tr>
-	<@tr>
-		<@th>multiple</@th>
-		<@td>integer</@td>
-		<@td>0</@td>
-	</@tr>
-	<@tr>
-		<@th>params</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>title</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-</@table>
-
-<@h3># Macro staticText</@h3>
-
-<@table>
-	<@tr>
-		<@th>Parameter</@th>
-		<@th>Value</@th>
-		<@th>Default</@th>
-	</@tr>
-	<@tr>
-		<@th>inForm</@th>
-		<@td>boolean</@td>
-		<@td>true</@td>
-	</@tr>
-	<@tr>
-		<@th>color</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>id</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>params</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-
-</@table>
-
-<@h3># Macro checkbox</@h3>
-
-<@table>
-	<@tr>
-		<@th>Parameter</@th>
-		<@th>Value</@th>
-		<@th>Default</@th>
-	</@tr>
-	<@tr>
-		<@th>name*</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>id</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>labelKey</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>labelFor</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>orientation</@th>
-		<@td>string: vertical/horizontal</@td>
-		<@td>vertical</@td>
-	</@tr>
-	<@tr>
-		<@th>value</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>title</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>disabled</@th>
-		<@td>boolean</@td>
-		<@td>false</@td>
-	</@tr>
-	<@tr>
-		<@th>readonly</@th>
-		<@td>boolean</@td>
-		<@td>false</@td>
-	</@tr>
-	<@tr>
-		<@th>checked</@th>
-		<@td>boolean</@td>
-		<@td>false</@td>
-	</@tr>
-		<@tr>
-		<@th>mandatory</@th>
-		<@td>boolean</@td>
-		<@td>false</@td>
-	</@tr>
-		<@tr>
-		<@th>params</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-</@table>
-
-<@h3># Macro radio button</@h3>
-
-<@table>
-	<@tr>
-		<@th>Parameter</@th>
-		<@th>Value</@th>
-		<@th>Default</@th>
-	</@tr>
-	<@tr>
-		<@th>name*</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>id</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>labelKey</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>labelFor</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>orientation</@th>
-		<@td>string: vertical/horizontal</@td>
-		<@td>vertical</@td>
-	</@tr>
-	<@tr>
-		<@th>value</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>title</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>disabled</@th>
-		<@td>boolean</@td>
-		<@td>false</@td>
-	</@tr>
-	<@tr>
-		<@th>readonly</@th>
-		<@td>boolean</@td>
-		<@td>false</@td>
-	</@tr>
-	<@tr>
-		<@th>checked</@th>
+		<@th>collapse</@th>
 		<@td>boolean</@td>
 		<@td>false</@td>
 	</@tr>
@@ -632,66 +215,5 @@
 		<@td>none</@td>
 	</@tr>
 </@table>
-
-<@h3># Macro input group</@h3>
-
-<@table>
-	<@tr>
-		<@th>Parameter</@th>
-		<@th>Value</@th>
-		<@th>Default</@th>
-	</@tr>
-	<@tr>
-		<@th>id</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>class</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>size</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>params</@th>
-		<@td>string</@td>
-		<@td>vertical</@td>
-	</@tr>
-</@table>
-
-<@h3># Macro input group item</@h3>
-
-<@table>
-	<@tr>
-		<@th>Parameter</@th>
-		<@th>Value</@th>
-		<@th>Default</@th>
-	</@tr>
-	<@tr>
-		<@th>id</@th>
-		<@td>string</@td>
-		<@td>none</@td>
-	</@tr>
-	<@tr>
-		<@th>pos</@th>
-		<@td>string: prepend/append</@td>
-		<@td>append</@td>
-	</@tr>
-	<@tr>
-		<@th>type</@th>
-		<@td>string: btn/text</@td>
-		<@td>btn</@td>
-	</@tr>
-	<@tr>
-		<@th>params</@th>
-		<@td>string</@td>
-		<@td>vertical</@td>
-	</@tr>
-</@table>
-
 
 <@footer />

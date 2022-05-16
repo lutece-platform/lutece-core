@@ -9,15 +9,19 @@
 					<@formGroup labelKey='Text' helpKey='Name.help' mandatory=true>
 						<@input type='text' name='name' value='${mockObject.name!\'\'}' />
 					</@formGroup>
+					<@columns md=6 offset={'md':3}>				
+					<pre class="copy-content">
+&lt;@formGroup labelKey='Text' helpKey='Name.help' mandatory=true&gt;
+	&lt;@input type='text' name='name' value='${mockObject.name!""}' /&gt;
+&lt;/@formGroup&gt;
+					</pre>
+					</@columns>
 					<@formGroup labelKey='Textarea' helpKey='Text.help' mandatory=true>
 						<@input type='textarea' name='text' value='${mockObject.text!\'\'}' />
 					</@formGroup>
 				</@fieldSet>
 			</@boxBody>
 			
-			<pre>
-			
-			</pre>
 			
 			<@boxBody>
 				<@fieldSet legend='Email field'>
@@ -180,3 +184,4 @@
 </@row>
 
 <@footer />
+<@copyElementToClipboard selector='.copy-content' class='"copy-icon"' />
