@@ -36,6 +36,7 @@ package fr.paris.lutece.util.bean;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.date.DateUtil;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -82,7 +83,7 @@ public final class BeanUtil
             beanUtilsBean.getPropertyUtils( ).addBeanIntrospector( SuppressPropertiesBeanIntrospector.SUPPRESS_CLASS );
 
             DateConverter dateConverter = new DateConverter( null );
-            dateConverter.setPattern( I18nService.getDateFormatShortPattern( locale ) );
+            dateConverter.setPatterns( new String[] { DateUtil.ISO_PATTERN_DATE, I18nService.getDateFormatShortPattern( locale ) } );
             beanUtilsBean.getConvertUtils( ).register( dateConverter, Date.class );
 
             SqlTimeConverter sqlTimeConverter = new SqlTimeConverter( null );

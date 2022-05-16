@@ -268,7 +268,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     protected void populate( Object bean, HttpServletRequest request )
     {
-        BeanUtil.populate( bean, request, null );
+        populate( bean, request, null );
     }
 
     /**
@@ -283,7 +283,14 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     protected void populate( Object bean, HttpServletRequest request, Locale locale )
     {
-        BeanUtil.populate( bean, request, locale );
+        if ( locale == null )
+        {
+            BeanUtil.populate( bean, request,  getLocale( ) );
+        }
+        else
+        {
+            BeanUtil.populate( bean, request, locale );
+        }
     }
 
     /**
