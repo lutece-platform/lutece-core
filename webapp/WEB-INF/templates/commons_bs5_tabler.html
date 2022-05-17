@@ -796,7 +796,7 @@
 </#macro>
 <#-- Tabs -->
 <#-- type:  -->
-<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' tabClass='' params=''>
+<#macro tabLink class='' hide=[] id='' active=false href='' title=''tabLabel=''  tabIcon='' tabClass='' params=''>
 <li class="nav-item<#if tabClass!=''> ${tabClass}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
@@ -811,7 +811,7 @@
 	<#nested>
 <#else>
 	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
-		<#if tabIcon!=''><@icon style=tabIcon class='mr-1 me-1'/></#if> ${title} 
+		<#if tabIcon!=''><@icon style=tabIcon class='mr-1 me-1'/></#if> <#if tabLabel !=''>${tabLabel!}<#else>${title!}</#if>
 		<#nested>
 	</@link>
 </#if>

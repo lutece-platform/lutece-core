@@ -970,7 +970,7 @@ $(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-
 </#if>
 </#macro>
 <#-- Tabs -->
-<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' tabClass='' params=''>
+<#macro tabLink class='' hide=[] id='' active=false href='' title=''tabLabel=''  tabIcon='' tabClass='' params=''>
 <li class="nav-item"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
@@ -982,7 +982,7 @@ $(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-
 	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
 </#if>
 <@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
-	<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}&nbsp;
+	<#if tabIcon!=''><@icon style=tabIcon /></#if> <#if tabLabel !=''>${tabLabel!}<#else>${title!}</#if>
 	<#nested>
 </@link>
 </li>

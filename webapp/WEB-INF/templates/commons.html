@@ -819,7 +819,7 @@
 </#macro>
 <#-- Tabs -->
 <#-- type:  -->
-<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabClass='' tabIcon='' params=''>
+<#macro tabLink class='' hide=[] id='' active=false href='' title=''tabLabel=''  tabClass='' tabIcon='' params=''>
 <#local tabLinkClass = class />
 <#if active><#local tabLinkClass += ' active' /></#if>
 <li class="${tabLinkClass?trim}" role="presentation"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -828,7 +828,7 @@
 	<#local tabLinkSettings += 'data-toggle="tab"' />
 </#if>
 	<@link href=href title=title params=tabLinkSettings>
-		<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}&nbsp;
+		<#if tabIcon!=''><@icon style=tabIcon /></#if> <#if tabLabel !=''>${tabLabel!}<#else>${title!}</#if>
 		<#nested>
 	</@link>
 </li>

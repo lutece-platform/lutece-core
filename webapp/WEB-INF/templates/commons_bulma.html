@@ -842,11 +842,11 @@
 </#macro>
 <#-- Tabs -->
 <#-- type:  -->
-<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' tabClass='' params=''>
+<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabLabel='' tabIcon='' tabClass='' params=''>
 <li class="<#if active>is-active</#if><#if class?trim!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <@link href='${href}' title='${title}'>
 <#if tabIcon!=''><span class="icon is-small"><@icon style=tabIcon /></span></#if>
-${title} <#nested>
+<#if tabLabel !=''>${tabLabel!}<#else>${title!}</#if> <#nested>
 </@link>
 </li>
 </#macro>
