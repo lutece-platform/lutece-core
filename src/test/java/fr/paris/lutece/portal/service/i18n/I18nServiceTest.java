@@ -177,5 +177,11 @@ public class I18nServiceTest extends LuteceTestCase
         // clear the cache and read again
         I18nService.resetCache( );
         assertEquals( newValue, I18nService.getLocalizedString( "portal.admin.admin_home.password", Locale.FRENCH ) );
+        // Restore default property value
+        resources.setProperty( "admin_home.password", message );
+        os = new FileOutputStream( propertiesFile );
+        resources.store( os, null );
+        os.close( );
+        I18nService.resetCache( );
     }
 }
