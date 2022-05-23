@@ -158,7 +158,7 @@ $( function(){
 
 	// Toggle dismiss alert
 	$('[data-dismiss="alert"]').click(function() {
-		$(this).parents('.card').remove();
+		$(this).parents('.notification').remove();
 	});
 
 	// Toggle dropdown alert
