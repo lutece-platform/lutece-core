@@ -34,10 +34,32 @@
 
 package fr.paris.lutece.portal.service.dashboard;
 
+import java.util.Map;
+
 /**
  * The Interface IDashboard.
  */
-public interface IPublicDashboardComponent extends IDashboard {
+public interface IPublicDashboardComponent {
+
+	/**
+	 * Gets the dashboard data.
+	 *
+	 * @param request the request
+	 * @return the dashboard data
+	 */
+	String getDashboardData( String user_id, Map<String,String> additionalParameters );
 	
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
+	String getComponentDescription( );
+	
+	/**
+     * Gets the id of the dashboard component.
+     * @return The id of the dashboard component
+     */
+	String getComponentId( );
 
 }
