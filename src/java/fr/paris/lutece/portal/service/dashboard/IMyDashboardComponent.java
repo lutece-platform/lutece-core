@@ -34,11 +34,34 @@
 
 package fr.paris.lutece.portal.service.dashboard;
 
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.service.security.LuteceUser;
 
-public interface IMyDashboardComponent extends IDashboard, Comparable<IMyDashboardComponent> {
+public interface IMyDashboardComponent extends Comparable<IMyDashboardComponent> {
 
-    /**
+	/**
+	 * Gets the dashboard data.
+	 *
+	 * @param request the request
+	 * @return the dashboard data
+	 */
+	String getDashboardData( HttpServletRequest request );
+	
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
+	String getComponentDescription( );
+	
+	/**
+     * Gets the id of the dashboard component.
+     * @return The id of the dashboard component
+     */
+	String getComponentId( );
+	
+	/**
      * Check if the dashboard is available or not for a given Lutece User
      * @param user The user
      * @return True if the dashboard is available for the given user, false
