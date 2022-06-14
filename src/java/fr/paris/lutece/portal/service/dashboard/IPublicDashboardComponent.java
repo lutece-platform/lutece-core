@@ -34,6 +34,7 @@
 
 package fr.paris.lutece.portal.service.dashboard;
 
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -42,24 +43,33 @@ import java.util.Map;
 public interface IPublicDashboardComponent {
 
 	/**
-	 * Gets the dashboard data.
-	 *
-	 * @param request the request
-	 * @return the dashboard data
-	 */
-	String getDashboardData( String user_id, Map<String,String> additionalParameters );
-	
-	/**
 	 * Gets the description.
-	 *
+	 *@param locale
 	 * @return the description
 	 */
-	String getComponentDescription( );
+	String getComponentDescription( Locale locale );
 	
 	/**
      * Gets the id of the dashboard component.
      * @return The id of the dashboard component
      */
 	String getComponentId( );
+	
+	/**
+	 * Get the location of the template
+	 * 
+	 * @return the template
+	 */
+	String getDashboardTemplate( );
+	
+	/**
+	 * Get the model filled with the data of the dashboard
+	 * 
+	 * @param user_id
+	 * @param additionalParameters
+	 * @return the model filled
+	 */
+	Map<String, Object> getDashboardModel( String user_id, Map<String,String[]> additionalParameters );
+	
 
 }
