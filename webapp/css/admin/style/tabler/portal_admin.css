@@ -106,6 +106,9 @@ iframe#preview {  display: block; overflow: auto; padding: 0; margin: -10px auto
 #preview.open{ position: fixed; width: 100% !important; height: 100vh !important; max-height: 100vh !important; top: 0; left:0; z-index: 9999; }
 #fullscreen.open{ position: fixed; top: 0; right: 15px; z-index: 10000; padding: 5px; }
 
+/* Message */
+.page-center{ background-color: var( --blue ); }
+
 /* Documentation                                                */
 #lutece-doc-link{ position: fixed; bottom: 0; right: 0; z-index: 2 }
 #lutece-doc-link:hover span{ position: relative; width:auto; height:auto ;}
