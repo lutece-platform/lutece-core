@@ -158,6 +158,7 @@ pre { white-space: pre-wrap; /* css-3 */ white-space: -moz-pre-wrap; /* Mozilla,
 
 /* Default */
 td{ vertical-align: middle;}
+.table-hover.hoverable-click tr{ cursor: pointer;}
 
 /* Margins                                  */
 /* No margin                                */
