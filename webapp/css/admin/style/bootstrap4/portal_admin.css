@@ -61,6 +61,7 @@
 
 /* Default */
 td{ vertical-align: middle;}
+.table-hover.hoverable-click tr{ cursor: pointer;}
 
 /* CSS for copyElementToClipboard Commons Freemarker Macro */
 .copy-content{ position: relative; width:100%; display: inline-block;}
