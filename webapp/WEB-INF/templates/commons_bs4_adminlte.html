@@ -218,35 +218,32 @@
 </nav>
 </#macro>
 <#-- MESSAGES -->
-<#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
+<#macro messages errors=[] infos=[] warnings=[] errors_class='danger' infos_class='info' warnings_class='warning'>
 <#if errors??>
-	<#if errors?size &gt; 0 >
-		<@alert color='danger' id='messages_errors_div'>
-			<@button style='close' />
-			<#list errors as error >
+	<#if errors?size &gt; 0>
+		<@alert color=errors_class id='messages_errors_div' dismissible=true>
+			<#list errors as error>
 			<span class="icon"><@icon style='exclamation-circle' /></span> ${error.message}<br />
 			</#list>
 		</@alert>
 	</#if>
 </#if>
 <#if infos??>
-	<#if infos?size &gt; 0 >
-		<@alert color='info' id='messages_infos_div'>
-			<@button style='close' />
-			<#list infos as info >
+	<#if infos?size &gt; 0>
+		<@alert color=infos_class id='messages_infos_div' dismissible=true>
+			<#list infos as info>
 				<span class="icon"><@icon style='info-circle' /></span> ${info.message}<br />
 			</#list>
 		</@alert>
 	</#if>
 </#if>
 <#if warnings??>
-	<#if warnings?size &gt; 0 >
-		<div class="${warnings_class}" id="messages_warnings_div" >
-			<@aButton style='close' params='data-dismiss="alert"' href='#'>x</@aButton>
-			<#list warnings as warning >
+	<#if warnings?size &gt; 0>
+		<@alert color=warnings_class id='messages_warnings_div' dismissible=true>
+			<#list warnings as warning>
 				<span class="icon"><@icon style='info-circle' /></span> ${warning.message} <br />
 			</#list>
-		</div>
+		</@alert>
 	</#if>
 </#if>
 </#macro>
@@ -1196,10 +1193,10 @@
 </div>
 </#macro>
 <#-- ALERT -->
-<#-- classes: alert-success/alert-info/alert-warning/alert-danger + alert-dismissible -->
+<#-- classes:  -->
 <#-- color: primary/success/info/warning/danger -->
 <#macro alert class='' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="alert d-flex align-items-center<#if class!=''> ${class}</#if><#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="alert d-flex<#if class!=''> ${class}</#if><#if color!=''> alert-${color}</#if><#if dismissible> alert-dismissible</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if dismissible>
 		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 			&times;
