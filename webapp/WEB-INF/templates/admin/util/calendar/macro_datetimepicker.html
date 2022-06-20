@@ -7,9 +7,10 @@
 <#local dtOptions=dateOptions />
 <@initScriptFlatPicker language=language />
 <script>
+	var ${idField}_fp;
 $( function() {
 	<@getDateFormat format=format showFormat=showFormat  />
-	$('#${idField}').flatpickr( {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${setFlatPickerOptions( dtOptions )} });
+	${idField}_fp = $('#${idField}').flatpickr( {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${setFlatPickerOptions( dtOptions )} });
 });
 </script>
 </#macro>
@@ -101,6 +102,12 @@ const dtFormat='${format}';
 		<#assign rangePluginIsLoaded = false />
 	</#if>
 </#if>
+<script>
+	// dateValue: string, expected format: DD/MM/YYYY
+	function updateInputDate(input,dateValue) {
+		input.setDate(dateValue,false,'d/m/Y');
+	}	
+</script>
 <#assign isEn=language?starts_with("en")?c />
 <#if !isEn?boolean ><script src="js/admin/locales/bootstrap-flatpickr.<@getLanguageInLocale language=language />.js"></script></#if>
 <script>
