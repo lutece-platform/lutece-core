@@ -27,3 +27,7 @@ td .form-inline .input-group > .custom-file,
 td .form-inline .input-group > .custom-select,
 td .form-inline .input-group > .form-control,
 td .form-inline .input-group > .form-control-plaintext {width:auto;}
+
+a:not([href]):not([tabindex]) {
+  cursor:default;
+}
