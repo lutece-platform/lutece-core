@@ -194,12 +194,18 @@ $( function(){
 	
 	$('[data-toggle="collapse"]').click(function() {
 		if ($(this).find("i").hasClass("fa-minus")){
-		$(this).find("i").addClass("fa-plus").removeClass("fa-minus");
-	}
-	else if ($(this).find("i").hasClass("fa-plus")){
-		$(this).find("i").addClass("fa-minus").removeClass("fa-plus");
-	}
+			$(this).find("i").addClass("fa-plus").removeClass("fa-minus");
+		}
+		else if ($(this).find("i").hasClass("fa-plus")){
+			$(this).find("i").addClass("fa-minus").removeClass("fa-plus");
+		}
 	});
+	
+	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+		var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+		return new bootstrap.Popover(popoverTriggerEl, {container: 'body', sanitize : false, placement: 'left'})
+	})
+
 });
 
 /* Pretty print file size */
@@ -214,10 +220,10 @@ return 'n/a';
 
 /* Manage progress bar  */
 function progress( bar, complexity, valid ){
-bar.toggleClass('progress-bar-success', valid);
-bar.toggleClass('progress-bar-danger', !valid);
-bar.css({'width': complexity + '%'});
-bar.html( Math.round( complexity ) + '%');
+	bar.toggleClass('progress-bar-success', valid);
+	bar.toggleClass('progress-bar-danger', !valid);
+	bar.css({'width': complexity + '%'});
+	bar.html( Math.round( complexity ) + '%');
 }
 
 /* Tab management for advanced user parameters */
