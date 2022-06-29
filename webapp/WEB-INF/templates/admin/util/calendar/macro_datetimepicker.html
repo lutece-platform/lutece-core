@@ -12,12 +12,11 @@ $( function() {
 	<@getDateFormat format=format showFormat=showFormat  />
 	${idField}_fp = $('#${idField}').flatpickr( {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${setFlatPickerOptions( dtOptions )} });
 	
-	
 	if ($('#${idField}').prop('required')) {
 		// Remove the readonly parameter on the date field, so the required attribute is taken into account when the form is submitted
 		$('#${idField} + input').on('focus', function () {
-			$(this).blur()
-		})
+			$(this).blur();
+		});
 		$('#${idField} + input').prop('readonly', false);
 	}
 });
