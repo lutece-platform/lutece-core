@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.security;
 
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.Base64;
 
 import javax.crypto.Cipher;
@@ -61,11 +63,24 @@ public final class RsaService
      */
     public static final String encryptRsa( String data ) throws GeneralSecurityException
     {
+        return encryptRsa( data, RSAKeyPairUtil.getInstance( ).getPublicKey( ) );
+    }
+
+    /**
+     * Encrypt the data
+     * 
+     * @param data
+     * @return encrypted data
+     * @throws GeneralSecurityException
+     */
+    public static final String encryptRsa( String data, PublicKey publicKey ) throws GeneralSecurityException
+    {
         Cipher cipher = Cipher.getInstance( RSA_PADDING );
-        cipher.init( Cipher.ENCRYPT_MODE, RSAKeyPairUtil.getInstance( ).getPublicKey( ) );
+        cipher.init( Cipher.ENCRYPT_MODE, publicKey );
         return Base64.getUrlEncoder( ).encodeToString( cipher.doFinal( data.getBytes( StandardCharsets.UTF_8 ) ) );
     }
 
+    
     /**
      * decrypt the data
      * 
@@ -75,8 +90,20 @@ public final class RsaService
      */
     public static final String decryptRsa( String data ) throws GeneralSecurityException
     {
+        return decryptRsa( data,  RSAKeyPairUtil.getInstance( ).getPrivateKey( ) );
+    }
+    
+    /**
+     * decrypt the data
+     * 
+     * @param data
+     * @return decrypted data
+     * @throws GeneralSecurityException
+     */
+    public static final String decryptRsa( String data, PrivateKey privateKey ) throws GeneralSecurityException
+    {
         Cipher cipher = Cipher.getInstance( RSA_PADDING );
-        cipher.init( Cipher.DECRYPT_MODE, RSAKeyPairUtil.getInstance( ).getPrivateKey( ) );
+        cipher.init( Cipher.DECRYPT_MODE, privateKey );
 
         return new String( cipher.doFinal( Base64.getUrlDecoder( ).decode( data.getBytes( StandardCharsets.UTF_8 ) ) ) );
     }
