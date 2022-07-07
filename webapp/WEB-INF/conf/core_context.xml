@@ -206,6 +206,10 @@
 
     <!-- Security Token Service -->
     <bean id="securityTokenService" class="fr.paris.lutece.portal.service.security.SecurityTokenService" />
+    
+    <!-- RSA Key service default provider (RSAKeyEnvironmentProvider is also available) -->
+    <bean id="RSAKeyProvider" class="fr.paris.lutece.util.rsa.RSAKeyDatastoreProvider" />
+        
     <!-- Cleaner HTML -->
     <!-- Cleaner Jsoup HTML -->
     <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JSoupHtmlCleaner" />
