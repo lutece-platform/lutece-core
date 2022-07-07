@@ -36,64 +36,20 @@ package fr.paris.lutece.util.rsa;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.List;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
-public class RSAKeyPairUtil
+public interface IRSAKeyProvider 
 {
-    private static RSAKeyPairUtil _instance;
-    private static String RSA_KEY_PROVIDER_BEAN_NAME = "RSAKeyProvider";
-    private PrivateKey _privateKey;
-    private PublicKey _publicKey;
-
-    private RSAKeyPairUtil( ) throws GeneralSecurityException
-    {
-        readKeys( );
-    }
-
-    public static RSAKeyPairUtil getInstance( ) throws GeneralSecurityException
-    {
-        if ( _instance == null )
-        {
-            _instance = new RSAKeyPairUtil( );
-        }
-        return _instance;
-    }
-
-    /**
-     * @return the privateKey
-     */
-    public PrivateKey getPrivateKey( )
-    {
-        return _privateKey;
-    }
-
-    /**
-     * @return the publicKey
-     */
-    public PublicKey getPublicKey( )
-    {
-        return _publicKey;
-    }
-
-    /**
-     * get the public and private key
-     * s
-     * @throws GeneralSecurityException
-     */
-    private void readKeys( ) throws GeneralSecurityException
-    {
-        IRSAKeyProvider rsaKeyProvider = SpringContextService.getBean( RSA_KEY_PROVIDER_BEAN_NAME );
-        
-        if ( rsaKeyProvider == null )
-        {
-        	throw new GeneralSecurityException( "RSA Key Provider not found.");
-        }
-        else
-        {
-        	_publicKey = rsaKeyProvider.getPublicKey( );
-        	_privateKey = rsaKeyProvider.getPrivateKey( );
-        }
-    }
+	/**
+	 * get public key
+	 * @return the key
+	 * @throws GeneralSecurityException
+	 */
+	PublicKey getPublicKey( ) throws GeneralSecurityException ;
+	
+	/**
+	 * get private key
+	 * @return the key
+	 * @throws GeneralSecurityException
+	 */
+	PrivateKey getPrivateKey( ) throws GeneralSecurityException ;
 }

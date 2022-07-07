@@ -34,66 +34,58 @@
 package fr.paris.lutece.util.rsa;
 
 import java.security.GeneralSecurityException;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.List;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.Base64;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 
-public class RSAKeyPairUtil
+public class RSAKeyEnvironmentProvider implements IRSAKeyProvider 
 {
-    private static RSAKeyPairUtil _instance;
-    private static String RSA_KEY_PROVIDER_BEAN_NAME = "RSAKeyProvider";
-    private PrivateKey _privateKey;
-    private PublicKey _publicKey;
 
-    private RSAKeyPairUtil( ) throws GeneralSecurityException
-    {
-        readKeys( );
-    }
+	private static final String ENV_VAR_PUBLIC_KEY = "lutece_rsa_public_key";
+    private static final String ENV_VAR_PRIVATE_KEY = "lutece_rsa_private_key";
+    private static final String MESSAGE_NOT_FOUND = "RSA Key env vars not found";
 
-    public static RSAKeyPairUtil getInstance( ) throws GeneralSecurityException
-    {
-        if ( _instance == null )
+	@Override
+	public PublicKey getPublicKey( ) throws GeneralSecurityException 
+	{
+		if ( System.getenv( ENV_VAR_PUBLIC_KEY ) != null )
         {
-            _instance = new RSAKeyPairUtil( );
-        }
-        return _instance;
-    }
+            X509EncodedKeySpec keySpecPublic = new X509EncodedKeySpec(
+                    Base64.getDecoder( ).decode( System.getenv( ENV_VAR_PUBLIC_KEY ).getBytes( ) ) );
 
-    /**
-     * @return the privateKey
-     */
-    public PrivateKey getPrivateKey( )
-    {
-        return _privateKey;
-    }
+            KeyFactory keyFactory = KeyFactory.getInstance( "RSA" );
 
-    /**
-     * @return the publicKey
-     */
-    public PublicKey getPublicKey( )
-    {
-        return _publicKey;
-    }
-
-    /**
-     * get the public and private key
-     * s
-     * @throws GeneralSecurityException
-     */
-    private void readKeys( ) throws GeneralSecurityException
-    {
-        IRSAKeyProvider rsaKeyProvider = SpringContextService.getBean( RSA_KEY_PROVIDER_BEAN_NAME );
-        
-        if ( rsaKeyProvider == null )
-        {
-        	throw new GeneralSecurityException( "RSA Key Provider not found.");
+            return keyFactory.generatePublic( keySpecPublic );
         }
         else
         {
-        	_publicKey = rsaKeyProvider.getPublicKey( );
-        	_privateKey = rsaKeyProvider.getPrivateKey( );
+        	throw new GeneralSecurityException( MESSAGE_NOT_FOUND );
         }
-    }
+	}
+	
+	@Override
+	public PrivateKey getPrivateKey ( ) throws GeneralSecurityException 
+	{
+		if ( System.getenv( ENV_VAR_PRIVATE_KEY ) != null )
+        {
+            PKCS8EncodedKeySpec keySpecPrivate = new PKCS8EncodedKeySpec(
+                    Base64.getDecoder( ).decode( System.getenv( ENV_VAR_PRIVATE_KEY ).getBytes( ) ) );
+
+            KeyFactory keyFactory = KeyFactory.getInstance( "RSA" );
+
+            return keyFactory.generatePrivate( keySpecPrivate );
+        }
+        else
+        {
+        	throw new GeneralSecurityException( MESSAGE_NOT_FOUND );
+        }
+	}
+
 }
