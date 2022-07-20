@@ -645,12 +645,12 @@
 <@deprecatedWarning args=deprecated />	
 <#if id = ''><#local id = name /></#if>
 <#if orientation!='switch'>
-	<#if orientation='vertical'><div class="custom-control custom-checkbox"></#if>
-	<input type="checkbox" class="custom-control-input<#if class!=''> ${class}</#if>" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
-	<label class="custom-control-label<#if orientation!='vertical'> checkbox-inline</#if>" for="${id}" <#if title!=''> title="${title}"</#if>>
+	<div class="form-check<#if orientation='inline'> form-check-inline</#if>"<#if orientation!='vertical'> style="margin-top:0.5rem;"</#if>>
+	<input type="checkbox" class="form-check-input<#if class!=''> ${class}</#if>" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
+	<label class="form-check-label" for="${id}" <#if title!=''> title="${title}"</#if>>
 	<#if labelKey!=''>${labelKey}<#else><#nested></#if>
 	</label>
-	<#if orientation='vertical'></div></#if>
+	</div>
 <#else>
 	<div class="custom-control custom-switch">
 		<input type="checkbox" class="custom-control-input<#if class!=''> ${class}</#if>" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if>>
