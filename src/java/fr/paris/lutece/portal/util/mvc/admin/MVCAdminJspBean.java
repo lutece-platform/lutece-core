@@ -335,6 +335,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         {
             MVCMessage error = new MVCMessage( );
             error.setMessage( errorValidation.getMessage( ) );
+            error.setFieldName( errorValidation.getFieldName( ) );
             _listErrors.add( error );
         }
 

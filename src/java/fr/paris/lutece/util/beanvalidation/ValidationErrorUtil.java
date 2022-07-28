@@ -192,4 +192,34 @@ public final class ValidationErrorUtil
 
         return (String) value;
     }
+    
+    /**
+     * Return the attribute name as field identifier
+     * 
+     * @param constraintViolation
+     *            The Constraint violation
+     * @param config
+     *            The config
+     * @param locale
+     *            The locale
+     * @return The field name
+     */
+    public static String getFieldId( ConstraintViolation constraintViolation, ValidationErrorConfig config, Locale locale )
+    {
+        String strField = constraintViolation.getPropertyPath( ).toString( );
+
+        // remove the variable prefix
+        String [ ] prefix = config.getVariablesPrefix( );
+
+        for ( int i = 0; i < prefix.length; i++ )
+        {
+            strField = removePrefix( strField, prefix [i] );
+        }
+
+        // set first letter in lower case
+        strField = strField.substring( 0, 1 ).toLowerCase( ) + strField.substring( 1 );
+
+
+        return strField;
+    }
 }
