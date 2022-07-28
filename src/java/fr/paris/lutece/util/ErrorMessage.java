@@ -44,4 +44,11 @@ public interface ErrorMessage
      * @return The message
      */
     String getMessage( );
+    
+    /**
+     * Returns the field name
+     * 
+     * @return the field name
+     */
+    String getFieldName( );
 }
