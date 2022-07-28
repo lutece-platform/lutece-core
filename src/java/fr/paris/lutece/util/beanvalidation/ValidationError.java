@@ -82,4 +82,13 @@ public class ValidationError implements ErrorMessage
 
         return strMessage;
     }
+
+    /**
+     * {@inheritDoc }
+     */
+	@Override
+	public String getFieldName( ) 
+	{
+		return ValidationErrorUtil.getFieldId( _constraintViolation, _config, _locale );
+	}
 }
