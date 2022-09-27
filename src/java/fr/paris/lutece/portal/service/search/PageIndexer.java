@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -51,17 +50,7 @@ import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
-
-import org.apache.tika.exception.TikaException;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.html.HtmlParser;
-import org.apache.tika.sax.BodyContentHandler;
-
-import org.xml.sax.ContentHandler;
-import org.xml.sax.SAXException;
-
-import java.io.ByteArrayInputStream;
+import org.jsoup.Jsoup;
 import java.io.IOException;
 
 import java.util.ArrayList;
@@ -221,21 +210,12 @@ public class PageIndexer implements SearchIndexer
         doc.add( new Field( SearchItem.FIELD_UID, strIdPage, ftNotStored ) );
 
         String strPageContent = _pageService.getPageContent( page.getId( ), 0, null );
-        ContentHandler handler = new BodyContentHandler( );
-        Metadata metadata = new Metadata( );
-
-        try
-        {
-            new HtmlParser( ).parse( new ByteArrayInputStream( strPageContent.getBytes( ) ), handler, metadata, new ParseContext( ) );
-        }
-        catch( TikaException | SAXException e )
-        {
-            throw new AppException( "Error during page parsing." );
-        }
-
+        org.jsoup.nodes.Document jsoupDocument = Jsoup.parse(strPageContent);
+        
         // the content of the article is recovered in the parser because this one
         // had replaced the encoded caracters (as &eacute;) by the corresponding special caracter (as ?)
-        StringBuilder sb = new StringBuilder( handler.toString( ) );
+        // Gets the normalized, combined text of strPageContent (all children html page). Whitespace is normalized and trimmed.
+        StringBuilder sb = new StringBuilder( jsoupDocument.text() );
 
         // Add the tag-stripped contents as a Reader-valued Text field so it will
         // get tokenized and indexed.
