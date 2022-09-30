@@ -165,7 +165,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.14.2</version>
+            <version>1.15.3</version>
         </dependency>
         <!--  Apache Commons Codec (TM) software provides implementations of 
         	  common encoders and decoders such as Base64, Hex, Phonetic and URLs.
