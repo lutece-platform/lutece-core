@@ -33,9 +33,12 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.util.Supplier;
 
 /**
@@ -241,5 +244,27 @@ public final class AppLogService
     public static boolean isInfoEnabled( )
     {
         return _loggerEvents.isInfoEnabled( );
+    }
+    
+    /**
+     * Gets the all the loggers.
+     *
+     * @return the all the loggers
+     */
+    public static Collection<LoggerInfo> getLoggersInfo( )
+    {
+    	Collection<LoggerInfo> allDebugTraceLoggers = new ArrayList<>( );
+    	Collection<org.apache.logging.log4j.core.Logger> allLoggers = LoggerContext.getContext( ).getLoggers( );
+    	LoggerContext logContext = LoggerContext.getContext( );
+    	for ( org.apache.logging.log4j.core.Logger logger : allLoggers )
+    	{
+			LoggerInfo log = new LoggerInfo( );
+			log.setName( logger.getName( ) );
+			log.setLevel( logger.getLevel( ).name( ) );
+			log.setPath( logContext.getConfigLocation( ).getPath( ) );
+			allDebugTraceLoggers.add( log );
+    	}
+    	
+    	return allDebugTraceLoggers;
     }
 }
