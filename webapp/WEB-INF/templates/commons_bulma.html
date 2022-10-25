@@ -8,7 +8,8 @@
 <#macro commonsName>Commons Bulma 0.7.2</#macro>
 <#macro commonsDescription>Freemarker Commons macros powered by Bulma CSS Framework v0.7.2</#macro>
 <#macro coreAdminCSSLinks>
-<link href="css/admin/style/bulma/lutecebulma.css" rel="stylesheet">
+<link href="css/admin/style/bulma/lutecebulma.css" rel="stylesheet">  
+<link href="css/admin/style/bulma/bulma-badge.min.css" rel="stylesheet">
 <link href="css/admin/style/bulma/bulma-switch.min.css" rel="stylesheet">
 <link href="css/admin/style/bulma/bulma-tooltip.min.css" rel="stylesheet">
 <link href="css/admin/style/bulma/bulma-accordion.min.css" rel="stylesheet">
@@ -1544,6 +1545,28 @@
 					</a>
 				</div>
 				<#if user.userLevel == 0>
+				<#assign hasIcon=false />
+					<#if listLoggersInfo?has_content> 
+						<#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo>
+							<#if logInfo?size gt 0>
+								<#if hasIcon=false >
+								<div class="navbar-item has-dropdown is-hoverable">
+									<button class="button is-light mt-2" style="position:relative" >
+										<i class="fa fa-bell"></i>
+										<span class="badge is-danger">1</span>
+									</button>
+									<ul class="navbar-dropdown logger" role="menu" aria-label="Notifications" style="width: 20vw;padding: .5rem 1rem;">
+										<li><span class="badge is-danger is-top-left">1</span><strong>Niveau de log trop élévé !</strong></li>
+										<#assign hasIcon = true />	
+										</#if>
+										<li><strong>${logInfo.name!}  - ${logInfo.level!}</strong><span>${logInfo.path!}</span> </li>
+									</#if>	
+								</#list>
+							</#if>
+							<#if hasIcon == true >
+							</ul>
+						</div>
+					</#if>
 				<div class="navbar-item">
 					<a class="button is-danger" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
 						<i class="fa fa-cog"></i>
@@ -1557,7 +1580,7 @@
 					<#else> 
 						<img src="#dskey{portal.site.site_property.avatar_default}" id="admin-avatar" class="user-image" alt="User's avatar"> 
 					</#if>     
-						<span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
+						<span id="zone4" class="hidden-sm hidden-md" id="dLabelUserHeader"> ${dashboard_zone_4}<i class="caret"></i></span>
 					</a>
 					<#if userMenuItems?has_content>   
 						<ul class="navbar-dropdown" role="menu" aria-labelledby="dLabelUserHeader">
@@ -1602,6 +1625,20 @@
 		</p>
 	</div>
 </footer>
+<!-- AdminModal -->
+<div class="modal" id="adminModal">
+	<div class="modal-background"></div>
+	<div class="modal-card">
+		<header class="modal-card-head">
+			<p id="adminModalLabel" class="modal-card-title"></p>
+			<button class="delete" aria-label="close"></button>
+		</header>
+		<section class="modal-card-body"></section>
+		<footer class="modal-card-foot">
+			<button class="button" aria-label="close">Cancel</button>
+		</footer>
+	</div>
+</div>
 <!-- Included JS Files -->
 <!-- Le javascript
 ================================================== -->

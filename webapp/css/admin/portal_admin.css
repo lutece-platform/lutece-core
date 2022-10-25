@@ -107,6 +107,9 @@ div.box-tools > * { display:inline-block; }
 .footer-lutece{ background-color: var( --white ); margin: 0; padding: 15px 5px; float: right }
 #login #footer{ display: none;} /* Footer not displayed in login page */
 
+/* logger */
+.logger{ text-align: left; width: 30vw; padding: .5rem 1rem; }
+
 /* 	Helpers classes        */
 /* BS + Styles              */
 /* .form-inline{ display: inline-block;} */

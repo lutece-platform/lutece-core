@@ -802,20 +802,20 @@
 <#-- TAB Custom AdminLTE -->
 <#-- style: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
 <#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false params=''>
-	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
-	<#assign propagateTabStyle = style />
-	<div class="nav-tabs-custom<#if color!=''> ${color}</#if><#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</div>
+<#if collapsed><#local class += ' ' + 'collapse' /></#if>
+<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+<#assign propagateTabStyle = style />
+<div class="nav-tabs-custom<#if color!=''> ${color}</#if><#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</div>
 </#macro>
 <#-- Bootstrap UL tabs -->
 <#-- type is deprecated -->
 <#macro tabList style='tabs' vertical=false id='' params='' color=''>
-	<#if propagateTabStyle??><#local style = propagateTabStyle /></#if>
-		<ul class="nav nav-${style}<#if vertical> nav-stacked</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if vertical> style="margin-bottom:2rem;"</#if>>
-			<#nested>
-		</ul>
+<#if propagateTabStyle??><#local style = propagateTabStyle /></#if>
+<ul class="nav nav-${style}<#if vertical> nav-stacked</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if vertical> style="margin-bottom:2rem;"</#if>>
+	<#nested>
+</ul>
 </#macro>
 <#-- Tabs -->
 <#-- type:  -->
@@ -827,16 +827,16 @@
 <#if href?contains('#') && href?contains('.jsp') == false>
 	<#local tabLinkSettings += 'data-toggle="tab"' />
 </#if>
-	<@link href=href title=title params=tabLinkSettings>
-		<#if tabIcon!=''><@icon style=tabIcon /></#if> <#if tabLabel !=''>${tabLabel!}<#else>${title!}</#if>
-		<#nested>
-	</@link>
+<@link href=href title=title params=tabLinkSettings>
+	<#if tabIcon!=''><@icon style=tabIcon /></#if> <#if tabLabel !=''>${tabLabel!}<#else>${title!}</#if>
+	<#nested>
+</@link>
 </li>
 </#macro>
 <#-- TAB Content AdminLTE -->
 <#macro tabContent id='' params=''>
 <div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
+<#nested>
 </div>
 </#macro>
 <#-- Tab Panel BS3 -->
@@ -853,42 +853,42 @@
    <#if accordionContainerId?? == false><#assign accordionContainerId = 1 ><#else><#assign accordionContainerId = accordionContainerId + 1 ></#if>
    <#local id = 'accCont_'+ accordionContainerId >
 </#if>
-	<div class="box-group" id="${id}"<#if params!=''> ${params}</#if>>
-		<#assign parentId = id>
-		<#nested>
-	</div>
+<div class="box-group" id="${id}"<#if params!=''> ${params}</#if>>
+<#assign parentId = id>
+<#nested>
+</div>
 </#macro>
 <#macro accordionPanel color='' collapsed=true childId='' id='' params=''>
-	<div class="panel box box-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#if collapsed = true>
-			<#assign aClass = 'collapsed'>
-			<#assign expanded = 'false'>
-			<#assign childClass = 'panel-collapse collapse'>
-		<#else>
-			<#assign aClass = ''>
-			<#assign expanded = 'true'>
-			<#assign childClass = 'panel-collapse collapse in'>
-		</#if>
-			<#assign childId = childId>
-		<#nested>
-	</div>
+<div class="panel box box-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#if collapsed = true>
+<#assign aClass = 'collapsed'>
+<#assign expanded = 'false'>
+<#assign childClass = 'panel-collapse collapse'>
+<#else>
+<#assign aClass = ''>
+<#assign expanded = 'true'>
+<#assign childClass = 'panel-collapse collapse in'>
+</#if>
+<#assign childId = childId>
+<#nested>
+</div>
 </#macro>
 <#-- ACCORDION ELEMENT --> 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params='' headerIcon='' >
 <div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<h2 class="box-title">
-		<a class="${aClass}" data-toggle="collapse" data-parent="#${parentId}" href="#${childId}" aria-expanded="${expanded}">
-            <#if headerIcon!=''><@icon style=headerIcon /></#if> &nbsp;
-			${title}
-		</a>
-	</h2>
-	<#local nested><#nested></#local>
-	<#if nested?has_content>
-	<div class="box-tools">
-		${nested}
-	</div>
-	</#if>
+<h2 class="box-title">
+	<a class="${aClass}" data-toggle="collapse" data-parent="#${parentId}" href="#${childId}" aria-expanded="${expanded}">
+		<#if headerIcon!=''><@icon style=headerIcon /></#if> &nbsp;
+		${title}
+	</a>
+</h2>
+<#local nested><#nested></#local>
+<#if nested?has_content>
+<div class="box-tools">
+	${nested}
+</div>
+</#if>
 </div>
 </#macro>
 <#macro accordionBody id=childId class=childClass expanded=expanded params=''>
@@ -908,7 +908,6 @@
 	<span class="progress-description">${description}</span>
 </#if>
 </#macro>
-
 <#-- Progress macro
     token : the progress manager Feed Token
     interval : refresh period in milli seconds (if the feed token is provided) 
@@ -926,7 +925,6 @@
 <div id="${progressId}-report" class="progress-bar-report" lastline=0></div>
 </#if>
 </#macro>
-
 <#-- INFO-BOX AdminTLE (widget) -->
 <#-- color: only for the left side showing the icon. -->
 <#-- bgColor: for the right side containing the text -->
@@ -1039,31 +1037,31 @@
 <#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
 <#macro aButton name='' id='' href='' target='' size='' color='primary' style='btn-flat' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false deprecated...>
 <@deprecatedWarning args=deprecated />	
-	<#-- Bootstrap 4 transition -->
-	<#if color='secondary'>
-		<#local color_temp='default'>
-	<#else>
-		<#local color_temp=color>
+<#-- Bootstrap 4 transition -->
+<#if color='secondary'>
+	<#local color_temp='default'>
+<#else>
+	<#local color_temp=color>
+</#if>
+<#-- Visibility of button title -->
+<#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
+<#local class += ' ' + alignmentSettings(align,'') />
+<a class="btn<#if size!=''> btn-${size}</#if><#if color_temp!=''> btn-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+	<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
+	<span class="<#if displayTitleClass!=''>${displayTitleClass}</#if>">${title}</span>
+	<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
+	<#if dropdownMenu>
+	&#160;<@icon style='caret-down' />
 	</#if>
-	<#-- Visibility of button title -->
-	<#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
-	<#local class += ' ' + alignmentSettings(align,'') />
-	<a class="btn<#if size!=''> btn-${size}</#if><#if color_temp!=''> btn-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
-		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<span class="<#if displayTitleClass!=''>${displayTitleClass}</#if>">${title}</span>
-		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
-		<#if dropdownMenu>
-		&#160;<@icon style='caret-down' />
-		</#if>
-		<#if !dropdownMenu>
-		<#nested>
-		</#if>
-	</a>
-		<#if dropdownMenu>
-		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}"</#if>>
-			<#nested>
-		</ul>
-		</#if>
+	<#if !dropdownMenu>
+	<#nested>
+	</#if>
+</a>
+<#if dropdownMenu>
+<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}"</#if>>
+	<#nested>
+</ul>
+</#if>
 </#macro>
 <#-- BTN TOOLBAR -->
 <#macro btnToolbar id='' class='' align='' ariaLabel='' params=''>
@@ -1079,7 +1077,7 @@
 <@deprecatedWarning args=deprecated />	
 <#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align,'') />
 <div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class?trim}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
+<#nested>
 </div>
 </#macro>
 <#-- Radio button/Checkbox as buttons (to use with btnGroup)  -->
@@ -1091,9 +1089,9 @@
 </#macro>
 <#-- Simple links a href, anchors -->
 <#macro link href='' class='' id='' name='' title='' alt='' target='' params=''>
-	<a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if name!=''> name="${name}"</#if><#if target!=''> target="${target}"</#if><#if title!=''> title="${title}"</#if><#if alt!=''> alt="${alt}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</a>
+<a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if name!=''> name="${name}"</#if><#if target!=''> target="${target}"</#if><#if title!=''> title="${title}"</#if><#if alt!=''> alt="${alt}"</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</a>
 </#macro>
 <#-- MODAL -->
 <#-- bgColor: modal-default/modal-primary/modal-info/modal-warning/modal-danger -->
@@ -1157,11 +1155,11 @@
 	<#nested>
 </div>
 </#macro>
-<#---------------------------------------->
+<#-- -------------------------------------------------- -->
 <#-- AdminLTE Box -->
 <#-- color: default/primary/info/success/warning/danger -->
-<#-- style: solid (no top border) -->
-<#-- collapsed: true/false -->
+<#-- style: solid (no top border) 						-->
+<#-- collapsed: true/false 								-->
 <#macro box color='' id='' style='' class='' title='' params='' collapsed=false>
 <div class="box<#if color!=''> box-${color}</#if><#if style!=''> box-${style}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if title=''>	
@@ -1171,7 +1169,6 @@
 	<@boxBody><#nested></@boxBody>
 </#if>
 </div>
-
 </#macro>
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' class='' params='' boxTools=false titleLevel='h2' deprecated...>
@@ -1445,21 +1442,43 @@
 				  <a href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}"><i class="fa fa-home"></i></a>
 				</li>
                 <#if user.userLevel == 0>
-                <li class="home">
-                    <a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
-                          <i class="fa fa-cog"></i>
-                    </a>
-				</li>
+					<#assign hasIcon=false />
+					<#if listLoggersInfo?has_content> 
+						<#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo>
+							<#if logInfo?size gt 0>
+								<#if hasIcon=false >
+								<li class="dropdown home">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabelNotifHeader">
+										<i class="fa fa-bell"></i>
+										<span class="label label-danger">1</span>
+									</a>
+									<ul class="dropdown-menu logger" role="menu" aria-labelledby="dLabelNotifHeader">
+										<li><span class="label label-danger">1</span><strong class="text-muted"> Niveau de log trop élévé !</strong></li>
+									<#assign hasIcon = true />	
+								</#if>
+								<li><strong class="text-muted">${logInfo.name!} - ${logInfo.level!}</strong><span class="text-muted">${logInfo.path!}</span></li>
+							</#if>	
+						</#list>
+					</#if>
+					<#if hasIcon == true >
+								</ul>
+							</li>
+					</#if>
+					<li class="home">
+						<a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
+							<i class="fa fa-cog"></i>
+						</a>
+					</li>
                 </#if>
 				<li class="dropdown user-menu">
-				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
-					<#if adminAvatar> 
-						<img src="servlet/plugins/adminavatar/avatar?id_user=${user.userId}" id="admin-avatar" class="user-image" alt="User's avatar"> 
-					<#else> 
-						<img src="#dskey{portal.site.site_property.avatar_default}" id="admin-avatar" class="user-image" alt="User's avatar"> 
-					</#if>     
-					<span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
-				  </a>
+				  	<a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
+						<#if adminAvatar> 
+							<img src="servlet/plugins/adminavatar/avatar?id_user=${user.userId}" id="admin-avatar" class="user-image" alt="User's avatar"> 
+						<#else> 
+							<img src="#dskey{portal.site.site_property.avatar_default}" id="admin-avatar" class="user-image" alt="User's avatar"> 
+						</#if>     
+						<span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
+				  	</a>
 					<#if userMenuItems?has_content>   
 						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
                             <#list userMenuItems as item>
@@ -1475,11 +1494,6 @@
 					</a>
 				  </li>
 				</#if>
-				<!--
-				<li>
-				  <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i> </a>
-				</li>
-			  -->
 			  </ul>
 			</div>
 		</nav>
@@ -1508,6 +1522,21 @@
 	</div>
 </nav>
 </footer>
+<!-- Admin Modal -->
+<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		  <h4 class="modal-title" id="adminModalLabel"></h4>
+		</div>
+		<div class="modal-body"></div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	  </div>
+	</div>
+  </div>
 <!-- Included JS Files -->
 <!-- Le javascript
 ================================================== -->

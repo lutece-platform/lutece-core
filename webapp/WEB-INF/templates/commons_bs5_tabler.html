@@ -87,7 +87,6 @@
 	</#if>
 </#if>
 </#macro>
-
 <#-- PAGINATION ADMIN -->
 <#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
 <@div class='d-flex is-flex justify-content-between is-justify-content-space-between'>
@@ -1501,11 +1500,52 @@
 					<i class="fas fa-home"></i>
 				</a>
 			</div>
+			<#if user.userLevel == 0>
+			
+			<div class="nav-item d-none d-md-flex me-3">
+				<#assign hasIcon=false />
+			  	<#if listLoggersInfo?has_content> 
+				  	<#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo>
+				  		<#if logInfo?size gt 0>
+							<#if hasIcon=false >
+							<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications" aria-expanded="false">
+								<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
+								<span class="badge bg-red"></span>
+							</a>
+							<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
+								<div class="card">
+								  <div class="card-header">
+									<h3 class="card-title">Notifications</h3>
+								  </div>
+								  <div class="list-group list-group-flush list-group-hoverable">
+									<div class="list-group-item logger">
+										<div class="row align-items-start">
+											<div class="col-auto pt-2">
+												<span class="badge bg-red d-block"></span>
+											</div>
+											<div class="col text-truncate">
+												<h3><a href="#" class="text-body d-block">Niveau de log trop élévé !</a></h3>
+								<#assign hasIcon = true />	
+							</#if>
+							<div class="d-block text-truncate mt-1" title="${logInfo.path!}"><strong>${logInfo.name!}  - ${logInfo.level!}</strong> ${logInfo.path!}</div>
+						</#if>
+					</#list>
+				</#if>
+				<#if hasIcon == true >
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</#if>
+			</div> 
 			<div class="nav-item d-none d-md-flex me-3">
 				<a class="nav-link px-0" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
 					<i class="fa fa-cog"></i>
-			  </a>
-			</div> 
+			    </a>
+			</div>
+			</#if>
 			<div class="nav-item dropdown">
 				<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
 				<span class="avatar avatar-sm" style="background-image:url(<#if adminAvatar>servlet/plugins/adminavatar/avatar?id_user=${user.userId}<#else>#dskey{portal.site.site_property.avatar_default}</#if>)"></span>
@@ -1612,6 +1652,21 @@
 		</div>
 	</div>
 </footer>
+<!-- Admin Modal -->
+<div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="adminModalLabel"></h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body"></div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		</div>
+	  </div>
+	</div>
+</div>
 <!-- Included JS Files 												-->
 <!-- Le javascript 													-->
 <!-- ============================================================== -->
