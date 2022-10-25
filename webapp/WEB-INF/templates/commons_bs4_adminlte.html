@@ -1511,6 +1511,32 @@
 						</a>
 					</li>
 					<#if user.userLevel == 0>
+					<#assign hasIcon=false />
+					<#if listLoggersInfo?has_content> 
+						<#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo>
+							<#if logInfo?size gt 0>
+								<#if hasIcon=false >
+								<li class="nav-item dropdown">
+									<a class="nav-link" data-toggle="dropdown" href="#">
+										<i class="far fa-bell"></i>
+										<span class="badge badge-danger navbar-badge">1</span>
+									</a>
+									<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+										<div class="dropdown-item dropdown-header logger" title="${logInfo.path!}">
+											<strong><span class="badge badge-danger">1</span> Niveau de log trop élévé !</strong>
+											<div class="dropdown-divider"></div>
+								<#assign hasIcon = true />	
+								</#if>
+								<p><strong>${logInfo.name!}  - ${logInfo.level!}</strong> ${logInfo.path!}</p>
+							</#if>	
+						</#list>
+					</#if>
+					<#if hasIcon == true >
+								<div class="dropdown-divider"></div>
+							</div>
+						</div>
+					</li>
+					</#if>
 					<li class="nav-item home">
 						<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
 							<i class="fa fa-cog"></i>
@@ -1529,7 +1555,7 @@
 						<div class="dropdown-menu"  role="menu" aria-labelledby="dLabelUserHeader">
 							<#if userMenuItems?has_content>   
 								<#list userMenuItems as item>
-										${item.content}
+									${item.content}
 								</#list>
 							</#if>
 						</div>
@@ -1551,22 +1577,39 @@
 </#macro>
 <#-- MACRO adminFooter -->
 <#macro adminFooter >
-		<!-- end content section -->
-		</section>
-	</main>
-	<!-- footer menu -->
-	<footer class="footer mt-auto py-3">
-		<div class="container">
-			<nav id="footer" class="navbar navbar-light bg-light" role="navigation">
-				<div class="navbar-text text-center">
-					<a class="navbar-link" href="https://lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-						<img src="images/poweredby.png" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
-						<small>version ${version}</small>
-					</a>
-				</div>
-			</nav>
+	<!-- end content section -->
+	</section>
+</main>
+<!-- footer menu -->
+<footer class="footer mt-auto py-3">
+	<div class="container">
+		<nav id="footer" class="navbar navbar-light bg-light" role="navigation">
+			<div class="navbar-text text-center">
+				<a class="navbar-link" href="https://lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
+					<img src="images/poweredby.png" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
+					<small>version ${version}</small>
+				</a>
+			</div>
+		</nav>
+	</div>
+</footer>
+<!-- Admin Modal -->
+<div class="modal fade" id="adminModal" role="dialog" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="adminModalLabel"></h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
 		</div>
-	</footer>
+		<div class="modal-body"></div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		</div>
+	  </div>
+	</div>
+</div>
 </div><!-- Close wrapper -->
 <!-- Included JS Files 												-->
 <!-- Le javascript 													-->

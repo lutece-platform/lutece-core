@@ -6,7 +6,6 @@
 /* Specific script for back office */
 $( function(){
 	var nCounter = "";
-
 	// Count effect
 	$('.small-box .inner h3 span').each( function () {
 		nCounter = $(this).text();
@@ -29,6 +28,33 @@ $( function(){
 		}
 	});
 
+	const loggers = document.querySelector('.logger') ;
+	if( loggers.childElementCount > 0 ){
+		if( !sessionStorage.getItem('lutece-debug-modal') ){
+			sessionStorage.setItem('lutece-debug-modal', false )
+		}
+		var modalContent = '<details><summary>Attention votre site contient des loggers en mode DEBUG ou TRACE ce qui n\'est pas recommandé !</summary><blockquote>' + loggers.innerHTML + '</blockquote></details>'
+		var adminModalBody = $('#adminModal .modal-body')
+		adminModalBody.html( modalContent )
+		var adminModalLabel = $('#adminModalLabel')
+		var adminModalHeader = $('#adminModal .modal-header')
+		var adminModalHeaderBtn = $('#adminModal .modal-header button')
+		var adminModalSummary = $('#adminModal .modal-body summary')
+		var adminModalDetail = $('#adminModal .modal-body details')
+		adminModalLabel.html( 'Attention configuration non conforme !' )
+		adminModalHeader.addClass('text-white')
+		adminModalHeaderBtn.addClass('text-white')
+		adminModalSummary.addClass('text-danger')
+		adminModalDetail.addClass('text-muted')
+		adminModalHeader.addClass('bg-danger')
+		adminModalBody.addClass('text-danger')
+		if( sessionStorage.getItem('lutece-debug-modal') === 'false' ){
+			var myAdminModal = $('#adminModal').modal()
+			myAdminModal.on('hidden.bs.modal', function (e) {
+				sessionStorage.setItem('lutece-debug-modal', true )
+			})
+		}
+	}
 	// Disable Double Click on submit Buttons -> * NOT WORKING WITH IE *
 	// let numForms = document.forms.length;
 	// if( numForms > 0 ){

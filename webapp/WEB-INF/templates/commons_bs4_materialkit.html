@@ -1669,6 +1669,28 @@ $(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-
 					</a>
 				</li>
 				<#if user.userLevel == 0>
+					<#assign hasIcon=false />
+					<#if listLoggersInfo?has_content> 
+						<#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo>
+							<#if logInfo?size gt 0>
+								<#if hasIcon=false >
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="javascript:;" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="fa fa-bell"></i>
+										<span class="notification-badge badge-pill  badge-danger">1</span>
+									</a>
+									<div class="dropdown-menu logger" aria-labelledby="navbarDropdownMenuLink">
+										<p><strong><span class="badge badge-danger">1</span> Niveau de log trop élévé !</strong></p>
+									<#assign hasIcon = true />	
+								</#if>
+								<p><strong>${logInfo.name!}  - ${logInfo.level!}</strong> ${logInfo.path!}</p>
+							</#if>	
+						</#list>
+					</#if>
+					<#if hasIcon == true >
+					</div>
+				</li>
+				</#if>
 				<li class="nav-item home">
 					<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
 							<i class="fa fa-cog"></i>
@@ -1722,6 +1744,22 @@ $(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-
 		</nav>
 	</div>
 </footer>
+<div class="modal fade" id="adminModal" tabindex="-1" role="dialog" aria-labelledby="adminModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="adminModalLabel"></h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body"></div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		</div>
+	  </div>
+	</div>
+  </div>
 <!-- Included JS Files -->
 <!-- Le javascript
 =============================================================== -->
