@@ -73,6 +73,9 @@ td{ vertical-align: middle;}
 /* Editor                                                  */
 .tox.tox-tinymce{ width: 100% !important; }
 
+/* logger */
+.logger{ text-align: left;width: 30vw; padding: .5rem 1rem; }
+
 /* Admin Site                     */
 .admin-site{  padding: .2rem .5rem;}
 .admin-menu{ display: flex; justify-content: space-between; align-items: center;}
