@@ -1479,7 +1479,9 @@
 -------------------------------------------------- -->
 <#-- MACRO adminHeader -->
 <#macro adminHeader site_name=site_name>
-<script>$(".wrapper").hide();</script>
+<script>
+$(".wrapper").hide();
+</script>
 </head>
 <body class="antialiased<#if false> theme-dark</#if>">
 <div class="wrapper">
@@ -1506,44 +1508,44 @@
 				  	<#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo>
 				  		<#if logInfo?size gt 0>
 							<#if hasIcon=false >
-							<div class="nav-item d-none d-md-flex me-3"></div>
-							<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications" aria-expanded="false">
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
-								<span class="badge bg-red"></span>
-							</a>
-							<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
-								<div class="card">
-								  <div class="card-header">
-									<h3 class="card-title">Notifications</h3>
-								  </div>
-								  <div class="list-group list-group-flush list-group-hoverable">
-									<div class="list-group-item logger">
-										<div class="row align-items-start">
-											<div class="col-auto pt-2">
-												<span class="badge bg-red d-block"></span>
-											</div>
-											<div class="col text-truncate">
-												<h3><a href="#" class="text-body d-block">Niveau de log trop élévé !</a></h3>
-								<#assign hasIcon = true />	
-							</#if>
-							<div class="d-block text-truncate mt-1" title="${logInfo.path!}"><strong>${logInfo.name!}  - ${logInfo.level!}</strong> ${logInfo.path!}</div>
+			<div class="nav-item d-none d-md-flex me-3">
+				<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications" aria-expanded="false">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
+					<span class="badge bg-red"></span>
+				</a>
+				<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Notifications</h3>
+						</div>
+						<div class="list-group list-group-flush list-group-hoverable">
+							<div class="list-group-item logger">
+								<div class="row align-items-start">
+									<div class="col-auto pt-2">
+										<span class="badge bg-red d-block"></span>
+									</div>
+									<div class="col text-truncate">
+										<h3><a href="#" class="text-body d-block">#i18n{portal.util.log.warningLevel}</a></h3>
+									<#assign hasIcon = true />	
+								</#if>
+										<div class="d-block text-truncate mt-1" title="${logInfo.path!}"><strong>${logInfo.name!}  - ${logInfo.level!}</strong> ${logInfo.path!}</div>
 						</#if>
 					</#list>
 				</#if>
 				<#if hasIcon == true >
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div> 
+				</#if>
+				<div class="nav-item d-none d-md-flex me-3">
+					<a class="nav-link px-0" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
+						<i class="fa fa-cog"></i>
+					</a>
 				</div>
-			</div> 
-			</#if>
-			<div class="nav-item d-none d-md-flex me-3">
-				<a class="nav-link px-0" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
-					<i class="fa fa-cog"></i>
-			    </a>
-			</div>
 			</#if>
 			<div class="nav-item dropdown">
 				<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
@@ -1615,6 +1617,37 @@
 			</div>
 		</div>
 	</div>
+	<#if user.userLevel == 0>
+	<script>
+	document.addEventListener( 'DOMContentLoaded', () => {	
+		const loggers = document.querySelector('.logger') ;
+		if( loggers.childElementCount > 0 ){
+			if( !sessionStorage.getItem('lutece-debug-modal') ){
+				sessionStorage.setItem('lutece-debug-modal', false )
+			}
+			var modalContent = '<p><strong>#i18n{portal.util.log.modalWarningMessage}</strong></p><blockquote>' + loggers.querySelector('.col.text-truncate').innerHTML + '</blockquote>';
+			var adminModal = document.getElementById('adminModal');
+			var adminModalLabel = document.getElementById('adminModalLabel');
+			var adminModalBody = document.querySelector('#adminModal .modal-body')
+			adminModalBody.insertAdjacentHTML( 'beforeEnd', modalContent);
+			var adminModalHeader = document.querySelector('#adminModal .modal-header')
+			var adminModalHeaderBtn = document.querySelector('#adminModal .modal-header button')
+			var myAdminModal = new bootstrap.Modal( adminModal, {} )
+			adminModalLabel.insertAdjacentHTML( 'beforeEnd', '#i18n{portal.util.log.modalWarningTitle}' );
+			adminModalHeader.classList.add('text-white')
+			adminModalHeaderBtn.setAttribute( 'style', 'background: transparent url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 16 16\' fill=\'%23ffffff\'%3e%3cpath d=\'M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z\'/%3e%3c/svg%3e") center/.75rem auto no-repeat;')
+			adminModalHeader.classList.add('bg-danger')
+			adminModalBody.classList.add('text-danger')
+			adminModal.addEventListener('hide.bs.modal', function () {
+				sessionStorage.setItem('lutece-debug-modal',true)
+			})
+			if( sessionStorage.getItem('lutece-debug-modal') === 'false' ){
+				myAdminModal.show()
+			}
+		}
+	});
+	</script>
+	</#if>
 	<!-- Begin page content -->
 	<main role="main" class="page-wrapper">
 		<div class="container-fluid">
@@ -1657,11 +1690,11 @@
 	  <div class="modal-content">
 		<div class="modal-header">
 		  <h5 class="modal-title" id="adminModalLabel"></h5>
-		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="#i18n{portal.site.admin_page.buttonClosed}"></button>
 		</div>
 		<div class="modal-body"></div>
 		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">#i18n{portal.site.admin_page.buttonClosed}</button>
 		</div>
 	  </div>
 	</div>

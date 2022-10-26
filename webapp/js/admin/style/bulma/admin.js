@@ -2,7 +2,7 @@
  * BULMA JS
  *
  */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener( 'DOMContentLoaded', () => {
 	// Functions to open and close a modal
 	function openModal($el) {
 	  $el.classList.add('is-active');
@@ -12,10 +12,36 @@ document.addEventListener('DOMContentLoaded', () => {
 	  $el.classList.remove('is-active');
 	}
   
+	function closeAllModals() {
+	  (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+		closeModal($modal);
+	  });
+	}
+  
+	// Add a click event on buttons to open a specific modal
+	(document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+	  const modal = $trigger.dataset.target;
+	  const $target = document.getElementById(modal);
+  
+	  $trigger.addEventListener('click', () => {
+		openModal($target);
+	  });
+	});
+  
+	// Add a click event on various child elements to close the parent modal
+	(document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+	  const $target = $close.closest('.modal');
+  
+	  $close.addEventListener('click', () => {
+		closeModal($target);
+	  });
+	});
+  
 	// Add a keyboard event to close all modals
 	document.addEventListener('keydown', (event) => {
 	  const e = event || window.event;
-  	  if (e.keyCode === 27) { // Escape key
+  
+	  if (e.keyCode === 27) { // Escape key
 		closeAllModals();
 	  }
 	});
@@ -43,40 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			});
 		}
 	});
-
-	// Show toast if debug is found
-	const loggers = document.querySelectorAll('.logger') ;
-	if( loggers.length > 0 ){
-		if( !sessionStorage.getItem('lutece-debug-modal') ){
-			sessionStorage.setItem('lutece-debug-modal', false )
-		}
-		var modalContent = '<details><summary>Attention votre site contient des loggers en mode DEBUG ou TRACE ce qui n\'est pas recommandé !</summary><blockquote>' + loggers[0].innerHTML + '</blockquote></details>'
-		var adminModalBody = document.querySelector('#adminModal .modal-card-body')
-		adminModalBody.insertAdjacentHTML( 'beforeEnd', modalContent);
-		var adminModal = document.getElementById('adminModal');
-		var adminModalLabel = document.getElementById('adminModalLabel');
-		var adminModalHeader = document.querySelector('#adminModal .modal-card-head');
-		var adminModalHeaderBtn = document.querySelector('#adminModal .modal-card-head button');
-		var adminModalSummary = document.querySelector('#adminModal .modal-card-body summary');
-		var adminModalDetail = document.querySelector('#adminModal .modal-card-body details');
-		adminModalLabel.insertAdjacentHTML( 'beforeEnd', 'Attention configuration non conforme !' );
-		adminModalLabel.classList.add('has-text-white');
-		adminModalHeaderBtn.classList.add('has-text-white');
-		adminModalSummary.classList.add('has-text-danger');
-		adminModalDetail.classList.add('has-text-grey');
-		adminModalHeader.classList.add('has-background-danger');
-		( document.querySelectorAll('#adminModal .modal-background,#adminModal .modal-close,#adminModal .modal-card-head .delete,#adminModal .modal-card-foot .button') || []).forEach(($close) => {
-			const $target = $close.closest('.modal');
-			$close.addEventListener( 'click', () => {
-			  closeModal($target);
-			  sessionStorage.setItem('lutece-debug-modal',true)
-			});
-		});
-		
-		if( sessionStorage.getItem('lutece-debug-modal') === 'false' ){
-			openModal( adminModal )
-		}
-	}
 
 	// Disable Double Click on submit Buttons -> * NOT WORKING WITH IE *
 	// let numForms = document.forms.length;
