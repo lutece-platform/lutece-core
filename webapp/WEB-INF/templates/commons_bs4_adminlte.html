@@ -1457,6 +1457,9 @@
 <#macro adminHeader site_name=site_name>
 <script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
 <script src="js/admin/jquery/jquery-migrate-3.3.1.min.js"></script>
+<script>
+var user_level=${user.userLevel!};
+</script>
 <style>.main-header { padding-top: 5px;}</style>
 </head>
 <body class="d-flex flex-column vh-100 layout-top-nav">
@@ -1523,7 +1526,7 @@
 									</a>
 									<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 										<div class="dropdown-item dropdown-header logger" title="${logInfo.path!}">
-											<strong><span class="badge badge-danger">1</span> Niveau de log trop élévé !</strong>
+											<strong><span class="badge badge-danger">1</span> #i18n{portal.util.log.warningLevel}</strong>
 											<div class="dropdown-divider"></div>
 								<#assign hasIcon = true />	
 								</#if>
@@ -1570,6 +1573,35 @@
 				</ul>
 			</div>
 		</nav>
+		<#if user.userLevel == 0>
+		<script>
+		$( function(){
+			const loggers = document.querySelector('.logger') ;
+			if( loggers.childElementCount > 0 ){
+				if( !sessionStorage.getItem('lutece-debug-modal') ){
+					sessionStorage.setItem('lutece-debug-modal', false )
+				}
+				var modalContent = '<p><strong>#i18n{portal.util.log.modalWarningMessage}</strong></p><blockquote>' + loggers.innerHTML + '</blockquote>';
+				var adminModalBody = $('#adminModal .modal-body')
+				adminModalBody.html( modalContent )
+				var adminModalLabel = $('#adminModalLabel')
+				var adminModalHeader = $('#adminModal .modal-header')
+				var adminModalHeaderBtn = $('#adminModal .modal-header button')
+				adminModalLabel.html( 'Attention configuration non conforme !' )
+				adminModalHeader.addClass('text-white')
+				adminModalHeaderBtn.addClass('text-white')
+				adminModalHeader.addClass('bg-danger')
+				adminModalBody.addClass('text-danger')
+				if( sessionStorage.getItem('lutece-debug-modal') === 'false' ){
+					var myAdminModal = $('#adminModal').modal()
+					myAdminModal.on('hidden.bs.modal', function (e) {
+						sessionStorage.setItem('lutece-debug-modal', true )
+					})
+				}
+			}
+		});
+		</script>
+		</#if>
 		<!-- Begin page content -->
 		<main role="main" class="content-wrapper flex-shrink-0">
 			<section class="content">
@@ -1599,13 +1631,13 @@
 	  <div class="modal-content">
 		<div class="modal-header">
 		  <h5 class="modal-title" id="adminModalLabel"></h5>
-		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="#i18n{portal.site.admin_page.buttonClosed}">
 			<span aria-hidden="true">&times;</span>
 		  </button>
 		</div>
 		<div class="modal-body"></div>
 		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">#i18n{portal.site.admin_page.buttonClosed}</button>
 		</div>
 	  </div>
 	</div>

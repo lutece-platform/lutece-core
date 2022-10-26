@@ -17,39 +17,7 @@ function themeMode(mode){
 
 $( function(){
 	// Show toast if debug is found
-	const loggers = document.querySelector('.logger') ;
-	if( loggers.childElementCount > 0 ){
-		if( !sessionStorage.getItem('lutece-debug-modal') ){
-			sessionStorage.setItem('lutece-debug-modal', false )
-		}
-		var modalContent = '<details><summary>Attention votre site contient des loggers en mode DEBUG ou TRACE ce qui n\'est pas recommandé !</summary><blockquote>'
-		modalContent += loggers.querySelector('.col.text-truncate').innerHTML
-		modalContent +='</blockquote></details>'
-		var adminModalBody = document.querySelector('#adminModal .modal-body')
-		adminModalBody.insertAdjacentHTML( 'beforeEnd', modalContent);
-		var adminModal = document.getElementById('adminModal');
-		var adminModalLabel = document.getElementById('adminModalLabel');
-		var myAdminModal = new bootstrap.Modal( adminModal, {} )
-		var adminModalHeader = document.querySelector('#adminModal .modal-header')
-		var adminModalHeaderBtn = document.querySelector('#adminModal .modal-header button')
-		var adminModalSummary = document.querySelector('#adminModal .modal-body summary')
-		var adminModalDetail = document.querySelector('#adminModal .modal-body details')
-		adminModalLabel.insertAdjacentHTML( 'beforeEnd', 'Attention configuration non conforme !' );
-		adminModalHeader.classList.add('text-white')
-		adminModalHeaderBtn.classList.add('text-white')
-		adminModalSummary.classList.add('text-danger')
-		adminModalDetail.classList.add('text-muted')
-		adminModalHeader.classList.add('bg-danger')
-		adminModalBody.classList.add('text-danger')
-		
-		adminModal.addEventListener('hide.bs.modal', function () {
-			sessionStorage.setItem('lutece-debug-modal',true)
-		})
-		if( sessionStorage.getItem('lutece-debug-modal') === 'false' ){
-			myAdminModal.show()
-		}
-	}
-
+	
 	var nCounter = "";
 	var luteceTheme=localStorage.getItem('theme-bo-lutece');
 	// Set Mode

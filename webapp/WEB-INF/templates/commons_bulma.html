@@ -1556,7 +1556,7 @@
 										<span class="badge is-danger">1</span>
 									</button>
 									<ul class="navbar-dropdown logger" role="menu" aria-label="Notifications" style="width: 20vw;padding: .5rem 1rem;">
-										<li><span class="badge is-danger is-top-left">1</span><strong>Niveau de log trop élévé !</strong></li>
+										<li><span class="badge is-danger is-top-left">1</span><strong>#i18n{portal.util.log.warningLevel}</strong></li>
 										<#assign hasIcon = true />	
 										</#if>
 										<li><strong>${logInfo.name!}  - ${logInfo.level!}</strong><span>${logInfo.path!}</span> </li>
@@ -1601,6 +1601,39 @@
 		</div>
 	</nav>
 	</header>
+	<#if user.userLevel == 0>
+	<script>
+	document.addEventListener( 'DOMContentLoaded', () => {	
+		const loggers = document.querySelectorAll('.logger') ;
+		if( loggers.length > 0 ){
+			if( !sessionStorage.getItem('lutece-debug-modal') ){
+				sessionStorage.setItem('lutece-debug-modal', false )
+			}
+			var modalContent = '<p><strong>#i18n{portal.util.log.modalWarningMessage}</strong></p><blockquote>' + loggers[0].innerHTML + '</blockquote>';
+			var adminModalBody = document.querySelector('#adminModal .modal-card-body')
+			adminModalBody.insertAdjacentHTML( 'beforeEnd', modalContent);
+			var adminModal = document.getElementById('adminModal');
+			var adminModalLabel = document.getElementById('adminModalLabel');
+			var adminModalHeader = document.querySelector('#adminModal .modal-card-head');
+			var adminModalHeaderBtn = document.querySelector('#adminModal .modal-card-head button');
+			adminModalLabel.insertAdjacentHTML( 'beforeEnd', 'Attention configuration non conforme !' );
+			adminModalLabel.classList.add('has-text-white');
+			adminModalHeader.classList.add('has-background-danger');
+			( document.querySelectorAll('#adminModal .modal-background,#adminModal .modal-close,#adminModal .modal-card-head .delete,#adminModal .modal-card-foot .button') || []).forEach(($close) => {
+				const $target = $close.closest('.modal');
+				$close.addEventListener( 'click', () => {
+				$target.classList.remove('is-active');
+				sessionStorage.setItem('lutece-debug-modal',true)
+				});
+			});
+			
+			if( sessionStorage.getItem('lutece-debug-modal') === 'false' ){
+				adminModal.classList.add('is-active');
+			}
+		}
+	});
+	</script>
+	</#if>
 	<!-- Wrapper -->
 	<div id="admin-wrapper">
 		<section class="content-wrapper">
@@ -1631,11 +1664,11 @@
 	<div class="modal-card">
 		<header class="modal-card-head">
 			<p id="adminModalLabel" class="modal-card-title"></p>
-			<button class="delete" aria-label="close"></button>
+			<button class="delete" aria-label="#i18n{portal.site.admin_page.buttonClosed}"></button>
 		</header>
 		<section class="modal-card-body"></section>
 		<footer class="modal-card-foot">
-			<button class="button" aria-label="close">Cancel</button>
+			<button class="button" >#i18n{portal.site.admin_page.buttonClosed}</button>
 		</footer>
 	</div>
 </div>
