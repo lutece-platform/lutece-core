@@ -1680,7 +1680,7 @@ $(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-
 										<span class="notification-badge badge-pill  badge-danger">1</span>
 									</a>
 									<div class="dropdown-menu logger" aria-labelledby="navbarDropdownMenuLink">
-										<p><strong><span class="badge badge-danger">1</span> Niveau de log trop élévé !</strong></p>
+										<p><strong><span class="badge badge-danger">1</span> #i18n{portal.util.log.warningLevel}</strong></p>
 									<#assign hasIcon = true />	
 								</#if>
 								<p><strong>${logInfo.name!}  - ${logInfo.level!}</strong> ${logInfo.path!}</p>
@@ -1725,6 +1725,35 @@ $(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-
 		</div>
 	</nav>
 </header>
+<#if user.userLevel == 0>
+<script>
+$( function(){
+	const loggers = document.querySelector('.logger') ;
+	if( loggers.childElementCount > 0 ){
+		if( !sessionStorage.getItem('lutece-debug-modal') ){
+			sessionStorage.setItem('lutece-debug-modal', false )
+		}
+		var modalContent = '<p><strong>#i18n{portal.util.log.modalWarningMessage}</strong></p><blockquote>' + loggers.innerHTML + '</blockquote>';
+		var adminModalBody = $('#adminModal .modal-body')
+		adminModalBody.html( modalContent )
+		var adminModalLabel = $('#adminModalLabel')
+		var adminModalHeader = $('#adminModal .modal-header')
+		var adminModalHeaderBtn = $('#adminModal .modal-header button')
+		adminModalLabel.html( 'Attention configuration non conforme !' )
+		adminModalHeader.addClass('text-white')
+		adminModalHeaderBtn.addClass('text-white')
+		adminModalHeader.addClass('bg-danger')
+		adminModalBody.addClass('text-danger')
+		if( sessionStorage.getItem('lutece-debug-modal') === 'false' ){
+			var myAdminModal = $('#adminModal').modal()
+			myAdminModal.on('hidden.bs.modal', function (e) {
+				sessionStorage.setItem('lutece-debug-modal', true )
+			})
+		}
+	}
+});
+</script>
+</#if>
 <!-- Begin page content -->
 <main role="main" class="flex-shrink-0">
  	<!-- Close in footer -->
@@ -1749,13 +1778,13 @@ $(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-
 	  <div class="modal-content">
 		<div class="modal-header">
 		  <h5 class="modal-title" id="adminModalLabel"></h5>
-		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		  <button type="button" class="close" data-dismiss="modal" aria-label="#i18n{portal.site.admin_page.buttonClosed}">
 			<span aria-hidden="true">&times;</span>
 		  </button>
 		</div>
 		<div class="modal-body"></div>
 		<div class="modal-footer">
-		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">#i18n{portal.site.admin_page.buttonClosed}</button>
 		</div>
 	  </div>
 	</div>
