@@ -202,11 +202,3 @@ pre{ white-space: pre-wrap;}
 .list-file-item div .truncate{ margin-right: auto } 
 .list-file-item figure{ flex-shrink: 0; }
 .list-file-item figure + div{ flex-grow: 1 ; margin-left: auto }
-
-/* Forms Help                                                                
-.help{ display: flex; font-weight: 600; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; font-size: .75rem; color: var( --light ); text-align: center; text-decoration: none; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; background: var(--blue );border-radius: 50%; transition: background-color .3s,color .3s; }
-*/
-
-/* Form Help */
-.help{ display: inline-flex; font-weight: 600; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; font-size: .75rem; color: #626976; text-align: center; text-decoration: none; cursor: pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; background: var(--tblr-border-color-light); border-radius: 100rem; transition: background-color .3s,color .3s; }
-.help:hover{ color: #fff; background: #206bc4;}
