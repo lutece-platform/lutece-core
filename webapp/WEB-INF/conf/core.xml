@@ -207,9 +207,9 @@
         </admindashboard-component>
     </admindashboard-components>
 
-    <freemarker-macro-files>
-        <freemarker-macro-file>commons_site.html</freemarker-macro-file>
-    </freemarker-macro-files>
+    <freemarker-auto-includes>
+        <freemarker-auto-include>commons_site.html</freemarker-auto-include>
+    </freemarker-auto-includes>
 
     <css-stylesheets>
         <css-stylesheets-scope>portal</css-stylesheets-scope>

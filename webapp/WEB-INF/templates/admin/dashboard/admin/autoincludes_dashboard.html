@@ -2,9 +2,11 @@
 <#assign tabTitle>#i18n{portal.templates.manage_autoincludes.pageTitle} </#assign>
 <@pageHeader title="${tabTitle}" />
 <#assign defaultThemeName='' >
+<#assign currentTitle = '' />
 <#list commons_list as item>
-	<#if current_commons="${item.code}">
+	<#if current_commons=item.code>
 		<#assign defaultThemeName=item.name >
+        <#assign currentTitle = item.name />
 		<#break>
 	</#if>
 </#list>
@@ -29,13 +31,6 @@
 				</@box>
 			</@columns>	
 			<@columns sm=12 md=12 lg=12 xl=7>
-				<#assign currentTitle = '' />
-				<#list commons_list as item>
-					<#if current_commons=item.code>
-						<#assign currentTitle = item.name />
-						<#break>
-					</#if>
-				</#list>
 				<#assign boxTitle>#i18n{portal.templates.manage_autoincludes.commonsInfos} : <@span class='text-primary'>${currentTitle}</@span></#assign>
 				<@box>
 				<@boxHeader title=boxTitle />
@@ -50,24 +45,42 @@
 		<@box>
 			<@boxHeader title='#i18n{portal.templates.manage_autoincludes.title}' />
 			<@boxBody>
-				<h4>#i18n{portal.templates.manage_autoincludes.columnFilePath}</h4> 
-				<@listGroup>
-					<#list autoinclude_list?filter( autoinclude -> autoinclude.owner?? && defaultThemeName=autoinclude.owner ) as autoinclude >
-						<@listGroupItem class='d-flex justify-content-between align-items-center text-truncate text-primary'>
-							${autoinclude.filePath}
-							<#if autoinclude.owner?? && defaultThemeName=autoinclude.owner  ></#if>
-						</@listGroupItem>
-					</#list>
-				</@listGroup> 
-				<h4 class="my-3">#i18n{portal.templates.manage_autoincludes.otherFilePath}</h4>
-				<@listGroup>
-				<#list autoinclude_list?filter( autoinclude -> !(autoinclude.owner?? && defaultThemeName=autoinclude.owner) ) as autoinclude >
-					<@listGroupItem class='d-flex justify-content-between align-items-center text-truncate'>
-						${autoinclude.filePath}
-						<#if autoinclude.owner?? && defaultThemeName=autoinclude.owner  ></#if>
-					</@listGroupItem>
-				</#list>
-				</@listGroup>
+                <h4>#i18n{portal.templates.manage_autoincludes.autoincludes.columnFilePath}</h4> 
+                <@listGroup>
+                    <#list autoinclude_list?filter( autoinclude -> autoinclude.owner?? && defaultThemeName=autoinclude.owner ) as autoinclude >
+                        <@listGroupItem class='d-flex justify-content-between align-items-center text-truncate text-primary'>
+                            ${autoinclude.filePath}
+                        </@listGroupItem>
+                    </#list>
+                </@listGroup> 
+                <h4 class="my-3">#i18n{portal.templates.manage_autoincludes.autoincludes.otherFilePath}</h4>
+                <@listGroup>
+                <#list autoinclude_list?filter( autoinclude -> !(autoinclude.owner?? && defaultThemeName=autoinclude.owner) ) as autoinclude >
+                    <@listGroupItem class='d-flex justify-content-between align-items-center text-truncate'>
+                        ${autoinclude.filePath}
+                    </@listGroupItem>
+                </#list>
+                </@listGroup>
+                <h4>#i18n{portal.templates.manage_autoincludes.autoimports.columnFilePath}</h4> 
+                <@listGroup>
+                <#list (autoimport_map!{})?keys as hash >
+                    <#if autoimport_map[hash].owner?? && defaultThemeName=autoimport_map[hash].owner >
+                    <@listGroupItem class='d-flex justify-content-between align-items-center text-truncate text-primary'>
+                        (${hash}) ${autoimport_map[hash].filePath}
+                    </@listGroupItem>
+                    </#if>
+                </#list>
+                </@listGroup> 
+                <h4 class="my-3">#i18n{portal.templates.manage_autoincludes.autoimports.otherFilePath}</h4>
+                <@listGroup>
+                <#list (autoimport_map!{})?keys as hash >
+                    <#if !(autoimport_map[hash].owner?? && defaultThemeName=autoimport_map[hash].owner) >
+                    <@listGroupItem class='d-flex justify-content-between align-items-center text-truncate'>
+                        (${hash}) ${autoimport_map[hash].filePath}
+                    </@listGroupItem>
+                    </#if>
+                </#list>
+                </@listGroup>
 			</@boxBody>
 		</@box>
 	</@columns>	

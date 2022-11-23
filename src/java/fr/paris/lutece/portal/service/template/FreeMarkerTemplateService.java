@@ -112,4 +112,28 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
         return list;
     }
 
+    /**
+     * Load the data of all the autoImport objects and returns them as a list
+     * 
+     * @return the list which contains the data of all the autoImport objects
+     */
+    public List<AutoInclude> getAutoImportsMap( )
+    {
+        CommonsInclude ciCurrent = CommonsService.getCurrentCommonsInclude( );
+        List<AutoInclude> list = new ArrayList<>( );
+        for ( String strAutoIncludePath : getAutoIncludes( ) )
+        {
+            AutoInclude include = new AutoInclude( strAutoIncludePath );
+            for ( String strFile : ciCurrent.getFiles( ) )
+            {
+                if ( strFile.equals( include.getFilePath( ) ) )
+                {
+                    include.setOwner( ciCurrent.getName( ) );
+                }
+            }
+            list.add( include );
+
+        }
+        return list;
+    }
 }

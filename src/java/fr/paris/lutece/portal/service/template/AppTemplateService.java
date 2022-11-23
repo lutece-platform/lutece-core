@@ -44,6 +44,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import jakarta.servlet.ServletContext;
 
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * This Service is used to retreive HTML templates, stored as files in the WEB-INF/templates directory of the webapp, to build the user interface. It provides a
@@ -77,18 +78,20 @@ public final class AppTemplateService
     }
 
     /**
-     * Initializes autoincludes for plugins.
+     * Initializes auto-includes and auto-imports for plugins.
      */
-    public static void initAutoIncludes( )
+    public static void initMacros( )
     {
         // register core (commons declared in core.xml)
         Plugin corePlugin = PluginService.getCore( );
-        addPluginMacros( corePlugin );
+        addPluginAutoIncludes( corePlugin );
+        addPluginAutoImports( corePlugin );
 
         // register plugins
         for ( Plugin plugin : PluginService.getPluginList( ) )
         {
-            addPluginMacros( plugin );
+            addPluginAutoIncludes( plugin );
+            addPluginAutoImports( plugin );
         }
 
         // activate current commons stored in the datastore
@@ -96,17 +99,32 @@ public final class AppTemplateService
     }
 
     /**
-     * Adds the plugin macros.
+     * Adds the plugin auto-includes.
      *
      * @param plugin
      *            the plugin
      */
-    private static void addPluginMacros( Plugin plugin )
+    private static void addPluginAutoIncludes( Plugin plugin )
     {
-        for ( String strFileName : plugin.getFreeMarkerMacrosFiles( ) )
+        for ( String strFileName : plugin.getFreeMarkerAutoIncludes( ) )
         {
             AppLogService.info( "New freemarker autoinclude : {} from {}", strFileName, plugin.getName( ) );
-            getFreeMarkerTemplateService( ).addPluginMacros( strFileName );
+            getFreeMarkerTemplateService( ).addPluginAutoInclude( strFileName );
+        }
+    }
+
+    /**
+     * Adds the plugin auto-imports.
+     *
+     * @param plugin
+     *            the plugin
+     */
+    private static void addPluginAutoImports( Plugin plugin )
+    {
+        for ( Map.Entry<String, String> importEntry : plugin.getFreeMarkerAutoImports( ).entrySet( ) )
+        {
+            AppLogService.info( "New freemarker autoimport : {} as {} from {}", importEntry.getValue( ), importEntry.getKey( ), plugin.getName( ) );
+            getFreeMarkerTemplateService( ).addPluginAutoImport( importEntry.getKey( ), importEntry.getValue( ) );
         }
     }
 

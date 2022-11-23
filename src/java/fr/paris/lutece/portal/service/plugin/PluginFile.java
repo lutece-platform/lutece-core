@@ -94,7 +94,8 @@ public class PluginFile
     private Map<Integer, List<String>> _listJavascriptFiles = new HashMap<>( );
     private List<String> _listAdminCssStyleSheets = new ArrayList<>( );
     private List<String> _listAdminJavascriptFiles = new ArrayList<>( );
-    private List<String> _listFreemarkerMacrosFiles = new ArrayList<>( );
+    private List<String> _listFreemarkerAutoIncludes = new ArrayList<>( );
+    private Map<String,String> _mapFreemarkerAutoImports = new HashMap<>( );
     private List<Right> _listRights = new ArrayList<>( );
     private List<PortletType> _listPortletTypes = new ArrayList<>( );
     private List<DaemonEntry> _listDaemons = new ArrayList<>( );
@@ -571,9 +572,10 @@ public class PluginFile
      * @param strFileName
      *            the file
      */
+    @Deprecated
     public void addFreemarkerMacrosFile( String strFileName )
     {
-        _listFreemarkerMacrosFiles.add( strFileName );
+        _listFreemarkerAutoIncludes.add( strFileName );
     }
 
     /**
@@ -581,9 +583,54 @@ public class PluginFile
      *
      * @return the freemarker macros files
      */
+    @Deprecated
     public List<String> getFreemarkerMacrosFiles( )
     {
-        return _listFreemarkerMacrosFiles;
+        return _listFreemarkerAutoIncludes;
+    }
+
+    /**
+     * Adds the file to freemarker autoinclude configuration
+     * 
+     * @param strFileName
+     *            the file
+     */
+    public void addFreemarkerAutoInclude( String strFileName )
+    {
+        _listFreemarkerAutoIncludes.add( strFileName );
+    }
+
+    /**
+     * Gets the freemarker auto-includes.
+     *
+     * @return the freemarker auto-includes
+     */
+    public List<String> getFreemarkerAutoIncludes( )
+    {
+        return _listFreemarkerAutoIncludes;
+    }
+
+    /**
+     * Adds the file to freemarker autoimport configuration
+     * 
+     * @param strNamespace
+     *            The namespace corresponding to the import file
+     * @param strFileName
+     *            the file
+     */
+    public void addFreemarkerAutoImport( String strNamespace, String strFileName )
+    {
+        _mapFreemarkerAutoImports.put( strNamespace, strFileName );
+    }
+
+    /**
+     * Gets the freemarker auto-imports.
+     *
+     * @return the freemarker auto-imports
+     */
+    public Map<String,String> getFreemarkerAutoImports( )
+    {
+        return _mapFreemarkerAutoImports;
     }
 
     /**

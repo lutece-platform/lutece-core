@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.template;
 
+import fr.paris.lutece.portal.business.template.CommonsImport;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -40,6 +41,9 @@ import fr.paris.lutece.util.ReferenceList;
 import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * CommonsService
@@ -64,6 +68,16 @@ public class CommonsService
     }
 
     /**
+     * Get the list of commons imports
+     * 
+     * @return The list
+     */
+    public static List<CommonsImport> getCommonsImports( )
+    {
+        return SpringContextService.getBeansOfType( CommonsImport.class );
+    }
+
+    /**
      * Activate a commons library
      * 
      * @param strKey
@@ -71,14 +85,31 @@ public class CommonsService
      */
     public static void activateCommons( String strKey )
     {
-        IFreeMarkerTemplateService serviceFMT = FreeMarkerTemplateService.getInstance( );
+        CommonsInclude comIncNew = getCommonsInclude( strKey );
+        activateCommonsInclude( comIncNew );
+        CommonsImport comImpNew = getCommonsImport( strKey );
+        activateCommonsImport( comImpNew );
 
-        CommonsInclude ciNew = getCommonsInclude( strKey );
+        if ( comIncNew != null || comImpNew != null )
+        {
+            setNewCommonsKey( strKey );
+        }
+    }
 
+    /**
+     * Activate a commons include
+     * 
+     * @param ciNew
+     *            The new commons include
+     */
+    private static void activateCommonsInclude( CommonsInclude ciNew )
+    {
         if ( ciNew == null )
         {
             return;
         }
+
+        IFreeMarkerTemplateService serviceFMT = FreeMarkerTemplateService.getInstance( );
 
         CommonsInclude ciCurrent = getCurrentCommonsInclude( );
 
@@ -104,8 +135,41 @@ public class CommonsService
                 AppLogService.info( "New Freemarker AutoInclude added : {}", strInclude );
             }
         }
+    }
 
-        setNewCommonsInclude( ciNew );
+    /**
+     * Activate a commons import
+     * 
+     * @param ciNew
+     *            The new commons import
+     */
+    private static void activateCommonsImport( CommonsImport ciNew )
+    {
+        if ( ciNew == null )
+        {
+            return;
+        }
+
+        IFreeMarkerTemplateService serviceFMT = FreeMarkerTemplateService.getInstance( );
+
+        CommonsImport ciCurrent = getCurrentCommonsImport( );
+
+        // Remove auto-import of the current commons import
+        Map<String,String> mapAutoImports = serviceFMT.getAutoImports( );
+        if ( ciCurrent != null )
+        {
+            for ( Map.Entry<String, String> mapFilesEntry : ciCurrent.getMapFiles( ).entrySet( ) )
+            {
+                serviceFMT.removeAutoImport( mapFilesEntry.getKey( ) );
+                AppLogService.info( "Existing Freemarker AutoImport removed : {} as {}", mapFilesEntry.getValue( ), mapFilesEntry.getKey( ) );
+            }
+        }
+        // Add auto-import that aren't already present
+        for ( Map.Entry<String, String> mapFilesEntry : ciNew.getMapFiles( ).entrySet( ) )
+        {
+            serviceFMT.addAutoImport( mapFilesEntry.getKey( ), mapFilesEntry.getValue( ) );
+            AppLogService.info( "New Freemarker AutoImport added : {} as {}", mapFilesEntry.getValue( ), mapFilesEntry.getKey( ) );
+        }
     }
 
     /**
@@ -113,12 +177,19 @@ public class CommonsService
      * 
      * @return The list
      */
-    public static ReferenceList getCommonsIncludeList( )
+    public static ReferenceList getCommonsList( )
     {
         ReferenceList list = new ReferenceList( );
         for ( CommonsInclude ci : getCommonsIncludes( ) )
         {
             list.addItem( ci.getKey( ), ci.getName( ) );
+        }
+        for ( CommonsImport ci : getCommonsImports( ) )
+        {
+            if ( !list.stream( ).anyMatch( item -> StringUtils.equals( item.getCode( ), ci.getKey( ) ) ) )
+            {
+                list.addItem( ci.getKey( ), ci.getName( ) );
+            }
         }
         return list;
     }
@@ -130,16 +201,23 @@ public class CommonsService
      */
     public static String getCurrentCommonsKey( )
     {
-        CommonsInclude ciCurrent = getCurrentCommonsInclude( );
+        String strCurrentKey = null;
 
-        if ( ciCurrent != null )
+        CommonsInclude comIncCurrent = getCurrentCommonsInclude( );
+
+        if ( comIncCurrent != null )
         {
-            return ciCurrent.getKey( );
+            strCurrentKey = comIncCurrent.getKey( );
         }
-        else
+
+        CommonsImport comImpCurrent = getCurrentCommonsImport( );
+
+        if ( comImpCurrent != null )
         {
-            return null;
+            strCurrentKey = comImpCurrent.getKey( );
         }
+
+        return strCurrentKey;
     }
 
     /**
@@ -152,6 +230,25 @@ public class CommonsService
     public static CommonsInclude getCommonsInclude( String strKey )
     {
         for ( CommonsInclude ci : getCommonsIncludes( ) )
+        {
+            if ( ci.getKey( ).equals( strKey ) )
+            {
+                return ci;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get a commons import by its key
+     * 
+     * @param strKey
+     *            The key
+     * @return The commons import object
+     */
+    public static CommonsImport getCommonsImport( String strKey )
+    {
+        for ( CommonsImport ci : getCommonsImports( ) )
         {
             if ( ci.getKey( ).equals( strKey ) )
             {
@@ -187,17 +284,42 @@ public class CommonsService
     }
 
     /**
+     * Get the default commons import
+     * 
+     * @return The commons import object
+     */
+    public static CommonsImport getDefaultCommonsImport( )
+    {
+        // get default commons import
+        for ( CommonsImport ci : getCommonsImports( ) )
+        {
+            if ( ci.isDefault( ) )
+            {
+                return ci;
+            }
+        }
+
+        // if there's no default, returns the first one
+        if ( getCommonsImports( ).size( ) > 0 )
+        {
+            return getCommonsImports( ).get( 0 );
+        }
+
+        return null;
+    }
+
+    /**
      * Get the current commons include
      * 
      * @return The commons include object
      */
     public static CommonsInclude getCurrentCommonsInclude( )
     {
-        String strCurrentCommonsIncludeKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, null );
+        String strCurrentCommonsKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, null );
 
-        if ( strCurrentCommonsIncludeKey != null )
+        if ( strCurrentCommonsKey != null )
         {
-            CommonsInclude ci = getCommonsInclude( strCurrentCommonsIncludeKey );
+            CommonsInclude ci = getCommonsInclude( strCurrentCommonsKey );
             if ( ci != null )
             {
                 return ci;
@@ -207,25 +329,50 @@ public class CommonsService
         CommonsInclude ci = getDefaultCommonsInclude( );
         if ( ci != null )
         {
-            setNewCommonsInclude( ci );
+            setNewCommonsKey( ci.getKey( ) );
             return ci;
         }
-        else
-        {
-            return null;
-        }
 
+        return null;
     }
 
     /**
-     * Define the new commons include
+     * Get the current commons import
      * 
-     * @param ciNew
-     *            the new commons include
+     * @return The commons import object
      */
-    private static void setNewCommonsInclude( CommonsInclude ciNew )
+    public static CommonsImport getCurrentCommonsImport( )
     {
-        DatastoreService.setDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, ciNew.getKey( ) );
+        String strCurrentCommonsKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, null );
+
+        if ( strCurrentCommonsKey != null )
+        {
+            CommonsImport ci = getCommonsImport( strCurrentCommonsKey );
+            if ( ci != null )
+            {
+                return ci;
+            }
+        }
+
+        CommonsImport ci = getDefaultCommonsImport( );
+        if ( ci != null )
+        {
+            setNewCommonsKey( ci.getKey( ) );
+            return ci;
+        }
+
+        return null;
+    }
+
+    /**
+     * Define the new commons key
+     * 
+     * @param strNewKey
+     *            the new commons key
+     */
+    private static void setNewCommonsKey( String strNewKey )
+    {
+        DatastoreService.setDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, strNewKey );
     }
 
 }

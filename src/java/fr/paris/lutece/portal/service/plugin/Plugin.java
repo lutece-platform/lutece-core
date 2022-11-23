@@ -135,7 +135,8 @@ public abstract class Plugin implements Comparable<Plugin>
     private List<DashboardComponentEntry> _listAdminDashboardComponents;
     private List<RBACResourceTypeEntry> _listRBACResourceTypes;
     private List<DaemonEntry> _listDaemons;
-    private List<String> _listFreemarkerMacrosFiles;
+    private List<String> _listFreemarkerAutoIncludes;
+    private Map<String,String> _mapFreemarkerAutoImports;
 
     // hashtable which contains all the params described in the xml plugin file
     private Map<String, String> _mapParams = new HashMap<>( );
@@ -193,7 +194,8 @@ public abstract class Plugin implements Comparable<Plugin>
             _strCssStylesheetsScope = ( pluginFile.getCssStylesheetsScope( ) != null ) ? pluginFile.getCssStylesheetsScope( ) : SCOPE_XPAGE;
             _listJavascriptFiles = pluginFile.getJavascriptFilesForAllModes( );
             _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope( ) != null ) ? pluginFile.getJavascriptFilesScope( ) : SCOPE_XPAGE;
-            _listFreemarkerMacrosFiles = pluginFile.getFreemarkerMacrosFiles( );
+            _listFreemarkerAutoIncludes = pluginFile.getFreemarkerAutoIncludes( );
+            _mapFreemarkerAutoImports = pluginFile.getFreemarkerAutoImports( );
             _listAdminCssStyleSheets = pluginFile.getAdminCssStyleSheets( );
             _listAdminJavascriptFiles = pluginFile.getAdminJavascriptFiles( );
             // Register plugin components
@@ -1300,9 +1302,10 @@ public abstract class Plugin implements Comparable<Plugin>
      * @param strMacroFileName
      *            the file name
      */
+    @Deprecated
     public void addFreemarkerMacrosFile( String strMacroFileName )
     {
-        _listFreemarkerMacrosFiles.add( strMacroFileName );
+        _listFreemarkerAutoIncludes.add( strMacroFileName );
     }
 
     /**
@@ -1310,9 +1313,54 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the free marker macros files
      */
+    @Deprecated
     public List<String> getFreeMarkerMacrosFiles( )
     {
-        return _listFreemarkerMacrosFiles;
+        return _listFreemarkerAutoIncludes;
+    }
+
+    /**
+     * Adds a file that will be autoincluded in freemarker templates
+     * 
+     * @param strFileName
+     *            the file name
+     */
+    public void addFreemarkerAutoInclude( String strFileName )
+    {
+        _listFreemarkerAutoIncludes.add( strFileName );
+    }
+
+    /**
+     * Gets the freemarker auto-includes.
+     *
+     * @return the freemarker auto-includes
+     */
+    public List<String> getFreeMarkerAutoIncludes( )
+    {
+        return _listFreemarkerAutoIncludes;
+    }
+
+    /**
+     * Adds a file that will be autoimported in freemarker templates
+     * 
+     * @param strNamespace
+     *            The namespace corresponding to the import file
+     * @param strFileName
+     *            the file name
+     */
+    public void addFreemarkerAutoImport( String strNamespace, String strFileName )
+    {
+        _mapFreemarkerAutoImports.put( strNamespace, strFileName );
+    }
+
+    /**
+     * Gets the freemarker auto-imports.
+     *
+     * @return the freemarker auto-imports
+     */
+    public Map<String,String> getFreeMarkerAutoImports( )
+    {
+        return _mapFreemarkerAutoImports;
     }
 
     /**
