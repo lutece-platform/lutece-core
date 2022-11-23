@@ -20,6 +20,15 @@
 			<call-method-rule pattern="freemarker-macro-file" methodname="addFreemarkerMacrosFile" paramcount="1" />
 			<call-param-rule pattern="freemarker-macro-file" paramnumber="0" />
 		</pattern>
+		<pattern value="freemarker-include-files">
+			<call-method-rule pattern="freemarker-include-file" methodname="addFreemarkerIncludeFile" paramcount="1" />
+			<call-param-rule pattern="freemarker-include-file" paramnumber="0" />
+		</pattern>
+		<pattern value="freemarker-import-files">
+			<call-method-rule pattern="freemarker-import-file" methodname="addFreemarkerImportFile" paramcount="1" />
+			<call-param-rule pattern="freemarker-namespace" paramnumber="0" />
+			<call-param-rule pattern="freemarker-import-file" paramnumber="1" />
+		</pattern>
 		<pattern value="css-stylesheets">
 			<bean-property-setter-rule pattern="css-stylesheets-scope" propertyname="cssStylesheetsScope" />
 			<call-method-rule pattern="css-stylesheet" methodname="addCssStyleSheet" paramcount="2" />
