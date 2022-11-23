@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * This Service is used to retreive HTML templates, stored as files in the WEB-INF/templates directory of the webapp, to build the user interface. It provides a
@@ -79,12 +80,12 @@ public final class AppTemplateService
     {
         // register core (commons declared in core.xml)
         Plugin corePlugin = PluginService.getCore( );
-        addPluginMacros( corePlugin );
+        addPluginIncludes( corePlugin );
 
         // register plugins
         for ( Plugin plugin : PluginService.getPluginList( ) )
         {
-            addPluginMacros( plugin );
+            addPluginIncludes( plugin );
         }
 
         // activate current commons stored in the datastore
@@ -92,17 +93,51 @@ public final class AppTemplateService
     }
 
     /**
-     * Adds the plugin macros.
+     * Adds the plugin includes.
      *
      * @param plugin
      *            the plugin
      */
-    private static void addPluginMacros( Plugin plugin )
+    private static void addPluginIncludes( Plugin plugin )
     {
-        for ( String strFileName : plugin.getFreeMarkerMacrosFiles( ) )
+        for ( String strFileName : plugin.getFreeMarkerIncludeFiles( ) )
         {
             AppLogService.info( "New freemarker autoinclude : {} from {}", strFileName, plugin.getName( ) );
-            getFreeMarkerTemplateService( ).addPluginMacros( strFileName );
+            getFreeMarkerTemplateService( ).addPluginInclude( strFileName );
+        }
+    }
+
+    /**
+     * Initializes autoimports for plugins.
+     */
+    public static void initAutoImports( )
+    {
+        // register core (commons declared in core.xml)
+        Plugin corePlugin = PluginService.getCore( );
+        addPluginImports( corePlugin );
+
+        // register plugins
+        for ( Plugin plugin : PluginService.getPluginList( ) )
+        {
+            addPluginImports( plugin );
+        }
+
+        // activate current commons stored in the datastore
+        CommonsService.activateCommons( CommonsService.getCurrentCommonsKey( ) );
+    }
+
+    /**
+     * Adds the plugin imports.
+     *
+     * @param plugin
+     *            the plugin
+     */
+    private static void addPluginImports( Plugin plugin )
+    {
+        for ( Map.Entry<String, String> importEntry : plugin.getFreeMarkerImportFiles( ).entrySet( ) )
+        {
+            AppLogService.info( "New freemarker autoimport : {} as {} from {}", importEntry.getValue( ), importEntry.getKey( ), plugin.getName( ) );
+            getFreeMarkerTemplateService( ).addPluginImport( importEntry.getKey( ), importEntry.getValue( ) );
         }
     }
 
