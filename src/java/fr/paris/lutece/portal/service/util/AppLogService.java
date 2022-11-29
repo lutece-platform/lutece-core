@@ -253,7 +253,7 @@ public final class AppLogService
      */
     public static Collection<LoggerInfo> getLoggersInfo( )
     {
-    	Collection<LoggerInfo> allDebugTraceLoggers = new ArrayList<>( );
+    	Collection<LoggerInfo> allLoggersInfo = new ArrayList<>( );
     	Collection<org.apache.logging.log4j.core.Logger> allLoggers = LoggerContext.getContext( ).getLoggers( );
     	LoggerContext logContext = LoggerContext.getContext( );
     	for ( org.apache.logging.log4j.core.Logger logger : allLoggers )
@@ -262,9 +262,9 @@ public final class AppLogService
 			log.setName( logger.getName( ) );
 			log.setLevel( logger.getLevel( ).name( ) );
 			log.setPath( logContext.getConfigLocation( ).getPath( ) );
-			allDebugTraceLoggers.add( log );
+			allLoggersInfo.add( log );
     	}
     	
-    	return allDebugTraceLoggers;
+    	return allLoggersInfo;
     }
 }
