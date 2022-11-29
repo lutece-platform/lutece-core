@@ -5,6 +5,7 @@
 /* Specific script for back office */
 $( function(){
 	var nCounter = "";
+
 	// Count effect
 	$('.small-box .inner h3 span').each( function () {
 		nCounter = $(this).text();
@@ -26,7 +27,7 @@ $( function(){
 			});
 		}
 	});
-	
+
 	// Disable Double Click on submit Buttons -> * NOT WORKING WITH IE *
 	// let numForms = document.forms.length;
 	// if( numForms > 0 ){
