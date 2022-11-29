@@ -6,6 +6,7 @@
 /* Specific script for back office */
 $( function(){
 	var nCounter = "";
+
 	// Count effect
 	$('.small-box .inner h3 span').each( function () {
 		nCounter = $(this).text();
