@@ -492,6 +492,28 @@ public final class WorkflowService
     }
 
     /**
+     * Get the list of ids of resources of a given type that are in a given state 
+     * and have a specific external parent id
+     * 
+     * @param nIdState
+     *            The id of the state of resources to get
+     * @param strResourceType
+     *            The type of resources to get
+     * @return The list of resources matching both given state id and resource given. Return an empty list if no resource was found, or if the state does not
+     *         exist.
+     */
+    public List<Integer> getResourceIdListByIdState( int nIdState, String strResourceType, int nExternalParentId )
+    {
+        if ( isAvailable( ) )
+        {
+            return _service.getResourceIdListByIdState( nIdState, strResourceType, nExternalParentId );
+        }
+
+        return null;
+    }
+    
+    
+    /**
      * Remove in every workflows the resource specified in parameter
      * 
      * @param nIdResource
