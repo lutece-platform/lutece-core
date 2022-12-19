@@ -1609,7 +1609,7 @@
 			if( !sessionStorage.getItem('lutece-debug-modal') ){
 				sessionStorage.setItem('lutece-debug-modal', false )
 			}
-			var modalContent = '<p><strong>#i18n{portal.util.log.modalWarningMessage}</strong></p><blockquote>' + loggers[0].innerHTML + '</blockquote>';
+			var modalContent = '<h3 class="has-text-danger has-text-weight-bold is-size-4">#i18n{portal.util.log.warningLevel}</h3><p class="mt-2"><strong class="has-text-danger">#i18n{portal.util.log.modalWarningMessage}</strong></p><p class="has-text-centered my-3"><button class="button is-small is-danger" data-toggle="collapse" data-target="#info-log" aria-expanded="false" aria-controls="info-log" type="button">#i18n{portal.util.log.modalLabelButton}</button></p><blockquote class="collapse" id="info-log">' + loggers[0].innerHTML + '</blockquote>';
 			var adminModalBody = document.querySelector('#adminModal .modal-card-body')
 			adminModalBody.insertAdjacentHTML( 'beforeEnd', modalContent);
 			var adminModal = document.getElementById('adminModal');
