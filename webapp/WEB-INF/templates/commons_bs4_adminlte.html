@@ -1581,7 +1581,7 @@ var user_level=${user.userLevel!};
 				if( !sessionStorage.getItem('lutece-debug-modal') ){
 					sessionStorage.setItem('lutece-debug-modal', false )
 				}
-				var modalContent = '<p><strong>#i18n{portal.util.log.modalWarningMessage}</strong></p><blockquote>' + loggers.innerHTML + '</blockquote>';
+				var modalContent = '<h3>#i18n{portal.util.log.warningLevel}</h3><p><strong>#i18n{portal.util.log.modalWarningMessage}</strong></p><p class="text-center"><button class="btn btn-sm btn-danger" data-toggle="collapse" data-target="#info-log" aria-expanded="false" aria-controls="info-log" type="button">#i18n{portal.util.log.modalLabelButton}</button></p><blockquote class="collapse" id="info-log">' + loggers.innerHTML + '</blockquote>';
 				var adminModalBody = $('#adminModal .modal-body')
 				adminModalBody.html( modalContent )
 				var adminModalLabel = $('#adminModalLabel')
