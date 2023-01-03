@@ -171,7 +171,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * @param strKey
      * @param withPhysicalFile
      * 
-     * @return the file with the physical file content if withPhysicalFile is true
+     * @return the file with the physical file content if withPhysicalFile is true, null otherwise
      */
     public File getFile( String strKey, boolean withPhysicalFile )
     {
@@ -182,16 +182,19 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
             // get meta data
             File file = FileHome.findByPrimaryKey( nfileId );
 
-            if ( file != null )
+            // check if the file exists and was inserted with this provider
+            if ( file == null || !file.getOrigin( ).equals( getName( ) ) )
             {
-                if ( withPhysicalFile )
-                {
-                    // get file content
-                    file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) ) );
-                }
-                
-                return file;
+            	return null;
             }
+            
+            if ( withPhysicalFile )
+            {
+                // get file content
+                file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) ) );
+            }
+            
+            return file;
         }
 
         return null;
@@ -207,7 +210,8 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         PhysicalFile physicalFile = new PhysicalFile( );
         physicalFile.setValue( blob );
         file.setPhysicalFile( physicalFile );
-
+        file.setOrigin( getName( ) );
+        
         int nFileId = FileHome.create( file );
 
         return String.valueOf( nFileId );
@@ -236,6 +240,8 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         physicalFile.setValue( buffer );
         file.setPhysicalFile( physicalFile );
 
+        file.setOrigin( getName( ) );
+
         int nFileId = FileHome.create( file );
 
         return String.valueOf( nFileId );
@@ -253,6 +259,8 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         file.setSize( (int) fileItem.getSize( ) );
         file.setMimeType( fileItem.getContentType( ) );
 
+        file.setOrigin( getName( ) );
+        
         PhysicalFile physicalFile = new PhysicalFile( );
 
         byte [ ] byteArray;
@@ -280,6 +288,8 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     @Override
     public String storeFile( File file )
     {
+        file.setOrigin( getName( ) );
+        
         int nFileId = FileHome.create( file );
 
         return String.valueOf( nFileId );

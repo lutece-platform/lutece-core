@@ -441,12 +441,12 @@ public final class WorkflowService
      *            the resource id
      * @param strResourceType
      *            the resource type
+     * @param nIdAction
+     *            the action id
      * @param nExternalParentId
      *            the external parent id
      * @param request
      *            the request
-     * @param nIdAction
-     *            the action id
      * @param locale
      *            the locale
      * @param user
