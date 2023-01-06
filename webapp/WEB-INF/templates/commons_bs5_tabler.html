@@ -1090,19 +1090,11 @@
 </#if>
 <a class="${style}<#if buttonSize!=''> btn-${buttonSize}</#if><#if color!=''> ${buttonColor}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 	<#if buttonIcon!='' && iconPosition='left'>
-		<#if hideTitle?size &gt; 0 || title == ''>
-			<@icon style=buttonIcon />
-		<#else>
-			<@icon style=buttonIcon class='me-1 mr-1' />
-		</#if>
+		<@icon style=buttonIcon class='me-1 mr-1' />
 	</#if>
 	<span class="${displayTitleClass}">${title}</span>
 	<#if buttonIcon!='' && iconPosition='right'>
-		<#if hideTitle?size &gt; 0 || title == ''>
-			<@icon style=buttonIcon />
-		<#else>
-			<@icon style=buttonIcon class='ms-1 ml-1' />
-		</#if>
+		<@icon style=buttonIcon class='ms-1 ml-1' />
 	</#if>
 	<#if !dropdownMenu>
 	<#nested>
@@ -1861,7 +1853,7 @@ $(function() {
 	</#if>
 	<@btnGroup class='ms-1 ml-1'>
 	<#if portlet_types_list?has_content>
-		<@aButton class='dropdown-toggle' size='sm' id='portlet-type' dropdownMenu=true href='#' title='#i18n{portal.site.admin_page.labelPortletPage}' buttonIcon='th-large' hideTitle=['xs','sm','md']>
+		<@aButton class='dropdown-toggle' size='sm' id='portlet-type' dropdownMenu=true href='#' title='#i18n{portal.site.admin_page.labelPortletPage}' buttonIcon='th-large me-1' hideTitle=['xs','sm','md']>
 			<#list portlet_types_list?sort_by("name") as portlet_type>
 				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}'>
 					${portlet_type.name}
