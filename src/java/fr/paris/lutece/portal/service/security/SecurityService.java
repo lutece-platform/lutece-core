@@ -304,10 +304,13 @@ public final class SecurityService
         }
 
         _authenticationService.logout( user );
-        unregisterUser( request );
-
+        HttpSession session = request.getSession( false );
+        if(session!=null)
+        {
+        	session.invalidate();
+        }
+        LuteceUserEventManager.getInstance().notifyListeners( new LuteceUserEvent( user,LuteceUserEvent.EventType.LOGOUT ) );
         AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null, CONSTANT_FO );
-
     }
 
     /**
@@ -361,7 +364,7 @@ public final class SecurityService
      * Unregister the user in the Http session
      * 
      * @param request
-     *            The Http request
+     *            The Http request     
      */
     public void unregisterUser( HttpServletRequest request )
     {
@@ -371,7 +374,6 @@ public final class SecurityService
         if ( user != null )
         {
         	session.removeAttribute( ATTRIBUTE_LUTECE_USER );
-        	LuteceUserEventManager.getInstance().notifyListeners( new LuteceUserEvent( user,LuteceUserEvent.EventType.LOGOUT ) );
         }
     }
 
