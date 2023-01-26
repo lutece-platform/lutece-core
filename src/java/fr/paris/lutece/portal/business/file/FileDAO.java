@@ -46,11 +46,11 @@ import java.util.Date;
 public final class FileDAO implements IFileDAO
 {
     // Constants
-    private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_file,title,id_physical_file,file_size,mime_type,date_creation"
+    private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_file,title,id_physical_file,file_size,mime_type,date_creation,origin"
             + " FROM core_file WHERE id_file = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_file(title,id_physical_file,file_size,mime_type,date_creation)" + " VALUES(?,?,?,?,?)";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_file(title,id_physical_file,file_size,mime_type,date_creation,origin)" + " VALUES(?,?,?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_file WHERE id_file = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE  core_file SET " + "id_file=?,title=?,id_physical_file=?,file_size=?,mime_type=? WHERE id_file = ?";
+    private static final String SQL_QUERY_UPDATE = "UPDATE  core_file SET " + "id_file=?,title=?,id_physical_file=?,file_size=?,mime_type=?,origin=? WHERE id_file = ?";
 
     /**
      * Insert a new record in the table.
@@ -79,7 +79,8 @@ public final class FileDAO implements IFileDAO
 
             daoUtil.setInt( nIndex++, file.getSize( ) );
             daoUtil.setString( nIndex++, file.getMimeType( ) );
-            daoUtil.setTimestamp( nIndex, new Timestamp( new Date( ).getTime( ) ) );
+            daoUtil.setTimestamp( nIndex++, new Timestamp( new Date( ).getTime( ) ) );
+            daoUtil.setString( nIndex, file.getOrigin( ) );
             daoUtil.executeUpdate( );
 
             if ( daoUtil.nextGeneratedKey( ) )
@@ -126,6 +127,7 @@ public final class FileDAO implements IFileDAO
                 file.setSize( daoUtil.getInt( 4 ) );
                 file.setMimeType( daoUtil.getString( 5 ) );
                 file.setDateCreation( daoUtil.getTimestamp( 6 ) );
+                file.setOrigin( daoUtil.getString( 7 ) );
             }
 
         }
@@ -174,7 +176,8 @@ public final class FileDAO implements IFileDAO
 
             daoUtil.setInt( 4, file.getSize( ) );
             daoUtil.setString( 5, file.getMimeType( ) );
-            daoUtil.setInt( 6, file.getIdFile( ) );
+            daoUtil.setString( 6, file.getOrigin( ) );
+            daoUtil.setInt( 7, file.getIdFile( ) );
             daoUtil.executeUpdate( );
         }
     }
