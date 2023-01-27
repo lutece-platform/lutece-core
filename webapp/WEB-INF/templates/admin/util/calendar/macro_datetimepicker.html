@@ -11,7 +11,7 @@
 $( function() {
 	<@getDateFormat format=format showFormat=showFormat  />
 	${idField}_fp = $('#${idField}').flatpickr( {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate !=''>, defaultDate : "${defaultDate}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${setFlatPickerOptions( dtOptions )} });
-	
+
 	if ($('#${idField}').prop('required')) {
 		// Remove the readonly parameter on the date field, so the required attribute is taken into account when the form is submitted
 		$('#${idField} + input').on('focus', function () {
@@ -31,12 +31,25 @@ $( function() {
 });
 </script>
 </#macro>
-<#macro getDateRange idField idEndField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' dateOptions={} >
+<#macro getDateRange idField idEndField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' dateOptions={} formatSize=19 >
 <@initScriptFlatPicker language=language range=true/>
 <script>
 $( function() {
 	<@getDateFormat format=format showFormat=showFormat />
 	$('#${idField}').flatpickr( {"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate !=''>, defaultDate : "${defaultDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if minDate !=''>, minDate : "${minDate?datetime("yyyy-MM-dd hh:mm")}"</#if><#if maxDate !=''>, maxDate : "${maxDate?datetime("yyyy-MM-dd hh:mm")}"</#if>, ${setFlatPickerOptions( dateOptions )} });
+});
+
+// FIX ME : Flatpickr returns a range of dates instead of one date for the beggining date input
+// This fix keeps only the first date.
+// However the daterange feature should be provided by another library.
+document.addEventListener( 'DOMContentLoaded', () => {
+      const dateRangeHiddenInput = document.querySelector('#${idField}');
+
+      dateRangeHiddenInput.addEventListener( 'change'  , () => {
+          // The default formatSize corresponds to the default flatpickr format.
+          // This value must be set if another format is specified.
+          dateRangeHiddenInput.value = dateRangeHiddenInput.value.substr(0,${formatSize});
+      })
 });
 </script>
 </#macro>
@@ -74,7 +87,7 @@ const showFormat = getFlatPickerDateFormat( browserCurrentLocale )<#if time> + '
 const showFormat = '${showFormat}';
 </#if>
 <#-- The server parses dates on a per locale basis. The formats here much match those specified by lutece.format.date.short -->
-<#if format == ''>    
+<#if format == ''>
 const dtFormat='Y-m-d H:i:S'; // Default for most DB
 <#else>
 const dtFormat='${format}';
@@ -114,7 +127,7 @@ const dtFormat='${format}';
 	// dateValue: string, expected format: DD/MM/YYYY
 	function updateInputDate(input,dateValue) {
 		input.setDate(dateValue,false,'d/m/Y');
-	}	
+	}
 </script>
 <#assign isEn=language?starts_with("en")?c />
 <#if !isEn?boolean ><script src="js/admin/locales/bootstrap-flatpickr.<@getLanguageInLocale language=language />.js"></script></#if>
