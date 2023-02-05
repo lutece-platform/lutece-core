@@ -152,6 +152,18 @@ public class PasswordFactoryTest extends LuteceTestCase
         }
     }
 
+    public void testGetPasswordPBKDF2WithHmacSHA512UpgradeIterations( )
+    {
+        PasswordFactory passwordFactory = new PasswordFactory( );
+        String storedPassword = "PBKDF2WITHHMACSHA512:30000:ac08c57a261dc5db09de2b689b0c55bf:96340dad8137a023c7888245c4221acf18bfaf9f69dfff4c34b"
+                + "0da4f8cc5b2a8959b0552312dd3dccff002ad765fc7bef6429c4dd3760ad68b53a0323d1464d41d74271b1f0fccd80e94b99b5e4323ffc67109d5917cccf5"
+                + "e74641cd7059e88671bd58ee40223fb2051968dea450cc9806546f98798c5b6ed3b3f5d44b51e03f";
+        IPassword password = passwordFactory.getPassword( storedPassword );
+        assertEquals( true, password.check( "PASSWORD" ) );
+        assertEquals( false, password.check( "BAR" ) );
+        assertTrue( "Password stored with less iterations than the default should be marked as legacy so that it is upgraded", password.isLegacy( ) );
+    }
+
     public void testGetPasswordPBKDF2WithHmacSHA512( )
     {
         PasswordFactory passwordFactory = new PasswordFactory( );
