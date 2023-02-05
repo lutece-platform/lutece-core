@@ -140,11 +140,12 @@ final class PasswordFactory implements IPasswordFactory
             RANDOM = rand;
         }
 
-        private static final String PROPERTY_PASSWORD_HASH_ITERATIONS = "password.hash.iterations";
+        static final String PROPERTY_PASSWORD_HASH_ITERATIONS = "password.hash.iterations";
+        static final int DEFAULT_HASH_ITERATIONS = 40000;
         private static final String PROPERTY_PASSWORD_HASH_LENGTH = "password.hash.length";
 
         /** number of iterations */
-        private final int _iterations;
+        final int _iterations;
         /** salt */
         private final byte [ ] _salt;
         /** hashed password */
@@ -174,7 +175,7 @@ final class PasswordFactory implements IPasswordFactory
             switch( representation )
             {
                 case CLEARTEXT:
-                    _iterations = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_ITERATIONS, 40000 );
+                    _iterations = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_ITERATIONS, DEFAULT_HASH_ITERATIONS );
                     int hashLength = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_LENGTH, 128 );
                     try
                     {
@@ -337,7 +338,8 @@ final class PasswordFactory implements IPasswordFactory
         @Override
         public boolean isLegacy( )
         {
-            return false;
+            int iterations = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_ITERATIONS, DEFAULT_HASH_ITERATIONS );
+            return _iterations < iterations;
         }
 
         @Override
