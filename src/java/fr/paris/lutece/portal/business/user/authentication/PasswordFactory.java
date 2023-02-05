@@ -141,7 +141,7 @@ final class PasswordFactory implements IPasswordFactory
         }
 
         static final String PROPERTY_PASSWORD_HASH_ITERATIONS = "password.hash.iterations";
-        static final int DEFAULT_HASH_ITERATIONS = 40000;
+        static final int DEFAULT_HASH_ITERATIONS = 210000;
         private static final String PROPERTY_PASSWORD_HASH_LENGTH = "password.hash.length";
 
         /** number of iterations */

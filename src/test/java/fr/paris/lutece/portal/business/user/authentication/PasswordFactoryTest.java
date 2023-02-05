@@ -167,9 +167,9 @@ public class PasswordFactoryTest extends LuteceTestCase
     public void testGetPasswordPBKDF2WithHmacSHA512( )
     {
         PasswordFactory passwordFactory = new PasswordFactory( );
-        String storedPassword = "PBKDF2WITHHMACSHA512:40000:90be05c0b062cdc94fd6124a88f95523:4e574b19813e5e5af7ae936a1798b0c12f28b79bb761f32f94270b31"
-                + "731f44bca37513855af9c08f7abf09e65bc46f9f1b25d39b31a657b5649c7bc8020e1486ae854c5aefdb73a74e4ceb0acd96abee24ca68cf8c0403b7602952f0a0"
-                + "bf8662a4c83c4c28ecb0c282d2afe49e71870e260c07f419c9ddd3c63115694864b1e5";
+        String storedPassword = "PBKDF2WITHHMACSHA512:210000:f89603fe9d91a8e622a86a927ecf13db:95c00213d61d4b6b8d5200b578a9a5bdb8d70fbb249e6f956d7"
+                + "6c84af02c9c37260dee41e2ec8d7fb4c51b85f36025d729ce453fe169f9a688ebaf2efeb61a7934c419e76576d885411fd87a71408517952e56a33ad03f5a1"
+                + "b9cf33311cd6b4767b164fda39c4cb2f942f9d360cfcf1498dd850536dc8447e94cb815b888ae2a";
         IPassword password = passwordFactory.getPassword( storedPassword );
         assertEquals( true, password.check( "PASSWORD" ) );
         assertEquals( false, password.check( "BAR" ) );
