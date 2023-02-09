@@ -1758,16 +1758,18 @@ ${javascript_files}
 </head>
 <body class="antialiased border-top-wide border-primary d-flex flex-column">
 <@div id="login-page" class="page page-center">
-	<@div class="container-tight py-4">
+	<@div class="container container-tight py-4">
 		<@div class="text-center mb-4">
 			<@link href='.'>
 				<@img url='#dskey{portal.site.site_property.logo_url}' alt='${site_name!}' title='${site_name!}' params=' height="36"' />
 				<span class="sr-only">${site_name!'Lutece'}</span>
 			</@link>
 		</@div>
-		<@div class="card-body bg-white">
-			<h2 class="card-title text-center mb-4">#i18n{portal.admin.admin_login.welcome}<br> ${site_name!}</h2>
-			<#nested>
+		<@div class="card card-md">
+			<@div class="card-body bg-white">
+				<h2 class="card-title text-center mb-4">#i18n{portal.admin.admin_login.welcome}<br> ${site_name!}</h2>
+				<#nested>
+			</@div>
 		</@div>
 	</@div>
 </@div>
