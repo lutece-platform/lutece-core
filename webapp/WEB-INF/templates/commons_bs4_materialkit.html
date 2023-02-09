@@ -439,7 +439,7 @@
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
 <#-- class: 						 																							-->
 <#-- groupStyle: success/error 																				-->
-<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params='' deprecated...>
+<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false htmlRequired=true hideLabel=[] collapsed=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if groupStyle = 'success'>
 	<#local validation = 'has-success'>
@@ -473,9 +473,11 @@
 	<#if formStyle !='inline'>
 		<div class="${divClass}">
 	</#if>
-        <#assign propagateMandatory = mandatory>
-        <#nested>
-        <#assign propagateMandatory = false>
+	<#assign propagateMandatory = mandatory>
+	<#assign propagateHtmlRequired = htmlRequired>
+	<#nested>
+	<#assign propagateMandatory = false>
+	<#assign propagateHtmlRequired = true>
 	<#if helpKey!=''><small class="text-muted<#if formStyle!='inline'> form-text</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>${helpKey}</small></#if>
 	<#if formStyle !='inline'>
 		</div>
@@ -545,7 +547,7 @@
 <#-- datalist='' To comma separated list of values Example : datalist='titi,tata'																-->
 <#-- ------------------------------------------------------------------------------------------------------------------------------------------ -->
 <#macro input name id='' type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.locale minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' time_24hr=true format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist=''>
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
+<#if propagateMandatory?? && propagateMandatory && propagateHtmlRequired ><#local mandatory = true /></#if>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='range' || type='tel' || type='datalist'>
@@ -612,7 +614,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
 <#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 maxLength=0 mandatory=false>
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
+<#if propagateMandatory?? && propagateMandatory && propagateHtmlRequired ><#local mandatory = true /></#if>
 	<select id="${id}" name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if><#if mandatory?? && mandatory> required</#if><#if disabled> disabled</#if>>
 	<#if items?has_content>
 		<#if sort=true>
@@ -732,7 +734,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- mandatory : false / Bool 																								-->
 <#-- params : 																												-->
 <#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
+<#if propagateMandatory?? && propagateMandatory && propagateHtmlRequired ><#local mandatory = true /></#if>
 <div class="form-check form-check-radio<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
 	<label class="form-check-label<#if orientation='horizontal'> radio-inline</#if>" for="${labelFor}">
 	<input type="radio" id="${id}" name="${name}" class="form-check-input" <#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />

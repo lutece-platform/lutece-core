@@ -353,7 +353,7 @@
 </#macro>
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
 <#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 maxLength=0 mandatory=false>
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
+<#if propagateMandatory?? && propagateMandatory && propagateHtmlRequired ><#local mandatory = true /></#if>
 <select id="${id}" name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if><#if mandatory> required</#if><#if disabled> disabled</#if>>
 <#if items?has_content>
 	<#if sort=true>
@@ -484,7 +484,7 @@
 <#-- formStyle values: empty/inline/horizontal/navbar-form/navbar-left... Default is horizontal -->
 <#-- groupStyle: success/warning/error... -->
 <#-- showLabel is deprecated in Lutece v7 -->
-<#macro formGroup class='' formStyle='horizontal' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params=''  deprecated...>
+<#macro formGroup class='' formStyle='horizontal' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' id='' mandatory=false htmlRequired=true hideLabel=[] collapsed=false params=''  deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#local displayLabelClass = displaySettings(hideLabel,'') />
 <#if collapsed><#local class += ' collapse' /></#if>
@@ -515,9 +515,11 @@
 	<#if formStyle='horizontal'>
 	<div class="${divClass}">
 	</#if>
-		<#assign propagateMandatory = mandatory>
-		<#nested>
-		<#assign propagateMandatory = false>
+	<#assign propagateMandatory = mandatory>
+	<#assign propagateHtmlRequired = htmlRequired>
+	<#nested>
+	<#assign propagateMandatory = false>
+	<#assign propagateHtmlRequired = true>
 		<#if class='success'>
 			<@icon style='check' class='form-control-feedback' />
 		<#elseif class='warning'>
@@ -595,7 +597,7 @@
 <#-- datalist='' To comma separated list of values Example : datalist='titi,tata'																-->
 <#-- ------------------------------------------------------------------------------------------------------------------------------------------ -->
 <#macro input name id='' type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.locale minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' time_24hr=true format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist=''>
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
+<#if propagateMandatory?? && propagateMandatory && propagateHtmlRequired ><#local mandatory = true /></#if>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='range' || type='tel' || type='datalist'>
@@ -658,7 +660,6 @@
 <#-- TODO  -->
 <#macro checkBox name id='' class='' labelKey='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false  deprecated...>
 <@deprecatedWarning args=deprecated />	
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if id = ''><#local id = name /></#if>
 <#if orientation='vertical'><div class="checkbox"></#if>
 <label<#if orientation!='vertical'> class="checkbox-inline"</#if> for="${id}" <#if title!=''> title="${title}"</#if>>
@@ -670,7 +671,7 @@
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/inline. Default is vertical -->
 <#macro radioButton name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
+<#if propagateMandatory?? && propagateMandatory && propagateHtmlRequired ><#local mandatory = true /></#if>
 <#if orientation='vertical'><div class="radio"></#if>
 <label<#if orientation!='vertical'> class="radio-inline"</#if> for="${labelFor}">
 <input type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
