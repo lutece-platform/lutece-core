@@ -31,38 +31,73 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.init;
+package fr.paris.lutece.portal.service.util;
+
+import org.apache.logging.log4j.Level;
 
 /**
- * this class provides informations about application version
+ * The Class Logger.
  */
-public final class AppInfo
-{
-    /** Defines the current version of the application */
-    private static final String APP_VERSION = "7.0.9-SNAPSHOT";
-    static final String LUTECE_BANNER_VERSION = "\n _      _   _   _____   ___    ___   ___      ____\n"
-            + "| |    | | | | |_   _| | __|  / __| | __|    |__  |\n" + "| |__  | |_| |   | |   | _|  | (__  | _|       / / \n"
-            + "|____|  \\___/    |_|   |___|  \\___| |___|     /_/  ";
-
-    static final String LUTECE_BANNER_SERVER = "\n _      _   _   _____   ___    ___   ___       ___   ___   ___  __   __  ___   ___ \n"
-            + "| |    | | | | |_   _| | __|  / __| | __|     / __| | __| | _ \\ \\ \\ / / | __| | _ \\\n"
-            + "| |__  | |_| |   | |   | _|  | (__  | _|      \\__ \\ | _|  |   /  \\ V /  | _|  |   /\n"
-            + "|____|  \\___/    |_|   |___|  \\___| |___|     |___/ |___| |_|_\\   \\_/   |___| |_|_\\";
-
-    /**
-     * Creates a new AppInfo object.
-     */
-    private AppInfo( )
-    {
-    }
-
-    /**
-     * Returns the current version of the application
-     * 
-     * @return APP_VERSION The current version of the application
-     */
-    public static String getVersion( )
-    {
-        return APP_VERSION;
-    }
+public class LoggerInfo {
+	
+	private String _strLevel;
+	private String _strName;
+	private String _strPath;
+	
+	
+	/**
+	 * Gets the level.
+	 *
+	 * @return the level
+	 */
+	public String getLevel( ) {
+		return _strLevel;
+	}
+	
+	/**
+	 * Sets the level.
+	 *
+	 * @param level the new level
+	 */
+	public void setLevel( String strLevel ) {
+		this._strLevel = strLevel;
+	}
+	
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
+	public String getName() {
+		return _strName;
+	}
+	
+	/**
+	 * Sets the name.
+	 *
+	 * @param strName the new name
+	 */
+	public void setName( String strName ) {
+		this._strName = strName;
+	}
+	
+	/**
+	 * Gets the path.
+	 *
+	 * @return the path
+	 */
+	public String getPath( ) {
+		return _strPath;
+	}
+	
+	/**
+	 * Sets the path.
+	 *
+	 * @param strPath the new path
+	 */
+	public void setPath( String strPath ) {
+		this._strPath = strPath;
+	}
+	
+	
 }

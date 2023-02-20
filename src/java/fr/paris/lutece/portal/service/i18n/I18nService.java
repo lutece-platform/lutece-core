@@ -444,15 +444,18 @@ public final class I18nService
     }
 
     /**
-     * Localize all items of a list
+     * Localize in place all items of a collection
+     * 
+     * @param <E>
+     *            the type of the elements of the collection
      * 
      * @param collection
-     *            The list to localize
+     *            The collection to localize
      * @param locale
      *            The locale
-     * @return The localized collection
+     * @return The localized collection passed as argument
      */
-    public static Collection localizeCollection( Collection<? extends Localizable> collection, Locale locale )
+    public static <E extends Localizable> Collection<E> localizeCollection( Collection<E> collection, Locale locale )
     {
         for ( Localizable object : collection )
         {
@@ -463,15 +466,18 @@ public final class I18nService
     }
 
     /**
-     * Localize all items of a list
+     * Localize in place all items of a list
+     * 
+     * @param <E>
+     *            the type of the elements of the list
      * 
      * @param list
      *            The list to localize
      * @param locale
      *            The locale
-     * @return The localized collection
+     * @return The localized collection passed as argument
      */
-    public static List localizeCollection( List<? extends Localizable> list, Locale locale )
+    public static <E extends Localizable> List<E> localizeCollection( List<E> list, Locale locale )
     {
         for ( Localizable object : list )
         {

@@ -16,6 +16,8 @@ function themeMode(mode){
 }
 
 $( function(){
+	// Show toast if debug is found
+	
 	var nCounter = "";
 	var luteceTheme=localStorage.getItem('theme-bo-lutece');
 	// Set Mode
@@ -40,6 +42,7 @@ $( function(){
 			});
 		}
 	});
+	
 
 	// Disable Double Click on submit Buttons -> * NOT WORKING WITH IE *
 	// let numForms = document.forms.length;
@@ -205,6 +208,7 @@ $( function(){
 		var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 		return new bootstrap.Popover(popoverTriggerEl, {container: 'body', sanitize : false, placement: 'left'})
 	})
+
 
 });
 

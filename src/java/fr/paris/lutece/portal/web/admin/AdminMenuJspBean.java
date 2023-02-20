@@ -71,6 +71,7 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.menu.AdminUserMenuService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
@@ -110,6 +111,7 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_ADMIN_AVATAR = "adminAvatar";
     private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
     private static final String MARK_USER_MENU_ITEMS = "userMenuItems";
+    private static final String MARK_LIST_LOGGER_INFO = "listLoggersInfo";
 
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
@@ -156,13 +158,17 @@ public class AdminMenuJspBean implements Serializable
         AdminUser user = AdminUserService.getAdminUser( request );
         List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
 
-        // Displays the menus accroding to the rights of the users
+        // Displays the menus according to the rights of the users
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_MENU_POS, DatastoreService.getInstanceDataValue( PROPERTY_MENU_DATASTORE_POS, PROPERTY_MENU_DEFAULT_POS ) );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
         model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( ) );
         model.put( MARK_PROD_BASE_URL, AppPathService.getProdUrl( request ) );
         model.put( MARK_USER, user );
+        if ( user.isAdmin( ) )
+        {
+        	model.put( MARK_LIST_LOGGER_INFO, AppLogService.getLoggersInfo( ) );
+        }
 
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
         model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );

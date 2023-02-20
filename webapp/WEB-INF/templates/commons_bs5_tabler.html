@@ -87,7 +87,6 @@
 	</#if>
 </#if>
 </#macro>
-
 <#-- PAGINATION ADMIN -->
 <#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
 <@div class='d-flex is-flex justify-content-between is-justify-content-space-between'>
@@ -429,7 +428,7 @@
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
 <#-- class: 						 								-->
 <#-- groupStyle: success/error -->
-<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params='' deprecated...>
+<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false htmlRequired=true hideLabel=[] collapsed=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if groupStyle = 'success'>
 	<#local validation = 'is-valid'>
@@ -463,9 +462,11 @@
 	<#if formStyle !='inline'>
 		<div class="${divClass}">
 	</#if>
-        <#assign propagateMandatory = mandatory>
-        <#nested>
-        <#assign propagateMandatory = false>
+	<#assign propagateMandatory = mandatory>
+	<#assign propagateHtmlRequired = htmlRequired>
+	<#nested>
+	<#assign propagateMandatory = false>
+	<#assign propagateHtmlRequired = true>
 	<#if helpKey!=''><small class="text-muted<#if formStyle!='inline'> form-text</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>${helpKey}</small></#if>
 	<#if formStyle !='inline'>
 		</div>
@@ -535,7 +536,7 @@
 <#-- datalist='' To comma separated list of values Example : datalist='titi,tata'																-->
 <#-- ------------------------------------------------------------------------------------------------------------------------------------------ -->
 <#macro input name id='' type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist=''>
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
+<#if propagateMandatory?? && propagateMandatory && propagateHtmlRequired ><#local mandatory = true /></#if>
 <#if type='textarea'>
 	<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='range' || type='tel' || type='datalist'>
@@ -592,7 +593,7 @@
 </#macro>
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
 <#macro select name id=name class='' items='' default_value='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 maxLength=0 mandatory=false>
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
+<#if propagateMandatory?? && propagateMandatory && propagateHtmlRequired ><#local mandatory = true /></#if>
 <select id="${id}" name="${name}" class="form-select<#if size!=''> form-control form-control-${size}</#if><#if class!=''> ${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if><#if mandatory> required</#if><#if disabled> disabled</#if>>
 <#if items?has_content>
 <#if sort=true>
@@ -669,7 +670,7 @@
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/inline. Default is vertical -->
 <#macro radioButton name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
-<#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
+<#if propagateMandatory?? && propagateMandatory && propagateHtmlRequired ><#local mandatory = true /></#if>
 <#if orientation='vertical'><div class="radio">	</#if>
 <label  class="form-check<#if orientation!='vertical'> form-check-inline</#if>" for="${labelFor}">
 <input class="form-check-input" type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
@@ -1091,19 +1092,11 @@
 </#if>
 <a class="${style}<#if buttonSize!=''> btn-${buttonSize}</#if><#if color!=''> ${buttonColor}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 	<#if buttonIcon!='' && iconPosition='left'>
-		<#if hideTitle?size &gt; 0 || title == ''>
-			<@icon style=buttonIcon />
-		<#else>
-			<@icon style=buttonIcon class='me-1 mr-1' />
-		</#if>
+		<@icon style=buttonIcon class='me-1 mr-1' />
 	</#if>
 	<span class="${displayTitleClass}">${title}</span>
 	<#if buttonIcon!='' && iconPosition='right'>
-		<#if hideTitle?size &gt; 0 || title == ''>
-			<@icon style=buttonIcon />
-		<#else>
-			<@icon style=buttonIcon class='ms-1 ml-1' />
-		</#if>
+		<@icon style=buttonIcon class='ms-1 ml-1' />
 	</#if>
 	<#if !dropdownMenu>
 	<#nested>
@@ -1480,7 +1473,9 @@
 -------------------------------------------------- -->
 <#-- MACRO adminHeader -->
 <#macro adminHeader site_name=site_name>
-<script>$(".wrapper").hide();</script>
+<script>
+$(".wrapper").hide();
+</script>
 </head>
 <body class="antialiased<#if false> theme-dark</#if>">
 <div class="wrapper">
@@ -1501,11 +1496,51 @@
 					<i class="fas fa-home"></i>
 				</a>
 			</div>
+			<#if user.userLevel == 0>
+				<#assign hasIcon=false />
+			  	<#if listLoggersInfo?has_content> 
+				  	<#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo>
+				  		<#if logInfo?size gt 0>
+							<#if hasIcon=false >
 			<div class="nav-item d-none d-md-flex me-3">
-				<a class="nav-link px-0" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
-					<i class="fa fa-cog"></i>
-			  </a>
-			</div> 
+				<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications" aria-expanded="false">
+					<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
+					<span class="badge bg-red"></span>
+				</a>
+				<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
+					<div class="card">
+						<div class="card-header">
+							<h3 class="card-title">Notifications</h3>
+						</div>
+						<div class="list-group list-group-flush list-group-hoverable">
+							<div class="list-group-item logger">
+								<div class="row align-items-start">
+									<div class="col-auto pt-2">
+										<span class="badge bg-red d-block"></span>
+									</div>
+									<div class="col text-truncate">
+										<h3><a href="#" class="text-body d-block">#i18n{portal.util.log.warningLevel}</a></h3>
+									<#assign hasIcon = true />	
+								</#if>
+										<div class="d-block text-truncate mt-1" title="${logInfo.path!}"><strong>${logInfo.name!}  - ${logInfo.level!}</strong> ${logInfo.path!}</div>
+						</#if>
+					</#list>
+				</#if>
+				<#if hasIcon == true >
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div> 
+				</#if>
+				<div class="nav-item d-none d-md-flex me-3">
+					<a class="nav-link px-0" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
+						<i class="fa fa-cog"></i>
+					</a>
+				</div>
+			</#if>
 			<div class="nav-item dropdown">
 				<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
 				<span class="avatar avatar-sm" style="background-image:url(<#if adminAvatar>servlet/plugins/adminavatar/avatar?id_user=${user.userId}<#else>#dskey{portal.site.site_property.avatar_default}</#if>)"></span>
@@ -1521,7 +1556,7 @@
 					</#list>
 				</#if>
 				<div class="dropdown-divider"></div>
-				<div class="mt-1 ps-2" id="switch-darkmode"><i class="ti ti-moon"></i> #i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelModeDark}</span></div>
+				<div class="mt-1 ps-2" id="switch-darkmode"><i class="ti ti-moon"></i> #i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></div>
 				<div class="dropdown-divider"></div>
 				<#if admin_logout_url?has_content>
 					<a class="dropdown-item" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
@@ -1576,6 +1611,37 @@
 			</div>
 		</div>
 	</div>
+	<#if user.userLevel == 0>
+	<script>
+	document.addEventListener( 'DOMContentLoaded', () => {	
+		const loggers = document.querySelector('.logger') ;
+		if( loggers.childElementCount > 0 ){
+			if( !sessionStorage.getItem('lutece-debug-modal') ){
+				sessionStorage.setItem('lutece-debug-modal', false )
+			}
+			var modalContent = '<h3>#i18n{portal.util.log.warningLevel}</h3><p><strong>#i18n{portal.util.log.modalWarningMessage}</strong></p><p class="text-center"><button class="btn btn-sm btn-danger" data-toggle="collapse" data-target="#info-log" aria-expanded="false" aria-controls="info-log" type="button">#i18n{portal.util.log.modalLabelButton}</button></p><blockquote class="collapse" id="info-log">' + loggers.querySelector('.col.text-truncate').innerHTML + '</blockquote>';
+			var adminModal = document.getElementById('adminModal');
+			var adminModalLabel = document.getElementById('adminModalLabel');
+			var adminModalBody = document.querySelector('#adminModal .modal-body');
+			adminModalBody.insertAdjacentHTML( 'beforeEnd', modalContent);
+			var adminModalHeader = document.querySelector('#adminModal .modal-header');
+			var adminModalHeaderBtn = document.querySelector('#adminModal .modal-header button');
+			var myAdminModal = new bootstrap.Modal( adminModal, {} );
+			adminModalLabel.insertAdjacentHTML( 'beforeEnd', '#i18n{portal.util.log.modalWarningTitle}' );
+			adminModalHeader.classList.add('text-white');
+			adminModalHeaderBtn.setAttribute( 'style', 'background: transparent url("data:image/svg+xml,%3csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 16 16\' fill=\'%23ffffff\'%3e%3cpath d=\'M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z\'/%3e%3c/svg%3e") center/.75rem auto no-repeat;');
+			adminModalHeader.classList.add('bg-danger');
+			adminModalBody.classList.add('text-danger');
+			adminModal.addEventListener('hide.bs.modal', function () {
+				sessionStorage.setItem('lutece-debug-modal',true);
+			})	
+			if( sessionStorage.getItem('lutece-debug-modal') === 'false' ){
+				myAdminModal.show();
+			}
+		}
+	});
+	</script>
+	</#if>
 	<!-- Begin page content -->
 	<main role="main" class="page-wrapper">
 		<div class="container-fluid">
@@ -1612,6 +1678,21 @@
 		</div>
 	</div>
 </footer>
+<!-- Admin Modal -->
+<div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="adminModalLabel"></h5>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="#i18n{portal.site.admin_page.buttonClosed}"></button>
+		</div>
+		<div class="modal-body"></div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">#i18n{portal.site.admin_page.buttonClosed}</button>
+		</div>
+	  </div>
+	</div>
+</div>
 <!-- Included JS Files 												-->
 <!-- Le javascript 													-->
 <!-- ============================================================== -->
@@ -1679,16 +1760,18 @@ ${javascript_files}
 </head>
 <body class="antialiased border-top-wide border-primary d-flex flex-column">
 <@div id="login-page" class="page page-center">
-	<@div class="container-tight py-4">
+	<@div class="container container-tight py-4">
 		<@div class="text-center mb-4">
 			<@link href='.'>
 				<@img url='#dskey{portal.site.site_property.logo_url}' alt='${site_name!}' title='${site_name!}' params=' height="36"' />
 				<span class="sr-only">${site_name!'Lutece'}</span>
 			</@link>
 		</@div>
-		<@div class="card-body bg-white">
-			<h2 class="card-title text-center mb-4">#i18n{portal.admin.admin_login.welcome}<br> ${site_name!}</h2>
-			<#nested>
+		<@div class="card card-md">
+			<@div class="card-body bg-white">
+				<h2 class="card-title text-center mb-4">#i18n{portal.admin.admin_login.welcome}<br> ${site_name!}</h2>
+				<#nested>
+			</@div>
 		</@div>
 	</@div>
 </@div>
@@ -1774,7 +1857,7 @@ $(function() {
 	</#if>
 	<@btnGroup class='ms-1 ml-1'>
 	<#if portlet_types_list?has_content>
-		<@aButton class='dropdown-toggle' size='sm' id='portlet-type' dropdownMenu=true href='#' title='#i18n{portal.site.admin_page.labelPortletPage}' buttonIcon='th-large' hideTitle=['xs','sm','md']>
+		<@aButton class='dropdown-toggle' size='sm' id='portlet-type' dropdownMenu=true href='#' title='#i18n{portal.site.admin_page.labelPortletPage}' buttonIcon='th-large me-1' hideTitle=['xs','sm','md']>
 			<#list portlet_types_list?sort_by("name") as portlet_type>
 				<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}'>
 					${portlet_type.name}
@@ -1827,21 +1910,21 @@ $(function() {
 </head>
 <body class="antialiased border-top-wide border-primary d-flex flex-column">
 <div class="page page-center">
-	<@div class="container-sm">
-		<@div class="text-center mb-4">
-			<@link href=".">
-				<@img url="#dskey{portal.site.site_property.logo_url}" alt='LUTECE' title='Lutece' params=' height="36"' />
-			</@link>
-		</@div>
-		<@row class='justify-content-center align-items-center'>
-			<@columns md=6>
-				<@alert color=alerttype titleLevel='h1' title=title iconTitle=icontype params='flex-column'>
-					<@p class="text-center">${text!}</@p>
-					<#nested>
-				</@alert>	
-			</@columns>
-		</@row>
+<@div class="container-sm">
+	<@div class="text-center mb-4">
+		<@link href=".">
+			<@img url="#dskey{portal.site.site_property.logo_url}" alt='LUTECE' title='Lutece' params=' height="36"' />
+		</@link>
 	</@div>
+	<@row class='justify-content-center align-items-center'>
+		<@columns md=6>
+			<@alert color=alerttype titleLevel='h1' title=title iconTitle=icontype params='flex-column'>
+				<@p class="text-center">${text!}</@p>
+				<#nested>
+			</@alert>	
+		</@columns>
+	</@row>
+</@div>
 </#macro>
 <#-- MACRO fieldSet  -->
 <#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendIcon='' legendParams='' hideLegend=[] disabled=false>

@@ -54,6 +54,7 @@ public class File implements Serializable
     private String _strMimeType;
     private Timestamp _dateCreation;
     private String _url;
+    private String _strOrigin;
 
     /**
      * get file key
@@ -229,5 +230,25 @@ public class File implements Serializable
     public void setUrl(String strUrl) {
         this._url = strUrl;
     }
+
+    /**
+     * get origin
+     * 
+     * @return the origin
+     */
+	public String getOrigin( ) 
+	{
+		return _strOrigin;
+	}
+
+	/**
+	 * set origin
+	 * 
+	 * @param _strOrigin
+	 */
+	public void setOrigin( String strOrigin ) 
+	{
+		this._strOrigin = strOrigin;
+	}
 
 }
