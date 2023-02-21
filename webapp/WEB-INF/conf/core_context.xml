@@ -271,50 +271,6 @@
 
     <!-- CSS frameworks management -->
     <!-- The default framework should have the its key value equals to 'default' -->
-    <bean id="commonsBoostrap3" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bootstrap3" />
-        <property name="name" value="Bootstap 3.3 + AdminLTE + Backport file (v6.x compatible)" />
-        <property name="files">
-            <list>
-                <value>commons.html</value>
-				<value>commons_backport.html</value>
-                <value>admin/util/calendar/macro_datetimepicker.html</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="commonsBootstrap4MaterialKit" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bootstrap4MaterialKit" />
-        <property name="name" value="Bootstrap 4.3 + Material Kit  + Backport file (v6.x compatible) " />
-        <property name="files">
-            <list>
-                <value>commons_bs4_materialkit.html</value>                
-				<value>commons_backport.html</value>
-				<value>admin/util/calendar/macro_datetimepicker.html</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bootstrap4AdminLTE" />
-        <property name="name" value="Bootstrap 4.3 + AdminLTE + Backport file (v6.x compatible)" />
-        <property name="files">
-            <list>
-                <value>commons_bs4_adminlte.html</value>                
-				<value>commons_backport.html</value>
-				<value>admin/util/calendar/macro_datetimepicker.html</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="commonsBulma" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bulma" />
-        <property name="name" value="Bulma 0.9.3 + Backport file (v6.x compatible)" />
-        <property name="files">
-            <list>
-                <value>commons_bulma.html</value>             
-				<value>commons_backport.html</value>
-				<value>admin/util/calendar/macro_datetimepicker.html</value>
-            </list>
-        </property>
-    </bean>
     <bean id="commonsBoostrap5Tabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bootstrap5Tabler" />
          <property name="default" value="true" />
