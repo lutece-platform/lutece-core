@@ -54,13 +54,13 @@ INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VA
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USER', 4, 1);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_PAGES', 2, 1);
 
-INSERT INTO core_feature_group VALUES ('CONTENT','portal.features.group.content.description','portal.features.group.content.label',1);
-INSERT INTO core_feature_group VALUES ('APPLICATIONS','portal.features.group.applications.description','portal.features.group.applications.label',3);
-INSERT INTO core_feature_group VALUES ('SYSTEM','portal.features.group.system.description','portal.features.group.system.label',7);
-INSERT INTO core_feature_group VALUES ('SITE','portal.features.group.site.description','portal.features.group.site.label',2);
-INSERT INTO core_feature_group VALUES ('STYLE','portal.features.group.charter.description','portal.features.group.charter.label',6);
-INSERT INTO core_feature_group VALUES ('USERS','portal.features.group.users.description','portal.features.group.users.label',4);
-INSERT INTO core_feature_group VALUES ('MANAGERS','portal.features.group.managers.description','portal.features.group.managers.label',5);
+INSERT INTO core_feature_group VALUES ('CONTENT','portal.features.group.content.description','portal.features.group.content.label',1,NULL);
+INSERT INTO core_feature_group VALUES ('APPLICATIONS','portal.features.group.applications.description','portal.features.group.applications.label',3,NULL);
+INSERT INTO core_feature_group VALUES ('SYSTEM','portal.features.group.system.description','portal.features.group.system.label',7,"ti ti-adjustments-horizontal");
+INSERT INTO core_feature_group VALUES ('SITE','portal.features.group.site.description','portal.features.group.site.label',2,"ti ti ti-world");
+INSERT INTO core_feature_group VALUES ('STYLE','portal.features.group.charter.description','portal.features.group.charter.label',6,"ti ti-brush");
+INSERT INTO core_feature_group VALUES ('USERS','portal.features.group.users.description','portal.features.group.users.label',4,"ti ti-shield-lock");
+INSERT INTO core_feature_group VALUES ('MANAGERS','portal.features.group.managers.description','portal.features.group.managers.label',5,"ti ti-users");
 
 INSERT INTO core_level_right VALUES (0,'Level 0 - Technical administrator');
 INSERT INTO core_level_right VALUES (1,'Level 1 - Fonctionnal administrator');

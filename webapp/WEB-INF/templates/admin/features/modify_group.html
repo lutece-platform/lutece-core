@@ -17,6 +17,9 @@
 				<@formGroup labelFor='group_order' labelKey='#i18n{portal.features.modify_group.labelOrder}'>
 					<@select name='group_order' default_value='feature_group.order' items=order_list sort=true />
 				</@formGroup>
+				<@formGroup labelFor='group_icon' labelKey='#i18n{portal.features.modify_group.labelIcon}'>
+					<@input type='text' id='group_icon' name='group_icon' value='${feature_group.icon?html}' />
+				</@formGroup>
 				<@formGroup>
 					<@button type='submit' buttonIcon='check' title='#i18n{portal.features.modify_group.buttonModify}' color='primary' />
 					<@aButton href='jsp/admin/AdminTechnicalMenu.jsp?#feature_groups' buttonIcon='close' title='#i18n{portal.util.labelCancel}' color='secondary' />
