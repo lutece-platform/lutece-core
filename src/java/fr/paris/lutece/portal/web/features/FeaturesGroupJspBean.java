@@ -71,6 +71,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_GROUP_NAME = "group_name";
     private static final String PARAMETER_GROUP_DESCRIPTION = "group_description";
     private static final String PARAMETER_GROUP_ORDER = "group_order";
+    private static final String PARAMETER_GROUP_ICON = "group_icon";
     private static final String PARAMETER_ORDER_ID = "order_id";
     private static final String PARAMETER_RIGHT_ID = "right_id";
     private static final String JSP_REMOVE_GROUPS = "jsp/admin/features/DoRemoveGroup.jsp";
@@ -242,6 +243,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         String strGroupName = request.getParameter( PARAMETER_GROUP_NAME );
         String strGroupDescription = request.getParameter( PARAMETER_GROUP_DESCRIPTION );
         String strGroupOrder = request.getParameter( PARAMETER_GROUP_ORDER );
+        String strGroupIcon = request.getParameter( PARAMETER_GROUP_ICON );
 
         // Mandatory fields
         if ( strGroupId.equals( "" ) || strGroupName.equals( "" ) || strGroupDescription.equals( "" ) )
@@ -257,6 +259,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         group.setId( strGroupId );
         group.setLabelKey( strGroupName );
         group.setDescriptionKey( strGroupDescription );
+        group.setIcon( strGroupIcon );
 
         FeatureGroupHome.create( group );
         group.setOrder( Integer.parseInt( strGroupOrder ) );
@@ -280,6 +283,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         String strGroupName = request.getParameter( PARAMETER_GROUP_NAME );
         String strGroupDescription = request.getParameter( PARAMETER_GROUP_DESCRIPTION );
         String strGroupOrder = request.getParameter( PARAMETER_GROUP_ORDER );
+        String strGroupIcon = request.getParameter( PARAMETER_GROUP_ICON );
 
         // Mandatory fields
         if ( strGroupId.equals( "" ) || strGroupName.equals( "" ) || strGroupDescription.equals( "" ) )
@@ -295,6 +299,8 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         group.setLabelKey( strGroupName );
         group.setDescriptionKey( strGroupDescription );
         group.setOrder( Integer.parseInt( strGroupOrder ) );
+        group.setIcon( strGroupIcon );
+
         FeatureGroupHome.update( group );
 
         return getDashboardUrl( request );
