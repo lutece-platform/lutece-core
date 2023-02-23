@@ -1,8 +1,6 @@
 <#--
 Macro: smallBox
-
 Description: Generates an HTML element for a small box widget with an icon, title, and text.
-
 Parameters:
 - color (string, optional): the background color of the widget.
 - title (string, required): the title of the widget.

@@ -14,7 +14,6 @@
 		</#list>
 	</select>
 </#macro>
-
 <#macro comboSiteSortedWithParams name default_value additionalParameters items >
 	<select id="${name}" name="${name}" ${additionalParameters} >
 		<#list items?sort_by("name") as item>
@@ -26,7 +25,6 @@
 		</#list>
 	</select>
 </#macro>
-
 <#macro comboSiteWithParamsAndLength name default_value additionalParameters items max_length >
 	<select id="${name}" name="${name}" ${additionalParameters} >
 		<#list items as item>
@@ -43,15 +41,12 @@
     	</#list>
 	</select>
 </#macro>
-
 <#macro comboSite name default_value items >
 	<@comboSiteWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
 </#macro>
-
 <#macro comboSiteSorted name default_value items >
 	<@comboSite name="${name}" default_value="${default_value}" items=items?sort_by("name") />
 </#macro>
-
 <#macro sortSite jsp_url attribute id="" >
 	<#if jsp_url?contains("?")>
 		<#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
@@ -65,7 +60,6 @@
     	<i class="icon-chevron-down">&nbsp;</i>
     </a>
 </#macro>
-
 <#macro paginationSite paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=0>
 	<#if (paginator.pagesCount > 1) >
 		<@paginationSitePageLinks paginator=paginator />
@@ -85,7 +79,6 @@
 	</#if>
 	<div class="table"></div>
  </#macro>
-
  <#macro paginationSitePageLinks paginator >
 	<#assign nbLinkPagesToDisplay = 10 />
 	<#assign offsetPrev = nbLinkPagesToDisplay / 2 />
@@ -157,7 +150,6 @@
 			</#if>
 		</ul>
  </#macro>
-
 <#macro paginationSiteCombo paginator nb_items_per_page=nb_items_per_page>
 	<span class="add-on">${paginator.labelItemCountPerPage}</span>
 	<select class="input-mini" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
@@ -174,7 +166,6 @@
 	</button>
 	&nbsp;-&nbsp;
 </#macro>
-
 <#macro paginationSiteItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=0>
 	<#-- Display combo -->
 	<#if combo == 1 >
@@ -185,8 +176,6 @@
 	  <#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>${paginator.labelItemCount} : </#if>${paginator.itemsCount}
   </#if>
 </#macro>
-
-
 <#macro item_navigationSite item_navigator>
 	<div id="item-navigator">
 		<#if (item_navigator.currentItemId > 0)>
@@ -207,8 +196,6 @@
 		</#if>
 	</div>
 </#macro>
-
-
 <#macro dataTableSite dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
 	<#if 0 < dataTableManager.items?size >
 		<#if dataTableManager.enablePaginator>
@@ -284,7 +271,6 @@
 		#i18n{portal.util.labelNoItem}
 	</#if>
 </#macro>
-
 <#macro filterPanelSite dataTableManager formClass="form-horizontal" >
 	<#if dataTableManager.filterPanel.listFilter?? && 0 < dataTableManager.filterPanel.listFilter?size>
 		<form class="${formClass}" method="post" action="${dataTableManager.filterPanel.formUrl}" >
@@ -328,7 +314,6 @@
 		</form>
 	</#if>
 </#macro>
-
 <#macro fieldInputTextSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
@@ -338,7 +323,6 @@
 		</div>
 	</div>
 </#macro>
-
 <#macro fieldInputCalendarSite i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='' language='fr'>
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
@@ -352,7 +336,6 @@
 	</div>
 	<@getDatePicker idField=inputName language=language />
 </#macro>
-
 <#macro fieldInputCheckBoxSite i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='' >
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} :</label>
@@ -362,7 +345,6 @@
 		</div>
 	</div>
 </#macro>
-
 <#macro fieldInputComboSite i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label>
@@ -373,8 +355,6 @@
 		</div>
 	</div>
 </#macro>
-
-
 <#macro fieldTextAreaSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
@@ -384,7 +364,6 @@
 		</div>
 	</div>
 </#macro>
-
 <#-- fieldSet  -->
 <#macro fieldSet legend='' class='' legendClass='' >
 <fieldset <#if class!=''> class="${class}"</#if>>

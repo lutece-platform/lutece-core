@@ -1,8 +1,6 @@
 <#--
 Macro: boxHeader
-
 Description: Generates an HTML element for a box header with an optional title, ID, class, and box tools.
-
 Parameters:
 - title (string, optional): the title of the box header.
 - i18nTitleKey (string, optional): the i18n key of the title of the box header.

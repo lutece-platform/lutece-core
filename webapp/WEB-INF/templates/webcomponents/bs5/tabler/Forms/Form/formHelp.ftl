@@ -8,7 +8,6 @@ Parameters:
 - labelFor (string, optional): the ID of the input field that the help text is associated with.
 
 -->
-
 <#macro formHelp style='inline' class='' labelFor=''>
 <#if style='inline'>
 	<small class="text-muted<#if style!='inline'> form-text</#if><#if class!=''> ${class}</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>

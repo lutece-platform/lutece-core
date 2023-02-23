@@ -1,7 +1,5 @@
 <#-- Macro: adminDashboardWidget
-
 Description: Generates a widget for use in the admin dashboard. It generates a Bootstrap card that includes a header with a title and control buttons, and a body that can display any content.
-
 Parameters:
 - id (string, required): the ID of the widget.
 - title (string, required): the title to display in the widget header.
@@ -11,7 +9,6 @@ Parameters:
 - bodyClass (string, optional): the class to apply to the widget body element.
 - params (string, optional): additional parameters to add to the widget element.
 -->
-
 <#macro adminDashboardWidget id title color='primary' url='' class='' bodyClass='table-responsive no-padding' params=''>
 	<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
 		<@boxHeader titleLevel='h5' title='${title}'>

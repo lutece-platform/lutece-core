@@ -1,7 +1,5 @@
 <#-- Macro: navItem
-
 Description: Generates a navigation item with the specified link attributes.
-
 Parameters:
 - href (string, optional): the URL for the navigation item.
 - name (string, optional): the display name for the navigation item.
@@ -13,7 +11,6 @@ Parameters:
 - class (string, optional): the class to use for the navigation item.
 - id (string, optional): the ID to use for the navigation item.
 - params (string, optional): additional parameters to include in the navigation item.
-
 -->
 <#macro navItem href='' name='' active=false title='' alt='' target='' tag='li' class='' id='' params=''>
 <${tag} class="nav-link<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>

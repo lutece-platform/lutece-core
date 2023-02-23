@@ -1,13 +1,10 @@
 <#-- Macro: adminLanguage
-
 Description: Generates a language selection form for use in an admin panel. It generates a Bootstrap form that allows the user to select a language from a list of supported languages.
-
 Parameters:
 - languages (object): an object that contains information about the supported languages. It should be an array of objects, where each object represents a language and contains a `code` and a `name` property.
 - lang (string): the code of the currently selected language.
 - action (string, optional): the URL of the form submission handler.
 -->
-
 <#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' >
 <@tform method='post' action=action class='form-inline'>
 	<@input type='hidden' name='token' value='${token}' />

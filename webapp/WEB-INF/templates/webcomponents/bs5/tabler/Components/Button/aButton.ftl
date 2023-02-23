@@ -1,8 +1,6 @@
 <#--
 Macro: aButton
-
 Description: Generates an HTML button or link with various customization options, including color, size, alignment, icon, and title.
-
 Parameters:
 - name (string, optional): the name attribute of the button element.
 - id (string, optional): the ID attribute of the button element.
@@ -21,9 +19,7 @@ Parameters:
 - disabled (boolean, optional): whether or not the button is disabled.
 - iconPosition (string, optional): the position of the icon inside the button, such as "left" or "right".
 - dropdownMenu (boolean, optional): whether or not to include a dropdown menu inside the button.
-
 -->
-
 <#macro aButton name='' id='' href='' target='' size='' color='primary' style='btn' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#-- Visibility of button title -->
