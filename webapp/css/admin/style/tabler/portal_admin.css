@@ -27,6 +27,82 @@
   --white: #ffffff;
 }
 
+/* LUTECE LAYOUT    */
+/* GRID             */
+#lutece-layout-wrapper{
+  display: grid;
+  grid-template-areas: "lutece-header"
+                       "lutece-content"
+                       "lutece-footer";
+  /* grid-template-areas: "lutece-nav lutece-content"
+                       "lutece-nav lutece-footer"; */
+  grid-template-rows: 4rem 1fr 5rem;
+  grid-template-columns: 1fr;
+  /* 
+  grid-template-columns: 8rem 1fr; 
+  grid-row-gap: 15px;
+  grid-column-gap: 15px;
+  height: 95vh; 
+  */
+  margin: 0;
+  padding: 0;
+}
+
+#lutece-layout-wrapper.verti{
+  grid-template-areas: "lutece-header lutece-content"
+                       "lutece-header lutece-footer";
+  grid-template-columns: 8rem 1fr; 
+  grid-template-rows: initial;
+}
+
+#lutece-layout-wrapper.verti .navbar-expand-md .navbar-nav{
+  flex-direction: column;
+}
+
+.lutece-main-header{
+  grid-area: lutece-header;
+}
+
+.lutece-main-brand{
+  grid-area: lutece-brand;
+  height: inherit;
+}
+
+.lutece-header-nav{
+  grid-area: lutece-nav;
+  height: inherit;
+}
+
+.lutece-main-nav{
+  grid-area: lutece-nav;
+  height: inherit;
+}
+
+.lutece-aside-nav{
+  grid-area: lutece-nav;
+  height: inherit;
+}
+
+.lutece-main-aside{
+  grid-area: lutece-aside;
+}
+
+.lutece-main-content{
+  grid-area: lutece-content;
+}
+
+.lutece-main-footer{
+  grid-area: lutece-footer;
+  align-content: end;
+}
+
+/* Content page wrapper*/
+.lutece-page-wrapper{
+  min-height: 90svb;
+}
+
+.lutece-header + .page-header{ margin-top: 1rem;}
+
 /*  Login page                              */
 #login-page { background: var( --dark-blue ) url("../../images/admin/skin/bg_login1.svg"); background-size: cover; background-attachment: fixed;  overflow: hidden;}
 
@@ -219,3 +295,17 @@ li.portlet-type a:hover{ background:var( --azure ) ;  color:var( --white ) ; }
 .list-file-item div .truncate{ margin-right: auto } 
 .list-file-item figure{ flex-shrink: 0; }
 .list-file-item figure + div{ flex-grow: 1 ; margin-left: auto }
+
+
+/*
+@media screen and (min-width: 768px){
+  #lutece-layout-wrapper{
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, minmax(100px, auto));
+  grid-template-areas:  "logo menu menu menu menu menu"
+                        "breadcrumb breadcrumb breadcrumb breadcrumb breadcrumb breadcrumb"
+                        "main main main main sidebar sidebar"
+                        "footer footer footer footer footer footer";
+}
+}
+*/
