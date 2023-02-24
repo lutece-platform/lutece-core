@@ -13,9 +13,6 @@ Parameters:
 		<div class="row text-center align-items-center flex-row-reverse">
 		<div class="col-lg-auto ms-lg-auto">
 			<ul class="list-inline list-inline-dots mb-0">
-				<li class="list-inline-item">
-					<button type="button" id="toggle-menu" class="btn btn-secondary" >Switch Layout</button>
-				</li>
 				<li class="list-inline-item"><a href="https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki" class="link-secondary">Documentation</a></li>
 				<li class="list-inline-item"><a href="https://github.com/lutece-platform/" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
 			</ul>
