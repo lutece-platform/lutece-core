@@ -183,8 +183,8 @@ legend {float:none;}
 .admin-site-toolbar{ margin-top: -1rem }
 .extend-menu-item{ width: 100%; display: flex; justify-content: space-between; align-items: center; min-width: 180px; }
 
-iframe#preview {  display: block; overflow: auto; padding: 0; margin: -10px auto; border: 2px solid var( --light ); max-height: 400px }
-#preview.open{ position: fixed; width: 100% !important; height: 100vh !important; max-height: 100vh !important; top: 0; left:0; z-index: 9999; }
+#lutece-admin-site-preview {  display: block; overflow: auto; padding: 0; margin: 1rem auto; border: 2px solid var( --light ); max-height: 400px; left: 0; width: 100%; height: 80vh; min-height: 80vh; position: relative; z-index: 0; }
+#lutece-admin-site-preview.open{ position: fixed; width: 100% !important; height: 100vh !important; max-height: 100vh !important; top: 0; left:0; z-index: 9999; }
 #fullscreen.open{ position: fixed; top: 0; right: 15px; z-index: 10000; padding: 5px; }
 
 /* Message */
@@ -218,7 +218,6 @@ iframe#preview {  display: block; overflow: auto; padding: 0; margin: -10px auto
 /* Portlets                                                      */
 li.portlet-type a:hover{ background:var( --azure ) ;  color:var( --white ) ; }
 #content-portlet{ padding: 0 10px;}
-#preview{ left: 0; width: 100%; height: 850px; min-height: 850px; position: relative; z-index: 0; }
 .richtext{ width: 100%; }
 
 .manage-portlet .card-body{ padding: 0;}

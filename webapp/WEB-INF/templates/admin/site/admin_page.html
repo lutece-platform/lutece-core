@@ -23,7 +23,8 @@
 		</@div>
 		<@div id='admin-page-preview'>
 			${page_block}
-			<!-- HTML in jsp/admin/site/AdminSite.jsp -->
+			<!-- HTML iframe to show FO -->
+			<iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="Pr&eacute;visualisation du site">Pr&eacute;visualisation du site</iframe>
 		</@div>
 	</@boxBody>
 </@box>
