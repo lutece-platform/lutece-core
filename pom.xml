@@ -2,9 +2,10 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>6.0.0</version>
-        <!-- <relativePath /> -->
+        <version>6.1.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.paris.lutece</groupId>
     <artifactId>lutece-core</artifactId>
@@ -12,6 +13,7 @@
     <version>7.1.0-SNAPSHOT</version>
     <name>Lutece</name>
     <url>http://dev.lutece.paris.fr/</url>
+
     <properties>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
@@ -21,6 +23,7 @@
         <twitter.account>LuteceFoundry</twitter.account>
         <openhub.id>7203</openhub.id>
     </properties>
+
     <repositories>
         <repository>
             <id>lutece</id>
@@ -31,6 +34,7 @@
             </snapshots>
         </repository>
 	</repositories>
+
     <dependencies>
         <dependency>
             <groupId>com.mchange</groupId>
@@ -231,6 +235,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        
         <!-- scannotation -->
         <dependency>
             <groupId>org.scannotation</groupId>
@@ -249,12 +254,14 @@
             <artifactId>javassist</artifactId>
             <version>3.23.1-GA</version>
         </dependency>
+
         <!-- JSON. ( Compile Dependencies: jackson-annotations and jackson-core)-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.13.4</version>
         </dependency>
+        
         <!-- @Mail API and implementation -->        
    		<dependency>
           <groupId>com.sun.mail</groupId>

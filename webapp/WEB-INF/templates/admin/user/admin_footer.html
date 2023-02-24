@@ -1,11 +1,1 @@
-<#-- Called from @adminheader macro -->
 <@adminFooter />
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const btnMenu = document.querySelector("#toggle-menu"), layout=document.querySelector('#lutece-layout-wrapper'),cont=layout.firstElementChild.firstElementChild.firstElementChild;
-    btnMenu.addEventListener( 'click', function() {
-        layout.classList.toggle('verti');
-        cont.classList.toggle('flex-column');
-    })
-});
-</script>
