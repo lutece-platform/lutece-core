@@ -504,10 +504,10 @@ public final class WorkflowService
      */
     public List<Integer> getResourceIdListByIdState( int nIdState, String strResourceType, int nExternalParentId )
     {
-        if ( isAvailable( ) )
-        {
-            return _service.getResourceIdListByIdState( nIdState, strResourceType, nExternalParentId );
-        }
+        // if ( isAvailable( ) )
+        // {
+        //     return _service.getResourceIdListByIdState( nIdState, strResourceType, nExternalParentId );
+        // }
 
         return null;
     }
