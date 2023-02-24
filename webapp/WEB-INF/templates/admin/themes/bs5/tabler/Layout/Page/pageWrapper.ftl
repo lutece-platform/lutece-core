@@ -1,10 +1,10 @@
 <#--
-Macro: pageContainer
+Macro: pageWrapper
 Description: Generates a main container element for a page with a flexible width that fills the available space.
 -->
-<#macro pageContainer template=''>
-<!-- Begin page content -->
-<main role="main" class="page-wrapper">
+<#macro pageWrapper template=''>
+<!-- Begin layout content -->
+<div class="lutece-page-wrapper ${template}">
 <#nested>
-</main>
+</div>
 </#macro>

@@ -7,189 +7,196 @@
 <#macro commonsFile>commons_bs5_tabler.html</#macro>
 <#macro commonsName>Commons Bootstrap 5 + Tabler 1.0</#macro>
 <#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 5 + Tabler 1</#macro>
+<#assign commonsJsPath='js/admin/' /> 
+<#assign commonsCssPath='css/admin/' /> 
+<#assign commonsFtlPath='admin/themes/bs5/tabler/' /> 
+<#assign commonsAdminLayout=dskey('portal.site.site_property.layout.code') /> 
+<#assign commonsAdminLayoutClass=dskey('portal.site.site_property.layout.class') /> 
 <#macro coreAdminCSSLinks>
-<link href="css/admin/jquery-ui.min.css" rel="stylesheet" > <#-- provided by core -->
-<link href="css/admin/jquery-ui.structure.min.css" rel="stylesheet" > <#-- provided by core -->
-<link href="css/admin/jquery-ui.theme.min.css" rel="stylesheet" > <#-- provided by core -->
-<link href="css/admin/style/tabler/tabler.min.css" rel="stylesheet"><#-- Tabler main -->
-<link href="css/admin/style/tabler/tabler-flags.min.css" rel="stylesheet"><#-- Tabler flags -->
-<link href="css/admin/style/tabler/tabler-payments.min.css" rel="stylesheet"><#-- Tabler payment -->
-<link href="css/admin/style/tabler/tabler-vendors.min.css" rel="stylesheet"><#-- Tabler Vendors -->
-<link href="css/admin/style/tabler/all.min.css" rel="stylesheet"> <#-- Font-Awesome 5.8.1 -->
-<link href="css/admin/bootstrap-icons.css" rel="stylesheet" > <#-- Bootstrap Icons -->
-<link href="css/admin/style/tabler/tabler-icons.min.css" rel="stylesheet"><#-- Tabler icons -->
-<link href="css/admin/style/tabler/bootstrap-colorpicker.min.css" rel="stylesheet"><#-- BS colorpicker -->
-<link href="js/admin/lib/polipop/css/polipop.core.min.css" rel="stylesheet">
-<link href="js/admin/lib/polipop/css/polipop.default.min.css" rel="stylesheet">
-<link href="css/admin/style/tabler/portal_admin.css" rel="stylesheet"><#-- Lutece main admin CSS -->
-<link href="css/admin/portal_admin_site.css" rel="stylesheet"><#-- Site override admin CSS -Empty by default- -->
-<script src="js/admin/jquery/jquery-3.6.0.min.js"></script> <#-- main JQuery file -->
+<link href="${commonsCssPath}jquery-ui.min.css" rel="stylesheet" > <#-- provided by core -->
+<link href="${commonsCssPath}jquery-ui.structure.min.css" rel="stylesheet" > <#-- provided by core -->
+<link href="${commonsCssPath}jquery-ui.theme.min.css" rel="stylesheet" > <#-- provided by core -->
+<link href="${commonsCssPath}style/tabler/tabler.min.css" rel="stylesheet"><#-- Tabler main -->
+<link href="${commonsCssPath}style/tabler/tabler-flags.min.css" rel="stylesheet"><#-- Tabler flags -->
+<link href="${commonsCssPath}style/tabler/tabler-payments.min.css" rel="stylesheet"><#-- Tabler payment -->
+<link href="${commonsCssPath}style/tabler/tabler-vendors.min.css" rel="stylesheet"><#-- Tabler Vendors -->
+<link href="${commonsCssPath}style/tabler/all.min.css" rel="stylesheet"> <#-- Font-Awesome 5.8.1 -->
+<link href="${commonsCssPath}bootstrap-icons.css" rel="stylesheet" > <#-- Bootstrap Icons -->
+<link href="${commonsCssPath}style/tabler/tabler-icons.min.css" rel="stylesheet"><#-- Tabler icons -->
+<link href="${commonsCssPath}style/tabler/bootstrap-colorpicker.min.css" rel="stylesheet"><#-- BS colorpicker -->
+<link href="${commonsJsPath}lib/polipop/css/polipop.core.min.css" rel="stylesheet">
+<link href="${commonsJsPath}lib/polipop/css/polipop.default.min.css" rel="stylesheet">
+<link href="${commonsCssPath}style/tabler/portal_admin.css" rel="stylesheet"><#-- Lutece main admin CSS -->
+<link href="${commonsCssPath}portal_admin_site.css" rel="stylesheet"><#-- Site override admin CSS -Empty by default- -->
+<script src="${commonsJsPath}jquery/jquery-3.6.0.min.js"></script> <#-- main JQuery file -->
 </#macro>
 <#macro coreAdminJSLinks>
-<script src="js/admin/jquery/jquery-migrate-3.4.0.min.js"></script> <#-- Compat JQuery file -->
-<script src="js/admin/jquery/jquery-ui.min.js"></script>
-<script src="js/admin/style/tabler/Sortable.min.js"></script> 
-<script src="js/admin/lib/polipop/polipop.min.js"></script>
-<script src="js/admin/style/tabler/bootstrap-filestyle.min.js"></script> 
-<script src="js/admin/style/tabler/bootstrap-colorpicker.js"></script> 
+<script src="${commonsJsPath}jquery/jquery-migrate-3.4.0.min.js"></script> <#-- Compat JQuery file -->
+<script src="${commonsJsPath}jquery/jquery-ui.min.js"></script>
+<script src="${commonsJsPath}style/tabler/Sortable.min.js"></script> 
+<script src="${commonsJsPath}lib/polipop/polipop.min.js"></script>
+<script src="${commonsJsPath}style/tabler/bootstrap-filestyle.min.js"></script> 
+<script src="${commonsJsPath}style/tabler/bootstrap-colorpicker.js"></script> 
 <script src="js/util/progress-manager.js"></script>
-<script src="js/admin/style/tabler/bootstrap.bundle.min.js"></script> 
-<script src="js/admin/style/tabler/admin.js"></script>  
+<script src="${commonsJsPath}style/tabler/bootstrap.bundle.min.js"></script> 
+<script src="${commonsJsPath}style/tabler/admin.js"></script>  
 </#macro>
 <#-- Pages -->
 <#-- Header -->
-<#include "webcomponents/bs5/tabler/Pages/Header/adminHeader.ftl" />
-<#include "webcomponents/bs5/tabler/Pages/Header/adminContentHeader.ftl" />
-<#include "webcomponents/bs5/tabler/Pages/Header/adminHeaderDocumentationLink.ftl" />
-<#include "webcomponents/bs5/tabler/Pages/Header/adminLanguage.ftl" />
-<#include "webcomponents/bs5/tabler/Pages/Header/adminAccessibilityMode.ftl" />
-<#include "webcomponents/bs5/tabler/Pages/Header/adminSiteColumnOutline.ftl" />
-<#include "webcomponents/bs5/tabler/Pages/Header/adminSiteToolbar.ftl" />
+<#include "${commonsFtlPath}Pages/Header/adminHeader.ftl" />
+<#include "${commonsFtlPath}Pages/Header/adminContentHeader.ftl" />
+<#include "${commonsFtlPath}Pages/Header/adminHeaderDocumentationLink.ftl" />
+<#include "${commonsFtlPath}Pages/Header/adminLanguage.ftl" />
+<#include "${commonsFtlPath}Pages/Header/adminAccessibilityMode.ftl" />
+<#include "${commonsFtlPath}Pages/Header/adminSiteColumnOutline.ftl" />
+<#include "${commonsFtlPath}Pages/Header/adminSiteToolbar.ftl" />
 <#-- Footer -->
-<#include "webcomponents/bs5/tabler/Pages/Footer/adminFooter.ftl" />
+<#include "${commonsFtlPath}Pages/Footer/adminFooter.ftl" />
 <#-- Home -->
-<#include "webcomponents/bs5/tabler/Pages/Home/adminHome.ftl" />
-<#include "webcomponents/bs5/tabler/Pages/Home/adminDashboardWidget.ftl" />
-<#include "webcomponents/bs5/tabler/Pages/Home/adminDashboardPanel.ftl" />
+<#include "${commonsFtlPath}Pages/Home/adminHome.ftl" />
+<#include "${commonsFtlPath}Pages/Home/adminDashboardWidget.ftl" />
+<#include "${commonsFtlPath}Pages/Home/adminDashboardPanel.ftl" />
 <#-- Login page -->
-<#include "webcomponents/bs5/tabler/Pages/Login/adminLoginPage.ftl" />
+<#include "${commonsFtlPath}Pages/Login/adminLoginPage.ftl" />
 <#-- Message page -->
-<#include "webcomponents/bs5/tabler/Pages/Message/adminMessagePage.ftl" />
+<#include "${commonsFtlPath}Pages/Message/adminMessagePage.ftl" />
 <#-- Email template -->
-<#include "webcomponents/bs5/tabler/Pages/Email/emailTemplate.ftl" />
+<#include "${commonsFtlPath}Pages/Email/emailTemplate.ftl" />
 <#-- Error page -->
-<#include "webcomponents/bs5/tabler/Pages/Error/errorPage.ftl" />
+<#include "${commonsFtlPath}Pages/Error/errorPage.ftl" />
 <#-- Components -->
 <#-- Pagination components -->
-<#include "webcomponents/bs5/tabler/Components/Pagination/pagination.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Pagination/paginationAdmin.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Pagination/paginationPageLinks.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Pagination/paginationCombo.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Pagination/paginationItemCount.ftl" />
+<#include "${commonsFtlPath}Components/Pagination/pagination.ftl" />
+<#include "${commonsFtlPath}Components/Pagination/paginationAdmin.ftl" />
+<#include "${commonsFtlPath}Components/Pagination/paginationPageLinks.ftl" />
+<#include "${commonsFtlPath}Components/Pagination/paginationCombo.ftl" />
+<#include "${commonsFtlPath}Components/Pagination/paginationItemCount.ftl" />
 <#-- Navbar components -->
-<#include "webcomponents/bs5/tabler/Components/Navbar/item_navigation.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Navbar/navBar.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Navbar/nav.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Navbar/navItem.ftl" />
+<#include "${commonsFtlPath}Components/Navbar/item_navigation.ftl" />
+<#include "${commonsFtlPath}Components/Navbar/navBar.ftl" />
+<#include "${commonsFtlPath}Components/Navbar/nav.ftl" />
+<#include "${commonsFtlPath}Components/Navbar/navItem.ftl" />
 <#-- Alert components -->
-<#include "webcomponents/bs5/tabler/Components/Alert/messages.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Alert/callOut.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Alert/alert.ftl" />
+<#include "${commonsFtlPath}Components/Alert/messages.ftl" />
+<#include "${commonsFtlPath}Components/Alert/callOut.ftl" />
+<#include "${commonsFtlPath}Components/Alert/alert.ftl" />
 <#-- Table components -->
-<#include "webcomponents/bs5/tabler/Components/Table/table.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Table/tableHead.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Table/tableBody.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Table/tableFoot.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Table/tableHeadBodySeparator.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Table/tr.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Table/th.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Table/td.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Table/sort.ftl" />
+<#include "${commonsFtlPath}Components/Table/table.ftl" />
+<#include "${commonsFtlPath}Components/Table/tableHead.ftl" />
+<#include "${commonsFtlPath}Components/Table/tableBody.ftl" />
+<#include "${commonsFtlPath}Components/Table/tableFoot.ftl" />
+<#include "${commonsFtlPath}Components/Table/tableHeadBodySeparator.ftl" />
+<#include "${commonsFtlPath}Components/Table/tr.ftl" />
+<#include "${commonsFtlPath}Components/Table/th.ftl" />
+<#include "${commonsFtlPath}Components/Table/td.ftl" />
+<#include "${commonsFtlPath}Components/Table/sort.ftl" />
 <#-- Icon components -->
-<#include "webcomponents/bs5/tabler/Components/Icon/icon.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Icon/iconStack.ftl" />
+<#include "${commonsFtlPath}Components/Icon/icon.ftl" />
+<#include "${commonsFtlPath}Components/Icon/iconStack.ftl" />
 <#-- List components -->
-<#include "webcomponents/bs5/tabler/Components/List/ul.ftl" />
-<#include "webcomponents/bs5/tabler/Components/List/li.ftl" />
-<#include "webcomponents/bs5/tabler/Components/List/listGroup.ftl" />
-<#include "webcomponents/bs5/tabler/Components/List/listGroupItem.ftl" />
-<#include "webcomponents/bs5/tabler/Components/List/unstyledList.ftl" />
+<#include "${commonsFtlPath}Components/List/ul.ftl" />
+<#include "${commonsFtlPath}Components/List/li.ftl" />
+<#include "${commonsFtlPath}Components/List/listGroup.ftl" />
+<#include "${commonsFtlPath}Components/List/listGroupItem.ftl" />
+<#include "${commonsFtlPath}Components/List/unstyledList.ftl" />
 <#-- Tabs components -->
-<#include "webcomponents/bs5/tabler/Components/Tabs/tabs.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Tabs/tabList.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Tabs/tabLink.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Tabs/tabContent.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Tabs/tabPanel.ftl" />
+<#include "${commonsFtlPath}Components/Tabs/tabs.ftl" />
+<#include "${commonsFtlPath}Components/Tabs/tabList.ftl" />
+<#include "${commonsFtlPath}Components/Tabs/tabLink.ftl" />
+<#include "${commonsFtlPath}Components/Tabs/tabContent.ftl" />
+<#include "${commonsFtlPath}Components/Tabs/tabPanel.ftl" />
 <#-- Accordion components -->
-<#include "webcomponents/bs5/tabler/Components/Accordion/accordionContainer.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Accordion/accordionPanel.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Accordion/accordionHeader.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Accordion/accordionBody.ftl" />
+<#include "${commonsFtlPath}Components/Accordion/accordionContainer.ftl" />
+<#include "${commonsFtlPath}Components/Accordion/accordionPanel.ftl" />
+<#include "${commonsFtlPath}Components/Accordion/accordionHeader.ftl" />
+<#include "${commonsFtlPath}Components/Accordion/accordionBody.ftl" />
 <#-- Progress components -->
-<#include "webcomponents/bs5/tabler/Components/Progress/progressBar.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Progress/progress.ftl" />
+<#include "${commonsFtlPath}Components/Progress/progressBar.ftl" />
+<#include "${commonsFtlPath}Components/Progress/progress.ftl" />
 <#-- Info Box components -->
-<#include "webcomponents/bs5/tabler/Components/InfoBox/infoBox.ftl" />
+<#include "${commonsFtlPath}Components/InfoBox/infoBox.ftl" />
 <#-- Tags components -->
-<#include "webcomponents/bs5/tabler/Components/Tags/tag.ftl" />
+<#include "${commonsFtlPath}Components/Tags/tag.ftl" />
 <#-- Button components -->
-<#include "webcomponents/bs5/tabler/Components/Button/button.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Button/aButton.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Button/btnToolbar.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Button/btnGroup.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Button/actionButtons.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Button/btnGroupRadioCheckbox.ftl" />
+<#include "${commonsFtlPath}Components/Button/button.ftl" />
+<#include "${commonsFtlPath}Components/Button/aButton.ftl" />
+<#include "${commonsFtlPath}Components/Button/btnToolbar.ftl" />
+<#include "${commonsFtlPath}Components/Button/btnGroup.ftl" />
+<#include "${commonsFtlPath}Components/Button/actionButtons.ftl" />
+<#include "${commonsFtlPath}Components/Button/btnGroupRadioCheckbox.ftl" />
 <#-- Modal components -->
-<#include "webcomponents/bs5/tabler/Components/Modal/modal.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Modal/modalHeader.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Modal/modalBody.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Modal/modalFooter.ftl" />
+<#include "${commonsFtlPath}Components/Modal/modal.ftl" />
+<#include "${commonsFtlPath}Components/Modal/modalHeader.ftl" />
+<#include "${commonsFtlPath}Components/Modal/modalBody.ftl" />
+<#include "${commonsFtlPath}Components/Modal/modalFooter.ftl" />
 <#-- Breadcrumbs components -->
-<#include "webcomponents/bs5/tabler/Components/Breadcrumbs/breadcrumbs.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Breadcrumbs/breadcrumbItem.ftl" />
+<#include "${commonsFtlPath}Components/Breadcrumbs/breadcrumbs.ftl" />
+<#include "${commonsFtlPath}Components/Breadcrumbs/breadcrumbItem.ftl" />
 <#-- Box components -->
-<#include "webcomponents/bs5/tabler/Components/Box/box.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Box/boxHeader.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Box/boxBody.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Box/boxFooter.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Box/smallBox.ftl" />
+<#include "${commonsFtlPath}Components/Box/box.ftl" />
+<#include "${commonsFtlPath}Components/Box/boxHeader.ftl" />
+<#include "${commonsFtlPath}Components/Box/boxBody.ftl" />
+<#include "${commonsFtlPath}Components/Box/boxFooter.ftl" />
+<#include "${commonsFtlPath}Components/Box/smallBox.ftl" />
 <#-- Card components -->
-<#include "webcomponents/bs5/tabler/Components/Card/card.ftl" />
+<#include "${commonsFtlPath}Components/Card/card.ftl" />
 <#-- Timeline components -->
-<#include "webcomponents/bs5/tabler/Components/Timeline/timeline.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Timeline/timelineLabel.ftl" />
-<#include "webcomponents/bs5/tabler/Components/Timeline/timelineItem.ftl" />
+<#include "${commonsFtlPath}Components/Timeline/timeline.ftl" />
+<#include "${commonsFtlPath}Components/Timeline/timelineLabel.ftl" />
+<#include "${commonsFtlPath}Components/Timeline/timelineItem.ftl" />
 <#-- Forms components -->
 <#-- Form components -->
-<#include "webcomponents/bs5/tabler/Forms/Form/tform.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Form/formGroup.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Form/formField.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Form/formLabel.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Form/formHelp.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Form/staticText.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Form/fieldSet.ftl" />
+<#include "${commonsFtlPath}Forms/Form/tform.ftl" />
+<#include "${commonsFtlPath}Forms/Form/formGroup.ftl" />
+<#include "${commonsFtlPath}Forms/Form/formField.ftl" />
+<#include "${commonsFtlPath}Forms/Form/formLabel.ftl" />
+<#include "${commonsFtlPath}Forms/Form/formHelp.ftl" />
+<#include "${commonsFtlPath}Forms/Form/staticText.ftl" />
+<#include "${commonsFtlPath}Forms/Form/fieldSet.ftl" />
 <#-- Input components -->
-<#include "webcomponents/bs5/tabler/Forms/Input/input.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Input/inputGroup.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Input/inputGroupItem.ftl" />
+<#include "${commonsFtlPath}Forms/Input/input.ftl" />
+<#include "${commonsFtlPath}Forms/Input/inputGroup.ftl" />
+<#include "${commonsFtlPath}Forms/Input/inputGroupItem.ftl" />
 <#-- Select components -->
-<#include "webcomponents/bs5/tabler/Forms/Select/select.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Select/options.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Select/option.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Select/selectIconFont.ftl" />
+<#include "${commonsFtlPath}Forms/Select/select.ftl" />
+<#include "${commonsFtlPath}Forms/Select/options.ftl" />
+<#include "${commonsFtlPath}Forms/Select/option.ftl" />
+<#include "${commonsFtlPath}Forms/Select/selectIconFont.ftl" />
 <#-- Checkbox and Radio components -->
-<#include "webcomponents/bs5/tabler/Forms/Checkbox and Radio/checkBox.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Checkbox and Radio/radioButton.ftl" />
+<#include "${commonsFtlPath}Forms/Checkbox and Radio/checkBox.ftl" />
+<#include "${commonsFtlPath}Forms/Checkbox and Radio/radioButton.ftl" />
 <#-- Dropdown components -->
-<#include "webcomponents/bs5/tabler/Forms/Dropdown/dropdownMenu.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Dropdown/dropdownList.ftl" />
-<#include "webcomponents/bs5/tabler/Forms/Dropdown/dropdownItem.ftl" />
+<#include "${commonsFtlPath}Forms/Dropdown/dropdownMenu.ftl" />
+<#include "${commonsFtlPath}Forms/Dropdown/dropdownList.ftl" />
+<#include "${commonsFtlPath}Forms/Dropdown/dropdownItem.ftl" />
 <#-- Layout -->
-<#include "webcomponents/bs5/tabler/Layout/Row/row.ftl" />
-<#include "webcomponents/bs5/tabler/Layout/Columns/columns.ftl" />
-<#include "webcomponents/bs5/tabler/Layout/Page/pageContainer.ftl" />
-<#include "webcomponents/bs5/tabler/Layout/Page/pageColumn.ftl" />
-<#include "webcomponents/bs5/tabler/Layout/Page/pageHeader.ftl" />
+<#include "${commonsFtlPath}Layout/Row/row.ftl" />
+<#include "${commonsFtlPath}Layout/Columns/columns.ftl" />
+<#include "${commonsFtlPath}Layout/Page/page.ftl" />
+<#include "${commonsFtlPath}Layout/Page/pageColumn.ftl" />
+<#include "${commonsFtlPath}Layout/Page/pageHeader.ftl" />
+<#include "${commonsFtlPath}Layout/Page/pageRow.ftl" />
+<#include "${commonsFtlPath}Layout/Page/pageWrapper.ftl" />
 <#-- Elements -->
-<#include "webcomponents/bs5/tabler/Elements/Div/div.ftl" />
-<#include "webcomponents/bs5/tabler/Elements/Paragraph/p.ftl" />
-<#include "webcomponents/bs5/tabler/Elements/Span/span.ftl" />
-<#include "webcomponents/bs5/tabler/Elements/Preformatted/pre.ftl" />
-<#include "webcomponents/bs5/tabler/Elements/Link/link.ftl" />
-<#include "webcomponents/bs5/tabler/Elements/Image/img.ftl" />
+<#include "${commonsFtlPath}Elements/Div/div.ftl" />
+<#include "${commonsFtlPath}Elements/Paragraph/p.ftl" />
+<#include "${commonsFtlPath}Elements/Span/span.ftl" />
+<#include "${commonsFtlPath}Elements/Preformatted/pre.ftl" />
+<#include "${commonsFtlPath}Elements/Link/link.ftl" />
+<#include "${commonsFtlPath}Elements/Image/img.ftl" />
 <#-- Utilities -->
-<#include "webcomponents/bs5/tabler/Utilities/Colors/coloredBg.ftl" />
-<#include "webcomponents/bs5/tabler/Utilities/Functions/displaySettings.ftl" />
-<#include "webcomponents/bs5/tabler/Utilities/Functions/responsiveDisplay.ftl" />
-<#include "webcomponents/bs5/tabler/Utilities/Functions/alignmentSettings.ftl" />
-<#include "webcomponents/bs5/tabler/Utilities/Empty/empty.ftl" />
-<#include "webcomponents/bs5/tabler/Utilities/Deprecated/deprecatedWarning.ftl" />
+<#include "${commonsFtlPath}Utilities/Colors/coloredBg.ftl" />
+<#include "${commonsFtlPath}Utilities/Functions/displaySettings.ftl" />
+<#include "${commonsFtlPath}Utilities/Functions/responsiveDisplay.ftl" />
+<#include "${commonsFtlPath}Utilities/Functions/alignmentSettings.ftl" />
+<#include "${commonsFtlPath}Utilities/Empty/empty.ftl" />
+<#include "${commonsFtlPath}Utilities/Deprecated/deprecatedWarning.ftl" />
 <#-- Javascript -->
-<#include "webcomponents/bs5/tabler/Javascript/scrollTop/scrollTopBtn.ftl" />
-<#include "webcomponents/bs5/tabler/Javascript/CopyElementToClipboard/copyElementToClipboard.ftl" />
-<#include "webcomponents/bs5/tabler/Javascript/Highlight/codeHighLight.ftl" />
+<#include "${commonsFtlPath}Javascript/scrollTop/scrollTopBtn.ftl" />
+<#include "${commonsFtlPath}Javascript/CopyElementToClipboard/copyElementToClipboard.ftl" />
+<#include "${commonsFtlPath}Javascript/Highlight/codeHighLight.ftl" />
 <#-- Plugins -->
-<#include "webcomponents/bs5/tabler/Plugins/toaster/initToast.ftl" />
-<#include "webcomponents/bs5/tabler/Plugins/toaster/addToast.ftl" />
-<#include "webcomponents/bs5/tabler/Plugins/tree/jsTreeInit.ftl" />
-<#include "webcomponents/bs5/tabler/Plugins/tree/jsTreeSearch.ftl" />
+<#include "${commonsFtlPath}Plugins/toaster/initToast.ftl" />
+<#include "${commonsFtlPath}Plugins/toaster/addToast.ftl" />
+<#include "${commonsFtlPath}Plugins/tree/jsTreeInit.ftl" />
+<#include "${commonsFtlPath}Plugins/tree/jsTreeSearch.ftl" />

@@ -8,7 +8,6 @@ Parameters:
 - message (object): an object containing information about the message to be displayed, including its type and text.
 - text (string): the text of the message.
 -->
-
 <#macro adminMessagePage title=''>
 <#assign title=title />
 <#assign alerttype="primary" />

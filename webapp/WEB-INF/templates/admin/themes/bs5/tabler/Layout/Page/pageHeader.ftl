@@ -9,7 +9,7 @@ Parameters:
 - description (string, optional): the description of the page header.
 -->
 <#macro pageHeader id='' title='' description=''>
-<div id="pageHeader" class="mb-4">
+<div id="pageHeader">
 	<div class="d-lg-flex align-items-center justify-content-between">
 	  <div class="flex-grow-1">
 	  <h1 class="mb-0 fw-bolder">${title}</h1>

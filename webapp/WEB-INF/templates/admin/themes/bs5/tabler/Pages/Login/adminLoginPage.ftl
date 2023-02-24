@@ -6,7 +6,6 @@ Parameters:
 - title (string, optional): the title to display on the login page.
 - site_name (string, optional): the name of the site to display on the login page.
 -->
-
 <#macro adminLoginPage title='' site_name='LUTECE'>
 	<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
 	</head>
