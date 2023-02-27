@@ -55,29 +55,7 @@ $( function(){
 	// 	});
 	// }
 		
-	// Sortable Widgets
-	const dashSortables = [].slice.call(document.querySelectorAll('.dashboard-widgets .widget-col'));
 
-	// Loop through each nested sortable element
-	for ( var i = 0; i < dashSortables.length; i++) {
-		var sortableDash = new Sortable( dashSortables[i], {
-			group: 'widget-dashboard',
-			swapThreshold: 0.65,
-			draggable: '.box-widget',
-			store: {
-				get: function (sortable) {
-					var order = localStorage.getItem(sortable.options.group.name);
-					return order ? order.split('|') : [];
-				},
-				set: function (sortable) {
-					var order = sortable.toArray();
-					localStorage.setItem(sortable.options.group.name, order.join('|'));
-				}
-			}
-		});
-	}
-
-	$(".widget-col > .card > .card-header, .widget-col > .card .avatar, .widget-col > .card .info-box-icon").css("cursor", "move");
 
 	$('#switch-darkmode').on('click', function(){
 		var boTheme=localStorage.getItem('theme-bo-lutece');
