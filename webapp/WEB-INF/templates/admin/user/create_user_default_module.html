@@ -76,7 +76,7 @@
 								</@inputGroup>
 							</@formGroup>
 							<@formGroup rows=2>
-								<@progress />
+								<@passwordComplexity id="progress_bar_first_password" inputId="first_password" />
 							</@formGroup>
 							<@div class='clearfix'></@div>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelNotify}' rows=2>
@@ -156,19 +156,17 @@
 		</@box>
 	</@columns>
 </@row>
-<script src="js/admin/jquery/plugins/jquery.complexify.js"></script>
-<script src="js/admin/jquery/plugins/generatepassword/jquery.password.min.js"></script>
-<script>
-$( function(){	
-	$("#generate_password").click(function(){
-		var pwd = $.password(${randomPasswordSize}, true);
-		$("#first_password").val(pwd);
-		$("#second_password").val(pwd);
-		$("#first_password").trigger("propertychange");
-    });
-	$("#first_password").complexify({}, function (valid, complexity) {
-		var progressBar = $('#progressbar');
-		progress( progressBar, complexity, valid );
+<script type="module">
+	import {
+			LutecePassword
+		} from './js/modules/lutecePassword.js';
+	
+	const password = new LutecePassword();
+	const generator = document.getElementById('generate_password');
+	const input = document.getElementById('first_password');
+
+	generator.addEventListener('click', () => {
+		input.value = password.generatePassword();
+		input.dispatchEvent(new Event('input'));
 	});
-})
 </script>
