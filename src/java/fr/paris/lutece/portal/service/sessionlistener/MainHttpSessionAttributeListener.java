@@ -33,62 +33,47 @@
  */
 package fr.paris.lutece.portal.service.sessionlistener;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
-
-import javax.servlet.http.HttpSessionListener;
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionBindingEvent;
 
 /**
- * Listener service : provides registered listener access.
- *
+ * Delegates all operations to all registered plugin-listeners.
+ * 
+ * @see HttpSessionAttributeListenerService#getListeners()
  */
-public final class HttpSessionListenerService
+public class MainHttpSessionAttributeListener implements HttpSessionAttributeListener
 {
-    private static final List<HttpSessionListener> LIST_LISTENERS = new ArrayList<>( );
 
     /**
-     * Private constructor
+     * {@inheritDoc}
      */
-    private HttpSessionListenerService( )
+    public void attributeAdded( HttpSessionBindingEvent event )
     {
-        // nothing
-    }
-
-    /**
-     * Registers a listener.
-     *
-     * @param entry
-     *            the entry
-     */
-    public static void registerListener( HttpSessionListenerEntry entry )
-    {
-        String strListenerClass = entry.getListenerClass( );
-
-        try
+        for ( HttpSessionAttributeListener listener : HttpSessionAttributeListenerService.getListeners( ) )
         {
-            EventListener listener = (EventListener) Class.forName( strListenerClass ).newInstance( );
-            if ( listener instanceof HttpSessionListener )
-            {
-                LIST_LISTENERS.add( (HttpSessionListener) listener );
-                AppLogService.info( "New Listener registered : {}", strListenerClass );
-            }
-        }
-        catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
-        {
-            AppLogService.error( "Error registering the listener {} : {}", strListenerClass, e.getMessage( ), e );
+            listener.attributeAdded( event );
         }
     }
 
     /**
-     * Get all registered listeners
-     * 
-     * @return all registered listeners
+     * {@inheritDoc}
      */
-    public static List<HttpSessionListener> getListeners( )
+    public void attributeRemoved( HttpSessionBindingEvent event )
     {
-        return LIST_LISTENERS;
+        for ( HttpSessionAttributeListener listener : HttpSessionAttributeListenerService.getListeners( ) )
+        {
+            listener.attributeRemoved( event );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void attributeReplaced( HttpSessionBindingEvent event )
+    {
+        for ( HttpSessionAttributeListener listener : HttpSessionAttributeListenerService.getListeners( ) )
+        {
+            listener.attributeReplaced( event );
+        }
     }
 }

@@ -62,6 +62,7 @@ import fr.paris.lutece.portal.service.search.SearchIndexer;
 import fr.paris.lutece.portal.service.search.SearchIndexerEntry;
 import fr.paris.lutece.portal.service.servlet.ServletEntry;
 import fr.paris.lutece.portal.service.servlet.ServletService;
+import fr.paris.lutece.portal.service.sessionlistener.HttpSessionAttributeListenerService;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -418,6 +419,7 @@ public abstract class Plugin implements Comparable<Plugin>
         for ( HttpSessionListenerEntry entry : _listListeners )
         {
             HttpSessionListenerService.registerListener( entry );
+            HttpSessionAttributeListenerService.registerListener( entry );
         }
     }
 

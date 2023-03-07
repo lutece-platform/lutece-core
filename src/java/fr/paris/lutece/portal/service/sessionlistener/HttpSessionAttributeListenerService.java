@@ -35,24 +35,24 @@ package fr.paris.lutece.portal.service.sessionlistener;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import javax.servlet.http.HttpSessionAttributeListener;
+import javax.servlet.http.HttpSessionListener;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
-
-import javax.servlet.http.HttpSessionListener;
 
 /**
  * Listener service : provides registered listener access.
  *
  */
-public final class HttpSessionListenerService
+public final class HttpSessionAttributeListenerService
 {
-    private static final List<HttpSessionListener> LIST_LISTENERS = new ArrayList<>( );
+    private static final List<HttpSessionAttributeListener> LIST_LISTENERS = new ArrayList<>( );
 
     /**
      * Private constructor
      */
-    private HttpSessionListenerService( )
+    private HttpSessionAttributeListenerService( )
     {
         // nothing
     }
@@ -70,9 +70,9 @@ public final class HttpSessionListenerService
         try
         {
             EventListener listener = (EventListener) Class.forName( strListenerClass ).newInstance( );
-            if ( listener instanceof HttpSessionListener )
+            if ( listener instanceof HttpSessionAttributeListener )
             {
-                LIST_LISTENERS.add( (HttpSessionListener) listener );
+                LIST_LISTENERS.add( (HttpSessionAttributeListener) listener );
                 AppLogService.info( "New Listener registered : {}", strListenerClass );
             }
         }
@@ -87,7 +87,7 @@ public final class HttpSessionListenerService
      * 
      * @return all registered listeners
      */
-    public static List<HttpSessionListener> getListeners( )
+    public static List<HttpSessionAttributeListener> getListeners( )
     {
         return LIST_LISTENERS;
     }
