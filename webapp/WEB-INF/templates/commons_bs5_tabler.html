@@ -12,34 +12,29 @@
 <#assign commonsFtlPath='admin/themes/bs5/tabler/' /> 
 <#assign commonsAdminLayout=dskey('portal.site.site_property.layout.code') /> 
 <#assign commonsAdminLayoutClass=dskey('portal.site.site_property.layout.class') /> 
+<#assign optJqueryCommons=.get_optional_template('commons_theme_jquery.html')>
+<#if optJqueryCommons.exists><@optJqueryCommons.include /></#if>
+<#-- Pages -->
 <#macro coreAdminCSSLinks>
-<link href="${commonsCssPath}jquery-ui.min.css" rel="stylesheet" > <#-- provided by core -->
-<link href="${commonsCssPath}jquery-ui.structure.min.css" rel="stylesheet" > <#-- provided by core -->
-<link href="${commonsCssPath}jquery-ui.theme.min.css" rel="stylesheet" > <#-- provided by core -->
-<link href="${commonsCssPath}style/tabler/tabler.min.css" rel="stylesheet"><#-- Tabler main -->
-<link href="${commonsCssPath}style/tabler/tabler-flags.min.css" rel="stylesheet"><#-- Tabler flags -->
-<link href="${commonsCssPath}style/tabler/tabler-payments.min.css" rel="stylesheet"><#-- Tabler payment -->
-<link href="${commonsCssPath}style/tabler/tabler-vendors.min.css" rel="stylesheet"><#-- Tabler Vendors -->
-<link href="${commonsCssPath}style/tabler/all.min.css" rel="stylesheet"> <#-- Font-Awesome 5.8.1 -->
-<link href="${commonsCssPath}bootstrap-icons.css" rel="stylesheet" > <#-- Bootstrap Icons -->
-<link href="${commonsCssPath}style/tabler/tabler-icons.min.css" rel="stylesheet"><#-- Tabler icons -->
-<link href="${commonsCssPath}style/tabler/bootstrap-colorpicker.min.css" rel="stylesheet"><#-- BS colorpicker -->
-<link href="${commonsJsPath}lib/polipop/css/polipop.core.min.css" rel="stylesheet">
-<link href="${commonsJsPath}lib/polipop/css/polipop.default.min.css" rel="stylesheet">
-<link href="${commonsCssPath}style/tabler/portal_admin.css" rel="stylesheet"><#-- Lutece main admin CSS -->
-<link href="${commonsCssPath}portal_admin_site.css" rel="stylesheet"><#-- Site override admin CSS -Empty by default- -->
-<script src="${commonsJsPath}jquery/jquery-3.6.0.min.js"></script> <#-- main JQuery file -->
+<#if optJqueryCommons.exists><@coreAdminJqueryHeader /></#if>
+<link href="css/admin/style/tabler/tabler.min.css" rel="stylesheet"><#-- Tabler main -->
+<link href="css/admin/style/tabler/tabler-flags.min.css" rel="stylesheet"><#-- Tabler flags -->
+<link href="css/admin/style/tabler/tabler-payments.min.css" rel="stylesheet"><#-- Tabler payment -->
+<link href="css/admin/style/tabler/tabler-vendors.min.css" rel="stylesheet"><#-- Tabler Vendors -->
+<link href="css/admin/style/tabler/all.min.css" rel="stylesheet"> <#-- Font-Awesome 5.8.1 -->
+<link href="css/admin/bootstrap-icons.css" rel="stylesheet" > <#-- Bootstrap Icons -->
+<link href="css/admin/style/tabler/tabler-icons.min.css" rel="stylesheet"><#-- Tabler icons -->
+<link href="js/admin/lib/polipop/css/polipop.core.min.css" rel="stylesheet">
+<link href="js/admin/lib/polipop/css/polipop.default.min.css" rel="stylesheet">
+<link href="css/admin/style/tabler/portal_admin.css" rel="stylesheet"><#-- Lutece main admin CSS -->
+<link href="css/admin/portal_admin_site.css" rel="stylesheet"><#-- Site override admin CSS -Empty by default- -->
 </#macro>
 <#macro coreAdminJSLinks>
-<script src="${commonsJsPath}jquery/jquery-migrate-3.4.0.min.js"></script> <#-- Compat JQuery file -->
-<script src="${commonsJsPath}jquery/jquery-ui.min.js"></script>
-<script src="${commonsJsPath}style/tabler/Sortable.min.js"></script> 
-<script src="${commonsJsPath}lib/polipop/polipop.min.js"></script>
-<script src="${commonsJsPath}style/tabler/bootstrap-filestyle.min.js"></script> 
-<script src="${commonsJsPath}style/tabler/bootstrap-colorpicker.js"></script> 
-<script src="js/util/progress-manager.js"></script>
-<script src="${commonsJsPath}style/tabler/bootstrap.bundle.min.js"></script> 
-<script src="${commonsJsPath}style/tabler/admin.js"></script>  
+<#if optJqueryCommons.exists><@coreAdminjQueryFooter /></#if>
+<script src="js/admin/style/tabler/Sortable.min.js"></script> 
+<script src="js/admin/lib/polipop/polipop.min.js"></script>
+<script src="js/admin/style/tabler/bootstrap.bundle.min.js"></script> 
+<script src="js/admin/style/tabler/admin.js"></script> 
 </#macro>
 <#-- Pages -->
 <#-- Header -->
