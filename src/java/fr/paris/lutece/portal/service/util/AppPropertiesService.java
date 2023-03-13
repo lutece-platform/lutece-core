@@ -33,32 +33,24 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 
-import fr.paris.lutece.util.PropertiesService;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.spi.ConfigSource;
+
+import fr.paris.lutece.util.AppInitPropertiesService;
 
 /**
  * this class provides management services for properties files
  */
 public final class AppPropertiesService
 {
-    private static final String FILE_PROPERTIES_CONFIG = "config.properties";
-    private static final String FILE_PROPERTIES_DATABASE = "db.properties";
-    private static final String FILE_PROPERTIES_LUTECE = "lutece.properties";
-    private static final String FILE_PROPERTIES_SEARCH = "search.properties";
-    private static final String FILE_PROPERTIES_DAEMONS = "daemons.properties";
-    private static final String FILE_PROPERTIES_CACHES = "caches.properties";
-    private static final String FILE_PROPERTIES_EDITORS = "editors.properties";
-    private static final String PATH_PLUGINS = "plugins/";
-    private static final String PATH_OVERRIDE_CORE = "override/";
-    private static final String PATH_OVERRIDE_PLUGINS = "override/plugins";
-    private static PropertiesService _propertiesService;
-
+   
+	private static Config _config;
     /**
      * Private constructor
      */
@@ -74,19 +66,16 @@ public final class AppPropertiesService
      */
     public static void init( String strConfPath )
     {
-        String confPath = strConfPath;
-        _propertiesService = new PropertiesService( AppPathService.getWebAppPath( ) );
-
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CONFIG );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DATABASE );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_LUTECE );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_SEARCH );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DAEMONS );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CACHES );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_EDITORS );
-        _propertiesService.addPropertiesDirectory( confPath + PATH_PLUGINS );
-        _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_CORE );
-        _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_PLUGINS );
+    	AppInitPropertiesService.init(strConfPath);
+    	
+		try {
+			_config= ConfigProvider.getConfig();
+			
+		} catch (Exception e) {
+			AppLogService.error(e.getMessage( ), e);
+			throw e;
+		}	
+		
     }
 
     /**
@@ -98,7 +87,7 @@ public final class AppPropertiesService
      */
     public static String getProperty( String strProperty )
     {
-        return _propertiesService.getProperty( strProperty );
+    	return _config.getOptionalValue(strProperty, String.class).orElse(null);
     }
 
     /**
@@ -112,7 +101,7 @@ public final class AppPropertiesService
      */
     public static String getProperty( String strProperty, String strDefault )
     {
-        return _propertiesService.getProperty( strProperty, strDefault );
+    	return _config.getOptionalValue(strProperty, String.class).orElse( strDefault );
     }
 
     /**
@@ -126,7 +115,7 @@ public final class AppPropertiesService
      */
     public static int getPropertyInt( String strProperty, int nDefault )
     {
-        return _propertiesService.getPropertyInt( strProperty, nDefault );
+        return _config.getOptionalValue(strProperty, Integer.class).orElse( nDefault );
     }
 
     /**
@@ -140,7 +129,7 @@ public final class AppPropertiesService
      */
     public static long getPropertyLong( String strProperty, long lDefault )
     {
-        return _propertiesService.getPropertyLong( strProperty, lDefault );
+        return _config.getOptionalValue(strProperty, Long.class).orElse( lDefault );
     }
 
     /**
@@ -154,15 +143,40 @@ public final class AppPropertiesService
      */
     public static boolean getPropertyBoolean( String strProperty, boolean bDefault )
     {
-        return _propertiesService.getPropertyBoolean( strProperty, bDefault );
+        return _config.getOptionalValue(strProperty, Boolean.class).orElse( bDefault );
     }
 
+    /**
+     * Return the resolved property value with the specified type for the specified property name from the underlying
+     * {@linkplain ConfigSource configuration sources}.
+     * <p>
+     * The configuration value is not guaranteed to be cached by the implementation, and may be expensive to compute;
+     * therefore, if the returned value is intended to be frequently used, callers should consider storing rather than
+     * recomputing it.
+     * <p>
+     * If this method is used very often then consider to locally store the configured value.
+     *
+     * @param <T>
+     *            The property type
+     * @param propertyName
+     *            The configuration property name
+     * @param propertyType
+     *            The type into which the resolved property value should be converted
+     * @return The resolved property value as an {@code Optional} wrapping the requested type
+     *
+     * @throws IllegalArgumentException
+     *             if the property cannot be converted to the specified type
+     */
+    public <T> Optional<T> getOptionalValue(String name, Class<T> aClass) 
+    {
+    	return _config.getOptionalValue(name, aClass );
+    }
     /**
      * Reloads all the properties files
      */
     public static void reloadAll( )
     {
-        _propertiesService.reloadAll( );
+    	AppInitPropertiesService.reloadAll( );
     }
 
     /**
@@ -173,7 +187,7 @@ public final class AppPropertiesService
      */
     public static void reload( String strFilename )
     {
-        _propertiesService.reload( strFilename );
+    	AppInitPropertiesService.reload( strFilename );
     }
 
     /**
@@ -184,8 +198,7 @@ public final class AppPropertiesService
      */
     public static Properties getProperties( )
     {
-        // Return a copy of all properties
-        return new Properties( _propertiesService.getProperties( ) );
+        return AppInitPropertiesService.getProperties();
     }
 
     /**
@@ -196,19 +209,7 @@ public final class AppPropertiesService
      */
     public static Map<String, String> getPropertiesAsMap( )
     {
-        Map<String, String> res = new HashMap<>( );
-        Properties properties = _propertiesService.getProperties( );
-
-        // enumerate over property names to get all properties, including one which are defaults
-        Enumeration<?> names = properties.propertyNames( );
-
-        while ( names.hasMoreElements( ) )
-        {
-            String name = (String) names.nextElement( );
-            res.put( name, properties.getProperty( name ) );
-        }
-
-        return res;
+       return AppInitPropertiesService.getPropertiesAsMap();
     }
 
     /**
@@ -221,19 +222,6 @@ public final class AppPropertiesService
      */
     public static List<String> getKeys( String strPrefix )
     {
-        List<String> listKeys = new ArrayList<>( );
-        Enumeration eList = _propertiesService.getProperties( ).keys( );
-
-        while ( eList.hasMoreElements( ) )
-        {
-            String strKey = (String) eList.nextElement( );
-
-            if ( strKey.startsWith( strPrefix ) )
-            {
-                listKeys.add( strKey );
-            }
-        }
-
-        return listKeys;
+        return AppInitPropertiesService.getKeys( strPrefix );
     }
 }
