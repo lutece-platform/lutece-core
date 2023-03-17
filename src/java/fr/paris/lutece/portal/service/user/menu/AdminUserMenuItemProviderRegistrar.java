@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.portal.service.user.menu;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.BeanNameAware;
 
 import fr.paris.lutece.portal.business.user.menu.IAdminUserMenuItemProvider;
+import jakarta.annotation.PostConstruct;
 
 /**
  * Admin user menu provider registrar.

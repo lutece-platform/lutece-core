@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -174,6 +176,7 @@ public final class AppPropertiesService
     /**
      * Reloads all the properties files
      */
+    @Deprecated
     public static void reloadAll( )
     {
     	AppInitPropertiesService.reloadAll( );
@@ -185,6 +188,7 @@ public final class AppPropertiesService
      * @param strFilename
      *            The file name
      */
+    @Deprecated
     public static void reload( String strFilename )
     {
     	AppInitPropertiesService.reload( strFilename );
@@ -198,7 +202,11 @@ public final class AppPropertiesService
      */
     public static Properties getProperties( )
     {
-        return AppInitPropertiesService.getProperties();
+    	Properties properties = new Properties( );
+    	_config.getPropertyNames().forEach(x-> properties.put(x, _config.getOptionalValue(x, String.class).orElse("")));
+
+    	return properties;
+    	
     }
 
     /**
@@ -209,7 +217,12 @@ public final class AppPropertiesService
      */
     public static Map<String, String> getPropertiesAsMap( )
     {
-       return AppInitPropertiesService.getPropertiesAsMap();
+    	
+         Map<String,String> mapProperties=new HashMap<String, String>();	
+         _config.getPropertyNames().forEach(x-> mapProperties.put(x, _config.getOptionalValue(x, String.class).orElse("")));
+
+    	
+       return mapProperties;
     }
 
     /**
@@ -222,6 +235,9 @@ public final class AppPropertiesService
      */
     public static List<String> getKeys( String strPrefix )
     {
-        return AppInitPropertiesService.getKeys( strPrefix );
+    	List<String> listPropertiesKey=new ArrayList<String>();
+    	  _config.getPropertyNames().forEach(x-> listPropertiesKey.add(x));
+
+        return listPropertiesKey;
     }
 }
