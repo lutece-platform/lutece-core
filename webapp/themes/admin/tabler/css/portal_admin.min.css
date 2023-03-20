@@ -299,3 +299,10 @@ li.portlet-type a:hover{ background:var( --azure ) ;  color:var( --white ) ; }
 .list-file-item div .truncate{ margin-right: auto } 
 .list-file-item figure{ flex-shrink: 0; }
 .list-file-item figure + div{ flex-grow: 1 ; margin-left: auto }
+
+/* Pre element                                                */
+pre {
+  overflow-x: auto !important;
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+}
