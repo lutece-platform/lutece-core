@@ -1,0 +1,267 @@
+.polipop {
+    z-index: 999;
+    padding: 0;
+    box-sizing: border-box;
+    width: 350px;
+    text-align: left;
+}
+
+.polipop_position_inline {
+    position: relative;
+    width: 100%;
+    transition: height 0.25s ease-in-out;
+}
+
+.polipop_position_top-left {
+    position: fixed;
+    left: 10px;
+    top: 10px;
+}
+
+.polipop_position_top-right {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+}
+
+.polipop_position_bottom-left {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+}
+
+.polipop_position_bottom-right {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+}
+
+.polipop_position_center {
+    position: fixed;
+    transform: translateX(-50%);
+    top: 10px;
+    left: 50%;
+}
+
+.polipop__notifications {
+    height: 100%;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 998;
+}
+
+.polipop__notification {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: left;
+    display: none;
+    position: absolute;
+    transition: top 0.25s ease-in-out, bottom 0.25s ease-in-out;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.polipop__notification-progress {
+    width: 100%;
+    height: 4px;
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.polipop__notification-progress-inner {
+    width: 0%;
+    height: 4px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.polipop__notification-icon {
+    float: left;
+}
+.polipop__notification-icon svg {
+    width: 20px;
+    line-height: 20px;
+}
+
+.polipop__notification-inner {
+    overflow: hidden;
+}
+
+.polipop__notification-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.polipop__notification-close {
+    float: right;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.polipop__notification-close:focus {
+    outline: none;
+}
+
+.polipop__notification-content {
+    font-size: 14px;
+    box-sizing: border-box;
+    padding: 3px 0 0;
+}
+
+.polipop__closer {
+    line-height: 22px;
+    font-size: 14px;
+    padding: 4px 10px;
+    margin: 0;
+    cursor: pointer;
+    text-align: center;
+    box-sizing: border-box;
+    position: absolute;
+    width: 100%;
+    z-index: 999;
+}
+
+.polipop__closer-text {
+    vertical-align: middle;
+}
+.polipop_layout_panel {
+    width: 400px;
+    max-width: 100%;
+    transition: height 0.25s ease-in-out;
+    background-color: #f2f7fa;
+    overflow: hidden;
+}
+.polipop_layout_panel .polipop__notification-title {
+    margin: 0 0 5px;
+}
+.polipop_layout_panel.polipop_position_top-right .polipop__notifications,
+.polipop_layout_panel.polipop_position_top-left .polipop__notifications,
+.polipop_layout_panel.polipop_position_center .polipop__notifications,
+.polipop_layout_panel.polipop_position_inline .polipop__notifications {
+    top: 43px;
+}
+.polipop_layout_panel.polipop_position_top-right .polipop__notification,
+.polipop_layout_panel.polipop_position_top-left .polipop__notification,
+.polipop_layout_panel.polipop_position_center .polipop__notification,
+.polipop_layout_panel.polipop_position_inline .polipop__notification {
+    border-top: 1px solid transparent;
+}
+.polipop_layout_panel.polipop_position_top-right .polipop__closer,
+.polipop_layout_panel.polipop_position_top-left .polipop__closer,
+.polipop_layout_panel.polipop_position_center .polipop__closer,
+.polipop_layout_panel.polipop_position_inline .polipop__closer {
+    top: 43px;
+}
+.polipop_layout_panel.polipop_position_top-right .polipop__header,
+.polipop_layout_panel.polipop_position_top-left .polipop__header,
+.polipop_layout_panel.polipop_position_center .polipop__header,
+.polipop_layout_panel.polipop_position_inline .polipop__header {
+    top: 0;
+}
+.polipop_layout_panel.polipop_position_top-right .polipop__header-inner,
+.polipop_layout_panel.polipop_position_top-left .polipop__header-inner,
+.polipop_layout_panel.polipop_position_center .polipop__header-inner,
+.polipop_layout_panel.polipop_position_inline .polipop__header-inner {
+    top: 0;
+}
+.polipop_layout_panel.polipop_position_bottom-right .polipop__notifications,
+.polipop_layout_panel.polipop_position_bottom-left .polipop__notifications {
+    bottom: 43px;
+}
+.polipop_layout_panel.polipop_position_bottom-right .polipop__notification,
+.polipop_layout_panel.polipop_position_bottom-left .polipop__notification {
+    border-bottom: 1px solid transparent;
+}
+.polipop_layout_panel.polipop_position_bottom-right .polipop__closer,
+.polipop_layout_panel.polipop_position_bottom-left .polipop__closer {
+    bottom: 43px;
+}
+.polipop_layout_panel.polipop_position_bottom-right .polipop__header,
+.polipop_layout_panel.polipop_position_bottom-left .polipop__header {
+    bottom: 0;
+}
+.polipop_layout_panel.polipop_position_bottom-right .polipop__header-inner,
+.polipop_layout_panel.polipop_position_bottom-left .polipop__header-inner {
+    bottom: 0;
+}
+
+.polipop__header {
+    position: absolute;
+    height: 44px;
+    width: 100%;
+    z-index: 999;
+}
+
+.polipop__header-inner {
+    position: absolute;
+    width: 100%;
+    padding: 10px 15px;
+    line-height: 22px;
+    cursor: pointer;
+    background-color: #edf4f9;
+}
+.polipop__header-inner span {
+    vertical-align: middle;
+}
+
+.polipop__header-count,
+.polipop__closer-count {
+    display: inline-block;
+    margin: 0 0 0 5px;
+    padding: 3px;
+    min-width: 20px;
+    height: 20px;
+    line-height: 14px;
+    vertical-align: middle;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+
+.polipop__header-minimize {
+    display: none;
+    float: right;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 22px;
+    color: #777777;
+}
+.polipop_layout_popups .polipop__notification {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.polipop_layout_popups .polipop__notification-title {
+    margin: 0 0 10px;
+}
+.polipop_layout_popups .polipop__closer {
+    border: 1px solid transparent;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    background-color: #333333;
+    color: #ffffff;
+}
+.polipop_layout_popups.polipop_position_top-left .polipop__notifications,
+.polipop_layout_popups.polipop_position_top-right .polipop__notifications,
+.polipop_layout_popups.polipop_position_center .polipop__notifications,
+.polipop_layout_popups.polipop_position_inline .polipop__notifications {
+    top: 0;
+}
+.polipop_layout_popups.polipop_position_top-left .polipop__closer,
+.polipop_layout_popups.polipop_position_top-right .polipop__closer,
+.polipop_layout_popups.polipop_position_center .polipop__closer,
+.polipop_layout_popups.polipop_position_inline .polipop__closer {
+    top: 0;
+}
+.polipop_layout_popups.polipop_position_bottom-left .polipop__notifications,
+.polipop_layout_popups.polipop_position_bottom-right .polipop__notifications {
+    bottom: 0;
+}
+.polipop_layout_popups.polipop_position_bottom-left .polipop__closer,
+.polipop_layout_popups.polipop_position_bottom-right .polipop__closer {
+    bottom: 0;
+}

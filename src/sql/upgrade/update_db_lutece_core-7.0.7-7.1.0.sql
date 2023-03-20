@@ -1,4 +1,15 @@
 ALTER TABLE core_feature_group ADD COLUMN feature_group_icon VARCHAR(255) DEFAULT NULL;
-
 INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.class', 'sidebar');
 INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.code', 'header');
+DELETE FROM `core_datastore` WHERE `entity_key` = 'portal.site.site_property.logo_url';
+INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.logo_url', 'themes/admin/shared/images/logo-header-icon.png');
+DELETE FROM `core_datastore` WHERE `entity_key` = 'portal.site.site_property.layout.login.image';
+INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.login.image', 'themes/admin/tabler/images/login-cover.jpg');
+DELETE FROM `core_datastore` WHERE `entity_key` = 'portal.site.site_property.back_images';
+INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.back_images', '\'themes/admin/shared/images/bg_login1.svg\' , \'themes/admin/shared/images/bg_login2.svg\' , \'themes/admin/shared/images/bg_login3.svg\' , \'themes/admin/shared/images/bg_login4.svg\'');
+DELETE FROM `core_datastore` WHERE `entity_key` = 'portal.site.site_property.avatar_default';
+INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.avatar_default', 'themes/shared/images/unknown.png');
+DELETE FROM `core_datastore` WHERE `entity_key` = 'core.frontOffice.defaultEditor';
+INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('core.frontOffice.defaultEditor', 'sceeditorbbcode');
+DELETE FROM `core_stylesheet` WHERE `id_stylesheet` = 213;
+INSERT INTO `core_stylesheet` (`id_stylesheet`, `description`, `file_name`, `source`) VALUES (213, 'Main Menu', 'menu_main.xsl', _binary 0x3C3F786D6C2076657273696F6E3D22312E30223F3E0D0A3C78736C3A7374796C6573686565742076657273696F6E3D22312E302220786D6C6E733A78736C3D22687474703A2F2F7777772E77332E6F72672F313939392F58534C2F5472616E73666F726D223E0D0A202020203C78736C3A706172616D206E616D653D22736974652D70617468222073656C6563743D22736974652D7061746822202F3E0D0A202020203C78736C3A74656D706C617465206D617463683D226D656E752D6C697374223E0D0A20202020202020203C78736C3A6170706C792D74656D706C617465732073656C6563743D226D656E7522202F3E0D0A202020203C2F78736C3A74656D706C6174653E0D0A202020203C78736C3A74656D706C617465206D617463683D226D656E75223E0D0A20202020202020203C6C6920636C6173733D226E61762D6974656D223E0D0A2020202020202020202020203C6120687265663D227B24736974652D706174687D3F706167655F69643D7B706167652D69647D2220636C6173733D226E61762D6C696E6B22207461726765743D225F746F70223E0D0A202020202020202020202020202020203C78736C3A76616C75652D6F662073656C6563743D22706167652D6E616D6522202F3E0D0A2020202020202020202020203C2F613E0D0A20202020202020203C2F6C693E0D0A202020203C2F78736C3A74656D706C6174653E0D0A3C2F78736C3A7374796C6573686565743E);

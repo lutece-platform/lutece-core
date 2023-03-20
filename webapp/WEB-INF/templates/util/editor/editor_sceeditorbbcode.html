@@ -1,0 +1,44 @@
+<#-- @macro initEditor                                      						-->
+<#-- @title Init FO editor BBCode Editor                    						-->
+<#-- ----------------------------------------------------------------------------- 	-->
+<#-- @tag | editor, front, bbcode , sceeditor               						-->
+<#-- ----------------------------------------------------------------------------- 	-->
+<#-- @summary | Add BBCODE editor to  textarea with id "sceeditor" -default conf-  	-->
+<#-- ------------------------------------------------------------------------------------------ 	-->
+<#--  		name 	 | type  | default     | List of values | Description							--> 
+<#-- ------------------------------------------------------------------------------------------ 	-->
+<#-- @param editorId | text  | 'sceeditor' | | 'sceeditor' is the default id set for textarea.  	--> 
+<#-- @param skin 	 | text  | 'default'   | ['default','defaultdark','modern','office', 'office-toolbar', 'square'] | default is the default theme. Possible value  -->
+<#-- @param format 	 | text  | 'bbcode'    | ['bbcode','xhtml'] | Default is bbcode can be set to xhtml  -->
+<#-- @param icons 	 | text  | ''          | ['material','monocons'] | Default '' -->
+<#-- @param plugins  | list - text | '' 		   | ['alternative-lists','autosave' ,'autoyoutube', 'dragdrop', 'format','plaintext','undo'] | Default is '' -->
+<#-- -----------------------------------------------------------------------------	-->
+<#macro initEditor editorId='sceeditor' language=.lang emo=true skin='default' format='bbcode' icons='' plugins=[] deprecated...>
+<@deprecatedWarningSite args=deprecated />	
+<#assign editorPath='${editorPath}' >
+<#assign isEditorLoaded=false>
+<!-- Include the default theme -->
+<#if !isEditorLoaded>
+<link rel="stylesheet" href="${editorPath}themes/${skin}.min.css" />
+<!-- Include the editors JS -->
+<script src="${editorPath}sceditor.min.js"></script>
+<script src="${editorPath}language/${language}.min.js"></script>
+<#assign isEditorLoaded=true >
+</#if>
+<!-- Include the BBCode or XHTML formats -->
+<#if format == 'bbcode'>
+<script src="${editorPath}formats/bbcode.js"></script>
+<#else>
+<script src="${editorPath}formats/xhtml.js"></script>
+</#if>
+<script>
+var editorTxt = document.getElementById('${editorId}');
+sceditor.create( editorTxt, {
+	format: '<#if format == 'bbcode'>bbcode'<#else>'xhtml'</#if>,
+	style: '${editorPath}themes/content/${skin}.min.css'<#if !emo>,
+	emoticonsEnabled: false</#if><#if icons !=''>,
+	icons: ${icons}</#if><#if plugins !=''>,
+	plugins: ${plugins}</#if>
+});
+</script>
+</#macro>

@@ -7,39 +7,43 @@
 <#macro commonsFile>commons_bs5_tabler.html</#macro>
 <#macro commonsName>Commons Bootstrap 5 + Tabler 1.0</#macro>
 <#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 5 + Tabler 1</#macro>
-<#assign commonsJsPath='js/admin/' /> 
-<#assign commonsCssPath='css/admin/' /> 
-<#assign commonsFtlPath='admin/themes/bs5/tabler/' /> 
+<#-- Path               -->
+<#assign commonsJsPath='js/' /> 
+<#assign commonsCssPath='css/' /> 
+<#-- Shared Path        -->
+<#assign commonsSharedPath='themes/admin/shared/' /> 
+<#assign commonsSharedFtlPath='admin/themes/shared/' /> 
+<#-- Theme Code         -->
+<#assign commonsThemeCode='tabler' /> 
+<#-- Theme All Path     -->
+<#assign commonsThemePath='themes/admin/${commonsThemeCode}/' /> 
+<#-- Theme FTL Path     -->
+<#assign commonsFtlPath='admin/themes/${commonsThemeCode}/' /> 
 <#assign commonsAdminLayout=dskey('portal.site.site_property.layout.code') /> 
+<#-- Theme Variables    -->
 <#assign commonsAdminLayoutClass=dskey('portal.site.site_property.layout.class') /> 
+<#-- Theme Macros       -->
 <#macro coreAdminCSSLinks>
-<link href="${commonsCssPath}jquery-ui.min.css" rel="stylesheet" > <#-- provided by core -->
-<link href="${commonsCssPath}jquery-ui.structure.min.css" rel="stylesheet" > <#-- provided by core -->
-<link href="${commonsCssPath}jquery-ui.theme.min.css" rel="stylesheet" > <#-- provided by core -->
-<link href="${commonsCssPath}style/tabler/tabler.min.css" rel="stylesheet"><#-- Tabler main -->
-<link href="${commonsCssPath}style/tabler/tabler-flags.min.css" rel="stylesheet"><#-- Tabler flags -->
-<link href="${commonsCssPath}style/tabler/tabler-payments.min.css" rel="stylesheet"><#-- Tabler payment -->
-<link href="${commonsCssPath}style/tabler/tabler-vendors.min.css" rel="stylesheet"><#-- Tabler Vendors -->
-<link href="${commonsCssPath}style/tabler/all.min.css" rel="stylesheet"> <#-- Font-Awesome 5.8.1 -->
-<link href="${commonsCssPath}bootstrap-icons.css" rel="stylesheet" > <#-- Bootstrap Icons -->
-<link href="${commonsCssPath}style/tabler/tabler-icons.min.css" rel="stylesheet"><#-- Tabler icons -->
-<link href="${commonsCssPath}style/tabler/bootstrap-colorpicker.min.css" rel="stylesheet"><#-- BS colorpicker -->
-<link href="${commonsJsPath}lib/polipop/css/polipop.core.min.css" rel="stylesheet">
-<link href="${commonsJsPath}lib/polipop/css/polipop.default.min.css" rel="stylesheet">
-<link href="${commonsCssPath}style/tabler/portal_admin.css" rel="stylesheet"><#-- Lutece main admin CSS -->
-<link href="${commonsCssPath}portal_admin_site.css" rel="stylesheet"><#-- Site override admin CSS -Empty by default- -->
-<script src="${commonsJsPath}jquery/jquery-3.6.0.min.js"></script> <#-- main JQuery file -->
+<!-- Shared CSS -->
+<link href="${commonsSharedPath}${commonsCssPath}vendor/bootstrap/bootstrap-icons.min.css" rel="stylesheet" > <#-- Bootstrap Icons -->
+<link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-icons.min.css" rel="stylesheet"><#-- Tabler icons -->
+<link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-flags.min.css" rel="stylesheet"><#-- Tabler flags -->
+<link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-payments.min.css" rel="stylesheet"><#-- Tabler payment -->
+<link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-vendors.min.css" rel="stylesheet"><#-- Tabler Vendors -->
+<link href="${commonsSharedPath}${commonsJsPath}lib/polipop/css/polipop.core.min.css" rel="stylesheet"><#-- Polipop main -->
+<link href="${commonsSharedPath}${commonsJsPath}lib/polipop/css/polipop.default.min.css" rel="stylesheet"><#-- Polipop theme -->
+<!-- Theme <@commonsName /> CSS -->
+<link href="${commonsThemePath}${commonsCssPath}vendor/tabler.min.css" rel="stylesheet"><#-- Tabler main -->
+<link href="${commonsThemePath}${commonsCssPath}portal_admin.min.css" rel="stylesheet"><#-- Lutece main admin CSS -->
+<link href="${commonsThemePath}${commonsCssPath}portal_admin_site.min.css" rel="stylesheet"><#-- Site override admin CSS -Empty by default- -->
 </#macro>
 <#macro coreAdminJSLinks>
-<script src="${commonsJsPath}jquery/jquery-migrate-3.4.0.min.js"></script> <#-- Compat JQuery file -->
-<script src="${commonsJsPath}jquery/jquery-ui.min.js"></script>
-<script src="${commonsJsPath}style/tabler/Sortable.min.js"></script> 
-<script src="${commonsJsPath}lib/polipop/polipop.min.js"></script>
-<script src="${commonsJsPath}style/tabler/bootstrap-filestyle.min.js"></script> 
-<script src="${commonsJsPath}style/tabler/bootstrap-colorpicker.js"></script> 
-<script src="js/util/progress-manager.js"></script>
-<script src="${commonsJsPath}style/tabler/bootstrap.bundle.min.js"></script> 
-<script src="${commonsJsPath}style/tabler/admin.js"></script>  
+<!-- Shared JS -->
+<script src="${commonsSharedPath}${commonsJsPath}lib/bootstrap/bootstrap.bundle.min.js"></script><#-- Bootstrap main -->
+<script src="${commonsSharedPath}${commonsJsPath}lib/sortable/Sortable.min.js"></script> <#-- Sortable lib main -->
+<script src="${commonsSharedPath}${commonsJsPath}lib/polipop/polipop.min.js"></script><#-- Polipop main -->
+<!-- Theme <@commonsName /> JS -->
+<script src="${commonsThemePath}${commonsJsPath}admin.min.js"></script><#-- Theme main JS -->  
 </#macro>
 <#-- Pages -->
 <#-- Header -->
@@ -146,7 +150,6 @@
 <#include "${commonsFtlPath}Components/Timeline/timelineItem.ftl" />
 <#-- Password component -->
 <#include "${commonsFtlPath}Components/Password/passwordComplexity.ftl" />
-
 <#-- Forms components -->
 <#-- Form components -->
 <#include "${commonsFtlPath}Forms/Form/tform.ftl" />

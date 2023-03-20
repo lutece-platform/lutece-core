@@ -365,11 +365,19 @@
 	</div>
 </#macro>
 <#-- fieldSet  -->
-<#macro fieldSet legend='' class='' legendClass='' >
+<#macro fieldSetSite legend='' class='' legendClass='' >
 <fieldset <#if class!=''> class="${class}"</#if>>
 	<#if legend!=''>
 		<legend <#if legendClass!=''> class="${legendClass}"</#if>>${legend}</legend>
 	</#if>
 	<#nested>
 </fieldset>
+</#macro>
+<#-- Macro: deprecatedWarningSite
+Description: Generates a warning message for deprecated or incorrect arguments.
+Parameters:
+- args (map, optional): a map of arguments and their values.
+-->
+<#macro deprecatedWarningSite args=[] >
+<#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>
 </#macro>

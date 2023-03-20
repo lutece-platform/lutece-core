@@ -1,24 +1,27 @@
-<@adminLoginPage title='#i18n{portal.admin.admin_login.boxTitle}' site_name=site_name>
+<@adminLoginPage title='#i18n{portal.admin.admin_login.boxTitle}' site_name=site_name >
 <@tform class='box' name='login' id='login' action='${do_admin_login_url}' >
 <@input type='hidden' name='token' value='${token}' />
-<@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' mandatory=true rows=2>
-    <@inputGroup>
+<#assign labelDescAccess><@link href='${forgot_login_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotLogin}'>#i18n{portal.admin.admin_login.forgotLogin} ?</@link></#assign>
+<@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' labelKeyDesc=labelDescAccess mandatory=true rows=2>
+    <@inputGroup class='input-group-flat'>
         <@inputGroupItem type='text'><@icon style='user' /></@inputGroupItem>
         <@input name='access_code' id='access_code' placeHolder='${i18n("portal.admin.admin_login.loginLabel")}' size='' params=' autofocus' />
     </@inputGroup>
 </@formGroup>
-<@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' helpKey='${i18n("portal.admin.admin_login.helpText")}' mandatory=true rows=2>
-    <@inputGroup>
+<#assign labelDescPassword><@link href='${forgot_password_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotPassword}'>#i18n{portal.admin.admin_login.forgotPassword} ?</@link></#assign>
+<@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' labelKeyDesc=labelDescPassword  helpKey='${i18n("portal.admin.admin_login.helpText")}' mandatory=true rows=2 >
+    <@inputGroup class='input-group-flat'>
         <@inputGroupItem type='text'><@icon style='lock' /></@inputGroupItem>
-        <@input type='password' name='password' id='password' size='' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
+        <@input type='password' name='password' id='password' size='' placeHolder='${i18n("portal.admin.admin_login.passwordShow")}' />
+        <@inputGroupItem type='text'>
+            <@link href='' title='#i18n{portal.admin.admin_login.forgotLogin}' id='lutece-password-toggler' >
+                <@icon style='eye' />
+            </@link>
+        </@inputGroupItem>
     </@inputGroup>
 </@formGroup>
 <@formField class='has-text-centered text-center'>
-    <@button type='submit' class='btn-block' size=''  buttonIcon='check' title='#i18n{portal.admin.admin_login.buttonConnect}' />
+    <@button type='submit' class='btn-block' size='' buttonIcon='check' title='#i18n{portal.admin.admin_login.buttonConnect}' />
 </@formField>
-<@p class="has-text-centered text-center mt-3">
-    <@link href='${forgot_password_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotPassword}'>#i18n{portal.admin.admin_login.forgotPassword} ?</@link> 
-    <@link href='${forgot_login_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotLogin}'>#i18n{portal.admin.admin_login.forgotLogin} ?</@link>
-</@p>
 </@tform>
 </@adminLoginPage>

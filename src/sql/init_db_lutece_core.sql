@@ -192,7 +192,7 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_ma
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.reset_token_validity', '60');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.lock_reset_token_to_session', 'false');
 INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
-INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markitupbbcode');
+INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'sceeditorbbcode');
 INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
 
 INSERT INTO core_datastore VALUES ('portal.site.site_property.name', 'LUTECE');
@@ -234,7 +234,7 @@ INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot 
 INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.admindashboard.editors.labelBackTinyMCE', 1 );
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelBackNoEditor', 1 );
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelFrontNoEditor', 0 );
-INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.admindashboard.editors.labelFrontMarkitupBBCode', 0 );
+INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.admindashboard.editors.labelFrontSceEditorBBCode', 0 );
 
 INSERT INTO core_admin_mailinglist (name,description,workgroup) VALUES( 'admin', 'admin', 'all' );
 INSERT INTO core_admin_mailinglist_filter VALUES( '1', 'all', 'super_admin' );

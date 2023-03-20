@@ -1,20 +1,24 @@
 <@row>	
 	<@columns>
-		<h1><@link href='jsp/admin/AdminTechnicalMenu.jsp'><@icon style='cog' /> #i18n{portal.admindashboard.view_dashboards.title}</@link></h1>
-		<@accordionContainer id='technical_settings'>
-			<#if column_content_1?has_content>
-				${column_content_1}
-			</#if>
-			<#if column_content_2?has_content>
-				${column_content_2}
-			</#if>
-		</@accordionContainer>
+		<@box>
+			<#assign boxTitle><@icon style='settings' /> #i18n{portal.admindashboard.view_dashboards.title}</#assign>
+			<@boxHeader title=boxTitle />
+			<@boxBody>
+				<@accordionContainer id='technical_settings'>
+					<#if column_content_1?has_content>
+						${column_content_1}
+					</#if>
+					<#if column_content_2?has_content>
+						${column_content_2}
+					</#if>
+				</@accordionContainer>
+			</@boxBody>
+		</@box>
 	</@columns>
 </@row>
-<script src="js/admin/js.cookie.js" ></script>
 <script>
-$( function(){
-	var hasTechCookie=Cookies.get('technnicaltab');
-	manageAdminFeatureTab( hasTechCookie );
-});
+// document.addEventListener( "DOMContentLoaded", function(){
+// 	const hasTechCookie = localStorage.getItem('technnicaltab');
+// 	manageAdminFeatureTab( hasTechCookie );
+// });
 </script>

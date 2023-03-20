@@ -2,6 +2,10 @@
  * A class for generating a new password and returning its complexity value
  */
 export class LutecePassword {
+  /**
+     * Creates a new instance of LutecePassword.
+     * @param {NodeListOf<Element>} passwords - The list of password's input elements.
+     */
     constructor() {
       this.lowercase = "abcdefghijklmnopqrstuvwxyz";
       this.uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -72,4 +76,14 @@ export class LutecePassword {
       }
       return Math.round(lengthScore + complexityScore);
     }
-  }
+
+    showHidePassword( password, toggler ){
+      if ( password.type == 'password') {
+        password.setAttribute('type', 'text');
+        toggler.firstElementChild.classList.add('ti-eye-off');
+      } else {
+        toggler.firstElementChild.classList.remove('ti-eye-off');
+        password.setAttribute('type', 'password');
+      }
+    };
+}
