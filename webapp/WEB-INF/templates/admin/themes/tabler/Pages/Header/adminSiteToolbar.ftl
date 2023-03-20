@@ -45,8 +45,8 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 	<@btnGroup class='ms-1 ml-1'>
 		<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }' buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] ><@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@aButton>
 	</@btnGroup>
-	<@btnGroup class='ms-1 ml-1'>
+	<#--  <@btnGroup class='ms-1 ml-1'>
 		<@aButton href='' id='fullscreen' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt' color='secondary'  hideTitle=['all'] />
-	</@btnGroup>
+	</@btnGroup>  -->
 </@btnToolbar>
 </#macro>
