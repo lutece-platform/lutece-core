@@ -8,7 +8,7 @@ Parameters:
 -->
 <#macro adminContentHeader>
 <header class="page-header d-print-none">
-	<@div class="row align-items-center admin-site-toolbar">
+	<@div class="row align-items-center admin-site-toolbar mx-0">
 		<@div class="col">
 			<@div class="page-pretitle" id="feature-title">
 				<#if feature_url??><@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link><#else>${feature_title!''}</#if>
