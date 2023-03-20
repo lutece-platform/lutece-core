@@ -32,10 +32,10 @@ Parameters:
 <#--  Content  -->
 <@div class="container-tight py-4">
 	<@div class="text-center mb-4">
-		<@link href='.'>
+		<@link href='.' target='_blank' >
 			<figure>
 				<@img url='#dskey{portal.site.site_property.logo_url}' alt='${site_name!}' title='${site_name!}' params=' height="36"' />
-				<figcaption class="visually-hidden">${site_name!'Lutece'}</figcaption>
+				<figcaption class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!'Lutece'} [ #i18n{portal.site.portal_footer.newWindow} ]</figcaption>
 			</figure>
 		</@link>
 	</@div>
@@ -72,22 +72,6 @@ Parameters:
 	<#default>	
 		</div>
 </#switch>
-<!-- footer menu -->
-<#--  <footer class="lutece-main-footer footer d-print-none bg-transparent position-fixed bottom-0" style="right:0;">
-	<div class="container-fluid">
-		<div class="row">
-		<div class="col-lg-auto ms-lg-auto">
-			<ul class="list-inline list-inline-dots mb-0">
-				<li class="list-inline-item"><a href="https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki" class="link-secondary">Documentation</a></li>
-				<li class="list-inline-item"><a href="https://github.com/lutece-platform/" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
-				<li class="list-inline-item">
-					<span class="text-muted" rel="noopener">version ${version}</span>
-				</li>
-			</ul>
-		</div>
-		</div>
-	</div>
-</footer>  -->
 <script type="module">
 import {
 	LutecePassword
@@ -104,9 +88,9 @@ document.addEventListener( "DOMContentLoaded", function(){
 	const randomPageBackgoundImages = [ #dskey{portal.site.site_property.back_images} ];
 	const loginPage = document.querySelector( '#login-page' );
 	login.setRandomBackground( randomPageBackgoundImages, loginPage )
-	<#if loginLayout == 'illustration' >
+	<#if loginLayout != 'default' >
 		const randomPanelBackgoundImages = [ #dskey{portal.site.site_property.layout.login.image} ];
-		const illust = document.querySelector( '#illustration' );
+		const illust = <#if loginLayout == 'cover' >document.querySelector( '.bg-cover' )<#else>document.querySelector( '#illustration' )</#if>;
 		login.setRandomBackground( randomPanelBackgoundImages, illust )
 	</#if>	
 	/* Password */
