@@ -38,7 +38,7 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.BeanNameAware;
 
 import fr.paris.lutece.portal.business.user.menu.IAdminUserMenuItemProvider;
-import jakarta.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 
 /**
  * Admin user menu provider registrar.
