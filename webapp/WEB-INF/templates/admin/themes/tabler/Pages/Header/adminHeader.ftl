@@ -138,7 +138,9 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		var adminModal = document.getElementById('adminModal');
 		var adminModalLabel = document.getElementById('adminModalLabel');
 		var adminModalBody = document.querySelector('#adminModal .modal-body');
-		adminModalBody.insertAdjacentHTML( 'beforeEnd', modalContent);
+		if( adminModalBody != null){
+			adminModalBody.insertAdjacentHTML( 'beforeEnd', modalContent);
+		}
 		var adminModalHeader = document.querySelector('#adminModal .modal-header');
 		var adminModalHeaderBtn = document.querySelector('#adminModal .modal-header button');
 		var myAdminModal = new bootstrap.Modal( adminModal, {} );

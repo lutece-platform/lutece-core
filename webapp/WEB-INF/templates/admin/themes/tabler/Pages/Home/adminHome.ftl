@@ -41,5 +41,54 @@ const elements = document.querySelectorAll('#dashboard-widgets .widget-col > .ca
 elements.forEach((element) => {
 	element.style.cursor = 'move';
 });
+
+
+function setCounters( speed, counters  ){
+	counters.forEach( counter => {
+		const animate = () => {
+			let nCounter = counter.innerText;
+			let sVal = '';
+			let thisTXT = counter.innerText.split( '/' );
+			if ( thisTXT.length > 1 ){
+				nCounter = thisTXT[0];
+				sVal = ' / ' + thisTXT[1];
+			}
+			if ( typeof nCounter === 'number' ) {
+				const time = nCounter / speed;
+				if( data < value) {
+					counter.innerText = Math.ceil( data + time );
+					setTimeout(animate, 1);
+				} else {
+					counter.innerText = value;
+				}
+			}
+		}
+		animate();
+	});
+}
+
+const dashSortables = [].slice.call(document.querySelectorAll('.dashboard-widgets .widget-col'));
+// Loop through each nested sortable element
+for ( var i = 0; i < dashSortables.length; i++) {
+	var sortableDash = new Sortable( dashSortables[i], {
+		group: 'widget-dashboard',
+		swapThreshold: 0.65,
+		draggable: '.box-widget',
+		store: {
+			get: function (sortable) {
+				var order = localStorage.getItem(sortable.options.group.name);
+				return order ? order.split('|') : [];
+			},
+			set: function (sortable) {
+				var order = sortable.toArray();
+				localStorage.setItem(sortable.options.group.name, order.join('|'));
+			}
+		}
+	});
+}
+
+const boxCount = document.querySelectorAll('.box-widget .counter')
+setCounters( 200, boxCount );
+
 </script>
 </#macro>

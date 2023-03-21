@@ -1,7 +1,5 @@
 <#-- Macro: adminSiteToolbar
-
 Description: Generates a toolbar for use in the site admin panel. It generates a Bootstrap toolbar that includes buttons for various site management tasks, such as searching for a page, changing the display size, deleting a page, adding a child page, and viewing the site map.
-
 -->
 <#macro adminSiteToolbar >
 <@btnToolbar>
@@ -12,9 +10,9 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 		</@tform>
 	</@btnGroup>
 	<@btnGroup class='ms-1 ml-1'>
-		<@aButton href='' id='display-full' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop' color='primary'hideTitle=['all'] />
-		<@aButton href='' id='display-940' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='tablet' color='primary' hideTitle=['all'] />
-		<@aButton href='' id='display-480' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='mobile' color='primary' hideTitle=['all'] />
+		<@aButton href='' id='display-desktop' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop' color='primary' class='btn-preview active' hideTitle=['all'] />
+		<@aButton href='' id='display-tablet' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='tablet' color='primary' class='btn-preview' hideTitle=['all'] />
+		<@aButton href='' id='display-phone' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='mobile' color='primary' class='btn-preview' hideTitle=['all'] />
 	</@btnGroup>
 	<#if page.id != 1>
 		<@btnGroup class='ms-1 ml-1'>
@@ -37,16 +35,18 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 	</#if>
 	</@btnGroup>
 	<@btnGroup class='ms-1 ml-1'>
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm','md'] />
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2#offcanvasAdmin' buttonIcon='wrench' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm','md'] params='data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasAdmin"' />
 	</@btnGroup>
 	<@btnGroup class='ms-1 ml-1'>
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['xs','sm','md'] />
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5#offcanvasAdmin'  buttonIcon='plus' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['xs','sm','md'] params='data-bs-toggle="offcanvas"  role="button" aria-controls="offcanvasAdmin"' />
 	</@btnGroup>
 	<@btnGroup class='ms-1 ml-1'>
-		<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }' buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] ><@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@aButton>
+		<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }#offcanvasAdmin' buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] params='data-bs-toggle="offcanvas"  role="button" aria-controls="offcanvasAdmin"'><@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@aButton>
 	</@btnGroup>
-	<#--  <@btnGroup class='ms-1 ml-1'>
+	<#--  
+	<@btnGroup class='ms-1 ml-1'>
 		<@aButton href='' id='fullscreen' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt' color='secondary'  hideTitle=['all'] />
-	</@btnGroup>  -->
+	</@btnGroup>  
+	-->
 </@btnToolbar>
 </#macro>

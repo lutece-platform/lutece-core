@@ -19,7 +19,7 @@ Parameters:
 					<#assign islocale=''>
 					<#assign title=''>
 				</#if>
-				<@button color='' class='${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' hideTitle=['all'] />
+				<@button color='' class='btn-language ${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' hideTitle=['all'] />
 			</#list>
 		</@columns>
 	</@row>
