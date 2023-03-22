@@ -212,7 +212,7 @@ INSERT INTO core_datastore VALUES('portal.site.site_property.layout.class', 'sid
 INSERT INTO core_datastore VALUES('portal.site.site_property.layout.code', 'header');
 INSERT INTO core_datastore VALUES('portal.site.site_property.layout.login', 'cover');
 INSERT INTO core_datastore VALUES('portal.site.site_property.logo_url', 'themes/admin/shared/images/logo-header-icon.png');
-INSERT INTO core_datastore VALUES('portal.site.site_property.layout.login.image', 'themes/admin/tabler/images/login-cover.jpg');
+INSERT INTO core_datastore VALUES('portal.site.site_property.layout.login.image', '\'themes/admin/tabler/images/login-cover.jpg\',\'themes/admin/tabler/images/login-cover2.jpg\'');
 INSERT INTO core_datastore VALUES('portal.site.site_property.back_images', '\'themes/admin/shared/images/bg_login1.svg\' , \'themes/admin/shared/images/bg_login2.svg\' , \'themes/admin/shared/images/bg_login3.svg\' , \'themes/admin/shared/images/bg_login4.svg\'');
 INSERT INTO core_datastore VALUES('portal.site.site_property.avatar_default', 'themes/admin/shared/images/unknown.png');
 
