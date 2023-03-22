@@ -68,7 +68,7 @@
 
 /* Content page wrapper                                     */
 .page-wrapper{
-min-height:	 82svb;
+	min-height:	 82svb;
 }
   
 /*  Login page                                              */
@@ -89,11 +89,11 @@ min-height:	 82svb;
 .btn-language{
 	background-position: top;
 	background-size: cover;
-	background-color: transparent;
+	background-color: transparent !important ;
 	background-repeat: no-repeat;
-	width: 18px !important; 
-	height: 18px !important; 
-	padding: 0; 
+	width: 1rem !important; 
+	height: 1rem !important; 
+	padding: 0 !important; 
 }
 
 .btn-language:hover{ 
@@ -126,59 +126,65 @@ min-height:	 82svb;
 	color: var( --info ); 
 }
 
+/* Table                                                      */
+.table .img-responsive{ 
+	padding-top: 0 
+};
+.table{ 
+	background-color: var( --white );
+}
+.table > :not(caption) > * > *, .markdown > table > :not(caption) > * > * { 
+	box-shadow: inset 0 0 0 9999px var( --white ); 
+}
+.table-hover.hoverable-click tr{ 
+	cursor: pointer;
+}
+.table td{ 
+	vertical-align: middle; 
+}
+
 /* thumbnail list                                             */
 /* Image size for thumbnails                                  */
-.thumbnail-xs{ width:16px; }
-.thumbnail-sm{ width:32px; }
-.thumbnail-md{ width:64px; }
-.thumbnail-lg{ width:128px; }
-
-/* Dark theme FIXES ! May be remove with next Tabler Release   */
-.theme-dark a:not(.btn){ color: var( --tblr-gray-600) ;}
-.theme-dark :is( .accordion-button, .alert, .btn-link, .bg-white, .footer-transparent, .table ){ background-color: var( --dark ) !important;   color: inherit; }
-.theme-dark .table > :not(caption) > * > *, .markdown > table > :not(caption) > * > * { box-shadow: inset 0 0 0 9999px var( --dark ); }
-.theme-dark pre{ background-color: var( --dark ) !important; }
- 
-/* Admin Site                                                   */
-/* .admin-site{ 
-	padding: .2rem .5rem;
+.thumbnail-xs{ 
+	width: 1rem; 
 }
-
-.admin-site .breadcrumb-item{ 
-	font-size: 1.4rem 
+.thumbnail-sm{ 
+	width: 2rem; 
 }
-*/
-.admin-site-toolbar{ 
-	padding-left: 1.3rem
-} 
-
-.extend-menu-item{ 
-	width: 100%; 
-	display: flex; 
-	justify-content: space-between; 
-	align-items: center; 
-	min-width: 180px; 
+.thumbnail-md{ 
+	width: 3rem; 
+}
+.thumbnail-lg{ 
+	width: 4rem; 
 }
  
+/* Admin Site preview 				*/
 #admin-page-preview {
 	display: flex;
 	justify-content: center;
 	flex-wrap: wrap;
 	overflow-x: hidden;
-	/* border: 2px solid gray; */
 	margin: 5px -15px;
+}
+
+#admin-page-preview > form{
+	flex: 1
 }
   
 #lutece-admin-site-preview{
 	min-height: 80vh;
 	overflow-x: hidden;
 }
- 
+
+.admin-site-toolbar{ 
+	padding-left: 1.3rem
+} 
+
 /* Admin preview responsive */
 .responsive-admin-preview {
 	position: relative;
 	margin: 5px auto;
-	border: 16px black solid;
+	border: 1rem var( --black ) solid;
 	border-top-width: 60px;
 	border-bottom-width: 60px;
 	border-radius: 36px;
@@ -193,7 +199,7 @@ min-height:	 82svb;
 	top: -30px;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	background: #333;
+	background: var( --gray-color ) ;
 	border-radius: 10px;
 }
 
@@ -206,8 +212,16 @@ min-height:	 82svb;
 	left: 50%;
 	bottom: -65px;
 	transform: translate(-50%, -50%);
-	background: #333;
+	background: var( --gray-color ) ;
 	border-radius: 50%;
+}
+
+.extend-menu-item{ 
+	width: 100%; 
+	display: flex; 
+	justify-content: space-between; 
+	align-items: center; 
+	min-width: 180px; 
 }
 
 /* Message */
@@ -229,7 +243,6 @@ min-height:	 82svb;
 	height:auto;
 }
 
-
 /* Dark theme FIXES ! May be remove with next Tabler Release   */
 .theme-dark a:not(.btn){ 
 	color: var( --dark-light ) ;
@@ -245,6 +258,10 @@ min-height:	 82svb;
 }
 
 .theme-dark pre{ 
+	background-color: var( --dark ) !important; 
+}
+
+.theme-dark .bg-white{ 
 	background-color: var( --dark ) !important; 
 }
 
@@ -296,6 +313,10 @@ min-height:	 82svb;
 }
 
 /* Editor                                                       */
+.richtext{ 
+	width: 100%; 
+}
+
 .tox.tox-tinymce{ 
 	width: 100% !important; 
 }
@@ -315,21 +336,31 @@ min-height:	 82svb;
 	content: "\f0fe" 
 } 
 
+/* Portlets                                                      */
+li.portlet-type a:hover{ 
+	background: var( --info ); 
+	color: var( --white ) ; 
+}
+
+#content-portlet{ 
+	padding: 0 .75rem;
+}
+
 /* 	Insert services                                             */
 .media-selector{ 
-	margin: 15px; 
+	margin: 1rem; 
 }
 
 .media-selector .nav.nav-tabs{ 
-	margin: 5px 
+	margin: .25rem 
 }
 
 .media-selector .nav.nav-tabs .navbar-right button{ 
-	margin-right: 30px 
+	margin-right: 1.8rem
 }
 
 .media-selector .tab-content{ 
-	margin: 15px 30px 
+	margin: 1rem 2rem; 
 }
 
 .media-selector .media-container { 
@@ -338,7 +369,7 @@ min-height:	 82svb;
 	justify-content: center; 
 	border-radius: 4px; 
 	overflow: hidden; 
-	gap: 15px; 
+	gap: 1rem; 
 }
 
 .media-selector .media { 
@@ -349,8 +380,8 @@ min-height:	 82svb;
 	margin: 5px; 
 	padding: 0; 
 	width: 130px; 
-	background: #fff; 
-	box-shadow: 0px 3px 10px 1px rgba(0, 0, 0, 0.1);
+	background: var(--white); 
+	box-shadow: 0px 3px 10px 1px rgba( 0, 0, 0, 0.1 );
 }
 
 .media-selector .media-image { 
@@ -375,13 +406,13 @@ min-height:	 82svb;
 
 .media-selector .media-image:hover:after { 
 	bottom: 0; 
-	color: #fff; 
-	text-shadow: 1px 0px 12px #000000;
+	color: var(--white); 
+	text-shadow: 1px 0px 12px var( --black );
 	transition: all 0.15s; 
 }
 
 .media-selector .media-image:hover .image-overlay { 
-	background-color: #16ff0170; 
+	background-color: var(--success); 
 	transition: all 0.15s; 
 }
 
@@ -393,10 +424,9 @@ min-height:	 82svb;
 	position: absolute; 
 	width: 100%; 
 	height: 100%; 
-	font-family: "FontAwesome"; 
 	font-size: 1em; 
 	text-align: center; 
-	content: ""; 
+	content: "x"; 
 	transition: all 0.15s;
 }
 
@@ -408,21 +438,21 @@ min-height:	 82svb;
 	top: 0; 
 	left: 0; 
 	content: ""; 
-	background-color: rgba 255, 255, 255, 0; 
-	transition: backgroundColor, 0.15s; 
+	background-color: transparent;
+	transition: background-color, 0.15s; 
 }
 
 .media-selector .media-desc{ 
 	text-align: center; 
 	padding: 5px; 
-	color: #000; 
+	color: var(--black); 
 	white-space: nowrap; 
 	overflow: hidden;  
 	text-overflow: ellipsis; 
 }
 
 .media-selector .media-desc:hover{ 
-	color: rgb(99, 99, 99); 
+	color: var(--dark-gray); 
 	transition: all 0.15s;
 }
 
