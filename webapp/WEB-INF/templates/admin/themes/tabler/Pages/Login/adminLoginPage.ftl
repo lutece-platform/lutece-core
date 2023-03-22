@@ -85,21 +85,16 @@ const password = new LutecePassword();
 
 document.addEventListener( "DOMContentLoaded", function(){
 	/* backGround image random */
-	const randomPageBackgoundImages = [ #dskey{portal.site.site_property.back_images} ];
-	const loginPage = document.querySelector( '#login-page' );
-	login.setRandomBackground( randomPageBackgoundImages, loginPage )
+	login.randomImages = [ #dskey{portal.site.site_property.back_images} ];
+	login.init( );
 	<#if loginLayout != 'default' >
-		const randomPanelBackgoundImages = [ #dskey{portal.site.site_property.layout.login.image} ];
-		const illust = <#if loginLayout == 'cover' >document.querySelector( '.bg-cover' )<#else>document.querySelector( '#illustration' )</#if>;
-		login.setRandomBackground( randomPanelBackgoundImages, illust )
-	</#if>	
-	/* Password */
-	const inputPassword = document.querySelector('#password');
-	const toggler = document.querySelector('#lutece-password-toggler');
-	toggler.addEventListener( 'click', (evt) => {
-		evt.preventDefault();
-		password.showHidePassword( inputPassword, toggler ); 
-	});
+		const illust = <#if loginLayout == 'cover' >'.bg-cover'<#else>'#illustration'</#if>;
+		login.element = illust;
+		login.randomImages = [ #dskey{portal.site.site_property.layout.login.image} ];
+		login.init( );
+	</#if>
+	/* Password toggler */
+	password.initPassToggler( );
 });
 </script>
 </#macro>

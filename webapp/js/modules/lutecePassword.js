@@ -11,6 +11,10 @@ export class LutecePassword {
       this.uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       this.numbers = "0123456789";
       this.symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+      this.passTogglerBtn = '#lutece-password-toggler'
+      this.passTogglerInput = '#password'
+      this.passTogglerIconOn = "ti-eye";
+      this.passTogglerIconOff = "ti-eye-off";
     }
     /**
      * Generates a new password that meets the following criteria:
@@ -76,14 +80,37 @@ export class LutecePassword {
       }
       return Math.round(lengthScore + complexityScore);
     }
-
-    showHidePassword( password, toggler ){
-      if ( password.type == 'password') {
-        password.setAttribute('type', 'text');
-        toggler.firstElementChild.classList.add('ti-eye-off');
+   
+    /**
+     * Initializes the password toggler.
+     */
+    initPassToggler( ) {
+      const _passDefaultTogglerIcon = "ti-eye";
+      const btnToggler = document.querySelector( this.passTogglerBtn )
+      const inputToggler = document.querySelector( this.passTogglerInput )
+      btnToggler.firstElementChild.classList.remove( _passDefaultTogglerIcon );
+      btnToggler.firstElementChild.classList.add( this.passTogglerIconOn );
+      btnToggler.addEventListener(
+        "click", ( event) => {
+          event.preventDefault();
+          this.showHidePassword( btnToggler, inputToggler );
+      });
+    }
+    
+    /**
+     * Show / Hide password.
+     *  @param {string} btn The button id that old the event.
+     *  @param {string} field The password input to toggle.
+     */
+    showHidePassword( btn, field ){
+      if ( field.type == 'password') {
+        field.setAttribute( 'type', 'text' );
+        btn.firstElementChild.classList.add( this.passTogglerIconOff  );
+        btn.firstElementChild.classList.remove( this.passTogglerIconOn  );
       } else {
-        toggler.firstElementChild.classList.remove('ti-eye-off');
-        password.setAttribute('type', 'password');
+        btn.firstElementChild.classList.remove( this.passTogglerIconOff  );
+        btn.firstElementChild.classList.add( this.passTogglerIconOn  );
+        field.setAttribute('type', 'password');
       }
     };
 }
