@@ -11,7 +11,7 @@
     <user-guide/>
     <provider>portal.system.core_components.provider</provider>
     <provider-url>http://fr.lutece.paris.fr</provider-url>
-    <icon-url>themes/shared/admin/images/core.png</icon-url>
+    <icon-url>themes/admin/shared/images/core.png</icon-url>
     <copyright>Copyright (c) 2001-2015 Mairie de Paris</copyright>
     <db-pool-required>1</db-pool-required>
 
