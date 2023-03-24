@@ -115,11 +115,11 @@ Parameters:
 					</#list>
 				</#if>
 				<div class="dropdown-divider"></div>
-				<div class="mt-1 ps-2" id="switch-darkmode"><i class="ti ti-moon"></i> #i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></div>
+				<div class="ps-2" id="switch-darkmode"><i class="ti ti-moon"></i> #i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></div>
 				<div class="dropdown-divider"></div>
 				<#if admin_logout_url?has_content>
 					<a class="dropdown-item" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
-						<i class="ti ti-power-off"></i> #i18n{portal.users.admin_header.deconnectionLink}
+						<i class="ti ti-logout me-1"></i> #i18n{portal.users.admin_header.deconnectionLink}
 					</a>
 				</#if>
 				</div>
