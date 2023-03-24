@@ -9,13 +9,14 @@ Parameters:
 - infos_class (string, optional): the CSS class of the alert element for info messages.
 - warnings_class (string, optional): the CSS class of the alert element for warning messages.
 -->
-<#macro box color='' id='' style='' class='' title='' params='' collapsed=false>
-<div class="card mb-3<#if color!=''> card-${color}<#else> card-transparent</#if> card-outline<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapse </#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro box color='' id='' style='' class='' title=''  collapsed=false  params='' deprecated...>
+<@deprecatedWarning args=deprecated />
+<div class="card mb-3<#if color!=''> card-${color}<#else> card-transparent</#if> card-outline<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if title =''>
 <#nested>
 <#else>
-<@boxHeader title=title params=params skipHeader=true />
-<@boxBody>
+<@boxHeader title=title collapsed=isCollapsed params=params skipHeader=true />
+<@boxBody collapsed = collapsed>
 <#nested>
 </@boxBody>
 </#if>
