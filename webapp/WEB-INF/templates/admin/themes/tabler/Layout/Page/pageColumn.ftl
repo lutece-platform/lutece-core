@@ -9,6 +9,8 @@ Parameters:
 -->
 <#macro pageColumn id='' width='' class=''>
 <div class="<#if width = '' >w-100<#else>border-start border-end</#if> overflow-auto ${class} h-100" <#if width != '' >style="width:${width}"</#if>>
+<div class="container-fluid">
 	<#nested>
+</div>
 </div>
 </#macro>

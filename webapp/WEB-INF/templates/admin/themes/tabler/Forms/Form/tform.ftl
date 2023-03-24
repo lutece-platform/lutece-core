@@ -33,7 +33,7 @@ Parameters:
 	<#default>
 		<#local class += ''>
 </#switch>
-<form <#if class!=''>class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if method='post' && enctype!=''> enctype='${enctype}'</#if><#if params!=''> ${params}</#if>>
+<form <#if class!=''>class="${class?trim} <#if align='middle'>align-middle</#if>"</#if><#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if method='post' && enctype!=''> enctype='${enctype}'</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </form>
 </#macro>
