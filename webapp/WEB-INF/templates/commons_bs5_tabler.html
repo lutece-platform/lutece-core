@@ -37,6 +37,9 @@
 <link href="${commonsThemePath}${commonsCssPath}vendor/tabler.min.css" rel="stylesheet"><#-- Tabler main -->
 <link href="${commonsThemePath}${commonsCssPath}portal_admin.min.css" rel="stylesheet"><#-- Lutece main admin CSS -->
 <link href="${commonsThemePath}${commonsCssPath}portal_admin_site.min.css" rel="stylesheet"><#-- Site override admin CSS -Empty by default- -->
+<#-- Optionnal JQuery include - Set for Jquery compat to remove ASAP ! -->
+<#assign optHeaderCss=.get_optional_template('commons_theme_jquery.html')>
+<#if optHeaderCss.exists><@includeJqueryCore /></#if>
 </#macro>
 <#macro coreAdminJSLinks>
 <!-- Shared JS -->
