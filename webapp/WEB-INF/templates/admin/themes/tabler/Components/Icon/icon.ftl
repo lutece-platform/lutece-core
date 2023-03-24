@@ -8,7 +8,8 @@ Parameters:
 - id (string, optional): the ID attribute of the icon.
 - params (string, optional): additional parameters to add to the icon.
 -->
-<#macro icon prefix='ti ti-' style='' class='' title='' id='' params=''>
+<#macro icon prefix='ti ti-' style='' class='' title='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#-- Compat from Font Awesome to Tabler Icons -->
 <#local cssStyle = ' ' + style?keep_after(' ') />
 <#local tiStyle = style?keep_before(' ') />
@@ -68,6 +69,61 @@ Parameters:
         <#break>
     <#case 'stop'>
         <#local iconStyle = 'player-stop-filled' />
+        <#break>
+    <#case 'sort'>
+    <#case 'arrows'>
+        <#local iconStyle = 'arrows-sort' />
+        <#break>
+    <#case 'step-forward'>
+        <#local iconStyle = 'switch-horizontal' />
+        <#break>
+    <#case 'file-pdf-o'>
+        <#local iconStyle = 'pdf' />
+        <#break>
+    <#case 'file-alt'>
+        <#local iconStyle = 'forms' />
+        <#break>
+    <#case 'sticky-note'>
+        <#local iconStyle = 'align-box-left-top' />
+        <#break>
+    <#case 'check-square'>
+        <#local iconStyle = 'square-check' />
+        <#break>
+    <#case 'dot-circle'>
+        <#local iconStyle = 'circle-dot' />
+        <#break>
+    <#case 'hashtag'>
+        <#local iconStyle = 'hash' />
+        <#break>
+    <#case 'image'>
+        <#local iconStyle = 'photo' />
+        <#break>
+    <#case 'comment'>
+        <#local iconStyle = 'message' />
+        <#break>
+    <#case 'futbol'>
+        <#local iconStyle = 'gavel' />
+        <#break>
+    <#case 'map-marked-alt'>
+        <#local iconStyle = 'map-pin' />
+        <#break>
+    <#case 'phone-square'>
+        <#local iconStyle = 'phone' />
+        <#break>
+    <#case 'list-ol'>
+        <#local iconStyle = 'list-numbers' />
+        <#break>
+    <#case 'th-list'>
+        <#local iconStyle = 'list-details' />
+        <#break>
+    <#case 'question'>
+        <#local iconStyle = 'question-mark' />
+        <#break>
+    <#case 'vote-yea'>
+        <#local iconStyle = 'thumb-up' />
+        <#break>
+    <#case 'comments'>
+        <#local iconStyle = 'messages' />
         <#break>
     <#default>
         <#local iconStyle = style />
