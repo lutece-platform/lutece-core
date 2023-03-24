@@ -3,18 +3,18 @@
 <@input type='hidden' name='token' value='${token}' />
 <#assign labelDescAccess><@link href='${forgot_login_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotLogin}'>#i18n{portal.admin.admin_login.forgotLogin} ?</@link></#assign>
 <@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' labelKeyDesc=labelDescAccess mandatory=true rows=2>
-    <@inputGroup class='input-group-flat'>
-        <@inputGroupItem type='text'><@icon style='user' /></@inputGroupItem>
+    <@inputGroup class='input-icon input-group-flat'>
+        <@inputGroupItem type='icon'><@icon style='user' /></@inputGroupItem>
         <@input name='access_code' id='access_code' placeHolder='${i18n("portal.admin.admin_login.loginLabel")}' size='' params=' autofocus' />
     </@inputGroup>
 </@formGroup>
 <#assign labelDescPassword><@link href='${forgot_password_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotPassword}'>#i18n{portal.admin.admin_login.forgotPassword} ?</@link></#assign>
 <@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' labelKeyDesc=labelDescPassword  helpKey='${i18n("portal.admin.admin_login.helpText")}' mandatory=true rows=2 >
-    <@inputGroup class='input-group-flat'>
-        <@inputGroupItem type='text'><@icon style='lock' /></@inputGroupItem>
+    <@inputGroup class='input-icon input-group-flat'>
+        <@inputGroupItem type='icon'><@icon style='lock ' /></@inputGroupItem>
         <@input type='password' name='password' id='password' size='' placeHolder='${i18n("portal.admin.admin_login.passwordShow")}' />
         <@inputGroupItem type='text'>
-            <@link href='' title='#i18n{portal.admin.admin_login.forgotLogin}' id='lutece-password-toggler' >
+            <@link href='' class='input-group-link' title='#i18n{portal.admin.admin_login.forgotLogin}' id='lutece-password-toggler' >
                 <@icon style='eye' />
             </@link>
         </@inputGroupItem>

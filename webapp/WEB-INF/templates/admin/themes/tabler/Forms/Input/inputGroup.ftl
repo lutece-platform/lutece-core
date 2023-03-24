@@ -9,8 +9,8 @@ Parameters:
 - size (string, optional): the size of the input group div.
 - params (string, optional): additional parameters for the input group div.
 -->
-
-<#macro inputGroup id='' class='' size='' params=''>
+<#macro inputGroup id='' class='' size='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </div>

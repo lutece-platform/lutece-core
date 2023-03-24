@@ -5,7 +5,8 @@ Parameters:
 - site_name (string, optional): the name of the site to display on the login page.
 - layout (string, optional): the name of the site to display on the login page.
 -->
-<#macro adminLoginPage title='' site_name='LUTECE' layout=''>
+<#macro adminLoginPage title='' site_name='LUTECE' layout=''  params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#local loginLayout=layout /> 
 <#local loginLayoutImg='' /> 
 <#if loginLayout?trim =''>
@@ -13,7 +14,7 @@ Parameters:
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
 </#if>
 </head>
-<body class="antialiased d-flex flex-column">
+<body class="antialiased d-flex flex-column"<#if params!=''> ${params}</#if>>
 <#switch loginLayout>
 	<#case 'cover'>
 		<div id="login-page" class="row g-0 flex-fill">
@@ -86,14 +87,16 @@ const password = new LutecePassword();
 document.addEventListener( "DOMContentLoaded", function(){
 	/* backGround image random */
 	login.randomImages = [ #dskey{portal.site.site_property.back_images} ];
-	login.init( );
+	login.init( )
 	<#if loginLayout != 'default' >
 		const illust = <#if loginLayout == 'cover' >'.bg-cover'<#else>'#illustration'</#if>;
 		login.element = illust;
 		login.randomImages = [ #dskey{portal.site.site_property.layout.login.image} ];
-		login.init( );
-	</#if>
-	/* Password toggler */
+		login.init( )
+	</#if>	
+	/* Password Toggler */
+	<#--  password.passTogglerIconOn = "ti-accessible";
+	password.passTogglerIconOff = "ti-accessible-off";  -->
 	password.initPassToggler( );
 });
 </script>
