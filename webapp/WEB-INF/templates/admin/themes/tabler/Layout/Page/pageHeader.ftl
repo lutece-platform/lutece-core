@@ -11,10 +11,10 @@ Parameters:
 <#macro pageHeader id='' title='' description=''>
 <div id="pageHeader">
 	<div class="d-lg-flex align-items-center justify-content-between">
-	  <div class="flex-grow-1">
+	  <div class="flex-grow-1 py-2">
 	  <h1 class="mb-0 fw-bolder">${title}</h1>
 	  </div>
-	    <div id="pageHeaderTools" class="">
+	    <div id="pageHeaderTools" class="py-2">
 		<#nested>
 	  </div>
 	</div>
