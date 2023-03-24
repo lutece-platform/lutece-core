@@ -1,8 +1,6 @@
-<@row>
-	<@columns>
-		<@box>
-			<@boxHeader title='#i18n{portal.system.manage_daemons.titleCacheList}' />
-			<@boxBody>
+<@pageContainer>
+<@pageColumn>
+<@pageHeader title='#i18n{portal.system.manage_daemons.titleCacheList}'/>
 				<@table headBody=true>
 				  <@tr>
 					<@th></@th>
@@ -46,50 +44,37 @@
 							  <@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='inline'>
 								  <@input type='hidden' name='daemon' value='${daemon.id}' />
 								  <@input type='hidden' name='token' value='${token}' />
-								  <@formGroup labelFor='interval' hideLabel=['all'] labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' rows=2 formStyle='inline' class='has-addons'>
-								  <@inputGroup class=''>
+								  <@formGroup labelFor='interval' hideLabel=['all'] labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' rows=2 formStyle='inline'>
+								  <@inputGroup>
 									<@input type='text' name='interval' id='interval' value='${daemon.interval}' size='sm' params='addons'/>
-									<@inputGroupItem>
-										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateInterval}' name='action' value='UPDATE_INTERVAL' buttonIcon='check' color='link' hideTitle=['all'] size='sm' />
-									</@inputGroupItem>
+										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateInterval}' name='action' value='UPDATE_INTERVAL' buttonIcon='check' color='primary' hideTitle=['all'] size='sm' />
 								  </@inputGroup>
 								  </@formGroup>
 							  </@tform>
 						  </#if>
 						</@td>
 						<@td>
-						  <@box collapsed=true>
-							<#assign title='[${daemon.lastRunDate}] ${daemon.id}...' />
-							<#assign boxTools=false>
-							<#if daemon.lastRunLogs?has_content>
-								<#assign boxTools=true>
-							</#if>
-							<@boxHeader title=title  titleLevel='p' boxTools=true>
-							<#if daemon.lastRunLogs?has_content>
-							<div class="d-flex justify-content-between align-items-lg-start is-flex is-align-items-center ">
-								<small class="has-tooltip-left has-tooltip-arrow has-tooltipl-multiline" data-toggle="popover" data-bs-trigger="hover" title="${daemon.pluginName}" data-bs-html="true" data-content="${daemon.lastRunLogs}" data-bs-content="${daemon.lastRunLogs}" data-tooltip="${daemon.lastRunLogs}">
-									<#if daemon.lastRunLogs?length gt 40>${daemon.lastRunLogs?truncate(40)}<#else>${daemon.lastRunLogs}</#if>
-								</small>							
-								<@button style='card-control collapse card-header-icon' buttonIcon='plus' size='sm' buttonTargetId='#daemon_${daemon?index}_logs' />
-							</div>
-							</#if>
-							</@boxHeader>
-							<#if daemon.lastRunLogs?has_content>
-							<@boxBody id='daemon_${daemon?index}_logs'>
-								<@pre>${daemon.lastRunLogs}</@pre>
-							</@boxBody>
-							</#if>
-							</@box>
+						<#if daemon.lastRunDate?has_content>
+						<#if daemon.lastRunLogs?has_content>
+
+						<@offcanvas id="${daemon.id}" title="#i18n{${daemon.nameKey}}" btnColor="light" btnTitle="${daemon.lastRunDate}" position="end" >
+						${daemon.lastRunDate}
+						<@pre>${daemon.lastRunLogs}</@pre>
+					
+						</@offcanvas>
+						<#else>
+						<strong>${daemon.lastRunDate}</strong>
+						</#if>
+						<#else>
+						</#if>
 						</@td>
 						<@td>
 							<@tform method="post" action="jsp/admin/system/DoDaemonAction.jsp" type=''>
 								<@input type='hidden' name='daemon' value='${daemon.id}' />
 								<@input type='hidden' name='token' value='${token}' />
 								<#if daemon.running>
-									<@btnGroup>
 										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}' name='action' value='STOP' buttonIcon='stop' color='danger' hideTitle=['all'] size='sm' />
 										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ${daemon.id}' name='action' value='RUN' buttonIcon='sync' color='info' hideTitle=['all'] size='sm' />
-									</@btnGroup>
 								<#else>
 									<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ${daemon.id}' name='action' value='START' buttonIcon='play' color='success' hideTitle=['all'] size='sm' />
 								</#if>
@@ -98,18 +83,6 @@
 					  </@tr>
 				  </#list>
 				</@table>
-			</@boxBody>
-        </@box>
-    </@columns>
-</@row>
-<script>
-$( function() {
-if ($.isFunction($.fn.popover)) {
-	$('[data-toggle="popover"]').popover({
-	 	trigger: 'hover',
-	 	html: true,
-	 	placement: 'left'
-	});
-}
-});
-</script>
+	
+</@pageColumn>
+</@pageContainer>

@@ -1,40 +1,40 @@
-<@row>
-	<@columns>
-		<@box>
-			<@boxHeader title='#i18n{portal.search.manage_indexer.labelIndexersList}' skipHeader=true boxTools=true>
-				<@tform method='get' name='doIndexing' action='jsp/admin/search/DoIndexing.jsp' type='inline'>
+<@pageContainer>
+<@pageColumn>
+<@pageHeader title='#i18n{portal.search.manage_indexer.labelIndexersList}'>
+<@tform method='get' name='doIndexing' action='jsp/admin/search/DoIndexing.jsp'>
 					<@input type='hidden' name='token' value='${token}' />
-					<@button type='submit' buttonIcon='redo' title='#i18n{portal.search.manage_indexer.buttonDoIndex}' name='total' size='sm' hideTitle=['xs','sm'] />
-					<@button type='submit' buttonIcon='sync' title='#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}' name='incremental' size='sm' hideTitle=['xs','sm'] />
+					<@button type='submit' buttonIcon='redo' title='#i18n{portal.search.manage_indexer.buttonDoIndex}' name='total' />
+					<@button type='submit' buttonIcon='sync' title='#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}' name='incremental' />
 				</@tform>
-			</@boxHeader>
-			<@boxBody>
-				<@table>
+</@pageHeader>
+				<@table headBody=true>
 					<@tr>
 						<@th>#i18n{portal.search.manage_indexer.columnIndexerName}</@th>
 						<@th>#i18n{portal.search.manage_indexer.columnIndexerVersion}</@th>
 						<@th>#i18n{portal.search.manage_indexer.columnIndexerDescription}</@th>
+						<@th></@th>
 					</@tr>
 					<@tableHeadBodySeparator />
 					<#list indexers_list as indexer>
 						<@tr>
 							<@td>
-								<#if indexer.enable>
-									<@tag color='success' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerEnable}'>
-										<@icon style='check' />
-									</@tag>
-								<#else>
-									<@tag color='danger' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}'>
-										<@icon style='times' />
-									</@tag>
-								</#if> ${indexer.name}
+								 ${indexer.name}
 							</@td>
 							<@td>${indexer.version}</@td>
 							<@td>${indexer.description}</@td>
+							<@td>
+							<#if indexer.enable>
+									<@tag color='success' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerEnable}'>
+										#i18n{portal.search.manage_indexer.IndexerEnable}
+									</@tag>
+								<#else>
+									<@tag color='danger' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}'>
+										#i18n{portal.search.manage_indexer.IndexerDisable}
+									</@tag>
+								</#if>
+							</@td>
 						</@tr>
 					</#list>
 				</@table>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+</@pageColumn>
+</@pageContainer>

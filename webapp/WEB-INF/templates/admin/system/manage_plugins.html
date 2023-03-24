@@ -1,140 +1,132 @@
-<@row>
-	<@columns>
-		<@box>
-			<@boxHeader title='Liste des plugins' boxTools=true>
-				<@tform method='post' type='inline'>
-					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline' class='has-addons'>
-						<@inputGroup  class=''>
-							<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' size='sm'  params='autocomplete="off" addons' />
-							<@inputGroupItem>
-								<@button type='submit' color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' size='' buttonIcon='filter' hideTitle=['all'] />
-							</@inputGroupItem>
-						</@inputGroup>
-					</@formGroup>
-				</@tform>
-				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' type='inline' >
-					<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type' hideLabel=['all'] formStyle='inline' class='has-addons'>
-						<@inputGroup  class=''>
-							<@select sort=true name='plugin_type' default_value='${current_filter}' size='sm'  items=filter_list params='addons' />
-							<@inputGroupItem>
-								<@button type='submit' color='primary' buttonIcon='search' title='Search' size='' hideTitle=['all'] />
-							</@inputGroupItem>
-						</@inputGroup>
-					</@formGroup>
-				</@tform>
-			</@boxHeader>
-     	 	<@boxBody>
-       		<#if plugins_list?has_content >
-				<@row id='plugins' class='is-flex-wrap-wrap'>
-					<@columns sm=4 class='plugins'>
-						<@box id='' params='data-plugin="${core.name}"' class='plugin-box plugin'>
+<@pageContainer>
+    <@pageColumn>
+		<@pageHeader title='Liste des plugins'>
+			<@tform method='post' type='inline'>
+				<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all']
+					formStyle='inline'>
+					<@inputGroup>
+						<@input type='text' name='search_plugins' id='search_plugins'
+							placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}'
+							buttonIcon='filter' hideTitle=['all'] />
+					</@inputGroup>
+				</@formGroup>
+			</@tform>
+			<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' type='inline'>
+				<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type'
+					hideLabel=['all'] formStyle='inline'>
+					<@inputGroup>
+						<@select sort=true name='plugin_type' default_value='${current_filter}' items=filter_list
+							params='addons' />
+						<@button type='submit' color='primary' buttonIcon='search' title='Search' hideTitle=['all'] />
+					</@inputGroup>
+				</@formGroup>
+			</@tform>
+		</@pageHeader>
+		<#if plugins_list?has_content>
+			<@row id='plugins'>
+				<@columns xs=12 sm=6 lg=4 params='data-plugin="${core.name}"'>
+					<@box>
+						<#assign logo>
+							<@img url=core.iconUrl alt='logo' title=core.name params=" onerror=\"this.onerror=null;this.src='themes/admin/shared/images/feature_default_icon.png'\"" />
+						</#assign>
+						<@boxHeader
+							title='${logo} ${core.name} #i18n{portal.system.manage_plugins.titleCorePlugin} ${core.version}' class="searchable"/>
+						<@boxBody class="searchable">
+							<@p>#i18n{portal.system.manage_plugins.labelVersion}: ${core.version}</@p>
+							<@p>#i18n{${core.description}}</@p>
+							<@p>
+								<@icon style='user' /> <em>#i18n{portal.system.manage_plugins.labelAuthor} :
+									#i18n{${core.provider}}</em>
+							</@p>
+							<@p>
+								<@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link
+										href='${core.providerUrl}' target='_blank'>${core.providerUrl}</@link></em>
+							</@p>
+						</@boxBody>
+						<@boxFooter>
+                            <@offcanvas targetUrl="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}" targetElement="#plugin-content" id="plugin-core"  btnIcon="info-circle" btnColor="info" position="end" title="#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${core.name}" />
+						</@boxFooter>
+					</@box>
+				</@columns>
+				<#list plugins_list as plugin>
+					<@columns xs=12 sm=6 lg=4 id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"'>
+						<@box>
 							<#assign logo>
-								<@img url=core.iconUrl alt='logo' title=core.name />
+                                    <@img url='${plugin.iconUrl}' alt='logo' title='${plugin.name}' params=" onerror=\"this.onerror=null;this.src='themes/admin/shared/images/feature_default_icon.png'\"" />
 							</#assign>
-							<@boxHeader title='${logo} ${core.name} #i18n{portal.system.manage_plugins.titleCorePlugin} ${core.version}'/>
-							<@boxBody>
-								<@p>#i18n{portal.system.manage_plugins.labelVersion}: ${core.version}</@p>
-								<@p>#i18n{${core.description}}</@p>
-								<@p><@icon style='user' /> <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${core.provider}}</em></@p>	
-								<@p>	
-									<@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${core.providerUrl}' target='_blank'>${core.providerUrl}</@link></em>
-								</@p> 
-							</@boxBody>
-							<@boxFooter class='is-justify-content-end'>
-								<@tform method='post' type='inline' align='right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}'>
-									<@button type='submit' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' size='' color='info' hideTitle=['all'] />
-								</@tform>
-							</@boxFooter>
-						</@box>
-					</@columns>
-					<#list plugins_list as plugin >
-						<@columns sm=4 class='plugins'>
-						<@box id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"' class='plugin-box plugin'>
-							<#assign logo>
-								<@img url='${plugin.iconUrl}' alt='logo' title='${plugin.name}' params='onerror="this.onerror=null;this.src=\'images/admin/skin/feature_default_icon.png\';"' />
-							</#assign>
-							<@boxHeader title='${logo} ${plugin.name}' class='is-align-items-center' boxTools=true>
+							<@boxHeader title='${logo} ${plugin.name}' class="searchable" boxTools=true>
 								<#if plugin.installed>
 									<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'>
 										<@icon style='check-circle' /> #i18n{portal.system.manage_caches.imgAltEnable}
 									</@tag>
-                				<#else>
-									<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'>
-										<@icon style='times-circle' /> #i18n{portal.system.manage_caches.imgAltDisable}
-									</@tag>
+									<#else>
+										<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'>
+											<@icon style='times-circle' /> #i18n{portal.system.manage_caches.imgAltDisable}
+										</@tag>
 								</#if>
 							</@boxHeader>
-              				<@boxBody>
+							<@boxBody class="searchable">
 								<@p>#i18n{portal.system.manage_plugins.labelVersion}: ${plugin.version}</@p>
 								<@p>#i18n{${plugin.description}}</@p>
-								<@p><@icon style='user' /><em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em></@p>	
-								<@p>	
-									<@icon style='globe' /><em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${plugin.providerUrl}' target='_blank'>${plugin.providerUrl}</@link></em>
-								</@p> 
-              				</@boxBody>
-							<@boxFooter class='is-justify-content-end'>
-								<@btnToolbar class='justify-content-between align-items-center'>
+								<@p>
+									<@icon style='user' /><em>#i18n{portal.system.manage_plugins.labelAuthor} :
+										#i18n{${plugin.provider}}</em>
+								</@p>
+								<@p>
+									<@icon style='globe' /><em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link
+											href='${plugin.providerUrl}' target='_blank'>${plugin.providerUrl}</@link></em>
+								</@p>
+							</@boxBody>
+							<@boxFooter>
 									<#if plugin.installed>
 										<#if plugin.dbPoolRequired>
-											<@tform method='post' type='inline' align='right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
-											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
-											<@input type='hidden' name='token' value='${token}' />
-											<@formGroup rows=2 groupStyle='inline' formStyle='' class='has-addons mr-2'> 
-												<@inputGroup class=''>
-													<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true size='sm' />
-													<@inputGroupItem>
-														<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' color='primary' size='' hideTitle=['all'] />
-													</@inputGroupItem>
-												</@inputGroup>
-											</@formGroup>
+											<@tform method='post' type='inline' align='middle'
+												action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
+												<@input type='hidden' name='plugin_name' value='${plugin.name}' />
+												<@input type='hidden' name='token' value='${token}' />
+												<@formGroup rows=2 groupStyle='inline' formStyle='inline'>
+													<@inputGroup>
+														<@select name='db_pool_name' default_value='${plugin.dbPoolName}'
+															items=pools_list sort=true />
+															<@button type='submit'
+																title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}'
+																buttonIcon='check' color='primary' hideTitle=['all'] />
+													</@inputGroup>
+												</@formGroup>
 											</@tform>
-										</#if>   
-									</#if>
-									<@btnGroup>
-										<@tform method='post' type='inline' align='right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}'>
-											<@button type='submit' title='' buttonIcon='info-circle' color='info'  size='' hideTitle=['all'] />
-										</@tform>
-										<#if plugin.installed >
-										<@tform method='post' type='inline' align='right' action='jsp/admin/system/ConfirmUninstallPlugin.jsp'>
-											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
-											<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' size='' hideTitle=['all'] color='danger' />
-										</@tform>
-										<#else>
-										<@tform method='post' type='inline' align='right' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
-											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
-											<@input type='hidden' name='token' value='${token}' />
-											<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' hideTitle=['all'] size='' color='success' />
-										</@tform>
 										</#if>
-									</@btnGroup>
-								</@btnToolbar>
+									</#if>
+                                        <@offcanvas targetUrl="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" targetElement="#plugin-content" id="plugin-${plugin?index}" btnIcon="info-circle" btnColor="info" position="end" title="#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${plugin.name}" />
+										<#if plugin.installed>
+                                                    <@aButton href='jsp/admin/system/ConfirmUninstallPlugin.jsp?plugin_name=${plugin.name}' title='#i18n{portal.system.manage_plugins.buttonDisable}'
+													buttonIcon='stop' hideTitle=['all'] color='danger' />
+											<#else>
+												<@tform method='post' type='inline' align='middle'
+													action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
+													<@input type='hidden' name='plugin_name' value='${plugin.name}' />
+													<@input type='hidden' name='token' value='${token}' />
+													<@button type='submit'
+														title='#i18n{portal.system.manage_plugins.buttonEnable}'
+														buttonIcon='play' hideTitle=['all'] color='success' />
+												</@tform>
+										</#if>
 							</@boxFooter>
 						</@box>
 					</@columns>
-        		</#list>	
-     			</@row>
+				</#list>
+			</@row>
 			<#else>
 				<@empty title='#i18n{portal.system.manage_plugins.filterNoResult}' subtitle=' ' />
-			</#if>
-      </@boxBody>
-    </@box>
-  </@columns>
-</@row>
-<script>
-$( function(){
-	/* Filter plugins list */
-		$("#search_plugins").on("keyup", function () {
-		var addOrAll;
-		var search = $("#search_plugins").val();
-		$(".plugin-box").each(function (index) {
-			var pluginName = $(this).attr("data-plugin");
-			if ( pluginName.match(search) == null ){
-				$(this).parent().slideUp(200).fadeOut(500);
-			} else {
-				$(this).parent().slideDown(200).fadeIn(500);
-			}
-		});
-	});
-})
-
+		</#if>
+	</@pageColumn>
+</@pageContainer>
+<script type="module">
+    import LuteceSearchList from './js/modules/luteceSearchList.js';
+	const searchInput = document.querySelector("#search_plugins");
+	const searchElementList = document.querySelectorAll("*[data-plugin]");
+	new LuteceSearchList( searchInput, searchElementList, {
+        searchableChild: [".searchable",".title"],
+        highlight: true,
+    });
 </script>

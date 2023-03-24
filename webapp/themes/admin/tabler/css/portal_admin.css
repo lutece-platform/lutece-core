@@ -356,3 +356,14 @@
   flex-grow: 1;
   margin-left: auto
 }
+pre {
+  overflow-x: auto !important;
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+}
+.btn {
+min-height: calc(var(--tblr-btn-line-height) * var(--tblr-btn-font-size) + var(--tblr-btn-padding-y) * 2 + var(--tblr-btn-border-width) * 2);
+}
+mark {
+  padding: 0;
+}

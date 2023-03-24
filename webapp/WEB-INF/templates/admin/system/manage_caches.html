@@ -1,89 +1,93 @@
 <@pageContainer>
-	<@pageRow>
-    	<@pageColumn>
-			<@box>
-				<@boxHeader title='#i18n{portal.system.manage_caches.titleCacheList}' boxTools=true skipHeader=true >
-					<@btnGroup>
-						<@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' type='inline'>
-							<@input type='hidden' name='token' value='${token}' />
-							<@button type='submit' buttonIcon='sync' title='#i18n{portal.system.manage_caches.titleReloadProperties}' size='sm' hideTitle=['xs','sm'] />
-						</@tform>
-						<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' type='inline'>
-							<@input type='hidden' name='token' value='${token}' />
-							<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='sm' color='danger' hideTitle=['xs','sm'] />
-						</@tform>
-					</@btnGroup>
-				</@boxHeader>
-				<@boxBody>
-					<@p><em>#i18n{portal.system.manage_caches.featureDescription}</em></@p>
-					<@alert color='warning' title='#i18n{portal.system.manage_caches.cautionTitle}' iconTitle='exclamation-triangle' ><strong class="px-4">#i18n{portal.system.manage_caches.cautionMessage}</strong></@alert>
-					<@table>
-						<@tr>
-							<@th>#i18n{portal.system.manage_caches.columnTitleName}</@th>
-							<@th class="hidden-xs hidden-sm"></@th>
-							<@th class="hidden-xs">#i18n{portal.system.manage_caches.columnTitleCacheSize}</@th>
-							<@th class="hidden-xs">#i18n{portal.system.manage_caches.columnTitleMemorySize}</@th>
-							<@th>#i18n{portal.system.manage_caches.columnTitleActions}</@th>
-						</@tr>
-						<@tableHeadBodySeparator />
-						<#assign id = 0>
+<@pageColumn>
+<@pageHeader title='#i18n{portal.system.manage_caches.titleCacheList}'
+	description='#i18n{portal.system.manage_caches.featureDescription}'>
+	<@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' type='inline'>
+		<@input type='hidden' name='token' value='${token}' />
+		<@button type='submit' buttonIcon='sync' title='#i18n{portal.system.manage_caches.titleReloadProperties}'
+			hideTitle=['xs','sm'] />
+	</@tform>
+	<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' type='inline'>
+		<@input type='hidden' name='token' value='${token}' />
+		<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' color='danger'
+			hideTitle=['xs','sm'] />
+	</@tform>
+</@pageHeader>
+		<@alert color='warning' title='#i18n{portal.system.manage_caches.cautionTitle}'
+			iconTitle='exclamation-triangle'>#i18n{portal.system.manage_caches.cautionMessage}</@alert>
+				<@table headBody=true>
+					<@tr>
+					<@th></@th>
+						<@th>#i18n{portal.system.manage_caches.columnTitleName}</@th>
+						<@th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</@th>
+						<@th>#i18n{portal.system.manage_caches.columnTitleMemorySize}</@th>
+						<@th>#i18n{portal.system.manage_caches.columnTitleActions}</@th>
+					</@tr>
+					<@tableHeadBodySeparator />
+					<#assign id=0>
 						<#list services_list as service>
-						<@tr>
+							<@tr>
 							<@td>
-								<#if service.cacheEnable>
+							<#if service.cacheEnable>
 								<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'>
-									<@icon style='check' />
+								<@icon style='check' />
 								</@tag>
 								<#else>
-								<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'>
-									<@icon style='times' />
-								</@tag>
-								</#if>
-								<strong>${service.name}</strong>
+									<@tag color='danger'
+										title='#i18n{portal.system.manage_caches.imgAltDisable}'>
+										<@icon style='times' />
+									</@tag>
+							</#if>
 							</@td>
-							<@td class="hidden-xs hidden-sm">
-								[<@icon style='info-circle' /> #i18n{portal.system.manage_caches.columnTitleMaxElements}: ${service.maxElements!"-"} | <@icon style='clock-o' /> #i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive} -> ${ time2string( service.timeToLive )}]
-							</@td>
-							<@td class="hidden-xs">${service.cacheSize}</@td>
-							<@td class="hidden-xs">${service.memorySize}</@td>
-							<@td class='d-flex is-flex'>
-								<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' class="" title='#i18n{portal.system.manage_caches.actionViewKeys}' hideTitle=['all'] size='sm' />
-								<span class='mx-1'></span>
-								<@tform method='post' action='jsp/admin/system/ConfirmToggleCache.jsp' type=''>
-									<@input type='hidden' name='id_cache' value='${id}' />
-									<@input type='hidden' name='token' value='${token}' />
-									<#if service.cacheEnable>
-										<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' hideTitle=['all'] color='danger' size='sm' />
-									<#else>
-										<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' hideTitle=['all'] color='success' size='sm' />
-									</#if>
-								</@tform>
-								<span class='mx-1'></span>
-								<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' type=''>
-									<@input type='hidden' name='id_cache' value='${id}' />
-									<@input type='hidden' name='token' value='${token}' />
-									<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' hideTitle=['all'] size='sm' color='danger' />
-								</@tform>
-							</@td>
-						</@tr>
-						<#assign id = id + 1>
+								<@td>
+								<strong>${service.name}</strong><br>
+								<small>
+								#i18n{portal.system.manage_caches.columnTitleMaxElements}: ${service.maxElements!"-"} | 
+								#i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive} -> ${ time2string( service.timeToLive )}
+							</small>
+								</@td>
+								<@td>${service.cacheSize}</@td>
+								<@td>${service.memorySize}</@td>
+								<@td>
+								<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye" btnColor="info" position="end" />
+									<@tform method='post' type='inline' align="middle"
+										action='jsp/admin/system/ConfirmToggleCache.jsp'>
+										<@input type='hidden' name='id_cache' value='${id}' />
+										<@input type='hidden' name='token' value='${token}' />
+										<#if service.cacheEnable>
+											<@button type='submit' buttonIcon='stop'
+												title='#i18n{portal.system.manage_caches.actionDisable}'
+												hideTitle=['all'] color='danger' />
+											<#else>
+												<@button type='submit' buttonIcon='play'
+													title='#i18n{portal.system.manage_caches.actionEnable}'
+													hideTitle=['all'] color='success' />
+										</#if>
+									</@tform>
+									<@tform method='post' type='inline' align="middle" action='jsp/admin/system/DoResetCaches.jsp'>
+										<@input type='hidden' name='id_cache' value='${id}' />
+										<@input type='hidden' name='token' value='${token}' />
+										<@button type='submit' buttonIcon='trash'
+											title='#i18n{portal.system.manage_caches.actionClear}' hideTitle=['all']
+											color='danger' />
+									</@tform>
+								</@td>
+							</@tr>
+							<#assign id=id + 1>
 						</#list>
-					</@table>
-				</@boxBody>
-			</@box>
-  		</@pageColumn>
-	</@pageRow>
+				</@table>
+</@pageColumn>
 </@pageContainer>
 <#function time2string time>
-    <#assign hour =  ( time / 3600 )?floor >
-    <#assign mn = ((time - (hour * 3600)) / 60)?floor >
-    <#if hour != 0 >
-       <#assign result = '' + hour + 'h' >
-       <#if mn != 0 >
-            <#assign result = result + ' ' + mn + 'mn'>
-       </#if>
-    <#else>
-       <#assign result = '' + mn + 'mn'>
-    </#if>
-    <#return result >
+	<#assign hour=( time / 3600 )?floor>
+		<#assign mn=((time - (hour * 3600)) / 60)?floor>
+			<#if hour !=0>
+				<#assign result='' + hour + 'h'>
+					<#if mn !=0>
+						<#assign result=result + ' ' + mn + 'mn'>
+					</#if>
+					<#else>
+						<#assign result='' + mn + 'mn'>
+			</#if>
+			<#return result>
 </#function>
