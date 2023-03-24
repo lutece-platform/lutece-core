@@ -367,3 +367,7 @@ min-height: calc(var(--tblr-btn-line-height) * var(--tblr-btn-font-size) + var(-
 mark {
   padding: 0;
 }
+.offcanvas .form-group > .form-label {
+  width:auto !important
+}
+.table thead th{vertical-align:middle;}

@@ -45,11 +45,11 @@
       });
 
       loader.addEventListener('error', event => {
-        window.location.href = event.targetUrl;
+        window.location.href = loader.targetUrl;
       });
 
       loader.addEventListener('warning', event => {
-        window.location.href = event.targetUrl;
+        window.location.href = loader.targetUrl;
       });
 
       const loadContent = (isRedirectForm, targetUrl, targetElement, offCanvasElement) => {
@@ -92,13 +92,9 @@
             e.preventDefault();
             const formData = new FormData(form);
             const isMultipart = form.enctype.toLowerCase() === 'multipart/form-data';
-            const contentType = isMultipart ? 'multipart/form-data' : 'application/x-www-form-urlencoded';
             fetch(form.action, {
               method: 'POST',
               body: isMultipart ? formData : new URLSearchParams(formData),
-              headers: {
-                'Content-Type': contentType
-               }
             })
               .then(data => {
                 window.location.reload();
