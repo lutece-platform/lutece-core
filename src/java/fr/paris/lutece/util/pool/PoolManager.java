@@ -36,6 +36,7 @@ package fr.paris.lutece.util.pool;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.pool.service.ConnectionService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.pool.service.LuteceConnectionService;
 
 import org.apache.log4j.Logger;
@@ -119,8 +120,22 @@ public final class PoolManager
         {
             throw new LuteceInitException( "Can't read the properties file. Make sure db.properties is in the CLASSPATH", e );
         }
-
+	overrideProperties(dbProps);
         createPools( dbProps );
+    }
+    /**
+     * Override properties with the api config
+     * @param dbProps the database properties 
+     */
+    private void overrideProperties(Properties dbProps) {
+		Enumeration propertiesName=  dbProps.propertyNames();
+        while (propertiesName.hasMoreElements()) {
+        	 String key = (String) propertiesName.nextElement();
+        	 String value= AppPropertiesService.getProperty(key);
+        	 if( value != null ) {
+        		 dbProps.put(key, value);
+        	 }
+        }
     }
 
     /**
