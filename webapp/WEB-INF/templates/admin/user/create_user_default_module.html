@@ -11,8 +11,9 @@
 	</#if>
 	<#return false>
 </#function>
-<@row>
-	<@columns>
+<@pageContainer>
+<@pageColumn>
+	<@pageHeader title='#i18n{portal.users.create_user.pageTitle}' />
 		<@box color='success'>
 			<@boxBody>
 				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' params='enctype="multipart/form-data"'>
@@ -154,8 +155,8 @@
 				</@tform>	
 			</@boxBody>
 		</@box>
-	</@columns>
-</@row>
+	</@pageColumn>
+</@pageContainer>
 <script type="module">
 	import {
 			LutecePassword
