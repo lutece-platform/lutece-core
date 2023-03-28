@@ -10,9 +10,9 @@ Parameters:
 - buttonColor (string, optional): the color of the navigation buttons, using a Bootstrap color class (e.g. "primary").
 - buttonSize (string, optional): the size of the navigation buttons, using a Bootstrap size class (e.g. "lg").
 -->
-<#macro item_navigation item_navigator id='item-navigator' align='' hideButtonTitle=[] buttonColor='info' buttonSize='sm'>
+<#macro item_navigation item_navigator id='item-navigator' display='' align='' hideButtonTitle=[] buttonColor='info' buttonSize='sm'>
 <#local class = alignmentSettings(align,'') />
-<nav id="${id}" class="${class}">
+<nav id="${id}" class="${class} <#if display!=''>d-inline</#if>">
 <#if (item_navigator.currentItemId > 0)>
 	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
 </#if>

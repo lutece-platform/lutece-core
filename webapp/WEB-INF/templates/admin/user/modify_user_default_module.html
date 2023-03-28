@@ -1,11 +1,8 @@
-<@row>
-	<@columns>
-		<@box color='success'>
-			<#assign headerIcon><@icon style='user' /></#assign>
-			<@boxHeader title='${headerIcon} ${user.lastName} ${user.firstName}' boxTools=true skipHeader=true>
-				<@item_navigation item_navigator=item_navigator />
-			</@boxHeader>
-			<@boxBody>
+<@pageContainer>
+    <@pageColumn>
+        <@pageHeader title='${user.lastName} ${user.firstName}'>
+			<@item_navigation item_navigator=item_navigator />
+		</@pageHeader>
 				<@tabs>
 					<@tabList>
 						<@tabLink active=true href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
@@ -126,7 +123,5 @@
 						</@tform>
 					</@tabContent>
 				</@tabs>
-      		</@boxBody>
-    	</@box>
-  	</@columns>
-</@row>
+		</@pageColumn>
+</@pageContainer>
