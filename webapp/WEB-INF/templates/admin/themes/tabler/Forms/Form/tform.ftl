@@ -17,7 +17,7 @@ Parameters:
 - params (string, optional): additional parameters to add to the form element.
 
 -->
-<#macro tform type='' class='' align='' hide=[] action='' method='post' name='' id='' role='' collapsed=false enctype='' params='' deprecated...>
+<#macro tform type='' class='' align='' hide=[] action='' method='post' name='' id='' role='' collapsed=false enctype='' boxed=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#local class = class />
 <#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
@@ -33,7 +33,10 @@ Parameters:
 	<#default>
 		<#local class += ''>
 </#switch>
+<#if boxed><div class="card"><div class="card-body"></#if>
 <form <#if class!=''>class="${class?trim} <#if align='middle'>align-middle</#if>"</#if><#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if method='post' && enctype!=''> enctype='${enctype}'</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </form>
+<#if boxed></div></div></#if>
+
 </#macro>

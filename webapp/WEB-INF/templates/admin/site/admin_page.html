@@ -1,78 +1,75 @@
-<#assign boxTitle>
-<@breadcrumbs class='breadcrumb-arrows has-arrow-separator'>
-<#if page.id=1>
-	<@breadcrumbItem><@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /> ${page.name} [${page.id}]</@link></@breadcrumbItem>
-<#else>
-	<@breadcrumbItem>
-		<@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /></@link>
-	</@breadcrumbItem>
-	<#if page.parentPageId gt 1>
-		<@breadcrumbItem>
-			<@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' title='${page.name}'>... [${page.parentPageId}]</@link>
-		</@breadcrumbItem>
-	</#if>
-	<@breadcrumbItem class='active'>${page.name} [${page.id}]</@breadcrumbItem>
-</#if>
-</@breadcrumbs>
-</#assign>
-<@box class='admin-site'>
-	<@boxHeader title=boxTitle class='justify-content-between' boxTools=true >
-		<@adminSiteToolbar />
-	</@boxHeader>
-	<@boxBody>
-		<@div id='admin-page-preview'>
-		${page_block}
-		<!-- HTML iframe to show FO -->
-		<iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="Pr&eacute;visualisation du site">Pr&eacute;visualisation du site</iframe>
-		</@div>
-	</@boxBody>
-</@box>
-<#if page_message!="">
-<@initToast>
-<@addToast title='#i18n{portal.util.labelWarning}' content=page_message?js_string type='warning' />
-</@initToast>
-</#if>
+<@pageContainer>
+    <@pageColumn>
+        <#assign boxTitle>
+            <@breadcrumbs class='breadcrumb-arrows has-arrow-separator'>
+                <#if page.id=1>
+                    <@breadcrumbItem><@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /> ${page.name} [${page.id}]</@link></@breadcrumbItem>
+                <#else>
+                    <@breadcrumbItem>
+                        <@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /></@link>
+                    </@breadcrumbItem>
+                    <#if page.parentPageId gt 1>
+                        <@breadcrumbItem>
+                            <@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' title='${page.name}'>... [${page.parentPageId}]</@link>
+                        </@breadcrumbItem>
+                    </#if>
+                    <@breadcrumbItem class='active'>${page.name} [${page.id}]</@breadcrumbItem>
+                </#if>
+            </@breadcrumbs>
+        </#assign>
+        <@box class='admin-site'>
+            <@boxHeader title=boxTitle class='justify-content-between' boxTools=true >
+                <@adminSiteToolbar />
+            </@boxHeader>
+            <@boxBody>
+                <@div id='admin-page-preview'>
+                    ${page_block}
+                    <!-- HTML iframe to show FO -->
+                    <iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="Pr&eacute;visualisation du site">Pr&eacute;visualisation du site</iframe>
+                </@div>
+            </@boxBody>
+        </@box>
+        <#if page_message!="">
+            <@initToast>
+                <@addToast title='#i18n{portal.util.labelWarning}' content=page_message?js_string type='warning' />
+            </@initToast>
+        </#if>
+    </@pageColumn>
+</@pageContainer>
 <script>
-document.addEventListener( "DOMContentLoaded", function(){
-	// Admin responsive preview
-	const previewIframe = document.querySelector( '#lutece-admin-site-preview' );
-	const btnPreview = document.querySelectorAll( '.btn-preview' );
-	const defaultIframeWidth = ( window.innerWidth - 50  ) + "px";
-
-	function _resizePreview() {
-		previewIframe.style.height = ( window.innerHeight - 30 ) + "px";
-		previewIframe.style.width = ( window.innerWidth - 50  ) + "px";
-	}
-
-	function _setBtnPreview( el , w ) {
-		btnPreview.forEach( btn => { btn.classList.remove( 'active' ) });
-		previewIframe.style.width = w;
-		el.classList.add( 'active' );
-		if( w != defaultIframeWidth ){
-			previewIframe.classList.add('responsive-admin-preview');
-		} else {
-			previewIframe.classList.remove('responsive-admin-preview');
-		}
-	}
-
-	// Init preview size
-	_resizePreview();
-
-	window.addEventListener( "resize", _resizePreview() );
-
-	document.querySelector("#display-desktop").addEventListener( "click", e => {
-		e.preventDefault();
-		_setBtnPreview( e.currentTarget , defaultIframeWidth ) 
-	});
-
-	document.querySelector('#display-tablet').addEventListener( "click", e => {
-		e.preventDefault();
-		_setBtnPreview( e.currentTarget , '768px' ) 
-	});
-
-	document.querySelector('#display-phone').addEventListener( "click", e => {
-		e.preventDefault();
-		_setBtnPreview( e.currentTarget , '576px' ) 
-	});
-});
+    document.addEventListener("DOMContentLoaded", function() {
+        // Admin responsive preview
+        const previewIframe = document.querySelector('#lutece-admin-site-preview');
+        const btnPreview = document.querySelectorAll('.btn-preview');
+        const defaultIframeWidth = (window.innerWidth - 50) + "px";
+        function _resizePreview() {
+            previewIframe.style.height = (window.innerHeight - 30) + "px";
+            previewIframe.style.width = (window.innerWidth - 70) + "px";
+        }
+        function _setBtnPreview(el, w) {
+            btnPreview.forEach(btn => { btn.classList.remove('active') });
+            previewIframe.style.width = w;
+            el.classList.add('active');
+            if (w != defaultIframeWidth) {
+                previewIframe.classList.add('responsive-admin-preview');
+            } else {
+                previewIframe.classList.remove('responsive-admin-preview');
+            }
+        }
+        // Init preview size
+        _resizePreview();
+        window.addEventListener("resize", _resizePreview);
+        document.querySelector("#display-desktop").addEventListener("click", e => {
+            e.preventDefault();
+            _setBtnPreview(e.currentTarget, defaultIframeWidth)
+        });
+        document.querySelector('#display-tablet').addEventListener("click", e => {
+            e.preventDefault();
+            _setBtnPreview(e.currentTarget, '768px')
+        });
+        document.querySelector('#display-phone').addEventListener("click", e => {
+            e.preventDefault();
+            _setBtnPreview(e.currentTarget, '576px')
+        });
+    });
 </script>
