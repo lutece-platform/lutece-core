@@ -7,9 +7,9 @@ Parameters:
 - class (string, optional): the CSS class of the container element.
 - position (string, optional): the position of the container element (e.g. "fixed", "absolute", etc.).
 -->
-<#macro pageColumn id='' width='' class=''>
-<div class="<#if width = '' >w-100<#else>border-start border-end</#if> overflow-auto ${class} h-100" <#if width != '' >style="width:${width}"</#if>>
-<div class="container-fluid">
+<#macro pageColumn id='' width='' class='' height=''>
+<div class="<#if width = '' >w-100<#else>border-start border-end</#if> overflow-auto ${class}" style="<#if width != '' >width:${width};</#if><#if height='full'>height:calc(100vh - 64px);max-height:calc(100vh - 64px)</#if>">
+<div class="container-fluid scrollable">
 	<#nested>
 </div>
 </div>

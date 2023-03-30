@@ -1,33 +1,26 @@
-
 <@tabPanel id='external_features'>
-<@box>
-<@boxHeader title='#i18n{portal.features.manage_groups.title}' boxTools=true>
-	<@tform type='inline' align='right' method='post' name='create_external_feature' action='jsp/admin/features/CreateExternalFeature.jsp' class='has-addons'>
-		<@button type='submit' title='#i18n{portal.features.external_features.manage_external_features.create}' buttonIcon='plus' size='sm' hideTitle=['xs','sm'] />
-	</@tform>
-</@boxHeader>
-<@boxBody>
-<@p><em>#i18n{portal.features.external_features.featureDescription}</em></@p>
-<@table headBody=true>  
-<@tr>
-	<@th>#i18n{portal.features.external_features.manage_external_features.name}</@th>
-	<@th>#i18n{portal.features.external_features.manage_external_features.url}</@th>
-	<@th>#i18n{portal.features.external_features.manage_external_features.feature_group}</@th>
-	<@th>#i18n{portal.features.external_features.manage_external_features.actions}</@th>
-</@tr>
-<@tableHeadBodySeparator />
-<#list external_features_list as external_feature>
-<@tr>
-	<@td>${external_feature.name}</@td>
-	<@td>${external_feature.url}</@td>
-	<@td>${external_feature.featureGroup}</@td>                      
-	<@td>
-		<@aButton href='jsp/admin/features/ModifyExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='edit' size='sm' />
-		<@aButton href='jsp/admin/features/RemoveExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
-	</@td>
-</@tr>
-</#list>
-</@table>
-</@boxBody>
-</@box>
+    <#assign tabTitle><@icon style="users"/>#i18n{portal.features.manage_groups.title}</#assign>
+    <@pageHeader title='${tabTitle}' description='#i18n{portal.features.external_features.featureDescription}'>
+        <@offcanvas targetUrl="jsp/admin/features/CreateExternalFeature.jsp" targetElement="#create_external_form" id="external-create" title="#i18n{portal.features.external_features.manage_external_features.create}" btnTitle="#i18n{portal.features.external_features.manage_external_features.create}" btnIcon="plus" btnColor="primary" position="end" />
+    </@pageHeader>
+    <@table headBody=true>
+        <@tr>
+            <@th>#i18n{portal.features.external_features.manage_external_features.name}</@th>
+            <@th>#i18n{portal.features.external_features.manage_external_features.url}</@th>
+            <@th>#i18n{portal.features.external_features.manage_external_features.feature_group}</@th>
+            <@th>#i18n{portal.features.external_features.manage_external_features.actions}</@th>
+        </@tr>
+        <@tableHeadBodySeparator />
+        <#list external_features_list as external_feature>
+            <@tr>
+                <@td>${external_feature.name}</@td>
+                <@td>${external_feature.url}</@td>
+                <@td>${external_feature.featureGroup}</@td>
+                <@td>
+                    <@offcanvas targetUrl="jsp/admin/features/ModifyExternalFeature.jsp?external_feature_id=${external_feature.id}" targetElement="#modify_external_form" id="external-${external_feature.id}" title="#i18n{portal.features.external_features.manage_external_features.pageTitle}" btnIcon="edit" btnColor="primary" position="end" />
+                    <@aButton href='jsp/admin/features/RemoveExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
+                </@td>
+            </@tr>
+        </#list>
+    </@table>
 </@tabPanel>
