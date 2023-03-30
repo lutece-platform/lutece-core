@@ -391,3 +391,9 @@ mark {
 .table-responsive .btn-group-vertical {
     position: static;
 }
+body {
+  overflow-y: auto;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+  font-weight: 600;
+}

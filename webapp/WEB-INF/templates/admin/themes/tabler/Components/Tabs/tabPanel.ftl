@@ -10,7 +10,7 @@ Parameters:
 
 -->
 <#macro tabPanel id params='' active=false>
-<div class="tab-pane mt-2 fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
+<div class="tab-pane fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
 <#nested>
 </div>
 </#macro>

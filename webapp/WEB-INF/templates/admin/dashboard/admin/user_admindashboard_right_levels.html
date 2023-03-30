@@ -1,29 +1,23 @@
-<@tabPanel id='userRightsLevels'>
-<@box>
-	<@boxHeader title='#i18n{portal.users.adminFeature.level_right_management.name} #i18n{portal.features.manage_levels.featureDescription}' boxTools=true>
-		<@tform type='inline' method='post' action='jsp/admin/features/CreateLevel.jsp'>
-			<@button type='submit' buttonIcon='plus' title='#i18n{portal.features.manage_levels.buttonLabelCreate}' hideTitle=['xs','sm']  />
-		</@tform>
-	</@boxHeader>
-    <@boxBody>
-		<h2>#i18n{portal.features.manage_levels.labelList}</h2>
-        <@table>
-		<@tr>            
-			<@th>#i18n{portal.features.manage_levels.columnTitleId}</@th>
-			<@th>#i18n{portal.features.manage_levels.columnTitleName}</@th>
-			<@th>#i18n{portal.features.manage_groups.labelActions}</@th>
-		</@tr>
-		<@tableHeadBodySeparator />
-		<#list levels_list as level >
-		<@tr>
-			<@td>${level.id}</@td>
-			<@td>${level.name}</@td>
-			<@td>
-				<@aButton href='jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}' buttonIcon='edit' title='#i18n{portal.features.manage_groups.buttonModify} (${level.name?html})' hideTitle=['all'] size='sm' />
-			</@td>
-		</@tr>			
-		</#list>
-        </@table>
-	</@boxBody>
-</@box>
+<@tabPanel id='right_levels'>
+    <#assign tabTitle> <@icon style="users"/>#i18n{portal.users.adminFeature.level_right_management.name}</#assign>
+    <@pageHeader title="${tabTitle}" description="#i18n{portal.features.manage_levels.featureDescription}">
+        <@offcanvas targetUrl="jsp/admin/features/CreateLevel.jsp" targetElement="#create-level-form" id="create-level" title="#i18n{portal.features.create_level.boxTitle}" btnTitle="#i18n{portal.features.manage_levels.buttonLabelCreate}" btnIcon="plus" btnColor="primary" position="end"  />
+    </@pageHeader>
+    <@table headBody=true>
+        <@tr>            
+            <@th>#i18n{portal.features.manage_levels.columnTitleId}</@th>
+            <@th>#i18n{portal.features.manage_levels.columnTitleName}</@th>
+            <@th>#i18n{portal.features.manage_groups.labelActions}</@th>
+        </@tr>
+        <@tableHeadBodySeparator />
+        <#list levels_list as level >
+            <@tr>
+                <@td>${level.id}</@td>
+                <@td>${level.name}</@td>
+                <@td>
+                    <@offcanvas targetUrl="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" targetElement="#right-level-form" id="level-${level.id}" title="#i18n{portal.features.manage_groups.buttonModify} ${level.name?html}" btnIcon="edit" btnColor="primary" position="end" />
+                </@td>
+            </@tr>			
+        </#list>
+    </@table>
 </@tabPanel>

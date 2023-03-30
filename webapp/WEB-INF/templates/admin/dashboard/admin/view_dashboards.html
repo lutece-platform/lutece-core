@@ -1,24 +1,64 @@
-<@row>	
-	<@columns>
-		<@box>
-			<#assign boxTitle><@icon style='settings' /> #i18n{portal.admindashboard.view_dashboards.title}</#assign>
-			<@boxHeader title=boxTitle />
-			<@boxBody>
-				<@accordionContainer id='technical_settings'>
-					<#if column_content_1?has_content>
-						${column_content_1}
-					</#if>
-					<#if column_content_2?has_content>
-						${column_content_2}
-					</#if>
-				</@accordionContainer>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
-<script>
-// document.addEventListener( "DOMContentLoaded", function(){
-// 	const hasTechCookie = localStorage.getItem('technnicaltab');
-// 	manageAdminFeatureTab( hasTechCookie );
-// });
+<@pageContainer id="adminTechnical" height="full">
+    <@pageColumn class="bg-light p-4" width="30rem" height="full">
+        <@pageHeader title="#i18n{portal.admindashboard.view_dashboards.title}" />
+        <@tabList style='pills' vertical=true>
+		<h3 class="fw-bolder mb-2 mt-4">#i18n{portal.templates.manage_autoincludes.menuTitle}</h3>
+		<@tabLink href='#autoincludes' title='#i18n{portal.templates.manage_autoincludes.tabTitle}' tabIcon='code' />
+            <h3 class="fw-bolder mb-2 mt-4">#i18n{portal.users.adminDashboard.menuTitle}</h3>
+            <@tabLink href='#defaultUserParameterValues' title='#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}' tabIcon='user' />
+            <@tabLink href='#ModifyEmailPattern' title='#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}' tabIcon='at' />
+            <@tabLink href='#advancedSecurityParameters' title='#i18n{portal.users.manage_advanced_parameters.securityParameters}' tabIcon='shield-alt' />
+            <@tabLink href='#lifeTimeEmails' title='#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}' tabIcon='envelope' />
+            <@tabLink href='#attributes_management' title='#i18n{portal.users.manage_attributes.pageTitle}' tabIcon='id-card' />
+            <@tabLink href='#anonymizeUsers' title='#i18n{portal.users.anonymize_user.titleAnonymizeUser}' tabIcon='user-secret' />
+            <@tabLink href='#right_levels' title='#i18n{portal.users.adminFeature.level_right_management.name}' tabIcon='users' />
+			<h3 class="fw-bolder mb-2 mt-4">#i18n{portal.search.manage_advanced_parameters.menuTitle}</h3>
+            <@tabLink href='#search' title='#i18n{portal.search.manage_advanced_parameters.pageTitle}' tabIcon='search' />
+			<h3 class="fw-bolder mb-2 mt-4">#i18n{portal.admindashboard.editorChoice.menuTitle}</h3>
+            <@tabLink href='#editors' title='#i18n{portal.admindashboard.editorChoice.title}' tabIcon='edit' />
+			<h3 class="fw-bolder mb-2 mt-4">#i18n{portal.admin.adminFeature.features_management.menuTitle}</h3>
+            <@tabLink href='#features_management' title='#i18n{portal.features.manage_groups.title}' tabIcon='folder' />
+            <@tabLink href='#assign_features_groups' title='#i18n{portal.features.dispatch_features.title}' tabIcon='list' />
+            <@tabLink href='#external_features' title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' tabIcon='users' />
+			<h3 class="fw-bolder mb-2 mt-4">#i18n{portal.xsl.adminFeature.xsl_export_management.name}</h3>
+            <@tabLink href='#xslexportManagement' title='#i18n{portal.xsl.manage_xsl_export.page_title}' tabIcon='file-code' />
+        </@tabList>
+    </@pageColumn>
+    <@pageColumn class="p-4" height="full">
+        <@tabContent>
+            <#if column_content_1?has_content>
+                ${column_content_1}
+            </#if>
+            <#if column_content_2?has_content>
+                ${column_content_2}
+            </#if>
+        </@tabContent>
+    </@pageColumn>
+</@pageContainer>
+<#noparse>
+<script type="module">
+const tabsLink = (element) => {
+  const tabs = element.querySelectorAll('.nav-link');
+  for (const tab of tabs) {
+    tab.addEventListener('show.bs.tab', (e) => {
+      const url = new URL(window.location.href);
+      url.searchParams.set('tab', e.target.getAttribute('href').substring(1));
+      window.history.pushState({}, '', url);
+    });
+  }
+  const urlParams = new URLSearchParams(window.location.search);
+  const hashFragments = window.location.hash.split('#');
+  const activeTab = urlParams.get('tab') || (hashFragments.length > 2 ? document.getElementById( hashFragments[2] ).getAttribute('tab') : hashFragments[1]);
+  const tabToActivate = element.querySelector(`.nav-link[href="#${activeTab}"]`);
+  if (tabToActivate) {
+      tabToActivate.click();
+      tabToActivate.scrollIntoView({ behavior: 'instant', block: hashFragments.length > 2 ? 'start' : 'end'});
+      hashFragments.length > 2 && document.getElementById( hashFragments[2] ).scrollIntoView({ behavior: 'instant', block: 'start' });
+  } else {
+      tabs[0].click();
+      tabs[0].scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }
+};
+tabsLink(document.getElementById('adminTechnical'));
 </script>
+</#noparse>

@@ -1,4 +1,6 @@
-<@adminDashboardPanel title='#i18n{portal.templates.manage_autoincludes.pageTitle}' icon='code' parentId='technical_settings' childId='autoincludes' >
+<@tabPanel id='autoincludes'>
+<#assign tabTitle> <@icon style="code"/>#i18n{portal.templates.manage_autoincludes.pageTitle} </#assign>
+<@pageHeader title="${tabTitle}" />
 <#assign defaultThemeName='' >
 <#list commons_list as item>
 	<#if current_commons="${item.code}">
@@ -8,9 +10,11 @@
 </#list>
 <@messages infos=infos />
 <@row>
-	<@columns>	
+	<@columns sm=12 md=12 lg=6 xl=4>	
 		<@box>
-			<@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsInfos}' />
+		<#assign boxTitle> #i18n{portal.templates.manage_autoincludes.commonsInfos}
+		</#assign>
+			<@boxHeader title='${boxTitle}' />
 			<@boxBody class='card-sized'>
 				<@p>#i18n{portal.templates.manage_autoincludes.commonsName} <br><strong><@commonsName /></strong></@p>
 				<@p>#i18n{portal.templates.manage_autoincludes.commonsFile} <br><strong><@commonsFile /></strong></@p>
@@ -18,13 +22,13 @@
 			</@boxBody>
 		</@box>
 	</@columns>
-	<@columns>	
+	<@columns sm=12 md=12 lg=6 xl=8>	
 		<@box>
-			<@boxHeader title='#i18n{portal.templates.manage_autoincludes.title}' />
-			<@boxBody class='card-sized'>
-				<@ul class='list-group'>
+			<@boxHeader title='#i18n{portal.templates.manage_autoincludes.title}' class="border-0" />
+			<@boxBody class='card-sized p-0 m-0'>
+				<@ul class='list-group border-0 rounded-0'>
 				<#list autoinclude_list as autoinclude >
-					<@li  class='list-group-item d-flex justify-content-between align-items-center'>
+					<@li  class='list-group-item d-flex justify-content-between align-items-center border-start-0 border-end-0'>
 						<strong>${autoinclude.filePath}</strong>
 						<#if autoinclude.owner?? && defaultThemeName=autoinclude.owner  ><@tag>#i18n{portal.templates.manage_autoincludes.columnFilePath}</@tag></#if>
 					</@li>
@@ -33,23 +37,23 @@
 			</@boxBody>
 		</@box>
 	</@columns>
-	<@columns>
-		<@box>
-			<@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsChange}' />
-			<@boxBody class='card-sized'>
-				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
-				<@input type='hidden' name='action' value='activate' />
-				<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' class='has-addons' rows=2>
-					<@inputGroup class=''>
-						<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
-						<@inputGroupItem>
-							<@button type='submit' color='oultine' buttonIcon='check' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' hideTitle=['all'] size='' />
-						</@inputGroupItem>
-					</@inputGroup>
-				</@formGroup>
-				</@tform>
-			</@boxBody>
-		</@box>
-	</@columns>	
-</@row>   
-</@adminDashboardPanel>
+</@row> 
+<@row>
+<@columns>
+<@box>
+	<@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsChange}' />
+	<@boxBody>
+		<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
+		<@input type='hidden' name='action' value='activate' />
+		<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' class='has-addons' rows=2>
+			<@inputGroup class=''>
+				<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
+					<@button type='submit' color='primary' buttonIcon='check' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' hideTitle=['all'] size='' />
+			</@inputGroup>
+		</@formGroup>
+		</@tform>
+	</@boxBody>
+</@box>
+</@columns>	
+</@row>  
+</@tabPanel>

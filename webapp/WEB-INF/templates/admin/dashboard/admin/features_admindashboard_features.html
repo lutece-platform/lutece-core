@@ -1,6 +1,7 @@
 <@tabPanel id='assign_features_groups'>
-<@p><em>#i18n{portal.features.dispatch_features.featureDescription}</em></@p>
 <@tabContent>
+<#assign tabTitle> <@icon style="list"/>#i18n{portal.features.dispatch_features.title}</#assign>
+<@pageHeader title="${tabTitle}" description="#i18n{portal.features.dispatch_features.featureDescription}"/>
 	<#if no_group.feature_list?has_content && no_group.feature_list?size gt 1>
 		<@featuresGroupDisplay groupDisplay=no_group />
 	</#if>
@@ -12,7 +13,7 @@
 <#macro featuresGroupDisplay groupDisplay>
 <@row>
 	<@columns>
-		<@box color='danger'>
+		<@box color='danger' id='${groupDisplay.feature_group.id?if_exists}' params="tab='assign_features_groups'">
 		<#if groupDisplay.feature_group.order !=0>
 			<#assign title>#i18n{${groupDisplay.feature_group.labelKey}} <@link name='${groupDisplay.feature_group.id?if_exists}'> </@link></#assign>
 		<#else>
@@ -36,7 +37,6 @@
 			</#if>
 		</#if>
 		</@boxHeader>
-		<@boxBody>
 			<#if groupDisplay.feature_list?has_content>
 			<@table headBody=true>
 			<@tr>
@@ -53,7 +53,7 @@
 					<@tform method='post' type='inline' action='jsp/admin/features/DoDispatchFeature.jsp'>
 						<@input type='hidden' name='right_id' value='${right.id}' />
 						<@input type='hidden' name='token' value='${token}' />
-						<@formGroup rows=2 class='has-addons'>
+						<@formGroup rows=2 class='has-addons' formStyle='inline' groupStyle="inline">
 							<@inputGroup class=''>
 								<@select id='group_name-${right.id}' name='group_name' title='' size='sm'>
 								<#if right.featureGroup?if_exists = no_group.feature_group.id?if_exists>
@@ -69,9 +69,7 @@
 								</#if>
 								</#list>
 								</@select>
-							<@inputGroupItem>
 							<@button type='submit' title='#i18n{portal.features.dispatch_features_row.buttonSetGroup}' hideTitle=['all'] buttonIcon='check' size='sm' />
-							</@inputGroupItem>
 						</@inputGroup>
 						</@formGroup>
 					</@tform>
@@ -82,7 +80,7 @@
 						<@input type='hidden' name='right_id' value='${right.id}' />
 						<@input type='hidden' name='group_name' value='${right.featureGroup?if_exists}' />
 						<@input type='hidden' name='token' value='${token}' />
-						<@formGroup rows=2 class='has-addons'>
+						<@formGroup rows=2 class='has-addons' formStyle='inline' groupStyle="inline">
 							<@inputGroup class=''>
 							<@select name='order_id' id='order_id-${right.id}' title='#i18n{portal.features.dispatch_features.tableLabelOrder}' size='sm'>
 							<#list 1..groupDisplay.feature_list?size as i>
@@ -93,9 +91,7 @@
 							</#if>
 							</#list>
 							</@select>
-							<@inputGroupItem>
 								<@button type='submit' title='#i18n{portal.features.dispatch_features_row.buttonSetOrder}' hideTitle=['all'] buttonIcon='check' size='sm' />
-							</@inputGroupItem>
 							</@inputGroup>
 						</@formGroup>
 						</@tform>
@@ -112,7 +108,6 @@
 			<#else>
 				<@empty />
 			</#if>
-			</@boxBody>
         </@box>
     </@columns>
 </@row>
