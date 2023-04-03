@@ -21,7 +21,7 @@ Parameters:
 		<@button type='submit' name='${button1Name}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' size='' />
 	</#if>
 	<#if url2 != ''>
-		<@aButton href='${url2}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' cancel=true  size=''/>
+		<@aButton href='${url2}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' size=''/>
 	<#else>
 		<#if button2Name != ''>
 			<@button type='submit' name='${button2Name}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' cancel=true size='' />
