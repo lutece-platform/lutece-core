@@ -79,6 +79,10 @@
 	overflow: hidden;
 }
 
+.input-icon-addon {
+    z-index: 6;
+}
+
 /* Dashboard Card Button                                    */
 .widget-col .card .card-body{ 
 	max-height: 350px; 
@@ -87,25 +91,32 @@
 
 /* Language Menu                                            */
 .btn-language{
-	background-position: top;
-	background-size: cover;
+	background-position: center;
+	background-size: 1rem;
 	background-color: transparent !important ;
 	background-repeat: no-repeat;
-	width: 1rem !important; 
-	height: 1rem !important; 
+	width: 1rem !important;
+	height: 1rem !important;
 	padding: 0 !important; 
+	opacity: .5;
+	box-shadow: none !important;
 }
 
 .btn-language:hover{ 
-	filter: drop-shadow(2px 4px 6px var( --black ) ); 
+	filter: drop-shadow(2px 4px 6px var( --black ) );
+	opacity: 1; 
+}
+
+.btn-language-selected{ 
+	opacity: 1; 
 }
 
 .fr{ 
-	background-image: url( ../../shared/css/vendor/tabler/img/flags/fr.svg );  
+	background-image: url( vendor/tabler/img/flags/fr.svg );  
 }
 
 .en{ 
-	background-image: url( ../../shared/css/vendor/tabler/img/flags/gb.svg ); 
+	background-image: url( vendor/tabler/img/flags/gb.svg ); 
 }
 
 /* Helpers classes                                          */
@@ -142,8 +153,33 @@
 .table td{ 
 	vertical-align: middle; 
 }
+/* Sort Headers */
+.table th.th-header.active{ 
+	background-color: var( --dark-light); 
+}
+.table th.th-header.active .btn-sort{ 
+	margin-right: .25rem
+}
+.table th.th-header.active .btn-sort.active{ 
+	color: var( --black ); 
+}
+.table th.th-header.active .btn-sort.active .ti{ 
+	font-weight: 700;
+}
+.table th.th-header.active .btn-sort.asc.active{ 
+	text-decoration: underline;
+}
+.table th.th-header.active .btn-sort.desc.active{ 
+	text-decoration: overline;
+}
+.table th.th-header:not(.active) .btn-sort { 
+	display: none;
+}
+.table th.th-header:not(.active):hover .btn-sort { 
+	display: block;
+}
 
-/* thumbnail list                                             */
+/* Thumbnail list                                             */
 /* Image size for thumbnails                                  */
 .thumbnail-xs{ 
 	width: 1rem; 

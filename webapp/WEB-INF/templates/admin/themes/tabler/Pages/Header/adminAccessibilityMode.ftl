@@ -10,10 +10,13 @@ Parameters:
 <#macro adminAccessibilityMode>
 <@tform method='post' action='jsp/admin/DoModifyAccessibilityMode.jsp' class='form-inline ms-0'>
 	<@input type='hidden' name='token' value='${token}' />
+	<#local btnIcon='eye-slash' > 
+	<#local btnTitle='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}' >
 	<#if user.accessibilityMode>
-		<@button color='link ' type='submit' buttonIcon='eye' title='#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}' params='style="padding-left:.5rem;padding-right:.5rem"' />
+		<#local btnIcon='eye' > 
+		<#local btnTitle='#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}' >
 	<#else>
-		<@button color='link text-dark' type='submit' buttonIcon='eye-slash' title='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}' params='style="padding-left:.5rem;padding-right:.5rem"' />
 	</#if>
+	<@button class='dropdown-item' type='submit' buttonIcon=btnIcon title=btnTitle />
 </@tform>
 </#macro>

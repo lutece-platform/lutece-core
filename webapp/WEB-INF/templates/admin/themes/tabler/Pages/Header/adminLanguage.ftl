@@ -9,17 +9,17 @@ Parameters:
 <@tform method='post' action=action class='form-inline'>
 	<@input type='hidden' name='token' value='${token}' />
 	<@row>
-		<@columns class='py-1' params='style="padding-left:1.15rem"' >
+		<@columns class='ps-3' >
 			<@icon style='language' /> #i18n{portal.admin.admin_home.language}
 			<#list languages as language>
 				<#if lang=language.code>
-					<#assign islocale='check-circle text-success pl-4'>
-					<#assign title=' Selectionné '>
+					<#assign isLocale='btn-language-selected'>
+					<#assign title='#i18n{portal.admin_home.button.selectedLanguage}'>
 				<#else>
-					<#assign islocale=''>
+					<#assign isLocale=''>
 					<#assign title=''>
 				</#if>
-				<@button color='' class='btn-language ${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' hideTitle=['all'] />
+				<@button color='' class='btn-language ${language.code} ${isLocale!}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' hideTitle=['all'] />
 			</#list>
 		</@columns>
 	</@row>

@@ -76,10 +76,10 @@ Parameters:
 <script type="module">
 import {
 	LutecePassword
-} from './js/modules/lutecePassword.js';
+} from './themes/shared/modules/lutecePassword.js';
 import {
 	LuteceLogin
-} from './js/modules/luteceLogin.js';
+} from './themes/shared/modules/luteceLogin.js';
 
 const login = new LuteceLogin();
 const password = new LutecePassword();
@@ -100,4 +100,5 @@ document.addEventListener( "DOMContentLoaded", function(){
 	password.initPassToggler( );
 });
 </script>
+<@coreAdminJSLinks />
 </#macro>
