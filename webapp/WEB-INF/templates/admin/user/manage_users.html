@@ -93,7 +93,7 @@
                 </@tform>
             </@offcanvas>
         </@pageHeader>
-        <@table headBody=true>
+        <@table headBody=true id='userTable'>
             <@tr>
                 <#if adminAvatar>
                     <@th></@th>
@@ -125,35 +125,28 @@
             <#list user_list as user>
                 <@tr>
                     <#if adminAvatar>
-                        <@td>
-                            <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}'
-                                class='direct-chat-img' alt='' title='Avatar' />
+                        <@td params='data-url="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelUpdate}"'>
+                            <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='direct-chat-img' alt='' title='Avatar' />
                         </@td>
                     </#if>
+                    <@td params='data-url="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelUpdate}"'>
+                        <#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if>
+                    </@td>
+                    <@td hide=['xs'] params='data-url="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelUpdate}"'>
+                        <#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if>
+                    </@td>
+                    <@td hide=['xs','sm'] params='data-url="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelUpdate}"'>
+                        <em><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em>
+                    </@td>
                     <@td>
-                        <#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>
-                                ${user.lastName}</#if>
+                        <@span class='copy-content'><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.email}</#if></@span>
                     </@td>
-                    <@td hide=['xs']>
-                        <#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>
-                                ${user.firstName}</#if>
-                    </@td>
-                    <@td hide=['xs','sm']><em>
-                            <#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>
-                                    ${user.accessCode}</#if>
-                        </em></@td>
-                    <@td><span class='copy-content'>
-                            <#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>
-                                    ${user.email}</#if>
-                        </span></@td>
                     <@td hide=['xs']>${user.dateLastLogin!}</@td>
                     <@td hide=['xs']>
                         <#if user.status==0>
-                            <@tag color='success'>
-                                <@icon style='check-circle' /> #i18n{portal.util.labelEnabled}</@tag>
-                            <#else>
-                                <@tag color='danger'>
-                                    <@icon style='times-circle' /> #i18n{portal.util.labelDisabled}</@tag>
+                            <@tag color='success'><@icon style='check-circle' /> #i18n{portal.util.labelEnabled}</@tag>
+                        <#else>
+                            <@tag color='danger'> <@icon style='times-circle' /> #i18n{portal.util.labelDisabled}</@tag>
                         </#if>
                     </@td>
                     <#assign list_user_fields=map_id_user_list_user_fields["" + user.userId]>
@@ -161,14 +154,13 @@
                             <#if attribute.shownInResultList>
                                 <@td>
                                     <#assign index_user_field=0>
-                                        <#list list_user_fields as user_field>
-                                            <#if user_field.attribute.idAttribute==attribute.idAttribute>
-                                                <#if index_user_field !=0><br /></#if>
-                                                <#assign index_user_field=index_user_field + 1>
-                                                    <#if user.status !=10>${attribute.getHtmlValue( locale, user_field
-                                                        )}</#if>
-                                            </#if>
-                                        </#list>
+                                    <#list list_user_fields as user_field>
+                                        <#if user_field.attribute.idAttribute==attribute.idAttribute>
+                                            <#if index_user_field !=0><br /></#if>
+                                            <#assign index_user_field=index_user_field + 1>
+                                            <#if user.status !=10>${attribute.getHtmlValue( locale, user_field )}</#if>
+                                        </#if>
+                                    </#list>
                                 </@td>
                             </#if>
                         </#list>
@@ -210,3 +202,9 @@
         <@copyElementToClipboard selector='.copy-content' class='"copy-icon"' />
     </@pageColumn>
 </@pageContainer>
+<script type="module">
+import LuteceTable from './themes/shared/modules/luteceTables.js';
+const table = new LuteceTable( );
+table.tableElementList = document.querySelectorAll("td[data-url]");
+table.setClickableTableRow();
+</script>

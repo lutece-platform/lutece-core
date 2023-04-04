@@ -179,6 +179,10 @@
 	display: block;
 }
 
+tr[data-url]:hover, td[data-url]:hover{
+	cursor: pointer;
+}
+
 /* Thumbnail list                                             */
 /* Image size for thumbnails                                  */
 .thumbnail-xs{ 
