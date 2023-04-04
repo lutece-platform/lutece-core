@@ -29,47 +29,47 @@
                 </@div>
             </@boxBody>
         </@box>
-        <#if page_message!="">
-            <@initToast>
-                <@addToast title='#i18n{portal.util.labelWarning}' content=page_message?js_string type='warning' />
-            </@initToast>
-        </#if>
     </@pageColumn>
 </@pageContainer>
+<#if page_message!="">
+    <@initToast>
+        <@addToast content=page_message class='text-bg-warning border-0' />
+    </@initToast>
+</#if>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Admin responsive preview
-        const previewIframe = document.querySelector('#lutece-admin-site-preview');
-        const btnPreview = document.querySelectorAll('.btn-preview');
-        const defaultIframeWidth = (window.innerWidth - 50) + "px";
-        function _resizePreview() {
-            previewIframe.style.height = (window.innerHeight - 30) + "px";
-            previewIframe.style.width = (window.innerWidth - 70) + "px";
+document.addEventListener("DOMContentLoaded", function() {
+    // Admin responsive preview
+    const previewIframe = document.querySelector( '#lutece-admin-site-preview' );
+    const btnPreview = document.querySelectorAll( '.btn-preview' );
+    const defaultIframeWidth = (window.innerWidth - 50) + "px";
+    function _resizePreview() {
+        previewIframe.style.height = (window.innerHeight - 30) + "px";
+        previewIframe.style.width = (window.innerWidth - 70) + "px";
+    }
+    function _setBtnPreview(el, w) {
+        btnPreview.forEach(btn => { btn.classList.remove('active') });
+        previewIframe.style.width = w;
+        el.classList.add('active');
+        if (w != defaultIframeWidth) {
+            previewIframe.classList.add('responsive-admin-preview');
+        } else {
+            previewIframe.classList.remove('responsive-admin-preview');
         }
-        function _setBtnPreview(el, w) {
-            btnPreview.forEach(btn => { btn.classList.remove('active') });
-            previewIframe.style.width = w;
-            el.classList.add('active');
-            if (w != defaultIframeWidth) {
-                previewIframe.classList.add('responsive-admin-preview');
-            } else {
-                previewIframe.classList.remove('responsive-admin-preview');
-            }
-        }
-        // Init preview size
-        _resizePreview();
-        window.addEventListener("resize", _resizePreview);
-        document.querySelector("#display-desktop").addEventListener("click", e => {
-            e.preventDefault();
-            _setBtnPreview(e.currentTarget, defaultIframeWidth)
-        });
-        document.querySelector('#display-tablet').addEventListener("click", e => {
-            e.preventDefault();
-            _setBtnPreview(e.currentTarget, '768px')
-        });
-        document.querySelector('#display-phone').addEventListener("click", e => {
-            e.preventDefault();
-            _setBtnPreview(e.currentTarget, '576px')
-        });
+    }
+    // Init preview size
+    _resizePreview();
+    window.addEventListener("resize", _resizePreview);
+    document.querySelector("#display-desktop").addEventListener("click", e => {
+        e.preventDefault();
+        _setBtnPreview(e.currentTarget, defaultIframeWidth)
     });
+    document.querySelector('#display-tablet').addEventListener("click", e => {
+        e.preventDefault();
+        _setBtnPreview(e.currentTarget, '768px')
+    });
+    document.querySelector('#display-phone').addEventListener("click", e => {
+        e.preventDefault();
+        _setBtnPreview(e.currentTarget, '576px')
+    });
+});
 </script>

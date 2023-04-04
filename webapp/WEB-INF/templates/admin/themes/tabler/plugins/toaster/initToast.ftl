@@ -1,7 +1,5 @@
 <#-- Macro: initToast
-
 Description: Initializes a Polipop instance for displaying Bootstrap toast notifications.
-
 Parameters:
 - layout (string, optional): the layout of the notifications ("popups" or "list").
 - position (string, optional): the position of the notifications on the screen ("top-left", "top-right", "bottom-left", or "bottom-right").
@@ -13,23 +11,21 @@ Parameters:
 - duration (integer, optional): the duration in milliseconds that the notifications should be displayed before disappearing.
 - pool (integer, optional): the maximum number of notifications that can be displayed at the same time.
 -->
-<#macro initToast layout='popups' position='top-right' closer=true sticky=false progressbar=true insert='before' theme='default' duration=3000 pool=5 >
-<script>
-document.addEventListener( "DOMContentLoaded", function(){
-	var lutecepolipop = new Polipop('lutecepop', {
-		layout: '${layout}',
-		position: '${position}',
-		theme: '${theme}',
-		life: ${duration?c},
-		insert: '${insert}',
-		closer: ${closer?c},
-		closeText : '#i18n{portal.util.labelClose}',
-		sticky: ${sticky?c},
-		progressbar: ${progressbar?c},
-		pool: ${pool},
-	});
-	<#-- Add addToast macro in your template -->
+<#macro initToast class='' id='' position='top-0 end-0' autohide=false animation=true duration=2000 params='' deprecated...>
+<@deprecatedWarning args=deprecated />
+<div aria-live="polite" aria-atomic="true" class="position-static z-3">
+	<div<#if id !=''> id="${id}"</#if> class="toast-container ${position} p-3<#if class !=''> ${class}</#if>"<#if params !=''> ${params}"</#if>>
 	<#nested>
+	</div>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    const option = { delay: ${duration}, animation: ${animation?c}, autohide: ${autohide?c} }
+    const toastList = toastElList.map( function(toastEl, option ) {
+        return new bootstrap.Toast(toastEl)
+    })
+    toastList.forEach(toast => toast.show())
 });
 </script>
 </#macro>
