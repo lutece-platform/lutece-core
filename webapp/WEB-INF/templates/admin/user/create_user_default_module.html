@@ -63,6 +63,11 @@
 										<@icon style='lock' />
 									</@inputGroupItem>
 									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' size='' />
+									<@inputGroupItem type='text'>
+										<@link href='' class='input-group-link' title='#i18n{portal.admin.admin_login.forgotLogin}' id='lutece-password-toggler' >
+											<@icon style='eye' />
+										</@link>
+									</@inputGroupItem>
 									<@inputGroupItem type='btn' pos='is-expanded'>
 										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='' color='secondary' />
 									</@inputGroupItem>
@@ -170,4 +175,7 @@
 		input.value = password.generatePassword();
 		input.dispatchEvent(new Event('input'));
 	});
+	password.passTogglerInput = '#first_password'
+	password.initPassToggler( );
+
 </script>
