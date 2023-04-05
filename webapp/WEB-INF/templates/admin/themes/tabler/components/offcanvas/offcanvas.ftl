@@ -32,7 +32,7 @@
   </div>
   <#if targetUrl?has_content>
     <script type="module">
-      import LuteceContentLoader from './js/modules/luteceContentLoader.js';
+      import LuteceContentLoader from './themes/shared/modules/luteceContentLoader.js';
       const loader = new LuteceContentLoader();
       loader.addEventListener('start', () => {
           loader.dataStore.destinationElement.innerHTML = `<div class="d-flex justify-content-center align-items-center h-100"><div class="spinner-border text-primary" role="status"></div></div>`;

@@ -24,7 +24,7 @@ Description: Generates the home page for the admin dashboard. It generates a con
 <script type="module">
 import {
 	LuteceDraggable
-} from './js/modules/luteceDraggable.js';
+} from './themes/shared/modules/luteceDraggable.js';
 
 const containers = document.querySelectorAll('#dashboard-widgets .widget-col');
 const draggables = Array.from(containers).flatMap(container => [...container.children]);

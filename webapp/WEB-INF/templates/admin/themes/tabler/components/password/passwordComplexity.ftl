@@ -23,7 +23,7 @@ Parameters:
 <script type="module">
 	import {
 			LutecePassword
-		} from './js/modules/lutecePassword.js';
+		} from './themes/shared/modules/lutecePassword.js';
 
 	const password = new LutecePassword();
     const input = document.getElementById('${inputId}');

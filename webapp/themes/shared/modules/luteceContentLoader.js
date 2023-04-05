@@ -1,23 +1,25 @@
 /**
- * Loads remote HTML content into a target element.
+ * Loads remote content
  */
 export default class LuteceContentLoader extends EventTarget {
   /**
-   * Creates a new instance of `LuteceContentLoader`.
-   *
-   * @param {string} targetUrl - The URL of the remote HTML content.
-   * @param {string} targetElement - The selector for the target element in the HTML content.
-   */
-  constructor(targetUrl, targetElement) {
+   * Creates a new instance of LuteceContentLoader.
+   * @class
+   * @param {string} targetUrl - The URL of the remote content.
+   * @param {string} targetType - The type of content being loaded ("html", "json").
+   * @param {string} targetElement - The selector for the target element in the HTML content / the json path.
+  */
+  constructor(targetUrl, targetType, targetElement) {
     super();
     this.targetUrl = targetUrl;
+    this.targetType = targetType;
     this.targetElement = targetElement;
-    this.dataStore = {}; 
+    this.dataStore = {};
     this.controller = new AbortController();
   }
 
   /**
-   * Loads the remote HTML content and emits appropriate events.
+   * Loads the remote content and emits appropriate events.
    *
    * @fires LuteceContentLoader#start
    * @fires LuteceContentLoader#success
@@ -25,7 +27,6 @@ export default class LuteceContentLoader extends EventTarget {
    * @fires LuteceContentLoader#error
    */
   async load() {
-    
     if (this.controller) {
       this.controller.abort();
     }
@@ -36,23 +37,30 @@ export default class LuteceContentLoader extends EventTarget {
       const response = await fetch(this.targetUrl, {
         signal: this.controller.signal
       });
-      const text = await response.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(text, 'text/html');
-      const targetElement = doc.querySelector(this.targetElement);
+
+      let targetElement;
+      if (this.targetType === 'json') {
+        const json = await response.json();
+        targetElement = json[this.targetElement];
+      } else {
+        const text = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(text, 'text/html');
+        targetElement = doc.querySelector(this.targetElement);
+      }
 
       if (targetElement) {
         this.dispatchEvent(new CustomEvent('success', {
           detail: {
-            dataStore : this.dataStore,
-            targetElement : targetElement
+            dataStore: this.dataStore,
+            targetElement: targetElement
           }
         }));
       } else {
         this.dispatchEvent(new CustomEvent('warning', {
           detail: {
-            dataStore : this.dataStore,
-            document: doc
+            dataStore: this.dataStore,
+            document: this.targetType === 'json' ? json : doc
           }
         }));
       }
@@ -60,7 +68,7 @@ export default class LuteceContentLoader extends EventTarget {
       if (error.name !== 'AbortError') {
         this.dispatchEvent(new CustomEvent('error', {
           detail: {
-            dataStore : this.dataStore,
+            dataStore: this.dataStore,
             error: error
           }
         }));
