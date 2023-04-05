@@ -4,6 +4,15 @@ import LuteceContentLoader from './luteceContentLoader.js';
  * LuteceAutoComplete is a class to handle autocomplete functionality.
  */
 class LuteceAutoComplete extends EventTarget {
+  /**
+   * Constructs a new LuteceAutoComplete instance.
+   * @param {HTMLInputElement} searchInput - The input element for the search.
+   * @param {HTMLElement} resultList - The container for the suggestion list.
+   * @param {string} suggestionsUrl - The URL to fetch the suggestions from.
+   * @param {string} suggestionsPath - The path to extract the suggestions from the response JSON.
+   * @param {Function} itemTemplate - A function to generate the HTML element for a suggestion.
+   * @param {number} [minimumInputLength=1] - The minimum input length required to fetch suggestions.
+   */
     constructor(searchInput, resultList, suggestionsUrl, suggestionsPath, itemTemplate, minimumInputLength = 1) {
         super();
         this.searchInput = searchInput;

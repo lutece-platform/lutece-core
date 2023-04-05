@@ -27,7 +27,7 @@ Parameters:
         <input type="text" id="${id}-form-input" name="${name}" style="opacity: 0;width: 0;margin-left:20px;position:absolute;" aria-required="true" value="${currentValue}" <#if required>required=required</#if>>
         <button class="btn btn-${btnColor} border <#if btnSize!=''>btn-${btnSize}</#if>" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             <span id="${id}-dropdown-btn"><#if currentLabel!="">${currentLabel}<#else>${formLabel}</#if></span>
-            <span id="${id}-remove" class="d-none badge bg-indigo ms-2 rounded-5 p-1 py-0"><i class="ti ti-x fs-5"></i></span>
+            <span id="${id}-remove" class="<#if currentValue=''>d-none</#if> badge bg-indigo ms-2 rounded-5 p-1 py-0"><i class="ti ti-x fs-5"></i></span>
             <span><i class="ti ti-chevron-down ps-1"></i></span>
         </button>
         <ul id="${id}-dropdown"class="dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
