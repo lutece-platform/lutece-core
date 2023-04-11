@@ -53,7 +53,7 @@ import org.apache.commons.lang3.StringUtils;
 public final class StringUtil
 {
     private static final String PROPERTY_XSS_CHARACTERS = "input.xss.characters";
-    private static final String EMAIL_PATTERN = "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$";
+    private static final String PROPERTY_MAIL_PATTERN = "mail.accepted.pattern";
     private static final String STRING_CODE_PATTERN = "^[\\w]+$";
     private static final String CONSTANT_AT = "@";
     private static final String CONSTANT_UTF8 = "UTF-8";
@@ -231,7 +231,7 @@ public final class StringUtil
      */
     public static synchronized boolean checkEmail( String strEmail )
     {
-        return strEmail.matches( EMAIL_PATTERN );
+        return strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN ) );
     }
 
     /**
@@ -245,7 +245,7 @@ public final class StringUtil
      */
     public static synchronized boolean checkEmailAndDomainName( String strEmail, String [ ] strBannedDomainNames )
     {
-        boolean bIsValid = strEmail.matches( EMAIL_PATTERN );
+        boolean bIsValid = strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN ) );
 
         return bIsValid && checkEmailDomainName( strEmail, strBannedDomainNames );
     }
