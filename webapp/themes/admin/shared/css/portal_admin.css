@@ -183,6 +183,71 @@ tr[data-url]:hover, td[data-url]:hover{
 	cursor: pointer;
 }
 
+/* Lutece Tree */
+.lutece-tree ul:first-child{
+	margin-left:  0;
+	padding-left:  0;
+}
+
+.lutece-tree ul li {
+	margin: 0;
+	padding: 0 7px;
+	line-height: 20px;
+	color: var( --primary );
+	font-weight: bold;
+	border-left:1px solid var(--dark-gray);
+}
+
+.lutece-tree > ul > li:first-child:before{
+	border-bottom: none;
+	border-left: none !important ;
+}
+
+.lutece-tree > ul > li:first-child,
+.lutece-tree ul li:last-child {
+	border-left: none;
+}
+
+.lutece-tree ul li:before {
+	position:relative;
+	top:-0.35rem;
+	height:1rem;
+	width:1rem;
+	color:var(--light);
+	border-bottom: 1px solid var(--dark-gray);
+	content:"";
+	display:inline-block;
+	left: -.45rem;
+}
+
+.lutece-tree ul li:last-child:before {
+	 border-left:1px solid var(--dark-gray);   
+}
+
+.lutece-tree .lutece-tree-item,
+.lutece-tree .lutece-tree-node{
+	list-style: none;
+}
+
+.lutece-tree .lutece-tree-item{
+	cursor: initial;
+	font-weight: normal;
+}
+
+.lutece-tree .lutece-tree-node {
+	cursor: pointer;
+	margin: 4px 0;
+}
+
+.lutece-tree .lutece-tree-node > ul {
+	display: none;
+	list-style: none;
+}
+
+.lutece-tree .lutece-tree-node.lutece-tree-node-open > ul {
+	display: block;
+}
+
 /* Thumbnail list                                             */
 /* Image size for thumbnails                                  */
 .thumbnail-xs{ 
@@ -197,7 +262,10 @@ tr[data-url]:hover, td[data-url]:hover{
 .thumbnail-lg{ 
 	width: 4rem; 
 }
- 
+
+/* Buttons */
+.btn > i { margin-right: .25rem }
+
 /* Admin Site preview 				*/
 #admin-page-preview {
 	display: flex;
