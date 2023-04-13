@@ -17,7 +17,7 @@
                 </#if>
             </@breadcrumbs>
         </#assign>
-        <@box class='admin-site'>
+        <@box id="lutece-admin-site-preview-box" class='admin-site'>
             <@boxHeader title=boxTitle class='justify-content-between' boxTools=true >
                 <@adminSiteToolbar />
             </@boxHeader>
@@ -40,11 +40,12 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Admin responsive preview
     const previewIframe = document.querySelector( '#lutece-admin-site-preview' );
+    const previewBox = document.querySelector( '#lutece-admin-site-preview-box' );
     const btnPreview = document.querySelectorAll( '.btn-preview' );
-    const defaultIframeWidth = (window.innerWidth - 50) + "px";
+    const defaultIframeWidth = (previewBox.innerWidth - 50) + "px";
     function _resizePreview() {
         previewIframe.style.height = (window.innerHeight - 30) + "px";
-        previewIframe.style.width = (window.innerWidth - 70) + "px";
+        previewIframe.style.width = "100%";
     }
     function _setBtnPreview(el, w) {
         btnPreview.forEach(btn => { btn.classList.remove('active') });
@@ -61,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener("resize", _resizePreview);
     document.querySelector("#display-desktop").addEventListener("click", e => {
         e.preventDefault();
-        _setBtnPreview(e.currentTarget, defaultIframeWidth)
+        _setBtnPreview(e.currentTarget, '100%')
     });
     document.querySelector('#display-tablet').addEventListener("click", e => {
         e.preventDefault();

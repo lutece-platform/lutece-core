@@ -1,5 +1,5 @@
 <@tabPanel id='right_levels'>
-    <#assign tabTitle> <@icon style="users"/>#i18n{portal.users.adminFeature.level_right_management.name}</#assign>
+    <#assign tabTitle>#i18n{portal.users.adminFeature.level_right_management.name}</#assign>
     <@pageHeader title="${tabTitle}" description="#i18n{portal.features.manage_levels.featureDescription}">
         <@offcanvas targetUrl="jsp/admin/features/CreateLevel.jsp" targetElement="#create-level-form" id="create-level" title="#i18n{portal.features.create_level.boxTitle}" btnTitle="#i18n{portal.features.manage_levels.buttonLabelCreate}" btnIcon="plus" btnColor="primary" position="end"  />
     </@pageHeader>

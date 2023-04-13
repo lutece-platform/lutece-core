@@ -1,6 +1,6 @@
 <@tabPanel id='assign_features_groups'>
 <@tabContent>
-<#assign tabTitle> <@icon style="list"/>#i18n{portal.features.dispatch_features.title}</#assign>
+<#assign tabTitle>#i18n{portal.features.dispatch_features.title}</#assign>
 <@pageHeader title="${tabTitle}" description="#i18n{portal.features.dispatch_features.featureDescription}"/>
 	<#if no_group.feature_list?has_content && no_group.feature_list?size gt 1>
 		<@featuresGroupDisplay groupDisplay=no_group />

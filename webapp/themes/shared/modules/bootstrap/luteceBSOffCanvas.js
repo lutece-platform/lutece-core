@@ -196,11 +196,8 @@ export default class LuteceBSOffCanvas {
      * @returns {Promise} - A promise that resolves when the off-canvas element is open.
      */
     openOffcanvas = (offcanvasId) => {
-        console.log(offcanvasId)
-
         return new Promise((resolve) => {
             const offcanvasElement = document.getElementById(offcanvasId);
-            console.log(offcanvasElement)
             if (offcanvasElement) {
                 this.addOffCanvasRules(offcanvasElement);
                 const loadContentCallback = () => {
@@ -224,9 +221,7 @@ export default class LuteceBSOffCanvas {
     initialize = () => {
         const btn = window.document.getElementById(`btn-${this.id}`);
         btn.removeAttribute('data-bs-toggle');
-        console.log(btn)
         btn && btn.addEventListener('click', event => {
-            console.log("test")
             event.stopPropagation();
             event.preventDefault();
             const offcanvasElement = document.querySelector(btn.getAttribute('href'));
