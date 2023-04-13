@@ -233,24 +233,24 @@
 	<#if errors?size gt 0 >
 		<#list errors as error >
 			<#local errorMessage=error.message />
+    		<@alert color='danger' title=errorMessage iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'>	</@alert>
 		</#list>
-		<@alert color='danger' title=errorMessage iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'>	</@alert>
 	</#if>
 </#if>
 <#if infos??>
 	<#if infos?size gt 0 >
 		<#list infos as info >
 			<#local infoMessage=info.message />
+    		<@alert color='info' title=infoMessage iconTitle='info-circle' dismissible=true id='messages_infos_div'></@alert>
 		</#list>
-		<@alert color='info' title=infoMessage iconTitle='info-circle' dismissible=true id='messages_infos_div'></@alert>
 	</#if>
 </#if>
 <#if warnings??>
 	<#if warnings?size gt 0 >
 		<#list warnings as warning >
 			<#local warningMessage=warning.message />
+    		<@alert color='warning' title=warningMessage iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'></@alert>
 		</#list>
-		<@alert color='warning' title=warningMessage iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'></@alert>>
 	</#if>
 </#if>
 </#macro>
