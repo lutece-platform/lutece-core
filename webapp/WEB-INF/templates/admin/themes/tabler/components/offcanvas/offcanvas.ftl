@@ -31,13 +31,7 @@ Parameters:
       <i class="ti ti-arrow-narrow-right"></i>
     </#if>
   </a>
-  <div class="offcanvas offcanvas-${position} 
-    <#if size == 'full'>h-100 w-100
-    <#elseif size == 'half' && (position == 'end' || position == 'start')>w-50
-    <#elseif size == 'half' && (position == 'top' || position == 'bottom')>h-50
-    <#elseif size == 'auto' && (position == 'end' || position == 'start')>w-auto
-    <#elseif size == 'auto' && (position == 'top' || position == 'bottom')>h-auto
-    </#if>" 
+  <div class="offcanvas offcanvas-end  <#if size !=''>w-auto</#if>" 
      data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
     <div class="offcanvas-header text-break <#if title=''>position-absolute end-0 px-2 pt-2 border-0<#else>px-4</#if>">
        <#if title!=''><h2 class="offcanvas-title fw-bolder" id="${id}Label">${title}</h2></#if>

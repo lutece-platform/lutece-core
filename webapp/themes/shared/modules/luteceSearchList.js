@@ -15,6 +15,9 @@ export default class LuteceSearchList {
       searchableChild: [],
       highlight: false,
       debounceTime: 100,
+      emptyMessageElement: null,
+      hideClass: null,
+      extraSearchFunction: () => {}
     }, options);
     this.init();
   }
@@ -35,8 +38,13 @@ export default class LuteceSearchList {
             this.removeHighlight(element);
           }
         }
-        element.style.display = isVisible ? '' : 'none';
+        if (this.options.hideClass) {
+          isVisible ? element.classList.remove(`${this.options.hideClass}`) : element.classList.add(`${this.options.hideClass}`);
+        } else {
+          element.style.display = isVisible ? '' : 'none';
+        }
       });
+      this.options.extraSearchFunction();
     }, this.options.debounceTime));
     this.searchInput.addEventListener(
       "keydown",

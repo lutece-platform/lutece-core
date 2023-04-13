@@ -1,5 +1,5 @@
 <@tabPanel id='autoincludes'>
-<#assign tabTitle> <@icon style="code"/>#i18n{portal.templates.manage_autoincludes.pageTitle} </#assign>
+<#assign tabTitle>#i18n{portal.templates.manage_autoincludes.pageTitle} </#assign>
 <@pageHeader title="${tabTitle}" />
 <#assign defaultThemeName='' >
 <#list commons_list as item>
@@ -29,7 +29,7 @@
 				<@ul class='list-group border-0 rounded-0'>
 				<#list autoinclude_list as autoinclude >
 					<@li  class='list-group-item d-flex justify-content-between align-items-center border-start-0 border-end-0'>
-						<strong>${autoinclude.filePath}</strong>
+						${autoinclude.filePath}
 						<#if autoinclude.owner?? && defaultThemeName=autoinclude.owner  ><@tag>#i18n{portal.templates.manage_autoincludes.columnFilePath}</@tag></#if>
 					</@li>
 				</#list>

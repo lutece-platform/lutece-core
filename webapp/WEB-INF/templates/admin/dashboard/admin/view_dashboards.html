@@ -1,12 +1,12 @@
 <@pageContainer id="adminTechnical" height="full">
-    <@pageColumn class="bg-light p-4" width="30rem" height="full">
+    <@pageColumn class="bg-light border-end p-4" width="35rem" height="full">
         <@pageHeader title="#i18n{portal.admindashboard.view_dashboards.title}" />
         <@tabList style='pills' vertical=true>
-		<h3 class="fw-bolder mb-2 mt-4">#i18n{portal.templates.manage_autoincludes.menuTitle}</h3>
+		<h3 class="fw-bolder mb-2 mt-2">#i18n{portal.templates.manage_autoincludes.menuTitle}</h3>
 		<@tabLink href='#autoincludes' title='#i18n{portal.templates.manage_autoincludes.tabTitle}' tabIcon='code' />
             <h3 class="fw-bolder mb-2 mt-4">#i18n{portal.users.adminDashboard.menuTitle}</h3>
             <@tabLink href='#defaultUserParameterValues' title='#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}' tabIcon='user' />
-            <@tabLink href='#ModifyEmailPattern' title='#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}' tabIcon='at' />
+            <@tabLink href='#modifyEmailPattern' title='#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}' tabIcon='at' />
             <@tabLink href='#advancedSecurityParameters' title='#i18n{portal.users.manage_advanced_parameters.securityParameters}' tabIcon='shield-alt' />
             <@tabLink href='#lifeTimeEmails' title='#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}' tabIcon='envelope' />
             <@tabLink href='#attributes_management' title='#i18n{portal.users.manage_attributes.pageTitle}' tabIcon='id-card' />

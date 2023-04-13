@@ -1,15 +1,13 @@
 <@adminLoginPage title='#i18n{portal.admin.admin_login.boxTitle}' site_name=site_name >
 <@tform class='box' name='login' id='login' action='${do_admin_login_url}' >
 <@input type='hidden' name='token' value='${token}' />
-<#assign labelDescAccess><@offcanvas id='login_form' targetUrl='${forgot_login_url?if_exists}' targetElement='#forgot_login' title='#i18n{portal.admin.admin_login.forgotLogin}' btnIcon='' btnColor='link' btnTitle='#i18n{portal.admin.admin_login.forgotLogin}' size='half' /></#assign>
 <@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' labelKeyDesc=labelDescAccess mandatory=true rows=2>
     <@inputGroup class='input-icon input-group-flat'>
         <@inputGroupItem type='icon'><@icon style='user' /></@inputGroupItem>
         <@input name='access_code' id='access_code' placeHolder='${i18n("portal.admin.admin_login.loginLabel")}' size='' params=' autofocus' />
     </@inputGroup>
 </@formGroup>
-<#assign labelDescPassword><@offcanvas id='password_form' targetUrl='${forgot_password_url?if_exists}' targetElement='#forgot_password' title='#i18n{portal.admin.admin_login.forgotPassword}' btnIcon='' btnColor='link' btnTitle='#i18n{portal.admin.admin_login.forgotPassword}' size='half'  /></#assign>
-<@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' labelKeyDesc=labelDescPassword  helpKey='${i18n("portal.admin.admin_login.helpText")}' mandatory=true rows=2 >
+<@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' helpKey='${i18n("portal.admin.admin_login.helpText")}' mandatory=true rows=2 >
     <@inputGroup class='input-icon input-group-flat'>
         <@inputGroupItem type='icon'><@icon style='lock ' /></@inputGroupItem>
         <@input type='password' name='password' id='password' size='' placeHolder='${i18n("portal.admin.admin_login.passwordShow")}' />
@@ -23,5 +21,6 @@
 <@formField class='has-text-centered text-center'>
     <@button type='submit' class='btn-block' size='' buttonIcon='check' title='#i18n{portal.admin.admin_login.buttonConnect}' />
 </@formField>
+<center><@link href='${forgot_password_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotPassword}'>#i18n{portal.admin.admin_login.forgotPassword} ?</@link> - <@link href='${forgot_login_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotLogin}'>#i18n{portal.admin.admin_login.forgotLogin} ?</@link></center>
 </@tform>
 </@adminLoginPage>
