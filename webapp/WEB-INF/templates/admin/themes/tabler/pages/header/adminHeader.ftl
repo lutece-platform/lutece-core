@@ -15,7 +15,7 @@ Parameters:
 				<img src="#dskey{portal.site.site_property.logo_url}" height="30" alt="Logo" >
 				<span class="ml-2 ms-2">${site_name}</span>
 			</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+			<button class="navbar-toggler ms-auto me-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="lutece-${commonsAdminLayout!}-collapse collapse navbar-collapse" id="navbar-menu">
@@ -114,9 +114,10 @@ Parameters:
 						${item.content}
 					</#list>
 				</#if>
-				<div class="dropdown-divider"></div>
-				<div class="ps-2" id="switch-darkmode"><i class="ti ti-moon"></i> #i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></div>
-				<div class="dropdown-divider"></div>
+				<div id="switch-darkmode" class="dropdown-item">
+					<i class="ti ti-moon me-1"></i> #i18n{portal.users.admin_header.labelMode} 
+					<span class="ms-1">#i18n{portal.users.admin_header.labelDarkMode}</span>
+				</div>
 				<#if admin_logout_url?has_content>
 					<a class="dropdown-item" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
 						<i class="ti ti-logout me-1"></i> #i18n{portal.users.admin_header.deconnectionLink}

@@ -4,6 +4,7 @@
 	--light: #f4f6fa;
 	--dark-light: #dadcde;
 	--dark-gray: #555;
+	--dark-nav-bg: #1d273b;
 	--dark: #232e3c;
 	--primary: #071F32;
 	--info: #4263eb;
@@ -47,8 +48,14 @@
 	flex-direction: column;
 }
 
-.lutece-main-nav{
+.lutece-header-nav{
+	position: relative;
+	z-index: 2;
 	grid-area: lutece-nav;
+}
+
+.lutece-header-nav .lutece-header-collapse.navbar-collapse.collapse.show + .lutece-header-user.navbar-nav + .nav-item.dropdown{
+	display: none;
 }
 
 .lutece-main-content{
@@ -90,6 +97,10 @@
 .box-tools{ position: absolute; top: 5px; right: 5px;}
 
 /* Language Menu                                            */
+.dropdown-item:has(.btn-language){
+	height: 2.25rem !important;
+}
+
 .btn-language{
 	background-position: center;
 	background-size: 1rem;
@@ -100,6 +111,10 @@
 	padding: 0 !important; 
 	opacity: .5;
 	box-shadow: none !important;
+}
+
+.btn-language .ti{
+	margin-left: 1rem
 }
 
 .btn-language:hover{ 
@@ -356,9 +371,14 @@ tr[data-url]:hover, td[data-url]:hover{
 	color: var( --dark-light ) ;
 }
 
-.theme-dark :is( .accordion-button, .alert, .btn-link, .bg-white, .footer-transparent, .table ){ 
+.theme-dark :is( .accordion-button, .alert, .btn-link, .bg-white, .footer-transparent, .table, .text-dark ){ 
 	background-color: var( --dark ) !important;   
 	color: inherit; 
+}
+
+.theme-dark .text-dark{ 
+	background-color: var( --dark-nav-bg ) !important;   
+	color:  var( --dark-light ) !important;  
 }
 
 .theme-dark .table > :not(caption) > * > *, .markdown > table > :not(caption) > * > * { 

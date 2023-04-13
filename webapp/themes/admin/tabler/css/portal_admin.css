@@ -28,6 +28,18 @@
 }
 
 /* Tabler overrides                                           */
+.lutece-header-nav .dropdown-menu[data-bs-popper] {
+  top: 150%;
+}
+
+#switch-darkmode{ 
+  /* margin-left: .75rem; */
+}
+
+#switch-darkmode:hover{ 
+  cursor: pointer;
+}
+
 /* Cards / Box                                                */
 /* Tabler cards overide                                       */
 .card {
