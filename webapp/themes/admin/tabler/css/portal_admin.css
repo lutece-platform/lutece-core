@@ -28,7 +28,8 @@
 }
 
 /* Tabler overrides                                           */
-.lutece-header-nav .dropdown-menu[data-bs-popper] {
+
+.lutece-header-nav .lutece-header-user.navbar-nav + .nav-item.dropdown .dropdown-menu[data-bs-popper] {
   top: 150%;
 }
 
