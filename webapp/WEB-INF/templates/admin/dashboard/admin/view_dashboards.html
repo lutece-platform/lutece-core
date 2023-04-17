@@ -1,7 +1,7 @@
 <@pageContainer id="adminTechnical" height="full">
     <@pageColumn class="bg-light border-end p-4" width="35rem" height="full">
         <@pageHeader title="#i18n{portal.admindashboard.view_dashboards.title}" />
-        <@tabList style='pills' vertical=true>
+        <@tabList id="adminTechnicalList" style='pills' vertical=true>
 		<h3 class="fw-bolder mb-2 mt-2">#i18n{portal.templates.manage_autoincludes.menuTitle}</h3>
 		<@tabLink href='#autoincludes' title='#i18n{portal.templates.manage_autoincludes.tabTitle}' tabIcon='code' />
             <h3 class="fw-bolder mb-2 mt-4">#i18n{portal.users.adminDashboard.menuTitle}</h3>
@@ -25,12 +25,12 @@
         </@tabList>
     </@pageColumn>
     <@pageColumn class="p-4" height="full">
-        <@tabContent>
+        <@tabContent id="admin-tab-content">
             <#if column_content_1?has_content>
                 ${column_content_1}
             </#if>
             <#if column_content_2?has_content>
-                ${column_content_2}
+                ${column_content_2} 
             </#if>
         </@tabContent>
     </@pageColumn>
@@ -60,5 +60,20 @@ const tabsLink = (element) => {
   }
 };
 tabsLink(document.getElementById('adminTechnical'));
+const tabListParent = document.getElementById('adminTechnicalList');
+const tabList = tabListParent.querySelectorAll('.nav-link');
+const tabListContent = document.getElementById('admin-tab-content').querySelectorAll('.tab-pane');
+tabListContent.forEach((content) => {
+  const contentId = content.getAttribute('id');
+  const isMatchFound = Array.from(tabList).some((tab) => {
+    return tab.getAttribute('href') === `#${contentId}`;
+  });
+  if (!isMatchFound) {
+    const tablink = `<h3 class="fw-bolder mb-2 mt-4">${content.getAttribute('title')}</h3><a href="#${content.getAttribute('id')}" class="nav-link" id="${content.getAttribute('id')}-tab" title="${content.getAttribute('title')}" role="tab" aria-expanded="false" aria-controls="search" data-bs-toggle="tab" aria-selected="false" tabindex="-1">	
+         ${content.getAttribute('title')}
+        </a>`
+    tabListParent.insertAdjacentHTML('beforeend', tablink);
+  }
+});
 </script>
 </#noparse>

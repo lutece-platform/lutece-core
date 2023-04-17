@@ -27,7 +27,7 @@
                     <@input type='hidden' name='token' value='${token}' />
                     <@row>
                         <@columns>
-                            <@listGroup>
+                            <@listGroup id="user-role-list">
                                 <#list all_role_list?sort_by('key') as role>
                                     <#assign checked = false>
                                     <#list user_role_list as user_role>
@@ -64,7 +64,7 @@
     document.querySelectorAll('.toggleCheck').forEach(function(element) {
         element.addEventListener('click', function() {
             var isChecked = this.getAttribute('data-check') === 'check' ? true : false;
-            document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+            document.querySelectorAll('#user-role-list input[type="checkbox"]').forEach(function(checkbox) {
                 checkbox.checked = isChecked;
             });
         });
