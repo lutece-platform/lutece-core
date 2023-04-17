@@ -27,7 +27,7 @@
                             <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
                         </@btnGroup>
                     </@div>
-                    <@listGroup>
+                    <@listGroup id="user-right-list">
                         <#list all_right_list?sort_by('name') as right>
                             <#if select_all = true>
                                 <#assign checked = true>
@@ -66,7 +66,7 @@
 document.querySelectorAll('.toggleCheck').forEach(function(element) {
     element.addEventListener('click', function() {
     var isChecked = this.getAttribute('data-check') === 'check' ? true : false;
-    document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+    document.querySelectorAll('#user-right-list input[type="checkbox"]').forEach(function(checkbox) {
         checkbox.checked = isChecked;
     });
     });
