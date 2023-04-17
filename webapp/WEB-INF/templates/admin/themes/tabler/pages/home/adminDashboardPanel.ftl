@@ -9,12 +9,11 @@ Parameters:
 -->
 <#macro adminDashboardPanel title='' parentId='' childId='' icon='' color=''>
 <#assign parentId=parentId />
-<@accordionPanel color=color collapsed=true childId=childId>
-	<@accordionHeader id=id title=title headerIcon=icon></@accordionHeader>
-	<@accordionBody>
-		<#nested>
-	</@accordionBody>
-</@accordionPanel>
+<@tabPanel id='${childId}' params="title='${title}' ">
+<@pageHeader title="${title}" />
+<#nested>
+</@tabPanel>
+
 <script>
 document.addEventListener( "DOMContentLoaded", function(){
 	const urlHash = document.location.hash, idHash = document.querySelector( urlHash ) ;
