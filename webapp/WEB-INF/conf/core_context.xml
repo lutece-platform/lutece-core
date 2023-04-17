@@ -283,4 +283,16 @@
             </list>
         </property>
     </bean>
+    <bean id="commonsCorporate" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="Corporate" />
+         <property name="default" value="false" />
+        <property name="name" value="Corporate theme 0.0.1" />
+        <property name="files">
+            <list>
+                <value>commons_corporate.html</value>
+                <value>commons_backport.html</value>
+				<value>admin/util/calendar/macro_datetimepicker.html</value>
+            </list>
+        </property>
+    </bean>
 </beans>
