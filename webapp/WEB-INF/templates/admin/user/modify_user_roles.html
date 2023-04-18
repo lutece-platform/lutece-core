@@ -1,6 +1,7 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title=' ${user.lastName} ${user.firstName}'> <@item_navigation item_navigator=item_navigator /></@pageHeader>
+        <@tform role='form' method='post' action='jsp/admin/user/DoModifyUserRoles.jsp'>
         <@tabs>
             <@tabList>
                 <@tabLink href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
@@ -22,7 +23,7 @@
                         <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
                     </@btnGroup>
                 </@div>
-                <@tform role='form' method='post' action='jsp/admin/user/DoModifyUserRoles.jsp'>
+                
                     <@input type='hidden' name='id_user' value='${user.userId}' />
                     <@input type='hidden' name='token' value='${token}' />
                     <@row>
@@ -43,8 +44,8 @@
                             </@listGroup>
                         </@columns>
                     </@row>
-                </@tform>
-                <#if all_role_list?size gt 25>
+                
+                <#if all_role_list?size gt 15>
                 <@div class='d-flex justify-content-between pt-3'>
                     <@btnGroup>
                         <@button buttonIcon='filter' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
@@ -58,6 +59,7 @@
                 </#if>
             </@tabContent>
         </@tabs>
+        </@tform>
     </@pageColumn>
 </@pageContainer>
 <script>
