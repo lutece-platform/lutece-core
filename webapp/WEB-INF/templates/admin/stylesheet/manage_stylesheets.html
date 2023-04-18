@@ -1,52 +1,37 @@
-<@row>
-	<@columns>
-		<@box color='info'>
-			<@boxHeader title='#i18n{portal.style.manage_stylesheets.title}' skipHeader=true boxTools=true>
-				<@row class='align-items-center'>
-					<@columns>
-						<@tform method='post' type='inline'>
-							<@formGroup formStyle='inline' labelKey='#i18n{portal.style.manage_stylesheets.labelSortByMode}' labelFor='mode_id' hideLabel=['all'] groupStyle='addons'> 
-								<@inputGroup size='sm' class=''>
-									<@select name='mode_id' default_value='${mode_id}' items=mode_list size='sm' params='addons' />
-									<@inputGroupItem>
-										<@button type='submit' buttonIcon='filter' title='#i18n{portal.util.labelFilter}' hideTitle=['all'] color='link' size='sm' />
-									</@inputGroupItem>
-								</@inputGroup>
-							</@formGroup>
-						</@tform>
-					</@columns>
-					<@columns>
-						<@tform method='post' type='inline' align='right' action='jsp/admin/style/CreateStyleSheet.jsp'>
-							<@input type='hidden' name='mode_id' value='${mode_id}' />
-							<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.manage_stylesheets.buttonAdd}' color='primary' size='sm' />
-						</@tform>
-					</@columns>
-				</@row>
-			</@boxHeader>
-			<@boxBody>
-			<#if stylesheet_list?size gt 1>
-				<@table>
-					<@tr>
-					  	<@th>#i18n{portal.style.manage_stylesheets.columnName} <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="description" /></@th>
-					  	<@th>#i18n{portal.style.manage_stylesheets.columnFilename} <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="file" /> </@th>
-					  	<@th>#i18n{portal.util.labelActions}</@th>
-					</@tr>
-					<@tableHeadBodySeparator />
-					<#list stylesheet_list as stylesheet>
-					<@tr>
-						<@td>${stylesheet.description}</@td>
-						<@td>${stylesheet.file}</@td>
-						<@td>
-							<@aButton href='jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}' buttonIcon='edit' hideTitle=['all'] size='sm' />
-						</@td>
-					</@tr>
-					</#list>
-				</@table>
-			<#else>
-				<@empty />
-			</#if>
-			</@boxBody>
-		</@box>
-		<@paginationAdmin paginator=paginator combo=1 />
-	</@columns>
-</@row>
+<@pageContainer>
+    <@pageColumn>
+        <@pageHeader title='#i18n{portal.style.manage_stylesheets.title}' >
+            <@tform method='post' type='inline' align='middle'>
+                <@formGroup formStyle='inline' labelKey='#i18n{portal.style.manage_stylesheets.labelSortByMode}' labelFor='mode_id' hideLabel=['all'] groupStyle='addons'> 
+                    <@inputGroup >
+                        <@select name='mode_id' default_value='${mode_id}' items=mode_list  params='addons' />
+                        <@button type='submit' buttonIcon='filter' title='#i18n{portal.util.labelFilter}' hideTitle=['all'] color='primary'  />
+                    </@inputGroup>
+                </@formGroup>
+            </@tform>
+            <@offcanvas targetUrl="jsp/admin/style/CreateStyleSheet.jsp?mode_id=${mode_id}" targetElement="#create-stylesheet-form" redirectForm=false id="stylesheet-create" title="#i18n{portal.style.manage_stylesheets.buttonAdd}" btnTitle="#i18n{portal.style.manage_stylesheets.buttonAdd}" btnIcon="plus" position="end" />
+        </@pageHeader>
+        <#if stylesheet_list?size gt 1>
+            <@table headBody=true>
+                <@tr>
+                    <@th>#i18n{portal.style.manage_stylesheets.columnName} <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="description" /></@th>
+                    <@th>#i18n{portal.style.manage_stylesheets.columnFilename} <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="file" /> </@th>
+                    <@th>#i18n{portal.util.labelActions}</@th>
+                </@tr>
+                <@tableHeadBodySeparator />
+                <#list stylesheet_list as stylesheet>
+                <@tr>
+                    <@td>${stylesheet.description}</@td>
+                    <@td>${stylesheet.file}</@td>
+                    <@td>
+                        <@offcanvas targetUrl="jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}" targetElement="#modify-stylesheet-form" redirectForm=false id="stylesheet-${stylesheet.id}" title="#i18n{portal.util.labelModify} ${stylesheet.description}" btnIcon="edit" position="end" />
+                    </@td>
+                </@tr>
+                </#list>
+            </@table>
+        <#else>
+            <@empty />
+        </#if>
+        <@paginationAdmin paginator=paginator combo=1 />
+    </@pageColumn>
+</@pageContainer>

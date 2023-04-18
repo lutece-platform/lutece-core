@@ -4,67 +4,63 @@
 -- @return the attributes used in the URL
 -->
 <#function buildSortSearchAttribute filter>
-<#assign sortSearchAttribute = "" />
-<#if filter??>
-<#if filter.name?? && filter.name != "">
-<#assign sortSearchAttribute = sortSearchAttribute + "&amp;name=" + filter.name! />
-</#if>
-<#if filter.description?? && filter.description != "">
-<#assign sortSearchAttribute = sortSearchAttribute + "&amp;description=" + filter.description! />
-</#if>
-<#if filter.workgroup?? && filter.workgroup != "">
-<#assign sortSearchAttribute = sortSearchAttribute + "&amp;workgroup=" + filter.workgroup! />
-</#if>
-</#if>
-<#return sortSearchAttribute + "&amp;session=sesssion" />
+    <#assign sortSearchAttribute = "" />
+    <#if filter??>
+        <#if filter.name?? && filter.name != "">
+            <#assign sortSearchAttribute = sortSearchAttribute + "&amp;name=" + filter.name! />
+        </#if>
+        <#if filter.description?? && filter.description != "">
+            <#assign sortSearchAttribute = sortSearchAttribute + "&amp;description=" + filter.description! />
+        </#if>
+        <#if filter.workgroup?? && filter.workgroup != "">
+            <#assign sortSearchAttribute = sortSearchAttribute + "&amp;workgroup=" + filter.workgroup! />
+        </#if>
+    </#if>
+    <#return sortSearchAttribute + "&amp;session=sesssion" />
 </#function>
-<@row>
-	<@columns>
-		<@box color='success'>
-			<@boxHeader title='#i18n{portal.mailinglist.manage_mailinglists.boxTitle}' boxTools=true skipHeader=true>
-				<@tform type='inline' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
-					<@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' hideLabel=['all'] groupStyle='addons' rows=2>
-						<@inputGroup size='sm' class=''>
-							<@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' size='sm' />
-							<@inputGroupItem>
-								<@button type='submit' buttonIcon='search' title='#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}' color='primary' size='sm' />
-							</@inputGroupItem>
-						</@inputGroup>
-					</@formGroup>
-					<@formGroup rows=2  formStyle=''> 
-						<@aButton href='jsp/admin/mailinglist/CreateMailingList.jsp' class='btn btn-primary btn-sm ms-2'><@icon style='plus' /> #i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate} </@aButton>
-					</@formGroup> 
-				</@tform>
-			</@boxHeader>
-			<@boxBody>
-			<#if mailinglists_list?size gt 0>
-				<#assign sortSearchAttribute = buildSortSearchAttribute( mailinglistFilter! ) />
-				<@table>
-					<@tr>
-						<@th><@span>#i18n{portal.mailinglist.manage_mailinglists.columnTitleName}</@span> <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="name${sortSearchAttribute!}" /> </@th>
-						<@th hide=['xs']><@span>#i18n{portal.mailinglist.manage_mailinglists.columnTitleDescription}</@span> <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="description${sortSearchAttribute!}" /></@th>
-						<@th hide=['xs']><@span>#i18n{portal.mailinglist.manage_mailinglists.columnTitleWorkgroup}</@span></@th>
-						<@th><@span>#i18n{portal.mailinglist.manage_mailinglists.columnTitleActions}</@span></@th>
-					</@tr>
-					<@tableHeadBodySeparator />
-					<#list mailinglists_list as mailinglist>
-					<@tr>
+<@pageContainer>
+    <@pageColumn> 
+        <@pageHeader title='#i18n{portal.mailinglist.manage_mailinglists.boxTitle}'>
+            <@tform type='inline' align="middle" method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
+                <@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' hideLabel=['all'] groupStyle='inline' formStyle="inline" >
+                    <@inputGroup>
+                        <@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' />
+                        <@button type='submit' buttonIcon='search' title='#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}' color='primary'  />
+                    </@inputGroup>
+                </@formGroup>
+            </@tform>
+            <@offcanvas targetUrl="jsp/admin/mailinglist/CreateMailingList.jsp" targetElement="#create-mailinglist-form" redirectForm=false id="template-create-mailinglist" title="#i18n{portal.mailinglist.create_mailinglist.title}" btnTitle="#i18n{portal.mailinglist.create_mailinglist.title}" btnIcon="plus" position="end" />
+        </@pageHeader>
+        <#assign sortSearchAttribute = buildSortSearchAttribute( mailinglistFilter! ) />
+        <@table headBody=true >
+            <@tr>
+                <@th><@span>#i18n{portal.mailinglist.manage_mailinglists.columnTitleName}</@span> <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="name${sortSearchAttribute!}" /> </@th>
+                <@th hide=['xs']><@span>#i18n{portal.mailinglist.manage_mailinglists.columnTitleDescription}</@span> <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="description${sortSearchAttribute!}" /></@th>
+                <@th hide=['xs']><@span>#i18n{portal.mailinglist.manage_mailinglists.columnTitleWorkgroup}</@span></@th>
+                <@th><@span>#i18n{portal.mailinglist.manage_mailinglists.columnTitleActions}</@span></@th>
+            </@tr>
+            <@tableHeadBodySeparator />
+            <#if mailinglists_list?size gt 0>
+            	<#list mailinglists_list as mailinglist>
+                	<@tr>
 						<@td>${mailinglist.name}</@td>
 						<@td hide=['xs']>${mailinglist.description}</@td>
 						<@td hide=['xs']>${mailinglist.workgroup}</@td>
 						<@td>
 							<@aButton href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='edit' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify} (${mailinglist.name?html})' hideTitle=['all'] />
-							<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='user' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})' hideTitle=['all'] />
+							<@offcanvas targetUrl="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}" targetElement="#mailinglist-users-table" redirectForm=false id="mailinglist-users-table" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})"  btnIcon="user" position="end" />
 							<@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='trash' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name?html})' hideTitle=['all'] color='danger' />
 						</@td>
 					</@tr>
 				</#list>
-				</@table>
-				<@paginationAdmin paginator=paginator combo=1 />
 			<#else>
-				<@empty />
+				<@tr>
+					<@td colspan=4>
+						<@empty />
+					</@td>
+				</@tr>
 			</#if>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+		</@table>
+		<@paginationAdmin paginator=paginator combo=1 />
+	</@pageColumn>
+</@pageContainer>

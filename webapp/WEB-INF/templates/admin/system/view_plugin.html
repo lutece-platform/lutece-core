@@ -1,11 +1,10 @@
-<@row>
-	<@columns>
+<@pageContainer>
+    <@pageColumn>
+        <@pageHeader title='#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${name}'/>
+		<@div id="plugin-content">
    		<@box>
-      		<@boxHeader>
-				<@link href='jsp/admin/system/ManagePlugins.jsp#${name}' title='${name}'>
-					<@img url=iconUrl alt=name title=name /> #i18n{portal.system.view_plugin.boxTitlePluginDetail} "${name}" 
-				</@link>
-			</@boxHeader>
+		   <@boxHeader title='#i18n{portal.system.view_plugin.boxTitlePluginDetail}' />
+
 			<@boxBody>
 				<@p>#i18n{portal.system.view_plugin.labelVersion} ${version}</@p>
 		        <@p>#i18n{portal.system.view_plugin.labelDescription} #i18n{${description}}</@p>
@@ -14,8 +13,6 @@
 		        <@p>#i18n{portal.system.view_plugin.labelCoreCompatibility} min : ${minCoreVersion?default("")} - max : ${maxCoreVersion?default("")}</@p>
 	      </@boxBody>
     	</@box>
-  	</@columns>
-</@row>
 <#if rights?has_content>
 <@row>
 	<@columns>
@@ -28,7 +25,7 @@
 							<#if feature.iconUrl?exists>
 								<@img url=feature.iconUrl alt=name title=name />
 							</#if>
-							<h3>${feature.name}</h3>
+							${feature.name}
 							<@p>${feature.description}</@p>
 						</@li>
 					</#list>
@@ -47,7 +44,7 @@
 				<@ul>
 					<#list portletTypes as portlet >
 					<@li>
-						<h3>${portlet.name}</h3>
+					${portlet.name}
 					</@li>		
 					</#list>
 				</@ul>
@@ -65,7 +62,7 @@
 				<@ul>
 					<#list applications as application >
 						<@li>
-							<h3>${application.id}<#if !application.enabled> <@tag><@icon style='ban' /> ${i18n("portal.system.view_plugin.disabled")}</@tag></#if></h3>
+							${application.id}<#if !application.enabled> <@tag><@icon style='ban' /> ${i18n("portal.system.view_plugin.disabled")}</@tag></#if>
 							<p>${application.className!}</p>
 						</@li>		
 					</#list>
@@ -84,7 +81,7 @@
 				<@ul>
 					<#list contentServices as contentService >
 						<@li>
-							<h3>${contentService.className}</h3>
+							${contentService.className}
 						</@li>		
 					</#list>
 				</@ul>
@@ -111,3 +108,6 @@
   	</@columns>
 </@row>   
 </#if>
+</@div>
+</@pageColumn>
+</@pageContainer>

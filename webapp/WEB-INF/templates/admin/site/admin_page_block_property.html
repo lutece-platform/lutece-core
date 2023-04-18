@@ -3,10 +3,8 @@
 		<@columns>
 			<@box>
 				<@boxHeader title='#i18n{portal.site.admin_page.titlePageProperties}' >
-					<@formGroup rows=2>
-						<@button type='submit' buttonIcon='check' title='#i18n{portal.site.admin_page.buttonModify}' color='primary' size='' />
-						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}' buttonIcon='times' title='#i18n{portal.site.admin_page.buttonClosed}' color='secondary' size=''  />
-					</@formGroup>
+					<@button type='submit' buttonIcon='check' title='#i18n{portal.site.admin_page.buttonModify}' color='primary' size='' />
+					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}' buttonIcon='times' title='#i18n{portal.site.admin_page.buttonClosed}' color='secondary' size=''  />
 				</@boxHeader>
 				<@boxBody id='properties'>
 					<@input type='hidden' name='page_id' value='${page.id}' />
@@ -120,6 +118,7 @@
 		</@columns>
 	</@row>
 </@tform>
+<#--
 <script>
 $( function(){
 	$("#image_content").change( function(){ $("#update_image").prop("checked","checked"); });
@@ -139,3 +138,4 @@ $( function(){
 	});		
 });
 </script>
+-->

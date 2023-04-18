@@ -370,7 +370,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     private static final String TOKEN_TECHNICAL_ADMIN = AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS;
 
-    private static final String JSP_MANAGE_ADVANCED_PARAMETERS = "../AdminTechnicalMenu.jsp?#users_advanced_parameters";
+    private static final String ANCHOR_DEFAULT_USER_PARAMETER_VALUES = "defaultUserParameterValues";
+    private static final String ANCHOR_MODIFY_EMAIL_PATTERN = "modifyEmailPattern";
+    private static final String ANCHOR_ADVANCED_SECURITY_PARAMETERS = "advancedSecurityParameters";
+    private static final String ANCHOR_LIFE_TIME_EMAILS = "lifeTimeEmails";
+    private static final String ANCHOR_ANONYMIZE_USERS = "anonymizeUsers";
 
     private transient ImportAdminUserService _importAdminUserService;
     private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
@@ -2005,7 +2009,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_DEFAULT_PARAMETERS, getUser( ), logParametersMap,
                 CONSTANT_BO );
 
-        return JSP_MANAGE_ADVANCED_PARAMETERS;
+        return getAdminDashboardsUrl( request, ANCHOR_DEFAULT_USER_PARAMETER_VALUES );
     }
 
     /**
@@ -2120,7 +2124,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_DEFAULT_SECURITY, getUser( ), logParametersMap,
                 CONSTANT_BO );
 
-        return JSP_MANAGE_ADVANCED_PARAMETERS;
+        return getAdminDashboardsUrl( request, ANCHOR_ADVANCED_SECURITY_PARAMETERS );
     }
 
     /**
@@ -2146,7 +2150,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
-            return doResetEmailPattern( );
+            return doResetEmailPattern( request );
         }
         String strSetManually = request.getParameter( PARAMETER_IS_EMAIL_PATTERN_SET_MANUALLY );
         String strEmailPattern = request.getParameter( PARAMETER_EMAIL_PATTERN );
@@ -2158,7 +2162,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             AdminUserService.doModifyEmailPattern( strEmailPattern, strSetManually != null );
-            return JSP_MANAGE_ADVANCED_PARAMETERS;
+            return getAdminDashboardsUrl( request, ANCHOR_MODIFY_EMAIL_PATTERN );
         }
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ERROR_EMAIL_PATTERN, AdminMessage.TYPE_STOP );
     }
@@ -2168,11 +2172,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * 
      * @return the jsp return
      */
-    private String doResetEmailPattern( )
+    private String doResetEmailPattern( HttpServletRequest request )
     {
         AdminUserService.doResetEmailPattern( );
 
-        return JSP_MANAGE_ADVANCED_PARAMETERS;
+        return getAdminDashboardsUrl( request, ANCHOR_MODIFY_EMAIL_PATTERN );
     }
 
     /**
@@ -2205,7 +2209,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             AdminUserService.doInsertRegularExpression( nRegularExpressionId );
         }
 
-        return JSP_MANAGE_ADVANCED_PARAMETERS;
+        return getAdminDashboardsUrl( request, ANCHOR_MODIFY_EMAIL_PATTERN );
     }
 
     /**
@@ -2238,7 +2242,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             AdminUserService.doRemoveRegularExpression( nRegularExpressionId );
         }
 
-        return JSP_MANAGE_ADVANCED_PARAMETERS;
+        return getAdminDashboardsUrl( request, ANCHOR_MODIFY_EMAIL_PATTERN );
     }
 
     /**
@@ -2283,7 +2287,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_USE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null,
                 CONSTANT_BO );
 
-        return JSP_MANAGE_ADVANCED_PARAMETERS;
+        return getAdminDashboardsUrl( request, ANCHOR_ADVANCED_SECURITY_PARAMETERS );
     }
 
     /**
@@ -2306,7 +2310,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null,
                 CONSTANT_BO );
 
-        return JSP_MANAGE_ADVANCED_PARAMETERS;
+        return getAdminDashboardsUrl( request, ANCHOR_ADVANCED_SECURITY_PARAMETERS );
     }
 
     /**
@@ -2356,7 +2360,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     {
         if ( request.getParameter( PARAMETER_CANCEL ) != null )
         {
-            return JSP_MANAGE_ADVANCED_PARAMETERS;
+            return getAdminDashboardsUrl( request, ANCHOR_ANONYMIZE_USERS );
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
         {
@@ -2387,7 +2391,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             attributeService.updateAnonymizationStatusUserField( attribute.getIdAttribute( ), bNewValue );
         }
 
-        return JSP_MANAGE_ADVANCED_PARAMETERS;
+        return getAdminDashboardsUrl( request, ANCHOR_ANONYMIZE_USERS );
     }
 
     /**
@@ -2638,7 +2642,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUserService.updateSecurityParameter( strSubjectKey, request.getParameter( MARK_EMAIL_SUBJECT ) );
         DatabaseTemplateService.updateTemplate( strBodyKey, request.getParameter( MARK_EMAIL_BODY ) );
 
-        return JSP_MANAGE_ADVANCED_PARAMETERS;
+        return getAdminDashboardsUrl( request, ANCHOR_LIFE_TIME_EMAILS );
     }
 
     /**

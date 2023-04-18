@@ -1,0 +1,225 @@
+<#-- WARNING : be careful to white-space and lines break in FreeMarker macros.
+ # This macro template can be used to output white-space-sensitive formats (like RSS files).
+ # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
+-->
+<#-- Do not remove this comment -->
+<#-- Information about this commons file -->
+<#macro commonsFile>commons_corporate.html</#macro>
+<#macro commonsName>Corporate</#macro>
+<#macro commonsDescription>The Corporate theme is a classic administration dashboard theme designed to be versatile in scaling its navigation and usage to different contexts.</#macro>
+<#-- Path               -->
+<#assign commonsJsPath='js/' /> 
+<#assign commonsCssPath='css/' /> 
+<#-- Shared Path        -->
+<#assign commonsSharedPath='themes/admin/shared/' /> 
+<#assign commonsSharedFtlPath='admin/themes/shared/' /> 
+<#-- Theme Code         -->
+<#assign commonsThemeCode='corporate' /> 
+<#-- Theme All Path     -->
+<#assign commonsThemePath='themes/admin/${commonsThemeCode}/' /> 
+<#-- Theme FTL Path     -->
+<#assign commonsFtlPath='admin/themes/${commonsThemeCode}/' /> 
+<#assign commonsAdminLayout=dskey('portal.site.site_property.layout.code') /> 
+<#-- Theme Variables    -->
+<#assign commonsAdminLayoutClass=dskey('portal.site.site_property.layout.class') /> 
+<#-- Theme Macros       -->
+<#macro coreAdminCSSLinks>
+<!-- Shared CSS -->
+<link href="css/admin/style/tabler/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1 -->
+<link href="css/admin/style/tabler/bootstrap-colorpicker.min.css" rel="stylesheet"><!-- BS colorpicker -->
+<link href="css/admin/jquery-ui.min.css" rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/jquery-ui.structure.min.css" rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/jquery-ui.theme.min.css" rel="stylesheet" > <!-- provided by core -->
+<link href="${commonsSharedPath}${commonsCssPath}vendor/bootstrap/bootstrap-icons.min.css" rel="stylesheet" > <#-- Bootstrap Icons -->
+<link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-icons.min.css" rel="stylesheet"><#-- Tabler icons -->
+<link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-flags.min.css" rel="stylesheet"><#-- Tabler flags -->
+<link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-payments.min.css" rel="stylesheet"><#-- Tabler payment -->
+<link href="${commonsSharedPath}${commonsJsPath}lib/polipop/css/polipop.core.min.css" rel="stylesheet"><#-- Polipop main -->
+<link href="${commonsSharedPath}${commonsJsPath}lib/polipop/css/polipop.default.min.css" rel="stylesheet"><#-- Polipop theme -->
+<!-- <link href="${commonsSharedPath}${commonsCssPath}portal_admin.min.css" rel="stylesheet"><#-- Lutece main admin CSS --> -->
+<!-- Theme <@commonsName /> CSS -->
+<link href="themes/admin/corporate/css/corporate.css" rel="stylesheet">
+<#-- Optionnal JQuery include - Set for Jquery compat to remove ASAP ! -->
+<script src="js/admin/jquery/jquery-3.6.0.min.js"></script> <!-- main JQuery file -->
+<#assign optHeaderCss=.get_optional_template('commons_theme_jquery.html')>
+<#if optHeaderCss.exists><@includeJqueryCore /></#if>
+</#macro>
+<#macro coreAdminJSLinks>
+<!-- Shared JS -->
+<script src="js/admin/jquery/jquery-migrate-3.4.0.min.js"></script> <!-- Compat JQuery file -->
+<script src="js/admin/jquery/jquery-ui.min.js"></script>
+<script src="js/admin/style/tabler/bootstrap-filestyle.min.js"></script> 
+<script src="js/admin/style/tabler/bootstrap-colorpicker.js"></script> 
+<script src="js/util/progress-manager.js"></script>
+<script src="${commonsSharedPath}${commonsJsPath}lib/bootstrap/bootstrap.bundle.min.js"></script><#-- Bootstrap main -->
+<script src="${commonsSharedPath}${commonsJsPath}lib/sortable/Sortable.min.js"></script> <#-- Sortable lib main -->
+<script src="${commonsSharedPath}${commonsJsPath}lib/polipop/polipop.min.js"></script><#-- Polipop main -->
+<script type="module" src="themes/admin/corporate/js/corporate.js"></script>
+<!-- Theme <@commonsName /> JS -->
+</#macro>
+<#-- Pages -->
+<#-- Header -->
+<#include "${commonsFtlPath}pages/header/adminHeader.ftl" />
+<#include "${commonsFtlPath}pages/header/adminContentHeader.ftl" />
+<#include "${commonsFtlPath}pages/header/adminHeaderDocumentationLink.ftl" />
+<#include "${commonsFtlPath}pages/header/adminLanguage.ftl" />
+<#include "${commonsFtlPath}pages/header/adminAccessibilityMode.ftl" />
+<#include "${commonsFtlPath}pages/header/adminSiteColumnOutline.ftl" />
+<#include "${commonsFtlPath}pages/header/adminSiteToolbar.ftl" />
+<#-- Footer -->
+<#include "${commonsFtlPath}pages/footer/adminFooter.ftl" />
+<#-- Home -->
+<#include "${commonsFtlPath}pages/home/adminHome.ftl" />
+<#include "${commonsFtlPath}pages/home/adminDashboardWidget.ftl" />
+<#include "${commonsFtlPath}pages/home/adminDashboardPanel.ftl" />
+<#-- Login page -->
+<#include "${commonsFtlPath}pages/login/adminLoginPage.ftl" />
+<#-- Message page -->
+<#include "${commonsFtlPath}pages/message/adminMessagePage.ftl" />
+<#-- Email template -->
+<#include "${commonsFtlPath}pages/email/emailTemplate.ftl" />
+<#-- Error page -->
+<#include "${commonsFtlPath}pages/error/errorPage.ftl" />
+<#-- Components -->
+<#-- Autocomplete component -->
+<#include "${commonsFtlPath}components/autocomplete/autocomplete.ftl" />
+<#-- Pagination components -->
+<#include "${commonsFtlPath}components/pagination/pagination.ftl" />
+<#include "${commonsFtlPath}components/pagination/paginationAdmin.ftl" />
+<#include "${commonsFtlPath}components/pagination/paginationPageLinks.ftl" />
+<#include "${commonsFtlPath}components/pagination/paginationCombo.ftl" />
+<#include "${commonsFtlPath}components/pagination/paginationItemCount.ftl" />
+<#-- Navbar components -->
+<#include "${commonsFtlPath}components/navbar/item_navigation.ftl" />
+<#include "${commonsFtlPath}components/navbar/navBar.ftl" />
+<#include "${commonsFtlPath}components/navbar/nav.ftl" />
+<#include "${commonsFtlPath}components/navbar/navItem.ftl" />
+<#-- Alert components -->
+<#include "${commonsFtlPath}components/alert/messages.ftl" />
+<#include "${commonsFtlPath}components/alert/callOut.ftl" />
+<#include "${commonsFtlPath}components/alert/alert.ftl" />
+<#-- Table components -->
+<#include "${commonsFtlPath}components/table/table.ftl" />
+<#include "${commonsFtlPath}components/table/tableHead.ftl" />
+<#include "${commonsFtlPath}components/table/tableBody.ftl" />
+<#include "${commonsFtlPath}components/table/tableFoot.ftl" />
+<#include "${commonsFtlPath}components/table/tableHeadBodySeparator.ftl" />
+<#include "${commonsFtlPath}components/table/tr.ftl" />
+<#include "${commonsFtlPath}components/table/th.ftl" />
+<#include "${commonsFtlPath}components/table/td.ftl" />
+<#include "${commonsFtlPath}components/table/sort.ftl" />
+<#-- Icon components -->
+<#include "${commonsFtlPath}components/icon/icon.ftl" />
+<#include "${commonsFtlPath}components/icon/iconStack.ftl" />
+<#-- List components -->
+<#include "${commonsFtlPath}components/list/ul.ftl" />
+<#include "${commonsFtlPath}components/list/li.ftl" />
+<#include "${commonsFtlPath}components/list/listGroup.ftl" />
+<#include "${commonsFtlPath}components/list/listGroupItem.ftl" />
+<#include "${commonsFtlPath}components/list/unstyledList.ftl" />
+<#-- Tabs components -->
+<#include "${commonsFtlPath}components/tabs/tabs.ftl" />
+<#include "${commonsFtlPath}components/tabs/tabList.ftl" />
+<#include "${commonsFtlPath}components/tabs/tabLink.ftl" />
+<#include "${commonsFtlPath}components/tabs/tabContent.ftl" />
+<#include "${commonsFtlPath}components/tabs/tabPanel.ftl" />
+<#-- Accordion components -->
+<#include "${commonsFtlPath}components/accordion/accordionContainer.ftl" />
+<#include "${commonsFtlPath}components/accordion/accordionPanel.ftl" />
+<#include "${commonsFtlPath}components/accordion/accordionHeader.ftl" />
+<#include "${commonsFtlPath}components/accordion/accordionBody.ftl" />
+<#-- Progress components -->
+<#include "${commonsFtlPath}components/progress/progressBar.ftl" />
+<#include "${commonsFtlPath}components/progress/progress.ftl" />
+<#-- Info Box components -->
+<#include "${commonsFtlPath}components/infobox/infoBox.ftl" />
+<#-- Tags components -->
+<#include "${commonsFtlPath}components/tags/tag.ftl" />
+<#-- Button components -->
+<#include "${commonsFtlPath}components/button/button.ftl" />
+<#include "${commonsFtlPath}components/button/aButton.ftl" />
+<#include "${commonsFtlPath}components/button/btnToolbar.ftl" />
+<#include "${commonsFtlPath}components/button/btnGroup.ftl" />
+<#include "${commonsFtlPath}components/button/actionButtons.ftl" />
+<#include "${commonsFtlPath}components/button/btnGroupRadioCheckbox.ftl" />
+<#-- Modal components -->
+<#include "${commonsFtlPath}components/modal/modal.ftl" />
+<#include "${commonsFtlPath}components/modal/modalHeader.ftl" />
+<#include "${commonsFtlPath}components/modal/modalBody.ftl" />
+<#include "${commonsFtlPath}components/modal/modalFooter.ftl" />
+<#-- Breadcrumbs components -->
+<#include "${commonsFtlPath}components/breadcrumbs/breadcrumbs.ftl" />
+<#include "${commonsFtlPath}components/breadcrumbs/breadcrumbItem.ftl" />
+<#-- Box components -->
+<#include "${commonsFtlPath}components/box/box.ftl" />
+<#include "${commonsFtlPath}components/box/boxHeader.ftl" />
+<#include "${commonsFtlPath}components/box/boxBody.ftl" />
+<#include "${commonsFtlPath}components/box/boxFooter.ftl" />
+<#include "${commonsFtlPath}components/box/smallBox.ftl" />
+<#-- Card components -->
+<#include "${commonsFtlPath}components/card/card.ftl" />
+<#-- Timeline components -->
+<#include "${commonsFtlPath}components/timeline/timeline.ftl" />
+<#include "${commonsFtlPath}components/timeline/timelineLabel.ftl" />
+<#include "${commonsFtlPath}components/timeline/timelineItem.ftl" />
+<#-- Password component -->
+<#include "${commonsFtlPath}components/password/passwordComplexity.ftl" />
+<#-- Forms components -->
+<#-- Form components -->
+<#include "${commonsFtlPath}forms/form/tform.ftl" />
+<#include "${commonsFtlPath}forms/form/formGroup.ftl" />
+<#include "${commonsFtlPath}forms/form/formField.ftl" />
+<#include "${commonsFtlPath}forms/form/formLabel.ftl" />
+<#include "${commonsFtlPath}forms/form/formHelp.ftl" />
+<#include "${commonsFtlPath}forms/form/staticText.ftl" />
+<#include "${commonsFtlPath}forms/form/fieldSet.ftl" />
+<#-- Input components -->
+<#include "${commonsFtlPath}forms/input/input.ftl" />
+<#include "${commonsFtlPath}forms/input/inputGroup.ftl" />
+<#include "${commonsFtlPath}forms/input/inputGroupItem.ftl" />
+<#-- Select components -->
+<#include "${commonsFtlPath}forms/select/select.ftl" />
+<#include "${commonsFtlPath}forms/select/options.ftl" />
+<#include "${commonsFtlPath}forms/select/option.ftl" />
+<#include "${commonsFtlPath}forms/select/selectIconFont.ftl" />
+<#-- Checkbox and Radio components -->
+<#include "${commonsFtlPath}forms/checkbox/checkBox.ftl" />
+<#include "${commonsFtlPath}forms/radio/radioButton.ftl" />
+<#-- Dropdown components -->
+<#include "${commonsFtlPath}forms/dropdown/dropdownMenu.ftl" />
+<#include "${commonsFtlPath}forms/dropdown/dropdownList.ftl" />
+<#include "${commonsFtlPath}forms/dropdown/dropdownItem.ftl" />
+<#-- Offcanvas component -->
+<#include "${commonsFtlPath}components/offcanvas/offcanvas.ftl" />
+<#-- Layout -->
+<#include "${commonsFtlPath}layout/row/row.ftl" />
+<#include "${commonsFtlPath}layout/columns/columns.ftl" />
+<#include "${commonsFtlPath}layout/page/pageContainer.ftl" />
+<#include "${commonsFtlPath}layout/page/pageColumn.ftl" />
+<#include "${commonsFtlPath}layout/page/pageHeader.ftl" />
+<#include "${commonsFtlPath}layout/page/pageRow.ftl" />
+<#include "${commonsFtlPath}layout/page/pageWrapper.ftl" />
+<#-- Elements -->
+<#include "${commonsFtlPath}elements/div/div.ftl" />
+<#include "${commonsFtlPath}elements/paragraph/p.ftl" />
+<#include "${commonsFtlPath}elements/span/span.ftl" />
+<#include "${commonsFtlPath}elements/preformatted/pre.ftl" />
+<#include "${commonsFtlPath}elements/link/link.ftl" />
+<#include "${commonsFtlPath}elements/image/img.ftl" />
+<#-- Utilities -->
+<#include "${commonsFtlPath}utilities/colors/coloredBg.ftl" />
+<#include "${commonsFtlPath}utilities/functions/displaySettings.ftl" />
+<#include "${commonsFtlPath}utilities/functions/responsiveDisplay.ftl" />
+<#include "${commonsFtlPath}utilities/functions/alignmentSettings.ftl" />
+<#include "${commonsFtlPath}utilities/empty/empty.ftl" />
+<#include "${commonsFtlPath}utilities/deprecated/deprecatedWarning.ftl" />
+<#-- Javascript -->
+<#include "${commonsFtlPath}javascript/scrolltop/scrollTopBtn.ftl" />
+<#include "${commonsFtlPath}javascript/copyelementtoclipboard/copyElementToClipboard.ftl" />
+<#include "${commonsFtlPath}javascript/highlight/codeHighLight.ftl" />
+<#-- Plugins -->
+<#include "${commonsFtlPath}plugins/toaster/initToast.ftl" />
+<#include "${commonsFtlPath}plugins/toaster/addToast.ftl" />
+<#include "${commonsFtlPath}plugins/tooltip/toolTip.ftl" />
+<#include "${commonsFtlPath}plugins/tree/jsTreeInit.ftl" />
+<#include "${commonsFtlPath}plugins/tree/jsTreeSearch.ftl" />

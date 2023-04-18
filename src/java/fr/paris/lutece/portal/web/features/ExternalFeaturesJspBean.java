@@ -90,7 +90,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_FEATURES_GROUPS_REFERENCE_LIST = "features_groups_labels_list";
     private static final String MARK_RIGHT_LEVELS_REFERENCE_LIST = "right_levels_labels_list";
 
-    private static final String ANCHOR_ADMIN_DASHBOARDS = "features_management";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "external_features";
 
     private Right _externalFeature;
 

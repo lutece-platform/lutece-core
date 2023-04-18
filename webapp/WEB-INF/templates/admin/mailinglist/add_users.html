@@ -3,7 +3,7 @@
 		<@box color='success'>
 		<@boxHeader title='#i18n{portal.mailinglist.add_users.title}' />
 		<@boxBody>
-		<@tform method='post' action='jsp/admin/mailinglist/DoAddUsers.jsp'>
+		<@tform method='post' action='jsp/admin/mailinglist/DoAddUsers.jsp' id="add-user-form">
 			<@input type='hidden' name='id_mailinglist' value='${mailinglist.id}' />
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.mailinglist.add_users.labelWorkgroup}' labelFor='workgroup' mandatory=true>

@@ -30,5 +30,4 @@
 
 
 %>
-<iframe id="preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp<%= strParams %>" title="Pr&eacute;visualisation du site">Pr&eacute;visualisation du site</iframe>
 <%@ include file="../AdminFooter.jsp"%>
