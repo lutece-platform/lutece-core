@@ -1,136 +1,210 @@
-<@row>
-	<@columns>
-		<@box color='primary'>
-			<@boxHeader title='#i18n{portal.users.manage_users.titleUserList}' skipHeader=true boxTools=true>
-				<#if permission_advanced_parameter>
-					<@aButton color='primary' size='sm' href='jsp/admin/AdminTechnicalMenu.jsp#users_advanced_parameters' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' hideTitle=['xs','sm'] />
-				</#if>
-				<#if permission_import_export_users>
-					<@aButton color='primary' size='sm' href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' hideTitle=['xs','sm'] />
-				</#if>
-				<@aButton color='primary' size='sm' href='${url_user_creation}' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' hideTitle=['xs','sm'] />
-			</@boxHeader>
-			<@boxBody>
-				<@tform type='inline' method='post' name='search_users' action='jsp/admin/user/ManageUsers.jsp' id='userSearch' class='border-bottom pb-3'>
-					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelAccessCode}' labelFor='access_code' hideLabel=['all'] rows=2>
-						<@input type='text' id='access_code' name='search_access_code' value='${search_admin_user_filter.accessCode}' placeHolder='#i18n{portal.users.manage_users.search_users.labelAccessCode}'  size='' />
-					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelLastName}' labelFor='last_name' hideLabel=['all'] rows=2>
-						<@input type='text' id='last_name' name='search_last_name' value='${search_admin_user_filter.lastName}' maxlength=100 placeHolder='#i18n{portal.users.manage_users.search_users.labelLastName}'  size='' />
-					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelFirstName}' labelFor='first_name' hideLabel=['all'] rows=2>
-						<@input type='text' id='first_name' name='search_first_name' value='${search_admin_user_filter.firstName}' maxlength=100 placeHolder='#i18n{portal.users.manage_users.search_users.labelFirstName}'  size='' />
-					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelEmail}' labelFor='email' hideLabel=['all'] rows=2>
-						<@input type='text' id='email' name='search_email' value='${search_admin_user_filter.email}' maxlength=100 placeHolder='#i18n{portal.users.manage_users.search_users.labelEmail}'  size=''/>
-					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelStatus}' labelFor='status' hideLabel=['all'] rows=2>
-						<@select id='status' name='search_status' size=''>
-						<#assign statusOptions = [
-							{"name":"#i18n{portal.users.manage_users.search_users.labelAllStatus}", "code": "noValue", "selected" : false, "disabled" : false },
-							{"name":"#i18n{portal.users.create_user.statusLabelEnabled}", "code": "0", "selected" : false, "disabled" : false },
-							{"name":"#i18n{portal.users.create_user.statusLabelDisabled}", "code": "1", "selected" : false, "disabled" : false },
-							{"name":"#i18n{portal.users.anonymize_user.statusLabelAnonymize}", "code": "10", "selected" : false, "disabled" : false }
-						]>
-						<@options items=statusOptions selected=search_admin_user_filter.status?string />
-						</@select>
-					</@formGroup>
-					<#list attributes_list as attribute>
-						<#if attribute.shownInSearch>
-						${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
-					  	</#if>
-					</#list>
-					<@formGroup rows=2>
-						<@button type='submit' name='search_is_search' buttonIcon='search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' color='primary' size='' />
-					</@formGroup>
-				</@tform>
-				<@tform method='post' action='jsp/admin/user/ManageUsers.jsp'>
-					<#if search_is_search >
-						<@input type='hidden' name='search_is_search' value='true' />
-						<@input type='hidden' name='search_user_level' value='${search_admin_user_filter.userLevel}' />
-						<@input type='hidden' name='search_access_code' value='${search_admin_user_filter.accessCode}' />
-						<@input type='hidden' name='search_last_name' value='${search_admin_user_filter.lastName}' />
-						<@input type='hidden' name='search_email' value='${search_admin_user_filter.email}' />
-						<@input type='hidden' name='search_status' value='${search_admin_user_filter.status}' />
-						<#if search_admin_user_field_filter.listUserFields?exists && search_admin_user_field_filter.listUserFields?has_content>
-						<#list search_admin_user_field_filter.listUserFields as user_field>
-							<#if user_field.attribute.attributeType.className == "fr.paris.lutece.portal.business.user.attribute.AttributeComboBox">
-								<@input type='hidden' name='attribute_${user_field.attribute.idAttribute}' value='${user_field.attributeField.idField}' />
-							<#else>
-								<@input type='hidden' name='attribute_${user_field.attribute.idAttribute}' value='${user_field.value}' />
-							</#if>
-						</#list>
-						</#if>
-					</#if>
-				</@tform>
-				<@table>
-					<@tr>
-						<#if adminAvatar><@th></@th></#if>
-						<@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleLastName} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName${sort_search_attribute}" /></@th>
-						<@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleFirstName} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName${sort_search_attribute}" /></@th>
-						<@th hide=['xs','sm']>#i18n{portal.users.manage_users.columnTitleAccessCode} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode${sort_search_attribute}" /></@th>
-						<@th>#i18n{portal.users.manage_users.columnTitleEmail} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="email${sort_search_attribute}" /> </@th>
-						<@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleDateLastLogin} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="dateLastLogin${sort_search_attribute}" /></@th>
-						<@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleStatus}</@th>
-						<#list attributes_list as attribute>
-						  <#if attribute.shownInResultList>
-							<@th>${attribute.title}</@th>
-						  </#if>
-						</#list>
-						<@th>#i18n{portal.users.manage_users.columnTitleActions}</@th>
-					</@tr>
-					<@tableHeadBodySeparator />
-					<#list user_list as user>
-					<@tr>
-						<#if adminAvatar>
-							<@td>
-								<@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='direct-chat-img' alt='' title='Avatar' />
-							</@td>
-						</#if>
-						<@td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if></@td>
-						<@td hide=['xs']><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></@td>
-						<@td hide=['xs','sm']><em><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em></@td>
-						<@td><span class='copy-content'><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.email}</#if></span></@td>
-						<@td hide=['xs']>${user.dateLastLogin!}</@td>
-						<@td hide=['xs']>
-						  	<#if user.status == 0 >
-								<@tag color='success'><@icon style='check-circle' /> #i18n{portal.util.labelEnabled}</@tag>
-						 	<#else>
-								<@tag color='danger'><@icon style='times-circle' /> #i18n{portal.util.labelDisabled}</@tag>
-						  	</#if>
-						</@td>
-						<#assign list_user_fields = map_id_user_list_user_fields["" + user.userId]>
-						<#list attributes_list as attribute>
-							<#if attribute.shownInResultList>
-								<@td>
-									<#assign index_user_field = 0>
-									<#list list_user_fields as user_field>
-										<#if user_field.attribute.idAttribute == attribute.idAttribute>
-										  <#if index_user_field != 0><br /></#if>
-										  <#assign index_user_field = index_user_field + 1>
-										<#if user.status != 10 >${attribute.getHtmlValue( locale, user_field )}</#if>
-										</#if>
-									</#list>
-								</@td>
-							</#if>
-						</#list>
-						<@td>
-							<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUpdate}' buttonIcon='edit' size='sm' hideTitle=['all'] />
-							<#if defaultModeUsed><@aButton href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' buttonIcon='key' size='sm' hideTitle=['all'] /></#if>
-							<@aButton href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' buttonIcon='lock' size='sm' hideTitle=['all'] />
-							<@aButton href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' buttonIcon='list-alt' size='sm' hideTitle=['all'] />
-							<@aButton href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' buttonIcon='users' size='sm' hideTitle=['all'] />
-							<#if !user.statusAnonymized>
-								<@aButton href='jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelAnonymize}' buttonIcon='user-secret' size='sm' hideTitle=['all'] />
-							</#if>
-							<@aButton color='danger' href='jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelDelete}' buttonIcon='trash' size='sm' hideTitle=['all'] />
-						</@td>
-					</@tr>
-					</#list>
-				</@table>
-				<@paginationAdmin paginator=paginator combo=1 />
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
-<@copyElementToClipboard selector='.copy-content' class='"copy-icon"' />
+<@pageContainer>
+    <@pageColumn>
+        <@pageHeader title='#i18n{portal.users.manage_users.titleUserList}'>
+            <#if permission_advanced_parameter>
+                <@aButton color='primary' size='sm' href='jsp/admin/AdminTechnicalMenu.jsp?tab=defaultUserParameterValues#users_advanced_parameters'
+                    title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog'
+                    hideTitle=['xs','sm'] />
+            </#if>
+            <#if permission_import_export_users>
+                <@aButton color='primary' size='sm' href='jsp/admin/user/ExportUsers.jsp'
+                    title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download'
+                    hideTitle=['xs','sm'] />
+            </#if>
+            <@aButton color='primary' size='sm' href='${url_user_creation}'
+                title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' hideTitle=['xs','sm'] />
+            <@offcanvas id="search-users" title="#i18n{portal.users.manage_users.search_users.buttonSearch}"
+                position="end" btnTitle="#i18n{portal.users.manage_users.search_users.buttonSearch}" btnIcon="search">
+                <@tform method='post' name='search_users' action='jsp/admin/user/ManageUsers.jsp' id='userSearch'
+                    class='border-bottom pb-3'>
+                    <@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelAccessCode}'
+                        labelFor='access_code' hideLabel=['all'] rows=2>
+                        <@input type='text' id='access_code' name='search_access_code'
+                            value='${search_admin_user_filter.accessCode}'
+                            placeHolder='#i18n{portal.users.manage_users.search_users.labelAccessCode}' size='' />
+                    </@formGroup>
+                    <@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelLastName}'
+                        labelFor='last_name' hideLabel=['all'] rows=2>
+                        <@input type='text' id='last_name' name='search_last_name'
+                            value='${search_admin_user_filter.lastName}' maxlength=100
+                            placeHolder='#i18n{portal.users.manage_users.search_users.labelLastName}' size='' />
+                    </@formGroup>
+                    <@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelFirstName}'
+                        labelFor='first_name' hideLabel=['all'] rows=2>
+                        <@input type='text' id='first_name' name='search_first_name'
+                            value='${search_admin_user_filter.firstName}' maxlength=100
+                            placeHolder='#i18n{portal.users.manage_users.search_users.labelFirstName}' size='' />
+                    </@formGroup>
+                    <@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelEmail}' labelFor='email'
+                        hideLabel=['all'] rows=2>
+                        <@input type='text' id='email' name='search_email' value='${search_admin_user_filter.email}'
+                            maxlength=100 placeHolder='#i18n{portal.users.manage_users.search_users.labelEmail}'
+                            size='' />
+                    </@formGroup>
+                    <@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelStatus}' labelFor='status'
+                        hideLabel=['all'] rows=2>
+                        <@select id='status' name='search_status' size=''>
+                            <#assign statusOptions=[
+                                {"name":"#i18n{portal.users.manage_users.search_users.labelAllStatus}", "code"
+                                : "noValue" , "selected" : false, "disabled" : false },
+                                {"name":"#i18n{portal.users.create_user.statusLabelEnabled}", "code" : "0" , "selected"
+                                : false, "disabled" : false },
+                                {"name":"#i18n{portal.users.create_user.statusLabelDisabled}", "code" : "1" , "selected"
+                                : false, "disabled" : false },
+                                {"name":"#i18n{portal.users.anonymize_user.statusLabelAnonymize}", "code" : "10"
+                                , "selected" : false, "disabled" : false } ]>
+                                <@options items=statusOptions selected=search_admin_user_filter.status?string />
+                        </@select>
+                    </@formGroup>
+                    <#list attributes_list as attribute>
+                        <#if attribute.shownInSearch>
+                            ${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
+                        </#if>
+                    </#list>
+                    <@formGroup rows=2>
+                        <@button type='submit' name='search_is_search' style='w-100' buttonIcon='search'
+                            title='#i18n{portal.users.manage_users.search_users.buttonSearch}' color='primary'
+                            size='' />
+                    </@formGroup>
+                </@tform>
+                <@tform method='post' action='jsp/admin/user/ManageUsers.jsp'>
+                    <#if search_is_search>
+                        <@input type='hidden' name='search_is_search' value='true' />
+                        <@input type='hidden' name='search_user_level' value='${search_admin_user_filter.userLevel}' />
+                        <@input type='hidden' name='search_access_code'
+                            value='${search_admin_user_filter.accessCode}' />
+                        <@input type='hidden' name='search_last_name' value='${search_admin_user_filter.lastName}' />
+                        <@input type='hidden' name='search_email' value='${search_admin_user_filter.email}' />
+                        <@input type='hidden' name='search_status' value='${search_admin_user_filter.status}' />
+                        <#if search_admin_user_field_filter.listUserFields?exists &&
+                            search_admin_user_field_filter.listUserFields?has_content>
+                            <#list search_admin_user_field_filter.listUserFields as user_field>
+                                <#if
+                                    user_field.attribute.attributeType.className=="fr.paris.lutece.portal.business.user.attribute.AttributeComboBox">
+                                    <@input type='hidden' name='attribute_${user_field.attribute.idAttribute}'
+                                        value='${user_field.attributeField.idField}' />
+                                    <#else>
+                                        <@input type='hidden' name='attribute_${user_field.attribute.idAttribute}'
+                                            value='${user_field.value}' />
+                                </#if>
+                            </#list>
+                        </#if>
+                    </#if>
+                </@tform>
+            </@offcanvas>
+        </@pageHeader>
+        <@table headBody=true id='userTable'>
+            <@tr>
+                <#if adminAvatar>
+                    <@th></@th>
+                </#if>
+                <@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleLastName}
+                    <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName${sort_search_attribute}" />
+                </@th>
+                <@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleFirstName}
+                    <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName${sort_search_attribute}" />
+                </@th>
+                <@th hide=['xs','sm']>#i18n{portal.users.manage_users.columnTitleAccessCode}
+                    <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode${sort_search_attribute}" />
+                </@th>
+                <@th>#i18n{portal.users.manage_users.columnTitleEmail}
+                    <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="email${sort_search_attribute}" />
+                </@th>
+                <@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleDateLastLogin}
+                    <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="dateLastLogin${sort_search_attribute}" />
+                </@th>
+                <@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleStatus}</@th>
+                <#list attributes_list as attribute>
+                    <#if attribute.shownInResultList>
+                        <@th>${attribute.title}</@th>
+                    </#if>
+                </#list>
+                <@th>#i18n{portal.users.manage_users.columnTitleActions}</@th>
+            </@tr>
+            <@tableHeadBodySeparator />
+            <#list user_list as user>
+                <@tr>
+                    <#if adminAvatar>
+                        <@td params='data-url="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelUpdate}"'>
+                            <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='direct-chat-img' alt='' title='Avatar' />
+                        </@td>
+                    </#if>
+                    <@td params='data-url="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelUpdate}"'>
+                        <#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if>
+                    </@td>
+                    <@td hide=['xs'] params='data-url="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelUpdate}"'>
+                        <#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if>
+                    </@td>
+                    <@td hide=['xs','sm'] params='data-url="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelUpdate}"'>
+                        <em><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em>
+                    </@td>
+                    <@td>
+                        <@span class='copy-content'><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.email}</#if></@span>
+                    </@td>
+                    <@td hide=['xs']>${user.dateLastLogin!}</@td>
+                    <@td hide=['xs']>
+                        <#if user.status==0>
+                            <@tag color='success'><@icon style='check-circle' /> #i18n{portal.util.labelEnabled}</@tag>
+                        <#else>
+                            <@tag color='danger'> <@icon style='times-circle' /> #i18n{portal.util.labelDisabled}</@tag>
+                        </#if>
+                    </@td>
+                    <#assign list_user_fields=map_id_user_list_user_fields["" + user.userId]>
+                        <#list attributes_list as attribute>
+                            <#if attribute.shownInResultList>
+                                <@td>
+                                    <#assign index_user_field=0>
+                                    <#list list_user_fields as user_field>
+                                        <#if user_field.attribute.idAttribute==attribute.idAttribute>
+                                            <#if index_user_field !=0><br /></#if>
+                                            <#assign index_user_field=index_user_field + 1>
+                                            <#if user.status !=10>${attribute.getHtmlValue( locale, user_field )}</#if>
+                                        </#if>
+                                    </#list>
+                                </@td>
+                            </#if>
+                        </#list>
+                        <@td>
+                            <@aButton class='dropdown-toggle' size='sm' id='portlet-type' dropdownMenu=true href='#'
+                                title='#i18n{portal.util.labelActions}' color="light" buttonIcon='th-large'
+                                hideTitle=['xs','sm','md']>
+                                <@dropdownItem class='portlet-type-ref'
+                                    href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'
+                                    title='#i18n{portal.users.actions.labelUpdate}' />
+                                <#if defaultModeUsed>
+                                    <@dropdownItem class='portlet-type-ref'
+                                        href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}'
+                                        title='#i18n{portal.users.actions.labelPassword}' />
+                                </#if>
+                                <@dropdownItem class='portlet-type-ref'
+                                    href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}'
+                                    title='#i18n{portal.users.actions.labelRights}' />
+                                <@dropdownItem class='portlet-type-ref'
+                                    href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'
+                                    title='#i18n{portal.users.actions.labelRoles}' />
+                                <@dropdownItem class='portlet-type-ref'
+                                    href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'
+                                    title='#i18n{portal.users.actions.labelWorkgroups}' />
+                                <#if !user.statusAnonymized>
+                                    <@dropdownItem class='portlet-type-ref'
+                                        href='jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}'
+                                        title='#i18n{portal.users.actions.labelAnonymize}' />
+                                </#if>
+                                <@dropdownItem class='portlet-type-ref'
+                                    href='jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}'
+                                    title='#i18n{portal.users.actions.labelDelete}' />
+                            </@aButton>
+                        </@td>
+                </@tr>
+            </#list>
+        </@table>
+        <@paginationAdmin paginator=paginator combo=1 />
+        <@copyElementToClipboard selector='.copy-content' class='"copy-icon"' />
+    </@pageColumn>
+</@pageContainer>
+<script type="module">
+import LuteceTable from './themes/shared/modules/luteceTables.js';
+const table = new LuteceTable( );
+table.tableElementList = document.querySelectorAll("td[data-url]");
+table.setClickableTableRow();
+</script>

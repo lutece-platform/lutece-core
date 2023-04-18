@@ -176,6 +176,7 @@ CREATE TABLE core_feature_group (
 	feature_group_description varchar(255) default NULL,
 	feature_group_label varchar(100) default NULL,
 	feature_group_order int default NULL,
+	feature_group_icon varchar(255) default NULL,
 	PRIMARY KEY (id_feature_group)
 );
 

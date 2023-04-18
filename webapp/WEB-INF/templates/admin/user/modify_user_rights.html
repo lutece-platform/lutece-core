@@ -1,65 +1,74 @@
-<@row>
-	<@columns>
-		<@box color='success'>
-			<#assign headerIcon><@icon style='user' /></#assign>
-			<@boxHeader title='${headerIcon} ${user.lastName} ${user.firstName}' boxTools=true skipHeader=true>
-				<#if can_delegate = 'true'><@p>#i18n{portal.users.modify_user_rights.informationRightModification}</@p></#if>
-				<@item_navigation item_navigator=item_navigator />
-			</@boxHeader>
-			<@boxBody>
-			<@tabs>
-				<@tabList>
-					<@tabLink href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
-					<#if defaultModeUsed><@tabLink href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' /></#if>
-					<@tabLink active=true href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
-					<@tabLink href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
-					<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
-				</@tabList>
-				<@tabContent>
-					<@p class='pb-3'>
-						<@button buttonIcon='filter' size='sm' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}'  params=' data-check="check" ' />
-						<@button buttonIcon='times' size='sm' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" ' />
-					</@p>
-					<@tform method='post' action='jsp/admin/user/DoModifyUserRights.jsp'>
-					<@input type='hidden' name='delegate_rights' value='${can_delegate}' />
-					<@input type='hidden' name='id_user' value='${user.userId}' />
-					<@input type='hidden' name='token' value='${token}' />
-					<@row>
-						<@columns>
-						<@listGroup>
-						<#list all_right_list?sort_by('name') as right>
-							<#if select_all = true>
-								<#assign checked = true>
-							<#else>
-								<#assign checked = false>
-								<#list user_right_list as user_right>
-								<#if user_right.id = right.id >
-									<#assign checked = true>
-									<#break>
-								</#if>
-								</#list>
-							</#if>
-							<@listGroupItem>
-								<@checkBox orientation='switch' id='${right.name}' name='right' labelKey='${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}' value='${right.id}' checked=checked mandatory=false />
-							</@listGroupItem>
-						</#list>
-						</@listGroup>
-						</@columns>
-					</@row>
-					<@formGroup rows=2>
-						<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' color='primary' size='' />
-						<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
-					</@formGroup>
-					</@tform>
-				</@tabContent>
-			</@tabs>
-            </@boxBody>
-        </@box>
-    </@columns>
-</@row>
+<@pageContainer>
+    <@pageColumn>
+        <@pageHeader title='${user.lastName} ${user.firstName}'>
+            <#if can_delegate = 'true'><@p>#i18n{portal.users.modify_user_rights.informationRightModification}</@p></#if>
+            <@item_navigation item_navigator=item_navigator />
+        </@pageHeader>
+        <@tabs>
+            <@tabList>
+                <@tabLink href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
+                <#if defaultModeUsed><@tabLink href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' /></#if>
+                <@tabLink active=true href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
+                <@tabLink href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
+                <@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
+            </@tabList>
+            <@tabContent>
+                <@tform method='post' action='jsp/admin/user/DoModifyUserRights.jsp'>
+                    <@input type='hidden' name='delegate_rights' value='${can_delegate}' />
+                    <@input type='hidden' name='id_user' value='${user.userId}' />
+                    <@input type='hidden' name='token' value='${token}' />
+                    <@div class='d-flex justify-content-between pb-3'>
+                        <@btnGroup>
+                            <@button buttonIcon='filter' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
+                            <@button buttonIcon='filter-off' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
+                        </@btnGroup>
+                        <@btnGroup>
+                            <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' color='primary' size='' />
+                            <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
+                        </@btnGroup>
+                    </@div>
+                    <@listGroup id="user-right-list">
+                        <#list all_right_list?sort_by('name') as right>
+                            <#if select_all = true>
+                                <#assign checked = true>
+                            <#else>
+                                <#assign checked = false>
+                                <#list user_right_list as user_right>
+                                    <#if user_right.id = right.id >
+                                        <#assign checked = true>
+                                        <#break>
+                                    </#if>
+                                </#list>
+                            </#if>
+                            <@listGroupItem>
+                                <@checkBox orientation='switch' id='${right.name}' name='right' labelKey='${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}' value='${right.id}' checked=checked mandatory=false />
+                            </@listGroupItem>
+                        </#list>
+                    </@listGroup>
+                    <#if all_right_list?size gt 25>
+                    <@div class='d-flex justify-content-between pt-3'>
+                        <@btnGroup>
+                            <@button buttonIcon='filter' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
+                            <@button buttonIcon='filter-off' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
+                        </@btnGroup>
+                        <@btnGroup> 
+                            <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' color='primary' size='' />
+                            <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
+                        </@btnGroup>
+                    </@div>
+                    </#if>
+                </@tform>
+            </@tabContent>
+        </@tabs>
+    </@pageColumn>
+</@pageContainer>
 <script>
-$('.toggleCheck').click( function(){
-	var isChecked = $(this).attr('data-check') === 'check' ? true : false;
-    $("input:checkbox").prop('checked', isChecked );
+document.querySelectorAll('.toggleCheck').forEach(function(element) {
+    element.addEventListener('click', function() {
+    var isChecked = this.getAttribute('data-check') === 'check' ? true : false;
+    document.querySelectorAll('#user-right-list input[type="checkbox"]').forEach(function(checkbox) {
+        checkbox.checked = isChecked;
+    });
+    });
 });
 </script>

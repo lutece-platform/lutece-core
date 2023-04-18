@@ -8,7 +8,7 @@
 				</@tform>
 			</@boxHeader>
 			<@boxBody>
-			<@tform method='post' action='jsp/admin/style/DoModifyStyleSheet.jsp' params='enctype="multipart/form-data"' name='modify_stylesheet'>
+			<@tform method='post' id="modify-stylesheet-form" action='jsp/admin/style/DoModifyStyleSheet.jsp' params='enctype="multipart/form-data"' name='modify_stylesheet'>
 				<@input type='hidden' name='stylesheet_id' value='${stylesheet.id}' />
 				<@input type='hidden' name='token' value='${token}' />
 				<@formGroup labelKey='#i18n{portal.style.modify_stylesheet.labelName}' labelFor='stylesheet_name' mandatory=true>
@@ -23,7 +23,7 @@
 				<@formGroup labelKey='#i18n{portal.style.modify_stylesheet.labelMode}' labelFor='mode_stylesheet' mandatory=true>
 					<@select name='mode_stylesheet' default_value='${stylesheet.modeId}' items=mode_list  size='sm'/>
 				</@formGroup>
-				<@formGroup rows=2 class='mt-2'>
+				<@formGroup rows=2>
 					<@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_stylesheet.buttonModify}'  size='' color='primary'/>
 					<@aButton href='jsp/admin/style/ManageStyleSheets.jsp' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}'  size='' color='secondary' />
 				</@formGroup>

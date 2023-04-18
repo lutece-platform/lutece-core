@@ -11,8 +11,9 @@
 	</#if>
 	<#return false>
 </#function>
-<@row>
-	<@columns>
+<@pageContainer>
+<@pageColumn>
+	<@pageHeader title='#i18n{portal.users.create_user.pageTitle}' />
 		<@box color='success'>
 			<@boxBody>
 				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' params='enctype="multipart/form-data"'>
@@ -62,6 +63,11 @@
 										<@icon style='lock' />
 									</@inputGroupItem>
 									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' size='' />
+									<@inputGroupItem type='text'>
+										<@link href='' class='input-group-link' title='#i18n{portal.admin.admin_login.forgotLogin}' id='lutece-password-toggler' >
+											<@icon style='eye' />
+										</@link>
+									</@inputGroupItem>
 									<@inputGroupItem type='btn' pos='is-expanded'>
 										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='' color='secondary' />
 									</@inputGroupItem>
@@ -76,7 +82,7 @@
 								</@inputGroup>
 							</@formGroup>
 							<@formGroup rows=2>
-								<@progress />
+								<@passwordComplexity id="progress_bar_first_password" inputId="first_password" />
 							</@formGroup>
 							<@div class='clearfix'></@div>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelNotify}' rows=2>
@@ -154,21 +160,22 @@
 				</@tform>	
 			</@boxBody>
 		</@box>
-	</@columns>
-</@row>
-<script src="js/admin/jquery/plugins/jquery.complexify.js"></script>
-<script src="js/admin/jquery/plugins/generatepassword/jquery.password.min.js"></script>
-<script>
-$( function(){	
-	$("#generate_password").click(function(){
-		var pwd = $.password(${randomPasswordSize}, true);
-		$("#first_password").val(pwd);
-		$("#second_password").val(pwd);
-		$("#first_password").trigger("propertychange");
-    });
-	$("#first_password").complexify({}, function (valid, complexity) {
-		var progressBar = $('#progressbar');
-		progress( progressBar, complexity, valid );
+	</@pageColumn>
+</@pageContainer>
+<script type="module">
+	import {
+			LutecePassword
+		} from './themes/shared/modules/lutecePassword.js';
+	
+	const password = new LutecePassword();
+	const generator = document.getElementById('generate_password');
+	const input = document.getElementById('first_password');
+
+	generator.addEventListener('click', () => {
+		input.value = password.generatePassword();
+		input.dispatchEvent(new Event('input'));
 	});
-})
+	password.passTogglerInput = '#first_password'
+	password.initPassToggler( );
+
 </script>

@@ -1,25 +1,76 @@
-<nav class="nav navbar-inverse">
-	<div class="navbar-header">
-		<@button class='navbar-toggle' params='data-toggle="collapse" data-target="#lutece-footer-collapse"'>
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</@button>
-		<@link class='navbar-brand' href='http://fr.lutece.paris.fr' title='#i18n{portal.site.portal_footer.labelPortal}'>
-			<img src="images/poweredby.png" width="55" height="22" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
-		</@link>
-	</div>
-	<div class="collapse navbar-collapse" id="lutece-footer-collapse">
-		<@ul class='nav navbar-nav pull-left'>
-			<li class="active">
-				<@link href='jsp/site/Portal.jsp'>#i18n{portal.site.page_home.label}</@link></li>
-			<li><@link href='jsp/site/Portal.jsp?page=map' params='accesskey="3"'>#i18n{portal.site.site_map.pathLabel}</@link></li>
-			<#if isContactInstalled?? && isContactInstalled>
-			<li><@link href='jsp/site/Portal.jsp?page=contact' params='accesskey="7"'>#i18n{portal.site.page_menu_tools.xpage.contact}</@link></li>
-			</#if>
-			<li><@link href='jsp/site/PopupCredits.jsp' title='[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}' target='info_comp'>#i18n{portal.site.portal_footer.labelCredits}</@link></li>
-		</@ul>
-	</div><!-- /.nav navbar-navbar-collapse -->
-</nav>
+<footer id="lutece-footer" class="footer mt-md-5 py-md-5">
+    <div class="container">
+        <div class="lutece-wrapper mt-md-5 py-md-5">
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                    <div class="footer-lutece">
+                        <div class="logo">
+                            <ul class="contact">
+                                <li>
+                                    <a href="https://twitter.com/share">
+                                        <i class="ti ti-brand-twitter-filled"></i> 
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://fr.lutece.paris.fr"> 
+                                        <i class="ti ti-brand-linkedin"></i> 
+                                    </a>
+                                </li>
+                            </ul>
+                            <a class="py-5" href="http://fr.lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
+                                <img src="images/poweredby.png" height="20" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer-lutece">
+                        <h3>#i18n{portal.site.portal_footer.labelTitle}</h3>
+                        <ul class="links list-inline">
+                            <li><a href="#home" class="page-scroll">#i18n{portal.site.page_home.label}</a></li>
+                            <li><a href="jsp/site/Portal.jsp?page=map" data-bs-info="#i18n{portal.site.site_map.pageTitle}" data-bs-toggle="modal" data-bs-target="#lutece-modal" >#i18n{portal.site.site_map.pageTitle}</a></li>
+                            <li><a href="jsp/site/PopupCredits.jsp" data-bs-info="#i18n{portal.site.portal_footer.labelCredits}" data-bs-toggle="modal" data-bs-target="#lutece-modal" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_credit">#i18n{portal.site.portal_footer.labelCredits}</a></li>
+                            <li><a href="jsp/site/PopupLegalInfo.jsp" data-bs-info="#i18n{portal.site.portal_footer.labelInfo}" data-bs-toggle="modal" data-bs-target="#lutece-modal" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelInfo}" target="info_legal">#i18n{portal.site.portal_footer.labelInfo}</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="modal" tabindex="-1" id="lutece-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="lutece-mdoal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"  id="lutece-mdoal-label">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn me-auto" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </div>
+</div>
+<#noparse>
+<script>
+   const luteceModal = document.getElementById('lutece-modal')
+   luteceModal.addEventListener('show.bs.modal', event => {
+    // Button that triggered the modal
+    const button = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    const title = button.getAttribute('data-bs-info')
+    // If necessary, you could initiate an AJAX request here
+    // and then do the updating in a callback.
+    //
+    // Update the modal's content.
+    const modalTitle = luteceModal.querySelector('.modal-title')
+    const modalBody = luteceModal.querySelector('.modal-body')
 
+    modalTitle.textContent = `${title}`
+    modalBody.innerHTML = recipient
+    }) 
+</script>
+</#noparse>
