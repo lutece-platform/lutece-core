@@ -1,4 +1,18 @@
 ALTER TABLE core_feature_group ADD COLUMN feature_group_icon VARCHAR(255) DEFAULT NULL;
+DELETE FROM `core_feature_group` WHERE `id_feature_group`='CONTENT';
+INSERT INTO `core_feature_group` (`id_feature_group`, `feature_group_description`, `feature_group_label`, `feature_group_order`, `feature_group_icon`) VALUES ('CONTENT', 'portal.features.group.content.description', 'portal.features.group.content.label', 1, 'ti ti-files');
+DELETE FROM `core_feature_group` WHERE `id_feature_group`='APPLICATIONS';
+INSERT INTO `core_feature_group` (`id_feature_group`, `feature_group_description`, `feature_group_label`, `feature_group_order`, `feature_group_icon`) VALUES ('APPLICATIONS', 'portal.features.group.applications.description', 'portal.features.group.applications.label', 3, 'ti ti-apps');
+DELETE FROM `core_feature_group` WHERE `id_feature_group`='SYSTEM';
+INSERT INTO `core_feature_group` (`id_feature_group`, `feature_group_description`, `feature_group_label`, `feature_group_order`, `feature_group_icon`) VALUES ('SYSTEM', 'portal.features.group.system.description', 'portal.features.group.system.label', 7, 'ti ti-shield-lock ');
+DELETE FROM `core_feature_group` WHERE `id_feature_group`='SITE';
+INSERT INTO `core_feature_group` (`id_feature_group`, `feature_group_description`, `feature_group_label`, `feature_group_order`, `feature_group_icon`) VALUES ('SITE', 'portal.features.group.site.description', 'portal.features.group.site.label', 2, 'ti ti-world');
+DELETE FROM `core_feature_group` WHERE `id_feature_group`='STYLE';
+INSERT INTO `core_feature_group` (`id_feature_group`, `feature_group_description`, `feature_group_label`, `feature_group_order`, `feature_group_icon`) VALUES ('STYLE', 'portal.features.group.charter.description', 'portal.features.group.charter.label', 6, 'ti ti-brush');
+DELETE FROM `core_feature_group` WHERE `id_feature_group`='USERS';
+INSERT INTO `core_feature_group` (`id_feature_group`, `feature_group_description`, `feature_group_label`, `feature_group_order`, `feature_group_icon`) VALUES ('USERS', 'portal.features.group.users.description', 'portal.features.group.users.label', 4, 'ti ti-users');
+DELETE FROM `core_feature_group` WHERE `id_feature_group`='MANAGERS';
+INSERT INTO `core_feature_group` (`id_feature_group`, `feature_group_description`, `feature_group_label`, `feature_group_order`, `feature_group_icon`) VALUES ('MANAGERS', 'portal.features.group.managers.description', 'portal.features.group.managers.label', 5, 'ti ti-user-shield');
 INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.class', 'sidebar');
 INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.code', 'header');
 DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.layout.login';
