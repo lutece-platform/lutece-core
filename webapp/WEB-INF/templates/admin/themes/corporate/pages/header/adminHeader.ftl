@@ -156,7 +156,7 @@
             </div>
          </header>
          <main id="lutece-main" class="d-flex overflow-hidden">
-            <div id="child-menu" class="d-flex flex-column align-items-stretch flex-shrink-0 border-end d-none shadow">
+            <div id="child-menu" class="d-flex flex-column align-items-stretch flex-shrink-0 border-end d-none no-pin shadow">
                <div class="content">
                   <div class="h-60 border-bottom">
                   <div class="d-flex h-60  align-items-center justify-content-center pe-4">

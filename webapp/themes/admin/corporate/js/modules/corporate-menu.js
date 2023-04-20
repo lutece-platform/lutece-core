@@ -26,8 +26,7 @@ export class MenuManager {
         this.setActive();
         this.addMenuEventListeners();
         this.setupSwitcherMenu();
-        this.addMenuHoverListeners();
-        this.addChildMenuHoverListeners();
+        this.closeChildMenuOnClickOutside();
         this.searchMenu();
     }
     /**
@@ -118,13 +117,14 @@ export class MenuManager {
         }
     }
     /**
-     * Adds click event listeners for the menu items.
+     * Adds click event listeners for the menu.
      */
     addMenuEventListeners() {
         this.menu.querySelectorAll('a:not(.feature-link)').forEach(element => {
             element.addEventListener('click', e => {
                 e.preventDefault();
                 this.setActive(element.getAttribute('feature-group'));
+                this.childMenu.classList.add('child-menu-show');
             });
         });
     }
@@ -132,46 +132,33 @@ export class MenuManager {
      * Sets up the menu switcher to toggle the pin state of the child menu.
      */
     setupSwitcherMenu() {
-        let noPinState = localStorage.getItem('noPinState');
-        if (noPinState === null) {
-            noPinState = false;
-            localStorage.setItem('noPinState', false);
-        } else {
-            this.childMenu.classList.toggle('no-pin', noPinState === 'true');
-            this.iconMenu.classList.toggle('ti-lock-open', noPinState === 'true');
-            this.iconMenu.classList.toggle('ti-lock', noPinState === 'false');
+        let pin = localStorage.getItem('lutece-corporate-menu-pin');
+        if (pin === null) {
+            pin = false;
+            localStorage.setItem('lutece-corporate-menu-pin', pin);
+        }
+        if( pin === 'true' ) {
+            this.childMenu.classList.remove('no-pin');
+            this.iconMenu.classList.add('ti-lock');
+        }
+        else {
+            this.iconMenu.classList.add('ti-lock-open');
         }
         this.switcherMenu.addEventListener('click', () => {
             this.childMenu.classList.toggle('no-pin');
             this.iconMenu.classList.toggle('ti-lock-open');
             this.iconMenu.classList.toggle('ti-lock');
-            localStorage.setItem('noPinState', this.childMenu.classList.contains('no-pin'));
+            localStorage.setItem('lutece-corporate-menu-pin', !this.childMenu.classList.contains('no-pin'));
         });
     }
     /**
-     * Adds hover event listeners to the menu to show and hide the child menu.
+     * Adds a click event listener to the document to close the child menu when clicking outside of the menu elements.
      */
-    addMenuHoverListeners() {
-        this.menu.addEventListener('mouseover', () => {
-            if (!this.childMenu.matches(':hover')) {
-                this.childMenu.classList.add('child-menu-show');
-            }
-        });
-        this.menu.addEventListener('mouseout', (event) => {
-            if (!this.childMenu.matches(':hover')) {
+    closeChildMenuOnClickOutside() {
+        document.addEventListener('click', (event) => {
+            if (!this.menu.contains(event.target) && !this.childMenu.contains(event.target) && this.childMenu.classList.contains('child-menu-show')) {
                 this.childMenu.classList.remove('child-menu-show');
             }
-        });
-    }
-    /**
-     * Adds hover event listeners to the child menu to maintain its visibility state.
-     */
-    addChildMenuHoverListeners() {
-        this.childMenu.addEventListener('mouseover', () => {
-            this.childMenu.classList.add('child-menu-show');
-        });
-        this.childMenu.addEventListener('mouseout', () => {
-            this.childMenu.classList.remove('child-menu-show');
         });
     }
     searchMenu() {
