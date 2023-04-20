@@ -63,36 +63,37 @@ Parameters:
 					</a>
 				</div>
 				<#if user.userLevel == 0>
-				<div class="nav-item d-none d-md-flex me-3">
-					<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications" aria-expanded="false">
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
-						<#if listLoggersInfo?has_content><span class="badge bg-red"></span></#if>
-					</a>
-					<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
-						<div class="card">
-							<div class="card-header">
-								<h3 class="card-title">Notifications</h3>
-							</div>
-							<div class="list-group list-group-flush list-group-hoverable">
-								<div class="list-group-item logger">
-									<div class="row align-items-start">
-										<div class="col-auto pt-2">
-											<span class="badge bg-red d-block"></span>
-										</div>
-										<div class="col text-truncate">
-											<h3><a href="#" class="text-body d-block">#i18n{portal.util.log.warningLevel}</a></h3>
-											<#if listLoggersInfo?has_content> 
-												<#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo>
+				<#assign listLogDebug = listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) />
+				<#if listLogDebug?has_content>
+					<div class="nav-item d-none d-md-flex me-3">
+						<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications" aria-expanded="false">
+							<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
+							<#if listLoggersInfo?has_content><span class="badge bg-red"></span></#if>
+						</a>
+						<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Notifications</h3>
+								</div>
+								<div class="list-group list-group-flush list-group-hoverable">
+									<div class="list-group-item logger">
+										<div class="row align-items-start">
+											<div class="col-auto pt-2">
+												<span class="badge bg-red d-block"></span>
+											</div>
+											<div class="col text-truncate">
+												<h3><a href="#" class="text-body d-block">#i18n{portal.util.log.warningLevel}</a></h3>
+												<#list listLogDebug as logInfo>
 													<#if logInfo?size gt 0><div class="d-block text-truncate mt-1" title="${logInfo.path!}"><strong>${logInfo.name!}  - ${logInfo.level!}</strong> ${logInfo.path!}</div></#if>
 												</#list>
-											</#if>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div> 
+					</div> 
+				</#if>
 				<div class="nav-item d-none d-md-flex me-3">
 					<a class="nav-link px-0" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
 						<i class="ti ti-settings"></i>
@@ -130,7 +131,7 @@ Parameters:
 <script>
 document.addEventListener( 'DOMContentLoaded', () => {	
 	const loggers = document.querySelector('.logger') ;
-	if( loggers.childElementCount > 0 ){
+	if( loggers != null && loggers.childElementCount > 0 && document.getElementById('adminModal') != null ){
 		if( !sessionStorage.getItem('lutece-debug-modal') ){
 			sessionStorage.setItem('lutece-debug-modal', false )
 		}
