@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
@@ -285,7 +285,7 @@ public final class WorkflowService
 
             try
             {
-                String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request, user );
+                String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request, user );     
                 _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, bIsAutomatic, strUserAccessCode, user );
                 TransactionManager.commitTransaction( null );
 

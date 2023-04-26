@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.cache;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Service interface for XPage path caching

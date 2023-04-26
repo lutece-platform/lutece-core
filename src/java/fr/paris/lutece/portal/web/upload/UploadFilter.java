@@ -37,17 +37,18 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
-import org.apache.commons.fileupload.FileUploadException;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload2.FileUploadException;
+import org.apache.commons.fileupload2.pub.FileUploadSizeException;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.http.MultipartUtil;
@@ -152,7 +153,9 @@ public abstract class UploadFilter implements Filter
                         httpRequest );
                 chain.doFilter( multiHtppRequest, response );
             }
-            catch( SizeLimitExceededException e )
+            
+            // looking at how to handle request size checking with the use of commons-uploadfile2
+            catch( FileUploadSizeException e )
             {
                 AppLogService.error( e.getMessage( ), e );
 
@@ -162,6 +165,7 @@ public abstract class UploadFilter implements Filter
                 ( (HttpServletResponse) response ).sendRedirect(
                         getMessageRelativeUrl( httpRequest, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args, PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED ) );
             }
+            
             catch( FileUploadException e )
             {
                 AppLogService.error( e.getMessage( ), e );

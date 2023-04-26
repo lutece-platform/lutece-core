@@ -34,13 +34,14 @@
 package fr.paris.lutece.portal.web.encoding;
 
 import java.util.Locale;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 /**
  * This class provides a Wrapper of an Http response that manage a correct UTF-8 encoding
  *
  */
-public class EncodingServletResponse extends javax.servlet.http.HttpServletResponseWrapper
+public class EncodingServletResponse extends HttpServletResponseWrapper
 {
     private static final String RESPONSE_ENCODING = "UTF-8";
     private boolean _bEncodingSpecified;

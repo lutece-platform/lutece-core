@@ -43,7 +43,7 @@ import java.sql.Timestamp;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class represents business objects Portlet. It is the base class of all portlets. It is abstract and the implementation of the interface XmlContent is

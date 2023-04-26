@@ -39,7 +39,7 @@ import java.util.Collection;
 
 import javax.security.auth.login.LoginException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This Interface defines all methods required by an authentication service password is not valid

@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.content;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Content Post Processor

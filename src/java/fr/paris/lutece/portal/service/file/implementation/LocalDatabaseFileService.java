@@ -38,9 +38,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 

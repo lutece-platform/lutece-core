@@ -38,8 +38,8 @@ import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * This class provides a service that build messages

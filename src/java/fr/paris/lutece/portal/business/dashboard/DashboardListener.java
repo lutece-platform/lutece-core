@@ -38,7 +38,7 @@ import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *

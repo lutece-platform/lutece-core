@@ -38,7 +38,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSessionListener;
+import jakarta.servlet.http.HttpSessionListener;
 
 /**
  * Listener service : provides registered listener access.

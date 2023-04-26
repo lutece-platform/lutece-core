@@ -38,8 +38,8 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.jpa.JPAGenericDAO;
 
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Query;
 
 /**
  * Generic JPA DAO for Lutece components

@@ -40,7 +40,7 @@ import fr.paris.lutece.portal.service.init.AppInfo;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class includes metas into the head of the HTML page

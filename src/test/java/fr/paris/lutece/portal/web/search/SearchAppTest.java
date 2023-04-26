@@ -44,8 +44,8 @@ import org.springframework.mock.web.MockServletContext;
 
 import org.springframework.web.context.request.RequestContextListener;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequestEvent;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletRequestEvent;
 
 /**
  * SearchApp Test Class

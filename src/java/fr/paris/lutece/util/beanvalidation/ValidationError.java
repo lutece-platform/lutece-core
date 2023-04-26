@@ -39,7 +39,7 @@ import java.text.MessageFormat;
 
 import java.util.Locale;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 /**
  * ValidationError

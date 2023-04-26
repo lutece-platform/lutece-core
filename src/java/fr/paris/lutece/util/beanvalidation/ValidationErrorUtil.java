@@ -37,7 +37,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
 

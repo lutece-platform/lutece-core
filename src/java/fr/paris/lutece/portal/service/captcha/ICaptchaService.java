@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.captcha;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Interface for captcha validator

@@ -38,7 +38,7 @@ import fr.paris.lutece.util.url.UrlItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Abstract Paginator

@@ -42,7 +42,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * UserHeaderDashboardComponent

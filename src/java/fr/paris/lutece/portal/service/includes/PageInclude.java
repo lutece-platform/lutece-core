@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.service.content.PageData;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This interface provides a way to include additional contents to the page build by the PortalService. It lets add new bookmarks to the page_frameset or to

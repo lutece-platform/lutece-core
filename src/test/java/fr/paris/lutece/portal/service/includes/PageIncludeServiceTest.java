@@ -40,7 +40,7 @@ import fr.paris.lutece.test.LuteceTestCase;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class PageIncludeServiceTest extends LuteceTestCase
 {

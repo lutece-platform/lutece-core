@@ -49,7 +49,7 @@ import fr.paris.lutece.util.ReferenceItem;
 
 import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage app search features ( manage filters )

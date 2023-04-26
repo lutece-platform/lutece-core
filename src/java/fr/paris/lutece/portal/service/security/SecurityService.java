@@ -49,8 +49,8 @@ import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * This class provides a security service to register and check user authentication

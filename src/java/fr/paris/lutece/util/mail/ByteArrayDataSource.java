@@ -43,7 +43,7 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 
 /**
  * This class is used by MailUtil.

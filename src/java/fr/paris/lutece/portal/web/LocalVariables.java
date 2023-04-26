@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.web;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Tools class to transmit config, request and response servlet parameters using {@link java.lang.ThreadLocal}.

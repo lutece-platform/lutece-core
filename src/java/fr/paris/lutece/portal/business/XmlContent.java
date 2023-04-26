@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.business;
 
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class represents the interface XmlContent which contains the common Xml tags

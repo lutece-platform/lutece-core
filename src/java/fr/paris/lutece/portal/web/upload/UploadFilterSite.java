@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.web.PortalJspBean;
 
 import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * A rewrite of the multipart filter from the com.oreilly.servlet package. The rewrite allows us to use initialization parameters specified in the Lutece

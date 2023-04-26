@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.fileupload;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.io.FilenameUtils;
 
 /**

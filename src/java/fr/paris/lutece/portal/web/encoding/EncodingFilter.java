@@ -35,17 +35,17 @@ package fr.paris.lutece.portal.web.encoding;
 
 import java.io.IOException;
 
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Encoding filter
  */
-public class EncodingFilter implements javax.servlet.Filter
+public class EncodingFilter implements jakarta.servlet.Filter
 {
     private static final String REQUEST_ENCODING = "UTF-8";
 

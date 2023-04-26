@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * MokeInsertServiceJspBean

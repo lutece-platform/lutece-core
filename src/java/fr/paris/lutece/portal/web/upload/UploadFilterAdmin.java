@@ -36,7 +36,7 @@ package fr.paris.lutece.portal.web.upload;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * A rewrite of the multipart filter from the com.oreilly.servlet package. The rewrite allows us to use initialization parameters specified in the Lutece

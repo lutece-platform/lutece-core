@@ -46,7 +46,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.FileItem;
 
 import au.com.bytecode.opencsv.CSVReader;
 import fr.paris.lutece.portal.business.file.File;

@@ -36,7 +36,7 @@ package fr.paris.lutece.portal.web.xpages;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This interface is used to add Xpages to the portal.
