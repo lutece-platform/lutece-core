@@ -40,8 +40,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.validation.MessageInterpolator;
-import javax.validation.Validation;
+import jakarta.validation.MessageInterpolator;
+import jakarta.validation.Validation;
 
 /**
  * Lutece Message Interpolator

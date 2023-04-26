@@ -37,7 +37,7 @@ import fr.paris.lutece.util.jpa.JPAConstants;
 
 import java.util.Map;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
-import javax.activation.MimetypesFileTypeMap;
+import jakarta.activation.MimetypesFileTypeMap;
 
 import org.apache.commons.lang3.ArrayUtils;
 

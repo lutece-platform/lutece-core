@@ -55,7 +55,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * This Interface defines all methods required for an admin user implementation

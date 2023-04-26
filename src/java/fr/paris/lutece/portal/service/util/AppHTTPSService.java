@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * The Class AppHTTPSService.

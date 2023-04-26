@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user.menu;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 

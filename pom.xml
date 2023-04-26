@@ -2,7 +2,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>6.1.0-SNAPSHOT</version>
+        <version>8.0.0-SNAPSHOT</version>
         <relativePath />
     </parent>
 
@@ -10,14 +10,15 @@
     <groupId>fr.paris.lutece</groupId>
     <artifactId>lutece-core</artifactId>
     <packaging>lutece-core</packaging>
-    <version>7.1.0-SNAPSHOT</version>
+    <version>8.0.0-SNAPSHOT</version>
     <name>Lutece</name>
     <url>http://dev.lutece.paris.fr/</url>
 
     <properties>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
-        <springVersion>5.3.20</springVersion>
+        <springVersion>6.0.8</springVersion>
+        <log4jVersion>2.20.0</log4jVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.project>lutece-platform/lutece-core</github.project>
         <twitter.account>LuteceFoundry</twitter.account>
@@ -61,10 +62,16 @@
             <version>3.2</version>
         </dependency>
         <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>1.3.3</version>
-        </dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-fileupload2</artifactId>
+				<version>2.0-SNAPSHOT</version>
+				<exclusions>
+					<exclusion>
+						<groupId>commons-io</groupId>
+						<artifactId>commons-io</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
@@ -97,11 +104,12 @@
             <artifactId>commons-dbcp2</artifactId>
             <version>2.1.1</version>
         </dependency>        
-        <dependency>
+      <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
             <version>2.4.8</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -110,37 +118,39 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.19.0</version>
+            <version>${log4jVersion}</version>
         </dependency>
 	    <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.19.0</version>
+            <version>${log4jVersion}</version>
         </dependency>
         <!-- To avoid problems the Log4j shutdown hook will automatically be disabled when the log4j-web jar is included. -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-web</artifactId>
-            <version>2.19.0</version>
-        </dependency>
+      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jakarta-web -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-jakarta-web</artifactId>
+		    <version>${log4jVersion}</version>
+		    <scope>runtime</scope>
+		</dependency>
 	    <!--The Log4j 2 SLF4J Binding allows applications coded to the SLF4J API to use Log4j 2 as the implementation -->
         <dependency>
 	    	<groupId>org.apache.logging.log4j</groupId>
 	    	<artifactId>log4j-slf4j-impl</artifactId>
-	    	<version>2.19.0</version>
+	    	<version>${log4jVersion}</version>
         </dependency>
         <!-- he Log4j 1.2 Bridge allows applications coded to use Log4j 1.2 API to use Log4j 2 instead 
 	see requirements https://logging.apache.org/log4j/2.x/log4j-1.2-api -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
-            <version>2.19.0</version>
+            <version>${log4jVersion}</version>
         </dependency>        
         <!-- The Commons Logging Bridge allows applications coded to the Commons Logging API to use Log4j 2 as the implementation. -->
 		<dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-jcl</artifactId>
-            <version>2.19.0</version>
+            <version>${log4jVersion}</version>
         </dependency>
         <!--
           commons-logging is a transitive dependency of many libraries with different versions.
@@ -256,47 +266,60 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.13.4</version>
         </dependency>
+        						<!-- JAKARTA 10 -->
         
-        <!-- @Mail API and implementation -->        
+        <!-- @Mail API and implementation -->  
+        <dependency>
+		    <groupId>jakarta.mail</groupId>
+		    <artifactId>jakarta.mail-api</artifactId>
+		    <version>2.1.1</version>
+		</dependency>
    		<dependency>
-          <groupId>com.sun.mail</groupId>
-          <artifactId>jakarta.mail</artifactId>
-          <version>1.6.7</version>
-        </dependency> 
+		    <groupId>org.eclipse.angus</groupId>
+		    <artifactId>angus-mail</artifactId>
+		    <version>2.0.1</version>
+		    <scope>runtime</scope>
+		</dependency>
         
         <!-- @Activation API and implementation -->       
 		<dependency>
-		  <groupId>com.sun.activation</groupId>
-		  <artifactId>jakarta.activation</artifactId>
-		  <version>1.2.1</version>
-		</dependency>     
+		    <groupId>jakarta.activation</groupId>
+		    <artifactId>jakarta.activation-api</artifactId>
+		    <version>2.1.1</version>
+		</dependency>   
+		<dependency>
+		    <groupId>org.eclipse.angus</groupId>
+		    <artifactId>angus-activation</artifactId>
+		    <version>2.0.0</version>
+		    <scope>runtime</scope>
+		</dependency>  
         
         <!-- @Inject API -->
         <dependency>
 	      <groupId>jakarta.inject</groupId>
 	      <artifactId>jakarta.inject-api</artifactId>
-	      <version>1.0.5</version>	
+	      <version>2.0.1</version>	
 	    </dependency>
 	    
 	    <!-- @Annotation API -->
         <dependency>
 	      <groupId>jakarta.annotation</groupId>
 	      <artifactId>jakarta.annotation-api</artifactId>
-	      <version>1.3.5</version>
+	      <version>2.1.1</version>
     	</dependency>
 
         <!-- Bean validation API -->
         <dependency>
 	      <groupId>jakarta.validation</groupId>
 	      <artifactId>jakarta.validation-api</artifactId>
-	      <version>2.0.2</version>
+	      <version>3.0.0</version>
    		</dependency>
    		
    		<!-- Implementation validation API -->
    		<dependency>
 		    <groupId>org.hibernate.validator</groupId>
 		    <artifactId>hibernate-validator</artifactId>
-		    <version>6.2.5.Final</version>
+		    <version>8.0.0.Final</version>
 		     <scope>runtime</scope>
 		</dependency>
         
@@ -306,25 +329,24 @@
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
         </dependency>
-        
-        <!-- JDK 11 Support -->
-       
+
+		<!-- https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api -->
 		<dependency>
-		    <groupId>org.eclipse.persistence</groupId>
-		    <artifactId>jakarta.persistence</artifactId>
-		    <version>2.2.3</version>
-		</dependency>
+		    <groupId>jakarta.persistence</groupId>
+		    <artifactId>jakarta.persistence-api</artifactId>
+		    <version>3.1.0</version>
+		</dependency>        
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>2.3.3</version>
+            <version>4.0.0</version>
         </dependency>
       
         <!-- jaxb-runtime is implementation of jakarta.xml.bind-api -->	
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>2.3.3</version>
+            <version>4.0.2</version>
             <scope>runtime</scope>
         </dependency>
         
@@ -358,12 +380,12 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workflow-core</artifactId>
-            <version>2.0.5</version>
+            <version>4.0.0-SNAPSHOT</version>
             <type>jar</type>
             <exclusions>
             	<exclusion>
-            		<groupId>javax.inject</groupId>
-                    <artifactId>javax.inject</artifactId>
+            		<groupId>jakarta.inject</groupId>
+                    <artifactId>jakarta.inject</artifactId>
             	</exclusion>
             </exclusions>
         </dependency>
@@ -393,13 +415,13 @@
         <dependency>
 		    <groupId>org.eclipse.microprofile.config</groupId>
 		    <artifactId>microprofile-config-api</artifactId>
-		    <version>2.0.1</version>
+		    <version>3.0.2</version>
 		</dependency>
 		<!-- implementation of microprofile config api -->
         <dependency>
 		    <groupId>io.smallrye.config</groupId>
 		    <artifactId>smallrye-config-core</artifactId>
-		    <version>2.13.3</version>
+		    <version>3.2.1</version>
 		    <scope>runtime</scope>
 		</dependency>
 		

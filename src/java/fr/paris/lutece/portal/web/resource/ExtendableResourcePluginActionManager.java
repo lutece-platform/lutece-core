@@ -41,7 +41,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *

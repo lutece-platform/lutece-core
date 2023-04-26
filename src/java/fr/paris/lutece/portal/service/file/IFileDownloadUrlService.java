@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.file;
 
 import java.io.Serializable;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 

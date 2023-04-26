@@ -42,7 +42,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the list of the page associated by the main menu of the site

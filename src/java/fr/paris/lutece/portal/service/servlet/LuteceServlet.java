@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.Map;
 
-import javax.servlet.Servlet;
+import jakarta.servlet.Servlet;
 
 /**
  * LuteceServlet

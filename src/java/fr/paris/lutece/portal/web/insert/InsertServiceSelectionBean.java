@@ -34,7 +34,7 @@
 package fr.paris.lutece.portal.web.insert;
 
 // Java Servlet
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Interface to implement for Beans implementing Insert Service

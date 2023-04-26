@@ -49,9 +49,9 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Set;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.MappedSuperclass;
 
 /**
  *

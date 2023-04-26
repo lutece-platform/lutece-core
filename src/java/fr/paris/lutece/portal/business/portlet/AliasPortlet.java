@@ -38,7 +38,7 @@ import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class represents business objects AliasPortlet

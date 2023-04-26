@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Attributes managed with AdminUserFieldListener Can NOT be exported nor imported. To import or export them, use {@link SimpleAdminUserFieldListener}.

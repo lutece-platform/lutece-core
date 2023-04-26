@@ -39,7 +39,7 @@ import fr.paris.lutece.util.url.UrlItem;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.FileItem;
 
 /**
  * ImageResourceManager

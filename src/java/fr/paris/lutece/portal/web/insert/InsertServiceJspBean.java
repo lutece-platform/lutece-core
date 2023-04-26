@@ -47,7 +47,7 @@ import java.io.Serializable;
 
 import java.util.HashMap;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Base class for InsertServiceJspBean

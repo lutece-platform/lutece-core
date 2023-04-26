@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Page Service Interface

@@ -45,8 +45,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
+import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.disk.DiskFileItem;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -81,7 +81,7 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPasswordFactory;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class AdminUserJspBeanTest extends LuteceTestCase
 {

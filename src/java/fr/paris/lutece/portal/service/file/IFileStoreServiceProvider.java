@@ -41,8 +41,8 @@ import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.fileupload.FileItem;
+import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.fileupload2.FileItem;
 
 /**
  * File Store Service Provider Interface. InputStream methods should be used for very large blobs

@@ -40,7 +40,7 @@ import fr.paris.lutece.portal.service.portal.ThemesService;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the list of the path associated by the topics of the page

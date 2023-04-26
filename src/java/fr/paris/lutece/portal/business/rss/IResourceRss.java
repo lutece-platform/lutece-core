@@ -36,7 +36,7 @@ package fr.paris.lutece.portal.business.rss;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * IResourceRss

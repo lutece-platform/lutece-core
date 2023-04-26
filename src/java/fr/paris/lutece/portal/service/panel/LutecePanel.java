@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.panel;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Interface SEO Panel

@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.business.portlet;
 
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Class that allow templates to generate content without using XML and XSL.

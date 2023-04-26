@@ -44,7 +44,7 @@ import java.io.UnsupportedEncodingException;
 
 import java.net.URLEncoder;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides a filter for users search function

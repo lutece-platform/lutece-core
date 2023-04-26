@@ -40,7 +40,7 @@ import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.sql.Timestamp;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 /**
  * This class provides Data Access methods for LuteceDefaultAdminUser objects

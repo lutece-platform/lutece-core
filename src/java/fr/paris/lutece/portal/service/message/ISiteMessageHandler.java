@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.message;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * ISiteMessageHandler

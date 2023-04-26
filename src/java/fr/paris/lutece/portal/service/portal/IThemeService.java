@@ -38,7 +38,7 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *

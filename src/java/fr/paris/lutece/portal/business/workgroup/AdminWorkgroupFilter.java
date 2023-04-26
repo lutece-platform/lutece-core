@@ -41,7 +41,7 @@ import java.io.UnsupportedEncodingException;
 
 import java.net.URLEncoder;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class describes a workgroup used by the administration

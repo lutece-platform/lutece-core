@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.captcha;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * The interface for Captcha security service

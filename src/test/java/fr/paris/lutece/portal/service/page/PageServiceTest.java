@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.page;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;

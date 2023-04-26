@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.business.portlet;
 
 import org.apache.commons.lang3.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides definition of methods which be overloaded by classes which inherits the Portlet class

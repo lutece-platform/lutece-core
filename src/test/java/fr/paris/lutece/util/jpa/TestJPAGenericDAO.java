@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.util.jpa;
 
-import javax.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityManagerFactory;
 
 final class TestJPAGenericDAO extends JPAGenericDAO<Integer, Integer>
 {

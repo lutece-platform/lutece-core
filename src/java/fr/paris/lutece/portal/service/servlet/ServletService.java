@@ -40,8 +40,8 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpServlet;
 
 /**
  * ServletService

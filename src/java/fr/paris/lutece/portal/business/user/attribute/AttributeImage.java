@@ -49,7 +49,7 @@ import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.string.StringUtil;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayInputStream;
@@ -62,7 +62,7 @@ import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *

@@ -37,22 +37,22 @@ import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.upload.NormalizeFileItem;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.FileUploadException;
+import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.jaksrvlt.JakSrvltFileUpload;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.UnsupportedEncodingException;
-
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.naming.SizeLimitExceededException;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -77,7 +77,7 @@ public final class MultipartUtil
      */
     public static boolean isMultipart( HttpServletRequest request )
     {
-        return ServletFileUpload.isMultipartContent( request );
+        return JakSrvltFileUpload.isMultipartContent( request );
     }
 
     /**
@@ -98,7 +98,7 @@ public final class MultipartUtil
      *             exception if an unknown error has occurred
      */
     public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax, boolean bActivateNormalizeFileName,
-            HttpServletRequest request ) throws FileUploadException
+            HttpServletRequest request ) throws FileUploadException 
     {
         if ( !isMultipart( request ) )
         {
@@ -112,7 +112,7 @@ public final class MultipartUtil
         factory.setSizeThreshold( nSizeThreshold );
 
         // Create a new file upload handler
-        ServletFileUpload upload = new ServletFileUpload( factory );
+        JakSrvltFileUpload upload = new JakSrvltFileUpload( factory );
 
         // Set overall request size constraint
         upload.setSizeMax( nRequestSizeMax );
@@ -147,7 +147,7 @@ public final class MultipartUtil
                 {
                     strValue = item.getString( strEncoding );
                 }
-                catch( UnsupportedEncodingException ex )
+                catch( IOException ex )
                 {
                     // if encoding problem, try with system encoding
                     strValue = item.getString( );

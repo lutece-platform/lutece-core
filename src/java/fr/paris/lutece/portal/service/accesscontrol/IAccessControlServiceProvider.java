@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.accesscontrol;
 
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.accesscontrol.AccessControlSessionData;

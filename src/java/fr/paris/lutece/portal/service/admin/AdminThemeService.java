@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.admin;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *

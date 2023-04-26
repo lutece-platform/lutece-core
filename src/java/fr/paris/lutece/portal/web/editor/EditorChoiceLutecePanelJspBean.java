@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.web.editor;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.editor.RichTextEditorService;

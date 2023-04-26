@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.image;
 
-import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload2.FileItem;
 
 import fr.paris.lutece.portal.service.util.AppException;
 

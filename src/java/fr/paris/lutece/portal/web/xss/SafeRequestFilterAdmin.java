@@ -36,7 +36,7 @@ package fr.paris.lutece.portal.web.xss;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class extends SafeRequestFilter and use AdminMessageService for display error Message

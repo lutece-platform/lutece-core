@@ -39,7 +39,7 @@ import fr.paris.lutece.portal.service.security.UserNotSignedException;
 
 import java.io.Serializable;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This interface is used to add Xpages to the portal.

@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user.menu;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * A simple admin user menu divider item provider
