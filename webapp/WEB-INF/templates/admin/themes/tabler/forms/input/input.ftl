@@ -67,25 +67,40 @@ Parameters:
 		</#if>
 	</#if>
 <#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange' || type='time'>
-	<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+	<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${name}" <#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#if type='date'>
+		<#if value?has_content>
+			<#local defaultDate=value />
+		</#if>
 		<@getDate idField='${id}' language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate defaultDate=defaultDate dateOptions=dateParams />
 	<#elseif type='datetime'>
+		<#if value?has_content>
+			<#local defaultDate=value />
+		</#if>
 		<@getDateTime idField='${id}' language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate defaultDate=defaultDate defaultTime=defaultTime minTime=minTime maxTime=maxTime dateOptions=dateParams />
 	<#elseif type='daterange'>
 		<#if dateRangeEndId != ''>
+			<#if value?has_content>
+				<#local defaultDate=value />
+			</#if>
 			<@getDateRange idField='${id}' idEndField='${dateRangeEndId}' language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate defaultDate=defaultDate dateOptions=dateParams />
 		<#else>
 			<@alert class='danger'>${i18n("portal.util.datepicker.rangeEndId.mandatory")}</@alert>
 		</#if>
 	<#elseif type='datetimerange'>
 		<#if dateRangeEndId != ''>
+			<#if value?has_content>
+				<#local defaultDate=value />
+			</#if>
 			<@getDateTimeRange idField='${id}' idEndField='${dateRangeEndId}' language=language format=format showFormat=showFormat minDate=minDate maxDate=maxDate defaultDate=defaultDate defaultTime=defaultTime minTime=minTime maxTime=maxTime dateOptions=dateParams  />
 		<#else>
 			<@alert class='danger'>${i18n("portal.util.datepicker.rangeEndId.mandatory")}</@alert>
 		</#if>
 	<#elseif type='time'>
-		<@getTime idField='${id}' language=language format='H:i' showFormat='H:i' minTime=minTime maxTime=maxTime time_24hr=time_24hr defaultDate=defaultDate dateOptions=dateParams />
+		<#if value?has_content>
+			<#local defaultDate=value />
+		</#if>
+		<@getTime idField='${id}' language=language format='H:i' showFormat='H:i' minTime=minTime maxTime=maxTime time_24hr=time_24hr defaultDate=defaultDate dateOptions=dateParams />	
 	</#if>
 	<#if id=''><@alert class='danger'>${i18n("portal.util.datepicker.id.mandatory")}</@alert></#if>
 <#elseif type='hidden'>
