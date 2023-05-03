@@ -43,12 +43,14 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-
+import java.io.File;
 import org.junit.Test;
 
 /**
@@ -59,14 +61,19 @@ public class AppTemplateServiceTest extends LuteceTestCase
 {
 
     private static final String REFERENCE_TEMPLATE = "reference.html";
-    private static final String HTML_EXTENSION = ".html";
-    final private static String TEST_TEMPLATES_PATH = "commons/templates/test/";
+    final private static String TEST_TEMPLATES_PATH = "commons" + File.separator + "templates" + File.separator + "test";
 
     @Test
-    public void testCommonsTemplates( ) throws IOException, TemplateException
+    public void testCommonsTemplates( ) throws IOException, TemplateException, URISyntaxException
     {
 
-        String classPath = getClass( ).getProtectionDomain( ).getCodeSource( ).getLocation( ).getPath( );
+        URL resourceUrl = getClass( ).getClassLoader( ).getResource( TEST_TEMPLATES_PATH );
+
+        if ( resourceUrl == null ) {
+            fail( "Could not find the test templates path." );
+        }
+
+        Path testTemplatesPath = Paths.get( resourceUrl.toURI( ) );
 
         for ( CommonsInclude ci : CommonsService.getCommonsIncludes( ) )
         {
@@ -78,7 +85,7 @@ public class AppTemplateServiceTest extends LuteceTestCase
 
                 AppTemplateService.resetCache( );
 
-                String strReferenceTemplate = readFile( classPath + TEST_TEMPLATES_PATH + REFERENCE_TEMPLATE, StandardCharsets.UTF_8 );
+                String strReferenceTemplate = readFile( testTemplatesPath.resolve( REFERENCE_TEMPLATE ).toString( ), StandardCharsets.UTF_8 );
                 HtmlTemplate generated_template = AppTemplateService.getTemplateFromStringFtl( strReferenceTemplate, LocaleService.getDefault( ), model );
 
                 assertNotNull( "AppTemplateServiceTest freemarker lib :  " + ciKey, generated_template.getHtml( ) );

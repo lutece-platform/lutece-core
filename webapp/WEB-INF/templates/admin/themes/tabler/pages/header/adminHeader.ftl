@@ -4,7 +4,7 @@ Description: Generates a header section for an administrative page, including a 
 Parameters:
 - site_name (string, required): the name of the website or application.
 -->
-<#macro adminHeader site_name=site_name admin_url=admin_url >
+<#macro adminHeader site_name=site_name!'Lutece' admin_url=admin_url >
 </head>
 <body class="antialiased<#if false> theme-dark</#if>">
 <div id="lutece-layout-wrapper"<#if commonsAdminLayoutClass !=''> class="${commonsAdminLayoutClass!}"</#if>>
@@ -63,6 +63,7 @@ Parameters:
 					</a>
 				</div>
 				<#if user.userLevel == 0>
+				<#if listLoggersInfo??>
 				<#assign listLogDebug = listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) />
 				<#if listLogDebug?has_content>
 					<div class="nav-item d-none d-md-flex me-3">
@@ -93,6 +94,7 @@ Parameters:
 							</div>
 						</div>
 					</div> 
+				</#if>
 				</#if>
 				<div class="nav-item d-none d-md-flex me-3">
 					<a class="nav-link px-0" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">

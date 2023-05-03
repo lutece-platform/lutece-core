@@ -40,6 +40,7 @@ import java.util.Random;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
@@ -69,6 +70,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     private static final String ICONURL = "iconUrlTest";
     private static final boolean IS_EXTERNAL_FEATURE = true;
     private Right _right;
+    private FeatureGroup _featureGroup;
 
     @Override
     protected void setUp( ) throws Exception
@@ -85,12 +87,19 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         _right.setIconUrl( ICONURL );
         _right.setExternalFeature( IS_EXTERNAL_FEATURE );
         RightHome.create( _right );
+
+        _featureGroup = new FeatureGroup( );
+        _featureGroup.setId( FEATUREGROUP );
+        _featureGroup.setLabelKey( FEATUREGROUP );
+        _featureGroup.setDescriptionKey( FEATUREGROUP );
+        FeatureGroupHome.create( _featureGroup );
     }
 
     @Override
     protected void tearDown( ) throws Exception
     {
         RightHome.remove( RIGHT_ID );
+        FeatureGroupHome.remove( FEATUREGROUP );
         super.tearDown( );
     }
 
