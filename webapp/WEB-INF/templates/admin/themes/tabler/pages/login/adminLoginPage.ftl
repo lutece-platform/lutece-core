@@ -86,14 +86,15 @@ const password = new LutecePassword();
 
 document.addEventListener( "DOMContentLoaded", function(){
 	/* backGround image random */
-	login.randomImages = [ #dskey{portal.site.site_property.back_images} ];
-	login.init( )
+	const aImages = '#dskey{portal.site.site_property.layout.login.image}'.split(',');
+	const backImages = '#dskey{portal.site.site_property.back_images}'.split(',');
+	login.randomImages = aImages;
+	login.randomBgImages = backImages;
 	<#if loginLayout != 'default' >
-		const illust = <#if loginLayout == 'cover' >'.bg-cover'<#else>'#illustration'</#if>;
-		login.element = illust;
-		login.randomImages = [ #dskey{portal.site.site_property.layout.login.image} ];
-		login.init( )
+	const illust = <#if loginLayout == 'cover' >'.bg-cover'<#else>'#illustration'</#if>;
+	login.element = illust;
 	</#if>	
+	login.init( )
 	/* Password Toggler */
 	<#--  password.passTogglerIconOn = "ti-accessible";
 	password.passTogglerIconOff = "ti-accessible-off";  -->
