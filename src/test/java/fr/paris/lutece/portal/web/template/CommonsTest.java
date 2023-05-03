@@ -173,6 +173,15 @@ public class CommonsTest extends LuteceTestCase
         FileUtils.copyDirectory( fileSourceFolder, fileCommonsUtilFolder );
 
         AppLogService.info( "Copying all files from {} to {}", fileSourceFolder.getAbsolutePath( ), fileCommonsUtilFolder.getAbsolutePath( ) );
+
+        // themes
+        strSourcePath = getSourcePath( strRootPath, "WEB-INF/templates/admin/themes" );
+        fileSourceFolder = new File( strSourcePath );
+        strDestPath = strRootPath + "/commons/admin/themes";
+        File fileThemesFolder = new File( strDestPath );
+        fileThemesFolder.mkdir( );
+        FileUtils.copyDirectory( fileSourceFolder, fileThemesFolder );
+        AppLogService.info( "Copying all files from {} to {}", fileSourceFolder.getAbsolutePath( ), fileThemesFolder.getAbsolutePath( ) );
     }
 
     class CommonsFileFilter implements FileFilter
