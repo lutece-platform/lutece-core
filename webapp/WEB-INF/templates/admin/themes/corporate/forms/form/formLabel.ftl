@@ -15,7 +15,7 @@ Parameters:
 <#macro formLabel class='' labelFor='' labelId='' labelKey='' labelKeyDesc='' hideLabel=[] mandatory=true deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#local labelClass = ' ' + displaySettings(hideLabel,'') />
-<label class="form-label w-100<#if mandatory=true> required</#if><#if class !=''> ${class?trim}</#if><#if hideLabel?seq_contains('all')> visually-hidden</#if> " for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true> aria-Label="${labelKey} #i18n{portal.users.modify_attribute.labelMandatory}"</#if>>
+<label class="form-label<#if mandatory=true> required</#if><#if class !=''> ${class?trim}<#else> w-100</#if><#if hideLabel?seq_contains('all')> visually-hidden</#if> " for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true> aria-Label="${labelKey} #i18n{portal.users.modify_attribute.labelMandatory}"</#if>>
 <#if labelKey?trim !=''><#if labelClass?trim !=''><span class="${labelClass}"></#if>${labelKey}<#if labelClass?trim !=''></span></#if><#if labelKeyDesc?trim !=''><div class="form-label-description float-end">${labelKeyDesc}</div></#if><#else><#nested></#if>
 </label>
 </#macro>
