@@ -11,7 +11,7 @@ Parameters:
 - duration (integer, optional): the duration in milliseconds that the notifications should be displayed before disappearing.
 - pool (integer, optional): the maximum number of notifications that can be displayed at the same time.
 -->
-<#macro initToast class='' id='' position='top-0 end-0' autohide=false animation=true duration=2000 params='' deprecated...>
+<#macro initToast class='' id='' position='top-0 end-0' showAll=true autohide=false animation=true duration=2000 params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div aria-live="polite" aria-atomic="true" class="position-static z-3">
 	<div<#if id !=''> id="${id}"</#if> class="toast-container ${position} p-3<#if class !=''> ${class}</#if>"<#if params !=''> ${params}"</#if>>
@@ -22,10 +22,10 @@ Parameters:
 document.addEventListener("DOMContentLoaded", function() {
     const toastElList = [].slice.call(document.querySelectorAll('.toast'))
     const option = { delay: ${duration}, animation: ${animation?c}, autohide: ${autohide?c} }
-    const toastList = toastElList.map( function(toastEl, option ) {
-        return new bootstrap.Toast(toastEl)
+    const toastList = toastElList.map( function( toastEl, option ) {
+        return new bootstrap.Toast( toastEl )
     })
-    toastList.forEach(toast => toast.show())
+    <#if showAll>toastList.forEach( toast => toast.show())</#if>
 });
 </script>
 </#macro>
