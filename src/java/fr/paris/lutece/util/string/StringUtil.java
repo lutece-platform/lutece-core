@@ -231,7 +231,7 @@ public final class StringUtil
      */
     public static synchronized boolean checkEmail( String strEmail )
     {
-        return strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN ) );
+        return strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN, "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$" ) );
     }
 
     /**
@@ -245,7 +245,7 @@ public final class StringUtil
      */
     public static synchronized boolean checkEmailAndDomainName( String strEmail, String [ ] strBannedDomainNames )
     {
-        boolean bIsValid = strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN ) );
+        boolean bIsValid = strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN, "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$" ) );
 
         return bIsValid && checkEmailDomainName( strEmail, strBannedDomainNames );
     }
