@@ -39,14 +39,11 @@
 <!-- <link href="${commonsSharedPath}${commonsCssPath}portal_admin.min.css" rel="stylesheet"><#-- Lutece main admin CSS --> -->
 <!-- Theme <@commonsName /> CSS -->
 <link href="themes/admin/corporate/css/corporate.css" rel="stylesheet">
-<#-- Optionnal JQuery include - Set for Jquery compat to remove ASAP ! -->
 <script src="js/admin/jquery/jquery-3.6.0.min.js"></script> <!-- main JQuery file -->
-<#assign optHeaderCss=.get_optional_template('commons_theme_jquery.html')>
-<#if optHeaderCss.exists><@includeJqueryCore /></#if>
 </#macro>
 <#macro coreAdminJSLinks>
 <!-- Shared JS -->
-<script src="js/admin/jquery/jquery-migrate-3.4.0.min.js"></script> <!-- Compat JQuery file -->
+<script src="js/admin/jquery/jquery-migrate-1.4.1.min.js"></script> <!-- Compat JQuery file -->
 <script src="js/admin/jquery/jquery-ui.min.js"></script>
 <script src="js/admin/style/tabler/bootstrap-filestyle.min.js"></script> 
 <script src="js/admin/style/tabler/bootstrap-colorpicker.js"></script> 
