@@ -57,7 +57,8 @@ public final class StringUtil
     private static final String STRING_CODE_PATTERN = "^[\\w]+$";
     private static final String CONSTANT_AT = "@";
     private static final String CONSTANT_UTF8 = "UTF-8";
-
+    private static final String EMAIL_PATTERN = "^[\w_.\-]+@[\w_.\-]+\.[\w]+$";
+    
     // The characters that are considered dangerous for XSS attacks
     private static char [ ] _aXssCharacters;
     private static String _xssCharactersAsString;
@@ -231,7 +232,7 @@ public final class StringUtil
      */
     public static synchronized boolean checkEmail( String strEmail )
     {
-        return strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN, "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$" ) );
+        return strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN, EMAIL_PATTERN ) );
     }
 
     /**
@@ -245,7 +246,7 @@ public final class StringUtil
      */
     public static synchronized boolean checkEmailAndDomainName( String strEmail, String [ ] strBannedDomainNames )
     {
-        boolean bIsValid = strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN, "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$" ) );
+        boolean bIsValid = strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN, EMAIL_PATTERN ) );
 
         return bIsValid && checkEmailDomainName( strEmail, strBannedDomainNames );
     }
