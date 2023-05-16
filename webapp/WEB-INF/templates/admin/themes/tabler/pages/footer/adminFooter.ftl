@@ -50,16 +50,18 @@ document.addEventListener( "DOMContentLoaded", function(){
 	}
 	
 	const switchMode = document.querySelector('#switch-darkmode');
-	switchMode.addEventListener( 'click', function(){
-		const boTheme=localStorage.getItem('theme-bo-lutece');
-		if( boTheme === 'dark'){
-			localStorage.setItem('theme-bo-lutece','default	');
-			themeMode('default');
-		} else{
-			localStorage.setItem('theme-bo-lutece','dark');
-			themeMode('dark');
-		}
-	})
+	if( switchMode != undefined  ){
+		switchMode.addEventListener( 'click', function(){
+			const boTheme=localStorage.getItem('theme-bo-lutece');
+			if( boTheme === 'dark'){
+				localStorage.setItem('theme-bo-lutece','default	');
+				themeMode('default');
+			} else{
+				localStorage.setItem('theme-bo-lutece','dark');
+				themeMode('dark');
+			}
+		})
+	}
 });
 </script>
 </div><!-- Close wrapper -->
