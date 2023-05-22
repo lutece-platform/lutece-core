@@ -57,7 +57,7 @@ public final class StringUtil
     private static final String STRING_CODE_PATTERN = "^[\\w]+$";
     private static final String CONSTANT_AT = "@";
     private static final String CONSTANT_UTF8 = "UTF-8";
-    private static final String EMAIL_PATTERN = "^[\w_.\-]+@[\w_.\-]+\.[\w]+$";
+    private static final String EMAIL_PATTERN = "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$";
     
     // The characters that are considered dangerous for XSS attacks
     private static char [ ] _aXssCharacters;
