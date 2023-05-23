@@ -22,7 +22,11 @@ export class LuteceLogin {
       let rndBgNum = Math.floor( Math.random() * ( this.randomBgImages.length ) );
       let img = 'url(' + this.randomImages[rndNum] +	')';
       let bgImg = 'url(' + this.randomBgImages[rndBgNum] +	')';
-      bg.style.backgroundImage = bgImg;
-      elem.style.backgroundImage = img;
+      if( bg != null ){
+        bg.style.backgroundImage = bgImg;
+      }
+      if( elem != null ){
+        elem.style.backgroundImage = img;
+      }
     }
 }
