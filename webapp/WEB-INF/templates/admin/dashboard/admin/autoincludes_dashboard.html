@@ -10,7 +10,21 @@
 </#list>
 <@messages infos=infos />
 <@row>
-	<@columns sm=12 md=12 lg=6 xl=4>	
+	<@columns sm=12 md=6 lg=7>
+		<@box>
+			<@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsChange}' />
+			<@boxBody>
+				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
+				<@input type='hidden' name='action' value='activate' />
+				<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' class='has-addons' rows=2>
+					<@inputGroup class=''>
+						<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
+							<@button type='submit' color='primary' buttonIcon='check' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' hideTitle=['all'] size='' />
+					</@inputGroup>
+				</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
 		<@box>
 		<#assign boxTitle> #i18n{portal.templates.manage_autoincludes.commonsInfos}
 		</#assign>
@@ -21,8 +35,6 @@
 				<@p>#i18n{portal.templates.manage_autoincludes.commonsDescription} <br><strong><@commonsDescription/></strong></@p>
 			</@boxBody>
 		</@box>
-	</@columns>
-	<@columns sm=12 md=12 lg=6 xl=8>	
 		<@box>
 			<@boxHeader title='#i18n{portal.templates.manage_autoincludes.title}' />
 			<@boxBody class='card-sized'>
@@ -36,24 +48,10 @@
 				</@ul>
 			</@boxBody>
 		</@box>
-	</@columns>
-</@row> 
-<@row>
-<@columns>
-<@box>
-	<@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsChange}' />
-	<@boxBody>
-		<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
-		<@input type='hidden' name='action' value='activate' />
-		<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' class='has-addons' rows=2>
-			<@inputGroup class=''>
-				<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
-					<@button type='submit' color='primary' buttonIcon='check' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' hideTitle=['all'] size='' />
-			</@inputGroup>
-		</@formGroup>
-		</@tform>
-	</@boxBody>
-</@box>
-</@columns>	
-</@row>  
+	</@columns>	
+	<@columns sm=12 md=6 lg=5>
+		<#assign preview><@commonsPreview /></#assign>
+		<@img url='${preview?lower_case}' alt='Preview of theme' class='img-fluid' />
+	</@columns>	
+</@row>
 </@tabPanel>
