@@ -56,4 +56,16 @@ Parameters:
 		</@div>
     </@pageColumn>
 </@pageContainer>
+<script type="module">
+import {
+	LutecePassword
+} from './themes/shared/modules/lutecePassword.js';
+
+const passwordC = new LutecePassword();
+
+document.addEventListener( "DOMContentLoaded", function(){
+	/* Password Toggler */
+	passwordC.initPassToggler( );
+});
+</script>
 </#macro>
