@@ -50,7 +50,7 @@ Parameters:
 				<h1 class="text-center">#i18n{portal.admin.admin_login.title}</h1>
 			 	<p class="text-center"><small>#i18n{portal.admin.admin_login.description}</small></p>
 				<figure class="d-flex justify-content-center">
-					<@img url=dskey('portal.site.site_property.back_images') params='width="70%" style="max-width:1000px;"' />
+					<@img url=dskey('portal.site.site_property.layout.login.image') params='width="70%" style="max-width:1000px;"' />
 				</figure>
 			</@div>
 		</@div>
