@@ -20,3 +20,4 @@ INSERT INTO `core_stylesheet` VALUES (279,'Plan du Site module d\'Administration
 DELETE FROM `core_page_template` WHERE `id_template`=7;
 INSERT INTO `core_page_template` (`description`, `file_name`, `picture`) VALUES ('Page d\'accueil - Demo', 'skin/site/page_home_demo.html', 'lutece_logo.png');
 UPDATE `core_page` SET `id_template`='7' WHERE  `id_page`=1;
+UPDATE `core_datastore` SET `entity_value`='sceeditor' WHERE  `entity_key`='core.frontOffice.defaultEditor';

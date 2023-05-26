@@ -193,7 +193,7 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_ma
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.reset_token_validity', '60');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.lock_reset_token_to_session', 'false');
 INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
-INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markitupbbcode');
+INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'sceeditor');
 INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
 
 INSERT INTO core_datastore VALUES ('portal.site.site_property.name', 'LUTECE');
