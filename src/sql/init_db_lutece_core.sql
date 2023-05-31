@@ -35,13 +35,13 @@ INSERT INTO core_admin_right VALUES ('CORE_EDITORS_MANAGEMENT', 'portal.admindas
 INSERT INTO core_admin_role VALUES ('all_site_manager','Site Manager');
 INSERT INTO core_admin_role VALUES ('super_admin','Super Administrateur');
 
-INSERT INTO core_admin_role_resource VALUES (57,'all_site_manager','PAGE','*','VIEW');
-INSERT INTO core_admin_role_resource VALUES (58,'all_site_manager','PAGE','*','MANAGE');
-INSERT INTO core_admin_role_resource VALUES (77,'super_admin','INSERT_SERVICE','*','*');
-INSERT INTO core_admin_role_resource VALUES (101,'all_site_manager','PORTLET_TYPE','*','*');
-INSERT INTO core_admin_role_resource VALUES (111,'all_site_manager', 'ADMIN_USER', '*', '*');
-INSERT INTO core_admin_role_resource VALUES (137,'all_site_manager', 'SEARCH_SERVICE', '*', '*');
-INSERT INTO core_admin_role_resource VALUES (164,'all_site_manager', 'XSL_EXPORT', '*', '*');
+INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager','PAGE','*','VIEW');
+INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager','PAGE','*','MANAGE');
+INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('super_admin','INSERT_SERVICE','*','*');
+INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager','PORTLET_TYPE','*','*');
+INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager', 'ADMIN_USER', '*', '*');
+INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager', 'SEARCH_SERVICE', '*', '*');
+INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager', 'XSL_EXPORT', '*', '*');
 
 -- default accounts; password storage will be upgraded on first login
 INSERT INTO core_admin_user (access_code,last_name,first_name,email,status,password,locale,level_user,reset_password,accessibility_mode,password_max_valid_date,account_max_valid_date,nb_alerts_sent,last_login,workgroup_key) VALUES ('admin','Admin','admin','admin@lutece.fr',0,'PLAINTEXT:adminadmin','fr',0,0,0,'1980-01-01 00:00:00',null,0,'1980-01-01 00:00:00','all');
