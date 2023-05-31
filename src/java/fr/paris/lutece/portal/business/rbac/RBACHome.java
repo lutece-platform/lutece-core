@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.rbac;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * This class provides instances management methods (create, find, ...) for RBAC objects
@@ -155,6 +156,38 @@ public final class RBACHome
     public static Collection<String> findRoleKeys( String strTypeCode, String strId, String strPermission )
     {
         return _dao.selectRoleKeys( strTypeCode, strId, strPermission );
+    }
+
+    /**
+     * Find all entries for a given permission and collection of roles
+     * 
+     * @param strPermission
+     *            the permission
+     * @param roles
+     *            the roles
+     * @return a collection of matching RBACs
+     */
+    public static Collection<RBAC> findByPermissionAndRoles( String strPermission, Collection<String> roles )
+    {
+        return findByPermissionsAndRoles( Collections.singleton( strPermission ), roles );
+    }
+
+    /**
+     * Find all entries for a given collection of permissions and roles
+     * 
+     * @param permissions
+     *            the permissions
+     * @param roles
+     *            the roles
+     * @return a collection of matching RBACs
+     */
+    public static Collection<RBAC> findByPermissionsAndRoles( Collection<String> permissions, Collection<String> roles )
+    {
+        if ( permissions.isEmpty( ) || roles.isEmpty( ) )
+        {
+            return Collections.emptyList( );
+        }
+        return _dao.selectByPermissionsAndRoles( permissions, roles );
     }
 
     /**

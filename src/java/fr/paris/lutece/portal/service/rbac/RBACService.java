@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.rbac;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.api.user.UserRole;
+import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.util.ReferenceItem;
@@ -42,13 +43,64 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * This class provides the main methods to control the access to a resource depending on the user's roles
  */
 public final class RBACService
 {
+
+    /**
+     * ReferenceItem as an RBACResource
+     */
+    private static final class RBACReferenceItem implements RBACResource
+    {
+        private final String _strResourceType;
+        private final ReferenceItem _item;
+
+        /**
+         * Constructor
+         * 
+         * @param strResourceType
+         *            the resource type
+         * @param item
+         *            the reference item
+         */
+        public RBACReferenceItem( String strResourceType, ReferenceItem item )
+        {
+            _strResourceType = strResourceType;
+            _item = item;
+        }
+
+        @Override
+        public String getResourceTypeCode( )
+        {
+            return _strResourceType;
+        }
+
+        @Override
+        public String getResourceId( )
+        {
+            return _item.getCode( );
+        }
+
+        /**
+         * The reference item
+         * 
+         * @return the reference item
+         */
+        public ReferenceItem getItem( )
+        {
+            return _item;
+        }
+
+    }
+
     /**
      * Constructor
      */
@@ -193,17 +245,20 @@ public final class RBACService
      */
     public static <E extends RBACResource> Collection<E> getAuthorizedCollection( Collection<E> collection, String strPermission, User user )
     {
-        Collection<E> list = new ArrayList<>( );
-
-        for ( E resource : collection )
+        if ( user == null )
         {
-            if ( isAuthorized( resource, strPermission, user ) )
-            {
-                list.add( resource );
-            }
+            return Collections.emptyList( );
         }
-
-        return list;
+        Map<String, Collection<RBAC>> rbacsByResourceType = new HashMap<>( );
+        RBACHome.findByPermissionAndRoles( strPermission, user.getUserRoles( ).keySet( ) ).stream( ).forEach( rbac -> {
+            rbacsByResourceType.computeIfAbsent( rbac.getResourceTypeKey( ), t -> new ArrayList<>( ) ).add( rbac );
+        } );
+        return collection.stream( )
+                .filter( resource -> rbacsByResourceType
+                        .getOrDefault( resource.getResourceTypeCode( ), Collections.emptyList( ) ).stream( )
+                        .anyMatch( rbac -> RBAC.WILDCARD_RESOURCES_ID.equals( rbac.getResourceId( ) )
+                                || resource.getResourceId( ).equals( rbac.getResourceId( ) ) ) )
+                .collect( Collectors.toList( ) );
     }
 
     /**
@@ -241,17 +296,10 @@ public final class RBACService
      */
     public static ReferenceList getAuthorizedReferenceList( ReferenceList listResources, String strResourceType, String strPermission, User user )
     {
-        ReferenceList list = new ReferenceList( );
-
-        for ( ReferenceItem item : listResources )
-        {
-            if ( isAuthorized( strResourceType, item.getCode( ), strPermission, user ) )
-            {
-                list.addItem( item.getCode( ), item.getName( ) );
-            }
-        }
-
-        return list;
+        return getAuthorizedCollection( listResources.stream( )
+                .map( item -> new RBACReferenceItem( strResourceType, item ) ).collect( Collectors.toList( ) ),
+                strPermission, user ).stream( ).map( RBACReferenceItem::getItem )
+                        .collect( Collectors.toCollection( ReferenceList::new ) );
     }
 
     /**
@@ -289,17 +337,20 @@ public final class RBACService
      */
     public static <E extends RBACAction> Collection<E> getAuthorizedActionsCollection( Collection<E> collection, RBACResource resource, User user )
     {
-        Collection<E> list = new ArrayList<>( );
-
-        for ( E action : collection )
+        if ( collection.isEmpty( ) )
         {
-            if ( isAuthorized( resource, action.getPermission( ), user ) )
-            {
-                list.add( action );
-            }
+            return collection;
         }
-
-        return list;
+        Set<String> permissions = RBACHome
+                .findByPermissionsAndRoles(
+                        collection.stream( ).map( RBACAction::getPermission ).collect( Collectors.toSet( ) ),
+                        user.getUserRoles( ).keySet( ) )
+                .stream( ).filter( rbac -> resource.getResourceTypeCode( ).equals( rbac.getResourceTypeKey( ) ) )
+                .filter( rbac -> RBAC.WILDCARD_RESOURCES_ID.equals( rbac.getResourceId( ) )
+                        || resource.getResourceId( ).equals( rbac.getResourceId( ) ) )
+                .map( RBAC::getPermissionKey ).collect( Collectors.toSet( ) );
+        return collection.stream( ).filter( action -> permissions.contains( action.getPermission( ) )
+                || permissions.contains( RBAC.WILDCARD_PERMISSIONS_KEY ) ).collect( Collectors.toList( ) );
     }
 
     /**
