@@ -38,6 +38,7 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 /**
  * This class provides Data Access methods for RBAC objects
@@ -58,6 +59,9 @@ public final class RBACDAO implements IRBACDAO
     // query used to retrieve the roles associeted with a resource
     private static final String SQL_QUERY_SELECT_ROLE_KEYS = " SELECT DISTINCT role_key FROM core_admin_role_resource " + " WHERE resource_type = ? AND "
             + "( resource_id = ? OR resource_id= ? ) AND" + "( permission = ? OR permission= ? )";
+    private static final String SQL_QUERY_SELECT_BY_PERMISSIONS_AND_ROLES_PART1 = " SELECT rbac_id, role_key, resource_type, resource_id, permission FROM core_admin_role_resource WHERE role_key IN (";
+    private static final String SQL_QUERY_SELECT_BY_PERMISSIONS_AND_ROLES_PART2 = ") AND ( permission IN (";
+    private static final String SQL_QUERY_SELECT_BY_PERMISSIONS_AND_ROLES_PART3 = ") OR permission = ? ) ";
 
     /**
      * Insert a new record in the table.
@@ -213,6 +217,45 @@ public final class RBACDAO implements IRBACDAO
         return listRBACs;
     }
 
+    @Override
+    public Collection<RBAC> selectByPermissionsAndRoles( Collection<String> permissions, Collection<String> roles )
+    {
+        String query = new StringBuilder( SQL_QUERY_SELECT_BY_PERMISSIONS_AND_ROLES_PART1 )
+                .append( roles.stream( ).map( r -> "?" ).collect( Collectors.joining( "," ) ) )
+                .append( SQL_QUERY_SELECT_BY_PERMISSIONS_AND_ROLES_PART2 )
+                .append( permissions.stream( ).map( r -> "?" ).collect( Collectors.joining( "," ) ) )
+                .append( SQL_QUERY_SELECT_BY_PERMISSIONS_AND_ROLES_PART3 ).toString( );
+        Collection<RBAC> listRBACs = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( query ) )
+        {
+            int nIndex = 1;
+            for ( String role : roles )
+            {
+                daoUtil.setString( nIndex++, role );
+            }
+            for ( String permission : permissions )
+            {
+                daoUtil.setString( nIndex++, permission );
+            }
+            daoUtil.setString( nIndex++, RBAC.WILDCARD_PERMISSIONS_KEY );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                RBAC rBAC = new RBAC( );
+                rBAC.setRBACId( daoUtil.getInt( 1 ) );
+                rBAC.setRoleKey( daoUtil.getString( 2 ) );
+                rBAC.setResourceTypeKey( daoUtil.getString( 3 ) );
+                rBAC.setResourceId( daoUtil.getString( 4 ) );
+                rBAC.setPermissionKey( daoUtil.getString( 5 ) );
+
+                listRBACs.add( rBAC );
+            }
+
+        }
+        return listRBACs;
+    }
+
     /**
      * Update the role key of all the entries of a given role key
      * 
@@ -297,4 +340,5 @@ public final class RBACDAO implements IRBACDAO
             daoUtil.executeUpdate( );
         }
     }
+
 }
