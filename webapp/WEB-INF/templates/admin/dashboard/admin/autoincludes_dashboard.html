@@ -16,7 +16,7 @@
 				<#assign boxTitle>#i18n{portal.templates.manage_autoincludes.commonsInfos} : <span class="text-primary"><@commonsName /></span></#assign>
 				<@box>
 					<@boxHeader title=boxTitle />
-					<@boxBody class='card-sized'>
+					<@boxBody>
 						<@p>#i18n{portal.templates.manage_autoincludes.commonsFile} <br><strong><@commonsFile /></strong></@p>
 						<@p>#i18n{portal.templates.manage_autoincludes.commonsDescription} <br><strong><@commonsDescription/></strong></@p>
 					</@boxBody>
@@ -41,7 +41,7 @@
 		</@row>
 		<@box>
 			<@boxHeader title='#i18n{portal.templates.manage_autoincludes.title}' />
-			<@boxBody class='card-sized'>
+			<@boxBody>
 				<@ul class='list-group'>
 				<#list autoinclude_list as autoinclude >
 					<@li class='list-group-item d-flex justify-content-between align-items-center text-truncate'>
