@@ -52,6 +52,7 @@ public class XPage
     private String _strPathLabel;
     private String _strXmlExtendedPathLabel;
     private boolean _bStandalone;
+    private boolean _bSendRedirect;
 
     /**
      *
@@ -194,4 +195,20 @@ public class XPage
     {
         _bStandalone = standalone;
     }
+
+    /**
+     * Indicate if a  response send Redirect have bean call during treatment
+     * @return true if a response send Redirect have bean call during treatment
+     */
+	public boolean isSendRedirect() {
+		return _bSendRedirect;
+	}
+
+	/**
+	 * Indicate if a  response send Redirect have bean call during treatment
+	 * @param  bSendRedirect true if a response send Redirect have bean call during treatment
+	 */
+	public void setSendRedirect(boolean bSendRedirect) {
+		this._bSendRedirect = bSendRedirect;
+	}
 }

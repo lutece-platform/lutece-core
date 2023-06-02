@@ -238,7 +238,7 @@ public class XPageAppService extends ContentService
             page = application.getPage( request, nMode, entry.getPlugin( ) );
         }
 
-        if ( page.isStandalone( ) )
+        if ( page.isStandalone( ) || page.isSendRedirect() )
         {
             return page.getContent( );
         }

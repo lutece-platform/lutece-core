@@ -556,8 +556,9 @@ public abstract class MVCApplication implements XPageApplication
         {
             _logger.error( "Unable to redirect : {} : {}", strTarget, e.getMessage( ), e );
         }
-
-        return new XPage( );
+        XPage xpage=new XPage();
+        xpage.setSendRedirect(true);
+        return xpage;
     }
 
     /**
