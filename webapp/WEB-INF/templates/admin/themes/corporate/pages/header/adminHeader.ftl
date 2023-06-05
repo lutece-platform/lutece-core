@@ -190,12 +190,8 @@
                            <div class="flex-fill">   
                               <h5 class="fw-bolder mb-0 h-60 lh-60">${feature_group.label}</h5>
                            </div>
-                           <div>
-                           <#if user.userLevel==0>
-                              <a href="jsp/admin/AdminTechnicalMenu.jsp?tab=assign_features_groups#features_management#${feature_group.id}" class="border btn btn-light btn-rounded">
-                                 <i class="fs-6 float-end lh-60 h-60 ${feature_group.icon!''}"></i>
-                              </a>
-                           </#if>
+                           <div class="border border-dark-subtle btn-rounded">
+                              <i class="fs-6 float-end lh-60 h-60 ${feature_group.icon!''}"></i>
                            </div>
                         </div>
                      </div>
