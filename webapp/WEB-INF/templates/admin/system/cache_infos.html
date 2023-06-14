@@ -1,13 +1,13 @@
 <@pageContainer>
-<@pageColumn>
-  	<#list services_list as service>
-	  <@pageHeader title='${service.name}' />
-	  <@div id="cache-infos">
-				<h4>Configuration</h4>
-				<@pre>${service.infos}</@pre>
-				<h4>Keys</h4>
-				<#list service.keys as key ><@p>${key}</@p></#list>
+	<@pageColumn>
+	<#list services_list as service>
+		<@pageHeader title='${service.name}' />
+		<@div id="cache-infos">
+			<h2 class="h4">Configuration</h2>
+			<@pre>${service.infos}</@pre>
+			<h3>Keys</h3>
+			<#list service.keys as key ><@p>${key}</@p></#list>
 		</@div>
 	</#list>
-</@pageColumn>
+	</@pageColumn>
 </@pageContainer>

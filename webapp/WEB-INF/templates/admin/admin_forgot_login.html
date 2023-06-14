@@ -3,9 +3,9 @@
 <@tform name='forgot_login' id='forgot_login' action='jsp/admin/DoAdminForgotLogin.jsp'>
 	<#list params_list as param><@input type='hidden' name='${param.code}' value='${param.name}' /></#list>
 	<@formGroup labelFor='email' labelKey='#i18n{portal.admin.admin_login.emailLabel}' hideLabel=['all'] rows=2>
-		<@inputGroup>
-			<@inputGroupItem type='text'><@icon style='envelope' /></@inputGroupItem>
-			<@input type='email' name='email' params='autofocus' placeHolder='#i18n{portal.admin.admin_forgot_login.emailLabel}' />
+		<@inputGroup class='input-icon input-group-flat'>
+        	<@inputGroupItem type='icon'><@icon style='envelope' /></@inputGroupItem>
+			<@input type='email' name='email' id='email' autoComplete='username' params='autofocus' placeHolder='#i18n{portal.admin.admin_forgot_login.emailLabel}' />
 		</@inputGroup>
 	</@formGroup>
 	<@formGroup rows=2>

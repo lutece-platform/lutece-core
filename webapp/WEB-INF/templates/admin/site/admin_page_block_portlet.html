@@ -8,7 +8,7 @@
 					<@formGroup rows=2>
 						<@select name='portlet_type_id'>
 							<#list portlet_types_list?sort_by("name") as portlet_type>
-							<option value="${portlet_type.id}">${portlet_type.name}</option>
+							<@option value=portlet_type.id label=portlet_type.name />
 						</#list>
 						</@select>
 					</@formGroup>	
