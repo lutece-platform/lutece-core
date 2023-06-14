@@ -43,13 +43,13 @@ Parameters:
 - datalist (string, optional): the comma-separated list of options for a datalist input.
 
 -->
-<#macro input name id='' type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist='' params='' deprecated...>
+<#macro input name id='' type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if type='textarea'>
 	<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
-<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='range' || type='tel' || type='datalist'>
-	<input class="form-control<#if size!=''> input-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if><#if type='datalist'> list="${name}_list"</#if>>
+<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='url'  || type='range' || type='tel' || type='datalist'>
+	<input class="form-control<#if size!=''> input-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if autoComplete !=''> autocomplete="${autoComplete}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if><#if type='datalist'> list="${name}_list"</#if>>
 	<#if type='file'>
 		<input type="hidden" id=${id}Key name="${name}Key" value="${value}" />
 		<#if showFileUrl && fileURL?? && fileName??><@link href="${fileURL}">${fileName}</@link></#if>
@@ -67,7 +67,7 @@ Parameters:
 		</#if>
 	</#if>
 <#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange' || type='time'>
-	<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}" <#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+	<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#if type='date'>
 		<#if value?has_content>
 			<#local defaultDate=value />
@@ -100,7 +100,7 @@ Parameters:
 		<#if value?has_content>
 			<#local defaultDate=value />
 		</#if>
-		<@getTime idField='${id}' language=language format='H:i' showFormat='H:i' minTime=minTime maxTime=maxTime time_24hr=time_24hr defaultDate=defaultDate dateOptions=dateParams />	
+		<@getTime idField='${id}' language=language format='H:i' showFormat='H:i' minTime=minTime maxTime=maxTime time_24hr=time_24hr defaultDate=defaultDate dateOptions=dateParams />
 	</#if>
 	<#if id=''><@alert class='danger'>${i18n("portal.util.datepicker.id.mandatory")}</@alert></#if>
 <#elseif type='hidden'>
