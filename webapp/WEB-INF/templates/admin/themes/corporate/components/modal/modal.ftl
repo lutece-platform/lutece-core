@@ -7,7 +7,7 @@ Parameters:
 - size (string, optional): the size of the modal dialog, using a Bootstrap size class (e.g. "lg").
 -->
 <#macro modal id params='' bgColor='' size=''>
-<div class="modal ${bgColor} fade" id="${id}" <#if params!=''> ${params}</#if>>
+<div class="modal ${bgColor} fade" id="${id}" data-bs-toggle="modal"<#if params!=''> ${params}</#if>>
 	<div class="modal-dialog<#if size!=''> modal-${size}</#if>" role="document">
 		<div class="modal-content">
 			<#nested>
