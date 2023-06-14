@@ -211,8 +211,14 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.p
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', 'images/logo-header-icon.png');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.locale.default', 'fr');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'images/admin/skin/unknown.png');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', '\'images/admin/skin/bg_login1.svg\' , \'images/admin/skin/bg_login2.svg\' , \'images/admin/skin/bg_login3.svg\' , \'images/admin/skin/bg_login4.svg\'');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.portlet.title.maxlength', '75');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', 'themes/admin/tabler/images/bg_login1.svg, themes/admin/tabler/images/bg_login2.svg');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXs.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXsWarning.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.class', 'sidebar');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.code', 'aside');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.login.image', 'themes/admin/corporate/images/miniroom.png');
+
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
