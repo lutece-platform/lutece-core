@@ -13,6 +13,6 @@ Parameters:
 -->
 <#macro link href='' class='' id='' name='' title='' alt='' target='' params=''>
 <a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if name!=''> name="${name}"</#if><#if target!=''> target="${target}"</#if><#if title!=''> title="${title}"</#if><#if alt!=''> alt="${alt}"</#if><#if params!=''> ${params}</#if>>
-<#nested>
+<#if label !=''>${label}<#else><#nested></#if>
 </a>
 </#macro>
