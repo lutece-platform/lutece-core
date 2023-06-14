@@ -12,27 +12,35 @@
 <@row>
 	<@columns sm=12 md=6 lg=7>
 		<@row>
-			<@columns sm=12 md=6>
-				<#assign boxTitle>#i18n{portal.templates.manage_autoincludes.commonsInfos} : <span class="text-primary"><@commonsName /></span></#assign>
+			<@columns sm=12 md=7>
+				<#assign currentTitle = '' />
+				<#list commons_list as item>
+					<#if current_commons=item.code>
+						<#assign currentTitle = item.name />
+						<#break>
+					</#if>
+				</#list>
+				<#assign boxTitle>#i18n{portal.templates.manage_autoincludes.commonsInfos} : <@span class='text-primary'>${currentTitle}</@span></#assign>
 				<@box>
-					<@boxHeader title=boxTitle />
-					<@boxBody>
+				<@boxHeader title=boxTitle />
+				<@boxBody>
+						<@p>#i18n{portal.templates.manage_autoincludes.commonsName} : <br><strong><@commonsName /></strong></@p>
 						<@p>#i18n{portal.templates.manage_autoincludes.commonsFile} <br><strong><@commonsFile /></strong></@p>
 						<@p>#i18n{portal.templates.manage_autoincludes.commonsDescription} <br><strong><@commonsDescription/></strong></@p>
 					</@boxBody>
 				</@box>
 			</@columns>	
-			<@columns sm=12 md=6 class='d-flex'>
+			<@columns sm=12 md=5 class='d-flex'>
 				<@box class='flex-grow-1'>
 					<@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsChange}' />
 					<@boxBody>
 						<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
 						<@input type='hidden' name='action' value='activate' />
 						<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' class='has-addons' rows=2>
-							<@inputGroup class=''>
-								<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
-								<@button type='submit' color='primary' buttonIcon='check' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' hideTitle=['all'] size='' />
-							</@inputGroup>
+							<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
+						</@formGroup>
+						<@formGroup class='d-flex justify-content-center'>
+							<@button type='submit' color='primary' buttonIcon='check' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' size='sm' />
 						</@formGroup>
 						</@tform>
 					</@boxBody>
@@ -42,14 +50,24 @@
 		<@box>
 			<@boxHeader title='#i18n{portal.templates.manage_autoincludes.title}' />
 			<@boxBody>
-				<@ul class='list-group'>
-				<#list autoinclude_list as autoinclude >
-					<@li class='list-group-item d-flex justify-content-between align-items-center text-truncate'>
+				<h4>#i18n{portal.templates.manage_autoincludes.columnFilePath}</h4> 
+				<@listGroup>
+					<#list autoinclude_list?filter( autoinclude -> autoinclude.owner?? && defaultThemeName=autoinclude.owner ) as autoinclude >
+						<@listGroupItem class='d-flex justify-content-between align-items-center text-truncate text-primary'>
+							${autoinclude.filePath}
+							<#if autoinclude.owner?? && defaultThemeName=autoinclude.owner  ></#if>
+						</@listGroupItem>
+					</#list>
+				</@listGroup> 
+				<h4 class="my-3">#i18n{portal.templates.manage_autoincludes.otherFilePath}</h4>
+				<@listGroup>
+				<#list autoinclude_list?filter( autoinclude -> !(autoinclude.owner?? && defaultThemeName=autoinclude.owner) ) as autoinclude >
+					<@listGroupItem class='d-flex justify-content-between align-items-center text-truncate'>
 						${autoinclude.filePath}
-						<#if autoinclude.owner?? && defaultThemeName=autoinclude.owner  ><@tag>#i18n{portal.templates.manage_autoincludes.columnFilePath}</@tag></#if>
-					</@li>
+						<#if autoinclude.owner?? && defaultThemeName=autoinclude.owner  ></#if>
+					</@listGroupItem>
 				</#list>
-				</@ul>
+				</@listGroup>
 			</@boxBody>
 		</@box>
 	</@columns>	
