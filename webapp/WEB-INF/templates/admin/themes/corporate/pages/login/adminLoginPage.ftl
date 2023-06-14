@@ -7,25 +7,9 @@ Parameters:
 <#macro adminLoginPage title='' site_name='LUTECE'>
 </head>
 <body class="lutece-login"  data-bs-theme="light">
-<@pageContainer class="d-md-block d-lg-none">
-    <@pageColumn id="lutece-login-block" class="border-end p-0" height="full">
-		<@div class="d-flex align-items-center justify-content-evenly vh-100">
-			<@div class="container-tight">
-				<@div class="card shadow-lg rounded-4 p-4 mx-5 mw-30">
-					<@div class="card-body p-5 fs-6 d-flex flex-column">
-						<h1 class="mb-4 text-center order-1">#i18n{portal.admin.admin_login.welcome} ${site_name!}<br><@icon style='device-mobile-off' class='mt-3' params='style="font-size:120px !important"' /></h1>
-						<@p class="text-center mb-4">
-							<@link href='.' target='_blank'>
-								<@img url=dskey('portal.site.site_property.logo_url') alt="Logo" params='height="40"' /><span class="visually-hidden">${site_name!'Lutece'}</span>
-							</@link>
-						</@p>
-					</@div>
-				</@div>
-			</@div>
-		</@div>
-	</@pageColumn>
-	</@pageContainer>
-	<@pageContainer class="d-xs-none d-sm-none d-md-none d-lg-flex">
+<main>
+<#assign pageClass><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0>d-none d-lg-block d-lg-flex<#else>d-block d-lg-flex</#if></#assign>
+<@pageContainer class=pageClass >
     <@pageColumn id="lutece-login-block" class="border-end p-0" height="full">
 		<@div class="d-flex align-items-center justify-content-evenly vh-100 me-5">
 			<@div class="container-tight">
@@ -56,6 +40,7 @@ Parameters:
 		</@div>
     </@pageColumn>
 </@pageContainer>
+</main>
 <script type="module">
 import {
 	LutecePassword

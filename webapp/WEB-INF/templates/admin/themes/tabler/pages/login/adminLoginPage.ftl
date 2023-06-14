@@ -7,29 +7,16 @@ Parameters:
 -->
 <#macro adminLoginPage title='' site_name='LUTECE' layout=''  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local loginLayout=layout /> 
-<#local loginLayoutImg='' /> 
-<#if loginLayout?trim =''>
-<#local loginLayout=dskey('portal.site.site_property.layout.login')?trim /> 
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
-</#if>
 </head>
 <body class="antialiased d-flex flex-column"<#if params!=''> ${params}</#if>>
-<#switch loginLayout>
-	<#case 'cover'>
-		<div id="login-page" class="row g-0 flex-fill">
-			<div class="col-12 col-lg-6 col-xl-4 d-flex flex-column justify-content-center">
-		<#break>
-	<#case 'illustration'>
-		<div id="login-page" class="page page-center">
-			<div class="container container-normal py-4">
-				<div class="row align-items-center g-4">
-					<div class="col-lg">
-						<div class="container-tight">
-		<#break>
-	<#default>	
-		<div id="login-page" class="page page-center">
-</#switch>
+<main id="login-page" class="page page-center">
+<#if loginLayoutImg?trim !=''>
+	<div class="container container-normal py-4">
+		<div class="row align-items-center g-4">
+			<div class="col-lg">
+				<div class="container-tight">
+</#if>
 <#--  Content  -->
 <@div class="container-tight py-4">
 	<@div class="text-center mb-4">
@@ -51,28 +38,17 @@ Parameters:
 	</@div>
 </@div>
 <#--  End content -->
-<#switch loginLayout>
-	<#case 'cover'>
-		</div>
-			<div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
-				<div class="bg-cover h-100 min-vh-100" style="background-image: url( ${loginLayoutImg} ) "></div>
-			</div>  
-		</div>
-		<#break>
-	<#case 'illustration'>
-						</div>
-					</div>
-					<div class="col-lg d-none d-lg-block">
-						<#--  <img src="${loginLayoutImg}" height="600" class="d-block mx-auto" alt="">  -->
-						<div id="illustration" class="h-100 min-vh-100 p-5 mt-5" style="background-repeat: no-repeat"></div>
-					</div>
+<#if loginLayoutImg?trim !=''>
 				</div>
 			</div>
+			<div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
+				<div class="bg-cover h-100 min-vh-100 w-100" style="background-image: url( ${loginLayoutImg} );background-size:70%; "></div>
+			</div>
 		</div>
-		<#break>
-	<#default>	
-		</div>
-</#switch>
+	</div>
+</div>
+</#if>
+</main>
 <script type="module">
 import {
 	LutecePassword
@@ -90,8 +66,8 @@ document.addEventListener( "DOMContentLoaded", function(){
 	const backImages = '#dskey{portal.site.site_property.back_images}'.split(',');
 	login.randomImages = aImages;
 	login.randomBgImages = backImages;
-	<#if loginLayout != 'default' >
-	const illust = <#if loginLayout == 'cover' >'.bg-cover'<#else>'#illustration'</#if>;
+	<#if loginLayoutImg != '' >
+	const illust = '.bg-cover';
 	login.element = illust;
 	</#if>	
 	login.init( )

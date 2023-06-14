@@ -80,7 +80,7 @@
   
 /*  Login page                                              */
 #login-page { 
-	background: var( --dark-blue ) url( ../../../themes/shared/admin/images/bg_login1.svg ); 
+	background: var( --dark-blue ) url( ../images/bg_login1.svg ); 
 	background-size: cover; 
 	background-attachment: fixed;  
 	overflow: hidden;
