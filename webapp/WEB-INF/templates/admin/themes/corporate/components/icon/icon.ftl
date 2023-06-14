@@ -125,6 +125,9 @@ Parameters:
     <#case 'comments'>
         <#local iconStyle = 'messages' />
         <#break>
+    <#case 'plus-circle'>
+        <#local iconStyle = 'circle-plus' />
+        <#break>
     <#default>
         <#local iconStyle = style />
 </#switch>
