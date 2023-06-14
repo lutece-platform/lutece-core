@@ -28,17 +28,20 @@
 }
 
 /* Tabler overrides                                           */
-
 .lutece-header-nav .lutece-header-user.navbar-nav + .nav-item.dropdown .dropdown-menu[data-bs-popper] {
   top: 150%;
 }
 
-#switch-darkmode{ 
-  /* margin-left: .75rem; */
-}
-
 #switch-darkmode:hover{ 
   cursor: pointer;
+}
+
+.theme-dark .navbar-brand-autodark {
+  filter: none ;
+}
+
+.theme-dark .text-muted {
+  color: var(--tblr-light) !important;
 }
 
 /* Cards / Box                                                */
@@ -51,6 +54,11 @@
 /* Progress                                                   */
 .progress {
   height: 1rem;
+}
+
+.theme-dark .progress-bar {
+  color: var( --tblr-progress-bg );
+  background-color: var( --tblr-progress-bar-color );
 }
 
 /* Group */

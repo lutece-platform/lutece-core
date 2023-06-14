@@ -62,6 +62,12 @@ Parameters:
 						<i class="ti ti-home"></i>
 					</a>
 				</div>
+				<div class="nav-item dropdown d-none d-md-flex me-3"id="switch-darkmode">
+					<div class="nav-link" tabindex="0" role="button">
+						<i class="ti ti-moon"></i> 
+						<span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></span>
+					</div>
+				</div>
 				<#if user.userLevel == 0>
 				<#if listLoggersInfo??>
 				<#assign listLogDebug = listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) />
@@ -104,12 +110,12 @@ Parameters:
 				</#if>
 		  	</div> 
 			<div class="nav-item dropdown">
-				<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-				<span class="avatar avatar-sm" style="background-image:url(<#if adminAvatar>servlet/plugins/adminavatar/avatar?id_user=${user.userId}<#else>#dskey{portal.site.site_property.avatar_default}</#if>)"></span>
-				<div class="d-none d-xl-block ps-2">
-					<div>${dashboard_zone_4!}</div>
-					<div class="mt-1 small text-muted" title="#i18n{portal.users.admin_header.labelLastLogin}">${user.dateLastLogin!}</div>
-				</div>
+				<a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" role="button" aria-label="#i18n{portal.util.labelMore}">
+					<span class="avatar avatar-sm" style="background-image:url(<#if adminAvatar>servlet/plugins/adminavatar/avatar?id_user=${user.userId}<#else>#dskey{portal.site.site_property.avatar_default}</#if>)"></span>
+					<div class="d-none d-xl-block ps-2">
+						<div>${dashboard_zone_4!}</div>
+						<div class="mt-1 small">${user.dateLastLogin!}</div>
+					</div>
 				</a>
 				<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
 				<#if userMenuItems?has_content>   
@@ -117,8 +123,8 @@ Parameters:
 						${item.content}
 					</#list>
 				</#if>
-				<div class="dropdown-divider"></div>
-				<div class="ps-2" id="switch-darkmode"><i class="ti ti-moon"></i> #i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></div>
+				<#--  <div class="dropdown-divider"></div>  -->
+				<#--  <div class="ps-2" id="switch-darkmode"><i class="ti ti-moon"></i> #i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></div>  -->
 				<div class="dropdown-divider"></div>
 				<#if admin_logout_url?has_content>
 					<a class="dropdown-item" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">

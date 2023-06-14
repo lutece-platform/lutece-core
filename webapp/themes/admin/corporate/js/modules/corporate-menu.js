@@ -22,12 +22,14 @@ export class MenuManager {
      * adding event listeners for menu items, setting up the menu switcher, and adding hover listeners.
      */
     init() {
-        this.applySavedTheme();
-        this.setActive();
-        this.addMenuEventListeners();
-        this.setupSwitcherMenu();
-        this.closeChildMenuOnClickOutside();
-        this.searchMenu();
+        if( this.toggleBtn != null ){
+            this.applySavedTheme();
+            this.setActive();
+            this.addMenuEventListeners();
+            this.setupSwitcherMenu();
+            this.closeChildMenuOnClickOutside();
+            this.searchMenu();
+        }
     }
     /**
      * Applies the saved theme to the body and adds an event listener for theme toggle button.
@@ -39,17 +41,34 @@ export class MenuManager {
                 this.toggleBtn.checked = true;
             }
         }
+
         this.toggleBtn.addEventListener('change', () => {
-            if (this.body.getAttribute('data-bs-theme') === 'light') {
-                this.body.setAttribute('data-bs-theme', 'dark');
-                this.toggleBtn.checked = true;
-                localStorage.setItem('lutece-corporate-theme', 'dark');
-            } else {
-                this.body.setAttribute('data-bs-theme', 'light');
-                this.toggleBtn.checked = false;
-                localStorage.setItem('lutece-corporate-theme', 'light');
+            this.toggleTheme()
+        });
+
+        this.toggleBtn.addEventListener('keydown', ( keyboardEvent ) => {
+            switch (keyboardEvent.key) {
+                case 'Enter':
+                case 'Space':
+                    keyboardEvent.preventDefault();
+                    this.toggleTheme()
+                    break;
             }
         });
+    }
+    /**
+     *  Theme toggle button function.
+     */
+    toggleTheme(){
+        if (this.body.getAttribute('data-bs-theme') === 'light') {
+            this.body.setAttribute('data-bs-theme', 'dark');
+            this.toggleBtn.checked = true;
+            localStorage.setItem('lutece-corporate-theme', 'dark');
+        } else {
+            this.body.setAttribute('data-bs-theme', 'light');
+            this.toggleBtn.checked = false;
+            localStorage.setItem('lutece-corporate-theme', 'light');
+        }
     }
     /**
      * Sets the active menu item and updates the child menu based on the active group.
@@ -72,14 +91,21 @@ export class MenuManager {
             });
         }
         if (activeGroup) {
-            if (!activeGroup.toLowerCase().includes(".jsp")) {
-                this.childMenu.classList.remove('d-none');
-                rightListItems.forEach(element => {
-                    if (element.getAttribute('feature-group') != activeGroup) {
-                        element.classList.add('d-none');
+            if ( !activeGroup.toLowerCase().includes( '.jsp' ) ) {
+                this.childMenu.classList.remove( 'd-none' );
+                let nEl = 0;
+                rightListItems.forEach( element => {
+                    if (element.getAttribute( 'feature-group' ) != activeGroup) {
+                        element.classList.add( 'd-none' );
                     } else {
-                        element.classList.remove('d-none');
-                        this.childMenu.classList.add('child-menu-found');
+                        element.classList.remove( 'd-none' );
+                        if ( nEl === 0 ){ 
+                            element.classList.add( 'menu-selected' );
+                            element.focus() 
+                            nEl++;
+                        }
+                        this.childMenu.classList.add( 'child-menu-found' );
+                        this.childMenu.setAttribute( 'data-featuregroup', activeGroup );
                     }
                 });
                 featureGroupListItems.forEach(featureGroup => {
@@ -91,18 +117,18 @@ export class MenuManager {
                     }
                 });
                 featureGroupMenuItems.forEach(featureGroup => {
-                    if (featureGroup.getAttribute('feature-group') === activeGroup) {
-                        featureGroup.classList.add('active', 'bg-body-tertiary');
+                    if (featureGroup.getAttribute( 'feature-group' ) === activeGroup) {
+                        featureGroup.classList.add( 'active', 'bg-body-tertiary' );
                     } else {
-                        featureGroup.classList.remove('active', 'bg-body-tertiary');
+                        featureGroup.classList.remove( 'active', 'bg-body-tertiary' );
                     }
                 });
             } else {
-                let parts = activeGroup.split("/");
+                let parts = activeGroup.split( '/' );
                 if (parts.length >= 3) {
                     let role = parts[2];
                     featureGroupMenuItems.forEach(featureGroup => {
-                        if (featureGroup.getAttribute('href').includes(`/${role}/`)) {
+                        if (featureGroup.getAttribute('href').includes( `/${role}/` ) ) {
                             featureGroup.classList.add('active', 'bg-body-tertiary');
                         }
                     });
@@ -110,23 +136,120 @@ export class MenuManager {
             }
         } else {
             featureGroupMenuItems.forEach(featureGroup => {
-                if (featureGroup.getAttribute('href').includes(window.location.href)) {
-                    featureGroup.classList.add('active', 'bg-body-tertiary');
+                if (featureGroup.getAttribute( 'href' ).includes(window.location.href)) {
+                    featureGroup.classList.add( 'active', 'bg-body-tertiary' );
                 }
             });
         }
     }
+
     /**
      * Adds click event listeners for the menu.
      */
     addMenuEventListeners() {
-        this.menu.querySelectorAll('a:not(.feature-link)').forEach(element => {
-            element.addEventListener('click', e => {
+        const menus = this.menu.querySelectorAll('a:not(.feature-link)');
+        menus.forEach(element => {
+            element.addEventListener( 'click', e => {
                 e.preventDefault();
                 this.setActive(element.getAttribute('feature-group'));
                 this.childMenu.classList.add('child-menu-show');
+                menus.forEach(element => {
+                    element.ariaExpanded = "false";
+                });
+                if( e.target.tagName === 'I' ){
+                    if( e.target.parentElement.ariaExpanded === "true" ){
+                        e.target.parentElement.ariaExpanded = "false" ;
+                    } else {
+                        e.target.parentElement.ariaExpanded = "true" ;
+                    }
+                } else {
+                    if( e.target.ariaExpanded === "true" ){
+                        e.target.ariaExpanded === "false";
+                    } else {
+                        e.target.ariaExpanded === "true";
+                    }
+                 }
             });
         });
+        
+        this.menu.addEventListener( "keydown", ( keyboardEvent ) => {
+            const activeMenuItem = this.menu.querySelector('.active');
+            switch (keyboardEvent.key) {
+                case 'Escape':
+                    keyboardEvent.preventDefault();
+                    break;
+                case 'ArrowUp':
+                    this.selectMenu( 'up', menus[0], 'active', activeMenuItem );
+                    break;
+                case 'ArrowDown':
+                    keyboardEvent.preventDefault();
+                    this.selectMenu( 'down', menus[0], 'active', activeMenuItem );
+                    break;
+                case 'Home':
+                    keyboardEvent.preventDefault();
+                    menus[0].focus();
+                    break;
+                case 'End':
+                    keyboardEvent.preventDefault();
+                    menus[ menus.length - 1 ].focus();
+                    break;
+            }
+        });
+
+        this.childMenu.addEventListener( "keydown", (keyboardEvent) => {
+            const featureGroup = `[feature-group="${this.childMenu.dataset.featuregroup}"]`;
+            const rightListItems = this.childMenu.querySelectorAll(`#right-list .list-group-item${featureGroup}`);
+            const activeMenuItem = this.childMenu.querySelector(`#right-list .list-group-item${featureGroup}.menu-selected`);
+            switch (keyboardEvent.key) {
+                case 'Escape':
+                    this.childMenu.classList.remove('child-menu-show');
+                    this.menu.querySelector(featureGroup).setAttribute('aria-expanded','false');
+                    this.childMenu.classList.add('d-none');
+                    this.menu.querySelector( featureGroup ).focus()
+                    break;
+                case 'ArrowUp':
+                    this.selectMenu( 'up', rightListItems[0], 'menu-selected', activeMenuItem );
+                    break;
+                case 'ArrowDown':
+                    keyboardEvent.preventDefault();
+                    this.selectMenu( 'down', rightListItems[0], 'menu-selected', activeMenuItem );
+                    break;
+                case 'Home':
+                    keyboardEvent.preventDefault();
+                    rightListItems[0].focus();
+                    break;
+                case 'End':
+                    keyboardEvent.preventDefault();
+                    rightListItems[ rightListItems.length - 1 ].focus();
+                    break;
+            }
+        });
+    }
+    
+    /**
+     * Sets up the menu switcher to toggle the pin state of the child menu.
+     */
+    selectMenu( dir, item, sel, activeItem ){
+        if( activeItem != undefined && activeItem != null ){
+            activeItem.classList.remove( sel );
+            let elem = null;
+            if( dir === 'down' ){
+                elem = activeItem.nextElementSibling
+                if( sel === 'active' ){
+                    elem = activeItem.parentElement.nextElementSibling.firstElementChild;
+                }
+            } else {
+                elem = activeItem.previousElementSibling;
+                if( sel === 'active' ){
+                    elem = activeItem.parentElement.previousElementSibling.firstElementChild;
+                }
+            }
+            elem.classList.add( sel );
+            elem.focus()
+        } else {
+            item.classList.add( sel )
+            item.focus( )
+        }
     }
     /**
      * Sets up the menu switcher to toggle the pin state of the child menu.
@@ -158,9 +281,13 @@ export class MenuManager {
         document.addEventListener('click', (event) => {
             if (!this.menu.contains(event.target) && !this.childMenu.contains(event.target) && this.childMenu.classList.contains('child-menu-show')) {
                 this.childMenu.classList.remove('child-menu-show');
+                this.menu.querySelectorAll('a:not(.feature-link)').forEach(element => {
+                    element.setAttribute('aria-expanded','false')
+                });
             }
         });
     }
+
     searchMenu() {
         const searchInput = document.querySelector("#search-menu");
         const searchElementList = document.querySelectorAll("#right-list a");

@@ -6,7 +6,7 @@ Parameters:
 - action (string, optional): the URL of the form submission handler.
 -->
 <#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' >
-<@tform method='post' action=action class='form-inline'>
+<@tform method='post' action=action class='form-inline ps-1'>
 	<@input type='hidden' name='token' value='${token}' />
 	<@row>
 		<@columns class='ps-3' >
@@ -19,7 +19,7 @@ Parameters:
 					<#assign isLocale=''>
 					<#assign title=''>
 				</#if>
-				<@button color='' class='btn-language ${language.code} ${isLocale!}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' hideTitle=['all'] />
+				<@button color='secondary' class='btn-language ${language.code} ${isLocale!}' type='submit' name='language' value='${language.code}' title='#i18n{portal.admin.admin_home.language} ${language.name?capitalize}${title}' hideTitle=['all'] />
 			</#list>
 		</@columns>
 	</@row>

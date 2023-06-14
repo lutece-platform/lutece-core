@@ -61,6 +61,22 @@ document.addEventListener( "DOMContentLoaded", function(){
 				themeMode('dark');
 			}
 		})
+		switchMode.addEventListener( 'keydown', ( keyboardEvent ) => {
+			switch (keyboardEvent.key) {
+                case 'Enter':
+                    keyboardEvent.preventDefault();
+					const boTheme=localStorage.getItem('theme-bo-lutece');
+					if( boTheme === 'dark'){
+						localStorage.setItem('theme-bo-lutece','default	');
+						themeMode('default');
+					} else{
+						localStorage.setItem('theme-bo-lutece','dark');
+						themeMode('dark');
+					}
+                    break;
+               
+            }
+		})
 	}
 });
 </script>
