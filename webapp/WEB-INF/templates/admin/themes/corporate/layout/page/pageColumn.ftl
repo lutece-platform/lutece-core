@@ -9,25 +9,25 @@ Parameters:
 - title (string, optional): The title to be displayed at the top of the container element. If provided, the container will have a fixed height and a scrollable content area.
 -->
 <#macro pageColumn id='' width='' class='' height='' title=''>
-	<#if class?contains("p-")>
-		<#assign classValue = class>
-	<#else>
-		<#assign classValue = class + " p-5">
-	</#if>
-	<div id="${id}" class="lutece-column <#if width == ''>w-100<#else></#if> <#if title = ''>overflow-auto ${classValue}<#else>overflow-hidden p-0</#if>" style="<#if width != ''>width:${width};</#if><#if height=='full'>height:100%;max-height:100%</#if>">
-		<#if title != ''>
-			<div class="m-4">
-				<div class="w-100 px-4 feature-group border-bottom" feature-group-label="Système" feature-group="SYSTEM">
-					<h1 class="fw-bolder mb-0 h-60 lh-60">${title}</h1>
-				</div>		
-				<div class="container-fluid list-group list-group-flush scrollarea pb-5 px-4" style="height:calc(100vh - 180px)">
-					<#nested>
-				</div>
-			</div>	
-		<#else>
-			<div class="container-fluid">
-				<#nested>
-			</div>
-		</#if>
+<#if class?contains("p-")>
+	<#assign classValue = class>
+<#else>
+	<#assign classValue = class + " p-md-5">
+</#if>
+<div <#if id == ''>id="${id}"</#if> class="lutece-column<#if width == ''> w-100</#if><#if title = ''> overflow-auto ${classValue}<#else> overflow-hidden p-0</#if>"<#if width != '' && height != '' > style="<#if width !=''>width:${width};</#if><#if height=='full'>height:100%;max-height:100%</#if>"</#if>>
+<#if title != ''>
+<div class="m-4">
+	<div class="w-100 px-4 feature-group border-bottom" feature-group-label="Système" feature-group="SYSTEM">
+		<h1 class="fw-bolder mb-0 h-60 lh-60">${title}</h1>
+	</div>		
+	<div class="container-fluid list-group list-group-flush scrollarea pb-5 px-4" style="height:calc(100vh - 180px)">
+	<#nested>
 	</div>
+</div>	
+<#else>
+<div class="container-fluid">
+<#nested>
+</div>
+</#if>
+</div>
 </#macro>
