@@ -17,19 +17,19 @@ Parameters:
 - targetElement (string, optional): the ID of the element to load content into.
 - redirectForm (boolean, optional): whether to redirect the form when submitted.
 -->
-<#macro offcanvas id position="start" title="" btnColor="" btnTitle="" btnIcon="" backdrop="true" size="sm" btnSize="" targetUrl="" targetElement="" redirectForm=true size="">
-  <@deprecatedWarning args=deprecated />
-  <a id="btn-${id}" class="btn btn-primary <#if btnColor !=''>btn-${btnColor}</#if> <#if btnSize?has_content>btn-${btnSize}</#if>" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}">
-    <#if btnIcon!="">
-      <@icon style=btnIcon />
-    </#if>
-        <#if btnIcon!="" && btnTitle!="">
-    &nbsp;
-    </#if>
-    ${btnTitle}
-    <#if btnIcon="">
-      <i class="ti ti-arrow-narrow-right"></i>
-    </#if>
+<#macro offcanvas id position='start' title='' btnColor='primary' btnTitle='' btnIcon='' btnClass='' backdrop='true' size='sm' btnSize='' targetUrl='' targetElement='' redirectForm=true size='auto'>
+<@deprecatedWarning args=deprecated />
+<a id="btn-${id}" class="btn btn-primary <#if btnColor !=''>btn-${btnColor}</#if> <#if btnSize?has_content>btn-${btnSize}</#if>" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}">
+  <#if btnIcon!="">
+    <@icon style=btnIcon />
+  </#if>
+<#--  <#if btnIcon!="" && btnTitle!="">&nbsp;</#if>  -->
+  <#if btnClass !=""><span class="${btnClass}"></#if>  
+  ${btnTitle}
+  <#if btnClass !=""></span></#if>
+  <#if btnIcon="">
+    <i class="ti ti-arrow-narrow-right"></i>
+  </#if>
   </a>
   <div class="offcanvas offcanvas-end  <#if size !=''>w-auto</#if>" 
      data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
