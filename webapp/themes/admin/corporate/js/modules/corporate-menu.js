@@ -92,22 +92,36 @@ export class MenuManager {
         }
         if (activeGroup) {
             if ( !activeGroup.toLowerCase().includes( '.jsp' ) ) {
-                this.childMenu.classList.remove( 'd-none' );
+                this.childMenu.classList.remove('d-none');
                 let nEl = 0;
-                rightListItems.forEach( element => {
-                    if (element.getAttribute( 'feature-group' ) != activeGroup) {
-                        element.classList.add( 'd-none' );
+                let activeElement = null;
+                let firstGroupElement = null;
+                
+                rightListItems.forEach(element => {
+                    if (element.getAttribute('feature-group') != activeGroup) {
+                        element.classList.add('d-none');
                     } else {
-                        element.classList.remove( 'd-none' );
-                        if ( nEl === 0 ){ 
-                            element.classList.add( 'menu-selected' );
-                            element.focus() 
-                            nEl++;
+                        if (!firstGroupElement) {
+                            firstGroupElement = element;
                         }
-                        this.childMenu.classList.add( 'child-menu-found' );
-                        this.childMenu.setAttribute( 'data-featuregroup', activeGroup );
+                        if (element.classList.contains('active')) {
+                            activeElement = element;
+                        }
+                        element.classList.remove('d-none');
+                        this.childMenu.classList.add('child-menu-found');
+                        this.childMenu.setAttribute('data-featuregroup', activeGroup);
                     }
                 });
+                
+                if (activeElement) {
+                    activeElement.focus();
+                    activeElement.classList.add('menu-selected');
+
+                } else if (firstGroupElement) {
+                    firstGroupElement.classList.add('menu-selected');
+                    firstGroupElement.focus();
+                }
+               
                 featureGroupListItems.forEach(featureGroup => {
                     if (featureGroup.getAttribute('feature-group') === activeGroup) {
                         featureGroup.classList.remove('d-none');
