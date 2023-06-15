@@ -18,8 +18,8 @@ export class BackportTemplateStyle {
                 });
             });
         });
-        const page = document.getElementById('corporate-page');
-        if (!page) {
+        const lutecePage = document.querySelector('.lutece-page');
+        if( !lutecePage ) {
             const lutecePageWrappers = document.querySelectorAll('.lutece-page-wrapper');
             lutecePageWrappers.forEach(wrapper => {
                 if (!wrapper.querySelector('main')) {
@@ -27,6 +27,28 @@ export class BackportTemplateStyle {
                 }
             });
         }
+
+        const pageHeader = document.querySelector("#page .page-header");
+        if( pageHeader ) {
+            const lutecePage = document.querySelector('.lutece-page');
+            const height = window.innerHeight - 120;
+            lutecePage.style.maxHeight = `${height}px`;
+            lutecePage.style.height = `${height}px`;
+        }
+
+        const columns = document.querySelectorAll('.lutece-column');
+
+        document.addEventListener('shown.bs.offcanvas', () => {
+            columns && columns.forEach(column => {
+                column.classList.add("overflow-hidden");
+            })
+        })
+
+        document.addEventListener('hidden.bs.offcanvas', () => {
+            columns && columns.forEach(column => {
+                column.classList.remove("overflow-hidden");
+            })
+        })
         document.querySelectorAll('[data-toggle="modal"]').forEach(element => {
             element.setAttribute('data-bs-toggle', 'modal');
             element.setAttribute('data-bs-target', element.getAttribute('data-target'));

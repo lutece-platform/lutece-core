@@ -11,7 +11,7 @@
 <div class="lutece-app<#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0> d-none d-lg-block<#else> d-block</#if>">
    <nav id="menu" class="border-end d-flex flex-column flex-shrink-0 shadow" aria-label="${site_name!}">
       <a href="${dskey('portal.site.site_property.home_url')}" class="d-block text-center mt-4 mb-4 text-white feature-link" target="_blank" title="${site_name!}" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-html="true" data-bs-placement="right" data-bs-original-title="#i18n{portal.site.page_home.label} ${site_name}<br> [#i18n{portal.site.portal_footer.newWindow}]">
-         <img src="${dskey('portal.site.site_property.logo_url')}" height="40" alt="Logo" aria-hidden="true">
+         <img src="${dskey('portal.site.site_property.logo_url')}" height="35" alt="Logo" aria-hidden="true">
          <span class="visually-hidden">#i18n{portal.site.page_home.label} ${site_name}<br> [#i18n{portal.site.portal_footer.newWindow}]</span>
       </a>
       <ul class="nav nav-pills nav-flush flex-column mb-auto text-center" role="menubar" aria-label="${site_name!}">
@@ -82,15 +82,13 @@
                   <div class="flex-fill">   
                      <h2 class="fw-bolder mb-0 h-60 lh-60 h5">${feature_group.label}</h2>
                   </div>
-                  <div class="border border-dark-subtle btn-rounded">
-                     <i class="fs-6 float-end lh-60 h-60 ${feature_group.icon!''}"></i>
-                  </div>
-                  <#--  
+                   <div>
                      <#if user.userLevel==0>
                         <a href="jsp/admin/AdminTechnicalMenu.jsp?tab=assign_features_groups#features_management#${feature_group.id}" class="border btn btn-light btn-rounded">
+                           <i class="fs-6 float-end lh-60 h-60 ${feature_group.icon!''}"></i>
                         </a>
-                     </#if>  
-                  -->
+                     </#if>
+                  </div>
                </div>
             </div>
          </#list>
@@ -143,18 +141,14 @@
             <#assign showLog=false />
             <#if listLoggersInfo?has_content>
                <#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo><#assign showLog=true /><#break></#list>
+               <#if showLog>
                <li class="nav-item dropdown" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}">
                   <a class="border btn btn-light btn-rounded " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}">
-                     <#if showLog>
                      <div class="position-relative">
                         <div class="icon-item-new"></div>
                         <i class="ti ti-bell fs-2"></i>
-                     </div>
-                     <#else>
-                        <i class="ti ti-bell fs-2"></i>
-                     </#if>
+                     </div>   
                   </a>
-                  <#if showLog>
                      <ul class="dropdown-menu p-3">
                         <li class="border-bottom mb-3">
                            <span class="badge bg-danger-subtle text-danger-emphasis p-1 px-2 rounded-5 mb-3">
