@@ -186,7 +186,7 @@
             </#if>
             <li class="nav-item">
                <a class="border btn btn-light btn-rounded" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.admindashboard.view_dashboards.title}">
-                  <i class="ti ti-settings fs-5"></i>
+                  <i class="ti ti-settings fs-5"></i><span class="visually-hidden">#i18n{portal.admindashboard.view_dashboards.title}</span>
                </a>
             </li>
          </#if>
