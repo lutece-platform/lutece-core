@@ -13,6 +13,6 @@ Parameters:
 - params (string, optional): additional parameters for the option element.
 -->
 
-<#macro option label value id='' class='' selected=false disabled=false params=''>
-<option<#if id!=''>id="${id}</#if><#if class!=''> class="${class}"</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if params!=''> ${params}</#if>>${label!} <#nested></option>
+<#macro option label value help='' id='' class='' selected=false disabled=false params=''>
+<option<#if id!=''>id="${id}</#if><#if class!=''> class="${class}"</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if help !=''> label="${help}"</#if><#if params!=''> ${params}</#if>>${label!} <#nested></option>
 </#macro>
