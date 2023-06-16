@@ -7,11 +7,14 @@ Parameters:
 - version : The version number
 -->
 <#macro adminFooter closeMain=true >
-<!-- footer menu -->
-<!-- Included JS Files 												-->
-<!-- Le javascript 													-->
-<!-- ============================================================== -->
-<!-- Placed at the end of the document so the pages load faster 	-->
+<footer id='main-lutece-footer' class="d-flex justify-content-end align-items-end">
+<@p class='me-5'>${site_name} - #i18n{portal.site.portal_footer.labelMadeBy} ${version}</@p>
+</footer>
+<!-- footer menu                                                     -->
+<!-- Included JS Files 												            -->
+<!-- Le javascript 													            -->
+<!-- =============================================================== -->
+<!-- Placed at the end of the document so the pages load faster 	   -->
 <@coreAdminJSLinks />
 ${javascript_files}
 </div><!-- Close wrapper -->

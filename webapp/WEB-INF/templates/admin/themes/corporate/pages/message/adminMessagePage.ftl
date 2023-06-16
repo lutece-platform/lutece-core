@@ -32,14 +32,14 @@ Parameters:
 </#if>
 </head>
 <body class="lutece-message" data-bs-theme="light">
-<div class="d-flex align-items-center justify-content-center vh-100">
-	<@div class="container-sm">
+<div class="d-flex align-items-center justify-content-center vh-100 flex-column">
+	<@div class="container-sm h-50 w-100 d-flex flex-column align-items-center justify-content-end">
 		<@div class="text-center mb-4">
 			<@link href=".">
-               <img src="themes/admin/corporate/images/core-corporate.png" height="40" alt="Logo">
+               <@img url='themes/admin/corporate/images/core-corporate.png' alt='Logo' params='height="40" aria-hidden="true"' />
 			</@link>
 		</@div>
-		<@row class='justify-content-center align-items-center'>
+		<@row class='justify-content-center align-items-center w-100'>
 			<@columns md=6>
 				<@box class="p-4 text-center shadow-lg">
 					<@p class="fs-5 text-center">${text!}</@p>
@@ -48,12 +48,12 @@ Parameters:
 			</@columns>
 		</@row>
 	</@div>
-	<script>
-	   const savedMod = localStorage.getItem('lutece-corporate-theme');
+<script>
+const savedMod = localStorage.getItem('lutece-corporate-theme');
 if (savedMod === 'dark') {
 	   document.body.setAttribute('data-bs-theme', 'dark');
 } else {
 	   document.body.setAttribute('data-bs-theme', 'light');
 }
-	</script>
+</script>
 </#macro>
