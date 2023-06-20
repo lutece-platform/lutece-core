@@ -15,13 +15,13 @@ Parameters:
 			<@div class="container-tight">
 				<@div class="card shadow-lg rounded-4 p-4 mx-5 mw-30 ">
 					<@div class="card-body p-5 fs-6">
-						<h1 class="mb-4 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h1>
 						<@div class="text-center mb-4">
 							<@link href='.' target='_blank'>
 								<@img url=dskey('portal.site.site_property.logo_url') alt="Logo" params='height="40"' />
 								<span class="visually-hidden">${site_name!'Lutece'}</span>
 							</@link>
 						</@div>
+						<h1 class="mb-4 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h1>
 						<#nested>
 					</@div>
 				</@div>

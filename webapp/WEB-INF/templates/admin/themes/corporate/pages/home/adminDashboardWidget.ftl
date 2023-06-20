@@ -9,9 +9,9 @@ Parameters:
 - bodyClass (string, optional): the class to apply to the widget body element.
 - params (string, optional): additional parameters to add to the widget element.
 -->
-<#macro adminDashboardWidget id title color='primary' url='' class='' bodyClass='mt-2 pt-1 border-top' params=''>
+<#macro adminDashboardWidget id title color='primary' url='' class='' bodyClass='' params=''>
 	<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
-		<@boxHeader titleLevel='h2' title='${title}' class='h5 align-items-center pt-0 pb-3'>
+		<@boxHeader titleLevel='h3' title='${title}' class='h5 align-items-center pt-0 pb-3'>
 			<#if url!=''>
 				<@aButton color="link" class='card-control' href='${url!}' title='${title!}' size='sm' buttonIcon='cog' hideTitle=['all'] params='aria-label="${title!}"' />
 			</#if>

@@ -17,7 +17,7 @@ Parameters:
 - targetElement (string, optional): the ID of the element to load content into.
 - redirectForm (boolean, optional): whether to redirect the form when submitted.
 -->
-<#macro offcanvas id position='start' title='' btnColor='primary' btnTitle='' btnIcon='' btnClass='' backdrop='true' size='sm' btnSize='' targetUrl='' targetElement='' redirectForm=true size='auto'>
+<#macro offcanvas id position='start' title='' btnColor='primary' btnTitle='' btnIcon='' btnClass='' bodyClass='' backdrop='true' size='sm' btnSize='' targetUrl='' targetElement='' redirectForm=true size='auto'>
 <@deprecatedWarning args=deprecated />
 <a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if>" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}">
   <#if btnIcon!="">
@@ -36,7 +36,7 @@ Parameters:
       <i class="ti ti-x fs-5"></i>
     </button>
   </div>
-  <div id="offcanvas-body-${id}" class="offcanvas-body px-4 text-break">
+  <div id="offcanvas-body-${id}" class="offcanvas-body <#if bodyClass?has_content>${bodyClass}<#else>px-4</#if> text-break">
     <#nested>
   </div>
 </div>
