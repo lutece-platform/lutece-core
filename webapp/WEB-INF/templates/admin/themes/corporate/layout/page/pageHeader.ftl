@@ -19,6 +19,6 @@ Parameters:
 		<#nested>
 	  </div>
 	</div>
-	<p class="">${description}</p>
+	<p class="lead">${description}</p>
 </div>
 </#macro>

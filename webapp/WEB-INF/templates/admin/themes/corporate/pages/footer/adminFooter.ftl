@@ -7,7 +7,7 @@ Parameters:
 - version : The version number
 -->
 <#macro adminFooter closeMain=true >
-<footer id='main-lutece-footer' class="d-flex justify-content-end align-items-end">
+<footer id='main-lutece-footer' class="d-flex justify-content-end align-items-end border-top d-none">
 <@p class='me-5'>${site_name} - #i18n{portal.site.portal_footer.labelMadeBy} ${version}</@p>
 </footer>
 <!-- footer menu                                                     -->

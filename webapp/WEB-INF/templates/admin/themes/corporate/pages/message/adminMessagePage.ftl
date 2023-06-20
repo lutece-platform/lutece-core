@@ -33,10 +33,10 @@ Parameters:
 </head>
 <body class="lutece-message" data-bs-theme="light">
 <div class="d-flex align-items-center justify-content-center vh-100 flex-column">
-	<@div class="container-sm h-50 w-100 d-flex flex-column align-items-center justify-content-end">
+	<@div class="container-sm w-100 d-flex flex-column align-items-center justify-content-end">
 		<@div class="text-center mb-4">
 			<@link href=".">
-               <@img url='themes/admin/corporate/images/core-corporate.png' alt='Logo' params='height="40" aria-hidden="true"' />
+        		 <img src="${dskey('portal.site.site_property.logo_url')}" height="40" alt="Logo" aria-hidden="true">
 			</@link>
 		</@div>
 		<@row class='justify-content-center align-items-center w-100'>

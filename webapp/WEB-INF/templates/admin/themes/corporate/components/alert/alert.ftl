@@ -25,6 +25,6 @@ Parameters:
 	</#if>
 	<#nested>
 	</div>
-	<#if dismissible><a class="btn-close" data-bs-dismiss="alert" aria-label="#i18n{portal.util.labelClose}"></a></#if>
+	<#if dismissible><a class="btn-close mt-2" data-bs-dismiss="alert" aria-label="#i18n{portal.util.labelClose}"></a></#if>
 </div>
 </#macro>

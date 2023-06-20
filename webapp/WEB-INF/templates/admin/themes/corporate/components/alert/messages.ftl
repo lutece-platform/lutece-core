@@ -34,7 +34,7 @@ Parameters:
 		<#list warnings as warning >
 			<#local warningMessage=warning.message />
 		</#list>
-		<@alert color='warning' title=warningMessage iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'></@alert>>
+		<@alert color='warning' title=warningMessage iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'></@alert>
 	</#if>
 </#if>
 </#macro>
