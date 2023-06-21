@@ -37,6 +37,7 @@ Parameters:
 		</@div>
 	</@div>
 </@div>
+<@p class='text-center text-white'><small>#i18n{portal.site.portal_footer.labelMadeBy} ${version}</small></@p>
 <#--  End content -->
 <#if loginLayoutImg?trim !=''>
 				</div>

@@ -217,7 +217,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXs.checkbox
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXsWarning.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.class', 'sidebar');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.code', 'aside');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.login.image', 'themes/admin/corporate/images/miniroom.png');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.login.image', '');
 
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
