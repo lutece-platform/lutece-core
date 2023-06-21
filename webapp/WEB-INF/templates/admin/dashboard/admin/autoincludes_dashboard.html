@@ -10,9 +10,25 @@
 </#list>
 <@messages infos=infos />
 <@row>
-	<@columns sm=12 md=6 lg=7>
+	<@columns sm=12 md=8 lg=7>
 		<@row>
-			<@columns sm=12 md=7>
+			<@columns sm=12 md=12 lg=12 xl=5 class='d-flex'>
+				<@box class='flex-grow-1'>
+					<@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsChange}' />
+					<@boxBody>
+						<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
+						<@input type='hidden' name='action' value='activate' />
+						<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' class='has-addons' rows=2>
+							<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
+						</@formGroup>
+						<@formGroup class='d-flex justify-content-center'>
+							<@button type='submit' color='primary' buttonIcon='check' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' size='sm' />
+						</@formGroup>
+						</@tform>
+					</@boxBody>
+				</@box>
+			</@columns>	
+			<@columns sm=12 md=12 lg=12 xl=7>
 				<#assign currentTitle = '' />
 				<#list commons_list as item>
 					<#if current_commons=item.code>
@@ -27,22 +43,6 @@
 						<@p>#i18n{portal.templates.manage_autoincludes.commonsName} : <br><strong><@commonsName /></strong></@p>
 						<@p>#i18n{portal.templates.manage_autoincludes.commonsFile} <br><strong><@commonsFile /></strong></@p>
 						<@p>#i18n{portal.templates.manage_autoincludes.commonsDescription} <br><strong><@commonsDescription/></strong></@p>
-					</@boxBody>
-				</@box>
-			</@columns>	
-			<@columns sm=12 md=5 class='d-flex'>
-				<@box class='flex-grow-1'>
-					<@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsChange}' />
-					<@boxBody>
-						<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
-						<@input type='hidden' name='action' value='activate' />
-						<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' class='has-addons' rows=2>
-							<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
-						</@formGroup>
-						<@formGroup class='d-flex justify-content-center'>
-							<@button type='submit' color='primary' buttonIcon='check' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' size='sm' />
-						</@formGroup>
-						</@tform>
 					</@boxBody>
 				</@box>
 			</@columns>	
@@ -71,7 +71,7 @@
 			</@boxBody>
 		</@box>
 	</@columns>	
-	<@columns sm=12 md=6 lg=5>
+	<@columns sm=12 md=4 lg=5>
 		<#assign preview><@commonsPreview /></#assign>
 		<@div class='shadow-lg p-3 mb-5 bg-body-tertiary rounded'>
 			<@img url='${preview?lower_case}' alt='Preview of theme' class='img-fluid' />
