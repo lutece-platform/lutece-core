@@ -8,7 +8,7 @@
 <style>.icon-item-new {width: .5rem;height: .5rem;background: #c00;border-radius: 100%; display: block; position: absolute; right: 0; top: 0; z-index: 1}</style>
 </head>
 <body class="antialiased<#if false>theme-dark</#if>" data-bs-theme="light">
-<div class="lutece-app<#if !dskey('portal.site.site_property.bo.showXs.checkbox')?starts_with('DS')><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0> d-none d-lg-block<#else> d-block</#if><#else> d-none d-lg-block</#if>">
+<div class="lutece-app<#if !dskey('portal.site.site_property.bo.showXs.checkbox')?is_number><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0> d-none d-lg-block<#else> d-block</#if><#else> d-none d-lg-block</#if>">
    <nav id="menu" class="border-end d-flex flex-column flex-shrink-0 shadow" aria-label="${site_name!}">
       <a href="${dskey('portal.site.site_property.home_url')}" class="d-block text-center mt-4 mb-4 text-white feature-link" target="_blank" title="${site_name!}" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-html="true" data-bs-placement="right" data-bs-original-title="#i18n{portal.site.page_home.label} ${site_name}<br> [#i18n{portal.site.portal_footer.newWindow}]">
          <img src="${dskey('portal.site.site_property.logo_url')}" height="35" alt="Logo" aria-hidden="true">
