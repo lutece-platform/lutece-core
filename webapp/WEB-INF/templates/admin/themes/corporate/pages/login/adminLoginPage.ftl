@@ -9,7 +9,7 @@ Parameters:
 </head>
 <body class="lutece-login"  data-bs-theme="light">
 <main>
-<#assign pageClass><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0>d-none d-lg-block d-lg-flex<#else>d-block d-lg-flex</#if></#assign>
+<#assign pageClass><#if !dskey('portal.site.site_property.bo.showXs.checkbox')?starts_with('DS')><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0>d-none d-lg-block d-lg-flex<#else>d-block d-lg-flex</#if><#else>d-none d-lg-block d-lg-flex</#if></#assign>
 <@pageContainer class=pageClass >
 	<@pageColumn id="lutece-login-block" class="border-end p-0" height="full">
 		<@div class="d-flex align-items-center justify-content-evenly vh-100 me-5">
