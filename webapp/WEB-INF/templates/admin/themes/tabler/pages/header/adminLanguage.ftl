@@ -10,16 +10,14 @@ Parameters:
 	<@input type='hidden' name='token' value='${token}' />
 	<@row>
 		<@columns class='ps-3' >
-			<@p class='mb-0'><@icon style='language' /> #i18n{portal.admin.admin_home.language}</@p>
-			<#list languages as language>
-				<#if lang=language.code>
-					<#assign isLocale='btn-language-selected'>
-					<#assign title='[ #i18n{portal.admin.admin_home.button.selectedLanguage} ]'>
-				<#else>
-					<#assign isLocale=''>
-					<#assign title=''>
-				</#if>
-				<@button color='secondary' class='btn-language ${language.code} ${isLocale!}' type='submit' name='language' value='${language.code}' title='#i18n{portal.admin.admin_home.language} ${language.name?capitalize} ${title}' hideTitle=['all'] params='style="background-image: url( ./themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg );"' />
+			<@p class='mb-0 d-flex justify-content-between' >
+				#i18n{portal.admin.admin_home.language}
+				<#list languages?filter( language -> language.code = lang ) as language>
+					<@span class='py-0 ps-4 pe-3 fw-bolder border border-2 border-dark rounded-pill' params='style="background: transparent url( ./themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg ) no-repeat .65rem center; background-size: .75rem"' >${language.code}</@span>
+				</#list>
+			</@p>
+			<#list languages?filter( language -> language.code != lang  ) as language>
+				<@button color='secondary' class='btn-language ${language.code}' type='submit' name='language' value='${language.code}' title='#i18n{portal.admin.admin_home.language} ${language.name?capitalize}' hideTitle=['all'] params='style="background-image: url( ./themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg );"' />
 			</#list>
 		</@columns>
 	</@row>
