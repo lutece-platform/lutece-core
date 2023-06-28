@@ -6,20 +6,20 @@ Parameters:
 - action (string, optional): the URL of the form submission handler.
 -->
 <#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' >
-<@tform method='post' action=action class='form-inline ps-1'>
+<@tform method='post' action=action class='form-inline ps-1 clearfix'>
 	<@input type='hidden' name='token' value='${token}' />
 	<@row>
 		<@columns class='ps-3' >
-			<@icon style='language' /> #i18n{portal.admin.admin_home.language}
+			<@p class='mb-0'><@icon style='language' /> #i18n{portal.admin.admin_home.language}</@p>
 			<#list languages as language>
 				<#if lang=language.code>
 					<#assign isLocale='btn-language-selected'>
-					<#assign title='#i18n{portal.admin_home.button.selectedLanguage}'>
+					<#assign title='[ #i18n{portal.admin.admin_home.button.selectedLanguage} ]'>
 				<#else>
 					<#assign isLocale=''>
 					<#assign title=''>
 				</#if>
-				<@button color='secondary' class='btn-language ${language.code} ${isLocale!}' type='submit' name='language' value='${language.code}' title='#i18n{portal.admin.admin_home.language} ${language.name?capitalize}${title}' hideTitle=['all'] />
+				<@button color='secondary' class='btn-language ${language.code} ${isLocale!}' type='submit' name='language' value='${language.code}' title='#i18n{portal.admin.admin_home.language} ${language.name?capitalize} ${title}' hideTitle=['all'] params='style="background-image: url( ./themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg );"' />
 			</#list>
 		</@columns>
 	</@row>
