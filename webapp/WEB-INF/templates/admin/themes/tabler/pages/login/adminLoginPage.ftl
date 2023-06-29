@@ -7,6 +7,7 @@ Parameters:
 -->
 <#macro adminLoginPage title='' site_name='LUTECE' layout=''  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
+<#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
 </head>
 <body class="antialiased d-flex flex-column"<#if params!=''> ${params}</#if>>
@@ -22,7 +23,7 @@ Parameters:
 	<@div class="text-center mb-4">
 		<@link href='.' target='_blank' >
 			<figure>
-				<@img url='#dskey{portal.site.site_property.logo_url}' alt='${site_name!}' title='${site_name!}' params=' height="36"' />
+				<@img url='${logoUrl}' alt='${site_name!}' title='${site_name!}' params=' height="36"' />
 				<figcaption class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!'Lutece'} [ #i18n{portal.site.portal_footer.newWindow} ]</figcaption>
 			</figure>
 		</@link>

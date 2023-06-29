@@ -15,6 +15,7 @@
 @import url(pages/messages.css);
 @import url(components/widget.css);
 @import url(components/tabs.css);
+@import url(components/pagination.css);
 @import url(components/accordion.css);
 @import url(components/table.css);
 @import url(components/form.css);

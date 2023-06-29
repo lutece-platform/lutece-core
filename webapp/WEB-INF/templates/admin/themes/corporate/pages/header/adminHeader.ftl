@@ -5,20 +5,28 @@
    - site_name (string, required): the name of the website or application.
    -->
 <#macro adminHeader site_name=site_name admin_url=admin_url>
+<#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header.png')>
 <style>.icon-item-new {width: .5rem;height: .5rem;background: #c00;border-radius: 100%; display: block; position: absolute; right: 0; top: 0; z-index: 1}</style>
 </head>
-<body class="antialiased<#if false>theme-dark</#if>" data-bs-theme="light">
-<div class="lutece-app<#if !dskey('portal.site.site_property.bo.showXs.checkbox')?is_number><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0> d-none d-lg-block<#else> d-block</#if><#else> d-none d-lg-block</#if>">
-   <nav id="menu" class="border-end d-flex flex-column flex-shrink-0 shadow" aria-label="${site_name!}">
-      <a href="${dskey('portal.site.site_property.home_url')}" class="d-block text-center mt-4 mb-4 text-white feature-link" target="_blank" title="${site_name!}" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-html="true" data-bs-placement="right" data-bs-original-title="#i18n{portal.site.page_home.label} ${site_name}<br> [#i18n{portal.site.portal_footer.newWindow}]">
-         <img src="${dskey('portal.site.site_property.logo_url')}" height="35" alt="Logo" aria-hidden="true">
+<body class="antialiased<#if false>theme-dark</#if>" data-bs-theme="light" data-bs-theme-menu=top>
+<div class="lutece-app<#if !dskey('portal.site.site_property.bo.showXs.checkbox')?is_number><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0> d-none d-lg-block<#else> d-block</#if><#else> d-none d-lg-block</#if>">   <nav id="menu" class="border-end d-flex flex-column flex-shrink-0 shadow" aria-label="${site_name!}">
+      <a href="${dskey('portal.site.site_property.home_url')}" class="d-block text-center mt-4 mb-4 text-white feature-link menu-logo" target="_blank" title="${site_name!}">
+         <img src="${logoUrl}" height="35" alt="Logo" aria-hidden="true">
          <span class="visually-hidden">#i18n{portal.site.page_home.label} ${site_name}<br> [#i18n{portal.site.portal_footer.newWindow}]</span>
       </a>
-      <ul class="nav nav-pills nav-flush flex-column mb-auto text-center" role="menubar" aria-label="${site_name!}">
+      <div class="position-absolute top-0 end-0 d-flex p-4 d-lg-flex d-xl-none">
+        <button id="menu-mobile-back" class="btn btn-sm btn-outline-light d-flex align-items-center justify-content-center d-none" type="button" >
+      <i class="ti ti-arrow-left"></i>
+         </button>
+         <button id="menu-mobile-close" class="btn btn-sm btn-outline-light d-flex align-items-center justify-content-center" type="button" >
+            <i class="ti ti-x"></i>
+         </button>
+      </div>
+      <ul id="main-menu" class="nav nav-pills nav-flush flex-column mb-auto text-center" role="menubar" aria-label="${site_name!}">
          <li class="nav-item py-1" role="none">
-            <a class="nav-link d-flex feature-link lutece-tooltip" role="menuitem" href="${admin_url}" feature-group-label="home" feature-group="home" aria-label="#i18n{portal.util.labelHome}" data-bs-animation="false" data-bs-tooltip="#i18n{portal.util.labelHome}">
+            <a class="nav-link  feature-link lutece-tooltip" role="menuitem" href="${admin_url}" feature-group-label="home" feature-group="home" aria-label="#i18n{portal.util.labelHome}" data-bs-animation="false" data-bs-tooltip="#i18n{portal.util.labelHome}">
                <i class="fs-5 ti ti-home-2 mx-auto align-self-center"></i>
-               <span class="visually-hidden">#i18n{portal.util.labelHome}</span>
+               <span class="menu-label">#i18n{portal.util.labelHome}</span>
             </a>
          </li>
          <#list feature_group_list as feature_group>
@@ -28,23 +36,23 @@
                <#assign icon_class = feature_group.icon>
             </#if>
             <#if feature_group.features?size &gt; 1>
-               <li class="nav-item py-1" role="none">
-                  <a href="#${feature_group.id}" feature-group-label="${feature_group.label}" feature-group="${feature_group.id}" class="nav-link d-flex" role="menuitem" aria-haspopup="true" aria-expanded="false" title="" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="right" data-bs-original-title="${feature_group.label}" aria-label="${feature_group.label}">
-                     <i class="fs-5 align-self-center mx-auto ${icon_class}"></i>
+               <li class="nav-item py-1 text-center" role="none">
+                  <a href="#${feature_group.id}" feature-group-label="${feature_group.label}" feature-group="${feature_group.id}" class="nav-link text-center" role="menuitem" aria-haspopup="true" aria-expanded="false" title="" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="right" data-bs-original-title="${feature_group.label}" aria-label="${feature_group.label}">
+                     <i class="fs-5 align-self-center mx-auto ${icon_class}"></i>  <div class="menu-label">${feature_group.label}</div>
                   </a>
                </li>
             <#else>
                <#list feature_group.features as feature>
                   <#if !feature.externalFeature>
-                     <li class="nav-item py-1" role="none">
-                        <a href="${feature.url}?plugin_name=${feature.pluginName}" role="menuitem" aria-haspopup="true" aria-expanded="false" feature-group-label="${feature_group.label}" feature-group="${feature_group.id}" class="nav-link feature-link d-flex" aria-current="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-animation="false" data-bs-original-title="${feature.name}" aria-label="${feature.name}">
-                           <i class="fs-5 ${icon_class} align-self-center mx-auto"></i>
+                     <li class="nav-item py-1 text-center" role="none">
+                        <a href="${feature.url}?plugin_name=${feature.pluginName}" role="menuitem" aria-haspopup="true" aria-expanded="false" feature-group-label="${feature_group.label}" feature-group="${feature_group.id}" class="nav-link feature-link text-center" aria-current="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-animation="false" data-bs-original-title="${feature.name}" aria-label="${feature.name}">
+                           <i class="fs-5 ${icon_class} align-self-center mx-auto"></i>  <div class="menu-label">${feature_group.label}</div>
                         </a>
                      </li>
                   <#else>
-                     <li class="nav-item py-1" role="none">
-                        <a href="${feature.url}?plugin_name=${feature.pluginName}"  role="menuitem"  feature-group-label="${feature_group.label}" feature-group="${feature_group.id}" class="nav-link feature-link d-flex" aria-current="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-animation="false" data-bs-original-title="${feature.name}" aria-label="${feature.name}">
-                           <i class="fs-5  align-self-center mx-auto ${icon_class}"></i>
+                     <li class="nav-item py-1 text-center" role="none">
+                        <a href="${feature.url}?plugin_name=${feature.pluginName}"  role="menuitem"  feature-group-label="${feature_group.label}" feature-group="${feature_group.id}" class="nav-link feature-link text-center" aria-current="page" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-animation="false" data-bs-original-title="${feature.name}" aria-label="${feature.name}">
+                           <i class="fs-5  align-self-center mx-auto ${icon_class}"></i>  <div class="menu-label">${feature_group.label}</div>
                         </a>
                      </li>
                   </#if>
@@ -52,11 +60,10 @@
             </#if>
          </#list>
       </ul>
-      <img src="images/logo-header.png" id="logo-lutece" class="position-absolute" aria-hidden="true" alt="">
    </nav>
    <div id="child-menu" class="d-flex flex-column align-items-stretch flex-shrink-0 border-end d-none no-pin shadow" role="navigation">
       <div class="content">
-         <div class="h-60 border-bottom">
+         <div id="menu-search-container" class="h-60 border-bottom">
             <div class="d-flex h-60  align-items-center justify-content-center pe-4">
                <div class="flex-fill">
                   <div class="input-group input-icon input-group-flat h-60">
@@ -122,16 +129,26 @@
       </div>
    </div>
 </div>
-<header id="top-menu" class="navbar navbar-expand-md navbar-light d-none d-lg-flex d-print-none border-bottom h-60 shadow">
+<header id="top-menu" class="navbar navbar-expand-md navbar-light d-print-none border-bottom h-60 shadow">
    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
-         <span class="navbar-toggler-icon"></span>
+      <button id="menu-mobile" class="border btn btn-light btn-rounded">
+        <i class="ti ti-menu-2"></i>
       </button>
+     <img src="${logoUrl}" class="d-xl-none ms-2" alt="Logo" aria-hidden="true">
       <ul class="navbar-nav flex-row order-md-last ms-auto">
-         <li class="nav-item">
-            <div id="darkmode" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode} / #i18n{portal.users.admin_header.labelLightMode}">
-               <input type="checkbox" id="toggle-theme" name="toggle-theme" >
-               <label for="toggle-theme" class="border">
+        <li class="nav-item d-none d-xl-flex">
+            <div id="menu-rotate" class="border btn btn-light btn-rounded" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="Menu / Position">
+            <i class="ti ti-layout-navbar-collapse menu-rotate-icon"></i>
+               <label for="toggle-theme">
+                  <span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode} / #i18n{portal.users.admin_header.labelLightMode}</span>
+               </label>
+            </div>
+         </li>
+         <li class="nav-item d-none d-sm-block">
+            <div id="toggle-theme" class="border btn btn-light btn-rounded" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode} / #i18n{portal.users.admin_header.labelLightMode}">
+               <i class="ti ti-moon darkmode-moon"></i>
+               <i class="ti ti-sun-high darkmode-sun"></i>
+               <label for="toggle-theme">
                   <span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode} / #i18n{portal.users.admin_header.labelLightMode}</span>
                </label>
             </div>
@@ -146,7 +163,7 @@
                   <a class="border btn btn-light btn-rounded " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}">
                      <div class="position-relative">
                         <div class="icon-item-new"></div>
-                        <i class="ti ti-bell fs-2"></i>
+                        <i class="ti ti-bell"></i>
                      </div>   
                   </a>
                      <ul class="dropdown-menu p-3">
@@ -184,11 +201,18 @@
                   </#if>
                </li>
             </#if>
-            <li class="nav-item">
+            <li class="nav-item d-none d-xl-flex">
                <a class="border btn btn-light btn-rounded" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.admindashboard.view_dashboards.title}">
                   <i class="ti ti-settings fs-5"></i><span class="visually-hidden">#i18n{portal.admindashboard.view_dashboards.title}</span>
                </a>
             </li>
+         </#if>
+         <#if userMenuItems?has_content>   
+            <#list userMenuItems as item>
+               <#if item.content?contains("jsp/admin/DoChangeLanguage.jsp")>
+                   ${item.content}
+               </#if>
+            </#list>
          </#if>
          <li class="nav-item dropdown lutece-profile">
             <a href="#" class="border btn btn-light btn-rounded" data-bs-toggle="dropdown" >
@@ -201,7 +225,9 @@
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
             <#if userMenuItems?has_content>   
                <#list userMenuItems as item>
-                  ${item.content}
+                  <#if !item.content?contains("jsp/admin/DoChangeLanguage.jsp")>
+                     ${item.content}
+                  </#if>
                </#list>
             </#if>
             <div class="dropdown-divider"></div>

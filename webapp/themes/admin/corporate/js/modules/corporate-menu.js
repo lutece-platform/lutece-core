@@ -9,12 +9,19 @@ export class MenuManager {
      */
     constructor() {
         this.toggleBtn = document.getElementById('toggle-theme');
+        this.mainMenu = document.getElementById('main-menu');
+        this.mainMenuItems = this.mainMenu.querySelectorAll('#main-menu li a');
         this.body = document.querySelector('body');
         this.savedTheme = localStorage.getItem('lutece-corporate-theme');
+        this.savedThemeMenu = localStorage.getItem('lutece-corporate-theme-menu');
         this.menu = document.getElementById('menu');
         this.childMenu = document.getElementById('child-menu');
         this.switcherMenu = document.getElementById('menu-switcher');
+        this.mobileMenu = document.getElementById('menu-mobile');
+        this.mobileMenuClose = document.getElementById('menu-mobile-close');
+        this.mobileMenuBack = document.getElementById('menu-mobile-back');
         this.iconMenu = document.getElementById('menu-icon');
+        this.rotateMenu = document.getElementById('menu-rotate');
         this.init();
     }
     /**
@@ -27,6 +34,7 @@ export class MenuManager {
             this.setActive();
             this.addMenuEventListeners();
             this.setupSwitcherMenu();
+            this.setupMobileMenu();
             this.closeChildMenuOnClickOutside();
             this.searchMenu();
         }
@@ -42,10 +50,33 @@ export class MenuManager {
             }
         }
 
-        this.toggleBtn.addEventListener('change', () => {
-            this.toggleTheme()
+        if (this.savedThemeMenu) {
+            this.body.setAttribute('data-bs-theme-menu', this.savedThemeMenu);
+                if (this.savedThemeMenu === 'top') {
+                    setTimeout(() => {
+                    this.menuTooltips(false);
+                }, 1000);
+                }
+        }
+        
+        this.rotateMenu.addEventListener('click',() => {
+            if (this.body.getAttribute('data-bs-theme-menu') === 'left') {
+            this.body.setAttribute('data-bs-theme-menu', 'top');
+            localStorage.setItem('lutece-corporate-theme-menu', 'top');
+            this.menuTooltips(false);
+            } else {
+            this.body.setAttribute('data-bs-theme-menu', 'left');
+            localStorage.setItem('lutece-corporate-theme-menu', 'left');
+            this.menuTooltips(true);
+            }
         });
 
+
+
+        this.toggleBtn.addEventListener('click', () => {
+            this.toggleTheme()
+        });
+ 
         this.toggleBtn.addEventListener('keydown', ( keyboardEvent ) => {
             switch (keyboardEvent.key) {
                 case 'Enter':
@@ -62,14 +93,36 @@ export class MenuManager {
     toggleTheme(){
         if (this.body.getAttribute('data-bs-theme') === 'light') {
             this.body.setAttribute('data-bs-theme', 'dark');
-            this.toggleBtn.checked = true;
+            this.toggleBtn.querySelector('.darkmode-sun').style.animationName = 'spin-fast';
             localStorage.setItem('lutece-corporate-theme', 'dark');
         } else {
             this.body.setAttribute('data-bs-theme', 'light');
-            this.toggleBtn.checked = false;
+            this.toggleBtn.querySelector('.darkmode-moon').style.animationName = 'spin-backwards';
             localStorage.setItem('lutece-corporate-theme', 'light');
         }
     }
+
+    /**
+     *  Tooltips
+     */
+    menuTooltips(init) {
+        let tooltipTriggerList = [].slice.call(this.mainMenu.querySelectorAll('a[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            let tooltipInstance = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
+            if (init) {
+                // Initialize tooltips if they don't already exist
+                if (!tooltipInstance) {
+                    new bootstrap.Tooltip(tooltipTriggerEl);
+                }
+            } else {
+                // Dispose of tooltips if they exist
+                if (tooltipInstance) {
+                    tooltipInstance.dispose();
+                }
+            }
+        });
+    }
+         
     /**
      * Sets the active menu item and updates the child menu based on the active group.
      * @param {string} activeGroup - The feature group of the active menu item.
@@ -193,11 +246,13 @@ export class MenuManager {
                     keyboardEvent.preventDefault();
                     break;
                 case 'ArrowUp':
-                    this.selectMenu( 'up', menus[0], 'active', activeMenuItem );
+                case 'ArrowLeft':
+                    this.selectMenu('up', menus[0], 'active', activeMenuItem);
                     break;
                 case 'ArrowDown':
+                case 'ArrowRight':
                     keyboardEvent.preventDefault();
-                    this.selectMenu( 'down', menus[0], 'active', activeMenuItem );
+                    this.selectMenu('down', menus[0], 'active', activeMenuItem);
                     break;
                 case 'Home':
                     keyboardEvent.preventDefault();
@@ -205,9 +260,10 @@ export class MenuManager {
                     break;
                 case 'End':
                     keyboardEvent.preventDefault();
-                    menus[ menus.length - 1 ].focus();
+                    menus[menus.length - 1].focus();
                     break;
             }
+            
         });
 
         this.childMenu.addEventListener( "keydown", (keyboardEvent) => {
@@ -265,6 +321,35 @@ export class MenuManager {
             item.focus( )
         }
     }
+
+    /**
+     * Sets up the mobile menu events
+     */    
+    setupMobileMenu() {
+        this.mobileMenu.addEventListener('click', () => {
+           document.body.classList.toggle('menu-mobile-show');
+           this.menuTooltips(false);
+        });
+        this.mobileMenuClose.addEventListener('click', () => {
+            document.body.classList.remove('menu-mobile-show','menu-mobile-sub-show');
+            this.childMenu.classList.remove('child-menu-show');
+            this.menuTooltips(true);
+        });
+        this.mobileMenuBack.addEventListener('click', () => {
+            document.body.classList.remove('menu-mobile-sub-show');
+            this.mobileMenuBack.classList.add('d-none');
+            this.childMenu.classList.remove('child-menu-show');
+        });
+        this.mainMenuItems.forEach(element => {
+            element.addEventListener('click', e => {
+              if (document.body.classList.contains('menu-mobile-show')) {
+                document.body.classList.add('menu-mobile-sub-show');
+                this.mobileMenuBack.classList.remove('d-none');
+              }
+            });
+          });
+    }
+    
     /**
      * Sets up the menu switcher to toggle the pin state of the child menu.
      */

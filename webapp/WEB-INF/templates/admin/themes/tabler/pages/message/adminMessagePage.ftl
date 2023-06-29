@@ -9,6 +9,7 @@ Parameters:
 - text (string): the text of the message.
 -->
 <#macro adminMessagePage title=''>
+<#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
 <#assign title=title />
 <#assign alerttype="primary" />
 <#assign icontype="fa-info-circle" />
@@ -35,7 +36,7 @@ Parameters:
 <@div class="page page-center">
 	<@div class="text-center mb-4">
 		<@link href=".">
-			<@img url="#dskey{portal.site.site_property.logo_url}" alt='LUTECE' title='Lutece' params=' height="36"' />
+			<@img url="${logoUrl}" alt='LUTECE' title='Lutece' params=' height="36"' />
 		</@link>
 	</@div>
 	<@row class='justify-content-center align-items-center'>

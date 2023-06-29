@@ -5,19 +5,31 @@ Parameters:
 - lang (string): the code of the currently selected language.
 - action (string, optional): the URL of the form submission handler.
 -->
-<#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' >
-<@tform method='post' action=action class='form-inline dropdown-item nolink clearfix'>
-	<@input type='hidden' name='token' value='${token}' />
-	<@p class='mb-0 d-flex justify-content-between' >
-		#i18n{portal.admin.admin_home.language}
-		<#list languages?filter( language -> language.code = lang  ) as language>
-			<@span class='py-0 ps-4 pe-2 m-1 fw-bold border border-2 border-dark rounded-pill' params='style="background: transparent url( ./themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg ) no-repeat .25rem center; background-size: .75rem"' >${language.code}</@span>
-		</#list>
-	</@p>
-	<@div class='d-flex flex-wrap'>
-	<#list languages?filter( language -> language.code != lang  ) as language>
-		<@button color='' class='small py-0 ps-4 pe-1 m-1' type='submit' name='language' value='${language.code}' title='${language.code} ' tooltip='${language.code}' params='style="background: transparent url( ./themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg ) no-repeat .25rem center; background-size: .75rem"' />
-	</#list>
-	</@div>
-</@tform>
+<#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp'>
+	<#assign flagCodeSelected=lang>
+	<#if flagCodeSelected=='en'>
+		<#assign flagCodeSelected='gb'>
+	</#if>
+	<li class="nav-item dropdown">
+		<a id="btn-lang" class="border btn btn-light btn-rounded" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.admin.admin_home.language}">
+			<div class="position-absolute" style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${flagCodeSelected}.svg');background-size:contain;background-position: center;height:25px;width:25px;border-radius:25px"></div>
+		</a>
+		<ul class="dropdown-menu p-3 text-center dropdown-menu-center">
+			<span class="text-muted">#i18n{portal.admin.admin_home.language}s</span>
+			<#list languages as language>
+				<#assign flagCode=language.code>
+				<#if flagCode=='en'>
+					<#assign flagCode='gb'>
+				</#if>
+				<#if flagCodeSelected=flagCode>
+					<#assign isLocale='border-primary border-3'>
+					<#assign title='#i18n{portal.admin_home.button.selectedLanguage}'>
+				<#else>
+					<#assign isLocale=''>
+					<#assign title=''>
+				</#if>
+				<a href='${action}?token=${token}&language=${language.code}' class='border btn btn-light btn-rounded ${isLocale} mx-auto mt-2' style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${flagCode}.svg');background-size:contain;background-position: center;"></a>
+			</#list>
+		</ul>
+	</li>
 </#macro>
