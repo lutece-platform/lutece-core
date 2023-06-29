@@ -7,12 +7,13 @@ Parameters:
 <#macro adminHeader site_name=site_name!'Lutece' admin_url=admin_url >
 </head>
 <body class="antialiased<#if false> theme-dark</#if>">
+<#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
 <div id="lutece-layout-wrapper"<#if commonsAdminLayoutClass !=''> class="${commonsAdminLayoutClass!}"</#if>>
 <${commonsAdminLayout!} class="lutece-${commonsAdminLayout!}"> 
 	<nav class="lutece-${commonsAdminLayout!}-nav navbar navbar-expand-md navbar-dark d-print-none">
 		<div class="container-fluid">
 			<a class="lutece-${commonsAdminLayout!}-brand navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" title="#i18n{portal.site.portal_footer.newWindow}">
-				<img src="#dskey{portal.site.site_property.logo_url}" height="30" alt="Logo" >
+				<img src="${logoUrl}" height="30" alt="Logo" >
 				<span class="ml-2 ms-2">${site_name}</span>
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">

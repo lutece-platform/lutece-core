@@ -6,7 +6,7 @@ export class BackportTemplateStyle {
         document.addEventListener('DOMContentLoaded', () => {
             this.backportTemplateStyle();
         });
-    }
+    }    
     backportTemplateStyle() {
         const tables = document.querySelectorAll('table');
         tables.forEach(table => {
@@ -27,15 +27,8 @@ export class BackportTemplateStyle {
                 }
             });
         }
-
-        const pageHeader = document.querySelector("#page .page-header");
-        if( pageHeader ) {
-            const lutecePage = document.querySelector('.lutece-page');
-            const height = window.innerHeight - 120;
-            lutecePage.style.maxHeight = `${height}px`;
-            lutecePage.style.height = `${height}px`;
-        }
-
+        this.adjustPageHeight();
+        window.addEventListener('resize', this.adjustPageHeight);
         const columns = document.querySelectorAll('.lutece-column');
 
         document.addEventListener('shown.bs.offcanvas', () => {
@@ -77,5 +70,15 @@ export class BackportTemplateStyle {
         document.querySelectorAll(".modal").forEach((e => {
             document.body.appendChild(e)
         }))
+    }
+    adjustPageHeight() {
+        const pageHeader = document.querySelector("#page .page-header");
+        const lutecePage = document.querySelector('.lutece-page');
+        if (pageHeader && lutecePage) {
+            const menuPosition = document.body.getAttribute('data-bs-theme-menu');
+            const height = window.innerHeight - (menuPosition === 'left' || menuPosition === 'right' ? 120 : 130);
+            lutecePage.style.maxHeight = `${height}px`;
+            lutecePage.style.height = `${height}px`;
+        }
     }
 }
