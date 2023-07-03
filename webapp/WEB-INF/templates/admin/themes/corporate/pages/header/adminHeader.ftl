@@ -9,6 +9,7 @@
 <style>.icon-item-new {width: .5rem;height: .5rem;background: #c00;border-radius: 100%; display: block; position: absolute; right: 0; top: 0; z-index: 1}</style>
 </head>
 <body class="antialiased<#if false>theme-dark</#if>" data-bs-theme="light" data-bs-theme-menu=top>
+<@adminSkipNav />
 <div class="lutece-app<#if !dskey('portal.site.site_property.bo.showXs.checkbox')?is_number><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0> d-none d-lg-block<#else> d-block</#if><#else> d-none d-lg-block</#if>">   <nav id="menu" class="border-end d-flex flex-column flex-shrink-0 shadow" aria-label="${site_name!}">
       <a href="${dskey('portal.site.site_property.home_url')}" class="d-block text-center mt-4 mb-4 text-white feature-link menu-logo" target="_blank" title="${site_name!}">
          <img src="${logoUrl}" height="35" alt="Logo" aria-hidden="true">
