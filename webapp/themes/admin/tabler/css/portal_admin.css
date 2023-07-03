@@ -27,6 +27,43 @@
   --white: #ffffff;
 }
 
+/* Skip Links */
+.lutece-skip-links {
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  height: 1px;
+  margin: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.lutece-skip-links:focus {
+  width: auto;
+  height: auto;
+  background: var( --dark-nav-bg );
+  -webkit-box-shadow: 0;
+  box-shadow: 0;
+  clip: auto;
+  -webkit-clip-path: none;
+  clip-path: none;
+  color: var( --light );
+  outline: 3px solid var( --dark );
+  outline-offset: -4px;
+  overflow: visible;
+  padding: 1rem;
+  position: static;
+  -webkit-text-decoration: underline solid var( --light ) 2px;
+  text-decoration: underline solid var( --light ) 2px;
+  white-space: inherit;
+}
+
 /* Tabler overrides                                           */
 .lutece-header-nav .lutece-header-user.navbar-nav + .nav-item.dropdown .dropdown-menu[data-bs-popper] {
   top: 150%;
@@ -42,6 +79,30 @@
 
 .theme-dark .text-muted {
   color: var(--tblr-light) !important;
+}
+
+.lutece-header-nav .dropdown-item:hover {
+  text-decoration: underline;
+}
+
+/* Language Menu                                            */
+.btn-language{
+	background-position: center;
+	background-size: 1rem;
+	background-color: transparent !important ;
+	background-repeat: no-repeat;
+	min-height: auto !important;
+	width: 1rem !important;
+	height: 1rem !important;
+	padding: 0 !important; 
+	opacity: .75;
+	box-shadow: none !important;
+  margin-left: .5rem;
+}
+
+.btn-language:hover{ 
+	filter: drop-shadow(2px 4px 6px var( --black ) );
+	opacity: 1; 
 }
 
 /* Cards / Box                                                */
@@ -394,6 +455,12 @@ pre {
 
 .btn {
   min-height: calc(var(--tblr-btn-line-height) * var(--tblr-btn-font-size) + var(--tblr-btn-padding-y) * 2 + var(--tblr-btn-border-width) * 2);
+}
+
+.btn:focus,
+.btn:focus-within,
+.btn:focus-visible {
+  outline: var(--tblr-btn-border-width) solid var(--tblr-gray-dark) !important;
 }
 
 mark {
