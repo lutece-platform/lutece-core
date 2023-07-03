@@ -137,7 +137,7 @@
      <img src="${logoUrl}" class="d-xl-none ms-2" alt="Logo" aria-hidden="true">
       <ul class="navbar-nav flex-row order-md-last ms-auto">
         <li class="nav-item d-none d-xl-flex">
-            <div id="menu-rotate" class="border btn btn-light btn-rounded" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="Menu / Position">
+            <div id="menu-rotate" class="border btn btn-light btn-rounded" tabindex="0" role="button" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="Menu / Position">
             <i class="ti ti-layout-navbar-collapse menu-rotate-icon"></i>
                <label for="toggle-theme">
                   <span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode} / #i18n{portal.users.admin_header.labelLightMode}</span>
@@ -145,7 +145,7 @@
             </div>
          </li>
          <li class="nav-item d-none d-sm-block">
-            <div id="toggle-theme" class="border btn btn-light btn-rounded" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode} / #i18n{portal.users.admin_header.labelLightMode}">
+            <div id="toggle-theme" class="border btn btn-light btn-rounded" tabindex="0" role="button"  data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode} / #i18n{portal.users.admin_header.labelLightMode}">
                <i class="ti ti-moon darkmode-moon"></i>
                <i class="ti ti-sun-high darkmode-sun"></i>
                <label for="toggle-theme">
