@@ -106,7 +106,7 @@
             <#if feature_group.features?size &gt; 1>
                <#list feature_group.features as feature>
                   <#if !feature.externalFeature>
-                     <a admin-url="${admin_url}" feature-url="${feature.url}" feature-group-label="${feature_group.label}" feature-group="${feature_group.id}" plugin_name="${feature.pluginName}" class="list-group-item list-group-item-action p-4 lh-tight" href="${feature.url}?plugin_name=${feature.pluginName}">
+                     <a admin-url="${admin_url}" feature-url="${feature.url}" feature-group-label="${feature_group.label}" feature-group="${feature_group.id}" plugin_name="${feature.pluginName}" class="list-group-item list-group-item-action p-4 lh-tight" href="${feature.url}?plugin_name=${feature.pluginName}" title="${feature.name}" >
                         <div class="row align-items-center">
                            <div class="col">
                               <h3 class="mb-1 fw-bold title h6">
