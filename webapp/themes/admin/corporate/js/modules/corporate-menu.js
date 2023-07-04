@@ -151,24 +151,25 @@ export class MenuManager {
                 let firstGroupElement = null;
                 
                 rightListItems.forEach(element => {
-                    if (element.getAttribute('feature-group') != activeGroup) {
+                    if ( element.getAttribute('feature-group') != activeGroup ) {
                         element.classList.add('d-none');
                     } else {
                         if (!firstGroupElement) {
                             firstGroupElement = element;
                         }
-                        if (element.classList.contains('active')) {
+                        if ( element.classList.contains( 'active' ) ) {
                             activeElement = element;
                         }
                         element.classList.remove('d-none');
-                        this.childMenu.classList.add('child-menu-found');
-                        this.childMenu.setAttribute('data-featuregroup', activeGroup);
+                        this.childMenu.classList.add( 'child-menu-found' );
+                        this.childMenu.setAttribute( 'data-featuregroup', activeGroup);
                     }
                 });
                 
                 if (activeElement) {
                     activeElement.focus();
                     activeElement.classList.add('menu-selected');
+                    activeElement.setAttribute('aria-current','page');
 
                 } else if (firstGroupElement) {
                     firstGroupElement.classList.add('menu-selected');
@@ -218,7 +219,7 @@ export class MenuManager {
         menus.forEach(element => {
             element.addEventListener( 'click', e => {
                 e.preventDefault();
-                this.setActive(element.getAttribute('feature-group'));
+                this.setActive( element.getAttribute('feature-group') );
                 this.childMenu.classList.add('child-menu-show');
                 menus.forEach(element => {
                     element.ariaExpanded = "false";
@@ -247,12 +248,12 @@ export class MenuManager {
                     break;
                 case 'ArrowUp':
                 case 'ArrowLeft':
-                    this.selectMenu('up', menus[0], 'active', activeMenuItem);
+                    this.selectMenu('up', menus[0], 'active', activeMenuItem );
                     break;
                 case 'ArrowDown':
                 case 'ArrowRight':
                     keyboardEvent.preventDefault();
-                    this.selectMenu('down', menus[0], 'active', activeMenuItem);
+                    this.selectMenu('down', menus[0], 'active', activeMenuItem );
                     break;
                 case 'Home':
                     keyboardEvent.preventDefault();
@@ -302,6 +303,7 @@ export class MenuManager {
     selectMenu( dir, item, sel, activeItem ){
         if( activeItem != undefined && activeItem != null ){
             activeItem.classList.remove( sel );
+            activeItem.removeAttribute( 'aria-current' );
             let elem = null;
             if( dir === 'down' ){
                 elem = activeItem.nextElementSibling
@@ -315,9 +317,11 @@ export class MenuManager {
                 }
             }
             elem.classList.add( sel );
+            activeItem.setAttribute( 'aria-current', 'page' );
             elem.focus()
         } else {
             item.classList.add( sel )
+            item.setAttribute( 'aria-current', 'page' );
             item.focus( )
         }
     }
