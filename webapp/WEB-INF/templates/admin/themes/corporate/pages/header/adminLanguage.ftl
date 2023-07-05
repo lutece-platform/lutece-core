@@ -10,7 +10,7 @@ Parameters:
 	<#if flagCodeSelected=='en'>
 		<#assign flagCodeSelected='gb'>
 	</#if>
-	<li class="nav-item dropdown">
+	<li class="d-none d-sm-block nav-item dropdown">
 		<a id="btn-lang" class="border btn btn-light btn-rounded" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.admin.admin_home.language}">
 			<div class="position-absolute" style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${flagCodeSelected}.svg');background-size:contain;background-position: center;height:25px;width:25px;border-radius:25px"></div>
 		</a>
