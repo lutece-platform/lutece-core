@@ -33,13 +33,9 @@ Parameters:
 			</#if>
 		</div>
 	<#else>
-		<#if center>
-			<div class="d-flex justify-content-center align-items-center h-100">
-			<#nested>
-			</div>
-		<#else>
-			<#nested>
-		</#if>
+		<div<#if center> class="d-flex justify-content-center align-items-center h-100"</#if>>
+		<#nested>
+		</div>
 	</#if>
 </div>
 </#macro>
