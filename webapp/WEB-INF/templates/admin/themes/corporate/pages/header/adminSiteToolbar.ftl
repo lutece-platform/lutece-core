@@ -10,7 +10,7 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 		</@tform>
 	</@btnGroup>
 	<@btnGroup class='ms-1'>
-		<@aButton href='' id='display-desktop' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop' color='primary' class='btn-preview active' hideTitle=['all'] />
+		<@aButton href='' id='display-desktop' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='desktop' color='primary' class='btn-preview' hideTitle=['all'] />
 		<@aButton href='' id='display-tablet' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='tablet' color='primary' class='btn-preview' hideTitle=['all'] />
 		<@aButton href='' id='display-phone' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='mobile' color='primary' class='btn-preview' hideTitle=['all'] />
 	</@btnGroup>
@@ -44,7 +44,7 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 		<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }' buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] ><@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@aButton>
 	</@btnGroup>
 	<@btnGroup class='ms-1'>
-		<@aButton href='jsp/site/Portal.jsp?page_id=${page.id}' title='#i18n{portal.site.admin_page.labelShowPage}' buttonIcon='external-link' color='info' class='btn-preview active' target='_blank' hideTitle=['all'] />
+		<@aButton href='jsp/site/Portal.jsp?page_id=${page.id}' title='#i18n{portal.site.admin_page.labelShowPage}' buttonIcon='external-link' color='info' class='btn-preview' target='_blank' hideTitle=['all'] />
 	</@btnGroup>
 	<#--  
 	<@btnGroup class='ms-1'>
