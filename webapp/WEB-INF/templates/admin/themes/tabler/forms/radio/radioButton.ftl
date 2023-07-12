@@ -22,7 +22,7 @@ Parameters:
 <#macro radioButton name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if orientation='vertical'><div class="radio">	</#if>
-<label  class="form-check<#if orientation!='vertical'> form-check-inline</#if>" for="${labelFor}">
+<label  class="form-check<#if orientation!='vertical'> form-check-inline</#if>" <#if labelFor!=''>for="${labelFor}"</#if>>
 <input class="form-check-input" type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
 <span class="form-check-label"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
 </label>
