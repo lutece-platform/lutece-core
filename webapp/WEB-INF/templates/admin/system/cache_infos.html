@@ -6,7 +6,7 @@
 			<h2 class="h4">Configuration</h2>
 			<@pre>${service.infos}</@pre>
 			<h3>Keys</h3>
-			<#list service.keys as key ><@p>${key}</@p></#list>
+			<@ul><#list service.keys?sort as key ><@li>${key?html}</@li></#list></@ul>
 		</@div>
 	</#list>
 	</@pageColumn>
