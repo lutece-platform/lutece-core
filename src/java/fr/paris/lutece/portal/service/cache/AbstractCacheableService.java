@@ -39,6 +39,7 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
+import net.sf.ehcache.Statistics;
 import net.sf.ehcache.event.CacheEventListener;
 
 import java.util.ArrayList;
@@ -250,6 +251,35 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     public String getInfos( )
     {
         return CacheService.getInfos( _cache );
+    }
+
+    /**
+     * Get cache statistics.
+     * 
+     * The string representation is susceptible to change
+     * 
+     * @return a string representation of cache statistics
+     * 
+     * @since 7.0.10
+     */
+    public String getStatistics( )
+    {
+        if ( !( isCacheEnable( ) && _cache.getCacheConfiguration( ).getStatistics( ) ) )
+        {
+            return null;
+        }
+        Statistics stats = _cache.getStatistics( );
+        StringBuilder buidler = new StringBuilder( );
+        buidler.append( "name = " ).append( stats.getAssociatedCacheName( ) ).append( "\ncacheHits = " )
+                .append( stats.getCacheHits( ) ).append( "\nonDiskHits = " ).append( stats.getOnDiskHits( ) )
+                .append( "\noffHeapHits = " ).append( stats.getOffHeapHits( ) ).append( "\ninMemoryHits = " )
+                .append( stats.getInMemoryHits( ) ).append( "\nmisses = " ).append( stats.getCacheMisses( ) )
+                .append( "\nonDiskMisses = " ).append( stats.getOnDiskMisses( ) ).append( "\noffHeapMisses = " )
+                .append( stats.getOffHeapMisses( ) ).append( "\ninMemoryMisses = " )
+                .append( stats.getInMemoryMisses( ) ).append( "\nsize = " ).append( stats.getObjectCount( ) )
+                .append( "\naverageGetTime = " ).append( stats.getAverageGetTime( ) ).append( "\nevictionCount = " )
+                .append( stats.getEvictionCount( ) );
+        return buidler.toString( );
     }
 
     // CacheEventListener implementation

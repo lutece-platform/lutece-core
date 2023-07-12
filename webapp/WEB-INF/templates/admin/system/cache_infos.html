@@ -5,6 +5,10 @@
 		<@div id="cache-infos">
 			<h2 class="h4">Configuration</h2>
 			<@pre>${service.infos}</@pre>
+			<#if service.statistics??>
+			<h3>Statistics</h3>
+			<@pre>${service.statistics?html}</@pre>
+			</#if>
 			<h3>Keys</h3>
 			<#list service.keys as key ><@p>${key}</@p></#list>
 		</@div>
