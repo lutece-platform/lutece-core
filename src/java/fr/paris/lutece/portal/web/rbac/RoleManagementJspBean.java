@@ -129,6 +129,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_ROLE_KEY = "role_key";
     private static final String MARK_RESOURCE_TYPE = "resource_type";
+    private static final String MARK_RESOURCE_LABEL = "resource_label";
     private static final String MARK_SELECT_RESOURCES_METHOD = "select_resources";
     private static final String MARK_RESOURCE_LIST_AVAILABLE = "resource_list_available";
     private static final String MARK_ASSIGNED_USERS_LIST = "assigned_users_list";
@@ -511,11 +512,17 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     public String doConfirmRemoveControlFromRole( HttpServletRequest request )
     {
         String strIdControl = request.getParameter( PARAMETER_RBAC_ID );
+        int nId = Integer.parseInt( strIdControl );
+
+        RBAC rbac = RBACHome.findByPrimaryKey( nId );
         String strDeleteUrl = JSP_URL_REMOVE_CONTROL_FROM_ROLE;
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_RBAC_ID, strIdControl );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) );
-        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL,
+                new Object[ ] { rbac.getRoleKey( ), rbac.getPermissionKey( ), rbac.getResourceIdLabel( ),
+                        rbac.getResourceTypeLabel( ) },
+                null, strDeleteUrl, "", AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -576,6 +583,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_ROLE_KEY, strRoleKey );
         model.put( MARK_RESOURCE_TYPE, strResourceType );
+        model.put( MARK_RESOURCE_LABEL, resourceType.getResourceTypeLabel( ) );
         model.put( MARK_RESOURCE_LIST_AVAILABLE, bResourceListAvailable );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADD_CONTROL_TO_ROLE, getLocale( ), model );
@@ -646,6 +654,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_RESOURCE_ID_LIST, resourceType.getResourceIdService( ).getResourceIdList( getLocale( ) ) );
         model.put( MARK_ROLE_KEY, strRoleKey );
         model.put( MARK_RESOURCE_TYPE, strResourceType );
+        model.put( MARK_RESOURCE_LABEL, resourceType.getResourceTypeLabel( ) );
         model.put( MARK_SELECT_RESOURCES_METHOD, strSelectionMethod );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SELECT_RESOURCE_IDS, getLocale( ), model );
