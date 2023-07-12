@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
 		<@box>
-			<@boxHeader title='#i18n{portal.rbac.select_resource_ids.titleSelectIds}' skipHeader=true >
+			<@boxHeader title=i18n('portal.rbac.select_resource_ids.titleSelectIds', role_key?html) skipHeader=true >
 				<@tform method='post' type='inline'>
 					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 						<@inputGroup>
@@ -18,7 +18,7 @@
 					<@input type='hidden' name='role_key' value='${role_key}' />
 					<@input type='hidden' name='resource_type' value='${resource_type}' />
 					<@input type='hidden' name='select_resources' value='${select_resources}' />
-					<@formGroup labelKey='#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}' id='resourceList' >
+					<@formGroup labelKey=i18n('portal.rbac.select_resource_ids.labelSelectIdsFromList', resource_label?html) id='resourceList' >
 						<#list resource_id_list?sort_by('name') as item>
 							<@checkBox name='resource_id' id=item.name?replace('\\s+','','r')+item.code value='${item.code}' labelKey='${item.name} [ ${item.code} ]' params=' aria-labelledby="resourceList" data-role="${item.name}" ' />
 						</#list>
