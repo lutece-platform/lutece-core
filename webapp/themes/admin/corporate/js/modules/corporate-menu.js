@@ -52,12 +52,11 @@ export class MenuManager {
 
         if (this.savedThemeMenu) {
             this.body.setAttribute('data-bs-theme-menu', this.savedThemeMenu);
-                if (this.savedThemeMenu === 'top') {
-                    setTimeout(() => {
-                    this.menuTooltips(false);
-                }, 1000);
-                }
         }
+
+        ( !this.savedThemeMenu || this.savedThemeMenu === 'top' ) && setTimeout(() => {
+            this.menuTooltips(false);
+        }, 0);
         
         this.rotateMenu.addEventListener('click',() => {
             if (this.body.getAttribute('data-bs-theme-menu') === 'left') {
