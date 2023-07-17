@@ -1,9 +1,9 @@
 DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.layout.code';
 DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.layout.class';
 DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.layout.menu.checkbox';
-INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.menu.checkbox', '1');
+INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.menu.checkbox', '0');
 DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.layout.darkmode.checkbox';
-INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.darkmode.checkbox', '1');
+INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.darkmode.checkbox', '0');
 DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.layout.readmode.checkbox';
 INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.readmode.checkbox', '0');
 DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.layout.user.readmode.show.checkbox';
