@@ -216,8 +216,8 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', 'the
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXs.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXsWarning.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.login.image', '');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.checkbox', '1');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.darkmode.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.darkmode.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.readmode.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.readmode.show.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.darkmode.show.checkbox', '1');
