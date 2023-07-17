@@ -12,9 +12,6 @@ Description: Contenu principe
 footer {
 	display: none;
 }
-#lutece-layout-wrapper {
-	display:block;
-}
 </style>
 </#if>
 </#macro>

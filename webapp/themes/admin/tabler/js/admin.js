@@ -4,20 +4,120 @@
  *
  * ****************************************************************/
 /* Specific script for back office */
-function themeMode( mode ){
-	const switchMode = document.querySelector('#switch-darkmode'), childSwitch=switchMode.querySelector('span'), iconSwitch=switchMode.querySelector('.ti'), themeBody = document.querySelector('body');
-	if( mode != 'dark'){
-		childSwitch.textContent = 'sombre';
-		if ( themeBody.classList.contains('theme-dark') ){ 
+function switchThemeMode( mode ){
+	const switchMode = document.querySelector('#switch-darkmode'), 
+		iconSwitch=switchMode.querySelector('.ti'), 
+		themeBody = document.querySelector('body'); 
+	
+	if( mode === 'dark'){
+		localStorage.setItem( 'lutece-tabler-theme', 'light' );
+		if ( themeBody.classList.contains( 'theme-dark' ) ){ 
 			themeBody.classList.remove('theme-dark') ;
 			iconSwitch.classList.remove('ti-sun');
 			iconSwitch.classList.add('ti-moon');
 		}
 	} else{
+		localStorage.setItem( 'lutece-tabler-theme', 'dark' );
 		iconSwitch.classList.remove('ti-moon');
 		iconSwitch.classList.add('ti-sun');
-		childSwitch.textContent = 'clair';
-		themeBody.classList.add('theme-dark');
+		if ( !themeBody.classList.contains('theme-dark') ){ 
+			themeBody.classList.add('theme-dark');
+		}
+	}
+}
+
+function themeMode( ){
+	let currentTheme = '', iconSwitch='';
+	const switchMode = document.querySelector('#switch-darkmode'), 
+          luteceTablerTheme=localStorage.getItem('lutece-tabler-theme'),
+          themeBody = document.querySelector('body'),
+          themeBodyTheme = themeBody.classList.contains('theme-dark')? 'dark' : 'light';
+
+		  
+        if( luteceTablerTheme === null ){
+              localStorage.setItem( 'lutece-tabler-theme', themeBodyTheme )
+            } else {
+        if( switchMode != undefined  ){ iconSwitch=switchMode.querySelector('.ti'); } 
+		if( themeBodyTheme != luteceTablerTheme ){
+			localStorage.setItem( 'lutece-tabler-theme', luteceTablerTheme )
+			if( switchMode != undefined  ){ switchThemeMode( themeBodyTheme ) }
+		} else if ( luteceTablerTheme === 'dark' ){
+            if( switchMode != undefined  ){
+			    iconSwitch.classList.remove('ti-moon');
+			    iconSwitch.classList.add('ti-sun');
+            }
+		}
+	}
+	
+	if( switchMode != undefined  ){
+		switchMode.addEventListener( 'click', function(){
+			currentTheme = localStorage.getItem( 'lutece-tabler-theme' )
+			switchThemeMode( currentTheme )
+		})
+
+		switchMode.addEventListener( 'keydown', ( keyboardEvent ) => {
+			switch (keyboardEvent.key) {
+				case 'Enter':
+					keyboardEvent.preventDefault();
+					currentTheme = localStorage.getItem( 'lutece-tabler-theme' )
+					switchThemeMode( currentTheme )
+					break;
+			}
+		})
+	}
+	
+}
+
+function themeMenu( ){
+	const switchMode = document.querySelector('#switch-menu');
+	const menuHeader = document.querySelector( '#lutece-layout-wrapper' );
+	const defaultMenu = menuHeader.classList[0];
+	let localMenu =  localStorage.getItem( 'lutece-tabler-theme-menu' );
+	
+	if( localMenu === null ){ 
+		localMenu = defaultMenu 
+	} else if ( localMenu != defaultMenu ) {
+		menuHeader.classList.remove( defaultMenu )
+		menuHeader.classList.add( localMenu )
+	}
+	if( switchMode != null ){
+		switchMode.addEventListener( 'click', (e) => {	
+			if ( menuHeader.classList[0]  === 'header' ) {
+				menuHeader.classList.add( 'aside' )
+				menuHeader.classList.remove( 'header' )
+				localStorage.setItem('lutece-tabler-theme-menu', 'aside');
+			} else {
+				localStorage.setItem('lutece-tabler-theme-menu', 'header');
+				menuHeader.classList.add( 'header' )
+				menuHeader.classList.remove( 'aside') 
+			}
+		});
+	}
+	document.querySelector('body').classList.add( 'loaded' )
+}
+
+function readMode( ){
+	let defaultReadMode = document.querySelector('body').getAttribute('dir')
+	const switchReadMode =  document.querySelector( '#lutece-layout-wrapper .lutece-header #lutece-rtl');
+	const localReadMode =  localStorage.getItem( 'lutece-bo-readmode' );
+	if( localReadMode != null ){ 
+		document.querySelector('body').setAttribute('dir', localReadMode )
+	} else if( defaultReadMode != null ) {
+		document.querySelector('body').setAttribute('dir',defaultReadMode)
+	} else {
+		document.querySelector('body').removeAttribute('dir')
+	}
+	if( switchReadMode != null ){
+		switchReadMode.addEventListener( "click", function(e){
+			defaultReadMode = document.querySelector('body').getAttribute('dir')
+			if( defaultReadMode === null ){
+				document.querySelector('body').setAttribute('dir','rtl')
+				localStorage.setItem( 'lutece-bo-readmode', 'rtl' );
+			} else {
+				document.querySelector('body').removeAttribute('dir')
+				localStorage.removeItem( 'lutece-bo-readmode' );
+			} 
+		})
 	}
 }
 
@@ -40,6 +140,12 @@ function progress( bar, complexity, valid ){
 }
 
 document.addEventListener( "DOMContentLoaded", function(){
+	if ( document.querySelector( '#lutece-layout-wrapper' ) != null ){
+		themeMenu();
+		themeMode();
+		readMode();
+	}
+	
 	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 		var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 		return new bootstrap.Popover(popoverTriggerEl, {container: 'body', sanitize : false, placement: 'left'})

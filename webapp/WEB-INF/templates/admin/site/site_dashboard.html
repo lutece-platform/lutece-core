@@ -28,7 +28,7 @@
 		<small>${last_modified_portlet.name} - #i18n{${last_modified_portlet.portletTypeName}}</small>
 	</@p>
 	<@p>
-		<@aButton href='jsp/admin/DoModifyPortlet.jsp?portlet_id=${last_modified_portlet.id}' title='${last_modified_portlet.name} - #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_portlet.dateUpdate}' buttonIcon='edit' size='xs' hideTitle=['all'] params='aria-label="#i18n{portal.util.labelModify}"' />
+		<@aButton href='jsp/admin/DoModifyPortlet.jsp?portlet_id=${last_modified_portlet.id}' title='${last_modified_portlet.name} - #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_portlet.dateUpdate}' buttonIcon='edit' size='xs' hideTitle=['all'] />
 		<@aButton href='jsp/site/Portal.jsp?page_id=${last_modified_portlet.pageId}' title='#i18n{portal.site.page.permission.view} [#i18n{portal.site.portal_footer.newWindow}]' buttonIcon='link' size='xs' hideTitle=['all'] />
 	</@p>
 </@div>

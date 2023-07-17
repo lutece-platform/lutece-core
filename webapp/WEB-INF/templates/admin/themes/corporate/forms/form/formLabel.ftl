@@ -14,15 +14,15 @@ Parameters:
 -->
 <#macro formLabel class='' labelFor='' labelId='' labelKey='' labelKeyDesc='' hideLabel=[] mandatory=true deprecated...>
     <@deprecatedWarning args=deprecated />
-    <#local labelClass = ' ' + displaySettings(hideLabel,'') />
+    <#local labelClass = ' ' + displaySettings( hideLabel, '' ) />
     <label class="form-label<#if mandatory=true> required</#if><#if class !=''> ${class?trim}<#else> w-100</#if><#if hideLabel?seq_contains('all')> visually-hidden</#if> " for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if>>
         <#if labelKey?trim !=''>
             <#if labelClass?trim !=''>
                 <span class="${labelClass}">
             </#if>
-            <span class="label">${labelKey}</span>
+            ${labelKey!?trim}
             <#if mandatory=true>
-                <span class="text-danger float-end fw-bolder"><i class="ti ti-asterisk"></i></span>
+                <span class="text-danger ms-3 fw-bolder"><i class="ti ti-asterisk"></i></span>
             </#if>
             <#if labelClass?trim !=''>
                 </span>

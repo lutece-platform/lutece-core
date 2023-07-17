@@ -4,22 +4,22 @@ Description: Generates the home page for the admin dashboard. It generates a con
 <#macro adminHome>
 <#assign head = .get_optional_template('../../../../../admin/user/adminHeader.html')>
 <#if head.exists><@head.include /></#if>
-<main id="lutece-main">
+<main id="lutece-main" class="lutece-main-content">
 <h1 class="visually-hidden">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h1>
 <@pageWrapper>
-	<@div id="dashboard-widgets" class="dashboard-widgets pt-3">
-		<@row>
-			<@columns sm=12 md=4 class='widget-col' id='zone-1'>
-				${dashboard_zone_1!}
-			</@columns>
-			<@columns sm=12 md=4 class='widget-col' id='zone-2'>
-				${dashboard_zone_2!}
-			</@columns>
-			<@columns sm=12 md=4 class='widget-col' id='zone-3'>
-				${dashboard_zone_3!}
-			</@columns>
-		</@row>
-	</@div>
+<@div id="dashboard-widgets" class="dashboard-widgets pt-3">
+	<@row>
+		<@columns sm=12 md=4 class='widget-col' id='zone-1'>
+			${dashboard_zone_1!}
+		</@columns>
+		<@columns sm=12 md=4 class='widget-col' id='zone-2'>
+			${dashboard_zone_2!}
+		</@columns>
+		<@columns sm=12 md=4 class='widget-col' id='zone-3'>
+			${dashboard_zone_3!}
+		</@columns>
+	</@row>
+</@div>
 </@pageWrapper>
 </main>
 <#assign foot = .get_optional_template('../../../../../admin/user/adminFooter.html')>

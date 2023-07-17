@@ -13,6 +13,8 @@ export class MenuManager {
         this.mainMenuItems = this.mainMenu.querySelectorAll('#main-menu li a');
         this.body = document.querySelector('body');
         this.savedTheme = localStorage.getItem('lutece-corporate-theme');
+        this.readMode = localStorage.getItem('lutece-bo-readmode');
+        this.readModeToggle = document.getElementById('lutece-rtl');
         this.savedThemeMenu = localStorage.getItem('lutece-corporate-theme-menu');
         this.menu = document.getElementById('menu');
         this.childMenu = document.getElementById('child-menu');
@@ -29,53 +31,58 @@ export class MenuManager {
      * adding event listeners for menu items, setting up the menu switcher, and adding hover listeners.
      */
     init() {
+        if ( this.readModeToggle != null ) {
+            this.applyReadMode();
+        }    
         if( this.toggleBtn != null ){
             this.applySavedTheme();
-            this.setActive();
-            this.addMenuEventListeners();
-            this.setupSwitcherMenu();
-            this.setupMobileMenu();
-            this.closeChildMenuOnClickOutside();
-            this.searchMenu();
         }
+        if( this.rotateMenu != null ){
+            this.applySavedThemeMenu();
+        }
+        this.setupSwitcherMenu();
+        this.setActive();
+        this.addMenuEventListeners();
+        this.setupMobileMenu();
+        this.closeChildMenuOnClickOutside();
+        this.searchMenu();
+    }
+    /**
+     * Applies the saved theme to the body and adds an event listener for theme toggle button.
+     */
+    applyReadMode() {
+        if ( this.readMode === null ) {
+            this.body.removeAttribute('dir');
+        } else {
+            this.body.setAttribute('dir', this.readMode );
+        }
+        this.readModeToggle.addEventListener('click', (e) => {
+            e.preventDefault()
+            if ( this.body.getAttribute('dir') === null ) {
+                this.body.setAttribute('dir', 'rtl');
+                localStorage.setItem('lutece-bo-readmode', 'rtl');
+            } else {
+                this.body.removeAttribute('dir');
+                localStorage.removeItem('lutece-bo-readmode');
+            }
+        });
     }
     /**
      * Applies the saved theme to the body and adds an event listener for theme toggle button.
      */
     applySavedTheme() {
-        if (this.savedTheme) {
+        if ( this.savedTheme ) {
             this.body.setAttribute('data-bs-theme', this.savedTheme);
             if (this.savedTheme === 'dark') {
                 this.toggleBtn.checked = true;
             }
         }
-
-        if (this.savedThemeMenu) {
-            this.body.setAttribute('data-bs-theme-menu', this.savedThemeMenu);
-        }
-
-        ( !this.savedThemeMenu || this.savedThemeMenu === 'top' ) && setTimeout(() => {
-            this.menuTooltips(false);
-        }, 0);
         
-        this.rotateMenu.addEventListener('click',() => {
-            if (this.body.getAttribute('data-bs-theme-menu') === 'left') {
-            this.body.setAttribute('data-bs-theme-menu', 'top');
-            localStorage.setItem('lutece-corporate-theme-menu', 'top');
-            this.menuTooltips(false);
-            } else {
-            this.body.setAttribute('data-bs-theme-menu', 'left');
-            localStorage.setItem('lutece-corporate-theme-menu', 'left');
-            this.menuTooltips(true);
-            }
-        });
-
-
-
         this.toggleBtn.addEventListener('click', () => {
+
             this.toggleTheme()
         });
- 
+
         this.toggleBtn.addEventListener('keydown', ( keyboardEvent ) => {
             switch (keyboardEvent.key) {
                 case 'Enter':
@@ -84,7 +91,32 @@ export class MenuManager {
                     this.toggleTheme()
                     break;
             }
+        }); 
+    }
+    /**
+     * Applies the saved theme to the body and adds an event listener for theme toggle button.
+     */
+    applySavedThemeMenu() {
+        if (this.savedThemeMenu) {
+            this.body.setAttribute('data-bs-theme-menu', this.savedThemeMenu);
+        }
+        
+        ( !this.savedThemeMenu || this.savedThemeMenu === 'top' ) && setTimeout(() => {
+            this.menuTooltips(false);
+        }, 0);
+
+        this.rotateMenu.addEventListener('click',() => {
+            if (this.body.getAttribute('data-bs-theme-menu') === 'left') {
+                this.body.setAttribute('data-bs-theme-menu', 'top');
+                localStorage.setItem('lutece-corporate-theme-menu', 'top');
+                this.menuTooltips(false);
+            } else {
+                this.body.setAttribute('data-bs-theme-menu', 'left');
+                localStorage.setItem('lutece-corporate-theme-menu', 'left');
+                this.menuTooltips(true);
+            }
         });
+
     }
     /**
      *  Theme toggle button function.
@@ -92,7 +124,7 @@ export class MenuManager {
     toggleTheme(){
         if (this.body.getAttribute('data-bs-theme') === 'light') {
             this.body.setAttribute('data-bs-theme', 'dark');
-            this.toggleBtn.querySelector('.darkmode-sun').style.animationName = 'spin-fast';
+            this.toggleBtn.querySelector( '.darkmode-sun' ).style.animationName = 'spin-fast';
             localStorage.setItem('lutece-corporate-theme', 'dark');
         } else {
             this.body.setAttribute('data-bs-theme', 'light');
@@ -100,7 +132,6 @@ export class MenuManager {
             localStorage.setItem('lutece-corporate-theme', 'light');
         }
     }
-
     /**
      *  Tooltips
      */
@@ -121,7 +152,7 @@ export class MenuManager {
             }
         });
     }
-         
+
     /**
      * Sets the active menu item and updates the child menu based on the active group.
      * @param {string} activeGroup - The feature group of the active menu item.

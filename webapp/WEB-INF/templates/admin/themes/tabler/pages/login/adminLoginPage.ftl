@@ -5,12 +5,14 @@ Parameters:
 - site_name (string, optional): the name of the site to display on the login page.
 - layout (string, optional): the name of the site to display on the login page.
 -->
-<#macro adminLoginPage title='' site_name='LUTECE' layout=''  params='' deprecated...>
+<#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
+<#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
+<#--  <#local readMode=dskey('portal.site.site_property.layout.readmode.checkbox')/>  -->
+<#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
 </head>
-<body class="antialiased d-flex flex-column"<#if params!=''> ${params}</#if>>
+<body class="antialiased d-flex flex-column ${dskey('portal.site.site_property.layout.readmode.checkbox')!}" ${readMode!}<#if params!=''> ${params}</#if>>
 <main id="login-page" class="page page-center">
 <#if loginLayoutImg?trim !=''>
 	<div class="container container-normal py-4">
@@ -21,9 +23,10 @@ Parameters:
 <#--  Content  -->
 <@div class="container-tight py-4">
 	<@div class="text-center mb-4">
-		<@link href='.' target='_blank' >
+		<@link href='.' target='_blank'>
+			<@span class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!}</@span>
 			<figure>
-				<@img url='${logoUrl}' alt='${site_name!}' title='${site_name!}' params=' height="36"' />
+				<@img url='${logoUrl}' alt='${site_name!}' title='${site_name!}'  params='aria-hidden="true" height="36" style="border: 2px solid white;border-radius:50%;"' />
 				<figcaption class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!'Lutece'} [ #i18n{portal.site.portal_footer.newWindow} ]</figcaption>
 			</figure>
 		</@link>
@@ -31,20 +34,20 @@ Parameters:
 	<@div class="card card-md">
 		<@div class="card-body bg-white">
 			<h2 class="card-title text-center mb-4 pt-2">
-				#i18n{portal.admin.admin_login.welcome}
+				#i18n{portal.admin.admin_login.welcome} 
 				<span class="d-block">${site_name!}</span>
 			</h2>
 			<#nested>
 		</@div>
 	</@div>
 </@div>
-<@p class='text-center text-white'><small>#i18n{portal.site.portal_footer.labelMadeBy} ${version}</small></@p>
+<p class="text-center text-white"><small>#i18n{portal.site.portal_footer.labelMadeBy} ${version}</small></p>
 <#--  End content -->
-<#if loginLayoutImg?trim !=''>
+<#if loginLayoutImg !='' && !loginLayoutImg?starts_with('DS') >
 				</div>
 			</div>
 			<div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
-				<div class="bg-cover h-100 min-vh-100 w-100" style="background-image: url( ${loginLayoutImg} );background-size:70%; "></div>
+				<div class="bg-cover h-100 min-vh-100 w-100" style="background-image: url(${loginLayoutImg});background-size:70%; "></div>
 			</div>
 		</div>
 	</div>
@@ -69,13 +72,10 @@ document.addEventListener( "DOMContentLoaded", function(){
 	login.randomImages = aImages;
 	login.randomBgImages = backImages;
 	<#if loginLayoutImg != '' >
-	const illust = '.bg-cover';
-	login.element = illust;
+	login.element = '.bg-cover';
 	</#if>	
 	login.init( )
 	/* Password Toggler */
-	<#--  password.passTogglerIconOn = "ti-accessible";
-	password.passTogglerIconOff = "ti-accessible-off";  -->
 	password.initPassToggler( );
 });
 </script>

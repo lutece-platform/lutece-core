@@ -6,30 +6,29 @@ Parameters:
 - action (string, optional): the URL of the form submission handler.
 -->
 <#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp'>
-	<#assign flagCodeSelected=lang>
-	<#if flagCodeSelected=='en'>
-		<#assign flagCodeSelected='gb'>
-	</#if>
-	<li class="d-none d-sm-block nav-item dropdown">
-		<a id="btn-lang" class="border btn btn-light btn-rounded" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.admin.admin_home.language}">
-			<div class="position-absolute" style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${flagCodeSelected}.svg');background-size:contain;background-position: center;height:25px;width:25px;border-radius:25px"></div>
-		</a>
-		<ul class="dropdown-menu p-3 text-center dropdown-menu-center">
-			<span class="text-muted">#i18n{portal.admin.admin_home.language}s</span>
-			<#list languages as language>
-				<#assign flagCode=language.code>
-				<#if flagCode=='en'>
-					<#assign flagCode='gb'>
-				</#if>
-				<#if flagCodeSelected=flagCode>
-					<#assign isLocale='border-primary border-3'>
-					<#assign title='#i18n{portal.admin_home.button.selectedLanguage}'>
-				<#else>
-					<#assign isLocale=''>
-					<#assign title=''>
-				</#if>
-				<a href='${action}?token=${token}&language=${language.code}' class='border btn btn-light btn-rounded ${isLocale} mx-auto mt-2' style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${flagCode}.svg');background-size:contain;background-position: center;"></a>
-			</#list>
-		</ul>
-	</li>
+<li class="d-none d-sm-block nav-item dropdown">
+	<a id="btn-lang" class="border btn btn-light btn-rounded" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.admin.admin_home.language}">
+		<div class="position-absolute" style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${lang}.svg');background-size:contain;background-position: center;height:25px;width:25px;border-radius:25px"></div>
+	</a>
+	<ul class="dropdown-menu p-3 text-center dropdown-menu-center">
+		<span class="text-muted">#i18n{portal.admin.admin_home.language}s</span>
+		<#list languages?filter( language -> language.code != lang ) as language>
+			<a href='${action}?token=${token}&language=${language.code}' class='border btn btn-light btn-rounded mx-auto mt-2' style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg');background-size:contain;background-position: center;">
+				<span class="visually-hidden">#i18n{portal.admin.admin_home.button.changeLanguage} ${language.name}</span>
+			</a>
+		</#list>
+	</ul>
+</li>
+</#macro>
+<#-- Macro: adminReadMode
+Description: Show read direction button
+Parameters:
+-->
+<#macro adminReadMode>
+<li class="nav-item d-none d-xl-flex">
+     <a class="border btn btn-light btn-rounded btn-readmode" href="" id="lutece-rtl" title="#i18n{portal.site.site_property.layout.readmode.checkbox}" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-animation="false" data-bs-original-title="#i18n{portal.site.site_property.layout.readmode.checkbox}" aria-label="#i18n{portal.site.site_property.layout.readmode.checkbox}"> 
+	 	<i class="fs-5 ti ti-text-direction-rtl mx-auto align-self-center"></i>
+        <span class="visually-hidden">#i18n{portal.site.site_property.layout.readmode.checkbox}</span>
+	 </a>
+</li>
 </#macro>

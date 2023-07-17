@@ -4,11 +4,13 @@ Parameters:
 - title (string, optional): the title to display on the login page.
 - site_name (string, optional): the name of the site to display on the login page.
 -->
-<#macro adminLoginPage title='' site_name='LUTECE'>
+<#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
+<#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
 <#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header.png')>
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim />
 </head>
-<body class="lutece-login" data-bs-theme="dark">
+<body class="lutece-login" data-bs-theme="dark"${readMode!}<#if params!=''> ${params}</#if>>
 <main>
 <#assign pageClass><#if !dskey('portal.site.site_property.bo.showXs.checkbox')?is_number><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0>d-none d-lg-block d-lg-flex<#else>d-block d-lg-flex</#if><#else>d-none d-lg-block d-lg-flex</#if></#assign>
 <@pageContainer class=pageClass>
@@ -22,11 +24,11 @@ Parameters:
 								<@img url="${logoUrl}" alt="${site_name!}" params='aria-hidden="true"' />
 							</@link>
 						</@div>
-						<h1 class="mb-3 mb-md-5 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h1>
+						<h1 class="mb-5 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h1>
 						<#nested>
 					</@div>
 				</@div>
-				<@p class='text-center text-muted mt-md-5'>
+				<@p class='text-center text-muted mt-5'>
 					<#if version?contains("SNAPSHOT")>
 						<@tag color="warning"><i class="ti ti-alert-triangle-filled"></i> Version ${version}</@tag>
 					<#else>
@@ -43,7 +45,7 @@ Parameters:
 					<h1 class="text-center">#i18n{portal.admin.admin_login.title}</h1>
 					<p class="text-center"><small>#i18n{portal.admin.admin_login.description}</small></p>
 					<figure class="d-flex justify-content-center">
-						<@img url=loginLayoutImg params='aria-hidden="true" width="70%" style="max-width:1000px;"'/>
+						<@img url=loginLayoutImg params='aria-hidden="true" style="max-width:1000px;"'/>
 					</figure>
 				</@div>
 			</@div>

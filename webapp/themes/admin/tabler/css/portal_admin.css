@@ -27,6 +27,14 @@
   --white: #ffffff;
 }
 
+body #lutece-layout-wrapper{
+  display: none;
+}
+
+body.loaded #lutece-layout-wrapper{
+  display: block !important;
+}
+
 /* Skip Links */
 .lutece-skip-links {
   clip: rect(0 0 0 0);
@@ -64,8 +72,12 @@
   white-space: inherit;
 }
 
-/* Tabler overrides                                           */
-.lutece-header-nav .lutece-header-user.navbar-nav + .nav-item.dropdown .dropdown-menu[data-bs-popper] {
+.lutece-skip-links:focus + .aside{
+  margin-top: 2rem
+}
+
+/* Header Menu                                           */
+.lutece-header-nav .lutece-nav-user.navbar-nav + .nav-item.dropdown .dropdown-menu[data-bs-popper] {
   top: 150%;
 }
 
@@ -81,29 +93,54 @@
   color: var(--tblr-light) !important;
 }
 
+/* Header */
 .lutece-header-nav .dropdown-item:hover {
   text-decoration: underline;
 }
 
-/* Language Menu                                            */
-.btn-language{
-	background-position: center;
-	background-size: 1rem;
-	background-color: transparent !important ;
-	background-repeat: no-repeat;
-	min-height: auto !important;
-	width: 1rem !important;
-	height: 1rem !important;
-	padding: 0 !important; 
-	opacity: .75;
-	box-shadow: none !important;
-  margin-left: .5rem;
+.btn-dropdown{
+  justify-content: start;
 }
 
-.btn-language:hover{ 
-	filter: drop-shadow(2px 4px 6px var( --black ) );
-	opacity: 1; 
+#lutece-layout-wrapper .lutece-header .lutece-nav .btn:focus, 
+#lutece-layout-wrapper .lutece-header .lutece-nav .btn:focus-within, 
+#lutece-layout-wrapper .lutece-header .lutece-nav .btn:focus-visible {
+  outline: var(--tblr-btn-border-width) solid var( --tblr-light ) !important;
 }
+
+/* Language Menu                                            */
+#lutece-layout-wrapper .lutece-header .lutece-nav #lutece-language-menu #lutece-languages .btn-language {
+  background-position: .5rem;
+  background-size: 1.25rem;
+  background-color: transparent !important;
+  color: var( --tblr-btn-hover-color );
+  background-repeat: no-repeat;
+  display: inline-block;
+  width: auto;
+  padding: .5rem .5rem .5rem 2rem;
+  text-align: left;
+  --tblr-border-opacity: 1;
+  border-color: rgba(var(--tblr-muted-rgb),var(--tblr-border-opacity))!important;
+  cursor: pointer;
+  margin: .25rem;
+}
+
+#lutece-layout-wrapper .lutece-header .lutece-nav #lutece-languages .btn-language:hover{ 
+  filter: drop-shadow( 2px 4px 6px var( --black ) );
+  color: var( --tblr-dark );
+  text-decoration: underline;
+  opacity: 1; 
+}
+/* 
+#lutece-layout-wrapper.aside .lutece-header .lutece-nav #lutece-language-menu #lutece-languages .btn-language {
+  display: block;
+  width: 100%;
+  padding: .5rem 2.25rem;
+}
+
+#lutece-layout-wrapper.aside .lutece-header .lutece-nav #lutece-language-menu #lutece-languages .btn-language:hover{ 
+  color:  var( --tblr-light );
+}  */
 
 /* Cards / Box                                                */
 /* Tabler cards overide                                       */
@@ -391,7 +428,7 @@
 }
 
 .card-theme.default-theme .avatar img {
-  border-color: var(--success)
+  border-color: var( --success )
 }
 
 .theme-selected {
@@ -401,7 +438,7 @@
 .card-theme.default-theme .theme-selected {
   display: block;
   width: 200px;
-  background: var(--success);
+  background: var( --success );
   text-align: center;
   line-height: 50px;
   letter-spacing: 1px;
@@ -417,7 +454,7 @@
   -webkit-transform: rotate(45deg);
 }
 
-/* Asynchronous Upload                                                */
+/* Asynchronous Upload            */
 .list-file-item {
   display: flex;
   align-items: center;
@@ -479,9 +516,217 @@ mark {
 .table-responsive .btn-group-vertical {
     position: static;
 }
-body {
-  overflow-y: auto;
+
+@media ( min-width: 768px) {
+  /* 
+  body {
+    overflow-y: auto;
+  }
+  */
+  .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    font-weight: 600;
+  }
+
+	#lutece-layout-wrapper.aside .navbar-dark .navbar-toggler {
+		order: 1;
+	}
 }
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-  font-weight: 600;
+
+@media ( min-width: 991px ) {
+	#lutece-layout-wrapper.aside{
+    grid-template-areas:  "lutece-nav lutece-content"
+                          "lutece-footer lutece-footer";
+    grid-template-columns: 14rem 1fr; 
+    grid-template-rows: initial;
+    grid-gap: 1rem
+	}
+  
+  #lutece-layout-wrapper.aside .lutece-nav {
+    flex-direction: column;
+    width: 15rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1030;
+    align-items: flex-start;
+    transition: transform .3s;
+    overflow-y: scroll;
+    padding: 0;
+    flex-grow: 1;
+    min-height: auto;
+  }
+
+  #lutece-layout-wrapper .lutece-header .lutece-nav .menu-rotate-icon {
+    transform: rotate( -90deg );
+    transition: transform .5s ease-in-out
+  }
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .menu-rotate-icon {
+    transform: rotate( 0deg );
+    transition: transform .5s ease-in-out
+  }
+
+  #lutece-layout-wrapper.aside > .lutece-page,
+  #lutece-layout-wrapper.aside > .lutece-main-content,
+  #lutece-layout-wrapper.aside > .content,
+  #lutece-layout-wrapper.aside > .lutece-main-footer {
+    margin-left: 15rem;
+  }
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav>[class^=container] {
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 100%;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+	#lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    order: 1
+	}
+
+	#lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-brand img{
+    margin-bottom: 1rem;
+	}
+
+	#lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse {
+    flex-direction: column;
+    flex: 0;
+    order: 3 ;
+    margin-bottom: 1rem;
+	}
+
+	#lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse > .navbar-nav{
+    flex-direction: column;
+    margin-left: .75rem;
+    width: 100%
+	}
+
+	#lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse > .navbar-nav .dropdown-menu{.lutece-nav-user
+    --tblr-dropdown-border-radius : 0;
+    --tblr-dropdown-bg: var(--tblr-body-color);
+    --tblr-dropdown-color: var(--tblr-navbar-color);    
+    position: static !important;
+    width: 100%;
+	}
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse > .navbar-nav .nav-item {
+    align-items: flex-start;
+  }
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse > .navbar-nav .nav-item .nav-link {
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+  }
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse > .navbar-nav .nav-item .dropdown-toggle:after {
+    margin-left: auto;
+  }
+
+	#lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-nav-user {
+    display: flex;
+    justify-content: center;
+    flex: 0;
+    flex-wrap: wrap;
+    order: 2;
+	}
+
+	#lutece-layout-wrapper:not(.aside) .lutece-header .lutece-nav #lutece-logout > span {
+    display: none;
+	}
+
+	#lutece-layout-wrapper.aside .lutece-header .lutece-nav #lutece-logout{
+      flex: 1;
+      padding-bottom: 1rem;
+      padding-left: 0.5rem;
+      align-items: flex-end;
+      order: 4
+  }
+
+	#lutece-layout-wrapper.aside .lutece-header .lutece-nav .dropdown-logout{
+    display: none;
+	}
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-nav-user ~ .nav-item.dropdown {
+    order: 4;
+  }
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-nav-user ~ .nav-item.dropdown .nav-link,
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-nav-user ~ .nav-item.dropdown .nav-link ~ .dropdown-menu.dropdown-menu-end {
+    flex-direction: column;
+    color: rgba(255,255,255,.7);  
+    background-color: transparent;
+  }
+  
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-nav-user ~ .nav-item.dropdown .nav-link{
+    flex-direction: row;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav  .lutece-nav-user ~ .nav-item.dropdown .nav-link ~ .dropdown-menu-arrow.dropdown-menu-end:before,
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav  .lutece-nav-user ~ .nav-item.dropdown .nav-link ~ .dropdown-menu-arrow.dropdown-menu-end.show {
+    width: 100%;
+    right: auto
+  }
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav  .lutece-nav-user ~ .nav-item.dropdown .nav-link ~ .dropdown-menu-arrow .dropdown-divider ,
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav  .lutece-nav-user ~ .nav-item.dropdown .nav-link ~ .dropdown-menu-arrow {
+    border: 0;
+  }
+  
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav  .lutece-nav-user ~ .nav-item.dropdown .nav-link ~ .dropdown-menu-arrow.dropdown-menu-end:before{
+    width: 0;
+    border: 0;
+  }
+  
+  #lutece-layout-wrapper .lutece-header .lutece-nav  #switch-language{
+    display: none;
+  }
+    
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav #switch-language{
+    margin-left: 1rem;
+    display: block;
+    flex: 1
+  }
+  
+  #lutece-layout-wrapper .lutece-header .lutece-nav  #lutece-language-menu{
+    margin: .25rem 0 0 .5rem; 
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+    
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav #lutece-language-menu{
+    margin-left: .5rem;
+  }
+    
+  #lutece-layout-wrapper .lutece-header .lutece-nav #lutece-language-menu #lutece-languages{
+    padding: .5rem;
+  }
+  
+  #lutece-layout-wrapper .lutece-header .lutece-nav #lutece-language-menu #lutece-languages .btn-language {
+    background-position: .4rem;
+    padding: 1rem;
+    margin: 0;
+    border: 0;
+    box-shadow: black 1px 1px 4px 0px;
+    min-height: auto;
+  }
+  
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-nav-user ~ .nav-item.dropdown .nav-link ~ .dropdown-menu-arrow .btn-link.text-dark:hover{
+    background-color: transparent;
+  }
+  	
+	#lutece-layout-wrapper.aside .lutece-header .lutece-nav .navbar-collapse .dropdown-menu .dropdown-item {
+    padding-left: .75rem;
+    font-size: .75rem;
+	}
+
 }

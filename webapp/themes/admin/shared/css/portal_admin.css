@@ -1,5 +1,5 @@
-/* BS5 + Tabler                                               */
-/* Variables                                                  */
+/* Tabler                                               		*/
+/* Variables                                                 	*/
 :root {
 	--light: #f4f6fa;
 	--dark-light: #dadcde;
@@ -19,42 +19,22 @@
 #lutece-layout-wrapper{
 	display: grid;
 	grid-template-areas: "lutece-nav"
-							"lutece-content"
-							"lutece-footer";
-	/* grid-template-areas: "lutece-nav lutece-content"
-							"lutece-nav lutece-footer"; */
-	grid-template-rows: 4rem 1fr 5rem;
+						 "lutece-content"
+						 "lutece-footer";
+	grid-template-rows: 4rem 1fr 3rem;
 	grid-template-columns: 1fr;
-	/* 
-	grid-template-columns: 8rem 1fr; 
-	*/
-	/*
-	grid-row-gap: 15px;
-	grid-column-gap: 15px;
-	height: 95vh; 
-	*/
 	margin: 0;
 	padding: 0;
 }
-
-#lutece-layout-wrapper.verti{
-	grid-template-areas: "lutece-nav lutece-content"
-							"lutece-footer lutece-footer";
-	grid-template-columns: 8rem 1fr; 
-	grid-template-rows: initial;
-}
-
-#lutece-layout-wrapper.verti .navbar-expand-md .navbar-nav {
-	flex-direction: column;
-}
-
-.lutece-header-nav{
+.lutece-aside,
+.lutece-header{
 	position: relative;
 	z-index: 2;
 	grid-area: lutece-nav;
 }
 
-.lutece-header-nav .lutece-header-collapse.navbar-collapse.collapse.show + .lutece-header-user.navbar-nav + .nav-item.dropdown{
+.lutece-aside .lutece-header-collapse.navbar-collapse.collapse.show + .lutece-header-user.navbar-nav + .nav-item.dropdown,
+.lutece-nav .lutece-header-collapse.navbar-collapse.collapse.show + .lutece-header-user.navbar-nav + .nav-item.dropdown{
 	display: none;
 }
 
@@ -77,6 +57,34 @@
 .page-wrapper{
 	min-height:	 82svb;
 }
+
+/* Documentation */
+.lutece-documentation aside ul ol,
+.lutece-documentation aside ul ul{
+  padding-left: .5rem
+}
+
+.lutece-documentation .navbar .navbar-nav .nav-item:first-child > .nav-item {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.lutece-documentation aside .navbar-vertical.navbar-expand-lg {
+  overflow-y: auto !important;
+}
+
+.lutece-documentation .page-wrapper{
+  width: 100%
+}
+
+.lutece-documentation .page-wrapper .content-section{
+  padding: 0 1rem
+}
+
+.lutece-documentation .page-wrapper h1{
+  background-color: var( --dark-light );
+  padding: .875rem
+}
   
 /*  Login page                                              */
 #login-page { 
@@ -94,44 +102,11 @@
 .widget-col .card .card-body{ 
 	max-height: 350px; 
 }
-.box-tools{ position: absolute; top: 5px; right: 5px;}
 
-/* Language Menu                                            */
-.dropdown-item:has(.btn-language){
-	height: 2.25rem !important;
-}
-
-.btn-language{
-	background-position: center;
-	background-size: 1rem;
-	background-color: transparent !important ;
-	background-repeat: no-repeat;
-	width: 1rem !important;
-	height: 1rem !important;
-	padding: 0 !important; 
-	opacity: .5;
-	box-shadow: none !important;
-}
-
-.btn-language .ti{
-	margin-left: 1rem
-}
-
-.btn-language:hover{ 
-	filter: drop-shadow(2px 4px 6px var( --black ) );
-	opacity: 1; 
-}
-
-.btn-language-selected{ 
-	opacity: 1; 
-}
-
-.fr{ 
-	background-image: url( vendor/tabler/img/flags/fr.svg );  
-}
-
-.en{ 
-	background-image: url( vendor/tabler/img/flags/gb.svg ); 
+.box-tools{ 
+	position: absolute; 
+	top: 5px; 
+	right: 5px;
 }
 
 /* Helpers classes                                          */
@@ -155,19 +130,24 @@
 /* Table                                                      */
 .table .img-responsive{ 
 	padding-top: 0 
-};
+}
+
 .table{ 
 	background-color: var( --white );
 }
+
 .table > :not(caption) > * > *, .markdown > table > :not(caption) > * > * { 
 	box-shadow: inset 0 0 0 9999px var( --white ); 
 }
+
 .table-hover.hoverable-click tr{ 
 	cursor: pointer;
 }
+
 .table td{ 
 	vertical-align: middle; 
 }
+
 /* Sort Headers */
 .table th.th-header.active{ 
 	background-color: var( --dark-light); 
@@ -278,65 +258,105 @@ tr[data-url]:hover, td[data-url]:hover{
 	width: 4rem; 
 }
 
-/* Buttons */
-.btn > i { margin-right: .25rem }
-
 /* Admin Site preview 				*/
-#admin-page-preview {
+/* Admin preview responsive 		*/
+#lutece-admin-page-preview {
+    width: 95vw;
+    margin-left: -30px;
+}
+
+#lutece-admin-site-preview-wrapper {
 	display: flex;
 	justify-content: center;
-	flex-wrap: wrap;
-	overflow-x: hidden;
-	margin: 5px -15px;
+    overflow: auto;
+    padding: 0;
+    max-height: 400px;
+    width:100%;
+    height:80vh;
+    min-height: 80vh;
 }
 
-#admin-page-preview > form{
-	flex: 1
-}
-  
-#lutece-admin-site-preview{
-	min-height: 80vh;
-	overflow-x: hidden;
+#lutece-admin-site-preview-frame{
+	display: flex;
+	justify-content: center;
+    overflow: auto;
+    padding: 0;
+    max-height: 400px;
+    width:100%;
+    height:80vh;
+    min-height: 80vh;
 }
 
-.admin-site-toolbar{ 
-	padding-left: 1.3rem
-} 
-
-/* Admin preview responsive */
-.responsive-admin-preview {
+#lutece-admin-site-preview-frame.phone, #lutece-admin-site-preview-frame.tablet, #lutece-admin-site-preview-frame.laptop, #lutece-admin-site-preview-frame.desktop{
+	display: block;
+	color: #fff;
+	text-align: center;
+	font-family: "SF Pro Display", Helvetica Neue, Arial, sans-serif;
+	letter-spacing: -0.022em;
+	font-size: 2.5vmin;
+	text-shadow: 0 0 0.5em #000;
+	background-color: #000;
+	background-size: auto 200%, cover;
+	background-repeat: no-repeat, no-repeat;
+	border: solid #111;
+	margin-bottom: 2em;
 	position: relative;
-	margin: 5px auto;
-	border: 1rem var( --black ) solid;
-	border-top-width: 60px;
-	border-bottom-width: 60px;
-	border-radius: 36px;
+	box-shadow: 0 0.5em 2em 0.2em rgba(0, 0, 0, 0.33), 0 0 0 0.5px #000 inset;
+	transition: all 0.1s linear, line-height 0s linear;
+	background-position: 50% 100%, center;
+	transform-origin: bottom center;
 }
 
-.responsive-admin-preview:before {
-	content: '';
-	display: block;
-	width: 60px;
-	height: 5px;
-	position: absolute;
-	top: -30px;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background: var( --gray-color ) ;
-	border-radius: 10px;
+#lutece-admin-site-preview-frame.phone {
+	width: 40.7623762376vmin;
+	height: 51.0891089109vmin;
+	line-height: 51.4455445545vmin;
+	border-width: 1.5207920792vmin;
+	border-radius: 4.0550130098vmin;
+	z-index: 200;
 }
 
-.responsive-admin-preview:after {
-	content: '';
-	display: block;
-	width: 35px;
-	height: 35px;
-	position: absolute;
-	left: 50%;
-	bottom: -65px;
-	transform: translate(-50%, -50%);
-	background: var( --gray-color ) ;
-	border-radius: 50%;
+#lutece-admin-site-preview-frame.tablet {
+	height: 85.8vmin;
+	width: 90vmin;
+	line-height: 85.8vmin;
+	border-width: 1.5207920792vmin;
+	border-radius: 4.2857142857vmin;
+	z-index: 100;
+}
+
+#lutece-admin-site-preview-frame.laptop {
+	height: 85.8vmin;
+	width: 115vmin;
+	line-height: 85.8vmin;
+	border-width: 1.5207920792vmin;
+	border-radius: 4.2857142857vmin;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	z-index: 100;
+}
+
+#lutece-admin-site-preview-frame.desktop {
+	width: 100vmin;
+	height: 85.8vmin;
+	line-height: 85.8vmin;
+	border-width: 0;
+	border-radius: 0;
+	background-color: #fff;
+	z-index: 100;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) { 
+	#lutece-admin-site-preview-box > .card-header{
+		flex-direction: column;
+	}
+}
+
+.lutece-admin-maximize{
+  height: 100vh !important;
+  min-height: 100vh !important;
+  max-height: auto !important;
 }
 
 .extend-menu-item{ 
@@ -347,7 +367,7 @@ tr[data-url]:hover, td[data-url]:hover{
 	min-width: 180px; 
 }
 
-/* Message */
+/* Message 														*/
 .page-center{ 
 	background-color: var( --blue ); 
 }
@@ -391,6 +411,10 @@ tr[data-url]:hover, td[data-url]:hover{
 
 .theme-dark .bg-white{ 
 	background-color: var( --dark ) !important; 
+}
+
+.theme-dark .theme-invert{ 
+	filter: invert();	
 }
 
 /* CSS for copyElementToClipboard commons Freemarker Macro      */
