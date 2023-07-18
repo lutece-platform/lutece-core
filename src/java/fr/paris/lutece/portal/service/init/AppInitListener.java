@@ -41,48 +41,54 @@ import fr.paris.lutece.portal.service.scheduler.JobSchedulerService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
-
+import jakarta.annotation.Priority;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Destroyed;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
 
 /**
- * The initialization servlet of the application. This servlet is declared load-on-startup in the downloadFile web.xml
+ * The initialization class of the application. This class is declared load-on-startup in the downloadFile web.xml
  */
-public class AppInitListener implements ServletContextListener
+@ApplicationScoped
+public class AppInitListener 
 {
     // ////////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String PATH_CONF = "/WEB-INF/conf/";
 
     /**
-     * Initialize the application
-     * 
-     * @param sce
-     *            context event
-     */
-    @Override
-    public void contextInitialized( ServletContextEvent sce )
-    {
-        ServletContext context = sce.getServletContext( );
-
-        // Initializes the PathService that give Absolute paths or URL to other services
+	 * Initialize the service of application
+	 * @param contextthe context servlet initialized event
+	 */
+	public void initializedService(@Observes @Initialized(ApplicationScoped.class) @Priority(value=1)
+	ServletContext context){
+	
+        AppLogService.info( "Started initializing services");
         AppPathService.init( context );
-
-        // Initializes all other services
-        AppInit.initServices( context, PATH_CONF, AppPathService.getWebAppPath( ) );
-    }
-
-    /**
-     * Shutdown the application
-     * 
-     * @param sce
-     *            context event
-     */
-    @Override
-    public void contextDestroyed( ServletContextEvent sce )
-    {
-        MailService.shutdown( );
+     // Initializes properties service
+	    AppInit.initPropertiesServices(PATH_CONF, AppPathService.getWebAppPath( ));
+	}
+	/**
+	 * Initialize the service of application
+	 * @param contextthe context servlet initialized event
+	 */
+	public void initializedOtherService(@Observes @Initialized(ApplicationScoped.class) @Priority(value=3)
+		ServletContext context){
+	
+	    // Initializes all other services
+	    AppInit.initServices(context, PATH_CONF, AppPathService.getWebAppPath( ));
+        AppLogService.info( "End initializing services");
+	}
+	/**
+	 * Shutdown the application
+	 * @param destroyed context event
+	 */
+	public void contextDestroyed(@Observes @Destroyed(ApplicationScoped.class) 
+		ServletContext context){
+		
+		MailService.shutdown( );
         AppDaemonService.shutdown( );
         JobSchedulerService.shutdown( );
         ShutdownServiceManager.shutdown( );
@@ -90,5 +96,6 @@ public class AppInitListener implements ServletContextListener
         AppConnectionService.releasePool( );
         SpringContextService.shutdown( );
         AppLogService.info( "Application stopped" );
-    }
+		
+	}
 }

@@ -23,12 +23,7 @@
 	    <listener-class>
 	       org.apache.logging.log4j.web.Log4jShutdownOnContextDestroyedListener
 	    </listener-class>
-	</listener>
-    <listener>
-        <display-name>Lutece context listener</display-name>
-        <listener-class>fr.paris.lutece.portal.service.init.AppInitListener</listener-class>
-    </listener>
-
+	</listener>	
     <listener>
         <display-name>Lutece Main Listener</display-name>
         <listener-class>fr.paris.lutece.portal.service.sessionlistener.MainHttpSessionListener</listener-class>

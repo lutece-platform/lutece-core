@@ -85,7 +85,7 @@ public final class AppPathService
     // Datastore keys
     private static final String KEY_ADMIN_HOME_URL = "portal.site.site_property.admin_home_url";
     private static final String KEY_PORTAL_HOME_URL = "portal.site.site_property.home_url";
-    private static String _strWebAppPath;
+    private static String _strWebAppPath=AppPathService.class.getClassLoader().getResource("").getPath().split("/WEB-INF/classes/")[0];
 
     /**
      * Creates a new AppPathService object.
