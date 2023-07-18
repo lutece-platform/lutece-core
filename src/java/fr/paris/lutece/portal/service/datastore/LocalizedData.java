@@ -44,6 +44,7 @@ public class LocalizedData implements Comparable
     private String _strLabel;
     private String _strValue;
     private String _strHelp;
+    private String _strGroup;
     private int _nOrder;
 
     /**
@@ -128,6 +129,27 @@ public class LocalizedData implements Comparable
     public void setHelp( String strHelp )
     {
         _strHelp = strHelp;
+    }
+
+    /**
+     * Returns the Group
+     *
+     * @return The Group
+     */
+    public String getGroup( )
+    {
+        return _strGroup;
+    }
+
+    /**
+     * Sets the Group
+     *
+     * @param strGroup
+     *            The Group
+     */
+    public void setGroup( String strGroup )
+    {
+        _strGroup = strGroup;
     }
 
     /**
