@@ -24,16 +24,11 @@
                     <#assign index = group?index>
                     <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
                     <@tabPanel active=tabactive id='group-${index}'>
-                    <@row class='justify-content-end'>
-                        <@columns class='w-25 mb-3'>
-                            
-                        </@columns>
-                    </@row>
                     <@tform action='jsp/admin/DoModifyProperties.jsp'>
                     <@row class='row-cols-4'>
                     <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                     <#assign groupList = []>
-                    <#list groups as groupGroup>
+                    <#list groups?sort as groupGroup>
                         <#if !groupList?seq_contains(groupGroup)> 
                             <#assign groupList = groupList + [groupGroup]>
                         </#if>
