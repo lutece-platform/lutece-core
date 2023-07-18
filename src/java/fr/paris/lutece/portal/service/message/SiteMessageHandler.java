@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -55,6 +56,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * Site message pages provider service.
  *
  */
+@ApplicationScoped
 public class SiteMessageHandler implements ISiteMessageHandler
 {
     private static final String TEMPLATE_MESSAGE = "skin/site/site_message.html";

@@ -53,8 +53,6 @@
         <property name="roleRemovalService" ref="roleRemovalService" />
     </bean>
 
-    <bean id="siteMessageHandler" class="fr.paris.lutece.portal.service.message.SiteMessageHandler" />
-
     <!-- Search Engine -->
     <bean id="searchEngine" class="fr.paris.lutece.portal.service.search.LuceneSearchEngine">
         <aop:scoped-proxy proxy-target-class="false" />

@@ -77,6 +77,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -109,7 +110,6 @@ public class PortalJspBean
     private static final String MARK_ERROR_CAUSE = "error_cause";
     private static final String MARK_PLUGIN_THEME = "plugin_theme";
     private static final String MARK_THEME = "theme";
-    private static final String BEAN_SITE_MESSAGE_HANDLER = "siteMessageHandler";
     private static final String PARAMETER_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
     private static final String PARAMETER_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
     private static final String PARAMETER_SENDER_NAME = "senderName";
@@ -244,7 +244,7 @@ public class PortalJspBean
             return getStartUpFailurePage( request );
         }
 
-        ISiteMessageHandler handler = SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
+        ISiteMessageHandler handler = CDI.current().select(ISiteMessageHandler.class).get();
 
         if ( handler.hasMessage( request ) )
         {
