@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.service.content.ContentService;
@@ -50,7 +51,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.StandaloneAppService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
@@ -68,7 +68,6 @@ public class StandaloneAppJspBean
     private static final String MARK_ENTRY_LIST = "entry_list";
     private static final String MARK_BASE_URL = "base_url";
     private static final String MARK_CORE_PLUGIN = "core_plugin";
-    private static final String BEAN_SITE_MESSAGE_HANDLER = "siteMessageHandler";
 
     /**
      * Returns the content of a page according to the parameters found in the http request. One distinguishes article, page and xpage and the mode.
@@ -102,8 +101,7 @@ public class StandaloneAppJspBean
     public String getContent( HttpServletRequest request, int nMode ) throws UserNotSignedException, SiteMessageException
     {
         // Handle site messages first
-        ISiteMessageHandler handlerSiteMessage = SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
-
+        ISiteMessageHandler handlerSiteMessage = CDI.current().select(ISiteMessageHandler.class).get();
         if ( handlerSiteMessage.hasMessage( request ) )
         {
             return handlerSiteMessage.getPage( request, nMode );
