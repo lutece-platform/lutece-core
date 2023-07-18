@@ -62,7 +62,6 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.servlet.ServletService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -91,6 +90,7 @@ public final class AppInit
     private static final String PATH_TEMPLATES = "/WEB-INF/templates/";
     private static final String CONFIG_PROPERTIES_TEMPLATE = "admin/system/config_properties.html";
     private static boolean _bInitSuccessfull;
+    private static boolean _bStartInitService;
     private static String _strLoadingFailureCause;
     private static String _strLoadingFailureDetails;
 
@@ -109,7 +109,8 @@ public final class AppInit
      */
     public static void initServices( String strConfPath )
     {
-        initServices( null, strConfPath, null );
+    	initPropertiesServices(  strConfPath, null );
+    	initServices( null, strConfPath, null );
     }
 
     /**
@@ -123,42 +124,10 @@ public final class AppInit
      *            The real path to the config files
      */
     public static void initServices( ServletContext context, String strConfPath, String strRealPath )
-    {
+    {    	  
         try
         {
             long lStart = System.currentTimeMillis( );
-
-            Thread.currentThread( ).setName( "Lutece-MainThread" );
-            // Initializes the properties download files containing the variables used by
-            // the application
-            AppPropertiesService.init( strConfPath );
-
-            // Initializes the template services from the servlet context information
-            AppTemplateService.init( PATH_TEMPLATES );
-
-            // Initializes the Datastore Service
-            DatastoreService.init( );
-
-            if ( strRealPath != null )
-            {
-                // Initializes the properties download files containing the
-                // variables used by the application
-                initProperties( strRealPath );
-            }
-
-            AppLogService.info( " {} {} {} ...\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version", AppInfo.getVersion( ) );
-
-            // BeanUtil initialization, considering Lutèce availables locales and date
-            // format properties
-            BeanUtil.init( );
-
-            // Initializes the connection pools
-            AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
-            AppLogService.info( "Creating connexions pool 'portal'." );
-
-            // Spring ApplicationContext initialization
-            AppLogService.info( "Loading context files ..." );
-            SpringContextService.init( context );
 
             // Initialize and run StartUp services
             AppLogService.info( "Running extra startup services ..." );
@@ -241,6 +210,49 @@ public final class AppInit
             }
         }
     }
+
+	public static void initPropertiesServices(String strConfPath, String strRealPath) {
+		if(!_bStartInitService) {			
+			Thread.currentThread( ).setName( "Lutece-MainThread" );
+			// Initializes the properties download files containing the variables used by
+			// the application
+			AppPropertiesService.init( strConfPath );
+			 // Initializes the template services from the servlet context information
+			AppTemplateService.init( PATH_TEMPLATES );     
+			// Initializes the Datastore Service
+			DatastoreService.init( );
+	
+			if ( strRealPath != null )
+			{
+			    // Initializes the properties download files containing the
+			    // variables used by the application
+			    initProperties( strRealPath );
+			}
+	
+			AppLogService.info( " {} {} {} ...\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version", AppInfo.getVersion( ) );
+	
+			// BeanUtil initialization, considering Lutèce availables locales and date
+			// format properties
+			BeanUtil.init( );
+	
+			// Initializes the connection pools
+			try {
+				AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
+				AppLogService.info( "Creating connexions pool 'portal'." );			
+			} catch (LuteceInitException e) {
+				_strLoadingFailureCause = e.getMessage( );
+	
+	            Throwable cause = e.getCause( );
+	
+	            while ( cause != null )
+	            {
+	                _strLoadingFailureDetails = cause.getMessage( );
+	                cause = cause.getCause( );
+	            }
+			}
+			_bStartInitService =true;
+		}
+	}
 
     /**
      * Get a base url to display in start logs
