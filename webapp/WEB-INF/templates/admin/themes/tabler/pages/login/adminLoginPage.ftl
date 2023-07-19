@@ -10,7 +10,7 @@ Parameters:
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
 <#--  <#local readMode=dskey('portal.site.site_property.layout.readmode.checkbox')/>  -->
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
-<#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
+<#local loginLayoutImg=dskey('portal.site.site_property.login.image')?trim /> 
 </head>
 <body class="antialiased d-flex flex-column ${dskey('portal.site.site_property.layout.readmode.checkbox')!}" ${readMode!}<#if params!=''> ${params}</#if>>
 <main id="login-page" class="page page-center">
