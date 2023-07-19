@@ -25,7 +25,7 @@
                     <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
                     <@tabPanel active=tabactive id='group-${index}'>
                     <@tform action='jsp/admin/DoModifyProperties.jsp'>
-                    <@row class='row-cols-4'>
+                    <@row class='row-cols-3'>
                     <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                     <#assign groupList = []>
                     <#list groups?sort as groupGroup>
@@ -34,17 +34,20 @@
                         </#if>
                     </#list>
                     <#list groupList?sort as groupCol>
-                    <#assign groupName>#i18n{portal.site.site_property.${groupCol}.group.title}</#assign>
-                    <@columns params='data-prop="${groupName}"'> 
-                        <h3 class="h5 ">${groupName}</h3>
-                        <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
+                    <@columns params='data-prop="${groupCol}"'> 
+                    <#assign groupName=''>
+                    <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
+                            <#if groupName=''>
+                            <#assign prefix=groupItem.key?keep_before(".site_property")  >
+                            <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
+                            <h3 class="h5">${groupName}</h3>
+                            </#if>
                             <#assign labelText=groupItem.label>
                             <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
                             <#if groupItem.help?length gt 0><#assign helpText = groupItem.help><#else><#assign helpText = groupItem.key></#if>
                             <@box>
-                                <@boxBody class='searchable'>
-                                <h3 class="card-title h4">#i18n{site.site_property.${group}.title}</h3>
-                                <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
+                                <@boxBody class='searchable p-2'>
+                                 <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
                                     <#if groupItem.key?ends_with( ".textblock" )>
                                         <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
                                     <#elseif groupItem.key?ends_with( ".htmlblock" )>
