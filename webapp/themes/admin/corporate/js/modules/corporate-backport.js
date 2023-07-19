@@ -72,11 +72,9 @@ export class BackportTemplateStyle {
         }))
     }
     adjustPageHeight() {
-        const pageHeader = document.querySelector("#page .page-header");
         const lutecePage = document.querySelector('.lutece-page');
-        if (pageHeader && lutecePage) {
-            const menuPosition = document.body.getAttribute('data-bs-theme-menu');
-            const height = window.innerHeight - (menuPosition === 'left' || menuPosition === 'right' ? 120 : 130);
+        if (lutecePage) {
+            const height = window.innerHeight - lutecePage.getBoundingClientRect().top;
             lutecePage.style.maxHeight = `${height}px`;
             lutecePage.style.height = `${height}px`;
         }
