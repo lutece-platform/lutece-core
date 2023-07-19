@@ -133,6 +133,13 @@
             <#else>
          </#if>
       </#list>
+      <li id="child-menu-more" class="nav-item dropdown list-unstyled d-none" style="position:static !important;">
+          <a class="nav-link" id="child-menu-more-btn" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-boundary="viewport" aria-expanded="false" title="#i18n{portal.users.admin_header.labelMore}">
+            <h3><i class="ti ti-dots fs-2"></i></h3>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          </ul>
+        </li>
    </div>
 </div>
 </div>

@@ -18,6 +18,11 @@ export class MenuManager {
         this.savedThemeMenu = localStorage.getItem('lutece-corporate-theme-menu');
         this.menu = document.getElementById('menu');
         this.childMenu = document.getElementById('child-menu');
+        this.childMenuMore = this.childMenu.querySelector('#child-menu-more');
+        this.childMenuMoreUl = this.childMenuMore.querySelector('ul');
+        this.childMenuItems = [];
+        this.childMenuItemsPositions = [];
+        this.childMenuMoreItems = [];
         this.switcherMenu = document.getElementById('menu-switcher');
         this.mobileMenu = document.getElementById('menu-mobile');
         this.mobileMenuClose = document.getElementById('menu-mobile-close');
@@ -109,11 +114,15 @@ export class MenuManager {
             if (this.body.getAttribute('data-bs-theme-menu') === 'left') {
                 this.body.setAttribute('data-bs-theme-menu', 'top');
                 localStorage.setItem('lutece-corporate-theme-menu', 'top');
+                this.savedThemeMenu = 'top';
                 this.menuTooltips(false);
+                this.childMenuResize( true );
             } else {
                 this.body.setAttribute('data-bs-theme-menu', 'left');
                 localStorage.setItem('lutece-corporate-theme-menu', 'left');
+                this.savedThemeMenu = 'left';
                 this.menuTooltips(true);
+                this.childMenuHandleReset();
             }
         });
 
@@ -162,6 +171,7 @@ export class MenuManager {
         const rightListItems = this.childMenu.querySelectorAll('#right-list .list-group-item');
         const featureGroupListItems = this.childMenu.querySelectorAll('#feature-list .feature-group');
         const featureGroupMenuItems = this.menu.querySelectorAll('a');
+        this.childMenuItems = [];
         this.childMenu.classList.remove('child-menu-found');
         if (!activeGroup && active) {
             activeGroup = active.replace('#', '');
@@ -190,6 +200,7 @@ export class MenuManager {
                         if ( element.classList.contains( 'active' ) ) {
                             activeElement = element;
                         }
+                        this.childMenuItems.push(element);
                         element.classList.remove('d-none');
                         this.childMenu.classList.add( 'child-menu-found' );
                         this.childMenu.setAttribute( 'data-featuregroup', activeGroup);
@@ -239,6 +250,7 @@ export class MenuManager {
                 }
             });
         }
+            this.childMenuResize( true );
     }
 
     /**
@@ -325,6 +337,7 @@ export class MenuManager {
                     break;
             }
         });
+        window.addEventListener("resize", () => this.childMenuResize( false ));
     }
     
     /**
@@ -445,5 +458,88 @@ export class MenuManager {
                 }
             }
         });
+    }
+
+    /**
+     * Handles the positions of child menu items.
+     */
+    childMenuItemsHandlePositions() {
+        this.childMenuMoreItems = [];
+        this.childMenuItemsPositions = [];
+        document.fonts.ready.then(() => {
+            for (let i = 0; i < this.childMenuItems.length; i++) {
+                let child = this.childMenuItems[i];
+                this.childMenuItemsPositions[i] = {
+                    element: child,
+                    leftPosition: child.offsetLeft,
+                    width: child.offsetWidth
+                };
+            }
+            this.childMenuItemsHandleResize();
+        });
+    }
+
+    /**
+     * Handles the resize of child menu items.
+     */
+  childMenuItemsHandleResize = () => {
+    this.childMenuMoreUl.innerHTML = '';
+    this.childMenuMore.classList.add('d-none');
+    this.childMenuMore.classList.remove('active');
+    const parentRightPosition = this.childMenu.offsetLeft + this.childMenu.clientWidth;
+    this.childMenuItemsPositions.forEach((item, index) => {
+        const childRightPosition = item.leftPosition + item.width;
+        const overflown = childRightPosition > (parentRightPosition - 150);
+        if (overflown !== item.element.classList.contains('d-none')) {
+            item.element.classList.toggle("d-none");
+
+            if (overflown) {
+                this.childMenuMoreItems.push(item.element);
+            } else {
+                this.childMenuMoreItems = this.childMenuMoreItems.filter(elem => elem !== item.element);
+            }
+        }
+    });
+
+    if (this.childMenuMoreItems.length > 0) {
+        this.childMenuMore.classList.remove('d-none');
+        this.childMenuMoreItems.forEach(element => {
+            const isActived = element.classList.contains('active');
+            const template = `<li><a class="dropdown-item ${isActived ? 'active' : '' }" href="${element.getAttribute("href")}">${element.getAttribute("title")}</a></li>`;
+            this.childMenuMoreUl.insertAdjacentHTML("beforeend", template);
+            if (isActived) {
+                this.childMenuMore.classList.add('active');
+            }
+        });
+    }
+}
+
+    /**
+     * Resets the child menu to its original state.
+     */
+    childMenuHandleReset = () => {
+        this.childMenuMore.classList.add('d-none');
+        this.childMenuMore.classList.remove('active');
+        this.childMenuItemsPositions.forEach(item => {
+            item.element.classList.remove('d-none');
+            this.childMenuMoreItems = [];
+        });
+    }
+
+    /**
+     * Resizes the child menu.
+     * @param {boolean} bRecalculate - Indicates whether to recalculate the menu positions.
+     */
+    childMenuResize(bRecalculate) {
+        const isNeeded = this.childMenu.clientWidth > 1199 && (!this.savedThemeMenu || this.savedThemeMenu === 'top');
+        if (isNeeded) {
+            if (bRecalculate) {
+                this.childMenuItemsHandlePositions();
+            } else {
+                this.childMenuItemsHandleResize();
+            }
+        } else {
+            this.childMenuHandleReset();
+        }
     }
 }
