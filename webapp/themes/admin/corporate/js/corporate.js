@@ -1,10 +1,10 @@
 // init
 import {
     MenuManager
-} from './modules/corporate-menu.js';
+} from './modules/corporate-menu.js?ver=0.0.1';
 import {
     BackportTemplateStyle
-} from './modules/corporate-backport.js';
+} from './modules/corporate-backport.js?ver=0.0.1';
 document.body.classList.add("loaded");
 new MenuManager();
 new BackportTemplateStyle();
