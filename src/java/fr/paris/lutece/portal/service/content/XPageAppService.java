@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -54,11 +53,15 @@ import fr.paris.lutece.util.http.SecurityUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.Bean;
+import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -94,8 +97,8 @@ public class XPageAppService extends ContentService
             if ( entry.getClassName( ) == null )
             {
                 String applicationBeanName = entry.getPluginName( ) + ".xpage." + entry.getId( );
-
-                if ( !SpringContextService.getContext( ).containsBean( applicationBeanName ) )
+                
+                if ( CDI.current().getBeanManager().getBeans(applicationBeanName).isEmpty() )
                 {
                     throw new LuteceInitException( ERROR_INSTANTIATION + entry.getId( ) + " - Could not find bean named " + applicationBeanName,
                             new NoSuchBeanDefinitionException( applicationBeanName ) );
@@ -326,7 +329,9 @@ public class XPageAppService extends ContentService
         {
             if ( entry.getClassName( ) == null )
             {
-                application = SpringContextService.getBean( entry.getPluginName( ) + ".xpage." + entry.getId( ) );
+            	BeanManager beanManager= CDI.current().getBeanManager();	
+            	Bean<?> bean=  beanManager.getBeans(entry.getPluginName( ) + ".xpage." + entry.getId( )).iterator().next();
+            	application= (XPageApplication) beanManager.getReference(bean, bean.getBeanClass(), beanManager.createCreationalContext(bean));
             }
             else
             {

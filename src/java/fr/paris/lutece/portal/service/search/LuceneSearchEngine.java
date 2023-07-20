@@ -40,6 +40,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -73,6 +75,8 @@ import fr.paris.lutece.util.date.DateUtil;
 /**
  * LuceneSearchEngine
  */
+@ApplicationScoped
+@Named( "searchEngine" )
 public class LuceneSearchEngine implements SearchEngine
 {
     public static final int MAX_RESPONSES = 1000000;

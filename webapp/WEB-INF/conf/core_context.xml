@@ -52,12 +52,6 @@
         <property name="portletCacheKeyService" ref="portletCacheKeyService" />
         <property name="roleRemovalService" ref="roleRemovalService" />
     </bean>
-
-    <!-- Search Engine -->
-    <bean id="searchEngine" class="fr.paris.lutece.portal.service.search.LuceneSearchEngine">
-        <aop:scoped-proxy proxy-target-class="false" />
-    </bean>
-
     <bean id="indexerActionDAO" class="fr.paris.lutece.portal.business.indexeraction.IndexerActionDAO" />
 
     <!-- Admin Authentication -->
@@ -218,9 +212,6 @@
     <!-- Site Properties Groups -->
     <bean id="sitePropertiesGroup"
           class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
-
-    <bean id="core.xpage.search" class="fr.paris.lutece.portal.web.search.SearchApp" scope="session" />
-
     <!-- Daemon management -->
     <bean id="daemonQueue" class="java.util.concurrent.LinkedBlockingQueue" />
     <bean id="daemonExecutorQueue" class="java.util.concurrent.SynchronousQueue" />
