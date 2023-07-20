@@ -30,5 +30,5 @@ DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.layou
 INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.class', 'sidebar');
 DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.layout.code';
 INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.code', 'aside');
-DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.layout.login.image';
-INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.layout.login.image', '');
+DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.login.image';
+INSERT INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.login.image', '');
