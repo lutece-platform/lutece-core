@@ -19,12 +19,12 @@
             </#list>
             </@tabList>
             <@tabContent>
-                <@input type='hidden' name='token' value='${token}' />
                 <#list groups_list as group>
                     <#assign index = group?index>
                     <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
                     <@tabPanel active=tabactive id='group-${index}'>
                     <@tform action='jsp/admin/DoModifyProperties.jsp'>
+                    <@input type='hidden' name='token' value='${token}' />
                     <@row class='row-cols-3'>
                     <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                     <#assign groupList = []>
@@ -69,12 +69,15 @@
                         </@columns>
                     </#list>
                     </@row>
+                    <@row>
+                        <@columns>
+                        <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
+                        </@columns>
+                    </@row>
                     </@tform>
                     </@tabPanel>
                 </#list>
-                <@div>
-				    <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
-                </@div>
+                
 			</@tabContent>
 		</@tabs>
     </@pageColumn>
