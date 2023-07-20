@@ -25,7 +25,7 @@
                     <@tabPanel active=tabactive id='group-${index}'>
                     <@tform action='jsp/admin/DoModifyProperties.jsp'>
                     <@input type='hidden' name='token' value='${token}' />
-                    <@row class='row-cols-3'>
+                    <@row class='row-cols-1 row-cols-md-3 row-cols-xl-4'>
                     <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                     <#assign groupList = []>
                     <#list groups?sort as groupGroup>
