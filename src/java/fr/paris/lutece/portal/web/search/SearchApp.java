@@ -67,6 +67,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -75,6 +76,8 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * This class provides search results pages.
  */
+@SessionScoped
+@Named("core.xpage.search")
 public class SearchApp implements XPageApplication
 {
     /**
