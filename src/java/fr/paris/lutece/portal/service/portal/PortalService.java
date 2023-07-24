@@ -41,6 +41,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -127,8 +128,7 @@ public final class PortalService
 
     // Content Service registry
     private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<>( );
-    private static IPageService _pageService = SpringContextService.getBean( "pageService" );
-
+    private static IPageService _pageService = CDI.current().select(IPageService.class).get();
     /**
      * Private Constructor
      */

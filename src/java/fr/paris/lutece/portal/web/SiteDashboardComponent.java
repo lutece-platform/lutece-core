@@ -41,13 +41,13 @@ import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
 import fr.paris.lutece.portal.service.page.PageService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -55,9 +55,6 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class SiteDashboardComponent extends DashboardComponent
 {
-    // CONSTANTS
-    private static final String BEAN_PAGE_SERVICE = "pageService";
-
     // MARKS
     private static final String MARK_PAGES_COUNT = "pages_count";
     private static final String MARK_URL = "url";
@@ -86,7 +83,7 @@ public class SiteDashboardComponent extends DashboardComponent
         model.put( MARK_URL, right.getUrl( ) );
         model.put( MARK_ICON, right.getIconUrl( ) );
 
-        PageService pageService = SpringContextService.getBean( BEAN_PAGE_SERVICE );
+        PageService pageService = CDI.current().select(PageService.class).get();
         Page page = PageHome.getLastModifiedPage( );
         model.put( MARK_LAST_MODIFIED_PAGE, page );
         model.put( MARK_LAST_MODIFIED_PORTLET, PortletHome.getLastModifiedPortlet( ) );

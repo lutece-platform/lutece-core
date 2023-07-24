@@ -44,7 +44,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -92,6 +94,8 @@ import fr.paris.lutece.util.url.UrlItem;
  * This class delivers pages to web componants. It handles XML tranformation to HTML and provides a cache feature in order to reduce the number of
  * tranformations.
  */
+@ApplicationScoped
+@Named("pageService")
 public class PageService implements IPageService, ImageResourceProvider, PageEventListener, PortletEventListener
 {
     // //////////////////////////////////////////////////////////////////////////
@@ -158,7 +162,11 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
     private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
     private static List<PageEventListener> _listEventListeners = new ArrayList<>( );
+    @Inject
+    @Named("pageCacheKeyService")
     private ICacheKeyService _cksPage;
+    @Inject
+    @Named("portletCacheKeyService")
     private ICacheKeyService _cksPortlet;
     private PageCacheService _cachePages;
     private PortletCacheService _cachePortlets;
@@ -780,7 +788,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param removalService
      *            the removal listener service
      */
-    public void setRoleRemovalService( RemovalListenerService removalService )
+    @Inject
+    public void setRoleRemovalService( @Named("roleRemovalService") RemovalListenerService removalService )
     {
         removalService.registerListener( new PageRoleRemovalListener( ) );
         removalService.registerListener( new PortletRoleRemovalListener( ) );

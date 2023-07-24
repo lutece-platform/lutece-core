@@ -39,7 +39,7 @@ import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,7 +50,8 @@ import java.util.Collection;
 public final class PortletService
 {
     private static PortletService _singleton;
-    private static IPageService _pageService = SpringContextService.getBean( "pageService" );
+    private static IPageService _pageService = CDI.current().select(IPageService.class).get();
+
 
     /**
      * Constructor for class PortletService

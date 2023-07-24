@@ -37,9 +37,9 @@ import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.IPageService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
+import jakarta.enterprise.inject.spi.CDI;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -67,7 +67,7 @@ public class PageIndexer implements SearchIndexer
     protected static final String PROPERTY_SEARCH_PAGE_URL = "search.pageSearch.baseUrl";
     protected static final String PROPERTY_INDEXER_ENABLE = "search.pageIndexer.enable";
     protected static final String PARAMETER_PAGE_ID = "page_id";
-    private static IPageService _pageService = SpringContextService.getBean( "pageService" );
+    private static IPageService _pageService = CDI.current().select(IPageService.class).get();
     private static final String INDEXER_DESCRIPTION = "Indexer service for pages";
     private static final String INDEXER_VERSION = "1.0.0";
 

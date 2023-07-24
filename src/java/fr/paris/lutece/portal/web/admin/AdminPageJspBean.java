@@ -39,6 +39,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -70,7 +71,6 @@ import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
@@ -154,7 +154,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_PAGE_ID_CHILDPAGE = "portal.site.message.pageIdChildPage";
     private static final String MESSAGE_SAME_PAGE_ID = "portal.site.message.pageSameId";
     private static final String MESSAGE_MISSING_MANUAL_UPDATE_DATE = "portal.site.message.missingManualUpdateDate";
-    private static IPageService _pageService = SpringContextService.getBean( "pageService" );
+    private IPageService _pageService = CDI.current().select(IPageService.class).get();
+
 
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
