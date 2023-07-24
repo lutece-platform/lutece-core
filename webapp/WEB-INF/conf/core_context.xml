@@ -22,23 +22,6 @@
     <context:annotation-config />
     <import resource="jpa_context.xml" />
 
-    <bean id="pageCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService">
-        <property name="allowedParametersList">
-            <list>
-                <value>page_id</value>
-                <value>base_url</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="portletCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService">
-        <property name="ignoredParametersList">
-            <list>
-                <value>page-id</value>
-                <value>site-path</value>
-            </list>
-        </property>
-    </bean>
     <bean id="pathCacheService" class="fr.paris.lutece.portal.service.cache.PathCacheService" />
 
     <bean id="pageCacheService" class="fr.paris.lutece.portal.service.page.PageCacheService" />
@@ -46,12 +29,6 @@
 
     <bean id="LinksIncludeCacheService" class="fr.paris.lutece.portal.web.includes.LinksIncludeCacheService" />
 
-    <!-- since the PageService constructor initializes the two above caches, we choose to inject them through the constructor -->
-    <bean id="pageService" class="fr.paris.lutece.portal.service.page.PageService" autowire="constructor">
-        <property name="pageCacheKeyService" ref="pageCacheKeyService" />
-        <property name="portletCacheKeyService" ref="portletCacheKeyService" />
-        <property name="roleRemovalService" ref="roleRemovalService" />
-    </bean>
     <bean id="indexerActionDAO" class="fr.paris.lutece.portal.business.indexeraction.IndexerActionDAO" />
 
     <!-- Admin Authentication -->
@@ -212,6 +189,9 @@
     <!-- Site Properties Groups -->
     <bean id="sitePropertiesGroup"
           class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
+	<!-- Migrated to cdi
+    <bean id="core.xpage.search" class="fr.paris.lutece.portal.web.search.SearchApp" scope="session" />
+	 -->
     <!-- Daemon management -->
     <bean id="daemonQueue" class="java.util.concurrent.LinkedBlockingQueue" />
     <bean id="daemonExecutorQueue" class="java.util.concurrent.SynchronousQueue" />

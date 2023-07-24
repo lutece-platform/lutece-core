@@ -37,9 +37,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import jakarta.inject.Singleton;
+
 /**
  * RemovalListenerService
  */
+@Singleton
 public class RemovalListenerService
 {
     private List<RemovalListener> _listRegisteredListeners = new ArrayList<>( );

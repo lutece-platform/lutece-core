@@ -36,9 +36,8 @@ package fr.paris.lutece.portal.service.page;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Parameters;
-
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +49,7 @@ import org.apache.commons.lang3.StringUtils;
 public class PageContentService extends ContentService
 {
     private static final String SERVICE_NAME = "Page Content Service";
-    private IPageService _pageService = SpringContextService.getBean( "pageService" );
+    private static IPageService _pageService = CDI.current().select(IPageService.class).get();
 
     /**
      * {@inheritDoc }

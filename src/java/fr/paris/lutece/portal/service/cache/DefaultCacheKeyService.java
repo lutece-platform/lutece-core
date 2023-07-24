@@ -49,6 +49,18 @@ public class DefaultCacheKeyService implements ICacheKeyService
     private List<String> _listIgnoredParameters;
 
     /**
+     *  DefaultCacheKeyService
+     * @param listAllowedParameters 
+     * 			the list of allowed parameters to include into the cache key
+     * @param listIgnoredParameters 
+     * 			the list of ignored parameters not to include into the cache key
+     */
+    public DefaultCacheKeyService( List<String> listAllowedParameters, List<String> listIgnoredParameters)
+    {
+    	_listAllowedParameters= listAllowedParameters;
+    	_listIgnoredParameters= listIgnoredParameters;
+    }
+    /**
      * Calculate the cache key
      * 
      * @param mapParams
