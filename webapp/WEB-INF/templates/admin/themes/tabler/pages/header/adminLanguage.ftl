@@ -32,12 +32,12 @@ Description: Show read direction button
 Parameters:
 -->
 <#macro adminReadMode>
-<div class="nav-item dropdown d-none d-md-flex me-2" id="lutece-rtl">
-	<div class="nav-link" tabindex="0" role="button" title="#i18n{portal.site.site_property.layout.readmode.checkbox}">
-		<i class="ti ti-text-direction-rtl"></i>
-		<label for="lutece-rtle"> 
-			<span class="visually-hidden">#i18n{portal.site.site_property.layout.readmode.checkbox}</span>
-		</label>
+<li class="nav-item dropdown me-2" id="lutece-rtl">
+	<div class="nav-link d-none d-lg-flex" tabindex="0" role="button" title="#i18n{portal.site.site_property.layout.readmode.checkbox}">
+		<i class="ti ti-text-direction-rtl"></i> <span class="visually-hidden">#i18n{portal.site.site_property.layout.readmode.checkbox}</span>
 	</div>
-</div>
+	<div class="nav-link d-flex d-lg-none" tabindex="0" role="button" title="#i18n{portal.site.site_property.layout.readmode.checkbox}">
+		<i class="ti ti-text-direction-rtl  me-2"></i> #i18n{portal.site.site_property.layout.readmode.checkbox}
+	</div>
+</li>
 </#macro>

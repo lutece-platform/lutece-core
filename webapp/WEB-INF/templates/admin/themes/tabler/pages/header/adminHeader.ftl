@@ -13,13 +13,13 @@ Parameters:
 <#local layout><#attempt><#if dskey('portal.site.site_property.layout.menu.checkbox')?number==1>aside<#else>header</#if><#recover>header</#attempt></#local>
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
 </head>
-<body class="antialiased${darkMode!}"${readMode}>
+<body class="antialiased${darkMode!} loaded"${readMode}>
 <@adminSkipNav />
 <div id="lutece-layout-wrapper" class="${layout!}" data-userdarkmode="${userDarkMode}" data-usermenu="${userMenuMode}">
 <header class="lutece-header" > 
 	<nav class="lutece-nav navbar navbar-expand-lg navbar-dark d-print-none">
 		<div class="container-fluid">
-			<a class="lutece-brand navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" title="#i18n{portal.site.portal_footer.newWindow}">
+			<a class="lutece-brand navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-4" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" title="#i18n{portal.site.portal_footer.newWindow}">
 				<img src="${logoUrl}" height="30" alt="Logo ${site_name}" aria-hidden="true">
 				<span class="ml-2 ms-2">${site_name}</span>
 			</a>
@@ -68,93 +68,102 @@ Parameters:
 							</#list>
 						</#if>
 					</#list>
-				</ul>
-				<div class="lutece-nav-user navbar-nav ms-auto">
-					<div class="nav-item dropdown me-2">
-						<a class="nav-link" href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}" id="go-home">
-							<i class="ti ti-home"></i>
-							<label for="go-home">
-								<span class="visually-hidden">#i18n{portal.users.admin_header.homePage}</span>
-							</label>
+					<li class="nav-item d-none d-lg-flex ms-auto">
+						<a class="nav-link"  href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}" id="go-home">
+							<i class="ti ti-home"></i><span class="visually-hidden">#i18n{portal.users.admin_header.homePage}</span>
 						</a>
-					</div>
+					</li>
+					<li class="nav-item d-flex d-lg-none mt-2">
+						<a class="nav-link"  href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}" id="go-home">
+							<i class="ti ti-home me-2"></i> #i18n{portal.users.admin_header.homePage}
+						</a>
+					</li>
 					<#if userMenuMode?number = 1>
-					<div class="nav-item dropdown me-2">
+					<li class="nav-item d-none d-lg-flex">
 						<div class="nav-link" title="#i18n{portal.users.admin_header.homePage}" id="switch-menu" tabindex="0" role="button" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}">
-							<i class="ti ti-layout-navbar-collapse menu-rotate-icon"></i>
-							<label for="switch-menu">
-								<span class="visually-hidden">#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}</span>
-							</label>
+							<i class="ti ti-layout-navbar-collapse menu-rotate-icon"></i><span class="visually-hidden">#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}</span>
 						</div> 
-					</div>
+					</li>
 					</#if>
 					<#if userDarkMode?number = 1>
-					<div class="nav-item dropdown me-2" id="switch-darkmode">
+					<li class="nav-item d-none d-lg-flex" id="switch-darkmode">
 						<div class="nav-link" tabindex="0" role="button">
-							<i class="ti ti-moon"></i>
-							<label for="switch-darkmode"> 
-								<span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></span>
-							</label>
+							<i class="ti ti-moon"></i><span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></span>
 						</div>
-					</div>
+					</li>
+					<li class="nav-item d-flex d-lg-none" id="switch-darkmode">
+						<div class="nav-link" tabindex="0" role="button">
+							<i class="ti ti-moon me-2"></i> #i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode}
+						</div>
+					</li>
 					</#if>
 					<#if userReadMode?number = 1>
 						<@adminReadMode />
 					</#if>
 					<#if user.userLevel == 0>
-					<#if listLoggersInfo??>
-					<#assign listLogDebug = listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) />
-					<#if listLogDebug?has_content>
-						<div class="nav-item me-2">
-							<a href="#" class="nav-link" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications" aria-expanded="false">
-								<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
-								<#if listLoggersInfo?has_content><span class="badge bg-red"></span></#if>
-							</a>
-							<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
-								<div class="card">
-									<div class="card-header">
-										<h3 class="card-title">Notifications</h3>
-									</div>
-									<div class="list-group list-group-flush list-group-hoverable">
-										<div class="list-group-item logger">
-											<div class="row align-items-start">
-												<div class="col-auto pt-2">
-													<span class="badge bg-red d-block"></span>
-												</div>
-												<div class="col text-truncate">
-													<h3><a href="#" class="text-body d-block">#i18n{portal.util.log.warningLevel}</a></h3>
-													<#list listLogDebug as logInfo>
-														<#if logInfo?size gt 0><div class="d-block text-truncate mt-1" title="${logInfo.path!}"><strong>${logInfo.name!}  - ${logInfo.level!}</strong> ${logInfo.path!}</div></#if>
-													</#list>
+						<#if listLoggersInfo??>
+						<#assign listLogDebug = listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) />
+						<#if listLogDebug?has_content>
+							<li class="nav-item d-none d-lg-flex">
+								<a href="#" class="nav-link" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications" aria-expanded="false">
+									<svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path><path d="M9 17v1a3 3 0 0 0 6 0v-1"></path></svg>
+									<#if listLoggersInfo?has_content><span class="badge bg-red"></span></#if>
+								</a>
+								<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
+									<div class="card">
+										<div class="card-header">
+											<h3 class="card-title">Notifications</h3>
+										</div>
+										<div class="list-group list-group-flush list-group-hoverable">
+											<div class="list-group-item logger">
+												<div class="row align-items-start">
+													<div class="col-auto pt-2">
+														<span class="badge bg-red d-block"></span>
+													</div>
+													<div class="col text-truncate">
+														<h3><a href="#" class="text-body d-block">#i18n{portal.util.log.warningLevel}</a></h3>
+														<#list listLogDebug as logInfo>
+															<#if logInfo?size gt 0><div class="d-block text-truncate mt-1" title="${logInfo.path!}"><strong>${logInfo.name!}  - ${logInfo.level!}</strong> ${logInfo.path!}</div></#if>
+														</#list>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</div> 
+							</li> 
+						</#if>
 					</#if>
-					</#if>
-					<div class="nav-item me-2">
+					<li class="nav-item d-none d-lg-flex">
 						<a class="nav-link" href="jsp/admin/ManageProperties.jsp" title="#i18n{portal.site.adminFeature.properties_management.name}" >
-							<i class="ti ti-home-cog"></i><span class="visually-hidden">#i18n{portal.site.adminFeature.properties_management.name}</span>
+							<i class="ti ti-home-cog"></i>
+							<span class="visually-hidden">#i18n{portal.site.adminFeature.properties_management.name}</span>
 						</a>
-					</div>
-					<div class="nav-item me-2">
+					</li>
+					<li class="nav-item d-flex d-lg-none">
+						<a class="nav-link" href="jsp/admin/ManageProperties.jsp" title="#i18n{portal.site.adminFeature.properties_management.name}" >
+							<i class="ti ti-home-cog me-2"></i> #i18n{portal.site.adminFeature.properties_management.name}
+						</a>
+					</li>
+					<li class="nav-item d-none d-lg-flex">
 						<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
-							<i class="ti ti-settings"></i><span class="visually-hidden">#i18n{portal.admindashboard.view_dashboards.title}</span>
+							<i class="ti ti-settings"></i>
+							<span class="visually-hidden">#i18n{portal.admindashboard.view_dashboards.title}</span>
 						</a>
-					</div>
+					</li>
+					<li class="nav-item d-flex d-lg-none">
+						<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
+							<i class="ti ti-settings me-2"></i> #i18n{portal.admindashboard.view_dashboards.title}
+						</a>
+					</li>
 					</#if>
-				</div> 
-				<div class="navbar-nav">
-					<div class="nav-item dropdown">
-						<a href="#" class="nav-link d-flex lh-1 py-0 px-2 text-reset dropdown-toggle" data-bs-toggle="dropdown" role="button" >
+					<li class="nav-item dropdown d-none d-lg-flex">
+						<a href="#" class="nav-link nav-user-info d-flex lh-1 py-0 px-2 text-reset dropdown-toggle" data-bs-toggle="dropdown" role="button" >
 							<span class="visually-hidden">#i18n{portal.util.labelMore}</span>
 							<span class="avatar avatar-sm" style="background-image:url(<#if adminAvatar>servlet/plugins/adminavatar/avatar?id_user=${user.userId}<#else>#dskey{portal.site.site_property.avatar_default}</#if>)"></span>
-							<div class="ps-2 pt-3">
-								<p class="mb-0 fs-5">${dashboard_zone_4!}</p>
-								<p class="mt-0 small">${user.dateLastLogin!}</p>
+							<div class="ps-2 pt-3 user-infos">
+								<p class="mb-0 fs-5 user-login">${dashboard_zone_4!}</p>
+								<p class="mt-0 small user-date">${user.dateLastLogin!}</p>
 							</div>
 						</a>
 						<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -163,8 +172,6 @@ Parameters:
 								${item.content}
 							</#list>
 						</#if>
-						<#--  <div class="dropdown-divider"></div>  -->
-						<#--  <div class="ps-2" id="switch-darkmode"><i class="ti ti-moon"></i> #i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></div>  -->
 						<div class="dropdown-divider"></div>
 						<#if admin_logout_url?has_content>
 							<a class="dropdown-item dropdown-logout" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
@@ -172,17 +179,19 @@ Parameters:
 							</a>
 						</#if> 
 						</div>
-					</div>
-				</div>
-				<#if admin_logout_url?has_content>
-				<div id="lutece-logout" class="navbar-nav justify-content-center">
-					<div class="nav-item me-2">
-						<a class="nav-link ms-2" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
-							<i class="ti ti-logout me-1"></i> <span>#i18n{portal.users.admin_header.deconnectionLink}</span>
+					</li>
+					<li class="nav-item justify-content-start d-lg-none">
+						<span class="ms-2 mb-2"><i class="ti ti-user me-2"></i>${dashboard_zone_4!}</span>
+						<span class="ms-2"><i class="ti ti-calendar me-2"></i> #i18n{portal.users.admin_header.labelLastLogin} ${user.dateLastLogin!}</span>
+					</li>
+					<#if admin_logout_url?has_content>
+					<li class="nav-item d-flex d-lg-none">
+						<a class="nav-link" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
+							<i class="ti ti-logout me-2"></i> #i18n{portal.users.admin_header.deconnectionLink}
 						</a>
-					</div>	
-				</div>	
-				</#if>
+					</li>	
+					</#if>
+				</ul>
 			</div>
 		</div>
 	</nav>
