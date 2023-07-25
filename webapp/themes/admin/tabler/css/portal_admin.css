@@ -50,7 +50,7 @@ body #lutece-layout-wrapper {
 
 body.loaded #lutece-layout-wrapper {
   display: block !important;
-  overflow-x: hidden;
+  overflow-x: hidden
 }
 
 .lutece-skip-links {
@@ -544,7 +544,6 @@ mark {
 }
 
 @media (min-width:768px) {
-
   .nav-pills .nav-link.active,
   .nav-pills .show>.nav-link {
       font-weight: 600
@@ -633,7 +632,7 @@ mark {
       --tblr-dropdown-bg: var(--tblr-body-color);
       --tblr-dropdown-color: var(--tblr-navbar-color);
       position: static !important;
-      width: 100%
+      width: 100%;
   }
 
   #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item {
@@ -643,11 +642,35 @@ mark {
   #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .nav-link {
       justify-content: flex-start;
       align-items: center;
-      width: 96%
+      width: 96%;
+      font-size: .75rem;
   }
 
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item.ms-auto{
+      margin-left: unset !important;
+  }
+
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .nav-link.nav-user-info + .dropdown-menu {
+      display: block;
+  }
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .nav-link:not(.nav-user-info) .visually-hidden{
+      position: relative !important;
+      display: block !important;
+      margin: 0 !important;
+      margin-left: .25rem !important;
+      padding: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      overflow: hidden !important;
+      clip: unset !important;
+      white-space: wrap !important;
+  }   
+
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .dropdown-menu-arrow.dropdown-menu-end:before ,
   #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .dropdown-toggle:after {
-      margin-left: auto
+     display: none;
   }
 
   #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-nav-user {
@@ -761,31 +784,30 @@ mark {
       font-size: .75rem
   }
 
-  #lutece-layout-wrapper.header .lutece-header .lutece-nav .nav-user-info .user-infos{
-      display: none;
+  #lutece-layout-wrapper.header .lutece-header .lutece-nav .nav-user-info .user-infos {
+      display: none
   }
 
   #lutece-layout-wrapper.header .lutece-header .lutece-nav .nav-item .nav-link {
       padding-left: .15rem;
-      padding-right: .15rem;
+      padding-right: .15rem
   }
 }
 
-@media ( min-width: 1024px) {
+@media (min-width:1024px) {
   #lutece-layout-wrapper.header .lutece-header .lutece-nav .nav-item .nav-link {
       padding-left: .25rem;
-      padding-right: .25rem;
+      padding-right: .25rem
   }
 }
 
-@media ( min-width: 1350px) {
+@media (min-width:1350px) {
   #lutece-layout-wrapper.header .lutece-header .lutece-nav .nav-item .nav-link {
       padding-right: var(--tblr-navbar-nav-link-padding-x);
-      padding-left: var(--tblr-navbar-nav-link-padding-x);
+      padding-left: var(--tblr-navbar-nav-link-padding-x)
   }
 
-  #lutece-layout-wrapper.header .lutece-header .lutece-nav .nav-user-info .user-infos{
-      display: block;
+  #lutece-layout-wrapper.header .lutece-header .lutece-nav .nav-user-info .user-infos {
+      display: block
   }
 }
-

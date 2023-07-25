@@ -86,13 +86,11 @@ Parameters:
 					</li>
 					</#if>
 					<#if userDarkMode?number = 1>
-					<li class="nav-item d-none d-lg-flex" id="switch-darkmode">
-						<div class="nav-link" tabindex="0" role="button">
+					<li class="nav-item" id="switch-darkmode">
+						<div class="nav-link d-none d-lg-flex" tabindex="0" role="button">
 							<i class="ti ti-moon"></i><span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></span>
 						</div>
-					</li>
-					<li class="nav-item d-flex d-lg-none" id="switch-darkmode">
-						<div class="nav-link" tabindex="0" role="button">
+						<div class="nav-link d-flex d-lg-none" tabindex="0" role="button">
 							<i class="ti ti-moon me-2"></i> #i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode}
 						</div>
 					</li>
@@ -174,9 +172,9 @@ Parameters:
 						</#if>
 						<div class="dropdown-divider"></div>
 						<#if admin_logout_url?has_content>
-							<a class="dropdown-item dropdown-logout" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
-								<i class="ti ti-logout me-1"></i> #i18n{portal.users.admin_header.deconnectionLink}
-							</a>
+						<a class="dropdown-item dropdown-logout d-none d-lg-flex" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
+							<i class="ti ti-logout me-1"></i> #i18n{portal.users.admin_header.deconnectionLink}
+						</a>
 						</#if> 
 						</div>
 					</li>
