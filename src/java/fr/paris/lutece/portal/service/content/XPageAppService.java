@@ -51,14 +51,14 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.inject.ResolutionException;
 import jakarta.enterprise.inject.spi.Bean;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
@@ -101,7 +101,7 @@ public class XPageAppService extends ContentService
                 if ( CDI.current().getBeanManager().getBeans(applicationBeanName).isEmpty() )
                 {
                     throw new LuteceInitException( ERROR_INSTANTIATION + entry.getId( ) + " - Could not find bean named " + applicationBeanName,
-                            new NoSuchBeanDefinitionException( applicationBeanName ) );
+                            new ResolutionException( applicationBeanName ) );
                 }
             }
             else
@@ -330,8 +330,15 @@ public class XPageAppService extends ContentService
             if ( entry.getClassName( ) == null )
             {
             	BeanManager beanManager= CDI.current().getBeanManager();	
-            	Bean<?> bean=  beanManager.getBeans(entry.getPluginName( ) + ".xpage." + entry.getId( )).iterator().next();
-            	application= (XPageApplication) beanManager.getReference(bean, bean.getBeanClass(), beanManager.createCreationalContext(bean));
+            	Bean<?> bean= beanManager.resolve( beanManager.getBeans(entry.getPluginName( ) + ".xpage." + entry.getId( )));        	
+            	
+            	if(bean.getScope().isAssignableFrom(SessionScoped.class)) {
+            		application= (XPageApplication) beanManager.getReference(bean, bean.getBeanClass(), beanManager.createCreationalContext(bean));
+            	}
+            	else {
+            		AppLogService.error("It is necessary to set the scope of XPage, class  "+ bean.getBeanClass().getName() + " to SessionScoped");
+                    throw new AppException( "It is necessary to set the scope of XPage, class  "+ bean.getBeanClass().getName() + " to SessionScoped");
+            	}
             }
             else
             {
