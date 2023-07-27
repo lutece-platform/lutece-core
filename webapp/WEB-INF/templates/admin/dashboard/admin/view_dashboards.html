@@ -1,6 +1,5 @@
 <@pageContainer id="adminTechnical" height="full">
-    <@pageColumn class="bg-light border-end p-4" width="35rem" height="full">
-        <@pageHeader title="#i18n{portal.admindashboard.view_dashboards.title}" />
+    <@pageColumn id="adminTechnicalMenu" class="bg-light border-end p-4" width="28rem" height="full" responsiveMenuSize="xl" responsiveMenuPlacement="start" title="#i18n{portal.admindashboard.view_dashboards.title}">
         <@tabList id="adminTechnicalList" style='pills' vertical=true>
 		<h3 class="fw-bolder mb-2 mt-2">#i18n{portal.templates.manage_autoincludes.menuTitle}</h3>
 		<@tabLink href='#autoincludes' title='#i18n{portal.templates.manage_autoincludes.tabTitle}' tabIcon='code' />
@@ -25,6 +24,7 @@
         </@tabList>
     </@pageColumn>
     <@pageColumn class="p-4" height="full">
+    <@pageColumnBtn class="mb-3" hideSize="xl" title="#i18n{portal.admindashboard.view_dashboards.title}" idPageColumn="adminTechnicalMenu" />
         <@tabContent id="admin-tab-content">
             <#if column_content_1?has_content>
                 ${column_content_1}
