@@ -29,17 +29,19 @@ export class BackportTemplateStyle {
         }
         this.adjustPageHeight();
         window.addEventListener('resize', this.adjustPageHeight);
-        const columns = document.querySelectorAll('.lutece-column');
+        const columns = document.querySelectorAll('.lutece-page > .lutece-column');
 
         document.addEventListener('shown.bs.offcanvas', () => {
             columns && columns.forEach(column => {
                 column.classList.add("overflow-hidden");
+                lutecePage && lutecePage.classList.add("overflow-hidden");
             })
         })
 
         document.addEventListener('hidden.bs.offcanvas', () => {
             columns && columns.forEach(column => {
                 column.classList.remove("overflow-hidden");
+                lutecePage && lutecePage.classList.remove("overflow-hidden");
             })
         })
         document.querySelectorAll('[data-toggle="modal"]').forEach(element => {
