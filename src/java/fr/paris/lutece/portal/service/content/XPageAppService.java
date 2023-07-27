@@ -57,7 +57,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.context.spi.CreationalContext;
 import jakarta.enterprise.inject.ResolutionException;
 import jakarta.enterprise.inject.spi.Bean;
 import jakarta.enterprise.inject.spi.BeanManager;
@@ -330,14 +331,15 @@ public class XPageAppService extends ContentService
             if ( entry.getClassName( ) == null )
             {
             	BeanManager beanManager= CDI.current().getBeanManager();	
-            	Bean<?> bean= beanManager.resolve( beanManager.getBeans(entry.getPluginName( ) + ".xpage." + entry.getId( )));        	
-            	
-            	if(bean.getScope().isAssignableFrom(SessionScoped.class)) {
-            		application= (XPageApplication) beanManager.getReference(bean, bean.getBeanClass(), beanManager.createCreationalContext(bean));
-            	}
-            	else {
-            		AppLogService.error("It is necessary to set the scope of XPage, class  "+ bean.getBeanClass().getName() + " to SessionScoped");
-                    throw new AppException( "It is necessary to set the scope of XPage, class  "+ bean.getBeanClass().getName() + " to SessionScoped");
+            	Bean<?> bean=  beanManager.resolve( beanManager.getBeans(entry.getPluginName( ) + ".xpage." + entry.getId( )));        	
+            	CreationalContext<?> creatinalContext= beanManager.createCreationalContext(bean);
+            	try {            		
+            		application= (XPageApplication) beanManager.getReference(bean, bean.getBeanClass(), creatinalContext);         	
+            	}finally {
+	            	if(bean.getScope().isAssignableFrom(Dependent.class)) {
+	            		//To avoid memory leaks, we use the creatinalContext.release() method to free up resources.
+	            		creatinalContext.release();
+	            	}
             	}
             }
             else
