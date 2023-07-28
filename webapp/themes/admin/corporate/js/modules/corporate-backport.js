@@ -28,7 +28,7 @@ export class BackportTemplateStyle {
             });
         }
         this.adjustPageHeight();
-        window.addEventListener('resize', this.adjustPageHeight);
+        window.addEventListener('resize', this.adjustPageHeight.bind(this));
         const columns = document.querySelectorAll('.lutece-page > .lutece-column');
 
         document.addEventListener('shown.bs.offcanvas', () => {
@@ -36,6 +36,7 @@ export class BackportTemplateStyle {
                 column.classList.add("overflow-hidden");
                 lutecePage && lutecePage.classList.add("overflow-hidden");
             })
+            window.dispatchEvent(new Event('resize'));
         })
 
         document.addEventListener('hidden.bs.offcanvas', () => {
@@ -43,6 +44,7 @@ export class BackportTemplateStyle {
                 column.classList.remove("overflow-hidden");
                 lutecePage && lutecePage.classList.remove("overflow-hidden");
             })
+            window.dispatchEvent(new Event('resize'));
         })
         document.querySelectorAll('[data-toggle="modal"]').forEach(element => {
             element.setAttribute('data-bs-toggle', 'modal');
@@ -75,10 +77,13 @@ export class BackportTemplateStyle {
     }
     adjustPageHeight() {
         const lutecePage = document.querySelector('.lutece-page');
-        if (lutecePage) {
-            const height = window.innerHeight - lutecePage.getBoundingClientRect().top;
-            lutecePage.style.maxHeight = `${height}px`;
-            lutecePage.style.height = `${height}px`;
-        }
+        const luteceColumns = document.querySelectorAll('.lutece-column');
+        this.adjustElementHeight(lutecePage);
+        luteceColumns && luteceColumns.forEach((col) => this.adjustElementHeight(col));
+    }
+    adjustElementHeight(element) {
+        const elementHeight = window.innerHeight - element.getBoundingClientRect().top;
+        element.style.maxHeight = `${elementHeight}px`;
+        element.style.height = `${elementHeight}px`;
     }
 }
