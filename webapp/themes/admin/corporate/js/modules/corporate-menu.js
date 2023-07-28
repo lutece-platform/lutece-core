@@ -44,6 +44,8 @@ export class MenuManager {
         }
         if( this.rotateMenu != null ){
             this.applySavedThemeMenu();
+        } else {
+            this.body.getAttribute('data-bs-theme-menu') === 'top' && this.menuTooltips(false);
         }
         this.setupSwitcherMenu();
         this.setActive();
@@ -105,11 +107,8 @@ export class MenuManager {
         if (this.savedThemeMenu) {
             this.body.setAttribute('data-bs-theme-menu', this.savedThemeMenu);
         }
+        ( !this.savedThemeMenu || this.savedThemeMenu === 'top' ) && this.menuTooltips(false);
         
-        ( !this.savedThemeMenu || this.savedThemeMenu === 'top' ) && setTimeout(() => {
-            this.menuTooltips(false);
-        }, 0);
-
         this.rotateMenu.addEventListener('click',() => {
             if (this.body.getAttribute('data-bs-theme-menu') === 'left') {
                 this.body.setAttribute('data-bs-theme-menu', 'top');
@@ -125,7 +124,6 @@ export class MenuManager {
                 this.childMenuHandleReset();
             }
         });
-
     }
     /**
      *  Theme toggle button function.
@@ -145,21 +143,23 @@ export class MenuManager {
      *  Tooltips
      */
     menuTooltips(init) {
-        let tooltipTriggerList = [].slice.call(this.mainMenu.querySelectorAll('a[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(function (tooltipTriggerEl) {
-            let tooltipInstance = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
-            if (init) {
-                // Initialize tooltips if they don't already exist
-                if (!tooltipInstance) {
-                    new bootstrap.Tooltip(tooltipTriggerEl);
+        setTimeout(() => {
+            let tooltipTriggerList = [].slice.call(this.mainMenu.querySelectorAll('a[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                let tooltipInstance = bootstrap.Tooltip.getInstance(tooltipTriggerEl);
+                if (init) {
+                    // Initialize tooltips if they don't already exist
+                    if (!tooltipInstance) {
+                        new bootstrap.Tooltip(tooltipTriggerEl);
+                    }
+                } else {
+                    // Dispose of tooltips if they exist
+                    if (tooltipInstance) {
+                        tooltipInstance.dispose();
+                    }
                 }
-            } else {
-                // Dispose of tooltips if they exist
-                if (tooltipInstance) {
-                    tooltipInstance.dispose();
-                }
-            }
-        });
+            });
+        }, 0);
     }
 
     /**
