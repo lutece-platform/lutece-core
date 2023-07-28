@@ -42,8 +42,8 @@ Parameters:
 		<@pageColumn id="lutece-advert" class="p-0 d-none d-xxl-block bg-login-adv">
 			<@div class="d-flex align-items-center justify-content-evenly vh-100 fw-bold text-white">
 				<@div class="fadeInTop border-0 border-none bg-transparent">
-					<h1 class="text-center">#i18n{portal.admin.admin_login.title}</h1>
-					<p class="text-center"><small>#i18n{portal.admin.admin_login.description}</small></p>
+					<h1 class="fs-1 text-center">#i18n{portal.admin.admin_login.title}</h1>
+					<p class="text-center">#i18n{portal.admin.admin_login.description}</p>
 					<figure class="d-flex justify-content-center">
 						<@img url=loginLayoutImg params='aria-hidden="true" style="max-width:1000px;"'/>
 					</figure>
