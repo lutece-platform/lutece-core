@@ -36,13 +36,9 @@ package fr.paris.lutece.portal.service.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
-import jakarta.enterprise.context.ApplicationScoped;
-
 /**
  * RemovalListenerService
  */
-@ApplicationScoped
 public class RemovalListenerService
 {
     private List<RemovalListener> _listRegisteredListeners = new ArrayList<>( );
