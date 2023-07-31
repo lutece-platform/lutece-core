@@ -33,7 +33,8 @@
  */
 package fr.paris.lutece.portal.service.role;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+
+import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 
 /**
@@ -42,7 +43,6 @@ import fr.paris.lutece.portal.service.util.RemovalListenerService;
 public final class RoleRemovalListenerService
 {
     private static final String BEAN_ROLE_REMOVAL_SERVICE = "roleRemovalService";
-
     /**
      * Private constructor
      */
@@ -56,7 +56,7 @@ public final class RoleRemovalListenerService
      * @return The removal service
      */
     public static RemovalListenerService getService( )
-    {
-        return SpringContextService.getBean( BEAN_ROLE_REMOVAL_SERVICE );
+    { 
+        return CdiHelper.getReference( RemovalListenerService.class, BEAN_ROLE_REMOVAL_SERVICE );
     }
 }

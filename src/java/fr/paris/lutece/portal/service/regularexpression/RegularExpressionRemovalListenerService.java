@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.regularexpression;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 
 /**
@@ -57,6 +57,6 @@ public final class RegularExpressionRemovalListenerService
      */
     public static RemovalListenerService getService( )
     {
-        return SpringContextService.getBean( BEAN_REGULAR_EXPRESSION_REMOVAL_SERVICE );
+        return CdiHelper.getReference( RemovalListenerService.class, BEAN_REGULAR_EXPRESSION_REMOVAL_SERVICE );
     }
 }

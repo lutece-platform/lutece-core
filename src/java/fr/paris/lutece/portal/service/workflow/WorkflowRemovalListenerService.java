@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.workflow;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 
 /**
@@ -57,6 +57,6 @@ public final class WorkflowRemovalListenerService
      */
     public static RemovalListenerService getService( )
     {
-        return SpringContextService.getBean( BEAN_FORM_REMOVAL_SERVICE );
+        return CdiHelper.getReference( RemovalListenerService.class, BEAN_FORM_REMOVAL_SERVICE );
     }
 }

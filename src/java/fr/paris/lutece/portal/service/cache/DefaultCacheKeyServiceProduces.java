@@ -12,14 +12,14 @@ public class DefaultCacheKeyServiceProduces {
 	@Produces
     @Named("pageCacheKeyService")
     @ApplicationScoped
-    public ICacheKeyService fooProducer() {
+    public ICacheKeyService pageCacheKeyServiceProducer() {
         return new DefaultCacheKeyService( List.of("page_id","base_url"), null );
     }
 
     @Produces
     @Named("portletCacheKeyService")
     @ApplicationScoped
-    public ICacheKeyService hooProducer() {
+    public ICacheKeyService portletCacheKeyServiceProducer() {
         return new DefaultCacheKeyService( null, List.of("page_id","site-path") );
     }
 }
