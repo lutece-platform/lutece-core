@@ -177,7 +177,7 @@ td{ vertical-align: middle;}
 .pager-xs > li > a{ padding: 1px 8px; }
 
 /* Lutece extra-icons                        */
-.icon-lutece-logo{ background: url( ../img/lutece-logo.png); width: 18px; height: 18px }
+.icon-lutece-logo{ background: url( ../img/lutece-logo.svg); width: 18px; height: 18px }
 
 /* 	Insert services                          */
 .media-selector{ margin: 15px; }

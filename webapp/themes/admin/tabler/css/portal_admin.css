@@ -53,6 +53,13 @@ body.loaded #lutece-layout-wrapper {
   overflow-x: hidden
 }
 
+#login-page {
+  background: var(--dark-blue) url(../images/bg_login1.svg);
+  background-size: cover;
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
 .lutece-skip-links {
   clip: rect(0 0 0 0);
   -webkit-clip-path: inset(50%);

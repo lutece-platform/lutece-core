@@ -28,7 +28,7 @@
 				<@columns xs=12 sm=6 lg=4 params='data-plugin="${core.name}"'>
 					<@box>
 						<#assign logo>
-							<@img url=core.iconUrl alt='logo' title=core.name params=" onerror=\"this.onerror=null;this.src='themes/admin/shared/images/feature_default_icon.png'\"" />
+							<@img url=core.iconUrl alt='logo' title=core.name params=" onerror=\"this.onerror=null;this.src='themes/admin/shared/images/apps.svg'\"" />
 						</#assign>
 						<@boxHeader
 							title='${logo} ${core.name} #i18n{portal.system.manage_plugins.titleCorePlugin} ${core.version}' class="searchable"/>
@@ -53,7 +53,7 @@
 					<@columns xs=12 sm=6 lg=4 id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"'>
 						<@box>
 							<#assign logo>
-                                    <@img url='${plugin.iconUrl}' alt='logo' title='${plugin.name}' params=" onerror=\"this.onerror=null;this.src='themes/admin/shared/images/feature_default_icon.png'\"" />
+                                    <@img url='${plugin.iconUrl}' alt='logo' title='${plugin.name}' params=" onerror=\"this.onerror=null;this.src='themes/admin/shared/images/apps.svg'\"" />
 							</#assign>
 							<@boxHeader title='${logo} ${plugin.name}' class="searchable" boxTools=true>
 								<#if plugin.installed>

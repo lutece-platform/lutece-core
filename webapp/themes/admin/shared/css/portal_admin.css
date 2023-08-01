@@ -85,14 +85,6 @@
   background-color: var( --dark-light );
   padding: .875rem
 }
-  
-/*  Login page                                              */
-#login-page { 
-	background: var( --dark-blue ) url( ../images/bg_login1.svg ); 
-	background-size: cover; 
-	background-attachment: fixed;  
-	overflow: hidden;
-}
 
 .input-icon-addon {
     z-index: 6;

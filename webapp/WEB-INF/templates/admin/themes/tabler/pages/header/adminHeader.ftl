@@ -11,7 +11,7 @@ Parameters:
 <#local readMode><#attempt><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if><#recover></#attempt></#local>
 <#local darkMode><#attempt><#if dskey('portal.site.site_property.layout.darkmode.checkbox')?number==1> theme-dark</#if><#recover></#attempt></#local>
 <#local layout><#attempt><#if dskey('portal.site.site_property.layout.menu.checkbox')?number==1>aside<#else>header</#if><#recover>header</#attempt></#local>
-<#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
+<#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.svg')>
 </head>
 <body class="antialiased${darkMode!} loaded"${readMode}>
 <@adminSkipNav />

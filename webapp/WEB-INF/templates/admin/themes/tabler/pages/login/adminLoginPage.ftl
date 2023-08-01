@@ -8,8 +8,7 @@ Parameters:
 <#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
-<#--  <#local readMode=dskey('portal.site.site_property.layout.readmode.checkbox')/>  -->
-<#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
+<#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.svg')>
 <#local loginLayoutImg=dskey('portal.site.site_property.login.image')?trim /> 
 </head>
 <body class="antialiased d-flex flex-column ${dskey('portal.site.site_property.layout.readmode.checkbox')!}" ${readMode!}<#if params!=''> ${params}</#if>>
@@ -26,7 +25,7 @@ Parameters:
 		<@link href='.' target='_blank'>
 			<@span class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!}</@span>
 			<figure>
-				<@img url='${logoUrl}' alt='${site_name!}' title='${site_name!}'  params='aria-hidden="true" height="36" style="border: 2px solid white;border-radius:50%;"' />
+				<@img url='${logoUrl}' alt='${site_name!}' title='${site_name!}' class='thumbnail thumbnail-md' params='aria-hidden="true" style="border: 2px solid white;border-radius:50%;"' />
 				<figcaption class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!'Lutece'} [ #i18n{portal.site.portal_footer.newWindow} ]</figcaption>
 			</figure>
 		</@link>

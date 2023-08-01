@@ -9,7 +9,7 @@ Parameters:
 - text (string): the text of the message.
 -->
 <#macro adminMessagePage title=''>
-<#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
+<#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.svg')>
 <#assign title=title />
 <#assign alerttype="primary" />
 <#assign icontype="fa-info-circle" />
