@@ -189,6 +189,19 @@ body.loaded #lutece-layout-wrapper {
   opacity: 1
 }
 
+#pageHeaderTools{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.card-footer form,
+.card-footer form + .btn,
+.card-footer form + .offcanvas,
+#pageHeaderTools form{
+  margin-right: .25rem;
+}
+
 .card {
   --tblr-card-cap-padding-y: .5rem;
   --tblr-card-cap-padding-x: 1rem
@@ -818,3 +831,15 @@ mark {
       display: block
   }
 }
+
+@media (max-width: 576px) {
+  #pageHeaderTools{
+      display: block;
+  }
+ 
+  #pageHeaderTools form{
+      display: block !important;
+      width: 100%;
+      margin-bottom: .25rem
+  } 
+} 

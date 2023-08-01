@@ -28,9 +28,9 @@ export default class LuteceSearchList {
       toggleIconPrefix: 'ti',
       toggleIconOn: 'ti-list',
       toggleIconOff: 'ti-cards',
-      toggleCardClass: 'flex-row',  
-      toggleCardHeaderListClass : ['flex-column','justify-content-around','align-items-start'],  
-      toggleCardFooterListClass : ['d-flex','align-items-center','mt-0'],
+      toggleCardClass: ['flex-row'],  
+      toggleCardHeaderClass : ['flex-column','justify-content-around','align-items-start'],  
+      toggleCardFooterClass : ['d-flex','align-items-center','mt-0'],
       extraSearchFunction: () => {}
     }, options);
     this.init();
@@ -197,9 +197,13 @@ export default class LuteceSearchList {
   toggleCardElements( elements, status ) {
     elements.forEach( card => {
       if ( !status ){
-        card.classList.add( this.options.toggleCardClass )
+        this.options.toggleCardClass.forEach( (c) => { 
+          card.classList.add( c );
+        })
       } else {
-        card.classList.remove( this.options.toggleCardClass )
+        this.options.toggleCardClass.forEach( (c) => { 
+          card.classList.remove( c );
+        })
       }
       card.querySelectorAll(`${this.options.toggleSelector}-header`).forEach( cardHeader => {
         if ( !status ){
