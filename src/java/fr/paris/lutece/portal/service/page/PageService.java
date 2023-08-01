@@ -44,6 +44,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -168,28 +169,16 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     @Inject
     @Named("portletCacheKeyService")
     private ICacheKeyService _cksPortlet;
+    @Inject
     private PageCacheService _cachePages;
+    @Inject
     private PortletCacheService _cachePortlets;
 
-    /**
-     * Creates a new PageService object.
-     * 
-     * @param pageCacheService
-     *            the page cache service
-     * @param portletCacheService
-     *            the portlet cache service
-     */
-    @Inject
-    public PageService( PageCacheService pageCacheService, PortletCacheService portletCacheService )
-    {
-        _cachePages = pageCacheService;
-        _cachePortlets = portletCacheService;
-        init( );
-    }
 
     /**
      * Initializes the service
      */
+    @PostConstruct
     private void init( )
     {
         _cachePages.initCache( );
