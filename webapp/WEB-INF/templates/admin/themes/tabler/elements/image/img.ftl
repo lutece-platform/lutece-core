@@ -11,6 +11,6 @@ Parameters:
 - id (string, optional): the ID for the image element.
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro img url='' alt='' title='' class='' id='' params=''> 
-<img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}" class="thumbnails thumb-list<#if class!=''>  ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
+<#macro img url='' alt='' title='' class='img-fluid' id='' params=''> 
+<img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}"<#if class!=''> class=" ${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
 </#macro>
