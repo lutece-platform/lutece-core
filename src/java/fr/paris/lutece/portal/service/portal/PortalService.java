@@ -66,7 +66,6 @@ import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -427,7 +426,7 @@ public final class PortalService
      */
     public static String getXPagePathContent( String strXPageName, int nMode, HttpServletRequest request )
     {
-        final IPathCacheService pathCacheService = SpringContextService.getBean( IPathCacheService.BEAN_NAME );
+        final IPathCacheService pathCacheService = CDI.current().select( IPathCacheService.class ).get( );
 
         final String strKey = pathCacheService.getKey( strXPageName, nMode, request );
 
@@ -672,7 +671,7 @@ public final class PortalService
      */
     public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls, HttpServletRequest request )
     {
-        final IPathCacheService pathCacheService = SpringContextService.getBean( IPathCacheService.BEAN_NAME );
+        final IPathCacheService pathCacheService = CDI.current().select(IPathCacheService.class ).get();
 
         final String strKey = pathCacheService.getKey( strXPageName, nMode, strTitlesUrls, request );
 

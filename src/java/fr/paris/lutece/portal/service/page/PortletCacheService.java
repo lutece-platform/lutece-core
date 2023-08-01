@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.page;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.portlet.PortletEvent;
 import fr.paris.lutece.portal.service.portlet.PortletEventListener;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -44,6 +45,7 @@ import java.util.List;
 /**
  * Portlet cache service
  */
+@ApplicationScoped
 public class PortletCacheService extends AbstractCacheableService implements PortletEventListener
 {
     private static final String CACHE_PORTLET_PREFIX = "portlet:";
