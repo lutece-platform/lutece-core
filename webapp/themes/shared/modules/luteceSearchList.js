@@ -17,20 +17,34 @@ export default class LuteceSearchList {
       debounceTime: 100,
       emptyMessageElement: null,
       hideClass: null,
+      toggleList: false,
+      toggleId: 'card-to-list',
+      toggleSelector: '.card',
+      toggleBtnPrefix: 'btn',
+      toggleBtnClass: 'primary',
+      toggleBtnShowXs: false,
+      toggleLabel: 'Toggle List',
+      toggleLabelOff: 'Toggle Cards',
+      toggleIconPrefix: 'ti',
+      toggleIconOn: 'ti-list',
+      toggleIconOff: 'ti-cards',
+      toggleCardClass: 'flex-row',  
+      toggleCardHeaderListClass : ['flex-column','justify-content-around','align-items-start'],  
+      toggleCardFooterListClass : ['d-flex','align-items-center','mt-0'],
       extraSearchFunction: () => {}
     }, options);
     this.init();
   }
-  /**
+   /**
    * Initializes the search functionality by adding an event listener to the search input element.
    */
   init() {
     this.searchInput.addEventListener('input', this.debounce(() => {
       const searchTerm = this.searchInput.value.toLowerCase();
-      this.searchElementList.forEach(element => {
+      this.searchElementList.forEach( element => {
         const searchContent = this.getSearchContent(element);
         const isVisible = searchContent.includes(searchTerm);
-        if (this.options.highlight) {
+        if ( this.options.highlight ) {
           if (searchTerm.length > 0) {
             this.removeHighlight(element);
             this.addHighlight(element, searchTerm);
@@ -38,21 +52,30 @@ export default class LuteceSearchList {
             this.removeHighlight(element);
           }
         }
-        if (this.options.hideClass) {
+        if ( this.options.hideClass) {
           isVisible ? element.classList.remove(`${this.options.hideClass}`) : element.classList.add(`${this.options.hideClass}`);
         } else {
           element.style.display = isVisible ? '' : 'none';
         }
       });
       this.options.extraSearchFunction();
-    }, this.options.debounceTime));
-    this.searchInput.addEventListener(
-      "keydown",
-      (event) => {
+    }, this.options.debounceTime ));
+
+    this.searchInput.addEventListener("keydown", (event) => {
         if (event.keyCode === 13) {
           event.preventDefault();
         }
-      });
+    });
+
+    if ( this.options.toggleList ) {
+      const cardParent = this.searchInput.closest( '#pageHeaderTools' )
+      const btnCardToList = this.setCardToListBtn( cardParent )
+      btnCardToList.addEventListener( 'click', (event) => {
+        this.searchElementList.forEach( element => {
+           this.toggleElements( element, btnCardToList  )
+        })
+      })
+    }
   }
   /**
    * Returns the searchable content of an element as a string.
@@ -67,7 +90,7 @@ export default class LuteceSearchList {
       .map(selector => {
         const children = element.querySelectorAll(selector);
         return Array.from(children)
-          .map(child => child.textContent.toLowerCase())
+          .map( child => child.textContent.toLowerCase())
           .join(' ');
       })
       .join(' ');
@@ -118,5 +141,89 @@ export default class LuteceSearchList {
         child.innerHTML = child.innerHTML.replace(regex, '');
       });
     });
+  }
+  /**
+   * Removes highlighting from an element's children.
+   * @private
+   * @param {HTMLElement} element - The element to remove highlighting from.
+   */
+  setCardToListBtn( element ) {
+    const btnToggler = document.createElement("button");
+    const iconToggler = document.createElement('i');
+    btnToggler.classList.add( this.options.toggleBtnPrefix, `${this.options.toggleBtnPrefix}-${this.options.toggleBtnClass}` )
+    btnToggler.setAttribute( 'id', this.options.toggleList )
+    btnToggler.setAttribute( 'aria-label', this.options.toggleLabel )
+    btnToggler.setAttribute( 'title', this.options.toggleLabel )
+    if( !this.options.toggleBtnShowXs ){ btnToggler.classList.add( 'd-none','d-sm-block' ) }
+    iconToggler.classList.add( this.options.toggleIconPrefix, this.options.toggleIconOn )
+    btnToggler.appendChild( iconToggler )
+    element.appendChild( btnToggler )
+    return btnToggler
+  }
+  
+  /**
+   * Removes highlighting from an element's children.
+   * @private
+   * @param {HTMLElement} element - The element to remove highlighting from.
+   */
+  toggleElements( element, btn ) {
+    const icon = btn.querySelector( `.${this.options.toggleIconPrefix}` )
+    const status = element.classList.length == 0
+    if ( !status ){
+      icon.classList.add( this.options.toggleIconOff  )
+      icon.classList.remove( this.options.toggleIconOn )
+      element.setAttribute( 'data-classes', element.classList )
+      btn.setAttribute('aria-label', this.options.toggleLabelOff )
+      btn.setAttribute('title', this.options.toggleLabelOff )
+      element.className = '';
+    } else {
+      icon.classList.remove( this.options.toggleIconOff )
+      icon.classList.add( this.options.toggleIconOn )
+      btn.setAttribute('title', this.options.toggleLabel )
+      btn.setAttribute('aria-label', this.options.toggleLabel )
+      const aClass = element.getAttribute('data-classes').split(' ')
+      aClass.forEach( (c) => { 
+        element.classList.add( c );
+      })
+    }
+    const cards = element.querySelectorAll( this.options.toggleSelector )
+    this.toggleCardElements( cards, status )
+  }
+  /**
+   * Removes highlighting from an element's children.
+   * @private
+   * @param {HTMLElement} element - The element to remove highlighting from.
+   */
+  toggleCardElements( elements, status ) {
+    elements.forEach( card => {
+      if ( !status ){
+        card.classList.add( this.options.toggleCardClass )
+      } else {
+        card.classList.remove( this.options.toggleCardClass )
+      }
+      card.querySelectorAll(`${this.options.toggleSelector}-header`).forEach( cardHeader => {
+        if ( !status ){
+          this.options.toggleCardHeaderClass.forEach( (h) => { 
+            cardHeader.classList.add( h );
+          })
+        } else {
+          this.options.toggleCardHeaderClass.forEach( (h) => { 
+            cardHeader.classList.remove( h );
+          })
+        }
+      })
+      card.querySelectorAll(`${this.options.toggleSelector}-footer`).forEach( cardFooter => {
+        if ( !status ){
+          this.options.toggleCardFooterClass.forEach( ( f ) => { 
+            cardFooter.classList.add( f );
+          })
+
+        } else {
+          this.options.toggleCardFooterClass.forEach( ( f ) => { 
+            cardFooter.classList.remove( f );
+          })
+        }
+      })
+    })
   }
 }
