@@ -22,6 +22,7 @@ Parameters:
 -->
 <#macro aButton name='' id='' href='' target='' size='' color='primary' style='btn' align='' class='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
+<#local params = params />
 <#-- Visibility of button title -->
 <#local displayTitleClass = displaySettings(hideTitle,'inline') />
 <#if color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
@@ -40,15 +41,12 @@ Parameters:
 </#if>
 <#local class += alignmentSettings(align,'') />
 <#-- Size class -->
-<#if size == 'xs'>
-	<#local buttonSize = 'sm' />
-<#elseif size == 'sm' || size == ''>
-	<#local buttonSize = '' />
-<#elseif size == 'lg'>
-	<#local buttonSize = size />
-<#else>
-	<#local buttonSize = '' />
-</#if>
+<#local buttonSize = '' />
+	<#if size?starts_with('style') == true >
+		<#local params = params + ' ' + size />
+	<#else>
+		<#local buttonSize = size />
+	</#if>	
 <#if dropdownMenu>
 <div class="btn-group">
 </#if>
