@@ -45,6 +45,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -141,7 +142,7 @@ public class LinksInclude implements PageInclude
     private Map<String, Object> buildLinks( HttpServletRequest request, String strPage, int nMode, List<Plugin> installedPlugins )
     {
         Locale locale = request.getLocale( );
-        LinksIncludeCacheService cacheService = SpringContextService.getBean( LinksIncludeCacheService.SERVICE_NAME );
+        LinksIncludeCacheService cacheService = CDI.current().select(LinksIncludeCacheService.class).get( );
         String strKey = cacheService.getCacheKey( nMode, strPage, locale );
         @SuppressWarnings( "unchecked" )
         Map<String, Object> links = (Map<String, Object>) cacheService.getFromCache( strKey );

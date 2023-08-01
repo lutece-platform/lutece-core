@@ -37,12 +37,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.util.AppException;
+import jakarta.enterprise.context.ApplicationScoped;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
 
 /**
  * Page Cache Service
  */
+@ApplicationScoped
 public class PageCacheService extends AbstractCacheableService
 {
     private static final String SERVICE_NAME = "Page Cache Service";

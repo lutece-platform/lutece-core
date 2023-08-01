@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.cache;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -45,13 +47,12 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 /**
  * XPage path cache service
  */
+@ApplicationScoped
 public class PathCacheService extends AbstractCacheableService implements IPathCacheService, PageEventListener
 {
 
-    /**
-     * Constructor
-     */
-    PathCacheService( )
+    @PostConstruct
+    public void init( )
     {
         initCache( );
         PageService.addPageEventListener( this );

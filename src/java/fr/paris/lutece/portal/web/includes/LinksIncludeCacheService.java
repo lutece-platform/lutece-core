@@ -39,15 +39,19 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.plugin.PluginEvent;
 import fr.paris.lutece.portal.service.plugin.PluginEventListener;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * Cache service for LinksInclude
  */
+@ApplicationScoped
 public class LinksIncludeCacheService extends AbstractCacheableService implements PluginEventListener
 {
     public static final String SERVICE_NAME = "LinksIncludeCacheService";
 
-    public LinksIncludeCacheService( )
+    @PostConstruct
+    public void init( )
     {
         initCache( );
         PluginService.registerPluginEventListener( this );

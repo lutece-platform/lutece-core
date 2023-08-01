@@ -22,13 +22,6 @@
     <context:annotation-config />
     <import resource="jpa_context.xml" />
 
-    <bean id="pathCacheService" class="fr.paris.lutece.portal.service.cache.PathCacheService" />
-
-    <bean id="pageCacheService" class="fr.paris.lutece.portal.service.page.PageCacheService" />
-    <bean id="portletCacheService" class="fr.paris.lutece.portal.service.page.PortletCacheService" />
-
-    <bean id="LinksIncludeCacheService" class="fr.paris.lutece.portal.web.includes.LinksIncludeCacheService" />
-
     <bean id="indexerActionDAO" class="fr.paris.lutece.portal.business.indexeraction.IndexerActionDAO" />
 
     <!-- Admin Authentication -->
