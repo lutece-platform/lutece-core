@@ -13,5 +13,5 @@ Parameters:
 		<#local btnTitle='#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}' >
 	<#else>
 	</#if>
-	<@aButton style='dropdown-item disabled' color='' href='jsp/admin/DoModifyAccessibilityMode.jsp?token=${token}'  title=btnTitle />
+	<@aButton style='dropdown-item disabled truncate' color='' href='jsp/admin/DoModifyAccessibilityMode.jsp?token=${token}'  title=btnTitle />
 </#macro>

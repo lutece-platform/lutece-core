@@ -244,7 +244,7 @@
             <a href="#" class="border btn btn-light btn-rounded" data-bs-toggle="dropdown" >
                <div class="lutece-profile-name">
                   <div class="small fw-bold">
-                     <span id="lutece-profile-name">${dashboard_zone_4!}</span> <i class="ti ti-chevron-down"></i>
+                     <span id="lutece-profile-name" class="truncate">${dashboard_zone_4!}</span> <i class="ti ti-chevron-down"></i>
                   </div>
                </div>
             </a>
