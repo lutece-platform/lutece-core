@@ -148,7 +148,7 @@
       <button id="menu-mobile" class="border btn btn-light btn-rounded">
         <i class="ti ti-menu-2"></i>
       </button>
-     <img src="${logoUrl}" class="d-xl-none ms-2" alt="Logo" aria-hidden="true">
+      <span class="d-block d-xl-none text-white fw-bold ps-2">${site_name}</span>
       <ul class="navbar-nav flex-row order-md-last ms-auto">
          <#if userMenuMode?number = 1>
          <li class="nav-item d-none d-xl-flex">
