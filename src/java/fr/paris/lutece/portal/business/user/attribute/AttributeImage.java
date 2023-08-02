@@ -62,6 +62,7 @@ import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -69,6 +70,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * AttributeComboBox
  *
  */
+@ApplicationScoped
 public class AttributeImage extends AbstractAttribute
 {
     // Constants

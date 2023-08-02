@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -52,6 +53,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * AttributeComboBox
  *
  */
+@ApplicationScoped
 public class AttributeCheckBox extends AbstractAttribute implements ISimpleValuesAttributes
 {
     // Constants
