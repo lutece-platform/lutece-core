@@ -36,9 +36,9 @@ package fr.paris.lutece.portal.business.user;
 import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.util.password.IPassword;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.sql.Timestamp;
 
@@ -53,7 +53,7 @@ import java.util.Map;
 public final class AdminUserHome
 {
     // Static variable pointed at the DAO instance
-    private static IAdminUserDAO _dao = SpringContextService.getBean( "adminUserDAO" );
+    private static IAdminUserDAO _dao = CDI.current().select( IAdminUserDAO.class ).get( );
 
     /**
      * Private constructor

@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.file;
 
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -43,6 +44,7 @@ import java.util.Date;
 /**
  * This class provides Data Access methods for Field objects
  */
+@ApplicationScoped
 public final class FileDAO implements IFileDAO
 {
     // Constants

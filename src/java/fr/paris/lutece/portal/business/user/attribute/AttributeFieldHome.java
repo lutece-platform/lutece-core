@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 
@@ -44,8 +44,7 @@ import java.util.List;
  */
 public final class AttributeFieldHome
 {
-    private static IAttributeFieldDAO _dao = SpringContextService.getBean( "attributeFieldDAO" );
-
+    private static IAttributeFieldDAO _dao = CDI.current( ).select( IAttributeFieldDAO.class ).get( );
     /**
      * Private constructor
      */

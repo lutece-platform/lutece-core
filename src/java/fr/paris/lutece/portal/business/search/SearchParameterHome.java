@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.business.search;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Map;
 
@@ -45,7 +45,7 @@ import java.util.Map;
 public final class SearchParameterHome
 {
     // Static variable pointed at the DAO instance
-    private static ISearchParameterDAO _dao = SpringContextService.getBean( "searchParameterDAO" );
+    private static ISearchParameterDAO _dao = CDI.current().select(ISearchParameterDAO.class).get();
 
     /**
      * Instantiates a new search parameter home.

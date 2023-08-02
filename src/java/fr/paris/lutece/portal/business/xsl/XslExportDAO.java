@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.xsl;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ import java.util.List;
 /**
  * This class provides Data Access methods for XSL objects
  */
+@ApplicationScoped
 public final class XslExportDAO implements IXslExportDAO
 {
     // Constants

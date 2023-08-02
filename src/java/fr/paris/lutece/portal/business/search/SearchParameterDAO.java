@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.search;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +46,7 @@ import java.util.Map;
  * class SearchParameterDAO Provides data access to search parameters in MySQL database
  *
  */
+@ApplicationScoped
 public class SearchParameterDAO implements ISearchParameterDAO
 {
     private static final String SQL_QUERY_SELECT = " SELECT parameter_value FROM core_search_parameter WHERE parameter_key = ? ";

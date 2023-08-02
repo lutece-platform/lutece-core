@@ -34,10 +34,10 @@
 package fr.paris.lutece.portal.business.role;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 
@@ -53,7 +53,7 @@ public final class RoleHome
     private static final String PROPERTY_DEFAULT_ROLE_DESCRIPTION = "defaultRole.description";
 
     // Static variable pointed at the DAO instance
-    private static IRoleDAO _dao = SpringContextService.getBean( "roleDAO" );
+    private static IRoleDAO _dao = CDI.current().select( IRoleDAO.class ).get();
 
     /**
      * Creates a new RoleHome object.

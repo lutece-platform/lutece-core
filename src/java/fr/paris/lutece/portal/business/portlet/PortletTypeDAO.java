@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.portlet;
 
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ import java.util.Locale;
 /**
  * This class provides Data Access methods for PortletType objects
  */
+@ApplicationScoped
 public final class PortletTypeDAO implements IPortletTypeDAO
 {
     // sql queries

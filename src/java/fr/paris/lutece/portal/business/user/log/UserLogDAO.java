@@ -34,10 +34,12 @@
 package fr.paris.lutece.portal.business.user.log;
 
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * This class provides Data Access methods for AppUser objects
  */
+@ApplicationScoped
 public final class UserLogDAO implements IUserLogDAO
 {
     // Constants

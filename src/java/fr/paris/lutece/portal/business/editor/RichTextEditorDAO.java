@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.editor;
 
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,6 +42,7 @@ import java.util.Collection;
 /**
  * Rich text editor DAO
  */
+@ApplicationScoped
 public class RichTextEditorDAO implements IRichTextEditorDAO
 {
     private static final String SQL_QUERY_FIND_EDITORS_BY_TYPE = " select editor_name, editor_description FROM core_text_editor WHERE backOffice = ? ORDER BY editor_name asc ";

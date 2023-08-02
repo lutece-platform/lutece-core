@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -49,6 +50,7 @@ import java.util.List;
 /**
  * This class porvides Data Access methods for Page objects
  */
+@ApplicationScoped
 public final class PageDAO implements IPageDAO
 {
     // Constants

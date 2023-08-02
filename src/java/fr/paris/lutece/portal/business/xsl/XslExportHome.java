@@ -36,8 +36,8 @@ package fr.paris.lutece.portal.business.xsl;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ import java.util.List;
 public final class XslExportHome
 {
     // Static variable pointed at the DAO instance
-    private static IXslExportDAO _dao = SpringContextService.getBean( "xslExportDAO" );
+    private static IXslExportDAO _dao = CDI.current().select( IXslExportDAO.class ).get();
 
     /**
      * Private constructor - this class do not need to be instantiated

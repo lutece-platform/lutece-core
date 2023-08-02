@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.template;
 
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -43,6 +44,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author vbroussard
  *
  */
+@ApplicationScoped
 public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
 {
     private static final String SQL_QUERY_SELECT_TEMPLATE_FROM_KEY = "SELECT template_value FROM core_template WHERE template_name = ? ";

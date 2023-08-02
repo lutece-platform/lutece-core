@@ -34,7 +34,7 @@
 package fr.paris.lutece.portal.business.file;
 
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides instances management methods (create, find, ...) for file objects
@@ -42,7 +42,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class FileHome
 {
     // Static variable pointed at the DAO instance
-    private static IFileDAO _dao = SpringContextService.getBean( "fileDAO" );
+    private static IFileDAO _dao = CDI.current().select( IFileDAO.class ).get( );
 
     /**
      * Private constructor - this class need not be instantiated

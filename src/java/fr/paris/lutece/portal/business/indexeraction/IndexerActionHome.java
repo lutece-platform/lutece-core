@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.indexeraction;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ import java.util.List;
 public final class IndexerActionHome
 {
     // Static variable pointed at the DAO instance
-    private static IIndexerActionDAO _dao = SpringContextService.getBean( "indexerActionDAO" );
+    private static IIndexerActionDAO _dao = CDI.current().select(IIndexerActionDAO.class).get();
 
     /**
      * Private constructor - this class need not be instantiated

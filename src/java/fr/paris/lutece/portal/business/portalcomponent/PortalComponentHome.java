@@ -34,7 +34,7 @@
 package fr.paris.lutece.portal.business.portalcomponent;
 
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides instances management methods (create, find, ...) for PortalComponent objects
@@ -42,7 +42,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class PortalComponentHome
 {
     // Static variable pointed at the DAO instance
-    private static IPortalComponentDAO _dao = SpringContextService.getBean( "portalComponentDAO" );
+    private static IPortalComponentDAO _dao = CDI.current( ).select( IPortalComponentDAO.class ).get( );
 
     /**
      * Creates a new PortalComponentHome object.

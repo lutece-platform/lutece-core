@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.dashboard;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ import java.util.List;
  * DashboardDAO
  *
  */
+@ApplicationScoped
 public class DashboardDAO implements IDashboardDAO
 {
     private static final String LOG_ERROR_NOT_FOUND = "Dashboard named {} not found";

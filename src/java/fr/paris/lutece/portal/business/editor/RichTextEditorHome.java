@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.editor;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 
@@ -42,7 +42,7 @@ import java.util.Collection;
  */
 public final class RichTextEditorHome
 {
-    private static IRichTextEditorDAO _dao = SpringContextService.getBean( IRichTextEditorDAO.BEAN_NAME );
+    private static IRichTextEditorDAO _dao = CDI.current().select(IRichTextEditorDAO.class).get();
 
     /**
      * Instantiates a new rich text editor home.

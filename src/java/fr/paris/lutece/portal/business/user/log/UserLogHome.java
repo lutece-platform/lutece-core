@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user.log;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides instances management methods (create, find, ...) for UserLog objects
@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class UserLogHome
 {
     // Static variable pointed at the DAO instance
-    private static IUserLogDAO _dao = SpringContextService.getBean( "userLogDAO" );
+    private static IUserLogDAO _dao = CDI.current().select( IUserLogDAO.class ).get( );
 
     /**
      * Creates a new UserLogHome object.

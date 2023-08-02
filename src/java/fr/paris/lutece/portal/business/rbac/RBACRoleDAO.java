@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.rbac;
 
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,6 +42,7 @@ import java.util.Collection;
 /**
  * This class provides Data Access methods for RBACRole objects
  */
+@ApplicationScoped
 public final class RBACRoleDAO implements IRBACRoleDAO
 {
     // Constants

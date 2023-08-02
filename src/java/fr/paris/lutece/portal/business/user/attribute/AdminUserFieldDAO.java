@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ import org.apache.commons.collections.CollectionUtils;
  * AdminUserFieldDAO
  *
  */
+@ApplicationScoped
 public class AdminUserFieldDAO implements IAdminUserFieldDAO
 {
     // CONSTANTS

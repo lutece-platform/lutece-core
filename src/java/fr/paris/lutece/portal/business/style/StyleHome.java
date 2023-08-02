@@ -34,8 +34,8 @@
 package fr.paris.lutece.portal.business.style;
 
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 
@@ -45,7 +45,7 @@ import java.util.Collection;
 public final class StyleHome
 {
     // Static variable pointed at the DAO instance
-    private static IStyleDAO _dao = SpringContextService.getBean( "styleDAO" );
+    private static IStyleDAO _dao = CDI.current( ).select( IStyleDAO.class ).get( );
 
     /**
      * Creates a new StyleHome object.

@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.business.rbac;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 
@@ -44,7 +44,7 @@ import java.util.Collection;
 public final class RBACRoleHome
 {
     // Static variable pointed at the DAO instance
-    private static IRBACRoleDAO _dao = SpringContextService.getBean( "rbacRoleDAO" );
+    private static IRBACRoleDAO _dao = CDI.current().select( IRBACRoleDAO.class ).get( );
 
     /**
      * Private constructor - this class need not be instantiated

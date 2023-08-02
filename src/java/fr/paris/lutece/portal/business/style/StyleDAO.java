@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.style;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,6 +44,7 @@ import java.util.Collection;
 /**
  * This class provides Data Access methods for style objects
  */
+@ApplicationScoped
 public final class StyleDAO implements IStyleDAO
 {
     // Constants

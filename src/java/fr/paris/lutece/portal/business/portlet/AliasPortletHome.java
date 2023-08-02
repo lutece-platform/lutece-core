@@ -35,8 +35,8 @@ package fr.paris.lutece.portal.business.portlet;
 
 import java.util.Collection;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides instances management methods for AliasPortlet objects
@@ -46,7 +46,7 @@ public class AliasPortletHome extends PortletHome
     // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     // Static variable pointed at the DAO instance
-    private static IAliasPortletDAO _dao = SpringContextService.getBean( "aliasPortletDAO" );
+    private static IAliasPortletDAO _dao = CDI.current().select( IAliasPortletDAO.class ).get( );
 
     /** This class implements the Singleton design pattern. */
     private static AliasPortletHome _singleton;
