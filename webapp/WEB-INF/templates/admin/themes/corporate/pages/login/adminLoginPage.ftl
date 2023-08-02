@@ -21,7 +21,7 @@ Parameters:
 					<@div class="px-2 px-md-5 fs-6">
 						<@div class="text-center mb-4">
 							<@link href="." params='aria-label="#i18n{portal.admin.admin_login.buttonConnect} ${site_name!}"'>
-								<@img url="${logoUrl}" alt="${site_name!}" params='aria-hidden="true"' />
+								<@img url=logoUrl alt=site_name! params='aria-hidden="true" style="width:33.25px"' />
 							</@link>
 						</@div>
 						<h1 class="mb-5 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h1>
