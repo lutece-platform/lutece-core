@@ -34,12 +34,7 @@
 
     <bean id="luteceDefaultAdminUserDAO"
           class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />
-
-    <bean id="attributeText" class="fr.paris.lutece.portal.business.user.attribute.AttributeText" />
-    <bean id="attributeComboBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeComboBox" />
-    <bean id="attributeRadioButton" class="fr.paris.lutece.portal.business.user.attribute.AttributeRadioButton" />
-    <bean id="attributeCheckBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeCheckBox" />
-    <bean id="attributeImage" class="fr.paris.lutece.portal.business.user.attribute.AttributeImage" />
+          
     <bean id="defaultFileDownloadUrlService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileDownloadService" />
     <bean id="defaultFileNoRBACService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileNoRBACService" />
     

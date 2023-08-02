@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -53,6 +54,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * AttributeText
  *
  */
+@ApplicationScoped
 public class AttributeText extends AbstractAttribute implements ISimpleValuesAttributes
 {
     // CONSTANTS

@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.user.attribute;
 import fr.paris.lutece.portal.business.user.attribute.AttributeType;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,12 +82,10 @@ public final class AttributeTypeService
         {
             List<AttributeType> listAttributTypes = new ArrayList<>( );
 
-            for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
-            {
-                attribute.setAttributeType( locale );
+            CDI.current().select(IAttribute.class).forEach(attribute -> {
+            	attribute.setAttributeType( locale );
                 listAttributTypes.add( attribute.getAttributeType( ) );
-            }
-
+            });
             _listAttributeTypes = listAttributTypes;
         }
         return _listAttributeTypes;
