@@ -38,9 +38,14 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
+
 /**
  * MemoryQueue
  */
+@Alternative
+@ApplicationScoped
 public class MemoryQueue implements IMailQueue
 {
     private List<MailItem> _listMails = new ArrayList<>( );

@@ -32,9 +32,6 @@
     <!-- Admin User Import Service -->
     <bean id="adminUserImportService" class="fr.paris.lutece.portal.service.admin.DefaultImportAdminUserService" />
 
-    <!-- Mail Queue -->
-    <!-- <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.MemoryQueue" /> -->
-    <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.DatabaseQueue" />
     <bean id="luteceDefaultAdminUserDAO"
           class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />
 
