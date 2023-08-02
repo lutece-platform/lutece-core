@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ import java.util.List;
  * AdminDashboardDAO
  *
  */
+@ApplicationScoped
 public class AdminDashboardDAO implements IAdminDashboardDAO
 {
     private static final String LOG_ERROR_NOT_FOUND = "Admindashboard named {} not found";

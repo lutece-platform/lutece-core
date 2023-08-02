@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -56,6 +57,7 @@ import org.apache.commons.collections.CollectionUtils;
 /**
  * This class porvides Data Access methods for AdminUser objects
  */
+@ApplicationScoped
 public class AdminUserDAO implements IAdminUserDAO
 {
     // Constants

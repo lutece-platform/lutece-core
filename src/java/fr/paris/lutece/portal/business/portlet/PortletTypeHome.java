@@ -34,8 +34,8 @@
 package fr.paris.lutece.portal.business.portlet;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 import java.util.Locale;
@@ -46,7 +46,7 @@ import java.util.Locale;
 public final class PortletTypeHome
 {
     // Static variable pointed at the DAO instance
-    private static IPortletTypeDAO _dao = SpringContextService.getBean( "portletTypeDAO" );
+    private static IPortletTypeDAO _dao = CDI.current().select( IPortletTypeDAO.class ).get( );
 
     /**
      * Creates a new PortletTypeHome object.

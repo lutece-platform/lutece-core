@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.user.attribute;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ import java.util.List;
  * AttributeFieldDAO
  *
  */
+@ApplicationScoped
 public class AttributeFieldDAO implements IAttributeFieldDAO
 {
 

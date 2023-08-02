@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.style;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ import java.util.List;
 public final class PageTemplateHome
 {
     // Static variable pointed at the DAO instance
-    private static IPageTemplateDAO _dao = SpringContextService.getBean( "pageTemplateDAO" );
+    private static IPageTemplateDAO _dao = CDI.current().select( IPageTemplateDAO.class ).get();
 
     /**
      * Creates a new PageTemplateHome object.

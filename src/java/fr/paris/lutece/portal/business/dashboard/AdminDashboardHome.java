@@ -34,7 +34,7 @@
 package fr.paris.lutece.portal.business.dashboard;
 
 import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 
@@ -46,8 +46,7 @@ import java.util.List;
 public final class AdminDashboardHome
 {
     // Static variable pointed at the DAO instance
-    private static IAdminDashboardDAO _dao = SpringContextService.getBean( "adminDashboardDAO" );
-
+    private static IAdminDashboardDAO _dao = CDI.current().select(IAdminDashboardDAO.class).get( );
     /**
      * Private constructor - this class need not be instantiated
      */

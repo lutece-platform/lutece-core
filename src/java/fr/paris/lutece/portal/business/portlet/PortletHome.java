@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 import java.util.List;
@@ -53,7 +54,7 @@ public abstract class PortletHome implements PortletHomeInterface
     private static final int CONSTANT_DEFAULT_STATUS = Portlet.STATUS_PUBLISHED;
 
     // Static variable pointed at the DAO instance
-    private static IPortletDAO _dao = SpringContextService.getBean( "portletDAO" );
+    private static IPortletDAO _dao = CDI.current( ).select( IPortletDAO.class ).get( );
 
     // /////////////////////////////////////////////////////////////////////////
     // Finders

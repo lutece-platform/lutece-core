@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.role;
 
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +43,7 @@ import java.util.Collection;
 /**
  * This class provides Data Access methods for Role objects
  */
+@ApplicationScoped
 public final class RoleDAO implements IRoleDAO
 {
     // Constants

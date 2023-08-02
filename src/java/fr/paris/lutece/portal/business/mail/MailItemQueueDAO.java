@@ -40,6 +40,7 @@ import fr.paris.lutece.util.mail.UrlAttachment;
 import fr.paris.lutece.util.sql.DAOUtil;
 import fr.paris.lutece.util.sql.Transaction;
 import fr.paris.lutece.util.sql.TransactionManager;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -54,6 +55,7 @@ import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 /**
  * This class provides Data Access methods for MailItemQueue objects
  */
+@ApplicationScoped
 public class MailItemQueueDAO implements IMailItemQueueDAO
 {
     private static final String SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID = "SELECT min(id_mail_queue) FROM core_mail_queue WHERE is_locked=0";

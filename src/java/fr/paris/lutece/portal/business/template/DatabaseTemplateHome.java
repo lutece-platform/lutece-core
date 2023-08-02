@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.template;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides methods to access templates stored in the database.
@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class DatabaseTemplateHome
 {
     // Static variable pointed to the DAO instance
-    private static IDatabaseTemplateDAO _dao = SpringContextService.getBean( "databaseTemplateDAO" );
+    private static IDatabaseTemplateDAO _dao = CDI.current().select( IDatabaseTemplateDAO.class ).get( );
 
     /**
      * Instantiates a new database template home.

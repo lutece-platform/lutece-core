@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.indexeraction;
 
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ import java.util.List;
 /**
  * This class provides Data Access methods for Indexer Action objects
  */
+@ApplicationScoped
 public final class IndexerActionDAO implements IIndexerActionDAO
 {
     // Constants

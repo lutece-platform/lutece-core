@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.right;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 
@@ -48,7 +48,8 @@ public final class RightHome
     private static final int CONSTANT_FIRST_ID_ORDER = 1;
 
     // Static variable pointed at the DAO instance
-    private static IRightDAO _dao = SpringContextService.getBean( "rightDAO" );
+    private static IRightDAO _dao = CDI.current().select( IRightDAO.class ).get();
+    		
 
     /**
      * Creates a new RightHome object.

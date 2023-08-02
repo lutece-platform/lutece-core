@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 import java.util.Locale;
@@ -45,7 +45,7 @@ import java.util.Locale;
  */
 public final class AttributeHome
 {
-    private static IAttributeDAO _dao = SpringContextService.getBean( "attributeDAO" );
+    private static IAttributeDAO _dao = CDI.current().select(IAttributeDAO.class).get();
 
     /**
      * Private constructor

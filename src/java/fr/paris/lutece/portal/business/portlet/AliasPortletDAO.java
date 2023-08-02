@@ -39,10 +39,12 @@ import java.util.List;
 
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * This class provides Data Access methods for AliasPortlet objects
  */
+@ApplicationScoped
 public final class AliasPortletDAO implements IAliasPortletDAO
 {
     // sql queries

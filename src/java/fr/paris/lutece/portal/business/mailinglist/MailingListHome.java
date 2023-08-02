@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.mailinglist;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 import java.util.List;
@@ -44,7 +44,7 @@ import java.util.List;
 public final class MailingListHome
 {
     // Static variable pointed at the DAO instance
-    private static IMailingListDAO _dao = SpringContextService.getBean( "mailingListDAO" );
+    private static IMailingListDAO _dao = CDI.current().select( IMailingListDAO.class ).get( );
 
     /**
      * Private constructor - this class need not be instantiated

@@ -35,10 +35,12 @@ package fr.paris.lutece.portal.business.portalcomponent;
 
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * This class provides Data Access methods for PortalComponent objects
  */
+@ApplicationScoped
 public final class PortalComponentDAO implements IPortalComponentDAO
 {
     // Constants

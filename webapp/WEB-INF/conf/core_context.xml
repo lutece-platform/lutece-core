@@ -21,9 +21,6 @@
 
     <context:annotation-config />
     <import resource="jpa_context.xml" />
-
-    <bean id="indexerActionDAO" class="fr.paris.lutece.portal.business.indexeraction.IndexerActionDAO" />
-
     <!-- Admin Authentication -->
     <bean id="passwordFactory" class="fr.paris.lutece.portal.business.user.authentication.PasswordFactory" />
     <bean id="adminAuthenticationModule"
@@ -38,75 +35,14 @@
     <!-- Mail Queue -->
     <!-- <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.MemoryQueue" /> -->
     <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.DatabaseQueue" />
-   
-    <!-- Data Access Objects -->
-
-    <!-- package features -->
-    <bean id="levelDAO" class="fr.paris.lutece.portal.business.right.LevelDAO" />
-
-    <!-- package mailinglist -->
-    <bean id="mailingListDAO" class="fr.paris.lutece.portal.business.mailinglist.MailingListDAO" />
-
-    <!-- package page -->
-    <bean id="pageDAO" class="fr.paris.lutece.portal.business.page.PageDAO" />
-    <!-- package portalcomponent -->
-    <bean id="portalComponentDAO" class="fr.paris.lutece.portal.business.portalcomponent.PortalComponentDAO" />
-
-    <!-- package portlet -->
-    <bean id="aliasPortletDAO" class="fr.paris.lutece.portal.business.portlet.AliasPortletDAO" />
-    <bean id="portletDAO" class="fr.paris.lutece.portal.business.portlet.PortletDAO" />
-    <bean id="portletTypeDAO" class="fr.paris.lutece.portal.business.portlet.PortletTypeDAO" />
-
-    <!-- package rbac -->
-    <bean id="rbacRoleDAO" class="fr.paris.lutece.portal.business.rbac.RBACRoleDAO" />
-    <bean id="rBACDAO" class="fr.paris.lutece.portal.business.rbac.RBACDAO" />
-
-    <!-- package right -->
-    <bean id="featureGroupDAO" class="fr.paris.lutece.portal.business.right.FeatureGroupDAO" />
-    <bean id="rightDAO" class="fr.paris.lutece.portal.business.right.RightDAO" />
-
-    <!-- package role -->
-    <bean id="roleDAO" class="fr.paris.lutece.portal.business.role.RoleDAO" />
-
-    <!-- package search -->
-    <bean id="searchParameterDAO" class="fr.paris.lutece.portal.business.search.SearchParameterDAO" />
-
-    <!-- package style -->
-    <bean id="modeDAO" class="fr.paris.lutece.portal.business.style.ModeDAO" />
-    <bean id="pageTemplateDAO" class="fr.paris.lutece.portal.business.style.PageTemplateDAO" />
-    <bean id="styleDAO" class="fr.paris.lutece.portal.business.style.StyleDAO" />
-
-    <!-- package stylesheet -->
-    <bean id="styleSheetDAO" class="fr.paris.lutece.portal.business.stylesheet.StyleSheetDAO" />
-
-    <!-- package template -->
-    <bean id="databaseTemplateDAO" class="fr.paris.lutece.portal.business.template.DatabaseTemplateDAO" />
-
-    <!-- package user -->
-    <bean id="adminUserDAO" class="fr.paris.lutece.portal.business.user.AdminUserDAO" />
     <bean id="luteceDefaultAdminUserDAO"
           class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />
-    <bean id="userLogDAO" class="fr.paris.lutece.portal.business.user.log.UserLogDAO" />
 
-    <!-- package workgroup -->
-    <bean id="adminWorkgroupDAO" class="fr.paris.lutece.portal.business.workgroup.AdminWorkgroupDAO" />
-    <!-- package mail -->
-    <bean id="mailItemQueueDAO" class="fr.paris.lutece.portal.business.mail.MailItemQueueDAO" />
-
-    <!-- package attribute -->
-    <bean id="attributeDAO" class="fr.paris.lutece.portal.business.user.attribute.AttributeDAO" />
-    <bean id="attributeFieldDAO" class="fr.paris.lutece.portal.business.user.attribute.AttributeFieldDAO" />
-    <bean id="adminUserFieldDAO" class="fr.paris.lutece.portal.business.user.attribute.AdminUserFieldDAO" />
     <bean id="attributeText" class="fr.paris.lutece.portal.business.user.attribute.AttributeText" />
     <bean id="attributeComboBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeComboBox" />
     <bean id="attributeRadioButton" class="fr.paris.lutece.portal.business.user.attribute.AttributeRadioButton" />
     <bean id="attributeCheckBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeCheckBox" />
     <bean id="attributeImage" class="fr.paris.lutece.portal.business.user.attribute.AttributeImage" />
-
-    <!-- Files -->
-    <bean id="fileDAO" class="fr.paris.lutece.portal.business.file.FileDAO" />
-    <bean id="physicalFileDAO" class="fr.paris.lutece.portal.business.physicalfile.PhysicalFileDAO" />
-
     <bean id="defaultFileDownloadUrlService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileDownloadService" />
     <bean id="defaultFileNoRBACService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileNoRBACService" />
     
@@ -115,19 +51,7 @@
             <constructor-arg ref="defaultFileNoRBACService" />
             <property name="default" value="true" />
             <property name="name" value="defaultDatabaseFileStoreProvider" />
-    </bean>
-    
-    <!-- admin dashboards -->
-    <bean id="adminDashboardDAO" class="fr.paris.lutece.portal.business.dashboard.AdminDashboardDAO" />
-
-    <!-- dashboards -->
-    <bean id="dashboardDAO" class="fr.paris.lutece.portal.business.dashboard.DashboardDAO" />
-
-    <!-- xsl exports -->
-    <bean id="xslExportDAO" class="fr.paris.lutece.portal.business.xsl.XslExportDAO" />
-
-    <bean id="richTextEditorDAO" class="fr.paris.lutece.portal.business.editor.RichTextEditorDAO" />
-
+    </bean>   
     <!-- annotation db -->
     <!-- scans WEB-INF/lib for classes within jars, and web-inf/classes for .class -->
     <bean id="annotationDB" class="fr.paris.lutece.util.annotation.ScannotationDB">
@@ -174,9 +98,6 @@
     <!-- Site Properties Groups -->
     <bean id="sitePropertiesGroup"
           class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
-	<!-- Migrated to cdi
-    <bean id="core.xpage.search" class="fr.paris.lutece.portal.web.search.SearchApp" scope="session" />
-	 -->
     <!-- Daemon management -->
     <bean id="daemonQueue" class="java.util.concurrent.LinkedBlockingQueue" />
     <bean id="daemonExecutorQueue" class="java.util.concurrent.SynchronousQueue" />

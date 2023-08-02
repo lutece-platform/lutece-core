@@ -40,8 +40,8 @@ import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.resource.ExtendableResourceRemovalListenerService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides instances management methods (create, find, ...) for Page objects
@@ -49,7 +49,7 @@ import fr.paris.lutece.util.ReferenceList;
 public final class PageHome
 {
     // Static variable pointed at the DAO instance
-    private static IPageDAO _dao = SpringContextService.getBean( "pageDAO" );
+    private static IPageDAO _dao = CDI.current().select( IPageDAO.class ).get( );
 
     /**
      * Creates a new PageHome object.

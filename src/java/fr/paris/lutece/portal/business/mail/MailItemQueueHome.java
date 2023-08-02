@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.mail;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides Data Access methods for MailItemQueue objects
@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class MailItemQueueHome
 {
     // Static variable pointed at the DAO instance
-    private static IMailItemQueueDAO _dao = SpringContextService.getBean( "mailItemQueueDAO" );
+    private static IMailItemQueueDAO _dao = CDI.current().select( IMailItemQueueDAO.class ).get( );
 
     /**
      * Creates a new MailItemQueueHome object.

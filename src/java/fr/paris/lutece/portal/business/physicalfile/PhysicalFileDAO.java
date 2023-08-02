@@ -36,10 +36,12 @@ package fr.paris.lutece.portal.business.physicalfile;
 import java.sql.Statement;
 
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * This class provides Data Access methods for Field objects
  */
+@ApplicationScoped
 public final class PhysicalFileDAO implements IPhysicalFileDAO
 {
     // Constants

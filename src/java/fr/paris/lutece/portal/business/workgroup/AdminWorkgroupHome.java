@@ -34,8 +34,8 @@
 package fr.paris.lutece.portal.business.workgroup;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 
@@ -45,7 +45,7 @@ import java.util.Collection;
 public final class AdminWorkgroupHome
 {
     // Static variable pointed at the DAO instance
-    private static IAdminWorkgroupDAO _dao = SpringContextService.getBean( "adminWorkgroupDAO" );
+    private static IAdminWorkgroupDAO _dao = CDI.current( ).select( IAdminWorkgroupDAO.class ).get( );
 
     /**
      * Private constructor - this class need not be instantiated

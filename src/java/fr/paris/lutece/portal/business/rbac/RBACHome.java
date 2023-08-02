@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.rbac;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -44,7 +44,7 @@ import java.util.Collections;
 public final class RBACHome
 {
     // Static variable pointed at the DAO instance
-    private static IRBACDAO _dao = SpringContextService.getBean( "rBACDAO" );
+    private static IRBACDAO _dao = CDI.current().select( IRBACDAO.class ).get();
 
     /**
      * Private constructor - this class need not be instantiated

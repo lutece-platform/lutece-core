@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.business.user.attribute;
 
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ import java.util.List;
  */
 public final class AdminUserFieldHome
 {
-    private static IAdminUserFieldDAO _dao = SpringContextService.getBean( "adminUserFieldDAO" );
+    private static IAdminUserFieldDAO _dao = CDI.current().select( IAdminUserFieldDAO.class ).get( );
 
     /**
      * Private constructor

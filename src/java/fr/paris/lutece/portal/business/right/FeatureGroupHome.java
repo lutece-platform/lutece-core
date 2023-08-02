@@ -35,8 +35,8 @@ package fr.paris.lutece.portal.business.right;
 
 import java.util.List;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides instances management methods (create, find, ...) for feature groups objects
@@ -44,7 +44,7 @@ import fr.paris.lutece.util.ReferenceList;
 public final class FeatureGroupHome
 {
     // Static variable pointed at the DAO instance
-    private static IFeatureGroupDAO _dao = SpringContextService.getBean( "featureGroupDAO" );
+    private static IFeatureGroupDAO _dao = CDI.current().select( IFeatureGroupDAO.class ).get();
     private static final int CONSTANT_ERROR_ORDER = -2; // this value must be negative
     private static final int CONSTANT_STEP_ORDER = 1;
 

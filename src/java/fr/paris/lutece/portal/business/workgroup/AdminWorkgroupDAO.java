@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -44,6 +45,7 @@ import java.util.Collection;
 /**
  * This class provides Data Access methods for AdminWorkgroup objects
  */
+@ApplicationScoped
 public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
 {
     // Constants

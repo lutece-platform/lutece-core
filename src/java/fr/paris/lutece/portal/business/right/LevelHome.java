@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.right;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
 
@@ -43,7 +43,7 @@ import java.util.Collection;
 public final class LevelHome
 {
     // Static variable pointed at the DAO instance
-    private static ILevelDAO _dao = SpringContextService.getBean( "levelDAO" );
+    private static ILevelDAO _dao = CDI.current().select( ILevelDAO.class ).get( );
 
     /**
      * Creates a new LevelHome object.

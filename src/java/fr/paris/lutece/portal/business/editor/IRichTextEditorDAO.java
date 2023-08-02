@@ -40,7 +40,6 @@ import java.util.Collection;
  */
 public interface IRichTextEditorDAO
 {
-    String BEAN_NAME = "richTextEditorDAO";
 
     /**
      * Get the collection of RichTextEditor for back or front office
