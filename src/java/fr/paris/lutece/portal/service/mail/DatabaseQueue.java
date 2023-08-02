@@ -35,10 +35,12 @@ package fr.paris.lutece.portal.service.mail;
 
 import fr.paris.lutece.portal.business.mail.MailItemQueue;
 import fr.paris.lutece.portal.business.mail.MailItemQueueHome;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * DatabaseQueue
  */
+@ApplicationScoped
 public class DatabaseQueue implements IMailQueue
 {
     /**
