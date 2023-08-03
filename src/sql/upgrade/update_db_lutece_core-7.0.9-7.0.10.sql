@@ -13,7 +13,7 @@ INSERT INTO core_datastore (entity_key, entity_value) VALUES ('portal.site.site_
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.user.menumode.show.checkbox';
 INSERT INTO core_datastore (entity_key, entity_value) VALUES ('portal.site.site_property.layout.user.menumode.show.checkbox', '1');
 DELETE FROM core_datastore  WHERE entity_key='portal.site.site_property.avatar_default';
-INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'images/admin/skin/unknown.svg');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'themes/admin/shared/unknown.svg');
 
 UPDATE core_admin_right SET icon_url = 'ti ti-home-edit' WHERE id_right='CORE_ADMIN_SITE';
 UPDATE core_admin_right SET icon_url = 'ti ti-dashboard' WHERE id_right='CORE_ADMINDASHBOARD_MANAGEMENT';

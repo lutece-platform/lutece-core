@@ -210,7 +210,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.c
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '&lt;privacy text&gt;');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', '');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.locale.default', 'fr');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'images/admin/skin/unknown.svg');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'themes/admin/shared/unknown.svg');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.portlet.title.maxlength', '75');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', 'themes/admin/tabler/images/bg_login1.svg, themes/admin/tabler/images/bg_login2.svg');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXs.checkbox', '1');
