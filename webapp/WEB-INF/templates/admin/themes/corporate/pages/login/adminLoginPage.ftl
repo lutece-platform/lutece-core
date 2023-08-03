@@ -7,7 +7,7 @@ Parameters:
 <#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
-<#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header.png')>
+<#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header.svg')>
 <#local loginLayoutImg=dskey('portal.site.site_property.login.image')?trim />
 </head>
 <body class="lutece-login" data-bs-theme="dark"${readMode!}<#if params!=''> ${params}</#if>>
@@ -21,7 +21,7 @@ Parameters:
 					<@div class="px-2 px-md-5 fs-6">
 						<@div class="text-center mb-4">
 							<@link href="." params='aria-label="#i18n{portal.admin.admin_login.buttonConnect} ${site_name!}"'>
-								<@img url=logoUrl alt=site_name! params='aria-hidden="true" style="width:33.25px"' />
+								<@img url=logoUrl alt=site_name! params='aria-hidden="true" style="width:68.25px"' />
 							</@link>
 						</@div>
 						<h1 class="mb-5 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h1>
