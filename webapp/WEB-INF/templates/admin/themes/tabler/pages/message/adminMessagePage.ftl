@@ -36,7 +36,7 @@ Parameters:
 <@div class="page page-center">
 	<@div class="text-center mb-4">
 		<@link href=".">
-			<@img url="${logoUrl}" alt='LUTECE' title='Lutece' params=' height="36"' />
+			<@img url="${logoUrl}" alt='LUTECE' title='Lutece' params=' width="36"' />
 		</@link>
 	</@div>
 	<@row class='justify-content-center align-items-center'>
