@@ -35,11 +35,14 @@ package fr.paris.lutece.portal.service.html;
 
 import org.jsoup.Jsoup;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 /**
  *
  * This class is an implementation of IHtmlCleaner using the JTidy library
  *
  */
+@ApplicationScoped
 public class JSoupHtmlCleaner implements IHtmlCleaner
 {
 

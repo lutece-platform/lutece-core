@@ -34,7 +34,7 @@
 package fr.paris.lutece.portal.service.site.properties;
 
 import fr.paris.lutece.portal.service.datastore.LocalizedDataGroup;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,14 +59,10 @@ public final class SitePropertiesService
      */
     public static List<LocalizedDataGroup> getGroups( Locale locale )
     {
-        List<ILocalizedSitePropertiesGroup> listGroups = SpringContextService.getBeansOfType( ILocalizedSitePropertiesGroup.class );
         List<LocalizedDataGroup> listGroup = new ArrayList<>( );
-
-        for ( ILocalizedSitePropertiesGroup group : listGroups )
-        {
-            listGroup.add( new LocalizedDataGroup( group, locale ) );
-        }
-
+        CDI.current().select(ILocalizedSitePropertiesGroup.class).forEach(
+        		group -> listGroup.add( new LocalizedDataGroup( group, locale ) )
+        );
         return listGroup;
     }
 }

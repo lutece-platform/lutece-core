@@ -33,9 +33,14 @@
  */
 package fr.paris.lutece.portal.service.html;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
+
 /**
  * Html Cleaner that doesn't not modify HTML
  */
+@Alternative
+@ApplicationScoped
 public class VoidHtmlCleaner implements IHtmlCleaner
 {
 }

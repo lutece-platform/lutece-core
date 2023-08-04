@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.html;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides management methods for cleaner
@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class HtmlCleanerService
 {
     /** html Cleaner */
-    private static IHtmlCleaner _htmlCleaner = SpringContextService.getBean( "htmlCleaner" );
+    private static IHtmlCleaner _htmlCleaner = CDI.current().select(IHtmlCleaner.class).get( );
     private static boolean _bInit;
 
     /**

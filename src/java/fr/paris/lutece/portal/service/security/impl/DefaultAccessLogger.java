@@ -42,6 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import jakarta.enterprise.context.ApplicationScoped;
 import fr.paris.lutece.portal.service.security.IAccessLogger;
 
 import java.text.MessageFormat;
@@ -61,6 +62,7 @@ import org.apache.logging.log4j.Logger;
  * - portal.defaultAccessLogger.addHashToLogs
  * 
  */
+@ApplicationScoped
 public final class DefaultAccessLogger implements IAccessLogger
 {
 

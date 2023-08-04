@@ -6,5 +6,13 @@
        <alternatives>
        	<!-- If you want to enable email handling in memory rather than in the database, please uncomment this line.-->
         <!-- <class>fr.paris.lutece.portal.service.mail.MemoryQueue</class>  -->
+       
+        <!-- Html Cleaner that doesn't not modify HTML -->
+        <!-- <class>fr.paris.lutece.portal.service.html.VoidHtmlCleaner</class>  -->
+        
+        <!-- RSA Key service default provider is RSAKeyDatastoreProvider 
+        (RSAKeyEnvironmentProvider is also available) -->
+        <!-- <class>fr.paris.lutece.util.rsa.RSAKeyEnvironmentProvider</class>  -->
+        
     	</alternatives>
 </beans>

@@ -36,14 +36,12 @@ package fr.paris.lutece.util.rsa;
 import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.List;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 public class RSAKeyPairUtil
 {
     private static RSAKeyPairUtil _instance;
-    private static String RSA_KEY_PROVIDER_BEAN_NAME = "RSAKeyProvider";
     private PrivateKey _privateKey;
     private PublicKey _publicKey;
 
@@ -84,7 +82,7 @@ public class RSAKeyPairUtil
      */
     private void readKeys( ) throws GeneralSecurityException
     {
-        IRSAKeyProvider rsaKeyProvider = SpringContextService.getBean( RSA_KEY_PROVIDER_BEAN_NAME );
+        IRSAKeyProvider rsaKeyProvider = CDI.current().select( IRSAKeyProvider.class ).get( );
         
         if ( rsaKeyProvider == null )
         {
