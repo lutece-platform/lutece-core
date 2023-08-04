@@ -34,7 +34,8 @@
 package fr.paris.lutece.portal.service.security;
 
 import fr.paris.lutece.api.user.User;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
+
 import java.util.List;
 
 /**
@@ -72,7 +73,7 @@ public final class AccessLogService
      */
     private AccessLogService( )
     {
-        _accessLoggerList = SpringContextService.getBeansOfType( IAccessLogger.class );
+        _accessLoggerList = CDI.current().select(IAccessLogger.class).stream().toList();
     }
 
     /**

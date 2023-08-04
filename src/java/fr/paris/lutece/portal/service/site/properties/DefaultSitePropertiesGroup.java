@@ -33,9 +33,12 @@
  */
 package fr.paris.lutece.portal.service.site.properties;
 
+import jakarta.enterprise.context.ApplicationScoped;
+
 /**
  * This is the business class for the object SiteProperty
  */
+@ApplicationScoped
 public class DefaultSitePropertiesGroup implements ILocalizedSitePropertiesGroup
 {
     private static final String KEY_NAME = "portal.site.site_properties_group.name";

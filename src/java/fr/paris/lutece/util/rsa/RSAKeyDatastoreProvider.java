@@ -37,7 +37,6 @@ import java.security.GeneralSecurityException;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
@@ -45,7 +44,9 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import jakarta.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class RSAKeyDatastoreProvider implements IRSAKeyProvider 
 {
 

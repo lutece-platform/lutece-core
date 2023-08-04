@@ -33,14 +33,14 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -49,11 +49,11 @@ import jakarta.servlet.http.HttpSession;
  * This class provides a security service for getting and verify tokens
  *
  */
+@ApplicationScoped
 public class SecurityTokenService implements ISecurityTokenService
 {
     public static final String MARK_TOKEN = "token";
     public static final String PARAMETER_TOKEN = "token";
-    private static final String BEAN_SECURITY_TOKEN_SERVICE = "securityTokenService";
     private static final String PARAMETER_SESSION_TOKENS = "tokens";
     private static ISecurityTokenService _singleton;
 
@@ -73,7 +73,7 @@ public class SecurityTokenService implements ISecurityTokenService
     {
         if ( _singleton == null )
         {
-            _singleton = SpringContextService.getBean( BEAN_SECURITY_TOKEN_SERVICE );
+            _singleton = CDI.current().select(ISecurityTokenService.class).get( );
         }
 
         return _singleton;

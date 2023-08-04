@@ -34,7 +34,6 @@
 
     <bean id="luteceDefaultAdminUserDAO"
           class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />
-          
     <bean id="defaultFileDownloadUrlService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileDownloadService" />
     <bean id="defaultFileNoRBACService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileNoRBACService" />
     
@@ -52,11 +51,6 @@
         and another-randomtext.jar. -->
         <!-- <property name="fileFilter">(sample\.jar)|(another-.*\.jar)</property> -->
     </bean>
-
-    <!-- Freemarker -->
-    <bean id="freeMarkerTemplateService" class="fr.paris.lutece.portal.service.template.FreeMarkerTemplateService"
-          factory-method="getInstance" />
-
     <!-- Extendable Resource -->
     <bean id="pageExtendableResourceService"
           class="fr.paris.lutece.portal.service.page.PageExtendableResourceService" />
@@ -74,22 +68,6 @@
         <property name="dao" ref="adminUserPreferencesDAO" />
     </bean>
 
-    <!-- Security Token Service -->
-    <bean id="securityTokenService" class="fr.paris.lutece.portal.service.security.SecurityTokenService" />
-    
-    <!-- RSA Key service default provider (RSAKeyEnvironmentProvider is also available) -->
-    <bean id="RSAKeyProvider" class="fr.paris.lutece.util.rsa.RSAKeyDatastoreProvider" />
-        
-    <!-- Cleaner HTML -->
-    <!-- Cleaner Jsoup HTML -->
-    <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JSoupHtmlCleaner" />
-
-    <!-- Accesslogger service -->
-    <bean id="accessLogger" class="fr.paris.lutece.portal.service.security.impl.DefaultAccessLogger" />
-    
-    <!-- Site Properties Groups -->
-    <bean id="sitePropertiesGroup"
-          class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
     <!-- Daemon management -->
     <bean id="daemonQueue" class="java.util.concurrent.LinkedBlockingQueue" />
     <bean id="daemonExecutorQueue" class="java.util.concurrent.SynchronousQueue" />
