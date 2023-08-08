@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.portal.business.user.menu;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * A simple admin user menu divider item provider
  */
+@ApplicationScoped
 public class DividerAdminUserMenuItemProvider extends AbstractAdminUserMenuItemProvider
 {
 

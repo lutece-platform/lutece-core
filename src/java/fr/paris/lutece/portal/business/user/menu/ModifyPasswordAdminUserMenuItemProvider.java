@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user.menu;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -41,6 +42,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 /**
  * Password modification admin user menu item provider
  */
+@ApplicationScoped
 public class ModifyPasswordAdminUserMenuItemProvider extends AbstractAdminUserMenuItemProvider
 {
     private static final String TEMPLATE = "admin/user/menu/modify_password.html";

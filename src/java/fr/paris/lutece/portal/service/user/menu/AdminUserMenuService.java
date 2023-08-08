@@ -39,6 +39,8 @@ import java.util.ListIterator;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Singleton;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.menu.AdminUserMenuItem;
@@ -50,10 +52,9 @@ import fr.paris.lutece.portal.service.util.AppLogService;
  * 
  * @since 6.2.0
  */
+@ApplicationScoped
 public class AdminUserMenuService
 {
-    public static final String BEAN_NAME = "adminUserMenuService";
-
     private final List<IAdminUserMenuItemProvider> _itemProviders = new ArrayList<>( );
 
     /**
