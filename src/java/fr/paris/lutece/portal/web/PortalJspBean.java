@@ -529,7 +529,7 @@ public class PortalJspBean
 
         // We get the resource from its resource service
         IExtendableResourceService resourceService = null;
-        List<IExtendableResourceService> listExtendableResourceService = SpringContextService.getBeansOfType( IExtendableResourceService.class );
+        List<IExtendableResourceService> listExtendableResourceService = CDI.current().select(IExtendableResourceService.class).stream().toList();
 
         for ( IExtendableResourceService extendableResourceService : listExtendableResourceService )
         {

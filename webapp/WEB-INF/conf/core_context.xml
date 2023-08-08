@@ -51,10 +51,6 @@
         and another-randomtext.jar. -->
         <!-- <property name="fileFilter">(sample\.jar)|(another-.*\.jar)</property> -->
     </bean>
-    <!-- Extendable Resource -->
-    <bean id="pageExtendableResourceService"
-          class="fr.paris.lutece.portal.service.page.PageExtendableResourceService" />
-
     <!-- Preferences Services -->
     <bean id="userPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.UserPreferencesDAO" />
     <bean id="adminUserPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.AdminUserPreferencesDAO" />
