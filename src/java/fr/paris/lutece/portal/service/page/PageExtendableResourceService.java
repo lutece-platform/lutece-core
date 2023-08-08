@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.resource.IExtendableResourceService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -51,6 +52,7 @@ import java.util.Locale;
  * PageExtendableResourceService
  *
  */
+@ApplicationScoped
 public class PageExtendableResourceService implements IExtendableResourceService
 {
     private static final String MESSAGE_RESOURCE_TYPE_DESCRIPTION = "portal.admin.resource.page.resourceTypeDescription";
