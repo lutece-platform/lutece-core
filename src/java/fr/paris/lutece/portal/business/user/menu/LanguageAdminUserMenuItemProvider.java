@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -49,6 +50,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 /**
  * Language admin user menu item provider
  */
+@ApplicationScoped
 public class LanguageAdminUserMenuItemProvider extends AbstractAdminUserMenuItemProvider
 {
     public static final String TEMPLATE = "admin/user/menu/modify_language.html";

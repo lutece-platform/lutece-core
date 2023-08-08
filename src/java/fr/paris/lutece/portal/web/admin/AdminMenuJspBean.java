@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -177,7 +178,7 @@ public class AdminMenuJspBean implements Serializable
         setDashboardData( model, user, request, nZoneMax );
 
         model.put( MARK_ADMIN_AVATAR, _bAdminAvatar );
-        AdminUserMenuService registry = SpringContextService.getBean( AdminUserMenuService.BEAN_NAME );
+        AdminUserMenuService registry = CDI.current().select(AdminUserMenuService.class ).get( );
         model.put( MARK_USER_MENU_ITEMS, registry.getItems( request ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale( ), model );

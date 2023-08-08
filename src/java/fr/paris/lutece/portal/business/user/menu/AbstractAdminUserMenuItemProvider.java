@@ -50,19 +50,19 @@ public abstract class AbstractAdminUserMenuItemProvider implements IAdminUserMen
     private String _strName;
 
     @Override
-    public final void setName( String strName )
+    public  void setName( String strName )
     {
         _strName = strName;
     }
 
     @Override
-    public final String getName( )
+    public  String getName( )
     {
         return _strName;
     }
 
     @Override
-    public final boolean isInvoked( HttpServletRequest request )
+    public  boolean isInvoked( HttpServletRequest request )
     {
         return SpringContextService.isBeanEnabled( getName( ) ) && isItemProviderInvoked( request );
     }

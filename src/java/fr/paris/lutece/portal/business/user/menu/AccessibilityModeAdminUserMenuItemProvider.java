@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.user.menu;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -47,6 +48,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 /**
  * Accessibility mode admin user menu item provider
  */
+@ApplicationScoped
 public class AccessibilityModeAdminUserMenuItemProvider extends AbstractAdminUserMenuItemProvider
 {
     public static final String TEMPLATE = "admin/user/menu/modify_accessibility_mode.html";

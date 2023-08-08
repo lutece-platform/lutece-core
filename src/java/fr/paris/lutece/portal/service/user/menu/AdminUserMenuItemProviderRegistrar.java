@@ -33,12 +33,9 @@
  */
 package fr.paris.lutece.portal.service.user.menu;
 
-import jakarta.inject.Inject;
 
-import org.springframework.beans.factory.BeanNameAware;
 
 import fr.paris.lutece.portal.business.user.menu.IAdminUserMenuItemProvider;
-import jakarta.annotation.PostConstruct;
 
 /**
  * Admin user menu provider registrar.
@@ -50,13 +47,16 @@ import jakarta.annotation.PostConstruct;
  * 
  * @since 6.2.0
  */
-public class AdminUserMenuItemProviderRegistrar implements BeanNameAware
+public class AdminUserMenuItemProviderRegistrar
 {
-    private final AdminUserMenuService _service;
+	
+    private AdminUserMenuService _service ;
     private IAdminUserMenuItemProvider _provider;
     private String _strAfterName;
     private String _strBeforeName;
     private String _strName;
+
+    
 
     /**
      * Constructor
@@ -64,10 +64,15 @@ public class AdminUserMenuItemProviderRegistrar implements BeanNameAware
      * @param service
      *            the admin user item service
      */
-    @Inject
-    public AdminUserMenuItemProviderRegistrar( AdminUserMenuService service )
+    public AdminUserMenuItemProviderRegistrar( )
     {
-        _service = service;
+    }
+    /**
+     * Set AdminUserMenuService
+     * @param service the AdminUserMenuService
+     */
+    public void setService( AdminUserMenuService service  ) {
+    	_service = service;
     }
 
     /**
@@ -136,17 +141,17 @@ public class AdminUserMenuItemProviderRegistrar implements BeanNameAware
             throw new IllegalStateException( "Only one of className or provider must be specifed" );
         }
     }
-
+   
     /**
      * Registers the item provider
      */
-    @PostConstruct
     public void registerAdminUserMenuItemProvider( )
     {
         if ( _provider == null )
         {
             throw new IllegalStateException( "Either className or provider must be specifed" );
         }
+       
         _provider.setName( _strName );
         _service.addItemProvider( _provider, _strAfterName, _strBeforeName );
     }
@@ -157,9 +162,9 @@ public class AdminUserMenuItemProviderRegistrar implements BeanNameAware
      * @param strName
      *            name of the admin user menu item provider
      */
-    @Override
     public void setBeanName( String strName )
     {
         _strName = strName;
     }
+    
 }
