@@ -40,10 +40,6 @@ import java.util.concurrent.TimeUnit;
  */
 public interface IDaemonScheduler
 {
-
-    /** The bean name */
-    String BEAN_NAME = "daemonScheduler";
-
     /**
      * Enqueue a daemon for execution in the immediate future
      * 

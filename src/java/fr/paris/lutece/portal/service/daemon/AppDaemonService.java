@@ -41,9 +41,9 @@ import java.util.concurrent.TimeUnit;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * this class provides methods to manage daemons services
@@ -79,8 +79,7 @@ public final class AppDaemonService
             return;
         }
 
-        _executor = SpringContextService.getBean( IDaemonScheduler.BEAN_NAME );
-
+        _executor = CDI.current().select(IDaemonScheduler.class).get();
         if ( _mapDaemonEntries.size( ) > 0 )
         {
             // Unsynchronized daemon start
