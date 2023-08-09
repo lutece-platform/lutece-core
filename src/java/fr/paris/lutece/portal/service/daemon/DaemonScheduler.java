@@ -42,10 +42,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
  * Daemon scheduler.
@@ -56,16 +60,17 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
  * <p>
  * Daemon run requests are coalesced. If a daemon is already running when a request comes, a new run is scheduled right after the current run ends.
  */
+@ApplicationScoped
 class DaemonScheduler implements Runnable, IDaemonScheduler
 {
     private static final String PROPERTY_MAX_AWAIT_TERMINATION_DELAY = "daemon.maxAwaitTerminationDelay";
 
-    private final BlockingQueue<DaemonEntry> _queue;
-    private final ExecutorService _executor;
-    private final Thread _coordinatorThread;
-    private final Timer _scheduledDaemonsTimer;
-    private final Map<String, RunnableWrapper> _executingDaemons;
-    private final Map<String, DaemonTimerTask> _scheduledDaemons;
+    private  BlockingQueue<DaemonEntry> _queue;
+    private ExecutorService _executor;
+    private Thread _coordinatorThread;
+    private Timer _scheduledDaemonsTimer;
+    private Map<String, RunnableWrapper> _executingDaemons;
+    private Map<String, DaemonTimerTask> _scheduledDaemons;
     private volatile boolean _bShuttingDown;
 
     /**
@@ -76,10 +81,17 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
      * @param executor
      *            the executor service handling the execution of daemons
      */
-    public DaemonScheduler( BlockingQueue<DaemonEntry> queue, ExecutorService executor )
+    public DaemonScheduler( )
     {
-        _queue = queue;
-        _executor = executor;
+       
+    }
+
+    @PostConstruct
+    @Inject
+    public void initDaemonScheduler( @DaemonExecutor ExecutorService executor ){
+    	
+    	_executor=executor;
+    	_queue = new LinkedBlockingQueue<DaemonEntry>();
         _scheduledDaemonsTimer = new Timer( "Lutece-Daemons-Scheduled-Timer-Thread", true );
         _executingDaemons = new HashMap<>( );
         _scheduledDaemons = new HashMap<>( );
@@ -88,7 +100,6 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         _coordinatorThread.start( );
         _bShuttingDown = false;
     }
-
     @Override
     public boolean enqueue( DaemonEntry entry, long nDelay, TimeUnit unit )
     {

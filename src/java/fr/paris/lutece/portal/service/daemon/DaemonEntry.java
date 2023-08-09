@@ -38,6 +38,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * this class is used to manage daemons declaration
@@ -65,7 +66,7 @@ public final class DaemonEntry
      */
     public DaemonEntry( )
     {
-        _thread = SpringContextService.getBean( DaemonThread.DEAMON_THREAD_BEAN_NAME );
+        _thread = CDI.current().select(DaemonThread.class ).get( );
         _thread.setDaemonEntry( this );
     }
 

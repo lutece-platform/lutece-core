@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.daemon;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -42,7 +43,8 @@ import java.util.concurrent.ThreadFactory;
 /**
  * This class provides a method that creates new threads on demand to run daemon task
  */
-public final class DaemonThreadFactory implements ThreadFactory
+@ApplicationScoped
+public class DaemonThreadFactory implements ThreadFactory
 {
     private static final String PROPERTY_RUN_THREAD_AS_DAEMON = "daemon.runThreadAsDaemon";
     private static final boolean RUN_THREAD_AS_DAEMON = Boolean.parseBoolean( AppPropertiesService.getProperty( PROPERTY_RUN_THREAD_AS_DAEMON, "0" ) );

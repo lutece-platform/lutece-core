@@ -35,15 +35,16 @@ package fr.paris.lutece.portal.service.daemon;
 
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import jakarta.enterprise.context.Dependent;
 
 import java.util.Date;
 
 /**
  * This class performs methods to manage threads of execution for a given daemon instance
  */
+@Dependent
 public class DaemonThread implements Runnable
 {
-    static final String DEAMON_THREAD_BEAN_NAME = "daemonThread";
 
     private DaemonEntry _entry;
     private String _strDaemonName;
