@@ -183,7 +183,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
             File file = FileHome.findByPrimaryKey( nfileId );
 
             // check if the file exists and was inserted with this provider
-            if ( file == null || !file.getOrigin( ).equals( getName( ) ) )
+            if ( file == null || file.getOrigin( ) == null || !file.getOrigin( ).equals( getName( ) ) )
             {
             	return null;
             }
