@@ -38,6 +38,8 @@ import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * class File
@@ -74,20 +76,26 @@ public class File implements Serializable
     }
 
     /**
-     *
+     * This method should be used for backward compatibility only,
+     * and could throw NumberFormatException if the key is not numeric
+     * 
      * @return the id of the file
      */
+    @JsonIgnore
+    @Deprecated
     public int getIdFile( )
     {
         return Integer.parseInt( _strFileKey );
     }
 
     /**
-     * set the id of the file
+     *  This method should be used for backward compatibility only
      * 
      * @param idFile
      *            id of the file
      */
+    @JsonIgnore
+    @Deprecated
     public void setIdFile( int idFile )
     {
         _strFileKey = String.valueOf( idFile );
