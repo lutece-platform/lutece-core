@@ -38,6 +38,8 @@ import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 /**
  *
  * class File
@@ -79,7 +81,7 @@ public class File implements Serializable
      */
     public int getIdFile( )
     {
-        return Integer.parseInt( _strFileKey );
+        return NumberUtils.toInt( _strFileKey, NumberUtils.INTEGER_MINUS_ONE );
     }
 
     /**
