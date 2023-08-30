@@ -7,7 +7,7 @@ Parameters:
 - class (string, optional): the CSS class of the container element.
 -->
 <#macro pageRow id='' width='' class=''>
-<div class="row<#if class !=''> ${class}</#if>" <#if id !=''> id="${id}"</#if>>
+<div class="row">
 	<#nested>
 </div>
 </#macro>
