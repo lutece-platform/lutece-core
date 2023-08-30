@@ -8,11 +8,36 @@ Parameters:
 <#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
-<#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.svg')>
+<#--  <#local readMode=dskey('portal.site.site_property.layout.readmode.checkbox')/>  -->
+<#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
 <#local loginLayoutImg=dskey('portal.site.site_property.login.image')?trim /> 
 </head>
-<body class="antialiased d-flex flex-column ${dskey('portal.site.site_property.layout.readmode.checkbox')!}" ${readMode!}<#if params!=''> ${params}</#if>>
+<body class="antialiased d-flex flex-column" ${readMode!}<#if params!=''> ${params}</#if>>
 <main id="login-page" class="page page-center">
+<#if dskey('portal.site.site_property.bo.showXs.checkbox') == '0' >
+<@div class="position-fixed top-0 w-100 d-block d-md-block d-lg-none m-0 p-0 overflow-hidden" params='style="z-index: 1050"'>
+    <@pageColumn class="p-0 m-0">
+	   <@div class="d-flex align-items-center justify-content-center vh-100 ">
+			<@div class="container">
+				<@div class="card shadow-lg rounded-4 p-4 mt-3 mx-2 mw-30">
+					<@div class="card-body p-5 fs-6">
+						<@div class="text-center mb-4">
+							<@link href='/' target='_blank'>
+								<#--  <img src="${dskey('portal.site.site_property.logo_url')}" height="40" alt="Logo" aria-hidden="true" >  -->
+								<span class="visually-hidden">${site_name!'Lutece'}</span>
+							</@link>
+						</@div>
+						<@div class='d-flex flex-column align-items-center'>
+							<h2 class="h1 mb-4 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h2>
+							<i class="ti ti-device-mobile-off" style="font-size:120px !important"></i>
+						</@div>
+					</@div>
+			   </@div>
+			</@div>
+		</@div>
+	</@pageColumn>
+</@div>
+</#if>
 <#if loginLayoutImg?trim !=''>
 	<div class="container container-normal py-4">
 		<div class="row align-items-center g-4">
@@ -23,9 +48,9 @@ Parameters:
 <@div class="container-tight py-4">
 	<@div class="text-center mb-4">
 		<@link href='.' target='_blank'>
-			<@span class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!}</@span>
+			<@span class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!} </@span>
 			<figure>
-				<@img url='${logoUrl}' alt='${site_name!}' title='${site_name!}' class='thumbnail thumbnail-md' params='aria-hidden="true" style="border: 2px solid white;border-radius:50%;"' />
+				<@img url='${logoUrl}' alt='${site_name!}' title='${site_name!}'  params='aria-hidden="true" height="36" style="border: 2px solid white;border-radius:50%;"' />
 				<figcaption class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!'Lutece'} [ #i18n{portal.site.portal_footer.newWindow} ]</figcaption>
 			</figure>
 		</@link>
@@ -33,7 +58,7 @@ Parameters:
 	<@div class="card card-md">
 		<@div class="card-body bg-white">
 			<h2 class="card-title text-center mb-4 pt-2">
-				#i18n{portal.admin.admin_login.welcome} 
+				#i18n{portal.admin.admin_login.welcome}
 				<span class="d-block">${site_name!}</span>
 			</h2>
 			<#nested>
@@ -51,6 +76,11 @@ Parameters:
 		</div>
 	</div>
 </div>
+</#if>
+<#if dskey('portal.site.site_property.bo.showXsWarning.checkbox')?number == 1 >
+<@initToast position='top-0 start-50 translate-middle-x' showAll=true >
+   <@addToast title='' content='#i18n{portal.site.message.showXsWarningMsg}' class='text-bg-warning d-block d-sm-block d-md-block d-lg-none' />
+</@initToast>
 </#if>
 </main>
 <script type="module">
