@@ -77,7 +77,7 @@ Parameters:
 	</div>
 </div>
 </#if>
-<#if dskey('portal.site.site_property.bo.showXsWarning.checkbox')?number == 1 >
+<#if dskey('portal.site.site_property.bo.showXsWarning.checkbox') == '1' >
 <@initToast position='top-0 start-50 translate-middle-x' showAll=true >
    <@addToast title='' content='#i18n{portal.site.message.showXsWarningMsg}' class='text-bg-warning d-block d-sm-block d-md-block d-lg-none' />
 </@initToast>
