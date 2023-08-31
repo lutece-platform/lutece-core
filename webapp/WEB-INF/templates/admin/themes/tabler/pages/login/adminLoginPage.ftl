@@ -50,7 +50,7 @@ Parameters:
 		<@link href='.' target='_blank'>
 			<@span class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!} </@span>
 			<figure>
-				<@img url='${logoUrl}' alt='${site_name!}' title='${site_name!}'  params='aria-hidden="true" height="36" style="border: 2px solid white;border-radius:50%;"' />
+				<@img url='${logoUrl}' alt='${site_name!}' title='${site_name!}' class='' params='aria-hidden="true" height="40" style="border: 2px solid white;border-radius:50%;"' />
 				<figcaption class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!'Lutece'} [ #i18n{portal.site.portal_footer.newWindow} ]</figcaption>
 			</figure>
 		</@link>
