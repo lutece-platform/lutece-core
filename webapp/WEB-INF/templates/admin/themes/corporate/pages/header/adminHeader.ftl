@@ -16,7 +16,7 @@
 </head>
 <body class="antialiased"${readMode} data-bs-theme="${darkMode!}" data-bs-theme-menu="${layout!}" data-layout="${layout!}">
 <@adminSkipNav />
-<div class="lutece-app<#if !dskey('portal.site.site_property.bo.showXs.checkbox')?is_number><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0> d-none d-lg-block<#else> d-block</#if><#else> d-none d-lg-block</#if>">   <nav id="menu" class="border-end d-flex flex-column flex-shrink-0 shadow" aria-label="${site_name!}">
+<div class="lutece-app<#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == '0'> d-none d-lg-block<#else> d-block</#if><#else> d-none d-lg-block</#if>">   <nav id="menu" class="border-end d-flex flex-column flex-shrink-0 shadow" aria-label="${site_name!}">
    <a href="${dskey('portal.site.site_property.home_url')}" class="d-block text-center mt-4 mb-4 text-white feature-link menu-logo" target="_blank" title="${site_name!}">
       <@img url=logoUrl title='Logo' params='style="height:35px" aria-hidden="true"' />
       <span class="visually-hidden">#i18n{portal.site.page_home.label} ${site_name}<br> [#i18n{portal.site.portal_footer.newWindow}]</span>
