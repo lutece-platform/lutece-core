@@ -19,7 +19,7 @@ Parameters:
 ${javascript_files}
 </div><!-- Close wrapper -->
 </div>
-<#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0 >
+<#if dskey('portal.site.site_property.bo.showXs.checkbox') == '0' >
 <@pageContainer class="position-fixed top-0 w-100 d-block d-md-block d-lg-none">
     <@pageColumn id="lutece-login-block" class="border-end p-0" height="full">
 	   <@div class="d-flex align-items-center justify-content-evenly vh-100">

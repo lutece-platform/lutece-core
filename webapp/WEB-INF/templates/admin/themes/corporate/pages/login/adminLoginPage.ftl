@@ -12,6 +12,30 @@ Parameters:
 </head>
 <body class="lutece-login" data-bs-theme="dark"${readMode!}<#if params!=''> ${params}</#if>>
 <main>
+<#if dskey('portal.site.site_property.bo.showXsWarning.checkbox') == '0' >
+<@div class="position-fixed top-0 w-100 d-block d-md-block d-lg-none m-0 p-0 bg-dark overflow-hidden" params='style="z-index: 1050"'>
+    <@pageColumn class="p-0 m-0">
+	   <@div class="d-flex align-items-center justify-content-center vh-100 ">
+			<@div class="container">
+				<@div class="card shadow-lg rounded-4 p-4 mt-3 mx-2 mw-30">
+					<@div class="card-body p-5 fs-6">
+						<@div class="text-center mb-4">
+							<@link href='/' target='_blank'>
+								<img src="${dskey('portal.site.site_property.logo_url')}" height="40" alt="Logo" aria-hidden="true" >
+								<span class="visually-hidden">${site_name!'Lutece'}</span>
+							</@link>
+						</@div>
+						<@div class='d-flex flex-column align-items-center'>
+							<h2 class="h1 mb-4 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h2>
+							<i class="ti ti-device-mobile-off" style="font-size:120px !important"></i>
+						</@div>
+					</@div>
+			   </@div>
+			</@div>
+		</@div>
+	</@pageColumn>
+</@div>
+</#if>
 <#assign pageClass><#if !dskey('portal.site.site_property.bo.showXs.checkbox')?is_number><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0>d-none d-lg-block d-lg-flex<#else>d-block d-lg-flex</#if><#else>d-none d-lg-block d-lg-flex</#if></#assign>
 <@pageContainer class=pageClass>
 	<@pageColumn id="lutece-login-block" class="border-end p-0" height="full">
