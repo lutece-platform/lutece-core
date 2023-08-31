@@ -6,7 +6,7 @@ Parameters:
 -->
 <#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
+<#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox') = '1'> dir="rtl"</#if></#if></#local>
 <#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header.svg')>
 <#local loginLayoutImg=dskey('portal.site.site_property.login.image')?trim />
 </head>
@@ -36,7 +36,7 @@ Parameters:
 	</@pageColumn>
 </@div>
 </#if>
-<#assign pageClass><#if !dskey('portal.site.site_property.bo.showXs.checkbox')?is_number><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0>d-none d-lg-block d-lg-flex<#else>d-block d-lg-flex</#if><#else>d-none d-lg-block d-lg-flex</#if></#assign>
+<#assign pageClass><#if !dskey('portal.site.site_property.bo.showXs.checkbox')?trim?starts_with('DS')><#if dskey('portal.site.site_property.bo.showXs.checkbox')?number == 0>d-none d-lg-block d-lg-flex<#else>d-block d-lg-flex</#if><#else>d-none d-lg-block d-lg-flex</#if></#assign>
 <@pageContainer class=pageClass>
 	<@pageColumn id="lutece-login-block" class="border-end p-0" height="full">
 		<@div class="d-flex align-items-center justify-content-evenly vh-100 me-md-5">
