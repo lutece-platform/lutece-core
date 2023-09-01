@@ -814,11 +814,61 @@ mark {
   }
 }
 
+
 @media (min-width:1024px) {
   #lutece-layout-wrapper.header .lutece-header .lutece-nav .nav-item .nav-link {
       padding-left: .25rem;
       padding-right: .25rem
   }
+  
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav{
+      width: 5rem !important;
+      overflow: hidden;
+  }
+  #lutece-layout-wrapper.aside.collapsed>.lutece-page, #lutece-layout-wrapper.aside.collapsed>.lutece-main-content, #lutece-layout-wrapper.aside.collapsed>.content, 
+  #lutece-layout-wrapper.aside.collapsed>.lutece-main-footer {
+      margin-left: 5rem;
+  }
+  #lutece-layout-wrapper #aside-header-collapse{
+      display: none;
+  }
+
+  #lutece-layout-wrapper.aside #aside-header-collapse{
+      display: block;
+  }
+
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .lutece-collapse>.navbar-nav {
+      margin-left: 0;
+  }
+
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item {
+      align-items: center;
+  }
+  
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .ti {
+      font-size: 1.25rem;
+  }
+  
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .nav-info,
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .navbar-brand span,
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .dropdown-item span,
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .nav-link span {
+      display: none !important;
+  }
+ 
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav.navbar .navbar-nav .dropdown-item{
+      justify-content: center !important;
+      background-color: var( --tblr-gray-600 );
+      width: auto;
+  }
+
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .navbar-brand span{
+      padding: 0 !important
+  }
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .nav-link {
+      width: auto
+  }
+
 }
 
 @media (min-width:1350px) {

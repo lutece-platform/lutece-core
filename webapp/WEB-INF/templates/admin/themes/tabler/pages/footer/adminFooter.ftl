@@ -38,46 +38,5 @@ Parameters:
 <!-- Placed at the end of the document so the pages load faster 	-->
 <@coreAdminJSLinks />
 ${javascript_files}
-<#--  <script>
-document.addEventListener( "DOMContentLoaded", function(){
-	let nCounter = "";
-	const luteceTheme=localStorage.getItem('theme-bo-lutece');
-	if( luteceTheme != undefined ){
-		themeMode( luteceTheme );
-	} else {
-		localStorage.setItem('theme-bo-lutece','default');
-	}
-	
-	const switchMode = document.querySelector('#switch-darkmode');
-	if( switchMode != undefined  ){
-		switchMode.addEventListener( 'click', function(){
-			const boTheme=localStorage.getItem('theme-bo-lutece');
-			if( boTheme === 'dark'){
-				localStorage.setItem('theme-bo-lutece','default	');
-				themeMode('default');
-			} else{
-				localStorage.setItem('theme-bo-lutece','dark');
-				themeMode('dark');
-			}
-		})
-		switchMode.addEventListener( 'keydown', ( keyboardEvent ) => {
-			switch (keyboardEvent.key) {
-                case 'Enter':
-                    keyboardEvent.preventDefault();
-					const boTheme=localStorage.getItem('theme-bo-lutece');
-					if( boTheme === 'dark'){
-						localStorage.setItem('theme-bo-lutece','default	');
-						themeMode('default');
-					} else{
-						localStorage.setItem('theme-bo-lutece','dark');
-						themeMode('dark');
-					}
-                    break;
-               
-            }
-		})
-	}
-});
-</script>  -->
 </div><!-- Close wrapper -->
 </#macro>
