@@ -11,14 +11,14 @@ Parameters:
 
 -->
 <#macro paginationItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
-<#-- Display combo -->
-<#if combo == 1 >
-  <@paginationCombo paginator=paginator nb_items_per_page=nb_items_per_page showall=showall />
-</#if>
 <#-- Display item count -->
 <#if showcount == 1 >
-<span class="showcount small">
-	<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&#160;${paginator.labelItemCount} : </#if> ${paginator.itemsCount}
-</span>
+<@div class='d-flex align-items-center me-3'>
+<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&#160;${paginator.labelItemCount} : <#else>#i18n{portal.util.labelItemCount} : </#if> ${paginator.itemsCount}
+</@div>
+</#if>
+<#-- Display combo -->
+<#if combo == 1 >
+<@paginationCombo paginator=paginator nb_items_per_page=nb_items_per_page showall=showall />
 </#if>
 </#macro>

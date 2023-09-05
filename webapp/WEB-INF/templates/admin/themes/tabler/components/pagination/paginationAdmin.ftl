@@ -12,20 +12,16 @@ Parameters:
 
 -->
 <#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
-<@div class='d-flex is-flex justify-content-between is-justify-content-space-between'>
-	<@div align='right'>
-		<#if (paginator.pagesCount > 1) >
-			<@paginationPageLinks paginator=paginator />
-		</#if>
-	</@div>
-	<@div align='right'>
-	<#if form == 1 >
-		<@tform type=''>
-			<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
-		</@tform>
-	<#else>
-		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
-	</#if>
-	</@div>
+<@div class='d-flex justify-content-end mt-3'>
+<#if (paginator.pagesCount > 1) >
+<@paginationPageLinks paginator=paginator />
+</#if>
+<#if form == 1 >
+	<@tform type='' class='d-flex'>
+		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall />
+	</@tform>
+<#else>
+	<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall />
+</#if>
 </@div>
 </#macro>
