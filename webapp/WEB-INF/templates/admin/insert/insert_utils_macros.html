@@ -18,7 +18,7 @@
     <@td>
         <@linkTargetCombo />
     </@td>
-<@/tr>
+</@tr>
 </@table>
 </#macro>
 <#macro linkTextInput selected_text >
@@ -29,7 +29,7 @@
 </#macro>
 <#macro linkTargetCombo >
 <@select name='target'>
-<option value="_self">#i18n{portal.insert.labelTargetSelf}
-<option value="_blank">#i18n{portal.insert.labelTargetBlank}
+<@option value='_self' title='#i18n{portal.insert.labelTargetSelf}' />
+<@option value='_blank' title='#i18n{portal.insert.labelTargetBlank}' />
 </@select>
 </#macro>
