@@ -30,7 +30,7 @@ Parameters:
 	<#if orientation='vertical'></div></#if>
 <#else>
 	<label class="form-check form-switch" for="${id}" <#if title!=''> title="${title}"</#if>>
-    	<input class="form-check-input<#if class!=''> ${class}</#if>" type="checkbox"  id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if>>
+    	<input class="form-check-input<#if class!=''> ${class}</#if>" type="checkbox"  id="${id}" name="${name}" value="<#if value!=''>${value}</#if>"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if>>
    		<span class="form-check-label"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
   </label>
 </#if>
