@@ -13,7 +13,7 @@ Parameters:
 - titleLevel (string, optional): the HTML heading level for the title of the box header.
 - skipHeader (boolean, optional): whether to skip the box header element entirely.
 -->
-<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' class='' params='' boxTools=false titleLevel='h3' skipHeader=false>
+<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' collapsed=false class='' params='' boxTools=false titleLevel='h3' skipHeader=false>
 <div class="card-header<#if class!=''> ${class}</#if><#if skipHeader> skip-header</#if>"<#if id!=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
 	<${titleLevel} class="card-title<#if showTitle=false> visually-hidden</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
