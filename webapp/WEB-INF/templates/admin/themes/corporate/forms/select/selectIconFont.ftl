@@ -18,7 +18,7 @@ Parameters:
 - resources (boolean, optional): whether to load the SlimSelect CSS and JS resources.
 -->
 <#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='yaml' prefix='fa-' iconsUrl='css/admin/font-awesome-icons.yml' resources=true defaultValue=''>
-<@select name='${name}' id='${id}' />
+<@select name=name id=id class=class />
 <#if resources>
 <link rel="stylesheet" href="js/admin/lib/slimselect/slimselect.min.css">
 <script src="js/admin/lib/slimselect/slimselect.min.js"></script>
