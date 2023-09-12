@@ -22,7 +22,7 @@ Parameters:
 					<li class="list-inline-item nav-item">
 						<a class="nav-link d-flex align-items-center" href="https://lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
 							<span class="me-2">${site_name}</span>
-							<img src="images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
+							<img src="themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
 							<span class="visually-hidden">LUTECE</span>
 							<span class="text-muted ms-2" rel="noopener">version ${version}</span>
 						</a>
@@ -36,6 +36,7 @@ Parameters:
 <!-- Le javascript 													-->
 <!-- ============================================================== -->
 <!-- Placed at the end of the document so the pages load faster 	-->
+<@coreAdminJSLinks /> 
 ${javascript_files}
 </div><!-- Close wrapper -->
 </#macro>
