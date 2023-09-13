@@ -18,8 +18,8 @@
                     </@td>
                     <@td>${page_templates.file}</@td>
                     <@td>
-                        <@offcanvas targetUrl="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" targetElement="#modify-template-form" redirectForm=false id="template-${page_templates.id}" title="#i18n{portal.util.labelModify} ${page_templates.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit" position="end" />
-                        <@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash' size='' title='#i18n{portal.style.manage_styles.actionDelete}' hideTitle=['xs'] color='danger' />
+                        <@offcanvas targetUrl="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" targetElement="#modify-template-form" redirectForm=false id="template-${page_templates.id}" title="#i18n{portal.util.labelModify} ${page_templates.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit me-1" position="end" />
+                        <@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash me-1' size='' title='#i18n{portal.style.manage_styles.actionDelete}' hideTitle=['xs'] color='danger' />
                     </@td>
                 </@tr>
             </#list>
