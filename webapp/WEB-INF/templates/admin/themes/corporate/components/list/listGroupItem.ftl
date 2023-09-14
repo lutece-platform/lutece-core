@@ -8,8 +8,8 @@ Parameters:
 - params (string, optional): additional attributes to add to the list item, in the form of a string of HTML attributes.
 
 -->
-<#macro listGroupItem id='' class='' params=''>
-<li class="list-group-item list-group-item-action<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro listGroupItem id='' class='' active=false params=''>
+<li class="list-group-item list-group-item-action<#if class!=''> ${class}</#if><#if active> active</#if>"<#if id!=''> id="${id}"</#if><#if active> aria-current="true"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </li>
 </#macro>
