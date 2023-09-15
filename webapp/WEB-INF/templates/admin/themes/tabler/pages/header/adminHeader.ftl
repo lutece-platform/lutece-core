@@ -19,7 +19,7 @@ Parameters:
 <header class="lutece-header" > 
 	<nav class="lutece-nav navbar navbar-expand-lg navbar-dark d-print-none">
 		<div class="container-fluid">
-			<a class="lutece-brand navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" title="#i18n{portal.site.portal_footer.newWindow}">
+			<a class="lutece-brand navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0" href="${dskey('portal.site.site_property.home_url')}" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" title="#i18n{portal.site.portal_footer.newWindow}">
 				<img src="${logoUrl}" height="30" alt="Logo ${site_name}" aria-hidden="true">
 				<span class="ml-2 ms-2">${site_name}</span>
 			</a>
