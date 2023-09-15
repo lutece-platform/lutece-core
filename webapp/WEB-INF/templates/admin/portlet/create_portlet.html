@@ -60,10 +60,9 @@
 						</@formGroup>
 					</@columns>
 					<@columns sm=1>
-						<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' size='' />
+						<@button type='submit' buttonIcon='check me-1' title='#i18n{portal.site.create_portlet.buttonValidate}' size='' />
 					</@columns>	
 				</@row>
-				
 			</@columns>
 		</@row>
 		<@row class='m-1'>
@@ -75,8 +74,8 @@
 		<@row class='m-1'>
 			<@columns>
 				<@formGroup rows=2>
-					<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' size='' />
-					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet_page_id}' params='target="_top"' color='secondary' buttonIcon='close' title='#i18n{portal.site.create_portlet.buttonBack}' size=''  />
+					<@button type='submit' buttonIcon='check me-1' title='#i18n{portal.site.create_portlet.buttonValidate}' size='' />
+					<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${portlet_page_id}' params='target="_top"' color='secondary' buttonIcon='x me-1' title='#i18n{portal.util.labelBack}' size=''  />
 				</@formGroup>
 			</@columns>	
 		</@row>
@@ -84,22 +83,3 @@
 </@box>
 </@tform>
 <#if portletType.createScriptTemplate != "" ><#include portletType.createScriptTemplate! /></#if>
-<script>
-const portletOptions = document.querySelectorAll( '.portlet-options' )
-for(var i=0; i< portletOptions.length; i++) {
-	portletOptions[i].style.display = "none"
-}
-const btn = document.getElementById( 'toggle-portlet-options' )
-const btnIcon = btn.querySelector( '.fas' )
-btn.onclick = function () {
-	for(var i=0; i< portletOptions.length; i++) {
-		if ( portletOptions[i].style.display !== 'none') {
-			 portletOptions[i].style.display = 'none'
-		} else {
-			portletOptions[i].style.display = 'block'
-		}
-	}
-	btnIcon.classList.toggle('fa-angle-double-right')
-	btnIcon.classList.toggle('fa-angle-double-left')
-}
-</script>
