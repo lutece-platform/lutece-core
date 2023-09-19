@@ -61,6 +61,7 @@ public final class PortletDAO implements IPortletDAO
             + " WHERE a.id_portlet = b.id_portlet AND b.id_alias= ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_portlet WHERE id_portlet = ?";
     private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_portlet SET status = ?, date_update = ? WHERE id_portlet = ? ";
+    private static final String SQL_QUERY_UPDATE_POSITION = " UPDATE core_portlet SET column_no = ?, portlet_order = ? WHERE id_portlet = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_portlet ( id_portlet_type, id_page, id_style, name, "
             + " date_creation, date_update, status, column_no, portlet_order, accept_alias, display_portlet_title, role, device_display_flags ) "
             + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?)";
@@ -221,6 +222,21 @@ public final class PortletDAO implements IPortletDAO
 
             daoUtil.setInt( 1, nStatus );
             daoUtil.setTimestamp( 2, new Timestamp( new java.util.Date( ).getTime( ) ) );
+            daoUtil.setInt( 3, portlet.getId( ) );
+
+            daoUtil.executeUpdate( );
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void updatePosition( Portlet portlet, int nColumn, int nOrder )
+    {
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_POSITION ) )
+        {
+            daoUtil.setInt( 1, nColumn );
+            daoUtil.setInt( 2, nOrder );
             daoUtil.setInt( 3, portlet.getId( ) );
 
             daoUtil.executeUpdate( );

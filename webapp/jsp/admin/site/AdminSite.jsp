@@ -27,7 +27,8 @@
     String strParamBlock = request.getParameter("param_block");
 
     int nParamBlock = strParamBlock != null ? Integer.parseInt( strParamBlock ) : 0;
-
-
 %>
 <%@ include file="../AdminFooter.jsp"%>
+<jsp:useBean id="adminMap" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMapJspBean" />
+<% adminMap.init( request , adminMap.RIGHT_MANAGE_ADMIN_SITE ); %>
+<%= adminMap.getMap( request ) %>

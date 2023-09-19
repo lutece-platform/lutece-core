@@ -10,7 +10,43 @@
     --warning: #f76707;
     --success: #2fb344;
     --black: #000000;
-    --white: #ffffff
+    --white: #ffffff;
+    /* SlimSelect Overides */
+    --ss-main-height: 40px;
+    --ss-border-radius: 0;
+}
+
+/* Broken image  */
+img {
+	display: inline-block;
+	font-family: Arial, sans-serif;
+	font-weight: 300;
+	line-height: 2;
+	text-align: center;
+	position: relative;
+}
+img::before {
+	content: '';
+	width: 100%;
+	height: calc(100% + 10px);
+	background-color: #f2f2f2;
+	border-radius: 10px;
+	position: absolute;
+	top: 50%;
+	left: -2px;
+	transform: translateY(-50%);
+}
+img::after {
+	content: attr(alt);
+	font-size: .75rem;
+	color: #555;
+	display: block;
+	position: absolute;
+	z-index: 2;
+	top: 5px;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 
 #lutece-layout-wrapper {
@@ -46,7 +82,6 @@
 
 .lutece-page-wrapper {
     min-height: 82svb;
-    padding: 0 1rem
 }
 
 .page-wrapper {
@@ -78,6 +113,10 @@
 .lutece-documentation .page-wrapper h1 {
     background-color: var(--dark-light);
     padding: .875rem
+}
+
+.btn-width-nolabel{
+    margin-top: 22.5px;
 }
 
 .input-icon-addon {
@@ -224,7 +263,6 @@ td[data-url]:hover {
 
 .lutece-tree .lutece-tree-node {
     cursor: pointer;
-    margin: 4px 0
 }
 
 .lutece-tree .lutece-tree-node>ul {
@@ -252,93 +290,83 @@ td[data-url]:hover {
     width: 4rem
 }
 
-#lutece-admin-page-preview {
-    width: 95vw;
-    margin-left: -30px
-}
-
+/* Admin Site preview 				*/
+/* Admin preview responsive 		*/
 #lutece-admin-site-preview-wrapper {
-    display: flex;
-    justify-content: center;
-    overflow: auto;
+	display: flex;
+	justify-content: center;
+    overflow: hidden;
     padding: 0;
     max-height: 400px;
-    width: 100%;
-    height: 80vh;
-    min-height: 80vh
+    width:100%;
+    height:80vh;
+    min-height: 80vh;
 }
 
-#lutece-admin-site-preview-frame {
-    display: flex;
-    justify-content: center;
-    overflow: auto;
+#lutece-admin-site-preview-frame{
+	display: flex;
+	justify-content: center;
+    overflow: hidden;
     padding: 0;
     max-height: 400px;
-    width: 100%;
-    height: 80vh;
-    min-height: 80vh
+    width:100%;
+    height:80vh;
+    min-height: 80vh;
 }
 
-#lutece-admin-site-preview-frame.phone,
-#lutece-admin-site-preview-frame.tablet,
-#lutece-admin-site-preview-frame.laptop,
-#lutece-admin-site-preview-frame.desktop {
-    display: block;
-    color: #fff;
-    text-align: center;
-    font-family: "SF Pro Display", Helvetica Neue, Arial, sans-serif;
-    letter-spacing: -.022em;
-    font-size: 2.5vmin;
-    text-shadow: 0 0 .5em #000;
-    background-color: #000;
-    background-size: auto 200%, cover;
-    background-repeat: no-repeat, no-repeat;
-    border: solid #111;
-    margin-bottom: 2em;
-    position: relative;
-    box-shadow: 0 .5em 2em .2em rgba(0, 0, 0, .33), 0 0 0 .5px #000 inset;
-    transition: all .1s linear, line-height 0s linear;
-    background-position: 50% 100%, center;
-    transform-origin: bottom center
+#lutece-admin-site-preview-frame.phone, #lutece-admin-site-preview-frame.tablet, #lutece-admin-site-preview-frame.laptop, #lutece-admin-site-preview-frame.desktop{
+	display: block;
+	color: #fff;
+	text-align: center;
+	font-family: Arial, sans-serif;
+	letter-spacing: -0.022em;
+	font-size: 2.5vmin;
+	text-shadow: 0 0 0.5em #000;
+	background-color: #000;
+	background-size: auto 200%, cover;
+	background-repeat: no-repeat, no-repeat;
+	border: solid #111;
+	margin-bottom: 2em;
+	position: relative;
+	box-shadow: 0 0.5em 2em 0.2em rgba(0, 0, 0, 0.33), 0 0 0 0.5px #000 inset;
+	transition: all 0.1s linear, line-height 0s linear;
+	background-position: 50% 100%, center;
+	transform-origin: bottom center;
 }
 
 #lutece-admin-site-preview-frame.phone {
-    width: 40.7623762376vmin;
-    height: 51.0891089109vmin;
-    line-height: 51.4455445545vmin;
-    border-width: 1.5207920792vmin;
-    border-radius: 4.0550130098vmin;
-    z-index: 200
+	width: 40.7623762376vmin;
+	height: 51.0891089109vmin;
+	line-height: 51.4455445545vmin;
+	border-width: 1.5207920792vmin;
+	border-radius: 4.0550130098vmin;
 }
 
 #lutece-admin-site-preview-frame.tablet {
-    height: 85.8vmin;
-    width: 90vmin;
-    line-height: 85.8vmin;
-    border-width: 1.5207920792vmin;
-    border-radius: 4.2857142857vmin;
-    z-index: 100
+	height: 85.8vmin;
+	width: 90vmin;
+	line-height: 85.8vmin;
+	border-width: 1.5207920792vmin;
+	border-radius: 4.2857142857vmin;
 }
 
 #lutece-admin-site-preview-frame.laptop {
-    height: 85.8vmin;
-    width: 115vmin;
-    line-height: 85.8vmin;
-    border-width: 1.5207920792vmin;
-    border-radius: 4.2857142857vmin;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    z-index: 100
+	height: 85.8vmin;
+	width: 115vmin;
+	line-height: 85.8vmin;
+	border-width: 1.5207920792vmin;
+	border-radius: 4.2857142857vmin;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
 #lutece-admin-site-preview-frame.desktop {
-    width: 100vmin;
-    height: 85.8vmin;
-    line-height: 85.8vmin;
-    border-width: 0;
-    border-radius: 0;
-    background-color: #fff;
-    z-index: 100
+	width: 100vmin;
+	height: 85.8vmin;
+	line-height: 85.8vmin;
+	border-width: 0;
+	border-radius: 0;
+	background-color: #fff;
 }
 
 @media (max-width:768px) {

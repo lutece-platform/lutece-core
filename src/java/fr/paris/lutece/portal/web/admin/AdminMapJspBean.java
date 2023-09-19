@@ -125,7 +125,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_SITE, getLocale( ), model );
 
-        return getAdminPage( t.getHtml( ) );
+        return t.getHtml();
     }
 
     /**

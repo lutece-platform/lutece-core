@@ -57,7 +57,7 @@ body.loaded #lutece-layout-wrapper {
   background: var(--dark-blue) url(../images/bg_login1.svg);
   background-size: cover;
   background-attachment: fixed;
-  overflow: hidden;
+  overflow: hidden
 }
 
 .lutece-skip-links {
@@ -189,17 +189,17 @@ body.loaded #lutece-layout-wrapper {
   opacity: 1
 }
 
-#pageHeaderTools{
+#pageHeaderTools {
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-around
 }
 
 .card-footer form,
-.card-footer form + .btn,
-.card-footer form + .offcanvas,
-#pageHeaderTools form{
-  margin-right: .25rem;
+.card-footer form+.btn,
+.card-footer form+.offcanvas,
+#pageHeaderTools form {
+  margin-right: .25rem
 }
 
 .card {
@@ -328,7 +328,8 @@ body.loaded #lutece-layout-wrapper {
 }
 
 .list-group-item-action .extend-action-menu .btn-xs {
-  padding: .2rem
+  padding: .2rem;
+  min-height: auto;
 }
 
 #extender-content .list-group-item {
@@ -564,6 +565,7 @@ mark {
 }
 
 @media (min-width:768px) {
+
   .nav-pills .nav-link.active,
   .nav-pills .show>.nav-link {
       font-weight: 600
@@ -652,7 +654,7 @@ mark {
       --tblr-dropdown-bg: var(--tblr-body-color);
       --tblr-dropdown-color: var(--tblr-navbar-color);
       position: static !important;
-      width: 100%;
+      width: 100%
   }
 
   #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item {
@@ -663,21 +665,20 @@ mark {
       justify-content: flex-start;
       align-items: center;
       width: 96%;
-      font-size: .75rem;
+      font-size: .75rem
   }
 
-  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item.ms-auto{
-      margin-left: unset !important;
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item.ms-auto {
+      margin-left: unset !important
   }
 
-
-  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .nav-link.nav-user-info + .dropdown-menu {
-      display: block;
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .nav-link.nav-user-info+.dropdown-menu {
+      display: block
   }
 
-  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .nav-link:not(.nav-user-info) .visually-hidden{
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .nav-link:not(.nav-user-info) .visually-hidden {
       position: relative !important;
-      display: block !important;
+      /* display: block !important; */
       margin: 0 !important;
       margin-left: .25rem !important;
       padding: 0 !important;
@@ -685,12 +686,12 @@ mark {
       height: 100% !important;
       overflow: hidden !important;
       clip: unset !important;
-      white-space: wrap !important;
-  }   
+      white-space: wrap !important
+  }
 
-  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .dropdown-menu-arrow.dropdown-menu-end:before ,
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .dropdown-menu-arrow.dropdown-menu-end:before,
   #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .dropdown-toggle:after {
-     display: none;
+      display: none
   }
 
   #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-nav-user {
@@ -814,7 +815,6 @@ mark {
   }
 }
 
-
 @media (min-width:1024px) {
   #lutece-layout-wrapper.header .lutece-header .lutece-nav .nav-item .nav-link {
       padding-left: .25rem;
@@ -882,14 +882,14 @@ mark {
   }
 }
 
-@media (max-width: 576px) {
-  #pageHeaderTools{
-      display: block;
+@media (max-width:576px) {
+  #pageHeaderTools {
+      display: block
   }
- 
-  #pageHeaderTools form{
+
+  #pageHeaderTools form {
       display: block !important;
       width: 100%;
       margin-bottom: .25rem
-  } 
-} 
+  }
+}

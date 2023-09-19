@@ -1,21 +1,15 @@
-<#assign title>${page.name} [${page.id}]</#assign>
-<@pageContainer>
-    <@pageColumn>
-        <@pageHeader title='#i18n{portal.site.admin_page.tabAdminMapSite}'/>
-    	<@box>
-			<@boxBody class='sitemap'>
-				<@row>
-					<@columns>
-						${map_site}
-					</@columns>
-				</@row>
-			</@boxBody>
-    	</@box>
-	</@pageColumn>
-</@pageContainer>
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasSiteMap" aria-labelledby="offcanvasSiteMapLabel">
+<div class="offcanvas-header">
+	<h5 class="offcanvas-title" id="offcanvasSiteMapLabel">#i18n{portal.site.admin_page.tabAdminMapSite}</h5>
+	<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
+<div class="offcanvas-body">
+${map_site}
+</div>
+</div>
 <script type="module">
 import LuteceTree from './themes/shared/modules/luteceTree.js';
 const tree = document.querySelector("#lutece-map-tree");
 const mapTree = new LuteceTree( tree );
-<#if page.id gt 1>mapTree.selectTreeNode('#node-${page.id}')</#if>
+mapTree.selectTreeNode('#node-${page.id}')
 </script>

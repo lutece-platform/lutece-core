@@ -214,15 +214,16 @@
 
     <css-stylesheets>
         <css-stylesheets-scope>portal</css-stylesheets-scope>
-        <css-stylesheet mode="1">../page_template_styles_admin.css</css-stylesheet>
+        <css-stylesheet mode="1">../page_template_styles_admin.min.css</css-stylesheet>
+        <css-stylesheet mode="1">../page_template_styles_admin_site.css</css-stylesheet>
     </css-stylesheets>
 
     <admin-css-stylesheets>
-        <!-- Default core Admin CSS declaration moved in commons.html @coreAdminCSSLinks macro -->
+    <!-- Default core Admin CSS declaration moved in commons.html @coreAdminCSSLinks macro -->
     </admin-css-stylesheets>
 
     <admin-javascript-files>
-        <!-- Default core Admin CSS declaration moved in commons.html @coreAdminJSLinks macro -->
+    <!-- Default core Admin CSS declaration moved in commons.html @coreAdminJSLinks macro -->
     </admin-javascript-files>
     
     <!-- servlets -->

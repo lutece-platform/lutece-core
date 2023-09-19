@@ -76,6 +76,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_CONFIRM_MODIFY_STATUS = "portal.site.message.confirmModifyStatus";
     private static final String PORTLET_STATUS = "status";
     private static final String JSP_REMOVE_PORTLET = "jsp/admin/site/DoRemovePortlet.jsp";
+    private static final String JSP_DO_MODIFY_POSITION = "jsp/admin/site/DoModifyPortletPosition.jsp";
     private static final String JSP_DO_MODIFY_STATUS = "jsp/admin/site/DoModifyPortletStatus.jsp";
     private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
 
@@ -363,6 +364,50 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         PortletHome.updateStatus( portlet, nStatus );
 
         return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
+    }
+    
+    /**
+     * Processes the Order and Column Update of the portlet
+     *
+     * @param request
+     *            The http request
+     * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the user is not authorized to manage the portlet
+     */
+    public String doUpdatePortletPosition( HttpServletRequest request ) throws AccessDeniedException
+    {
+        String strPortletId = request.getParameter( Parameters.PORTLET_ID );
+        String strColumnId = request.getParameter( Parameters.COLUMN );
+        String strOrder = request.getParameter( Parameters.ORDER );
+
+        if ( !StringUtils.isNumeric( strPortletId ) || !StringUtils.isNumeric( strColumnId ) || !StringUtils.isNumeric( strOrder )  )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR );
+        }
+        int nPortletId = Integer.parseInt( strPortletId );
+        int nColumnId = Integer.parseInt( strColumnId );
+        int nOrder = Integer.parseInt( strOrder );
+        Portlet portlet = null;
+        try
+        {
+            portlet = PortletHome.findByPrimaryKey( nPortletId );
+        }
+        catch( NullPointerException e )
+        {
+            AppLogService.error( MSG_ERROR_PORTLET, nPortletId, e );
+        }
+        if ( portlet == null || portlet.getId( ) != nPortletId )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                    nPortletId
+            }, AdminMessage.TYPE_ERROR );
+        }
+       
+        PortletHome.updatePosition( portlet, nColumnId, nOrder );
+
+       return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
+        
     }
 
     private static String getMessageErrorAuthorization( AdminUser user, String permission, int nPortletId )

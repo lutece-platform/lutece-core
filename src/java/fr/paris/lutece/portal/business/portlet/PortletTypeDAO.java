@@ -47,16 +47,16 @@ public final class PortletTypeDAO implements IPortletTypeDAO
 {
     // sql queries
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_portlet_type ( id_portlet_type , name , url_creation , "
-            + " url_update , home_class , plugin_name , " + " url_docreate , create_script , create_specific , create_specific_form , "
-            + " url_domodify , modify_script , modify_specific , modify_specific_form )" + " VALUES ( ?, ? ,? ,?, ?, ?, ?, ? ,? ,?, ?, ?, ? , ? )";
+            + " url_update , home_class , plugin_name , url_docreate , create_script , create_specific , create_specific_form , "
+            + " url_domodify , modify_script , modify_specific , modify_specific_form, icon_name )  VALUES ( ?, ? ,? ,?, ?, ?, ?, ? ,? ,?, ?, ?, ? , ?, ? )";
     private static final String SQL_QUERY_SELECT = " SELECT id_portlet_type , name , url_creation , url_update , home_class, plugin_name, "
             + " url_docreate , create_script , create_specific , create_specific_form , "
-            + " url_domodify , modify_script , modify_specific , modify_specific_form " + " FROM core_portlet_type WHERE id_portlet_type = ? ORDER BY name ";
+            + " url_domodify , modify_script , modify_specific , modify_specific_form, icon_name FROM core_portlet_type WHERE id_portlet_type = ? ORDER BY name ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_portlet_type WHERE id_portlet_type = ?";
     private static final String SQL_QUERY_SELECT_PORTLET_TYPE_ID = "SELECT id_portlet_type FROM core_portlet_type WHERE home_class = ?";
     private static final String SQL_QUERY_SELECT_NB_PORTLET_TYPE_BY_PORTLET = " SELECT count(*) FROM core_portlet WHERE id_portlet_type = ? ";
     private static final String SQL_QUERY_SELECT_PORTLETS_TYPE_LIST = " SELECT id_portlet_type , name FROM core_portlet_type ORDER BY name ";
-    private static final String SQL_QUERY_SELECT_PORTLET_TYPE_LIST = "SELECT id_portlet_type , name , url_creation, url_update FROM core_portlet_type ORDER BY name";
+    private static final String SQL_QUERY_SELECT_PORTLET_TYPE_LIST = "SELECT id_portlet_type, name, url_creation, url_update, icon_name FROM core_portlet_type ORDER BY name";
 
     // /////////////////////////////////////////////////////////////////////////////////////
     // Access methods to data
@@ -85,6 +85,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
             daoUtil.setString( 12, portletType.getModifyScriptTemplate( ) );
             daoUtil.setString( 13, portletType.getModifySpecificTemplate( ) );
             daoUtil.setString( 14, portletType.getModifySpecificFormTemplate( ) );
+            daoUtil.setString( 15, portletType.getIconName( ) );
 
             daoUtil.executeUpdate( );
         }
@@ -121,6 +122,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
                 portletType.setModifyScriptTemplate( daoUtil.getString( 12 ) );
                 portletType.setModifySpecificTemplate( daoUtil.getString( 13 ) );
                 portletType.setModifySpecificFormTemplate( daoUtil.getString( 14 ) );
+                portletType.setIconName( daoUtil.getString( 15 ) );
             }
 
         }
@@ -242,6 +244,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
                 portletType.setNameKey( daoUtil.getString( 2 ) );
                 portletType.setUrlCreation( daoUtil.getString( 3 ) );
                 portletType.setUrlUpdate( daoUtil.getString( 4 ) );
+                portletType.setIconName( daoUtil.getString( 5 ) );
                 list.add( portletType );
             }
 

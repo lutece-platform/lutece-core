@@ -267,6 +267,22 @@ public abstract class PortletHome implements PortletHomeInterface
         // Invalidate the portlet
         invalidate( portlet );
     }
+    /**
+     * Update the status of portlet
+     *
+     * @param portlet
+     *            the portlet to remove
+     * @param nStatus
+     *            The status to update
+     */
+    public static void updatePosition( Portlet portlet, int nColumn, int nOrder )
+    {
+        // Deleting of the portlet child
+        _dao.updatePosition( portlet, nColumn, nOrder );
+
+        // Invalidate the portlet
+        invalidate( portlet );
+    }
 
     /**
      * Returns the instance of the PortletType whose identifier is specified in parameter

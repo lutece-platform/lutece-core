@@ -123,6 +123,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String MARKER_IS_USER_AUTHENTICATED = "is-user-authenticated";
     private static final String MARK_COLUMN_CONTENT = "column_content";
     private static final String MARK_COLUMN_ID = "column_id";
+    private static final String MARK_MAX_ORDER = "order_max";
 
     // Parameters
     private static final String PARAMETER_SITE_PATH = "site-path";
@@ -135,6 +136,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String CONTENT_SERVICE_NAME = "PageService";
     private static final String PROPERTY_COLUMN_MAX = "nb.columns";
     private static final int DEFAULT_COLUMN_MAX = 5;
+    private static final int DEFAULT_PORTLET_ORDER_MAX = 15;
     private static final String KEY_THEME = "theme";
     private static final String TARGET_TOP = "target='_top'";
     private static final String WELCOME_PAGE_ID = "1";
@@ -144,6 +146,11 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String VALUE_FALSE = "0";
     private static final String XSL_UNIQUE_PREFIX = "page-";
     private static final String ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED = "core.canPageBeCached";
+    private static final String DEFAULT_OPEN_TAG_PREFIX = "<div class=\"lutece-admin-portlet\" draggable=\"true\">";
+    private static final String DEFAULT_CLOSE_TAG_PREFIX = "</div>";
+    private static final String ADMIN_PORTLET_OPEN_TAG = AppPropertiesService.getProperty( "lutece.portlet.open.tag", DEFAULT_OPEN_TAG_PREFIX );
+    private static final String ADMIN_PORTLET_CLOSE_TAG = AppPropertiesService.getProperty( "lutece.portlet.close.tag", DEFAULT_CLOSE_TAG_PREFIX );
+    private static final int PORTLET_MAX_ORDER = AppPropertiesService.getPropertyInt( "lutece.list.order.max", DEFAULT_PORTLET_ORDER_MAX );
 
     // Specific for plugin-document
     private static final String DOCUMENT_LIST_PORTLET = "DOCUMENT_LIST_PORTLET";
@@ -620,7 +627,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         // Add the admin buttons for portlet management on admin mode
         if ( nMode == MODE_ADMIN )
         {
-            strPortletContent = addAdminButtons( request, portlet );
+            strPortletContent = ADMIN_PORTLET_OPEN_TAG + addAdminButtons( request, portlet );
         }
 
         String strKey = StringUtils.EMPTY;
@@ -669,8 +676,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             String strXslUniqueId = XSL_UNIQUE_PREFIX + String.valueOf( portlet.getStyleId( ) );
             XmlTransformerService xmlTransformerService = new XmlTransformerService( );
             String strPortletXmlContent = portlet.getXml( request );
-            strPortletContent += xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent, portlet.getXslSource( nMode ), strXslUniqueId,
-                    mapParams, outputProperties );
+            strPortletContent += xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent, portlet.getXslSource( nMode ), strXslUniqueId, mapParams, outputProperties );
         }
         else
         {
@@ -694,7 +700,12 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         {
             _cachePortlets.putInCache( strKey, strPortletContent );
         }
-
+        
+        if ( nMode == MODE_ADMIN )
+        {
+            strPortletContent += ADMIN_PORTLET_CLOSE_TAG;
+        }
+        
         return strPortletContent;
     }
 
@@ -995,6 +1006,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             Map<String, Object> model = new HashMap<>( );
             model.put( MARK_PORTLET, portlet );
             model.put( MARK_STATUS_PUBLISHED, Portlet.STATUS_PUBLISHED );
+            model.put( MARK_MAX_ORDER, PORTLET_MAX_ORDER );
             model.put( MARK_STATUS_UNPUBLISHED, Portlet.STATUS_UNPUBLISHED );
             model.put( MARK_CUSTOM_ACTIONS, listCustomActions );
 

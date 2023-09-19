@@ -17,15 +17,20 @@
                 </#if>
             </@breadcrumbs>
         </#assign>
-        <@box id="lutece-admin-site-preview-box" class='admin-site'>
+        <@box id='lutece-admin-site-preview-box'>
             <@boxHeader title=boxTitle class='justify-content-between' boxTools=true >
                 <@adminSiteToolbar />
             </@boxHeader>
-            <@boxBody>
-                <@div id='admin-page-preview'>
+            <@boxBody class='p-0'>
+                <@div id='lutece-admin-page-preview' class='d-flex flex-column align-items-center'>
+                    <@p class='text-center' params='hidden'><@button id='btn-minimize' buttonIcon='minimize' title='#i18n{portal.site.admin_page.minimize}' params='style="height: 2rem;margin-top: 1rem "' /></@p>
                     ${page_block}
                     <!-- HTML iframe to show FO -->
-                    <iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="Pr&eacute;visualisation du site">Pr&eacute;visualisation du site</iframe>
+                    <@div id='lutece-admin-site-preview-wrapper' class='d-flex justify-content-center w-100'>
+                        <@div id='lutece-admin-site-preview-frame' class="desktop">
+                            <iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="Pr&eacute;visualisation du site">Pr&eacute;visualisation du site</iframe>
+                        </@div>
+                    </@div>
                 </@div>
             </@boxBody>
         </@box>
@@ -38,39 +43,103 @@
 </#if>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+<#if commonsThemeCode = 'corporate'>
+    document.querySelector( '#lutece-page-wrapper .lutece-column' ).classList.remove( 'p-md-5' );
+    document.querySelector( '.lutece-page-wrapper' ).style.padding = 0;
+</#if>
     // Admin responsive preview
+    const previewPage = document.querySelector( '#lutece-admin-page-preview' );
+    const previewWrapper = document.querySelector( '#lutece-admin-site-preview-wrapper' );
+    const previewFrame = document.querySelector( '#lutece-admin-site-preview-frame' );
     const previewIframe = document.querySelector( '#lutece-admin-site-preview' );
     const previewBox = document.querySelector( '#lutece-admin-site-preview-box' );
     const btnPreview = document.querySelectorAll( '.btn-preview' );
-    const defaultIframeWidth = (previewBox.innerWidth - 50) + "px";
-    function _resizePreview() {
-        previewIframe.style.height = (window.innerHeight - 30) + "px";
+    const defaultIframeWidth = ( previewBox.innerWidth - 50 ) + "px";
+    const btnPortlet = document.querySelectorAll( '.btn-portlet' );
+    const offPortlet = document.querySelector( '#portlet-type-wrapper' );
+    const portletOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offPortlet);
+
+    btnPortlet.forEach( btn => {
+        btn.addEventListener("click", function(){
+            portletOffcanvas.hide();
+        })
+    });
+    
+    function _resizePreview( ) {
+        previewFrame.style.height = ( window.innerHeight - 30 ) + "px";
+        previewFrame.style.width = "100%";
+        previewIframe.style.height = ( window.innerHeight - 30 ) + "px";
         previewIframe.style.width = "100%";
     }
-    function _setBtnPreview(el, w) {
-        btnPreview.forEach(btn => { btn.classList.remove('active') });
-        previewIframe.style.width = w;
+
+    function _setBtnPreview( el, w ) {
+        btnPreview.forEach( btn => { btn.classList.remove('active') } );
+        previewFrame.style.width = w;
+        previewIframe.style.width = w - 50;
         el.classList.add('active');
-        if (w != defaultIframeWidth) {
-            previewIframe.classList.add('responsive-admin-preview');
+        if ( w != defaultIframeWidth ) {
+            previewFrame.classList.add( 'responsive-admin-preview' );
         } else {
-            previewIframe.classList.remove('responsive-admin-preview');
+            previewFrame.classList.remove( 'responsive-admin-preview' );
         }
     }
+
+    function _setPreviewClass( el, c ) {
+        previewFrame.classList.remove( ...previewFrame.classList ) 
+        previewFrame.classList.add( c );
+    }
+    
     // Init preview size
     _resizePreview();
-    window.addEventListener("resize", _resizePreview);
-    document.querySelector("#display-desktop").addEventListener("click", e => {
+    
+    window.addEventListener( "resize", _resizePreview);
+
+    document.querySelector("#display-desktop").addEventListener( "click", e => {
         e.preventDefault();
-        _setBtnPreview(e.currentTarget, '100%')
+        _setBtnPreview( e.currentTarget, '100%' )
+        _setPreviewClass( e.currentTarget, 'desktop' ) 
     });
-    document.querySelector('#display-tablet').addEventListener("click", e => {
+    
+    document.querySelector("#display-laptop").addEventListener( "click", e => {
         e.preventDefault();
-        _setBtnPreview(e.currentTarget, '768px')
+        _setBtnPreview( e.currentTarget, '1024px' )
+        _setPreviewClass( e.currentTarget, 'laptop' ) 
     });
-    document.querySelector('#display-phone').addEventListener("click", e => {
+
+    document.querySelector( '#display-tablet' ).addEventListener( "click", e => {
         e.preventDefault();
-        _setBtnPreview(e.currentTarget, '576px')
+        _setBtnPreview( e.currentTarget, '768px');
+        _setPreviewClass( e.currentTarget, 'tablet' ) 
     });
+
+    document.querySelector( '#display-phone' ).addEventListener( "click", e => {
+        e.preventDefault();
+        _setBtnPreview( e.currentTarget, '360px' );
+        _setPreviewClass( e.currentTarget, 'phone' ) 
+    });
+
+    // Fulscreen enabled or not
+    const btnMaximize = document.querySelector( '#iframe-fullscreen');
+    const btnMinimize = document.querySelector( '#btn-minimize' )
+    
+    if ( document.fullscreenEnabled ) {
+        btnMaximize.addEventListener('click', ( e ) => {
+            previewPage.requestFullscreen();
+            btnMinimize.parentElement.removeAttribute('hidden')
+            previewWrapper.classList.toggle('lutece-admin-maximize')
+            previewFrame.classList.toggle('lutece-admin-maximize')
+            previewIframe.classList.toggle('lutece-admin-maximize')
+        });
+        btnMinimize.addEventListener('click', ( e ) => {
+            document.exitFullscreen();
+            btnMinimize.parentElement.setAttribute('hidden','hidden')
+            previewWrapper.classList.toggle('lutece-admin-maximize')
+            previewFrame.classList.toggle('lutece-admin-maximize')
+            previewIframe.classList.toggle('lutece-admin-maximize')
+
+        });
+    } else {
+        btnMaximize.remove();
+    }
 });
 </script>

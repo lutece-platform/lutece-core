@@ -89,6 +89,18 @@ public interface IPortletDAO
     void updateStatus( Portlet portlet, int nStatus );
 
     /**
+     * Update the portlet status : 0 for activated - 1 for suspended
+     *
+     * @param portlet
+     *            the portlet to upadte in the database
+     * @param nColumn
+     *            the column to update
+     * @param nOrder
+     *            the order to update
+     */
+    void updatePosition( Portlet portlet, int nColumn, int nOrder );
+
+    /**
      * Returns the stylesheet of the portlet according to the mode
      *
      * @param nPortletId
