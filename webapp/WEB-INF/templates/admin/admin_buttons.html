@@ -4,6 +4,26 @@
 <@btnToolbar class='lutece-admin-toolbar' params='data-portlet-id="${portletId}" data-portlet-order="${portletOrder}" data-portlet-column="${portletCol}"'>
 	<@tag color='primary rounded-circle' title='${i18n("portal.site.portletPreview.orderBadgeTooltip",portletOrder)}' params='style="max-height:30px"'>${portletOrder}</@tag>
 	<@div class='lutece-admin-toolbar-button'>
+		<@tform action='jsp/admin/DoModifyPortlet.jsp' type='' class='pull-left is-pulled-left'>
+			<@input type='hidden' name='portlet_id' value=portletId />
+			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonModify}' buttonIcon='pencil me-2 text-primary' size='' hideTitle=['all'] />
+		</@tform>
+		<#if portletOrder gt 1>
+			<@tform action='jsp/admin/site/DoModifyPortletPosition.jsp' type='' params='target="_top"'>
+				<@input type='hidden' name='portlet_id' value=portletId />
+				<@input type='hidden' name='order' value=portletOrder - 1  />
+				<@input type='hidden' name='column' value=portletCol! />
+				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonUp}' buttonIcon='arrows-up me-2' hideTitle=['all'] />
+			</@tform>
+		</#if>
+		<#if portletOrder lt order_max>
+			<@tform action='jsp/admin/site/DoModifyPortletPosition.jsp' type='' params='target="_top"'>
+				<@input type='hidden' name='portlet_id' value=portletId />
+				<@input type='hidden' name='order' value=portletOrder + 1 />
+				<@input type='hidden' name='column' value=portletCol! />
+				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonDown}' buttonIcon='arrows-down me-2' hideTitle=['all'] />
+			</@tform>
+		</#if>
 		<#if portlet.status = portlet_status_published>
 			<@tform action='jsp/admin/site/ModifyPortletStatus.jsp' type=''>
 				<@input type='hidden' name='portlet_id' value=portletId />
@@ -17,26 +37,6 @@
 				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonActivate}' buttonIcon='play me-2 text-success' size='' hideTitle=['all'] />
 			</@tform>
 		</#if>
-		<#if portletOrder gt 1>
-			<@tform action='jsp/admin/site/DoModifyPortletPosition.jsp' type='' params='target="_top"'>
-				<@input type='hidden' name='portlet_id' value=portletId />
-				<@input type='hidden' name='order' value=portletOrder - 1  />
-				<@input type='hidden' name='column' value=portletCol! />
-				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonModify}' buttonIcon='arrows-up me-2' hideTitle=['all'] />
-			</@tform>
-		</#if>
-		<#if portletOrder lt order_max>
-			<@tform action='jsp/admin/site/DoModifyPortletPosition.jsp' type='' params='target="_top"'>
-				<@input type='hidden' name='portlet_id' value=portletId />
-				<@input type='hidden' name='order' value=portletOrder + 1 />
-				<@input type='hidden' name='column' value=portletCol! />
-				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonModify}' buttonIcon='arrows-down me-2' hideTitle=['all'] />
-			</@tform>
-		</#if>
-		<@tform action='jsp/admin/DoModifyPortlet.jsp' type='' class='pull-left is-pulled-left'>
-			<@input type='hidden' name='portlet_id' value=portletId />
-			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonModify}' buttonIcon='pencil me-2 text-primary' size='' hideTitle=['all'] />
-		</@tform>
 		<#if custom_action_list?has_content>
 			<#list custom_action_list as custom_action>
 				<@tform action='${custom_action.actionUrl}' params='target="_parent"' type=''>
