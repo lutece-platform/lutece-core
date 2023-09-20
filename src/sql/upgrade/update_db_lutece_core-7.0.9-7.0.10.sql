@@ -45,3 +45,15 @@ UPDATE core_admin_right SET icon_url = 'ti ti-users-group' WHERE id_right='CORE_
 UPDATE core_admin_right SET icon_url = 'ti ti-file-export' WHERE id_right='CORE_XSL_EXPORT_MANAGEMENT';
 ALTER TABLE core_portlet_type ADD COLUMN icon_name VARCHAR(50) NULL DEFAULT NULL AFTER modify_specific_form;
 UPDATE core_portlet_type SET icon_name='circles-relation' WHERE id_portlet_type='ALIAS_PORTLET';
+TRUNCATE core_page_template;
+DELETE FROM core_page_template WHERE id_template=1;
+INSERT INTO core_page_template VALUES (1, 'One column', 'skin/site/page_template1.html', 'layout-one.svg');
+DELETE FROM core_page_template WHERE id_template=2;
+INSERT INTO core_page_template VALUES (2, 'Two columns', 'skin/site/page_template2.html', 'layout-two.svg');
+DELETE FROM core_page_template WHERE id_template=3;
+INSERT INTO core_page_template VALUES (3, '1 + 2 columns', 'skin/site/page_template4.html', 'layout-four.svg');
+DELETE FROM core_page_template WHERE id_template=4;
+INSERT INTO core_page_template VALUES (4, 'Two equal columns', 'skin/site/page_template5.html', 'layout-five.svg');
+DELETE FROM core_page_template WHERE id_template=5;
+INSERT INTO core_page_template VALUES (5, 'Home page', 'skin/site/page_home_demo.html', 'layout-home.svg');
+UPDATE core_page SET id_template=5 WHERE  id_page=1;
