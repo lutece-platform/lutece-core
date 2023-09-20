@@ -50,7 +50,6 @@ body #lutece-layout-wrapper {
 
 body.loaded #lutece-layout-wrapper {
   display: block !important;
-  overflow-x: hidden
 }
 
 #login-page {
@@ -608,6 +607,10 @@ mark {
   #lutece-layout-wrapper.aside .lutece-header .lutece-nav .menu-rotate-icon {
       transform: rotate(0deg);
       transition: transform .5s ease-in-out
+  }
+
+  #lutece-layout-wrapper .lutece-main-content{
+    overflow-x: hidden;
   }
 
   #lutece-layout-wrapper.aside>.lutece-page,
