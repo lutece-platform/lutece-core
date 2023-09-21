@@ -43,7 +43,7 @@ UPDATE core_admin_right SET icon_url = 'ti ti-code-circle-2' WHERE id_right='COR
 UPDATE core_admin_right SET icon_url = 'ti ti-users' WHERE id_right='CORE_USERS_MANAGEMENT';
 UPDATE core_admin_right SET icon_url = 'ti ti-users-group' WHERE id_right='CORE_WORKGROUPS_MANAGEMENT';
 UPDATE core_admin_right SET icon_url = 'ti ti-file-export' WHERE id_right='CORE_XSL_EXPORT_MANAGEMENT';
-ALTER TABLE core_portlet_type ADD COLUMN icon_name VARCHAR(50) NULL DEFAULT NULL AFTER modify_specific_form;
+ALTER TABLE core_portlet_type ADD COLUMN IF NOT EXISTS icon_name VARCHAR(50) NULL DEFAULT NULL AFTER modify_specific_form;
 UPDATE core_portlet_type SET icon_name='circles-relation' WHERE id_portlet_type='ALIAS_PORTLET';
 TRUNCATE core_page_template;
 DELETE FROM core_page_template WHERE id_template=1;
