@@ -1,3 +1,6 @@
-tinymce.addI18n('fr_FR',{
-	'Insert Lutece Link' : "Insertion d'un contenu lutece",
+tinymce.addI18n('fr_FR', {
+  'Lutece contents': 'Contenu Lutece',
+  'Add content': 'Ajouter du contenu',
+  'Close Dialog': 'Fermer'
 });
+  
