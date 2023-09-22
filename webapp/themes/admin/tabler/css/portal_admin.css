@@ -50,6 +50,7 @@ body #lutece-layout-wrapper {
 
 body.loaded #lutece-layout-wrapper {
   display: block !important;
+  /* overflow-x: hidden */
 }
 
 #login-page {
@@ -192,6 +193,10 @@ body.loaded #lutece-layout-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-around
+}
+
+.btn-group>.btn.active, .btn-group>.btn:active, .btn-group>.btn:focus, .btn-group>.btn:hover {
+  z-index: 1;
 }
 
 .card-footer form,

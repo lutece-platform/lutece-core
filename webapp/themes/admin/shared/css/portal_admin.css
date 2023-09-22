@@ -16,6 +16,10 @@
     --ss-border-radius: 0;
 }
 
+.fs-0 {
+    font-size: calc(1.5rem + 1.5vw)!important;
+}
+
 /* Broken image  */
 img {
 	display: inline-block;
@@ -484,6 +488,7 @@ td[data-url]:hover {
     max-width: 50vmin
 }
 
+/* Editor Override */
 .richtext {
     width: 100%
 }
@@ -492,6 +497,11 @@ td[data-url]:hover {
     width: 100% !important
 }
 
+.tox .tox-dialog--width-lg {
+    height: 500px;
+}
+
+/* Slim Select Plugin Override */
 .ss-main {
     padding: 0 !important
 }

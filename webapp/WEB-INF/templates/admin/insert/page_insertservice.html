@@ -1,10 +1,12 @@
-<@div class='insert-service' id='insert-service'>    
-<@tabList style='list'>
-<@li><strong>#i18n{portal.insert.page_insertservice.labelInsert}</strong></@li>
+<h2 class="visually-hidden">#i18n{portal.insert.page_insertservice.labelInsert}</h2>
+<@div class='row row-cols-3 mt-3' id='insert-service'>    
 <#list insert_services_list as insertservice>
-<@li>
-<@link href='jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=${insertservice.id}&amp;plugin_name=${insertservice.pluginName}&amp;input=${.data_model.input}&amp;selected_text=${selected_text}'><@icon style="chevron-right" /> #i18n{${insertservice.labelKey}}</@link>
-</@li>
+    <@columns class='mb-3'>
+        <@link class='btn btn-lg btn-outline-primary d-flex flex-column justify-content-center' params='style="min-height:10rem"' href='jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=${insertservice.id}&amp;plugin_name=${insertservice.pluginName}&amp;input=${.data_model.input}&amp;selected_text=${selected_text}'>
+            <@icon style='new-section fs-1' /> 
+            <br>
+            #i18n{${insertservice.labelKey}}
+        </@link>
+    </@columns>
 </#list>
-</@tabList>
 </@div>
