@@ -1,5 +1,6 @@
 <#assign portletId = portlet.id />
 <#assign portletOrder = portlet.order />
+<#assign portletOrderMax = order_max!20 />
 <#assign portletCol = portlet.column />
 <@btnToolbar class='lutece-admin-toolbar' params='data-portlet-id="${portletId}" data-portlet-order="${portletOrder}" data-portlet-column="${portletCol}"'>
 	<@tag color='primary rounded-circle' title='${i18n("portal.site.portletPreview.orderBadgeTooltip",portletOrder)}' params='style="max-height:30px"'>${portletOrder}</@tag>
@@ -16,7 +17,7 @@
 				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonUp}' buttonIcon='arrows-up me-2' hideTitle=['all'] />
 			</@tform>
 		</#if>
-		<#if portletOrder lt order_max>
+		<#if portletOrder lt portletOrderMax>
 			<@tform action='jsp/admin/site/DoModifyPortletPosition.jsp' type='' params='target="_top"'>
 				<@input type='hidden' name='portlet_id' value=portletId />
 				<@input type='hidden' name='order' value=portletOrder + 1 />

@@ -33,3 +33,9 @@
 <@option value='_blank' title='#i18n{portal.insert.labelTargetBlank}' />
 </@select>
 </#macro>
+<#macro insertBreadcrumbs>
+<@breadcrumbs class='pt-2 mb-0'>
+<@breadcrumbItem><@link href='jsp/admin/insert/GetAvailableInsertServices.jsp?input=tinymce5&selected_text='><@icon style='home me-1' />#i18n{portal.insert.page_insertservice.labelInsert}</@link></@breadcrumbItem>
+<#nested>
+</@breadcrumbs>
+</#macro>

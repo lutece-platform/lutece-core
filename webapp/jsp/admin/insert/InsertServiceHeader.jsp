@@ -23,4 +23,4 @@
 <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
