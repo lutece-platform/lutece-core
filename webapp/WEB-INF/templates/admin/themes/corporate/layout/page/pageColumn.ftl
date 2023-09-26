@@ -34,7 +34,7 @@ Parameters:
         </div>
         <div class="offcanvas-body ${responsiveMenuBodyClass} overflow-hidden p-0">
     </#if>
-    <div class="lutece-column <#if width = '' >w-100<#else>border-start border-end</#if> overflow-auto ${classValue}" style="<#if width != '' >width:${width};min-width:${width};</#if>">
+    <div <#if id != '' && responsiveMenuSize=''>id="${id}"</#if> class="lutece-column <#if width = '' >w-100<#else>border-start border-end</#if> overflow-auto ${classValue}" style="<#if width != '' >width:${width};min-width:${width};</#if>">
 	    <div class="<#if center>d-flex flex-column justify-content-center align-items-center h-100<#else> container-fluid scrollable</#if><#if flush> p-0 m-0</#if>">
             <#if title!=''><h1 class="fw-bolder mb-4 <#if responsiveMenuSize !=''>d-none d-${responsiveMenuSize}-block</#if>">${title}</h1></#if>
             <#nested>
