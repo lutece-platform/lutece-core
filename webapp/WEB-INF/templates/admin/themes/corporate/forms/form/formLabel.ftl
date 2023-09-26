@@ -22,7 +22,7 @@ Parameters:
             </#if>
             ${labelKey!?trim}
             <#if mandatory=true>
-                <span class="text-danger ms-3 fw-bolder"><i class="ti ti-asterisk"></i></span>
+                <span class="text-danger fw-bolder"><i class="ti ti-asterisk"></i></span>
             </#if>
             <#if labelClass?trim !=''>
                 </span>
