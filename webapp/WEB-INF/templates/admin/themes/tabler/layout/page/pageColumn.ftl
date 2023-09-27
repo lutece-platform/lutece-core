@@ -13,10 +13,11 @@ Parameters:
 - responsiveMenuTitle (string, optional): The title to be displayed at the top of the container in responsiveMenu mode. If provided, it will replace the regular title when the viewport size matches the responsiveMenuSize.
 - responsiveMenuPlacement (string, optional): The placement of the responsiveMenu offcanvas container. Can be 'start' or 'end'. Default is 'end'.
 - responsiveMenuBodyClass (string, optional): Additional CSS classes to be applied to the offcanvas-body in responsiveMenu mode.
+- responsiveMenuClose (boolean, optional) : If true, close by default the offcanvas menu. Default is false.
 -->
-<#macro pageColumn id='' width='' class='' height='' title='' flush=false center=false responsiveMenuSize='' responsiveMenuTitle=title responsiveMenuPlacement='end' responsiveMenuBodyClass=''>
-    <#if responsiveMenuSize != ''>
-    <div class="offcanvas-${responsiveMenuSize} offcanvas-${responsiveMenuPlacement} w-auto border-end overflow-x-hidden" style="<#if width != ''>min-width:${width}</#if>" tabindex="-1" <#if id != ''> id="${id}"</#if>>
+<#macro pageColumn id='' width='' class='' height='' title='' flush=false center=false responsiveMenuSize='' responsiveMenuTitle=title responsiveMenuPlacement='end' responsiveMenuBodyClass='' responsiveMenuClose=false>
+    <#if responsiveMenuSize != '' || responsiveMenuClose >
+    <div class="<#if responsiveMenuClose>offcanvas<#else>offcanvas-${responsiveMenuSize}</#if> offcanvas-${responsiveMenuPlacement} w-auto border-end overflow-x-hidden" style="<#if width != ''>min-width:${width}</#if>" tabindex="-1" <#if id != ''> id="${id}"</#if>>
         <div class="offcanvas-header border-bottom text-break px-4">
             <h2 class="offcanvas-title fw-bolder" id="template-create-page-roleLabel">${responsiveMenuTitle}</h2>
             <button type="button" class="ms-3 border btn btn-light btn-rounded btn-icon" data-bs-dismiss="offcanvas" data-bs-target="#<#if id != ''>${id}</#if>" aria-label="Close">
