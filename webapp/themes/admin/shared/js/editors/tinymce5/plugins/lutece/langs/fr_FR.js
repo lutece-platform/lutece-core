@@ -1,6 +1,7 @@
 tinymce.addI18n( 'fr_FR', {
   'Add Lutece contents': 'Contenus Lutece',
   'Lutece contents': 'Contenus Lutece',
+  'Page link': 'Liens vers des pages',
   'Add content': 'Ajouter du contenu',
   'Add site pdf': 'Ajouter un pdf du site',
   'Add site image': 'Ajouter une image du site',
