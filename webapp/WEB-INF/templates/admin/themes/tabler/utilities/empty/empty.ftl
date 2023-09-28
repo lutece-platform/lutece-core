@@ -12,38 +12,23 @@ Parameters:
 - actionIcon (string, optional): the name of the icon to use for the action button, using the Themify Icon font.
 - actionUrl (string, optional): the URL to link to when the action button is clicked.
 -->
-<#macro empty title='' subtitle='' iconName='mood-empty' img='' actionTitle='' actionBtn='primary' actionIcon='plus' actionUrl='#'>
-	<div class="empty">
-		<#if img=''>
-			<div class="empty-icon">
-				<@icon prefix='ti ti-' style='${iconName}' params='style="font-size:48px"' />
-			</div>
-			<#else>
-				<div class="empty-img"><img src="${img}" height="128" alt=""></div>
-		</#if>
-		<p class="empty-title">
-			<#if title=''>#i18n{portal.util.message.emptyTitle}
-				<#else>
-					${title}
-			</#if>
-		</p>
-		<#if subtitle !=''>
-			<p class="empty-subtitle text-muted">
-				${subtitle}
-			</p>
-			<#else>
-				<p class="empty-subtitle text-muted">#i18n{portal.util.message.emptySubTitle}
-				</p>
-		</#if>
-		<#if actionTitle !=''>
-			<div class="empty-action">
-				<a href="${actionUrl}" class="btn btn-${actionBtn}">
-					<#if actionIcon !=''>
-						<@icon prefix='ti ti-' style='${actionIcon}' />
-					</#if>
-					${actionTitle}
-				</a>
-			</div>
-		</#if>
+<#macro empty title='' subtitle='' id='' class='' iconName='mood-empty' iconClass='' img='' imgClass='' actionTitle='' actionBtn='primary' actionIcon='plus' actionClass='' actionUrl='#'>
+<div class="empty<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if>>
+<#if img=''>
+	<div class="empty-icon<#if iconClass!=''> ${iconClass}</#if>"><@icon prefix='ti ti-' style='${iconName}' params='style="font-size:48px"' /></div>
+<#else>
+	<div class="empty-img<#if imgClass!=''> ${imgClass}</#if>"><img src="${img}" height="128" alt=""></div>
+</#if>
+	<p class="empty-title"><#if title=''>#i18n{portal.util.message.emptyTitle}	<#else>${title}</#if></p>
+<#if subtitle !=''>
+	<p class="empty-subtitle text-muted">${subtitle}</p>
+	<#else>
+		<p class="empty-subtitle text-muted">#i18n{portal.util.message.emptySubTitle}</p>
+</#if>
+<#if actionTitle !=''>
+	<div class="empty-action<#if actionClass!=''> ${actionClass}</#if>">
+		<a href="${actionUrl}" class="btn btn-${actionBtn}"><#if actionIcon !=''><@icon prefix='ti ti-' style='${actionIcon}' /></#if> ${actionTitle}</a>
 	</div>
+</#if>
+</div>
 </#macro>
