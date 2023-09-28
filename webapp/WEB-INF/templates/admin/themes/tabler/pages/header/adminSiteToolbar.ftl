@@ -9,11 +9,11 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 			<@button type='submit' color='primary' title='${i18n("portal.site.admin_page.buttonSearchPage")}' hideTitle=['all'] buttonIcon='search' />
 		</@tform>
 	</@btnGroup>
-	<@btnGroup class='ms-1 d-none d-md-block'>
-		<@aButton href='' id='display-desktop' title='#i18n{portal.site.admin_page.buttonXLargeScreen}' buttonIcon='device-desktop' color='primary' class='btn-preview active' hideTitle=['all'] />
-		<@aButton href='' id='display-laptop' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='device-laptop' color='primary' class='btn-preview' hideTitle=['all'] />
-		<@aButton href='' id='display-tablet' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='device-tablet' color='primary' class='btn-preview' hideTitle=['all'] />
-		<@aButton href='' id='display-phone' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='device-mobile' color='primary' class='btn-preview' hideTitle=['all'] />
+	<@btnGroup class='ms-3 me-2 d-none d-md-block'>
+		<@button id='display-desktop' title='#i18n{portal.site.admin_page.buttonXLargeScreen}' buttonIcon='device-desktop' color='primary' class='btn-preview active' hideTitle=['all'] />
+		<@button id='display-laptop' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='device-laptop' color='primary' class='btn-preview' hideTitle=['all'] />
+		<@button id='display-tablet' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='device-tablet' color='primary' class='btn-preview' hideTitle=['all'] />
+		<@button id='display-phone' title='#i18n{portal.site.admin_page.buttonSmartphone}' buttonIcon='device-mobile' color='primary' class='btn-preview' hideTitle=['all'] />
 	</@btnGroup>
 	<#if page.id != 1>
 		<@btnGroup class='ms-1'>
@@ -21,9 +21,7 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 			<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all']  />
 		</@btnGroup>
 	</#if>
-	<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
-		${extendableResourceActionsHtml!}
-	</#if>
+	<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>${extendableResourceActionsHtml!}</#if>
 	<@btnGroup class='ms-1'>
 		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench me-1' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm']  />
 	</@btnGroup>
@@ -34,8 +32,8 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 	<@listGroup>
 	<#list portlet_types_list?sort_by("name") as portlet_type>
 		<#if portlet_type.name !=''>
-			<@listGroupItem class='p-2' params='data-portlet-type-id="${portlet_type.id}" data-portlet-type-icon="${portlet_type.iconName}" data-portlet-type-href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}" data-portlet-type-name="${portlet_type.name}"'>
-				<#assign iconPortlet><#if portlet_type.iconName??>portlet_type.iconName!'puzzle'<#else>puzzle</#if></#assign>
+			<#assign iconPortlet><#if portlet_type.iconName??>portlet_type.iconName!'puzzle'<#else>puzzle</#if></#assign>
+			<@listGroupItem class='p-2' params='data-portlet-type-id="${portlet_type.id}" data-portlet-type-icon="${iconPortlet!}" data-portlet-type-href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}" data-portlet-type-name="${portlet_type.name}"'>
 				<@aButton color='link w-100 btn-portlet d-flex justify-content-start' buttonIcon='${iconPortlet!} me-2 me-2' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}' />
 			</@listGroupItem>	
 		</#if>

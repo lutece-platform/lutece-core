@@ -119,12 +119,20 @@ img::after {
     padding: .875rem
 }
 
+.btn-preview{
+    margin-left: -.25rem !important;
+}
+
 .btn-width-nolabel{
     margin-top: 22.5px;
 }
 
 .input-icon-addon {
     z-index: 6
+}
+
+.input-group .btn {
+    z-index: 1 !important;
 }
 
 .widget-col .card .card-body {
