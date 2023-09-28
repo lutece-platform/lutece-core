@@ -242,9 +242,10 @@ INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${fi
 INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a expir├⌐. Lors de votre prochaine connexion, vous pourrez le changer.');
 
 INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.admindashboard.editors.labelBackTinyMCE', 1 );
+INSERT INTO core_text_editor VALUES ('tinymce5', 'portal.admindashboard.editors.labelBackTinyMCE5', 1);
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelBackNoEditor', 1 );
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelFrontNoEditor', 0 );
-INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.admindashboard.editors.labelFrontMarkitupBBCode', 0 );
+INSERT INTO core_text_editor VALUES ('sceeditor', 'portal.admindashboard.editors.labelFrontSceEditor', 0);
 
 INSERT INTO core_admin_mailinglist (name,description,workgroup) VALUES( 'admin', 'admin', 'all' );
 INSERT INTO core_admin_mailinglist_filter VALUES( '1', 'all', 'super_admin' );

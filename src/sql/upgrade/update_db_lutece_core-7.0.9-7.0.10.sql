@@ -57,3 +57,7 @@ INSERT INTO core_page_template VALUES (4, '1 + 2 columns', 'skin/site/page_templ
 DELETE FROM core_page_template WHERE id_template=5;
 INSERT INTO core_page_template VALUES (5, 'Two equal columns', 'skin/site/page_template5.html', 'layout-four.svg');
 UPDATE core_page SET id_template=1 WHERE id_page=1;
+DELETE FROM core_text_editor WHERE editor_name='sceeditor' AND backOffice=0;
+INSERT INTO core_text_editor VALUES ('sceeditor', 'portal.admindashboard.editors.labelFrontSceEditor', 0);
+DELETE FROM core_text_editor WHERE editor_name='tinymce5' AND backOffice=1;
+INSERT INTO core_text_editor VALUES ('tinymce5', 'portal.admindashboard.editors.labelBackTinyMCE5', 1);
