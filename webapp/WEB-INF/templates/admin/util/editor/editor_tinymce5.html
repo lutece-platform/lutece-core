@@ -1,7 +1,8 @@
 <#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
 <script src="themes/admin/shared/js/editors/tinymce5/tinymce.min.js"></script>
-<#macro initEditor editorWidth=0 cssFiles='' type='' config='' >
-<#assign editorLocale="" />
+<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext'>
+<#assign editorLocale='' />
+<#local toolbar='' />
 <#-- We only have the language pack for French (France) installed in webapp/js/editors/tinymce/langs -->
 <#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->
 <#-- Force it here because if it is a wrong value, tinyMCE does not load -->
@@ -9,6 +10,53 @@
 <#if cssFiles==""><#assign cssFiles="editor.css, page_template_styles.css" /></#if>
 <script src="themes/admin/shared/js/editors/tinymce5/langs/${editorLocale}.js"></script>
 <script>
+let autorizedInsertService = [${insert!}],
+  luteceInsertServices=[];
+const request = new XMLHttpRequest();
+request.open( "GET", "jsp/admin/insert/GetAvailableInsertServicesData.jsp?input=tinymce&selected_text=&mode=2", false ); 
+request.send( null );
+
+if (request.status === 200) { luteceInsertServices = request.responseText.trim().split(',') }
+
+if( luteceInsertServices.length > 0){
+  luteceInsertServices=Array.from( new Set( luteceInsertServices ))
+}
+
+let editorQuickbarMenu = 'quicktable lutece code',
+	  editorToolbar = 'undo redo | paste | formatselect fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | blockquote link | lutece | code | fullscreen',
+	  luteceToolbar = '',
+    selectionToolbar='bold italic underline | formatselect | blockquote quicklink';
+
+// Set buttons
+if( luteceInsertServices.length > 0 ){
+	if( luteceInsertServices.includes('library') && autorizedInsertService.includes('library') ){
+		if( luteceInsertServices.includes('image') ){
+			luteceToolbar = ' luteceImage'
+		}	
+		if( luteceInsertServices.includes('pdf') ){
+			luteceToolbar += ' lutecePdf'
+		}	
+	}
+
+	if( luteceInsertServices.includes('pagelinkservice') && autorizedInsertService.includes('pagelinkservice') ){
+		luteceToolbar += ' lutecePageLink';
+    selectionToolbar +=' lutecePageLink'
+	}
+
+	if( luteceInsertServices.includes( 'newsletter-blog' ) && autorizedInsertService.includes('newsletter-blog') ){
+		luteceToolbar += ' luteceNewsletterBlog'
+	}
+}
+let tinyToolbar = ''
+let tinyQuickbarMenu = ''
+if( luteceToolbar != '' ){
+  tinyToolbar = editorToolbar.replace( 'lutece', luteceToolbar )
+  tinyQuickbarMenu = editorQuickbarMenu.replace( 'lutece', luteceToolbar )
+} else {
+  tinyToolbar = editorToolbar
+  tinyQuickbarMenu = editorQuickbarMenu
+}
+
 const baseUrl='${webapp_url}';
 const colorMap =  [
   "FFFFFF", "FFFFFF",
@@ -26,13 +74,12 @@ const colorMap =  [
 ];
 const fontsizes = '10px 11px 12px 14px 16px 18px 20px 22px 24px 26px 28px 36px 48px 72px';
 const editorConfig = {
-  selector: '.richtext',
+  selector: '${selector}',
   menubar: false,
   inline: false,
   plugins: [
     'autolink',
     'code',
-	  'lutece',
     'image',
     'importcss',
     'link',
@@ -40,59 +87,21 @@ const editorConfig = {
     'media',
     'table',
     'paste',
+    'lutece',
     'quickbars',
+    'fullscreen',
     'help'
   ],
-  toolbar: true,
-//   quickbars_insert_toolbar: 'quicktable image media code',
-  toolbar: 'undo redo | paste | formatselect fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |  blockquote link',
+  toolbar: tinyToolbar,
+  quickbars_insert_toolbar: tinyQuickbarMenu,
+  quickbars_selection_toolbar: selectionToolbar,
   language: '${editorLocale}',
   document_base_url : '${webapp_url}',
   color_map: colorMap,
   inline: false,
-  /* enable automatic uploads of images represented by blob or data URIs*/
-  automatic_uploads: false,
-  images_upload_url: '',
   image_caption: true,
   image_advtab: true,
-  /*
-    URL of our upload handler 
-    here we add custom filepicker only to Image dialog
-  */
-//   file_picker_types: 'image',
-  /* and here's our custom image picker*/
-//   file_picker_callback: function (cb, value, meta) {
-//     let fileRes = '';
-//     let input = document.createElement('input');
-//     input.setAttribute('type', 'file');
-//     input.onchange = function () {
-//       const file = this.files[0];
-//       const reader = new FileReader();
-//       reader.onload = function () {
-//         let blogId = document.querySelector('#id').value;
-//         const fileType=1; 
-//         // const res = doAddContent( file.name, file.size, reader.result, fileType, blogId );
-//         doAddContent( file.name, file.size, reader.result, fileType, blogId ).then( resp => {
-//           /* call the callback and populate the Title field with the file name */
-//           if ( resp.status == 'OK' ){
-//             if( resp.result == "BLOG_LOCKED" ){
-//               setBlogToast( 'warning', 'Attention', 'Billet verrouillé !' );
-//             } else {
-//               setListFile( resp.result[1], resp.result[0], fileType, blogId )
-//               // document.querySelector( '#content-list' ).append('<li class="list-group-item blog-item-resource blog-image-content" id="doc_'+ resp.result[1] +'"><img class="img-fluid img-thumbnail blog-thumbnails" src="servlet/plugins/blogs/file?id_file=' + resp.result[1] + '" title="'+resp.result[0]+'" alt="' + resp.result[0] + '"><span class="pull-right"><button type="button" class="btn btn-link btn-xs btn-flat btn-down" title="Descendre" onclick="doUpdatePriorityContent(' + resp.result[1] + ', \'moveDown\' )"><i class="fa fa-arrow-down"></i></button><button type="button" class="btn btn-link btn-xs btn-flat btn-up" title="Monter" onclick="doUpdatePriorityContent(' + resp.result[1] +  ', \'moveUp\')"><i class="fa fa-arrow-up"></i></button></span></li>');
-//               // document.querySelector( '#content-list' ).append('<li class="list-group-item blog-item-resource blog-file-content" id="doc_'+resp.result[1]+'"><p><a href=servlet/plugins/blogs/file?id_file='+resp.result[1]+' alt="Download">'+ fileName + '<br><small>' + fileSize + ' Ko </small><span class="pull-right"><button type="button" class="btn btn-link btn-xs btn-flat btn-down" title="Descendre" onclick="doUpdatePriorityContent(' + resp.result[1] + ', \'moveDown\' )"><i class="fa fa-arrow-down"></i></button><button type="button" class="btn btn-link btn-xs btn-flat btn-up" title="Monter" onclick="doUpdatePriorityContent(' + resp.result[1] + ', \'moveUp\')"><i class="fa fa-arrow-up"></i></button></span></p></li>');
-//               <#noparse>fileRes = `servlet/plugins/blogs/file?id_file=${resp.result[1]}`</#noparse>;
-//               /* call the callback and populate the Title field with the file name */
-//               cb( fileRes , { title: file.name });
-//             }
-//           }
-//         });
-//       };
-//       reader.readAsDataURL(file);
-//     };
-//     input.click();
-//   },
-  content_css: "css/page_template_styles.css",
+  content_css: '${cssFiles!}',
   importcss_append: false,
   extended_valid_elements : "iframe[style|src|width|height|name|align|frameborder|scrolling],script[src|type]",
   paste_word_valid_elements: "b,strong,i,em,h2,h3,h4,h5,h6,p,br,blockquote",
@@ -103,7 +112,11 @@ const editorConfig = {
     {title: '_blank', value: '_blank'},
     {title: '_parent', value: '_parent'}
   ],
-  contextmenu: 'undo redo | image insert | inserttable | cell row column deletetable | code | help'
+  contextmenu: 'undo redo | image insert | inserttable | cell row column deletetable | code',
+  lutece_insert_service_media_type_image : '#dskey{library.insert_service_media_type_image}',
+	lutece_insert_service_media_type_pdf : '#dskey{library.insert_service_media_type_pdf}',
+	lutece_insert_service_media_type_image_space : '#dskey{library.insert_service_media_type_image_space}',
+	lutece_insert_service_media_type_pdf_space : '#dskey{library.insert_service_media_type_pdf_space}'
 };
 
 document.addEventListener( "DOMContentLoaded", function() {

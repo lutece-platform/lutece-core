@@ -68,6 +68,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
 
     // Constants
     private static final String TEMPLATE_INSERT_TYPE_PAGE = "admin/insert/page_insertservice.html";
+    private static final String TEMPLATE_INSERT_TYPE_PAGE_DATA = "admin/insert/page_insertservice_data.html";
     private static final String TEMPLATE_INSERT_INTO_ELEMENT = "admin/insert/insert_into_element.html";
     private static final String TEMPLATE_INSERT_INTO_ELEMENT2 = "admin/insert/insert_into_element2.html";
     private static final String MSG_NO_SERVICE_AVAILABLE = "portal.insert.message.noServiceAvailable";
@@ -94,6 +95,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
     {
         String strInput = request.getParameter( PARAMETER_INPUT );
         String strText = request.getParameter( PARAMETER_SELECTED_TEXT );
+        String strMode = request.getParameter( PARAMETER_MODE );
 
         // Encode the HTML code to insert
         strText = EncodingService.encodeUrl( strText );
@@ -105,9 +107,17 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_INSERT_SERVICES_LIST, RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, getUser( ) ) );
         model.put( MARK_SELECTED_TEXT, strText );
         model.put( MARK_INPUT, strInput );
-
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_INSERT_TYPE_PAGE, getLocale( ), model );
-
+        
+        HtmlTemplate t;
+        
+        if ( strMode.compareTo( "2" ) == 0 )
+        {
+            t = AppTemplateService.getTemplate( TEMPLATE_INSERT_TYPE_PAGE_DATA, getLocale( ), model );
+        }
+        else
+        {
+            t = AppTemplateService.getTemplate( TEMPLATE_INSERT_TYPE_PAGE, getLocale( ), model );
+        }
         return t.getHtml( );
     }
 
