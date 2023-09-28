@@ -19,12 +19,12 @@ Parameters:
 - mandatory (boolean, optional): whether the radio button element is mandatory.
 - propagateMandatory (boolean, optional): whether to propagate the mandatory flag to the radio button element.
 -->
-<#macro radioButton name id='' class='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
+<#macro radioButton name id='' class='' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
-<#if orientation='vertical'><div class="radio">	</#if>
+<#if orientation='vertical'><div class="radio"<#if params!=''> ${params}</#if>>	</#if>
 <label  class="form-check<#if orientation!='vertical'> form-check-inline</#if>" <#if labelFor!=''>for="${labelFor}"</#if>>
-<input class="form-check-input<#if class!=''> ${class}</#if>" type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
-<span class="form-check-label"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
+<input class="form-check-input<#if class!=''> ${class}</#if>" type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!='' && orientation !='vertical'> ${params}</#if>>
+<span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
 </label>
 <#if orientation='vertical'></div></#if>
 </#macro>
