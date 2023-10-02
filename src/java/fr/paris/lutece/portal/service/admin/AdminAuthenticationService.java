@@ -39,6 +39,8 @@ import java.util.Enumeration;
 import java.util.stream.Collectors;
 
 import javax.security.auth.login.LoginException;
+
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -51,7 +53,6 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAut
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -65,8 +66,6 @@ public final class AdminAuthenticationService
      */
     private static final String ATTRIBUTE_ADMIN_USER = "lutece_admin_user";
     private static final String ATTRIBUTE_ADMIN_LOGIN_NEXT_URL = "luteceAdminLoginNextUrl";
-
-    private static final String BEAN_ADMIN_AUTHENTICATION_MODULE = "adminAuthenticationModule";
 
     private static final String CONSTANT_ACTION_LOGIN_ADMINUSER = "user.loginAdminUser";
     private static final String CONSTANT_ACTION_LOGOUT_ADMINUSER = "user.logoutAdminUser";
@@ -88,7 +87,7 @@ public final class AdminAuthenticationService
      */
     public static synchronized void init( )
     {
-        _authentication = SpringContextService.getBean( BEAN_ADMIN_AUTHENTICATION_MODULE );
+        _authentication = CDI.current().select(AdminAuthentication.class ).get( );
         AppLogService.info( "Authentication module loaded : {}", _authentication.getAuthServiceName( ) );
 
         if ( _authentication.getClass( ).equals( LuteceDefaultAdminAuthentication.class ) )

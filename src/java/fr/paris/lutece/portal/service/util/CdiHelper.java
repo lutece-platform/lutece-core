@@ -1,10 +1,8 @@
 package fr.paris.lutece.portal.service.util;
 
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.context.spi.CreationalContext;
 import jakarta.enterprise.inject.spi.AfterDeploymentValidation;
 import jakarta.enterprise.inject.spi.Bean;

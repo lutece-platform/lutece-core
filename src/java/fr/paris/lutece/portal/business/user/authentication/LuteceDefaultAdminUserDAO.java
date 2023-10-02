@@ -40,11 +40,13 @@ import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.sql.Timestamp;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 /**
  * This class provides Data Access methods for LuteceDefaultAdminUser objects
  */
+@ApplicationScoped
 public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
 {
     private static final String SQL_QUERY_LOAD_PASSWORD = "SELECT password FROM core_admin_user WHERE  access_code = ? ";

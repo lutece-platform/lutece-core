@@ -67,10 +67,12 @@ import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldListenerServi
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import jakarta.enterprise.context.ApplicationScoped;
 
 /**
  * Class to import Admin Users from CSV files.
  */
+@ApplicationScoped
 public class DefaultImportAdminUserService extends ImportAdminUserService
 {
 

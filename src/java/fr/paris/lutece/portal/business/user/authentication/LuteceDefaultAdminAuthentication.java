@@ -43,7 +43,10 @@ import fr.paris.lutece.util.password.IPasswordFactory;
 
 import java.util.Collection;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
@@ -52,10 +55,13 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * Default authentication module for admin authentication
  */
+@ApplicationScoped
+@Named ("adminAuthenticationModule")
 public class LuteceDefaultAdminAuthentication implements AdminAuthentication
 {
     private static final String CONSTANT_LOST_PASSWORD_URL = "jsp/admin/AdminForgotPassword.jsp";
     private static final String CONSTANT_LOST_LOGIN_URL = "jsp/admin/AdminForgotLogin.jsp";
+    @Inject
     private ILuteceDefaultAdminUserDAO _dao;
 
     @Inject

@@ -33,13 +33,29 @@
  */
 package fr.paris.lutece.portal.service.prefs;
 
+import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
 import fr.paris.lutece.portal.service.security.LuteceUser;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
  * Portal User Preference Service
  */
+@ApplicationScoped
 public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceImpl implements IPortalUserPreferencesService
 {
+	
+	
+	public PortalUserPreferenceServiceImpl() {
+		
+	}
+	
+	@PostConstruct
+	@Inject
+	public void setDao( @UserPreferences IPreferencesDAO dao ) {
+		super.setDao(dao);
+	}
     /**
      * {@inheritDoc }
      */
