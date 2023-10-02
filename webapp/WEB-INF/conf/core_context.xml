@@ -21,19 +21,7 @@
 
     <context:annotation-config />
     <import resource="jpa_context.xml" />
-    <!-- Admin Authentication -->
-    <bean id="passwordFactory" class="fr.paris.lutece.portal.business.user.authentication.PasswordFactory" />
-    <bean id="adminAuthenticationModule"
-          class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication">
-        <property name="dao" ref="luteceDefaultAdminUserDAO" />
-        <!--<property name="dataSourceFactory" ref="dataSourceFactory" /> -->
-    </bean>
-
-    <!-- Admin User Import Service -->
-    <bean id="adminUserImportService" class="fr.paris.lutece.portal.service.admin.DefaultImportAdminUserService" />
-
-    <bean id="luteceDefaultAdminUserDAO"
-          class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />
+   
     <bean id="defaultFileDownloadUrlService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileDownloadService" />
     <bean id="defaultFileNoRBACService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileNoRBACService" />
     
@@ -50,21 +38,7 @@
         use a default property that matches lutece jars only. For example, (sample\.jar)|(another-.*\.jar) will match sample.jar 
         and another-randomtext.jar. -->
         <!-- <property name="fileFilter">(sample\.jar)|(another-.*\.jar)</property> -->
-    </bean>
-    <!-- Preferences Services -->
-    <bean id="userPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.UserPreferencesDAO" />
-    <bean id="adminUserPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.AdminUserPreferencesDAO" />
-
-    <bean id="userPreferencesService" class="fr.paris.lutece.portal.service.prefs.PortalUserPreferenceServiceImpl"
-          scope="singleton">
-        <property name="dao" ref="userPreferencesDAO" />
-    </bean>
-    <bean id="adminUserPreferencesService"
-          class="fr.paris.lutece.portal.service.prefs.BaseUserPreferencesServiceImpl">
-        <property name="dao" ref="adminUserPreferencesDAO" />
-    </bean>
-
-    
+    </bean>   
     <!-- CSS frameworks management -->
     <!-- The default framework should have the its key value equals to 'default' -->
     <bean id="commonsBoostrap5Tabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">

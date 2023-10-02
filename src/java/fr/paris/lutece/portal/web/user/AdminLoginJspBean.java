@@ -50,7 +50,6 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.AccessLogService;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppHTTPSService;
@@ -81,6 +80,7 @@ import java.util.Map;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -595,7 +595,7 @@ public class AdminLoginJspBean implements Serializable
 
         // all checks are OK. Proceed to password change
         user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+        IPasswordFactory passwordFactory = CDI.current().select( IPasswordFactory.class ).get( );
         user.setPassword( passwordFactory.getPasswordFromCleartext( strNewPassword ) );
         AdminUserHome.update( user );
         AdminUserHome.insertNewPasswordInHistory( user.getPassword( ), user.getUserId( ) );

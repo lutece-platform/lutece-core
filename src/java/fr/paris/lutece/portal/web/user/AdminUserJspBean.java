@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -82,7 +83,6 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
@@ -130,10 +130,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String CONSTANT_NOT_AUTHORIZED = " is not authorized to permission ";
     private static final String CONSTANT_ADVANCED_PARAMS = "core.advanced_parameters.";
     private static final String CONSTANT_BO = "BO";
-
-    // Beans
-    private static final String BEAN_IMPORT_ADMIN_USER_SERVICE = "adminUserImportService";
-
     // Templates
     private static final String TEMPLATE_MANAGE_USERS = "admin/user/manage_users.html";
     private static final String TEMPLATE_CREATE_USER = "admin/user/create_user.html";
@@ -1170,7 +1166,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getImportUsersFromFile( HttpServletRequest request )
     {
-        _importAdminUserService = SpringContextService.getBean( BEAN_IMPORT_ADMIN_USER_SERVICE );
+        _importAdminUserService = CDI.current().select(ImportAdminUserService.class ).get( );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
                 getUser( ) ) )
         {

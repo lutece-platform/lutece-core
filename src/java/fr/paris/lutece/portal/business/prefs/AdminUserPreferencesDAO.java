@@ -33,9 +33,14 @@
  */
 package fr.paris.lutece.portal.business.prefs;
 
+import fr.paris.lutece.portal.service.prefs.AdminUserPreferences;
+import jakarta.enterprise.context.ApplicationScoped;
+
 /**
  * User Preferences DAO
  */
+@ApplicationScoped
+@AdminUserPreferences
 public class AdminUserPreferencesDAO extends AbstractUserPreferencesDAO
 {
     private static final String TABLE_PREFERENCES = "core_admin_user_preferences";

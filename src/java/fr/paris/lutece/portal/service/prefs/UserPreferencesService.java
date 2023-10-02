@@ -33,14 +33,13 @@
  */
 package fr.paris.lutece.portal.service.prefs;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * User Preferences Service
  */
 public final class UserPreferencesService
 {
-    private static final String BEAN_USER_PREFERENCE_SERVICE = "userPreferencesService";
     private static IPortalUserPreferencesService _singleton;
 
     /** private constructor */
@@ -57,7 +56,8 @@ public final class UserPreferencesService
     {
         if ( _singleton == null )
         {
-            _singleton = SpringContextService.getBean( BEAN_USER_PREFERENCE_SERVICE );
+          _singleton = CDI.current().select(PortalUserPreferenceServiceImpl.class).get();
+
         }
 
         return _singleton;

@@ -493,7 +493,7 @@ public class AdminMenuJspBean implements Serializable
         }
 
         // Successful tests
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+        IPasswordFactory passwordFactory = CDI.current().select( IPasswordFactory.class ).get( );
         userStored.setPassword( passwordFactory.getPasswordFromCleartext( strNewPassword ) );
         userStored.setPasswordReset( Boolean.FALSE );
         userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );

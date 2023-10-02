@@ -54,11 +54,15 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 
 /**
  * A factory for getting storable password representation
  */
-final class PasswordFactory implements IPasswordFactory
+@ApplicationScoped
+@Named (IPasswordFactory.BEAN_NAME)
+class PasswordFactory implements IPasswordFactory
 {
     // storage types
     private static final String ERROR_PASSWORD_STORAGE = "Invalid stored password ";
