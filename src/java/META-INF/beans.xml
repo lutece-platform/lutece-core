@@ -13,6 +13,8 @@
         <!-- RSA Key service default provider is RSAKeyDatastoreProvider 
         (RSAKeyEnvironmentProvider is also available) -->
         <!-- <class>fr.paris.lutece.util.rsa.RSAKeyEnvironmentProvider</class>  -->
+        <!-- Default File RBAC Service for LocalDatabaseFileService -->
+        <!-- <class>fr.paris.lutece.portal.service.file.implementation.DefaultFileRBACService</class> -->
         
     	</alternatives>
 </beans>

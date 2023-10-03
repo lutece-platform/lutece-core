@@ -22,15 +22,6 @@
     <context:annotation-config />
     <import resource="jpa_context.xml" />
    
-    <bean id="defaultFileDownloadUrlService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileDownloadService" />
-    <bean id="defaultFileNoRBACService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileNoRBACService" />
-    
-    <bean id="localDatabaseFileService" class="fr.paris.lutece.portal.service.file.implementation.LocalDatabaseFileService" >
-            <constructor-arg ref="defaultFileDownloadUrlService" />
-            <constructor-arg ref="defaultFileNoRBACService" />
-            <property name="default" value="true" />
-            <property name="name" value="defaultDatabaseFileStoreProvider" />
-    </bean>   
     <!-- annotation db -->
     <!-- scans WEB-INF/lib for classes within jars, and web-inf/classes for .class -->
     <bean id="annotationDB" class="fr.paris.lutece.util.annotation.ScannotationDB">

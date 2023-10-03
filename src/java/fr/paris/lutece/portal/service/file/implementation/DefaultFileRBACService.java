@@ -39,6 +39,9 @@ import fr.paris.lutece.portal.service.file.FileService;
 import fr.paris.lutece.portal.service.file.IFileRBACService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Alternative;
+
 import java.util.Map;
 
 /**
@@ -46,6 +49,8 @@ import java.util.Map;
  * DefaultFileRBACService.
  * 
  */
+@ApplicationScoped
+@Alternative
 public class DefaultFileRBACService implements IFileRBACService
 {
     private static final long serialVersionUID = 1L;

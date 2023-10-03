@@ -46,6 +46,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,6 +56,7 @@ import org.apache.commons.lang3.StringUtils;
  * DatabaseBlobStoreService.
  * 
  */
+@ApplicationScoped
 public class DefaultFileDownloadService implements IFileDownloadUrlService
 {
     private static final long serialVersionUID = 1L;
