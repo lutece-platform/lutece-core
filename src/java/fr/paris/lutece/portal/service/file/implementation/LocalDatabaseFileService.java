@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.FileItem;
@@ -65,14 +67,17 @@ import fr.paris.lutece.portal.service.util.AppException;
  * DatabaseBlobStoreService.
  * 
  */
+@ApplicationScoped
 public class LocalDatabaseFileService implements IFileStoreServiceProvider
 {
     private static final long serialVersionUID = 1L;
 
+    @Inject
     private IFileDownloadUrlService _fileDownloadUrlService;
+    @Inject
     private IFileRBACService _fileRBACService;
-    private String _strName;
-    private boolean _bDefault;
+    private String _strName= "defaultDatabaseFileStoreProvider";
+    private boolean _bDefault = true;
 
     /**
      * init

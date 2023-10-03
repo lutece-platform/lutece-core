@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service.file.implementation;
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.file.IFileRBACService;
+import jakarta.enterprise.context.ApplicationScoped;
+
 import java.util.Map;
 
 /**
@@ -43,10 +45,10 @@ import java.util.Map;
  * DatabaseBlobStoreService.
  * 
  */
+@ApplicationScoped
 public class DefaultFileNoRBACService implements IFileRBACService
 {
     private static final long serialVersionUID = 1L;
-    private static final String MESSAGE_ACCESS_DENIED_KEY = "portal.file.download.access.denied";
 
     @Override
     public void checkAccessRights( Map<String, String> fileData, User user ) throws AccessDeniedException
