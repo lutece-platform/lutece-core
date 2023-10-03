@@ -1,3 +1,4 @@
+<#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
 <script src="${webapp_url}themes/admin/shared/js/editors/tinymce/tinymce.min.js"></script>
 <#macro initEditor editorWidth=450 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext'>
 <#assign editorLocale="" />
