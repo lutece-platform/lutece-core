@@ -16,7 +16,7 @@ Parameters:
 - disabled (boolean, optional): specifies whether the fieldset is disabled.
 -->
 <#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendIcon='' legendParams='' hideLegend=[] disabled=false>
-<fieldset<#if class!=''> class="${class}"</#if><#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if><#if disabled> disabled</#if>>
+<fieldset class="mb-3<#if class!=''> ${class}</#if>"<#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if><#if disabled> disabled</#if>>
 <#if legend!=''>
 	<#local legendClass += ' ' +  displaySettings(hideLegend,'block') />
 	<legend<#if legendClass!=''> class="${legendClass?trim}"</#if><#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>><#if legendIcon!=''><@icon style=legendIcon /> </#if>${legend}</legend>

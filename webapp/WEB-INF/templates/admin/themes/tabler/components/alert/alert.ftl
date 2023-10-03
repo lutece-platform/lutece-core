@@ -14,9 +14,9 @@ Parameters:
 - params (string, optional): additional HTML attributes to include in the alert element.
 -->
 <#macro alert class='' color='' titleLevel='h4' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="alert alert-<#if class!=''>${class}</#if><#if color!=''> alert-${color}</#if><#if dismissible> alert-dismissible</#if>"<#if id!=''> id="${id}"</#if>>
-	<div class="d-flex align-items-center <#if params!=''> ${params}</#if>">
-		<#if color!=''><#assign txtColor> text-${color}</#assign></#if>
+<div class="alert<#if color!=''> alert-${color}</#if><#if class!=''> ${class}</#if><#if dismissible> alert-dismissible</#if>"<#if id!=''> id="${id}"</#if>>
+	<div class="d-flex justify-content-between"<#if params!=''> ${params}</#if>>
+	<#if color!=''><#assign txtColor> text-${color}</#assign></#if>
 	<#if iconTitle!=''><@icon style=iconTitle class='mx-2${txtColor}' /></#if>
 	<#if title!=''>
 	<${titleLevel} class="alert-title">
@@ -25,6 +25,6 @@ Parameters:
 	</#if>
 	<#nested>
 	</div>
-<#if dismissible><a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a></#if>
+	<#if dismissible><a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a></#if>
 </div>
 </#macro>
