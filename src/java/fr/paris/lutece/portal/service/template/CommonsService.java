@@ -35,9 +35,10 @@ package fr.paris.lutece.portal.service.template;
 
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
+
 import java.util.List;
 
 /**
@@ -59,7 +60,7 @@ public class CommonsService
      */
     public static List<CommonsInclude> getCommonsIncludes( )
     {
-        return SpringContextService.getBeansOfType( CommonsInclude.class );
+        return CDI.current().select(CommonsInclude.class).stream().toList();
     }
 
     /**
