@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.util.annotation;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppException;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.lang.annotation.Annotation;
 
@@ -47,7 +47,7 @@ import java.util.Set;
  */
 public final class AnnotationUtil
 {
-    private static final IAnnotationDB ANNOTATION_DB = SpringContextService.getBean( "annotationDB" );
+    private static final IAnnotationDB ANNOTATION_DB = CDI.current().select( IAnnotationDB.class ).get( );
 
     static
     {

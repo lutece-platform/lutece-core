@@ -42,16 +42,20 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.scannotation.AnnotationDB;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 /**
  * Uses {@link AnnotationDB} from scannotation.
- * 
+ * scans WEB-INF/lib for classes within jars, and web-inf/classes for .class 
  * @see #init()
  */
+@ApplicationScoped
 public class ScannotationDB implements IAnnotationDB
 {
     private static final String CONSTANT_WEB_INF_LIB = "/WEB-INF/lib/";
@@ -62,6 +66,8 @@ public class ScannotationDB implements IAnnotationDB
      */
     private static final String CONSTANT_DEFAULT_FILENAME_FILTER = "(plugin-.*\\.jar)|(module-.*\\.jar)|(lutece-core-.*\\.jar)|(library-.*\\.jar)";
     private final AnnotationDB _db;
+    @Inject
+    @ConfigProperty(name="annotation.fileFilter", defaultValue= CONSTANT_DEFAULT_FILENAME_FILTER )
     private String _strFileFilter;
 
     /**
@@ -101,9 +107,8 @@ public class ScannotationDB implements IAnnotationDB
     {
         AppLogService.info( "ScannotationDB Scanning classpath..." );
 
-        if ( getFileFilter( ) == null )
+        if ( getFileFilter( ).equals( CONSTANT_DEFAULT_FILENAME_FILTER ) )
         {
-            setFileFilter( CONSTANT_DEFAULT_FILENAME_FILTER );
             AppLogService.info( "Using default filename filter" );
         }
         else
