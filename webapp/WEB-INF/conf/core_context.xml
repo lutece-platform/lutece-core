@@ -30,30 +30,5 @@
         and another-randomtext.jar. -->
         <!-- <property name="fileFilter">(sample\.jar)|(another-.*\.jar)</property> -->
     </bean>   
-    <!-- CSS frameworks management -->
-    <!-- The default framework should have the its key value equals to 'default' -->
-    <bean id="commonsBoostrap5Tabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bootstrap5Tabler" />
-         <property name="default" value="true" />
-        <property name="name" value="Bootstrap 5.1 + Tabler 1.0 + Backport file (v6.x compatible) (Default)" />
-        <property name="files">
-            <list>
-                <value>commons_bs5_tabler.html</value>
-                <value>commons_backport.html</value>
-				<value>admin/util/calendar/macro_datetimepicker.html</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="commonsCorporate" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Corporate" />
-         <property name="default" value="false" />
-        <property name="name" value="Corporate theme 0.0.1" />
-        <property name="files">
-            <list>
-                <value>commons_corporate.html</value>
-                <value>commons_backport.html</value>
-				<value>admin/util/calendar/macro_datetimepicker.html</value>
-            </list>
-        </property>
-    </bean>
+
 </beans>

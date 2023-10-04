@@ -150,4 +150,79 @@ public class CommonsInclude
     {
         this._bDefault = _bDefault;
     }
+    private CommonsInclude(CommonsIncludeBuilder builder) {
+		this._strKey= builder._strKey;
+		this._strName = builder._strName;
+		this._strDescription = builder._strDescription;
+		this._listFiles = builder._listFiles;
+		this._bDefault = builder._bDefault;
+	}
+    
+    public static class CommonsIncludeBuilder {
+
+        private String _strKey;
+        private String _strName;
+        private String _strDescription;
+        private boolean _bDefault = false;
+        private List<String> _listFiles;
+
+        public CommonsIncludeBuilder(String _strKey ) {
+        	this._strKey= _strKey;
+        	this._strName= _strKey;
+        	this._strDescription= _strKey;
+        }
+        
+        /**
+         * Sets the Name
+         * 
+         * @param strName
+         *            The Name
+         */
+        public CommonsIncludeBuilder setName( String strName )
+        {
+            this._strName = strName;
+            return this;
+        }
+        /**
+         * Sets the Description
+         * 
+         * @param strDescription
+         *            The Description
+         */
+        public CommonsIncludeBuilder setDescription( String strDescription )
+        {
+            this._strDescription = strDescription;
+            return this;
+        }
+        
+        /**
+         * Sets the Files
+         * 
+         * @param listFiles
+         *            The Files
+         */
+        public CommonsIncludeBuilder setFiles( List<String> listFiles )
+        {
+            this._listFiles = listFiles;
+            return this;
+        }
+        /**
+         * set default
+         * 
+         * @param _bDefault
+         */
+        public CommonsIncludeBuilder setDefault( boolean _bDefault )
+        {
+            this._bDefault = _bDefault;
+            return this;
+        }
+        /**
+         * Build CommonsInclude object
+         * @return CommonsInclude object
+         */
+        public CommonsInclude build(){
+    		return new CommonsInclude(this);
+    	}
+
+    }
 }
