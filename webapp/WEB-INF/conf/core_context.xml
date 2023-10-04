@@ -16,19 +16,8 @@
         <constructor-arg
             value="#{ T(fr.paris.lutece.portal.service.util.AppPropertiesService).getProperties() }" />
     </bean>
-
     <context:property-placeholder properties-ref="appProperties" />
-
     <context:annotation-config />
-    <import resource="jpa_context.xml" />
-   
-    <!-- annotation db -->
-    <!-- scans WEB-INF/lib for classes within jars, and web-inf/classes for .class -->
-    <bean id="annotationDB" class="fr.paris.lutece.util.annotation.ScannotationDB">
-        <!-- Uncomment the following lines and set your own regexp to filter scannable jar. If not set, annotation db will 
-        use a default property that matches lutece jars only. For example, (sample\.jar)|(another-.*\.jar) will match sample.jar 
-        and another-randomtext.jar. -->
-        <!-- <property name="fileFilter">(sample\.jar)|(another-.*\.jar)</property> -->
-    </bean>   
+    <import resource="jpa_context.xml" />  
 
 </beans>
