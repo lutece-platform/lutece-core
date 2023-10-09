@@ -13,18 +13,18 @@ Parameters:
 - icon2 (string, optional): the name of the icon for the second button.
 - offset (int, optional): the number of columns to offset the form group.
 -->
-<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='save' icon2='times' offset=3 >
+<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='device-floppy' icon2='x' offset=3>
 <@formGroup rows=2>
 	<#if url1 != ''>
-		<@aButton href='${url1}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' size=''/>
+		<@aButton href='${url1}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' size='' hideTitle=['xs','sm'] />
 	<#else>
-		<@button type='submit' name='${button1Name}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' size='' />
+		<@button type='submit' name='${button1Name}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' size='' hideTitle=['xs','sm'] />
 	</#if>
 	<#if url2 != ''>
-		<@aButton href='${url2}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' size=''/>
+		<@aButton href='${url2}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' size='' hideTitle=['xs','sm']/>
 	<#else>
 		<#if button2Name != ''>
-			<@button type='submit' name='${button2Name}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' cancel=true size='' />
+			<@button type='submit' name='${button2Name}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' cancel=true size='' hideTitle=['xs','sm'] />
 		</#if>
 	</#if>
 </@formGroup>
