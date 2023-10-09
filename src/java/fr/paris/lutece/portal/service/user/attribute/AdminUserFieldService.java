@@ -39,6 +39,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -52,7 +53,6 @@ import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 
@@ -149,10 +149,9 @@ public final class AdminUserFieldService
         }
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
-        {
-            adminUserFieldListenerService.doCreateUserFields( user, request, locale );
-        }
+        CDI.current().select(AdminUserFieldListenerService.class).forEach(
+        		adminUserFieldListenerService -> adminUserFieldListenerService.doCreateUserFields( user, request, locale )
+        );
     }
 
     /**
@@ -197,10 +196,9 @@ public final class AdminUserFieldService
         }
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
-        {
-            adminUserFieldListenerService.doModifyUserFields( user, request, locale, currentUser );
-        }
+        CDI.current().select(AdminUserFieldListenerService.class).forEach(
+        		adminUserFieldListenerService -> adminUserFieldListenerService.doModifyUserFields( user, request, locale, currentUser ));
+        
     }
 
     /**
@@ -220,10 +218,9 @@ public final class AdminUserFieldService
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
-        {
-            adminUserFieldListenerService.doRemoveUserFields( user, request, locale );
-        }
+        CDI.current().select(AdminUserFieldListenerService.class).forEach(
+      			adminUserFieldListenerService -> adminUserFieldListenerService.doRemoveUserFields( user, request, locale ));
+        
     }
 
     /**

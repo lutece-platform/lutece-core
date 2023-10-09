@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -53,7 +54,6 @@ import fr.paris.lutece.portal.business.event.ResourceEvent;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.event.ResourceEventManager;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
@@ -80,8 +80,8 @@ public final class WorkflowService
     {
         try
         {
-            _service = SpringContextService.getBean( fr.paris.lutece.plugins.workflowcore.service.workflow.WorkflowService.BEAN_SERVICE );
-            _provider = SpringContextService.getBean( BEAN_WORKFLOW_PROVIDER );
+            _service = CDI.current().select( IWorkflowService.class ).get( );
+            _provider = CDI.current().select(IWorkflowProvider.class).get( );
             _bServiceAvailable = ( _service != null ) && ( _provider != null );
         }
         catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )

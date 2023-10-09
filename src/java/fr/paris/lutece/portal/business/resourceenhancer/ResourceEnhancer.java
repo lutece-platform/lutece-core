@@ -33,11 +33,9 @@
  */
 package fr.paris.lutece.portal.business.resourceenhancer;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
-import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -67,12 +65,10 @@ public final class ResourceEnhancer
      */
     public static void getXmlAddOn( StringBuffer strXml, String strResourceType, int nResourceId )
     {
-        List<IResourceDisplayManager> managers = SpringContextService.getBeansOfType( IResourceDisplayManager.class );
-
-        for ( IResourceDisplayManager manager : managers )
-        {
-            manager.getXmlAddOn( strXml, strResourceType, nResourceId );
-        }
+        CDI.current().select(IResourceDisplayManager.class ).forEach(
+        		manager -> manager.getXmlAddOn( strXml, strResourceType, nResourceId )
+        		);
+       
     }
 
     /**
@@ -91,12 +87,9 @@ public final class ResourceEnhancer
      */
     public static void buildPageAddOn( Map<String, Object> model, String strResourceType, int nIdResource, String strPortletId, HttpServletRequest request )
     {
-        List<IResourceDisplayManager> managers = SpringContextService.getBeansOfType( IResourceDisplayManager.class );
-
-        for ( IResourceDisplayManager manager : managers )
-        {
-            manager.buildPageAddOn( model, strResourceType, nIdResource, strPortletId, request );
-        }
+        CDI.current().select(IResourceDisplayManager.class ).forEach(
+        		manager -> manager.buildPageAddOn( model, strResourceType, nIdResource, strPortletId, request )
+        		);
     }
 
     // IResourceManage facade
@@ -109,12 +102,9 @@ public final class ResourceEnhancer
      */
     public static void getCreateResourceModelAddOn( Map<String, Object> model )
     {
-        List<IResourceManager> managers = SpringContextService.getBeansOfType( IResourceManager.class );
-
-        for ( IResourceManager manager : managers )
-        {
-            manager.getCreateResourceModelAddOn( model );
-        }
+      CDI.current().select(IResourceManager.class ).forEach(
+        		manager -> manager.getCreateResourceModelAddOn( model )
+        		);
     }
 
     /**
@@ -128,13 +118,10 @@ public final class ResourceEnhancer
      *            the resource id
      */
     public static void doCreateResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId )
-    {
-        List<IResourceManager> managers = SpringContextService.getBeansOfType( IResourceManager.class );
-
-        for ( IResourceManager manager : managers )
-        {
-            manager.doCreateResourceAddOn( request, strResourceType, nResourceId );
-        }
+    {     
+       CDI.current().select(IResourceManager.class ).forEach(
+        		manager -> manager.doCreateResourceAddOn( request, strResourceType, nResourceId )
+        		);
     }
 
     /**
@@ -148,13 +135,10 @@ public final class ResourceEnhancer
      *            the resource id
      */
     public static void getModifyResourceModelAddOn( Map<String, Object> model, String strResourceType, int nResourceId )
-    {
-        List<IResourceManager> managers = SpringContextService.getBeansOfType( IResourceManager.class );
-
-        for ( IResourceManager manager : managers )
-        {
-            manager.getModifyResourceModelAddOn( model, strResourceType, nResourceId );
-        }
+    {      
+       CDI.current().select(IResourceManager.class ).forEach(
+        		manager -> manager.getModifyResourceModelAddOn( model, strResourceType, nResourceId )
+        		);
     }
 
     /**
@@ -168,13 +152,10 @@ public final class ResourceEnhancer
      *            the resource id
      */
     public static void doModifyResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId )
-    {
-        List<IResourceManager> managers = SpringContextService.getBeansOfType( IResourceManager.class );
-
-        for ( IResourceManager manager : managers )
-        {
-            manager.doModifyResourceAddOn( request, strResourceType, nResourceId );
-        }
+    {      
+      CDI.current().select(IResourceManager.class ).forEach(
+             		manager -> manager.doModifyResourceAddOn( request, strResourceType, nResourceId )
+             		);
     }
 
     /**
@@ -188,13 +169,10 @@ public final class ResourceEnhancer
      *            the resource id
      */
     public static void doDeleteResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId )
-    {
-        List<IResourceManager> managers = SpringContextService.getBeansOfType( IResourceManager.class );
-
-        for ( IResourceManager manager : managers )
-        {
-            manager.doDeleteResourceAddOn( request, strResourceType, nResourceId );
-        }
+    {       
+       CDI.current().select(IResourceManager.class ).forEach(
+         		manager -> manager.doDeleteResourceAddOn( request, strResourceType, nResourceId )
+         		);
     }
 
     /**
@@ -208,12 +186,9 @@ public final class ResourceEnhancer
      *            the resource id
      */
     public static void doDownloadResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId )
-    {
-        List<IResourceManager> managers = SpringContextService.getBeansOfType( IResourceManager.class );
-
-        for ( IResourceManager manager : managers )
-        {
-            manager.doDownloadResourceAddOn( request, strResourceType, nResourceId );
-        }
+    {       
+        CDI.current().select(IResourceManager.class ).forEach(
+              		manager -> manager.doDownloadResourceAddOn( request, strResourceType, nResourceId )
+        		);
     }
 }

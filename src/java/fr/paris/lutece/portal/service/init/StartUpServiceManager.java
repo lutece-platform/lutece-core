@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.service.init;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 
@@ -56,8 +56,7 @@ public final class StartUpServiceManager
     public static void init( )
     {
         // Get all beans from the global ApplicationContext
-        List<StartUpService> listServices = SpringContextService.getBeansOfType( StartUpService.class );
-
+        List<StartUpService> listServices = CDI.current().select(StartUpService.class).stream().toList( );
         // Process all services
         for ( StartUpService service : listServices )
         {

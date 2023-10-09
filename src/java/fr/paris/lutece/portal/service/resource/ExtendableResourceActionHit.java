@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.portal.service.resource;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * Class to notify listeners of actions performed on resources. Listeners keep at least track of the number of actions performed over a given resource.
@@ -98,14 +100,13 @@ public final class ExtendableResourceActionHit
      */
     public int getActionHit( String strActionName, String strExtendableResourceType )
     {
-        int nResult = 0;
-
-        for ( IExtendableResourceActionHitListener listener : SpringContextService.getBeansOfType( IExtendableResourceActionHitListener.class ) )
-        {
-            nResult += listener.getActionHit( strActionName, strExtendableResourceType );
-        }
-
-        return nResult;
+        AtomicInteger nResult = new AtomicInteger(0);
+        CDI.current().select(IExtendableResourceActionHitListener.class).forEach(
+        		listener -> {
+        			nResult.addAndGet( listener.getActionHit( strActionName, strExtendableResourceType ));
+        		}
+        		);
+        return nResult.get( );
     }
 
     /**
@@ -121,7 +122,7 @@ public final class ExtendableResourceActionHit
     {
         Map<String, Integer> mapActionHit = new HashMap<>( );
 
-        for ( IExtendableResourceActionHitListener listener : SpringContextService.getBeansOfType( IExtendableResourceActionHitListener.class ) )
+        for ( IExtendableResourceActionHitListener listener : CDI.current().select(IExtendableResourceActionHitListener.class ).stream().toList( ) )
         {
             for ( Entry<String, Integer> entry : listener.getResourceHit( strExtendableResourceId, strExtendableResourceType ).entrySet( ) )
             {
@@ -152,14 +153,13 @@ public final class ExtendableResourceActionHit
      */
     public int getResourceActionHit( String strExtendableResourceId, String strExtendableResourceType, String strActionName )
     {
-        int nResult = 0;
-
-        for ( IExtendableResourceActionHitListener listener : SpringContextService.getBeansOfType( IExtendableResourceActionHitListener.class ) )
-        {
-            nResult += listener.getResourceActionHit( strExtendableResourceId, strExtendableResourceType, strActionName );
-        }
-
-        return nResult;
+        AtomicInteger nResult = new AtomicInteger(0);
+        CDI.current().select(IExtendableResourceActionHitListener.class).forEach(
+        		listener -> {
+        			nResult.addAndGet( listener.getResourceActionHit( strExtendableResourceId, strExtendableResourceType, strActionName ));
+        		}
+        );
+        return nResult.get( );
     }
 
     /**
@@ -175,9 +175,8 @@ public final class ExtendableResourceActionHit
      */
     public void notifyActionOnResource( String strExtendableResourceId, String strExtendableResourceType, String strActionName )
     {
-        for ( IExtendableResourceActionHitListener listener : SpringContextService.getBeansOfType( IExtendableResourceActionHitListener.class ) )
-        {
-            listener.notifyActionOnResource( strExtendableResourceId, strExtendableResourceType, strActionName );
-        }
+        CDI.current().select(IExtendableResourceActionHitListener.class).forEach(        	
+        		listener -> listener.notifyActionOnResource( strExtendableResourceId, strExtendableResourceType, strActionName )
+        );
     }
 }

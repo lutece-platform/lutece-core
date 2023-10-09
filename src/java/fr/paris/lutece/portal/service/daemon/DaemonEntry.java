@@ -37,7 +37,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import jakarta.enterprise.inject.spi.CDI;
 
 /**

@@ -33,8 +33,9 @@
  */
 package fr.paris.lutece.portal.service.file;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppException;
+import jakarta.enterprise.inject.spi.CDI;
+
 import java.util.List;
 
 /**
@@ -98,7 +99,7 @@ public class FileService
      */
     public IFileStoreServiceProvider getFileStoreServiceProvider( String strFileStoreServiceProviderName )
     {
-    	List<IFileStoreServiceProvider> fileStoreServiceProviderList = SpringContextService.getBeansOfType( IFileStoreServiceProvider.class );
+    	List<IFileStoreServiceProvider> fileStoreServiceProviderList = CDI.current().select( IFileStoreServiceProvider.class ).stream().toList( );
 
         // search file service
         if ( !fileStoreServiceProviderList.isEmpty( ) )
@@ -123,7 +124,7 @@ public class FileService
      */
     public void setFileStoreServiceProvider( String strFileStoreServiceProviderName )
     {
-        List<IFileStoreServiceProvider> fileStoreServiceProviderList = SpringContextService.getBeansOfType( IFileStoreServiceProvider.class );
+        List<IFileStoreServiceProvider> fileStoreServiceProviderList = CDI.current().select( IFileStoreServiceProvider.class ).stream().toList( );
 
         // search file service
         if ( !fileStoreServiceProviderList.isEmpty( ) )
@@ -149,7 +150,7 @@ public class FileService
      */
     private IFileStoreServiceProvider getDefaultServiceProvider( )
     {
-        List<IFileStoreServiceProvider> fileStoreServiceProviderList = SpringContextService.getBeansOfType( IFileStoreServiceProvider.class );
+        List<IFileStoreServiceProvider> fileStoreServiceProviderList = CDI.current().select( IFileStoreServiceProvider.class ).stream().toList( );
 
         // search default file service
         if ( !fileStoreServiceProviderList.isEmpty( ) )

@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.service.init;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 
@@ -56,8 +56,7 @@ public final class ShutdownServiceManager
     public static void shutdown( )
     {
         // Get all beans from the global ApplicationContext
-        List<ShutdownService> listServices = SpringContextService.getBeansOfType( ShutdownService.class );
-
+        List<ShutdownService> listServices = CDI.current().select(ShutdownService.class).stream().toList( ); 
         // Process all services
         for ( ShutdownService service : listServices )
         {

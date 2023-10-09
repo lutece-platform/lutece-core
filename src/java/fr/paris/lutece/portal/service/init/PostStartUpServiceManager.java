@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.service.init;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public final class PostStartUpServiceManager
     public static void init( )
     {
         // Get all beans from the global ApplicationContext
-        List<PostStartUpService> listServices = SpringContextService.getBeansOfType( PostStartUpService.class );
+        List<PostStartUpService> listServices = CDI.current().select( PostStartUpService.class ).stream().toList( );
 
         // Process all services
         for ( PostStartUpService service : listServices )
