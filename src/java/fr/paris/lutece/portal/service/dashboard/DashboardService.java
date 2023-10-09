@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.business.dashboard.DashboardFilter;
 import fr.paris.lutece.portal.business.dashboard.DashboardHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
@@ -50,6 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -354,13 +354,11 @@ public final class DashboardService
     public List<IDashboardComponent> getDashboards( AdminUser user, HttpServletRequest request )
     {
         List<IDashboardComponent> listDashboards = new ArrayList<>( );
-
-        // Attributes associated to the plugins
-        for ( DashboardListenerService dashboardListenerService : SpringContextService.getBeansOfType( DashboardListenerService.class ) )
-        {
-            dashboardListenerService.getDashboardComponents( listDashboards, user, request );
-        }
-
+        // Attributes associated to the plugins       
+        CDI.current().select( DashboardListenerService.class ).forEach(
+        		dashboardListenerService -> dashboardListenerService.getDashboardComponents( listDashboards, user, request )
+        );
+            
         return listDashboards;
     }
 

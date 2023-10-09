@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -48,7 +49,6 @@ import org.apache.commons.fileupload2.FileItem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 /**
@@ -128,7 +128,7 @@ public class UploadServlet extends HttpServlet
      */
     private IAsynchronousUploadHandler2 getHandler2( HttpServletRequest request )
     {
-        for ( IAsynchronousUploadHandler2 handler : SpringContextService.getBeansOfType( IAsynchronousUploadHandler2.class ) )
+        for ( IAsynchronousUploadHandler2 handler : CDI.current().select(IAsynchronousUploadHandler2.class ).stream().toList( ) )
         {
             if ( handler.isInvoked( request ) )
             {

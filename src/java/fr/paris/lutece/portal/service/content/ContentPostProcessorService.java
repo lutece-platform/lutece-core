@@ -33,9 +33,8 @@
  */
 package fr.paris.lutece.portal.service.content;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -55,10 +54,10 @@ public final class ContentPostProcessorService
      */
     public static void init( )
     {
-        for ( ContentPostProcessor processor : SpringContextService.getBeansOfType( ContentPostProcessor.class ) )
-        {
-            AppLogService.info( "New Content Post Processor registered : {}", processor.getName( ) );
-        }
+    	CDI.current().select( ContentPostProcessor.class ).forEach(
+    			processor -> AppLogService.info( "New Content Post Processor registered : {}", processor.getName( ) )
+    			);
+      
     }
 
     /**
@@ -68,7 +67,7 @@ public final class ContentPostProcessorService
      */
     public static boolean hasProcessor( )
     {
-        return !SpringContextService.getBeansOfType( ContentPostProcessor.class ).isEmpty( );
+        return !CDI.current().select( ContentPostProcessor.class ).isUnsatisfied();
     }
 
     /**
@@ -83,8 +82,7 @@ public final class ContentPostProcessorService
     public static String process( HttpServletRequest request, String strContent )
     {
         String strProcessed = strContent;
-
-        for ( ContentPostProcessor processor : SpringContextService.getBeansOfType( ContentPostProcessor.class ) )
+        for ( ContentPostProcessor processor : CDI.current().select( ContentPostProcessor.class ).stream().toList( ) )
         {
             strProcessed = processor.process( request, strProcessed );
         }

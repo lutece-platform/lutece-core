@@ -33,12 +33,13 @@
  */
 package fr.paris.lutece.portal.service.panel;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * PanelService
@@ -67,7 +68,7 @@ public final class LutecePanelService<T extends LutecePanel>
      */
     private LutecePanelService( Class<T> clazz )
     {
-        _listPanels = SpringContextService.getBeansOfType( clazz );
+        _listPanels = CDI.current().select( clazz ).stream( ).toList( );
         Collections.sort( _listPanels, new PanelComparator( ) );
         _genericTypeClass = clazz;
     }

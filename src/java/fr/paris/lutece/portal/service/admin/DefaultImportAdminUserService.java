@@ -62,12 +62,12 @@ import fr.paris.lutece.portal.service.csv.CSVMessageLevel;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldListenerService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * Class to import Admin Users from CSV files.
@@ -360,10 +360,10 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
 
             if ( !bCoreAttribute )
             {
-                for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
-                {
-                    adminUserFieldListenerService.doCreateUserFields( user, listUserFields, locale );
-                }
+                CDI.current().select(AdminUserFieldListenerService.class )
+                .forEach( adminUserFieldListenerService ->              
+                    adminUserFieldListenerService.doCreateUserFields( user, listUserFields, locale ));
+                
             }
         }
         catch( Exception e )

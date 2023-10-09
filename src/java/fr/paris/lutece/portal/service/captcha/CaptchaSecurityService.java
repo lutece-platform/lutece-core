@@ -33,12 +33,11 @@
  */
 package fr.paris.lutece.portal.service.captcha;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -60,7 +59,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         try
         {
             // first check if captchaValidator bean is available in the jcaptcha plugin context
-            _captchaService = SpringContextService.getBean( "captcha.captchaService" );
+            _captchaService = CDI.current().select(ICaptchaService.class).get();
             _bAvailable = _captchaService != null;
         }
         catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )

@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceItem;
@@ -55,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -66,7 +66,6 @@ public final class ThemesService
 {
     public static final String GLOBAL_THEME = "default";
     private static final String THEME_PLUGIN_NAME = "theme";
-    private static final String BEAN_THEME_SERVICE = "theme.themeService";
     private static final String COOKIE_NAME = "theme";
     private static final String THEME_TEST = "theme_test";
 
@@ -319,7 +318,7 @@ public final class ThemesService
 
         try
         {
-            themeService = SpringContextService.getBean( BEAN_THEME_SERVICE );
+            themeService = CDI.current().select(IThemeService.class).get( );
         }
         catch( BeanDefinitionStoreException | NoSuchBeanDefinitionException | CannotLoadBeanClassException e )
         {

@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.user.attribute;
 
 import fr.paris.lutece.portal.business.user.attribute.AttributeType;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.ArrayList;

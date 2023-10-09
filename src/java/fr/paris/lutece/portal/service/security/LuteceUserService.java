@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * Service to access user management functionalities. This class provide
@@ -74,7 +74,7 @@ public final class LuteceUserService
             }
         }
 
-        for ( ILuteceUserProviderService luteceUserProviderService : SpringContextService.getBeansOfType( ILuteceUserProviderService.class ) )
+        for ( ILuteceUserProviderService luteceUserProviderService : CDI.current().select(ILuteceUserProviderService.class).stream().toList( ) )
         {
             user = luteceUserProviderService.getLuteceUserFromName( strName );
 
