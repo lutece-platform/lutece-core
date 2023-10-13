@@ -1,4 +1,3 @@
 files:
   - source: /src/java/fr/paris/lutece/portal/resources/*messages.properties
-    translation: >-
-      /src/java/fr/paris/lutece/portal/resources/%file_name%_%two_letters_code%.properties
+    translation: /src/java/fr/paris/lutece/portal/resources/%file_name%_%two_letters_code%.properties
