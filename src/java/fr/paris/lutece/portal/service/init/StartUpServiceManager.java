@@ -36,7 +36,10 @@ package fr.paris.lutece.portal.service.init;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.ServiceLoader;
 
 /**
  * StartUpServiceManager
@@ -48,6 +51,30 @@ public final class StartUpServiceManager
      */
     private StartUpServiceManager( )
     {
+    }
+    /**
+     * Starting all services requiring execution prior to the launch of the Spring context.
+     */
+    public static void startUpServiceBeforeSpringContext( )
+    {
+    	List<IStartUpBeforeSpring> listServices = new ArrayList<>();
+        // Get all beans from the global 
+    	ServiceLoader<IStartUpBeforeSpring> providers = ServiceLoader.load(IStartUpBeforeSpring.class);
+    	providers.forEach( srv -> listServices.add( srv ) );
+        // Process all services
+    	listServices.stream().sorted(Comparator.comparingInt(IStartUpBeforeSpring::order )).forEach( service ->
+        {
+    	 try
+	        {
+	            AppLogService.info( "Processing StartUp service : {} before starting Spring Context", service.getClass().getName( ) );
+	            service.process( );
+	        }
+	        catch( Exception e )
+	        {
+	            AppLogService.error( "Error while processing StartUp service : {}", service.getClass().getName( ), e );
+	        }
+         }
+    	 );        
     }
 
     /**

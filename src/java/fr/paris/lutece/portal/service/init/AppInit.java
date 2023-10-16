@@ -155,7 +155,8 @@ public final class AppInit
             // Initializes the connection pools
             AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
             AppLogService.info( "Creating connexions pool 'portal'." );
-
+            
+            StartUpServiceManager.startUpServiceBeforeSpringContext( );
             // Spring ApplicationContext initialization
             AppLogService.info( "Loading context files ..." );
             SpringContextService.init( context );
