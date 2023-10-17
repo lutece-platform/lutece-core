@@ -71,16 +71,14 @@ INSERT INTO core_mode VALUES (0,'Normal','normal/','xml','1.0','text/xml','UTF-8
 INSERT INTO core_mode VALUES (1,'Administration','admin/','xml','1.0','text/xml','UTF-8','yes','yes',null);
 INSERT INTO core_mode VALUES (2,'Wap','wml/','xml','1.0','text/xml','UTF-8','yes','yes',null);
 
-INSERT INTO core_page (id_parent,name,description,date_update,status,page_order,id_template,date_creation,role,code_theme,node_status,image_content,mime_type,meta_keywords,meta_description,id_authorization_node,display_date_update,is_manual_date_update) VALUES (0,'Home','Home Page',now(),1,1,7,now(),'none','default',0,'','application/octet-stream',NULL,NULL,1,0,0);
+INSERT INTO core_page (id_parent,name,description,date_update,status,page_order,id_template,date_creation,role,code_theme,node_status,image_content,mime_type,meta_keywords,meta_description,id_authorization_node,display_date_update,is_manual_date_update) VALUES (0,'Home','Home Page',now(),1,1,1,now(),'none','default',0,'','application/octet-stream',NULL,NULL,1,0,0);
 INSERT INTO core_page (id_parent,name,description,date_update,status,page_order,id_template,date_creation,role,code_theme,node_status,image_content,mime_type,meta_keywords,meta_description,id_authorization_node,display_date_update,is_manual_date_update) VALUES (1,'Page 1','A child page',now(),0,1,2,now(),'none','default',1,NULL,'application/octet-stream',NULL,NULL,1,0,0);
 
-INSERT INTO core_page_template (description,file_name,picture) VALUES ('One column','skin/site/page_template1.html','page_template1.gif');
-INSERT INTO core_page_template (description,file_name,picture) VALUES ('Two columns','skin/site/page_template2.html','page_template2.gif');
-INSERT INTO core_page_template (description,file_name,picture) VALUES ('Three columns','skin/site/page_template3.html','page_template3.gif');
-INSERT INTO core_page_template (description,file_name,picture) VALUES ('1 + 2 columns','skin/site/page_template4.html','page_template4.gif');
-INSERT INTO core_page_template (description,file_name,picture) VALUES ('Two equal columns','skin/site/page_template5.html','page_template5.gif');
-INSERT INTO core_page_template (description,file_name,picture) VALUES ('Three unequal columns','skin/site/page_template6.html','page_template6.gif');
-INSERT INTO core_page_template (description,file_name, picture) VALUES ('Home page', 'skin/site/page_home_demo.html', 'lutece_logo.png');
+INSERT INTO core_page_template VALUES (1, 'Home page', 'skin/site/page_home_demo.html', 'layout-home.svg');
+INSERT INTO core_page_template VALUES (2, 'One column', 'skin/site/page_template1.html', 'layout-one.svg');
+INSERT INTO core_page_template VALUES (3, 'Two columns', 'skin/site/page_template2.html', 'layout-two.svg');
+INSERT INTO core_page_template VALUES (4, '1 + 2 columns', 'skin/site/page_template4.html', 'layout-three.svg');
+INSERT INTO core_page_template VALUES (5, 'Two equal columns', 'skin/site/page_template5.html', 'layout-four.svg');
 
 INSERT INTO core_portal_component VALUES (0,'Portlet');
 INSERT INTO core_portal_component VALUES (1,'Article');
