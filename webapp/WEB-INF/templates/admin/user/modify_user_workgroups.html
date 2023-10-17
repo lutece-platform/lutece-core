@@ -1,6 +1,13 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='${user.lastName} ${user.firstName}'>
+        <#assign userImg>
+        <#if adminAvatar??>
+            <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2' alt='' style='max-width:80px' title='Avatar' />
+        <#else>    
+            <@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2' alt='' title='' />
+        </#if>
+        </#assign>
+        <@pageHeader title='${userImg} ${user.lastName} ${user.firstName}'>
             <@item_navigation item_navigator=item_navigator />
         </@pageHeader>
         <@tabs>

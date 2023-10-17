@@ -19,7 +19,7 @@
 				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' params='enctype="multipart/form-data"'>
 					<@input type='hidden' name='token' value='${token}' />
 					<@row>
-						<@columns md=4 lg=4>
+						<@columns md=4 lg=3>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelIdentity}' >
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
 								<@inputGroup>
@@ -47,7 +47,7 @@
 							</@formGroup>
 							</@fieldSet>
 						</@columns>
-						<@columns md=4 lg=4>
+						<@columns md=4 lg=3>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelAccount}'>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
 								<@inputGroup>
@@ -96,57 +96,48 @@
 							</@formGroup>
 							</@fieldSet>
 						</@columns>
-						<@columns md=4 lg=4>
-						<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
-							<@formGroup labelKey='#i18n{portal.users.create_user.labelStatus}' labelFor='status' rows=2>
-								<@select id='status' name='status'>
-								<#if default_user_status = 1>
-									<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-									<option value="1" selected="selected">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								<#else>
-									<option value="0" selected="selected">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-									<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								</#if>
-								</@select>
-							</@formGroup>
-							<#if displayFieldset( user_levels attributes_list )>
-								<#if (user_levels?has_content)>
-									<@formGroup labelKey='#i18n{portal.users.create_user.userLevelLabel}' labelFor='user_level' rows=2>
-										<@select name='user_level'>
-										<#list user_levels as user_level>
-										<#if user_level.id = default_user_level.id>
-											<option value="${user_level.id}" selected="selected">${user_level.name}</option>
-										<#else>
-											<option value="${user_level.id}">${user_level.name}</option>
+						<@columns md=4 lg=3>
+							<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
+								<@formGroup labelKey='#i18n{portal.users.create_user.labelStatus}' labelFor='status' rows=2>
+									<@select id='status' name='status'>
+										<@option value="0" selected=default_user_status=1 label='#i18n{portal.users.create_user.statusLabelEnabled}' />
+										<@option value="0" selected=default_user_status!=1 label='#i18n{portal.users.create_user.statusLabelDisabled}' />
+									</@select>
+								</@formGroup>
+								<#if displayFieldset( user_levels attributes_list )>
+									<#if (user_levels?has_content)>
+										<@formGroup labelKey='#i18n{portal.users.create_user.userLevelLabel}' labelFor='user_level' rows=2>
+											<@select name='user_level'>
+											<#list user_levels as user_level>
+												<@option value=user_level.id selected=user_level.id = default_user_level.id label=user_level.name />
+											</#list>
+											</@select>
+										</@formGroup>
+										<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' rows=2 >
+											<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list sort=true />
+										</@formGroup>
+										<@formGroup labelKey='#i18n{portal.users.create_user.labelLanguage}' labelFor='language' rows=2>
+											<@select name='language' default_value='${default_user_language}' items=languages_list sort=true />									
+										</@formGroup>
+									</#if>
+									<#list attributes_list as attribute>
+										<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
+											${attribute.getHtmlFormAttribute( locale )}
+											<#break>
 										</#if>
-										</#list>
-										</@select>
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' rows=2 mandatory=true>
-										<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list sort=true />
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.users.create_user.labelLanguage}' labelFor='language' rows=2>
-										<@select name='language' default_value='${default_user_language}' items=languages_list sort=true />									
-									</@formGroup>
+									</#list>
 								</#if>
-								<#list attributes_list as attribute>
-									<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
-										${attribute.getHtmlFormAttribute( locale )}
-										<#break>
-									</#if>
-								</#list>
-							</#if>
-							<#if attributes_list?has_content>
-								<#list attributes_list as attribute>
-									<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name !="profiles" )>
-										${attribute.getHtmlFormAttribute( locale )}
-									</#if>
-								</#list>
-							</#if>
-							<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='accessibility_mode' rows=2>
-								<@checkBox name='accessibility_mode' id='accessibility_mode' orientation='horizontal' value='1' labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' />
-							</@formGroup>
-						</@fieldSet>
+								<#if attributes_list?has_content>
+									<#list attributes_list as attribute>
+										<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name !="profiles" )>
+											${attribute.getHtmlFormAttribute( locale )}
+										</#if>
+									</#list>
+								</#if>
+								<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='accessibility_mode' rows=2>
+									<@checkBox name='accessibility_mode' id='accessibility_mode' orientation='horizontal' value='1' labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' />
+								</@formGroup>
+							</@fieldSet>
 						</@columns>
 					</@row>
 					<@row>
@@ -163,19 +154,18 @@
 	</@pageColumn>
 </@pageContainer>
 <script type="module">
-	import {
-			LutecePassword
-		} from './themes/shared/modules/lutecePassword.js';
-	
-	const password = new LutecePassword();
-	const generator = document.getElementById('generate_password');
-	const input = document.getElementById('first_password');
+import {
+		LutecePassword
+	} from './themes/shared/modules/lutecePassword.js';
 
-	generator.addEventListener('click', () => {
-		input.value = password.generatePassword();
-		input.dispatchEvent(new Event('input'));
-	});
-	password.passTogglerInput = '#first_password'
-	password.initPassToggler( );
+const password = new LutecePassword();
+const generator = document.getElementById('generate_password');
+const input = document.getElementById('first_password');
 
+generator.addEventListener('click', () => {
+	input.value = password.generatePassword();
+	input.dispatchEvent(new Event('input'));
+});
+password.passTogglerInput = '#first_password'
+password.initPassToggler( );
 </script>
