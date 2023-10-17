@@ -241,7 +241,7 @@
                </#if>
             </#list>
          </#if>
-         <li class="nav-item dropdown lutece-profile">
+         <li class="nav-item dropdown lutece-profile d-none d-sm-block">
             <a href="#" class="border btn btn-light btn-rounded" data-bs-toggle="dropdown" >
                <div class="lutece-profile-name">
                   <div class="small fw-bold">
@@ -265,6 +265,28 @@
             </#if>
             </div>
          </li>
+		 <li class="nav-item dropdown d-sm-none">
+            <a href="#" class="border btn btn-light btn-rounded" data-bs-toggle="dropdown" >
+				<span class="d-md-none btn-rounded"><i class="ti ti-user"></i></span>
+            </a>
+			<div class="dropdown-menu dropdown-menu-end dropdown-menu-lg-start">
+				<span class="dropdown-header">${dashboard_zone_4!}</span>
+				<hr class="dropdown-divider">
+            <#if userMenuItems?has_content>   
+               <#list userMenuItems as item>
+                  <#if !item.content?contains("jsp/admin/DoChangeLanguage.jsp")>
+                     ${item.content}
+                  </#if>
+               </#list>
+            </#if>
+            <div class="dropdown-divider"></div>
+            <#if admin_logout_url?has_content>
+               <a class="dropdown-item" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
+                  <i class="ti ti-logout me-1"></i> #i18n{portal.users.admin_header.deconnectionLink}
+               </a>
+            </#if>
+            </div>
+		</li>
       </ul>
    </div>
 </header>

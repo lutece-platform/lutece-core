@@ -173,13 +173,13 @@ Parameters:
 								<p class="mt-0 small user-date">${user.dateLastLogin!}</p>
 							</div>
 						</a>
-						<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow nav-info ">
+						<div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow nav-info">
 						<#if userMenuItems?has_content>   
 							<#list userMenuItems as item>
 								${item.content}
 							</#list>
 						</#if>
-						<div class="dropdown-divider nav-info "></div>
+						<div class="dropdown-divider nav-info"></div>
 						<#if admin_logout_url?has_content>
 						<a class="dropdown-item dropdown-logout d-none d-lg-flex" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
 							<i class="ti ti-logout me-1"></i> 
@@ -189,8 +189,15 @@ Parameters:
 						</div>
 					</li>
 					<li class="nav-item justify-content-start d-lg-none">
-						<span class="ms-2 mb-2"><i class="ti ti-user me-2"></i>${dashboard_zone_4!}</span>
-						<span class="ms-2"><i class="ti ti-calendar me-2"></i> #i18n{portal.users.admin_header.labelLastLogin} ${user.dateLastLogin!}</span>
+						<a class="nav-link dropdown-toggle" id="mobile_usermenuitems" role="button" data-bs-toggle="dropdown" role="button" aria-expanded="false" href=""><i class="ti ti-user me-2"></i>${dashboard_zone_4!}</a>
+						<#if userMenuItems?has_content>
+							<ul class="dropdown-menu">
+								<li class="nav-item d-flex"><span class="dropdown-item"><i class="ti ti-calendar me-2"></i> #i18n{portal.users.admin_header.labelLastLogin} ${user.dateLastLogin!}</span></li>
+								<#list userMenuItems as item>
+								<li class="nav-item d-flex">${item.content}</li>
+								</#list>
+							</ul>
+						</#if>
 					</li>
 					<#if admin_logout_url?has_content>
 					<li class="nav-item d-flex d-lg-none">
