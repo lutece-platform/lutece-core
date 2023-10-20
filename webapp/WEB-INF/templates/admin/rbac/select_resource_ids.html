@@ -1,52 +1,80 @@
-<@row>
-	<@columns>
-		<@box>
-			<@boxHeader title=i18n('portal.rbac.select_resource_ids.titleSelectIds', role_key?html) skipHeader=true >
-				<@tform method='post' type='inline'>
-					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
-						<@inputGroup>
-							<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' size='sm' />
-							<@inputGroupItem>
-								<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] size='sm' />
-							</@inputGroupItem>
-						</@inputGroup>
-					</@formGroup>
-				</@tform>
-			</@boxHeader>
-			<@boxBody>
-				<@tform method='post' action='jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp' name='ids'>
-					<@input type='hidden' name='role_key' value='${role_key}' />
-					<@input type='hidden' name='resource_type' value='${resource_type}' />
-					<@input type='hidden' name='select_resources' value='${select_resources}' />
-					<@formGroup labelKey=i18n('portal.rbac.select_resource_ids.labelSelectIdsFromList', resource_label?html) id='resourceList' >
-						<#list resource_id_list?sort_by('name') as item>
-							<@checkBox name='resource_id' id=item.name?replace('\\s+','','r')+item.code value='${item.code}' labelKey='${item.name} [ ${item.code} ]' params=' aria-labelledby="resourceList" data-role="${item.name}" ' />
-						</#list>
-					</@formGroup>
-					<@formGroup>
-						<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' color='secondary' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' />
-						<@button type='submit' buttonIcon='arrow-right' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' iconPosition='right' color='primary' />
-					</@formGroup>
-				</@tform>
-			</@boxBody>
-    </@box>
-  </@columns>
-</@row>
-
-<script>
-$( function(){
-    /* Filter role list */
-    $("#search_role").on("keyup", function () {
-        var addOrRemove;
-        var search = $("#search_role").val();
-        $(".checkbox input").each(function ( index ) {
-            var roleName = $(this).attr("data-role");
-            if ( roleName.match(search) == null ){
-                $(this).parents('.checkbox').slideUp(200).fadeOut(500);
-            } else {
-                $(this).parents('.checkbox').slideDown(200).fadeIn(500);
-            }
-        });
-    });
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title=i18n('portal.rbac.select_resource_ids.titleSelectIds', role_key?html)>
+		<@tform method='post' type='inline'>
+			<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
+				<@inputGroup>
+					<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' size='' />
+					<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] size='' />
+				</@inputGroup>
+			</@formGroup>
+		</@tform>
+		</@pageHeader>
+		<h2 class="mb-3">${i18n('portal.rbac.select_resource_ids.labelSelectIdsFromList', resource_label?html)}</h2>
+		<#assign refListSize=0>
+		<#assign refList><#list resource_id_list?sort_by('name') as item><#if item.name?contains('/')><#assign refListSize=refListSize+1>${item.name?keep_before("/")}</#if><#sep>|</#list></#assign>
+		<@tform method='post' action='jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp' name='ids' id='ids' boxed=true>
+			<@input type='hidden' name='role_key' value='${role_key}' />
+			<@input type='hidden' name='resource_type' value='${resource_type}' />
+			<@input type='hidden' name='select_resources' value='${select_resources}' />
+			<#if refListSize gt 0>
+			<#assign refResources=[] />
+			<#assign refListArray=refList?split('|') />
+			<#list refListArray as ref><#if !refResources?seq_contains( ref )><#assign refResources=refResources + [ref] /></#if></#list>
+			<@formGroup labelKey='#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}' labelFor='resources_filer_list' class='w-50' rows=2>
+				<@select name='resources_filter_list' id='resources_filter_list'>
+				<@option value='' selected=true label='#i18n{portal.rbac.select_resource_ids.labelSelectIdsChooseResources}' />
+				<#list refResources as res><@option value=res?replace(' ', '_')?lower_case label=res /></#list>
+				</@select>
+			</@formGroup>
+			</#if>
+			<@div id='resources_sublist'>
+			<#assign labelKeyRes><#if refListSize == 0>#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}<#else>#i18n{portal.rbac.select_resource_ids.labelSelectIdsFilteredResource}</#if></#assign>
+			<@formGroup labelKey=labelKeyRes labelFor='resources_filer_list' rows=2>
+			<#list resource_id_list?sort_by('name') as item>
+				<#assign dataRes=item.name?keep_before("/")?replace(' ', '_')?lower_case />
+				<#assign itemName=item.name?replace('/', ' > ') />
+				<@fieldSet fieldsetParams='data-role="${item.name} ${item.code}" data-resource="${dataRes}"' class='py-2'>
+					<@checkBox name='resource_id' id='resource_item_${item.code}' value='${item.code}' labelKey='${itemName} [ ${item.code} ]' orientation='switch' labelClass='searchable' />
+				</@fieldSet>
+			</#list>
+			</@formGroup>
+			<@formGroup class='mt-3'>
+				<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' color='secondary' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' />
+				<@button type='submit' buttonIcon='arrow-right' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' iconPosition='right' color='primary' />
+			</@formGroup>
+			</@div>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>
+<script type="module">
+import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
+const searchInput = document.querySelector("#search_role");
+const searchElementList = document.querySelectorAll("*[data-role]");
+new LuteceSearchList( searchInput, searchElementList, {
+	searchableChild: [".searchable"],
+	highlight: true,
+	toggleList: true,
+	toggleLabel: '#i18n{portal.util.labelToggleList}',
+	toggleLabelOff: '#i18n{portal.util.labelToggleListOff}'
 });
+<#if refListSize gt 0>
+document.addEventListener('DOMContentLoaded', (event) => {
+	const rfl = document.querySelector( '#resources_filter_list' );
+	const listWrapper = document.querySelector( '#resources_sublist' );
+	const resList = document.querySelectorAll( '[data-resource]' )
+	listWrapper.classList.toggle('visually-hidden');
+	rfl.addEventListener( 'change', (e) => {
+		const resFilter = e.target.value
+		resList.forEach( res => {
+			if ( res.dataset.resource != resFilter ){
+				res.classList.add('visually-hidden')
+			} else {
+				res.classList.remove('visually-hidden')
+			}
+		});
+		listWrapper.classList.remove('visually-hidden');
+	});
+});
+</#if>
 </script>
