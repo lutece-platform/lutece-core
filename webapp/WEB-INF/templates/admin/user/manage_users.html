@@ -108,7 +108,7 @@
                 <@tr>
                     <@td params='data-url="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelUpdate}"'>
                     <#if adminAvatar>
-                        <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2' alt='' style='max-width:80px' title='Avatar' />
+                        <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2' alt='' params='style="max-width:80px"' title='Avatar' />
                     <#else>    
                         <@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2' alt='' title='' />
                     </#if>
