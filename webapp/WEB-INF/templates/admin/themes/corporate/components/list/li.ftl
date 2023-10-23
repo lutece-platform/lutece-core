@@ -11,7 +11,7 @@ Parameters:
 -->
 <#macro li id='' params='' class='' hide=[] align=''>
 <#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
-<li<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+<li<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
 <#nested>
 </li>
 </#macro>
