@@ -14,11 +14,11 @@ tooltipTriggerList.map(function (tooltipTriggerEl) {
         trigger: 'hover'
     });
 })
-const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-popoverTriggerList.map(function (popoverTriggerEl) {
-    return new bootstrap.Tooltip(popoverTriggerEl, {
-        trigger: 'hover'
-    });
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => {
+  return new bootstrap.Popover(popoverTriggerEl, {
+    customClass: 'shadow'
+  })
 })
 document.body.addEventListener('show.bs.offcanvas', function (event) {
     if (event.target.classList.contains('offcanvas')) {

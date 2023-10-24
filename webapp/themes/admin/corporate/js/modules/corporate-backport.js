@@ -23,10 +23,10 @@ export class BackportTemplateStyle {
             const lutecePageWrappers = document.querySelectorAll('.lutece-page-wrapper');
             lutecePageWrappers.forEach(wrapper => {
                 if (!wrapper.querySelector('main')) {
-                    wrapper.classList.add('no-main', 'overflow-auto');
+                    wrapper.classList.add('no-main', 'overflow-auto', 'p-5');
                 }
             });
-        }
+        } else {
         this.adjustPageHeight();
         window.addEventListener('resize', this.adjustPageHeight.bind(this));
         const columns = document.querySelectorAll('.lutece-page > .lutece-column');
@@ -46,6 +46,7 @@ export class BackportTemplateStyle {
             })
             window.dispatchEvent(new Event('resize'));
         })
+        }
         document.querySelectorAll('[data-toggle="modal"]').forEach(element => {
             element.setAttribute('data-bs-toggle', 'modal');
             element.setAttribute('data-bs-target', element.getAttribute('data-target'));
