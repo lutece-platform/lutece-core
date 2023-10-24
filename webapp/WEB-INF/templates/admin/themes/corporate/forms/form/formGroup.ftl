@@ -26,7 +26,7 @@ Parameters:
     <#local validation = 'is-invalid'>
 </#if>
 <#if collapsed><#local class += ' collapse' /></#if>
-<div class="form-group<#if formStyle='horizontal'> mb-3</#if><#if formStyle='floating'> form-floating</#if> <#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="<#if formStyle != 'inline'>form-group<#else>col-lg</#if><#if formStyle='horizontal'> mb-3</#if><#if formStyle='floating'> form-floating</#if> <#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local displayLabelClass = displaySettings( hideLabel, 'inline-flex') />
 <#local labelClass = ''>
 <#if rows=1>
@@ -56,7 +56,7 @@ Parameters:
 <#assign propagateMandatory = mandatory>
 <#nested>
 <#assign propagateMandatory = false>
-<#if labelKey!='' &formStyle='floating'>
+<#if labelKey!='' && formStyle='floating'>
     <@formLabel class=labelClass?trim labelFor=labelFor labelKeyDesc=labelKeyDesc labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 </#if>
 <#if helpKey!=''><small class="text-muted<#if formStyle!='inline'> form-text</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>${helpKey}</small></#if>

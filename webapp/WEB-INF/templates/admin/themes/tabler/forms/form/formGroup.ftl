@@ -26,7 +26,7 @@ Parameters:
 	<#local validation = 'is-invalid'>
 </#if>
 <#if collapsed><#local class += ' collapse' /></#if>
-<div class="form-group<#if formStyle='horizontal'> mb-3</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="<#if formStyle != 'inline'>form-group<#else>col-lg</#if><#if formStyle='horizontal'> mb-3</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
 <#local labelClass = ''>
 <#if rows=1>
