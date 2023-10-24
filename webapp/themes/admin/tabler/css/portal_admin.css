@@ -192,7 +192,7 @@ body.loaded #lutece-layout-wrapper {
 #pageHeaderTools {
   display: flex;
   align-items: center;
-  justify-content: space-around
+  justify-content: end
 }
 
 .btn-group>.btn.active, .btn-group>.btn:active, .btn-group>.btn:focus, .btn-group>.btn:hover {
