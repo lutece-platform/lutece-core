@@ -34,7 +34,10 @@ Parameters:
 		<#local class += ''>
 		<#break>
 	<#case 'inline'>
-		<#local class += ' row row-cols-sm g-3 align-items-center'>
+		<#local class += ' d-inline-flex align-items-center'>
+		<#break>
+	<#case 'flex'>
+		<#local class += ' d-flex align-items-center'>
 		<#break>
 	<#default>
 		<#local class += ''>
