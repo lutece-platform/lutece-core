@@ -42,7 +42,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -258,7 +259,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * {@inheritDoc}
      */
     @Override
-    public String storeFileItem( FileItem fileItem )
+    public String storeFileItem( FileItem<DiskFileItem> fileItem )
     {
 
         File file = new File( );

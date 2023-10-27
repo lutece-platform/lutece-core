@@ -33,6 +33,10 @@
         <display-name>Spring Context Listener</display-name>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
+    <!--cleanup of temporary files -->
+    <listener>
+    	<listener-class>org.apache.commons.fileupload2.jakarta.JakartaFileCleaner</listener-class>
+  	</listener>
     <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>fr.paris.lutece.portal.web.encoding.EncodingFilter</filter-class>

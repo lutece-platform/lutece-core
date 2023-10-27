@@ -43,7 +43,6 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -98,7 +97,7 @@ public final class AdminUserFieldService
             if ( attribute.isAttributeImage( ) )
             {
                 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-                FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute( ) );
+                var fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute( ) );
                 String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute( ) );
 
                 if ( attribute.isMandatory( ) && ( strUpdateAttribute != null ) && ( ( fileItem == null ) || ( fileItem.getSize( ) == 0 ) ) )

@@ -37,6 +37,8 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.FileUploadSizeException;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -46,9 +48,6 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload2.FileUploadException;
-import org.apache.commons.fileupload2.pub.FileUploadSizeException;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.http.MultipartUtil;

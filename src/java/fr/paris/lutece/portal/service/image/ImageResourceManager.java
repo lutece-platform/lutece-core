@@ -39,7 +39,8 @@ import fr.paris.lutece.util.url.UrlItem;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 /**
  * ImageResourceManager
@@ -94,7 +95,7 @@ public final class ImageResourceManager
      * @param fileItem
      * @return Image Resource Key
      */
-    public static String addImageResource( String strResourceTypeId, FileItem fileItem )
+    public static String addImageResource( String strResourceTypeId, FileItem<DiskFileItem> fileItem )
     {
     	ImageResourceProvider resourceProvider = _mapResourceTypes.get( strResourceTypeId );
 

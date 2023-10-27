@@ -41,7 +41,8 @@ import java.util.Map;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.style.PageTemplate;
@@ -176,8 +177,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        FileItem fileTemplate = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_FILE );
-        FileItem filePicture = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_PICTURE );
+        var fileTemplate = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_FILE );
+        var filePicture = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_PICTURE );
 
         String strFileName = FileUploadService.getFileNameOnly( fileTemplate );
         String strPictureName = FileUploadService.getFileNameOnly( filePicture );
@@ -260,9 +261,9 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         boolean bUpdateFile = false;
         boolean bUpdatePicture = false;
-        FileItem fileTemplate = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_FILE );
+        var fileTemplate = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_FILE );
         String strFileName = FileUploadService.getFileNameOnly( fileTemplate );
-        FileItem filePicture = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_PICTURE );
+        var filePicture = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_PICTURE );
         String strPictureName = FileUploadService.getFileNameOnly( filePicture );
 
         boolean bHasError = false;
@@ -410,7 +411,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      * @param fileItem
      *            The fileItem object which contains the new file
      */
-    private void writeTemplateFile( String strFileName, String strPath, FileItem fileItem )
+    private void writeTemplateFile( String strFileName, String strPath, FileItem<DiskFileItem> fileItem )
     {
         File file = new File( strPath + strFileName );
         FileUtil.deleteFile( file );

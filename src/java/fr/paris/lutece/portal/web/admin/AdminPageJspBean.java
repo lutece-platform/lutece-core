@@ -43,7 +43,6 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.page.Page;
@@ -282,7 +281,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             return null;
         }
 
-        FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
+        var item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
         String strPictureName = FileUploadService.getFileNameOnly( item );
 
         if ( strPictureName.equals( "" ) )
@@ -463,7 +462,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             page.setIdAuthorizationNode( page.getId( ) );
         }
 
-        FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
+        var item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
 
         byte [ ] bytes = item.get( );
         String strMimeType = item.getContentType( );
