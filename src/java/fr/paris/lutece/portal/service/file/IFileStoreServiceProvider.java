@@ -41,8 +41,11 @@ import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Map;
+
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
+
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.commons.fileupload2.FileItem;
 
 /**
  * File Store Service Provider Interface. InputStream methods should be used for very large blobs
@@ -80,7 +83,7 @@ public interface IFileStoreServiceProvider extends Serializable
      *            the fileItem
      * @return The key of the blob
      */
-    String storeFileItem( FileItem fileItem );
+    String storeFileItem( FileItem<DiskFileItem> fileItem );
 
     /**
      * Stores an input stream

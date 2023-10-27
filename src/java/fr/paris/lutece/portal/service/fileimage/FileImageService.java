@@ -35,7 +35,8 @@ package fr.paris.lutece.portal.service.fileimage;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
@@ -153,7 +154,7 @@ public class FileImageService implements ImageResourceProvider
      * @param fileItem
      * @return the Image File Key
      */
-    public String addImageResource( FileItem fileItem )
+    public String addImageResource( FileItem<DiskFileItem> fileItem )
 	{
 		return FileService.getInstance( ).getFileStoreServiceProvider( ).storeFileItem( fileItem );
 	}

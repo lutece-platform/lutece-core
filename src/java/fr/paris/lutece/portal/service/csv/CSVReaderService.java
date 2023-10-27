@@ -46,7 +46,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import au.com.bytecode.opencsv.CSVReader;
 import fr.paris.lutece.portal.business.file.File;
@@ -159,7 +160,7 @@ public abstract class CSVReaderService
      * @return Returns the list of errors that occurred during the processing of the file. The returned list is sorted
      * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor) CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information about sort
      */
-    public List<CSVMessageDescriptor> readCSVFile( FileItem fileItem, int nColumnNumber, boolean bCheckFileBeforeProcessing, boolean bExitOnError,
+    public List<CSVMessageDescriptor> readCSVFile( FileItem<DiskFileItem> fileItem, int nColumnNumber, boolean bCheckFileBeforeProcessing, boolean bExitOnError,
             boolean bSkipFirstLine, Locale locale, String strBaseUrl )
     {
         if ( fileItem != null )

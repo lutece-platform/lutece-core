@@ -38,14 +38,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload2.FileItem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -71,16 +72,16 @@ public class UploadServlet extends HttpServlet
     @Override
     protected void doPost( HttpServletRequest req, HttpServletResponse response ) throws IOException
     {
-        MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
+    	MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
 
-        List<FileItem> listFileItems = new ArrayList<>( );
+        List<FileItem<DiskFileItem>> listFileItems = new ArrayList<>( );
         Map<String, Object> mapJson = new HashMap<>( );
         List<Map<String, Object>> listJsonFileMap = new ArrayList<>( );
         mapJson.put( JSON_FILES, listJsonFileMap );
 
-        for ( Entry<String, List<FileItem>> entry : ( request.getFileListMap( ) ).entrySet( ) )
+        for ( var entry : ( request.getFileListMap( ) ).entrySet( ) )
         {
-            for ( FileItem fileItem : entry.getValue( ) )
+            for ( var fileItem : entry.getValue( ) )
             {
                 Map<String, Object> jsonFileMap = new HashMap<>( );
                 jsonFileMap.put( JSON_FILE_NAME, fileItem.getName( ) );
@@ -102,7 +103,7 @@ public class UploadServlet extends HttpServlet
         {
             AppLogService.error( "No handler found, removing temporary files" );
 
-            for ( FileItem fileItem : listFileItems )
+            for ( var fileItem : listFileItems )
             {
                 fileItem.delete( );
             }

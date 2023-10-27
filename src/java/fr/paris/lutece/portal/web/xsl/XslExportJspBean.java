@@ -58,7 +58,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
-import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
 import org.xml.sax.InputSource;
@@ -553,7 +552,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static File getFileData( String strFileInputName, HttpServletRequest request )
     {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        FileItem fileItem = multipartRequest.getFile( strFileInputName );
+        var fileItem = multipartRequest.getFile( strFileInputName );
 
         if ( ( fileItem != null ) && ( fileItem.getName( ) != null ) && !EMPTY_STRING.equals( fileItem.getName( ) ) )
         {

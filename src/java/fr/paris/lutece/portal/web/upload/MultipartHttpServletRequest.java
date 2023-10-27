@@ -42,15 +42,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 /**
  * This class provides a Wrapper of an HTTP request that handle multipart content
  */
-public class MultipartHttpServletRequest extends HttpServletRequestWrapper
+public class  MultipartHttpServletRequest extends HttpServletRequestWrapper
 {
-    private final Map<String, List<FileItem>> _multipartFiles;
-    private final Map<String, String [ ]> _stringParameters;
+    private final  Map<String, List<FileItem<DiskFileItem>>> _multipartFiles;
+    private final  Map<String, String [ ]> _stringParameters;
 
     /**
      * Constructor
@@ -62,7 +63,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * @param parameters
      *            Request parameters
      */
-    public MultipartHttpServletRequest( HttpServletRequest request, Map<String, List<FileItem>> multipartFiles, Map<String, String [ ]> parameters )
+    public MultipartHttpServletRequest( HttpServletRequest request, Map<String, List<FileItem<DiskFileItem>>> multipartFiles, Map<String, String [ ]> parameters )
     {
         super( request );
         _multipartFiles = Collections.unmodifiableMap( multipartFiles );
@@ -75,7 +76,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * @return An enumeration of parameters names
      */
     @Override
-    public Enumeration getParameterNames( )
+    public Enumeration<String> getParameterNames( )
     {
         return Collections.enumeration( _stringParameters.keySet( ) );
     }
@@ -114,7 +115,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * @return A map containing all request parameters
      */
     @Override
-    public Map getParameterMap( )
+    public Map<String, String[]> getParameterMap( )
     {
         return _stringParameters;
     }
@@ -134,7 +135,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      * 
      * @return The map
      */
-    public Map<String, List<FileItem>> getFileListMap( )
+    public Map<String, List<FileItem<DiskFileItem>>> getFileListMap( )
     {
         return _multipartFiles;
     }
@@ -146,9 +147,9 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      *            The file name
      * @return The file as a FileItem
      */
-    public FileItem getFile( String strName )
+    public FileItem<DiskFileItem> getFile( String strName )
     {
-        List<FileItem> listFileItem = _multipartFiles.get( strName );
+        var listFileItem = _multipartFiles.get( strName );
 
         return CollectionUtils.isNotEmpty( listFileItem ) ? listFileItem.get( 0 ) : null;
     }
@@ -160,7 +161,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      *            The file name
      * @return The file as a FileItem
      */
-    public List<FileItem> getFileList( String strName )
+    public List<FileItem<DiskFileItem>> getFileList( String strName )
     {
         return _multipartFiles.get( strName );
     }

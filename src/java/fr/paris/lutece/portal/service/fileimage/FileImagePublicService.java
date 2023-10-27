@@ -33,7 +33,8 @@
  */
 package fr.paris.lutece.portal.service.fileimage;
 
-import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
@@ -132,7 +133,7 @@ public class FileImagePublicService extends AbstractCacheableService implements 
      *            The resource identifier
      * @return The New Resource Id
      */
-	public String addImageResource( FileItem fileItem )
+	public String addImageResource( FileItem<DiskFileItem> fileItem )
     {
         return _fileStoreService.storeFileItem( fileItem ) ;
     }

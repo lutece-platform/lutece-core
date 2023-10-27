@@ -47,7 +47,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.commons.fileupload2.FileItem;
 import org.xml.sax.InputSource;
 
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
@@ -265,7 +264,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strStyleId = multipartRequest.getParameter( Parameters.STYLES );
         String strModeId = multipartRequest.getParameter( Parameters.MODE_STYLESHEET );
 
-        FileItem fileSource = multipartRequest.getFile( Parameters.STYLESHEET_SOURCE );
+        var fileSource = multipartRequest.getFile( Parameters.STYLESHEET_SOURCE );
         byte [ ] baXslSource = fileSource.get( );
         String strFilename = FileUploadService.getFileNameOnly( fileSource );
 

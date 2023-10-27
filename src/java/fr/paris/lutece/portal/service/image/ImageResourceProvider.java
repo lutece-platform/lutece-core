@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.portal.service.image;
 
-import org.apache.commons.fileupload2.FileItem;
+
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 
 import fr.paris.lutece.portal.service.util.AppException;
 
@@ -65,7 +67,7 @@ public interface ImageResourceProvider
      * @param fileItem
      * @return the id of the resource
      */
-	default String addImageResource( FileItem fileItem ) 
+	default String addImageResource( FileItem<DiskFileItem> fileItem ) 
 	{
 		throw new AppException( "not implemented yet" );
 	}

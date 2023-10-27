@@ -34,13 +34,22 @@
 package fr.paris.lutece.util.http;
 
 import fr.paris.lutece.portal.service.html.EncodingService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
-import fr.paris.lutece.portal.web.upload.NormalizeFileItem;
+import fr.paris.lutece.util.filesystem.UploadUtil;
 
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.FileUploadException;
-import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload2.jaksrvlt.JakSrvltFileUpload;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.FileUploadFileCountLimitException;
+import org.apache.commons.fileupload2.core.RequestContext;
+import org.apache.commons.fileupload2.jakarta.JakartaFileCleaner;
+import org.apache.commons.fileupload2.jakarta.JakartaServletDiskFileUpload;
+import org.apache.commons.fileupload2.jakarta.JakartaServletFileUpload;
+import org.apache.commons.fileupload2.jakarta.JakartaServletRequestContext;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
@@ -49,8 +58,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
-import javax.naming.SizeLimitExceededException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -77,7 +84,7 @@ public final class MultipartUtil
      */
     public static boolean isMultipart( HttpServletRequest request )
     {
-        return JakSrvltFileUpload.isMultipartContent( request );
+        return JakartaServletFileUpload.isMultipartContent( request );
     }
 
     /**
@@ -92,8 +99,6 @@ public final class MultipartUtil
      * @param request
      *            the HTTP request
      * @return a {@link MultipartHttpServletRequest}, null if the request does not have a multipart content
-     * @throws SizeLimitExceededException
-     *             exception if the file size is too big
      * @throws FileUploadException
      *             exception if an unknown error has occurred
      */
@@ -105,37 +110,33 @@ public final class MultipartUtil
             return null;
         }
 
-        // Create a factory for disk-based file items
-        DiskFileItemFactory factory = new DiskFileItemFactory( );
-
-        // Set factory constraints
-        factory.setSizeThreshold( nSizeThreshold );
-
-        // Create a new file upload handler
-        JakSrvltFileUpload upload = new JakSrvltFileUpload( factory );
+        // Create a factory for disk-based file items     
+          DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder()
+                .setBufferSize(nSizeThreshold)
+                .setCharset(Optional.ofNullable( request.getCharacterEncoding( ) ).orElse( EncodingService.getEncoding( ) ))
+                .setFileCleaningTracker(JakartaFileCleaner.getFileCleaningTracker(request.getServletContext( )))
+                .get();
+        final var servletFileUpload = new JakartaServletDiskFileUpload(fileItemFactory);
 
         // Set overall request size constraint
-        upload.setSizeMax( nRequestSizeMax );
+        servletFileUpload.setSizeMax( nRequestSizeMax );
 
-        // get encoding to be used
-        String strEncoding = Optional.ofNullable( request.getCharacterEncoding( ) ).orElse( EncodingService.getEncoding( ) );
-
-        Map<String, List<FileItem>> mapFiles = new HashMap<>( );
+        Map<String, List<FileItem<DiskFileItem>>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
 
-        List<FileItem> listItems = upload.parseRequest( request );
+        List<DiskFileItem> listItems = parseRequest( new JakartaServletRequestContext(request), fileItemFactory, servletFileUpload, bActivateNormalizeFileName);
 
         // Process the uploaded items
-        for ( FileItem item : listItems )
+        for ( DiskFileItem item : listItems )
         {
-            processItem( item, strEncoding, bActivateNormalizeFileName, mapFiles, mapParameters );
+            processItem( item, mapFiles, mapParameters );
         }
 
         return new MultipartHttpServletRequest( request, mapFiles, mapParameters );
     }
 
-    private static void processItem( FileItem item, String strEncoding, boolean bActivateNormalizeFileName, Map<String, List<FileItem>> mapFiles,
-            Map<String, String [ ]> mapParameters )
+    private static void processItem( DiskFileItem item, Map<String, List<FileItem<DiskFileItem>>> mapFiles,
+            Map<String, String [ ]> mapParameters ) throws FileUploadException
     {
         if ( item.isFormField( ) )
         {
@@ -143,17 +144,8 @@ public final class MultipartUtil
 
             if ( item.getSize( ) > 0 )
             {
-                try
-                {
-                    strValue = item.getString( strEncoding );
-                }
-                catch( IOException ex )
-                {
-                    // if encoding problem, try with system encoding
-                    strValue = item.getString( );
-                }
+                    strValue = item.getString(  );                
             }
-
             // check if item of same name already in map
             String [ ] curParam = mapParameters.get( item.getFieldName( ) );
 
@@ -175,21 +167,74 @@ public final class MultipartUtil
         }
         else
         {
-            // multipart file field, if the parameter filter ActivateNormalizeFileName is
-            // set to true
-            // all file name will be normalize
-            FileItem fileItem = bActivateNormalizeFileName ? new NormalizeFileItem( item ) : item;
-            List<FileItem> listFileItem = mapFiles.get( fileItem.getFieldName( ) );
+            var listFileItem = mapFiles.get( item.getFieldName( ) );
 
             if ( listFileItem != null )
             {
-                listFileItem.add( fileItem );
+                listFileItem.add( item );
             }
             else
             {
                 listFileItem = new ArrayList<>( 1 );
-                listFileItem.add( fileItem );
-                mapFiles.put( fileItem.getFieldName( ), listFileItem );
+                listFileItem.add( item );
+                mapFiles.put( item.getFieldName( ), listFileItem );
+            }
+        }
+    }    
+    /**
+     * Parses an <a href="http://www.ietf.org/rfc/rfc1867.txt">RFC 1867</a> compliant {@code multipart/form-data} stream.
+     *
+     * @param requestContext The context for the request to be parsed.
+     * @return A list of {@code FileItem} instances parsed from the request, in the order that they were transmitted.
+     * @throws FileUploadException if there are problems reading/parsing the request or storing files.
+     */
+    private static List<DiskFileItem> parseRequest(final RequestContext requestContext, final DiskFileItemFactory fileItemFactory, final JakartaServletFileUpload<DiskFileItem,DiskFileItemFactory> servletUpload, boolean bActivateNormalizeFileName) throws FileUploadException {
+        final  List<DiskFileItem> itemList = new ArrayList<>();
+        var successful = false;
+        try {
+            final var buffer = new byte[IOUtils.DEFAULT_BUFFER_SIZE];
+            servletUpload.getItemIterator(requestContext).forEachRemaining(fileItemInput -> {
+                if (itemList.size() == servletUpload.getFileCountMax( )) {
+                    // The next item will exceed the limit.
+                    throw new FileUploadFileCountLimitException("attachment", servletUpload.getFileCountMax( ), itemList.size());
+                }
+                // Don't use getName() here to prevent an InvalidFileNameException.
+                // @formatter:off
+                final String fileName= fileItemInput.getName();
+                final var fileItem = fileItemFactory.fileItemBuilder()
+                    .setFieldName(fileItemInput.getFieldName())
+                    .setContentType(fileItemInput.getContentType())
+                    .setFormField(fileItemInput.isFormField())
+                    //if the parameter filter ActivateNormalizeFileName is set to true all file name will be normalize
+                    .setFileName( bActivateNormalizeFileName && fileName != null ? UploadUtil.cleanFileName( FilenameUtils.getName( fileName ) ):fileName)
+                    .setFileItemHeaders(fileItemInput.getHeaders())
+                    .get();
+                // @formatter:on
+                itemList.add(fileItem);
+                try (var inputStream = fileItemInput.getInputStream();
+                        var outputStream = fileItem.getOutputStream()) {
+                    IOUtils.copyLarge(inputStream, outputStream, buffer);
+                } catch (final FileUploadException e) {
+                    throw e;
+                } catch (final IOException e) {
+                    throw new FileUploadException(String.format("Processing of multipart/\form request failed. %s", e.getMessage()), e);
+                }
+            });
+            successful = true;
+            return itemList;
+        } catch (final FileUploadException e) {
+            throw e;
+        } catch (final IOException e) {
+            throw new FileUploadException(e.getMessage(), e);
+        } finally {
+            if (!successful) {
+                for (final  DiskFileItem fileItem : itemList) {
+                    try {
+                        fileItem.delete();
+                    } catch (final Exception ignored) {
+                        AppLogService.error( ignored.getMessage(), ignored );
+                    }
+                }
             }
         }
     }

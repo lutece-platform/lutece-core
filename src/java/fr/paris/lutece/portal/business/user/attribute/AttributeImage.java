@@ -49,7 +49,6 @@ import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.string.StringUtil;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload2.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.ByteArrayInputStream;
@@ -287,8 +286,8 @@ public class AttributeImage extends AbstractAttribute
         {
             if ( StringUtils.isNotBlank( strUpdateAttribute ) )
             {
-                MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-                FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
+                var multipartRequest = (MultipartHttpServletRequest) request;
+                var fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
 
                 if ( ( fileItem != null ) && ( StringUtils.isNotEmpty( fileItem.getName( ) ) ) )
                 {

@@ -33,7 +33,8 @@
  */
 package fr.paris.lutece.portal.service.fileupload;
 
-import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.io.FilenameUtils;
 
 /**
@@ -53,7 +54,7 @@ public final class FileUploadService
      *            the fileItem to process
      * @return the name of the file associated
      */
-    public static String getFileNameOnly( FileItem fileItem )
+    public static String getFileNameOnly( FileItem<DiskFileItem> fileItem )
     {
         String strFileName;
 
