@@ -29,7 +29,7 @@
 </@pageContainer>
 <script>
 document.addEventListener('DOMContentLoaded', (event) => {
-	document.querySelectorAll(":checkbox").forEach(checkbox => {
+	document.querySelectorAll('[type=checkbox]').forEach(checkbox => {
 		checkbox.addEventListener('click', function(){
 			if(document.querySelectorAll(":checked").length > 1 ){
 				document.querySelector("#select_choose").checked = true;
