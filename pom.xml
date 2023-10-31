@@ -163,15 +163,15 @@
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
 	</dependency>
-        <dependency>
+	<dependency>
             <groupId>jtidy</groupId>
             <artifactId>jtidy</artifactId>
             <version>8.0</version>
-        </dependency>
+	</dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.15.3</version>
+            <version>1.16.2</version>
         </dependency>
         <dependency>
             <groupId>com.sun.mail</groupId>
