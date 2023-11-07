@@ -34,22 +34,26 @@
 package fr.paris.lutece.portal.service.init;
 
 /**
- * StartUp Service before Spring Application Context Interface.
- * This interface should not be implemented by a class depending on Spring
- * because its purpose is to start services before the launch of the Spring context.
+ * Interface for Early Initialization Services.
+ * Classes implementing this interface are responsible for executing tasks
+ * before the Spring Application Context is launched.
  */
-public interface IStartUpBeforeSpring
-{
+public interface IEarlyInitializationService {
+
     /**
-     * Run the service
+     * Executes the early initialization service.
+     * Implementing classes should provide the logic to be executed before
+     * the Spring Application Context is initialized.
      */
-    void process( );
-    
+    void process();
+
     /**
-     * The execution order of the service.
-     * @return the order
+     * Specifies the execution order of the service.
+     *
+     * @return the execution order; lower values indicate earlier execution
      */
-    default int order() {
-    	return 100;
+    default int getOrder() {
+        // Default order value: 100 (can be adjusted by implementing classes)
+        return 100;
     }
 }

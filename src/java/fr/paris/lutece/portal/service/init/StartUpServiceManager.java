@@ -53,30 +53,37 @@ public final class StartUpServiceManager
     {
     }
     /**
-     * Starting all services requiring execution prior to the launch of the Spring context.
+     * Initializes early initialization services.
+     * <p>
+     * This method loads and processes services implementing the {@link IEarlyInitializationService} interface
+     * before starting the Spring context.
+     * </p>
      */
-    public static void startUpServiceBeforeSpringContext( )
-    {
-    	List<IStartUpBeforeSpring> listServices = new ArrayList<>();
-        // Get all beans from the global 
-    	ServiceLoader<IStartUpBeforeSpring> providers = ServiceLoader.load(IStartUpBeforeSpring.class);
-    	providers.forEach( srv -> listServices.add( srv ) );
-        // Process all services
-    	listServices.stream().sorted(Comparator.comparingInt(IStartUpBeforeSpring::order )).forEach( service ->
-        {
-    	 try
-	        {
-	            AppLogService.info( "Processing StartUp service : {} before starting Spring Context", service.getClass().getName( ) );
-	            service.process( );
-	        }
-	        catch( Exception e )
-	        {
-	            AppLogService.error( "Error while processing StartUp service : {}", service.getClass().getName( ), e );
-	        }
-         }
-    	 );        
-    }
+    public static void initializeEarlyInitializationServices() {
+        List<IEarlyInitializationService> serviceList = new ArrayList<>();
 
+        // Load early initialization services using ServiceLoader
+        ServiceLoader<IEarlyInitializationService> providers = ServiceLoader.load(IEarlyInitializationService.class);
+        providers.forEach(serviceList::add);
+
+        // Sort services by order before processing
+        serviceList.stream()
+                .sorted(Comparator.comparingInt(IEarlyInitializationService::getOrder))
+                .forEach(service -> {
+                    String serviceName = service.getClass().getName();
+                    try {
+                        // Display an informational message before processing the service
+                        AppLogService.info("Processing StartUp service: {} before starting Spring Context", serviceName);
+                        // Call the service processing method
+                        service.process();
+                        // Display a success message after processing the service
+                        AppLogService.info("StartUp service processed successfully: {}", serviceName);
+                    } catch (Exception e) {
+                        // In case of error, display an error message and log the exception
+                        AppLogService.error("Error while processing StartUp service: {}", serviceName, e);
+                    }
+                });
+    }
     /**
      * Runs all StartUp Services
      */
