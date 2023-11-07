@@ -238,10 +238,15 @@
         <servlet-name>SiteUploadServlet</servlet-name>
         <servlet-class>fr.paris.lutece.portal.web.upload.UploadServlet</servlet-class>
     </servlet>
+    <!-- Servlet using for BBCODE parsing 
+    	 This servlet is deprecated; it will be removed in the next version
+     -->
+    <!-- 
     <servlet>
         <servlet-name>ParserBbCodeServlet</servlet-name>
         <servlet-class>fr.paris.lutece.portal.service.editor.ParserBbcodeServlet</servlet-class>
     </servlet>
+     -->
     <servlet>
         <servlet-name>FileDownloadFoServlet</servlet-name>
         <servlet-class>fr.paris.lutece.portal.web.download.DownloadServletFo</servlet-class>
@@ -262,10 +267,12 @@
         <servlet-name>SiteUploadServlet</servlet-name>
         <url-pattern>/jsp/site/upload</url-pattern>
     </servlet-mapping>
+  	<!-- 
     <servlet-mapping>
         <servlet-name>ParserBbCodeServlet</servlet-name>
         <url-pattern>/parser/parserBbcode</url-pattern>
     </servlet-mapping>
+     -->
     <servlet-mapping>
         <servlet-name>FileDownloadFoServlet</servlet-name>
         <url-pattern>/jsp/site/file/download</url-pattern>

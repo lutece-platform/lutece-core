@@ -35,10 +35,13 @@ package fr.paris.lutece.portal.service.editor;
 
 import fr.paris.lutece.portal.business.editor.ParserComplexElement;
 import fr.paris.lutece.portal.business.editor.ParserElement;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.parser.BbcodeUtil;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +82,34 @@ public class EditorBbcodeService implements IEditorBbcodeService
     @Override
     public String parse( String strValue )
     {
-        return BbcodeUtil.parse( strValue, _listParserElement, _listParserComplexElement );
+    	try {
+            // Parse BBCode and clean HTML using Jsoup with basic whitelisting of tags and attributes
+            return Jsoup.clean(BbcodeUtil.parse(strValue, _listParserElement, _listParserComplexElement),
+                    Safelist.basicWithImages());
+
+        } catch (Exception e) {
+            // Handle any exceptions that might occur during parsing or cleaning
+            // Log the error and return an appropriate error message or fallback value
+            AppLogService.error("Error occurred while parsing and cleaning the input string", e);
+            return "Error occurred during processing. Please try again later.";
+        }
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String parseAndClean( String strValue, Safelist safelist )
+    {
+    	try {
+            // Parse BBCode and clean HTML using Jsoup with the provided Safelist
+            return Jsoup.clean(BbcodeUtil.parse(strValue, _listParserElement, _listParserComplexElement), safelist);
+
+        } catch (Exception e) {
+            // Handle any exceptions that might occur during parsing or cleaning
+            // Log the error and return an appropriate error message or fallback value
+            AppLogService.error("Error occurred while parsing and cleaning the input string", e);
+            return "Error occurred during processing. Please try again later.";
+        }    
     }
 
     /**

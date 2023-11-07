@@ -48,6 +48,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 /**
  * Servlet using for BBCODE parsing
  */
+@Deprecated
 public class ParserBbcodeServlet extends HttpServlet
 {
     private static final long serialVersionUID = -6564244054015195801L;
