@@ -230,7 +230,6 @@
         <dependency>
 		    <groupId>jakarta.mail</groupId>
 		    <artifactId>jakarta.mail-api</artifactId>
-		    <version>2.1.1</version>
 		</dependency>
    		<dependency>
 		    <groupId>org.eclipse.angus</groupId>
@@ -243,7 +242,6 @@
 		<dependency>
 		    <groupId>jakarta.activation</groupId>
 		    <artifactId>jakarta.activation-api</artifactId>
-		    <version>2.1.1</version>
 		</dependency>   
 		<dependency>
 		    <groupId>org.eclipse.angus</groupId>
@@ -256,20 +254,17 @@
         <dependency>
 	      <groupId>jakarta.inject</groupId>
 	      <artifactId>jakarta.inject-api</artifactId>
-	      <version>2.0.1</version>	
 	    </dependency>
 	    
 	    <!-- @Annotation API -->
         <dependency>
 	      <groupId>jakarta.annotation</groupId>
 	      <artifactId>jakarta.annotation-api</artifactId>
-	      <version>2.1.1</version>
     	</dependency>
         <!-- Bean validation -->
         <dependency>
 	      <groupId>jakarta.validation</groupId>
 	      <artifactId>jakarta.validation-api</artifactId>
-	      <version>3.0.0</version>
    		</dependency>
    		
    		<!-- Implementation validation API -->
@@ -291,12 +286,10 @@
 		<dependency>
 		    <groupId>jakarta.persistence</groupId>
 		    <artifactId>jakarta.persistence-api</artifactId>
-		    <version>3.1.0</version>
 		</dependency>        
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>4.0.0</version>
         </dependency>
       
         <!-- jaxb-runtime is implementation of jakarta.xml.bind-api -->	
