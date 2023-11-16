@@ -32,7 +32,7 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 	<@listGroup>
 	<#list portlet_types_list?sort_by("name") as portlet_type>
 		<#if portlet_type.name !=''>
-			<#assign iconPortlet><#if portlet_type.iconName??>portlet_type.iconName!'puzzle'<#else>puzzle</#if></#assign>
+			<#assign iconPortlet><#if portlet_type.iconName??>${portlet_type.iconName!'puzzle'}<#else>puzzle</#if></#assign>
 			<@listGroupItem class='p-2' params='data-portlet-type-id="${portlet_type.id}" data-portlet-type-icon="${iconPortlet!}" data-portlet-type-href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}" data-portlet-type-name="${portlet_type.name}"'>
 				<@aButton color='link w-100 btn-portlet d-flex justify-content-start' buttonIcon='${iconPortlet!} me-2 me-2' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' target='preview' title='${portlet_type.name}' />
 			</@listGroupItem>	
