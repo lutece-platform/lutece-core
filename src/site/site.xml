@@ -31,7 +31,7 @@
         </menu>
         
         <menu name="Documentation">
-            <item name="Technical documentation" href="https://fr.lutece.paris.fr/fr/jsp/site/Portal.jsp?page=wiki&amp;action=changeLanguage&amp;page_name=home&amp;language=en" /> 
+            <item name="Technical documentation" href="https://lutece.paris.fr/support/wiki/home.html" />
             <item name="Templates Macros guide" href="style_guide/output/" />
         </menu> 
 
