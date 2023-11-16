@@ -68,6 +68,10 @@
     padding: 1rem 2rem
 }
 
+.lutece-dialog .lutece-dialog-content .lutece-dialog-body .btn-new-portlet{
+    height: auto !important;
+}
+
 .lutece-dialog .lutece-dialog-content .lutece-dialog-footer{
     /* TODO */
 }
@@ -193,7 +197,8 @@
 
 .lutece-admin-portlet .lutece-admin-toolbar .btn {
     font-size: 1.5rem;
-    padding: .35rem 0 .15rem .75rem;
+    padding: .35rem 0 .15rem .75rem !important;
     margin-bottom: 5px;
     border-radius: 50%;
+    height: 3.5rem !important;
 }
