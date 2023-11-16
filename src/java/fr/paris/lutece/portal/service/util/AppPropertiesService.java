@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
@@ -235,9 +237,6 @@ public final class AppPropertiesService
      */
     public static List<String> getKeys( String strPrefix )
     {
-    	List<String> listPropertiesKey=new ArrayList<String>();
-    	  _config.getPropertyNames().forEach(x-> listPropertiesKey.add(x));
-
-        return listPropertiesKey;
+        return StreamSupport.stream(_config.getPropertyNames().spliterator(), false).filter(key -> key.startsWith(strPrefix)).collect(Collectors.toList());
     }
 }
