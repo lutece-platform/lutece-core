@@ -30,7 +30,7 @@ You can easily customize and enhance modules to fit their city’s needs or crea
 *  [Lutece docker hub](https://hub.docker.com/u/lutece) : Project's Docker built-in images
 *  [Lutece platform Source Repository](https://github.com/lutece-platform/) : the online repository for all the Lutece plugins.
 *  [Lutece platform Package Repository](https://dev.lutece.paris.fr/nexus/#view-repositories) : the package repository for all the Lutece plugins.
-*  [Issue Tracking](http://dev.lutece.paris.fr/jira/browse/LUTECE) : Issue management system for this project (authentication needed).
+*  [Issue Tracking](https://dev.lutece.paris.fr/bugtracker/projects/lutece/issues) : Issue management system for this project (authentication needed).
 
 
 [Maven documentation and reports](https://dev.lutece.paris.fr/plugins/lutece-core/)
