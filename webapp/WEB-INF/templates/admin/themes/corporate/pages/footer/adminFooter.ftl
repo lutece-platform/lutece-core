@@ -70,7 +70,7 @@ Parameters:
             <div class="lutece-dialog-body">
                     <form action="jsp/admin/DoCreatePortlet.jsp" type="get">
                     <div class="container">
-                        <div id='portlet_type_id' class="row row-cols-4"></div>
+                        <div id='portlet_type_id' class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4"></div>
                     </div>
                     <div class="d-flex justify-content-center">
                         <button type="button" class="btn btn-secondary btn-close" value="cancel" >#i18n{portal.util.labelCancel}</button>
@@ -92,12 +92,15 @@ document.addEventListener( "DOMContentLoaded", function(){
         const divType = document.createElement('div')
         divType.classList.add('col')
         const aType = document.createElement('a')
-        aType.classList.add('btn', 'btn-outline-primary', 'btn-lg','btn-block', 'btn-new-portlet', 'py-5', 'px-2', 'mb-2' )
+        aType.classList.add('btn', 'btn-outline-primary', 'btn-lg','btn-block', 'btn-new-portlet', 'py-5', 'px-0' , 'my-3', 'd-flex', 'align-items-center' )
         aType.setAttribute( 'href', item.dataset.portletTypeHref )
-        aType.innerText = item.dataset.portletTypeName
+        const spanType = document.createElement('span')
+        spanType.classList.add( 'px-2', 'text-left' )
+        spanType.innerText = item.dataset.portletTypeName
         const iconType = document.createElement('i')
-        iconType.classList.add('ti', <#noparse>`ti-${item.dataset.portletTypeIcon}`</#noparse> ,'fs-0','d-block')
+        iconType.classList.add('ti', <#noparse>`ti-${item.dataset.portletTypeIcon}`</#noparse> ,'fs-0','d-block','me-4','mr-4','ps-2','pl-2')
         aType.appendChild( iconType );
+        aType.appendChild( spanType );
         divType.appendChild( aType );
         dialogPortletTypes.appendChild( divType );
     })
