@@ -28,7 +28,7 @@ Parameters:
 <#if collapsed><#local class += ' collapse' /></#if>
 <div class="<#if formStyle != 'inline'>form-group<#else></#if><#if formStyle='horizontal'> mb-3</#if><#if formStyle='floating'> form-floating</#if> <#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local displayLabelClass = displaySettings( hideLabel, 'inline-flex') />
-<#local labelClass = ''>
+<#local labelClass = labelClass >
 <#if rows=1>
     <#if labelKey!='' && formStyle='horizontal'>
         <#local labelClass += ' col-sm-12 col-lg-3 form-label text-right'>

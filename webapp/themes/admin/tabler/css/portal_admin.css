@@ -294,21 +294,25 @@ body.loaded #lutece-layout-wrapper {
   flex: 1 0 15rem
 }
 
-.input-group-text>.btn {
+.input-group-text > .form-check {
+  margin-bottom: 0
+}
+
+.input-group-text > .btn {
   background-color: transparent;
   color: var(--tblr-dark);
   border: 0
 }
 
-.input-group-text>.btn:hover {
+.input-group-text > .btn:hover {
   text-shadow: 1px 2px 2px var(--tblr-gray-600)
 }
 
-.input-group-text>.btn.btn-primary {
+.input-group-text > .btn.btn-primary {
   color: var(--tblr-primary)
 }
 
-.theme-dark .input-group-text>.btn {
+.theme-dark .input-group-text > .btn {
   color: var(--tblr-light)
 }
 
