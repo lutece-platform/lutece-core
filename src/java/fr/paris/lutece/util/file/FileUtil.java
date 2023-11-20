@@ -56,9 +56,9 @@ public final class FileUtil
     public static final String CONSTANT_MIME_TYPE_CSV = "application/csv";
     public static final String EXTENSION_ZIP = ".zip";
     public static final String EXTENSION_CSV = ".csv";
-    private static final String PROPERTY_ALLOWED_IMAGES_EXTENSIONS = "portal.files.allowedImagesExtentions";
-    private static final String PROPERTY_ALLOWED_HTML_EXTENSIONS = "portal.files.allowedHtmlExtentions";
-    private static final String DEFAULT_IMAGES_EXTENSION = "gif,png,jpg,jpeg,bmp";
+    private static final String PROPERTY_ALLOWED_IMAGES_EXTENSIONS = "lutece.files.allowedImagesExtentions";
+    private static final String PROPERTY_ALLOWED_HTML_EXTENSIONS = "lutece.files.allowedHtmlExtentions";
+    private static final String DEFAULT_IMAGES_EXTENSION = "webp,png,jpg,jpeg,svg";
     private static final String DEFAULT_HTML_EXTENSION = "html,htm,xhtml";
     private static final String FREEMARKER_EXTENSION = "ftl";
     private static final String CONSTANT_POINT = ".";
