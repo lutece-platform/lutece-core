@@ -20,18 +20,18 @@
 				</@formGroup>
 			</@columns>
 			<#if !portletType.id?starts_with('ALIAS') && !portletType.id?starts_with('BLOG') && !portletType.id?starts_with('HTML_UNTRANSFORMED') >
-			<@columns sm=3 class='portlet-options'>
+			<@columns sm=2>
 				<@formGroup labelFor='style' labelKey='#i18n{portal.site.create_portlet.labelStyle}' rows=2>
 					<@select name='style' default_value='0' items=portlet_style_combo />
 				</@formGroup>
 			</@columns>
 			</#if>
-			<@columns sm=2 class='portlet-options'>
+			<@columns sm=2 md=1>
 				<@formGroup labelFor='page_id' labelKey='#i18n{portal.site.modify_portlet.labelPortletPageId}' rows=2>
 					<@input type='text' name='page_id' disabled=true readonly=true value='${portlet_page_id}'/>
 				</@formGroup>
 			</@columns>
-			<@columns sm=2 class='portlet-options'>
+			<@columns sm=2 md=1>
 				<@formGroup labelFor='column' labelKey='#i18n{portal.site.create_portlet.labelColumn}' rows=2>
 					<@select name='column' id='column' default_value='1' items=portlet_columns_combo />
 				</@formGroup>
@@ -39,13 +39,13 @@
 					<@select name='order' id='order' default_value='1' items=portlet_order_combo />
 				</@formGroup>
 			</@columns>
-			<@columns sm=2 class='portlet-options'>
+			<@columns sm=2 md=1>
 				<@formGroup labelKey='#i18n{portal.site.create_portlet.labelAlias}' rows=2>	
 					<@radioButton name='accept_alias' id='accept_alias_yes' value='1' labelKey='#i18n{portal.util.labelYes}' labelFor='accept_alias_yes' />
 					<@radioButton name='accept_alias' id='accept_alias_no' value='0' checked=true labelKey='#i18n{portal.util.labelNo}' labelFor='accept_alias_no' />
 				</@formGroup>
 			</@columns>
-			<@columns sm=1>
+			<@columns sm=4 md=2>
 				<@formGroup labelKey='#i18n{portal.site.create_portlet.labelDisplayOnDevice}' rows=2>
 					<@checkBox orientation='switch' name='display_on_small_device' id='display_on_small_device' value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxSmallDevice}' />
 					<@checkBox orientation='switch' name='display_on_normal_device' id='display_on_normal_device' value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxNormalDevice}' />
@@ -53,7 +53,7 @@
 					<@checkBox orientation='switch' name='display_on_xlarge_device' id='display_on_xlarge_device'value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxXLargeDevice}' />
 				</@formGroup>
 			</@columns>
-			<@columns sm=2>
+			<@columns sm=4 md=2>
 				<@formGroup labelFor='role' labelKey='#i18n{portal.site.create_portlet.labelRole}' rows=2>
 					<@select name='role' default_value='none' items=portlet_role_combo />
 				</@formGroup>
