@@ -10,9 +10,9 @@ function switchThemeMode( mode ){
 		themeBody = document.querySelector('body'); 
 	
 	if( mode === 'dark'){
-		localStorage.setItem( 'lutece-tabler-theme', 'light' );
-		if ( themeBody.classList.contains( 'theme-dark' ) ){ 
-			themeBody.classList.remove('theme-dark') ;
+		localStorage.setItem( 'lutece-tabler-theme', '' );
+		if ( themeBody.dataset.bsTheme === 'dark' ){ 
+			themeBody.dataset.bsTheme = '' ;
 			iconSwitch.classList.remove('ti-sun');
 			iconSwitch.classList.add('ti-moon');
 		}
@@ -20,31 +20,29 @@ function switchThemeMode( mode ){
 		localStorage.setItem( 'lutece-tabler-theme', 'dark' );
 		iconSwitch.classList.remove('ti-moon');
 		iconSwitch.classList.add('ti-sun');
-		if ( !themeBody.classList.contains('theme-dark') ){ 
-			themeBody.classList.add('theme-dark');
-		}
+		themeBody.dataset.bsTheme = 'dark';
 	}
 }
 
 function themeMode( ){
 	let currentTheme = '', iconSwitch='';
 	const switchMode = document.querySelector('#switch-darkmode'), 
-          luteceTablerTheme=localStorage.getItem('lutece-tabler-theme'),
-          themeBody = document.querySelector('body'),
-          themeBodyTheme = themeBody.classList.contains('theme-dark')? 'dark' : 'light';
+		luteceTablerTheme=localStorage.getItem('lutece-tabler-theme'),
+		themeBody = document.querySelector('body'),
+		themeBodyTheme = themeBody.dataset.bsTheme === 'dark' ? 'dark' : '';
 		  
-        if( luteceTablerTheme === null ){
-              localStorage.setItem( 'lutece-tabler-theme', themeBodyTheme )
-            } else {
-        if( switchMode != undefined  ){ iconSwitch=switchMode.querySelector('.ti'); } 
-		if( themeBodyTheme != luteceTablerTheme ){
-			localStorage.setItem( 'lutece-tabler-theme', luteceTablerTheme )
-			if( switchMode != undefined  ){ switchThemeMode( themeBodyTheme ) }
-		} else if ( luteceTablerTheme === 'dark' ){
-            if( switchMode != undefined  ){
-			    iconSwitch.classList.remove('ti-moon');
-			    iconSwitch.classList.add('ti-sun');
-            }
+	if( luteceTablerTheme === null ){
+		localStorage.setItem( 'lutece-tabler-theme', themeBodyTheme )
+	} else {
+		if( switchMode != undefined  ){ 
+			iconSwitch=switchMode.querySelector('.ti'); 
+			if( themeBodyTheme != luteceTablerTheme ){
+				localStorage.setItem( 'lutece-tabler-theme', luteceTablerTheme )
+				switchThemeMode( themeBodyTheme )
+			} else if ( luteceTablerTheme === 'dark' ){
+				iconSwitch.classList.remove('ti-moon');
+				iconSwitch.classList.add('ti-sun');
+			}
 		}
 	}
 	

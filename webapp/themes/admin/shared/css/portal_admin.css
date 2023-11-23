@@ -11,9 +11,6 @@
     --success: #2fb344;
     --black: #000000;
     --white: #ffffff;
-    /* SlimSelect Overides */
-    --ss-main-height: 40px;
-    --ss-border-radius: 0;
 }
 
 .fs-0 {
@@ -171,6 +168,10 @@ img::after {
 
 .table {
     background-color: var(--white)
+}
+
+body[data-bs-theme="dark"] .table {
+    background-color: var( --dark )
 }
 
 .table>:not(caption)>*>*,
@@ -418,37 +419,6 @@ td[data-url]:hover {
     height: auto
 }
 
-.theme-dark a:not(.btn) {
-    color: var(--dark-light)
-}
-
-.theme-dark:is(.accordion-button, .alert, .btn-link, .bg-white, .footer-transparent, .table, .text-dark) {
-    background-color: var(--dark) !important;
-    color: inherit
-}
-
-.theme-dark .text-dark {
-    background-color: var(--dark-nav-bg) !important;
-    color: var(--dark-light) !important
-}
-
-.theme-dark .table>:not(caption)>*>*,
-.markdown>table>:not(caption)>*>* {
-    box-shadow: inset 0 0 0 9999px var(--dark)
-}
-
-.theme-dark pre {
-    background-color: var(--dark) !important
-}
-
-.theme-dark .bg-white {
-    background-color: var(--dark) !important
-}
-
-.theme-dark .theme-invert {
-    filter: invert()
-}
-
 .copy-content {
     position: relative;
     display: inline-block
@@ -472,8 +442,9 @@ td[data-url]:hover {
     right: -5px
 }
 
-.theme-dark .copy-icon:after,
-.theme-dark .copy-content:hover:after {
+/* Dark Theme */
+body[data-bs-theme="dark"] .copy-icon:after,
+body[data-bs-theme="dark"] .copy-content:hover:after {
     content: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>')
 }
 
@@ -510,11 +481,21 @@ td[data-url]:hover {
 }
 
 /* Slim Select Plugin Override */
-.ss-main {
-    padding: 0 !important
+.ss-main.form-control{
+    height: 40px !important;
+    min-height: 40px !important;
+    padding: .4375rem .75rem;
+    background-color: var(--tblr-bg-forms);
+    border: var(--tblr-border-width) solid var(--tblr-border-color);
+    border-radius: var(--tblr-border-radius);
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.ss-main>.ss-single-selected {
+.ss-main.form-control .ss-values .ss-placeholder {
+    padding: 0 !important; 
+}
+
+.ss-main.form-control > .ss-single-selected {
     padding-top: .4375rem !important;
     padding-bottom: .4375rem !important
 }
