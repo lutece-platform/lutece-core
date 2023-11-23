@@ -13,14 +13,14 @@ Parameters:
 			<#list languages?filter( language -> language.code == lang  ) as language>
 				<@div id="lutece-default-language" class=" ps-1">
 					<@icon style='language' /> #i18n{portal.admin.admin_home.language}
-					<@span class='ms-2 py-1 ps-4 pe-2 px-2 fw-bolder border border-2 border-muted rounded-pill' params='tabindex="0" style="background: transparent url( ./themes/admin/shared/css/vendor/tabler/img/flags/${lang}.svg ) no-repeat .65rem center; background-size: .75rem"'>
+					<@span class='ms-2 py-1 ps-4 pe-2 px-2 fw-bolder border border-2 border-muted rounded-pill' params='tabindex="0" style="background: transparent url( ./themes/admin/shared/css/vendor/tabler/img/flags/${lang}.svg ) no-repeat .65rem center; background-size: .75rem" data-lang="${lang}" data-lang-name="${language.name?capitalize}"'>
 						${language.name!?capitalize}
 					</@span>
 				</@div>
 			</#list>
 			<@div id='lutece-languages'>
 			<#list languages?filter( language -> language.code != lang  ) as language>
-				<@button color='secondary btn-language' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}' hideTitle=['all'] params='style="background-image: url( ./themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg );"' />
+				<@button color='secondary btn-language' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}' hideTitle=['all'] params='style="background-image: url( ./themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg );" data-lang="${language.code}" data-lang-name="${language.name?capitalize}"' />
 			</#list>
 			</@div>
 		</@columns>

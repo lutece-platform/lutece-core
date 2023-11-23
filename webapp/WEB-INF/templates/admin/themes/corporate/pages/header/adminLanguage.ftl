@@ -6,14 +6,16 @@ Parameters:
 - action (string, optional): the URL of the form submission handler.
 -->
 <#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp'>
-<li class="nav-item dropdown">
-	<a id="btn-lang" class="border btn btn-light btn-rounded" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.admin.admin_home.language}">
+<li class="nav-item dropdown" id="lutece-language-menu">
+	<#list languages?filter( language -> language.code == lang ) as language>
+	<a id="btn-lang" class="border btn btn-light btn-rounded" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.admin.admin_home.language}" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">
 		<div class="position-absolute" style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${lang}.svg');background-size:contain;background-position: center;height:25px;width:25px;border-radius:25px"></div>
 	</a>
+	</#list>
 	<ul class="dropdown-menu p-3 text-center dropdown-menu-center">
 		<span class="text-muted">#i18n{portal.admin.admin_home.language}s</span>
 		<#list languages?filter( language -> language.code != lang ) as language>
-			<a href='${action}?token=${token}&language=${language.code}' class='border btn btn-light btn-rounded mx-auto mt-2' style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg');background-size:contain;background-position: center;">
+			<a href='${action}?token=${token}&language=${language.code}' class='border btn btn-light btn-rounded mx-auto mt-2' style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg');background-size:contain;background-position: center;" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">
 				<span class="visually-hidden">#i18n{portal.admin.admin_home.button.changeLanguage} ${language.name}</span>
 			</a>
 		</#list>
