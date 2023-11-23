@@ -26,7 +26,7 @@ Parameters:
     <#local validation = 'is-invalid'>
 </#if>
 <#if collapsed><#local class += ' collapse' /></#if>
-<div class="<#if formStyle != 'inline' && formStyle != 'col'>form-group<#else>col-sm-12 <#else>col-lg</#if><#if formStyle='horizontal'> mb-3</#if><#if formStyle='floating'> form-floating</#if> <#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="<#if formStyle != 'inline' && formStyle != 'col'>form-group<#elseif formStyle == 'col'>col-sm-12 <#else>col-lg</#if><#if formStyle='horizontal'> mb-3</#if><#if formStyle='floating'> form-floating</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local displayLabelClass = displaySettings( hideLabel, 'inline-flex') />
 <#local labelClass = labelClass >
 <#if rows=1>
