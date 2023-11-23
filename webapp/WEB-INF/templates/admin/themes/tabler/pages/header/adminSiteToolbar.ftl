@@ -23,12 +23,12 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 	</#if>
 	<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>${extendableResourceActionsHtml!}</#if>
 	<@btnGroup class='ms-1'>
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench me-1' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm']  />
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench me-1' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['md']  />
 	</@btnGroup>
 	<@btnGroup class='mx-1'>
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus me-1' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['xs','sm'] />
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus me-1' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['md'] />
 	</@btnGroup>
-	<@offcanvas id="portlet-type-wrapper" title="#i18n{portal.site.admin_page.labelPortletPage}" btnColor="primary btn-portet" btnIcon="layout-dashboard mx-1" btnTitle="#i18n{portal.site.admin_page.labelPortletPage}" position="end">
+	<@offcanvas id="portlet-type-wrapper" title="#i18n{portal.site.admin_page.labelPortletPage}" btnColor="portet" btnIcon="layout-dashboard mx-1" btnTitle="#i18n{portal.site.admin_page.labelPortletPage}" position="end">
 	<@listGroup>
 	<#list portlet_types_list?sort_by("name") as portlet_type>
 		<#if portlet_type.name !=''>
@@ -43,7 +43,7 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 	<@btnGroup class='ms-1'>
 		<@button buttonIcon='sitemap' title='Page ${page.name} - Id ${page.id}' hideTitle=['all'] params='data-bs-toggle="offcanvas" data-bs-target="#offcanvasSiteMap" aria-controls="offcanvasSiteMap"' ><@span hide=['all']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@button>
 	</@btnGroup>
-	<@btnGroup class='ms-1  d-none d-sm-block'>
+	<@btnGroup class='ms-2 d-none d-sm-block'>
 		<@aButton href='jsp/site/Portal.jsp?page_id=${page.id}' title='#i18n{portal.site.admin_page.labelShowPage}' buttonIcon='external-link' color='info' class='btn-preview' target='_blank' hideTitle=['all'] />
 	</@btnGroup>
 	<@btnGroup class='ms-1  d-none d-sm-block'>

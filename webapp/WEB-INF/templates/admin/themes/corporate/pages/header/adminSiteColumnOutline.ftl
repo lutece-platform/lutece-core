@@ -6,8 +6,8 @@ Parameters:
 <#macro adminSiteColumnOutline columnid=''>
 <@div id='lutece-column-${columnid}' class='lutece-admin-column' params='data-no-content="#i18n{portal.site.portletType.labelCreateColumn}"'>
     <@div class='lutece-column-toolbar'>
-		<@tag class='lutece-admin-column-id'>${i18n("portal.site.columnId",columnid)}</@tag>
-		<@button color='dark btn-column-add-portlet rounded-pill' params='data-bs-toggle="modal" data-portlet-column="${columnid}" data-portlet-order=""' title='#i18n{portal.site.portletType.labelCreateColumn}' hideTitle=['all'] buttonIcon='layout-grid-add' />
+		<@tag class='lutece-admin-column-id' color='dark'>${i18n("portal.site.columnId",columnid)}</@tag>
+		<@button color='primary btn-column-add-portlet' params='data-bs-toggle="modal" data-portlet-column="${columnid}" data-portlet-order=""' title='#i18n{portal.site.portletType.labelCreateColumn}' hideTitle=['all'] buttonIcon='layout-grid-add' />
 	</@div>
     <@div class="lutece-admin-column-outline"><#compress><#nested></#compress></@div>
 </@div>
