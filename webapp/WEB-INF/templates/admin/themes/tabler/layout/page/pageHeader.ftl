@@ -11,7 +11,7 @@ Parameters:
 <#macro pageHeader id='' title='' description='' class='' toolsClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div id="pageHeader"<#if toolsClass !=''> class="${class}"</#if>>
-	<div class="d-lg-flex align-items-center justify-content-between">
+	<div class="d-flex align-items-center justify-content-between">
 	  <div class="flex-grow-1 py-2">
 	  	<h1 class="mb-0 fw-bolder">${title}</h1>
 	  </div>
