@@ -11,18 +11,18 @@ Parameters:
 - msgError (string, optional): the error message to display.
 
 -->
-<#macro charcounter maxchars selector='.lutece-charcounter' title='' defaultClass='text-normal' warningClass='text-warning' dangerClass='text-danger' id='' class=''  params=''>
+<#macro charcounter maxChars=0 selector='.lutece-charcounter' title='' defaultClass='text-normal' warningClass='text-warning' dangerClass='text-danger' id='' class=''  params='' deprecated...>
+<@deprecatedWarning args=deprecated />
+<#local charcounterTitle><#if title=''>#i18n{portal.util.labelCharCount}<#else>${title}</#if></#local>
 // Limite la saisie du Titre a n chars
 const counterElements = document.querySelectorAll( '${selector}' );
-let maxChar = ${maxchars},
-	titleCount = '${title}',
-	n = 1
+let maxChar = ${maxChars}, titleCount = '${title}',	n = 1
 counterElements.forEach( ( counter ) => {
 	const charInfo = document.createElement('div');
 	charInfo.setAttribute( 'id',<#noparse>`char-info${n}`</#noparse> );
 	charInfo.classList.add( 'form-text', 'p-1' );
-	if( counter.dataset.luteceCounterTitle != null ) { titleCount = counter.dataset.luteceCounterTitle } else { counter.dataset.luteceCounterTitle = '' }
-	charInfo.textContent = titleCount;
+	if( counter.dataset.luteceCounterTitle != null ) { titleCount = counter.dataset.luteceCounterTitle } else { counter.dataset.luteceCounterTitle = '${charcounterTitle!}' }
+	charInfo.textContent = counter.dataset.luteceCounterTitle;
 	const charCount = document.createElement('span');
 	charCount.classList.add( 'ms-1' );
 	charCount.setAttribute( 'id',<#noparse>`char-info${n}-count`</#noparse> );
@@ -34,16 +34,16 @@ counterElements.forEach( ( counter ) => {
 	charInfo.appendChild( charCount )
 	charInfo.appendChild( charMax )
 	counter.after( charInfo )
+
+	const charElement = document.getElementById(<#noparse>`char-info${n}-count`</#noparse>)
 	
 	counter.addEventListener( 'keydown', (e) => {
 		const typedChar = e.currentTarget.textContent.length;
-		const maxChar =  e.currentTarget.dataset.luteceCounterMax
+		const maxChar =  parseInt( e.currentTarget.dataset.luteceCounterMax ) + 1
 		if ( typedChar >= maxChar ) {
 			if ( event.keyCode != 8 )  e.preventDefault()
 		} else {
-			let countIndex = 0
-			if( e.currentTarget.dataset.luteceCounterTitle != '' ){ countIndex = 1 }
-			setCounter( typedChar, maxChar, e.currentTarget.nextElementSibling.childNodes[ countIndex ] )
+			setCounter( typedChar, maxChar, charElement )
 		}
 	});
 	n++;
