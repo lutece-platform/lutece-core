@@ -38,7 +38,7 @@ Parameters:
 		<#break>
 </#switch>
 </head>
-<body class="antialiased loaded border-top-wide border-primary d-flex flex-column">
+<body class="antialiased loaded border-top-wide border-primary bg-primary d-flex flex-column">
 <@div class="page page-center">
 	<@div class="container">
 		<@div class="text-center mb-4">
