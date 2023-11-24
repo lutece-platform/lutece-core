@@ -177,17 +177,17 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.time_between_alerts
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.access_failures_max', '3');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.access_failures_interval', '10');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.expired_alert_mail_sender', 'lutece@nowhere.com');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.expired_alert_mail_subject', 'Votre compte a expir├⌐');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.expired_alert_mail_subject', 'Votre compte a expiré');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.first_alert_mail_sender', 'lutece@nowhere.com');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.first_alert_mail_subject', 'Votre compte va bient├┤t expirer');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.first_alert_mail_subject', 'Votre compte va bientôt expirer');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.other_alert_mail_sender', 'lutece@nowhere.com');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.other_alert_mail_subject', 'Votre compte va bient├┤t expirer');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.other_alert_mail_subject', 'Votre compte va bientôt expirer');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.account_reactivated_mail_sender', 'lutece@nowhere.com');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.account_reactivated_mail_subject', 'Votre compte a bien ├⌐t├⌐ r├⌐activ├⌐');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.account_reactivated_mail_subject', 'Votre compte a bien été réactivé');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.access_failures_captcha', '1');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.notify_user_password_expired', '');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_mail_sender', 'lutece@nowhere.com');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_mail_subject', 'Votre mot de passe a expir├⌐');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_mail_subject', 'Votre mot de passe a expiré');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.reset_token_validity', '60');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.lock_reset_token_to_session', 'false');
 INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
@@ -208,7 +208,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.c
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '&lt;privacy text&gt;');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', 'themes/admin/shared/images/logo-header-icon.svg');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.locale.default', 'fr');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'themes/admin/shared/unknown.svg');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'themes/admin/shared/images/unknown.svg');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.portlet.title.maxlength', '75');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', 'themes/admin/tabler/images/bg_login1.svg, themes/admin/tabler/images/bg_login2.svg');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXs.checkbox', '1');
@@ -233,11 +233,11 @@ INSERT INTO core_admin_user_anonymize_field (field_name, anonymize) VALUES ('las
 INSERT INTO core_admin_user_anonymize_field (field_name, anonymize) VALUES ('first_name', 1);
 INSERT INTO core_admin_user_anonymize_field (field_name, anonymize) VALUES ('email', 1);
 
-INSERT INTO core_template VALUES ('core_first_alert_mail', 'Bonjour ${first_name} ! Votre compte utilisateur arrive ├á expiration. Pour prolonger sa validit├⌐, veuillez <a href="${url}">cliquer ici</a>.</br>Si vous ne le faites pas avant le ${date_valid}, il sera d├⌐sactiv├⌐.');
-INSERT INTO core_template VALUES ('core_expiration_mail', 'Bonjour ${first_name} ! Votre compte a expir├⌐. Vous ne pourrez plus vous connecter avec, et les donn├⌐es vous concernant ont ├⌐t├⌐ anonymis├⌐es');
-INSERT INTO core_template VALUES ('core_other_alert_mail', 'Bonjour ${first_name} ! Votre compte utilisateur arrive ├á expiration. Pour prolonger sa validit├⌐, veuillez <a href="${url}">cliquer ici</a>.</br>Si vous ne le faites pas avant le ${date_valid}, il sera d├⌐sactiv├⌐.');
-INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${first_name} ! Votre compte utilisateur a bien ├⌐t├⌐ r├⌐activ├⌐. Il est d├⌐sormais valable jusqu''au ${date_valid}.');
-INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a expir├⌐. Lors de votre prochaine connexion, vous pourrez le changer.');
+INSERT INTO core_template VALUES ('core_first_alert_mail', 'Bonjour ${first_name} ! Votre compte utilisateur arrive ├á expiration. Pour prolonger sa validité, veuillez <a href="${url}">cliquer ici</a>.</br>Si vous ne le faites pas avant le ${date_valid}, il sera désactivé.');
+INSERT INTO core_template VALUES ('core_expiration_mail', 'Bonjour ${first_name} ! Votre compte a expiré. Vous ne pourrez plus vous connecter avec, et les données vous concernant ont été anonymisées');
+INSERT INTO core_template VALUES ('core_other_alert_mail', 'Bonjour ${first_name} ! Votre compte utilisateur arrive ├á expiration. Pour prolonger sa validité, veuillez <a href="${url}">cliquer ici</a>.</br>Si vous ne le faites pas avant le ${date_valid}, il sera désactivé.');
+INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${first_name} ! Votre compte utilisateur a bien été réactivé. Il est désormais valable jusqu''au ${date_valid}.');
+INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a expiré. Lors de votre prochaine connexion, vous pourrez le changer.');
 
 INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.admindashboard.editors.labelBackTinyMCE', 1 );
 INSERT INTO core_text_editor VALUES ('tinymce5', 'portal.admindashboard.editors.labelBackTinyMCE5', 1);

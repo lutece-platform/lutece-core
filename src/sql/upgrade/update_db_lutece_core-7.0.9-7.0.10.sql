@@ -13,7 +13,7 @@ INSERT INTO core_datastore (entity_key, entity_value) VALUES ('portal.site.site_
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.user.menumode.show.checkbox';
 INSERT INTO core_datastore (entity_key, entity_value) VALUES ('portal.site.site_property.layout.user.menumode.show.checkbox', '1');
 DELETE FROM core_datastore  WHERE entity_key='portal.site.site_property.avatar_default';
-INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'themes/admin/shared/unknown.svg');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'themes/admin/shared/images/unknown.svg');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.bo.showXs.checkbox';
 INSERT INTO core_datastore (entity_key, entity_value) VALUES ('portal.site.site_property.bo.showXs.checkbox', '1');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.bo.showXsWarning.checkbox';
