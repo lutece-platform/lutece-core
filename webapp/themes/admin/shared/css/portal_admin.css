@@ -402,10 +402,6 @@ td[data-url]:hover {
     min-width: 180px
 }
 
-.page-center {
-    background-color: var(--blue)
-}
-
 #lutece-doc-link {
     position: fixed;
     bottom: 0;

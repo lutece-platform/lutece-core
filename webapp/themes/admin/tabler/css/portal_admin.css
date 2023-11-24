@@ -120,6 +120,11 @@ body[data-bs-theme="dark"] .text-muted {
   overflow: hidden
 }
 
+.page-center {
+  justify-content: center;
+}
+
+
 .lutece-skip-links {
   clip: rect(0 0 0 0);
   -webkit-clip-path: inset(50%);
@@ -261,11 +266,6 @@ body[data-bs-theme="dark"] .text-muted {
 .progress {
   height: 1rem
 }
-/* 
-.theme-dark .progress-bar {
-  color: var(--tblr-progress-bg);
-  background-color: var(--tblr-progress-bar-color)
-} */
 
 .group-property>legend {
   border-bottom: 2px solid var(--dark-light);

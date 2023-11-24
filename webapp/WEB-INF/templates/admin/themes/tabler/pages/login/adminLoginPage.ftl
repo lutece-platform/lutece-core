@@ -8,7 +8,6 @@ Parameters:
 <#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
-<#--  <#local readMode=dskey('portal.site.site_property.layout.readmode.checkbox')/>  -->
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
 <#local loginLayoutImg=dskey('portal.site.site_property.login.image')?trim /> 
 </head>
@@ -23,7 +22,6 @@ Parameters:
 					<@div class="card-body p-5 fs-6">
 						<@div class="text-center mb-4">
 							<@link href='/' target='_blank'>
-								<#--  <img src="${dskey('portal.site.site_property.logo_url')}" height="40" alt="Logo" aria-hidden="true" >  -->
 								<span class="visually-hidden">${site_name!'Lutece'}</span>
 							</@link>
 						</@div>
