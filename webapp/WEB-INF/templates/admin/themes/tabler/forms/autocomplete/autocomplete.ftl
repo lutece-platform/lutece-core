@@ -25,11 +25,7 @@ Parameters:
 <div id="${id}" class="lutece-autocomplete dropdown form-group form-floating " data-itemTitleFieldNames=${itemTitleFieldNames} data-suggestionsUrl="${suggestionsUrl}" data-suggestionsPath="${suggestionsPath}" data-minimumInputLength=${minimumInputLength} data-itemDescriptionFieldNames=${itemDescriptionFieldNames} data-itemTagsFieldNames=${itemTagsFieldNames} data-copyFields=${copyFields} data-emptyLabel="${emptyLabel}" data-currentValue="${currentValue}" data-currentLabel="${currentLabel}" data-suggestionItemClass='["list-group-item", "p-3"]' data-titleClass='["mb-0", "fw-bolder"]' data-descriptionClass='["text-muted", "mb-0"]' data-tagClass='["badge", "bg-blue-lt", "me-1"]' data-loaderIconClasses='{"loading": ["ti-loader-2", "icon-rotate"], "error": ["ti-zoom-exclamation", "text-danger"], "search": ["ti-search"]}' data-emptyClass='["list-group-item", "p-3", "text-muted", "text-center"]' data-searchLabel="${searchLabel}">
   <@formGroup formStyle='floating' class='' labelFor='${id}' labelKey='${searchLabel}' mandatory=mandatory>
     <@inputGroup>
-      <@input type='text' name="${name}" id="${id}" placeHolder="${searchLabel}" class="lutece-autocomplete-search-input" value="${currentValue}" />
-      <div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0 position-relative" aria-labelledby="dropdownMenuButton">
-        <ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto bg-white" id="suggestions-list" style="max-height:15rem;">
-        </ul>
-      </div>
+      <@input type='text' name="${name}" id="${id}" placeHolder="${searchLabel}" class="lutece-autocomplete-search-input w-75" value="${currentValue}" />
       <span role="button" class="input-group-text lutece-autocomplete-remove <#if currentValue=''>d-none</#if> text-danger">
         <i class="ti ti-x fs-5"></i>
       </span>
@@ -37,6 +33,10 @@ Parameters:
         <i id="${id}-search-icon" class="lutece-autocomplete-search-icon ti ti-search"></i>
       </span>
     </@inputGroup>  
+    <div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0 position-relative" aria-labelledby="dropdownMenuButton">
+      <ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto bg-white" id="suggestions-list" style="max-height:15rem;">
+      </ul>
+    </div>
   </@formGroup>
 </div>
 <script type="module">
