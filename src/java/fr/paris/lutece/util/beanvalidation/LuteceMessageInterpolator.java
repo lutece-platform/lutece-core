@@ -40,6 +40,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.validation.MessageInterpolator;
 import jakarta.validation.Validation;
 
@@ -57,10 +58,13 @@ public class LuteceMessageInterpolator implements MessageInterpolator
      */
     public LuteceMessageInterpolator( )
     {
-        _interpolator = Validation.byDefaultProvider( ).configure( ).getDefaultMessageInterpolator( );
-        _locale = LocaleService.getDefault( );
+        _interpolator = Validation.byDefaultProvider( ).configure( ).getDefaultMessageInterpolator( );        
     }
-
+    
+    @PostConstruct
+    public void setLocale() {
+    	_locale = LocaleService.getDefault( );
+    }
     /**
      * Sets the locale for messages
      * 
