@@ -13,7 +13,7 @@ class LuteceAutoComplete extends EventTarget {
     this.originalValue = '';
   }
 
-  async updateAutocomplete(event) {
+  async updateAutocomplete( event ) {
     const input = event.target;
     if (input.value.length < this.minimumInputLength) {
       if (input.value.length > 0) {
@@ -23,12 +23,12 @@ class LuteceAutoComplete extends EventTarget {
     }
     this.loader.setTargetUrl(`${this.suggestionsUrl}` + input.value);
     this.loader.setDataStoreItem('inputValue', input.value);
-    this.dispatchEvent(new Event(LOADING_START));
+    this.dispatchEvent( new Event(LOADING_START) );
     await this.loader.load();
     this.dispatchEvent(new Event(LOADING_END));
   }
 
-  init() {
+  init( ){
     this.searchInput.addEventListener('focus', this.onSearchInputFocus.bind(this));
     this.searchInput.addEventListener('keydown', this.onSearchInputKeyDown.bind(this));
     this.searchInput.addEventListener('blur', this.onSearchInputBlur.bind(this));
@@ -52,7 +52,6 @@ class LuteceAutoComplete extends EventTarget {
     this.originalValue = this.searchInput.value;
   }
 
-
   onSearchInputBlur() {
     setTimeout(() => {
       if (!this.isItemSelected) {
@@ -62,6 +61,7 @@ class LuteceAutoComplete extends EventTarget {
       this.isItemSelected = false;
     }, 200);
   }
+
   onSearchInputKeyDown(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -71,7 +71,6 @@ class LuteceAutoComplete extends EventTarget {
   onItemSelect() {
     this.isItemSelected = true;
   }
-
 
   onLoaderSuccess(event) {
     const suggestions = event.detail.targetElement;
@@ -118,29 +117,24 @@ class LuteceAutoComplete extends EventTarget {
   }
 
   itemTemplate(suggestion) {
-    const item = this.createEl('li', this.suggestionItemClass);
-    item.setAttribute('data-value', suggestion[this.itemValueFieldName]);
-    this.copyFields.forEach(copyField => {
-      item.setAttribute('data-' + copyField.inputName, suggestion[copyField.resultFieldName]);
+    const item = this.createEl( 'li', this.suggestionItemClass);
+    item.setAttribute( 'data-value', suggestion[this.itemValueFieldName]);
+    this.copyFields.forEach( copyField => {
+      item.setAttribute( 'data-' + copyField.inputName, suggestion[copyField.resultFieldName]);
     });
-    item.setAttribute('data-label', this.itemTitleFieldNames.map(field => suggestion[field]).join(" "));
-    item.addEventListener('click', ({
-      currentTarget
-    }) => {
+    item.setAttribute( 'data-label', this.itemTitleFieldNames.map( field => suggestion[field]).join(" ") );
+    item.addEventListener('click', ({ currentTarget }) => {
       this.isItemSelected = true;
       this.onItemSelect();
-      this.dropdown.querySelectorAll(`.list-group-item.active`).forEach(el => el.classList.remove('active'));
-      currentTarget.classList.add('active');
-      this.searchInput.value = currentTarget.getAttribute('data-value');
+      this.dropdown.querySelectorAll( `.list-group-item.active` ).forEach( el => el.classList.remove('active') );
+      currentTarget.classList.add( 'active' );
+      this.searchInput.value = currentTarget.getAttribute( 'data-value' );
       this.copyFields.forEach(item => {
-        console.log(item.inputName)
-        console.log(document.querySelector('input[name=' + item.inputName + ']'));
-        console.log(currentTarget.getAttribute('data-' + item.inputName))
         document.querySelector('input[name=' + item.inputName + ']').value = currentTarget.getAttribute('data-' + item.inputName);
       });
       this.removeBtn.classList.remove('d-none');
     });
-     item.append(
+    item.append(
       this.createEl('p', this.titleClass, this.itemTitleFieldNames.map(field => suggestion[field]).join(" ")),
       this.createEl('p', this.descriptionClass, this.itemDescriptionFieldNames.map(field => suggestion[field]).join(" ")),
       this.itemTagsFieldNames.reduce((tags, field) => (tags.appendChild(this.createEl('span', this.tagClass, suggestion[field])), tags), this.createEl('span'))
@@ -177,7 +171,7 @@ class LuteceAutoComplete extends EventTarget {
 
   extractAttributes(element) {
     this.autocompleteElement = element;
-    this.loader = new LuteceContentLoader("", "json", element.getAttribute('data-suggestionsPath'));
+    this.loader = new LuteceContentLoader( "", "json", element.getAttribute('data-suggestionsPath') );
     this.searchInput = element.querySelector('.lutece-autocomplete-search-input');
     this.suggestionsUrl = element.getAttribute('data-suggestionsUrl');
     this.minimumInputLength = element.getAttribute('data-minimumInputLength');
@@ -185,12 +179,12 @@ class LuteceAutoComplete extends EventTarget {
     this.itemDescriptionFieldNames = JSON.parse(element.getAttribute('data-itemDescriptionFieldNames'));
     this.itemTagsFieldNames = JSON.parse(element.getAttribute('data-itemTagsFieldNames'));
     this.copyFields = JSON.parse(element.getAttribute('data-copyFields'));
-    this.emptyLabel = element.getAttribute('data-emptyLabel');
-    this.formInput = element.querySelector('.lutece-autocomplete-value-input');
-    this.searchLabel = element.getAttribute('data-searchLabel');
-    this.removeBtn = element.querySelector('.lutece-autocomplete-remove');
-    this.searchLoader = element.querySelector('.lutece-autocomplete-search-icon');
-    this.dropdown = element.querySelector('.lutece-autocomplete-dropdown');
+    this.emptyLabel = element.getAttribute( 'data-emptyLabel' );
+    this.formInput = element.querySelector( '.lutece-autocomplete-value-input' );
+    this.searchLabel = element.getAttribute( 'data-searchLabel' );
+    this.removeBtn = element.querySelector( '.lutece-autocomplete-remove' );
+    this.searchLoader = element.querySelector( '.lutece-autocomplete-search-icon' );
+    this.dropdown = element.querySelector( '.lutece-autocomplete-dropdown' );
     this.resultList = element.querySelector('.lutece-autocomplete-result-container');
     this.itemValueFieldName = "value";
     this.emptyClass = JSON.parse(element.getAttribute('data-emptyClass')) || [];
