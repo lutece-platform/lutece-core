@@ -26,7 +26,7 @@ Parameters:
   <@formGroup formStyle='floating' class='' labelFor='${id}' labelKey='${searchLabel}' mandatory=mandatory>
     <@inputGroup>
       <@input type='text' name="${name}" id="${id}" placeHolder="${searchLabel}" class="lutece-autocomplete-search-input" value="${currentValue}" />
-      <div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
+      <div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0 mt-5" aria-labelledby="dropdownMenuButton">
         <ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto bg-white" id="suggestions-list" style="max-height:15rem;">
         </ul>
       </div>
