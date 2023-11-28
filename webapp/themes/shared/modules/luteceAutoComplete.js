@@ -5,15 +5,15 @@ const LOADING_END = 'loading-end';
 const LOADING_ERROR = 'loading-error';
 
 class LuteceAutoComplete extends EventTarget {
-  constructor(autocompleteElement) {
+  constructor(autocompleteElement, optionalVal) {
     super();
     this.extractAttributes(autocompleteElement);
-    this.init();
+    this.init( optionalVal );
     this.isItemSelected = false;
     this.originalValue = '';
   }
 
-  async updateAutocomplete( event ) {
+  async updateAutocomplete( event, optionalVal ) {
     const input = event.target;
     if (input.value.length < this.minimumInputLength) {
       if (input.value.length > 0) {
@@ -21,20 +21,27 @@ class LuteceAutoComplete extends EventTarget {
       }
       return;
     }
-    this.loader.setTargetUrl(`${this.suggestionsUrl}` + input.value);
+    if ( optionalVal != null )
+    {
+    	this.loader.setTargetUrl(`${this.suggestionsUrl}` + input.value + "&" + optionalVal.name + "=" + optionalVal.value);
+    }
+    else
+    {
+    	this.loader.setTargetUrl(`${this.suggestionsUrl}` + input.value);
+    }
     this.loader.setDataStoreItem('inputValue', input.value);
     this.dispatchEvent( new Event(LOADING_START) );
     await this.loader.load();
     this.dispatchEvent(new Event(LOADING_END));
   }
 
-  init( ){
+  init( optionalVal ){
     this.searchInput.addEventListener('focus', this.onSearchInputFocus.bind(this));
     this.searchInput.addEventListener('keydown', this.onSearchInputKeyDown.bind(this));
     this.searchInput.addEventListener('blur', this.onSearchInputBlur.bind(this));
 
     this.searchInput.addEventListener('keyup', this.debounce((event) => {
-      this.updateAutocomplete(event);
+      this.updateAutocomplete(event, optionalVal);
     }, 300));
     this.loader.addEventListener('success', this.onLoaderSuccess.bind(this));
     this.loader.addEventListener('error', this.onLoaderError.bind(this));
@@ -186,7 +193,7 @@ class LuteceAutoComplete extends EventTarget {
     this.searchLoader = element.querySelector( '.lutece-autocomplete-search-icon' );
     this.dropdown = element.querySelector( '.lutece-autocomplete-dropdown' );
     this.resultList = element.querySelector('.lutece-autocomplete-result-container');
-    this.itemValueFieldName = "value";
+    this.itemValueFieldName = element.getAttribute('data-itemValueFieldName');
     this.emptyClass = JSON.parse(element.getAttribute('data-emptyClass')) || [];
     this.suggestionItemClass = JSON.parse(element.getAttribute('data-suggestionItemClass')) || [];
     this.titleClass = JSON.parse(element.getAttribute('data-titleClass')) || [];
