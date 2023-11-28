@@ -81,11 +81,18 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     private boolean _bDefault = true;
 
     /**
+     * Constructor
+     */
+    public LocalDatabaseFileService(  )
+    {  
+    }
+    /**
      * init
      * 
      * @param _fileDownloadUrlService
      * @param _fileRBACService
      */
+    @Deprecated
     public LocalDatabaseFileService( IFileDownloadUrlService _fileDownloadUrlService, IFileRBACService _fileRBACService )
     {
         this._fileDownloadUrlService = _fileDownloadUrlService;

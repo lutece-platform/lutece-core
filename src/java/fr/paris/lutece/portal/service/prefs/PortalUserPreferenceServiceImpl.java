@@ -45,16 +45,12 @@ import jakarta.inject.Inject;
 @ApplicationScoped
 public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceImpl implements IPortalUserPreferencesService
 {
-	
+	@Inject
+	@UserPreferences 
+	IPreferencesDAO _dao;
 	
 	public PortalUserPreferenceServiceImpl() {
-		
-	}
-	
-	@PostConstruct
-	@Inject
-	public void setDao( @UserPreferences IPreferencesDAO dao ) {
-		super.setDao(dao);
+		super.setDao( _dao );
 	}
     /**
      * {@inheritDoc }
