@@ -11,7 +11,8 @@ Parameters:
 - color (string, optional): the color of the tab list.
 
 -->
-<#macro tabList style='tabs' vertical=false id='' class='' params='' color=''>
+<#macro tabList style='tabs' vertical=false id='' class='' params='' color='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if propagateTabStyle?? ><#local style = propagateTabStyle /></#if>
 <ul class="nav nav-${style}<#if vertical> flex-column mb-3</#if><#if class!=''> ${class}</#if>" data-bs-toggle="tabs"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
 <#nested>

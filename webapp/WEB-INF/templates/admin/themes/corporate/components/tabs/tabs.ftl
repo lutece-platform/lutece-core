@@ -13,7 +13,8 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 
 -->
-<#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false params=''>
+<#macro tabs color='' style='tabs' class='' id='' hide=[] collapsed=false params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 <#assign propagateTabStyle = style />

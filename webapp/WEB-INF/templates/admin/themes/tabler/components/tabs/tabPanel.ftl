@@ -9,8 +9,9 @@ Parameters:
 - active (boolean, optional): whether or not the tab panel is active.
 
 -->
-<#macro tabPanel id params='' active=false>
-<div class="tab-pane fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
+<#macro tabPanel id class='' params='' active=false deprecated...>
+<@deprecatedWarning args=deprecated />
+<div class="tab-pane fade<#if active> show active</#if><#if class!=''> ${class}</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
 <#nested>
 </div>
 </#macro>
