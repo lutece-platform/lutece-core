@@ -23,7 +23,7 @@ class LuteceAutoComplete extends EventTarget {
     }
     if ( optionalVal != null )
     {
-    	this.loader.setTargetUrl(`${this.suggestionsUrl}` + input.value + "&" + optionalVal.name + "=" + optionalVal.value);
+    	this.loader.setTargetUrl(`${this.suggestionsUrl}` + input.value + "&additionalParam" + "=" + optionalVal.value);
     }
     else
     {
