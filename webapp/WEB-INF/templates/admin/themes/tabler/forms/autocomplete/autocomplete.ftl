@@ -20,20 +20,11 @@ Parameters:
 - minimumInputLenghtLabel (string, optional): the label for the minimum input length information.
 - searchLabel (string, optional): the label displayed on the dropdown button.
 - emptyLabel (string, optional): the label displayed when there are no suggestions.
-- optionalInput (string, optional): add a second input for the search.
-- typeOptionalInput (string, optional): type of the second input for the search.
-- optionalSearchLabel (string, optional): the label displayed for the second input
+- additionnalRequestParamInputId (string, optional): Id of a second input for the search.
 -->
-<#macro autocomplete id name suggestionsUrl suggestionsPath="" itemValueFieldName="value" btnColor="light" btnSize="" itemLabelFieldNames="[]" itemTitleFieldNames=itemLabelFieldNames itemDescriptionFieldNames="[]" itemTagsFieldNames="[]" copyFields="[]" currentValue="" currentLabel="" required=false minimumInputLength=1 minimumInputLenghtLabel="#i18n{portal.util.labelMinimumSearchLenght}" searchLabel="#i18n{portal.util.labelSearch}" emptyLabel="#i18n{portal.util.labelNoItem}" optionalInput="" typeOptionalInput="text" optionalSearchLabel="" >
+<#macro autocomplete id name suggestionsUrl suggestionsPath="" itemValueFieldName="value" btnColor="light" btnSize="" itemLabelFieldNames="[]" itemTitleFieldNames=itemLabelFieldNames itemDescriptionFieldNames="[]" itemTagsFieldNames="[]" copyFields="[]" currentValue="" currentLabel="" required=false minimumInputLength=1 minimumInputLenghtLabel="#i18n{portal.util.labelMinimumSearchLenght}" searchLabel="#i18n{portal.util.labelSearch}" emptyLabel="#i18n{portal.util.labelNoItem}" additionnalRequestParamInputId="" >
 <div id="${id}" class="lutece-autocomplete dropdown form-group form-floating " data-itemTitleFieldNames=${itemTitleFieldNames} data-suggestionsUrl="${suggestionsUrl}" data-suggestionsPath="${suggestionsPath}" data-itemValueFieldName=${itemValueFieldName} data-minimumInputLength=${minimumInputLength} data-itemDescriptionFieldNames=${itemDescriptionFieldNames} data-itemTagsFieldNames=${itemTagsFieldNames} data-copyFields=${copyFields} data-emptyLabel="${emptyLabel}" data-currentValue="${currentValue}" data-currentLabel="${currentLabel}" data-suggestionItemClass='["list-group-item", "p-3"]' data-titleClass='["mb-0", "fw-bolder"]' data-descriptionClass='["text-muted", "mb-0"]' data-tagClass='["badge", "bg-blue-lt", "me-1"]' data-loaderIconClasses='{"loading": ["ti-loader-2", "icon-rotate"], "error": ["ti-zoom-exclamation", "text-danger"], "search": ["ti-search"]}' data-emptyClass='["list-group-item", "p-3", "text-muted", "text-center"]' data-searchLabel="${searchLabel}">
  
- <#if optionalInput?? && optionalInput?has_content >
- <@formGroup formStyle='floating' class='' labelFor='${id}' labelKey='${optionalSearchLabel}' mandatory=mandatory>
-	<@inputGroup>
-	      <@input type="${typeOptionalInput}" format="Y-m-d" name="${optionalInput}" id="${optionalInput}" class=" w-75" value="${currentValue}" />
-	</@inputGroup>
-  </@formGroup>
-  </#if>
   <@formGroup formStyle='floating' class='' labelFor='${id}' labelKey='${searchLabel}' mandatory=mandatory>
     <@inputGroup>
       <@input type='text' name="${name}" id="${id}" placeHolder="${searchLabel}" class="lutece-autocomplete-search-input w-75" value="${currentValue}" />
@@ -53,6 +44,6 @@ Parameters:
 </div>
 <script type="module">
 import LuteceAutoComplete from "./themes/shared/modules/luteceAutoComplete.js";
-new LuteceAutoComplete(document.getElementById(`${id}`), document.getElementById(`${optionalInput}`));
+new LuteceAutoComplete(document.getElementById(`${id}`), document.getElementById(`${additionnalRequestParamInputId}`));
 </script>
 </#macro>
