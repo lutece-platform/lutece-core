@@ -182,7 +182,8 @@ body[data-bs-theme="dark"] .text-muted {
 }
 
 .lutece-nav.navbar .navbar-nav .dropdown-item {
-  border: 1px solid transparent
+  border: 1px solid transparent;
+  color: var( --dark-light ) !important
 }
 
 #lutece-layout-wrapper.aside .lutece-nav.navbar .navbar-nav .dropdown-item {
