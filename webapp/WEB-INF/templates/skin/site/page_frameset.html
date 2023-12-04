@@ -88,11 +88,11 @@ ${contextinclude_2!}
 ${page_footer}
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled >
 	@Extender[${page_id},PAGE,opengraph,{footer:true}]@
-</#if>
+</#if>	
 <!--    ======================================================= -->
 <!-- 	Le javascript											-->
 <!--    ======================================================= -->
-<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/site.js"></script>
 ${plugins_javascript_links}
 ${statistical_include}
