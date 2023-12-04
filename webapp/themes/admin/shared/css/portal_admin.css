@@ -514,8 +514,8 @@ body[data-bs-theme="dark"] .copy-content:hover:after {
     top: 10px;
 }
 
-#form-portlet #portlet-available .list-group-item.active .btn.d-none{
-    display: block !important;
+#form-portlet #portlet-available .list-group-item.active .btn.invisible{
+    visibility: visible !important;
 }
 
 li.portlet-type a:hover {
