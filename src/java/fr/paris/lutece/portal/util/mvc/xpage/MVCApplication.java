@@ -450,6 +450,18 @@ public abstract class MVCApplication implements XPageApplication
     {
         _listErrors.add( new MVCMessage( strMessage ) );
     }
+    
+    /**
+     * Add an error message. The error message must NOT be an I18n key.
+     * 
+     * @param strMessage
+     *            The message
+     * @param  strFieldName the field name           
+     */
+    protected void addError( String strMessage, String strFieldName )
+    {
+        _listErrors.add( new MVCMessage( strMessage,strFieldName ) );
+    }
 
     /**
      * Add an error message. The error message must be an I18n key.
@@ -464,6 +476,7 @@ public abstract class MVCApplication implements XPageApplication
         _listErrors.add( new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ) );
     }
 
+    
     /**
      * Add an warning message. The warning message must NOT be an I18n key.
      * 
@@ -474,6 +487,22 @@ public abstract class MVCApplication implements XPageApplication
     {
         _listWarnings.add( new MVCMessage( strMessage ) );
     }
+    
+    /**
+     * Add an warning message. The warning message must NOT be an I18n key.
+     * 
+     * @param strMessage
+     *            The message
+     *            
+     * @param  strFieldName the field name            
+     *            
+     */
+    protected void addWarning( String strMessage, String strFieldName  )
+    {
+        _listWarnings.add( new MVCMessage( strMessage,strFieldName ) );
+    }
+    
+
 
     /**
      * Add an warning message. The warning message must be an I18n key.
@@ -497,6 +526,18 @@ public abstract class MVCApplication implements XPageApplication
     protected void addInfo( String strMessage )
     {
         _listInfos.add( new MVCMessage( strMessage ) );
+    }
+    
+    /**
+     * Add an info message. The info message must NOT be an I18n key.
+     * 
+     * @param strMessage
+     *            The message
+     * @param  strFieldName the field name             
+     */
+    protected void addInfo( String strMessage, String strFieldName )
+    {
+        _listInfos.add( new MVCMessage( strMessage,strFieldName )  );
     }
 
     /**

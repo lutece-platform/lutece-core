@@ -69,6 +69,7 @@ public class MVCMessage implements ErrorMessage, Serializable
      * 
      * @param strMessage
      *            The message
+     * @param  strFieldName the field name          
      */
     public MVCMessage( String strMessage, String strFieldName )
     {
