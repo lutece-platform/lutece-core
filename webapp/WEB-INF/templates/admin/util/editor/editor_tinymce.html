@@ -1,6 +1,6 @@
 <#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
 <script src="${webapp_url}themes/admin/shared/js/editors/tinymce/tinymce.min.js"></script>
-<#macro initEditor editorWidth=450 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext'>
+<#macro initEditor editorWidth=450 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext' config={}>
 <#assign editorLocale="" />
 <#-- We only have the language pack for French (France) installed in webapp/js/editors/tinymce/langs -->
 <#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->

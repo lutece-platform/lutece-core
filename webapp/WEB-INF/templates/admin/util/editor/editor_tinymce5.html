@@ -1,8 +1,16 @@
 <#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
 <script src="themes/admin/shared/js/editors/tinymce5/tinymce.min.js"></script>
-<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext'>
+<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext' config={}>
 <#assign editorLocale='' />
 <#local toolbar='' />
+<#local userConf='' />
+<#if config?has_content>
+<#local userConf>
+<#list config as prop, value >
+${prop}: <#if value?is_string>'${value}'<#else>${value}</#if><#sep>,</#sep>
+</#list>
+</#local>
+</#if>
 <#-- We only have the language pack for French (France) installed in webapp/js/editors/tinymce/langs -->
 <#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->
 <#-- Force it here because if it is a wrong value, tinyMCE does not load -->
@@ -92,6 +100,7 @@ const editorConfig = {
     'fullscreen',
     'help'
   ],
+  <#if userConf !=''>${userConf?ensure_ends_with(',')}</#if>
   toolbar: tinyToolbar,
   quickbars_insert_toolbar: tinyQuickbarMenu,
   quickbars_selection_toolbar: selectionToolbar,
