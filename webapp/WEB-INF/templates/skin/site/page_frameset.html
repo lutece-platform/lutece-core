@@ -69,20 +69,17 @@ ${page_path!}
 @Extender[${page_id},PAGE,rating,{show:"all"}]@
 @Extender[${page_id},PAGE,actionbar]@
 </#if>
-<div class="container mt-5 p-5">${page_content}</div>
+<div class="container mt-5 p-5">
+${page_content}
+<#if display_last_modified?? && display_last_modified ><p class="text-right pt-2 pr-5">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p></#if>
+</div>
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled>
 <!-- Extends -->
 @Extender[${page_id},PAGE,comment]@
 @Extender[${page_id},PAGE,feedback]@
 </#if>
 ${contextinclude_2!}
-<#if display_last_modified?? && display_last_modified >
-	<@row>
-		<@column>
-			<p class="text-right p-2">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p>
-		</@column>
-	</@row>
-</#if>
+
 <!-- Main Content -->
 </div>
 ${page_footer}
