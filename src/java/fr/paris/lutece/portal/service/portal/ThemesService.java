@@ -175,6 +175,7 @@ public final class ThemesService
         {
             Cookie cookie = new Cookie( COOKIE_NAME, strTheme );
             cookie.setSecure( true );
+            cookie.setHttpOnly(true);
             response.addCookie( cookie );
         }
     }
