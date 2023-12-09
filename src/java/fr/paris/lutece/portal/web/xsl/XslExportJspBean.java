@@ -517,6 +517,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         try
         {
             SAXParserFactory factory = SAXParserFactory.newInstance( );
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
             SAXParser analyzer = factory.newSAXParser( );
             InputSource is = new InputSource( new ByteArrayInputStream( baXslSource ) );
             analyzer.getXMLReader( ).parse( is );
