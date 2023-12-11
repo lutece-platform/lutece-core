@@ -208,7 +208,7 @@
 
 .lutece-admin-portlet:hover {
     border-color: var( --gray-color);
-    min-height: 270px;
+    min-height: 300px;
 }
 
 /* Portlet toolbar Layout classes          */
