@@ -110,7 +110,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         
         HtmlTemplate t;
         
-        if ( strMode.compareTo( "2" ) == 0 )
+        if ("2".equals(strMode))
         {
             t = AppTemplateService.getTemplate( TEMPLATE_INSERT_TYPE_PAGE_DATA, getLocale( ), model );
         }
