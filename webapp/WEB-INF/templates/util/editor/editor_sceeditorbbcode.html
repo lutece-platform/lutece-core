@@ -13,9 +13,9 @@
 <#-- @param icons 	 | text  | ''          | ['material','monocons'] | Default '' -->
 <#-- @param plugins  | list - text | '' 		   | ['alternative-lists','autosave' ,'autoyoutube', 'dragdrop', 'format','plaintext','undo'] | Default is '' -->
 <#-- -----------------------------------------------------------------------------	-->
-<#macro initEditor editorId='sceeditor' language=.lang emo=true skin='default' format='bbcode' icons='' plugins=[] deprecated...>
+<#macro initEditor editorId='sceeditor' language=.lang emo=true skin='default' format='bbcode' icons='' plugins='' deprecated...>
 <@deprecatedWarningSite args=deprecated />	
-<#assign editorPath='${editorPath}' >
+<#assign editorPath='${editorPath!}' >
 <#assign isEditorLoaded=false>
 <!-- Include the default theme -->
 <#if !isEditorLoaded>
