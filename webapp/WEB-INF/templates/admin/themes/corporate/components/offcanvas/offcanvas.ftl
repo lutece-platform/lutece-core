@@ -20,7 +20,7 @@ Parameters:
 <#macro offcanvas id position='start' title='' btnColor='primary' btnTitle='' btnIcon='' btnClass='' backdrop='true' btnSize='sm' targetUrl='' targetElement='' redirectForm=true size='auto'>
 <@deprecatedWarning args=deprecated />
 
-<a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize!=''> btn-${btnSize}</#if>" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" title="${title}">
+<a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize!=''> btn-${btnSize}</#if>"<#if title !=''> title="${title}"</#if> data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" title="${title}">
   <#if btnIcon!="">
     <@icon style=btnIcon />
   </#if>
