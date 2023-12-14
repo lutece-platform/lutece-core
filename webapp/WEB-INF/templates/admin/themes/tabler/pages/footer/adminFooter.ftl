@@ -39,9 +39,6 @@ Parameters:
 <@coreAdminJSLinks />
 ${javascript_files}
 </div><!-- Close wrapper -->
-<div class="loading">
-<div class="loader"></div>
-</div>
 </#macro>
 <#--
 Macro: adminSiteFooter
