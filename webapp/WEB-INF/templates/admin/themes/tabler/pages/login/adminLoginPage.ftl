@@ -37,13 +37,12 @@ Parameters:
 </@div>
 </#if>
 <#if loginLayoutImg?trim !=''>
-	<div class="container container-normal py-4">
+	<div class="container py-4">
 		<div class="row align-items-center g-4">
 			<div class="col-lg">
-				<div class="container-tight">
 </#if>
 <#--  Content  -->
-<@div class="container-tight py-4">
+<@div class="container py-4">
 	<@div class="text-center mb-4">
 		<@link href='.' target='_blank'>
 			<@span class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!} </@span>
@@ -66,7 +65,6 @@ Parameters:
 <p class="text-center text-white"><small>#i18n{portal.site.portal_footer.labelMadeBy} ${version}</small></p>
 <#--  End content -->
 <#if loginLayoutImg !='' && !loginLayoutImg?starts_with('DS') >
-				</div>
 			</div>
 			<div class="col-12 col-lg-6 col-xl-8 d-none d-lg-block">
 				<div class="bg-cover h-100 min-vh-100 w-100" style="background-image: url(${loginLayoutImg});background-size:70%; "></div>
