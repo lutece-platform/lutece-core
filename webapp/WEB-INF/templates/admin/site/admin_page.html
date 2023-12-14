@@ -1,7 +1,7 @@
 <@pageContainer class='lutece-admin-site'>
     <@pageColumn>
         <@div id='lutece-admin-site-preview-box'>
-            <@div class='lutece-admin-site-header'>
+            <@div class='lutece-admin-site-header d-flex justify-content-between'>
                 <@breadcrumbs class='breadcrumb-arrows has-arrow-separator '>
                     <#if page.id=1>
                         <@breadcrumbItem><@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /> ${page.name} [${page.id}]</@link></@breadcrumbItem>
