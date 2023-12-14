@@ -39,6 +39,9 @@ Parameters:
 <@coreAdminJSLinks />
 ${javascript_files}
 </div><!-- Close wrapper -->
+<div class="loading">
+<div class="loader"></div>
+</div>
 </#macro>
 <#--
 Macro: adminSiteFooter
@@ -139,9 +142,13 @@ document.addEventListener( "DOMContentLoaded", function(){
     })
 
 }); 
+
 import {
     LuteceDraggable
 } from './themes/shared/modules/luteceDraggable.js';
+
+const root = document.querySelector(":root");
+root.style.setProperty("--column-empty-text", `"#i18n{portal.site.portletType.labelCreateColumn}"`);
 
 const containers = document.querySelectorAll('#main .lutece-admin-column-outline');
 const draggables = Array.from(containers).flatMap(container => [...container.children]);
@@ -150,23 +157,35 @@ const AdminHomeDraggable = new LuteceDraggable( draggables, containers);
 async function updatePortlet( portletId, col, order ){
 <#noparse>const response = await fetch( `jsp/admin/site/DoModifyPortletPosition.jsp?portlet_id=${portletId}&column=${col}&order=${order}` );</#noparse>
 }
-
-AdminHomeDraggable.on( 'dragged', (event) => {
-    // should be make a call to user preference to save the position of the widget
+ 
+AdminHomeDraggable.on('dragstart', (event) => {
+   root.style.setProperty( "--column-empty-text", `"Drop moi ici !"` );
+});
+ 
+AdminHomeDraggable.on('dragover', (event) => {
+    //event.currentTarget.style.setProperty( "opacity", ".5" );
+});
+ 
+AdminHomeDraggable.on( 'dragend', (event) => {
+    root.style.setProperty("--column-empty-text", `"#i18n{portal.site.portletType.labelCreateColumn}"`);
+    const dragContainer = event.target.closest( '.lutece-draggable-container' );
+    const newCol = dragContainer.dataset.portletColumn;
     const portletId = event.currentTarget.firstElementChild.dataset.portletId
-	let newCol = 0, newOrder= 0
+    let newOrder= 1
 	if ( event.currentTarget.nextSibling != null ){
-		newOrder = event.currentTarget.nextSibling.firstElementChild.dataset.portletOrder
+		newOrder = parseInt( event.currentTarget.nextSibling.firstElementChild.dataset.portletOrder )
 		if( newOrder > 1 ){ newOrder-- }
-	    newCol = event.currentTarget.nextSibling.firstElementChild.dataset.portletColumn
 	} else if ( event.currentTarget.previousSibling != null ){
-		newOrder = event.currentTarget.previousSibling.previousSibling.firstElementChild.dataset.portletOrder
+		newOrder = parseInt( event.currentTarget.previousSibling.previousSibling.firstElementChild.dataset.portletOrder )
 		newOrder++
-	    newCol = event.currentTarget.previousSibling.previousSibling.firstElementChild.dataset.portletColumn
-	}
+    }
+
 	event.currentTarget.firstElementChild.firstElementChild.textContent = newOrder
 	event.currentTarget.firstElementChild.firstElementChild.dataset.portletOrder = newOrder
 	event.currentTarget.firstElementChild.firstElementChild.dataset.portletColumn = newCol
+
+    if( dragContainer.textContent.trim() === '' ){ dragContainer.textContent = '' }
+
 	updatePortlet( portletId, newCol, newOrder )
 }); 
 </script> 

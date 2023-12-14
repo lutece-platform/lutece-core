@@ -2,19 +2,19 @@
 <#assign portletOrder = portlet.order />
 <#assign portletOrderMax = order_max!20 />
 <#assign portletCol = portlet.column />
-<@btnToolbar class='lutece-admin-toolbar' params='data-portlet-id="${portletId}" data-portlet-order="${portletOrder}" data-portlet-column="${portletCol}"'>
-	<@tag color='primary rounded-circle' title='${i18n("portal.site.portletPreview.orderBadgeTooltip",portletOrder)}' params='style="max-height:30px"'>${portletOrder}</@tag>
-	<@div class='lutece-admin-toolbar-button'>
-		<@tform action='jsp/admin/DoModifyPortlet.jsp' type='' class='pull-left is-pulled-left'>
+<@btnToolbar class='lutece-admin-toolbar d-flex' params='data-portlet-id="${portletId}" data-portlet-order="${portletOrder}" data-portlet-column="${portletCol}"'>
+	<@tag color='primary rounded-circle me-1' title='${i18n("portal.site.portletPreview.orderBadgeTooltip",portletOrder)}'>${portletOrder}</@tag>
+	<@div class='lutece-admin-toolbar-button d-flex'>
+		<@tform action='jsp/admin/DoModifyPortlet.jsp' type=''>
 			<@input type='hidden' name='portlet_id' value=portletId />
-			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonModify}' buttonIcon='pencil me-2 text-primary' size='' hideTitle=['all'] />
+			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonModify}' buttonIcon='pencil text-primary' size='' hideTitle=['all'] />
 		</@tform>
 		<#if portletOrder gt 1>
 			<@tform action='jsp/admin/site/DoModifyPortletPosition.jsp' type='' params='target="_top"'>
 				<@input type='hidden' name='portlet_id' value=portletId />
 				<@input type='hidden' name='order' value=portletOrder - 1  />
 				<@input type='hidden' name='column' value=portletCol! />
-				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonUp}' buttonIcon='arrows-up me-2' hideTitle=['all'] />
+				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonUp}' buttonIcon='arrows-up ' hideTitle=['all'] />
 			</@tform>
 		</#if>
 		<#if portletOrder lt portletOrderMax>
@@ -22,34 +22,34 @@
 				<@input type='hidden' name='portlet_id' value=portletId />
 				<@input type='hidden' name='order' value=portletOrder + 1 />
 				<@input type='hidden' name='column' value=portletCol! />
-				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonDown}' buttonIcon='arrows-down me-2' hideTitle=['all'] />
+				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonDown}' buttonIcon='arrows-down ' hideTitle=['all'] />
 			</@tform>
 		</#if>
 		<#if portlet.status = portlet_status_published>
 			<@tform action='jsp/admin/site/ModifyPortletStatus.jsp' type=''>
 				<@input type='hidden' name='portlet_id' value=portletId />
 				<@input type='hidden' name='status' value='${portlet_status_unpublished}' />
-				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonSuspend}' buttonIcon='stop me-2 text-danger' size='' hideTitle=['all'] />
+				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonSuspend}' buttonIcon='stop  text-danger' size='' hideTitle=['all'] />
 			</@tform>
 		<#else>
 			<@tform action='jsp/admin/site/ModifyPortletStatus.jsp' type=''>
 				<@input type='hidden' name='portlet_id' value=portletId />
 				<@input type='hidden' name='status' value='${portlet_status_published}' />
-				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonActivate}' buttonIcon='play me-2 text-success' size='' hideTitle=['all'] />
+				<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonActivate}' buttonIcon='play  text-success' size='' hideTitle=['all'] />
 			</@tform>
 		</#if>
 		<#if custom_action_list?has_content>
 			<#list custom_action_list as custom_action>
 				<@tform action='${custom_action.actionUrl}' params='target="_parent"' type=''>
 					<@input type='hidden' name='id_portlet' value=portletId />
-					<@button color='default' type='submit' title='#i18n{${custom_action.title}}' buttonIcon='globe me-2 text-primary' size='' hideTitle=['all'] />
+					<@button color='default' type='submit' title='#i18n{${custom_action.title}}' buttonIcon='globe text-primary' size='' hideTitle=['all'] />
 				</@tform>
 			</#list>
 		</#if>
 		<@tform action='jsp/admin/site/RemovePortlet.jsp' type=''>
 			<@input type='hidden' name='portlet_id' value=portletId />
-			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonDelete}' buttonIcon='trash me-2 text-danger' size='' hideTitle=['all'] />
+			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonDelete}' buttonIcon='trash  text-danger' size='' hideTitle=['all'] />
 		</@tform>
-		<@button title='#i18n{portal.site.portletPreview.buttonAdd}' buttonIcon='row-insert-bottom me-2 text-info' color='default' hideTitle=['all'] size='' params='data-bs-toggle="modal" data-portlet-column="${portlet.column}" data-portlet-order="${portlet.order+1}" data-portlet-page="${portlet.pageId!}"  data-portlet-type="${portlet.portletTypeId!}"'/>
+		<@button title='#i18n{portal.site.portletPreview.buttonAdd}' buttonIcon='row-insert-bottom text-info' color='default' hideTitle=['all'] size='' params='data-bs-toggle="modal" data-portlet-column="${portlet.column}" data-portlet-order="${portlet.order+1}" data-portlet-page="${portlet.pageId!}"  data-portlet-type="${portlet.portletTypeId!}"'/>
 	</@div>
 </@btnToolbar>

@@ -103,7 +103,6 @@ function themeMenu( ){
 	const btnAsideCollapse = document.querySelector('#aside-header-collapse');
 	btnAsideCollapse.addEventListener( 'click', (e) => {	
 		//menuHeader.classList.toggle('collapsed')
-		if( localMenuState !=  null ){
 			if ( !menuHeader.classList.contains('collapsed') ) {
 				menuHeader.classList.add( 'collapsed' )
 				localStorage.setItem('lutece-tabler-theme-menu-state', 'collapsed');
@@ -111,9 +110,9 @@ function themeMenu( ){
 				localStorage.setItem('lutece-tabler-theme-menu-state', '');
 				menuHeader.classList.remove( 'collapsed') 
 			}
-		}
 	});
 
+	document.querySelector('body').classList.remove( 'loading' )
 	document.querySelector('body').classList.add( 'loaded' )
 }
 
@@ -130,14 +129,20 @@ function readMode( ){
 	}
 	if( switchReadMode != null ){
 		switchReadMode.addEventListener( "click", function(e){
+			const readModeBtn = switchReadMode.querySelector('.ti'); 
 			defaultReadMode = document.querySelector('body').getAttribute('dir')
 			if( defaultReadMode === null ){
 				document.querySelector('body').setAttribute('dir','rtl')
 				localStorage.setItem( 'lutece-bo-readmode', 'rtl' );
+				readModeBtn.classList.toggle('ti-text-direction-rtl')
+				readModeBtn.classList.toggle('ti-text-direction-ltr')
 			} else {
 				document.querySelector('body').removeAttribute('dir')
 				localStorage.removeItem( 'lutece-bo-readmode' );
+				readModeBtn.classList.toggle('ti-text-direction-ltr')
+				readModeBtn.classList.toggle('ti-text-direction-rtl')
 			} 
+
 		})
 	}
 }

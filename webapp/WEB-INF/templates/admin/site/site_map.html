@@ -1,4 +1,4 @@
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasSiteMap" aria-labelledby="offcanvasSiteMapLabel">
+<div class="offcanvas offcanvas-start vh-100 mh-100" tabindex="-1" id="offcanvasSiteMap" aria-labelledby="offcanvasSiteMapLabel">
 <div class="offcanvas-header">
 	<h5 class="offcanvas-title" id="offcanvasSiteMapLabel">#i18n{portal.site.admin_page.tabAdminMapSite}</h5>
 	<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -11,5 +11,5 @@ ${map_site}
 import LuteceTree from './themes/shared/modules/luteceTree.js';
 const tree = document.querySelector("#lutece-map-tree");
 const mapTree = new LuteceTree( tree );
-mapTree.selectTreeNode('#node-${page.id}')
+mapTree.selectTreeNode( '#node-${page.id}' )
 </script>
