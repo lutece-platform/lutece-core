@@ -17,7 +17,7 @@ Parameters:
 <@div class="position-fixed top-0 w-100 d-block d-md-block d-lg-none m-0 p-0 overflow-hidden" params='style="z-index: 1050"'>
     <@pageColumn class="p-0 m-0">
 	   <@div class="d-flex align-items-center justify-content-center vh-100 ">
-			<@div class="container">
+	   		<@div class="container">
 				<@div class="card shadow-lg rounded-4 p-4 mt-3 mx-2 mw-30">
 					<@div class="card-body p-5 fs-6">
 						<@div class="text-center mb-4">
@@ -42,7 +42,8 @@ Parameters:
 			<div class="col-lg">
 </#if>
 <#--  Content  -->
-<@div class="container py-4">
+<#assign containerClass><#if loginLayoutImg?trim =''> container-tight py-4<#else>toto</#if></#assign>
+<@div class="container${containerClass}!''">
 	<@div class="text-center mb-4">
 		<@link href='.' target='_blank'>
 			<@span class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!} </@span>
