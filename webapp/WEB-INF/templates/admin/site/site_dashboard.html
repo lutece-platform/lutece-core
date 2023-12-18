@@ -9,10 +9,10 @@
 		<small>[${i18n( 'portal.site.dashboard.labelDateModification', last_modified_page.dateUpdate)} ]</small>
 	</@p>
 	<@p>
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=5' title='#i18n{portal.site.admin_page.titleAddChildPage}' buttonIcon='plus' size='xs' color='success' hideTitle=['all'] />
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}' title='#i18n{portal.site.admin_page.tabPageManagement}' buttonIcon='edit' size='xs' hideTitle=['all'] />
-		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=2' title='#i18n{portal.site.admin_page.titlePageProperties}' buttonIcon='wrench' size='xs' hideTitle=['all'] />
-		<@aButton href='jsp/site/Portal.jsp?page_id=${last_modified_page.id}' title='#i18n{portal.site.page.permission.view} [#i18n{portal.site.portal_footer.newWindow}]' buttonIcon='link' size='xs' hideTitle=['all'] />
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=5' title='#i18n{portal.site.admin_page.titleAddChildPage}' buttonIcon='plus' size='sm' color='success' hideTitle=['all'] />
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}' title='#i18n{portal.site.admin_page.tabPageManagement}' buttonIcon='edit' size='sm' hideTitle=['all'] />
+		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=2' title='#i18n{portal.site.admin_page.titlePageProperties}' buttonIcon='wrench' size='sm' hideTitle=['all'] />
+		<@aButton href='jsp/site/Portal.jsp?page_id=${last_modified_page.id}' title='#i18n{portal.site.page.permission.view} [#i18n{portal.site.portal_footer.newWindow}]' buttonIcon='link' size='sm' hideTitle=['all'] />
 	</@p>
 </@div>
 <#if last_modified_portlet??>
