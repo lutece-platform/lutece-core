@@ -50,11 +50,7 @@
 									<@formGroup labelFor='user_level' labelKey='${i18n("portal.users.create_user.userLevelLabel")}' rows=2>
 										<@select class='input-sm' name='user_level'>
 										<#list user_levels as user_level>
-											<#if user_level.id = default_user_level.id>
-												<option value="${user_level.id}" selected="selected">${user_level.name}</option>
-											<#else>
-												<option value="${user_level.id}">${user_level.name}</option>
-											</#if>
+											<@option value=user_level.id selected=user_level.id = default_user_level.id label=user_level.name />
 										</#list>
 										</@select>
 									</@formGroup>  
@@ -75,13 +71,8 @@
 						<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
 							<@formGroup labelFor='status' labelKey='${i18n("portal.users.modify_user.labelStatus")}' rows=2>
 								<@select name="status">
-								<#if default_user_status = 1>
-									<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-									<option value="1" selected="selected">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								<#else>
-									<option value="0" selected="selected">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-									<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								</#if>
+									<@option value="0" selected=default_user_status=1 label='#i18n{portal.users.create_user.statusLabelEnabled}' />
+									<@option value="0" selected=default_user_status!=1 label='#i18n{portal.users.create_user.statusLabelDisabled}' />
 								</@select>
 							</@formGroup>
 							<#if displayFieldset( user_levels attributes_list )>
@@ -115,3 +106,17 @@
 	</#if>
     </@columns>
 </@row>
+<script type="module">
+import { LutecePassword	} from './themes/shared/modules/lutecePassword.js';
+
+const password = new LutecePassword();
+const generator = document.getElementById('generate_password');
+const input = document.getElementById('first_password');
+
+generator.addEventListener('click', () => {
+	input.value = password.generatePassword();
+	input.dispatchEvent(new Event('input'));
+});
+password.passwordInput = '#first_password'
+password.initPassToggler( );
+</script>

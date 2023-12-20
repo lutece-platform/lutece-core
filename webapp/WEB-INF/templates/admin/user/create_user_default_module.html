@@ -154,9 +154,7 @@
 	</@pageColumn>
 </@pageContainer>
 <script type="module">
-import {
-		LutecePassword
-	} from './themes/shared/modules/lutecePassword.js';
+import { LutecePassword	} from './themes/shared/modules/lutecePassword.js';
 
 const password = new LutecePassword();
 const generator = document.getElementById('generate_password');
@@ -166,6 +164,6 @@ generator.addEventListener('click', () => {
 	input.value = password.generatePassword();
 	input.dispatchEvent(new Event('input'));
 });
-password.passTogglerInput = '#first_password'
+password.passwordInput = '#first_password'
 password.initPassToggler( );
 </script>

@@ -11,8 +11,9 @@ export class LutecePassword {
       this.uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
       this.numbers = "0123456789";
       this.symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?";
-      this.passTogglerBtn = '#lutece-password-toggler'
-      this.passTogglerInput = '#password'
+      this.passwordInput = '#password';
+      this.progressBar = '#progress';
+      this.passTogglerBtn = '#lutece-password-toggler';
       this.passTogglerIconOn = "ti-eye";
       this.passTogglerIconOff = "ti-eye-off";
     }
@@ -60,7 +61,7 @@ export class LutecePassword {
      * @param {string} password The password to check.
      * @returns {number} The complexity value of the password, as a percentage of the maximum score (100).
      */
-    getComplexity(password) {
+    calcComplexity(password) {
       let hasLowercase = /[a-z]/.test(password);
       let hasUppercase = /[A-Z]/.test(password);
       let hasNumber = /\d/.test(password);
@@ -80,6 +81,28 @@ export class LutecePassword {
       }
       return Math.round(lengthScore + complexityScore);
     }
+    /**
+     * Set the complexity bar 
+     * Show the complexity result in progress bar.
+     */
+    getComplexity( ) {
+        const input = document.querySelector( this.passwordInput )
+        const progressBar = document.querySelector( this.progressBar )
+        input.addEventListener('input', () => {
+          const complexityScore = this.calcComplexity(input.value);
+          progressBar.style.width = complexityScore + '%';
+          progressBar.innerHTML = Math.round(complexityScore) + '%';
+          progressBar.setAttribute( 'aria-valuenow', Math.round( complexityScore ));
+          progressBar.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+          if( complexityScore < 50 ) {
+            progressBar.classList.add('bg-danger')
+          } else if ( complexityScore >= 50 && complexityScore < 100 ) {
+            progressBar.classList.add('bg-warning')
+          } else {
+            progressBar.classList.add('bg-success')
+          }
+        });
+    }
    
     /**
      * Initializes the password toggler.
@@ -87,7 +110,7 @@ export class LutecePassword {
     initPassToggler( ) {
       const _passDefaultTogglerIcon = "ti-eye";
       const btnToggler = document.querySelector( this.passTogglerBtn )
-      const inputToggler = document.querySelector( this.passTogglerInput )
+      const inputToggler = document.querySelector( this.passwordInput )
       btnToggler.firstElementChild.classList.remove( _passDefaultTogglerIcon );
       btnToggler.firstElementChild.classList.add( this.passTogglerIconOn );
       btnToggler.addEventListener(
