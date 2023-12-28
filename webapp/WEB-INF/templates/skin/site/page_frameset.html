@@ -53,9 +53,7 @@ ${statistical_include_head}
 </head>
 <body>
  <!-- header -->
-<header role="banner" id="site_header">
 ${page_header}
-</header>
 <!-- end header -->
 <!-- Main Content -->
 ${social!}
@@ -79,12 +77,11 @@ ${page_content}
 @Extender[${page_id},PAGE,feedback]@
 </#if>
 ${contextinclude_2!}
-
 <!-- Main Content -->
 </div>
 ${page_footer}
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled >
-	@Extender[${page_id},PAGE,opengraph,{footer:true}]@
+@Extender[${page_id},PAGE,opengraph,{footer:true}]@
 </#if>	
 <!--    ======================================================= -->
 <!-- 	Le javascript											-->
