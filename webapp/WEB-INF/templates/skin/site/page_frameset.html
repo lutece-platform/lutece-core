@@ -20,11 +20,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="shortcut icon" type="image/x-icon" href="favicon.svg"/>
 <!-- Le style -->
-<#if plugin_theme?? >
-    <#assign thetheme=plugin_theme />
-<#else>
-    <#assign thetheme=theme />
-</#if>
+<#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
 <link href="${thetheme.pathCss}/tabler-icons.min.css" rel="stylesheet">
 <link href="${thetheme.pathCss}/bootstrap.min.css" rel="stylesheet">
 <link href="${thetheme.pathCss}/page_template_styles.css" rel="stylesheet">
@@ -50,13 +46,16 @@ ${plugins_css_links}
 ${statistical_include_head}
 </head>
 <body>
- <!-- header -->
+<!-- header -->
+<header role="banner" class="header">
 ${page_header}
+</header>
 <!-- end header -->
 <!-- Main Content -->
 ${social!}
 ${contextinclude!}
 ${contextinclude_1!}
+<main role="main" class="container">
 ${page_path!}
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled >
 <!-- Extends -->
@@ -65,7 +64,7 @@ ${page_path!}
 @Extender[${page_id},PAGE,rating,{show:"all"}]@
 @Extender[${page_id},PAGE,actionbar]@
 </#if>
-<div class="container mt-5 p-5">
+<div class="main-content mt-5 p-5">
 ${page_content}
 <#if display_last_modified?? && display_last_modified ><p class="text-right pt-2 pr-5">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p></#if>
 </div>
@@ -75,6 +74,7 @@ ${page_content}
 @Extender[${page_id},PAGE,feedback]@
 </#if>
 ${contextinclude_2!}
+</main>
 <!-- Main Content -->
 ${page_footer}
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled >
