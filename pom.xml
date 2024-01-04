@@ -12,12 +12,11 @@
     <packaging>lutece-core</packaging>
     <version>8.0.0-SNAPSHOT</version>
     <name>Lutece</name>
-    <url>http://dev.lutece.paris.fr/</url>
+    <url>https://dev.lutece.paris.fr/</url>
 
     <properties>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
-        <log4jVersion>2.20.0</log4jVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.project>lutece-platform/lutece-core</github.project>
         <twitter.account>LuteceFoundry</twitter.account>
@@ -28,7 +27,7 @@
         <repository>
             <id>lutece</id>
             <name>luteceRepository</name>
-            <url>http://dev.lutece.paris.fr/maven_repository</url>
+            <url>https://dev.lutece.paris.fr/maven_repository</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
@@ -80,8 +79,8 @@
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
                 </exclusion>
-	    </exclusions>
-        <scope>test</scope>
+		    </exclusions>
+	        <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -117,39 +116,37 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>${log4jVersion}</version>
         </dependency>
 	    <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>${log4jVersion}</version>
         </dependency>
         <!-- To avoid problems the Log4j shutdown hook will automatically be disabled when the log4j-web jar is included. -->
-      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jakarta-web -->
+      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jakarta-web   -->		
 		<dependency>
 		    <groupId>org.apache.logging.log4j</groupId>
 		    <artifactId>log4j-jakarta-web</artifactId>
-		    <version>${log4jVersion}</version>
+		    <version>3.0.0-alpha1</version>
 		    <scope>runtime</scope>
 		</dependency>
 	    <!--The Log4j 2 SLF4J Binding allows applications coded to the SLF4J API to use Log4j 2 as the implementation -->
         <dependency>
 	    	<groupId>org.apache.logging.log4j</groupId>
 	    	<artifactId>log4j-slf4j-impl</artifactId>
-	    	<version>${log4jVersion}</version>
+	    	<scope>runtime</scope>
         </dependency>
         <!-- he Log4j 1.2 Bridge allows applications coded to use Log4j 1.2 API to use Log4j 2 instead 
 	see requirements https://logging.apache.org/log4j/2.x/log4j-1.2-api -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
-            <version>${log4jVersion}</version>
+            <scope>runtime</scope>
         </dependency>        
         <!-- The Commons Logging Bridge allows applications coded to the Commons Logging API to use Log4j 2 as the implementation. -->
 		<dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-jcl</artifactId>
-            <version>${log4jVersion}</version>
+            <scope>runtime</scope>
         </dependency>
         <!--
           commons-logging is a transitive dependency of many libraries with different versions.
@@ -222,60 +219,43 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.13.4</version>
         </dependency>
         		<!-- JAKARTA 10 -->
         
-        <!-- @Mail API and implementation -->  
+        <!-- @Mail API  -->  
         <dependency>
 		    <groupId>jakarta.mail</groupId>
 		    <artifactId>jakarta.mail-api</artifactId>
-		</dependency>
-   		<dependency>
-		    <groupId>org.eclipse.angus</groupId>
-		    <artifactId>angus-mail</artifactId>
-		    <version>2.0.1</version>
-		    <scope>runtime</scope>
-		</dependency>
-        
-        <!-- @Activation API and implementation -->       
+		    <scope>provided</scope>
+		</dependency>  		        
+        <!-- @Activation API -->       
 		<dependency>
 		    <groupId>jakarta.activation</groupId>
 		    <artifactId>jakarta.activation-api</artifactId>
+		    <scope>provided</scope>
 		</dependency>   
-		<dependency>
-		    <groupId>org.eclipse.angus</groupId>
-		    <artifactId>angus-activation</artifactId>
-		    <version>2.0.0</version>
-		    <scope>runtime</scope>
-		</dependency>  
-        
+	
         <!-- @Inject API -->
         <dependency>
 	      <groupId>jakarta.inject</groupId>
 	      <artifactId>jakarta.inject-api</artifactId>
+	      <scope>provided</scope>
 	    </dependency>
 	    
 	    <!-- @Annotation API -->
         <dependency>
 	      <groupId>jakarta.annotation</groupId>
 	      <artifactId>jakarta.annotation-api</artifactId>
+	      <scope>provided</scope>
     	</dependency>
 
         <!-- Bean validation API -->
         <dependency>
 	      <groupId>jakarta.validation</groupId>
 	      <artifactId>jakarta.validation-api</artifactId>
+	      <scope>provided</scope>
    		</dependency>
-   		
-   		<!-- Implementation validation API -->
-   		<dependency>
-		    <groupId>org.hibernate.validator</groupId>
-		    <artifactId>hibernate-validator</artifactId>
-		    <version>8.0.0.Final</version>
-		     <scope>runtime</scope>
-		</dependency>
-        
+   	
         <!-- Open CSV -->
         <dependency>
             <groupId>net.sf.opencsv</groupId>
@@ -287,18 +267,12 @@
 		<dependency>
 		    <groupId>jakarta.persistence</groupId>
 		    <artifactId>jakarta.persistence-api</artifactId>
+		    <scope>provided</scope>
 		</dependency>        
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-        </dependency>
-      
-        <!-- jaxb-runtime is implementation of jakarta.xml.bind-api -->	
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>4.0.2</version>
-            <scope>runtime</scope>
+            <scope>provided</scope>
         </dependency>
         
         <!-- LUTECE DEPENDENCIES -->
@@ -366,20 +340,7 @@
         <dependency>
 		    <groupId>org.eclipse.microprofile.config</groupId>
 		    <artifactId>microprofile-config-api</artifactId>
-		    <version>3.0.3</version>
-		</dependency>
-		<!-- implementation of microprofile config api -->
-        <dependency>
-		    <groupId>io.smallrye.config</groupId>
-		    <artifactId>smallrye-config</artifactId>
-		    <version>3.3.3</version>
-		    <scope>runtime</scope>
-		</dependency>
-		<dependency>
-		    <groupId>org.jboss.weld.servlet</groupId>
-		    <artifactId>weld-servlet-shaded</artifactId>
-    		<scope>runtime</scope>
-		</dependency>			
+		</dependency>		
 		<dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>plugin-spring-extension</artifactId>
@@ -399,5 +360,4 @@
         <url>https://github.com/lutece-platform/lutece-core.git</url>
       <tag>HEAD</tag>
   </scm>
-
 </project>
