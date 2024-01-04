@@ -66,6 +66,8 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     private static final String PROPERTY_MAX_AWAIT_TERMINATION_DELAY = "daemon.maxAwaitTerminationDelay";
 
     private  BlockingQueue<DaemonEntry> _queue;
+    @Inject
+    @DaemonExecutor
     private ExecutorService _executor;
     private Thread _coordinatorThread;
     private Timer _scheduledDaemonsTimer;
@@ -87,10 +89,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     }
 
     @PostConstruct
-    @Inject
-    public void initDaemonScheduler( @DaemonExecutor ExecutorService executor ){
-    	
-    	_executor=executor;
+    public void initDaemonScheduler( ){  	
     	_queue = new LinkedBlockingQueue<DaemonEntry>();
         _scheduledDaemonsTimer = new Timer( "Lutece-Daemons-Scheduled-Timer-Thread", true );
         _executingDaemons = new HashMap<>( );
