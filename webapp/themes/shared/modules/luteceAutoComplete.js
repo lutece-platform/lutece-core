@@ -4,56 +4,104 @@ const LOADING_START = 'loading-start';
 const LOADING_END = 'loading-end';
 const LOADING_ERROR = 'loading-error';
 
+const KEYCODES = {
+  13: 'enter',
+  27: 'escape',
+  32: 'space',
+  38: 'up',
+  40: 'down'
+}
+
 class LuteceAutoComplete extends EventTarget {
   constructor(autocompleteElement, optionalVal) {
     super();
-    this.extractAttributes(autocompleteElement);
+    this.extractAttributes( autocompleteElement );
     this.init( optionalVal );
     this.isItemSelected = false;
+    this.isItemSelectedId = '';
     this.originalValue = '';
+    this.open = false;
+    this.listSize = 0;
   }
 
   async updateAutocomplete( event, optionalVal ) {
     const input = event.target;
-    if (input.value.length < this.minimumInputLength) {
+    if (input.value.length < this.minimumInputLength ) {
       if (input.value.length > 0) {
         this.resultList.innerHTML = '';
       }
       return;
     }
-    if ( optionalVal != null )
-    {
+    
+    if ( optionalVal != null ) {
     	this.loader.setTargetUrl(`${this.suggestionsUrl}` + input.value + "&additionalParam" + "=" + optionalVal.value);
-    }
-    else
-    {
+    } else {
     	this.loader.setTargetUrl(`${this.suggestionsUrl}` + input.value);
     }
+    
     this.loader.setDataStoreItem('inputValue', input.value);
     this.dispatchEvent( new Event(LOADING_START) );
     await this.loader.load();
-    this.dispatchEvent(new Event(LOADING_END));
+    this.dispatchEvent( new Event(LOADING_END));
   }
 
   init( optionalVal ){
-    this.searchInput.addEventListener('focus', this.onSearchInputFocus.bind(this));
-    this.searchInput.addEventListener('keydown', this.onSearchInputKeyDown.bind(this));
-    this.searchInput.addEventListener('blur', this.onSearchInputBlur.bind(this));
-
-    this.searchInput.addEventListener('keyup', this.debounce((event) => {
+    this.searchInput.addEventListener( 'focus', this.onSearchInputFocus.bind(this));
+    this.searchInput.addEventListener( 'keydown', this.onSearchInputKeyDown.bind(this));
+    this.searchInput.addEventListener( 'blur', this.onSearchInputBlur.bind(this));
+    
+    this.searchInput.addEventListener( 'keyup', this.debounce((event) => {
       this.updateAutocomplete(event, optionalVal);
     }, 300));
+    
     this.loader.addEventListener('success', this.onLoaderSuccess.bind(this));
     this.loader.addEventListener('error', this.onLoaderError.bind(this));
     this.removeBtn.addEventListener('click', this.onRemoveBtnClick.bind(this));
+
     this.addEventListener(LOADING_ERROR, this.onLoadingError.bind(this));
     this.addEventListener(LOADING_START, this.onLoadingStart.bind(this));
     this.addEventListener(LOADING_END, this.onLoadingEnd.bind(this));
+    
     window.addEventListener('resize', this.adjustWidths.bind(this));
+    
     this.adjustWidths();
+  }
+  
+  /* Search Key Events */
+  handleSearchDownArrow(event) {
+    event.preventDefault()
+    if ( this.open && this.listSize > 0 ){
+       this.resultList.firstElementChild.setAttribute('aria-selected','true')
+       this.resultList.firstElementChild.classList.add('active')
+       this.resultList.firstElementChild.focus()
+       const activeItemId = this.resultList.firstElementChild.getAttribute('id')
+       this.searchInput.setAttribute('aria-activedescendant', activeItemId );
+       this.isItemSelected = true;
+       this.isItemSelectedId = activeItemId;
+    }
+  }
+  
+  /* Result List Key Events */
+  handleListArrows( key ) {
+    let activeItem = this.resultList.querySelector('[aria-selected="true"]'), nextMenuItem;
+    if (this.resultList.childElementCount === 0) { return; }
+    if( key === 'up' ){
+      nextMenuItem = ( activeItem.previousSibling != null ) ? activeItem.previousSibling : this.resultList.lastElementChild; //last item in list
+    } else {
+      nextMenuItem = ( activeItem.nextSibling  != null ) ? activeItem.nextSibling : this.resultList.firstElementChild; //first item in list
+    }
+    activeItem.setAttribute('aria-selected', 'false')
+    this.clearSelected( )
+    nextMenuItem.classList.add('active');
+    nextMenuItem.setAttribute('aria-selected', 'true')
+    const activeItemId = nextMenuItem.getAttribute('id')
+    this.isItemSelectedId = activeItemId;
+    this.searchInput.setAttribute('aria-activedescendant', activeItemId );
   }
 
   onSearchInputFocus() {
+    this.searchInput.setAttribute('aria-activedescendant','');
+    this.searchInput.setAttribute('aria-expanded','true');
     this.dropdown.style.display = 'block'; 
     this.inputWasEmpty = this.searchInput.value === '';
     this.originalValue = this.searchInput.value;
@@ -61,29 +109,96 @@ class LuteceAutoComplete extends EventTarget {
 
   onSearchInputBlur() {
     setTimeout(() => {
-      if (!this.isItemSelected) {
+      if (!this.isItemSelected ) {
         this.searchInput.value = this.originalValue;
+        this.dropdown.style.display = 'none';
+        this.isItemSelected = false;
+        this.searchInput.setAttribute( 'aria-expanded', 'false' );
+      } else {
+        this.searchInput.setAttribute( 'aria-expanded', 'false' );
+        this.searchInput.removeAttribute( 'aria-activedescendant' );
+        this.open = false
       }
-      this.dropdown.style.display = 'none';
-      this.isItemSelected = false;
     }, 200);
   }
 
-  onSearchInputKeyDown(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
+  onResultKeyDown(event) {
+    switch (KEYCODES[event.keyCode]) {
+      case 'up':
+        event.preventDefault();
+        this.handleListArrows('up')
+        break
+      case 'down':
+        event.preventDefault();
+        this.handleListArrows('down')
+        break
+      case 'space':
+        event.preventDefault();
+        break
+      case 'enter':
+        event.preventDefault();
+        document.getElementById(this.isItemSelectedId).click();
+        break
+      case 'escape':
+        event.preventDefault();
+        this.dropdown.classList.add('d-none')
+        this.searchInput.setAttribute('aria-expanded','false');
+        this.searchInput.focus();
+        break
+      default:
+        break
     }
   }
 
-  onItemSelect() {
+  onSearchInputKeyDown(event) {
+    switch (KEYCODES[event.keyCode]) {
+      case 'up':
+        event.preventDefault();
+        break
+      case 'down':
+        this.handleSearchDownArrow(event)
+        break
+      case 'space':
+        event.preventDefault();
+        break
+      case 'enter':
+        if ( this.resultList.childElementCount > 0 ){
+          this.dropdown.classList.remove('d-none')
+        }
+        this.searchInput.setAttribute('aria-expanded','true');
+        event.preventDefault();
+        break
+      case 'escape':
+        this.dropdown.classList.add('d-none')
+        this.searchInput.setAttribute('aria-expanded','false');
+        event.preventDefault();
+        break
+      default:
+        if ( this.resultList.childElementCount > 0 && this.searchInput.value !='' ){
+          this.dropdown.classList.remove('d-none')
+        }
+        break
+    }
+  }
+
+  clearSelected( ){
+    this.dropdown.querySelectorAll( `.list-group-item.active` ).forEach( el => el.classList.remove('active') );
+  }
+
+  onItemSelected() {
     this.isItemSelected = true;
+    this.dropdown.classList.add('d-none')
+    this.clearSelected()
+    this.removeBtn.classList.remove('d-none');
   }
 
   onLoaderSuccess(event) {
+    this.ariaLive.textContent = ''
     const suggestions = event.detail.targetElement;
+    this.listSize = event.detail.targetElement.length;
     this.resultList.innerHTML = '';
-    suggestions.forEach((suggestion) => {
-      this.resultList.appendChild(this.itemTemplate(suggestion));
+    suggestions.forEach( (suggestion, index ) => {
+      this.resultList.appendChild( this.itemTemplate( suggestion, index ) );
     });
   }
 
@@ -92,10 +207,9 @@ class LuteceAutoComplete extends EventTarget {
     this.dispatchEvent(new Event(LOADING_ERROR));
   }
 
-  onRemoveBtnClick() {
-    this.dropdown.querySelectorAll('.list-group-item.active').forEach(el => {
-      el.classList.remove('active');
-    });
+  onRemoveBtnClick() {    
+    this.clearSelected()
+    this.dropdown.classList.add('d-none');
     this.searchInput.value = '';
     this.copyFields.forEach(item => {
       document.querySelector('input[name=' + item.inputName + ']').value = '';
@@ -112,35 +226,49 @@ class LuteceAutoComplete extends EventTarget {
   }
 
   onLoadingStart() {
-    this.updateLoader(this.loaderIconClasses.loading, [...this.loaderIconClasses.search, ...this.loaderIconClasses.error]);
+    this.updateLoader( this.loaderIconClasses.loading, [...this.loaderIconClasses.search, ...this.loaderIconClasses.error]);
   }
 
-  onLoadingEnd() {
-    this.updateLoader(this.loaderIconClasses.search, this.loaderIconClasses.loading);
-    if (this.resultList.childElementCount === 0) {
-      const emptyItem = this.createEl('li', this.emptyClass, this.emptyLabel);
-      this.resultList.appendChild(emptyItem);
-    }
+   onLoadingEnd(){
+      this.updateLoader(this.loaderIconClasses.search, this.loaderIconClasses.loading);
+      if (this.resultList.childElementCount === 0) {
+        const emptyItem = this.createEl('li', this.emptyClass, this.emptyLabel);
+        this.resultList.appendChild(emptyItem);
+        this.searchInput.setAttribute('aria-expanded','true');
+      } else {
+        this.open=true;
+        this.searchInput.setAttribute('aria-expanded','true');
+        this.ariaLive.textContent = `${this.resultList.childElementCount} éléments trouvés`
+        
+      }
   }
-
-  itemTemplate(suggestion) {
+  
+  itemTemplate( suggestion, index ) {
+    const idx = index + 1
     const item = this.createEl( 'li', this.suggestionItemClass);
+    item.setAttribute( 'id', 'lutece-autocomplete-option-' + idx );
+    item.setAttribute( 'aria-posinset', idx );
+    item.setAttribute( 'aria-setsize', this.listSize );
+    item.setAttribute( 'aria-selected', 'false');
+    item.setAttribute( 'role', 'option');
+    item.setAttribute( 'tabindex', '-1');
     item.setAttribute( 'data-value', suggestion[this.itemValueFieldName]);
     this.copyFields.forEach( copyField => {
       item.setAttribute( 'data-' + copyField.inputName, suggestion[copyField.resultFieldName]);
     });
     item.setAttribute( 'data-label', this.itemTitleFieldNames.map( field => suggestion[field]).join(" ") );
     item.addEventListener('click', ({ currentTarget }) => {
-      this.isItemSelected = true;
-      this.onItemSelect();
-      this.dropdown.querySelectorAll( `.list-group-item.active` ).forEach( el => el.classList.remove('active') );
       currentTarget.classList.add( 'active' );
+      this.isItemSelectedId = currentTarget.getAttribute('id');
       this.searchInput.value = currentTarget.getAttribute( 'data-value' );
       this.copyFields.forEach(item => {
         document.querySelector('input[name=' + item.inputName + ']').value = currentTarget.getAttribute('data-' + item.inputName);
       });
       this.removeBtn.classList.remove('d-none');
+      this.onItemSelected();
     });
+    item.addEventListener('keydown', this.onResultKeyDown.bind(this) );
+    
     item.append(
       this.createEl('p', this.titleClass, this.itemTitleFieldNames.map(field => suggestion[field]).join(" ")),
       this.createEl('p', this.descriptionClass, this.itemDescriptionFieldNames.map(field => suggestion[field]).join(" ")),
@@ -178,6 +306,7 @@ class LuteceAutoComplete extends EventTarget {
 
   extractAttributes(element) {
     this.autocompleteElement = element;
+    this.ariaLive = element.querySelector('.lutece-autocomplete-status');
     this.loader = new LuteceContentLoader( "", "json", element.getAttribute('data-suggestionsPath') );
     this.searchInput = element.querySelector('.lutece-autocomplete-search-input');
     this.suggestionsUrl = element.getAttribute('data-suggestionsUrl');
