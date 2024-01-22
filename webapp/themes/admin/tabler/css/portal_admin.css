@@ -348,10 +348,6 @@ body[data-bs-theme="dark"] .text-muted {
   color: var(--tblr-primary)
 }
 
-.form-control-sm.form-select {
-	padding:0 10px!important;
-}
-
 body[data-bs-theme="dark"] .input-group-text > .btn {
   color: var(--tblr-light)
 }
@@ -940,11 +936,11 @@ mark {
 
 @media (max-width:576px) {
   #pageHeaderTools {
-      display: block
+      /*display: block*/
   }
 
   #pageHeaderTools form {
-      display: block !important;
+      /*display: block !important;*/
       width: 100%;
       margin-bottom: .25rem
   }
