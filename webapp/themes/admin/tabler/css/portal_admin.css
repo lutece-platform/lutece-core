@@ -248,6 +248,10 @@ body[data-bs-theme="dark"] .text-muted {
   justify-content: end
 }
 
+#pageHeaderTools > * {
+	margin-left: 3px;
+}
+
 .btn-group>.btn.active, .btn-group>.btn:active, .btn-group>.btn:focus, .btn-group>.btn:hover {
   z-index: 1;
 }
@@ -342,6 +346,10 @@ body[data-bs-theme="dark"] .text-muted {
 
 .input-group-text > .btn.btn-primary {
   color: var(--tblr-primary)
+}
+
+.form-control-sm.form-select {
+	padding:0 10px!important;
 }
 
 body[data-bs-theme="dark"] .input-group-text > .btn {
