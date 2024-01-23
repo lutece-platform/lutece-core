@@ -349,7 +349,7 @@ body[data-bs-theme="dark"] .text-muted {
 }
 
 .form-control-sm.form-select {
-	padding:0 10px!important;
+	padding: 0.1rem 3rem 0.1rem 0.5rem;
 }
 
 body[data-bs-theme="dark"] .input-group-text > .btn {
