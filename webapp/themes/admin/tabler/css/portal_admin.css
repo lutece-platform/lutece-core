@@ -348,6 +348,10 @@ body[data-bs-theme="dark"] .text-muted {
   color: var(--tblr-primary)
 }
 
+.form-control-sm.form-select {
+	padding:0 10px!important;
+}
+
 body[data-bs-theme="dark"] .input-group-text > .btn {
   color: var(--tblr-light)
 }
