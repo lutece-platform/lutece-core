@@ -31,7 +31,7 @@ Parameters:
 		<#assign icontype="fa-ban" />
 	</#if>
 </head>
-<body class="lutece-message" data-bs-theme="light">
+<body class="lutece-message"  data-bs-theme="light">
 	<div class="d-flex align-items-center justify-content-center vh-100 flex-column">
 		<@div class="container-sm w-100 d-flex flex-column align-items-center justify-content-end">
 			<@row class='justify-content-center align-items-center w-100'>
@@ -46,9 +46,12 @@ Parameters:
 				</@columns>
 			</@row>
 		</@div>
-		<script>
-			document.body.setAttribute('data-bs-theme', 'dark');
-		</script>
 	</div>
+<script>
+const savedTheme = localStorage.getItem('lutece-corporate-theme');
+if ( savedTheme ) {
+    document.body.setAttribute('data-bs-theme', savedTheme);
+}
+</script>
 </body>
-</#macro> 
+</#macro>
