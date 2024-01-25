@@ -10,14 +10,14 @@ Parameters:
 <#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header.svg')>
 <#local loginLayoutImg=dskey('portal.site.site_property.login.image')?trim />
 </head>
-<body class="lutece-login" data-bs-theme="dark"${readMode!}<#if params!=''> ${params}</#if>>
+<body class="lutece-login" data-bs-theme="light" ${readMode!}<#if params!=''> ${params}</#if>>
 <main>
 <#if dskey('portal.site.site_property.bo.showXsWarning.checkbox') == '0' >
-<@div class="position-fixed top-0 w-100 d-block d-md-block d-lg-none m-0 p-0 bg-dark overflow-hidden" params='style="z-index: 1050"'>
+<@div class="position-fixed top-0 w-100 d-block d-md-block d-lg-none m-0 p-0 bg-body overflow-hidden" params='style="z-index: 1050"'>
     <@pageColumn class="p-0 m-0">
 	   <@div class="d-flex align-items-center justify-content-center vh-100 ">
 			<@div class="container">
-				<@div class="card shadow-lg rounded-4 p-4 mt-3 mx-2 mw-30">
+				<@div class="card shadow-lg rounded-4 p-4 mt-3 mx-auto mw-30">
 					<@div class="card-body p-5 fs-6">
 						<@div class="text-center mb-4">
 							<@link href='/' target='_blank'>
@@ -80,9 +80,13 @@ Parameters:
 <script type="module">
 import { LutecePassword } from './themes/shared/modules/lutecePassword.js';
 const passwordC = new LutecePassword();
+const savedTheme = localStorage.getItem('lutece-corporate-theme');
 document.addEventListener("DOMContentLoaded", function() {
 	/* Password Toggler */
 	passwordC.initPassToggler();
 });
+if ( savedTheme ) {
+document.body.setAttribute('data-bs-theme', savedTheme);
+}
 </script>
 </#macro>

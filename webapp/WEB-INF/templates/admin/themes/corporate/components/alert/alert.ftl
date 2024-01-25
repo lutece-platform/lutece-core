@@ -14,7 +14,7 @@ Parameters:
 - params (string, optional): additional HTML attributes to include in the alert element.
 -->
 <#macro alert class='d-flex align-items-center' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="alert<#if color!=''> alert-${color}</#if><#if class!=''> ${class}</#if><#if dismissible> alert-dismissible</#if> shadow"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="alert rounded <#if color!=''>bg-body text-${color} border-${color}</#if><#if class!=''> ${class}</#if><#if dismissible> alert-dismissible</#if> shadow"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if color!=''><#assign txtColor> text-${color}</#assign></#if>
 <#if iconTitle!=''><@icon style=iconTitle class='mx-2${txtColor}' /></#if>
 <#if title!=''><${titleLevel} class="alert-title ms-2">${title}</${titleLevel}></#if>
