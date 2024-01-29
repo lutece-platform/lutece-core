@@ -14,7 +14,7 @@ Parameters:
 <#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
 <#if errors??>
 	<#if errors?size gt 0 >
-		<#list errors as error ><#if errors.message??><#local errorMessage=error.message!' Error ' /></#if></#list>
+		<#list errors as error ><#if error.message??><#local errorMessage=error.message!' Error ' /></#if></#list>
 		<@alert color='danger' title=errorMessage iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'>	</@alert>
 	</#if>
 </#if>
