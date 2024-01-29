@@ -29,4 +29,38 @@ Parameters:
 <#if showReport >
 <div id="${progressId}-report" class="progress-bar-report" lastline=0></div>
 </#if>
+<#if token !='' && !luteceProgressLoaded??>
+<script type="module">
+import LuteceProgress from "./themes/shared/modules/luteceProgress.js";
+new LuteceProgress();
+</script>
+<#assign luteceProgressLoaded=true >
+<#else>
+<!-- Add you own scripts to update width value un style attribute, aria-valud-now and progress-bar text content 
+-- Example --
+<script>
+document.addEventListener( "DOMContentLoaded", function(){
+	let i = 0;
+	if ( i == 0 ){
+    i = 1;
+    const elem = document.getElementById('${id!}');
+    let width = ${value!};
+    const idInterval = setInterval( progressFrame, ${intervalTime!});
+    function progressFrame() {
+      if ( width >= $[max!]) {
+        clearInterval( idInterval );
+        i = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+        elem.setAttribute('aria-value-now', width )
+        elem.textConent = width + "%";
+      }
+    }
+	}
+});
+</script>
+-- End example --
+-->
+</#if>
 </#macro>
