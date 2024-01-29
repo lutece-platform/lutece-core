@@ -158,9 +158,6 @@ class LuteceAutoComplete extends EventTarget {
       case 'down':
         this.handleSearchDownArrow(event)
         break
-      case 'space':
-        event.preventDefault();
-        break
       case 'enter':
         if ( this.resultList.childElementCount > 0 ){
           this.dropdown.classList.remove('d-none')
