@@ -12,7 +12,7 @@ Parameters:
    <#if accordionContainerId?? == false><#assign accordionContainerId = 1 ><#else><#assign accordionContainerId = accordionContainerId + 1 ></#if>
    <#local id = 'accCont_'+ accordionContainerId >
 </#if>
-<div class="accordion" id="${id}"<#if params!=''> ${params}</#if>>
+<div class="accordion shadow" id="${id}"<#if params!=''> ${params}</#if>>
 <#assign parentId = id>
 <#nested>
 </div>
