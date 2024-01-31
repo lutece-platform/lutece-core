@@ -4,29 +4,24 @@
 			<@tform type='inline' align="middle" method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
 				<@input type='hidden' name='role_key' value='${role.key}' />
 				<@formGroup groupStyle='inline' formStyle='inline'>
-					<@inputGroup class=''>
-						<@select name='resource_type' size='sm'>
-							<#list resource_type_list?sort_by('resourceTypeLabel') as resource_type>
-								<option value="${resource_type.resourceTypeKey}">${resource_type.resourceTypeLabel}
-								</option>
-							</#list>
+					<@inputGroup>
+						<@select name='resource_type' size=''>
+						<#list resource_type_list?sort_by('resourceTypeLabel') as resource_type>
+							<@option value=resource_type.resourceTypeKey label='${resource_type.resourceTypeLabel}' />
+						</#list>
 						</@select>
-						<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}'
-							hideTitle=['all'] buttonIcon='plus' size='sm' />
+						<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['xs','sm'] buttonIcon='plus' size='' />
 					</@inputGroup>
 				</@formGroup>
 			</@tform>
-			<@offcanvas id="edit-role" title="#i18n{portal.rbac.modify_role.titleModifyRole}" position="end"
-				btnTitle="#i18n{portal.rbac.modify_role.titleModifyRole}" btnIcon="edit">
+			<@offcanvas id="edit-role" title="#i18n{portal.rbac.modify_role.titleModifyRole}" position="end" btnTitle="#i18n{portal.rbac.modify_role.titleModifyRole}" btnIcon="edit">
 				<@tform method='post' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
 					<@input type='hidden' name='role_key_previous' value='${role.key}' />
 					<@input type='hidden' name='token' value='${token}' />
-					<@formGroup labelKey='#i18n{portal.rbac.modify_role.labelKey}' labelFor='role_key' mandatory=true
-						rows=2>
+					<@formGroup labelKey='#i18n{portal.rbac.modify_role.labelKey}' labelFor='role_key' mandatory=true rows=2>
 						<@input type='text' id='role_key' name='role_key' value='${role.key}' readonly=true />
 					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.rbac.modify_role.labelDescription}' labelFor='role_description'
-						mandatory=true rows=2>
+					<@formGroup labelKey='#i18n{portal.rbac.modify_role.labelDescription}' labelFor='role_description' mandatory=true rows=2>
 						<@input type='text' id='role_description' name='role_description' value='${role.description}'
 							maxlength=255 />
 					</@formGroup>

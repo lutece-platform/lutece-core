@@ -7,19 +7,10 @@ Parameters:
 - icon (string, optional): the icon to display in the panel header.
 - color (string, optional): the color of the panel header, using a Bootstrap color class (e.g. "primary", "success", "danger").
 -->
-<#macro adminDashboardPanel title='' parentId='' childId='' icon='' color=''>
+<#macro adminDashboardPanel title='' navTitle='' parentId='' childId='' icon='' color=''>
 <#assign parentId=parentId />
-<@tabPanel id='${childId}' params="title='${title}' ">
+<@tabPanel id='${childId}' params='title="${title}" data-nav="${navTitle}" data-icon="${icon}" data-color="${color}"'>
 <@pageHeader title="${title}" />
 <#nested>
 </@tabPanel>
-
-<script>
-document.addEventListener( "DOMContentLoaded", function(){
-	const urlHash = document.location.hash, idHash = document.querySelector( urlHash ) ;
-	if ( urlHash != undefined) {
-		idHash.classList.add('show')
-	}
-});
-</script>
 </#macro>

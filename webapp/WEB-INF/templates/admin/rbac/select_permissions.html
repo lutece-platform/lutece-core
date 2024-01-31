@@ -1,53 +1,49 @@
-<@row>
-	<@columns>
-		<@box>
-			<@boxHeader title='#i18n{portal.rbac.select_permissions.titleSelectPermissions}'  skipHeader=true />
-			<@boxBody>
-				<@tform method='post' action='jsp/admin/rbac/DoSelectPermissions.jsp' name='add_control'>
-					<@input type='hidden' name='role_key' value='${role_key}' />
-					<@input type='hidden' name='resource_type' value='${resource_type}' />
-					<@input type='hidden' name='select_resources' value='${select_resources}' />
-					<@input type='hidden' name='token' value='${token}' />
-					<#if resource_id_list?has_content>
-						<#list resource_id_list as resource_id>
-							<@input type='hidden' name='resource_id' value='${resource_id}' />
-						</#list>
-					</#if>
-					<@formGroup>
-						<@radioButton name='select_permissions' id='select_all' value='all' labelKey='#i18n{portal.rbac.select_permissions.labelSelectAllPermissions}' checked=true />
-						<@radioButton name='select_permissions' id='select_choose' value='choose' labelKey='#i18n{portal.rbac.select_permissions.labelSelectPermissionsFromList}' />
-					</@formGroup>
-					<@formGroup>
-						<#list permissions_list as item>
-							<#if item.checked >
-								<@checkBox name='permission_key' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
-							<#else>
-								<@checkBox name='permission_key' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
-							</#if>
-						</#list>
-					</@formGroup>
-					<@formGroup>
-						<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' color='default' />
-						<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' color='primary'/>
-					</@formGroup>
-				</@tform>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+<@pageContainer>
+    <@pageColumn>
+        <@pageHeader title=i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)  skipHeader=true />
+		<@tform method='post' action='jsp/admin/rbac/DoSelectPermissions.jsp' name='add_control' boxed=true>
+		<@input type='hidden' name='role_key' value='${role_key}' />
+		<@input type='hidden' name='resource_type' value='${resource_type}' />
+		<@input type='hidden' name='select_resources' value='${select_resources}' />
+		<@input type='hidden' name='token' value='${token}' />
+		<#if resource_id_list?has_content><#list resource_id_list as resource_id><@input type='hidden' name='resource_id' value='${resource_id}' /></#list></#if>
+		<@formGroup>
+			<@radioButton name='select_permissions' id='select_all' value='all' labelKey='#i18n{portal.rbac.select_permissions.labelSelectAllPermissions}' checked=true />
+			<@radioButton name='select_permissions' id='select_choose' value='choose' labelKey='#i18n{portal.rbac.select_permissions.labelSelectPermissionsFromList}' />
+		</@formGroup>
+		<@formGroup>
+		<#list permissions_list as item>
+			<#if item.checked >
+				<@checkBox name='permission_key' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
+			<#else>
+				<@checkBox name='permission_key' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
+			</#if>
+		</#list>
+		</@formGroup>
+		<@formGroup>
+			<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' color='default' />
+			<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' color='primary'/>
+		</@formGroup>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>
 <script>
-$(function( $ ) {
-	$(":checkbox").click( function(){
-		if( $( ":checked" ).length > 1 ){
-			$("#select_choose").prop("checked", true );
-			$( "#select_all" ).prop( "checked", false );
-		} else {
-			$("#select_choose").prop( "checked", false );
-			$("#select_all").prop("checked", true );
-		}
+document.addEventListener('DOMContentLoaded', (event) => {
+	document.querySelectorAll('[type=checkbox]').forEach(checkbox => {
+		checkbox.addEventListener('click', function(){
+			if(document.querySelectorAll(":checked").length > 1 ){
+				document.querySelector("#select_choose").checked = true;
+				document.querySelector("#select_all").checked = false;
+			} else {
+				document.querySelector("#select_choose").checked = false;
+				document.querySelector("#select_all").checked = true;
+			}
+		});
 	});
-	$("#select_all").click(function() {
-		$(":checkbox").prop("checked",false);
+	document.querySelector("#select_all").addEventListener('click', function() {
+		document.querySelectorAll(":checkbox").forEach(checkbox => {
+			checkbox.checked = false;
+		});
 	});
 });
 </script>

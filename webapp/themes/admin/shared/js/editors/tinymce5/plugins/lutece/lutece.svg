@@ -1,0 +1,39 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <symbol id="logo" viewBox="0 0 36 36">
+            <g stroke-width="2" fill="none">
+                <path stroke="#9d5694" vector-effect="non-scaling-stroke" d="M21.79 10.75q1.65-.82 3.65-.42.75.15.77-.61l.05-3.3q.01-.67-.66-.67h-3.32q-.49 0-.5.49l-.07 4.01"/>
+                <path stroke="#ffa295" vector-effect="non-scaling-stroke" d="M21.71 10.25l-4.29-.03q-.41 0-.41-.41l-.02-4.41q0-.65-.65-.65h-4.46q-.63 0-.63.63v25.74q0 .63.63.63h14.37q.75 0 .75-.75v-3.25q0-.75-.75-.75h-8.81q-.5 0-.5-.5l.02-10.89a.86.85 90 00-.85-.86h-2.98q-.63 0-.63-.63V11q0-.75.75-.75h3q.68 0 .7.68l.07 3.34q.02.48.5.48h3.72q.49 0 .5-.5l.05-3.5"/>
+                <path stroke="#9db3ff" vector-effect="non-scaling-stroke" d="M21.71 10.25l.08.5"/>
+            </g>
+            <path fill="#ff442a" d="M17.06 0h2.25Q33.7 2.22 36 16.56v3C34.13 31 23.2 38.95 11.97 34.76-6.44 27.88-2.19 2.39 17.06 0zm4.73 10.75q1.65-.82 3.65-.42.75.15.77-.61l.05-3.3q.01-.67-.66-.67h-3.32q-.49 0-.5.49l-.07 4.01-4.29-.03q-.41 0-.41-.41l-.02-4.41q0-.65-.65-.65h-4.46q-.63 0-.63.63v25.74q0 .63.63.63h14.37q.75 0 .75-.75v-3.25q0-.75-.75-.75h-8.81q-.5 0-.5-.5l.02-10.89a.86.85 90 00-.85-.86h-2.98q-.63 0-.63-.63V11q0-.75.75-.75h3q.68 0 .7.68l.07 3.34q.02.48.5.48h3.72q.49 0 .5-.5l.05-3.5z"/>
+            <path fill="#fff" d="M21.71 10.25l.08.5-.05 3.5q-.01.5-.5.5h-3.72q-.48 0-.5-.48l-.07-3.34q-.02-.68-.7-.68h-3q-.75 0-.75.75v3.12q0 .63.63.63h2.98a.86.85 90 01.85.86l-.02 10.89q0 .5.5.5h8.81q.75 0 .75.75V31q0 .75-.75.75H11.88q-.63 0-.63-.63V5.38q0-.63.63-.63h4.46q.65 0 .65.65l.02 4.41q0 .41.41.41l4.29.03z"/>
+            <path fill="#3b67fe" d="M21.79 10.75l-.08-.5.07-4.01q.01-.49.5-.49h3.32q.67 0 .66.67l-.05 3.3q-.02.76-.77.61-2-.4-3.65.42z"/>
+        </symbol>
+        <symbol id="luteceimage" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M15 8h.01"></path>
+            <path d="M12.5 21h-6.5a3 3 0 0 1 -3 -3v-12a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v6.5"></path>
+            <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l4 4"></path>
+            <path d="M14 14l1 -1c.653 -.629 1.413 -.815 2.13 -.559"></path>
+            <path d="M19 16v6"></path>
+            <path d="M22 19l-3 3l-3 -3"></path>
+        </symbol>
+        <symbol id="lutecepdf" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+            <path d="M5 12v-7a2 2 0 0 1 2 -2h7l5 5v4"></path>
+            <path d="M5 18h1.5a1.5 1.5 0 0 0 0 -3h-1.5v6"></path>
+            <path d="M17 18h2"></path>
+            <path d="M20 15h-3v6"></path>
+            <path d="M11 15v6h1a2 2 0 0 0 2 -2v-2a2 2 0 0 0 -2 -2h-1z"></path>
+        </symbol>
+         <symbol id="lutecepagelink" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M4 21v-4a3 3 0 0 1 3 -3h5"></path>
+            <path d="M9 17l3 -3l-3 -3"></path>
+            <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+            <path d="M5 11v-6a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2h-9.5"></path>
+        </symbol>
+    </defs>
+</svg>

@@ -6,6 +6,7 @@
 <#-- Information about this commons file -->
 <#macro commonsFile>commons_bs5_tabler.html</#macro>
 <#macro commonsName>Commons Bootstrap 5 + Tabler 1.0</#macro>
+<#macro commonsPreview>themes/admin/tabler/images/preview.png</#macro>
 <#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 5 + Tabler 1</#macro>
 <#-- Path               -->
 <#assign commonsJsPath='js/' /> 
@@ -25,6 +26,11 @@
 <#-- Theme Macros       -->
 <#macro coreAdminCSSLinks>
 <!-- Shared CSS -->
+<link href="css/admin/style/tabler/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1 -->
+<link href="css/admin/style/tabler/bootstrap-colorpicker.min.css" rel="stylesheet"><!-- BS colorpicker -->
+<link href="css/admin/jquery-ui.min.css" rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/jquery-ui.structure.min.css" rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/jquery-ui.theme.min.css" rel="stylesheet" > <!-- provided by core -->
 <link href="${commonsSharedPath}${commonsCssPath}vendor/bootstrap/bootstrap-icons.min.css" rel="stylesheet" > <#-- Bootstrap Icons -->
 <link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-icons.min.css" rel="stylesheet"><#-- Tabler icons -->
 <link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-flags.min.css" rel="stylesheet"><#-- Tabler flags -->
@@ -33,16 +39,18 @@
 <link href="${commonsSharedPath}${commonsJsPath}lib/polipop/css/polipop.default.min.css" rel="stylesheet"><#-- Polipop theme -->
 <link href="${commonsSharedPath}${commonsCssPath}portal_admin.min.css" rel="stylesheet"><#-- Lutece main admin CSS -->
 <!-- Theme <@commonsName /> CSS -->
-<link href="${commonsThemePath}${commonsCssPath}vendor/tabler-vendors.min.css" rel="stylesheet"><#-- Tabler Vendors -->
 <link href="${commonsThemePath}${commonsCssPath}vendor/tabler.min.css" rel="stylesheet"><#-- Tabler main -->
 <link href="${commonsThemePath}${commonsCssPath}portal_admin.min.css" rel="stylesheet"><#-- Lutece main admin CSS -->
 <link href="${commonsThemePath}${commonsCssPath}portal_admin_site.min.css" rel="stylesheet"><#-- Site override admin CSS -Empty by default- -->
-<#-- Optionnal JQuery include - Set for Jquery compat to remove ASAP ! -->
-<#assign optHeaderCss=.get_optional_template('commons_theme_jquery.html')>
-<#if optHeaderCss.exists><@includeJqueryCore /></#if>
+<script src="js/admin/jquery/jquery-3.6.0.min.js"></script> <!-- main JQuery file -->
 </#macro>
 <#macro coreAdminJSLinks>
 <!-- Shared JS -->
+<script src="js/admin/jquery/jquery-migrate-1.4.1.min.js"></script> <!-- Compat JQuery file -->
+<script src="js/admin/jquery/jquery-ui.min.js"></script>
+<script src="js/admin/style/tabler/bootstrap-filestyle.min.js"></script> 
+<script src="js/admin/style/tabler/bootstrap-colorpicker.js"></script> 
+<script src="js/util/progress-manager.js"></script>
 <script src="${commonsSharedPath}${commonsJsPath}lib/bootstrap/bootstrap.bundle.min.js"></script><#-- Bootstrap main -->
 <script src="${commonsSharedPath}${commonsJsPath}lib/sortable/Sortable.min.js"></script> <#-- Sortable lib main -->
 <script src="${commonsSharedPath}${commonsJsPath}lib/polipop/polipop.min.js"></script><#-- Polipop main -->
@@ -58,6 +66,7 @@
 <#include "${commonsFtlPath}pages/header/adminAccessibilityMode.ftl" />
 <#include "${commonsFtlPath}pages/header/adminSiteColumnOutline.ftl" />
 <#include "${commonsFtlPath}pages/header/adminSiteToolbar.ftl" />
+<#include "${commonsFtlPath}pages/header/adminSkipNav.ftl" />
 <#-- Footer -->
 <#include "${commonsFtlPath}pages/footer/adminFooter.ftl" />
 <#-- Home -->
@@ -73,8 +82,6 @@
 <#-- Error page -->
 <#include "${commonsFtlPath}pages/error/errorPage.ftl" />
 <#-- Components -->
-<#-- Autocomplete component -->
-<#include "${commonsFtlPath}components/autocomplete/autocomplete.ftl" />
 <#-- Pagination components -->
 <#include "${commonsFtlPath}components/pagination/pagination.ftl" />
 <#include "${commonsFtlPath}components/pagination/paginationAdmin.ftl" />
@@ -157,6 +164,8 @@
 <#-- Password component -->
 <#include "${commonsFtlPath}components/password/passwordComplexity.ftl" />
 <#-- Forms components -->
+<#-- Autocomplete component -->
+<#include "${commonsFtlPath}forms/autocomplete/autocomplete.ftl" />
 <#-- Form components -->
 <#include "${commonsFtlPath}forms/form/tform.ftl" />
 <#include "${commonsFtlPath}forms/form/formGroup.ftl" />
@@ -188,6 +197,7 @@
 <#include "${commonsFtlPath}layout/columns/columns.ftl" />
 <#include "${commonsFtlPath}layout/page/pageContainer.ftl" />
 <#include "${commonsFtlPath}layout/page/pageColumn.ftl" />
+<#include "${commonsFtlPath}layout/page/pageColumnBtn.ftl" />
 <#include "${commonsFtlPath}layout/page/pageHeader.ftl" />
 <#include "${commonsFtlPath}layout/page/pageRow.ftl" />
 <#include "${commonsFtlPath}layout/page/pageWrapper.ftl" />
@@ -198,6 +208,8 @@
 <#include "${commonsFtlPath}elements/preformatted/pre.ftl" />
 <#include "${commonsFtlPath}elements/link/link.ftl" />
 <#include "${commonsFtlPath}elements/image/img.ftl" />
+<#include "${commonsFtlPath}elements/image/figure.ftl" />
+<#include "${commonsFtlPath}elements/title/h.ftl" />
 <#-- Utilities -->
 <#include "${commonsFtlPath}utilities/colors/coloredBg.ftl" />
 <#include "${commonsFtlPath}utilities/functions/displaySettings.ftl" />
@@ -206,6 +218,7 @@
 <#include "${commonsFtlPath}utilities/empty/empty.ftl" />
 <#include "${commonsFtlPath}utilities/deprecated/deprecatedWarning.ftl" />
 <#-- Javascript -->
+<#include "${commonsFtlPath}javascript/charcounter/charCounter.ftl" />
 <#include "${commonsFtlPath}javascript/scrolltop/scrollTopBtn.ftl" />
 <#include "${commonsFtlPath}javascript/copyelementtoclipboard/copyElementToClipboard.ftl" />
 <#include "${commonsFtlPath}javascript/highlight/codeHighLight.ftl" />

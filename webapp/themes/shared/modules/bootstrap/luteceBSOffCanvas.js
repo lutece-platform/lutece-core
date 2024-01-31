@@ -115,7 +115,7 @@ export default class LuteceBSOffCanvas {
                     });
                 });
             destinationElement.appendChild(targetElement);
-            if (this.loader.dataStore.isRedirectForm) {
+            if (this.loader.dataStore.isRedirectForm === 'true') {
                 this.contentFormRedirect(destinationElement);
             }
             this.tabsLink(targetElement)
@@ -154,6 +154,10 @@ export default class LuteceBSOffCanvas {
                 e.preventDefault();
                 const formData = new FormData(form);
                 const isMultipart = form.enctype.toLowerCase() === 'multipart/form-data';
+                const button = e.explicitOriginalTarget || e.submitter;
+                if (button && button.name) {
+                    formData.append(button.name, button.value);
+                }
                 fetch(form.action, {
                         method: 'POST',
                         body: isMultipart ? formData : new URLSearchParams(formData),

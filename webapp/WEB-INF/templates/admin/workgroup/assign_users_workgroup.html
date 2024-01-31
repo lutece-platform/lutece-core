@@ -1,10 +1,10 @@
-<#assign boxTitle>${workgroup.description} <strong>[${workgroup.key}]</strong> </#assign>
+<#assign boxTitle>${workgroup.description} <strong>[${workgroup.key}]</strong></#assign>
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title=boxTitle>
-			<@offcanvas id="search-users" title="#i18n{portal.users.manage_users.search_users.buttonSearch}"
-				position="end" btnTitle="#i18n{portal.users.manage_users.search_users.buttonSearch}" btnIcon="search"
-				size="auto">
+			<@offcanvas id='search-users' title='#i18n{portal.users.manage_users.search_users.buttonSearch}'
+				position='end' btnTitle='#i18n{portal.users.manage_users.search_users.buttonSearch}' btnIcon='search'
+				size='auto'>
 				<@tform method='post' name='search_users' action='jsp/admin/workgroup/AssignUsersWorkgroup.jsp'>
 					<@input type='hidden' name='workgroup_key' value='${workgroup.key}' />
 					<#if (user_levels?has_content)>

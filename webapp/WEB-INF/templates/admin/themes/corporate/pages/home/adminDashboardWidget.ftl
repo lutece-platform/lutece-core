@@ -9,16 +9,13 @@ Parameters:
 - bodyClass (string, optional): the class to apply to the widget body element.
 - params (string, optional): additional parameters to add to the widget element.
 -->
-<#macro adminDashboardWidget id title color='primary' url='' class='' bodyClass='table-responsive no-padding pt-0' params=''>
-	<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
-		<@boxHeader titleLevel='h5' title='${title}'>
-			<#if url!=''>
-				<@aButton color="link" class='card-control' href='${url!}' title='${title!}' size='sm' buttonIcon='cog' hideTitle=['all'] />
-			</#if>
-		
-		</@boxHeader>
-		<@boxBody class=bodyClass id='${id}_dashboard_card_body'>
-			<#nested>
-		</@boxBody>
-	</@box>
+<#macro adminDashboardWidget id title color='primary' url='' class='' bodyClass='' params=''>
+<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
+<@boxHeader titleLevel='h2' title='${title}' class='h5 align-items-center pt-0 pb-3'>
+<#if url!=''><@aButton color="link" class='card-control' href='${url!}' title='${title!}' size='sm' buttonIcon='cog' hideTitle=['all'] params='aria-label="${title!}"' /></#if>
+</@boxHeader>
+<@boxBody class=bodyClass id='${id}_dashboard_card_body'>
+<#nested>
+</@boxBody>
+</@box>
 </#macro>

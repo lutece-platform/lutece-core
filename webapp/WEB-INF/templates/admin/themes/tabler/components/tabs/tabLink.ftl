@@ -16,7 +16,8 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 
 -->
-<#macro tabLink class='' hide=[] id='' active=false href='' title=''tabLabel=''  tabIcon='' tabClass='' params=''>
+<#macro tabLink class='' hide=[] id='' active=false href='' title=''tabLabel=''  tabIcon='' tabClass='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <li class="nav-item<#if tabClass!=''> ${tabClass}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>

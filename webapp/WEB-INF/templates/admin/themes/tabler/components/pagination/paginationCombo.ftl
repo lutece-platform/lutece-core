@@ -8,19 +8,20 @@ Parameters:
 - showall (boolean, optional): whether to display an option to show all items on a single page (default is 0).
 -->
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0>
-<@formGroup labelFor='${paginator.itemsPerPageParameterName}' labelKey='${paginator.labelItemCountPerPage}' labelClass='small mr-3' formStyle='inline'>
+<@formGroup labelFor='${paginator.itemsPerPageParameterName}' labelKey='#i18n{portal.util.labelItemCountPerPage}' formStyle='inline'>
 <@inputGroup size='sm'>
 	<@select params='data-max-item="${paginator.itemsCount}"' size='sm' name='${paginator.itemsPerPageParameterName}' id='${paginator.itemsPerPageParameterName}' title='${paginator.labelItemCountPerPage}'>
   		<#list [ "10" , "20" , "50" , "100" ] as nb>
   			<#if nb_items_per_page = nb >
-  				<option selected="selected" value="${nb}">${nb}</option>
+  				<@option selected=true value=nb label=nb />
   			<#else>
-  				<option value="${nb}">${nb}</option>
+  				<@option value=nb label=nb />
   			</#if>
   		</#list>
   		<#if showall ==1>
   			<#if paginator.itemsCount &gt; 100 >
-  				<option <#if nb_items_per_page?number = paginator.itemsCount?number >selected="selected"</#if> value="${paginator.itemsCount}" class="${nb_items_per_page}">#i18n{portal.util.labelAll}</option>
+				<#assign isItemSelected><#if nb_items_per_page?number = paginator.itemsCount?number >true<#else>false</#if></#assign>
+  				<@option selected=isItemSelected?boolean value=paginator.itemsCount class=nb_items_per_page label='#i18n{portal.util.labelAll}' />
   			</#if>
   		</#if>
 	</@select>

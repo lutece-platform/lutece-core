@@ -2,11 +2,11 @@
 Macro: page
 Description: Contenu principe
 -->
-<#macro pageContainer id='' template='' height="" class="">
+<#macro pageContainer id='' template='' height='' class=''>
 <!-- Begin page content -->
-<main role="main" <#if id!=''> id="${id}"</#if>  class="lutece-page ${template} d-flex ${class}" style="<#if height='full'>height:100%;max-height:100%</#if>">
+<div <#if id!=''>id="${id}" </#if>class="lutece-page d-flex<#if template!=''> ${template}</#if><#if class!=''> ${class}</#if>"<#if height='full'> style="height:100%;max-height:100%"</#if>>
 <#nested>
-</main>
+</div>
 <#if height='full'>
 <style>
 footer {

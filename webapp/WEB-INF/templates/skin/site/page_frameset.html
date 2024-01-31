@@ -20,11 +20,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="shortcut icon" type="image/x-icon" href="favicon.svg"/>
 <!-- Le style -->
-<#if plugin_theme?? >
-    <#assign thetheme=plugin_theme />
-<#else>
-    <#assign thetheme=theme />
-</#if>
+<#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
 <link href="${thetheme.pathCss}/tabler-icons.min.css" rel="stylesheet">
 <link href="${thetheme.pathCss}/bootstrap.min.css" rel="stylesheet">
 <link href="${thetheme.pathCss}/page_template_styles.css" rel="stylesheet">
@@ -37,22 +33,21 @@
 <meta property="twitter:description" content="Anything ?">
 <#if isExtendInstalled?? && isExtendInstalled >
 <!-- Extends -->
-<#if page_id??>
-	@Extender[${page_id},PAGE,opengraph,{header:true}]@
-</#if>
+<#if page_id??>@Extender[${page_id},PAGE,opengraph,{header:true}]@</#if>
 @Extender[ExtendParameteredId,document,opengraph,{header:true}]@
 @Extender[ExtendParameteredId,DIRECTORY_RECORD,opengraph,{header:true}]@
 </#if>
 ${extend_meta!}
-${document_meta?default("<!-- no document_meta -->")}
+${document_meta?default("<!-- No Document Meta -->")}
 ${rss?default("<!-- no RSS feed -->")}
 ${plugins_css_links}
 <!-- Included JS Files -->
+<script src="js/jquery/jquery.min.js"></script>
 ${statistical_include_head}
 </head>
 <body>
- <!-- header -->
-<header role="banner" id="site_header">
+<!-- header -->
+<header role="banner" class="header">
 ${page_header}
 </header>
 <!-- end header -->
@@ -60,6 +55,7 @@ ${page_header}
 ${social!}
 ${contextinclude!}
 ${contextinclude_1!}
+<main role="main" class="container">
 ${page_path!}
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled >
 <!-- Extends -->
@@ -68,30 +64,26 @@ ${page_path!}
 @Extender[${page_id},PAGE,rating,{show:"all"}]@
 @Extender[${page_id},PAGE,actionbar]@
 </#if>
+<div class="main-content mt-5 p-5">
 ${page_content}
+<#if display_last_modified?? && display_last_modified ><p class="text-right pt-2 pr-5">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p></#if>
+</div>
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled>
 <!-- Extends -->
 @Extender[${page_id},PAGE,comment]@
 @Extender[${page_id},PAGE,feedback]@
 </#if>
 ${contextinclude_2!}
-<#if display_last_modified?? && display_last_modified >
-	<@row>
-		<@column>
-			<p class="text-right p-2">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p>
-		</@column>
-	</@row>
-</#if>
+</main>
 <!-- Main Content -->
-</div>
 ${page_footer}
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled >
-	@Extender[${page_id},PAGE,opengraph,{footer:true}]@
-</#if>
+@Extender[${page_id},PAGE,opengraph,{footer:true}]@
+</#if>	
 <!--    ======================================================= -->
 <!-- 	Le javascript											-->
 <!--    ======================================================= -->
-<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/site.js"></script>
 ${plugins_javascript_links}
 ${statistical_include}

@@ -1,22 +1,27 @@
 <#include "minimal_header.html" />
-
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="jumbotron center">
-            <h1>
-                #i18n{portal.util.error404.title} 
-                <small>Error 404</small>
-            </h1>
-            <br />
-            <p>
-                #i18n{portal.util.error404.text} 
-            </p>
-            <a href="" class="btn btn-lg btn-info">
-                <i class="glyphicon glyphicon-home"></i> &nbsp; #i18n{portal.util.labelBackHome}
-            </a>
+	<div class="col-sm-12 col-md-3"> 
+        <img src="images/candle.png" alt="erreur 404" class="img-fluid">
+    </div>    
+	<div class="col-sm-12 col-md-6 pt-5">
+        <div class="card border-warning">
+            <div class="card-header d-flex justify-content-between">
+                <h2 class="card-title text-warning">#i18n{portal.util.error404.title}</h2>
+                <h3 class="text-warning fw-900">Error 404</h3>
+            </div>
+            <div class="card-body">
+                <p class="mt-3 fs-4">#i18n{portal.util.error404.text}</p>
+                <#if error_cause??>
+                <div class="alert alert-warning">${error_cause}</div>
+                </#if>
+                <p class="text-center mt-3">
+                    <a href="./" class="btn btn-outline-primary btn-lg">
+                        <i class="ti ti-home"></i> #i18n{portal.util.labelBackHome}
+                    </a>
+                </p>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <#include "minimal_footer.html" />

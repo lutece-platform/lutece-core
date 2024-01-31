@@ -1,6 +1,6 @@
 <#macro linkProperties input selected_text >
 <@input type='hidden' name='input' value='${input}' />
-<@table>
+<@table headeBody=true >
 <@tr>
     <@th colspan=2>#i18n{portal.insert.labelLinkProperties}</@th>
 </@tr>
@@ -18,7 +18,7 @@
     <@td>
         <@linkTargetCombo />
     </@td>
-<@/tr>
+</@tr>
 </@table>
 </#macro>
 <#macro linkTextInput selected_text >
@@ -29,7 +29,13 @@
 </#macro>
 <#macro linkTargetCombo >
 <@select name='target'>
-<option value="_self">#i18n{portal.insert.labelTargetSelf}
-<option value="_blank">#i18n{portal.insert.labelTargetBlank}
+<@option value='_self' title='#i18n{portal.insert.labelTargetSelf}' />
+<@option value='_blank' title='#i18n{portal.insert.labelTargetBlank}' />
 </@select>
+</#macro>
+<#macro insertBreadcrumbs>
+<@breadcrumbs class='pt-2 mb-0'>
+<@breadcrumbItem><@link href='jsp/admin/insert/GetAvailableInsertServices.jsp?input=tinymce5&selected_text='><@icon style='home me-1' />#i18n{portal.insert.page_insertservice.labelInsert}</@link></@breadcrumbItem>
+<#nested>
+</@breadcrumbs>
 </#macro>

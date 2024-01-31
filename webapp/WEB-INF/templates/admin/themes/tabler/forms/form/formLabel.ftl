@@ -12,10 +12,10 @@ Parameters:
 - deprecated: whether the macro is deprecated.
 
 -->
-<#macro formLabel class='' labelFor='' labelId='' labelKey='' labelKeyDesc='' hideLabel=[] mandatory=true deprecated...>
+<#macro formLabel class='form-label' labelFor='' labelId='' labelKey='' labelKeyDesc='' hideLabel=[] mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#local labelClass = ' ' + displaySettings(hideLabel,'') />
-<label class="form-label<#if mandatory=true> required</#if><#if class !=''> ${class?trim}</#if><#if hideLabel?seq_contains('all')> visually-hidden</#if> " for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true> aria-Label="${labelKey} #i18n{portal.users.modify_attribute.labelMandatory}"</#if>>
+<label class="<#if mandatory=true> required</#if><#if class !=''> ${class?trim}</#if><#if hideLabel?seq_contains('all')> visually-hidden</#if>"<#if labelFor!=''> for="${labelFor}"</#if><#if labelId!=''> id="${labelId}"</#if>>
 <#if labelKey?trim !=''><#if labelClass?trim !=''><span class="${labelClass}"></#if>${labelKey}<#if labelClass?trim !=''></span></#if><#if labelKeyDesc?trim !=''><span class="form-label-description">${labelKeyDesc}</span></#if><#else><#nested></#if>
 </label>
 </#macro>

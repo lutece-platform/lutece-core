@@ -8,8 +8,9 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 
 -->
-<#macro tabContent id='' params='' boxed=true>
-<div class="tab-content card p-4 rounded-0"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro tabContent class='' id='' params='' boxed=true deprecated...>
+<@deprecatedWarning args=deprecated />
+<div class="tab-content card<#if boxed> p-4 rounded-0</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </div>
 </#macro>

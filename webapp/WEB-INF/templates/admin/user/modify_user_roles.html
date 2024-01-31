@@ -1,6 +1,15 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title=' ${user.lastName} ${user.firstName}'> <@item_navigation item_navigator=item_navigator /></@pageHeader>
+        <#assign userImg>
+        <#if adminAvatar??>
+            <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2' alt='' style='max-width:80px' title='Avatar' />
+        <#else>    
+            <@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2' alt='' title='' />
+        </#if>
+        </#assign>
+        <@pageHeader title='${userImg} ${user.lastName} ${user.firstName}'>
+            <@item_navigation item_navigator=item_navigator />
+        </@pageHeader>
         <@tform role='form' method='post' action='jsp/admin/user/DoModifyUserRoles.jsp'>
         <@tabs>
             <@tabList>
@@ -23,29 +32,27 @@
                         <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
                     </@btnGroup>
                 </@div>
-                
-                    <@input type='hidden' name='id_user' value='${user.userId}' />
-                    <@input type='hidden' name='token' value='${token}' />
-                    <@row>
-                        <@columns>
-                            <@listGroup id="user-role-list">
-                                <#list all_role_list?sort_by('key') as role>
-                                    <#assign checked = false>
-                                    <#list user_role_list as user_role>
-                                        <#if user_role.key = role.key>
-                                            <#assign checked = true>
-                                            <#break>
-                                        </#if>
-                                    </#list>
-                                    <@listGroupItem>
-                                        <@checkBox orientation='switch' id='${role.key}' name='roles' value='${role.key}' labelKey='${role.key} - ${role.description}' checked=checked mandatory=false />
-                                    </@listGroupItem>
+                <@input type='hidden' name='id_user' value='${user.userId}' />
+                <@input type='hidden' name='token' value='${token}' />
+                <@row>
+                    <@columns>
+                        <@listGroup id="user-role-list">
+                            <#list all_role_list?sort_by('key') as role>
+                                <#assign checked = false>
+                                <#list user_role_list as user_role>
+                                    <#if user_role.key = role.key>
+                                        <#assign checked = true>
+                                        <#break>
+                                    </#if>
                                 </#list>
-                            </@listGroup>
-                        </@columns>
-                    </@row>
-                
-                <#if all_role_list?size gt 15>
+                                <@listGroupItem>
+                                    <@checkBox orientation='switch' id='${role.key}' name='roles' value='${role.key}' labelKey='${role.key} - ${role.description}' checked=checked mandatory=false />
+                                </@listGroupItem>
+                            </#list>
+                        </@listGroup>
+                    </@columns>
+                </@row>
+                <#if all_role_list?size gt 25>
                 <@div class='d-flex justify-content-between pt-3'>
                     <@btnGroup>
                         <@button buttonIcon='filter' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />

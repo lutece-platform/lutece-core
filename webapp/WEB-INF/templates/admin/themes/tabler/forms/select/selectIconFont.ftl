@@ -12,70 +12,63 @@ Parameters:
 - searchShow (boolean, optional): whether to show the search box for the select box.
 - searchFocus (boolean, optional): whether to focus on the search box when it is displayed.
 - searchHighlight (boolean, optional): whether to highlight the matched search terms in the options.
-- type (string, optional): the type of the icon file (either "yaml" or "json").
+- type (string, optional): the type of the icon file ("json" by default).
 - prefix (string, optional): the prefix of the Font icon class.
 - iconsUrl (string, optional): the URL of the YAML or JSON file containing the icon data.
 - resources (boolean, optional): whether to load the SlimSelect CSS and JS resources.
 -->
-<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='yaml' prefix='fa-' iconsUrl='css/admin/font-awesome-icons.yml' resources=true defaultValue=''>
-<@select name='${name}' id='${id}' />
+<#-- TODO Check accessibility of slim-select lib -->
+<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='json' prefix='ti' iconsUrl='themes/admin/shared/css/vendor/tabler/tabler-icons.json' resources=true defaultValue=''>
+<@select name=name id=id class=class />
 <#if resources>
 <link rel="stylesheet" href="js/admin/lib/slimselect/slimselect.min.css">
 <script src="js/admin/lib/slimselect/slimselect.min.js"></script>
-<#if type='yaml'>
-<!-- js yaml parser -->
-<script src="js/admin/lib/slimselect/js-yaml.min.js"></script>
-</#if>
 </#if>
 <script>
-$.get('${iconsUrl}', function(data) {
-<#if type='yaml'>
-	let parsedIcons = jsyaml.load(data)
-<#else>
-	<#-- Json / Object -->
+const request = new XMLHttpRequest();
+request.open( "GET", "${iconsUrl}", false); // `false` makes the request synchronous
+request.send( null );
+
+if (request.status === 200) {
+	const data = request.response;
 	let parsedIcons='';
 	if( typeof data === 'object' ){
 		parsedIcons = data;
 	} else { 
 		parsedIcons = JSON.parse( data )
 	}
-</#if>
-$.each( parsedIcons, function(index, icon){
-	let i=0, prefix='${prefix}';
-	let selected = '${defaultValue}' == index ? 'selected' : '';
-	<#if type='yaml'>
-		<#-- FontAwesome specific / Other lib add another test/treatment -->
-		while( i < icon.styles.length ){
-			switch ( icon.styles[i] ) {
-				case 'regular':
-					prefix = 'far'
-					break;
-				case 'solid':
-					prefix = 'fas'
-					break;
-				case 'light':
-					prefix = 'fal'
-					break;
-				case 'brands':
-					prefix = 'fab'
-					break;
-			}
-			$('#${id}').append('<option value="' + index + '"' + selected + '> <#if showListIcon><span class="' + prefix + ' fa-'+ index + ' mr-1" ' + selected + ' ></span>&nbsp;</#if>' <#if showListLabel>+ icon.label + ' [' + icon.styles[i] +  ']'</#if>+ '</option>');
-			i++;
+	const keyIcons = Object.keys( parsedIcons ), iconList = document.getElementById('${id}'), prefix='${prefix}';
+			
+	keyIcons.forEach( (icon , idx ) => {
+		let selected = '${defaultValue!}' === icon ? 'selected' : '';
+		const optionIcon = document.createElement("option");
+		optionIcon.value = icon;
+		if ( '${defaultValue!}' === icon ){
+			optionIcon.setAttribute( 'selected', '' )
 		}
-	<#else>
-		<#-- Json / Object -->
-		$('#${id}').append('<option value="' + index + '" ' + selected + ' > <#if showListIcon><span class="' + prefix + ' fa-'+ index + '"></span>&nbsp;</#if>' <#if showListLabel>+ index </#if>+ '</option>');
-	</#if>
-});
-new SlimSelect({ 
-	select: '#${id}',
-	showSearch: ${searchShow?c},
-	searchText: "#i18n{portal.util.labelNoItem}",
-	searchPlaceholder: '#i18n{portal.util.labelSearch}',
-	searchFocus: ${searchFocus?c}, // Whether or not to focus on the search input field
-	searchHighlight: ${searchHighlight?c}
-})
-});
+		<#if showListIcon>
+		const optionSpanIcon = document.createElement("span");
+		optionSpanIcon.classList.add( prefix )
+		<#noparse>optionSpanIcon.classList.add( `ti-${icon}` )</#noparse>
+		optionIcon.append( optionSpanIcon )
+		</#if>
+		<#if showListLabel>
+		const optionSpanLabel = document.createElement("span");
+		optionSpanLabel.classList.add( 'ms-2' )
+		optionSpanLabel.textContent = icon
+		optionIcon.append( optionSpanLabel )
+		</#if>
+		iconList.append( optionIcon );
+	})
+
+	new SlimSelect({ 
+		select: '#${id}',
+		showSearch: ${searchShow?c},
+		searchText: "#i18n{portal.util.labelNoItem}",
+		searchPlaceholder: '#i18n{portal.util.labelSearch}',
+		searchFocus: ${searchFocus?c}, // Whether or not to focus on the search input field
+		searchHighlight: ${searchHighlight?c}
+	})
+}
 </script>
 </#macro>

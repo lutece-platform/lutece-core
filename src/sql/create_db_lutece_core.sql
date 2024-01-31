@@ -376,6 +376,7 @@ CREATE TABLE core_portlet_type (
 	modify_script varchar(255) default NULL,
 	modify_specific varchar(255) default NULL,
 	modify_specific_form varchar(255) default NULL,
+	icon_name varchar(50) default NULL,
 	PRIMARY KEY (id_portlet_type)
 );
 

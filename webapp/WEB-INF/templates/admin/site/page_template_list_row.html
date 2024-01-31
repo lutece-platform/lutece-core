@@ -1,8 +1,8 @@
-<#if checked = 'checked="checked"'><#assign radioChecked = true><#else><#assign radioChecked = false></#if>
-<@row>
-	<@columns class='p-2'>
-		<@radioButton name='page_template_id' id='${page_template.id}' value='${page_template.id}' checked=radioChecked labelFor='${page_template.id}'>
-			<@img class='thumbnail-sm' url='themes/admin/${commonsThemeCode!\'shared\'}/images/page_templates/${page_template.picture}' alt='${page_template.description}' title='${page_template.description}' params='aria-hidden="true"' /> ${page_template.description}
-		</@radioButton>
-	</@columns>
-</@row>
+<@columns>
+<@radioButton orientation='h' class='form-imagecheck-input' name='page_template_id' id='page_template_id_${page_template.id}' value='${page_template.id}' checked=checked='checked="checked"' labelFor='page_template_id_${page_template.id}' labelClass='form-imagecheck mb-2 ps-0' >
+<@span class='form-imagecheck-figure'>
+	<@img class='form-imagecheck-image' url='themes/admin/shared/images/page_templates/${page_template.picture}' alt='${page_template.description}' title='${page_template.description}' params='aria-hidden="true" style="width:64px;height:64px;"' /> 
+	<@span class='text-center text-muted fw-medium text-truncate d-inline-block pt-1 ps-1' params='style="width:66px"'>${page_template.description}</@span>
+</@span>
+</@radioButton>
+</@columns>

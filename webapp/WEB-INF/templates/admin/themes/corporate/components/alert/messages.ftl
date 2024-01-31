@@ -11,30 +11,23 @@ Parameters:
 - infos_class (string, optional): the CSS class of the alert element for info messages.
 - warnings_class (string, optional): the CSS class of the alert element for warning messages.
 -->
-
 <#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
 <#if errors??>
-	<#if errors?size gt 0 >
-		<#list errors as error >
-			<#local errorMessage=error.message />
-		</#list>
-		<@alert color='danger' title=errorMessage iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'>	</@alert>
-	</#if>
+    <#if errors?size gt 0>
+        <#list errors as error><#if error.message??><#local errorMessage=error.message!' Error ' /></#if></#list>
+        <@alert color='danger' title=errorMessage iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'></@alert>
+    </#if>
 </#if>
 <#if infos??>
-	<#if infos?size gt 0 >
-		<#list infos as info >
-			<#local infoMessage=info.message />
-		</#list>
-		<@alert color='info' title=infoMessage iconTitle='info-circle' dismissible=true id='messages_infos_div'></@alert>
-	</#if>
+    <#if infos?size gt 0>
+        <#list infos as info><#if info.message??><#local infoMessage=info.message!' Info ' /></#if></#list>
+        <@alert color='info' title=infoMessage iconTitle='info-circle' dismissible=true id='messages_infos_div'></@alert>
+    </#if>
 </#if>
 <#if warnings??>
-	<#if warnings?size gt 0 >
-		<#list warnings as warning >
-			<#local warningMessage=warning.message />
-		</#list>
-		<@alert color='warning' title=warningMessage iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'></@alert>>
-	</#if>
+    <#if warnings?size gt 0>
+        <#list warnings as warning><#if warning.message??><#local warningMessage=warning.message!' Warning ' /></#if></#list>
+        <@alert color='warning' title=warningMessage iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'></@alert>
+    </#if>
 </#if>
 </#macro>

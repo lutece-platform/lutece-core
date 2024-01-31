@@ -11,7 +11,7 @@ Parameters:
 - params (string, optional): additional HTML attributes to include in the panel element.
 -->
 <#macro accordionPanel color='' collapsed=true childId='' id='' params=''>
-<div class="card<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="accordion-item <#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if collapsed>
 	<#assign aClass = 'collapsed'>
 	<#assign expanded = 'false'>

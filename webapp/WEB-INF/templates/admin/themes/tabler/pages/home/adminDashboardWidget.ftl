@@ -11,12 +11,12 @@ Parameters:
 -->
 <#macro adminDashboardWidget id title color='primary' url='' class='' bodyClass='table-responsive no-padding' params=''>
 	<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
-		<@boxHeader titleLevel='h5' title='${title}'>
+		<@boxHeader titleLevel='h2' class='h5' title='${title}'>
 			<#if url!=''>
-				<@aButton color="link" class='card-control' href='${url!}' title='${title!}' size='sm' buttonIcon='cog' hideTitle=['all'] />
+				<@aButton color='link' class='card-control' href='${url!}' title='${title!}' size='sm' buttonIcon='cog' hideTitle=['all'] params='aria-label="${title!}"' />
 			</#if>
-			<@button style='card-control collapse' buttonTargetId='#${id}_dashboard_card_body' buttonIcon='minus' size='sm' />
-			<@button style='card-control remove' buttonTargetId='#${id}_dashboard_card' buttonIcon='times' size='sm' />
+			<@button style='card-control collapse' buttonTargetId='#${id}_dashboard_card_body' buttonIcon='minus' size='sm' params='aria-label="#i18n{portal.util.labelShow}"'/>
+			<@button style='card-control remove' buttonTargetId='#${id}_dashboard_card' buttonIcon='times' size='sm' params='aria-label="#i18n{portal.util.labelHide}"' />
 		</@boxHeader>
 		<@boxBody class=bodyClass id='${id}_dashboard_card_body'>
 			<#nested>

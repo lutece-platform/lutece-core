@@ -4,7 +4,7 @@ Description: Generates a Bootstrap form group with a label, input field, and hel
 
 Parameters:
 - id (string, optional): the ID of the form group.
-- formStyle (string, optional): the form style (horizontal, inline, or blank).
+- formStyle (string, optional): the form style (horizontal, inline, col or blank).
 - groupStyle (string, optional): the style of the form group (success or error).
 - class (string, optional): additional CSS classes to add to the form group.
 - rows (number, optional): the number of rows in the input field.
@@ -26,8 +26,9 @@ Parameters:
 	<#local validation = 'is-invalid'>
 </#if>
 <#if collapsed><#local class += ' collapse' /></#if>
-<div class="form-group<#if formStyle='horizontal'> mb-3</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="<#if formStyle != 'inline' && formStyle != 'col'>form-group<#elseif formStyle = 'col'>col-sm-12<#else>col-lg</#if><#if formStyle='horizontal'> mb-3</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
+<#local labelClass = labelClass >
 <#if rows=1>
 	<#if labelKey!='' && formStyle='horizontal'>
 		<#local labelClass += ' col-sm-12 col-lg-3 form-label text-right'>
@@ -52,6 +53,6 @@ Parameters:
 <#assign propagateMandatory = mandatory>
 <#nested>
 <#assign propagateMandatory = false>
-<#if helpKey!=''><small class="text-muted<#if formStyle!='inline'> form-text</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>${helpKey}</small></#if>
+<#if helpKey!=''><#if formStyle!='inline'><p></#if><small class="text-muted form-text"<#if labelFor!=''> aria-describedby="${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
 </div>
 </#macro>

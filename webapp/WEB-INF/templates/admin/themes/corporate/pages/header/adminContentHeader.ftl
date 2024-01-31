@@ -7,27 +7,27 @@ Parameters:
 - page_title (string, optional): the title of the current page.
 -->
 <#macro adminContentHeader>
-<header class="page-header d-print-none border-bottom px-4 d-flex align-items-center h-60 navbar navbar-expand-lg">
+<header class="page-header d-print-none border-bottom px-2 px-md-4 d-flex align-items-center h-60 navbar navbar-expand-lg overflow-y-hidden">
  <@div class="row align-items-center admin-site-toolbar w-100">
       <@div class="col">
-      <@div class="page-pretitle" id="feature-title">
-	  <span class="mb-0 fw-bold">
-      <#if feature_url?? >
-      <@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link> >
-      <#else>
-      ${feature_title!''}
-      </#if>
-      <#if page_title?has_content>
-      ${page_title!''}
-      <#else>
-      ${feature_title!''}
-      </#if>
-	  </span>
-	  </@div>
+            <@div class="page-pretitle" id="feature-title">
+            <span class="mb-0 fw-bold">
+            <#if feature_url?? >
+                  <@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link> >
+            <#else>
+                  ${feature_title!''}
+            </#if>
+            <#if page_title?has_content>
+                  ${page_title!''}
+            <#else>
+                  ${feature_title!''}
+            </#if>
+            </span>
+            </@div>
       </@div>
       <@div id="page-header-buttons" class="col-auto ms-auto d-print-none">
-      <@adminHeaderDocumentationLink />
+            <@adminHeaderDocumentationLink />
       </@div>
-      </@div>
+</@div>
 </header>
 </#macro>

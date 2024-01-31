@@ -211,14 +211,14 @@
 		<table class="${tableClass}" summary="${summary}">
 			<caption>${caption}</caption>
 			<tr>
-				<#list dataTableManager.listColumn as column>
-					<th scope="col">
-						#i18n{${column.titleKey}}
-						<#if !(column.typeColumn = "ACTION") && column.sortable>
-							<@sortSite jsp_url=dataTableManager.sortUrl attribute=column.parameterName />
-						</#if>
-					</th>
-				</#list>
+			<#list dataTableManager.listColumn as column>
+				<th scope="col">
+					#i18n{${column.titleKey}}
+					<#if !(column.typeColumn = "ACTION") && column.sortable>
+						<@sortSite jsp_url=dataTableManager.sortUrl attribute=column.parameterName />
+					</#if>
+				</th>
+			</#list>
 			</tr>
 			<#list dataTableManager.items as item>
 				<tr>
@@ -364,14 +364,30 @@
 		</div>
 	</div>
 </#macro>
-<#-- fieldSet  -->
-<#macro fieldSetSite legend='' class='' legendClass='' >
-<fieldset <#if class!=''> class="${class}"</#if>>
-	<#if legend!=''>
-		<legend <#if legendClass!=''> class="${legendClass}"</#if>>${legend}</legend>
-	</#if>
-	<#nested>
-</fieldset>
+<#macro autocompleteFO id name suggestionsUrl suggestionsPath="" itemValueFieldName="value" btnColor="light" btnSize="" itemLabelFieldNames="[]" itemTitleFieldNames=itemLabelFieldNames itemDescriptionFieldNames="[]" itemTagsFieldNames="[]" copyFields="[]" currentValue="" currentLabel="" required=false minimumInputLength=1 minimumInputLenghtLabel="#i18n{portal.util.labelMinimumSearchLenght}" searchLabel="#i18n{portal.util.labelSearch}" placeHolder="#i18n{portal.util.labelSearch}" emptyLabel="#i18n{portal.util.labelNoItem}" additionnalRequestParamInputId="" >
+<div id="${id}" class="lutece-autocomplete dropdown form-group form-floating " data-itemTitleFieldNames=${itemTitleFieldNames} data-suggestionsUrl="${suggestionsUrl}" data-suggestionsPath="${suggestionsPath}" data-itemValueFieldName=${itemValueFieldName} data-minimumInputLength=${minimumInputLength} data-itemDescriptionFieldNames=${itemDescriptionFieldNames} data-itemTagsFieldNames=${itemTagsFieldNames} data-copyFields=${copyFields} data-emptyLabel="${emptyLabel}" data-currentValue="${currentValue}" data-currentLabel="${currentLabel}" data-suggestionItemClass='["list-group-item", "p-3"]' data-titleClass='["mb-0", "fw-bolder"]' data-descriptionClass='["text-muted", "mb-0"]' data-tagClass='["badge", "bg-blue-lt", "me-1"]' data-loaderIconClasses='{"loading": ["ti-loader-2", "icon-rotate"], "error": ["ti-zoom-exclamation", "text-danger"], "search": ["ti-search"]}' data-emptyClass='["list-group-item", "p-3", "text-muted", "text-center"]' data-searchLabel="${searchLabel}">
+	<div class="form-group">
+		<label for="${id}-input">${searchLabel}</label>
+		<div class="input-group">
+			<input class="form-control lutece-autocomplete-search-input w-75" type="text" name="${name}" placeholder="${placeHolder}" role="combobox" autocomplete="off" value="<#if currentValue!=''>${currentValue!}</#if>" id="${id}-input" aria-expanded="false" aria-owns="${id}-list-container" aria-autocomplete="list" aria-describedby="${id}-lutece-autocomplete-default-assistive">
+			<span role="button" class="input-group-text lutece-autocomplete-remove <#if currentValue=''>d-none</#if> text-danger">
+				<i class="ti ti-x fs-5"></i>
+			</span>
+			<span role="button" class="input-group-text">
+				<i id="${id}-search-icon" class="lutece-autocomplete-search-icon ti ti-search"></i>
+			</span>
+		</div>
+		<div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
+			<ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto bg-white" role="listbox" id="suggestions-list" aria-labelledby="${id}-input" style="max-height:15rem;"></ul>
+			<span id="${id}-lutece-autocomplete-default-assistive" class="sr-only visually-hidden">#i18n{portal.util.message.autocomplete.avalailbleResults}</span>
+			<div class="sr-only lutece-autocomplete-status" role="status" aria-atomic="true" aria-live="polite"></div>
+		</div>
+	</div>
+</div>
+<script type="module">
+import LuteceAutoComplete from "./themes/shared/modules/luteceAutoComplete.js";
+new LuteceAutoComplete(document.getElementById(`${id}`), document.getElementById(`${additionnalRequestParamInputId}`));
+</script>
 </#macro>
 <#-- Macro: deprecatedWarningSite
 Description: Generates a warning message for deprecated or incorrect arguments.

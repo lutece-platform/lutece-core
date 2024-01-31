@@ -1,127 +1,134 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='${user.lastName} ${user.firstName}'>
+		<#assign userImg>
+		<#if adminAvatar??>
+			<@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2' alt='' style='max-width:80px' title='Avatar' />
+		<#else>    
+			<@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2' alt='' title='' />
+		</#if>
+		</#assign>
+        <@pageHeader title='${userImg} ${user.lastName} ${user.firstName}'>
 			<@item_navigation item_navigator=item_navigator />
 		</@pageHeader>
-				<@tabs>
-					<@tabList>
-						<@tabLink active=true href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
-						<@tabLink href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' />
-						<@tabLink href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
-						<@tabLink href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
-						<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
-					</@tabList>
-					<@tabContent>
-						<@tform method='post' role='form' name='modify_user' action='jsp/admin/user/DoModifyUser.jsp'  params='enctype="multipart/form-data"'>
-						<@input type='hidden' name='id_user' value='${user.userId}' />
-						<@input type='hidden' name='token' value='${token}' />
-						<@row>
-							<#if attributes_list?has_content>
-								<#assign sm = 4>
-							<#else>
-								<#assign sm = 6>
-							</#if>
-							<@columns sm=sm>
-							<@box>
-								<@boxHeader title='#i18n{portal.users.modify_user.labelIdentity}' />
-								<@boxBody>
-									<@formGroup labelKey='#i18n{portal.users.modify_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
-									<@inputGroup>
-										<@inputGroupItem type='text'>
-											<@icon style='user' />
-										</@inputGroupItem>
-										<@input type='text' id='access_code' name='access_code' maxlength=100 value='${user.accessCode!}'  size='' />
-									</@inputGroup>
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.users.modify_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
-									<@inputGroup>
-										<@inputGroupItem type='text'>
-											<@icon style='user' />
-										</@inputGroupItem>
-										<@input type='text' id='last_name' name='last_name' maxlength=100 value='${user.lastName!}' size='' />
-									</@inputGroup>
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.users.modify_user.labelFirstName}' labelFor='first_name' rows=2 mandatory=true>
-									<@inputGroup>
-										<@inputGroupItem type='text'>
-											<@icon style='user' />
-										</@inputGroupItem>
-										<@input type='text' id='first_name' name='first_name' maxlength=100 value='${user.firstName!}'  size='' />
-									</@inputGroup>
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.users.modify_user.labelEmail}' labelFor='email' rows=2 mandatory=true>
-									<@inputGroup>
-										<@inputGroupItem type='text'>
-											<@icon style='envelope' />
-										</@inputGroupItem>
-										<@input type='email' id='email' name='email' maxlength=100 value='${user.email!}' size=''  />
-									</@inputGroup>
-									</@formGroup>
-								</@boxBody>
-								</@box>
-							</@columns>
-							<@columns sm=sm>
-							<@box>
-								<@boxHeader title='#i18n{portal.users.modify_user.labelAttributes}' />
-								<@boxBody>
-									<@formGroup labelKey='#i18n{portal.users.create_user.userLevelLabel}' labelFor='' rows=2>
-										<@staticText>${level.name}</@staticText>
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' labelFor='workgroup_key' rows=2 mandatory=true>
-										<@select name='workgroup_key' default_value='${user.workgroupKey!}' items=workgroup_key_list sort=true />
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.users.modify_user.labelStatus}' labelFor='status' rows=2>
-										<@select id='status' name='status'>
-										<#assign statusOptions = [
-											{"name":"#i18n{portal.users.modify_user.statusLabelEnabled}", "code": "0", "selected" : false, "disabled" : false },
-											{"name":"#i18n{portal.users.modify_user.statusLabelDisabled}", "code": "1", "selected" : false, "disabled" : false }
-										]>
-										<@options items=statusOptions selected=user.status?string />
-										</@select>
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.users.modify_user.labelLanguage}' labelFor='language' rows=2>
-										<@select name='language' default_value='${current_language!}' items=languages_list sort=true />
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='' rows=2>
-										<@checkBox labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' labelFor='accessility_mode' id='accessibility_mode' name='accessibility_mode' value='1' checked=user.accessibilityMode />
-									</@formGroup>
-									</@boxBody>
-								</@box>
-							</@columns>
-							<#if attributes_list?has_content>
-								<#assign sm = 4>
-								<@columns sm=sm>
-								<@box>
-									<@boxHeader title='#i18n{portal.users.modify_user.labelComplementaryAttributes}' />
-									<@boxBody>
-										<#list attributes_list as attribute>
-											<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
-												<#assign idAttribute = "" + attribute.idAttribute>
-												${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
-											</#if>
-										</#list>
-										<#list attributes_list as attribute>
-											<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
-												<#assign idAttribute = "" + attribute.idAttribute>
-												${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
-												<#break>
-											</#if>
-										</#list>
-									</@boxBody>
-								</@box>
-								</@columns>
-							</#if>
-						</@row> 
-						<@row>
-							<@columns>
-								<@formGroup rows=2>
-									<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user.buttonLabelModify}' color='primary' size='' />
-									<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
-								</@formGroup>
-							</@columns>
-						</@row>   
-						</@tform>
-					</@tabContent>
-				</@tabs>
-		</@pageColumn>
+		<@tabs>
+			<@tabList>
+				<@tabLink active=true href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
+				<@tabLink href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' />
+				<@tabLink href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
+				<@tabLink href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
+				<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
+			</@tabList>
+			<@tabContent>
+				<@tform method='post' role='form' name='modify_user' action='jsp/admin/user/DoModifyUser.jsp'  params='enctype="multipart/form-data"'>
+				<@input type='hidden' name='id_user' value='${user.userId}' />
+				<@input type='hidden' name='token' value='${token}' />
+				<@row>
+					<#if attributes_list?has_content>
+						<#assign sm = 4>
+					<#else>
+						<#assign sm = 6>
+					</#if>
+					<@columns sm=sm>
+					<@box>
+						<@boxHeader title='#i18n{portal.users.modify_user.labelIdentity}' />
+						<@boxBody>
+							<@formGroup labelKey='#i18n{portal.users.modify_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
+							<@inputGroup>
+								<@inputGroupItem type='text'>
+									<@icon style='user' />
+								</@inputGroupItem>
+								<@input type='text' id='access_code' name='access_code' maxlength=100 value='${user.accessCode!}'  size='' />
+							</@inputGroup>
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.users.modify_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
+							<@inputGroup>
+								<@inputGroupItem type='text'>
+									<@icon style='user' />
+								</@inputGroupItem>
+								<@input type='text' id='last_name' name='last_name' maxlength=100 value='${user.lastName!}' size='' />
+							</@inputGroup>
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.users.modify_user.labelFirstName}' labelFor='first_name' rows=2 mandatory=true>
+							<@inputGroup>
+								<@inputGroupItem type='text'>
+									<@icon style='user' />
+								</@inputGroupItem>
+								<@input type='text' id='first_name' name='first_name' maxlength=100 value='${user.firstName!}' size='' />
+							</@inputGroup>
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.users.modify_user.labelEmail}' labelFor='email' rows=2 mandatory=true>
+							<@inputGroup>
+								<@inputGroupItem type='text'>
+									<@icon style='envelope' />
+								</@inputGroupItem>
+								<@input type='email' id='email' name='email' maxlength=100 value='${user.email!}' size=''  />
+							</@inputGroup>
+							</@formGroup>
+						</@boxBody>
+						</@box>
+					</@columns>
+					<@columns sm=sm>
+					<@box>
+						<@boxHeader title='#i18n{portal.users.modify_user.labelAttributes}' />
+						<@boxBody>
+							<@formGroup labelKey='#i18n{portal.users.create_user.userLevelLabel}' labelFor='' rows=2 >
+								<@staticText>${level.name}</@staticText>
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' labelFor='workgroup_key' rows=2 >
+								<@select name='workgroup_key' default_value='${user.workgroupKey!}' items=workgroup_key_list sort=true />
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.users.modify_user.labelStatus}' labelFor='status' rows=2>
+								<@select id='status' name='status'>
+								<#assign statusOptions = [
+									{"name":"#i18n{portal.users.modify_user.statusLabelEnabled}", "code": "0", "selected" : false, "disabled" : false },
+									{"name":"#i18n{portal.users.modify_user.statusLabelDisabled}", "code": "1", "selected" : false, "disabled" : false }
+								]>
+								<@options items=statusOptions selected=user.status?string />
+								</@select>
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.users.modify_user.labelLanguage}' labelFor='language' rows=2>
+								<@select name='language' default_value='${current_language!}' items=languages_list sort=true />
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='' rows=2>
+								<@checkBox labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' labelFor='accessility_mode' id='accessibility_mode' name='accessibility_mode' value='1' checked=user.accessibilityMode />
+							</@formGroup>
+							</@boxBody>
+						</@box>
+					</@columns>
+					<#if attributes_list?has_content>
+						<#assign sm = 4>
+						<@columns sm=sm>
+						<@box>
+							<@boxHeader title='#i18n{portal.users.modify_user.labelComplementaryAttributes}' />
+							<@boxBody>
+								<#list attributes_list as attribute>
+									<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+										<#assign idAttribute = "" + attribute.idAttribute>
+										${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+									</#if>
+								</#list>
+								<#list attributes_list as attribute>
+									<#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+										<#assign idAttribute = "" + attribute.idAttribute>
+										${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+										<#break>
+									</#if>
+								</#list>
+							</@boxBody>
+						</@box>
+						</@columns>
+					</#if>
+				</@row> 
+				<@row>
+					<@columns>
+						<@formGroup rows=2>
+							<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user.buttonLabelModify}' color='primary' size='' />
+							<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
+						</@formGroup>
+					</@columns>
+				</@row>   
+				</@tform>
+			</@tabContent>
+		</@tabs>
+	</@pageColumn>
 </@pageContainer>

@@ -14,7 +14,7 @@ Parameters:
 <#macro p id='' params='' class='' hide=[] collapsed=false align=''>
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#local class += ' ' + displaySettings(hide,'block') + ' ' + alignmentSettings(align,'') />
-<p<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+<p<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
 	<#nested>
 </p>
 </#macro>

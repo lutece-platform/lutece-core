@@ -1,76 +1,254 @@
-<@pageContainer>
+<@pageContainer class='lutece-admin-site'>
     <@pageColumn>
-        <#assign boxTitle>
-            <@breadcrumbs class='breadcrumb-arrows has-arrow-separator'>
-                <#if page.id=1>
-                    <@breadcrumbItem><@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /> ${page.name} [${page.id}]</@link></@breadcrumbItem>
-                <#else>
-                    <@breadcrumbItem>
-                        <@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /></@link>
-                    </@breadcrumbItem>
-                    <#if page.parentPageId gt 1>
+        <@div id='lutece-admin-site-preview-box'>
+            <@div class='lutece-admin-site-header d-flex justify-content-between'>
+                <@breadcrumbs class='breadcrumb-arrows has-arrow-separator '>
+                    <#if page.id=1>
+                        <@breadcrumbItem><@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /> ${page.name} [${page.id}]</@link></@breadcrumbItem>
+                    <#else>
                         <@breadcrumbItem>
-                            <@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' title='${page.name}'>... [${page.parentPageId}]</@link>
+                            <@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /></@link>
                         </@breadcrumbItem>
+                        <#if page.parentPageId gt 1>
+                            <@breadcrumbItem>
+                                <@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' title='${page.name}'>... [${page.parentPageId}]</@link>
+                            </@breadcrumbItem>
+                        </#if>
+                        <@breadcrumbItem class='active'>${page.name} [${page.id}]</@breadcrumbItem>
                     </#if>
-                    <@breadcrumbItem class='active'>${page.name} [${page.id}]</@breadcrumbItem>
-                </#if>
-            </@breadcrumbs>
-        </#assign>
-        <@box id="lutece-admin-site-preview-box" class='admin-site'>
-            <@boxHeader title=boxTitle class='justify-content-between' boxTools=true >
+                </@breadcrumbs>
                 <@adminSiteToolbar />
-            </@boxHeader>
-            <@boxBody>
-                <@div id='admin-page-preview'>
-                    ${page_block}
-                    <!-- HTML iframe to show FO -->
-                    <iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="Pr&eacute;visualisation du site">Pr&eacute;visualisation du site</iframe>
+            </@div>
+            <@div id='lutece-admin-page-preview' class='d-flex flex-column align-items-center'>
+                <@p class='text-center' params='hidden'><@button id='btn-minimize' buttonIcon='minimize' title='#i18n{portal.site.admin_page.minimize}' params='style="height: 2rem;margin-top: 1rem "' /></@p>
+                ${page_block}
+                <!-- HTML iframe to show FO -->
+                <@div id='lutece-admin-site-preview-wrapper' class='d-flex justify-content-center w-100'>
+                    <@div id='lutece-admin-site-preview-frame' class="desktop">
+                        <iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="#i18n{portal.site.admin_page.labelPreviewSite}">#i18n{portal.site.admin_page.labelPreviewSite}</iframe>
+                    </@div>
                 </@div>
-            </@boxBody>
-        </@box>
+            </@div>
+        </@div>
     </@pageColumn>
 </@pageContainer>
-<#if page_message!="">
-    <@initToast>
-        <@addToast content=page_message class='text-bg-warning border-0' />
-    </@initToast>
+<#if page_message !="">
+<@initToast>
+<@addToast content=page_message class='text-bg-warning border-0' />
+</@initToast>
+<#else>
+<@initToast showAll=false >
+<@addToast content='#i18n{portal.site.message.pageIdInvalid}' class='text-bg-warning border-0' id='invalid-page-id' />
+</@initToast>
 </#if>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+<#if commonsThemeCode = 'corporate'>
+    document.querySelector( '#lutece-page-wrapper .lutece-column' ).classList.remove( 'p-md-5' );
+    document.querySelector( '.lutece-page-wrapper' ).style.padding = 0;
+</#if>
     // Admin responsive preview
-    const previewIframe = document.querySelector( '#lutece-admin-site-preview' );
-    const previewBox = document.querySelector( '#lutece-admin-site-preview-box' );
+    const previewPage = document.getElementById( 'lutece-admin-page-preview' );
+    const previewWrapper = document.getElementById( 'lutece-admin-site-preview-wrapper' );
+    const previewFrame = document.getElementById( 'lutece-admin-site-preview-frame' );
+    const previewIframe = document.getElementById( 'lutece-admin-site-preview' );
+    const previewBox = document.getElementById( 'lutece-admin-site-preview-box' );
     const btnPreview = document.querySelectorAll( '.btn-preview' );
-    const defaultIframeWidth = (previewBox.innerWidth - 50) + "px";
-    function _resizePreview() {
-        previewIframe.style.height = (window.innerHeight - 30) + "px";
+    const defaultIframeWidth = ( previewBox.innerWidth - 50 ) + "px";
+    const btnPortlet = document.querySelectorAll( '.btn-portlet' );
+    const offPortlet = document.getElementById( 'portlet-type-wrapper' );
+    const offPage = document.getElementById( 'page-properties' );
+    const offChildPage = document.getElementById( 'childpage-properties' );
+    const portletOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(offPortlet);
+    
+    btnPortlet.forEach( btn => {
+        btn.addEventListener("click", function(){
+            portletOffcanvas.hide();
+        })
+    });
+        
+    function _resizePreview( ) {
+        previewFrame.style.height = ( window.innerHeight - 30 ) + "px";
+        previewFrame.style.width = "100%";
+        previewIframe.style.height = ( window.innerHeight - 30 ) + "px";
         previewIframe.style.width = "100%";
     }
-    function _setBtnPreview(el, w) {
-        btnPreview.forEach(btn => { btn.classList.remove('active') });
-        previewIframe.style.width = w;
+
+    function _setBtnPreview( el, w ) {
+        btnPreview.forEach( btn => { btn.classList.remove('active') } );
+        previewFrame.style.width = w;
+        previewIframe.style.width = w - 50;
         el.classList.add('active');
-        if (w != defaultIframeWidth) {
-            previewIframe.classList.add('responsive-admin-preview');
+        if ( w != defaultIframeWidth ) {
+            previewFrame.classList.add( 'responsive-admin-preview' );
         } else {
-            previewIframe.classList.remove('responsive-admin-preview');
+            previewFrame.classList.remove( 'responsive-admin-preview' );
         }
     }
+
+    function _setPreviewClass( el, c ) {
+        previewFrame.classList.remove( ...previewFrame.classList ) 
+        previewFrame.classList.add( c );
+    }
+
+    function reader(file, callback) {
+        const fr = new FileReader();
+        fr.onload = () => callback( null, fr.result );
+        fr.onerror = (err) => callback( err );
+        fr.readAsDataURL(file);
+    }
+
+    function previewFile( input, sel ) {
+        const file = input.files[0];
+        if ( !file ) {
+            return;
+        }
+        reader( file, (err, res) => {
+            if( !err ){
+                sel.src = res;
+            } else {
+                console.log( err );
+            }
+        });
+    }
+
+    function resetPropImage( btn, img){
+        btn.classList.add('d-none')
+        img.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGNsYXNzPSJpY29uIGljb24tdGFibGVyIGljb24tdGFibGVyLXBob3RvLXBsdXMiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZT0iY3VycmVudENvbG9yIiBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPgogIDxwYXRoIHN0cm9rZT0ibm9uZSIgZD0iTTAgMGgyNHYyNEgweiIgZmlsbD0ibm9uZSIvPgogIDxwYXRoIGQ9Ik0xNSA4aC4wMSIgLz4KICA8cGF0aCBkPSJNMTIuNSAyMWgtNi41YTMgMyAwIDAgMSAtMyAtM3YtMTJhMyAzIDAgMCAxIDMgLTNoMTJhMyAzIDAgMCAxIDMgM3Y2LjUiIC8+CiAgPHBhdGggZD0iTTMgMTZsNSAtNWMuOTI4IC0uODkzIDIuMDcyIC0uODkzIDMgMGw0IDQiIC8+CiAgPHBhdGggZD0iTTE0IDE0bDEgLTFjLjY3IC0uNjQ0IDEuNDUgLS44MjQgMi4xODIgLS41NCIgLz4KICA8cGF0aCBkPSJNMTYgMTloNiIgLz4KICA8cGF0aCBkPSJNMTkgMTZ2NiIgLz4KPC9zdmc+CgoK';
+    }
+
+    function _initPageProperties( timer ){
+        const imageContent = document.querySelector( '#image_content' );
+        const previewImage = document.querySelector( '#preview_image' );
+        const updateImage = document.querySelector( '#update_image' );
+        const btnDelImage = document.getElementById('deleteImage');
+        const updateDate = document.querySelector( '#display_update_date' );
+        const manualDate = document.querySelector( '#manual_date' );
+        const enableUpdateDate = document.querySelector( '#enable_manual_update_date' );
+        const manualUpdateDate = document.querySelector( '#manual_update_date' );
+
+        // Image management
+        updateImage.parentElement.setAttribute('hidden','hidden')
+        imageContent.parentElement.setAttribute('hidden','hidden')
+
+        // Check Image exists
+        const image = new Image();
+        image.src = previewImage.src;
+        
+        // If exist 
+        image.addEventListener('load', () => {
+            // 
+        });
+
+        // If not exist
+        image.addEventListener('error', () => {
+            resetPropImage( btnDelImage, previewImage )
+        });
+
+        // Add event on update image
+        imageContent.addEventListener( "change", (event) => {
+            if( event.target.value.length != 0  ){
+                updateImage.checked = true
+                previewFile( imageContent, previewImage )
+                if( btnDelImage.classList.contains('d-none') ) btnDelImage.classList.remove('d-none')
+            }
+        });
+
+        btnDelImage.addEventListener( "click", (event) => {
+            updateImage.checked = true
+            resetPropImage( btnDelImage, previewImage )
+        });
+
+        previewImage.addEventListener( "click", (event) => {
+            imageContent.click()
+        });
+
+        // Date Management
+        updateDate.addEventListener( "change", (event) => {
+            manualDate.classList.toggle('visually-hidden')
+        });
+
+        enableUpdateDate.addEventListener( "change", (event) => {
+            manualUpdateDate.disabled = !event.currentTarget.checked
+            manualUpdateDate.nextElementSibling.disabled = !event.currentTarget.checked
+        });
+    }
+    
     // Init preview size
     _resizePreview();
-    window.addEventListener("resize", _resizePreview);
-    document.querySelector("#display-desktop").addEventListener("click", e => {
+    
+    window.addEventListener( "resize", _resizePreview);
+
+    document.querySelector("#display-desktop").addEventListener( "click", e => {
         e.preventDefault();
-        _setBtnPreview(e.currentTarget, '100%')
+        _setBtnPreview( e.currentTarget, '100%' )
+        _setPreviewClass( e.currentTarget, 'desktop' ) 
     });
-    document.querySelector('#display-tablet').addEventListener("click", e => {
+    
+    document.querySelector("#display-laptop").addEventListener( "click", e => {
         e.preventDefault();
-        _setBtnPreview(e.currentTarget, '768px')
+        _setBtnPreview( e.currentTarget, '1024px' )
+        _setPreviewClass( e.currentTarget, 'laptop' ) 
     });
-    document.querySelector('#display-phone').addEventListener("click", e => {
+
+    document.querySelector( '#display-tablet' ).addEventListener( "click", e => {
         e.preventDefault();
-        _setBtnPreview(e.currentTarget, '576px')
+        _setBtnPreview( e.currentTarget, '768px');
+        _setPreviewClass( e.currentTarget, 'tablet' ) 
     });
+
+    document.querySelector( '#display-phone' ).addEventListener( "click", e => {
+        e.preventDefault();
+        _setBtnPreview( e.currentTarget, '360px' );
+        _setPreviewClass( e.currentTarget, 'phone' ) 
+    });
+
+    // Fulscreen enabled or not
+    const btnMaximize = document.querySelector( '#iframe-fullscreen');
+    const btnMinimize = document.querySelector( '#btn-minimize' )
+    
+    if ( document.fullscreenEnabled ) {
+        btnMaximize.addEventListener('click', ( e ) => {
+            previewPage.requestFullscreen();
+            btnMinimize.parentElement.removeAttribute('hidden')
+            previewWrapper.classList.toggle('lutece-admin-maximize')
+            previewFrame.classList.toggle('lutece-admin-maximize')
+            previewIframe.classList.toggle('lutece-admin-maximize')
+        });
+        btnMinimize.addEventListener('click', ( e ) => {
+            document.exitFullscreen();
+            btnMinimize.parentElement.setAttribute('hidden','hidden')
+            previewWrapper.classList.toggle('lutece-admin-maximize')
+            previewFrame.classList.toggle('lutece-admin-maximize')
+            previewIframe.classList.toggle('lutece-admin-maximize')
+
+        });
+    } else {
+        btnMaximize.remove();
+    }
+
+    // ChildPage and Page Offcanvas event 
+    let pageTimeId = 0;
+    offPage.addEventListener('shown.bs.offcanvas', event => {
+        pageTimeId = setTimeout(() => {
+            _initPageProperties( )
+        }, "1200");   
+    })
+    
+    offPage.addEventListener('hide.bs.offcanvas', event => {
+        clearTimeout( pageTimeId );   
+    })
+
+    let childPageTimeId = 0;
+    offChildPage.addEventListener('shown.bs.offcanvas', event => {
+        childPageTimeId = setTimeout(() => {
+            _initPageProperties( childPageTimeId )
+        }, "1200");   
+    })
+
+    offPage.addEventListener('hide.bs.offcanvas', event => {
+        clearTimeout( childPageTimeId );   
+    })
+
 });
 </script>

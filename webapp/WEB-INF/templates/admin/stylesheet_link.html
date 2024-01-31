@@ -1,15 +1,3 @@
 <@coreAdminCSSLinks /> 
 <!-- Default admin CSS of the core provided by a commons.html macro -->
-<!-- PLUGINS LIST -->
-<#if plugins_list??>
-    <!-- ${plugins_list?size} PLUGINS -->
-    <#list plugins_list as plugin>
-        <!--  ${plugin.name} -->
-        <#if plugin.adminCssStyleSheets ??>
-            <!-- Styles  by ${plugin.name} -->
-            <#list plugin.adminCssStyleSheets as css> 
-                <link href="${css}"  rel="stylesheet" > <!-- provided by ${plugin.name} -->
-            </#list>
-        </#if>
-    </#list>
-</#if>
+<#if plugins_list??> <#list plugins_list as plugin><#if plugin.adminCssStyleSheets ??><#list plugin.adminCssStyleSheets as css><link href="${css}"  rel="stylesheet" > <!-- provided by ${plugin.name} --></#list></#if></#list></#if>
