@@ -182,11 +182,9 @@
                <#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo><#assign showLog=true /><#break></#list>
                <#if showLog>
                <li class="nav-item dropdown" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}">
-                  <a class="border btn btn-light btn-rounded " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}">
-                     <div class="position-relative">
-                        <div class="icon-item-new"></div>
+                  <a class="border btn btn-light btn-rounded position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}">
+                        <div class="icon-item-new position-absolute end-0 me-2 mt-1"></div>
                         <i class="ti ti-bell"></i>
-                     </div>   
                   </a>
                      <ul class="dropdown-menu p-3">
                         <li class="border-bottom mb-3">
@@ -241,7 +239,7 @@
                </#if>
             </#list>
          </#if>
-         <li class="nav-item dropdown lutece-profile d-none d-sm-block">
+         <li class="nav-item dropdown lutece-profile d-none d-sm-block me-0">
             <a href="#" class="border btn btn-light btn-rounded" data-bs-toggle="dropdown" >
                <div class="lutece-profile-name">
                   <div class="small fw-bold">
