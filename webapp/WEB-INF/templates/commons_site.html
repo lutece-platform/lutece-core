@@ -371,10 +371,10 @@
 		<div class="input-group">
 			<input class="form-control lutece-autocomplete-search-input w-75" type="text" name="${name}" placeholder="${placeHolder}" role="combobox" autocomplete="off" value="<#if currentValue!=''>${currentValue!}</#if>" id="${id}-input" aria-expanded="false" aria-owns="${id}-list-container" aria-autocomplete="list" aria-describedby="${id}-lutece-autocomplete-default-assistive">
 			<span role="button" class="input-group-text lutece-autocomplete-remove <#if currentValue=''>d-none</#if> text-danger">
-				<i class="ti ti-x fs-5"></i>
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
 			</span>
 			<span role="button" class="input-group-text">
-				<i id="${id}-search-icon" class="lutece-autocomplete-search-icon ti ti-search"></i>
+				<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
 			</span>
 		</div>
 		<div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
