@@ -1,9 +1,7 @@
-<@row>
-	<@columns>
-		<@box color='success'>
-		<@boxHeader title='#i18n{portal.mailinglist.create_mailinglist.title}' />
-		<@boxBody>
-		<@tform method='post' id="create-mailinglist-form" action='jsp/admin/mailinglist/DoCreateMailingList.jsp'>
+<@pageContainer>
+    <@pageColumn> 
+        <@pageHeader title='#i18n{portal.mailinglist.create_mailinglist.title}' />
+		<@tform method='post' id='create-mailinglist-form' action='jsp/admin/mailinglist/DoCreateMailingList.jsp'>
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.mailinglist.create_mailinglist.labelName}' labelFor='name' mandatory=true>
 				<@input type='text' name='name' id='name' value='' />
@@ -15,11 +13,9 @@
 				<@select name='workgroup' default_value='all' items=workgroups_list sort=true />
 			</@formGroup>
 			<@formGroup>
-				<@button type='submit' buttonIcon='check' title='#i18n{portal.mailinglist.create_mailinglist.buttonCreate}' color='primary' />
+				<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.mailinglist.create_mailinglist.buttonCreate}' color='primary' />
 				<@button buttonIcon='times' title='#i18n{portal.util.labelCancel}' cancel=true params='onclick="javascript:window.history.go(-1);"' />
 			</@formGroup>
 		</@tform>
-		</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+	</@pageColumn>
+</@pageContainer>

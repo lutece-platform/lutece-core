@@ -1,7 +1,7 @@
 <@pageContainer>
     <@pageColumn> 
         <@pageHeader title='${mailinglist.name?html}'>
-            <@offcanvas id="edit-mailingList" title="#i18n{portal.mailinglist.modify_mailinglist.buttonModify}" position="end" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonModify}" btnIcon="edit">
+            <@offcanvas id='edit-mailingList' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify}' position='end' btnTitle='#i18n{portal.mailinglist.modify_mailinglist.buttonModify}' btnIcon='edit'>
                 <@tform method='post' action='jsp/admin/mailinglist/DoModifyMailingList.jsp'>
                     <@input type='hidden' id='id_mailinglist' name='id_mailinglist' value='${mailinglist.id}' />
                     <@input type='hidden' name='token' value='${token}' />
@@ -20,7 +20,7 @@
                 </@tform>
             </@offcanvas>
             <#if mailinglist.filters?size lt 1>
-                <@offcanvas targetUrl="jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id!}" targetElement="#add-user-form" redirectForm=false id="mailinglist-add-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"  btnIcon="plus" position="end" />
+                <@offcanvas targetUrl='jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id!}' targetElement="#add-user-form" redirectForm=false id="mailinglist-add-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"  btnIcon="plus" position="end" />
             <#else>
                 <@offcanvas targetUrl="jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id!}" targetElement="#add-user-form" redirectForm=false id="mailinglist-add-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"  btnIcon="plus" position="end" />
                 <@offcanvas targetUrl="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id!}" targetElement="#mailinglist-users-table" redirectForm=false id="mailinglist-view-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}"  btnIcon="eye" position="end" />
@@ -43,7 +43,7 @@
 								<@input type='hidden' name='workgroup' value='${filter.workgroup?html}' />
 								<@input type='hidden' name='role' value='${filter.role?html}' />
 								<@input type='hidden' name='token' value='${token}' />
-								<@offcanvas targetUrl="jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&amp;role=${filter.role}" targetElement="#mailinglist-users-table" redirectForm=false id="mailinglist-users-table" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}"  btnIcon="eye" position="end" />
+								<@offcanvas targetUrl='jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&amp;role=${filter.role}' targetElement='#mailinglist-users-table' redirectForm=false id='mailinglist-users-table' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}' btnIcon='eye' btnSize='sm' position='end' />
 								<@button type='submit' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' hideTitle=['all'] color='danger' size='sm' />
 							</@tform>
 						</@td>
