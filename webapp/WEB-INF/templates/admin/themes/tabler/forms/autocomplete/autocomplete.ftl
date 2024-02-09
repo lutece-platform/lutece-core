@@ -30,11 +30,11 @@ Parameters:
 	</div>
   <@formGroup formStyle='floating' class='' labelFor='${id}' labelKey='${searchLabel}' mandatory=mandatory>
     <@inputGroup>
-      <@input type='text' name="${name}" placeHolder="${searchLabel}" class="lutece-autocomplete-search-input w-75" value="${currentValue}" value="<#if currentValue!=''>${currentValue!}</#if>" id="${id}-input" params='role="combobox" autocomplete="off" aria-expanded="false" aria-owns="${id}-list-container" aria-autocomplete="list" aria-describedby="${id}-lutece-autocomplete-assistiveHint"' />
+      <@input type='text' name="${name}" placeHolder="${searchLabel}" class="lutece-autocomplete-search-input w-75" value="${currentValue!}"  id="${id}-input" params='role="combobox" autocomplete="off" aria-expanded="false" aria-owns="${id}-list-container" aria-autocomplete="list" aria-describedby="${id}-lutece-autocomplete-assistiveHint"' />
       <span role="button" class="input-group-text lutece-autocomplete-remove <#if currentValue=''>d-none</#if> text-danger">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
 			</span>
-			<span role="button" class="input-group-text">
+			<span role="button" class="input-group-text lutece-autocomplete-search-icon">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
 			</span>	
     </@inputGroup>
