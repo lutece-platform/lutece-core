@@ -24,21 +24,23 @@ Parameters:
 -->
 <#macro autocomplete id name suggestionsUrl suggestionsPath="" itemValueFieldName="value" btnColor="light" btnSize="" itemLabelFieldNames="[]" itemTitleFieldNames=itemLabelFieldNames itemDescriptionFieldNames="[]" itemTagsFieldNames="[]" copyFields="[]" currentValue="" currentLabel="" required=false minimumInputLength=1 minimumInputLenghtLabel="#i18n{portal.util.labelMinimumSearchLenght}" searchLabel="#i18n{portal.util.labelSearch}" emptyLabel="#i18n{portal.util.labelNoItem}" additionnalRequestParamInputId="" >
 <div id="${id}" class="lutece-autocomplete dropdown form-group form-floating " data-itemTitleFieldNames=${itemTitleFieldNames} data-suggestionsUrl="${suggestionsUrl}" data-suggestionsPath="${suggestionsPath}" data-itemValueFieldName=${itemValueFieldName} data-minimumInputLength=${minimumInputLength} data-itemDescriptionFieldNames=${itemDescriptionFieldNames} data-itemTagsFieldNames=${itemTagsFieldNames} data-copyFields=${copyFields} data-emptyLabel="${emptyLabel}" data-currentValue="${currentValue}" data-currentLabel="${currentLabel}" data-suggestionItemClass='["list-group-item", "p-3"]' data-titleClass='["mb-0", "fw-bolder"]' data-descriptionClass='["text-muted", "mb-0"]' data-tagClass='["badge", "bg-blue-lt", "me-1"]' data-loaderIconClasses='{"loading": ["ti-loader-2", "icon-rotate"], "error": ["ti-zoom-exclamation", "text-danger"], "search": ["ti-search"]}' data-emptyClass='["list-group-item", "p-3", "text-muted", "text-center"]' data-searchLabel="${searchLabel}">
- 
+  <div class="${id}lutece-autocomplete-status" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; margin-bottom: -1px; margin-right: -1px; overflow: hidden; padding: 0px; position: absolute; white-space: nowrap; width: 1px;">
+		<div id="${id}-lutece-autocomplete-status--A" role="status" aria-atomic="true" aria-live="polite"></div>
+		<div id="${id}-lutece-autocomplete-status--B" role="status" aria-atomic="true" aria-live="polite"></div>
+	</div>
   <@formGroup formStyle='floating' class='' labelFor='${id}' labelKey='${searchLabel}' mandatory=mandatory>
     <@inputGroup>
-      <@input type='text' name="${name}" id="${id}" placeHolder="${searchLabel}" class="lutece-autocomplete-search-input w-75" value="${currentValue}" />
+      <@input type='text' name="${name}" placeHolder="${searchLabel}" class="lutece-autocomplete-search-input w-75" value="${currentValue}" value="<#if currentValue!=''>${currentValue!}</#if>" id="${id}-input" params='role="combobox" autocomplete="off" aria-expanded="false" aria-owns="${id}-list-container" aria-autocomplete="list" aria-describedby="${id}-lutece-autocomplete-assistiveHint"' />
       <span role="button" class="input-group-text lutece-autocomplete-remove <#if currentValue=''>d-none</#if> text-danger">
-        <i class="ti ti-x fs-5"></i>
-      </span>
-      <span role="button" class="input-group-text">
-        <i id="${id}-search-icon" class="lutece-autocomplete-search-icon ti ti-search"></i>
-      </span>
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+			</span>
+			<span role="button" class="input-group-text">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+			</span>	
     </@inputGroup>
-    
     <div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0 position-relative" aria-labelledby="dropdownMenuButton">
-      <ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto bg-white" id="suggestions-list" style="max-height:15rem;">
-      </ul>
+      <ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto bg-white"  role="listbox" id="suggestions-list" aria-labelledby="${id}-input" style="max-height:15rem;"></ul>
+      <span id="lutece-autocomplete-default__assistiveHint" style="display: none;">When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.</span>
     </div>
   </@formGroup>
 </div>
