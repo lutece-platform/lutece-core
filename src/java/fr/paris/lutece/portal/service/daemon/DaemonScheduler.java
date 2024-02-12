@@ -39,15 +39,19 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.ManagedThreadFactory;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -69,10 +73,13 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     @Inject
     @DaemonExecutor
     private ExecutorService _executor;
+    @Resource
+    private ManagedThreadFactory _managedThreadFactory;
     private Thread _coordinatorThread;
-    private Timer _scheduledDaemonsTimer;
+    private ScheduledExecutorService _scheduledExecutorService;
     private Map<String, RunnableWrapper> _executingDaemons;
-    private Map<String, DaemonTimerTask> _scheduledDaemons;
+    private Map<String, DaemonManagedTask> _scheduledDaemons;
+    private Map<String, ScheduledFuture<DaemonManagedTask>> _scheduledFutures;
     private volatile boolean _bShuttingDown;
 
     /**
@@ -91,10 +98,13 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     @PostConstruct
     public void initDaemonScheduler( ){  	
     	_queue = new LinkedBlockingQueue<DaemonEntry>();
-        _scheduledDaemonsTimer = new Timer( "Lutece-Daemons-Scheduled-Timer-Thread", true );
+        //_scheduledDaemonsTimer = new Timer( "Lutece-Daemons-Scheduled-Timer-Thread", true );
+    	_scheduledExecutorService =  Executors.newScheduledThreadPool( 1 , _managedThreadFactory);
         _executingDaemons = new HashMap<>( );
         _scheduledDaemons = new HashMap<>( );
-        _coordinatorThread = new Thread( this, "Lutece-Daemons-Coordinator" );
+        _scheduledFutures = new HashMap<>( );
+        _coordinatorThread = _managedThreadFactory.newThread( this);
+        _coordinatorThread.setName(  "Lutece-Daemons-Coordinator"  );
         _coordinatorThread.setDaemon( true );
         _coordinatorThread.start( );
         _bShuttingDown = false;
@@ -114,7 +124,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         }
         try
         {
-            _scheduledDaemonsTimer.schedule( new DaemonTimerTask( entry ), unit.toMillis( nDelay ) );
+            _scheduledExecutorService.schedule( entry.getDaemon( ), nDelay, unit );
             return true;
         }
         catch( IllegalStateException e )
@@ -154,10 +164,10 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             }
             else
             {
-
-                DaemonTimerTask daemonTimerTask = new DaemonTimerTask( entry );
-                _scheduledDaemonsTimer.scheduleAtFixedRate( daemonTimerTask, unit.toMillis( nInitialDelay ), entry.getInterval( ) * 1000 );
-                _scheduledDaemons.put( entry.getId( ), daemonTimerTask );
+                DaemonManagedTask daemonManagedTask = new DaemonManagedTask( entry );
+                ScheduledFuture sf = _scheduledExecutorService.scheduleAtFixedRate( daemonManagedTask ,  nInitialDelay , entry.getInterval( ) , unit );
+                _scheduledFutures.put( entry.getId( ), sf );
+                _scheduledDaemons.put( entry.getId( ), daemonManagedTask );
             }
         }
 
@@ -168,15 +178,15 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     {
         synchronized( _scheduledDaemons )
         {
-            DaemonTimerTask daemonTimerTask = _scheduledDaemons.get( entry.getId( ) );
+            DaemonManagedTask daemonTimerTask = _scheduledDaemons.get( entry.getId( ) );
             if ( daemonTimerTask == null )
             {
                 AppLogService.error( "Could not unschedule daemon " + entry.getId( ) + " which was not scheduled" );
             }
             else
             {
-                daemonTimerTask.cancel( );
-                _scheduledDaemonsTimer.purge( );
+                _scheduledFutures.get( entry.getId( ) ).cancel( true );
+                _scheduledFutures.remove( entry.getId( ) );
                 _scheduledDaemons.remove( entry.getId( ) );
             }
         }
@@ -242,7 +252,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
                 }
                 if ( runnable != null )
                 {
-                    _executor.execute( runnable );
+                    _scheduledExecutorService.execute( runnable );
                 }
             }
             // prepare next iteration
@@ -258,13 +268,13 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         int maxAwaitTerminationDelay = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY, 15 );
         AppLogService
                 .info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait " + maxAwaitTerminationDelay + " s)." );
-        _scheduledDaemonsTimer.cancel( );
+        _scheduledExecutorService.shutdown( );
         _coordinatorThread.interrupt( );
         _executor.shutdown( );
 
         // make a copy of scheduled daemons so that the list can be modified by
         // #unSchedule
-        ArrayList<DaemonTimerTask> scheduled = new ArrayList<>( _scheduledDaemons.values( ) );
+        ArrayList<DaemonManagedTask> scheduled = new ArrayList<>( _scheduledDaemons.values( ) );
         scheduled.forEach( task -> unSchedule( task.getDaemonEntry( ) ) );
 
         try
@@ -354,9 +364,9 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     }
 
     /**
-     * Timer task to enqueue daemon runs
+     * Managed task to enqueue daemon runs
      */
-    private final class DaemonTimerTask extends TimerTask
+    private final class DaemonManagedTask implements Runnable
     {
 
         private final DaemonEntry _entry;
@@ -365,7 +375,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
          * @param entry
          *            the daemon
          */
-        public DaemonTimerTask( DaemonEntry entry )
+        public DaemonManagedTask( DaemonEntry entry )
         {
             _entry = entry;
         }
@@ -387,4 +397,5 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         }
 
     }
+
 }
