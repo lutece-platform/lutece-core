@@ -31,7 +31,7 @@ Parameters:
 <#local labelClass = labelClass >
 <#if rows=1>
     <#if labelKey!='' && formStyle='horizontal'>
-        <#local labelClass += ' col-sm-12 col-lg-3 form-label text-right'>
+        <#local labelClass += 'form-label'>
         <#if displayLabelClass?contains('d-none')>
             <#local divClass='col'>
         <#else>
