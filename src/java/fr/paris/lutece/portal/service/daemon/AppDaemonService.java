@@ -74,12 +74,6 @@ public final class AppDaemonService
     public static synchronized void init( )
     {
         // already initialized
-    	 /*I temporarily disable the feature while resolving the issue with daemons 
-        preventing the web app from starting on an Open Liberty server. 
-        The problem is related to the propagation of context between threads.
-        See https://dev.lutece.paris.fr/gitlab/archi/comite-achitecture/-/issues/99
-        */
-    	_bInit= true;// To be removed upon resolution of the issue described above.
         if ( _bInit )
         {
             return;
@@ -347,12 +341,7 @@ public final class AppDaemonService
      */
     public static void shutdown( )
     {  	
-    	/*I temporarily disable the feature while resolving the issue with daemons 
-        preventing the web app from starting on an Open Liberty server. 
-        The problem is related to the propagation of context between threads.
-        https://dev.lutece.paris.fr/gitlab/archi/comite-achitecture/-/issues/99
-        */
-       // _executor.shutdown( ); //To be uncommented upon resolution of the issue described above.
+       _executor.shutdown( );
     }
 
     /**

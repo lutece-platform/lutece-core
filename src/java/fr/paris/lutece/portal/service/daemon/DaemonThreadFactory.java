@@ -33,12 +33,13 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.util.concurrent.ThreadFactory;
+
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.ManagedThreadFactory;
 import jakarta.enterprise.context.ApplicationScoped;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 /**
  * This class provides a method that creates new threads on demand to run daemon task
@@ -48,7 +49,8 @@ public class DaemonThreadFactory implements ThreadFactory
 {
     private static final String PROPERTY_RUN_THREAD_AS_DAEMON = "daemon.runThreadAsDaemon";
     private static final boolean RUN_THREAD_AS_DAEMON = Boolean.parseBoolean( AppPropertiesService.getProperty( PROPERTY_RUN_THREAD_AS_DAEMON, "0" ) );
-    private static final ThreadFactory _defaultThreadFactory = Executors.defaultThreadFactory( );
+    @Resource
+    private ManagedThreadFactory _defaultManagedThreadFactory;
     private static final String DAEMONS_NAME_PREFIX = "Lutece-DaemonsPool-Thread-";
     private static int _nIndex = 1;
 
@@ -62,7 +64,7 @@ public class DaemonThreadFactory implements ThreadFactory
     @Override
     public Thread newThread( Runnable runnable )
     {
-        Thread thread = _defaultThreadFactory.newThread( runnable );
+        Thread thread = _defaultManagedThreadFactory.newThread( runnable );
         thread.setDaemon( RUN_THREAD_AS_DAEMON );
         thread.setPriority( Thread.MIN_PRIORITY );
         thread.setName( DAEMONS_NAME_PREFIX + _nIndex );
