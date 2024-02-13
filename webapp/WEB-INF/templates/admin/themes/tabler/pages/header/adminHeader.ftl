@@ -165,7 +165,7 @@ Parameters:
 					</li>
 					</#if>
 					<li class="nav-item dropdown d-none d-lg-flex">
-						<a href="#" class="nav-link nav-info nav-user-info d-flex lh-1 py-0 px-2 text-reset dropdown-toggle" data-bs-toggle="dropdown" role="button" >
+						<a href="#" class="nav-link nav-info nav-user-info lh-1 py-0 px-2 text-reset dropdown-toggle" data-bs-toggle="dropdown" role="button" >
 							<span class="visually-hidden">#i18n{portal.util.labelMore}</span>
 							<span class="avatar avatar-sm" style="background-image:url(<#if adminAvatar>servlet/plugins/adminavatar/avatar?id_user=${user.userId}<#else>#dskey{portal.site.site_property.avatar_default}</#if>)"></span>
 							<div class="ps-2 pt-3 user-infos">
