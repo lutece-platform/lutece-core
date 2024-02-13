@@ -43,8 +43,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -112,15 +113,17 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" )
         } );
-        DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
-        Map<String, List<FileItem>> files = new HashMap<>( );
-        List<FileItem> pageTemplateFiles = new ArrayList<>( );
-        FileItem pageTemplateFile = fileItemFactory.createItem( "page_template_file", "text/html", false, "junit.html" );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        Map<String, List<FileItem<DiskFileItem>>> files = new HashMap<>( );
+        List<FileItem<DiskFileItem>> pageTemplateFiles = new ArrayList<>( );
+        FileItem<DiskFileItem> pageTemplateFile = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_file" )
+                .setContentType( "text/html" ).setFormField( false ).setFileName( "junit.html" ).get( );
         pageTemplateFile.getOutputStream( ).write( new byte [ 1] );
         pageTemplateFiles.add( pageTemplateFile );
         files.put( "page_template_file", pageTemplateFiles );
-        List<FileItem> pageTemplatePictures = new ArrayList<>( );
-        FileItem pageTemplatePicture = fileItemFactory.createItem( "page_template_picture", "image/jpg", false, "junit.jpg" );
+        List<FileItem<DiskFileItem>> pageTemplatePictures = new ArrayList<>( );
+        FileItem<DiskFileItem> pageTemplatePicture = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_picture" )
+                .setContentType( "image/jpg" ).setFormField( false ).setFileName( "junit.jpg" ).get( );
         pageTemplatePicture.getOutputStream( ).write( new byte [ 1] );
         pageTemplatePictures.add( pageTemplatePicture );
         files.put( "page_template_picture", pageTemplatePictures );
@@ -147,15 +150,17 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" ) + "b"
         } );
-        DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
-        Map<String, List<FileItem>> files = new HashMap<>( );
-        List<FileItem> pageTemplateFiles = new ArrayList<>( );
-        FileItem pageTemplateFile = fileItemFactory.createItem( "page_template_file", "text/html", false, "junit.html" );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        Map<String, List<FileItem<DiskFileItem>>> files = new HashMap<>( );
+        List<FileItem<DiskFileItem>> pageTemplateFiles = new ArrayList<>( );
+        FileItem<DiskFileItem> pageTemplateFile = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_file" )
+                .setContentType( "text/html" ).setFormField( false ).setFileName( "junit.html" ).get( );
         pageTemplateFile.getOutputStream( ).write( new byte [ 1] );
         pageTemplateFiles.add( pageTemplateFile );
         files.put( "page_template_file", pageTemplateFiles );
-        List<FileItem> pageTemplatePictures = new ArrayList<>( );
-        FileItem pageTemplatePicture = fileItemFactory.createItem( "page_template_picture", "image/jpg", false, "junit.jpg" );
+        List<FileItem<DiskFileItem>> pageTemplatePictures = new ArrayList<>( );
+        FileItem<DiskFileItem> pageTemplatePicture = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_picture" )
+                .setContentType( "image/jpg" ).setFormField( false ).setFileName( "junit.jpg" ).get( );
         pageTemplatePicture.getOutputStream( ).write( new byte [ 1] );
         pageTemplatePictures.add( pageTemplatePicture );
         files.put( "page_template_picture", pageTemplatePictures );
@@ -183,15 +188,17 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
                 desc
         } );
-        DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
-        Map<String, List<FileItem>> files = new HashMap<>( );
-        List<FileItem> pageTemplateFiles = new ArrayList<>( );
-        FileItem pageTemplateFile = fileItemFactory.createItem( "page_template_file", "text/html", false, "junit.html" );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        Map<String, List<FileItem<DiskFileItem>>> files = new HashMap<>( );
+        List<FileItem<DiskFileItem>> pageTemplateFiles = new ArrayList<>( );
+        FileItem<DiskFileItem> pageTemplateFile = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_file" )
+                .setContentType( "text/html" ).setFormField( false ).setFileName( "junit.html" ).get( );
         pageTemplateFile.getOutputStream( ).write( new byte [ 1] );
         pageTemplateFiles.add( pageTemplateFile );
         files.put( "page_template_file", pageTemplateFiles );
-        List<FileItem> pageTemplatePictures = new ArrayList<>( );
-        FileItem pageTemplatePicture = fileItemFactory.createItem( "page_template_picture", "image/jpg", false, "junit.jpg" );
+        List<FileItem<DiskFileItem>> pageTemplatePictures = new ArrayList<>( );
+        FileItem<DiskFileItem> pageTemplatePicture = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_picture" )
+                .setContentType( "image/jpg" ).setFormField( false ).setFileName( "junit.jpg" ).get( );
         pageTemplatePicture.getOutputStream( ).write( new byte [ 1] );
         pageTemplatePictures.add( pageTemplatePicture );
         files.put( "page_template_picture", pageTemplatePictures );

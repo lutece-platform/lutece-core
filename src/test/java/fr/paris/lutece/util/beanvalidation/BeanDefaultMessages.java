@@ -37,8 +37,6 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
-import org.hibernate.validator.constraints.URL;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -81,7 +79,7 @@ public class BeanDefaultMessages implements Bean
     private BigDecimal _percent;
     @Digits( integer = 15, fraction = 2 )
     private String _strCurrency;
-    @URL( )
+    @Pattern( regexp = "^((((https?|ftps?|gopher|telnet|nntp)://)|(mailto:|news:))(%[0-9A-Fa-f]{2}|[-()_.!~*';/?:@&=+$,A-Za-z0-9])+)([).!';/?:,][[:blank:]])?$" )
     private String _strUrl;
 
     /**

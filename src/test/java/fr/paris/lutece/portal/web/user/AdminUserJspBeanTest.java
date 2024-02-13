@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.web.user;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
@@ -45,8 +44,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.disk.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -1613,9 +1613,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> fileItems = new ArrayList<>( );
-        FileItem file = new DiskFileItem( "import_file", "application/csv", true, "junit.csv", 1024, new File( System.getProperty( "java.io.tmpdir" ) ) );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> file = fileItemFactory.fileItemBuilder( ).setFieldName( "import_file" )
+                .setContentType( "application/csv" ).setFormField( true ).setFileName( "junit.csv" )
+                .setPath( System.getProperty( "java.io.tmpdir" ) ).get( );
         OutputStreamWriter writer = new OutputStreamWriter( file.getOutputStream( ), Charset.forName( "UTF-8" ) );
         writer.write( "test;test;test;test@test.fr;" + AdminUser.ACTIVE_CODE + ";" + Locale.FRANCE + ";0;false;false;;;" );
         writer.close( );
@@ -1655,9 +1658,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> fileItems = new ArrayList<>( );
-        FileItem file = new DiskFileItem( "import_file", "application/csv", true, "junit.csv", 1024, new File( System.getProperty( "java.io.tmpdir" ) ) );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> file = fileItemFactory.fileItemBuilder( ).setFieldName( "import_file" )
+                .setContentType( "application/csv" ).setFormField( true ).setFileName( "junit.csv" )
+                .setPath( System.getProperty( "java.io.tmpdir" ) ).get( );
         OutputStreamWriter writer = new OutputStreamWriter( file.getOutputStream( ), Charset.forName( "UTF-8" ) );
         writer.write( "test;test;test;test@test.fr;" + AdminUser.ACTIVE_CODE + ";" + Locale.FRANCE + ";0;false;false;;;" );
         writer.close( );
@@ -1694,9 +1700,12 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> fileItems = new ArrayList<>( );
-        FileItem file = new DiskFileItem( "import_file", "application/csv", true, "junit.csv", 1024, new File( System.getProperty( "java.io.tmpdir" ) ) );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> file = fileItemFactory.fileItemBuilder( ).setFieldName( "import_file" )
+                .setContentType( "application/csv" ).setFormField( true ).setFileName( "junit.csv" )
+                .setPath( System.getProperty( "java.io.tmpdir" ) ).get( );
         OutputStreamWriter writer = new OutputStreamWriter( file.getOutputStream( ), Charset.forName( "UTF-8" ) );
         writer.write( "test;test;test;test@test.fr;" + AdminUser.ACTIVE_CODE + ";" + Locale.FRANCE + ";0;false;false;;;" );
         writer.close( );
