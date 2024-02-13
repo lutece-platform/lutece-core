@@ -50,7 +50,8 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
     {
         super.setUp( );
         _adminUserMenuService = new TestAdminUserMenuService( );
-        _instance = new AdminUserMenuItemProviderRegistrar( _adminUserMenuService );
+        _instance = new AdminUserMenuItemProviderRegistrar( );
+        _instance.setService( _adminUserMenuService );
         _instance.setBeanName( "junit" );
     }
 

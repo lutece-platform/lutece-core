@@ -44,8 +44,9 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.file.File;
@@ -135,9 +136,11 @@ public class XslExportJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.html" )
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> fileItems = new ArrayList<>( );
-        FileItem item = new DiskFileItemFactory( ).createItem( "id_file", "", false, "xsl" );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> item = fileItemFactory.fileItemBuilder( ).setFieldName( "id_file" ).setContentType( "" )
+                .setFormField( false ).setFileName( "xsl" ).get( );
         item.getOutputStream( ).write( "<?xml version='1.0'?><a/>".getBytes( ) );
         fileItems.add( item );
         multipartFiles.put( "id_file", fileItems );
@@ -175,9 +178,11 @@ public class XslExportJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.html" ) + "b"
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> fileItems = new ArrayList<>( );
-        FileItem item = new DiskFileItemFactory( ).createItem( "id_file", "", false, "xsl" );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> item = fileItemFactory.fileItemBuilder( ).setFieldName( "id_file" ).setContentType( "" ).setFormField( false )
+                .setFileName( "xsl" ).get( );
         item.getOutputStream( ).write( "<?xml version='1.0'?><a/>".getBytes( ) );
         fileItems.add( item );
         multipartFiles.put( "id_file", fileItems );
@@ -217,9 +222,11 @@ public class XslExportJspBeanTest extends LuteceTestCase
                 randomName
         } );
 
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> fileItems = new ArrayList<>( );
-        FileItem item = new DiskFileItemFactory( ).createItem( "id_file", "", false, "xsl" );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> item = fileItemFactory.fileItemBuilder( ).setFieldName( "id_file" ).setContentType( "" ).setFormField( false )
+                .setFileName( "xsl" ).get( );
         item.getOutputStream( ).write( "<?xml version='1.0'?><a/>".getBytes( ) );
         fileItems.add( item );
         multipartFiles.put( "id_file", fileItems );
@@ -282,7 +289,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.html" )
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
 
         _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
 
@@ -318,7 +325,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.html" ) + "b"
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
 
         _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
 
@@ -357,7 +364,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         parameters.put( "id_xsl_export", new String [ ] {
                 Integer.toString( _xslExport.getIdXslExport( ) )
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
 
         _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
 
