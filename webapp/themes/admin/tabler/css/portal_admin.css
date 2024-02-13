@@ -709,8 +709,8 @@ mark {
       width: 100%
   }
 
-  body[data-bs-theme="dark"] #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .dropdown-menu {
-    --tblr-dropdown-bg: var(--tblr-gray-dark );
+  #lutece-layout-wrapper.aside .lutece-header .lutece-nav[data-bs-theme="dark"] .lutece-collapse>.navbar-nav .dropdown-menu {
+    --tblr-dropdown-bg: var( --tblr-gray-dark );
   }
 
   #lutece-layout-wrapper.aside .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item {
