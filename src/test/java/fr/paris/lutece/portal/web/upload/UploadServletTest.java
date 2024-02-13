@@ -41,7 +41,8 @@ import java.util.Map;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload2.FileItem;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
@@ -113,7 +114,7 @@ public class UploadServletTest extends LuteceTestCase
         final String BEAN_NAME = "testAsyncUpNetSf";
         MockHttpServletRequest request = new MockHttpServletRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
-        Map<String, List<FileItem>> mapFiles = new HashMap<>( );
+        Map<String, List<FileItem<DiskFileItem>>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
         mapParameters.put( "handler", new String [ ] {
                 BEAN_NAME
@@ -125,7 +126,7 @@ public class UploadServletTest extends LuteceTestCase
         beanFactory.registerSingleton( BEAN_NAME, new IAsynchronousUploadHandler2( )
         {
             @Override
-            public void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem> fileItems )
+            public void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem<DiskFileItem>> fileItems )
             {
                 mainObject.clear( );
                 mainObject.put( "testnetsf", "valuetestnetsf" );
@@ -168,7 +169,7 @@ public class UploadServletTest extends LuteceTestCase
         final String BEAN_NAME = "testAsyncUpMap";
         MockHttpServletRequest request = new MockHttpServletRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
-        Map<String, List<FileItem>> mapFiles = new HashMap<>( );
+        Map<String, List<FileItem<DiskFileItem>>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
         mapParameters.put( "handler", new String [ ] {
                 BEAN_NAME
@@ -180,7 +181,7 @@ public class UploadServletTest extends LuteceTestCase
         beanFactory.registerSingleton( BEAN_NAME, new IAsynchronousUploadHandler2( )
         {
             @Override
-            public void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem> fileItems )
+            public void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem<DiskFileItem>> fileItems )
             {
                 mainObject.clear( );
                 mainObject.put( "testmap", "valuetestmap" );

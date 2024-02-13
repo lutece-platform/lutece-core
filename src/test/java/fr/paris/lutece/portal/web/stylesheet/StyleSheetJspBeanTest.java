@@ -42,8 +42,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -156,9 +157,11 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.html" )
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> items = new ArrayList<>( );
-        FileItem source = new DiskFileItemFactory( ).createItem( Parameters.STYLESHEET_SOURCE, "application/xml", true, randomName );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> items = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> source = fileItemFactory.fileItemBuilder( ).setFieldName( Parameters.STYLESHEET_SOURCE )
+                .setContentType( "application/xml" ).setFormField( true ).setFileName( randomName ).get( );
         source.getOutputStream( ).write( "<a/>".getBytes( ) );
         items.add( source );
         multipartFiles.put( Parameters.STYLESHEET_SOURCE, items );
@@ -192,9 +195,11 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.html" ) + "b"
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> items = new ArrayList<>( );
-        FileItem source = new DiskFileItemFactory( ).createItem( Parameters.STYLESHEET_SOURCE, "application/xml", true, randomName );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> items = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> source = fileItemFactory.fileItemBuilder( ).setFieldName( Parameters.STYLESHEET_SOURCE )
+                .setContentType( "application/xml" ).setFormField( true ).setFileName( randomName ).get( );
         source.getOutputStream( ).write( "<a/>".getBytes( ) );
         items.add( source );
         multipartFiles.put( Parameters.STYLESHEET_SOURCE, items );
@@ -229,9 +234,11 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         parameters.put( Parameters.MODE_STYLESHEET, new String [ ] {
                 "0"
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> items = new ArrayList<>( );
-        FileItem source = new DiskFileItemFactory( ).createItem( Parameters.STYLESHEET_SOURCE, "application/xml", true, randomName );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> items = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> source = fileItemFactory.fileItemBuilder( ).setFieldName( Parameters.STYLESHEET_SOURCE )
+                .setContentType( "application/xml" ).setFormField( true ).setFileName( randomName ).get( );
         source.getOutputStream( ).write( "<a/>".getBytes( ) );
         items.add( source );
         multipartFiles.put( Parameters.STYLESHEET_SOURCE, items );
@@ -290,9 +297,11 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" )
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> items = new ArrayList<>( );
-        FileItem source = new DiskFileItemFactory( ).createItem( Parameters.STYLESHEET_SOURCE, "application/xml", true, stylesheet.getDescription( ) );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> items = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> source = fileItemFactory.fileItemBuilder( ).setFieldName( Parameters.STYLESHEET_SOURCE )
+                .setContentType( "application/xml" ).setFormField( true ).setFileName( stylesheet.getDescription( ) ).get( );
         source.getOutputStream( ).write( "<a/>".getBytes( ) );
         items.add( source );
         multipartFiles.put( Parameters.STYLESHEET_SOURCE, items );
@@ -325,9 +334,11 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" ) + "b"
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> items = new ArrayList<>( );
-        FileItem source = new DiskFileItemFactory( ).createItem( Parameters.STYLESHEET_SOURCE, "application/xml", true, stylesheet.getDescription( ) );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> items = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> source = fileItemFactory.fileItemBuilder( ).setFieldName( Parameters.STYLESHEET_SOURCE )
+                .setContentType( "application/xml" ).setFormField( true ).setFileName( stylesheet.getDescription( ) ).get( );
         source.getOutputStream( ).write( "<a/>".getBytes( ) );
         items.add( source );
         multipartFiles.put( Parameters.STYLESHEET_SOURCE, items );
@@ -361,9 +372,11 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         parameters.put( Parameters.MODE_STYLESHEET, new String [ ] {
                 Integer.toString( stylesheet.getModeId( ) )
         } );
-        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
-        List<FileItem> items = new ArrayList<>( );
-        FileItem source = new DiskFileItemFactory( ).createItem( Parameters.STYLESHEET_SOURCE, "application/xml", true, stylesheet.getDescription( ) );
+        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
+        List<FileItem<DiskFileItem>> items = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> source = fileItemFactory.fileItemBuilder( ).setFieldName( Parameters.STYLESHEET_SOURCE )
+                .setContentType( "application/xml" ).setFormField( true ).setFileName( stylesheet.getDescription( ) ).get( );
         source.getOutputStream( ).write( "<a/>".getBytes( ) );
         items.add( source );
         multipartFiles.put( Parameters.STYLESHEET_SOURCE, items );

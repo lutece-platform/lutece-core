@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
-import fr.paris.lutece.api.user.UserRole;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -46,17 +45,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.fileupload2.FileItem;
-import org.apache.commons.fileupload2.FileUploadException;
-import org.apache.commons.fileupload2.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload2.pub.FileUploadSizeException;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.core.FileItem;
+import org.apache.commons.fileupload2.core.FileUploadException;
+import org.apache.commons.fileupload2.core.FileUploadSizeException;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.api.user.UserRole;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
-import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -478,9 +479,11 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
         } );
-        Map<String, List<FileItem>> fileItems = new HashMap<>( );
-        List<FileItem> items = new ArrayList<>( );
-        FileItem fileItem = new DiskFileItemFactory( ).createItem( "image_content", "", true, "" );
+        Map<String, List<FileItem<DiskFileItem>>> fileItems = new HashMap<>( );
+        List<FileItem<DiskFileItem>> items = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> fileItem = fileItemFactory.fileItemBuilder( ).setFieldName( "image_content" )
+                .setContentType( "" ).setFormField( false ).setFileName( "" ).get( );
         items.add( fileItem );
         fileItems.put( "image_content", items );
         _bean.doModifyPage( new MultipartHttpServletRequest( request, fileItems, parameters ) );
@@ -681,9 +684,11 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( children );
         assertTrue( children.isEmpty( ) );
 
-        Map<String, List<FileItem>> fileItems = new HashMap<>( );
-        List<FileItem> listItems = new ArrayList<>( );
-        FileItem pageImageFile = new DiskFileItemFactory( ).createItem( "image_content", "", false, "" );
+        Map<String, List<FileItem<DiskFileItem>>> fileItems = new HashMap<>( );
+        List<FileItem<DiskFileItem>> listItems = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> pageImageFile = fileItemFactory.fileItemBuilder( ).setFieldName( "image_content" )
+                .setContentType( "" ).setFormField( true ).setFileName( "" ).get( );
         pageImageFile.getOutputStream( ).write( new byte [ 1] );
         listItems.add( pageImageFile );
         fileItems.put( "image_content", listItems );
@@ -731,9 +736,11 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( children );
         assertTrue( children.isEmpty( ) );
 
-        Map<String, List<FileItem>> fileItems = new HashMap<>( );
-        List<FileItem> listItems = new ArrayList<>( );
-        FileItem pageImageFile = new DiskFileItemFactory( ).createItem( "image_content", "", false, "" );
+        Map<String, List<FileItem<DiskFileItem>>> fileItems = new HashMap<>( );
+        List<FileItem<DiskFileItem>> listItems = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> pageImageFile = fileItemFactory.fileItemBuilder( ).setFieldName( "image_content" )
+                .setContentType( "" ).setFormField( true ).setFileName( "" ).get( );
         pageImageFile.getOutputStream( ).write( new byte [ 1] );
         listItems.add( pageImageFile );
         fileItems.put( "image_content", listItems );
@@ -782,9 +789,11 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( children );
         assertTrue( children.isEmpty( ) );
 
-        Map<String, List<FileItem>> fileItems = new HashMap<>( );
-        List<FileItem> listItems = new ArrayList<>( );
-        FileItem pageImageFile = new DiskFileItemFactory( ).createItem( "image_content", "", false, "" );
+        Map<String, List<FileItem<DiskFileItem>>> fileItems = new HashMap<>( );
+        List<FileItem<DiskFileItem>> listItems = new ArrayList<>( );
+        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
+        FileItem<DiskFileItem> pageImageFile = fileItemFactory.fileItemBuilder( ).setFieldName( "image_content" )
+                .setContentType( "" ).setFormField( true ).setFileName( "" ).get( );
         pageImageFile.getOutputStream( ).write( new byte [ 1] );
         listItems.add( pageImageFile );
         fileItems.put( "image_content", listItems );
