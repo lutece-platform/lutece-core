@@ -17,6 +17,6 @@ Parameters:
 		<#local btnTitle='#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}' >
 	<#else>
 	</#if>
-	<@button color='dropdown dropdown-item mb-0 ms-0' type='submit' buttonIcon=btnIcon title=btnTitle />
+	<@button color='dropdown dropdown-item mb-0 ms-0' type='submit' buttonIcon=btnIcon><span>${btnTitle}</span></@button>
 </@tform>
 </#macro>
