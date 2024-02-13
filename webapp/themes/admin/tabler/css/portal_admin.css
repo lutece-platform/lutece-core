@@ -85,7 +85,6 @@ body[data-bs-theme="dark"] .text-muted {
   cursor: pointer
 }
 
-
 /* Helper Classes */
 .full-h {
   max-height: 100vmax !important;
@@ -110,7 +109,6 @@ body[data-bs-theme="dark"] .text-muted {
 .badge{
   --tblr-badge-color: var( --white );
 } 
-  
 
 /* Pages */
 #login-page {
@@ -118,6 +116,12 @@ body[data-bs-theme="dark"] .text-muted {
   background-size: cover;
   background-attachment: fixed;
   overflow: hidden
+}
+
+#login-page .admin-logo{
+  border: 2px solid white; 
+  border-radius:50%; 
+  padding: .5rem .5rem .75rem .5rem
 }
 
 .page-center {

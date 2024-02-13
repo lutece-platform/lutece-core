@@ -45,12 +45,9 @@ Parameters:
 <#assign containerClass><#if loginLayoutImg?trim =''> container-tight py-4<#else>toto</#if></#assign>
 <@div class="container${containerClass}!''">
 	<@div class="text-center mb-4">
-		<@link href='.' target='_blank'>
+		<@link href='.' target='_blank' class='admin-logo' >
 			<@span class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!} </@span>
-			<figure>
-				<@img url='${logoUrl}' alt='${site_name!}' title='${site_name!}' class='' params='aria-hidden="true" height="40" style="border: 2px solid white;border-radius:50%;"' />
-				<figcaption class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!'Lutece'} [ #i18n{portal.site.portal_footer.newWindow} ]</figcaption>
-			</figure>
+			<@img url='${logoUrl}' alt='${site_name!}' class='logo' params='aria-hidden="true" height="24" width="24"' />
 		</@link>
 	</@div>
 	<@div class="card card-md">
