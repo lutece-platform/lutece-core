@@ -89,7 +89,7 @@ Parameters:
 					</li>
 					<#if userMenuMode?number = 1>
 					<li class="nav-item d-none d-lg-flex">
-						<div class="nav-link" title="#i18n{portal.users.admin_header.homePage}" id="switch-menu" tabindex="0" role="button" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}">
+						<div class="nav-link" title="#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}" id="switch-menu" tabindex="0" role="button" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}">
 							<i class="ti ti-layout-navbar-collapse menu-rotate-icon"></i><span class="visually-hidden">#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}</span>
 						</div> 
 					</li>
