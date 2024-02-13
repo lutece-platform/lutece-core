@@ -228,6 +228,10 @@ body[data-bs-theme="dark"] .text-muted {
   margin: .25rem
 }
 
+#lutece-layout-wrapper .lutece-header .lutece-nav #lutece-sidebar-language-menu{
+  display: none;
+}
+
 #lutece-layout-wrapper .lutece-header .lutece-nav #lutece-languages .btn-language:hover {
   filter: drop-shadow(2px 4px 6px var(--black));
   color: var(--tblr-dark);
@@ -708,7 +712,7 @@ mark {
       position: static !important;
       width: 100%
   }
-
+  
   #lutece-layout-wrapper.aside .lutece-header .lutece-nav[data-bs-theme="dark"] .lutece-collapse>.navbar-nav .dropdown-menu {
     --tblr-dropdown-bg: var( --tblr-gray-dark );
   }
@@ -905,7 +909,6 @@ mark {
       font-size: 1.25rem;
   }
   
-  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .nav-info,
   #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .navbar-brand span,
   #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .dropdown-item span,
   #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .nav-link span {
@@ -914,15 +917,32 @@ mark {
  
   #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav.navbar .navbar-nav .dropdown-item{
       justify-content: center !important;
-      background-color: var( --tblr-gray-600 );
+      background-color: var( --tblr-dropdown-bg );
       width: auto;
   }
 
   #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .navbar-brand span{
       padding: 0 !important
   }
+  
   #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .nav-link {
       width: auto
+  }
+
+  .lutece-header .lutece-nav .navbar-nav .nav-item .nav-link.nav-info.nav-user-info{
+    display: flex;
+  }
+
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .lutece-collapse>.navbar-nav .nav-item .nav-link.nav-info.nav-user-info{
+      display: none;
+  }
+  
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav #lutece-language-menu{
+    display: none;
+  }
+
+  #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav #lutece-sidebar-language-menu{
+    display: block;
   }
 
 }
@@ -939,12 +959,7 @@ mark {
 }
 
 @media (max-width:576px) {
-  #pageHeaderTools {
-      /*display: block*/
-  }
-
   #pageHeaderTools form {
-      /*display: block !important;*/
       width: 100%;
       margin-bottom: .25rem
   }
