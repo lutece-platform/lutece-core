@@ -24,6 +24,22 @@ Parameters:
 			</#list>
 			</@div>
 		</@columns>
+		<@columns id='lutece-sidebar-language-menu'>
+			<li class="nav-item dropdown">
+				<#list languages?filter( language -> language.code == lang ) as language>
+				<a id="btn-lang" class="btn btn-muted btn-rounded" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.admin.admin_home.language}" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">
+					<div class="position-absolute" style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${lang}.svg');background-size:contain;background-position: center;height:25px;width:25px;border-radius:25px"></div>
+				</a>
+				</#list>
+				<ul class="dropdown-menu p-2 text-center dropdown-menu-center">
+					<#list languages?filter( language -> language.code != lang ) as language>
+						<a href='${action}?token=${token}&language=${language.code}' class='border btn btn-light btn-rounded mx-auto mt-2' style="background:url('themes/admin/shared/css/vendor/tabler/img/flags/${language.code}.svg');background-size:contain;background-position: center;background-repeat: no-repeat;" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">
+							<span class="visually-hidden">#i18n{portal.admin.admin_home.button.changeLanguage} ${language.name}</span>
+						</a>
+					</#list>
+				</ul>
+			</li>
+		</@columns>
 	</@row>
 </@tform>
 </#macro>
