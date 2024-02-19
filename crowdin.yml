@@ -1,11 +1,3 @@
-project_id : "311345"
-base_path : "."
-preserve_hierarchy : true
-
-files: [
-    {
-        "source": "/src/java/fr/paris/lutece/portal/resources/*messages.properties"
-        "translation": "/src/java/fr/paris/lutece/portal/resources/%file_name%_%two_letters_code%.properties"
-        "update_option" : "update_without_changes"
-    }
-]
+files:
+  - source: /src/java/fr/paris/lutece/portal/resources/*messages.properties
+    translation: /src/java/fr/paris/lutece/portal/resources/%file_name%_%two_letters_code%.properties
