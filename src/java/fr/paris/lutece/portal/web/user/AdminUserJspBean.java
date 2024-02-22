@@ -870,6 +870,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         Level level = LevelHome.findByPrimaryKey( user.getUserLevel( ) );
+        ReferenceList filteredLevels = new ReferenceList( );
+
+        if ( isUserAuthorizedToChangeUserLevel( currentUser, user ) )
+        {
+            for (Level levelItem : LevelHome.getLevelsList( )) {
+                filteredLevels.add(levelItem.getReferenceItem());
+            };
+            filteredLevels.removeIf(levelItem -> levelItem.getCode().equals("0"));
+        }
 
         // ITEM NAVIGATION
         setItemNavigator( user.getUserId( ), AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_USER );
@@ -879,6 +888,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_USER, user );
         model.put( MARK_LEVEL, level );
+        model.put( MARK_USER_LEVELS_LIST, filteredLevels );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( user.getLocale( ) ) );
         model.put( MARK_CURRENT_LANGUAGE, user.getLocale( ).getLanguage( ) );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
@@ -912,7 +922,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strStatus = request.getParameter( PARAMETER_STATUS );
         String strAccessibilityMode = request.getParameter( PARAMETER_ACCESSIBILITY_MODE );
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
-
         int nUserId = Integer.parseInt( strUserId );
 
         AdminUser userToModify = AdminUserHome.findByPrimaryKey( nUserId );
@@ -957,6 +966,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setFirstName( strFirstName );
             user.setEmail( strEmail );
             user.setWorkgroupKey( strWorkgroupKey );
+
+            if ( isUserAuthorizedToChangeUserLevel( currentUser, userToModify ) ){
+                user.setUserLevel( Integer.parseInt(request.getParameter( PARAMETER_USER_LEVEL )) );
+            }
 
             int nStatus = Integer.parseInt( strStatus );
 
@@ -2712,5 +2725,19 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
         return currentUser.isAdmin( ) || ( currentUser.isParent( userToModify )
                 && ( ( haveCommonWorkgroups( currentUser, userToModify ) ) || ( !AdminWorkgroupHome.checkUserHasWorkgroup( userToModify.getUserId( ) ) ) ) );
+    }
+
+    private boolean isUserAuthorizedToChangeUserLevel ( AdminUser currentUser, AdminUser userToModify ) {
+        if ( currentUser == null || userToModify == null )
+        {
+            return false;
+        }
+        if( currentUser.checkRight("CORE_LEVEL_MANAGEMENT") && userToModify.getUserLevel() != 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+        
     }
 }
