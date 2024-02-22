@@ -444,7 +444,7 @@ public class AdminLoginJspBean implements Serializable
         if ( user.isPasswordReset( ) )
         {
             String strRedirectUrl = AdminMessageService.getMessageUrl( request, Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD,
-                    JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD, AdminMessage.TYPE_ERROR );
+                    JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD, AdminMessage.TYPE_INFO );
             url = new UrlItem( strRedirectUrl );
         }
         else
