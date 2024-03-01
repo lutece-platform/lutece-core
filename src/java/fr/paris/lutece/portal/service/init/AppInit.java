@@ -127,8 +127,6 @@ public final class AppInit
     {    	  
         try
         {
-            long lStart = System.currentTimeMillis( );
-
             // Initialize and run StartUp services
             AppLogService.info( "Running extra startup services ..." );
             StartUpServiceManager.init( );
@@ -187,12 +185,10 @@ public final class AppInit
             // Start datastore's cache after all processes that may use Datastore
             DatastoreService.startCache( );
 
-            long lEnd = System.currentTimeMillis( );
-            long lTime = 1 + ( lEnd - lStart ) / 1000;
 
             String strBaseUrl = getBaseUrl( context );
             StringBuilder sbBanner = new StringBuilder( );
-            sbBanner.append( AppInfo.LUTECE_BANNER_SERVER ).append( "  started successfully in " ).append( lTime ).append( "s !!!\n" )
+            sbBanner.append( AppInfo.LUTECE_BANNER_SERVER ).append( "  started successfully" )
                     .append( "\n   Front office " ).append( strBaseUrl ).append( AppPathService.getPortalUrl( ) ).append( "\n   Back office  " )
                     .append( strBaseUrl ).append( AppPathService.getAdminMenuUrl( ) ).append( "\n" );
             AppLogService.info( sbBanner.toString( ) );
@@ -212,8 +208,7 @@ public final class AppInit
     }
 
 	public static void initPropertiesServices(String strConfPath, String strRealPath) {
-		if(!_bStartInitService) {			
-			Thread.currentThread( ).setName( "Lutece-MainThread" );
+		if(!_bStartInitService) {						
 			// Initializes the properties download files containing the variables used by
 			// the application
 			AppPropertiesService.init( strConfPath );
@@ -228,9 +223,7 @@ public final class AppInit
 			    // variables used by the application
 			    initProperties( strRealPath );
 			}
-	
-			AppLogService.info( " {} {} {} ...\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version", AppInfo.getVersion( ) );
-	
+		
 			// BeanUtil initialization, considering Lutèce availables locales and date
 			// format properties
 			BeanUtil.init( );
@@ -263,7 +256,7 @@ public final class AppInit
      */
     private static String getBaseUrl( ServletContext context )
     {
-        StringBuilder sbBaseUrl = new StringBuilder( "http(s)://server:port" );
+        StringBuilder sbBaseUrl = new StringBuilder("http(s)://server:port" );
         if ( context != null )
         {
             sbBaseUrl.append( context.getContextPath( ) );
