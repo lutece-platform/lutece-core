@@ -52,12 +52,14 @@ public class AppInitExtension implements Extension
 	
     protected void initPropertiesServices( @Observes final BeforeBeanDiscovery bd )
     {    	
+		Thread.currentThread( ).setName( "Lutece-MainThread" );
     	if(Files.notExists(Paths.get(AppPathService.getWebAppPath( )+PATH_CONF)))
     	{
     		String _strResourcesDir = getClass( ).getResource( "/" ).toString( ).replaceFirst( "file:", "" ).replaceFirst( "classes", "lutece" );
              AppPathService.init( _strResourcesDir );
     	}
     	System.setProperty("log4j.configurationFile", "file:"+AppPathService.getWebAppPath()+"/WEB-INF/conf/log.properties" );
+		AppLogService.info( " {} {} {} ...\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version", AppInfo.getVersion( ) );
     	AppInit.initPropertiesServices( PATH_CONF, AppPathService.getWebAppPath( ) );
     }
 
