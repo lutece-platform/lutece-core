@@ -144,6 +144,14 @@ public class DosGuardFilter implements Filter
     {
         AppLogService.debug( "DosGuard : isAllowed({}, {})", strRemoteAddr, iContentLength );
 
+        // Ignore requests if minInterval is negative (e.g. -1)
+        if ( _nMinInterval < 0 )
+        {
+            AppLogService.debug( "minInterval is below minimum, ignored" );
+
+            return true;
+        }
+
         // Ignore the requests under the minimum size
         if ( iContentLength < _nMinContentLength )
         {
