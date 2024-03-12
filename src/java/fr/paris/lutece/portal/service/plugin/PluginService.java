@@ -36,13 +36,22 @@ package fr.paris.lutece.portal.service.plugin;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeSet;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -91,6 +100,53 @@ public final class PluginService
         _mapPlugins.clear( );
         loadCoreComponents( );
         loadPlugins( );
+    }
+
+    private static final Map<String, PluginFile> _mapPluginsMeta = new HashMap<>();
+
+    /**
+     * Pre-loads name and version from plugins to make them available (with getPluginMeta())
+     * if needed before complete loading by init().
+     * 
+     * @throws LuteceInitException
+     */
+    public static void preloadMeta() throws LuteceInitException
+    {
+        File dirPlugin = new File(AppPathService.getPath(PATH_PLUGIN));
+
+        if (dirPlugin.exists())// it should
+        {
+            // all plugins
+            List<File> files = new ArrayList<>(Arrays.asList(dirPlugin.listFiles(new FileListFilter("", EXTENSION_FILE))));
+            // and the core 
+            files.add(new File(AppPathService.getPath(PATH_CONF, CORE_XML)));
+            try
+            {
+                DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+                for (File file : files)
+                {
+                    Document doc = builder.parse(file);
+                    PluginFile pluginFile = new PluginFile();
+                    pluginFile.setVersion(doc.getElementsByTagName("version").item(0).getTextContent());
+                    pluginFile.setName(doc.getElementsByTagName("name").item(0).getTextContent());
+                    _mapPluginsMeta.put(pluginFile.getName(), pluginFile);
+                }
+            } catch (Exception e)
+            {
+                throw new LuteceInitException("preloadMeta failed", e);
+            }
+        }
+    }
+
+    /**
+     * Returns a PluginFile with only version/name for the given plugin.
+     * 
+     * @param pluginName plugin name to look up
+     * @return a PluginFile instance or null if not found
+     */
+    public static PluginFile getPluginMeta(String pluginName)
+    {
+        return _mapPluginsMeta.get(pluginName);
     }
 
     /**

@@ -380,7 +380,12 @@
 		    <version>2.13.3</version>
 		    <scope>runtime</scope>
 	</dependency>
-		
+		<!-- Explicit dependency to use DocumentBuilderFactory -->
+    		<dependency>
+    			<groupId>xml-apis</groupId>
+    			<artifactId>xml-apis</artifactId>
+    			<version>1.4.01</version>
+    		</dependency>
 				
     </dependencies>
 
