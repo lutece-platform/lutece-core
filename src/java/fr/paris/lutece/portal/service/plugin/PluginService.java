@@ -102,53 +102,6 @@ public final class PluginService
         loadPlugins( );
     }
 
-    private static final Map<String, PluginFile> _mapPluginsMeta = new HashMap<>();
-
-    /**
-     * Pre-loads name and version from plugins to make them available (with getPluginMeta())
-     * if needed before complete loading by init().
-     * 
-     * @throws LuteceInitException
-     */
-    public static void preloadMeta() throws LuteceInitException
-    {
-        File dirPlugin = new File(AppPathService.getPath(PATH_PLUGIN));
-
-        if (dirPlugin.exists())// it should
-        {
-            // all plugins
-            List<File> files = new ArrayList<>(Arrays.asList(dirPlugin.listFiles(new FileListFilter("", EXTENSION_FILE))));
-            // and the core 
-            files.add(new File(AppPathService.getPath(PATH_CONF, CORE_XML)));
-            try
-            {
-                DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-                for (File file : files)
-                {
-                    Document doc = builder.parse(file);
-                    PluginFile pluginFile = new PluginFile();
-                    pluginFile.setVersion(doc.getElementsByTagName("version").item(0).getTextContent());
-                    pluginFile.setName(doc.getElementsByTagName("name").item(0).getTextContent());
-                    _mapPluginsMeta.put(pluginFile.getName(), pluginFile);
-                }
-            } catch (Exception e)
-            {
-                throw new LuteceInitException("preloadMeta failed", e);
-            }
-        }
-    }
-
-    /**
-     * Returns a PluginFile with only version/name for the given plugin.
-     * 
-     * @param pluginName plugin name to look up
-     * @return a PluginFile instance or null if not found
-     */
-    public static PluginFile getPluginMeta(String pluginName)
-    {
-        return _mapPluginsMeta.get(pluginName);
-    }
-
     /**
      * Returns the plugins file list
      *

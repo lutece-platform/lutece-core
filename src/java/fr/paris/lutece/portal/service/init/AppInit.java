@@ -157,7 +157,6 @@ public final class AppInit
             AppLogService.info( "Creating connexions pool 'portal'." );
            
             //Initializes early initialization services.
-            PluginService.preloadMeta();
             StartUpServiceManager.initializeEarlyInitializationServices( );
             // Spring ApplicationContext initialization
             AppLogService.info( "Loading context files ..." );
