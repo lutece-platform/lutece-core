@@ -3,7 +3,7 @@
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
         <version>8.0.0-SNAPSHOT</version>
-        <relativePath />
+		<!--<relativePath /> -->
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -121,14 +121,6 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
         </dependency>
-        <!-- To avoid problems the Log4j shutdown hook will automatically be disabled when the log4j-web jar is included. -->
-      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-jakarta-web   -->		
-		<dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-jakarta-web</artifactId>
-		    <version>3.0.0-alpha1</version>
-		    <scope>runtime</scope>
-		</dependency>
 	    <!--The Log4j 2 SLF4J Binding allows applications coded to the SLF4J API to use Log4j 2 as the implementation -->
         <dependency>
 	    	<groupId>org.apache.logging.log4j</groupId>
@@ -136,12 +128,12 @@
 	    	<scope>runtime</scope>
         </dependency>
         <!-- he Log4j 1.2 Bridge allows applications coded to use Log4j 1.2 API to use Log4j 2 instead 
-	see requirements https://logging.apache.org/log4j/2.x/log4j-1.2-api -->
+	see requirements https://logging.apache.org/log4j/2.x/log4j-1.2-api  --> 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
             <scope>runtime</scope>
-        </dependency>        
+        </dependency>       
         <!-- The Commons Logging Bridge allows applications coded to the Commons Logging API to use Log4j 2 as the implementation. -->
 		<dependency>
             <groupId>org.apache.logging.log4j</groupId>

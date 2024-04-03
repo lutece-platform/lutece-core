@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2023, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,36 +33,35 @@
  */
 package fr.paris.lutece.portal.service.init;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.spi.BeforeBeanDiscovery;
+import jakarta.enterprise.inject.spi.Extension;
+
 /**
- * this class provides informations about application version
+ * The initialization service of the application.
  */
-public final class AppInfo
+public class AppInitExtension implements Extension
 {
-    /** Defines the current version of the application */
-    private static final String APP_VERSION = "8.0.0";
-    static final String LUTECE_BANNER_VERSION = "\n _      _   _   _____   ___    ___   ___      ____\n"
-            + "| |    | | | | |_   _| | __|  / __| | __|    |__  |\n" + "| |__  | |_| |   | |   | _|  | (__  | _|       / / \n"
-            + "|____|  \\___/    |_|   |___|  \\___| |___|     /_/  ";
+    private static final String PATH_CONF = "/WEB-INF/conf/";
 
-    static final String LUTECE_BANNER_SERVER = "\n _      _   _   _____   ___    ___   ___       ___   ___   ___  __   __  ___   ___ \n"
-            + "| |    | | | | |_   _| | __|  / __| | __|     / __| | __| | _ \\ \\ \\ / / | __| | _ \\\n"
-            + "| |__  | |_| |   | |   | _|  | (__  | _|      \\__ \\ | _|  |   /  \\ V /  | _|  |   /\n"
-            + "|____|  \\___/    |_|   |___|  \\___| |___|     |___/ |___| |_|_\\   \\_/   |___| |_|_\\";
-
-    /**
-     * Creates a new AppInfo object.
-     */
-    private AppInfo( )
-    {
+	
+    protected void initPropertiesServices( @Observes final BeforeBeanDiscovery bd )
+    {    	
+		Thread.currentThread( ).setName( "Lutece-MainThread" );
+    	if(Files.notExists(Paths.get(AppPathService.getWebAppPath( )+PATH_CONF)))
+    	{
+    		String _strResourcesDir = getClass( ).getResource( "/" ).toString( ).replaceFirst( "file:", "" ).replaceFirst( "classes", "lutece" );
+             AppPathService.init( _strResourcesDir );
+    	}
+    	System.setProperty("log4j.configurationFile", "file:"+AppPathService.getWebAppPath()+"/WEB-INF/conf/log.properties" );
+		AppLogService.info( " {} {} {} ...\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version", AppInfo.getVersion( ) );
+    	AppInit.initPropertiesServices( PATH_CONF, AppPathService.getWebAppPath( ) );
     }
 
-    /**
-     * Returns the current version of the application
-     * 
-     * @return APP_VERSION The current version of the application
-     */
-    public static String getVersion( )
-    {
-        return APP_VERSION;
-    }
+    
 }
