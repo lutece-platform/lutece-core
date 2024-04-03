@@ -31,95 +31,46 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.jpa;
+package fr.paris.lutece.util.sql;
 
-import fr.paris.lutece.util.jpa.IGenericDAO;
-import fr.paris.lutece.util.jpa.IGenericHome;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import jakarta.annotation.Resource;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Status;
+import jakarta.transaction.TransactionSynchronizationRegistry;
 
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-/**
- * The Class AbstractLuteceHome.
- *
- * @param <K>
- *            the key type
- * @param <E>
- *            the element type
- * @param <D>
- *            the generic type
- */
-public abstract class AbstractLuteceHome<K, E, D extends IGenericDAO<K, E>> implements IGenericHome<K, E>
+@ApplicationScoped
+public class TransactionSynchronizationManager
 {
-    private D _dao;
+    
+    @Resource
+    private TransactionSynchronizationRegistry registry;
 
     /**
-     * Sets the dao.
-     *
-     * @param dao
-     *            the new dao
+     * Determines if a managed transaction is currently active
+     * 
+     * @return The synchronization availability
      */
-    public void setDao( D dao )
+    public boolean isSynchronizationActive( )
     {
-        _dao = dao;
+        return null != registry && Status.STATUS_ACTIVE == registry.getTransactionStatus( );
     }
 
     /**
-     * Gets the dao.
-     *
-     * @return the dao
+     * Registers a TransactionSynchronization object to the current managed transaction
+     * 
+     * @param plugin
+     *            The plugin
      */
-    public D getDao( )
+    public void registerSynchronization( Plugin plugin )
     {
-        return _dao;
+        if ( null != registry && Status.STATUS_ACTIVE == registry.getTransactionStatus( ) )
+        {
+            if (null == TransactionManager.getCurrentTransaction( plugin )) {
+                TransactionManager.beginTransaction( plugin );                
+            }
+            registry.registerInterposedSynchronization( new TransactionSynchronization( plugin ) );
+        }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Transactional
-    public void create( E entityBean )
-    {
-        getDao( ).create( entityBean );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Transactional
-    public void remove( K key )
-    {
-        getDao( ).remove( key );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public E findByPrimaryKey( K key )
-    {
-        return getDao( ).findById( key );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Transactional
-    public void update( E entityBean )
-    {
-        getDao( ).update( entityBean );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<E> findAll( )
-    {
-        return getDao( ).findAll( );
-    }
 }

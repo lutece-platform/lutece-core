@@ -48,7 +48,7 @@ import org.apache.logging.log4j.Logger;
 /**
  * This class provides a ConnectionService based on Tomcat
  */
-public class TomcatConnectionService implements ConnectionService
+public class ManagedConnectionService implements ConnectionService
 {
     private DataSource _ds;
     private String _strPoolName;
@@ -109,11 +109,7 @@ public class TomcatConnectionService implements ConnectionService
         {
             String strDs = htParamsConnectionPool.get( getPoolName( ) + ".ds" );
             Context ctx = new InitialContext( );
-
-            _ds = (DataSource) ctx.lookup( "java:comp/env/" + strDs );
-            
-            _logger.warn(
-                    "Consider updating your db.properties with the ManagedConnectionService instead of TomcatConnectionService and adding java:comp/env/ in your ds path." );
+            _ds = (DataSource) ctx.lookup( strDs );
         }
         catch( Exception e )
         {
@@ -195,7 +191,7 @@ public class TomcatConnectionService implements ConnectionService
     @Override
     public String getPoolProvider( )
     {
-        return "Tomcat";
+        return "Managed";
     }
 
     /**

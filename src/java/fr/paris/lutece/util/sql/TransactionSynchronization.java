@@ -31,15 +31,47 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.util.jpa;
+package fr.paris.lutece.util.sql;
 
-import jakarta.persistence.EntityManagerFactory;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import jakarta.transaction.Status;
+import jakarta.transaction.Synchronization;
 
-final class TestJPAGenericDAO extends JPAGenericDAO<Integer, Integer>
+public class TransactionSynchronization implements Synchronization
 {
-    @Override
-    public EntityManagerFactory getEntityManagerFactory( )
+
+    private Plugin _plugin;
+
+    /**
+     * Instantiates a new transaction synchronisation for a given plugin.
+     * 
+     * @param plugin
+     *            The plugin
+     */
+    public TransactionSynchronization( Plugin plugin )
     {
-        return new TestEntityManagerFactory( );
+        this._plugin = plugin;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void beforeCompletion( )
+    {
+        TransactionManager.commitTransaction( _plugin );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void afterCompletion( int status )
+    {
+        if ( Status.STATUS_ROLLEDBACK == status )
+        {
+            TransactionManager.rollBackEveryTransaction( );
+        }
+    }
+
 }
