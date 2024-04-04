@@ -98,4 +98,16 @@ public class PluginConnectionService
     {
         return _strPoolName;
     }
+
+    /**
+     * Gets the pool provider name
+     * 
+     * @return the pool provider name
+     */
+    public String getPoolProvider( )
+    {
+        PoolManager poolManager = AppConnectionService.getPoolManager( );
+        return poolManager.getPoolProvider( _strPoolName );
+    }
+
 }

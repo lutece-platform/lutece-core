@@ -253,6 +253,7 @@
 		    <artifactId>jakarta.enterprise.concurrent-api</artifactId>
 		    <scope>provided</scope>
 		</dependency>
+
    	
         <!-- Open CSV -->
         <dependency>
@@ -272,7 +273,12 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+		
+		<dependency>
+		    <groupId>jakarta.transaction</groupId>
+		    <artifactId>jakarta.transaction-api</artifactId>
+		    <scope>provided</scope>
+		</dependency> 
         <!-- LUTECE DEPENDENCIES -->
         
         <!-- Lutece search indexing -->

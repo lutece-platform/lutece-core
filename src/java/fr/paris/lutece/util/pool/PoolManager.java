@@ -311,4 +311,17 @@ public final class PoolManager
     {
         return _pools.get( strPoolName ).getDataSource( );
     }
+    
+    /**
+     * Returns the pool provider name for a given pool name
+     * 
+     * @param strPoolName
+     *            The Pool name
+     * @return The pool provider name
+     */
+    public String getPoolProvider( String strPoolName )
+    {
+        return _pools.get( strPoolName ).getPoolProvider( );
+    }
+    
 }
