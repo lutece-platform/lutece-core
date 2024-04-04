@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.util.sql;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import jakarta.annotation.Resource;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -40,17 +43,18 @@ import jakarta.transaction.Status;
 import jakarta.transaction.TransactionSynchronizationRegistry;
 
 @ApplicationScoped
-public class TransactionSynchronizationManager
+public class TransactionSynchronizationManager implements ITransactionSynchronizationManager
 {
-    
+
+    private static final String MANAGED_CONNECTION_POOL_PROVIDER = "Managed";
+
     @Resource
     private TransactionSynchronizationRegistry registry;
 
     /**
-     * Determines if a managed transaction is currently active
-     * 
-     * @return The synchronization availability
+     * {@inheritDoc}
      */
+    @Override
     public boolean isSynchronizationActive( )
     {
         return null != registry && Status.STATUS_ACTIVE == registry.getTransactionStatus( );
@@ -62,15 +66,37 @@ public class TransactionSynchronizationManager
      * @param plugin
      *            The plugin
      */
-    public void registerSynchronization( Plugin plugin )
+    private void registerSynchronization( Plugin plugin )
     {
         if ( null != registry && Status.STATUS_ACTIVE == registry.getTransactionStatus( ) )
         {
-            if (null == TransactionManager.getCurrentTransaction( plugin )) {
-                TransactionManager.beginTransaction( plugin );                
+            if ( null == TransactionManager.getCurrentTransaction( plugin ) )
+            {
+                TransactionManager.beginTransaction( plugin );
             }
             registry.registerInterposedSynchronization( new TransactionSynchronization( plugin ) );
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public TransactionSynchronizationContext registerSynchronization( TransactionSynchronizationContext context ) throws SQLException
+    {
+        // In case of managed connection by the container
+        if ( MANAGED_CONNECTION_POOL_PROVIDER.equals( context.getConnectionService( ).getPoolProvider( ) ) )
+        {
+            Connection connection = context.getConnectionService( ).getConnection( );
+            connection.setAutoCommit( false );
+            context.complete( connection, false );
+        }
+        else
+        {
+            registerSynchronization( context.getPlugin( ) );
+            context.complete( null, true );
+        }
+        return context;
     }
 
 }

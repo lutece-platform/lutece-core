@@ -46,7 +46,7 @@ import javax.sql.DataSource;
 import org.apache.logging.log4j.Logger;
 
 /**
- * This class provides a ConnectionService based on Tomcat
+ * This class provides a ConnectionService based on the container resource
  */
 public class ManagedConnectionService implements ConnectionService
 {

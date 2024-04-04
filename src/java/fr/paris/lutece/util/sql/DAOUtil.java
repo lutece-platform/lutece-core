@@ -80,7 +80,6 @@ public class DAOUtil implements AutoCloseable
     public static final String MSG_EXCEPTION_SELECT_ERROR = "Error selecting row id : ";
     private static final String DEFAULT_MODULE_NAME = "lutece";
     private static final String LOGGER_DEBUG_SQL = "lutece.debug.sql.";
-    private static final String MANAGED_CONNECTION_POOL_PROVIDER = "Managed";
 
     /** Connection Service providing connection from a defined pool */
     private PluginConnectionService _connectionService;
@@ -114,7 +113,8 @@ public class DAOUtil implements AutoCloseable
     private Logger _logger;
     private StringBuilder _sbLogs = new StringBuilder( );
     
-    private TransactionSynchronizationManager _transactionSynchronizationManager = CDI.current( ).select( TransactionSynchronizationManager.class ).get( );
+    private List<ITransactionSynchronizationManager> _lTransactionSynchronizationManagers = CDI.current( ).select( ITransactionSynchronizationManager.class )
+            .stream( ).toList( );
 
     /**
      * Creates a new DAOUtil object.
@@ -238,26 +238,31 @@ public class DAOUtil implements AutoCloseable
             else
             {
                 // We check if there is a managed transaction
-                if ( _transactionSynchronizationManager.isSynchronizationActive( ) )
+                for ( ITransactionSynchronizationManager tsm : _lTransactionSynchronizationManagers )
                 {
-                    _bTransactionnal = true;
-                    // In case of managed connection by the container
-                    if ( MANAGED_CONNECTION_POOL_PROVIDER.equals( _connectionService.getPoolProvider( ) ) )
+                    if ( tsm.isSynchronizationActive( ) )
                     {
-                        _connection = _connectionService.getConnection( );
-                        _connection.setAutoCommit( false );
-                    }
-                    else
-                    {
-                        _transactionSynchronizationManager.registerSynchronization( plugin );
-                        transaction = TransactionManager.getCurrentTransaction( plugin );
-                    }
-                    if ( _logger.isDebugEnabled( ) )
-                    {
-                        _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName( ) );
+                        System.err.println( "> DAOUtil synch active:  " + tsm.getClass( ));
+                        _bTransactionnal = true;
+                        TransactionSynchronizationContext syncContext = tsm
+                                .registerSynchronization( new TransactionSynchronizationContext( plugin,
+                                        _connectionService ) );
+                        System.err.println( "> DAOUtil : syncContext.useTransactionManager( )? " + syncContext.useTransactionManager( ));
+                        if ( syncContext.useTransactionManager( ) )
+                        {
+                            transaction = TransactionManager.getCurrentTransaction( plugin );
+                        }
+                        else
+                        {
+                            _connection = syncContext.getConnection( );
+                        }
+                        if ( _logger.isDebugEnabled( ) )
+                        {
+                            _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName( ) );
+                        }
                     }
                 }
-                else
+                if (!_bTransactionnal)
                 {
                     // no transaction found, use the connection service directly
                     _connection = _connectionService.getConnection( );
