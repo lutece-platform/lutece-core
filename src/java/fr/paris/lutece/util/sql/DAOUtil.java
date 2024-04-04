@@ -242,12 +242,10 @@ public class DAOUtil implements AutoCloseable
                 {
                     if ( tsm.isSynchronizationActive( ) )
                     {
-                        System.err.println( "> DAOUtil synch active:  " + tsm.getClass( ));
                         _bTransactionnal = true;
                         TransactionSynchronizationContext syncContext = tsm
                                 .registerSynchronization( new TransactionSynchronizationContext( plugin,
                                         _connectionService ) );
-                        System.err.println( "> DAOUtil : syncContext.useTransactionManager( )? " + syncContext.useTransactionManager( ));
                         if ( syncContext.useTransactionManager( ) )
                         {
                             transaction = TransactionManager.getCurrentTransaction( plugin );
