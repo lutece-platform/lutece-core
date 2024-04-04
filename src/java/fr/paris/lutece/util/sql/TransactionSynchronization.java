@@ -31,95 +31,47 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.jpa;
+package fr.paris.lutece.util.sql;
 
-import fr.paris.lutece.util.jpa.IGenericDAO;
-import fr.paris.lutece.util.jpa.IGenericHome;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import jakarta.transaction.Status;
+import jakarta.transaction.Synchronization;
 
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-/**
- * The Class AbstractLuteceHome.
- *
- * @param <K>
- *            the key type
- * @param <E>
- *            the element type
- * @param <D>
- *            the generic type
- */
-public abstract class AbstractLuteceHome<K, E, D extends IGenericDAO<K, E>> implements IGenericHome<K, E>
+public class TransactionSynchronization implements Synchronization
 {
-    private D _dao;
+
+    private Plugin _plugin;
 
     /**
-     * Sets the dao.
-     *
-     * @param dao
-     *            the new dao
+     * Instantiates a new transaction synchronisation for a given plugin.
+     * 
+     * @param plugin
+     *            The plugin
      */
-    public void setDao( D dao )
+    public TransactionSynchronization( Plugin plugin )
     {
-        _dao = dao;
-    }
-
-    /**
-     * Gets the dao.
-     *
-     * @return the dao
-     */
-    public D getDao( )
-    {
-        return _dao;
+        this._plugin = plugin;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @Transactional
-    public void create( E entityBean )
+    public void beforeCompletion( )
     {
-        getDao( ).create( entityBean );
+        TransactionManager.commitTransaction( _plugin );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @Transactional
-    public void remove( K key )
+    public void afterCompletion( int status )
     {
-        getDao( ).remove( key );
+        if ( Status.STATUS_ROLLEDBACK == status )
+        {
+            TransactionManager.rollBackEveryTransaction( );
+        }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public E findByPrimaryKey( K key )
-    {
-        return getDao( ).findById( key );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Transactional
-    public void update( E entityBean )
-    {
-        getDao( ).update( entityBean );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<E> findAll( )
-    {
-        return getDao( ).findAll( );
-    }
 }

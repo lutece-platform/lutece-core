@@ -33,19 +33,6 @@
  */
 package fr.paris.lutece.util.sql;
 
-import fr.paris.lutece.portal.service.database.AppConnectionService;
-import fr.paris.lutece.portal.service.database.PluginConnectionService;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.util.AppException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.NoDatabaseException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.jdbc.datasource.DataSourceUtils;
-
-import org.springframework.transaction.support.TransactionSynchronizationManager;
-
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
@@ -54,6 +41,7 @@ import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.Date;
 import java.sql.NClob;
 import java.sql.PreparedStatement;
@@ -66,13 +54,21 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.sql.DataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import fr.paris.lutece.portal.service.database.AppConnectionService;
+import fr.paris.lutece.portal.service.database.PluginConnectionService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.NoDatabaseException;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * Prepared statement util class
@@ -116,6 +112,9 @@ public class DAOUtil implements AutoCloseable
     /** The debug logger */
     private Logger _logger;
     private StringBuilder _sbLogs = new StringBuilder( );
+    
+    private List<ITransactionSynchronizationManager> _lTransactionSynchronizationManagers = CDI.current( ).select( ITransactionSynchronizationManager.class )
+            .stream( ).toList( );
 
     /**
      * Creates a new DAOUtil object.
@@ -238,21 +237,30 @@ public class DAOUtil implements AutoCloseable
             }
             else
             {
-                // We check if there is a managed transaction to get the transactionnal
-                // connection
-                if ( TransactionSynchronizationManager.isSynchronizationActive( ) )
+                // We check if there is a managed transaction
+                for ( ITransactionSynchronizationManager tsm : _lTransactionSynchronizationManagers )
                 {
-                    _bTransactionnal = true;
-
-                    DataSource ds = AppConnectionService.getPoolManager( ).getDataSource( _connectionService.getPoolName( ) );
-                    _connection = DataSourceUtils.getConnection( ds );
-
-                    if ( _logger.isDebugEnabled( ) )
+                    if ( tsm.isSynchronizationActive( ) )
                     {
-                        _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName( ) );
+                        _bTransactionnal = true;
+                        TransactionSynchronizationContext syncContext = tsm
+                                .registerSynchronization( new TransactionSynchronizationContext( plugin,
+                                        _connectionService ) );
+                        if ( syncContext.useTransactionManager( ) )
+                        {
+                            transaction = TransactionManager.getCurrentTransaction( plugin );
+                        }
+                        else
+                        {
+                            _connection = syncContext.getConnection( );
+                        }
+                        if ( _logger.isDebugEnabled( ) )
+                        {
+                            _logger.debug( "Transactionnal context is used for pool " + _connectionService.getPoolName( ) );
+                        }
                     }
                 }
-                else
+                if (!_bTransactionnal)
                 {
                     // no transaction found, use the connection service directly
                     _connection = _connectionService.getConnection( );

@@ -18,6 +18,5 @@
     </bean>
     <context:property-placeholder properties-ref="appProperties" />
     <context:annotation-config />
-    <import resource="jpa_context.xml" />  
 
 </beans>
