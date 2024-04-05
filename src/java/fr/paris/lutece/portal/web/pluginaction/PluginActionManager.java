@@ -34,11 +34,11 @@
 package fr.paris.lutece.portal.web.pluginaction;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -75,7 +75,7 @@ public final class PluginActionManager
      */
     public static <A extends IPluginAction<?>> List<A> getListPluginAction( Class<A> pluginActionClass )
     {
-        return SpringContextService.getBeansOfType( pluginActionClass );
+        return CDI.current().select(pluginActionClass).stream().toList();
     }
 
     /**
@@ -122,10 +122,8 @@ public final class PluginActionManager
     public static <A extends IPluginAction<?>> void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model,
             Class<A> pluginActionClass, String strMark )
     {
-        for ( A action : SpringContextService.getBeansOfType( pluginActionClass ) )
-        {
-            action.fillModel( request, adminUser, model );
-        }
+        CDI.current().select(pluginActionClass).forEach(
+        		action ->action.fillModel( request, adminUser, model ) );
 
         // add the action list
         model.put( strMark, getListPluginAction( pluginActionClass ) );
