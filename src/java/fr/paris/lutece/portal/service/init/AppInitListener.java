@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.scheduler.JobSchedulerService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import jakarta.annotation.Priority;
@@ -63,8 +62,8 @@ public class AppInitListener
 	 * @param contextthe context servlet initialized event
 	 */
 	public void initializedService(@Observes @Initialized(ApplicationScoped.class) @Priority(value=1)
-	ServletContext context){
-	
+	ServletContext context){		
+		
         AppLogService.info( "Started initializing services");
         AppPathService.init( context );
      // Initializes properties service
@@ -76,7 +75,6 @@ public class AppInitListener
 	 */
 	public void initializedOtherService(@Observes @Initialized(ApplicationScoped.class) @Priority(value=3)
 		ServletContext context){
-	
 	    // Initializes all other services
 	    AppInit.initServices(context, PATH_CONF, AppPathService.getWebAppPath( ));
         AppLogService.info( "End initializing services");
@@ -94,7 +92,6 @@ public class AppInitListener
         ShutdownServiceManager.shutdown( );
         CacheService.getInstance( ).shutdown( );
         AppConnectionService.releasePool( );
-        SpringContextService.shutdown( );
         AppLogService.info( "Application stopped" );
 		
 	}
