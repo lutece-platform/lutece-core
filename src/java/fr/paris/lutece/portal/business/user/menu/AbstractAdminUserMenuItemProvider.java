@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.business.user.menu;
 
+import fr.paris.lutece.portal.service.util.BeanUtils;
 import jakarta.servlet.http.HttpServletRequest;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 /**
  * Base class for admin user menu item providers.
@@ -64,7 +64,7 @@ public abstract class AbstractAdminUserMenuItemProvider implements IAdminUserMen
     @Override
     public  boolean isInvoked( HttpServletRequest request )
     {
-        return SpringContextService.isBeanEnabled( getName( ) ) && isItemProviderInvoked( request );
+        return BeanUtils.isBeanEnabled( getName( ) ) && isItemProviderInvoked( request );
     }
 
     /**
