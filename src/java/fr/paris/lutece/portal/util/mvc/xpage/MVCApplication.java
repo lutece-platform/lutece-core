@@ -52,7 +52,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolation;
 
 import org.apache.logging.log4j.Logger;
-import org.springframework.util.ReflectionUtils;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
@@ -68,6 +67,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessage;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessageBox;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
