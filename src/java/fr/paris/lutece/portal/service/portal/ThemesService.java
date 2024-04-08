@@ -41,20 +41,16 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 
-import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -68,6 +64,7 @@ public final class ThemesService
     private static final String THEME_PLUGIN_NAME = "theme";
     private static final String COOKIE_NAME = "theme";
     private static final String THEME_TEST = "theme_test";
+    private static final String BEAN_THEME_SERVICE = "theme.themeService";
 
     // PROPERTIES
     private static final String PROPERTY_USE_GLOBAL_THEME = "portal.style.label.useGlobalTheme";
@@ -314,14 +311,15 @@ public final class ThemesService
         {
             throw new ThemeNotAvailableException( );
         }
-
+     
         try
         {
-            themeService = CDI.current().select(IThemeService.class).get( );
+        	themeService = CdiHelper.getReference(IThemeService.class, BEAN_THEME_SERVICE );
         }
-        catch( BeanDefinitionStoreException | NoSuchBeanDefinitionException | CannotLoadBeanClassException e )
+        catch( IllegalArgumentException | IllegalStateException e )
         {
-            throw new ThemeNotAvailableException( );
+        	AppLogService.error("IThemeService Provider not found", e);
+        	throw new ThemeNotAvailableException( );
         }
 
         return themeService;

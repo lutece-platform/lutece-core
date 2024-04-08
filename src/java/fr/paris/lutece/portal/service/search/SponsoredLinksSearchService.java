@@ -33,11 +33,7 @@
  */
 package fr.paris.lutece.portal.service.search;
 
-
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.CdiHelper;
 
 import java.util.Locale;
@@ -57,16 +53,17 @@ public class SponsoredLinksSearchService implements ISponsoredLinksSearchService
      * Gets the sponsoredLinksService from the sponsoredlinks plugin If the service is missing, sets available to false
      */
     public SponsoredLinksSearchService( )
-    {
+    {      
         try
         {
             // first check if the sponsoredlinks service bean is available
-            _sponsoredLinksService = CdiHelper.getReference(ISponsoredLinksService.class, "sponsoredlinks.sponsoredLinksService");
-            _bAvailable = _sponsoredLinksService != null;
+        	_sponsoredLinksService = CdiHelper.getReference(ISponsoredLinksService.class, "sponsoredlinks.sponsoredLinksService");
+        	_bAvailable = ( _sponsoredLinksService != null );
         }
-        catch( BeanDefinitionStoreException | NoSuchBeanDefinitionException | CannotLoadBeanClassException e )
+        catch( IllegalArgumentException | IllegalStateException e )
         {
-            _bAvailable = false;
+        	AppLogService.debug("ISponsoredLinksService Provider not found ", e);
+        	_bAvailable = false;
         }
     }
 

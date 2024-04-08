@@ -148,7 +148,7 @@ public class LuteceConnectionService implements ConnectionService
 
         try
         {
-            Driver driver = (Driver) Class.forName( strDiverClassName ).newInstance( );
+            Driver driver = (Driver) Class.forName( strDiverClassName ).getConstructor().newInstance();
             DriverManager.registerDriver( driver );
             _logger.info( "Registered JDBC driver {}", strDiverClassName );
         }
