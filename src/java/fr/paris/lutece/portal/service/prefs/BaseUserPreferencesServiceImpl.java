@@ -34,10 +34,9 @@
 package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-
-import org.springframework.beans.factory.InitializingBean;
 
 import java.util.List;
 
@@ -47,7 +46,7 @@ import java.util.List;
  * @since 4.0
  */
 @ApplicationScoped
-public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, InitializingBean
+public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
 {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
@@ -199,11 +198,8 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
         return _dao.getUserId( strKey, strValue );
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void afterPropertiesSet( ) throws Exception
+    @PostConstruct
+    public void afterPropertiesSet( )
     {
         synchronized( BaseUserPreferencesServiceImpl.class )
         {
