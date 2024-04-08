@@ -37,13 +37,10 @@ import java.util.Locale;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.accesscontrol.AccessControlSessionData;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.util.ReferenceList;
@@ -67,8 +64,9 @@ public final class AccessControlService
             _provider = CdiHelper.getReference(IAccessControlServiceProvider.class, "accesscontrol.accessControlServiceProvider");
             _bServiceAvailable = ( _provider != null );
         }
-        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
+        catch( IllegalArgumentException | IllegalStateException e )
         {
+        	AppLogService.debug("Access ControlService Provider not found {}", e);
             _bServiceAvailable = false;
         }
     }

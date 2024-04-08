@@ -33,11 +33,8 @@
  */
 package fr.paris.lutece.portal.service.captcha;
 
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
-import jakarta.enterprise.inject.spi.CDI;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.CdiHelper;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -55,18 +52,20 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
      * Gets the captchaValidator from the captcha plugin. If the validator is missing, sets available to false;
      */
     public CaptchaSecurityService( )
-    {
-        try
+    {        
+        // first check if captchaValidator bean is available in the jcaptcha plugin context    	
+    	try
         {
-            // first check if captchaValidator bean is available in the jcaptcha plugin context
-            _captchaService = CDI.current().select(ICaptchaService.class).get();
-            _bAvailable = _captchaService != null;
+    		_captchaService = CdiHelper.getReference(ICaptchaService.class, "regularExpressionService");
+    		_bAvailable = ( _captchaService != null );       
         }
-        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
-        {
-            _bAvailable = false;
+        catch( IllegalArgumentException | IllegalStateException e )
+        {	
+        	AppLogService.debug("ICaptchaService Provider not found", e);
+        	_bAvailable = false;
         }
     }
+        	
 
     /**
      * {@inheritDoc}

@@ -42,9 +42,6 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
@@ -56,6 +53,7 @@ import fr.paris.lutece.portal.service.event.ResourceEventManager;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.TransactionManager;
 
@@ -77,17 +75,19 @@ public final class WorkflowService
      * Private constructor
      */
     private WorkflowService( )
-    {
-        try
+    {	
+    	try
         {
-            _service = CDI.current().select( IWorkflowService.class ).get( );
-            _provider = CDI.current().select(IWorkflowProvider.class).get( );
+            _service = CdiHelper.getReference(IWorkflowService.class, fr.paris.lutece.plugins.workflowcore.service.workflow.WorkflowService.BEAN_SERVICE );
+            _provider = CdiHelper.getReference( IWorkflowProvider.class, BEAN_WORKFLOW_PROVIDER );
             _bServiceAvailable = ( _service != null ) && ( _provider != null );
         }
-        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
+        catch(IllegalArgumentException | IllegalStateException e )
         {
+        	AppLogService.debug("WorkflowService Provider not found ", e);
             _bServiceAvailable = false;
         }
+    	
     }
 
     /**

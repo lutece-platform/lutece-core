@@ -35,11 +35,8 @@ package fr.paris.lutece.portal.service.regularexpression;
 
 import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import jakarta.enterprise.inject.spi.CDI;
-
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.CdiHelper;
 
 import java.util.List;
 
@@ -59,13 +56,14 @@ public final class RegularExpressionService
      */
     private RegularExpressionService( )
     {
-        try
+    	try
         {
-            _service = CDI.current().select(IRegularExpressionService.class).get( );
-            _bServiceAvailable = _service != null;
+        	_service = CdiHelper.getReference(IRegularExpressionService.class, "regularExpressionService");
+            _bServiceAvailable = ( _service != null );       
         }
-        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
-        {
+        catch( IllegalArgumentException | IllegalStateException e )
+        {	
+        	AppLogService.debug("RegularExpressionService Provider not found", e);
             _bServiceAvailable = false;
         }
     }
