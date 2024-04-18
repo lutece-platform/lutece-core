@@ -19,9 +19,10 @@
 <div class="lutece-app<#if dskey('portal.site.site_property.bo.showXs.checkbox') == '0'> d-none d-lg-block<#else> d-block</#if>">   
 <nav id="menu" class="border-end d-flex flex-column flex-shrink-0 shadow" aria-label="${site_name!}">
    <a href="${dskey('portal.site.site_property.home_url')}" class="d-block text-center mt-4 mb-4 text-white feature-link menu-logo" target="_blank" title="${site_name!}">
-      <@img url=logoUrl title='Logo' params='style="height:35px" aria-hidden="true"' />
+      <@img url=logoUrl title='${site_name!}' params='style="height:35px" aria-hidden="true"' />
       <span class="visually-hidden">#i18n{portal.site.page_home.label} ${site_name}<br> [#i18n{portal.site.portal_footer.newWindow}]</span>
    </a>
+   <div class="d-inline-block h-100 text-white fw-bold ps-2 align-content-center d-none-side" style="font-size:24px">${site_name}</div>
    <div class="position-absolute top-0 end-0 d-flex p-4 d-lg-flex d-xl-none">
       <button id="menu-mobile-back" class="btn btn-sm btn-outline-light d-flex align-items-center justify-content-center d-none" type="button" >
       <i class="ti ti-arrow-left"></i>
@@ -30,7 +31,7 @@
             <i class="ti ti-x"></i>
          </button>
    </div>
-   <ul id="main-menu" class="nav nav-pills nav-flush flex-column mb-auto text-center" role="menubar" aria-label="${site_name!}">
+   <ul id="main-menu" class="nav nav-pills nav-flush flex-column mb-auto text-center ms-top-4" role="menubar" aria-label="${site_name!}">
       <li class="nav-item py-1" role="none">
          <a class="nav-link  feature-link lutece-tooltip" role="menuitem" href="${admin_url}" feature-group-label="home" feature-group="home" aria-label="#i18n{portal.util.labelHome}" data-bs-animation="false" data-bs-tooltip="#i18n{portal.util.labelHome}">
             <i class="fs-5 ti ti-home-2 mx-auto align-self-center"></i>
