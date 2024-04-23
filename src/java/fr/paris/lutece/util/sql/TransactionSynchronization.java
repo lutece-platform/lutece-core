@@ -70,7 +70,7 @@ public class TransactionSynchronization implements Synchronization
     {
         if ( Status.STATUS_ROLLEDBACK == status )
         {
-            TransactionManager.rollBackEveryTransaction( );
+            TransactionManager.rollBack( _plugin );
         }
     }
 
