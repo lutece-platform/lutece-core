@@ -2,6 +2,10 @@ package fr.paris.lutece.portal.service.event;
 
 import fr.paris.lutece.portal.business.event.LuteceUserEvent;
 
+/**
+ * @deprecated Use CDI events and @observes listeners instead
+ */
+@Deprecated(forRemoval = true)
 public class LuteceUserEventManager extends AbstractEventManager<LuteceUserEvent>
 {
 
