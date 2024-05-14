@@ -25,7 +25,7 @@ Parameters:
 	<#if warnings?size gt 0 >
 		<@alert color='warning' title='#i18n{portal.util.message.titleWarning}' iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'>
 			<@unstyledList>
-			<#list warnings as warning ><@li><#if warning.message??>${warning.message!' #i18n{portal.util.message.titleWarning} '}</@li></#if></#list>
+			<#list warnings as warning ><#if warning.message??><@li>${warning.message!' #i18n{portal.util.message.titleWarning} '}</@li></#if></#list>
 			</@unstyledList>
 		</@alert>>
 	</#if>
