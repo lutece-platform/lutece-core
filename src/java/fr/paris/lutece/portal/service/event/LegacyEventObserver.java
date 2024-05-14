@@ -33,17 +33,19 @@
  */
 package fr.paris.lutece.portal.service.event;
 
+import fr.paris.lutece.plugins.workflowcore.business.event.EventAction;
+import fr.paris.lutece.plugins.workflowcore.business.event.Type;
 import fr.paris.lutece.portal.business.event.LuteceUserEvent;
-import fr.paris.lutece.portal.business.event.UpdatedResourceEvent;
+import fr.paris.lutece.portal.business.event.ResourceEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 
 @ApplicationScoped
-public class LegacyEventListener
+public class LegacyEventObserver
 {
 
     /**
-     * Fires the legacy LuteceEventManager
+     * Fires the legacy LuteceEventManager#notifyListeners
      * 
      * @param event
      *            The Lutece User event
@@ -54,14 +56,35 @@ public class LegacyEventListener
     }
 
     /**
-     * Fires the legacy ResourceEventManager for updated resource
+     * Fires the legacy ResourceEventManager#fireAddedResource
      * 
      * @param event
-     *            The updated Resource event
+     *            The Resource Event event
      */
-    public void notifyResourceEventManager( @Observes UpdatedResourceEvent event )
+    public void notifyAddedResourceEventManager( @Observes @Type(EventAction.CREATE) ResourceEvent event )
     {
-        ResourceEventManager.fireUpdatedResource( event.resourceEvent( ) );
+        ResourceEventManager.fireAddedResource( event );
     }
 
+    /**
+     * Fires the legacy ResourceEventManager#fireUpdatedResource
+     * 
+     * @param event
+     *            The Resource Event event
+     */
+    public void notifyUpdatedResourceEventManager( @Observes @Type(EventAction.UPDATE) ResourceEvent resourceEvent )
+    {
+        ResourceEventManager.fireUpdatedResource( resourceEvent );
+    }
+
+    /**
+     * Fires the legacy ResourceEventManager#fireDeletedResource
+     * 
+     * @param event
+     *            The Resource Event event
+     */
+    public void notifyDeletedResourceEventManager( @Observes @Type(EventAction.REMOVE) ResourceEvent resourceEvent )
+    {
+        ResourceEventManager.fireDeletedResource( resourceEvent );
+    }
 }
