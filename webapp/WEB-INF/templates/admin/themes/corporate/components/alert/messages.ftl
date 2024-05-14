@@ -13,21 +13,30 @@ Parameters:
 -->
 <#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
 <#if errors??>
-    <#if errors?size gt 0>
-        <#list errors as error><#if error.message??><#local errorMessage=error.message!' Error ' /></#if></#list>
-        <@alert color='danger' title=errorMessage iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'></@alert>
-    </#if>
-</#if>
-<#if infos??>
-    <#if infos?size gt 0>
-        <#list infos as info><#if info.message??><#local infoMessage=info.message!' Info ' /></#if></#list>
-        <@alert color='info' title=infoMessage iconTitle='info-circle' dismissible=true id='messages_infos_div'></@alert>
-    </#if>
+	<#if errors?size gt 0 >
+		<@alert color='danger' title='#i18n{portal.util.message.titleError}' iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'>
+		<@unstyledList>
+		<#list errors as error ><#if error.message??><@li>${error.message!' #i18n{portal.util.message.titleError} '}</@li></#if></#list>
+		</@unstyledList>
+		</@alert>
+	</#if>
 </#if>
 <#if warnings??>
-    <#if warnings?size gt 0>
-        <#list warnings as warning><#if warning.message??><#local warningMessage=warning.message!' Warning ' /></#if></#list>
-        <@alert color='warning' title=warningMessage iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'></@alert>
-    </#if>
+	<#if warnings?size gt 0 >
+		<@alert color='warning' title='#i18n{portal.util.message.titleWarning}' iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'>
+			<@unstyledList>
+			<#list warnings as warning ><@li><#if warning.message??>${warning.message!' #i18n{portal.util.message.titleWarning} '}</@li></#if></#list>
+			</@unstyledList>
+		</@alert>>
+	</#if>
+</#if>
+<#if infos??>
+	<#if infos?size gt 0 >
+		<@alert color='info' title='#i18n{portal.util.labelWarning}' iconTitle='info-circle' dismissible=true id='messages_infos_div'>
+			<@unstyledList>
+			<#list infos as info ><#if info.message??><@li>${info.message!' #i18n{portal.util.labelWarning} '}</@li></#if></#list>
+			</@unstyledList>
+		</@alert>
+	</#if>
 </#if>
 </#macro>
