@@ -1003,6 +1003,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setAccessibilityMode( strAccessibilityMode != null );
             user.setWorkgroupKey( strWorkgroupKey );
 
+            if ( isUserAuthorizedToChangeUserLevel( currentUser, userToModify ) ){
+                user.setUserLevel( Integer.parseInt(request.getParameter( PARAMETER_USER_LEVEL )) );
+            }
+
             String strError = AdminUserFieldService.checkUserFields( request, getLocale( ) );
 
             if ( strError != null )
