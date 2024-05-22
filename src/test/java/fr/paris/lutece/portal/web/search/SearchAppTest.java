@@ -33,17 +33,16 @@
  */
 package fr.paris.lutece.portal.web.search;
 
-import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.web.xpages.XPage;
-import fr.paris.lutece.test.LuteceTestCase;
-
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockServletContext;
-
+import org.jboss.weld.junit5.WeldInitiator.Builder;
 import org.springframework.web.context.request.RequestContextListener;
 
+import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockServletContext;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletRequestEvent;
 
@@ -53,29 +52,37 @@ import jakarta.servlet.ServletRequestEvent;
  */
 public class SearchAppTest extends LuteceTestCase
 {
+    private @Inject SearchApp instance;
+
+    @Override
+    protected Builder customizeWeldInitiatorBuilder(Builder initiatorBuilder)
+    {
+        initiatorBuilder.activate(SessionScoped.class);
+        return super.customizeWeldInitiatorBuilder(initiatorBuilder);
+    }
+
     /**
      * Test of getPage method, of class fr.paris.lutece.portal.web.search.SearchApp.
      * 
      * @throws SiteMessageException
      */
-    public void testGetPage( ) throws SiteMessageException
+    public void testGetPage() throws SiteMessageException
     {
-        System.out.println( "getPage" );
+        System.out.println("getPage");
 
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( "query", "lutece" );
-        request.addParameter( "items_per_page", "5" );
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addParameter("query", "lutece");
+        request.addParameter("items_per_page", "5");
 
-        RequestContextListener listener = new RequestContextListener( );
-        ServletContext context = new MockServletContext( );
-        listener.requestInitialized( new ServletRequestEvent( context, request ) );
+        RequestContextListener listener = new RequestContextListener();
+        ServletContext context = new MockServletContext();
+        listener.requestInitialized(new ServletRequestEvent(context, request));
 
         int nMode = 0;
         Plugin plugin = null;
-        SearchApp instance = SpringContextService.getBean( "core.xpage.search" );
 
-        assertNotNull( instance.getPage( request, nMode, plugin ) );
+        assertNotNull(instance.getPage(request, nMode, plugin));
 
-        listener.requestDestroyed( new ServletRequestEvent( context, request ) );
+        listener.requestDestroyed(new ServletRequestEvent(context, request));
     }
 }

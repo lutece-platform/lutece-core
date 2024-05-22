@@ -33,12 +33,13 @@
  */
 package fr.paris.lutece.portal.service.regularexpression;
 
+import java.util.List;
+
 import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.CdiHelper;
-
-import java.util.List;
+import jakarta.enterprise.inject.UnsatisfiedResolutionException;
 
 /**
  *
@@ -61,7 +62,7 @@ public final class RegularExpressionService
         	_service = CdiHelper.getReference(IRegularExpressionService.class, "regularExpressionService");
             _bServiceAvailable = ( _service != null );       
         }
-        catch( IllegalArgumentException | IllegalStateException e )
+        catch( IllegalArgumentException | IllegalStateException | UnsatisfiedResolutionException e )
         {	
         	AppLogService.debug("RegularExpressionService Provider not found", e);
             _bServiceAvailable = false;

@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.service.search;
 
+import java.util.Locale;
+
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.CdiHelper;
-
-import java.util.Locale;
 
 /**
  * Default sponsored links search service implementation
@@ -60,7 +60,7 @@ public class SponsoredLinksSearchService implements ISponsoredLinksSearchService
         	_sponsoredLinksService = CdiHelper.getReference(ISponsoredLinksService.class, "sponsoredlinks.sponsoredLinksService");
         	_bAvailable = ( _sponsoredLinksService != null );
         }
-        catch( IllegalArgumentException | IllegalStateException e )
+        catch( Exception e )
         {
         	AppLogService.debug("ISponsoredLinksService Provider not found ", e);
         	_bAvailable = false;

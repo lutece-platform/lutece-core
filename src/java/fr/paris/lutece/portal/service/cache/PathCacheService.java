@@ -43,11 +43,13 @@ import fr.paris.lutece.portal.service.page.PageEvent;
 import fr.paris.lutece.portal.service.page.PageEventListener;
 import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.util.annotation.Eager;
 
 /**
  * XPage path cache service
  */
 @ApplicationScoped
+@Eager
 public class PathCacheService extends AbstractCacheableService implements IPathCacheService, PageEventListener
 {
 

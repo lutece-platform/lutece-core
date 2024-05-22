@@ -45,8 +45,6 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.Random;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
@@ -57,8 +55,9 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.event.CacheEventListenerAdapter;
 
@@ -75,7 +74,7 @@ public class CacheJspBeanTest extends LuteceTestCase
     public void testGetManageCaches( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
 
         CacheJspBean instance = new CacheJspBean( );
         instance.init( request, CacheJspBean.RIGHT_CACHE_MANAGEMENT );
@@ -96,7 +95,7 @@ public class CacheJspBeanTest extends LuteceTestCase
                 .peek( rel -> rel.registerListener( cacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
         CacheJspBean.doResetCaches( request );
@@ -112,7 +111,7 @@ public class CacheJspBeanTest extends LuteceTestCase
                 .peek( rel -> rel.registerListener( cacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
         try
@@ -135,7 +134,7 @@ public class CacheJspBeanTest extends LuteceTestCase
                 .peek( rel -> rel.registerListener( cacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         try
         {
             CacheJspBean.doResetCaches( request );
@@ -168,7 +167,7 @@ public class CacheJspBeanTest extends LuteceTestCase
                 .peek( rel -> rel.registerListener( allCacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
@@ -198,7 +197,7 @@ public class CacheJspBeanTest extends LuteceTestCase
                 .peek( rel -> rel.registerListener( allCacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
@@ -235,7 +234,7 @@ public class CacheJspBeanTest extends LuteceTestCase
                 .peek( rel -> rel.registerListener( allCacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
         try
         {
@@ -395,7 +394,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
 
@@ -424,7 +423,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
 
@@ -459,7 +458,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
 
         CacheJspBean instance = new CacheJspBean( );
         try

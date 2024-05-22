@@ -42,16 +42,15 @@ import java.io.OutputStream;
 import java.security.SecureRandom;
 import java.util.Properties;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * Tests that a cycle in the page hierarchy is handled by the site map
@@ -62,14 +61,13 @@ public class SiteMapAppCycleTest extends LuteceTestCase
     private Page _top;
     private Page _middle;
     private Page _bottom;
-    private IPageService _pageService;
+    private @Inject IPageService _pageService;
     private int _nInitialRootId;
 
     @Override
     protected void setUp( ) throws Exception
     {
         super.setUp( );
-        _pageService = (IPageService) SpringContextService.getBean( "pageService" );
         // create pages
         _top = getPage( null );
         _middle = getPage( _top.getId( ) );

@@ -35,21 +35,22 @@ package fr.paris.lutece.portal.service.cache;
 
 import java.util.List;
 
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.page.PageEvent;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 public class PathCacheServiceDisabledTest extends LuteceTestCase
 {
     IPathCacheService service;
     boolean bEnabled;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         service = null;
         List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
         for ( CacheableService aService : serviceList )
@@ -65,7 +66,7 @@ public class PathCacheServiceDisabledTest extends LuteceTestCase
         assertNotNull( service );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
@@ -78,7 +79,6 @@ public class PathCacheServiceDisabledTest extends LuteceTestCase
             }
         }
         service = null;
-        super.tearDown( );
     }
 
     public void testGetKey( )

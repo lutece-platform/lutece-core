@@ -44,14 +44,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -88,8 +82,14 @@ import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.util.annotation.Eager;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class delivers pages to web componants. It handles XML tranformation to HTML and provides a cache feature in order to reduce the number of
@@ -97,6 +97,7 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 @ApplicationScoped
 @Named("pageService")
+@Eager // force initCache() calls
 public class PageService implements IPageService, ImageResourceProvider, PageEventListener, PortletEventListener
 {
     // //////////////////////////////////////////////////////////////////////////

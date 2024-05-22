@@ -33,14 +33,14 @@
  */
 package fr.paris.lutece.portal.service.page;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.portlet.PortletEvent;
 import fr.paris.lutece.portal.service.portlet.PortletEventListener;
 import jakarta.enterprise.context.ApplicationScoped;
-
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
 
 /**
  * Portlet cache service

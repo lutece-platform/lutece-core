@@ -33,35 +33,14 @@
  */
 package fr.paris.lutece.portal.util;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * This class is the main test suite for the package fr.paris.lutece.portal.util
  */
+@Suite
+@SelectClasses(AppInitTest.class)
 public final class AllTests
 {
-    /**
-     * Constructor
-     *
-     */
-    private AllTests( )
-    {
-    }
-
-    /**
-     * A set of tests
-     * 
-     * @return Test the tests
-     */
-    public static Test suite( )
-    {
-        TestSuite suite = new TestSuite( "Test for test.fr.paris.lutece.portal.util" );
-
-        // $JUnit-BEGIN$
-        suite.addTest( new TestSuite( AppInitTest.class ) );
-
-        // $JUnit-END$
-        return suite;
-    }
 }

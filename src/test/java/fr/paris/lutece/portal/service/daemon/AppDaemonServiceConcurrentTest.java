@@ -36,10 +36,18 @@ package fr.paris.lutece.portal.service.daemon;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.TimeoutException;
 
+import org.jboss.weld.junit5.auto.EnableAlternativeStereotypes;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
+import fr.paris.lutece.portal.mocks.TestAlternative;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.mail.IMailQueue;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.inject.Inject;
 
+@EnableAlternativeStereotypes(TestAlternative.class)
 public class AppDaemonServiceConcurrentTest extends LuteceTestCase
 {
     private static final String INTERVAL_VALUE = "10000";
@@ -50,11 +58,10 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
 
     private DaemonEntry _entry;
     private DaemonEntry _otherEntry;
-
-    @Override
+    
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         log( "Creating daemon " + JUNIT_DAEMON );
         _entry = new DaemonEntry( );
         _entry.setId( JUNIT_DAEMON );
@@ -85,26 +92,25 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
         AppLogService.info( "{} : {}", this.getClass( ).getName( ), message );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         DatastoreService.removeInstanceData( DAEMON_INTERVAL_DSKEY );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
         DatastoreService.removeInstanceData( OTHERDAEMON_INTERVAL_DSKEY );
         AppDaemonService.unregisterDaemon( JUNIT_OTHERDAEMON );
-        super.tearDown( );
     }
 
+    private @Inject IMailQueue mailqueue;
     public void testConcurrentDaemonRun( )
     {
         assertTrue( AppDaemonService.getDaemonEntries( ).contains( _entry ) );
         assertTrue( AppDaemonService.getDaemonEntries( ).contains( _otherEntry ) );
-
-        AppDaemonService.startDaemon( JUNIT_DAEMON );
-        AppDaemonService.startDaemon( JUNIT_OTHERDAEMON );
-
+        //  we must call setOther before startDaemon, or face a potential (rare) race condition
         final TestDaemon daemon = (TestDaemon) _entry.getDaemon( );
         ( (TestConcurrentDaemon) _otherEntry.getDaemon( ) ).setOther( daemon );
+        AppDaemonService.startDaemon( JUNIT_DAEMON );
+        AppDaemonService.startDaemon( JUNIT_OTHERDAEMON );
 
         AppDaemonService.signalDaemon( JUNIT_DAEMON );
         AppDaemonService.signalDaemon( JUNIT_OTHERDAEMON );

@@ -33,15 +33,15 @@
  */
 package fr.paris.lutece.portal.web;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockServletConfig;
+import org.junit.jupiter.api.AfterEach;
 
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import fr.paris.lutece.test.mocks.MockServletConfig;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * PortalJspBean Test Class
@@ -143,10 +143,9 @@ public class PortalJspBeanTest extends LuteceTestCase
         }
     }
 
-    @Override
+    @AfterEach
     public void tearDown( ) throws Exception
     {
         LocalVariables.setLocal( null, null, null );
-        super.tearDown( );
     }
 }

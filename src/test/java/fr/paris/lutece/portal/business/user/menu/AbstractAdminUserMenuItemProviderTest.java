@@ -33,12 +33,10 @@
  */
 package fr.paris.lutece.portal.business.user.menu;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class AbstractAdminUserMenuItemProviderTest extends LuteceTestCase
 {

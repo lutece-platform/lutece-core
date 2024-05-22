@@ -39,13 +39,13 @@
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
             <version>0.9.5.4</version>
-        </dependency>
+		</dependency>
         <!--  Compile Dependencies commons-collections:3.2.2-->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.4</version>
-        </dependency>
+		</dependency>
         <!-- commons-digester deprecated, use commons-digester3 instead. To be removed in the future -->
         <!-- Not upgrading to 2.1 because for new projects we should use digester3, and for old projects -->
         <!-- compilation can be broken by digester's new usage of generics -->
@@ -53,12 +53,12 @@
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
             <version>1.8.1</version>
-        </dependency>
+		</dependency>
         <dependency>       
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-digester3</artifactId>
             <version>3.2</version>
-        </dependency>
+		</dependency>
         <dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-fileupload2-jakarta</artifactId>
@@ -78,68 +78,68 @@
                 <exclusion>
                     <groupId>junit</groupId>
                     <artifactId>junit</artifactId>
-                </exclusion>
-		    </exclusions>
+				</exclusion>
+			</exclusions>
 	        <scope>test</scope>
-        </dependency>
+		</dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.14.0</version>
-        </dependency>
+		</dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.13.0</version>
-        </dependency>
+		</dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
             <version>1.10.0</version>
-        </dependency>
+		</dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
             <version>2.1.1</version>
-        </dependency>        
+		</dependency>        
       <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache-core</artifactId>
             <version>2.4.8</version>
-        </dependency>
+		</dependency>
         <!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>           
-        </dependency>
+            <version>1.7.21</version>
+		</dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-        </dependency>
+		</dependency>
 	    <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-        </dependency>
+		</dependency>
 	    <!--The Log4j 2 SLF4J Binding allows applications coded to the SLF4J API to use Log4j 2 as the implementation -->
         <dependency>
 	    	<groupId>org.apache.logging.log4j</groupId>
 	    	<artifactId>log4j-slf4j-impl</artifactId>
 	    	<scope>runtime</scope>
-        </dependency>
+		</dependency>
         <!-- he Log4j 1.2 Bridge allows applications coded to use Log4j 1.2 API to use Log4j 2 instead 
 	see requirements https://logging.apache.org/log4j/2.x/log4j-1.2-api  --> 
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
             <scope>runtime</scope>
-        </dependency>       
+		</dependency>       
         <!-- The Commons Logging Bridge allows applications coded to the Commons Logging API to use Log4j 2 as the implementation. -->
 		<dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-jcl</artifactId>
             <scope>runtime</scope>
-        </dependency>
+		</dependency>
         <!--
           commons-logging is a transitive dependency of many libraries with different versions.
           Specify the latest version here to not depend on the order of declaration.
@@ -154,12 +154,12 @@
             <groupId>jtidy</groupId>
             <artifactId>jtidy</artifactId>
             <version>8.0</version>
-        </dependency>
+		</dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
             <version>1.15.3</version>
-        </dependency>
+		</dependency>
         <!--  Apache Commons Codec (TM) software provides implementations of 
         	  common encoders and decoders such as Base64, Hex, Phonetic and URLs.
           -->
@@ -173,7 +173,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
             <scope>runtime</scope>
-        </dependency>
+		</dependency>
         <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
@@ -184,9 +184,9 @@
                 <exclusion>
                     <groupId>c3p0</groupId>
                     <artifactId>c3p0</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+				</exclusion>
+			</exclusions>
+		</dependency>
         
         <!-- scannotation -->
         <dependency>
@@ -198,20 +198,20 @@
                     <!-- javassist:javassist relocated to org.javassist:javassist -->
                     <groupId>javassist</groupId>
                     <artifactId>javassist</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+				</exclusion>
+			</exclusions>
+		</dependency>
         <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.23.1-GA</version>
-        </dependency>
+		</dependency>
 
         <!-- JSON. ( Compile Dependencies: jackson-annotations and jackson-core)-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-        </dependency>
+		</dependency>
         		<!-- JAKARTA 10 -->
         
         <!-- @Mail API  -->  
@@ -232,21 +232,21 @@
 	      <groupId>jakarta.inject</groupId>
 	      <artifactId>jakarta.inject-api</artifactId>
 	      <scope>provided</scope>
-	    </dependency>
+		</dependency>
 	    
 	    <!-- @Annotation API -->
         <dependency>
 	      <groupId>jakarta.annotation</groupId>
 	      <artifactId>jakarta.annotation-api</artifactId>
 	      <scope>provided</scope>
-    	</dependency>
+		</dependency>
 
         <!-- Bean validation API -->
         <dependency>
 	      <groupId>jakarta.validation</groupId>
 	      <artifactId>jakarta.validation-api</artifactId>
 	      <scope>provided</scope>
-   		</dependency>
+		</dependency>
    		
     	<!-- Concurrency API -->
     	<dependency>
@@ -261,7 +261,7 @@
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
-        </dependency>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api -->
 		<dependency>
@@ -288,23 +288,23 @@
             <artifactId>library-lucene</artifactId>
             <version>6.0.0-SNAPSHOT</version>
             <type>lutece-plugin</type>
-        </dependency>
+		</dependency>
         
         <!-- Lutece User API -->
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-user-api</artifactId>
             <version>1.0.1</version>
-            <type>jar</type> 
-        </dependency>
+            <type>jar</type>
+		</dependency>
 
         <!-- Lutece RBAC -->
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-rbac-api</artifactId>
             <version>1.0.0</version>
-            <type>jar</type> 
-        </dependency>
+            <type>jar</type>
+		</dependency>
         
         <!-- Lutece Workflow -->
         <dependency>
@@ -316,42 +316,96 @@
             	<exclusion>
             		<groupId>jakarta.inject</groupId>
                     <artifactId>jakarta.inject</artifactId>
-            	</exclusion>
-            </exclusions>
-        </dependency>
+				</exclusion>
+			</exclusions>
+		</dependency>
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workgroup-api</artifactId>
             <version>1.0.0</version>
-            <type>jar</type> 
-        </dependency>
+            <type>jar</type>
+		</dependency>
       
         <!-- Lutece Freemarker -->       
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-freemarker</artifactId>
             <version>1.3.4</version>
-            <type>jar</type>            
-        </dependency>
+            <type>jar</type>
+		</dependency>
       
         <!-- Lutece JMX API Library -->                                              
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-jmx-api</artifactId>
             <version>1.0.0</version>
-        </dependency>
+		</dependency>
         
         <!-- microprofile config api  -->
         <dependency>
 		    <groupId>org.eclipse.microprofile.config</groupId>
 		    <artifactId>microprofile-config-api</artifactId>
 		</dependency>		
-		
+		<dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>plugin-spring-extension</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <type>lutece-plugin</type>
+            <exclusions>
+					<exclusion>
+						<groupId>fr.paris.lutece</groupId>
+						<artifactId>lutece-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+       <!-- -->
+        <!-- JUnit -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-lutece-unit-testing</artifactId>
+            <version>${library-lutece-unit-testing.version}</version>
+            <type>jar</type>
+            <scope>test</scope>
+		</dependency>
+		<!-- implementation of MimeTypeRegistryProvider, for tests that need it -->
+		<dependency>
+			<groupId>org.eclipse.angus</groupId>
+			<artifactId>angus-mail</artifactId>
+			<version>2.0.3</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- jakarta bean validation, for tests that need it -->
+		<dependency>
+		    <groupId>org.hibernate.validator</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>8.0.1.Final</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- the validation above needs some EL impl -->
+		<dependency>
+			<groupId>org.glassfish</groupId>
+			<artifactId>jakarta.el</artifactId>
+			<version>5.0.0-M1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.junit.platform</groupId>
+		    <artifactId>junit-platform-suite-engine</artifactId>
+		    <version>1.10.2</version>
+		    <scope>test</scope>
+		</dependency>
+
+		<!-- this one is NOT in test scope -->
+        <dependency>
+		    <groupId>fr.paris.lutece.plugins</groupId>
+		    <artifactId>library-lutece-unit-testing-common</artifactId>
+		    <version>1.0.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
     <scm>
         <connection>scm:git:https://github.com/lutece-platform/lutece-core.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-core.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-core.git</url>
       <tag>HEAD</tag>
-  </scm>
+	</scm>
 </project>
