@@ -9,27 +9,12 @@
 				<@tform method='post' name='search_users' action='jsp/admin/features/AssignUsersRight.jsp'>
 					<@input type='hidden' name='id_right' value='${right.id}' />
 					<#if (user_levels?has_content)>
-						<@formGroup title='#i18n{portal.users.manage_users.search_users.userLevelLabel}'
-							labelFor='user_level' rows=2>
+						<@formGroup title='#i18n{portal.users.manage_users.search_users.userLevelLabel}' labelFor='user_level' rows=2 labelKey=''>
 							<@select id='user_level' name='search_user_level' size=''>
-								<#if (search_admin_user_filter.userLevel> -1) >
-									<option value="noValue">#i18n{portal.users.manage_users.search_users.labelAllLevels}
-									</option>
-									<#list user_levels as user_level>
-										<#if (search_admin_user_filter.userLevel==user_level.id)>
-											<option value="${user_level.id}" selected="selected">${user_level.name}
-											</option>
-											<#else>
-												<option value="${user_level.id}">${user_level.name}</option>
-										</#if>
-									</#list>
-									<#else>
-										<option value="noValue" selected="selected">
-											#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
-										<#list user_levels as user_level>
-											<option value="${user_level.id}">${user_level.name}</option>
-										</#list>
-								</#if>
+								<@option value='noValue' selected=(search_admin_user_filter.userLevel > -1) label='#i18n{portal.users.manage_users.search_users.labelAllLevels}' />
+								<#list user_levels as user_level>
+									<@option value=user_level.id selected=(search_admin_user_filter.userLevel==user_level.id) label=user_level.name />
+								</#list>
 							</@select>
 						</@formGroup>
 					</#if>
