@@ -38,24 +38,26 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
+import fr.paris.lutece.plugins.workflowcore.business.event.EventAction;
+import fr.paris.lutece.plugins.workflowcore.business.event.Type.TypeQualifier;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.event.ResourceEventManager;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.TransactionManager;
+import jakarta.enterprise.event.Event;
+import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -1064,6 +1066,8 @@ public final class WorkflowService
         formResponseEvent.setIdResource( String.valueOf( nIdResource ) );
         formResponseEvent.setTypeResource( strResourceType );
 
-        ResourceEventManager.fireUpdatedResource( formResponseEvent );
+        BeanManager bm = CDI.current( ).getBeanManager( );
+        Event<ResourceEvent> createEvent = bm.getEvent( ).select( ResourceEvent.class, new TypeQualifier( EventAction.UPDATE ) );
+        createEvent.fire( formResponseEvent );
     }
 }
