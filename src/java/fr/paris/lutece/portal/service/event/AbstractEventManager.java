@@ -7,6 +7,10 @@ import java.util.function.Consumer;
 import fr.paris.lutece.portal.business.event.AbstractLuteceEvent;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+/**
+ * @deprecated Use CDI events and @observes listeners instead
+ */
+@Deprecated(forRemoval = true)
 public  abstract class  AbstractEventManager <T extends AbstractLuteceEvent> 
 {
 
@@ -17,6 +21,7 @@ public  abstract class  AbstractEventManager <T extends AbstractLuteceEvent>
      *
      * @param listener
      *            the listener
+     * @deprecated Use CDI events and @observes listeners instead
      */
 	public void register( String strName, Consumer<T> consumerFunction )
     {
@@ -29,6 +34,7 @@ public  abstract class  AbstractEventManager <T extends AbstractLuteceEvent>
      *
      * @param listener
      *            the listener
+     * @deprecated Use CDI events firing instead
      */
 	public void notifyListeners( T event )
     {

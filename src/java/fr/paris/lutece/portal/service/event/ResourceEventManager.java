@@ -43,8 +43,10 @@ import java.util.List;
 /**
  *
  * ResourceEventManager
- *
+ * 
+ * @deprecated Use CDI events and @observes listeners instead
  */
+@Deprecated(forRemoval = true)
 public final class ResourceEventManager
 {
     private static List<EventRessourceListener> _lstListeners = new ArrayList<>( );
@@ -73,6 +75,8 @@ public final class ResourceEventManager
      * 
      * @param event
      *            the event for the created resource
+     * @deprecated Use CDI events firing instead
+     * 
      */
     public static void fireAddedResource( ResourceEvent event )
     {
@@ -87,6 +91,8 @@ public final class ResourceEventManager
      * 
      * @param event
      *            the event for the updated resource
+     * @deprecated Use CDI events firing instead
+     * 
      */
     public static void fireUpdatedResource( ResourceEvent event )
     {
@@ -101,6 +107,8 @@ public final class ResourceEventManager
      * 
      * @param event
      *            the event for the deleted resource
+     * @deprecated Use CDI events firing instead
+     * 
      */
     public static void fireDeletedResource( ResourceEvent event )
     {

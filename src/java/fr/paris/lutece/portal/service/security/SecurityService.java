@@ -33,22 +33,20 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-import fr.paris.lutece.portal.business.event.LuteceUserEvent;
-import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.event.LuteceUserEventManager;
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.url.UrlItem;
-
 import java.security.Principal;
-
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
+import fr.paris.lutece.portal.business.event.LuteceUserEvent;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.url.UrlItem;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -309,7 +307,7 @@ public final class SecurityService
         {
         	session.invalidate();
         }
-        LuteceUserEventManager.getInstance().notifyListeners( new LuteceUserEvent( user,LuteceUserEvent.EventType.LOGOUT ) );
+        CDI.current( ).getBeanManager( ).getEvent( ).fire( new LuteceUserEvent( user, LuteceUserEvent.EventType.LOGOUT ) );
         AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null, CONSTANT_FO );
     }
 
@@ -356,7 +354,7 @@ public final class SecurityService
         
         if ( user != null )
         {
-        	LuteceUserEventManager.getInstance().notifyListeners( new LuteceUserEvent( user, LuteceUserEvent.EventType.LOGIN_SUCCESSFUL ) );
+            CDI.current( ).getBeanManager( ).getEvent( ).fire( new LuteceUserEvent( user, LuteceUserEvent.EventType.LOGIN_SUCCESSFUL ) );
         }
     }
 
