@@ -209,7 +209,11 @@ class LuteceAutoComplete extends EventTarget {
     this.dropdown.classList.add('d-none');
     this.searchInput.value = '';
     this.copyFields.forEach(item => {
-      document.querySelector('input[name=' + item.inputName + ']').value = '';
+      const copyField = document.querySelector('input[name=' + item.inputName + ']');
+      if( copyField ) {
+        copyField.value = '';
+        copyField.dispatchEvent(new Event('change'));
+      }
     });
     this.removeBtn.classList.add('d-none');
   }
@@ -259,7 +263,11 @@ class LuteceAutoComplete extends EventTarget {
       this.isItemSelectedId = currentTarget.getAttribute('id');
       this.searchInput.value = currentTarget.getAttribute( 'data-value' );
       this.copyFields.forEach(item => {
-        document.querySelector('input[name=' + item.inputName + ']').value = currentTarget.getAttribute('data-' + item.inputName);
+        const copyField = document.querySelector('input[name=' + item.inputName + ']');
+        if( copyField ) {
+          copyField.value = currentTarget.getAttribute('data-' + item.inputName);
+          copyField.dispatchEvent(new Event('change'));
+        }
       });
       this.removeBtn.classList.remove('d-none');
       this.onItemSelected();
