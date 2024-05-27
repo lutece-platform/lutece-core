@@ -32,7 +32,7 @@ Parameters:
 <#macro button name='' id='' type='button' size='' color='' style='' class='' value='' title='' tooltip='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
-		<#local buttonColor = 'default' />
+		<#local buttonColor = 'light' />
 	<#elseif !cancel && color=''>
 		<#local buttonColor = 'primary' />
 	<#else>

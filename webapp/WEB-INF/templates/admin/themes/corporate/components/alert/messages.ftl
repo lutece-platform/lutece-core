@@ -12,31 +12,48 @@ Parameters:
 - warnings_class (string, optional): the CSS class of the alert element for warning messages.
 -->
 <#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
-<#if errors??>
-	<#if errors?size gt 0 >
-		<@alert color='danger' title='#i18n{portal.util.message.titleError}' iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'>
-		<@unstyledList>
-		<#list errors as error ><#if error.message??><@li>${error.message!' #i18n{portal.util.message.titleError} '}</@li></#if></#list>
-		</@unstyledList>
-		</@alert>
-	</#if>
+<#assign errorCount = errors?size>
+<#assign warningCount = warnings?size>
+<#assign infoCount = infos?size>
+<#assign totalCount = errorCount + warningCount + infoCount>
+
+<#assign alertColor = "primary">
+<#assign titleKey = "portal.util.message.titleWarning">
+<#if totalCount gt 0>
+    <#if errorCount gt 0>
+        <#assign alertColor = "danger">
+		<#assign titleKey = "portal.util.message.titleError">
+    <#elseif warningCount gt 0>
+        <#assign alertColor = "warning">
+    <#else>
+        <#assign alertColor = "info">
+    </#if>
 </#if>
-<#if warnings??>
-	<#if warnings?size gt 0 >
-		<@alert color='warning' title='#i18n{portal.util.message.titleWarning}' iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'>
-			<@unstyledList>
-			<#list warnings as warning ><#if warning.message??><@li>${warning.message!' #i18n{portal.util.message.titleWarning} '}</@li></#if></#list>
-			</@unstyledList>
-		</@alert>>
-	</#if>
-</#if>
-<#if infos??>
-	<#if infos?size gt 0 >
-		<@alert color='info' title='#i18n{portal.util.labelWarning}' iconTitle='info-circle' dismissible=true id='messages_infos_div'>
-			<@unstyledList>
-			<#list infos as info ><#if info.message??><@li>${info.message!' #i18n{portal.util.labelWarning} '}</@li></#if></#list>
-			</@unstyledList>
-		</@alert>
-	</#if>
+<#if totalCount gt 0>
+    <@alert color=alertColor iconTitle='exclamation-circle' dismissible=true id='messages_all_div'>
+        <#if errorCount gt 0>
+            <#list errors as error>
+                <#if error.message??>
+                    <h3 class="ms-2 text-danger mt-0 mb-0">${error.message!' #i18n{portal.util.message.titleError} '}</h3>
+                </#if>
+            </#list>
+        </#if>
+
+        <#if warningCount gt 0>
+            <#list warnings as warning>
+                <#if warning.message??>
+                   <h3 class="ms-2 text-warning mt-0 mb-0">${warning.message!' #i18n{portal.util.message.titleWarning} '}</h3>
+                </#if>
+            </#list>
+        </#if>
+
+        <#if infoCount gt 0>
+            <#list infos as info>
+                <#if info.message??>
+                    <h3 class="ms-2 text-info mt-0 mb-0">${info.message!' #i18n{portal.util.labelWarning} '}</h3>
+                </#if>
+            </#list>
+        </#if>
+    </@alert>
 </#if>
 </#macro>
