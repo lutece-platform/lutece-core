@@ -22,14 +22,14 @@ Parameters:
 		<#if flush>
 			<#assign classValue = class>
 		<#else>
-			<#assign classValue = class + "p-2 p-md-5">
+			<#assign classValue = class + " p-2 p-md-5">
 		</#if>
 	</#if>
     <#if responsiveMenuSize != '' || responsiveMenuClose >
     <div class="<#if responsiveMenuClose>offcanvas<#else>offcanvas-${responsiveMenuSize}</#if> offcanvas-${responsiveMenuPlacement} w-auto border-end overflow-x-hidden" style="<#if width != ''>min-width:${width}</#if>" tabindex="-1" <#if id != ''> id="${id}"</#if>>
         <div class="offcanvas-header border-bottom text-break px-4">
-            <h2 class="offcanvas-title fw-bolder" id="template-create-page-roleLabel">${responsiveMenuTitle}</h2>
-            <button type="button" class="ms-3 border btn btn-light btn-rounded btn-icon" data-bs-dismiss="offcanvas" data-bs-target="#<#if id != ''>${id}</#if>" aria-label="Close">
+            <h2 class="offcanvas-title fw-bolder me-5" id="template-create-page-roleLabel">${responsiveMenuTitle}</h2>
+            <button type="button" class="border btn btn-light btn-rounded btn-icon position-absolute end-0 me-4" data-bs-dismiss="offcanvas" data-bs-target="#<#if id != ''>${id}</#if>" aria-label="Close">
                 <i class="ti ti-x fs-5"></i>
             </button>
         </div>

@@ -22,7 +22,7 @@
       <@img url=logoUrl title='${site_name!}' params='style="height:35px" aria-hidden="true"' />
       <span class="visually-hidden">#i18n{portal.site.page_home.label} ${site_name}<br> [#i18n{portal.site.portal_footer.newWindow}]</span>
    </a>
-   <div class="d-inline-block h-100 text-white fw-bold ps-2 align-content-center d-none-side" style="font-size:24px">${site_name}</div>
+   <#if site_name != "LUTECE"><div class="d-inline-block h-100 text-white fw-bold ps-2 align-content-center d-none-side" style="font-size:24px;line-height:74px;">${site_name}</div></#if>
    <div class="position-absolute top-0 end-0 d-flex p-4 d-lg-flex d-xl-none">
       <button id="menu-mobile-back" class="btn btn-sm btn-outline-light d-flex align-items-center justify-content-center d-none" type="button" >
       <i class="ti ti-arrow-left"></i>

@@ -1,5 +1,5 @@
 <#macro searchBox id>
-  <div id="${id}" class="card rounded-pill px-4 py-0 pe-2 bg-form mb-0">
+  <div id="${id}" class="card rounded-pill px-4 py-0 pe-2 bg-form mb-0 lutece-search-box">
     <div class="row g-2 align-items-center">
       <#nested>
           <div class="col-md-auto d-flex align-items-center justify-content-center position-relative align-self-stretch py-2">
