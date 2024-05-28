@@ -34,17 +34,13 @@
 package fr.paris.lutece.portal.web.search;
 
 import org.jboss.weld.junit5.WeldInitiator.Builder;
-import org.springframework.web.context.request.RequestContextListener;
 
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
-import fr.paris.lutece.test.mocks.MockServletContext;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletRequestEvent;
 
 /**
  * SearchApp Test Class
@@ -74,15 +70,9 @@ public class SearchAppTest extends LuteceTestCase
         request.addParameter("query", "lutece");
         request.addParameter("items_per_page", "5");
 
-        RequestContextListener listener = new RequestContextListener();
-        ServletContext context = new MockServletContext();
-        listener.requestInitialized(new ServletRequestEvent(context, request));
-
         int nMode = 0;
         Plugin plugin = null;
 
         assertNotNull(instance.getPage(request, nMode, plugin));
-
-        listener.requestDestroyed(new ServletRequestEvent(context, request));
     }
 }

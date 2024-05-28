@@ -36,11 +36,15 @@ package fr.paris.lutece.util.sql;
 import java.security.SecureRandom;
 import java.sql.Statement;
 
+import org.jboss.weld.junit5.auto.EnableAlternativeStereotypes;
+
+import fr.paris.lutece.portal.mocks.TestAlternative;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
 import fr.paris.lutece.test.LuteceTestCase;
 
+@EnableAlternativeStereotypes(TestAlternative.class)
 public class DAOUtilTest extends LuteceTestCase
 {
     // Any table would be ok here
