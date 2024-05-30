@@ -35,9 +35,14 @@
 					</@columns>
 					<@columns sm=colsm>
 						<@fieldSet legend='#i18n{portal.users.modify_user.labelAttributes}'>
-						<@formGroup labelKey='${i18n("portal.users.create_user.userLevelLabel")}' rows=2>
-							<@staticText>${level.name}</@staticText>
-						</@formGroup> 
+						<@formGroup labelKey='${i18n("portal.users.create_user.userLevelLabel")}' labelFor='user_level' rows=2>
+							<#if user_levels?has_content>
+								<@select name='user_level' default_value='${level.id!}' items=user_levels sort=true />
+							<#else>
+								<@input type='hidden' name='user_level' value='${level.id}' />
+								<@staticText>${level.name}</@staticText>
+							</#if>
+						</@formGroup>
 						<@formGroup labelFor='workgroup_key' labelKey='${i18n("portal.role.create_role.labelWorkgroupKey")}' rows=2>
 							<@select name='workgroup_key' default_value='${user.workgroupKey!}' items=workgroup_key_list sort=true />
 						</@formGroup> 

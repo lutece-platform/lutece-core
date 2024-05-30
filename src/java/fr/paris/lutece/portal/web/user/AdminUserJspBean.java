@@ -922,12 +922,20 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strStatus = request.getParameter( PARAMETER_STATUS );
         String strAccessibilityMode = request.getParameter( PARAMETER_ACCESSIBILITY_MODE );
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
+        String strUserLevel = request.getParameter( PARAMETER_USER_LEVEL );
         int nUserId = Integer.parseInt( strUserId );
 
         AdminUser userToModify = AdminUserHome.findByPrimaryKey( nUserId );
         AdminUser currentUser = AdminUserService.getAdminUser( request );
 
         if ( !isUserAuthorizedToModifyUser( currentUser, userToModify ) )
+        {
+            throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
+
+        // Check if the current user is trying to modify another user's right level.
+        // If that's the case, then make sure they have the required authorization to do it
+        if ( isUserLevelModified( userToModify, strUserLevel ) && !isUserAuthorizedToChangeUserLevel( currentUser, userToModify ) )
         {
             throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
@@ -966,10 +974,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setFirstName( strFirstName );
             user.setEmail( strEmail );
             user.setWorkgroupKey( strWorkgroupKey );
-
-            if ( isUserAuthorizedToChangeUserLevel( currentUser, userToModify ) ){
-                user.setUserLevel( Integer.parseInt(request.getParameter( PARAMETER_USER_LEVEL )) );
-            }
+            user.setUserLevel( Integer.parseInt( strUserLevel ) );
 
             int nStatus = Integer.parseInt( strStatus );
 
@@ -1002,6 +1007,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setLocale( new Locale( request.getParameter( PARAMETER_LANGUAGE ) ) );
             user.setAccessibilityMode( strAccessibilityMode != null );
             user.setWorkgroupKey( strWorkgroupKey );
+            user.setUserLevel( Integer.parseInt( strUserLevel ) );
 
             String strError = AdminUserFieldService.checkUserFields( request, getLocale( ) );
 
@@ -2727,17 +2733,40 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 && ( ( haveCommonWorkgroups( currentUser, userToModify ) ) || ( !AdminWorkgroupHome.checkUserHasWorkgroup( userToModify.getUserId( ) ) ) ) );
     }
 
-    private boolean isUserAuthorizedToChangeUserLevel ( AdminUser currentUser, AdminUser userToModify ) {
+    /**
+     * Check if a user is authorized to modify another user's right level
+     * 
+     * @param currentUser
+     *            The user doing the modification
+     * @param userToModify
+     *            The user whose right level is being modified
+     * @return true if the user's right level can be modified, false otherwise
+     */
+    private boolean isUserAuthorizedToChangeUserLevel( AdminUser currentUser, AdminUser userToModify )
+    {
         if ( currentUser == null || userToModify == null )
         {
             return false;
         }
-        if( currentUser.checkRight("CORE_LEVEL_MANAGEMENT") && userToModify.getUserLevel() != 0) {
-            return true;
+        return currentUser.checkRight( "CORE_LEVEL_MANAGEMENT" ) && userToModify.getUserLevel( ) != 0;
+    }
+
+    /**
+     * Check if a user's right level has been modified
+     * 
+     * @param user
+     *            The user whose right level is being modified
+     * @param strSelectedUserLevel
+     *            The new right level selected
+     * @return true if the level has been modified, false otherwise
+     */
+    private boolean isUserLevelModified( AdminUser user, String strSelectedUserLevel )
+    {
+        if ( strSelectedUserLevel != null )
+        {
+            int nSelectedUserLevel = Integer.parseInt( strSelectedUserLevel );
+            return nSelectedUserLevel != user.getUserLevel( );
         }
-        else {
-            return false;
-        }
-        
+        return false;
     }
 }

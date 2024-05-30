@@ -75,6 +75,7 @@
 							<#if user_levels?has_content>
 								<@select name='user_level' default_value='${level.id!}' items=user_levels sort=true /> 
 							<#else>
+								<@input type='hidden' name='user_level' value='${level.id}' />
 								<@staticText>${level.name}</@staticText>
 							</#if>
 							</@formGroup>
