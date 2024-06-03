@@ -51,7 +51,6 @@ import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
@@ -60,6 +59,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.date.DateUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -117,7 +117,7 @@ public class FileServiceTest extends LuteceTestCase
     public void testStoreFileItem( ) throws IOException
     {
         java.io.File file = getOneFile( );
-        FileItem fileItem = getOneFileItem( file );
+        FileItem<DiskFileItem> fileItem = getOneFileItem( file );
 
         byte [ ] fileInBytes = FileUtils.readFileToByteArray( file );
         InputStream inputStream = new FileInputStream( file );
@@ -251,7 +251,7 @@ public class FileServiceTest extends LuteceTestCase
      * 
      * @return the file
      */
-    private FileItem getOneFileItem( java.io.File file ) throws IOException
+    private FileItem<DiskFileItem> getOneFileItem( java.io.File file ) throws IOException
     {
         DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
         FileItem<DiskFileItem> fileItem = fileItemFactory.fileItemBuilder( ).setFieldName( file.getName( ) )

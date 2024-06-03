@@ -37,7 +37,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -47,8 +46,9 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.search.SearchIndexer;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * SearchIndexationJspBean Test Class
@@ -150,7 +150,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
     public void testGetIndexingProperties( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
 
         SearchIndexationJspBean instance = new SearchIndexationJspBean( );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
@@ -167,7 +167,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_search_indexation.html" ) );
 
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
         instance.doIndexing( request );
         assertTrue( testIndexer._bIndexDocumentsCalled );
@@ -180,7 +180,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_search_indexation.html" ) + "b" );
 
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
         try
         {
@@ -198,7 +198,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         SearchIndexationJspBean instance = new SearchIndexationJspBean( );
 
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
         try
         {

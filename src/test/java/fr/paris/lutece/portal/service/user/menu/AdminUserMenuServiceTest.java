@@ -35,23 +35,22 @@ package fr.paris.lutece.portal.service.user.menu;
 
 import java.util.List;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.BeforeEach;
 
 import fr.paris.lutece.portal.business.user.menu.AdminUserMenuItem;
 import fr.paris.lutece.portal.business.user.menu.IAdminUserMenuItemProvider;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class AdminUserMenuServiceTest extends LuteceTestCase
 {
     private static final int NUM_ITEMS = 5;
     private AdminUserMenuService _service;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         _service = new AdminUserMenuService( );
         for ( int i = 0; i < NUM_ITEMS; i++ )
         {

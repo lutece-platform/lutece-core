@@ -83,13 +83,13 @@ public class AdminUserTest extends LuteceTestCase
         AdminUserHome.createRoleForUser( user.getUserId( ), ROLE1 );
 
         // List Test
-        Collection listUsers = AdminUserHome.findUserList( );
+        Collection<?> listUsers = AdminUserHome.findUserList( );
         assertTrue( listUsers.size( ) > 0 );
 
-        Map listRights = AdminUserHome.getRightsListForUser( user.getUserId( ) );
+        Map<?,?> listRights = AdminUserHome.getRightsListForUser( user.getUserId( ) );
 
         // assertTrue( listRights.size() > 0 );
-        Map listRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
+        Map<?,?> listRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
         // assertTrue( listRoles.size() > 0 );
 
         // Update test

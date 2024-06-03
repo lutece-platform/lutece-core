@@ -38,9 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockServletConfig;
+import org.junit.jupiter.api.AfterEach;
 
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -49,7 +47,9 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import fr.paris.lutece.test.mocks.MockServletConfig;
 
 /**
  * AdminJspBeanTest Test Class
@@ -64,16 +64,16 @@ public class AdminJspBeanTest extends LuteceTestCase
     /**
      * Test of getAdminPage method, of class fr.paris.lutece.portal.web.admin.AdminJspBean.
      */
-    public void testGetAdminPage( ) throws AccessDeniedException
+    public void testGetAdminPage() throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( PARAMETER_PAGE_ID, TEST_PAGE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.addParameter(PARAMETER_PAGE_ID, TEST_PAGE_ID);
+        AdminUserUtils.registerAdminUserWithRigth(request, new AdminUser(), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE);
 
-        AdminPageJspBean instance = new AdminPageJspBean( );
-        instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        AdminPageJspBean instance = new AdminPageJspBean();
+        instance.init(request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE);
 
-        assertTrue( StringUtils.isNotEmpty( instance.getAdminPage( request ) ) );
+        assertTrue(StringUtils.isNotEmpty(instance.getAdminPage(request)));
     }
 
     /**
@@ -81,38 +81,36 @@ public class AdminJspBeanTest extends LuteceTestCase
      * 
      * @throws UserNotSignedException
      */
-    public void testGetAdminPagePreview( ) throws AccessDeniedException, UserNotSignedException
+    public void testGetAdminPagePreview() throws AccessDeniedException, UserNotSignedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest();
 
         // FIXME : MokeHttpServletRequest should be fixed to support attributes
-        Map<String, Right> mapRights = new HashMap<>( );
-        Right right = new Right( );
-        right.setId( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
-        mapRights.put( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE, right );
-        AdminUser user = new AdminUser( );
-        user.setRights( mapRights );
-        user.setLocale( new Locale( "fr", "FR", "" ) );
-        request.getSession( true ).setAttribute( ATTRIBUTE_ADMIN_USER, user );
-        LocalVariables.setLocal( new MockServletConfig( ), request, new MockHttpServletResponse( ) );
+        Map<String, Right> mapRights = new HashMap<>();
+        Right right = new Right();
+        right.setId(AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE);
+        mapRights.put(AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE, right);
+        AdminUser user = new AdminUser();
+        user.setRights(mapRights);
+        user.setLocale(new Locale("fr", "FR", ""));
+        request.getSession(true).setAttribute(ATTRIBUTE_ADMIN_USER, user);
+        LocalVariables.setLocal(new MockServletConfig(), request, new MockHttpServletResponse());
 
-        AdminPageJspBean instance = new AdminPageJspBean( );
-        instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        AdminPageJspBean instance = new AdminPageJspBean();
+        instance.init(request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE);
 
         try
         {
-            instance.getAdminPagePreview( request );
-        }
-        catch( SiteMessageException e )
+            instance.getAdminPagePreview(request);
+        } catch (SiteMessageException e)
         {
-            fail( );
+            fail();
         }
     }
 
-    @Override
-    public void tearDown( ) throws Exception
+    @AfterEach
+    public void tearDown() throws Exception
     {
-        LocalVariables.setLocal( null, null, null );
-        super.tearDown( );
+        LocalVariables.setLocal(null, null, null);
     }
 }

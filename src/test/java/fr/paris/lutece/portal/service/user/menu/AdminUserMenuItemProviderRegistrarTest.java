@@ -35,21 +35,21 @@ package fr.paris.lutece.portal.service.user.menu;
 
 import java.util.List;
 
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.BeforeEach;
 
 import fr.paris.lutece.portal.business.user.menu.AdminUserMenuItem;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
 {
-    private TestAdminUserMenuService _adminUserMenuService;
+    private AdminUserMenuService _adminUserMenuService;
     private AdminUserMenuItemProviderRegistrar _instance;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
-        _adminUserMenuService = new TestAdminUserMenuService( );
+        _adminUserMenuService = new AdminUserMenuService( );
         _instance = new AdminUserMenuItemProviderRegistrar( );
         _instance.setService( _adminUserMenuService );
         _instance.setBeanName( "junit" );

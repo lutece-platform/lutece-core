@@ -36,10 +36,9 @@ package fr.paris.lutece.portal.service.security;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.util.ReflectionTestUtils;
-
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.ReflectionTestUtils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * This class tests the class fr.paris.lutece.portal.service.SecurityService

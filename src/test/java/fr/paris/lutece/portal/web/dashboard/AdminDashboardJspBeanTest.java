@@ -37,7 +37,8 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardHome;
@@ -48,8 +49,9 @@ import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * AdminDashboardJspBean Test Class
@@ -61,10 +63,9 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
     private AdminDashboardJspBean instance;
     private IAdminDashboardComponent _dashboard;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         instance = new AdminDashboardJspBean( );
         _dashboard = new TestAdminDashboardCompoent( );
         _dashboard.setName( getRandomName( ) );
@@ -72,12 +73,11 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         AdminDashboardHome.create( _dashboard );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         AdminDashboardHome.remove( _dashboard.getName( ) );
         // TODO : dashboard should be unregistered
-        super.tearDown( );
     }
 
     private String getRandomName( )
@@ -111,7 +111,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
     public void testGetManageDashboards( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
 
         instance.init( request, AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
 

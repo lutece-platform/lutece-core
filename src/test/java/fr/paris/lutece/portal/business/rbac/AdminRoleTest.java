@@ -68,7 +68,7 @@ public class AdminRoleTest extends LuteceTestCase
         assertEquals( adminRoleStored.getDescription( ), adminRole.getDescription( ) );
 
         // list test
-        Collection list = RBACRoleHome.findAll( );
+        Collection<?> list = RBACRoleHome.findAll( );
         assertTrue( list.size( ) > 0 );
 
         // check exist Test

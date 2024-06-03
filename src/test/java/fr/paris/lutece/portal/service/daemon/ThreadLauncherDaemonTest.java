@@ -43,6 +43,9 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -55,10 +58,9 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     private Boolean _bThreadLauncherDaemonInitialState;
     private DaemonEntry _threadLauncherDaemonEntry;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         // we ensure the ThreadLauncherDeamon is started
         AppLogService.info( "Ensure ThreadLauncherDeamon is started" );
         for ( DaemonEntry daemonEntry : AppDaemonService.getDaemonEntries( ) )
@@ -70,11 +72,11 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
                 break;
             }
         }
-        assertNotNull( "Did not find threadLauncherDaemon daemon", _bThreadLauncherDaemonInitialState );
+        assertNotNull( _bThreadLauncherDaemonInitialState, "Did not find threadLauncherDaemon daemon" );
         AppDaemonService.startDaemon( "threadLauncherDaemon" );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         // restore threadLauncherDaemon state
@@ -83,7 +85,6 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
         {
             AppDaemonService.stopDaemon( "threadLauncherDaemon" );
         }
-        super.tearDown( );
     }
 
     public void testAddItemToQueue( ) throws InterruptedException, BrokenBarrierException, TimeoutException

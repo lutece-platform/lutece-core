@@ -57,8 +57,8 @@ public class MockObject
     private int _nIdForeign;
     private String _strEmail;
     private String _strText;
-    private List _listAttributes = new ArrayList( );
-    private Map _mapParameters = new HashMap( );
+    private List _listAttributes = new ArrayList<>( );
+    private Map _mapParameters = new HashMap<>( );
     private Date _dateDateCreated;
     private Timestamp _dateDateUpdated;
 

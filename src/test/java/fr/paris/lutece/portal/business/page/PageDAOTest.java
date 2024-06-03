@@ -37,19 +37,21 @@ import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Collection;
 
-import org.junit.Assert;
-
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.inject.Inject;
 
 public class PageDAOTest extends LuteceTestCase
 {
+    @Inject 
+    private IPageService pageService;
+    @Inject 
+    private IPageDAO dao;
     public void testGetPagesByRoleKey( )
     {
         SecureRandom rnd = new SecureRandom( );
@@ -74,10 +76,8 @@ public class PageDAOTest extends LuteceTestCase
             page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );
             page.setDisplayDateUpdate( false );
             page.setIsManualDateUpdate( false );
-            IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
             pageService.createPage( page );
             // get page by role
-            PageDAO dao = new PageDAO( );
             Collection<Page> pages = dao.getPagesByRoleKey( randomRoleName );
             assertNotNull( pages );
             for ( Page p : pages )
@@ -87,7 +87,7 @@ public class PageDAOTest extends LuteceTestCase
                     return;
                 }
             }
-            Assert.fail( "could not find the page " + randomPageName );
+            fail( "could not find the page " + randomPageName );
         }
         finally
         {

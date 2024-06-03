@@ -39,14 +39,12 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
+import java.util.List;
+
 import fr.paris.lutece.portal.service.includes.PageIncludeEntry;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
-
-import junit.framework.*;
-
-import java.util.List;
 
 /**
  *
@@ -54,46 +52,33 @@ import java.util.List;
  */
 public class PluginFileTest extends LuteceTestCase
 {
-    public PluginFileTest( String testName )
-    {
-        super( testName );
-    }
-
-    public static Test suite( )
-    {
-        TestSuite suite = new TestSuite( PluginFileTest.class );
-
-        return suite;
-    }
-
     /**
      * Test of getName method, of class fr.paris.lutece.portal.service.PluginFile.
      */
-    public void testLoad( ) throws LuteceInitException
+    public void testLoad() throws LuteceInitException
     {
-        System.out.println( "load" );
+        System.out.println("load");
 
-        PluginFile instance = new PluginFile( );
+        PluginFile instance = new PluginFile();
 
         // TODO path en dur...
-        String strFilename = getResourcesDir( ) + "../test-classes/plugin-test.xml";
-        instance.load( strFilename );
+        String strFilename = getResourcesDir() + "../test-classes/plugin-test.xml";
+        instance.load(strFilename);
 
-        assertNotNull( instance.getParams( ) );
-        assertEquals( AppPropertiesService.getProperty( "lutece.encoding" ), instance.getParams( ).get( "test_properties" ) );
+        assertNotNull(instance.getParams());
+        assertEquals(AppPropertiesService.getProperty("lutece.encoding"), instance.getParams().get("test_properties"));
 
-        List<PageIncludeEntry> includes = instance.getPageIncludes( );
-        assertEquals( 3, includes.size( ) );
+        List<PageIncludeEntry> includes = instance.getPageIncludes();
+        assertEquals(3, includes.size());
 
-        for ( PageIncludeEntry anInclude : includes )
+        for (PageIncludeEntry anInclude : includes)
         {
-            if ( anInclude.getId( ).contains( "disabled" ) )
+            if (anInclude.getId().contains("disabled"))
             {
-                assertFalse( anInclude.isEnabled( ) );
-            }
-            else
+                assertFalse(anInclude.isEnabled());
+            } else
             {
-                assertTrue( anInclude.isEnabled( ) );
+                assertTrue(anInclude.isEnabled());
             }
         }
     }

@@ -75,7 +75,7 @@ public class FeatureGroupTest extends LuteceTestCase
         assertEquals( featureGroupStored.getOrder( ), featureGroup.getOrder( ) );
 
         // List test
-        List listGroups = FeatureGroupHome.getFeatureGroupsList( );
+        List<?> listGroups = FeatureGroupHome.getFeatureGroupsList( );
         assertTrue( listGroups.size( ) > 0 );
 
         assertTrue( FeatureGroupHome.getFeatureGroupsCount( ) > 0 );

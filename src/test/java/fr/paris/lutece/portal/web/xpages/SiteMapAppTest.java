@@ -44,10 +44,6 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.Random;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
@@ -57,9 +53,11 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * SiteMap Test Class
@@ -68,6 +66,7 @@ public class SiteMapAppTest extends LuteceTestCase
 {
     private static final String ROLE1 = "ROLE1";
     private static final String ROLE2 = "ROLE2";
+    private @Inject IPageService pageService;
 
     /**
      * Test of getPage method, of class fr.paris.lutece.portal.web.xpages.SiteMapApp.
@@ -102,7 +101,6 @@ public class SiteMapAppTest extends LuteceTestCase
         page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
         page.setName( randomPageName );
 
-        IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         pageService.createPage( page );
         // get the site map
         sitemap = instance.getPage( request, 0, null );
@@ -212,7 +210,6 @@ public class SiteMapAppTest extends LuteceTestCase
             restoreAuthentication( authStatus );
             restoreSiteMapCacheService( cacheStatus );
 
-            IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
             pageService.removePage( pageNoRole.getId( ) );
             pageService.removePage( pageRole1.getId( ) );
             pageService.removePage( pageRole2.getId( ) );
@@ -288,7 +285,6 @@ public class SiteMapAppTest extends LuteceTestCase
             page.setRole( role );
         }
 
-        IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         pageService.createPage( page );
 
         return page;

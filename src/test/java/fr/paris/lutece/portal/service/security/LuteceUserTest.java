@@ -54,7 +54,7 @@ public class LuteceUserTest extends LuteceTestCase
         MokeLuteceUser user = new MokeLuteceUser( NAME, auth );
         user.setName( NAME );
 
-        ArrayList<String> listRoles = new ArrayList( );
+        ArrayList<String> listRoles = new ArrayList<>( );
         listRoles.add( ROLE1 );
         listRoles.add( ROLE2 );
         user.setRoles( listRoles );

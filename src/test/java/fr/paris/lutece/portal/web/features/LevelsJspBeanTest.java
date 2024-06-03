@@ -38,17 +38,16 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.constants.Parameters;
-import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * LevelsJspBeanTest Test Class
@@ -68,7 +67,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         super.setUp( );
         request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
 
         instance = new LevelsJspBean( );
         instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );

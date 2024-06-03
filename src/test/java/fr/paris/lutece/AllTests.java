@@ -33,47 +33,14 @@
  */
 package fr.paris.lutece;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
  * This Class is the main Test Suite class to launch all the unit tests of Lutece
  */
+@Suite
+@SelectClasses({ fr.paris.lutece.util.AllTests.class, fr.paris.lutece.portal.AllTests.class })
 public final class AllTests
 {
-    private static Logger _logger = LogManager.getLogger( AllTests.class );
-
-    /**
-     * Constructor
-     *
-     */
-    private AllTests( )
-    {
-    }
-
-    /**
-     * A set of tests
-     * 
-     * @return Test the tests
-     */
-    public static Test suite( )
-    {
-        _logger.info( "UNIT TESTS FOR LUTECE" );
-        _logger.info( "=====================" );
-        _logger.info( "Please do not forget to customize the property files in /lutece/WEB-INF/conf" );
-
-        TestSuite suite = new TestSuite( "Lutece JUnit tests" );
-
-        // $JUnit-BEGIN$
-        suite.addTest( fr.paris.lutece.util.AllTests.suite( ) );
-        suite.addTest( fr.paris.lutece.portal.AllTests.suite( ) );
-
-        // suite.addTest( fr.paris.lutece.plugins.AllTests.suite( ) );
-
-        // $JUnit-END$
-        return suite;
-    }
 }

@@ -34,8 +34,6 @@
 package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.test.LuteceTestCase;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 import java.util.List;
 
@@ -54,7 +52,6 @@ public class AdminUserPreferencesServiceTest extends LuteceTestCase
     private static final int INT_VALUE = 20;
     private static final boolean BOOL_DEFAULT = true;
     private static final boolean BOOL_VALUE = false;
-    private static final String NICKNAME = "nickname";
 
     public void testBusinessLevel( )
     {
@@ -81,7 +78,7 @@ public class AdminUserPreferencesServiceTest extends LuteceTestCase
         assertEquals( bValue, BOOL_VALUE );
 
         // List Test
-        List list = service.keys( USER_ID_1 );
+        List<?> list = service.keys( USER_ID_1 );
         assertTrue( list.size( ) > 0 );
     }
 }

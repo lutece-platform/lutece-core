@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.service.security;
 
 import fr.paris.lutece.test.LuteceTestCase;
-import static junit.framework.TestCase.fail;
 
 /**
  * This class provides writing services in the application logs files

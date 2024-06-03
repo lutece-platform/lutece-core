@@ -128,5 +128,24 @@ public final class TestDaemon extends Daemon
     {
         return stopCallNumber.get( );
     }
+    
+    /**
+     * Static factory for tests
+     * @param name daemon id
+     * @return a new entry
+     */
+    static DaemonEntry makeDaemonEntry(String name) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    {
+        DaemonEntry entry = new DaemonEntry();
+        entry.setId(name);
+        entry.setIsRunning(true);
+        entry.setPluginName("core");
+        entry.setClassName(TestDaemon.class.getName());
+        entry.loadDaemon();
+        entry.setInterval(1);
+        TestDaemon testDaemon = (TestDaemon) entry.getDaemon();
+        testDaemon.setPluginName("core");
+        return entry;
+    }
 
 }

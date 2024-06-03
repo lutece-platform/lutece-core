@@ -90,7 +90,7 @@ public final class AdminAuthenticationService
         _authentication = CDI.current().select(AdminAuthentication.class ).get( );
         AppLogService.info( "Authentication module loaded : {}", _authentication.getAuthServiceName( ) );
 
-        if ( _authentication.getClass( ).equals( LuteceDefaultAdminAuthentication.class ) )
+        if ( LuteceDefaultAdminAuthentication.class.isAssignableFrom( _authentication.getClass( ) ) )
         {
             _bUseDefaultModule = true;
         }

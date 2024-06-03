@@ -42,6 +42,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -50,10 +53,9 @@ public class CryptoServiceTest extends LuteceTestCase
     private boolean bCryptoKeyExists;
     private String strOrigCrytoKey;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         bCryptoKeyExists = DatastoreService.existsKey( CryptoService.DSKEY_CRYPTO_KEY );
         strOrigCrytoKey = DatastoreService.getDataValue( CryptoService.DSKEY_CRYPTO_KEY, null );
         DatastoreService.removeData( CryptoService.DSKEY_CRYPTO_KEY );
@@ -119,7 +121,7 @@ public class CryptoServiceTest extends LuteceTestCase
         assertNotNull( CryptoService.hmacSHA256( "message" ) );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         if ( bCryptoKeyExists )
@@ -130,7 +132,6 @@ public class CryptoServiceTest extends LuteceTestCase
         {
             DatastoreService.removeData( CryptoService.DSKEY_CRYPTO_KEY );
         }
-        super.tearDown( );
     }
 
 }

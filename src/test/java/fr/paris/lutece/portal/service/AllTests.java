@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.service;
 
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
 import fr.paris.lutece.portal.service.html.EncodingServiceTest;
 import fr.paris.lutece.portal.service.html.HtmlCleanerServiceTest;
 import fr.paris.lutece.portal.service.i18n.I18nServiceTest;
@@ -48,51 +51,13 @@ import fr.paris.lutece.portal.service.template.FreeMarkerTemplateServiceTest;
 import fr.paris.lutece.portal.service.util.AppLogServiceTest;
 import fr.paris.lutece.portal.service.util.AppPathServiceTest;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
  * This Class is the main Test Suite class to launch all the unit tests of the current package
  */
+@Suite
+@SelectClasses({ HtmlCleanerServiceTest.class, EncodingServiceTest.class, I18nServiceTest.class, InsertServiceManagerTest.class, AdminMessageServiceTest.class,
+        PageServiceTest.class, PluginFileTest.class, LuteceUserTest.class, FreeMarkerTemplateServiceTest.class, AppLogServiceTest.class,
+        AppPathServiceTest.class, PortalServiceTest.class, PortalMenuServiceTest.class, PageIncludeServiceTest.class, SecurityServiceTest.class })
 public final class AllTests
 {
-    /**
-     * Constructor
-     *
-     */
-    private AllTests( )
-    {
-    }
-
-    /**
-     * A set of tests
-     * 
-     * @return Test the tests
-     */
-    public static Test suite( )
-    {
-        TestSuite suite = new TestSuite( "Test for test.fr.paris.lutece.portal.service" );
-
-        // $JUnit-BEGIN$
-        suite.addTest( new TestSuite( HtmlCleanerServiceTest.class ) );
-        suite.addTest( new TestSuite( EncodingServiceTest.class ) );
-        suite.addTest( new TestSuite( I18nServiceTest.class ) );
-        suite.addTest( new TestSuite( InsertServiceManagerTest.class ) );
-        suite.addTest( new TestSuite( AdminMessageServiceTest.class ) );
-        suite.addTest( new TestSuite( PageServiceTest.class ) );
-        suite.addTest( new TestSuite( PluginFileTest.class ) );
-        suite.addTest( new TestSuite( LuteceUserTest.class ) );
-        suite.addTest( new TestSuite( FreeMarkerTemplateServiceTest.class ) );
-        suite.addTest( new TestSuite( AppLogServiceTest.class ) );
-        suite.addTest( new TestSuite( AppPathServiceTest.class ) );
-        suite.addTest( new TestSuite( PortalServiceTest.class ) );
-        suite.addTest( new TestSuite( PortalMenuServiceTest.class ) );
-        suite.addTest( new TestSuite( PageIncludeServiceTest.class ) );
-        suite.addTest( new TestSuite( SecurityServiceTest.class ) );
-
-        // suite.addTest( new TestSuite( ImageResourceTest.class ) );
-
-        // $JUnit-END$
-        return suite;
-    }
 }

@@ -33,46 +33,21 @@
  */
 package fr.paris.lutece.util;
 
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
 import fr.paris.lutece.util.filesystem.FileSystemUtilTest;
 import fr.paris.lutece.util.filesystem.UploadUtilTest;
 import fr.paris.lutece.util.html.PaginatorTest;
 import fr.paris.lutece.util.string.StringUtilTest;
 import fr.paris.lutece.util.url.UrlItemTest;
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * This class is the main test suite for the package fr.paris.lutece.util
  */
+@Suite
+@SelectClasses({ StringUtilTest.class, FileSystemUtilTest.class, UploadUtilTest.class, PaginatorTest.class, UrlItemTest.class, PropertiesServiceTest.class,
+        ReferenceListTest.class })
 public final class AllTests
 {
-    /**
-     * Constructor
-     *
-     */
-    private AllTests( )
-    {
-    }
-
-    /**
-     * A set of tests
-     * 
-     * @return Test the tests
-     */
-    public static Test suite( )
-    {
-        TestSuite suite = new TestSuite( "*** Tests Lutece utils" );
-
-        // $JUnit-BEGIN$
-        suite.addTest( new TestSuite( StringUtilTest.class ) );
-        suite.addTest( new TestSuite( FileSystemUtilTest.class ) );
-        suite.addTest( new TestSuite( UploadUtilTest.class ) );
-        suite.addTest( new TestSuite( PaginatorTest.class ) );
-        suite.addTest( new TestSuite( UrlItemTest.class ) );
-        suite.addTest( new TestSuite( PropertiesServiceTest.class ) );
-        suite.addTest( new TestSuite( ReferenceListTest.class ) );
-
-        // $JUnit-END$
-        return suite;
-    }
 }

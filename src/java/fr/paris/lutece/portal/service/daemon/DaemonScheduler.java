@@ -165,7 +165,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             else
             {
                 DaemonManagedTask daemonManagedTask = new DaemonManagedTask( entry );
-                ScheduledFuture sf = _scheduledExecutorService.scheduleAtFixedRate( daemonManagedTask ,  nInitialDelay , entry.getInterval( ) , unit );
+                ScheduledFuture sf = _scheduledExecutorService.scheduleAtFixedRate( daemonManagedTask ,  nInitialDelay , unit.convert(entry.getInterval( ), TimeUnit.SECONDS) , unit );
                 _scheduledFutures.put( entry.getId( ), sf );
                 _scheduledDaemons.put( entry.getId( ), daemonManagedTask );
             }
@@ -250,9 +250,9 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
                         _executingDaemons.put( entry.getId( ), runnable );
                     }
                 }
-                if ( runnable != null )
+                if ( runnable != null && !_bShuttingDown)
                 {
-                    _scheduledExecutorService.execute( runnable );
+                    _executor.execute( runnable );
                 }
             }
             // prepare next iteration

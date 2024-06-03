@@ -33,9 +33,18 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.security.SecureRandom;
+import java.util.List;
+import java.util.Locale;
+
+import javax.security.auth.login.FailedLoginException;
+import javax.security.auth.login.LoginException;
+
+import org.apache.commons.lang3.StringUtils;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.AdminUserDAO;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.user.IAdminUserDAO;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider;
@@ -47,26 +56,14 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
-
-import java.security.SecureRandom;
-import java.util.List;
-import java.util.Locale;
-
-import javax.security.auth.login.FailedLoginException;
-import javax.security.auth.login.LoginException;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.mock.web.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * AdminMenuJspBeanTest Test Class
@@ -78,6 +75,8 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     private static final String TEST_USER_ACCESS_CODE = "admin";
     private static final String TEST_USER_PASSWORD = "admin";
     private static final String TEST_LANGUAGE = "en";
+    private @Inject IPasswordFactory passwordFactory;
+    private @Inject IAdminUserDAO adminUserDAO;
     AdminUser _user = new AdminUser( );
 
     {
@@ -92,7 +91,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         getUser( request );
-        Utils.registerAdminUser( request, _user );
+        AdminUserUtils.registerAdminUser( request, _user );
 
         AdminMenuJspBean instance = new AdminMenuJspBean( );
         assertNotNull( instance.getAdminMenuHeader( request ) );
@@ -107,7 +106,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         getUser( request );
-        Utils.registerAdminUser( request, _user );
+        AdminUserUtils.registerAdminUser( request, _user );
 
         AdminMenuJspBean instance = new AdminMenuJspBean( );
         assertTrue( StringUtils.isNotEmpty( instance.getAdminMenuUser( request ) ) );
@@ -124,7 +123,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
                 SecurityTokenService.getInstance( ).getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) );
 
         getUser( request );
-        Utils.registerAdminUser( request, _user );
+        AdminUserUtils.registerAdminUser( request, _user );
         _user.setLocale( Locale.FRANCE );
 
         Locale localeSTored = _user.getLocale( );
@@ -142,7 +141,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
                 SecurityTokenService.getInstance( ).getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) + "b" );
 
         getUser( request );
-        Utils.registerAdminUser( request, _user );
+        AdminUserUtils.registerAdminUser( request, _user );
         _user.setLocale( Locale.FRANCE );
 
         Locale localeSTored = _user.getLocale( );
@@ -165,7 +164,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
 
         getUser( request );
-        Utils.registerAdminUser( request, _user );
+        AdminUserUtils.registerAdminUser( request, _user );
         _user.setLocale( Locale.FRANCE );
 
         Locale localeSTored = _user.getLocale( );
@@ -199,21 +198,10 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         }
     }
 
-    private AdminUserDAO getAdminUserDAO( )
-    {
-        AdminUserDAO adminUserDAO = new AdminUserDAO( );
-        ApplicationContext context = SpringContextService.getContext( );
-        AutowireCapableBeanFactory beanFactory = context.getAutowireCapableBeanFactory( );
-        beanFactory.autowireBean( adminUserDAO );
-        return adminUserDAO;
-    }
-
     public void testDoModifyDefaultAdminUserPassword( ) throws AccessDeniedException
     {
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
         String password = "Pa55word!";
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
@@ -340,10 +328,8 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
 
     public void testDoModifyDefaultAdminUserPasswordInvalidToken( ) throws AccessDeniedException
     {
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
         String password = "Pa55word!";
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
@@ -377,10 +363,8 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
 
     public void testDoModifyDefaultAdminUserPasswordNoToken( ) throws AccessDeniedException
     {
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
         String password = "Pa55word!";
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
@@ -418,7 +402,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
                 SecurityTokenService.getInstance( ).getToken( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) );
 
         getUser( request );
-        Utils.registerAdminUser( request, _user );
+        AdminUserUtils.registerAdminUser( request, _user );
         boolean bAccessibilityMode = _user.getAccessibilityMode( );
         try
         {
@@ -440,7 +424,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
                 SecurityTokenService.getInstance( ).getToken( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) + "b" );
 
         getUser( request );
-        Utils.registerAdminUser( request, _user );
+        AdminUserUtils.registerAdminUser( request, _user );
         boolean bAccessibilityMode = _user.getAccessibilityMode( );
         try
         {
@@ -464,7 +448,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
         getUser( request );
-        Utils.registerAdminUser( request, _user );
+        AdminUserUtils.registerAdminUser( request, _user );
         boolean bAccessibilityMode = _user.getAccessibilityMode( );
         try
         {

@@ -58,6 +58,7 @@ public class FilterServiceTest extends LuteceTestCase
      */
     public void testRegisterFilter( )
     {
+        FilterService.getInstance( ).getFilters( ).clear( );
         FilterEntry entry = new FilterEntry( );
         entry.setName( "filter" );
         entry.setFilterClass( "fr.paris.lutece.portal.service.filter.MainFilter" );

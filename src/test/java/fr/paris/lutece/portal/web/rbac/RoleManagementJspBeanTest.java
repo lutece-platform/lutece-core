@@ -39,21 +39,21 @@ import java.util.Collection;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.page.Page;
-import fr.paris.lutece.portal.business.rbac.RBACRole;
-import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * StyleSheetJspBean Test Class
@@ -72,7 +72,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         System.out.println( "getManageRoles" );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
 
         RoleManagementJspBean instance = new RoleManagementJspBean( );
         instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
@@ -88,7 +88,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
 
         RoleManagementJspBean instance = new RoleManagementJspBean( );
         instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );

@@ -52,27 +52,25 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.BeforeEach;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * Test the LuceneSearchEngine class
  */
 public class LuceneSearchEngineTest extends LuteceTestCase
 {
-
-    private static final String BEAN_SEARCH_ENGINE = "searchEngine";
-
     private static boolean firstRun = true;
-    private static SearchEngine _engine;
+    private @Inject SearchEngine _engine;
 
     /* mimic initialization in IndexationService.processIndexing */
     private IndexWriter getIndexWriter( ) throws Exception
@@ -83,15 +81,12 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         return new IndexWriter( dir, conf );
     }
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         if ( firstRun )
         {
             firstRun = false;
-
-            _engine = SpringContextService.getBean( BEAN_SEARCH_ENGINE );
 
             FieldType ft = new FieldType( StringField.TYPE_STORED );
             ft.setOmitNorms( false );

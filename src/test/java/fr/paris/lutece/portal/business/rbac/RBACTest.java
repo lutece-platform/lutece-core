@@ -96,7 +96,7 @@ public class RBACTest extends LuteceTestCase
         RBACHome.create( rbac2 );
 
         // List Test
-        Collection list = RBACHome.findAll( );
+        Collection<?> list = RBACHome.findAll( );
         assertTrue( list.size( ) > 0 );
 
         // list by role Test
@@ -127,7 +127,7 @@ public class RBACTest extends LuteceTestCase
         // update role keys for all Test
         RBACHome.updateRoleKey( ROLEKEY2, ROLEKEY1 );
 
-        Collection listByRoleUpdated = RBACHome.findResourcesByCode( ROLEKEY1 );
+        Collection<?> listByRoleUpdated = RBACHome.findResourcesByCode( ROLEKEY1 );
         assertTrue( listByRoleUpdated.size( ) > 0 );
 
         // both rbac1 and rbac2 have ROLEKEY1 values at this point

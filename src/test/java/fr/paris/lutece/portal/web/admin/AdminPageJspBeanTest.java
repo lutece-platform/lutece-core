@@ -50,7 +50,8 @@ import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.fileupload2.core.FileUploadException;
 import org.apache.commons.fileupload2.core.FileUploadSizeException;
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import fr.paris.lutece.api.user.UserRole;
 import fr.paris.lutece.portal.business.page.Page;
@@ -69,13 +70,13 @@ import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.inject.Inject;
 
 public class AdminPageJspBeanTest extends LuteceTestCase
 {
@@ -83,13 +84,12 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     private Page _page;
     private AdminPageJspBean _bean;
     private AdminUser _adminUser;
+    private @Inject IPageService pageService;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         _randomPageName = "page" + new SecureRandom( ).nextLong( );
-        IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         _page = new Page( );
         _page.setParentPageId( PortalService.getRootPageId( ) );
         _page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
@@ -106,10 +106,9 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         _adminUser = getAdminUser( );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
-        IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         if ( _page != null )
         {
             try
@@ -123,7 +122,6 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             }
         }
         removeUser( _adminUser );
-        super.tearDown( );
     }
 
     private AdminUser getAdminUser( )
@@ -238,7 +236,6 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     {
         String childPageName = _randomPageName + "-child";
         Page childPage = null;
-        IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         try
         {
             childPage = new Page( );
@@ -318,7 +315,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testGetAdminPageBlockProperty( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        AdminUserUtils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         request.addParameter( "param_block", "2" );
         String html = _bean.getAdminPage( request );
@@ -632,7 +629,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testGetAdminPageBlockChildPage( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        AdminUserUtils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         request.addParameter( "param_block", "5" );
         String html = _bean.getAdminPage( request );

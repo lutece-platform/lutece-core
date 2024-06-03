@@ -82,7 +82,7 @@ public class UserPreferencesServiceTest extends LuteceTestCase
         assertTrue( NICKNAME.equals( service.getNickname( USER_ID_1 ) ) );
 
         // List Test
-        List list = service.keys( USER_ID_1 );
+        List<?> list = service.keys( USER_ID_1 );
         assertTrue( list.size( ) == 4 );
 
         assertTrue( service.existsKey( USER_ID_1, KEY1 ) );

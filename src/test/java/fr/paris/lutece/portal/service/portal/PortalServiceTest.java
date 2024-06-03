@@ -35,23 +35,19 @@ package fr.paris.lutece.portal.service.portal;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.cache.IPathCacheService;
-import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.IPageService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 public class PortalServiceTest extends LuteceTestCase
 {
@@ -60,11 +56,11 @@ public class PortalServiceTest extends LuteceTestCase
 
     IPathCacheService pathCacheService;
     boolean bPathCacheServiceEnabled;
+    private @Inject IPageService pageService;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         pathCacheService = null;
         List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
         for ( CacheableService aService : serviceList )
@@ -81,7 +77,7 @@ public class PortalServiceTest extends LuteceTestCase
         assertNotNull( pathCacheService );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
@@ -95,7 +91,6 @@ public class PortalServiceTest extends LuteceTestCase
             }
         }
         pathCacheService = null;
-        super.tearDown( );
     }
 
     public void testGetXPagePathContent( ) throws IOException
@@ -138,28 +133,16 @@ public class PortalServiceTest extends LuteceTestCase
 
     private void removePage( int nPageId )
     {
-        IPageService pageService = SpringContextService.getBean( "pageService" );
         pageService.removePage( nPageId );
     }
 
     private int createPage( )
     {
-        IPageService pageService = SpringContextService.getBean( "pageService" );
         Page page = new Page( );
         page.setName( "junit2" );
         page.setDescription( "junit2" );
         page.setParentPageId( PortalService.getRootPageId( ) );
         pageService.createPage( page );
         return page.getId( );
-    }
-
-    private String loadExpected( String strExpectedFileName ) throws IOException
-    {
-        try ( Scanner s = new Scanner( this.getClass( ).getResourceAsStream( this.getClass( ).getSimpleName( ) + "_" + strExpectedFileName ), "UTF-8" ) )
-        {
-            Scanner delimited = s.useDelimiter( "\\A" );
-            return delimited.hasNext( ) ? delimited.next( ) : "";
-        }
-
     }
 }

@@ -40,19 +40,18 @@ import java.util.Set;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginEvent;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.inject.Inject;
 
 public class LinksIncludeCacheServiceTest extends LuteceTestCase
 {
-    private LinksIncludeCacheService service;
+    private @Inject LinksIncludeCacheService service;
     private boolean bOrigCacheStatus;
 
     @Override
     protected void setUp( ) throws Exception
     {
         super.setUp( );
-        service = SpringContextService.getBean( LinksIncludeCacheService.SERVICE_NAME );
         bOrigCacheStatus = service.isCacheEnable( );
         service.enableCache( true );
     }

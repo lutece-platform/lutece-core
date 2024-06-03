@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.web;
 
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
 import fr.paris.lutece.portal.web.admin.AdminMapJspBeanTest;
 import fr.paris.lutece.portal.web.admin.AdminMenuJspBeanTest;
 import fr.paris.lutece.portal.web.admin.AdminMessageJspBeanTest;
@@ -50,45 +53,15 @@ import fr.paris.lutece.portal.web.system.PluginJspBeanTest;
 import fr.paris.lutece.portal.web.system.SystemJspBeanTest;
 import fr.paris.lutece.portal.web.xpages.SiteMapAppTest;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
  * This class is the main test suite for the package fr.paris.lutece.util.date
  */
+@Suite
+@SelectClasses({ AdminMapJspBeanTest.class, AdminMenuJspBeanTest.class, AdminMessageJspBeanTest.class, FeaturesGroupJspBeanTest.class, LevelsJspBeanTest.class,
+        InsertServiceJspBeanTest.class, InsertServiceSelectorJspBeanTest.class, RoleManagementJspBeanTest.class, SearchAppTest.class,
+        SearchIndexationJspBeanTest.class, PageTemplatesJspBeanTest.class, StylesJspBeanTest.class, StyleSheetJspBeanTest.class, PluginJspBeanTest.class,
+        SystemJspBeanTest.class, SiteMapAppTest.class, PortalJspBeanTest.class, StandaloneAppJspBeanTest.class })
 public final class AllTests
 {
-    /**
-     * A set of tests
-     * 
-     * @return Test the tests
-     */
-    public static Test suite( )
-    {
-        TestSuite suite = new TestSuite( "*** Tests Lutece core " );
 
-        // $JUnit-BEGIN$
-        // suite.addTest( new TestSuite( AdminPageJspBeanTest.class ) );
-        suite.addTest( new TestSuite( AdminMapJspBeanTest.class ) );
-        suite.addTest( new TestSuite( AdminMenuJspBeanTest.class ) );
-        suite.addTest( new TestSuite( AdminMessageJspBeanTest.class ) );
-        suite.addTest( new TestSuite( FeaturesGroupJspBeanTest.class ) );
-        suite.addTest( new TestSuite( LevelsJspBeanTest.class ) );
-        suite.addTest( new TestSuite( InsertServiceJspBeanTest.class ) );
-        suite.addTest( new TestSuite( InsertServiceSelectorJspBeanTest.class ) );
-        suite.addTest( new TestSuite( RoleManagementJspBeanTest.class ) );
-        suite.addTest( new TestSuite( SearchAppTest.class ) );
-        suite.addTest( new TestSuite( SearchIndexationJspBeanTest.class ) );
-        suite.addTest( new TestSuite( PageTemplatesJspBeanTest.class ) );
-        suite.addTest( new TestSuite( StylesJspBeanTest.class ) );
-        suite.addTest( new TestSuite( StyleSheetJspBeanTest.class ) );
-        suite.addTest( new TestSuite( PluginJspBeanTest.class ) );
-        suite.addTest( new TestSuite( SystemJspBeanTest.class ) );
-        suite.addTest( new TestSuite( SiteMapAppTest.class ) );
-        suite.addTest( new TestSuite( PortalJspBeanTest.class ) );
-        suite.addTest( new TestSuite( StandaloneAppJspBeanTest.class ) );
-
-        // $JUnit-END$
-        return suite;
-    }
 }

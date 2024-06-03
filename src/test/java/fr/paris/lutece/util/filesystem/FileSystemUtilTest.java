@@ -33,68 +33,70 @@
  */
 package fr.paris.lutece.util.filesystem;
 
-import fr.paris.lutece.test.LuteceTestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class FileSystemUtilTest extends LuteceTestCase
+import org.junit.jupiter.api.Test;
+
+public class FileSystemUtilTest
 {
-    public void testGetSubDirectories( ) throws DirectoryNotFoundException, IOException
+    @Test
+    public void testGetSubDirectories() throws DirectoryNotFoundException, IOException
     {
         // Create a base folder named Folder
-        String strTempDirectoryPath = System.getProperty( "java.io.tmpdir" ) + File.separator;
+        String strTempDirectoryPath = System.getProperty("java.io.tmpdir") + File.separator;
         String strFolderName = "Folder";
         String strFolderPath = strTempDirectoryPath + strFolderName;
-        File fileFolder = new File( strFolderPath );
-        fileFolder.mkdir( );
+        File fileFolder = new File(strFolderPath);
+        fileFolder.mkdir();
 
         // Place two directories in the base folder
-        File fileFolder1 = new File( strFolderPath + File.separator + "Folder1" );
-        fileFolder1.mkdir( );
+        File fileFolder1 = new File(strFolderPath + File.separator + "Folder1");
+        fileFolder1.mkdir();
 
-        File fileFolder2 = new File( strFolderPath + File.separator + "Folder2" );
-        fileFolder2.mkdir( );
+        File fileFolder2 = new File(strFolderPath + File.separator + "Folder2");
+        fileFolder2.mkdir();
 
         String strDirectory = "Folder";
-        List expectedList = new ArrayList( );
-        expectedList.add( fileFolder1 );
-        expectedList.add( fileFolder2 );
+        List<File> expectedList = new ArrayList<>();
+        expectedList.add(fileFolder1);
+        expectedList.add(fileFolder2);
 
-        List result = FileSystemUtil.getSubDirectories( strTempDirectoryPath, strDirectory );
-        assertEquals( new HashSet( expectedList ), new HashSet( result ) );
+        List<?> result = FileSystemUtil.getSubDirectories(strTempDirectoryPath, strDirectory);
+        assertEquals(new HashSet<>(expectedList), new HashSet<>(result));
 
         // try a bad directory
         boolean bCatchedException = false;
 
         try
         {
-            FileSystemUtil.getSubDirectories( strTempDirectoryPath, "dummy" );
-        }
-        catch( DirectoryNotFoundException e )
+            FileSystemUtil.getSubDirectories(strTempDirectoryPath, "dummy");
+        } catch (DirectoryNotFoundException e)
         {
             bCatchedException = true;
         }
 
-        assertTrue( bCatchedException );
+        assertTrue(bCatchedException);
 
         // Create files
-        File file1 = new File( fileFolder.getAbsolutePath( ), "dummy1.txt" );
-        file1.createNewFile( );
+        File file1 = new File(fileFolder.getAbsolutePath(), "dummy1.txt");
+        file1.createNewFile();
 
-        File file2 = new File( fileFolder.getAbsolutePath( ), "dummy2.txt" );
-        file2.createNewFile( );
+        File file2 = new File(fileFolder.getAbsolutePath(), "dummy2.txt");
+        file2.createNewFile();
 
-        List listFiles = FileSystemUtil.getFiles( strTempDirectoryPath, "Folder" );
-        assertTrue( listFiles.size( ) == 2 );
+        List<?> listFiles = FileSystemUtil.getFiles(strTempDirectoryPath, "Folder");
+        assertTrue(listFiles.size() == 2);
 
         // Clean folders
-        fileFolder1.delete( );
-        fileFolder2.delete( );
-        fileFolder.delete( );
+        fileFolder1.delete();
+        fileFolder2.delete();
+        fileFolder.delete();
     }
 }

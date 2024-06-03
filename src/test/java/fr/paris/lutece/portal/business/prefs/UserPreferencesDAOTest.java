@@ -61,7 +61,7 @@ public class UserPreferencesDAOTest extends LuteceTestCase
         assertEquals( strValue, VALUE1 );
 
         // List Test
-        List list = dao.keys( USER_ID_1 );
+        List<?> list = dao.keys( USER_ID_1 );
         assertTrue( list.size( ) > 0 );
     }
 }

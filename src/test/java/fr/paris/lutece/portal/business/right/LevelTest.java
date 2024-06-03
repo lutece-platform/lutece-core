@@ -33,11 +33,9 @@
  */
 package fr.paris.lutece.portal.business.right;
 
-import fr.paris.lutece.portal.business.right.Level;
-import fr.paris.lutece.portal.business.right.LevelHome;
-import fr.paris.lutece.test.LuteceTestCase;
-
 import java.util.Collection;
+
+import fr.paris.lutece.test.LuteceTestCase;
 
 public class LevelTest extends LuteceTestCase
 {
@@ -69,7 +67,7 @@ public class LevelTest extends LuteceTestCase
         assertNull( levelStored );
 
         // List Test
-        Collection list = LevelHome.getLevelsList( );
+        Collection<?> list = LevelHome.getLevelsList( );
         assertTrue( list.size( ) > 0 );
     }
 }

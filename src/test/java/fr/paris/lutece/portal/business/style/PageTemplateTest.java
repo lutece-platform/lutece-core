@@ -73,7 +73,7 @@ public class PageTemplateTest extends LuteceTestCase
         assertEquals( pageTemplateStored.getPicture( ), pageTemplate.getPicture( ) );
 
         // List test
-        List listPageTemplates = PageTemplateHome.getPageTemplatesList( );
+        List<?> listPageTemplates = PageTemplateHome.getPageTemplatesList( );
         assertTrue( listPageTemplates.size( ) > 0 );
 
         // Delete test

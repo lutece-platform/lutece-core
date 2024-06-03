@@ -46,7 +46,6 @@ import org.apache.commons.fileupload2.core.DiskFileItem;
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.style.Style;
 import fr.paris.lutece.portal.business.style.StyleHome;
@@ -57,10 +56,11 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * StyleSheetJspBean Test Class
@@ -114,7 +114,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     public void testGetStyleSheetManagement( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
         instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
         assertTrue( StringUtils.isNotEmpty( instance.getManageStyleSheet( request ) ) );
@@ -127,7 +127,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.MODE_ID, "0" );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
         instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
         String html = instance.getCreateStyleSheet( request );
@@ -266,7 +266,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.STYLESHEET_ID, Integer.toString( stylesheet.getId( ) ) );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
         instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
         assertNotNull( instance.getModifyStyleSheet( request ) );
@@ -402,7 +402,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.STYLESHEET_ID, Integer.toString( stylesheet.getId( ) ) );
         request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
         instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
         instance.getRemoveStyleSheet( request );
