@@ -14,6 +14,9 @@ Parameters:
 <div class="d-lg-flex align-items-center justify-content-between">
 	<div class="flex-grow-1 py-2">
 		<h1 class="mb-0 fw-bolder">${title}</h1>
+		<#if description !=''>
+			<p class="lead">${description}</p>
+		</#if>
 	</div>
 	<#local nestedContent><#nested></#local>
   	<#if nestedContent?has_content>
@@ -22,8 +25,5 @@ Parameters:
 	</div>
 	</#if>
 </div>
-<#if description !=''>
-<p class="lead">${description}</p>
-</#if>
 </div>
 </#macro>
