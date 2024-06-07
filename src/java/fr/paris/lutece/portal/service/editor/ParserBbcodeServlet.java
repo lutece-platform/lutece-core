@@ -43,10 +43,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.text.StringEscapeUtils;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * Servlet using for BBCODE parsing
+ * 
+ * @deprecated
  */
 @Deprecated
 public class ParserBbcodeServlet extends HttpServlet
@@ -95,15 +98,18 @@ public class ParserBbcodeServlet extends HttpServlet
      *            servlet request
      * @param response
      *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
-     * @throws IOException
-     *             the io exception
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
     {
-        processRequest( request, response );
+        try
+        {
+            processRequest( request, response );
+        }
+        catch( IOException e )
+        {
+            AppLogService.error( "Error occurred while making GET request", e );
+        }
     }
 
     /**
@@ -113,15 +119,18 @@ public class ParserBbcodeServlet extends HttpServlet
      *            servlet request
      * @param response
      *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
-     * @throws IOException
-     *             the io exception
      */
     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws IOException
+    protected void doPost( HttpServletRequest request, HttpServletResponse response )
     {
-        processRequest( request, response );
+        try
+        {
+            processRequest( request, response );
+        }
+        catch( IOException e )
+        {
+            AppLogService.error( "Error occurred while making POST request", e );
+        }
     }
 
     /**
