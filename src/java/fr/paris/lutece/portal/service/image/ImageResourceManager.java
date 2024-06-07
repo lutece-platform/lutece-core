@@ -48,7 +48,7 @@ public final class ImageResourceManager
 {
     /** resource type registry */
     private static Map<String, ImageResourceProvider> _mapResourceTypes = new HashMap<>( );
-    public static String IMAGE_SERVLET_BASE_URL = "image";
+    public static final String IMAGE_SERVLET_BASE_URL = "image";
 
     /** Private constructor */
     private ImageResourceManager( )
