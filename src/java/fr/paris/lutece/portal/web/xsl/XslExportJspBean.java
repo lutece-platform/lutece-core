@@ -513,10 +513,10 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private String isValid( byte [ ] baXslSource )
     {
         String strError = null;
-
+        SAXParserFactory factory = SAXParserFactory.newInstance( );
         try
         {
-            SAXParserFactory factory = SAXParserFactory.newInstance( );
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             SAXParser analyzer = factory.newSAXParser( );
             InputSource is = new InputSource( new ByteArrayInputStream( baXslSource ) );
             analyzer.getXMLReader( ).parse( is );
