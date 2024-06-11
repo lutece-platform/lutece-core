@@ -44,11 +44,14 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.FactoryConfigurationError;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.fileupload.FileItem;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
@@ -466,15 +469,22 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         try
         {
             SAXParserFactory factory = SAXParserFactory.newInstance( );
+            // Disallow DOCTYPE declaration to prevent XXE attacks
+            factory.setFeature( "http://apache.org/xml/features/disallow-doctype-decl", true );
             SAXParser analyzer = factory.newSAXParser( );
             InputSource is = new InputSource( new ByteArrayInputStream( baXslSource ) );
             analyzer.getXMLReader( ).parse( is );
         }
-        catch( Exception e )
+        catch( FactoryConfigurationError | ParserConfigurationException | SAXException parserError )
         {
+            AppLogService.error( "Failed at XML Parser initialization", parserError );
+            strError = parserError.getMessage( );
+        }
+        catch( IOException e )
+        {
+            AppLogService.error( e.getMessage( ), e );
             strError = e.getMessage( );
         }
-
         return strError;
     }
 
