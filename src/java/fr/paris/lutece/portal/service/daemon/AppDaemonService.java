@@ -33,10 +33,10 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -56,7 +56,7 @@ public final class AppDaemonService
     private static final String KEY_DAEMON = "daemon.";
     private static final String KEY_DAEMON_PREFIX = "core." + KEY_DAEMON;
     private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<>( );
-    private static final Random _random = new Random( );
+    private static final SecureRandom _random = new SecureRandom( );
     private static boolean _bInit;
     private static IDaemonScheduler _executor;
 
