@@ -117,7 +117,12 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         _user = AdminUserService.getAdminUser( request );
         Right right = RightHome.findByPrimaryKey( strRight );
 
-        if ( !_user.checkRight( strRight ) || right == null )
+        if ( right == null )
+        {
+            throw new AccessDeniedException( strRight + " right does not exist for user "+_user.getAccessCode( )+"." );
+        }
+        
+        if ( !_user.checkRight( strRight ) )
         {
             throw new AccessDeniedException( "User " + _user.getAccessCode( ) + " does not have " + strRight + " right." );
         }
