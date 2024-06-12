@@ -115,7 +115,13 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException
     {
         _user = AdminUserService.getAdminUser( request );
+        Right right = RightHome.findByPrimaryKey( strRight );
 
+        if ( right == null )
+        {
+            throw new AccessDeniedException( strRight + " right does not exist for user "+_user.getAccessCode( )+"." );
+        }
+        
         if ( !_user.checkRight( strRight ) )
         {
             throw new AccessDeniedException( "User " + _user.getAccessCode( ) + " does not have " + strRight + " right." );
@@ -129,7 +135,6 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         // get the locale
         _locale = _user.getLocale( );
 
-        Right right = RightHome.findByPrimaryKey( strRight );
         right.setLocale( _locale );
         _strFeatureLabel = right.getName( );
         _strFeatureUrl = right.getUrl( );
