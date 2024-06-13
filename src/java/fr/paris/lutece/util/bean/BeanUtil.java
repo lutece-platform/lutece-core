@@ -43,6 +43,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.SuppressPropertiesBeanIntrospector;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.SqlTimeConverter;
+import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -127,11 +128,11 @@ public final class BeanUtil
                 // for all boolean field, init to false
                 if ( Boolean.class.isAssignableFrom( field.getType( ) ) || boolean.class.isAssignableFrom( field.getType( ) ) )
                 {
-                    field.setAccessible( true );
-                    field.set( bean, false );
+                    ReflectionUtils.makeAccessible( field );
+                    ReflectionUtils.setField( field, bean, false );
                 }
             }
-            catch( Exception e )
+            catch( NullPointerException e )
             {
                 String error = "La valeur du champ " + field.getName( ) + " de la classe " + bean.getClass( ).getName( ) + " n'a pas pu être récupéré ";
                 AppLogService.error( error, e );
