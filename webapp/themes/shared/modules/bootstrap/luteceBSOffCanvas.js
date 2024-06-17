@@ -38,13 +38,14 @@ export default class LuteceBSOffCanvas {
      * @param {string} targetElement - The target element for the content.
      * @param {HTMLElement} offCanvasElement - The off-canvas element.
      */
-    loadContent = (isRedirectForm, targetUrl, targetElement, offCanvasElement) => {
+    loadContent = async (isRedirectForm, targetUrl, targetElement, offCanvasElement) => {
         const destinationElement = offCanvasElement.querySelector('.offcanvas-body');
         this.loader.setTargetUrl(targetUrl);
         this.loader.setTargetElement(targetElement);
         this.loader.setDataStoreItem('destinationElement', destinationElement);
         this.loader.setDataStoreItem('isRedirectForm', isRedirectForm);
-        this.loader.load();
+        await this.loader.load();
+        window.dispatchEvent(new CustomEvent('offcanvasLoaded', { detail: { id: offCanvasElement.id } }));
     };
     /**
      * Add a URL parameter.
@@ -188,10 +189,12 @@ export default class LuteceBSOffCanvas {
                     .innerHTML = '';
                 this.manageOffcanvasStateInUrl(offcanvasElement, false);
                 offcanvasElement.replaceWith(offcanvasElement.cloneNode(true));
+                window.dispatchEvent(new CustomEvent('offcanvasClosed', { detail: { id: offcanvasElement.id } }));
             }
         });
         offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
             this.manageOffcanvasStateInUrl(offcanvasElement, true);
+            window.dispatchEvent(new CustomEvent('offcanvasOpened', { detail: { id: offcanvasElement.id } }));
         });
     };
     /**
