@@ -17,7 +17,7 @@ Parameters:
 - targetElement (string, optional): the ID of the element to load content into.
 - redirectForm (boolean, optional): whether to redirect the form when submitted.
 -->
-<#macro offcanvas id position='start' title='' btnColor='primary' btnTitle='' btnIcon='' btnClass=''  btnSize='' backdrop='true'targetUrl='' targetElement='' redirectForm=true size='auto'>
+<#macro offcanvas id position='start' title='' btnColor='primary' btnTitle='' btnIcon='' btnClass=''  btnSize='' backdrop='true'targetUrl='' targetElement='' redirectForm=true size='auto' bodyClass=''>
 <@deprecatedWarning args=deprecated />
 <a id="btn-${id}" class="btn btn-primary<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize!=''> btn-${btnSize}</#if><#if btnClass!=''> ${btnClass}</#if>"<#if title !=''> title="${title}"</#if> data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}">
   <#if btnIcon!="">
