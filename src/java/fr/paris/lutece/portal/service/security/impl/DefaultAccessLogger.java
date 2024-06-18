@@ -33,7 +33,8 @@
  */
 package fr.paris.lutece.portal.service.security.impl;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -66,8 +67,11 @@ import org.apache.logging.log4j.Logger;
 public final class DefaultAccessLogger implements IAccessLogger
 {
 
-    private static final String CONSTANT_HASH_ENCODING = "UTF-8";
-    private static final String CONSTANT_HASH_DIGEST = "MD5";
+    private static final Charset CONSTANT_HASH_ENCODING = StandardCharsets.UTF_8;
+    private static final String CONSTANT_HASH_DIGEST = "SHA-256";
+    // Amount of characters in the hashed value
+    private static final int CONSTANT_HASH_CHARACTERS_COUNT = 64;
+
     private static final String PROPERTY_ADD_HASH_TO_LOGS = "accessLogger.defaultAccessLogger.addHashToLogs";
     private static final String PROPERTY_ACCESSLOG_MESSAGE_FORMAT = "accessLogger.defaultAccessLogger.messageFormat";
     private static final String PROPERTY_ACCESSLOG_MESSAGE_FORMAT_SEPARATOR = "accessLogger.defaultAccessLogger.messageFormatSeparator";
@@ -240,7 +244,7 @@ public final class DefaultAccessLogger implements IAccessLogger
             return sb.toString( );
 
         }
-        catch( UnsupportedEncodingException | NoSuchAlgorithmException e )
+        catch( NoSuchAlgorithmException e )
         {
             return "Hash ERROR : " + e.getLocalizedMessage( );
         }
@@ -260,8 +264,10 @@ public final class DefaultAccessLogger implements IAccessLogger
         {
 
             int idx = message.indexOf( _messageFormatSeparator, message.indexOf( DEFAULT_LOGGER_ACCESS_LOG ) );
-            String hash = message.substring( idx + 1, idx + 33 );
-            String data = "||" + message.substring( idx + 34 );
+            // Get the hash's value
+            String hash = message.substring( idx + 1, idx + CONSTANT_HASH_CHARACTERS_COUNT + 1 );
+            // Get the actual data to verify
+            String data = "||" + message.substring( idx + CONSTANT_HASH_CHARACTERS_COUNT + 2 );
 
             return ( hash != null && ( hash.equals( "" ) || hash.equals( getHash( data ) ) ) );
 
