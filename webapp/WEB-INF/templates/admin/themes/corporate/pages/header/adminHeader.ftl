@@ -84,9 +84,9 @@
                </div>
             </div>
             <div> 
-               <div id="menu-switcher" class="border btn btn-light btn-rounded" role="button" aria-label="#i18n{portal.util.labelLockMenu}">
+               <div id="menu-switcher" class="border btn btn-light btn-rounded" role="button" aria-label="#i18n{portal.users.admin_header.labelLockMenu}">
                   <i id="menu-icon" class="ti ti-check fs-6"></i>
-                  <span class="visually-hidden">#i18n{portal.util.labelLockMenu}</span>
+                  <span class="visually-hidden">#i18n{portal.users.admin_header.labelLockMenu}</span>
                </div>
          </div>
       </div>
@@ -157,7 +157,7 @@
             <div id="menu-rotate" class="border btn btn-light btn-rounded" tabindex="0" role="button" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}">
                <i class="ti ti-layout-navbar-collapse menu-rotate-icon"></i>
                <label for="menu-rotate">
-                  <span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.admin_header.labelMenuH} / #i18n{portal.users.admin_header.admin_header.labelMenuV}</span>
+                  <span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelMenuH} / #i18n{portal.users.admin_header.labelMenuV}</span>
                </label>
             </div>
          </li>
