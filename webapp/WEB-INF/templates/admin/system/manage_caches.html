@@ -40,7 +40,7 @@
 				<@td>${service.cacheSize}</@td>
 				<@td>${service.memorySize}</@td>
 				<@td>
-					<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye" btnTitle="#i18n{portal.util.labelMore} : ${service.name}" btnClass='visually-hidden' btnColor="info" position="end" />
+					<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye" btnTitle="#i18n{portal.util.labelMore} : ${service.name}" btnColor="info" position="end" />
 					<@tform method='post' type='inline' align="middle"
 						action='jsp/admin/system/ConfirmToggleCache.jsp'>
 						<@input type='hidden' name='id_cache' value='${id}' />
