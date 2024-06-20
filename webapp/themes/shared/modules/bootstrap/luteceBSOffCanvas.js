@@ -110,9 +110,13 @@ export default class LuteceBSOffCanvas {
                         event.preventDefault();
                         const offcanvasElement = element.parentNode.querySelector(element.getAttribute('href'));
                         const offcanvas = new bootstrap.Offcanvas(offcanvasElement);
-                        this.addOffCanvasRules(offcanvasElement);
-                        offcanvas.show();
-                        this.loadContent(offcanvasElement.getAttribute('data-lutece-redirectForm'), offcanvasElement.getAttribute('data-lutece-load-content-url'), offcanvasElement.getAttribute('data-lutece-load-content-target'), offcanvasElement);
+                        if ( offcanvasElement.getAttribute('data-lutece-load-content-url') ) {
+                            this.addOffCanvasRules(offcanvasElement);
+                            offcanvas.show();
+                            this.loadContent(offcanvasElement.getAttribute('data-lutece-redirectForm'), offcanvasElement.getAttribute('data-lutece-load-content-url'), offcanvasElement.getAttribute('data-lutece-load-content-target'), offcanvasElement);
+                        } else {
+                            offcanvas.show();
+                        }
                     });
                 });
             destinationElement.appendChild(targetElement);
