@@ -26,7 +26,6 @@
             <@icon style=btnIcon />
         </#if>
         <#if btnIcon!='' && btnTitle!='' && btnTitleShow>
-        ${btnTitleShow}
             <span class="ms-1">
         </#if>
         <#if btnTitleShow>${btnTitle}</#if>
