@@ -61,6 +61,8 @@
                                             <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=false />
                                         </#if>
                                         <@input type='hidden' name='${groupItem.key}' value='0' />
+                                    <#elseif groupItem.key?contains( "color" )>
+                                        <@input type='color' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
                                     <#else>
                                         <@input type='text' name=groupItem.key id=groupItem.key value=groupItem.value?html />
                                     </#if>
@@ -86,6 +88,12 @@
 </@pageContainer>
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
+<style>
+.color-input{
+    width: 45px;
+    padding: 0;
+}
+</style>
 <script type="module">
     import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
 	const searchInput = document.querySelector("#search_prop");
