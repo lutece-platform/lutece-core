@@ -25,7 +25,7 @@
                     <@tabPanel active=tabactive id='group-${index}'>
                     <@tform action='jsp/admin/DoModifyProperties.jsp'>
                     <@input type='hidden' name='token' value='${token}' />
-                    <@row class='row-cols-1 row-cols-md-3 row-cols-xl-4'>
+                    <@row class='row-cols-1 row-cols-md-3'>
                     <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                     <#assign groupList = []>
                     <#list groups?sort as groupGroup>
@@ -34,17 +34,19 @@
                         </#if>
                     </#list>
                     <#list groupList?sort as groupCol>
-                    <@columns params='data-prop="${groupCol}"'> 
-                    <#assign groupName=''>
-                    <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
-                            <#if groupName=''>
+                        <#assign groupName=''>
+                        <#assign groupIdx=0>
+                        <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
+                            <#if groupName='' && groupIdx !=0>
                             <#assign prefix=groupItem.key?keep_before(".site_property")  >
                             <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
                             <h3 class="h5">${groupName}</h3>
+                            <#assign groupIdx++>
                             </#if>
                             <#assign labelText=groupItem.label>
                             <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
                             <#if groupItem.help?length gt 0><#assign helpText = groupItem.help><#else><#assign helpText = groupItem.key></#if>
+                            <@columns params='data-prop="${groupName}"'> 
                             <@box>
                                 <@boxBody class='searchable p-2'>
                                  <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
@@ -65,8 +67,8 @@
                                 </@formGroup>
                                 </@boxBody>
                             </@box> 
+                            </@columns>
                         </#list>
-                        </@columns>
                     </#list>
                     </@row>
                     <@row>
