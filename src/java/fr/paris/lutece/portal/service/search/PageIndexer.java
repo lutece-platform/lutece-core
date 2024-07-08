@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 import jakarta.enterprise.inject.spi.CDI;
+import org.apache.lucene.index.IndexOptions;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -190,24 +191,31 @@ public class PageIndexer implements SearchIndexer
         ftNotStored.setOmitNorms( false );
         ftNotStored.setTokenized( false );
 
+        FieldType ftDate = new FieldType( StringField.TYPE_STORED );
+        ftDate.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS );
+        ftDate.setStored( true );
+        ftDate.setOmitNorms( false );
+
+        FieldType ftUid = ftNotStored;
+        ftUid.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS );
         // make a new, empty document
         Document doc = new Document( );
 
         // Add the url as a field named "url". Use an UnIndexed field, so
         // that the url is just stored with the document, but is not searchable.
-        doc.add( new Field( SearchItem.FIELD_URL, strUrl, ft ) );
+        doc.add( new StoredField( SearchItem.FIELD_URL, strUrl ) );
 
         // Add the last modified date of the file a field named "modified".
         // Use a field that is indexed (i.e. searchable), but don't tokenize
         // the field into words.
         String strDate = DateTools.dateToString( page.getDateUpdate( ), DateTools.Resolution.DAY );
-        doc.add( new Field( SearchItem.FIELD_DATE, strDate, ft ) );
+        doc.add( new Field( SearchItem.FIELD_DATE, strDate, ftDate ) );
 
         // Add the uid as a field, so that index can be incrementally maintained.
         // This field is not stored with document, it is indexed, but it is not
         // tokenized prior to indexing.
         String strIdPage = String.valueOf( page.getId( ) );
-        doc.add( new Field( SearchItem.FIELD_UID, strIdPage, ftNotStored ) );
+        doc.add( new Field( SearchItem.FIELD_UID, strIdPage, ftUid ) );
 
         String strPageContent = _pageService.getPageContent( page.getId( ), 0, null );
         org.jsoup.nodes.Document jsoupDocument = Jsoup.parse(strPageContent);
