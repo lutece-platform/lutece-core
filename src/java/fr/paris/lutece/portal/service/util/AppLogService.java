@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -254,16 +255,23 @@ public final class AppLogService
     public static Collection<LoggerInfo> getLoggersInfo( )
     {
     	Collection<LoggerInfo> allLoggersInfo = new ArrayList<>( );
-    	Collection<org.apache.logging.log4j.core.Logger> allLoggers = LoggerContext.getContext( ).getLoggers( );
-    	LoggerContext logContext = LoggerContext.getContext( );
-    	for ( org.apache.logging.log4j.core.Logger logger : allLoggers )
-    	{
-			LoggerInfo log = new LoggerInfo( );
-			log.setName( logger.getName( ) );
-			log.setLevel( logger.getLevel( ).name( ) );
-			log.setPath( logContext.getConfigLocation( ).getPath( ) );
-			allLoggersInfo.add( log );
-    	}
+        try
+        {
+            Collection<org.apache.logging.log4j.core.Logger> allLoggers = LoggerContext.getContext( ).getLoggers( );
+            LoggerContext logContext = LoggerContext.getContext( );
+            for ( org.apache.logging.log4j.core.Logger logger : allLoggers )
+            {
+                LoggerInfo log = new LoggerInfo( );
+                log.setName( logger.getName( ) );
+                log.setLevel( logger.getLevel( ).name( ) );
+                log.setPath( logContext.getConfigLocation( ).getPath( ) );
+                allLoggersInfo.add( log );
+            }
+        }
+        catch( Exception e )
+        {
+            error( "This is not supported by JBoss / Wildfly. Check your server config to disable the server log4j impl or use log4j-core." );
+        }
     	
     	return allLoggersInfo;
     }
