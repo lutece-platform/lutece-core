@@ -4,6 +4,8 @@ import java.util.Set;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+
 public class LuteceConfigSource implements ConfigSource{
 
 	@Override
@@ -28,6 +30,7 @@ public class LuteceConfigSource implements ConfigSource{
         catch( Exception e )
         {
             // This shouldn't happen. It happens only if Config API impl is calling getPropertyNames before CDI AppInitExtension (WildFly)
+            AppLogService.error( "LuteceConfigSource initialization error, due to Config API calling getPropertyNames before CDI AppInitExtension", e );
         }
         return propertyNames;
     }
@@ -43,6 +46,8 @@ public class LuteceConfigSource implements ConfigSource{
         catch( Exception e )
         {
             // This shouldn't happen. It happens only if Config API impl is calling getPropertyNames before CDI AppInitExtension (WildFly)
+            AppLogService.error(
+                    "LuteceConfigSource initialization error, due to Config API calling getPropertyNames and so getValue before CDI AppInitExtension", e );
         }
         return strValue;
     }
