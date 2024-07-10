@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.service.init;
 
+import org.apache.logging.log4j.core.config.Configurator;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+import org.eclipse.microprofile.config.spi.ConfigBuilder;
+import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
+
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
@@ -40,6 +46,8 @@ import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.scheduler.JobSchedulerService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.LuteceConfigSource;
+import fr.paris.lutece.util.config.MapConverter;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Destroyed;
@@ -58,34 +66,53 @@ public class AppInitListener
     private static final String PATH_CONF = "/WEB-INF/conf/";
 
     /**
-	 * Initialize the service of application
-	 * @param contextthe context servlet initialized event
-	 */
+     * Initialize the service of application
+     * 
+     * @param context
+     *            the context servlet initialized event
+     */
 	public void initializedService(@Observes @Initialized(ApplicationScoped.class) @Priority(value=1)
 	ServletContext context){		
-		
         AppLogService.info( "Started initializing services");
+        
         AppPathService.init( context );
-     // Initializes properties service
+        
+        // Those lines are a workaround in case Config API impl is calling getPropertyNames before CDI AppInitExtension (WildFly)
+        Config config = ConfigProvider.getConfig( );
+        if (null == config.getConfigValue( "lutece.name" ).getValue( )) {
+            ConfigProviderResolver resolver = ConfigProviderResolver.instance();
+            ConfigBuilder builder = resolver.getBuilder();
+            Config newConfig = builder.addDefaultSources( ).withSources( new LuteceConfigSource( ) ).withConverters( new MapConverter( ) ).build( );
+            resolver.releaseConfig( config );
+            resolver.registerConfig(newConfig, getClass( ).getClassLoader( ));
+            System.setProperty( "log4j.configurationFile", "file:" + AppPathService.getWebAppPath( ) + "/WEB-INF/conf/log.properties" );
+        }
+        
+        // Initializes properties service
 	    AppInit.initPropertiesServices(PATH_CONF, AppPathService.getWebAppPath( ));
 	}
-	/**
-	 * Initialize the service of application
-	 * @param contextthe context servlet initialized event
-	 */
+	
+    /**
+     * Initialize the service of application
+     * 
+     * @param context
+     *            the context servlet initialized event
+     */
 	public void initializedOtherService(@Observes @Initialized(ApplicationScoped.class) @Priority(value=3)
 		ServletContext context){
 	    // Initializes all other services
 	    AppInit.initServices(context, PATH_CONF, AppPathService.getWebAppPath( ));
         AppLogService.info( "End initializing services");
 	}
-	/**
-	 * Shutdown the application
-	 * @param destroyed context event
-	 */
+	
+    /**
+     * Shutdown the application
+     * 
+     * @param destroyed
+     *            context event
+     */
 	public void contextDestroyed(@Observes @Destroyed(ApplicationScoped.class) 
 		ServletContext context){
-		
 		MailService.shutdown( );
         AppDaemonService.shutdown( );
         JobSchedulerService.shutdown( );
@@ -93,6 +120,20 @@ public class AppInitListener
         CacheService.getInstance( ).shutdown( );
         AppConnectionService.releasePool( );
         AppLogService.info( "Application stopped" );
-		
 	}
+	
+    /**
+     * Initialize the service of application. This method is a workaround to the Glassfish / Payara Issue https://github.com/payara/Payara/issues/5968
+     * 
+     * @param context
+     *            the context servlet event
+     */
+    public void initializedServiceFallback( @Observes @Priority( value = 6 ) ServletContext context )
+    {
+        if ( !AppInit.isWebappSuccessfullyLoaded( ) )
+        {
+            initializedService( context );
+            initializedOtherService( context );
+        }
+    }
 }
