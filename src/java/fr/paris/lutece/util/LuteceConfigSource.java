@@ -1,4 +1,5 @@
 package fr.paris.lutece.util;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -17,15 +18,33 @@ public class LuteceConfigSource implements ConfigSource{
 	}
 
 	@Override
-	public Set<String> getPropertyNames() {
-		
-		return AppInitPropertiesService.getPropertiesAsMap().keySet();
-	}
+    public Set<String> getPropertyNames( )
+    {
+        Set<String> propertyNames = new HashSet<String>( );
+        try
+        {
+            propertyNames = AppInitPropertiesService.getPropertiesAsMap( ).keySet( );
+        }
+        catch( Exception e )
+        {
+            // This shouldn't happen. It happens only if Config API impl is calling getPropertyNames before CDI AppInitExtension (WildFly)
+        }
+        return propertyNames;
+    }
 
 	@Override
-	public String getValue(String strProperty) {
-		
-		return AppInitPropertiesService.getProperty(strProperty);
-	}
+    public String getValue( String strProperty )
+    {
+        String strValue = null;
+        try
+        {
+            strValue = AppInitPropertiesService.getProperty( strProperty );
+        }
+        catch( Exception e )
+        {
+            // This shouldn't happen. It happens only if Config API impl is calling getPropertyNames before CDI AppInitExtension (WildFly)
+        }
+        return strValue;
+    }
 
 }
