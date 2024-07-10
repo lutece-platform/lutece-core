@@ -33,8 +33,11 @@
  */
 package fr.paris.lutece.portal.service.init;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
+import org.apache.logging.log4j.core.config.Configurator;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -48,20 +51,24 @@ import jakarta.enterprise.inject.spi.Extension;
 public class AppInitExtension implements Extension
 {
     private static final String PATH_CONF = "/WEB-INF/conf/";
+    private static final String FILE_PROPERTIES_CONFIG = "config.properties";
 
-	
     protected void initPropertiesServices( @Observes final BeforeBeanDiscovery bd )
-    {    	
-		Thread.currentThread( ).setName( "Lutece-MainThread" );
-    	if(Files.notExists(Paths.get(AppPathService.getWebAppPath( )+PATH_CONF)))
-    	{
-    		String _strResourcesDir = getClass( ).getResource( "/" ).toString( ).replaceFirst( "file:", "" ).replaceFirst( "classes", "lutece" );
-             AppPathService.init( _strResourcesDir );
-    	}
-    	System.setProperty("log4j.configurationFile", "file:"+AppPathService.getWebAppPath()+"/WEB-INF/conf/log.properties" );
-		AppLogService.info( " {} {} {} ...\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version", AppInfo.getVersion( ) );
-    	AppInit.initPropertiesServices( PATH_CONF, AppPathService.getWebAppPath( ) );
+    {       
+        Thread.currentThread( ).setName( "Lutece-MainThread" );
+        
+        if ( Files.notExists( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF ) ) )
+        {
+            String _strResourcesDir = getClass( ).getResource( "/" ).toString( ).replaceFirst( "file:", "" ).replaceFirst( "classes", "lutece" );
+            AppPathService.init( _strResourcesDir );
+        }
+        
+        if ( Files.exists( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF + FILE_PROPERTIES_CONFIG ) ) )
+        {
+            System.setProperty( "log4j.configurationFile", "file:" + AppPathService.getWebAppPath( ) + "/WEB-INF/conf/log.properties" );
+            AppLogService.info( " {} {} {} ...\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version", AppInfo.getVersion( ) );
+            AppInit.initPropertiesServices( PATH_CONF, AppPathService.getWebAppPath( ) );
+        }
     }
 
-    
 }
