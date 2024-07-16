@@ -19,13 +19,18 @@
             </#list>
             </@tabList>
             <@tabContent>
-                <#list groups_list as group>
-                    <#assign index = group?index>
-                    <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
-                    <@tabPanel active=tabactive id='group-${index}'>
-                    <@tform action='jsp/admin/DoModifyProperties.jsp'>
-                    <@input type='hidden' name='token' value='${token}' />
-                    <@row class='row-cols-1 row-cols-md-3'>
+            <#list groups_list as group>
+                <#assign index = group?index>
+                <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
+                <@tabPanel active=tabactive id='group-${index}'>
+                <@tform action='jsp/admin/DoModifyProperties.jsp'>
+                <@input type='hidden' name='token' value='${token}' />
+                <@row>
+                    <@columns class='d-flex justify-content-end'>
+                        <@button  type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
+                    </@columns>
+                </@row>
+                <@row class='d-block properties-container'>
                     <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                     <#assign groupList = []>
                     <#list groups?sort as groupGroup>
@@ -34,22 +39,20 @@
                         </#if>
                     </#list>
                     <#list groupList?sort as groupCol>
-                        <#assign groupName=''>
-                        <#assign groupIdx=0>
-                        <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
-                            <#if groupName='' && groupIdx !=0>
+                    <@columns class='col-property' params='data-prop="${groupCol}"'> 
+                    <#assign groupName=''>
+                    <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
+                            <#if groupName=''>
                             <#assign prefix=groupItem.key?keep_before(".site_property")  >
                             <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
                             <h3 class="h5">${groupName}</h3>
-                            <#assign groupIdx++>
                             </#if>
                             <#assign labelText=groupItem.label>
                             <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
-                            <#if groupItem.help?length gt 0><#assign helpText = groupItem.help><#else><#assign helpText = groupItem.key></#if>
-                            <@columns params='data-prop="${groupName}"'> 
+                            <#if groupItem.help?length gt 0><#assign helpText = groupItem.help></#if>
                             <@box>
                                 <@boxBody class='searchable p-2'>
-                                 <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
+                                <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
                                     <#if groupItem.key?ends_with( ".textblock" )>
                                         <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
                                     <#elseif groupItem.key?ends_with( ".htmlblock" )>
@@ -62,15 +65,20 @@
                                         </#if>
                                         <@input type='hidden' name='${groupItem.key}' value='0' />
                                     <#elseif groupItem.key?contains( "color" )>
-                                        <@input type='color' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
+                                        <@inputGroup class='color-wrapper-input'>
+                                            <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
+                                            <@inputGroupItem>
+                                                <@input type='color' class='color-input' name='color-input' value=groupItem.value?html />
+                                            </@inputGroupItem>
+                                        </@inputGroup>
                                     <#else>
                                         <@input type='text' name=groupItem.key id=groupItem.key value=groupItem.value?html />
                                     </#if>
                                 </@formGroup>
                                 </@boxBody>
                             </@box> 
-                            </@columns>
                         </#list>
+                        </@columns>
                     </#list>
                     </@row>
                     <@row>
@@ -90,16 +98,43 @@
 <@initEditor />
 <style>
 .color-input{
-    width: 45px;
+    width: 25px;
     padding: 0;
+}
+
+.properties-container {
+    column-count: 3;
+    gap: 2rem;
+}
+
+.col-property {
+    display: inline-block;
+    margin-block-start: 2.5rem;
+}
+
+.col-property .card:hover {
+    border-color: var(--bs-dark);
 }
 </style>
 <script type="module">
-    import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
-	const searchInput = document.querySelector("#search_prop");
-	const searchElementList = document.querySelectorAll("*[data-prop]");
-	new LuteceSearchList( searchInput, searchElementList, {
-        searchableChild: [".searchable",".title"],
-        highlight: true,
+import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
+const searchInput = document.querySelector("#search_prop");
+const searchElementList = document.querySelectorAll("*[data-prop]");
+new LuteceSearchList( searchInput, searchElementList, {
+    searchableChild: [".searchable",".title"],
+});
+
+window.addEventListener( "load", function(){
+    const colorInputs = document.querySelectorAll(".color-wrapper-input");
+    colorInputs.forEach( input => {
+        const colorInput = input.querySelector("input[type='color']");
+        const colorValue = input.querySelector("input[type='text']");
+        colorInput.addEventListener("change", function(){
+            colorValue.value = colorInput.value;
+        });
+        colorValue.addEventListener("change", function(){
+            colorInput.value = colorValue.value;
+        });
     });
+});
 </script>
