@@ -45,13 +45,13 @@
                             <#if groupName=''>
                             <#assign prefix=groupItem.key?keep_before(".site_property")  >
                             <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
-                            <h3 class="h5">${groupName}</h3>
+                            <h3>${groupName}</h3>
                             </#if>
                             <#assign labelText=groupItem.label>
                             <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
                             <#if groupItem.help?length gt 0><#assign helpText = groupItem.help></#if>
                             <@box>
-                                <@boxBody class='searchable p-2'>
+                                <@boxBody class='searchable'>
                                 <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
                                     <#if groupItem.key?ends_with( ".textblock" )>
                                         <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
@@ -109,7 +109,17 @@
 
 .col-property {
     display: inline-block;
-    margin-block-start: 2.5rem;
+    margin-block-start: 2rem;
+}
+
+.col-property > .card > .card-body > .form-group {
+    margin-block-end: 0 !important;
+}
+
+.col-property h3{
+  padding-block-end: .5rem;
+  margin-block-end: 1rem;
+  border-block-end: 4px solid var( --bs-border-color );
 }
 
 .col-property .card:hover {
