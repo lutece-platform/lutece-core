@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.service.html;
 
-import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.util.xml.XmlTransformer;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,18 +45,11 @@ import java.util.List;
  * 
  * @since v 3.0
  */
-public class XmlTransformerCacheService implements CacheableService
+@ApplicationScoped
+public class XmlTransformerCacheService implements CacheableService<String,String>
 {
     private static final String SERVICE_NAME = "XML Transformer Cache Service (XSLT)";
     private static final String MSG_KEYS_NOT_AVAILABLE = "Keys not available";
-
-    /**
-     * Inits the.
-     */
-    public static void init( )
-    {
-        CacheService.registerCacheableService( new XmlTransformerCacheService( ) );
-    }
 
     /**
      * {@inheritDoc }

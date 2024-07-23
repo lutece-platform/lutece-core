@@ -40,13 +40,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.List;
 
 /**
  * Portlet cache service
  */
 @ApplicationScoped
-public class PortletCacheService extends AbstractCacheableService implements PortletEventListener
+public class PortletCacheService extends AbstractCacheableService<String,String> implements PortletEventListener
 {
     private static final String CACHE_PORTLET_PREFIX = "portlet:";
     private static final String SERVICE_NAME = "Portlet Cache Service";
@@ -66,11 +65,11 @@ public class PortletCacheService extends AbstractCacheableService implements Por
     {
         String strKey = "[" + CACHE_PORTLET_PREFIX + event.getPortletId( ) + "]";
 
-        for ( String strKeyTemp : (List<String>) getCache( ).getKeys( ) )
+        for ( String strKeyTemp : getKeys( ) )
         {
             if ( StringUtils.indexOf( strKeyTemp, strKey ) != -1 )
             {
-                getCache( ).remove( strKeyTemp );
+               remove( strKeyTemp );
             }
         }
     }

@@ -143,8 +143,7 @@ public class LinksInclude implements PageInclude
         Locale locale = request.getLocale( );
         LinksIncludeCacheService cacheService = CDI.current().select(LinksIncludeCacheService.class).get( );
         String strKey = cacheService.getCacheKey( nMode, strPage, locale );
-        @SuppressWarnings( "unchecked" )
-        Map<String, Object> links = (Map<String, Object>) cacheService.getFromCache( strKey );
+        Map<String, Object> links = cacheService.get( strKey );
 
         if ( links != null )
         {
@@ -179,7 +178,7 @@ public class LinksInclude implements PageInclude
         links = new HashMap<>( 2 );
         links.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString( ) );
         links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString( ) );
-        cacheService.putInCache( strKey, links );
+        cacheService.put( strKey, links );
         return links;
     }
 

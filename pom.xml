@@ -101,12 +101,26 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
             <version>2.1.1</version>
-        </dependency>        
-      <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache-core</artifactId>
-            <version>2.4.8</version>
-        </dependency>
+        </dependency> 
+         <dependency>
+		    <groupId>javax.cache</groupId>
+		    <artifactId>cache-api</artifactId>
+		    <version>1.1.1</version>
+		</dependency>       
+        <dependency>
+		  <groupId>org.ehcache</groupId>
+		  <artifactId>ehcache</artifactId>
+		  <version>3.10.8</version>
+		  <classifier>jakarta</classifier>
+		  <scope>runtime</scope>
+		  <exclusions>
+	        <exclusion>
+	          <groupId>org.glassfish.jaxb</groupId>
+	          <artifactId>jaxb-runtime</artifactId>
+	        </exclusion>
+	      </exclusions>
+		</dependency>	
+		
         <!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -240,7 +254,7 @@
 	      <artifactId>jakarta.annotation-api</artifactId>
 	      <scope>provided</scope>
     	</dependency>
-
+		
         <!-- Bean validation API -->
         <dependency>
 	      <groupId>jakarta.validation</groupId>

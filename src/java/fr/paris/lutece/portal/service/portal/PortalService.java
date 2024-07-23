@@ -54,7 +54,7 @@ import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.cache.IPathCacheService;
+import fr.paris.lutece.portal.service.cache.PathCacheService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -426,11 +426,11 @@ public final class PortalService
      */
     public static String getXPagePathContent( String strXPageName, int nMode, HttpServletRequest request )
     {
-        final IPathCacheService pathCacheService = CDI.current().select( IPathCacheService.class ).get( );
+        final PathCacheService pathCacheService = CDI.current().select( PathCacheService.class ).get( );
 
         final String strKey = pathCacheService.getKey( strXPageName, nMode, request );
 
-        String strRes = pathCacheService.getFromCache( strKey );
+        String strRes = pathCacheService.get( strKey );
 
         if ( strRes != null )
         {
@@ -497,7 +497,7 @@ public final class PortalService
 
         strRes = formatPath( strPath, nMode, request );
 
-        pathCacheService.putInCache( strKey, strRes );
+        pathCacheService.put( strKey, strRes );
 
         return strRes;
     }
@@ -671,11 +671,11 @@ public final class PortalService
      */
     public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls, HttpServletRequest request )
     {
-        final IPathCacheService pathCacheService = CDI.current().select(IPathCacheService.class ).get();
+        final PathCacheService pathCacheService = CDI.current().select(PathCacheService.class ).get();
 
         final String strKey = pathCacheService.getKey( strXPageName, nMode, strTitlesUrls, request );
 
-        String strRes = pathCacheService.getFromCache( strKey );
+        String strRes = pathCacheService.get( strKey );
 
         if ( strRes != null )
         {
@@ -714,7 +714,7 @@ public final class PortalService
 
         strRes = formatPath( strPath, nMode, request );
 
-        pathCacheService.putInCache( strKey, strRes );
+        pathCacheService.put( strKey, strRes );
 
         return strRes;
     }

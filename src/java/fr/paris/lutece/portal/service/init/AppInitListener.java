@@ -33,12 +33,10 @@
  */
 package fr.paris.lutece.portal.service.init;
 
-import org.apache.logging.log4j.core.config.Configurator;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.config.spi.ConfigBuilder;
 import org.eclipse.microprofile.config.spi.ConfigProviderResolver;
-
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
@@ -64,7 +62,7 @@ public class AppInitListener
     // ////////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String PATH_CONF = "/WEB-INF/conf/";
-
+    
     /**
      * Initialize the service of application
      * 
@@ -117,7 +115,7 @@ public class AppInitListener
         AppDaemonService.shutdown( );
         JobSchedulerService.shutdown( );
         ShutdownServiceManager.shutdown( );
-        CacheService.getInstance( ).shutdown( );
+        CacheService.shutdown( );
         AppConnectionService.releasePool( );
         AppLogService.info( "Application stopped" );
 	}

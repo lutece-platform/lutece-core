@@ -35,29 +35,37 @@ package fr.paris.lutece.portal.service.datastore;
 
 import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.cache.ILuteceCacheManager;
+import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.template.FreeMarkerTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.NoDatabaseException;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.cache.configuration.Configuration;
+import javax.cache.configuration.MutableConfiguration;
+
 /**
  * Datastore Service
  */
+
 public final class DatastoreService
 {
+    private static final String CACHE_SERVICE_NAME = "Datastore Cache Service";
     public static final String VALUE_TRUE = "true";
     public static final String VALUE_FALSE = "false";
     private static final String DATASTORE_KEY = "dskey";
     private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#" + DATASTORE_KEY + "\\{(.*?)\\}" );
     static final String VALUE_MISSING = "DS Value Missing";
-    private static AbstractCacheableService _cache;
+    public static Lutece107Cache<String,DataEntity> _cache;
     private static boolean _bDatabase = true;
+    
 
     /**
      * Private constructor
@@ -91,9 +99,9 @@ public final class DatastoreService
             {
                 DataEntity entity = null;
 
-                if ( _cache != null )
+                if ( _cache != null && _cache.isCacheEnable() && !_cache.isClosed( ))
                 {
-                    entity = (DataEntity) _cache.getFromCache( strKey );
+                    entity =  _cache.get( strKey );
                 }
 
                 if ( entity == null )
@@ -105,9 +113,9 @@ public final class DatastoreService
                         return strDefault;
                     }
 
-                    if ( _cache != null )
+                    if ( _cache != null && _cache.isCacheEnable() && !_cache.isClosed( ))
                     {
-                        _cache.putInCache( strKey, entity );
+                        _cache.put( strKey, entity );
                     }
                 }
 
@@ -159,9 +167,9 @@ public final class DatastoreService
                 {
                     DataEntityHome.update( p );
 
-                    if ( _cache != null )
+                    if ( _cache != null && _cache.isCacheEnable() && !_cache.isClosed( ))
                     {
-                        _cache.removeKey( strKey );
+                        _cache.remove( strKey );
                     }
                 }
                 else
@@ -204,9 +212,9 @@ public final class DatastoreService
             {
                 DataEntityHome.remove( strKey );
 
-                if ( _cache != null )
+                if ( _cache != null && _cache.isCacheEnable() && !_cache.isClosed( ))
                 {
-                    _cache.removeKey( strKey );
+                    _cache.remove( strKey );
                 }
             }
         }
@@ -373,9 +381,9 @@ public final class DatastoreService
             {
                 DataEntity entity = null;
 
-                if ( _cache != null )
+                if ( _cache != null && _cache.isCacheEnable() && !_cache.isClosed( ))
                 {
-                    entity = (DataEntity) _cache.getFromCache( strKey );
+                    entity =  _cache.get( strKey );
                 }
 
                 if ( entity == null )
@@ -412,13 +420,14 @@ public final class DatastoreService
 
         return existsKey( strInstanceKey );
     }
-
     /**
      * Start cache. NB : Cache can't be created at DataStore creation because CacheService uses DatastoreService (Circular reference)
      */
     public static void startCache( )
     {
-        _cache = new DatastoreCacheService( );
+    	ILuteceCacheManager luteceCacheManager= CDI.current( ).select(ILuteceCacheManager.class).get( );
+       Configuration<String,DataEntity> con= new MutableConfiguration<String, DataEntity>().setTypes(String.class, DataEntity.class);
+    	_cache = luteceCacheManager.createCache(CACHE_SERVICE_NAME,con, true );      		
         AppLogService.info( "Datastore's cache started." );
     }
 
