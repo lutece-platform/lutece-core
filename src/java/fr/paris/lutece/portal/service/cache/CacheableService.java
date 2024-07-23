@@ -38,69 +38,84 @@ import fr.paris.lutece.portal.service.util.LuteceService;
 import java.util.List;
 
 /**
- * Base interface of Lutece services that provide a cache
+ * Base interface of Lutece services that provide a cache.
+ * Uses the JCache API to make cache statistics available via the {@link javax.cache.management.CacheStatisticsMXBean}.
+ *
+ * @param <K> the type of keys maintained by the cache
+ * @param <V> the type of cached values
  */
-public interface CacheableService extends LuteceService
-{
+public interface CacheableService<K, V> extends LuteceService {
+    
     /**
      * Gets the current cache status.
      *
-     * @return true if enable, otherwise false
+     * @return true if the cache is enabled, otherwise false
      */
-    boolean isCacheEnable( );
+    boolean isCacheEnable();
 
     /**
-     * Gets the number of item currently in the cache.
+     * Gets the number of items currently in the cache.
      *
-     * @return the number of item currently in the cache.
+     * @return the number of items currently in the cache
      */
-    int getCacheSize( );
+    int getCacheSize();
 
     /**
-     * Reset the cache.
+     * Resets the cache.
      */
-    void resetCache( );
+    void resetCache();
 
     /**
-     * Enable the cache
+     * Enables or disables the cache.
      * 
-     * @param bEnable
-     *            true to enable, false to disable
+     * @param bEnable true to enable, false to disable
      */
-    void enableCache( boolean bEnable );
+    void enableCache(boolean bEnable);
 
     /**
-     * Gets all keys in the cache
+     * Gets all keys in the cache.
      * 
-     * @return The List
+     * @return a list of all keys in the cache
      */
-    List<String> getKeys( );
+    List<K> getKeys();
 
     /**
-     * Returns maximum elements accepted into the cache
-     * 
-     * @return The max elements
+     * Returns the maximum number of elements accepted into the cache.
+     * This method will be removed in the next version: Use the JCache API to make cache statistics available via the {@link javax.cache.management.CacheStatisticsMXBean}.
+     *
+     * @return the maximum number of elements
      */
-    int getMaxElements( );
+    @Deprecated
+    default int getMaxElements() {
+        throw new UnsupportedOperationException("Unimplemented method 'getMaxElements'");
+    }
 
     /**
-     * Returns the time to live for objects in the cache
-     * 
-     * @return The time to live in seconds
+     * Returns the time to live for objects in the cache.
+     * This method will be removed in the next version: Use the JCache API to make cache statistics available via the {@link javax.cache.management.CacheStatisticsMXBean}.
+     *
+     * @return the time to live in seconds
      */
-    long getTimeToLive( );
+    @Deprecated
+    default long getTimeToLive() {
+        throw new UnsupportedOperationException("Unimplemented method 'getTimeToLive'");
+    }
 
     /**
-     * Return the memory size
-     * 
+     * Returns the memory size of the cache.
+     * This method will be removed in the next version: Use the JCache API to make cache statistics available via the {@link javax.cache.management.CacheStatisticsMXBean}.
+     *
      * @return the memory size
      */
-    long getMemorySize( );
+    @Deprecated
+    default long getMemorySize() {
+        throw new UnsupportedOperationException("Unimplemented method 'getMemorySize'");
+    }
 
     /**
-     * Returns cache infos
+     * Returns cache information.
      * 
-     * @return cache infos
+     * @return cache information
      */
-    String getInfos( );
+    String getInfos();
 }

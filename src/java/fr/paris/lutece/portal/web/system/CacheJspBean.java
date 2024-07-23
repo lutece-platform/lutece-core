@@ -117,7 +117,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         if ( strCacheIndex != null )
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            CacheableService<?,?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
             cs.resetCache( );
         }
         else
@@ -158,13 +158,13 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public String getCacheInfos( HttpServletRequest request )
     {
-        List<CacheableService> list;
+        List<CacheableService<?,?>> list;
         String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
 
         if ( strCacheIndex != null )
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            CacheableService<?,?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
             list = new ArrayList<>( );
             list.add( cs );
         }
@@ -173,7 +173,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
             list = CacheService.getCacheableServicesList( );
         }
 
-        HashMap<String, Collection<CacheableService>> model = new HashMap<>( );
+        HashMap<String, Collection<CacheableService<?,?>>> model = new HashMap<>( );
         model.put( MARK_SERVICES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CACHE_INFOS, getLocale( ), model );
@@ -194,7 +194,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         if ( strCacheIndex != null )
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            CacheableService<?,?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
             if ( cs != null )
             {
                 Object [ ] messageArgs = {
@@ -231,7 +231,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         if ( strCacheIndex != null )
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            CacheableService<?,?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
             cs.enableCache( !cs.isCacheEnable( ) );
         }
 

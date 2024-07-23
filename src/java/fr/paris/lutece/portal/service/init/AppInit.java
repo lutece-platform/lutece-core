@@ -54,7 +54,6 @@ import fr.paris.lutece.portal.service.datastore.CoreDataKeys;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.fileimage.FileImageService;
 import fr.paris.lutece.portal.service.filter.FilterService;
-import fr.paris.lutece.portal.service.html.XmlTransformerCacheService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -130,10 +129,6 @@ public final class AppInit
             // Initialize and run StartUp services
             AppLogService.info( "Running extra startup services ..." );
             StartUpServiceManager.init( );
-
-            // XmlTransformer service cache manager
-            XmlTransformerCacheService.init( );
-
             AdminMailingListService.init( );
 
             // Initializes Search Engine Indexation Service

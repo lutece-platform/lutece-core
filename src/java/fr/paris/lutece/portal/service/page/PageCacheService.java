@@ -33,25 +33,51 @@
  */
 package fr.paris.lutece.portal.service.page;
 
+import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.cache.Cache;
+import javax.cache.configuration.FactoryBuilder;
+import javax.cache.configuration.MutableCacheEntryListenerConfiguration;
+import javax.cache.configuration.MutableConfiguration;
+import javax.cache.event.CacheEntryEvent;
+import javax.cache.event.CacheEntryExpiredListener;
+import javax.cache.event.CacheEntryListenerException;
+import javax.cache.event.CacheEntryRemovedListener;
+
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.util.AppException;
 import jakarta.enterprise.context.ApplicationScoped;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 
 /**
  * Page Cache Service
  */
 @ApplicationScoped
-public class PageCacheService extends AbstractCacheableService
+public class PageCacheService extends AbstractCacheableService<String,String>
 {
     private static final String SERVICE_NAME = "Page Cache Service";
 
     // Performance patch
     private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<>( );
-
+    private String testCache= "init";
+    
+    
+    /**
+     * Init the cache. Should be called by the service at its initialization.
+     * 
+     * @param strCacheName
+     *            The cache name
+     */
+    @Override
+    public void initCache( String strCacheName )
+    {
+    	Cache<String, String> cache= createCache( strCacheName, new MutableConfiguration<String,String>().setTypes(String.class, String.class)  );
+    	cache.registerCacheEntryListener(
+    			   new MutableCacheEntryListenerConfiguration<String, String>
+    			   (FactoryBuilder.factoryOf(new PageCacheEntryListener<String, String>()),null,false,false));
+        CacheService.registerCacheableService( this );
+    }
     /**
      * {@inheritDoc }
      */
@@ -80,65 +106,6 @@ public class PageCacheService extends AbstractCacheableService
     }
 
     /**
-     * @see net.sf.ehcache.event.CacheEventListener#notifyElementEvicted(net.sf.ehcache.Ehcache, net.sf.ehcache.Element)
-     * @param cache
-     *            The Ehcache object
-     * @param element
-     *            The Element object
-     */
-    @Override
-    public void notifyElementEvicted( Ehcache cache, Element element )
-    {
-        removeKeyFromMap( element );
-    }
-
-    /**
-     * @see net.sf.ehcache.event.CacheEventListener#notifyElementExpired(net.sf.ehcache.Ehcache, net.sf.ehcache.Element)
-     * @param cache
-     *            The Ehcache object
-     * @param element
-     *            The Element object
-     */
-    @Override
-    public void notifyElementExpired( Ehcache cache, Element element )
-    {
-        removeKeyFromMap( element );
-    }
-
-    /**
-     * @see net.sf.ehcache.event.CacheEventListener#notifyElementRemoved(net.sf.ehcache.Ehcache, net.sf.ehcache.Element)
-     * @param cache
-     *            The Ehcache object
-     * @param element
-     *            The Element object
-     */
-    @Override
-    public void notifyElementRemoved( Ehcache cache, Element element )
-    {
-        removeKeyFromMap( element );
-    }
-
-    /**
-     * @see net.sf.ehcache.event.CacheEventListener#notifyRemoveAll(net.sf.ehcache.Ehcache)
-     * @param cache
-     *            The Ehcache object
-     */
-    @Override
-    public void notifyRemoveAll( Ehcache cache )
-    {
-        _keyMemory.clear( );
-    }
-
-    /**
-     * @param element
-     *            The Element object
-     */
-    public void removeKeyFromMap( Element element )
-    {
-        _keyMemory.remove( (String) element.getKey( ) );
-    }
-
-    /**
      * @see java.lang.Object#clone()
      * @return the instance
      */
@@ -147,4 +114,34 @@ public class PageCacheService extends AbstractCacheableService
     {
         throw new AppException( "This class shouldn't be cloned" );
     }
+    public String getTest() {
+    	return testCache;
+    }
+    public void setTest(String tes) {
+    	testCache= tes;
+    }
+
+	
+	class PageCacheEntryListener<K, V> implements CacheEntryRemovedListener<K, V>, CacheEntryExpiredListener<K, V>, Serializable
+	{
+
+		@Override
+		public void onExpired(Iterable<CacheEntryEvent<? extends K, ? extends V>> events)
+				throws CacheEntryListenerException {
+			for (CacheEntryEvent<? extends K, ? extends V> event : events)
+	        {
+				_keyMemory.remove( (String) event.getKey( ) );
+	        }
+		}
+
+		@Override
+		public void onRemoved(Iterable<CacheEntryEvent<? extends K, ? extends V>> events)
+				throws CacheEntryListenerException {
+			for (CacheEntryEvent<? extends K, ? extends V> event : events)
+	        {
+				_keyMemory.remove( (String) event.getKey( ) );
+	        }
+		}
+
+	}
 }

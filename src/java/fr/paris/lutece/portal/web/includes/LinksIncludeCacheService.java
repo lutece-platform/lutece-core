@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.includes;
 
 import java.util.Locale;
+import java.util.Map;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.plugin.PluginEvent;
@@ -46,7 +47,7 @@ import jakarta.enterprise.context.ApplicationScoped;
  * Cache service for LinksInclude
  */
 @ApplicationScoped
-public class LinksIncludeCacheService extends AbstractCacheableService implements PluginEventListener
+public class LinksIncludeCacheService extends AbstractCacheableService<String,Map<String, Object>> implements PluginEventListener
 {
     public static final String SERVICE_NAME = "LinksIncludeCacheService";
 

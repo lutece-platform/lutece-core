@@ -796,11 +796,11 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         {
             String strKey = "[" + Parameters.PAGE_ID + ":" + strIdPage + "]";
 
-            for ( String strKeyTemp : (List<String>) _cachePages.getCache( ).getKeys( ) )
+            for ( String strKeyTemp :  _cachePages.getKeys( ) )
             {
                 if ( ( strKeyTemp.contains( strKey ) ) || ( WELCOME_PAGE_ID.equals( strIdPage ) && WELCOME_PAGE_CACHE_KEY.equals( strKeyTemp ) ) )
                 {
-                    _cachePages.getCache( ).remove( strKeyTemp );
+                    _cachePages.remove( strKeyTemp );
 
                     if ( AppLogService.isDebugEnabled( ) )
                     {

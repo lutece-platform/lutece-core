@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * Cache service for {@link BaseUserPreferencesServiceImpl}
  */
-public class BaseUserPreferencesCacheService extends AbstractCacheableService
+public class BaseUserPreferencesCacheService extends AbstractCacheableService<String,String>
 {
     private static final String CACHE_SERVICE_NAME = "BaseUserPreferencesCacheService";
     private static final String CONSTANT_UNDERSCORE = "_";

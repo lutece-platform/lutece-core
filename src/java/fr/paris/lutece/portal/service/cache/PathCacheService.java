@@ -48,29 +48,29 @@ import fr.paris.lutece.portal.web.constants.Parameters;
  * XPage path cache service
  */
 @ApplicationScoped
-public class PathCacheService extends AbstractCacheableService implements IPathCacheService, PageEventListener
+public class PathCacheService extends AbstractCacheableService<String,String> implements  PageEventListener
 {
-
+	/** Bean name */
+    private String BEAN_NAME = "pathCacheService";
+    
     @PostConstruct
     public void init( )
     {
         initCache( );
         PageService.addPageEventListener( this );
     }
-
+    
     @Override
     public String getName( )
     {
-        return IPathCacheService.BEAN_NAME;
+        return BEAN_NAME;
     }
 
-    @Override
     public String getKey( String strXPageName, int nMode, HttpServletRequest request )
     {
         return getKey( strXPageName, nMode, null, request );
     }
 
-    @Override
     public String getKey( String strXPageName, int nMode, String strTitlesUrls, HttpServletRequest request )
     {
         if ( !isCacheEnable( ) )
@@ -99,18 +99,6 @@ public class PathCacheService extends AbstractCacheableService implements IPathC
             }
         }
         return builder.toString( );
-    }
-
-    @Override
-    public String getFromCache( String strKey )
-    {
-        return (String) super.getFromCache( strKey );
-    }
-
-    @Override
-    public void putInCache( String strKey, String path )
-    {
-        super.putInCache( strKey, path );
     }
 
     @Override
