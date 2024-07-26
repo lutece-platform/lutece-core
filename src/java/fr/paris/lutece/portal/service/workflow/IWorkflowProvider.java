@@ -45,6 +45,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * IWorkflowProvider.
  */
@@ -278,4 +280,23 @@ public interface IWorkflowProvider
      */
     String doValidateTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale, User user );
 
+    /**
+     * Get the confirmation of action processing 
+     * 
+     * @param nIdResource
+     *            the resource id
+     * @param strResourceType
+     *            the resource type
+     * @param nIdAction
+     *            the action id
+     * @param locale
+     *            the locale
+     * @param strTemplate
+     *            The template
+     * @return the confirmation
+     */
+    default String getDisplayProcessActionConfirmation( int nIdResource, String strResourceType, int nIdAction, Locale locale, String strTemplate )
+    {
+    	return StringUtils.EMPTY;
+    }
 }
