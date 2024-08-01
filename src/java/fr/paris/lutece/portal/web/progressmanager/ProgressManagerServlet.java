@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.progressmanager;
 
 import fr.paris.lutece.portal.service.progressmanager.ProgressManagerService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.json.ErrorJsonResponse;
 import fr.paris.lutece.util.json.JsonResponse;
 import fr.paris.lutece.util.json.JsonUtil;
@@ -99,64 +100,69 @@ public class ProgressManagerServlet extends HttpServlet
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         response.setContentType( CONTENT_TYPE );
-        PrintWriter out = response.getWriter( );
+        PrintWriter out = null;
 
-        // token
-        String strToken = (String) request.getParameter( PARAMETER_TOKEN );
-
-        if ( strToken == null || strToken.isEmpty( ) )
+        try
         {
-            out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
-            out.flush( );
-            out.close( );
-            return;
-        }
+            out = response.getWriter( );
 
-        ProgressManagerService progressManagerService = ProgressManagerService.getInstance( );
+            // token
+            String strToken = request.getParameter( PARAMETER_TOKEN );
 
-        if ( !progressManagerService.isRegistred( strToken ) )
-        {
-            out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
-            out.flush( );
-            out.close( );
-            return;
-        }
-
-        if ( request.getParameter( PARAMETER_PROGRESS ) != null )
-        {
-            out.println( JsonUtil.buildJsonResponse( new JsonResponse( progressManagerService.getProgressStatus( strToken ) ) ) );
-            out.flush( );
-            out.close( );
-            return;
-        }
-        else
-            if ( request.getParameter( PARAMETER_REPORT ) != null )
-            {
-                int iFromLine = -1;
-                try
-                {
-                    iFromLine = Integer.parseInt( request.getParameter( PARAMETER_FROM_LINE ) );
-                }
-                catch( NumberFormatException e )
-                {
-                    out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_BAD_PARAMETER ) ) );
-                }
-
-                Map<String, Object> mapResponse = new HashMap<>( );
-                List<String> reportLines = progressManagerService.getReport( strToken, iFromLine );
-                mapResponse.put( ATTRIBUTE_NAME_LAST_LINE, iFromLine + reportLines.size( ) );
-                mapResponse.put( ATTRIBUTE_NAME_LINES, reportLines );
-                out.println( JsonUtil.buildJsonResponse( new JsonResponse( mapResponse ) ) );
-                out.flush( );
-                out.close( );
-                return;
-            }
-            else
+            if ( strToken == null || strToken.isEmpty( ) )
             {
                 out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
+                return;
             }
 
-        out.flush( );
-        out.close( );
+            ProgressManagerService progressManagerService = ProgressManagerService.getInstance( );
+
+            if ( !progressManagerService.isRegistred( strToken ) )
+            {
+                out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
+                return;
+            }
+
+            if ( request.getParameter( PARAMETER_PROGRESS ) != null )
+            {
+                out.println( JsonUtil.buildJsonResponse( new JsonResponse( progressManagerService.getProgressStatus( strToken ) ) ) );
+            }
+            else
+                if ( request.getParameter( PARAMETER_REPORT ) != null )
+                {
+                    int iFromLine = -1;
+                    try
+                    {
+                        iFromLine = Integer.parseInt( request.getParameter( PARAMETER_FROM_LINE ) );
+                    }
+                    catch( NumberFormatException e )
+                    {
+                        out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_BAD_PARAMETER ) ) );
+                    }
+
+                    Map<String, Object> mapResponse = new HashMap<>( );
+                    List<String> reportLines = progressManagerService.getReport( strToken, iFromLine );
+                    mapResponse.put( ATTRIBUTE_NAME_LAST_LINE, iFromLine + reportLines.size( ) );
+                    mapResponse.put( ATTRIBUTE_NAME_LINES, reportLines );
+                    out.println( JsonUtil.buildJsonResponse( new JsonResponse( mapResponse ) ) );
+                }
+                else
+                {
+                    out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
+                }
+        }
+        catch( IOException e )
+        {
+            AppLogService.error( e.getStackTrace( ), e );
+        }
+        finally
+        {
+            // In every case, make sure the PrintWriter is properly sent/cleaned
+            if ( out != null )
+            {
+                out.flush( );
+                out.close( );
+            }
+        }
     }
 }
