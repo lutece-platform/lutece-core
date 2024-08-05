@@ -49,6 +49,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+
+import fr.paris.lutece.portal.business.securityheader.SecurityHeader;
+import fr.paris.lutece.portal.business.securityheader.SecurityHeaderPageCategory;
+import fr.paris.lutece.portal.business.securityheader.SecurityHeaderType;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -57,12 +61,17 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.securityheader.SecurityHeaderService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Filter to prevent unauthenticated access to admin
@@ -75,6 +84,7 @@ public class AuthenticationFilter implements Filter
     private static final String PROPERTY_RESET_EXCEPTION_MESSAGE = "User must reset his password.";
     private static final String PROPERTY_JSP_URL_ADMIN_LOGOUT = "lutece.admin.logout.url";
     private static final String JSP_URL_ADMIN_LOGIN = "jsp/admin/AdminLogin.jsp";
+    private Logger _logger = LogManager.getLogger( "lutece.securityHeader" );
 
     /**
      * {@inheritDoc}
@@ -107,6 +117,7 @@ public class AuthenticationFilter implements Filter
 
         if ( isPrivateUrl( req ) )
         {
+        	addAdminAuthenticatedPagesHeaders(req, resp);
             try
             {
                 filterAccess( req );
@@ -157,10 +168,62 @@ public class AuthenticationFilter implements Filter
                 }
             }
         }
+        else if(isAdminLogoutUrl(req))
+        {
+        	addLogoutPageSecurityHeaders(req, resp);	
+        }
 
         chain.doFilter( request, response );
     }
 
+    /**
+     * Adds http security headers to BO admin authenticated pages.
+     * 
+     * @param request
+     *            the http request
+     * @param response
+     *            the http response
+     */
+    private void addAdminAuthenticatedPagesHeaders( HttpServletRequest request, HttpServletResponse response )
+    {
+    	SecurityHeaderService securityHeaderService = SpringContextService.getBean( "securityHeaderService" );
+    	for( SecurityHeader securityHeader : securityHeaderService.findActive( SecurityHeaderType.PAGE.getCode( ), SecurityHeaderPageCategory.AUTHENTICATED_ADMIN_BACK_OFFICE.getCode( ) ) )
+    	{
+    		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+    		_logger.debug( "Security header added to admin authenticated BO page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
+    	}
+    }
+    
+    /**
+     * Adds http security headers to BO admin logout page.
+     * 
+     * @param request
+     *            the http request
+     * @param response
+     *            the http response
+     */
+    private void addLogoutPageSecurityHeaders( HttpServletRequest request, HttpServletResponse response )
+    {
+    	SecurityHeaderService securityHeaderService = SpringContextService.getBean( "securityHeaderService" );
+    	for( SecurityHeader securityHeader : securityHeaderService.findActive( SecurityHeaderType.PAGE.getCode( ), SecurityHeaderPageCategory.LOGOUT_BO.getCode( ) ) )
+    	{
+    		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+    		_logger.debug( "Security header added to logout page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
+    	}
+    }
+    
+     /**
+      * Checks if url of the request corresponds to the BO admin logout url.
+      * 
+      * @param request 
+      *            the request
+      * @return
+      */
+     private boolean isAdminLogoutUrl( HttpServletRequest request )
+     {
+	     return getResquestedUrl( request ).equals( getAbsoluteUrl( request, AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_LOGOUT ) ) );
+     }
+    
     /**
      * Build the url to redirect to if not logged. This is actually the login page of the authentication module, completed with the request parameters.
      * 

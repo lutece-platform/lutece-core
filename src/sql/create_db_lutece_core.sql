@@ -581,3 +581,18 @@ CREATE TABLE core_text_editor (
   backOffice SMALLINT NOT NULL ,
   PRIMARY KEY  (editor_name, backOffice)
 );
+
+--
+-- Table structure for table core_admin_security_header
+--
+DROP TABLE IF EXISTS core_admin_security_header;
+CREATE TABLE core_admin_security_header (
+  id_security_header SMALLINT AUTO_INCREMENT NOT NULL,
+  name VARCHAR(60) NOT NULL,
+  value VARCHAR(512) NOT NULL,
+  description VARCHAR(512) DEFAULT NULL,
+  type VARCHAR(10) NOT NULL,
+  page_category VARCHAR(25) DEFAULT NULL,
+  is_active SMALLINT DEFAULT 0,
+  PRIMARY KEY  (id_security_header)
+);

@@ -1,0 +1,60 @@
+<@pageContainer>
+    <@pageColumn> 
+        <@pageHeader title='${securityheader.name?html}' />
+		<@tform method='post' id='modify-securityheader-form' action='jsp/admin/system/DoModifySecurityHeader.jsp'>
+			<@input type='hidden' id='id_securityheader' name='id_securityheader' value='${securityheader.id}' />
+			<@input type='hidden' id='name' name='name' value='${securityheader.name}' />
+			<@input type='hidden' name='token' value='${token}' />
+			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelValue}' labelFor='value' mandatory=true>
+				<@input type='text' name='value' id='value' value='${securityheader.value}' maxlength=512 />
+			</@formGroup>
+			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelDescription}' labelFor='description'>
+				<@input type='textarea' name='description' id='description' value='${securityheader.description}' maxlength=512 cols=80 rows=5 />
+			</@formGroup>	
+			
+			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelType}' labelFor='type' mandatory=true>
+				<@select name='type'>
+					<@options items=types_list selected=selected_type />			
+				</@select>
+			</@formGroup>
+			
+			<@formGroup id='pageCategory_formGroup' labelKey='#i18n{portal.securityheader.modify_securityheader.labelPageCategory}' labelFor='pageCategory' mandatory=true>
+				<@select name='pageCategory'>
+					<@options items=page_category_list selected=selected_pageCategory />
+				</@select>
+			</@formGroup>
+			
+			<@formGroup>
+				<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.securityheader.modify_securityheader.buttonModify}' color='primary' />
+				<@button buttonIcon='times' title='#i18n{portal.util.labelCancel}' cancel=true params='onclick="javascript:window.history.go(-1);"' />
+			</@formGroup>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>
+<script>
+
+const selectType = document.getElementById('type');
+const pageCategory = document.getElementById('pageCategory');
+const pageCategoryFormGroup = document.getElementById('pageCategory_formGroup');
+
+document.addEventListener( "DOMContentLoaded", function(){
+	if(selectType.value != "page")
+	{	   
+	   pageCategory.style.visibility = 'hidden';
+	   pageCategoryFormGroup.style.visibility = 'hidden';
+	}
+});
+
+selectType.addEventListener( 'change',  (e) => {
+	if(selectType.value == "page")
+	{
+		pageCategory.style.visibility = 'visible';
+		pageCategoryFormGroup.style.visibility = 'visible';
+	}
+	else
+	{
+	    pageCategory.style.visibility = 'hidden';
+		pageCategoryFormGroup.style.visibility = 'hidden';
+	}
+});
+</script>

@@ -1,0 +1,51 @@
+<@pageContainer>
+    <@pageColumn> 
+        <@pageHeader title='#i18n{portal.securityheader.create_securityheader.title}' />
+		<@tform method='post' id='create-securityheader-form' action='jsp/admin/system/DoCreateSecurityHeader.jsp'>
+			<@input type='hidden' name='token' value='${token}' />
+			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelName}' labelFor='name' mandatory=true>
+				<@input type='text' name='name' id='name' value='' maxlength=60 />
+			</@formGroup>
+			
+			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelValue}' labelFor='value' mandatory=true>
+				<@input type='text' name='value' id='value' value='' maxlength=512 />
+			</@formGroup>
+			
+			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelDescription}' labelFor='description'>
+				<@input type='textarea' name='description' id='description' maxlength=512 cols=80 rows=5 />
+			</@formGroup>
+			
+			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelType}' labelFor='type' mandatory=true>
+				<@select id='type' name='type' default_value='page' items=types_list sort=true />
+			</@formGroup>	
+
+			
+			<@formGroup id='pageCategory_formGroup' labelKey='#i18n{portal.securityheader.create_securityheader.labelPageCategory}' labelFor='pageCategory' mandatory=true>
+				<@select id='pageCategory' name='pageCategory' default_value='all' items=page_category_list sort=true />
+			</@formGroup>
+			
+			<@formGroup>
+				<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.securityheader.create_securityheader.buttonCreate}' color='primary' />
+				<@button buttonIcon='times' title='#i18n{portal.util.labelCancel}' cancel=true params='onclick="javascript:window.history.go(-1);"' />
+			</@formGroup>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>
+<script>
+const selectType = document.getElementById('type');
+
+selectType.addEventListener( 'change',  (e) => {
+	    const pageCategory = document.getElementById('pageCategory');
+		const pageCategoryFormGroup = document.getElementById('pageCategory_formGroup');
+		if(selectType.value == "page")
+		{
+		  pageCategory.style.visibility = 'visible';
+		  pageCategoryFormGroup.style.visibility = 'visible';
+		}
+		else
+		{
+		  pageCategory.style.visibility = 'hidden';
+		  pageCategoryFormGroup.style.visibility = 'hidden';
+		}
+	});
+</script>

@@ -93,6 +93,9 @@
     <!-- package mailinglist -->
     <bean id="mailingListDAO" class="fr.paris.lutece.portal.business.mailinglist.MailingListDAO" />
 
+    <!-- package security header -->
+    <bean id="securityHeaderDAO" class="fr.paris.lutece.portal.business.securityheader.SecurityHeaderDAO" />
+
     <!-- package page -->
     <bean id="pageDAO" class="fr.paris.lutece.portal.business.page.PageDAO" />
     <!-- package portalcomponent -->
@@ -209,6 +212,9 @@
     
     <!-- RSA Key service default provider (RSAKeyEnvironmentProvider is also available) -->
     <bean id="RSAKeyProvider" class="fr.paris.lutece.util.rsa.RSAKeyDatastoreProvider" />
+        
+    <!-- Security header service --> 
+    <bean id="securityHeaderService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderService" />    
         
     <!-- Cleaner HTML -->
     <!-- Cleaner Jsoup HTML -->
