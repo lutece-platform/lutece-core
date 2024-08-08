@@ -19,10 +19,10 @@ public class SecurityHeader
 	private String _strName;
 	
 	@NotEmpty( message = "portal.securityheader.validation.securityheader.Value.notEmpty" )
-	@Size( max = 512 , message = "portal.securityheader.validation.securityheader.Value.size" )
+	@Size( max = 1024 , message = "portal.securityheader.validation.securityheader.Value.size" )
 	private String _strValue;
 	
-	@Size( max = 512 , message = "portal.securityheader.validation.securityheader.Description.size" )
+	@Size( max = 1024 , message = "portal.securityheader.validation.securityheader.Description.size" )
 	private String _strDescription;
 	
 	@NotEmpty( message = "portal.securityheader.validation.securityheader.Type.notEmpty" )

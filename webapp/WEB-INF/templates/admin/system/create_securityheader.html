@@ -8,11 +8,11 @@
 			</@formGroup>
 			
 			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelValue}' labelFor='value' mandatory=true>
-				<@input type='text' name='value' id='value' value='' maxlength=512 />
+				<@input type='text' name='value' id='value' value='' maxlength=1024 />
 			</@formGroup>
 			
 			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelDescription}' labelFor='description'>
-				<@input type='textarea' name='description' id='description' maxlength=512 cols=80 rows=5 />
+				<@input type='textarea' name='description' id='description' maxlength=1024 cols=80 rows=5 />
 			</@formGroup>
 			
 			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelType}' labelFor='type' mandatory=true>

@@ -6,10 +6,10 @@
 			<@input type='hidden' id='name' name='name' value='${securityheader.name}' />
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelValue}' labelFor='value' mandatory=true>
-				<@input type='text' name='value' id='value' value='${securityheader.value}' maxlength=512 />
+				<@input type='text' name='value' id='value' value='${securityheader.value}' maxlength=1024 />
 			</@formGroup>
 			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelDescription}' labelFor='description'>
-				<@input type='textarea' name='description' id='description' value='${securityheader.description}' maxlength=512 cols=80 rows=5 />
+				<@input type='textarea' name='description' id='description' value='${securityheader.description}' maxlength=1024 cols=80 rows=5 />
 			</@formGroup>	
 			
 			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelType}' labelFor='type' mandatory=true>
