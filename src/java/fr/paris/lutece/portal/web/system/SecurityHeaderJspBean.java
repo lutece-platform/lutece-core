@@ -375,12 +375,20 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         return getAdminPage( template.getHtml( ) );
     }
 
+    /**
+     * This method returns the security header to modify. Value field is escaped because some headers values can have double quotes 
+     * (Clear-site-data header for instance) and in this case, the value is not displayed on the modification screen
+     * 
+     * @param strSecurityHeaderId
+     *          The security header id
+     * @return security header to modify
+     */
     private SecurityHeader getSecurityHeaderForModification( String strSecurityHeaderId )
     {
     	SecurityHeader securityHeader = SecurityHeaderHome.findByPrimaryKey( Integer.parseInt( strSecurityHeaderId ) );
     	if( securityHeader != null )
     	{
-            securityHeader.setValue(StringEscapeUtils.escapeHtml4( securityHeader.getValue() ) );
+            securityHeader.setValue( StringEscapeUtils.escapeHtml4( securityHeader.getValue( ) ) );
     	}
         
         return securityHeader;

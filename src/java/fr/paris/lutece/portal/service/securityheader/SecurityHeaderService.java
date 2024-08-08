@@ -135,7 +135,8 @@ public class SecurityHeaderService
     }
 	
 	/**
-	 * Returns a list of all security headers used in manage security headers page. Type and Page category wording are filled in order to provide a more user-friendly text in the page.
+	 * Returns a list of all security headers used in manage security headers page. They are sorted by type, page category and name. 
+	 * Type and Page category wordings are filled in order to provide a more user-friendly text in the page.
 	 * 
 	 * @param locale
 	 *           The locale
@@ -152,10 +153,10 @@ public class SecurityHeaderService
     		securityHeader.setTypeWording( typeMap.get( securityHeader.getType( ) ) );
     		securityHeader.setPageCategoryWording( categoryPageMap.get( securityHeader.getPageCategory( ) ) );   		
     	}
-    	//A sort has been added because if the list is coming from the security headers map, these are not sorted. The sort criteria are the same as select query criteria.
+    	
 		Collections.sort( securityHeadersList, Comparator.comparing( SecurityHeader::getType )
-				                                         .thenComparing( SecurityHeader::getPageCategory, Comparator.nullsLast( Comparator.naturalOrder( ) ) ) );
-
+				                                         .thenComparing( SecurityHeader::getPageCategory, Comparator.nullsLast( Comparator.naturalOrder( ) ) )
+				                                         .thenComparing( SecurityHeader::getName ) );
     	
 		return securityHeadersList;
     }

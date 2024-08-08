@@ -50,7 +50,7 @@ public final class SecurityHeaderDAO implements ISecurityHeaderDAO
       private static final String SQL_QUERY_DELETE = "DELETE FROM core_admin_security_header WHERE id_security_header = ? ";
       private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_security_header SET value = ?, description = ?, type = ?, page_category = ? WHERE id_security_header = ?";
       private static final String SQL_QUERY_UPDATE_IS_ACTIVE = "UPDATE core_admin_security_header SET is_active = ? WHERE id_security_header = ?";
-      private static final String SQL_QUERY_SELECTALL = "SELECT id_security_header, name, value, description, type, page_category, is_active FROM core_admin_security_header ORDER BY type, page_category";
+      private static final String SQL_QUERY_SELECTALL = "SELECT id_security_header, name, value, description, type, page_category, is_active FROM core_admin_security_header";
       private static final String SQL_QUERY_SELECT_ACTIVE_BY_TYPE = "SELECT id_security_header, name, value, description, type, page_category, is_active FROM core_admin_security_header WHERE is_active = 'true' and type = ? ";
 
     /**
