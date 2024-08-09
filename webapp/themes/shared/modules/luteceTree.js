@@ -22,45 +22,51 @@ export default class LuteceTree {
 		  init() {
 			// Node Management
 			const luteceTreeToggler = this.treeRoot.querySelectorAll( `.${this.options.treeNode}` );
-			luteceTreeToggler.forEach( (toggler) => {
-				if( toggler.dataset.treeIcon !='' ){
-					let span = document.createElement("span");
-					span.classList.add('ti')
-					span.classList.add(`ti-${toggler.dataset.treeIcon}`);
-					toggler.prepend( span )
-				}
-				toggler.addEventListener( 'click', ( event ) => {
-					event.currentTarget.classList.toggle( this.options.treeOpenNode );
-					event.stopPropagation();
+			if( luteceTreeToggler != null){ 
+				luteceTreeToggler.forEach( (toggler) => {
+					if( toggler.dataset.treeIcon !='' ){
+						let span = document.createElement("span");
+						span.classList.add('ti')
+						span.classList.add(`ti-${toggler.dataset.treeIcon}`);
+						toggler.prepend( span )
+					}
+					toggler.addEventListener( 'click', ( event ) => {
+						event.currentTarget.classList.toggle( this.options.treeOpenNode );
+						event.stopPropagation();
+					});
 				});
-			});
-	
+			}
+			
 			// Leaf Management
 			const luteceTreeLeaf = this.treeRoot.querySelectorAll( `.${this.options.treeNodeItem}` );
-			luteceTreeLeaf.forEach( (leaf) => {
-				if( leaf.dataset.treeIcon !='' ){
-					let span = document.createElement('span');
-					span.classList.add('ti')
-					span.classList.add(`ti-${leaf.dataset.treeIcon}`);
-					leaf.prepend( span )
-				}
-				leaf.addEventListener( "click", ( event ) => {
-					event.stopPropagation();
+			if( luteceTreeLeaf != null){ 
+				luteceTreeLeaf.forEach( (leaf) => {
+					if( leaf.dataset.treeIcon !='' ){
+						let span = document.createElement('span');
+						span.classList.add('ti')
+						span.classList.add(`ti-${leaf.dataset.treeIcon}`);
+						leaf.prepend( span )
+					}
+					leaf.addEventListener( "click", ( event ) => {
+						event.stopPropagation();
+					});
 				});
-			});
+			}
 		}
 	
 		  selectTreeNode( element ) {
 			const currentNode = this.treeRoot.querySelector( element );
-			currentNode.classList.add('active')
-			let el = currentNode.closest( `.${this.options.treeNode}` );
-			do {
-				el.classList.toggle( this.options.treeOpenNode );
-				el = el.parentNode.closest( `.${this.options.treeNode}` );
-				if( el === null ){
-					break 
-				}
-			} while ( !el.parentNode.classList.contains( this.options.treeWrapper ) );
+			if( currentNode != null){ 
+				currentNode.classList.add('active') 
+				let el = currentNode.closest( `.${this.options.treeNode}` );
+				do {
+					el.classList.toggle( this.options.treeOpenNode );
+					el = el.parentNode.closest( `.${this.options.treeNode}` );
+					if( el === null ){
+						break 
+					}
+				} while ( !el.parentNode.classList.contains( this.options.treeWrapper ) );
+			}
 		}
 	
 	}
