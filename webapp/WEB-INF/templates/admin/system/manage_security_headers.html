@@ -1,0 +1,52 @@
+<@pageContainer>
+<@pageColumn>
+	<@pageHeader title='#i18n{portal.system.manage_security_headers.titleSecurityHeadersList}' description='#i18n{portal.system.manage_security_headers.featureDescription}'>
+	<@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/system/CreateSecurityHeader.jsp' title='#i18n{portal.securityheader.create_securityheader.title}' buttonIcon='plus' hideTitle=['xs','sm'] />	
+	</@pageHeader>
+	<@table headBody=true>
+		<@tr>
+			<@th><@span class="visually-hidden">#i18n{portal.system.manage_security_headers.imgAltEnable} / #i18n{portal.system.manage_security_headers.imgAltDisable}</@span></@th>
+			<@th>#i18n{portal.system.manage_security_headers.columnTitleName}</@th>
+			<@th>#i18n{portal.system.manage_security_headers.columnTitleValue}</@th>
+			<@th>#i18n{portal.system.manage_security_headers.columnTitleType}</@th>
+			<@th>#i18n{portal.system.manage_security_headers.columnTitlePageCategory}</@th>
+			<@th><@span>#i18n{portal.system.manage_security_headers.columnTitleActions}</@span></@th>
+		</@tr>
+		<@tableHeadBodySeparator />
+		<#assign id=0>
+			<#list security_headers_list as security_header>
+			<@tr>
+			    <@td>
+				<#if security_header.active>
+					<@tag color='success' title='#i18n{portal.system.manage_security_headers.imgAltEnable}'><@icon style='check' /></@tag>
+				<#else>
+					<@tag color='danger' title='#i18n{portal.system.manage_security_headers.imgAltDisable}'><@icon style='times' /></@tag>
+				</#if>
+				</@td>
+				<@td params='title="${security_header.description}"'>${security_header.name}</@td>
+				<@td>${security_header.value}</@td>
+				<@td>${security_header.typeWording}</@td>
+				<#if (security_header.pageCategory??)>
+				  <@td>${security_header.pageCategoryWording}</@td>
+				<#else>
+				  <@td></@td>
+				</#if>
+				<@td>
+					 <@tform method='post' type='inline' align='middle' action='jsp/admin/system/DoSecurityHeaderAction.jsp'>
+						<@input type='hidden' name='id_securityheader' value='${security_header.id}' />
+						<@input type='hidden' name='token' value='${token}' />
+						<#if security_header.active>
+							<@button type='submit' title='#i18n{portal.system.manage_security_headers.actionDisable}' name='action' value='DISABLE' buttonIcon='stop' color='danger' hideTitle=['all'] size='sm' />
+						<#else>
+							<@button type='submit' title='#i18n{portal.system.manage_security_headers.actionEnable}' name='action' value='ENABLE' buttonIcon='play' color='success' hideTitle=['all'] size='sm' />
+						</#if>
+					 </@tform>
+					 <@aButton href='jsp/admin/system/ModifySecurityHeader.jsp?id_securityheader=${security_header.id}' buttonIcon='edit' size='sm' title='#i18n{portal.securityheader.modify_securityheader.buttonModify} (${security_header.name?html})' hideTitle=['all'] />					 				
+					 <@aButton href='jsp/admin/system/RemoveSecurityHeader.jsp?id_securityheader=${security_header.id}' buttonIcon='trash' size='sm' title='#i18n{portal.securityheader.modify_securityheader.linkLabelRemove} (${security_header.name?html})' hideTitle=['all'] color='danger' />
+				</@td>
+			</@tr>
+			<#assign id=id + 1>
+		</#list>
+	</@table>
+</@pageColumn>
+</@pageContainer>
