@@ -46,6 +46,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -66,10 +67,9 @@ public class UploadServlet extends HttpServlet
     /**
      * {@inheritDoc}
      * 
-     * @throws IOException
      */
     @Override
-    protected void doPost( HttpServletRequest req, HttpServletResponse response ) throws IOException
+    protected void doPost( HttpServletRequest req, HttpServletResponse response )
     {
         MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
 
@@ -108,14 +108,25 @@ public class UploadServlet extends HttpServlet
             }
         }
 
-        String strResultJson = objectMapper.writeValueAsString( mapJson );
-        if ( AppLogService.isDebugEnabled( ) )
+        try
         {
-            AppLogService.debug( "Aysnchronous upload : " + strResultJson );
-        }
+            String strResultJson = objectMapper.writeValueAsString( mapJson );
+            if ( AppLogService.isDebugEnabled( ) )
+            {
+                AppLogService.debug( "Aysnchronous upload : " + strResultJson );
+            }
 
-        response.setContentType( JSON_UTF8_CONTENT_TYPE );
-        response.getWriter( ).print( strResultJson );
+            response.setContentType( JSON_UTF8_CONTENT_TYPE );
+            response.getWriter( ).print( strResultJson );
+        }
+        catch( JsonProcessingException e )
+        {
+            AppLogService.error( "Unable to serialize Java Object", e );
+        }
+        catch( IOException e )
+        {
+            AppLogService.error( e.getMessage( ), e );
+        }
     }
 
     /**
