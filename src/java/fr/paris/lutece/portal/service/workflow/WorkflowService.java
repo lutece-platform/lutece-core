@@ -410,6 +410,26 @@ public final class WorkflowService
     }
 
     /**
+     * Get the confirmation of action processing 
+     * 
+     * @param nIdResource
+     *            the resource id
+     * @param strResourceType
+     *            the resource type
+     * @param nIdAction
+     *            the action id
+     * @param locale
+     *            the locale
+     * @param strTemplate
+     *            The template
+     * @return the confirmation
+     */
+    public String getDisplayProcessActionConfirmation( int nIdResource, String strResourceType, int nIdAction, Locale locale, String strTemplate )
+    {
+    	return isAvailable( ) ? _provider.getDisplayProcessActionConfirmation( nIdResource, strResourceType, nIdAction, locale, strTemplate ) : StringUtils.EMPTY;
+    }
+
+    /**
      * Perform the information on the various tasks associated with the given action specified in parameter
      * 
      * @param nIdResource
