@@ -13,6 +13,14 @@
     	<listener-class>org.apache.commons.fileupload2.jakarta.JakartaFileCleaner</listener-class>
   	</listener>
     <filter>
+        <filter-name>pageSecurityHeaderFilter</filter-name>
+        <filter-class>fr.paris.lutece.portal.service.filter.PageSecurityHeaderFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>restApiSecurityHeaderFilter</filter-name>
+        <filter-class>fr.paris.lutece.portal.service.filter.RestApiSecurityHeaderFilter</filter-class>
+    </filter>
+    <filter>
         <filter-name>encodingFilter</filter-name>
         <filter-class>fr.paris.lutece.portal.web.encoding.EncodingFilter</filter-class>
     </filter>
@@ -98,6 +106,18 @@
     </filter>
 
 
+    <filter-mapping>
+        <filter-name>pageSecurityHeaderFilter</filter-name>
+        <url-pattern>/jsp/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>restApiSecurityHeaderFilter</filter-name>
+        <url-pattern>/rest/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/jsp/*</url-pattern>
