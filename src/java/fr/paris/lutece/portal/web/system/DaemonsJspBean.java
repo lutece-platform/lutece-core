@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -59,6 +60,7 @@ public class DaemonsJspBean extends AdminPageJspBean
     private static final long serialVersionUID = 3636973660388119199L;
     private static final String TEMPLATE_MANAGE_DAEMONS = "admin/system/manage_daemons.html";
     private static final String MARK_DAEMONS_LIST = "daemons_list";
+    private static final String MARK_LOG_MAX_SIZE = "log_max_size";
     private static final String PARAMETER_DAEMON = "daemon";
     private static final String PARAMETER_ACTION = "action";
     private static final String PARAMETER_INTERVAL = "interval";
@@ -67,6 +69,7 @@ public class DaemonsJspBean extends AdminPageJspBean
     private static final String ACTION_RUN = "RUN";
     private static final String ACTION_UPDATE_INTERVAL = "UPDATE_INTERVAL";
     private static final String PROPERTY_FIELD_INTERVAL = "portal.system.manage_daemons.columnTitleInterval";
+    private static final String PROPERTY_DAEMON_LASTRUNLOG_MAX_SIZE = "portal.system.manage_daemons.lastrunlog.maxsize";
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryField";
     private static final String MESSAGE_NUMERIC_FIELD = "portal.util.message.errorNumericField";
 
@@ -80,6 +83,8 @@ public class DaemonsJspBean extends AdminPageJspBean
     public String getManageDaemons( HttpServletRequest request )
     {
         HashMap<String, Object> model = new HashMap<>( );
+        
+        model.put( MARK_LOG_MAX_SIZE, AppPropertiesService.getPropertyInt( PROPERTY_DAEMON_LASTRUNLOG_MAX_SIZE, 30000 ) );
         model.put( MARK_DAEMONS_LIST, AppDaemonService.getDaemonEntries( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
 
