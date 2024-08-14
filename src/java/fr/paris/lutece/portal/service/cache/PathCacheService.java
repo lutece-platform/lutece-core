@@ -35,20 +35,21 @@ package fr.paris.lutece.portal.service.cache;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.service.page.PageEvent;
-import fr.paris.lutece.portal.service.page.PageEventListener;
-import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 
 /**
  * XPage path cache service
  */
 @ApplicationScoped
-public class PathCacheService extends AbstractCacheableService<String,String> implements  PageEventListener
+public class PathCacheService extends AbstractCacheableService<String,String>
 {
 	/** Bean name */
     private String BEAN_NAME = "pathCacheService";
@@ -57,7 +58,6 @@ public class PathCacheService extends AbstractCacheableService<String,String> im
     public void init( )
     {
         initCache( );
-        PageService.addPageEventListener( this );
     }
     
     @Override
@@ -100,16 +100,33 @@ public class PathCacheService extends AbstractCacheableService<String,String> im
         }
         return builder.toString( );
     }
-
-    @Override
-    public void processPageEvent( PageEvent event )
+    /**
+     * Process a page event
+     *
+     * @param event
+     *            The event to process
+     */
+    public void processPageEvent( @Observes PageEvent event )
     {
-        if ( isCacheEnable( ) && event.getEventType( ) != PageEvent.PAGE_CREATED )
+    	// some cached paths might contain page info that need invalidation, but not for
+        // a page which was just created
+    	if ( isCacheEnable( ) && event.getEventType( ) != PageEvent.PAGE_CREATED )
         {
-            // some cached paths might contain page info that need invalidation, but not for
-            // a page which was just created
-            resetCache( );
+    	  resetCache( );
         }
     }
-
+    
+    /**
+     * This method observes the initialization of the {@link ApplicationScoped} context.
+     * It ensures that this CDI beans are instantiated at the application startup.
+     *
+     * <p>This method is triggered automatically by CDI when the {@link ApplicationScoped} context is initialized,
+     * which typically occurs during the startup of the application server.</p>
+     *
+     * @param context the {@link ServletContext} that is initialized. This parameter is observed
+     *                and injected automatically by CDI when the {@link ApplicationScoped} context is initialized.
+     */
+    public void initializedService(@Observes @Initialized(ApplicationScoped.class) ServletContext context) {
+        // This method is intentionally left empty to trigger CDI bean instantiation
+    }
 }

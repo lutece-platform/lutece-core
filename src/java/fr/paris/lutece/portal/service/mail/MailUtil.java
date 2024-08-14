@@ -39,6 +39,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -49,6 +50,7 @@ import jakarta.activation.DataHandler;
 import jakarta.activation.FileTypeMap;
 import jakarta.activation.MailcapCommandMap;
 import jakarta.activation.MimetypesFileTypeMap;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.mail.Authenticator;
 import jakarta.mail.BodyPart;
 import jakarta.mail.Message;
@@ -68,6 +70,9 @@ import jakarta.mail.internet.MimeUtility;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.portal.service.cache.ICacheKeyService;
+import fr.paris.lutece.portal.service.cache.ILuteceCacheManager;
+import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -117,7 +122,12 @@ final class MailUtil
     private static final String DEFAULT_PLAIN_TEXT_HANDLER = "com.sun.mail.handlers.text_plain";
     private static final String CONSTANT_DISPOSITION_ATTACHMENT = "attachment";
     private static final String CONSTANT_BASE64 = "base64";
-
+    public static final String SERVICE_NAME = "Mail Attachment Cache Service";
+    
+    private static ICacheKeyService _cksMailAttachment = new MailAttachmentCacheKeyService( );
+    private static ILuteceCacheManager luteceCacheManager= CDI.current( ).select(ILuteceCacheManager.class).get( );
+    private static Lutece107Cache<String,ByteArrayDataSource> _cacheMailAttachment = luteceCacheManager.createCache(SERVICE_NAME,String.class, ByteArrayDataSource.class, true );  
+ 	
     static
     {
         // We create the mime text/calendar mime type
@@ -633,12 +643,15 @@ final class MailUtil
      */
     private static ByteArrayDataSource convertUrlAttachmentDataSourceToByteArrayDataSource( UrlAttachment urlAttachement )
     {
-        String strKey = MailAttachmentCacheService.getInstance( ).getKey( urlAttachement.getUrlData( ).toString( ) );
+        String strKey = getKey( urlAttachement.getUrlData( ).toString( ) );
         ByteArrayDataSource urlAttachmentDataSource = null;
 
-        if ( MailAttachmentCacheService.getInstance( ).isCacheEnable( ) && MailAttachmentCacheService.getInstance( ).getFromCache( strKey ) != null )
+        if ( _cacheMailAttachment.isCacheEnable( ) && ! _cacheMailAttachment.isClosed() )
         {
-            return (ByteArrayDataSource) MailAttachmentCacheService.getInstance( ).getFromCache( strKey );
+        	ByteArrayDataSource byteArrayDataSource= _cacheMailAttachment.get( strKey );
+        	if(byteArrayDataSource != null ) {
+        		return byteArrayDataSource; 
+        	}
         }
 
         DataHandler handler = new DataHandler( urlAttachement.getUrlData( ) );
@@ -696,12 +709,34 @@ final class MailUtil
             }
         }
 
-        if ( MailAttachmentCacheService.getInstance( ).isCacheEnable( ) )
+        if ( _cacheMailAttachment.isCacheEnable( ) && !_cacheMailAttachment.isClosed( ))
         {
             // add resource in cache
-            MailAttachmentCacheService.getInstance( ).putInCache( strKey, urlAttachmentDataSource );
+        	_cacheMailAttachment.put( strKey, urlAttachmentDataSource );
         }
 
         return urlAttachmentDataSource;
+    }
+    /**
+     * return the cache key associated to the url value
+     * 
+     * @param strValue
+     *            the value
+     * @return the cache key associated to the url value
+     */
+    public static  String getKey( String strValue )
+    {
+        HashMap<String, String> htParam = new HashMap<>( );
+        htParam.put( MailAttachmentCacheKeyService.MARK_URL, strValue );
+
+        return _cksMailAttachment.getKey( htParam, 0, null );
+    }
+    
+    /**
+     * Resets the MailAttachment cache.
+     */
+    public static  void resetCache(  )
+    {
+    	_cacheMailAttachment.resetCache();
     }
 }

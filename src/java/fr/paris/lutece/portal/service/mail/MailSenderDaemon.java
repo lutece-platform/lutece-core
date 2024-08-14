@@ -79,7 +79,6 @@ public class MailSenderDaemon extends Daemon
     public synchronized void run( )
     {
         Logger logger = LogManager.getLogger( "lutece.mail" );
-
         String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
         String strUsername = AppPropertiesService.getProperty( PROPERTY_MAIL_USERNAME, null );
         String strPassword = AppPropertiesService.getProperty( PROPERTY_MAIL_PASSWORD, null );
@@ -130,7 +129,7 @@ public class MailSenderDaemon extends Daemon
             }
 
             // reset all resource stored in MailAttachmentCacheService
-            MailAttachmentCacheService.getInstance( ).resetCache( );
+            MailUtil.resetCache( );
             setLastRunLogs( sbLogs.toString( ) );
         }
         else

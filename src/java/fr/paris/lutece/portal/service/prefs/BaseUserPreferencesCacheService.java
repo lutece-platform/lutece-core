@@ -94,7 +94,7 @@ public class BaseUserPreferencesCacheService extends AbstractCacheableService<St
 
             for ( String strKey : listKeysToRemove )
             {
-                removeKey( strKey );
+                remove( strKey );
             }
         }
     }

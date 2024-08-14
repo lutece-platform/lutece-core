@@ -20,7 +20,7 @@ import jakarta.inject.Qualifier;
  * {@code
  * @Inject
  * @LuteceCache(cacheName = "myCache", keyType = Integer.class, valueType = String.class, enable = enable)
- * Default107Cache<Integer, String> myCacheInstance;
+ * Lutece107Cache<Integer, String> myCacheInstance;
  * }
  * </pre>
  * 

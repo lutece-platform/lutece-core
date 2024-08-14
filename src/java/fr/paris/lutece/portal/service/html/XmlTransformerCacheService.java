@@ -33,9 +33,16 @@
  */
 package fr.paris.lutece.portal.service.html;
 
+import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.xml.XmlTransformer;
+import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
+import jakarta.servlet.ServletContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +58,8 @@ public class XmlTransformerCacheService implements CacheableService<String,Strin
     private static final String SERVICE_NAME = "XML Transformer Cache Service (XSLT)";
     private static final String MSG_KEYS_NOT_AVAILABLE = "Keys not available";
 
+    @Inject 
+    XmlTransformerCacheService xmlTransformerCacheService;
     /**
      * {@inheritDoc }
      */
@@ -143,4 +152,20 @@ public class XmlTransformerCacheService implements CacheableService<String,Strin
     {
         return "This cache can't be disabled - Poolsize = " + XmlTransformer.TRANSFORMER_POOL_SIZE;
     }
+
+    /**
+    * This method observes the initialization of the {@link ApplicationScoped} context
+    * and registers an instance of {@link XmlTransformerCacheService} with the {@link CacheService}.
+    *
+    * <p>This method is triggered automatically by CDI when the {@link ApplicationScoped} context is initialized,
+    * which typically occurs during the startup of the application server.</p>
+    *
+    * @param context the {@link ServletContext} that is initialized. This parameter is observed
+    *                and injected automatically by CDI when the {@link ApplicationScoped} context is initialized.
+    */
+    public void initializedService(@Observes @Initialized(ApplicationScoped.class) 
+   	ServletContext context){		
+        CacheService.registerCacheableService( xmlTransformerCacheService );     
+   	}
+    
 }
