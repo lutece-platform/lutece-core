@@ -39,8 +39,11 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.portal.service.cache.Lutece107Cache;
+import fr.paris.lutece.portal.service.cache.LuteceCache;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.page.PageEvent;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
@@ -60,11 +63,17 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the map of the pages on the site
  */
+@SessionScoped
+@Named("core.xpage.map")
 public class SiteMapApp implements XPageApplication
 {
     /**
@@ -80,6 +89,11 @@ public class SiteMapApp implements XPageApplication
     private static final String PROPERTY_SERVICE_NAME = "portal.site.serviceName.siteMapService";
     private static final String PROPERTY_PATH_LABEL = "portal.site.site_map.pathLabel";
     private static final String PROPERTY_PAGE_TITLE = "portal.site.site_map.pageTitle";
+    private static final String CACHE_NAME = "SiteMapService";
+
+    @Inject
+	@LuteceCache(cacheName = CACHE_NAME, keyType = String.class, valueType = String.class, enable = true)
+	private Lutece107Cache<String, String> _cacheSiteMap;
 
     /**
      * Creates a new SiteMapPage object
@@ -120,10 +134,10 @@ public class SiteMapApp implements XPageApplication
 
         Locale locale = request.getLocale( );
 
-        SiteMapCacheService siteMapCacheService = SiteMapCacheService.getInstance( );
+        
 
         // Check the key in the cache
-        String strCachedPage = siteMapCacheService.isCacheEnable( ) ? (String) siteMapCacheService.getFromCache( strKey ) : null;
+        String strCachedPage = _cacheSiteMap.isCacheEnable( ) && !_cacheSiteMap.isClosed()? _cacheSiteMap.get( strKey ) : null;
 
         if ( strCachedPage == null )
         {
@@ -131,11 +145,11 @@ public class SiteMapApp implements XPageApplication
             String strPage = buildPageContent( nMode, request );
 
             // Add it to the cache
-            if ( siteMapCacheService.isCacheEnable( ) )
+            if ( _cacheSiteMap.isCacheEnable( ) && !_cacheSiteMap.isClosed( ) )
             {
                 synchronized( strKey )
                 {
-                    siteMapCacheService.putInCache( strKey, strPage );
+                	_cacheSiteMap.put( strKey, strPage );
                 }
             }
 
@@ -290,5 +304,16 @@ public class SiteMapApp implements XPageApplication
             XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );
             XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_PAGE );
         }
+    }
+    /**
+     * Process a page event
+     *
+     * @param event
+     *            The event to process
+     */
+    public void processPageEvent( @Observes PageEvent event )
+    {
+    	// page was added, removed or updated; clear cache
+    	_cacheSiteMap.resetCache( );
     }
 }

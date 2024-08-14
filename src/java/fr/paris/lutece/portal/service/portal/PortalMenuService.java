@@ -39,11 +39,10 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.cache.Lutece107Cache;
+import fr.paris.lutece.portal.service.cache.LuteceCache;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.page.PageEvent;
-import fr.paris.lutece.portal.service.page.PageEventListener;
-import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.xml.XmlUtil;
@@ -56,12 +55,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This Service build the portal menu
  */
-public final class PortalMenuService extends AbstractCacheableService implements PageEventListener
+@ApplicationScoped
+public class PortalMenuService
 {
     public static final int MENU_INIT = 0;
     public static final int MENU_MAIN = 1;
@@ -70,30 +76,22 @@ public final class PortalMenuService extends AbstractCacheableService implements
     private static final int PORTAL_COMPONENT_MENU_INIT_ID = 3;
     private static final int PORTAL_COMPONENT_MAIN_MENU_ID = 4;
     private static final String SERVICE_NAME = "PortalMenuService";
+    @Inject
+	@LuteceCache(cacheName = SERVICE_NAME, keyType = String.class, valueType = String.class, enable = true)
+	private Lutece107Cache<String, String> _cachePortalMenu;
 
-    // Menus cache
-    private static PortalMenuService _singleton;
-
-    /** Creates a new instance of PortalMenuService */
-    private PortalMenuService( )
-    {
-        initCache( getName( ) );
-        PageService.addPageEventListener( this );
-    }
 
     /**
      * Get the unique instance of the service
      * 
      * @return The unique instance
+     * @deprecated Use {@code @Inject} to obtain the {@link PortalMenuService} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated
     public static synchronized PortalMenuService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new PortalMenuService( );
-        }
-
-        return _singleton;
+        return CDI.current().select(PortalMenuService.class).get();
     }
 
     /**
@@ -122,16 +120,17 @@ public final class PortalMenuService extends AbstractCacheableService implements
     public String getMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
         String strKey = getKey( nMode, nPart, request );
-        String strMenu = (String) getFromCache( strKey );
-
+        String strMenu = null;
+        if( _cachePortalMenu.isCacheEnable() && !_cachePortalMenu.isClosed( )) {
+         strMenu =  _cachePortalMenu.get( strKey );
+        }
         // Seek for the key in the cache
         if ( strMenu == null )
         {
             // Builds the HTML document
             strMenu = buildMenuContent( nCurrentPageId, nMode, nPart, request );
-
             // Add it in the cache
-            putInCache( strKey, strMenu );
+            _cachePortalMenu.put(strKey, strMenu);
 
             return strMenu;
         }
@@ -300,10 +299,29 @@ public final class PortalMenuService extends AbstractCacheableService implements
         return sbKey.toString( );
     }
 
-    @Override
-    public void processPageEvent( PageEvent event )
+    /**
+     * Process a page event
+     *
+     * @param event
+     *            The event to process
+     */
+    public void processPageEvent( @Observes PageEvent event )
     {
-        // page was added, removed or updated; clear cache
-        resetCache( );
+    	// page was added, removed or updated; clear cache
+    	_cachePortalMenu.resetCache( );
+    }
+    
+    /**
+     * This method observes the initialization of the {@link ApplicationScoped} context.
+     * It ensures that this CDI beans are instantiated at the application startup.
+     *
+     * <p>This method is triggered automatically by CDI when the {@link ApplicationScoped} context is initialized,
+     * which typically occurs during the startup of the application server.</p>
+     *
+     * @param context the {@link ServletContext} that is initialized. This parameter is observed
+     *                and injected automatically by CDI when the {@link ApplicationScoped} context is initialized.
+     */
+    public void initializedService(@Observes @Initialized(ApplicationScoped.class) ServletContext context) {
+        // This method is intentionally left empty to trigger CDI bean instantiation
     }
 }

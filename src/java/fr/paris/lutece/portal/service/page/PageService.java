@@ -46,6 +46,8 @@ import java.util.Properties;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
@@ -97,7 +99,7 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 @ApplicationScoped
 @Named("pageService")
-public class PageService implements IPageService, ImageResourceProvider, PageEventListener, PortletEventListener
+public class PageService implements IPageService, ImageResourceProvider, PortletEventListener
 {
     // //////////////////////////////////////////////////////////////////////////
     // Variables
@@ -162,7 +164,9 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
     private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
-    private static List<PageEventListener> _listEventListeners = new ArrayList<>( );
+    
+    @Inject
+    private Event<PageEvent> _pageEvent;
     @Inject
     @Named("pageCacheKeyService")
     private ICacheKeyService _cksPage;
@@ -184,7 +188,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         _cachePages.initCache( );
         _cachePortlets.initCache( );
         ImageResourceManager.registerProvider( this );
-        addPageEventListener( this );
     }
 
     /**
@@ -288,9 +291,11 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         // we add the key in the memory key only if cache is enable
         String strKey = getKey( htParamRequest, nMode, user );
 
+        String strPage=null;
         // get page from cache
-        String strPage = (String) _cachePages.getFromCache( strKey );
-
+        if(_cachePages.isCacheEnable() && !_cachePages.isClosed( )) {
+        	strPage = _cachePages.get( strKey );
+        }
         if ( strPage == null )
         {
             // only one thread can evaluate the page
@@ -298,7 +303,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             {
                 // can be useful if an other thread had evaluate the
                 // page
-                strPage = (String) _cachePages.getFromCache( strKey );
+                strPage = (String) _cachePages.get( strKey );
 
                 // ignore checkstyle, this double verification is useful
                 // when page cache has been created when thread is
@@ -333,7 +338,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                     // cached
                     if ( bCanBeCached && ( nMode != MODE_ADMIN ) )
                     {
-                        _cachePages.putInCache( strKey, strPage );
+                        _cachePages.put( strKey, strPage );
                     }
                 }
                 else
@@ -634,7 +639,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             user = SecurityService.getInstance( ).getRegisteredUser( request );
         }
 
-        boolean isCacheEnabled = nMode != MODE_ADMIN && _cachePortlets.isCacheEnable( );
+        boolean isCacheEnabled = nMode != MODE_ADMIN && _cachePortlets.isCacheEnable( ) && !_cachePortlets.isClosed( );
         boolean bCanBeCached = user != null ? portlet.canBeCachedForConnectedUsers( ) : portlet.canBeCachedForAnonymousUsers( );
 
         if ( portlet.isContentGeneratedByXmlAndXsl( ) )
@@ -659,7 +664,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 mapParams.put( PARAMETER_PORTLET, String.valueOf( portlet.getId( ) ) );
                 strKey = _cksPortlet.getKey( mapParams, nMode, user );
 
-                String strPortlet = (String) _cachePortlets.getFromCache( strKey );
+                String strPortlet = (String) _cachePortlets.get( strKey );
 
                 if ( strPortlet != null )
                 {
@@ -680,7 +685,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 mapRequestParams.put( PARAMETER_PORTLET, String.valueOf( portlet.getId( ) ) );
                 strKey = _cksPortlet.getKey( mapRequestParams, nMode, user );
 
-                String strPortlet = (String) _cachePortlets.getFromCache( strKey );
+                String strPortlet = (String) _cachePortlets.get( strKey );
 
                 if ( strPortlet != null )
                 {
@@ -693,7 +698,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
         if ( isCacheEnabled && StringUtils.isNotEmpty( strKey ) )
         {
-            _cachePortlets.putInCache( strKey, strPortletContent );
+            _cachePortlets.put( strKey, strPortletContent );
         }
         
         if ( nMode == MODE_ADMIN )
@@ -811,34 +816,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
     }
 
-    // ///////////////////////////////////////////////////////////////////////////
-    // Events Listeners management
-    /**
-     * Add a new page event listener
-     *
-     * @param listener
-     *            An event listener to add
-     */
-    public static void addPageEventListener( PageEventListener listener )
-    {
-        _listEventListeners.add( listener );
-        AppLogService.info( "New Page Event Listener registered : {}", listener.getClass( ).getName( ) );
-    }
-
-    /**
-     * Notify an event to all listeners
-     *
-     * @param event
-     *            A page Event
-     */
-    private void notifyListeners( PageEvent event )
-    {
-        for ( PageEventListener listener : _listEventListeners )
-        {
-            listener.processPageEvent( event );
-        }
-    }
-
     /**
      * Returns the resource type Id
      *
@@ -875,7 +852,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         PageHome.create( page );
 
         PageEvent event = new PageEvent( page, PageEvent.PAGE_CREATED );
-        notifyListeners( event );
+        _pageEvent.fire(event);
+       // notifyListeners( event );
     }
 
     /**
@@ -888,9 +866,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     public void updatePage( Page page )
     {
         PageHome.update( page );
-
         PageEvent event = new PageEvent( page, PageEvent.PAGE_CONTENT_MODIFIED );
-        notifyListeners( event );
+        _pageEvent.fire(event);
     }
 
     /**
@@ -905,7 +882,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         Page page = PageHome.findByPrimaryKey( nPageId );
         PageEvent event = new PageEvent( page, PageEvent.PAGE_DELETED );
         PageHome.remove( nPageId );
-        notifyListeners( event );
+        _pageEvent.fire(event);
     }
 
     /**
@@ -914,8 +891,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param event
      *            The event to process
      */
-    @Override
-    public void processPageEvent( PageEvent event )
+    public void processPageEvent( @Observes PageEvent event )
     {
         Page page = event.getPage( );
         invalidatePage( page.getId( ) );
@@ -941,7 +917,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     {
         Page page = PageHome.findByPrimaryKey( nPageId );
         PageEvent event = new PageEvent( page, PageEvent.PAGE_CONTENT_MODIFIED );
-        notifyListeners( event );
+        _pageEvent.fire(event);
     }
 
     /**
@@ -1149,5 +1125,5 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             }
         }
     }
-
+    
 }

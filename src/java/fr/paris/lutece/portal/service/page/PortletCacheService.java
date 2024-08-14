@@ -37,6 +37,9 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.portlet.PortletEvent;
 import fr.paris.lutece.portal.service.portlet.PortletEventListener;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
+import jakarta.servlet.ServletContext;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -72,5 +75,18 @@ public class PortletCacheService extends AbstractCacheableService<String,String>
                remove( strKeyTemp );
             }
         }
+    }
+    /**
+     * This method observes the initialization of the {@link ApplicationScoped} context.
+     * It ensures that this CDI beans are instantiated at the application startup.
+     *
+     * <p>This method is triggered automatically by CDI when the {@link ApplicationScoped} context is initialized,
+     * which typically occurs during the startup of the application server.</p>
+     *
+     * @param context the {@link ServletContext} that is initialized. This parameter is observed
+     *                and injected automatically by CDI when the {@link ApplicationScoped} context is initialized.
+     */
+    public void initializedService(@Observes @Initialized(ApplicationScoped.class) ServletContext context) {
+        // This method is intentionally left empty to trigger CDI bean instantiation
     }
 }

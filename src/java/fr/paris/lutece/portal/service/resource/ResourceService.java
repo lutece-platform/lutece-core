@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -48,7 +49,7 @@ import java.util.StringTokenizer;
  * 
  * @since v1.4.1
  */
-public abstract class ResourceService extends AbstractCacheableService
+public abstract class ResourceService extends AbstractCacheableService<String, Resource>
 {
     // Constants
     private static final String DELIMITER = ",";
@@ -159,10 +160,10 @@ public abstract class ResourceService extends AbstractCacheableService
     {
         try
         {
-            ResourceLoader loader = (ResourceLoader) Class.forName( strLoaderClassName ).newInstance( );
+            ResourceLoader loader = (ResourceLoader) Class.forName( strLoaderClassName ).getDeclaredConstructor().newInstance();
             _listLoaders.add( loader );
         }
-        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -179,9 +180,9 @@ public abstract class ResourceService extends AbstractCacheableService
     {
         Resource resource = null;
 
-        if ( isCacheEnable( ) )
+        if ( isCacheEnable( ) && !isClosed( ))
         {
-            resource = (Resource) getFromCache( strId );
+            resource = get( strId );
 
             if ( resource == null )
             {
@@ -189,7 +190,7 @@ public abstract class ResourceService extends AbstractCacheableService
 
                 if ( resource != null )
                 {
-                    putInCache( strId, resource );
+                    put( strId, resource );
                 }
             }
         }
