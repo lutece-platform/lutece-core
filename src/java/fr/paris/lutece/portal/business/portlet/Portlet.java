@@ -36,10 +36,11 @@ package fr.paris.lutece.portal.business.portlet;
 import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.sql.Timestamp;
-
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -646,6 +647,18 @@ public abstract class Portlet implements XmlContent
         return null;
     }
 
+    /**
+     * Default getLocale() implementation. Could be overriden
+     * 
+     * @param request
+     *            The HTTP request
+     * @return The Locale
+     */
+    protected Locale getLocale( HttpServletRequest request )
+    {
+        return LocaleService.getContextUserLocale( request );
+    }
+    
     /**
      * Check if the content of the portlet can be put in cache if the current user is not authenticated. If a cache is disabled for a portlet, then every page
      * that contains a portlet of this type will NOT use the page cache, and portlet contents of this portlet type will not be saved into portlet cache.<br>

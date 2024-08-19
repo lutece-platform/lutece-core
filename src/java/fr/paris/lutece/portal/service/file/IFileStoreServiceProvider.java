@@ -63,6 +63,18 @@ public interface IFileStoreServiceProvider extends Serializable
      * @return true if default
      */
     public boolean isDefault( );
+    
+    /**
+     * health check 
+     * 
+     * @return true if available
+     */
+    public default boolean healthCheck( )
+    {
+    	// default 
+        return true;
+    }
+
 
     /**
      * Stores a file Lutece File
@@ -71,7 +83,7 @@ public interface IFileStoreServiceProvider extends Serializable
      *            the file
      * @return The key of the stored file
      */
-    String storeFile( File file );
+    String storeFile( File file ) throws FileServiceException;
 
     /**
      * Stores a org.apache.commons.fileupload.FileItem
@@ -80,7 +92,7 @@ public interface IFileStoreServiceProvider extends Serializable
      *            the fileItem
      * @return The key of the blob
      */
-    String storeFileItem( FileItem fileItem );
+    String storeFileItem( FileItem fileItem ) throws FileServiceException;
 
     /**
      * Stores an input stream
@@ -89,7 +101,7 @@ public interface IFileStoreServiceProvider extends Serializable
      *            the input stream
      * @return The key of the blob
      */
-    String storeInputStream( InputStream inputStream );
+    String storeInputStream( InputStream inputStream ) throws FileServiceException;
 
     /**
      * Store a blob from a bytes array
@@ -98,7 +110,7 @@ public interface IFileStoreServiceProvider extends Serializable
      *            The blob
      * @return The key of the blob
      */
-    String storeBytes( byte [ ] blob );
+    String storeBytes( byte [ ] blob ) throws FileServiceException;
 
     /**
      * Get a file
@@ -107,7 +119,7 @@ public interface IFileStoreServiceProvider extends Serializable
      *            The key of the file
      * @return The file
      */
-    File getFile( String strKey );
+    File getFile( String strKey ) throws FileServiceException;
 
     /**
      * Get a file object only filled with the meta data (name, size ...) 
@@ -117,7 +129,7 @@ public interface IFileStoreServiceProvider extends Serializable
      *            The key of the file
      * @return The file
      */
-    File getFileMetaData( String strKey );
+    File getFileMetaData( String strKey ) throws FileServiceException;
 
     /**
      * Gets a blob as {@link InputStream}
@@ -126,7 +138,7 @@ public interface IFileStoreServiceProvider extends Serializable
      *            the key
      * @return the {@link InputStream}
      */
-    InputStream getInputStream( String strKey );
+    InputStream getInputStream( String strKey ) throws FileServiceException;
 
     /**
      * Delete a blob
@@ -134,7 +146,7 @@ public interface IFileStoreServiceProvider extends Serializable
      * @param strKey
      *            The key of the blob
      */
-    void delete( String strKey );
+    void delete( String strKey ) throws FileServiceException;
 
     /**
      * Gets the file download url for Front Office Lutece users
@@ -183,7 +195,7 @@ public interface IFileStoreServiceProvider extends Serializable
      * @throws fr.paris.lutece.portal.service.file.ExpiredLinkException
      * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
-    File getFileFromRequestBO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException;
+    File getFileFromRequestBO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException, FileServiceException;
 
     /**
      * get requested file from FO
@@ -194,7 +206,7 @@ public interface IFileStoreServiceProvider extends Serializable
      * @throws fr.paris.lutece.portal.service.file.ExpiredLinkException
      * @throws fr.paris.lutece.portal.service.security.UserNotSignedException
      */
-    File getFileFromRequestFO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException;
+    File getFileFromRequestFO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException, FileServiceException;
 
     /**
      * check if current user can access the file

@@ -45,10 +45,12 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.file.FileService;
+import fr.paris.lutece.portal.service.file.FileServiceException;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.file.FileUtil;
 
@@ -155,6 +157,14 @@ public class FileImageService implements ImageResourceProvider
      */
     public String addImageResource( FileItem fileItem )
 	{
-		return FileService.getInstance( ).getFileStoreServiceProvider( ).storeFileItem( fileItem );
+    	try 
+    	{
+    		return FileService.getInstance( ).getFileStoreServiceProvider( ).storeFileItem( fileItem );
+    	}
+		catch (FileServiceException e )
+    	{
+			AppLogService.error(e);
+			return null;
+    	}
 	}
 }

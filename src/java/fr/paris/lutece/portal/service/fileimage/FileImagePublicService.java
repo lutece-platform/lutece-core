@@ -38,11 +38,13 @@ import org.apache.commons.fileupload.FileItem;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.file.FileService;
+import fr.paris.lutece.portal.service.file.FileServiceException;
 import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.file.FileUtil;
 
 public class FileImagePublicService extends AbstractCacheableService implements ImageResourceProvider 
@@ -112,14 +114,21 @@ public class FileImagePublicService extends AbstractCacheableService implements 
 		else
 		{
 			/*if no cache*/
-	        File file = _fileStoreService.getFile( String.valueOf( nIdResource ) );
-	
-	        if ( ( file != null ) && ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
-	        {
-	        	ImageResource imageResource = new ImageResource( file );
-	        	putInCache( cacheKey, imageResource);
-	            return imageResource;
-	        }
+			try 
+			{
+				File file = _fileStoreService.getFile( String.valueOf( nIdResource ) );
+				
+				if ( ( file != null ) && ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
+		        {
+		        	ImageResource imageResource = new ImageResource( file );
+		        	putInCache( cacheKey, imageResource);
+		            return imageResource;
+		        }
+			}
+			catch ( FileServiceException e )
+			{
+				AppLogService.error(e);
+			}
 		}
 
         return null;
@@ -134,7 +143,15 @@ public class FileImagePublicService extends AbstractCacheableService implements 
      */
 	public String addImageResource( FileItem fileItem )
     {
-        return _fileStoreService.storeFileItem( fileItem ) ;
+		try 
+		{
+			return _fileStoreService.storeFileItem( fileItem ) ;
+		}
+		catch ( FileServiceException e )
+		{
+			AppLogService.error(e);
+			return null;
+		}
     }
 
 	@Override

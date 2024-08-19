@@ -60,7 +60,7 @@
 							<#if daemon.lastRunLogs?has_content>
 								<@offcanvas id="${daemon.id}" title="#i18n{${daemon.nameKey}}" btnColor="light" btnTitle="${daemon.lastRunDate}" position="end">
 									${daemon.lastRunDate}
-									<@pre>${daemon.lastRunLogs}</@pre>
+									<@pre><#if daemon.lastRunLogs?length &lt; log_max_size>${daemon.lastRunLogs}<#else>${daemon.lastRunLogs?substring(0,log_max_size -1)} <#if daemon.lastRunLogs?length &gt; log_max_size + 200><br>(...)<br>${daemon.lastRunLogs?substring(daemon.lastRunLogs?length -200,daemon.lastRunLogs?length)}</#if></#if> </@pre>
 								</@offcanvas>
 							<#else>
 								<strong>${daemon.lastRunDate}</strong>

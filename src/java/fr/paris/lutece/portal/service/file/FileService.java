@@ -79,6 +79,18 @@ public class FileService
     {
         return _instance;
     }
+    
+
+    /**
+     * health check 
+     * 
+     * @return true if available
+     */
+    public boolean healthCheck( )
+    {
+        return _currentFileStoreServiceProvider.healthCheck( );
+    }
+
 
     /**
      * get the current FileStoreService provider
