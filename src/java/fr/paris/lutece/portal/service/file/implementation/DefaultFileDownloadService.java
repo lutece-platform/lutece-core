@@ -62,10 +62,22 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     protected static final String URL_FO = "jsp/site/file/download";
     protected static final String URL_BO = "jsp/admin/file/download";
     private static final String SERVICE_NAME = "DefaultFileDownloadService";
-    private static final String SEPARATOR = "/";
+    private static final String DEFAULT_SEPARATOR = "/";
+
+    private String _separator = DEFAULT_SEPARATOR;
 
     // Keys
     public static final String KEY_LINK_VALIDITY_TIME = "link_validity_time";
+
+    public String getSeparator( )
+    {
+        return _separator;
+    }
+
+    public void setSeparator( String separator )
+    {
+        _separator = separator;
+    }
 
     /**
      * Build the additionnel data map to provide encryption data
@@ -192,9 +204,9 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     private String getDataToEncrypt( Map<String, String> additionnalData )
     {
         StringBuilder sb = new StringBuilder( );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_FILE_ID ), "" ) ).append( SEPARATOR );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_ID ), "" ) ).append( SEPARATOR );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_TYPE ), "" ) ).append( SEPARATOR );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_FILE_ID ), "" ) ).append( _separator );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_ID ), "" ) ).append( _separator );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_TYPE ), "" ) ).append( _separator );
         sb.append( calculateEndValidity( ) );
 
         return sb.toString( );
@@ -263,7 +275,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
      */
     protected Map<String, String> getDecryptedData( String strData )
     {
-        String [ ] data = strData.split( SEPARATOR );
+        String [ ] data = strData.split( _separator );
         Map<String, String> fileData = buildAdditionnalDatas( data [0], data [1], data [2] );
         fileData.put( PARAMETER_VALIDITY_TIME, data [3] );
 
