@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.PortalJspBean;
 
@@ -92,7 +93,7 @@ public abstract class AbstractDownloadServlet extends HttpServlet
                 }
                 catch( UserNotSignedException e )
                 {
-                    response.sendRedirect( response.encodeRedirectURL( PortalJspBean.redirectLogin( request ) ) );
+                    sendRedirection( response, response.encodeRedirectURL( PortalJspBean.redirectLogin( request ) ) );
                 }
                 catch( FileServiceException e )
                 {
@@ -103,13 +104,19 @@ public abstract class AbstractDownloadServlet extends HttpServlet
 
             if ( file == null || file.getPhysicalFile( ) == null )
             {
-                SiteMessageService.setMessage( request, MESSAGE_UNKNOWN_FILE );
+                try
+                {
+                    SiteMessageService.setMessage( request, MESSAGE_UNKNOWN_FILE );
+                }
+                catch( SiteMessageException e )
+                {
+                    sendRedirection( response, AppPathService.getSiteMessageUrl( request ) );
+                }
             }
-
         }
         catch( SiteMessageException e )
         {
-            response.sendRedirect( AppPathService.getSiteMessageUrl( request ) );
+            sendRedirection( response, AppPathService.getSiteMessageUrl( request ) );
         }
 
         if ( file != null )
@@ -121,6 +128,30 @@ public abstract class AbstractDownloadServlet extends HttpServlet
                 response.setHeader( "Content-Disposition", "attachment; filename=\"" + file.getTitle( ) + "\";" );
                 outputStream.write( file.getPhysicalFile( ).getValue( ) );
             }
+            catch ( IOException e )
+            {
+                AppLogService.error( "The file could not be sent", e );
+            }
+        }
+    }
+
+    /**
+     * Send a redirect response to the client, with a specific redirection URL
+     * 
+     * @param response
+     *            The response
+     * @param redirectUrl
+     *            The redirection URL
+     */
+    private void sendRedirection( HttpServletResponse response, String redirectUrl )
+    {
+        try
+        {
+            response.sendRedirect( redirectUrl );
+        }
+        catch( IOException e )
+        {
+            AppLogService.error( "Unable to redirect", e );
         }
     }
 
