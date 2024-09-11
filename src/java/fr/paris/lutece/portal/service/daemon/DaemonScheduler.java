@@ -69,7 +69,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
 {
     private static final String PROPERTY_MAX_AWAIT_TERMINATION_DELAY = "daemon.maxAwaitTerminationDelay";
 
-    private  BlockingQueue<DaemonEntry> _queue;
+    private BlockingQueue<DaemonEntry> _queue;
     @Inject
     @DaemonExecutor
     private ExecutorService _executor;
@@ -98,7 +98,6 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     @PostConstruct
     public void initDaemonScheduler( ){  	
     	_queue = new LinkedBlockingQueue<DaemonEntry>();
-        //_scheduledDaemonsTimer = new Timer( "Lutece-Daemons-Scheduled-Timer-Thread", true );
     	_scheduledExecutorService =  Executors.newScheduledThreadPool( 1 , _managedThreadFactory);
         _executingDaemons = new HashMap<>( );
         _scheduledDaemons = new HashMap<>( );
@@ -109,6 +108,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         _coordinatorThread.start( );
         _bShuttingDown = false;
     }
+    
     @Override
     public boolean enqueue( DaemonEntry entry, long nDelay, TimeUnit unit )
     {
@@ -165,7 +165,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             else
             {
                 DaemonManagedTask daemonManagedTask = new DaemonManagedTask( entry );
-                ScheduledFuture sf = _scheduledExecutorService.scheduleAtFixedRate( daemonManagedTask ,  nInitialDelay , entry.getInterval( ) , unit );
+                ScheduledFuture sf = _scheduledExecutorService.scheduleAtFixedRate( daemonManagedTask ,  nInitialDelay , unit.convert(entry.getInterval( ), TimeUnit.SECONDS) , unit );
                 _scheduledFutures.put( entry.getId( ), sf );
                 _scheduledDaemons.put( entry.getId( ), daemonManagedTask );
             }
@@ -252,7 +252,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
                 }
                 if ( runnable != null )
                 {
-                    _scheduledExecutorService.execute( runnable );
+                    _executor.execute( runnable );
                 }
             }
             // prepare next iteration
