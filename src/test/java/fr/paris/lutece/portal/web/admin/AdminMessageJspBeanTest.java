@@ -35,16 +35,14 @@ package fr.paris.lutece.portal.web.admin;
 
 import java.util.Locale;
 
-import jakarta.servlet.http.HttpSession;
-
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 /**
  * AdminMessageJspBeanTest Test Class
@@ -63,7 +61,7 @@ public class AdminMessageJspBeanTest extends LuteceTestCase
 
         AdminUser user = new AdminUser( );
         user.setLocale( Locale.FRANCE );
-        Utils.registerAdminUser( request, user );
+        AdminUserUtils.registerAdminUser( request, user );
 
         String strTitle = "WARNING_MESSAGE";
         boolean bCancelButton = false;

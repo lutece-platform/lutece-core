@@ -37,7 +37,9 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
@@ -49,10 +51,11 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * FeaturesGroupJspBeanTest Test Class
@@ -67,6 +70,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     private Right right;
 
     @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
         super.setUp( );
@@ -87,6 +91,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     }
 
     @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         RightHome.remove( right.getId( ) );
@@ -177,7 +182,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     public void testGetCreateGroup( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         assertNotNull( instance.getCreateGroup( request ) );
@@ -190,7 +195,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_GROUP_ID, TEST_GROUP_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         assertNotNull( instance.getModifyGroup( request ) );
@@ -367,11 +372,12 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     /**
      * Test of getRemoveGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
+    @Test
     public void testGetRemoveGroup( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( PARAMETER_GROUP_ID, TEST_GROUP_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         instance.getRemoveGroup( request );
@@ -487,13 +493,13 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             assertEquals( featureGroup.getOrder( ), stored.getOrder( ) );
         }
     }
-
+private @Inject IRightDAO rightDAO;
     public void testDoReinitFeatures( ) throws AccessDeniedException
     {
         right.setFeatureGroup( featureGroup.getId( ) );
         RightHome.update( right );
         right.setOrder( 100 );
-        ( (IRightDAO) SpringContextService.getBean( "rightDAO" ) ).store( right );
+        rightDAO.store( right );
 
         Right stored = RightHome.findByPrimaryKey( right.getId( ) );
         assertNotNull( stored );
@@ -515,7 +521,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         right.setFeatureGroup( featureGroup.getId( ) );
         RightHome.update( right );
         right.setOrder( 100 );
-        ( (IRightDAO) SpringContextService.getBean( "rightDAO" ) ).store( right );
+        rightDAO.store( right );
 
         Right stored = RightHome.findByPrimaryKey( right.getId( ) );
         assertNotNull( stored );
@@ -544,7 +550,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         right.setFeatureGroup( featureGroup.getId( ) );
         RightHome.update( right );
         right.setOrder( 100 );
-        ( (IRightDAO) SpringContextService.getBean( "rightDAO" ) ).store( right );
+        rightDAO.store( right );
 
         Right stored = RightHome.findByPrimaryKey( right.getId( ) );
         assertNotNull( stored );

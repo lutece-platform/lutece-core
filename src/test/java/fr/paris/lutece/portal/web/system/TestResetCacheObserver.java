@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2024, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,27 +31,48 @@
  *
  * License 1.0
  */
-/*
- * Created on 16 janv. 04
- *
- * To change the template for this generated file go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
- */
-package fr.paris.lutece;
+package fr.paris.lutece.portal.web.system;
 
-/**
- * The main class for unit tests
- */
-public final class MainTest
+import java.util.HashMap;
+import java.util.Map;
+
+import fr.paris.lutece.portal.service.cache.LuteceCacheEvent;
+import fr.paris.lutece.portal.service.cache.LuteceCacheEvent.LuteceCacheEventType;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+
+@ApplicationScoped
+public class TestResetCacheObserver
 {
-    /**
-     * The main method
-     * 
-     * @param args
-     *            the arguments of the main method
-     */
-    public static void main( String [ ] args )
+
+    private Map<String, Long> _callCount = new HashMap<String, Long>( );
+
+    public void notify( @Observes LuteceCacheEvent event )
     {
-        junit.textui.TestRunner.run( AllTests.suite( ) );
+        if ( null != event.getSource( ) && LuteceCacheEventType.RESET == event.getType( ) )
+        {
+            if ( !_callCount.containsKey( event.getSource( ).getName( ) ) )
+            {
+                _callCount.put( event.getSource( ).getName( ), 0l );
+            }
+            _callCount.put( event.getSource( ).getName( ), _callCount.get( event.getSource( ).getName( ) ) + 1 );
+        }
     }
+
+    public void reset( )
+    {
+        _callCount.clear( );
+        ;
+    }
+
+    public long getCallCount( )
+    {
+        return _callCount.size( );
+    }
+
+    public long getCallCount( String cacheName )
+    {
+        return _callCount.containsKey( cacheName ) ? _callCount.get( cacheName ) : 0;
+    }
+
 }

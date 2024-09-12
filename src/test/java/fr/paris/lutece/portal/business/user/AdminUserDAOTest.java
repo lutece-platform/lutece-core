@@ -37,33 +37,26 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.ApplicationContext;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
+import jakarta.inject.Inject;
 
 public class AdminUserDAOTest extends LuteceTestCase
 {
+    @Inject
+    private IAdminUserDAO adminUserDAO;
+    @Inject
+    private IPasswordFactory passwordFactory;
 
-    private AdminUserDAO getAdminUserDAO( )
-    {
-        AdminUserDAO adminUserDAO = new AdminUserDAO( );
-        ApplicationContext context = SpringContextService.getContext( );
-        AutowireCapableBeanFactory beanFactory = context.getAutowireCapableBeanFactory( );
-        beanFactory.autowireBean( adminUserDAO );
-        return adminUserDAO;
-    }
-
+    @Test
     public void testInsertLuteceDefaultAdminUser( )
     {
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( randomUsername ) );
@@ -87,9 +80,9 @@ public class AdminUserDAOTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testLoadDefaultAdminUser( )
     {
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( 1 );
         assertEquals( "admin", storedUser.getAccessCode( ) );
         assertEquals( "admin", storedUser.getFirstName( ) );
@@ -104,11 +97,10 @@ public class AdminUserDAOTest extends LuteceTestCase
         assertEquals( "all", storedUser.getWorkgroupKey( ) );
     }
 
+    @Test
     public void testStoreLuteceDefaultAdminUser( )
     {
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( randomUsername ) );
@@ -143,11 +135,10 @@ public class AdminUserDAOTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testStoreLuteceDefaultAdminUserIgnorePassword( )
     {
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( randomUsername ) );
@@ -182,11 +173,10 @@ public class AdminUserDAOTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testPasswordHistory( )
     {
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( randomUsername ) );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2024, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,28 +31,37 @@
  *
  * License 1.0
  */
-package fr.paris.lutece;
+package fr.paris.lutece.portal.service.cache;
 
-import fr.paris.lutece.portal.service.daemon.AppDaemonService;
-import fr.paris.lutece.portal.service.database.AppConnectionService;
+import javax.cache.Cache;
 
-/**
- * The main class for unit tests
- */
-public final class TestRunner
+public class LuteceCacheEvent
 {
-    /**
-     * The main method
-     * 
-     * @param args
-     *            the arguments of the main method
-     */
-    public static void main( String [ ] args )
+
+    public enum LuteceCacheEventType
     {
-        junit.textui.TestRunner.run( AllTests.suite( ) );
-        AppDaemonService.shutdown( );
-        AppConnectionService.releasePool( );
-        System.out.println( "Lutece services shutdown" );
-        System.exit( 0 );
+        RESET,
+        CLEAR,
     }
+
+    private final Cache source;
+
+    private final LuteceCacheEventType _type;
+
+    public LuteceCacheEvent( Cache source, LuteceCacheEventType _type )
+    {
+        this.source = source;
+        this._type = _type;
+    }
+
+    public Cache getSource( )
+    {
+        return source;
+    }
+
+    public LuteceCacheEventType getType( )
+    {
+        return _type;
+    }
+
 }

@@ -33,16 +33,17 @@
  */
 package fr.paris.lutece.util.http;
 
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  *
  */
 public class SecurityUtilTest extends LuteceTestCase
 {
+
     /**
      * Test of containsCleanParameters method, of class SecurityUtil.
      */

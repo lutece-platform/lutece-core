@@ -41,15 +41,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.Random;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
+import fr.paris.lutece.portal.service.cache.CacheService;
+import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -57,9 +58,12 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * SiteMap Test Class
@@ -68,22 +72,26 @@ public class SiteMapAppTest extends LuteceTestCase
 {
     private static final String ROLE1 = "ROLE1";
     private static final String ROLE2 = "ROLE2";
+    private static final String SERVICE_NAME = "SiteMapService";
+    private @Inject IPageService pageService;
 
     /**
      * Test of getPage method, of class fr.paris.lutece.portal.web.xpages.SiteMapApp.
      */
+    @Test
     public void testGetPage( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
         int nMode = 0;
         Plugin plugin = null;
-        SiteMapApp instance = new SiteMapApp( );
+        SiteMapApp instance = CDI.current( ).select( SiteMapApp.class ).get( );
 
         XPage result = instance.getPage( request, nMode, plugin );
         assertNotNull( result );
     }
 
+    @Test
     public void testGetPageMod( )
     {
         HttpServletRequest request = new MockHttpServletRequest( );
@@ -92,7 +100,8 @@ public class SiteMapAppTest extends LuteceTestCase
         String randomPageName = "page" + new SecureRandom( ).nextLong( );
 
         // get the site map
-        SiteMapApp instance = new SiteMapApp( );
+        SiteMapApp instance = CDI.current( ).select( SiteMapApp.class ).get( );
+        
         XPage sitemap = instance.getPage( request, 0, null );
         assertFalse( "Site map should not contain not yet created page with name " + randomPageName, sitemap.getContent( ).contains( randomPageName ) );
 
@@ -102,7 +111,6 @@ public class SiteMapAppTest extends LuteceTestCase
         page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
         page.setName( randomPageName );
 
-        IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         pageService.createPage( page );
         // get the site map
         sitemap = instance.getPage( request, 0, null );
@@ -121,6 +129,7 @@ public class SiteMapAppTest extends LuteceTestCase
         assertFalse( "Site map should not contain page with name " + randomPageName + " anymore", sitemap.getContent( ).contains( randomPageName ) );
     }
 
+    @Test
     public void testPageVisibility( ) throws IOException, LuteceInitException
     {
         // create pages
@@ -134,7 +143,7 @@ public class SiteMapAppTest extends LuteceTestCase
 
         try
         {
-            SiteMapApp instance = new SiteMapApp( );
+            SiteMapApp instance = CDI.current( ).select( SiteMapApp.class ).get( );
 
             // test twice to test the cache
             for ( int i = 0; i < 2; i++ )
@@ -212,7 +221,6 @@ public class SiteMapAppTest extends LuteceTestCase
             restoreAuthentication( authStatus );
             restoreSiteMapCacheService( cacheStatus );
 
-            IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
             pageService.removePage( pageNoRole.getId( ) );
             pageService.removePage( pageRole1.getId( ) );
             pageService.removePage( pageRole2.getId( ) );
@@ -221,14 +229,30 @@ public class SiteMapAppTest extends LuteceTestCase
 
     private void restoreSiteMapCacheService( boolean status )
     {
-        SiteMapCacheService.getInstance( ).enableCache( status );
+        List<CacheableService<?, ?>> caches = CacheService.getCacheableServicesList( );
+        for ( CacheableService cacheService : caches )
+        {
+            if ( SERVICE_NAME.equals( cacheService.getName( ) ) )
+            {
+                cacheService.enableCache( status );
+                break;
+            }
+        }
     }
 
     private boolean enableSiteMapCacheService( )
     {
-        boolean status = SiteMapCacheService.getInstance( ).isCacheEnable( );
-        SiteMapCacheService.getInstance( ).enableCache( true );
-
+        boolean status = false;
+        List<CacheableService<?, ?>> caches = CacheService.getCacheableServicesList( );
+        for ( CacheableService cacheService : caches )
+        {
+            if ( SERVICE_NAME.equals( cacheService.getName( ) ) )
+            {
+                status = cacheService.isCacheEnable( );
+                cacheService.enableCache( true );
+                break;
+            }
+        }
         return status;
     }
 
@@ -288,7 +312,6 @@ public class SiteMapAppTest extends LuteceTestCase
             page.setRole( role );
         }
 
-        IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         pageService.createPage( page );
 
         return page;

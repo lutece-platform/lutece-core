@@ -109,6 +109,21 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         _bShuttingDown = false;
     }
     
+    void initDaemonScheduler(BlockingQueue<DaemonEntry> queue, ExecutorService executor, ManagedThreadFactory managedThreadFactory) {
+        _queue = queue;
+        _managedThreadFactory = managedThreadFactory;
+        _executor = executor;
+        _scheduledExecutorService =  Executors.newScheduledThreadPool( 1 , _managedThreadFactory);
+        _executingDaemons = new HashMap<>( );
+        _scheduledDaemons = new HashMap<>( );
+        _scheduledFutures = new HashMap<>( );
+        _coordinatorThread = _managedThreadFactory.newThread( this);
+        _coordinatorThread.setName(  "Lutece-Daemons-Coordinator"  );
+        _coordinatorThread.setDaemon( true );
+        _coordinatorThread.start( );
+        _bShuttingDown = false;
+    }
+    
     @Override
     public boolean enqueue( DaemonEntry entry, long nDelay, TimeUnit unit )
     {

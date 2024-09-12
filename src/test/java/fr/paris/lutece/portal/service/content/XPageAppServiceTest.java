@@ -35,10 +35,6 @@ package fr.paris.lutece.portal.service.content;
 
 import java.util.Collection;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -48,6 +44,8 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class XPageAppServiceTest extends LuteceTestCase
 {

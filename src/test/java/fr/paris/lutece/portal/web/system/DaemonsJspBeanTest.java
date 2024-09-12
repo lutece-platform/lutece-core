@@ -43,8 +43,6 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
@@ -53,10 +51,11 @@ import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.daemon.TestDaemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 public class DaemonsJspBeanTest extends LuteceTestCase
 {
@@ -128,8 +127,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         AppDaemonService.stopDaemon( JUNIT_DAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
         restoreInitialStartDelay( origMaxInitialStartDelay );
-        assertEquals( "Failed to restore daemon initial start delay", origMaxInitialStartDelay,
-                AppPropertiesService.getProperty( "daemon.maxInitialStartDelay" ) );
+        assertEquals( origMaxInitialStartDelay,
+                AppPropertiesService.getProperty( "daemon.maxInitialStartDelay" ), "Failed to restore daemon initial start delay" );
         super.tearDown( );
     }
 
@@ -508,7 +507,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     public void testGetManageDaemons( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
         bean.init( request, DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
         assertNotNull( bean.getManageDaemons( request ) );
     }

@@ -33,25 +33,28 @@
  */
 package fr.paris.lutece.util.html;
 
-import fr.paris.lutece.test.LuteceTestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Paginator Test Class
  *
  */
-public class PaginatorTest extends LuteceTestCase
+public class PaginatorTest
 {
     private static final int NB_ITEMS_PER_PAGE = 5;
     private static final int ITEMS_COUNT = 14;
     private static final String PARAMETER_PAGE_INDEX = "page_index";
     private static final String BASE_URL = "http://myhost/mypage.jsp";
 
+    @Test
     public void testPaginator( )
     {
-        List list = new ArrayList( );
+        List<String> list = new ArrayList<>( );
 
         for ( int i = 0; i < ITEMS_COUNT; i++ )
         {
@@ -59,7 +62,7 @@ public class PaginatorTest extends LuteceTestCase
         }
 
         String strPageIndex = "1";
-        Paginator paginator = new Paginator( list, NB_ITEMS_PER_PAGE, BASE_URL, PARAMETER_PAGE_INDEX, strPageIndex );
+        Paginator<?> paginator = new Paginator<>( list, NB_ITEMS_PER_PAGE, BASE_URL, PARAMETER_PAGE_INDEX, strPageIndex );
 
         assertEquals( ITEMS_COUNT, paginator.getItemsCount( ) );
         assertEquals( 1, paginator.getRangeMin( ) );
@@ -70,7 +73,7 @@ public class PaginatorTest extends LuteceTestCase
         assertEquals( 5, paginator.getPageItems( ).size( ) );
 
         strPageIndex = "3";
-        paginator = new Paginator( list, NB_ITEMS_PER_PAGE, BASE_URL, PARAMETER_PAGE_INDEX, strPageIndex );
+        paginator = new Paginator<>( list, NB_ITEMS_PER_PAGE, BASE_URL, PARAMETER_PAGE_INDEX, strPageIndex );
 
         assertEquals( ITEMS_COUNT, paginator.getItemsCount( ) );
         assertEquals( 11, paginator.getRangeMin( ) );

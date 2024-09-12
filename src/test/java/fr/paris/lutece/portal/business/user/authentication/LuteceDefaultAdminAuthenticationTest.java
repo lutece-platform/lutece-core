@@ -37,44 +37,26 @@ import java.security.SecureRandom;
 
 import javax.security.auth.login.LoginException;
 
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.AdminUserDAO;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.business.user.IAdminUserDAO;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.password.IPassword;
+import jakarta.inject.Inject;
 
 public class LuteceDefaultAdminAuthenticationTest extends LuteceTestCase
 {
     private static final String PASSWORD = "PASSWORD";
+    @Inject
+    private IAdminUserDAO adminUserDAO;
+    @Inject
+    private AdminAuthentication adminAuth;
 
-    private LuteceDefaultAdminAuthentication getLuteceDefaultAdminAuthentication( )
-    {
-        LuteceDefaultAdminAuthentication adminAuth = new LuteceDefaultAdminAuthentication( );
-        LuteceDefaultAdminUserDAO dao = new LuteceDefaultAdminUserDAO( );
-        AutowireCapableBeanFactory beanFactory = SpringContextService.getContext( ).getAutowireCapableBeanFactory( );
-        beanFactory.autowireBean( dao );
-        adminAuth.setDao( dao );
-        beanFactory.autowireBean( adminAuth );
-        return adminAuth;
-    }
-
-    private AdminUserDAO getAdminUserDAO( )
-    {
-        AdminUserDAO adminUserDAO = new AdminUserDAO( );
-        ApplicationContext context = SpringContextService.getContext( );
-        AutowireCapableBeanFactory beanFactory = context.getAutowireCapableBeanFactory( );
-        beanFactory.autowireBean( adminUserDAO );
-        return adminUserDAO;
-    }
-
+    @Test
     public void testLoginUpgradePassword( )
     {
-        LuteceDefaultAdminAuthentication adminAuth = getLuteceDefaultAdminAuthentication( );
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
 
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );

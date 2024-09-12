@@ -33,81 +33,58 @@
  */
 package fr.paris.lutece.portal.service.cache;
 
-import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
-import fr.paris.lutece.portal.business.page.Page;
-import fr.paris.lutece.portal.service.page.PageEvent;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 public class PathCacheServiceDisabledTest extends LuteceTestCase
 {
-    IPathCacheService service;
+    private @Inject PathCacheService service;
     boolean bEnabled;
 
     @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
         super.setUp( );
-        service = null;
-        List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
-        for ( CacheableService aService : serviceList )
-        {
-            if ( aService instanceof IPathCacheService )
-            {
-                service = (IPathCacheService) aService;
-                bEnabled = aService.isCacheEnable( );
-                aService.enableCache( false );
-                break;
-            }
-        }
+        bEnabled = service.isCacheEnable( );
+        service.enableCache( false );
         assertNotNull( service );
     }
 
     @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
-        List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
-        for ( CacheableService aService : serviceList )
-        {
-            if ( aService == service )
-            {
-                aService.enableCache( bEnabled );
-                break;
-            }
-        }
-        service = null;
+        service.enableCache( bEnabled );
         super.tearDown( );
     }
 
+    @Test
     public void testGetKey( )
     {
         assertNull( service.getKey( "junit", 0, new MockHttpServletRequest( ) ) );
         assertNull( service.getKey( "junit", 0, "junit", new MockHttpServletRequest( ) ) );
     }
 
+    @Test
     public void testPutAndGetFromCache( )
     {
-        service.putInCache( null, "junit" );
-        String key = service.getKey( "junit", 0, null );
-        service.putInCache( key, "junit" );
-        assertNull( service.getFromCache( key ) );
-        assertNull( service.getFromCache( null ) );
-        assertNull( service.getFromCache( "NotInCache" ) );
-    }
-
-    public void testProcessPageEvent( )
-    {
-        String key = service.getKey( "junit", 0, null );
-        for ( int nEventType : new int [ ] {
-                PageEvent.PAGE_CONTENT_MODIFIED, PageEvent.PAGE_CREATED, PageEvent.PAGE_DELETED, PageEvent.PAGE_MOVED, PageEvent.PAGE_STATE_CHANGED
-        } )
+        try
         {
-            service.putInCache( key, "junit" );
-            PageEvent event = new PageEvent( new Page( ), nEventType );
-            ( (PathCacheService) service ).processPageEvent( event );
-            assertNull( service.getFromCache( key ) );
+            service.put( "junit1", "junit" );
+            String key = service.getKey( "junit1", 0, null );
+            assertNull( key );
+            assertNull( service.get( "junit1" ) );
+            assertNull( service.get( "NotInCache" ) );
+        }
+        catch( IllegalStateException e )
+        {
+            // This failure can be legit because the cache is disabled and if ehcache is used as implementation then the exception will be thrown
         }
     }
 

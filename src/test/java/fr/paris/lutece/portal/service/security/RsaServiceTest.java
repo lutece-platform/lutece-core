@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-import static org.junit.Assert.assertNotEquals;
-
 import java.security.GeneralSecurityException;
 
 import fr.paris.lutece.test.LuteceTestCase;

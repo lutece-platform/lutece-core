@@ -33,26 +33,20 @@
  */
 package fr.paris.lutece.portal.business.user.authentication;
 
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPassword;
+import fr.paris.lutece.util.password.IPasswordFactory;
+import jakarta.inject.Inject;
 
 public class LuteceDefaultAdminUserDAOTest extends LuteceTestCase
 {
-    private LuteceDefaultAdminUserDAO getLuteceDefaultAdminUserDAO( )
-    {
-        LuteceDefaultAdminUserDAO dao = new LuteceDefaultAdminUserDAO( );
-        AutowireCapableBeanFactory beanFactory = SpringContextService.getContext( ).getAutowireCapableBeanFactory( );
-        beanFactory.autowireBean( dao );
-        return dao;
-    }
+    @Inject
+    private ILuteceDefaultAdminUserDAO dao;
+    @Inject
+    private IPasswordFactory passwordFactory;
 
     public void testLoadPassword( )
     {
-        LuteceDefaultAdminUserDAO dao = getLuteceDefaultAdminUserDAO( );
-
         IPassword password = dao.loadPassword( "admin" );
         assertNotNull( password );
         assertTrue( password.check( "adminadmin" ) );
@@ -64,9 +58,6 @@ public class LuteceDefaultAdminUserDAOTest extends LuteceTestCase
 
     public void testStore( )
     {
-        LuteceDefaultAdminUserDAO dao = getLuteceDefaultAdminUserDAO( );
-        PasswordFactory passwordFactory = new PasswordFactory( );
-
         IPassword password = passwordFactory.getPassword( "PLAINTEXT:PASSWORD" );
         try
         {

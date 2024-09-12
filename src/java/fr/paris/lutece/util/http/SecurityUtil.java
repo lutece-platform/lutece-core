@@ -35,9 +35,6 @@ package fr.paris.lutece.util.http;
 
 import java.util.Enumeration;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -47,6 +44,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.string.StringUtil;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Security utils
@@ -333,8 +331,7 @@ public final class SecurityUtil
             String [ ] strAntPathMatcherPatternsTab = strAntPathMatcherPatterns.split( CONSTANT_COMMA );
             for ( String pattern : strAntPathMatcherPatternsTab )
             {
-            	
-                if ( pattern != null && FilenameUtils.wildcardMatch(pattern,strUrl) )
+                if ( pattern != null && pathMatcher.match( pattern, strUrl ) )
                 {
                     return true;
                 }
@@ -347,6 +344,7 @@ public final class SecurityUtil
         return false;
 
     }
+    private static final AntPathMatcher pathMatcher = new AntPathMatcher( );
 
     /**
      * Identify user data saved in log files to prevent Log Forging attacks

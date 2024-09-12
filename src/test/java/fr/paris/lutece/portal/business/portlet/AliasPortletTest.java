@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -45,6 +47,7 @@ public class AliasPortletTest extends LuteceTestCase
     private static final int TEST_PORTLET_ALIAS_ID = 2; // portlet alias
     private static final String TEST_PORTLET_TYPE_ID = "HTML_PORTLET"; // html portlet
 
+    @Test
     public void testBusinessAliasPortlet( )
     {
         // Initialize an object

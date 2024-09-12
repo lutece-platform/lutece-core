@@ -42,8 +42,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeType;
@@ -55,8 +53,9 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 public class AttributeFieldJspBeanTest extends LuteceTestCase
 {
@@ -215,7 +214,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         assertNotNull( instance.getCreateAttributeField( request ) );
@@ -329,7 +328,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         assertNotNull( instance.getModifyAttributeField( request ) );

@@ -33,17 +33,20 @@
  */
 package fr.paris.lutece.util.filesystem;
 
-import fr.paris.lutece.test.LuteceTestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * UploadUtil Test Class
  *
  */
-public class UploadUtilTest extends LuteceTestCase
+public class UploadUtilTest
 {
     /**
      * Test of cleanFileName method, of class fr.paris.lutece.util.filesystem.UploadUtil.
      */
+    @Test
     public void testCleanFileName( )
     {
         System.out.println( "cleanFileName" );
@@ -58,6 +61,7 @@ public class UploadUtilTest extends LuteceTestCase
     /**
      * Test of cleanFilePath method, of class fr.paris.lutece.util.filesystem.UploadUtil.
      */
+    @Test
     public void testCleanFilePath( )
     {
         System.out.println( "cleanFilePath" );

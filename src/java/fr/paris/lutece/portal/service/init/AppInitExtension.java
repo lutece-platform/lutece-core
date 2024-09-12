@@ -33,11 +33,8 @@
  */
 package fr.paris.lutece.portal.service.init;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import org.apache.logging.log4j.core.config.Configurator;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -59,7 +56,9 @@ public class AppInitExtension implements Extension
         
         if ( Files.notExists( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF ) ) )
         {
-            String _strResourcesDir = getClass( ).getResource( "/" ).toString( ).replaceFirst( "file:", "" ).replaceFirst( "classes", "lutece" );
+            String _strResourcesDir = getClass( ).getResource( "/" ).toString( ).replaceFirst( "file:", "" )
+                    .replaceFirst( "test-classes", "lutece" )
+                    .replaceFirst( "classes", "lutece" );
             AppPathService.init( _strResourcesDir );
         }
         
