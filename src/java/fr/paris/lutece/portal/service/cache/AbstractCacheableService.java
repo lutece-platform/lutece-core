@@ -252,12 +252,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public V get(K key) {
-        V v = null;
-        if ( _cache != null && !_cache.isClosed( ))
-        {
-            return _cache.get(key);
-        }
-        return v;
+        return _cache.get(key);
     }
 
     /**
@@ -289,10 +284,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void put(K key, V value) {
-        if ( _cache != null && !_cache.isClosed( ))
-        {
-            _cache.put(key, value);
-        }
+        _cache.put(key, value);
     }
 
     /**
@@ -388,9 +380,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void clear() {
-        if (_cache != null && !_cache.isClosed()) {
-            _cache.clear();
-        }
+        _cache.clear();
     }
 
     /**
