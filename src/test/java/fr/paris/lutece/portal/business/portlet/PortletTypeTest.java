@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -56,6 +58,7 @@ public class PortletTypeTest extends LuteceTestCase
     private static final String MODIFY_SPECIFIC = "/templates/modify_specific.html";
     private static final String MODIFY_SPECIFIC_FORM = "/templates/modify_specific_form.html";
 
+    @Test
     public void testBusinessPortletType( )
     {
         // Create Test

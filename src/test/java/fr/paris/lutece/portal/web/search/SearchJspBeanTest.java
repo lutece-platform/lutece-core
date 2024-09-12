@@ -39,8 +39,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.search.SearchParameterHome;
@@ -49,9 +47,10 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -141,7 +140,7 @@ public class SearchJspBeanTest extends LuteceTestCase
             roles.put( role.getKey( ), role );
         }
         user.addRoles( roles );
-        Utils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
@@ -222,7 +221,7 @@ public class SearchJspBeanTest extends LuteceTestCase
             roles.put( role.getKey( ), role );
         }
         user.addRoles( roles );
-        Utils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_advanced_parameters.html" ) + "b" );
@@ -298,7 +297,7 @@ public class SearchJspBeanTest extends LuteceTestCase
             roles.put( role.getKey( ), role );
         }
         user.addRoles( roles );
-        Utils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
 
         try

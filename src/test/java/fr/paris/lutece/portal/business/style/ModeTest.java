@@ -109,7 +109,7 @@ public class ModeTest extends LuteceTestCase
         assertEquals( modeStored.getOutputXslPropertyOmitXmlDeclaration( ), mode.getOutputXslPropertyOmitXmlDeclaration( ) );
         assertEquals( modeStored.getOutputXslPropertyStandalone( ), mode.getOutputXslPropertyStandalone( ) );
 
-        Collection listModes = ModeHome.getModesList( );
+        Collection<?> listModes = ModeHome.getModesList( );
         assertTrue( listModes.size( ) > 0 );
 
         listModes = ModeHome.getModes( );

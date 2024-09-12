@@ -38,9 +38,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
 import org.apache.commons.fileupload2.core.DiskFileItem;
 import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -48,22 +45,17 @@ import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
-import fr.paris.lutece.portal.service.plugin.PluginEvent;
-import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
 import fr.paris.lutece.util.http.MultipartUtil;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class UploadServletTest extends LuteceTestCase
 {
@@ -111,33 +103,14 @@ public class UploadServletTest extends LuteceTestCase
 
     public void testDoPost_NoFiles_Handler( ) throws Exception
     {
-        final String BEAN_NAME = "testAsyncUpNetSf";
         MockHttpServletRequest request = new MockHttpServletRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
         Map<String, List<FileItem<DiskFileItem>>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
         mapParameters.put( "handler", new String [ ] {
-                BEAN_NAME
+                TestAsynchronousUploadHandler2.BEAN_NAME
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, mapFiles, mapParameters );
-
-        clearLuteceSpringCache( );
-        ConfigurableListableBeanFactory beanFactory = ( (ConfigurableApplicationContext) SpringContextService.getContext( ) ).getBeanFactory( );
-        beanFactory.registerSingleton( BEAN_NAME, new IAsynchronousUploadHandler2( )
-        {
-            @Override
-            public void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem<DiskFileItem>> fileItems )
-            {
-                mainObject.clear( );
-                mainObject.put( "testnetsf", "valuetestnetsf" );
-            }
-
-            @Override
-            public boolean isInvoked( HttpServletRequest request )
-            {
-                return BEAN_NAME.equals( request.getParameter( "handler" ) );
-            }
-        } );
 
         try
         {
@@ -147,52 +120,48 @@ public class UploadServletTest extends LuteceTestCase
         {
             throw new RuntimeException( e );
         }
-        finally
-        {
-            ( (DefaultListableBeanFactory) beanFactory ).destroySingleton( BEAN_NAME );
-            clearLuteceSpringCache( );
-        }
 
         String strResponseJson = response.getContentAsString( );
         System.out.println( strResponseJson );
 
-        String strRefJson = "{\"testnetsf\":\"valuetestnetsf\"}";
+        String strRefJson = TestAsynchronousUploadHandler2.SERIALIZED_MAP_CONTENT;
         ObjectMapper objectMapper = new ObjectMapper( );
         JsonNode objectNodeRef = objectMapper.readTree( strRefJson );
         JsonNode objectNodeJson = objectMapper.readTree( strResponseJson );
 
         assertEquals( objectNodeRef, objectNodeJson );
+    }
+
+    @ApplicationScoped
+    public static class TestAsynchronousUploadHandler2 implements IAsynchronousUploadHandler2
+    {
+        public static final String BEAN_NAME = "junit_test_bean";
+        public static final String SERIALIZED_MAP_CONTENT = "{\"testmap\":\"valuetestmap\"}";
+
+        @Override
+        public void process(HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem<DiskFileItem>> fileItems)
+        {
+            mainObject.clear();
+            mainObject.put("testmap", "valuetestmap");
+        }
+
+        @Override
+        public boolean isInvoked(HttpServletRequest request)
+        {
+            return BEAN_NAME.equals(request.getParameter("handler"));
+        }
     }
 
     public void testDoPost_NoFiles_Handler2( ) throws Exception
     {
-        final String BEAN_NAME = "testAsyncUpMap";
         MockHttpServletRequest request = new MockHttpServletRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
         Map<String, List<FileItem<DiskFileItem>>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
         mapParameters.put( "handler", new String [ ] {
-                BEAN_NAME
+                TestAsynchronousUploadHandler2.BEAN_NAME
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, mapFiles, mapParameters );
-
-        clearLuteceSpringCache( );
-        ConfigurableListableBeanFactory beanFactory = ( (ConfigurableApplicationContext) SpringContextService.getContext( ) ).getBeanFactory( );
-        beanFactory.registerSingleton( BEAN_NAME, new IAsynchronousUploadHandler2( )
-        {
-            @Override
-            public void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem<DiskFileItem>> fileItems )
-            {
-                mainObject.clear( );
-                mainObject.put( "testmap", "valuetestmap" );
-            }
-
-            @Override
-            public boolean isInvoked( HttpServletRequest request )
-            {
-                return BEAN_NAME.equals( request.getParameter( "handler" ) );
-            }
-        } );
 
         try
         {
@@ -202,30 +171,16 @@ public class UploadServletTest extends LuteceTestCase
         {
             throw new RuntimeException( e );
         }
-        finally
-        {
-            ( (DefaultListableBeanFactory) beanFactory ).destroySingleton( BEAN_NAME );
-            clearLuteceSpringCache( );
-        }
 
         String strResponseJson = response.getContentAsString( );
         System.out.println( strResponseJson );
 
-        String strRefJson = "{\"testmap\":\"valuetestmap\"}";
+        String strRefJson = TestAsynchronousUploadHandler2.SERIALIZED_MAP_CONTENT;
         ObjectMapper objectMapper = new ObjectMapper( );
         JsonNode objectNodeRef = objectMapper.readTree( strRefJson );
         JsonNode objectNodeJson = objectMapper.readTree( strResponseJson );
 
         assertEquals( objectNodeRef, objectNodeJson );
-    }
-
-    private void clearLuteceSpringCache( )
-    {
-        // hack plugin installed event to clear the SpringContextService cache
-        // TODO have a better way to do this ???
-        Plugin p = new PluginDefaultImplementation( );
-        p.setName( "FakePluginSpringCacheClearer" );
-        PluginService.notifyListeners( new PluginEvent( p, PluginEvent.PLUGIN_INSTALLED ) );
     }
 
     private MockHttpServletRequest getMultipartRequest( ) throws Exception

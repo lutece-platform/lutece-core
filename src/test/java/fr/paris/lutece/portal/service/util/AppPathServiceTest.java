@@ -36,12 +36,10 @@ package fr.paris.lutece.portal.service.util;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import jakarta.servlet.http.HttpServletRequest;
-
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * AppPathService Test Class

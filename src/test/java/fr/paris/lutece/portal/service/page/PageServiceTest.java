@@ -35,31 +35,31 @@ package fr.paris.lutece.portal.service.page;
 
 import java.util.List;
 
-import jakarta.servlet.http.HttpServletResponse;
-
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
 
 public class PageServiceTest extends LuteceTestCase
 {
     private boolean _pageCacheStatus;
+    private @Inject IPageService pageService ;
 
-    @Override
+    @BeforeEach
     public void setUp( ) throws Exception
     {
-        super.setUp( );
-
         // activate the page cache
-        List<CacheableService> services = CacheService.getCacheableServicesList( );
+        List<CacheableService<?, ?>> services = CacheService.getCacheableServicesList( );
 
         for ( CacheableService cs : services )
         {
@@ -73,11 +73,11 @@ public class PageServiceTest extends LuteceTestCase
         }
     }
 
-    @Override
+    @AfterEach
     public void tearDown( ) throws Exception
     {
         // restore the previous page cache status
-        List<CacheableService> services = CacheService.getCacheableServicesList( );
+        List<CacheableService<?, ?>> services = CacheService.getCacheableServicesList( );
 
         for ( CacheableService cs : services )
         {
@@ -88,8 +88,6 @@ public class PageServiceTest extends LuteceTestCase
                 break;
             }
         }
-
-        super.tearDown( );
     }
 
     /**
@@ -100,7 +98,6 @@ public class PageServiceTest extends LuteceTestCase
     @Test
     public void testBaseUrl( ) throws SiteMessageException
     {
-        IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         HttpServletResponse response = new MockHttpServletResponse( );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );

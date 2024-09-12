@@ -52,27 +52,26 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * Test the LuceneSearchEngine class
  */
 public class LuceneSearchEngineTest extends LuteceTestCase
 {
-
-    private static final String BEAN_SEARCH_ENGINE = "searchEngine";
-
     private static boolean firstRun = true;
-    private static SearchEngine _engine;
+    private @Inject SearchEngine _engine;
 
     /* mimic initialization in IndexationService.processIndexing */
     private IndexWriter getIndexWriter( ) throws Exception
@@ -83,15 +82,12 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         return new IndexWriter( dir, conf );
     }
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         if ( firstRun )
         {
             firstRun = false;
-
-            _engine = SpringContextService.getBean( BEAN_SEARCH_ENGINE );
 
             FieldType ft = new FieldType( StringField.TYPE_STORED );
             ft.setOmitNorms( false );
@@ -117,6 +113,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testSearchSimpleMatch( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -124,6 +121,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         assertTrue( "The search results list should have one element. Got : " + listResults, listResults != null && listResults.size( ) == 1 );
     }
 
+    @Test
     public void testSearchSimpleNoMatch( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -131,6 +129,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
     }
 
+    @Test
     public void testSearchDateMatch( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -140,6 +139,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         assertTrue( "The search results list should have one element. Got : " + listResults, listResults != null && listResults.size( ) == 1 );
     }
 
+    @Test
     public void testSearchDateNoMatch( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -149,6 +149,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
     }
 
+    @Test
     public void testSearchTypeMatch( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -157,6 +158,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         assertTrue( "The search results list should have one element. Got : " + listResults, listResults != null && listResults.size( ) == 1 );
     }
 
+    @Test
     public void testSearchTypeNoMatch( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -165,6 +167,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
     }
 
+    @Test
     public void testSearchTagMatch( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -173,6 +176,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         assertTrue( "The search results list should have one element. Got : " + listResults, listResults != null && listResults.size( ) == 1 );
     }
 
+    @Test
     public void testSearchTagNoMatch( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -181,6 +185,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
     }
 
+    @Test
     public void testSearchUserMatch( ) throws Exception
     {
 
@@ -206,6 +211,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testSearchUserNoMatch( ) throws Exception
     {
 
@@ -231,6 +237,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testSearchUserNoMatchNoUser( ) throws Exception
     {
 
@@ -251,6 +258,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
     }
 
     // /XXX refactor, this is copy pasted from PortalMenuServiceTest
+    @Test
     private void restoreAuthentication( boolean status ) throws IOException, LuteceInitException
     {
         if ( !status )
@@ -272,6 +280,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
     }
 
     // /XXX refactor, this is copy pasted from PortalMenuServiceTest
+    @Test
     private boolean enableAuthentication( ) throws IOException, LuteceInitException
     {
         boolean status = SecurityService.isAuthenticationEnable( );

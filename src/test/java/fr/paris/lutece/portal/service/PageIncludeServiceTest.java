@@ -36,12 +36,11 @@ package fr.paris.lutece.portal.service;
 import java.util.Collection;
 import java.util.HashMap;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 public class PageIncludeServiceTest extends LuteceTestCase
 {

@@ -33,19 +33,21 @@
  */
 package fr.paris.lutece.portal.web.template;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.template.CommonsService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.ReferenceList;
 import freemarker.template.TemplateException;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import org.apache.commons.io.FileUtils;
-import org.junit.Test;
 
 /**
  * CommonsTest
@@ -59,7 +61,7 @@ public class CommonsTest extends LuteceTestCase
     private static final String MARK_MOCK_OBJECT = "mockObject";
     private static final String MARK_FOREIGN_KEYS_LIST = "id_foreigns_list";
     private static final String [ ] CHARTERS_FOLDERS = {
-            "css", "fonts", "js"
+            "css", "css/fonts", "js"
     };
 
     @Test
@@ -173,6 +175,15 @@ public class CommonsTest extends LuteceTestCase
         FileUtils.copyDirectory( fileSourceFolder, fileCommonsUtilFolder );
 
         AppLogService.info( "Copying all files from {} to {}", fileSourceFolder.getAbsolutePath( ), fileCommonsUtilFolder.getAbsolutePath( ) );
+
+        // themes
+        strSourcePath = getSourcePath( strRootPath, "WEB-INF/templates/admin/themes" );
+        fileSourceFolder = new File( strSourcePath );
+        strDestPath = strRootPath + "/commons/admin/themes";
+        File fileThemesFolder = new File( strDestPath );
+        fileThemesFolder.mkdir( );
+        FileUtils.copyDirectory( fileSourceFolder, fileThemesFolder );
+        AppLogService.info( "Copying all files from {} to {}", fileSourceFolder.getAbsolutePath( ), fileThemesFolder.getAbsolutePath( ) );
     }
 
     class CommonsFileFilter implements FileFilter

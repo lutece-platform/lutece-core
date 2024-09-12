@@ -39,14 +39,12 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
+import java.util.List;
+
 import fr.paris.lutece.portal.service.includes.PageIncludeEntry;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
-
-import junit.framework.*;
-
-import java.util.List;
 
 /**
  *
@@ -54,18 +52,6 @@ import java.util.List;
  */
 public class PluginFileTest extends LuteceTestCase
 {
-    public PluginFileTest( String testName )
-    {
-        super( testName );
-    }
-
-    public static Test suite( )
-    {
-        TestSuite suite = new TestSuite( PluginFileTest.class );
-
-        return suite;
-    }
-
     /**
      * Test of getName method, of class fr.paris.lutece.portal.service.PluginFile.
      */

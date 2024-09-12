@@ -33,26 +33,24 @@
  */
 package fr.paris.lutece.portal.service.i18n;
 
-import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.util.ReferenceList;
-
-import org.springframework.core.io.ClassPathResource;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import java.security.SecureRandom;
-
 import java.text.DateFormat;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+
+import org.junit.jupiter.api.Test;
+
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.util.ReferenceList;
 
 /**
  * I18nService Test Class
@@ -154,13 +152,15 @@ public class I18nServiceTest extends LuteceTestCase
      * 
      * @throws IOException
      */
+    @Test
     public void testResetCache( ) throws IOException
     {
         // get a message
         String message = I18nService.getLocalizedString( "portal.admin.admin_home.password", Locale.FRENCH );
 
+        String propertiesPath = getClass( ).getClassLoader( ).getResource( "fr/paris/lutece/portal/resources/admin_messages_fr.properties" ).getFile( );
         // change the message
-        File propertiesFile = new ClassPathResource( "fr/paris/lutece/portal/resources/admin_messages_fr.properties" ).getFile( );
+        File propertiesFile = new File(propertiesPath);
         Properties resources = new Properties( );
         InputStream is = new FileInputStream( propertiesFile );
         resources.load( is );

@@ -55,7 +55,6 @@ public final class TestConcurrentDaemon extends Daemon
         }
         catch( InterruptedException | BrokenBarrierException | TimeoutException e )
         {
-            // TODO Auto-generated catch block
             e.printStackTrace( );
         }
     }

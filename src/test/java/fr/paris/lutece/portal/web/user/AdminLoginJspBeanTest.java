@@ -38,12 +38,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.mock.web.MockHttpServletRequest;
-
-import fr.paris.lutece.portal.business.user.AdminUserDAO;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.user.IAdminUserDAO;
 import fr.paris.lutece.portal.business.user.PasswordUpdateMode;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
@@ -53,19 +49,22 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
+import jakarta.inject.Inject;
 
 public class AdminLoginJspBeanTest extends LuteceTestCase
 {
     private static final String NEW_PASSWORD = "password";
     private static final String PASSWORD = "Pa55word!";
     private LuteceDefaultAdminUser user;
+    private @Inject IPasswordFactory passwordFactory;
+    private @Inject IAdminUserDAO adminUserDAO;
 
     @Override
     public void setUp( ) throws Exception
@@ -74,9 +73,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
 
         assertFalse( PASSWORD.equals( NEW_PASSWORD ) );
 
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
         user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( PASSWORD ) );
@@ -196,15 +193,6 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_AUTH_FAILURE, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
     }
 
-    private AdminUserDAO getAdminUserDAO( )
-    {
-        AdminUserDAO adminUserDAO = new AdminUserDAO( );
-        ApplicationContext context = SpringContextService.getContext( );
-        AutowireCapableBeanFactory beanFactory = context.getAutowireCapableBeanFactory( );
-        beanFactory.autowireBean( adminUserDAO );
-        return adminUserDAO;
-    }
-
     public void testDoForgotPasswordNoParam( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -228,7 +216,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     public void testDoForgotPasswordNoEmail( ) throws Exception
     {
         user.setEmail( null );
-        getAdminUserDAO( ).store( user );
+        adminUserDAO.store( user );
 
         AdminLoginJspBean bean = new AdminLoginJspBean( );
 
@@ -249,7 +237,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( "portal.admin.message.admin_forgot_password.sendingSuccess", Locale.FRENCH ),
                 message.getText( Locale.FRENCH ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
@@ -300,7 +288,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_INFO, message.getType( ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertFalse( storedUser.getPassword( ).check( PASSWORD ) );
         assertTrue( storedUser.getPassword( ).check( NEW_PASSWORD ) );
@@ -340,7 +328,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
-            LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+            LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
             assertNotNull( storedUser );
             assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
         }
@@ -381,7 +369,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
@@ -399,19 +387,18 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
         request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
 
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
         final String changedPassword = PASSWORD + "_changed";
         assertFalse( PASSWORD.equals( changedPassword ) );
         assertFalse( NEW_PASSWORD.equals( changedPassword ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( changedPassword ) );
-        getAdminUserDAO( ).store( user, PasswordUpdateMode.UPDATE );
+        adminUserDAO.store( user, PasswordUpdateMode.UPDATE );
 
         String res = bean.doResetPassword( request );
         assertNotNull( res );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( changedPassword ) );
     }
@@ -435,7 +422,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
@@ -481,7 +468,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
@@ -504,7 +491,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
@@ -526,7 +513,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
@@ -548,7 +535,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
@@ -574,7 +561,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         catch( AppException e )
         {
         }
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
@@ -596,7 +583,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
@@ -618,7 +605,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
@@ -639,7 +626,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
-        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }

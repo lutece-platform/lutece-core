@@ -33,20 +33,22 @@
  */
 package fr.paris.lutece.util.json;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import fr.paris.lutece.test.LuteceTestCase;
-
 /**
  * JsonUtil Test Class
  *
  */
-public class JsonUtilTest extends LuteceTestCase
+public class JsonUtilTest
 {
     /**
      * Test of code and message error responses
      */
+    @Test
     public void testErrorCodeMessageResponse( )
     {
         System.out.println( "errorMessageResponse" );
@@ -74,6 +76,7 @@ public class JsonUtilTest extends LuteceTestCase
     /**
      * Test of code only error responses
      */
+    @Test
     public void testErrorCodeResponse( )
     {
         System.out.println( "errorResponse" );
@@ -101,6 +104,7 @@ public class JsonUtilTest extends LuteceTestCase
     /**
      * Test of replaceAccent method, of class fr.paris.lutece.util.string.StringUtil.
      */
+    @Test
     public void testResponseTRUE( )
     {
         System.out.println( "response" );
@@ -130,6 +134,7 @@ public class JsonUtilTest extends LuteceTestCase
     /**
      * Test of replaceAccent method, of class fr.paris.lutece.util.string.StringUtil.
      */
+    @Test
     public void testResponseBEAN( )
     {
         System.out.println( "response" );

@@ -33,26 +33,27 @@
  */
 package fr.paris.lutece.portal.web.includes;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginEvent;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.inject.Inject;
 
 public class LinksIncludeCacheServiceTest extends LuteceTestCase
 {
-    private LinksIncludeCacheService service;
+    private @Inject LinksIncludeCacheService service;
     private boolean bOrigCacheStatus;
 
     @Override
     protected void setUp( ) throws Exception
     {
         super.setUp( );
-        service = SpringContextService.getBean( LinksIncludeCacheService.SERVICE_NAME );
         bOrigCacheStatus = service.isCacheEnable( );
         service.enableCache( true );
     }
@@ -88,10 +89,15 @@ public class LinksIncludeCacheServiceTest extends LuteceTestCase
 
     public void testProcessPluginEvent( )
     {
-        service.putInCache( "key", "value" );
-        assertEquals( "value", service.getFromCache( "key" ) );
+        Map<String, Object> value = new HashMap<String, Object>( );
+        value.put( "key1", "value1" );
+        service.put( "key", value );
+        
+        assertEquals( "value1", service.get( "key" ).get( "key1" ) );
+        
+        
         service.processPluginEvent( null );
-        assertNull( service.getFromCache( "key" ) );
+        assertNull( service.get( "key" ) );
         for ( Plugin plugin : new Plugin [ ] {
                 null, PluginService.getCore( )
         } )
@@ -100,11 +106,11 @@ public class LinksIncludeCacheServiceTest extends LuteceTestCase
                     PluginEvent.PLUGIN_INSTALLED, PluginEvent.PLUGIN_POOL_CHANGED, PluginEvent.PLUGIN_UNINSTALLED
             } )
             {
-                service.putInCache( "key", "value" );
-                assertEquals( "value", service.getFromCache( "key" ) );
+                service.put( "key", value );
+                assertEquals( "value1", service.get( "key" ).get( "key1" ) );
                 PluginEvent event = new PluginEvent( plugin, eventType );
                 service.processPluginEvent( event );
-                assertNull( service.getFromCache( "key" ) );
+                assertNull( service.get( "key" ) );
             }
         }
     }

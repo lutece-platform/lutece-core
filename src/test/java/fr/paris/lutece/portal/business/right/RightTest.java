@@ -105,7 +105,7 @@ public class RightTest extends LuteceTestCase
         assertEquals( rightStored.isExternalFeature( ), right.isExternalFeature( ) );
 
         // List Test
-        Collection listRights = RightHome.getRightsList( );
+        Collection<?> listRights = RightHome.getRightsList( );
         assertTrue( listRights.size( ) > 0 );
 
         // List external features tests
