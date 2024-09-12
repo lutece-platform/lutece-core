@@ -48,8 +48,7 @@ import org.apache.commons.fileupload2.core.DiskFileItem;
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
@@ -71,7 +70,6 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -80,13 +78,17 @@ import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.ReflectionTestUtils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.password.IPasswordFactory;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 public class AdminUserJspBeanTest extends LuteceTestCase
 {
     public static final String RIGHT_CORE_USERS_MANAGEMENT = "CORE_USERS_MANAGEMENT";
-
+    private @Inject IPasswordFactory passwordFactory;
+    
     public void testDoCreateAdminUser( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
@@ -593,7 +595,6 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         user.setEmail( randomName + "@lutece.fr" );
         user.setUserLevel( 0 );
         user.setStatus( AdminUser.ACTIVE_CODE );
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
         user.setPassword( passwordFactory.getPasswordFromCleartext( "PASSWORD" ) );
         AdminUserHome.create( user );
         AdminUserHome.createRightForUser( user.getUserId( ), RIGHT_CORE_USERS_MANAGEMENT );
@@ -2646,6 +2647,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testDoModifyEmailPatternReset( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         String origEmailPattern = getEmailPattern( );

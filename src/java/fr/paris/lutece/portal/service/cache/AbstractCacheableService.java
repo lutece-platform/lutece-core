@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.cache;
 
+import fr.paris.lutece.portal.service.cache.LuteceCacheEvent.LuteceCacheEventType;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import jakarta.enterprise.inject.spi.CDI;
@@ -207,6 +208,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
         try {
             if (_cache != null && !_cache.isClosed()) {
                 _cache.removeAll();
+                CDI.current().getBeanManager().getEvent( ).fire(new LuteceCacheEvent( _cache, LuteceCacheEventType.RESET ));
             }
         } catch (CacheException | IllegalStateException e) {
             AppLogService.error(e.getMessage(), e);
@@ -382,6 +384,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     @Override
     public void clear() {
         _cache.clear();
+        CDI.current().getBeanManager().getEvent( ).fire(new LuteceCacheEvent( _cache, LuteceCacheEventType.CLEAR ));
     }
 
     /**

@@ -40,7 +40,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.rbac.RBAC;

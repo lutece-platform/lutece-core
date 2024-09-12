@@ -33,9 +33,8 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * InsertServiceJspBean Test Class

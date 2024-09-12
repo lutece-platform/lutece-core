@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.business;
 
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentTest;
 import fr.paris.lutece.portal.business.portlet.AliasPortletTest;
 import fr.paris.lutece.portal.business.portlet.PortletTypeTest;
@@ -49,41 +52,13 @@ import fr.paris.lutece.portal.business.stylesheet.StyleSheetTest;
 import fr.paris.lutece.portal.business.user.AdminUserTest;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupTest;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
  * This class is the main test suite for the package fr.paris.lutece.util.date
  */
+@Suite
+@SelectClasses({ LevelTest.class, PortalComponentTest.class, AliasPortletTest.class, PortletTypeTest.class, AdminRoleTest.class, RBACTest.class,
+        FeatureGroupTest.class, RightTest.class, RoleTest.class, ModeTest.class, PageTemplateTest.class, StyleTest.class, StyleSheetTest.class,
+        AdminUserTest.class, AdminWorkgroupTest.class })
 public final class AllTests
 {
-    /**
-     * A set of tests
-     * 
-     * @return Test the tests
-     */
-    public static Test suite( )
-    {
-        TestSuite suite = new TestSuite( "*** Tests Lutece core " );
-
-        // $JUnit-BEGIN$
-        suite.addTest( new TestSuite( LevelTest.class ) );
-        suite.addTest( new TestSuite( PortalComponentTest.class ) );
-        suite.addTest( new TestSuite( AliasPortletTest.class ) );
-        suite.addTest( new TestSuite( PortletTypeTest.class ) );
-        suite.addTest( new TestSuite( AdminRoleTest.class ) );
-        suite.addTest( new TestSuite( RBACTest.class ) );
-        suite.addTest( new TestSuite( FeatureGroupTest.class ) );
-        suite.addTest( new TestSuite( RightTest.class ) );
-        suite.addTest( new TestSuite( RoleTest.class ) );
-        suite.addTest( new TestSuite( ModeTest.class ) );
-        suite.addTest( new TestSuite( PageTemplateTest.class ) );
-        suite.addTest( new TestSuite( StyleTest.class ) );
-        suite.addTest( new TestSuite( StyleSheetTest.class ) );
-        suite.addTest( new TestSuite( AdminUserTest.class ) );
-        suite.addTest( new TestSuite( AdminWorkgroupTest.class ) );
-
-        // $JUnit-END$
-        return suite;
-    }
 }

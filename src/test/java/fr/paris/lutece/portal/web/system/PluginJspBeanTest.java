@@ -39,7 +39,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -48,8 +47,9 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 /**
  * PluginJspBean Test Class
@@ -94,7 +94,7 @@ public class PluginJspBeanTest extends LuteceTestCase
     public void testGetManagePlugins( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
+        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( PARAM_PLUGIN_TYPE, PARAM_PLUGIN_TYPE_ALL );
 
         instance.init( request, PluginJspBean.RIGHT_MANAGE_PLUGINS );

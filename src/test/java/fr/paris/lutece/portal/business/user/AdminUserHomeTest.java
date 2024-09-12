@@ -36,28 +36,30 @@ package fr.paris.lutece.portal.business.user;
 import java.security.SecureRandom;
 import java.util.Date;
 
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.context.ApplicationContext;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
+import jakarta.inject.Inject;
 
 public class AdminUserHomeTest extends LuteceTestCase
 {
 
+    @Inject
+    private IAdminUserDAO adminUserDAO;
+    @Inject
+    private IPasswordFactory passwordFactory;
     private static final String LEGACY_PASSWORD = "legacyPassword";
     private LuteceDefaultAdminUser user;
 
-    @Override
+    @BeforeEach
     public void setUp( ) throws Exception
     {
-        super.setUp( );
 
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
 
         user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
@@ -88,21 +90,11 @@ public class AdminUserHomeTest extends LuteceTestCase
         adminUserDAO.insert( user );
     }
 
-    @Override
+    @AfterEach
     public void tearDown( ) throws Exception
     {
         AdminUserHome.remove( user.getUserId( ) );
         AdminUserHome.removeAllPasswordHistoryForUser( user.getUserId( ) );
-        super.tearDown( );
-    }
-
-    private AdminUserDAO getAdminUserDAO( )
-    {
-        AdminUserDAO adminUserDAO = new AdminUserDAO( );
-        ApplicationContext context = SpringContextService.getContext( );
-        AutowireCapableBeanFactory beanFactory = context.getAutowireCapableBeanFactory( );
-        beanFactory.autowireBean( adminUserDAO );
-        return adminUserDAO;
     }
 
     public void testGetUserPasswordResetTokenLegacyPassword( )
@@ -110,9 +102,8 @@ public class AdminUserHomeTest extends LuteceTestCase
         Date timestamp = new Date( );
         String strToken = AdminUserHome.getUserPasswordResetToken( user.getUserId( ), timestamp, null );
         assertNotNull( strToken );
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
         user.setPassword( passwordFactory.getPasswordFromCleartext( LEGACY_PASSWORD ) );
-        getAdminUserDAO( ).store( user, PasswordUpdateMode.UPDATE );
+        adminUserDAO.store( user, PasswordUpdateMode.UPDATE );
         String strTokenUpdatedPassword = AdminUserHome.getUserPasswordResetToken( user.getUserId( ), timestamp, null );
         assertNotNull( strTokenUpdatedPassword );
         assertFalse( strToken.equals( strTokenUpdatedPassword ) );

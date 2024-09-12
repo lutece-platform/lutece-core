@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.portal.business.user;
 
-import fr.paris.lutece.test.LuteceTestCase;
-
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
+
+import org.junit.jupiter.api.Test;
+
+import fr.paris.lutece.test.LuteceTestCase;
 
 public class AdminUserTest extends LuteceTestCase
 {
@@ -55,6 +57,7 @@ public class AdminUserTest extends LuteceTestCase
     private static final String ROLE1 = "Role 1";
     private final static int LEVEL = 0;
 
+    @Test
     public void testBusinessUser( )
     {
         // Initialize an object
@@ -83,13 +86,13 @@ public class AdminUserTest extends LuteceTestCase
         AdminUserHome.createRoleForUser( user.getUserId( ), ROLE1 );
 
         // List Test
-        Collection listUsers = AdminUserHome.findUserList( );
+        Collection<?> listUsers = AdminUserHome.findUserList( );
         assertTrue( listUsers.size( ) > 0 );
 
-        Map listRights = AdminUserHome.getRightsListForUser( user.getUserId( ) );
+        Map<?,?> listRights = AdminUserHome.getRightsListForUser( user.getUserId( ) );
 
         // assertTrue( listRights.size() > 0 );
-        Map listRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
+        Map<?,?> listRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
         // assertTrue( listRoles.size() > 0 );
 
         // Update test
@@ -117,6 +120,7 @@ public class AdminUserTest extends LuteceTestCase
         assertNull( userStored );
     }
 
+    @Test
     public void testSetUserInfo( )
     {
         AdminUser user = new AdminUser( );
@@ -127,6 +131,7 @@ public class AdminUserTest extends LuteceTestCase
         assertEquals( info, user.getUserInfo( strKey ) );
     }
 
+    @Test
     public void testSetUserInfoReturnPrevious( )
     {
         AdminUser user = new AdminUser( );

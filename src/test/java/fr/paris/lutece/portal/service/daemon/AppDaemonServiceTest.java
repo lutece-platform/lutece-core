@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -44,10 +47,9 @@ public class AppDaemonServiceTest extends LuteceTestCase
 
     private DaemonEntry _entry;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         _entry = new DaemonEntry( );
         _entry.setId( JUNIT_DAEMON );
         _entry.setNameKey( JUNIT_DAEMON );
@@ -60,12 +62,11 @@ public class AppDaemonServiceTest extends LuteceTestCase
         AppDaemonService.registerDaemon( _entry );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         DatastoreService.removeInstanceData( DAEMON_INTERVAL_DSKEY );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
-        super.tearDown( );
     }
 
     public void testRegisterDaemonTwiceIgnored( ) throws LuteceInitException

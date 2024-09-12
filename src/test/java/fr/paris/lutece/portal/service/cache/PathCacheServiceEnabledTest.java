@@ -36,66 +36,49 @@ package fr.paris.lutece.portal.service.cache;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.page.Page;
+import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.page.PageEvent;
-import fr.paris.lutece.portal.service.page.PageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
 public class PathCacheServiceEnabledTest extends LuteceTestCase
 {
 
-    private static final String BEAN_PAGE_SERVICE = "pageService";
-
-    IPathCacheService service;
+    private @Inject PathCacheService service;
     boolean bEnabled;
-
+    
     @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
         super.setUp( );
-        service = null;
-        List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
-        for ( CacheableService aService : serviceList )
-        {
-            if ( aService instanceof IPathCacheService )
-            {
-                service = (IPathCacheService) aService;
-                bEnabled = aService.isCacheEnable( );
-                aService.enableCache( true );
-                aService.resetCache( );
-                break;
-            }
-        }
+        bEnabled = service.isCacheEnable( );
+        service.enableCache( true );
         assertNotNull( service );
     }
 
     @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
-        List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
-        for ( CacheableService aService : serviceList )
-        {
-            if ( aService == service )
-            {
-                aService.resetCache( );
-                aService.enableCache( bEnabled );
-                break;
-            }
-        }
-        service = null;
+        service.enableCache( bEnabled );
         super.tearDown( );
     }
-
+    
+    @Test
     public void testGetKey( )
     {
         Set<String> keys = new HashSet<>( );
@@ -137,6 +120,7 @@ public class PathCacheServiceEnabledTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testGetKeyWithTitleUrls( )
     {
         Set<String> keys = new HashSet<>( );
@@ -183,39 +167,40 @@ public class PathCacheServiceEnabledTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testPutAndGetFromCache( )
     {
-        service.putInCache( null, "junit" );
         String key = service.getKey( "junit", 0, null );
-        service.putInCache( key, "junit" );
-        assertEquals( "junit", service.getFromCache( key ) );
-        assertNull( service.getFromCache( null ) );
-        assertNull( service.getFromCache( "NotInCache" ) );
+        service.put( key, "junit" );
+        assertEquals( "junit", service.get( key ) );
+        assertNull( service.get( "NotInCache" ) );
     }
 
+    @Test
     public void testProcessPageEvent( )
     {
         String key = service.getKey( "junit", 0, null );
-        service.putInCache( key, "junit" );
+        service.put( key, "junit" );
         PageEvent event = new PageEvent( new Page( ), PageEvent.PAGE_CREATED );
         ( (PathCacheService) service ).processPageEvent( event );
-        assertEquals( "junit", service.getFromCache( key ) );
+        assertEquals( "junit", service.get( key ) );
         for ( int nEventType : new int [ ] {
                 PageEvent.PAGE_CONTENT_MODIFIED, PageEvent.PAGE_DELETED, PageEvent.PAGE_MOVED, PageEvent.PAGE_STATE_CHANGED
         } )
         {
-            service.putInCache( key, "junit" );
+            service.put( key, "junit" );
             event = new PageEvent( new Page( ), nEventType );
             ( (PathCacheService) service ).processPageEvent( event );
-            assertNull( service.getFromCache( key ) );
+            assertNull( service.get( key ) );
         }
     }
 
+    @Test
     public void testRegisteredPageEventListener( )
     {
         String key = service.getKey( "junit", 0, null );
-        service.putInCache( key, "junit" );
-        PageService pageService = SpringContextService.getBean( BEAN_PAGE_SERVICE );
+        service.put( key, "junit" );
+        IPageService pageService = CDI.current( ).select( IPageService.class ).get( );
         Page page = new Page( );
         page.setName( getRandomName( ) );
         page.setDescription( page.getName( ) );
@@ -226,17 +211,17 @@ public class PathCacheServiceEnabledTest extends LuteceTestCase
             // FIXME : change when LUTECE-1834 Adding or removing a page blows up all caches
             // is fixed
             // assertEquals( "junit", service.getFromCache( key ) );
-            assertNull( service.getFromCache( key ) );
-            service.putInCache( key, "junit" );
+            assertNull( service.get( key ) );
+            service.put( key, "junit" );
             page.setDescription( page.getName( ) + page.getName( ) );
             pageService.updatePage( page );
-            assertNull( service.getFromCache( key ) );
-            service.putInCache( key, "junit" );
+            assertNull( service.get( key ) );
+            service.put( key, "junit" );
         }
         finally
         {
             pageService.removePage( page.getId( ) );
-            assertNull( service.getFromCache( key ) );
+            assertNull( service.get( key ) );
         }
     }
 

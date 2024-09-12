@@ -37,8 +37,6 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.business.mailinglist.MailingList;
 import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
 import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
@@ -49,6 +47,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 public class MailingListJspBeanTest extends LuteceTestCase
 {

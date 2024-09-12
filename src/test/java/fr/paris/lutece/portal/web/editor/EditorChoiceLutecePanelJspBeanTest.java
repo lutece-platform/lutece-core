@@ -35,12 +35,11 @@ package fr.paris.lutece.portal.web.editor;
 
 import java.util.Locale;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.editor.RichTextEditorService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
 {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2024, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,36 +31,34 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.util.date;
+package fr.paris.lutece.util.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import fr.paris.lutece.portal.service.init.AppInit;
+import fr.paris.lutece.test.LuteceTestCaseInit;
 
 /**
- * This class is the main test suite for the package fr.paris.lutece.util.date
+ * Initializes services.
+ * This class is used for JUnit tests only.
+ * 
+ * This class MUST NOT be in the test library (circular dependency)
+ * This class MUST NOT be moved to src/test (plugins depending on core need it)
+ * 
+ * Launched by the test code, defined in src/java/META-INF/services/fr.paris.lutece.test.LuteceTestCaseInit
+ * 
  */
-public final class AllTests
+public class LuteceTestCaseInitSupport implements LuteceTestCaseInit
 {
-    /**
-     * Constructor
-     *
-     */
-    private AllTests( )
+
+    private static boolean _bInit = false;
+
+    @Override
+    public void initTests( )
     {
+        if ( !_bInit )
+        {
+            AppInit.initServices( null );
+            _bInit = true;
+        }
     }
 
-    /**
-     * A set of tests
-     * 
-     * @return Test the tests
-     */
-    public static Test suite( )
-    {
-        TestSuite suite = new TestSuite( "Test for test.fr.paris.lutece.util.date" );
-
-        // $JUnit-BEGIN$
-
-        // $JUnit-END$
-        return suite;
-    }
 }

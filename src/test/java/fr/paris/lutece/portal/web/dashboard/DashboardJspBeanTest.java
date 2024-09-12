@@ -39,8 +39,6 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.business.dashboard.DashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.DashboardHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -51,8 +49,9 @@ import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.Utils;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 public class DashboardJspBeanTest extends LuteceTestCase
 {
@@ -95,7 +94,7 @@ public class DashboardJspBeanTest extends LuteceTestCase
         AdminUser user = new AdminUser( );
         // set all rights to have all dashboards
         user.setRights( RightHome.getRightsList( ).stream( ).collect( Collectors.toMap( Right::getId, Function.identity( ) ) ) );
-        Utils.registerAdminUser( request, user );
+        AdminUserUtils.registerAdminUser( request, user );
         _instance.init( request, DashboardJspBean.RIGHT_MANAGE_DASHBOARD );
 
     }

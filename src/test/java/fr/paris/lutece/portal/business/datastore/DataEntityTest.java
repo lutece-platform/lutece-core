@@ -33,9 +33,11 @@
  */
 package fr.paris.lutece.portal.business.datastore;
 
-import fr.paris.lutece.test.LuteceTestCase;
-
 import java.util.Collection;
+
+import org.junit.jupiter.api.Test;
+
+import fr.paris.lutece.test.LuteceTestCase;
 
 /**
  * DataEntity Test
@@ -46,6 +48,7 @@ public class DataEntityTest extends LuteceTestCase
     private final static String VALUE1 = "DataEntity value1 JUnit";
     private final static String VALUE2 = "DataEntity 2 value JUnit";
 
+    @Test
     public void testBusinessDataEntity( )
     {
         // Initialize an object
@@ -65,7 +68,7 @@ public class DataEntityTest extends LuteceTestCase
         assertEquals( entityStored.getValue( ), entity.getValue( ) );
 
         // List Test
-        Collection list = DataEntityHome.findAll( );
+        Collection<?> list = DataEntityHome.findAll( );
         assertTrue( list.size( ) > 0 );
 
         // Delete test

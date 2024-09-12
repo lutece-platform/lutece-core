@@ -36,15 +36,13 @@ package fr.paris.lutece.portal.service.admin;
 import java.security.SecureRandom;
 import java.util.List;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.service.csv.CSVMessageDescriptor;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.test.LuteceTestCase;
-
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 public class ImportAdminUserServiceTest extends LuteceTestCase
 {
     public void testReadLineOfCSVFileForPassword( )

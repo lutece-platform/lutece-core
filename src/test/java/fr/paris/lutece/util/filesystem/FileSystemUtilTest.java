@@ -33,17 +33,19 @@
  */
 package fr.paris.lutece.util.filesystem;
 
-import fr.paris.lutece.test.LuteceTestCase;
-
 import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
+import fr.paris.lutece.test.LuteceTestCase;
+
 public class FileSystemUtilTest extends LuteceTestCase
 {
+    @Test
     public void testGetSubDirectories( ) throws DirectoryNotFoundException, IOException
     {
         // Create a base folder named Folder
@@ -61,12 +63,12 @@ public class FileSystemUtilTest extends LuteceTestCase
         fileFolder2.mkdir( );
 
         String strDirectory = "Folder";
-        List expectedList = new ArrayList( );
+        List<File> expectedList = new ArrayList<>( );
         expectedList.add( fileFolder1 );
         expectedList.add( fileFolder2 );
 
-        List result = FileSystemUtil.getSubDirectories( strTempDirectoryPath, strDirectory );
-        assertEquals( new HashSet( expectedList ), new HashSet( result ) );
+        List<?> result = FileSystemUtil.getSubDirectories( strTempDirectoryPath, strDirectory );
+        assertEquals( new HashSet<>( expectedList ), new HashSet<>( result ) );
 
         // try a bad directory
         boolean bCatchedException = false;
@@ -89,7 +91,7 @@ public class FileSystemUtilTest extends LuteceTestCase
         File file2 = new File( fileFolder.getAbsolutePath( ), "dummy2.txt" );
         file2.createNewFile( );
 
-        List listFiles = FileSystemUtil.getFiles( strTempDirectoryPath, "Folder" );
+        List<?> listFiles = FileSystemUtil.getFiles( strTempDirectoryPath, "Folder" );
         assertTrue( listFiles.size( ) == 2 );
 
         // Clean folders

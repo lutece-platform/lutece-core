@@ -33,15 +33,7 @@
  */
 package fr.paris.lutece.portal.service.template;
 
-import fr.paris.lutece.portal.business.template.CommonsInclude;
-import java.util.HashMap;
-import java.util.Map;
-
-import fr.paris.lutece.portal.web.l10n.LocaleService;
-import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.util.html.HtmlTemplate;
-import freemarker.template.TemplateException;
-
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -50,8 +42,16 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.io.File;
-import org.junit.Test;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.junit.jupiter.api.Test;
+
+import fr.paris.lutece.portal.business.template.CommonsInclude;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.util.html.HtmlTemplate;
+import freemarker.template.TemplateException;
 
 /**
  *
@@ -88,7 +88,7 @@ public class AppTemplateServiceTest extends LuteceTestCase
                 String strReferenceTemplate = readFile( testTemplatesPath.resolve( REFERENCE_TEMPLATE ).toString( ), StandardCharsets.UTF_8 );
                 HtmlTemplate generated_template = AppTemplateService.getTemplateFromStringFtl( strReferenceTemplate, LocaleService.getDefault( ), model );
 
-                assertNotNull( "AppTemplateServiceTest freemarker lib :  " + ciKey, generated_template.getHtml( ) );
+                org.junit.jupiter.api.Assertions.assertNotNull( generated_template.getHtml( ), "AppTemplateServiceTest freemarker lib :  " + ciKey );
             }
             catch( IOException e )
             {

@@ -34,132 +34,108 @@
 package fr.paris.lutece.portal.service.portal;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Scanner;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.mock.web.MockHttpServletRequest;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.page.Page;
-import fr.paris.lutece.portal.service.cache.CacheService;
-import fr.paris.lutece.portal.service.cache.CacheableService;
-import fr.paris.lutece.portal.service.cache.IPathCacheService;
-import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.cache.PathCacheService;
 import fr.paris.lutece.portal.service.page.IPageService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 public class PortalServiceTest extends LuteceTestCase
 {
     private static final int MODE_NORMAL = 0;
     private static final int MODE_ADMIN = 1;
 
-    IPathCacheService pathCacheService;
+    private @Inject PathCacheService pathCacheService;
     boolean bPathCacheServiceEnabled;
+    private @Inject IPageService pageService;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
-        pathCacheService = null;
-        List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
-        for ( CacheableService aService : serviceList )
-        {
-            if ( aService instanceof IPathCacheService )
-            {
-                pathCacheService = (IPathCacheService) aService;
-                bPathCacheServiceEnabled = aService.isCacheEnable( );
-                aService.enableCache( true );
-                aService.resetCache( );
-                break;
-            }
-        }
+        bPathCacheServiceEnabled = pathCacheService.isCacheEnable( );
+        pathCacheService.enableCache( false );
         assertNotNull( pathCacheService );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
-        List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
-        for ( CacheableService aService : serviceList )
-        {
-            if ( aService == pathCacheService )
-            {
-                aService.resetCache( );
-                aService.enableCache( bPathCacheServiceEnabled );
-                break;
-            }
-        }
-        pathCacheService = null;
-        super.tearDown( );
+        pathCacheService.enableCache( bPathCacheServiceEnabled );
     }
 
+    @Test
     public void testGetXPagePathContent( ) throws IOException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request );
-        assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request ) );
-
-        String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, request );
-        assertNotSame( strPath_admin, strPath_normal );
-        assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, request ) );
-
-        int nPageId = createPage( );
         try
         {
-            MockHttpServletRequest request2 = new MockHttpServletRequest( );
-            request2.setParameter( Parameters.PAGE_ID, Integer.toString( nPageId ) );
-            String strPath_pageid = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 );
-            assertNotSame( strPath_pageid, strPath_normal );
-            assertNotSame( strPath_pageid, strPath_admin );
-            assertSame( strPath_pageid, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 ) );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request );
+            assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request ) );
+
+            String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, request );
+            assertNotSame( strPath_admin, strPath_normal );
+            assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, request ) );
+
+            int nPageId = createPage( );
+            try
+            {
+                MockHttpServletRequest request2 = new MockHttpServletRequest( );
+                request2.setParameter( Parameters.PAGE_ID, Integer.toString( nPageId ) );
+                String strPath_pageid = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 );
+                assertNotSame( strPath_pageid, strPath_normal );
+                assertNotSame( strPath_pageid, strPath_admin );
+                assertSame( strPath_pageid, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 ) );
+            }
+            finally
+            {
+                removePage( nPageId );
+            }
         }
-        finally
+        catch( IllegalStateException e )
         {
-            removePage( nPageId );
+            fail( "Cache exception, check cache implementation", e );
         }
     }
 
+    @Test
     public void testGetXPagePathContentWithTitleUrls( ) throws IOException
     {
-        String strTitleUrls = "<page><page-id>junit</page-id><page-name>junit</page-name></page>";
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request );
-        assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
+        try
+        {
+            String strTitleUrls = "<page><page-id>junit</page-id><page-name>junit</page-name></page>";
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request );
+            assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
 
-        String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request );
-        assertNotSame( strPath_admin, strPath_normal );
-        assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
+            String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request );
+            assertNotSame( strPath_admin, strPath_normal );
+            assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
+        }
+        catch( IllegalStateException e )
+        {
+            fail("Cache exception, check cache implementation" , e);
+        }
     }
 
     private void removePage( int nPageId )
     {
-        IPageService pageService = SpringContextService.getBean( "pageService" );
         pageService.removePage( nPageId );
     }
 
     private int createPage( )
     {
-        IPageService pageService = SpringContextService.getBean( "pageService" );
         Page page = new Page( );
         page.setName( "junit2" );
         page.setDescription( "junit2" );
         page.setParentPageId( PortalService.getRootPageId( ) );
         pageService.createPage( page );
         return page.getId( );
-    }
-
-    private String loadExpected( String strExpectedFileName ) throws IOException
-    {
-        try ( Scanner s = new Scanner( this.getClass( ).getResourceAsStream( this.getClass( ).getSimpleName( ) + "_" + strExpectedFileName ), "UTF-8" ) )
-        {
-            Scanner delimited = s.useDelimiter( "\\A" );
-            return delimited.hasNext( ) ? delimited.next( ) : "";
-        }
-
     }
 }
