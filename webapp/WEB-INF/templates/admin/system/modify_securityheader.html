@@ -10,17 +10,29 @@
 			</@formGroup>
 			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelDescription}' labelFor='description'>
 				<@input type='textarea' name='description' id='description' value='${securityheader.description}' maxlength=1024 cols=80 rows=5 />
-			</@formGroup>	
+			</@formGroup>
 			
 			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelType}' labelFor='type' mandatory=true>
 				<@select name='type'>
-					<@options items=types_list selected=selected_type />			
+					<#list types_list as type>
+					    <#if (type.code==selected_type)>
+							<option value="${type.code}" selected>#i18n{${"portal.securityheader.type.label."+type.code}}</option>
+						<#else>
+							<option value="${type.code}">#i18n{${"portal.securityheader.type.label."+type.code}}</option>
+						</#if>                        
+                    </#list>			
 				</@select>
 			</@formGroup>
 			
 			<@formGroup id='pageCategory_formGroup' labelKey='#i18n{portal.securityheader.modify_securityheader.labelPageCategory}' labelFor='pageCategory' mandatory=true>
 				<@select name='pageCategory'>
-					<@options items=page_category_list selected=selected_pageCategory />
+					<#list page_category_list as category>
+					    <#if (category.code=selected_pageCategory)>
+							<option value="${category.code}" selected>#i18n{${"portal.securityheader.category.label."+category.code}}</option>
+						<#else>
+							<option value="${category.code}">#i18n{${"portal.securityheader.category.label."+category.code}}</option>
+						</#if>                        
+                    </#list>			
 				</@select>
 			</@formGroup>
 			

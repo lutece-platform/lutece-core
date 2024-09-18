@@ -16,12 +16,20 @@
 			</@formGroup>
 			
 			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelType}' labelFor='type' mandatory=true>
-				<@select id='type' name='type' default_value='page' items=types_list sort=true />
-			</@formGroup>	
+				<@select id='type' name='type' default_value='page' sort=true>
+					<#list types_list as type>
+						<option value="${type.code}">#i18n{${"portal.securityheader.type.label."+type.code}}</option>
+                    </#list>			
+				</@select>
+			</@formGroup>
 
 			
 			<@formGroup id='pageCategory_formGroup' labelKey='#i18n{portal.securityheader.create_securityheader.labelPageCategory}' labelFor='pageCategory' mandatory=true>
-				<@select id='pageCategory' name='pageCategory' default_value='all' items=page_category_list sort=true />
+				<@select id='pageCategory' name='pageCategory' default_value='all' sort=true>
+				    <#list page_category_list as category>
+						<option value="${category.code}">#i18n{${"portal.securityheader.category.label."+category.code}}</option>                   
+                    </#list>			
+				</@select>
 			</@formGroup>
 			
 			<@formGroup>

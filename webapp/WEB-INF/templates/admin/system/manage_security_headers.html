@@ -25,11 +25,11 @@
 				</@td>
 				<@td params='title="${security_header.description}"'>${security_header.name}</@td>
 				<@td>${security_header.value}</@td>
-				<@td>${security_header.typeWording}</@td>
+				<@td>#i18n{${"portal.securityheader.type.label."+"${security_header.type}"}}</@td>
 				<#if (security_header.pageCategory??)>
-				  <@td>${security_header.pageCategoryWording}</@td>
+				    <@td>#i18n{${"portal.securityheader.category.label."+"${security_header.pageCategory}"}}</@td>
 				<#else>
-				  <@td></@td>
+				    <@td></@td>
 				</#if>
 				<@td>
 					 <@tform method='post' type='inline' align='middle' action='jsp/admin/system/DoSecurityHeaderAction.jsp'>
@@ -40,8 +40,12 @@
 						<#else>
 							<@button type='submit' title='#i18n{portal.system.manage_security_headers.actionEnable}' name='action' value='ENABLE' buttonIcon='play' color='success' hideTitle=['all'] size='sm' />
 						</#if>
-					 </@tform>
-					 <@aButton href='jsp/admin/system/ModifySecurityHeader.jsp?id_securityheader=${security_header.id}' buttonIcon='edit' size='sm' title='#i18n{portal.securityheader.modify_securityheader.buttonModify} (${security_header.name?html})' hideTitle=['all'] />					 				
+					 </@tform> 
+					 <#if security_header.active>
+					     <@aButton href='jsp/admin/system/NotEditableSecurityHeader.jsp?id_securityheader=${security_header.id}' buttonIcon='edit' size='sm' title='#i18n{portal.securityheader.modify_securityheader.buttonModify} (${security_header.name?html})' hideTitle=['all'] />
+					 <#else>
+                         <@aButton href='jsp/admin/system/ModifySecurityHeader.jsp?id_securityheader=${security_header.id}' buttonIcon='edit' size='sm' title='#i18n{portal.securityheader.modify_securityheader.buttonModify} (${security_header.name?html})' hideTitle=['all'] />
+					 </#if>				 				 				
 					 <@aButton href='jsp/admin/system/RemoveSecurityHeader.jsp?id_securityheader=${security_header.id}' buttonIcon='trash' size='sm' title='#i18n{portal.securityheader.modify_securityheader.linkLabelRemove} (${security_header.name?html})' hideTitle=['all'] color='danger' />
 				</@td>
 			</@tr>

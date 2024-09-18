@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.filter;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.Filter;
@@ -59,8 +60,9 @@ import fr.paris.lutece.portal.service.securityheader.SecurityHeaderService;
  */
 public class RestApiSecurityHeaderFilter implements Filter
 {
-
-	private Logger _logger = LogManager.getLogger( "lutece.securityHeader" );
+	private static final String BEAN_SECURITY_HEADER_SERVICE = "securityHeaderService";
+	private static final String LOGGER_LUTECE_SECURITY_HEADER = "lutece.securityHeader";
+    private Logger _logger = LogManager.getLogger( LOGGER_LUTECE_SECURITY_HEADER );
 	
     /**
      * Initializes the filter
@@ -72,9 +74,7 @@ public class RestApiSecurityHeaderFilter implements Filter
      */
     public void init( FilterConfig filterConfig ) throws ServletException
     {
-        // This would be a good place to collect a parameterized
-        // default encoding type. For brevity, we're going to
-        // use a hard-coded value in this example.
+
     }
 
     /**
@@ -112,10 +112,15 @@ public class RestApiSecurityHeaderFilter implements Filter
     private void addRestApiHeaders( HttpServletRequest request, HttpServletResponse response )
     {
     	SecurityHeaderService securityHeaderService = CDI.current().select(SecurityHeaderService.class).get();
-    	for( SecurityHeader securityHeader : securityHeaderService.findActive( SecurityHeaderType.REST_API.getCode( ), null ) )
+
+    	Collection<SecurityHeader> securityHeadersToAddList = securityHeaderService.findActive( SecurityHeaderType.REST_API.getCode( ), null );
+    	if( securityHeadersToAddList != null )
     	{
-    		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
-    		_logger.debug( "Security header added to endpoint {} - name : {}, value : {} ", request.getServletPath(), securityHeader.getName( ), securityHeader.getValue( ) );
+        	for( SecurityHeader securityHeader : securityHeadersToAddList )
+        	{
+        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        		_logger.debug( "Security header added to endpoint {} - name : {}, value : {} ", request.getServletPath(), securityHeader.getName( ), securityHeader.getValue( ) );
+        	}
     	}
     }
     
@@ -124,6 +129,6 @@ public class RestApiSecurityHeaderFilter implements Filter
      */
     public void destroy( )
     {
-        // no-op
+        
     }
 }
