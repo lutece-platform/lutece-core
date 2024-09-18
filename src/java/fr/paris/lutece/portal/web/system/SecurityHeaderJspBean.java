@@ -84,6 +84,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     // Properties
     private static final String PROPERTY_CREATE_SECURITYHEADER_PAGETITLE = "portal.securityheader.create_securityheader.pageTitle";
     private static final String PROPERTY_MODIFY_SECURITYHEADER_PAGETITLE = "portal.securityheader.modify_securityheader.pageTitle";   
+    private static final String MESSAGE_ACTIVE_HEADER_NOT_EDITABLE = "portal.securityheader.message.activeHeaderNotEditable";
     private static final String MESSAGE_CONFIRM_REMOVE = "portal.securityheader.message.confirmRemoveSecurityHeader";
     private static final String MESSAGE_HEADER_ALREADY_EXIST = "portal.securityheader.message.securityHeadersAlreadyexists";    
     private static final String MESSAGE_PAGE_CATEGORY_REQUIRED_WHEN_PAGE_IS_TYPE = "portal.securityheader.message.pageCategoryRequiredTypePage";
@@ -141,7 +142,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private HashMap<String, Object> createModelForHeadersList( HttpServletRequest request )
     {
     	HashMap<String, Object> model = new HashMap<>( );
-        model.put( MARK_SECURITY_HEADERS_LIST, getSecurityHeaderService( ).findAllForDisplay( getLocale( ) ) );
+        model.put( MARK_SECURITY_HEADERS_LIST, getSecurityHeaderService( ).findAllSorted( getLocale( ) ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_SECURITY_HEADERS ) );
         
         return model;
@@ -173,8 +174,8 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      */
     private HashMap<String, Object> createModelForHeaderCreation( HttpServletRequest request )
     {
-    	ReferenceList listTypes = getSecurityHeaderService( ).getTypeList( getLocale( ) );
-        ReferenceList listPageCategories = getSecurityHeaderService( ).getPageCategoryList( getLocale( ) );
+    	ReferenceList listTypes = getSecurityHeaderService( ).getTypeList( );
+        ReferenceList listPageCategories = getSecurityHeaderService( ).getPageCategoryList( );
    
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_TYPES_LIST, listTypes );
@@ -297,7 +298,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      */
     private boolean isTypeBelongsToReferenceList( String strType )
     {
-    	for (ReferenceItem referenceType : getSecurityHeaderService( ).getTypeList( getLocale( ) ) )
+    	for (ReferenceItem referenceType : getSecurityHeaderService( ).getTypeList( ) )
     	{
     		if ( strType.equals( referenceType.getCode() ) )
     		{
@@ -317,7 +318,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      */
     private boolean isPageCategoryBelongsToReferenceList( String strPageCategory )
     {
-    	for (ReferenceItem referencePageCategory : getSecurityHeaderService( ).getPageCategoryList( getLocale( ) ) )
+    	for (ReferenceItem referencePageCategory : getSecurityHeaderService( ).getPageCategoryList( ) )
     	{
     		if ( strPageCategory.equals( referencePageCategory.getCode() ) )
     		{
@@ -395,6 +396,18 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     }
     
     /**
+     * Returns the message page that informs that a security header is not editable.
+     *
+     * @param request
+     *            The Http Request
+     * @return the confirmation url
+     */
+    public String getMessageNotEditableSecurityHeader( HttpServletRequest request )
+    {  	 
+        return AdminMessageService.getMessageUrl( request, MESSAGE_ACTIVE_HEADER_NOT_EDITABLE, AdminMessage.TYPE_INFO );
+    }
+      
+    /**
      * 
      * Creates the model used for modifying a security header.
      * 
@@ -402,9 +415,10 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            The HttpServletRequest
      * @return model map
      */
-	private HashMap<String, Object> createModelForHeaderModification(HttpServletRequest request, SecurityHeader securityHeader) {
-		ReferenceList listTypes = getSecurityHeaderService().getTypeList( getLocale( ) );
-        ReferenceList listPageCategories = getSecurityHeaderService().getPageCategoryList( getLocale( ) );
+	private HashMap<String, Object> createModelForHeaderModification(HttpServletRequest request, SecurityHeader securityHeader) 
+	{
+		ReferenceList listTypes = getSecurityHeaderService().getTypeList( );
+        ReferenceList listPageCategories = getSecurityHeaderService().getPageCategoryList( );
 
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_TYPES_LIST, listTypes );

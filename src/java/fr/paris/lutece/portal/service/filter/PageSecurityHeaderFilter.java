@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.filter;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -78,9 +79,7 @@ public class PageSecurityHeaderFilter implements javax.servlet.Filter
      */
     public void init( FilterConfig filterConfig ) throws ServletException
     {
-        // This would be a good place to collect a parameterized
-        // default encoding type. For brevity, we're going to
-        // use a hard-coded value in this example.
+
     }
     
     /**
@@ -103,8 +102,8 @@ public class PageSecurityHeaderFilter implements javax.servlet.Filter
     	HttpServletResponse resp = ( HttpServletResponse )response;
         
     	addAllPagesHeaders( req, resp );
-    	addFrontOfficeAuthenticatedPagesHeaders( req, resp );
-    	addLogoutPageHeaders( req, resp );
+    	addFoAuthenticatedPagesHeaders( req, resp );
+    	addFoLogoutPageHeaders( req, resp );
     	
         filterChain.doFilter( req, resp );
     }
@@ -130,7 +129,7 @@ public class PageSecurityHeaderFilter implements javax.servlet.Filter
      * @param response
      *            The HTTP response
      */
-    private void addFrontOfficeAuthenticatedPagesHeaders( HttpServletRequest request, HttpServletResponse response )
+    private void addFoAuthenticatedPagesHeaders( HttpServletRequest request, HttpServletResponse response )
     {
     	if( SecurityService.getInstance( ).getRegisteredUser( request ) != null )
     	{
@@ -146,7 +145,7 @@ public class PageSecurityHeaderFilter implements javax.servlet.Filter
      * @param response
      *            The HTTP response
      */
-    private void addLogoutPageHeaders( HttpServletRequest request, HttpServletResponse response )
+    private void addFoLogoutPageHeaders( HttpServletRequest request, HttpServletResponse response )
     {
     	String logoutPage = getAbsoluteUrl( request, AppPropertiesService.getProperty( PROPERTY_JSP_URL_PORTAL_LOGOUT ) );
     	if( logoutPage != null )
@@ -173,11 +172,15 @@ public class PageSecurityHeaderFilter implements javax.servlet.Filter
      */
     private void addActiveHeaders( HttpServletRequest request, HttpServletResponse response, SecurityHeaderType typePage, SecurityHeaderPageCategory pageCategory )
     {
-    	for( SecurityHeader securityHeader : getSecurityHeaderService( ).findActive( typePage.getCode( ), pageCategory.getCode( ) ) )
+    	Collection<SecurityHeader> securityHeadersToAddList = getSecurityHeaderService( ).findActive( typePage.getCode( ), pageCategory.getCode( ) );
+    	if( securityHeadersToAddList != null )
     	{
-    		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
-    		_logger.debug( "Security header added to page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
-    	}
+    		for( SecurityHeader securityHeader : securityHeadersToAddList )
+        	{
+        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        		_logger.debug( "Security header added to page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
+        	}
+    	}   	
     }
     
     /**
@@ -185,7 +188,7 @@ public class PageSecurityHeaderFilter implements javax.servlet.Filter
      */
     public void destroy( )
     {
-        // no-op
+        
     }
     
     /**
