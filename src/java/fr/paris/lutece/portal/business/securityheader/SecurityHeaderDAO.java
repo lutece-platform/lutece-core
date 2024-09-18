@@ -166,7 +166,7 @@ public final class SecurityHeaderDAO implements ISecurityHeaderDAO
     	try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_IS_ACTIVE ) )
         {
 
-            daoUtil.setBoolean( 1, Boolean.valueOf( isActiveValue) );
+            daoUtil.setBoolean( 1, isActiveValue );
             daoUtil.setInt( 2, nSecurityHeaderId );
 
             daoUtil.executeUpdate( );

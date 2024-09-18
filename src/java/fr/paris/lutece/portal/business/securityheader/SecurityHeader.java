@@ -33,10 +33,6 @@ public class SecurityHeader
 	private String _strPageCategory;	
 	
 	private boolean _bIsActive;
-	
-	private String _strTypeWording;
-	
-	private String _strPageCategoryWording;
 
 	/**
      * Returns the Id
@@ -183,47 +179,5 @@ public class SecurityHeader
 	public void setActive( boolean isActive )
 	{
 		this._bIsActive = isActive;
-	}
-	
-	/**
-     * Returns the security header type on a more user-friendly form (wording) used to be displayed in manage security headers page
-     *
-     * @return the security header type wording as a String
-     */
-	public String getTypeWording( ) 
-	{
-		return _strTypeWording;
-	}
-
-	/**
-     * Sets the type wording of the security header
-     *
-     * @param strTypeWording
-     *            The security header type wording
-     */
-	public void setTypeWording( String strTypeWording ) 
-	{
-		this._strTypeWording = strTypeWording;
-	}
-	
-	/**
-     * Returns the security header page category on a more user-friendly form (wording) used to be displayed in manage security headers page
-     *
-     * @return the security header page category wording as a String
-     */
-	public String getPageCategoryWording( ) 
-	{
-		return _strPageCategoryWording;
-	}
-
-	/**
-     * Sets the page category wording of the security header
-     *
-     * @param strTypeWording
-     *            The security header type wording
-     */
-	public void setPageCategoryWording( String strPageCategoryWording ) 
-	{
-		this._strPageCategoryWording = strPageCategoryWording;
 	}
 }

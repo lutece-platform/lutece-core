@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.user;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -84,7 +85,9 @@ public class AuthenticationFilter implements Filter
     private static final String PROPERTY_RESET_EXCEPTION_MESSAGE = "User must reset his password.";
     private static final String PROPERTY_JSP_URL_ADMIN_LOGOUT = "lutece.admin.logout.url";
     private static final String JSP_URL_ADMIN_LOGIN = "jsp/admin/AdminLogin.jsp";
-    private Logger _logger = LogManager.getLogger( "lutece.securityHeader" );
+    private static final String BEAN_SECURITY_HEADER_SERVICE = "securityHeaderService";
+    private static final String LOGGER_LUTECE_SECURITY_HEADER = "lutece.securityHeader";
+    private Logger _logger = LogManager.getLogger( LOGGER_LUTECE_SECURITY_HEADER );
 
     /**
      * {@inheritDoc}
@@ -170,7 +173,7 @@ public class AuthenticationFilter implements Filter
         }
         else if(isAdminLogoutUrl(req))
         {
-        	addLogoutPageSecurityHeaders(req, resp);	
+        	addBoLogoutPageSecurityHeaders(req, resp);	
         }
 
         chain.doFilter( request, response );
@@ -186,12 +189,16 @@ public class AuthenticationFilter implements Filter
      */
     private void addAdminAuthenticatedPagesHeaders( HttpServletRequest request, HttpServletResponse response )
     {
-    	SecurityHeaderService securityHeaderService = SpringContextService.getBean( "securityHeaderService" );
-    	for( SecurityHeader securityHeader : securityHeaderService.findActive( SecurityHeaderType.PAGE.getCode( ), SecurityHeaderPageCategory.AUTHENTICATED_ADMIN_BACK_OFFICE.getCode( ) ) )
+    	SecurityHeaderService securityHeaderService = SpringContextService.getBean( BEAN_SECURITY_HEADER_SERVICE );
+    	Collection<SecurityHeader> securityHeadersToAddList = securityHeaderService.findActive( SecurityHeaderType.PAGE.getCode( ), SecurityHeaderPageCategory.AUTHENTICATED_ADMIN_BACK_OFFICE.getCode( ) );
+    	if( securityHeadersToAddList != null )
     	{
-    		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
-    		_logger.debug( "Security header added to admin authenticated BO page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
-    	}
+    		for( SecurityHeader securityHeader : securityHeadersToAddList )
+        	{
+        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        		_logger.debug( "Security header added to admin authenticated BO page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
+        	}
+    	}   	
     }
     
     /**
@@ -202,14 +209,18 @@ public class AuthenticationFilter implements Filter
      * @param response
      *            the http response
      */
-    private void addLogoutPageSecurityHeaders( HttpServletRequest request, HttpServletResponse response )
+    private void addBoLogoutPageSecurityHeaders( HttpServletRequest request, HttpServletResponse response )
     {
-    	SecurityHeaderService securityHeaderService = SpringContextService.getBean( "securityHeaderService" );
-    	for( SecurityHeader securityHeader : securityHeaderService.findActive( SecurityHeaderType.PAGE.getCode( ), SecurityHeaderPageCategory.LOGOUT_BO.getCode( ) ) )
+    	SecurityHeaderService securityHeaderService = SpringContextService.getBean( BEAN_SECURITY_HEADER_SERVICE );
+    	Collection<SecurityHeader> securityHeadersList = securityHeaderService.findActive( SecurityHeaderType.PAGE.getCode( ), SecurityHeaderPageCategory.LOGOUT_BO.getCode( ) );
+    	if( securityHeadersList != null )
     	{
-    		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
-    		_logger.debug( "Security header added to logout page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
-    	}
+    		for( SecurityHeader securityHeader : securityHeadersList )
+        	{
+        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        		_logger.debug( "Security header added to logout page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
+        	}
+    	}   	
     }
     
      /**
