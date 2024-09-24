@@ -49,7 +49,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * A rewrite of the multipart filter from the com.oreilly.servlet package. The rewrite allows us to use initialization parameters specified in the Lutece
