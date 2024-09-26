@@ -232,7 +232,6 @@ public final class MVCUtils
         response.setHeader( "Content-Disposition", "attachment; filename=\"" + strFilename + "\";" );
         response.setHeader( "Content-type", strContentType );
         response.addHeader( "Content-Encoding", "UTF-8" );
-        response.addHeader( "Pragma", "public" );
         response.addHeader( "Expires", "0" );
         response.addHeader( "Cache-Control", "must-revalidate,post-check=0,pre-check=0" );
     }
