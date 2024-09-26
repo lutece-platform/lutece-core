@@ -7,7 +7,6 @@
 <%@ page autoFlush="false" %>
 <%
 response.setHeader("Cache-Control","no-cache");
-response.setHeader("Pragma","no-cache");
 response.setDateHeader ("Expires", 0);
 %>
 <jsp:useBean id="adminMenu" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMenuJspBean" />
