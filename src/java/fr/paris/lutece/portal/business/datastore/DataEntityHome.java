@@ -113,4 +113,18 @@ public final class DataEntityHome
     {
         return _dao.selectEntitiesList( );
     }
+
+    /**
+     * Load the data of all the entity objects whose key share a prefix
+     * 
+     * @param strPrefix
+     *            the prefix
+     * @return the list which contains the data of all the entity objects whose
+     *         key share a prefix
+     * @since 7.0.17
+     */
+    public static List<DataEntity> findByPrefix( String strPrefix )
+    {
+        return _dao.selectEntitiesByPrefix( strPrefix );
+    }
 }

@@ -82,4 +82,15 @@ public interface IDataEntityDAO
      * @return The List which contains the data of all the property objects
      */
     List<DataEntity> selectEntitiesList( );
+
+    /**
+     * Load the data of all the entity objects whose key share a prefix
+     * 
+     * @param strPrefix
+     *            the prefix
+     * @return the list which contains the data of all the entity objects whose
+     *         key share a prefix
+     * @since 7.0.17
+     */
+    List<DataEntity> selectEntitiesByPrefix( String strPrefix );
 }
