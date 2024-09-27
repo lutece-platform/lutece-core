@@ -284,18 +284,12 @@ public final class DatastoreService
         {
             if ( _bDatabase )
             {
-                List<DataEntity> listEntities = DataEntityHome.findAll( );
+                DataEntityHome.findByPrefix( strPrefix )
+                        .forEach( ( DataEntity entity ) -> list.addItem( entity.getKey( ), entity.getValue( ) ) );
 
-                for ( DataEntity entity : listEntities )
-                {
-                    if ( entity.getKey( ).startsWith( strPrefix ) )
-                    {
-                        list.addItem( entity.getKey( ), entity.getValue( ) );
-                    }
-                }
             }
         }
-        catch( NoDatabaseException e )
+        catch ( NoDatabaseException e )
         {
             disableDatastore( e );
         }
