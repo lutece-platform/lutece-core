@@ -18,6 +18,17 @@
         <filter-name>pageSecurityHeaderFilter</filter-name>
         <filter-class>fr.paris.lutece.portal.service.filter.PageSecurityHeaderFilter</filter-class>
     </filter>
+    <filter-mapping>
+        <filter-name>StaticFilesCachingFilter</filter-name>
+        <url-pattern>*.ico</url-pattern>
+        <url-pattern>/css/*</url-pattern>
+        <url-pattern>/images/*</url-pattern>
+        <url-pattern>/js/*</url-pattern>
+        <url-pattern>/themes/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
     <filter>
         <filter-name>restApiSecurityHeaderFilter</filter-name>
         <filter-class>fr.paris.lutece.portal.service.filter.RestApiSecurityHeaderFilter</filter-class>
