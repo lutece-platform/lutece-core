@@ -53,6 +53,10 @@ public class PortletCacheService extends AbstractCacheableService<String,String>
     private static final String CACHE_PORTLET_PREFIX = "portlet:";
     private static final String SERVICE_NAME = "Portlet Cache Service";
 
+    public void init( )
+    {
+        initCache( SERVICE_NAME, String.class, String.class );
+    }
     /**
      * {@inheritDoc }
      */

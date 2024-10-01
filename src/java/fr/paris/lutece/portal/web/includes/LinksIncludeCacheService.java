@@ -33,8 +33,10 @@
  */
 package fr.paris.lutece.portal.web.includes;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.plugin.PluginEvent;
@@ -57,7 +59,7 @@ public class LinksIncludeCacheService extends AbstractCacheableService<String,Ma
     @PostConstruct
     public void init( )
     {
-        initCache( );
+        initCache( SERVICE_NAME, String.class, (Class<Map<String, Object>>)(Class<?>)HashMap.class);
         PluginService.registerPluginEventListener( this );
     }
 
@@ -92,8 +94,8 @@ public class LinksIncludeCacheService extends AbstractCacheableService<String,Ma
 
     @Override
     public void processPluginEvent( PluginEvent event )
-    {
-        resetCache( );
+    {    	
+    	resetCache( );
     }
     /**
      * This method observes the initialization of the {@link ApplicationScoped} context.

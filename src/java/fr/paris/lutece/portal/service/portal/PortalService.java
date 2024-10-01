@@ -127,7 +127,8 @@ public final class PortalService
 
     // Content Service registry
     private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<>( );
-    private static IPageService _pageService = CDI.current().select(IPageService.class).get();
+    private static IPageService _pageService = CDI.current().select(IPageService.class).get();  
+    private static PathCacheService _pathCacheService = CDI.current().select( PathCacheService.class ).get( );
     /**
      * Private Constructor
      */
@@ -426,17 +427,17 @@ public final class PortalService
      */
     public static String getXPagePathContent( String strXPageName, int nMode, HttpServletRequest request )
     {
-        final PathCacheService pathCacheService = CDI.current().select( PathCacheService.class ).get( );
-
-        final String strKey = pathCacheService.getKey( strXPageName, nMode, request );
-
-        String strRes = pathCacheService.get( strKey );
-
-        if ( strRes != null )
-        {
-            return strRes;
+        final String strKey = _pathCacheService.getKey( strXPageName, nMode, request );
+        String strRes= null;
+        if( _pathCacheService.getCache()!= null && !_pathCacheService.isClosed() ) {
+	
+        	strRes = _pathCacheService.get( strKey );
+	
+	        if ( strRes != null )
+	        {
+	            return strRes ;
+	        }
         }
-
         // Added in v1.3
         StyleSheet xslSource;
 
@@ -496,8 +497,10 @@ public final class PortalService
         String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams, outputProperties );
 
         strRes = formatPath( strPath, nMode, request );
-
-        pathCacheService.put( strKey, strRes );
+        if( _pathCacheService.getCache()!= null && !_pathCacheService.isClosed() ) {
+        	
+        	_pathCacheService.put( strKey, strRes );
+        }
 
         return strRes;
     }
@@ -671,15 +674,17 @@ public final class PortalService
      */
     public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls, HttpServletRequest request )
     {
-        final PathCacheService pathCacheService = CDI.current().select(PathCacheService.class ).get();
 
-        final String strKey = pathCacheService.getKey( strXPageName, nMode, strTitlesUrls, request );
-
-        String strRes = pathCacheService.get( strKey );
-
-        if ( strRes != null )
-        {
-            return strRes;
+        final String strKey = _pathCacheService.getKey( strXPageName, nMode, strTitlesUrls, request );
+        String strRes = null;
+        if( _pathCacheService.getCache()!= null && !_pathCacheService.isClosed() ) {
+        	
+        	strRes = _pathCacheService.get( strKey );
+	
+	        if ( strRes != null )
+	        {
+	            return strRes;
+	        }
         }
 
         // Selection of the XSL stylesheet
@@ -713,9 +718,9 @@ public final class PortalService
         String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams, outputProperties );
 
         strRes = formatPath( strPath, nMode, request );
-
-        pathCacheService.put( strKey, strRes );
-
+        if( _pathCacheService.getCache()!= null && !_pathCacheService.isClosed() ) {
+        	_pathCacheService.put( strKey, strRes );
+        }
         return strRes;
     }
 

@@ -57,7 +57,7 @@ public class PathCacheService extends AbstractCacheableService<String,String>
     @PostConstruct
     public void init( )
     {
-        initCache( );
+        initCache( BEAN_NAME, String.class, String.class );
     }
     
     @Override

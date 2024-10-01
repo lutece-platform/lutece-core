@@ -34,20 +34,32 @@
 package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Cache service for {@link BaseUserPreferencesServiceImpl}
  */
+@ApplicationScoped
 public class BaseUserPreferencesCacheService extends AbstractCacheableService<String,String>
 {
     private static final String CACHE_SERVICE_NAME = "BaseUserPreferencesCacheService";
     private static final String CONSTANT_UNDERSCORE = "_";
 
+    @PostConstruct
+    public void init( )
+    {
+        initCache( CACHE_SERVICE_NAME, String.class, String.class);
+    }
+   
     /**
      * {@inheritDoc}
      */

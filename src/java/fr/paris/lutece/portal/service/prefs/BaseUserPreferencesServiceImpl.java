@@ -50,7 +50,8 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
 {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
-    private static BaseUserPreferencesCacheService _cache;
+    @Inject
+    private BaseUserPreferencesCacheService _cache;
     @Inject
     @AdminUserPreferences
     private IPreferencesDAO _dao;
@@ -198,18 +199,6 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
         return _dao.getUserId( strKey, strValue );
     }
 
-    @PostConstruct
-    public void afterPropertiesSet( )
-    {
-        synchronized( BaseUserPreferencesServiceImpl.class )
-        {
-            if ( _cache == null )
-            {
-                _cache = new BaseUserPreferencesCacheService( );
-                _cache.initCache( );
-            }
-        }
-    }
 
     @Override
     public boolean existsValueForKey( String strKey, String strValue )
