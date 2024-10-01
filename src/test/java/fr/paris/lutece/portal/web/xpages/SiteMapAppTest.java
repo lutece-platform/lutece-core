@@ -212,7 +212,7 @@ public class SiteMapAppTest extends LuteceTestCase
                 user.setRoles( Arrays.asList( ROLE2, ROLE1 ) );
 
                 XPage sitemap2 = instance.getPage( request, 0, null );
-                assertTrue( "Role order should not matter to the cache (call " + ( i + 1 ) + ")", sitemap.getContent( ) == sitemap2.getContent( ) );
+                assertTrue( "Role order should not matter to the cache (call " + ( i + 1 ) + ")", sitemap.getContent( ).equals(sitemap2.getContent( )) );
             }
         }
         finally

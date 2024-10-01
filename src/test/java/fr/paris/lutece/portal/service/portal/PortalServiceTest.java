@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.portal;
 
 import java.io.IOException;
 
+import javax.cache.configuration.Configuration;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,13 +79,24 @@ public class PortalServiceTest extends LuteceTestCase
         {
             MockHttpServletRequest request = new MockHttpServletRequest( );
             String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request );
-
-            assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request ) );
-
+            if(!pathCacheService.getConfiguration(Configuration.class).isStoreByValue())
+        	{
+            	assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request ) );
+        	}else 
+        	{
+        		assertEquals( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request ) );
+        	}
             String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, request );
             assertNotSame( strPath_admin, strPath_normal );
-            assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, request ) );
+            if(!pathCacheService.getConfiguration(Configuration.class).isStoreByValue())
+        	{
+            	assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, request ) );
+        	}else
+        	{
+        		assertEquals( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, request ) );
 
+        	}
+            
             int nPageId = createPage( );
             try
             {
@@ -92,7 +105,14 @@ public class PortalServiceTest extends LuteceTestCase
                 String strPath_pageid = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 );
                 assertNotSame( strPath_pageid, strPath_normal );
                 assertNotSame( strPath_pageid, strPath_admin );
-                assertSame( strPath_pageid, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 ) );
+                
+                if(!pathCacheService.getConfiguration(Configuration.class).isStoreByValue())
+            	{
+                    assertSame( strPath_pageid, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 ) );
+            	}else
+            	{
+                    assertEquals( strPath_pageid, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 ) );
+            	}
             }
             finally
             {
@@ -113,11 +133,17 @@ public class PortalServiceTest extends LuteceTestCase
             String strTitleUrls = "<page><page-id>junit</page-id><page-name>junit</page-name></page>";
             MockHttpServletRequest request = new MockHttpServletRequest( );
             String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request );
-            assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
-
             String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request );
-            assertNotSame( strPath_admin, strPath_normal );
-            assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
+            if(!pathCacheService.getConfiguration(Configuration.class).isStoreByValue())
+        	{
+                assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
+                assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
+                assertNotSame( strPath_admin, strPath_normal );
+        	}else
+        	{
+                assertEquals( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
+                assertEquals( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
+        	}
         }
         catch( IllegalStateException e )
         {

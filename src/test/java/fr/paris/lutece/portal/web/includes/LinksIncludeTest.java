@@ -45,6 +45,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.cache.configuration.Configuration;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -311,7 +313,12 @@ public abstract class LinksIncludeTest extends LuteceTestCase
                 assertNotNull( cssLinks2 );
                 if ( enableCache( ) )
                 {
-                    assertSame( cssLinks, cssLinks2 );
+                	if(_cacheService.getConfiguration(Configuration.class).isStoreByValue())
+                	{
+                        assertEquals( cssLinks, cssLinks2 );
+                	}else {
+                        assertSame( cssLinks, cssLinks2 );
+                	}
                 }
                 else
                 {
@@ -747,7 +754,12 @@ public abstract class LinksIncludeTest extends LuteceTestCase
                 assertNotNull( cssLinks2 );
                 if ( enableCache( ) )
                 {
-                    assertSame( cssLinks, cssLinks2 );
+                	if(_cacheService.getConfiguration(Configuration.class).isStoreByValue())
+                	{
+                        assertEquals( cssLinks, cssLinks2 );
+                	}else {
+                        assertSame( cssLinks, cssLinks2 );
+                	}
                 }
                 else
                 {
