@@ -493,6 +493,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "email", userToModify.getEmail( ) );
             request.addParameter( "status", Integer.toString( AdminUser.NOT_ACTIVE_CODE ) );
             request.addParameter( "language", Locale.KOREA.toString( ) );
+            request.addParameter("user_level", "0");
             request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                     SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyUser.jsp" ) );
             bean.doModifyAdminUser( request );
