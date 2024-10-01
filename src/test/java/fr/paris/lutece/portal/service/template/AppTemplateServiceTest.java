@@ -61,6 +61,7 @@ public class AppTemplateServiceTest extends LuteceTestCase
 {
 
     private static final String REFERENCE_TEMPLATE = "reference.html";
+    private static final String MARK_SITE_NAME = "site_name";
     final private static String TEST_TEMPLATES_PATH = "commons" + File.separator + "templates" + File.separator + "test";
 
     @Test
@@ -82,6 +83,7 @@ public class AppTemplateServiceTest extends LuteceTestCase
                 CommonsService.activateCommons( ci.getKey( ) );
                 String ciKey = ci.getKey( );
                 Map<String, Object> model = new HashMap<>( );
+                model.put( MARK_SITE_NAME, "test" );
 
                 AppTemplateService.resetCache( );
 
