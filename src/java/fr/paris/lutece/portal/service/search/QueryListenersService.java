@@ -34,6 +34,8 @@
 package fr.paris.lutece.portal.service.search;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,26 +43,32 @@ import java.util.List;
 /**
  * QueryListenersService
  */
-public final class QueryListenersService
+@ApplicationScoped
+public class QueryListenersService
 {
     private static List<QueryEventListener> _listListeners = new ArrayList<>( );
-    private static QueryListenersService _singleton = new QueryListenersService( );
 
-    /**
-     * Creates a new instance of QueryListenersService
-     */
-    private QueryListenersService( )
+    QueryListenersService( )
     {
+        // Ctor
     }
 
     /**
-     * Returns the unique instance of the service
+     * Returns the unique instance of the {@link QueryListenersService} service.
      * 
-     * @return The instance of the service
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link QueryListenersService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link QueryListenersService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link QueryListenersService} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static QueryListenersService getInstance( )
     {
-        return _singleton;
+        return CDI.current( ).select( QueryListenersService.class ).get( );
     }
 
     /**

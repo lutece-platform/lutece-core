@@ -39,8 +39,10 @@
 package fr.paris.lutece.portal.service.progressmanager;
 
 import fr.paris.lutece.portal.business.progressmanager.ProgressFeed;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,32 +52,32 @@ import java.util.UUID;
  *
  * @author sleridon
  */
-public final class ProgressManagerService
+@ApplicationScoped
+public class ProgressManagerService
 {
+    private static Map<String, ProgressFeed> _progressFeeds = new HashMap<>( );
 
-    private static ProgressManagerService _singleton;
-    private static Map<String, ProgressFeed> _progressFeeds;
-
-    /**
-     * Private constructor
-     */
-    private ProgressManagerService( )
+    ProgressManagerService( )
     {
+        // Ctor
     }
 
     /**
-     * Returns the unique instance of the service
+     * Returns the unique instance of the {@link ProgressManagerService} service.
      * 
-     * @return The instance of the service
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link ProgressManagerService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link ProgressManagerService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link ProgressManagerService} 
+     * instance. This method will be removed in future versions.
      */
-    public static synchronized ProgressManagerService getInstance( )
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static ProgressManagerService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new ProgressManagerService( );
-            _progressFeeds = new HashMap<>( );
-        }
-        return _singleton;
+        return CDI.current( ).select( ProgressManagerService.class ).get( );
     }
 
     /**

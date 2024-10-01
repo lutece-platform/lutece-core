@@ -35,36 +35,38 @@ package fr.paris.lutece.portal.service.user.attribute;
 
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  *
  * AttributeFieldService
  *
  */
-public final class AttributeFieldService
+@ApplicationScoped
+public class AttributeFieldService
 {
-    private static AttributeFieldService _singleton;
-
-    /**
-     * Private constructor
-     */
-    private AttributeFieldService( )
+    AttributeFieldService( )
     {
+     // Ctor
     }
 
     /**
-     * Get an instance of {@link AttributeFieldService}
+     * Returns the unique instance of the {@link AttributeFieldService} service.
      * 
-     * @return the instance of {@link AttributeFieldService}
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link AttributeFieldService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link AttributeFieldService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link AttributeFieldService} 
+     * instance. This method will be removed in future versions.
      */
-    public static synchronized AttributeFieldService getInstance( )
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static AttributeFieldService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new AttributeFieldService( );
-        }
-
-        return _singleton;
+        return CDI.current( ).select( AttributeFieldService.class ).get( );
     }
 
     /**

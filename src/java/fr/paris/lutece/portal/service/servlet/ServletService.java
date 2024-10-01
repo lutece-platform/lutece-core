@@ -40,33 +40,41 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServlet;
 
 /**
  * ServletService
  */
-public final class ServletService
+@ApplicationScoped
+public class ServletService
 {
-    private static ServletService _singleton = new ServletService( );
     private static ServletContext _context;
     private List<LuteceServlet> _listServlets = new ArrayList<>( );
 
-    /**
-     * Private constructor
-     */
-    private ServletService( )
+    ServletService( )
     {
+        // Ctor
     }
 
     /**
-     * Return the unique instance
+     * Returns the unique instance of the {@link ServletService} service.
      * 
-     * @return The instance
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link ServletService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link ServletService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link ServletService} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static ServletService getInstance( )
     {
-        return _singleton;
+        return CDI.current( ).select( ServletService.class ).get( );
     }
 
     /**

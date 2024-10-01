@@ -97,7 +97,7 @@ public class FileImagePublicService implements ImageResourceProvider
      * @deprecated Use {@code @Inject} to obtain the {@link FileImagePublicService} 
      * instance. This method will be removed in future versions.
      */
-    @Deprecated
+    @Deprecated( since = "8.0", forRemoval = true )
     public static FileImagePublicService getInstance( )
     {
         return CDI.current().select(FileImagePublicService.class).get();

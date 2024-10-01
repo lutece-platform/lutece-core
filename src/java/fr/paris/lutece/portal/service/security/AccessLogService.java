@@ -34,6 +34,8 @@
 package fr.paris.lutece.portal.service.security;
 
 import fr.paris.lutece.api.user.User;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
@@ -59,31 +61,45 @@ import java.util.List;
  * Event types are available in AccessLoggerConstants class.
  * 
  */
-public final class AccessLogService
+@ApplicationScoped
+public class AccessLogService
 {
     // constants
     public static final String ACCESS_LOG_FO = "fo";
     public static final String ACCESS_LOG_BO = "bo";
 
-    private final List<IAccessLogger> _accessLoggerList;
-    private static AccessLogService _singleton = new AccessLogService( );
+    private List<IAccessLogger> _accessLoggerList;
+
+    AccessLogService( )
+    {
+        // Ctor
+    }
 
     /**
      * Creates a new AppLogService object.
      */
-    private AccessLogService( )
+    @PostConstruct
+    void initAccessLogService( )
     {
         _accessLoggerList = CDI.current().select(IAccessLogger.class).stream().toList();
     }
 
     /**
-     * Get the unique instance of the Service
+     * Returns the unique instance of the {@link AccessLogService} service.
      * 
-     * @return The instance
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link AccessLogService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link AccessLogService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link AccessLogService} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static AccessLogService getInstance( )
     {
-        return _singleton;
+        return CDI.current( ).select( AccessLogService.class ).get( );
     }
 
     /**

@@ -34,6 +34,9 @@
 package fr.paris.lutece.portal.service.scheduler;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 
 import org.quartz.CronTrigger;
 import org.quartz.JobDetail;
@@ -48,36 +51,19 @@ import java.util.Date;
 /**
  * JobSchedulerService
  */
-public final class JobSchedulerService
+@ApplicationScoped
+public class JobSchedulerService
 {
-    private static JobSchedulerService _singleton;
     private static Scheduler _scheduler;
 
+    JobSchedulerService( )
+    {
+        // Ctor
+    }
+
     /** Creates a new instance of JobSchedulerService */
-    private JobSchedulerService( )
-    {
-        init( );
-    }
-
-    /**
-     * Gets the unique instance of the service
-     * 
-     * @return The service's instance
-     */
-    public static synchronized JobSchedulerService getInstance( )
-    {
-        if ( _singleton == null )
-        {
-            _singleton = new JobSchedulerService( );
-        }
-
-        return _singleton;
-    }
-
-    /**
-     * Initialize the service.
-     */
-    private void init( )
+    @PostConstruct
+    private void initJobSchedulerService( )
     {
         SchedulerFactory factory = new StdSchedulerFactory( );
 
@@ -91,6 +77,24 @@ public final class JobSchedulerService
         {
             AppLogService.error( "Error starting the Lutece job scheduler ", e );
         }
+    }
+
+    /**
+     * Returns the unique instance of the {@link JobSchedulerService} service.
+     * 
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link JobSchedulerService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link JobSchedulerService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link JobSchedulerService} 
+     * instance. This method will be removed in future versions.
+     */
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static JobSchedulerService getInstance( )
+    {
+        return CDI.current( ).select( JobSchedulerService.class ).get( );
     }
 
     /**

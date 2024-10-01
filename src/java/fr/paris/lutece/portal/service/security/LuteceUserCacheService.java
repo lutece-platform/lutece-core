@@ -34,35 +34,45 @@
 package fr.paris.lutece.portal.service.security;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * Cache service for LuteceUserService
  */
-public final class LuteceUserCacheService extends AbstractCacheableService
+@ApplicationScoped
+public class LuteceUserCacheService extends AbstractCacheableService
 {
     private static final String CACHE_SERVICE_NAME = "LuteceUserCacheService";
-    private static LuteceUserCacheService _instance;
 
-    /**
-     * Private constructor
-     */
-    private LuteceUserCacheService( )
+    LuteceUserCacheService( )
+    {
+        // Ctor
+    }
+
+    @PostConstruct
+    private void initLuteceUserCacheService( )
     {
         initCache( );
     }
 
     /**
-     * Get the instance of the cache service
+     * Returns the unique instance of the {@link LuteceUserCacheService} service.
      * 
-     * @return The instance of the cache service
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link LuteceUserCacheService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link LuteceUserCacheService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link LuteceUserCacheService} 
+     * instance. This method will be removed in future versions.
      */
-    public static synchronized LuteceUserCacheService getInstance( )
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static LuteceUserCacheService getInstance( )
     {
-        if ( _instance == null )
-        {
-            _instance = new LuteceUserCacheService( );
-        }
-        return _instance;
+        return CDI.current( ).select( LuteceUserCacheService.class ).get( );
     }
 
     /**

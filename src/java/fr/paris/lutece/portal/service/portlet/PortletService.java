@@ -39,7 +39,9 @@ import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,33 +49,33 @@ import java.util.Collection;
 /**
  * class PortletService
  */
-public final class PortletService
+@ApplicationScoped
+public class PortletService
 {
-    private static PortletService _singleton;
-    private static IPageService _pageService = CDI.current().select(IPageService.class).get();
+    @Inject
+    private IPageService _pageService;
 
-
-    /**
-     * Constructor for class PortletService
-     *
-     */
-    private PortletService( )
+    PortletService( )
     {
+        // Ctor
     }
 
     /**
-     * Get the unique instance of the service
-     *
-     * @return The unique instance
+     * Returns the unique instance of the {@link PortletService} service.
+     * 
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link PortletService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link PortletService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link PortletService} 
+     * instance. This method will be removed in future versions.
      */
-    public static synchronized PortletService getInstance( )
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static PortletService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new PortletService( );
-        }
-
-        return _singleton;
+        return CDI.current( ).select( PortletService.class ).get( );
     }
 
     /**

@@ -41,33 +41,41 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.Filter;
 import jakarta.servlet.ServletContext;
 
 /**
  * FilterService
  */
-public final class FilterService
+@ApplicationScoped
+public class FilterService
 {
-    private static FilterService _singleton = new FilterService( );
     private static ServletContext _context;
     private List<LuteceFilter> _listFilters = new ArrayList<>( );
 
-    /**
-     * Private constructor
-     */
-    private FilterService( )
+    FilterService( )
     {
+     // Ctor
     }
 
     /**
-     * Return the unique instance
+     * Returns the unique instance of the {@link FilterService} service.
      * 
-     * @return The instance
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link FilterService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link FilterService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link FilterService} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static FilterService getInstance( )
     {
-        return _singleton;
+        return CDI.current( ).select( FilterService.class ).get( );
     }
 
     /**

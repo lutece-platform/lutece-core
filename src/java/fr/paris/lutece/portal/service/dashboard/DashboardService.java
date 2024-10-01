@@ -49,6 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -57,7 +58,8 @@ import org.apache.commons.collections.CollectionUtils;
 /**
  * Dashboard Service
  */
-public final class DashboardService
+@ApplicationScoped
+public class DashboardService
 {
     // Properties
     private static final String PROPERTY_COLUMN_COUNT = "dashboard.columnCount";
@@ -68,23 +70,28 @@ public final class DashboardService
     private static final String ORDER = "order";
     private static final int CONSTANTE_FIRST_ORDER = 1;
     private static final int CONSTANTE_DEFAULT_COLUMN_COUNT = 3;
-    private static DashboardService _singleton = new DashboardService( );
 
-    /**
-     * Private Constructor
-     */
-    private DashboardService( )
+    DashboardService( )
     {
+        // Ctor
     }
 
     /**
-     * Return the unique instance
+     * Returns the unique instance of the {@link DashboardService} service.
      * 
-     * @return The instance
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link DashboardService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link DashboardService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link DashboardService} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static DashboardService getInstance( )
     {
-        return _singleton;
+        return CDI.current( ).select( DashboardService.class ).get( );
     }
 
     /**
