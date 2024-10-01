@@ -40,6 +40,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.api.user.User;
@@ -104,10 +106,9 @@ public class RBACServiceTest extends LuteceTestCase
 
     private Collection<RBAC> rbacs;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         rbacs = new ArrayList<>( );
         for ( String[ ] rbacData : data )
         {
@@ -121,7 +122,7 @@ public class RBACServiceTest extends LuteceTestCase
         }
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         for ( RBAC rbac : rbacs )
@@ -135,7 +136,6 @@ public class RBACServiceTest extends LuteceTestCase
                 System.err.println( "Failed to teardown RBAC " + rbac.getRBACId( ) + " ( " + e.getMessage( ) + ")" );
             }
         }
-        super.tearDown( );
     }
 
     @Test

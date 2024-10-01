@@ -60,7 +60,7 @@ public class PortalServiceTest extends LuteceTestCase
     protected void setUp( ) throws Exception
     {
         bPathCacheServiceEnabled = pathCacheService.isCacheEnable( );
-        pathCacheService.enableCache( false );
+        pathCacheService.enableCache( true );
         assertNotNull( pathCacheService );
     }
 
@@ -77,6 +77,7 @@ public class PortalServiceTest extends LuteceTestCase
         {
             MockHttpServletRequest request = new MockHttpServletRequest( );
             String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request );
+
             assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request ) );
 
             String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, request );

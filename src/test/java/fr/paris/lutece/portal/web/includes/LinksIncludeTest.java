@@ -75,7 +75,6 @@ public abstract class LinksIncludeTest extends LuteceTestCase
     protected void before( ) throws Exception
     {
         _cacheService.getInfos( );
-        super.setUp( );
         File dirPlugin = new File( AppPathService.getPath( "path.plugins" ) );
         File testPluginFile = new File( dirPlugin, PLUGIN_NAME + ".xml" );
         try ( BufferedWriter writer = new BufferedWriter( new FileWriter( testPluginFile ) ) )
@@ -114,7 +113,6 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         File testPluginFile = new File( dirPlugin, PLUGIN_NAME + ".xml" );
         testPluginFile.delete( );
         PluginService.init( );
-        super.tearDown( );
     }
 
     @Test
@@ -286,6 +284,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
                         {
                             return new FileInputStream( file );
                         }
+                        
                         catch( FileNotFoundException e )
                         {
                             return null;
@@ -299,6 +298,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             try {            
                 include.fillTemplate( rootModel, data, nMode, request );
                 String cssLinks = (String) rootModel.get( "plugins_css_links" );
+
                 assertEquals(
                         "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\"  media=\"screen\" />",
                         cssLinks.replace( "\n", "" ).replace( "\r", "" ) );

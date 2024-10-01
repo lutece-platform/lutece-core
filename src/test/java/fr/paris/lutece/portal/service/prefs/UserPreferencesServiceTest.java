@@ -37,6 +37,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 /**
  * User Preferences Service Test
  */
@@ -54,6 +56,7 @@ public class UserPreferencesServiceTest extends LuteceTestCase
     private static final boolean BOOL_VALUE = false;
     private static final String NICKNAME = "nickname";
 
+    @Test
     public void testBusinessLevel( )
     {
         IPortalUserPreferencesService service = UserPreferencesService.instance( );
