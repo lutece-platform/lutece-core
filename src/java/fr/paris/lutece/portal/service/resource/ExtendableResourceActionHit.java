@@ -39,12 +39,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * Class to notify listeners of actions performed on resources. Listeners keep at least track of the number of actions performed over a given resource.
  */
-public final class ExtendableResourceActionHit
+@ApplicationScoped
+public class ExtendableResourceActionHit
 {
     /**
      * Download action
@@ -70,23 +72,28 @@ public final class ExtendableResourceActionHit
      * Delete action
      */
     public static final String ACTION_DELETE = "delete";
-    private static ExtendableResourceActionHit _instance = new ExtendableResourceActionHit( );
 
-    /**
-     * Private constructor
-     */
-    private ExtendableResourceActionHit( )
+    ExtendableResourceActionHit( )
     {
+        // Ctor
     }
 
     /**
-     * Get the service instance
+     * Returns the unique instance of the {@link ExtendableResourceActionHit} service.
      * 
-     * @return The instance of the service
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link ExtendableResourceActionHit} instance instead.</p>
+     * 
+     * @return The unique instance of {@link ExtendableResourceActionHit}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link ExtendableResourceActionHit} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static ExtendableResourceActionHit getInstance( )
     {
-        return _instance;
+        return CDI.current( ).select( ExtendableResourceActionHit.class ).get( );
     }
 
     /**

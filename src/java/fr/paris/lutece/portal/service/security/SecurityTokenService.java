@@ -55,7 +55,6 @@ public class SecurityTokenService implements ISecurityTokenService
     public static final String MARK_TOKEN = "token";
     public static final String PARAMETER_TOKEN = "token";
     private static final String PARAMETER_SESSION_TOKENS = "tokens";
-    private static ISecurityTokenService _singleton;
 
     /**
      * SecurityTokenService
@@ -65,18 +64,21 @@ public class SecurityTokenService implements ISecurityTokenService
     }
 
     /**
-     * Returns the instance of the singleton
-     *
-     * @return The instance of the singleton
+     * Returns the unique instance of the {@link SecurityTokenService} service.
+     * 
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link SecurityTokenService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link SecurityTokenService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link SecurityTokenService} 
+     * instance. This method will be removed in future versions.
      */
-    public static synchronized ISecurityTokenService getInstance( )
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static ISecurityTokenService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = CDI.current().select(ISecurityTokenService.class).get( );
-        }
-
-        return _singleton;
+        return CDI.current( ).select( ISecurityTokenService.class ).get( );
     }
 
     /**

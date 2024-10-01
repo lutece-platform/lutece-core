@@ -39,23 +39,32 @@ import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.CdiHelper;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.UnsatisfiedResolutionException;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  *
  * this class provides services for use regular expression
  */
-public final class RegularExpressionService
+@ApplicationScoped
+public class RegularExpressionService
 {
     private static final String PLUGIN_REGULAR_EXPRESSION_NAME = "regularexpression";
-    private static RegularExpressionService _singleton;
     private boolean _bServiceAvailable = true;
     private IRegularExpressionService _service;
+
+    RegularExpressionService( )
+    {
+     // Ctor
+    }
 
     /**
      * Private constructor
      */
-    private RegularExpressionService( )
+    @PostConstruct
+    void initRegularExpressionService( )
     {
     	try
         {
@@ -70,17 +79,21 @@ public final class RegularExpressionService
     }
 
     /**
-     * Returns the unique instance of the service
+     * Returns the unique instance of the {@link RegularExpressionService} service.
      * 
-     * @return The instance of the service
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link RegularExpressionService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link RegularExpressionService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link RegularExpressionService} 
+     * instance. This method will be removed in future versions.
      */
-    public static synchronized RegularExpressionService getInstance( )
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static RegularExpressionService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new RegularExpressionService( );
-        }
-        return _singleton;
+        return CDI.current( ).select( RegularExpressionService.class ).get( );
     }
 
     /**

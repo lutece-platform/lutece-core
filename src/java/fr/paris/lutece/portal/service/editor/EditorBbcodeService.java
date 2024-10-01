@@ -33,24 +33,28 @@
  */
 package fr.paris.lutece.portal.service.editor;
 
-import fr.paris.lutece.portal.business.editor.ParserComplexElement;
-import fr.paris.lutece.portal.business.editor.ParserElement;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.parser.BbcodeUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 
-import java.util.ArrayList;
-import java.util.List;
+import fr.paris.lutece.portal.business.editor.ParserComplexElement;
+import fr.paris.lutece.portal.business.editor.ParserElement;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.parser.BbcodeUtil;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  *
  * This class Provides a parser BBCODE
  *
  */
+@ApplicationScoped
 public class EditorBbcodeService implements IEditorBbcodeService
 {
     /** Constants **/
@@ -72,9 +76,13 @@ public class EditorBbcodeService implements IEditorBbcodeService
     private static final String PROPERTY_PARSER_ELEMENTS = "editors.parser.bbcode.elements";
     private static final String PROPERTY_PARSER_COMPLEX_ELEMENTS = "editors.parser.bbcode.complexElements";
     private static final String SEPARATOR = ",";
-    private static EditorBbcodeService _singleton;
     private static List<ParserElement> _listParserElement;
     private static List<ParserComplexElement> _listParserComplexElement;
+
+    private EditorBbcodeService( )
+    {
+        // Ctor
+    }
 
     /**
      * {@inheritDoc}
@@ -113,29 +121,32 @@ public class EditorBbcodeService implements IEditorBbcodeService
     }
 
     /**
-     * Returns the unique instance of the service
+     * Returns the unique instance of the {@link EditorBbcodeService} service.
      * 
-     * @return The instance of the service
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link EditorBbcodeService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link EditorBbcodeService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link EditorBbcodeService} 
+     * instance. This method will be removed in future versions.
      */
-    public static synchronized EditorBbcodeService getInstance( )
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static IEditorBbcodeService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _listParserElement = new ArrayList<>( );
-            _listParserComplexElement = new ArrayList<>( );
-            EditorBbcodeService service = new EditorBbcodeService( );
-            service.init( );
-            _singleton = service;
-        }
-
-        return _singleton;
+        return CDI.current( ).select( IEditorBbcodeService.class ).get( );
     }
 
     /**
      * Init service
      */
-    public void init( )
+    @PostConstruct
+    private void initEditorBbcodeService( )
     {
+        _listParserElement = new ArrayList<>( );
+        _listParserComplexElement = new ArrayList<>( );
+        
         // init simple elements
         String strParserElements = AppPropertiesService.getProperty( PROPERTY_PARSER_ELEMENTS );
 

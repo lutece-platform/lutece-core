@@ -35,6 +35,9 @@ package fr.paris.lutece.portal.service.accesscontrol;
 
 import java.util.Locale;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.api.user.User;
@@ -48,25 +51,28 @@ import fr.paris.lutece.util.ReferenceList;
 /**
  * AccessControlService
  */
-public final class AccessControlService
+@ApplicationScoped
+public class AccessControlService
 {
-    private static AccessControlService _singleton;
     private boolean _bServiceAvailable = true;
     private IAccessControlServiceProvider _provider;
 
-    /**
-     * Private constructor
-     */
-    private AccessControlService( )
+    AccessControlService( )
+    {
+        // Ctor
+    }
+
+    @PostConstruct
+    void initAccessControlService( )
     {
         try
         {
-            _provider = CdiHelper.getReference(IAccessControlServiceProvider.class, "accesscontrol.accessControlServiceProvider");
+            _provider = CdiHelper.getReference( IAccessControlServiceProvider.class, "accesscontrol.accessControlServiceProvider" );
             _bServiceAvailable = ( _provider != null );
         }
         catch( IllegalArgumentException | IllegalStateException e )
         {
-        	AppLogService.debug("Access ControlService Provider not found {}", e);
+            AppLogService.debug( "Access ControlService Provider not found {}", e );
             _bServiceAvailable = false;
         }
     }
@@ -86,17 +92,21 @@ public final class AccessControlService
     }
 
     /**
-     * Returns the unique instance of the service
+     * Returns the unique instance of the {@link AccessControlService} service.
      * 
-     * @return The instance of the service
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link AccessControlService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link AccessControlService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link AccessControlService} 
+     * instance. This method will be removed in future versions.
      */
-    public static synchronized AccessControlService getInstance( )
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static AccessControlService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new AccessControlService( );
-        }
-        return _singleton;
+        return CDI.current( ).select( AccessControlService.class ).get( );
     }
 
     /**

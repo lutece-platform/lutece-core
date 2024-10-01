@@ -39,6 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -57,7 +59,8 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
  * AdminDashboardService
  *
  */
-public final class AdminDashboardService
+@ApplicationScoped
+public class AdminDashboardService
 {
     /**
      * admindashboard.columnCount
@@ -66,24 +69,28 @@ public final class AdminDashboardService
     private static final String ALL = "ALL";
     private static final int CONSTANTE_FIRST_ORDER = 1;
     private static final int CONSTANTE_DEFAULT_COLUMN_COUNT = 2;
-    private static AdminDashboardService _singleton = new AdminDashboardService( );
 
-    /**
-     * Private Constructor
-     */
-    private AdminDashboardService( )
+    AdminDashboardService( )
     {
-        // nothing
+        // Ctor
     }
 
     /**
-     * Return the unique instance
+     * Returns the unique instance of the {@link AdminDashboardService} service.
      * 
-     * @return The instance
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link AdminDashboardService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link AdminDashboardService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link AdminDashboardService} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static AdminDashboardService getInstance( )
     {
-        return _singleton;
+        return CDI.current( ).select( AdminDashboardService.class ).get( );
     }
 
     /**

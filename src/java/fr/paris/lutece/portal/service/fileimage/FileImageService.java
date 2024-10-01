@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.service.fileimage;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.core.DiskFileItem;
@@ -58,15 +61,17 @@ import fr.paris.lutece.util.file.FileUtil;
 /**
  * Service for AdminUser image attributes. Provide ImageResource management
  */
+@ApplicationScoped
 public class FileImageService implements ImageResourceProvider
 {
-    private static FileImageService _singleton = new FileImageService( );
     private static final String IMAGE_RESOURCE_TYPE_ID = "core_attribute_img";
-
+    @Inject
+    private FileService _fileService;
+    
     /**
      * Creates a new instance of FileImgService
      */
-    private FileImageService( )
+    FileImageService( )
     {
     }
 
@@ -90,13 +95,21 @@ public class FileImageService implements ImageResourceProvider
     }
 
     /**
-     * Get the unique instance of the service
-     *
-     * @return The unique instance
+     * Returns the unique instance of the {@link FileImageService} service.
+     * 
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link FileImageService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link FileImageService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link FileImageService} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static FileImageService getInstance( )
     {
-        return _singleton;
+        return CDI.current().select(FileImageService.class).get();
     }
 
     /**
@@ -160,7 +173,7 @@ public class FileImageService implements ImageResourceProvider
 	{
     	try 
     	{
-    		return FileService.getInstance( ).getFileStoreServiceProvider( ).storeFileItem( fileItem );
+    		return _fileService.getFileStoreServiceProvider( ).storeFileItem( fileItem );
     	}
 		catch (FileServiceException e )
     	{

@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.user.attribute;
 
 import fr.paris.lutece.portal.business.user.attribute.AttributeType;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.ArrayList;
@@ -46,26 +47,32 @@ import java.util.Locale;
  * AttributeTypeService
  *
  */
-public final class AttributeTypeService
+@ApplicationScoped
+public class AttributeTypeService
 {
-    private static AttributeTypeService _singleton = new AttributeTypeService( );
     private static List<AttributeType> _listAttributeTypes;
 
-    /**
-     * Private constructor
-     */
-    private AttributeTypeService( )
+    AttributeTypeService( )
     {
+     // Ctor
     }
 
     /**
-     * Get an instance of {@link AttributeTypeService}
+     * Returns the unique instance of the {@link AttributeTypeService} service.
      * 
-     * @return the instance of {@link AttributeTypeService}
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link AttributeTypeService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link AttributeTypeService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link AttributeTypeService} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static AttributeTypeService getInstance( )
     {
-        return _singleton;
+        return CDI.current( ).select( AttributeTypeService.class ).get( );
     }
 
     /**

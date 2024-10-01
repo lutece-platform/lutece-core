@@ -34,6 +34,8 @@
 package fr.paris.lutece.portal.service.file;
 
 import fr.paris.lutece.portal.service.util.AppException;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
@@ -42,6 +44,7 @@ import java.util.List;
  *
  * @author SLE
  */
+@ApplicationScoped
 public class FileService
 {
 
@@ -61,26 +64,38 @@ public class FileService
     private static final String MSG_NO_FILE_SERVICE = "No file service Available";
 
     private IFileStoreServiceProvider _currentFileStoreServiceProvider;
-    private static FileService _instance = new FileService( );
+
+    FileService( )
+    {
+        // Ctor
+    }
 
     /**
      * init
      */
-    private FileService( )
+    @PostConstruct
+    void initFileService( )
     {
         _currentFileStoreServiceProvider = getDefaultServiceProvider( );
     }
 
     /**
-     * getter
+     * Returns the unique instance of the {@link FileService} service.
      * 
-     * @return the instance
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link FileService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link FileService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link FileService} 
+     * instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static FileService getInstance( )
     {
-        return _instance;
+        return CDI.current( ).select( FileService.class ).get( );
     }
-    
 
     /**
      * health check 
@@ -91,7 +106,6 @@ public class FileService
     {
         return _currentFileStoreServiceProvider.healthCheck( );
     }
-
 
     /**
      * get the current FileStoreService provider

@@ -54,6 +54,8 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.TransactionManager;
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
@@ -64,11 +66,11 @@ import jakarta.servlet.http.HttpServletRequest;
  * WorkflowService
  *
  */
-public final class WorkflowService
+@ApplicationScoped
+public class WorkflowService
 {
     private static final String PLUGIN_WORKFLOW_NAME = "workflow";
     private static final String BEAN_WORKFLOW_PROVIDER = "workflow.workflowProvider";
-    private static WorkflowService _singleton;
     private boolean _bServiceAvailable = true;
     private IWorkflowService _service;
     private IWorkflowProvider _provider;
@@ -76,7 +78,8 @@ public final class WorkflowService
     /**
      * Private constructor
      */
-    private WorkflowService( )
+    @PostConstruct
+    void init( )
     {	
     	try
         {
@@ -89,21 +92,19 @@ public final class WorkflowService
         	AppLogService.debug("WorkflowService Provider not found ", e);
             _bServiceAvailable = false;
         }
-    	
     }
 
     /**
      * Returns the unique instance of the service
      * 
      * @return The instance of the service
+     * @deprecated Use {@code @Inject} to obtain the {@link WorkflowService}
+     *             instance. This method will be removed in future versions.
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static synchronized WorkflowService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new WorkflowService( );
-        }
-        return _singleton;
+        return CDI.current( ).select( WorkflowService.class ).get( );
     }
 
     /**

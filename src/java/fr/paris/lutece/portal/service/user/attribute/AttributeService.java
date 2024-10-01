@@ -33,43 +33,49 @@
  */
 package fr.paris.lutece.portal.service.user.attribute;
 
+import java.util.List;
+import java.util.Locale;
+
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.AttributeHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
-
-import java.util.List;
-import java.util.Locale;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
 /**
  *
  * AttributeService
  *
  */
-public final class AttributeService
+@ApplicationScoped
+public class AttributeService
 {
-    private static AttributeService _singleton;
+    @Inject
+    private AttributeFieldService _attributeFieldService;
 
-    /**
-     * Private constructor
-     */
-    private AttributeService( )
+    AttributeService( )
     {
+        // Ctor
     }
 
     /**
-     * Get the instance of {@link AttributeService}
+     * Returns the unique instance of the {@link AttributeService} service.
      * 
-     * @return an instance of {@link AttributeService}
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link AttributeService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link AttributeService}.
+     * 
+     * @deprecated Use {@code @Inject} to obtain the {@link AttributeService} 
+     * instance. This method will be removed in future versions.
      */
-    public static synchronized AttributeService getInstance( )
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static AttributeService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new AttributeService( );
-        }
-
-        return _singleton;
+        return CDI.current( ).select( AttributeService.class ).get( );
     }
 
     /**
@@ -235,7 +241,7 @@ public final class AttributeService
                 for ( AttributeField attributeField : attribute.getListAttributeFields( ) )
                 {
                     attributeField.setAttribute( attribute );
-                    AttributeFieldService.getInstance( ).createAttributeField( attributeField );
+                    _attributeFieldService.createAttributeField( attributeField );
                 }
             }
         }
@@ -258,7 +264,7 @@ public final class AttributeService
                 for ( AttributeField attributeField : attribute.getListAttributeFields( ) )
                 {
                     attributeField.setAttribute( attribute );
-                    AttributeFieldService.getInstance( ).updateAttributeField( attributeField );
+                    _attributeFieldService.updateAttributeField( attributeField );
                 }
             }
         }
@@ -275,7 +281,7 @@ public final class AttributeService
         // Remove the AdminUserField associated to the attribute
         AdminUserFieldService.doRemoveUserFieldsByIdAttribute( nIdAttribute );
         // Remove the AttributeField associated to the attribute
-        AttributeFieldService.getInstance( ).removeAttributeFieldsFromIdAttribute( nIdAttribute );
+        _attributeFieldService.removeAttributeFieldsFromIdAttribute( nIdAttribute );
         // Remove the Attribute
         AttributeHome.remove( nIdAttribute );
     }

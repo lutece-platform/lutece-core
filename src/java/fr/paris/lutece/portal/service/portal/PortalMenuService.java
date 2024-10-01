@@ -80,16 +80,25 @@ public class PortalMenuService
 	@LuteceCache(cacheName = SERVICE_NAME, keyType = String.class, valueType = String.class, enable = true)
 	private Lutece107Cache<String, String> _cachePortalMenu;
 
+    PortalMenuService( )
+    {
+        // Ctor
+    }
 
     /**
-     * Get the unique instance of the service
+     * Returns the unique instance of the {@link PortalMenuService} service.
      * 
-     * @return The unique instance
+     * <p>This method is deprecated and is provided for backward compatibility only. 
+     * For new code, use dependency injection with {@code @Inject} to obtain the 
+     * {@link PortalMenuService} instance instead.</p>
+     * 
+     * @return The unique instance of {@link PortalMenuService}.
+     * 
      * @deprecated Use {@code @Inject} to obtain the {@link PortalMenuService} 
      * instance. This method will be removed in future versions.
      */
-    @Deprecated
-    public static synchronized PortalMenuService getInstance( )
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static PortalMenuService getInstance( )
     {
         return CDI.current().select(PortalMenuService.class).get();
     }
