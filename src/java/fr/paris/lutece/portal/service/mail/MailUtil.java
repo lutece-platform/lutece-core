@@ -122,7 +122,7 @@ final class MailUtil
     private static final String DEFAULT_PLAIN_TEXT_HANDLER = "com.sun.mail.handlers.text_plain";
     private static final String CONSTANT_DISPOSITION_ATTACHMENT = "attachment";
     private static final String CONSTANT_BASE64 = "base64";
-    public static final String SERVICE_NAME = "Mail Attachment Cache Service";
+    public static final String SERVICE_NAME = "MailAttachmentCacheService";
     
     private static ICacheKeyService _cksMailAttachment = new MailAttachmentCacheKeyService( );
     private static ILuteceCacheManager luteceCacheManager= CDI.current( ).select(ILuteceCacheManager.class).get( );

@@ -42,6 +42,8 @@ import jakarta.enterprise.inject.spi.CDI;
  */
 public final class LuteceUserService
 {
+	private static LuteceUserCacheService _luteceUserCacheService= CDI.current( ).select( LuteceUserCacheService.class ).get( );
+
     /**
      * Private constructor
      */
@@ -60,7 +62,7 @@ public final class LuteceUserService
     public static LuteceUser getLuteceUserFromName( String strName )
     {
         // TODO : add separation between user management implementations
-        LuteceUser user = (LuteceUser) LuteceUserCacheService.getInstance( ).getFromCache( strName );
+        LuteceUser user = _luteceUserCacheService.get( strName );
 
         if ( user != null )
         {
@@ -84,7 +86,7 @@ public final class LuteceUserService
                 {
                     try
                     {
-                        LuteceUserCacheService.getInstance( ).putInCache( strName, user.clone( ) );
+                        _luteceUserCacheService.put( strName, (LuteceUser) user.clone( ) );
                     }
                     catch( CloneNotSupportedException e )
                     {
@@ -108,6 +110,6 @@ public final class LuteceUserService
      */
     public static void userAttributesChanged( String strUserName )
     {
-        LuteceUserCacheService.getInstance( ).removeKey( strUserName );
+    	_luteceUserCacheService.remove( strUserName );
     }
 }

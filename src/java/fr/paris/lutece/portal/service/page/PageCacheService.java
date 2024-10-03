@@ -59,7 +59,7 @@ import jakarta.servlet.ServletContext;
 @ApplicationScoped
 public class PageCacheService extends AbstractCacheableService<String,String>
 {
-    private static final String SERVICE_NAME = "Page Cache Service";
+    private static final String SERVICE_NAME = "PageCacheService";
 
     // Performance patch
     private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<>( );

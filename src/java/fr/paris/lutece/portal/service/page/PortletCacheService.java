@@ -51,7 +51,7 @@ import org.apache.commons.lang3.StringUtils;
 public class PortletCacheService extends AbstractCacheableService<String,String> implements PortletEventListener
 {
     private static final String CACHE_PORTLET_PREFIX = "portlet:";
-    private static final String SERVICE_NAME = "Portlet Cache Service";
+    private static final String SERVICE_NAME = "PortletCacheService";
 
     public void init( )
     {

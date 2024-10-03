@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -81,12 +80,12 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public String get( String strUserId, String strKey, String strDefault )
     {
         String strCacheKey = _cache.getCacheKey( strUserId, strKey );
-        String strValue = (String) _cache.getFromCache( strCacheKey );
+        String strValue =  _cache.get( strCacheKey );
 
         if ( strValue == null )
         {
             strValue = _dao.load( strUserId, strKey, strDefault );
-            _cache.putInCache( strCacheKey, strValue );
+            _cache.put( strCacheKey, strValue );
         }
 
         return strValue;
@@ -120,7 +119,7 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService
     public void put( String strUserId, String strKey, String strValue )
     {
         _dao.store( strUserId, strKey, strValue );
-        _cache.putInCache( _cache.getCacheKey( strUserId, strKey ), strValue );
+        _cache.put( _cache.getCacheKey( strUserId, strKey ), strValue );
     }
 
     /**

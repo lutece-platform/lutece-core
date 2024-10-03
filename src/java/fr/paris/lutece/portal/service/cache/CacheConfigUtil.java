@@ -151,24 +151,21 @@ public class CacheConfigUtil {
 
 	            // Add cache configurations for each cache config
 	            for (CacheConfig cacheConfig : cacheConfigs) {
-	                writer.write("            <jsr107:cache name=\"" + cacheConfig.getName() + "\" template=\"" + cacheConfig.getTemplateName() + "\" enable-management=\"" + cacheConfig.isEnableManagement() + "\"  enable-statistics=\"" + cacheConfig.isStatistics() + "\"/>\n");
+	                writer.write("            <jsr107:cache name=\"" + cacheConfig.getName() + "\" template=\"" + cacheConfig.getTemplateName() + "\"/>\n");
 	            }
 
 	            writer.write("        </jsr107:defaults>\n" +
 	                    "    </service>\n");
-	            
-
 	            writer.write( "<persistence directory=\"java.io.tmpdir/ehcache/\" />"+
-	            		
 	            		
 	            		"    <cache-template name=\"" + defaultCacheConfig.getTemplateName() + "\">\n" +
                         "        <expiry>\n" +
                         
-                        (defaultCacheConfig.eternal ?
+                        (defaultCacheConfig.isEternal( ) ?
                         		"<none/>": "")+
-                        (defaultCacheConfig.timeToIdleSeconds > 0 ?
+                        (defaultCacheConfig.getTimeToLiveSeconds( ) > 0 ?
                         		"<ttl unit=\"seconds\">" + defaultCacheConfig.getTimeToLiveSeconds() + "</ttl>\n": "")+
-                        (defaultCacheConfig.timeToIdleSeconds == 0 && defaultCacheConfig.timeToIdleSeconds > 0 ?
+                        (defaultCacheConfig.getTimeToLiveSeconds( ) == 0 && defaultCacheConfig.getTimeToIdleSeconds( ) > 0 ?
                         		"<tti unit=\"seconds\">" + defaultCacheConfig.getTimeToIdleSeconds() + "</tti>\n" : "") +
                         "        </expiry>\n" +
                         "        <resources>\n" +
@@ -176,25 +173,25 @@ public class CacheConfigUtil {
                         (defaultCacheConfig.getOffheapMB() > 0 ? "<offheap unit=\"MB\">" + defaultCacheConfig.getOffheapMB() + "</offheap>\n" : "") +
                         (defaultCacheConfig.getDiskMB() > 0 ? "<disk unit=\"MB\" persistent=\"true\">" + defaultCacheConfig.getDiskMB() + "</disk>\n" : "") +
                         "        </resources>\n" +
+                        "        <jsr107:mbeans enable-management=\"" + defaultCacheConfig.isEnableManagement() + "\"  enable-statistics=\"" + defaultCacheConfig.isStatistics() + "\"/>\n"+
                         "    </cache-template>\n");
 	            // Write cache templates
 	            for (CacheConfig cacheConfig : cacheConfigs) {
 	                writer.write("    <cache-template name=\"" + cacheConfig.getTemplateName() + "\">\n" +
-	                        "        <expiry>\n" +
-	                        
-	                        (cacheConfig.eternal ?
+	                		(cacheConfig.isExpiry( ) ?"<expiry>\n":"" )+
+	                        (cacheConfig.isEternal( ) ?
 	                        		"<none/>": "")+
-	                        (cacheConfig.timeToIdleSeconds > 0 ?
+	                        (cacheConfig.getTimeToLiveSeconds( ) > 0 ?
 	                        		"<ttl unit=\"seconds\">" + cacheConfig.getTimeToLiveSeconds() + "</ttl>\n": "")+
-	                        (cacheConfig.timeToIdleSeconds == 0 && cacheConfig.timeToIdleSeconds > 0 ?
+	                        (cacheConfig.getTimeToLiveSeconds( ) == 0 && cacheConfig.getTimeToIdleSeconds( ) > 0 ?
 	                        		"<tti unit=\"seconds\">" + cacheConfig.getTimeToIdleSeconds() + "</tti>\n" : "") +
-	                        "        </expiry>\n" +
-	                        "        <resources>\n" +
+	                        (cacheConfig.isExpiry( ) ?"</expiry>\n":"" )+
+	                        (cacheConfig.isResource( ) ?"<resources>\n":"") +
 	                        (cacheConfig.getHeapEntries() >0 ? "<heap unit=\"entries\">" + cacheConfig.getHeapEntries() + "</heap>\n" : "") +
 	                        (cacheConfig.getOffheapMB() > 0 ? "<offheap unit=\"MB\">" + cacheConfig.getOffheapMB() + "</offheap>\n" : "") +
 	                        (cacheConfig.getDiskMB() > 0 ? "<disk unit=\"MB\" persistent=\"true\">" + cacheConfig.getDiskMB() + "</disk>\n" : "") +
-	                        "        </resources>\n" +
-	                        "        <jsr107:mbeans enable-management=\"" + cacheConfig.isEnableManagement() + "\"  enable-statistics=\"" + cacheConfig.isStatistics() + "\"/>\n"+
+	                        (cacheConfig.isResource( ) ?"</resources>\n":"") +
+	                        ((cacheConfig.isStatistics( ) || cacheConfig.isEnableManagement( )) ?"<jsr107:mbeans enable-management=\"" + cacheConfig.isEnableManagement() + "\"  enable-statistics=\"" + cacheConfig.isStatistics() + "\"/>\n":"")+
 	                        "    </cache-template>\n");
 	            }
 	            writer.write("</config>\n");
@@ -223,14 +220,16 @@ public class CacheConfigUtil {
 	        Set<String> propertyNamesWithPrefix  = StreamSupport.stream(config.getPropertyNames().spliterator(), false)
 	                .filter(propertyName -> propertyName.startsWith(KEY_PREFIX))
 	                .collect(Collectors.toSet());
-
 	        Map<String, String> configPropertiesWithPrefix = new HashMap<>();
 	        propertyNamesWithPrefix.forEach(propertyName -> {
 	            String propertyValue = config.getOptionalValue(propertyName, String.class)
 	                    .orElse("");
 	            configPropertiesWithPrefix.put(propertyName.substring(0,KEY_PREFIX.length()), propertyValue);
 	        });
-
+	        DatastoreService.getDataByPrefix(KEY_PREFIX).forEach(refItem ->{
+	        	configPropertiesWithPrefix.put(refItem.getCode(), refItem.getName());
+	        });
+	        
 	        return configPropertiesWithPrefix;
 	    }
 	    /**
@@ -246,29 +245,30 @@ public class CacheConfigUtil {
 
 	        for (String prefix : prefixes) {
 	        	
+	        	String Keyprefix= KEY_PREFIX+prefix;
 	        	CacheConfig cacheConfig =new CacheConfig.ConfigBuilder(prefix)
-    			.heapEntries(Optional.ofNullable(properties.get(prefix + PROPERTY_MAX_ELEMENTS))
+    			.heapEntries(Optional.ofNullable(properties.get( Keyprefix+ PROPERTY_MAX_ELEMENTS))
                         .map(Integer::parseInt)
                         .orElse(0))
-    			.offheapMB(Optional.ofNullable(properties.get(prefix + PROPERTY_OFF_HEAP_MB))
+    			.offheapMB(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_OFF_HEAP_MB))
                         .map(Integer::parseInt)
                         .orElse(0))
-    			.diskMB(Optional.ofNullable(properties.get(prefix + PROPERTY_MAX_ELEMENTS_DISK))
+    			.diskMB(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_MAX_ELEMENTS_DISK))
                         .map(Integer::parseInt)
                         .orElse(0))
-    		    .timeToLiveSeconds(Optional.ofNullable(properties.get(prefix + PROPERTY_TIME_TO_LIVE))
+    		    .timeToLiveSeconds(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_TIME_TO_LIVE))
                         .map(Integer::parseInt)
                         .orElse(0))
-                .timeToIdleSeconds(Optional.ofNullable(properties.get(prefix + PROPERTY_TIME_TO_IDLE))
+                .timeToIdleSeconds(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_TIME_TO_IDLE))
                         .map(Integer::parseInt)
                         .orElse(0))
-                .eternal(Optional.ofNullable(properties.get(prefix + PROPERTY_ETERNAL))
+                .eternal(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_ETERNAL))
                         .map(Boolean::parseBoolean)
                         .orElse(false))
-                .statistics(Optional.ofNullable(properties.get(prefix + PROPERTY_STATISTICS))
+                .statistics(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_STATISTICS))
                         .map(Boolean::parseBoolean)
                         .orElse(false))
-                .enableManagement(Optional.ofNullable(properties.get(prefix + PROPERTY_ENABLEMANAGEMENT))
+                .enableManagement(Optional.ofNullable(properties.get(Keyprefix + PROPERTY_ENABLEMANAGEMENT))
                         .map(Boolean::parseBoolean)
                         .orElse(false))
                 .build();
@@ -285,9 +285,13 @@ public class CacheConfigUtil {
 		 */
 	    public static Set<String> determineCaheName(Set<String> keys) {
 	        Set<String> prefixes = new HashSet<>();
+            int startIndex = KEY_PREFIX.length();
 	        for (String key : keys) {
-	            if (key.contains(".")) {
-	                prefixes.add(key.substring(0, key.indexOf(".")));
+	            if (key.startsWith(KEY_PREFIX) && !key.contains("enabled")) {
+	                int endIndex = key.indexOf('.', startIndex);
+	                if (endIndex != -1) {
+	                	prefixes.add(key.substring(startIndex, endIndex));
+	                }
 	            }
 	        }
 	        return prefixes;
@@ -438,6 +442,12 @@ public class CacheConfigUtil {
 	        }
 	        public boolean isEternal() {
 	            return eternal;
+	        }
+	        public boolean isExpiry() {
+	            return eternal || timeToLiveSeconds > 0 || timeToIdleSeconds > 0;
+	        }
+	        public boolean isResource() {
+	            return offheapMB >0 || diskMB > 0 || heapEntries > 0;
 	        }
 	    }
 	    /**
