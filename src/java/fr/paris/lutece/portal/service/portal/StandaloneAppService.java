@@ -103,48 +103,6 @@ public class StandaloneAppService extends ContentService
     }
 
     /**
-     * Enable or disable the cache feature.
-     *
-     * @param bCache
-     *            true to enable the cache, false to disable
-     */
-    public void setCache( boolean bCache )
-    {
-        // Do nothing
-    }
-
-    /**
-     * Gets the current cache status.
-     *
-     * @return true if enable, otherwise false
-     */
-    @Override
-    public boolean isCacheEnable( )
-    {
-        return false;
-    }
-
-    /**
-     * Reset the cache.
-     */
-    @Override
-    public void resetCache( )
-    {
-        // Do nothing
-    }
-
-    /**
-     * Gets the number of item currently in the cache.
-     *
-     * @return the number of item currently in the cache.
-     */
-    @Override
-    public int getCacheSize( )
-    {
-        return 0;
-    }
-
-    /**
      * Build the XPage content.
      *
      * @param request

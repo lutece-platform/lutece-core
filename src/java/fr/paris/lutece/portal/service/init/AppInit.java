@@ -296,7 +296,7 @@ public final class AppInit
     {
         for ( ContentService cs : PortalService.getContentServicesList( ) )
         {
-            AppLogService.info( "Content Service '{}' is loaded {} ", cs.getName( ), ( cs.isCacheEnable( ) ? " [ cache enable ] " : " [ cache disable ] " ) );
+            AppLogService.info( "Content Service '{}' is loaded ", cs.getName( ) );
         }
     }
 

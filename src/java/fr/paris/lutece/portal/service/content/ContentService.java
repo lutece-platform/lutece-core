@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.content;
 
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 
@@ -42,7 +41,7 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * Interface for pages provider services.
  */
-public abstract class ContentService extends AbstractCacheableService
+public abstract class ContentService 
 {
     private String _strPluginName;
 
@@ -71,10 +70,18 @@ public abstract class ContentService extends AbstractCacheableService
     public abstract boolean isInvoked( HttpServletRequest request );
 
     /**
+     * Returns the Content Service name
+     *
+     * @return The name as a String
+     */
+    public abstract String getName( );
+
+    /**
      * Return the name of the plugin
      *
      * @return The name of the plugin
      */
+    
     public String getPluginName( )
     {
         return _strPluginName;
