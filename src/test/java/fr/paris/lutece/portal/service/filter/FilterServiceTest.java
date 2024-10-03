@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.filter;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -47,6 +49,7 @@ public class FilterServiceTest extends LuteceTestCase
     /**
      * Test of getInstance method, of class FilterService.
      */
+	@Test
     public void testGetInstance( )
     {
         FilterService result = FilterService.getInstance( );
@@ -56,6 +59,7 @@ public class FilterServiceTest extends LuteceTestCase
     /**
      * Test of registerFilter method, of class FilterService.
      */
+	@Test
     public void testRegisterFilter( )
     {
         FilterService.getInstance( ).getFilters( ).clear( );
@@ -73,6 +77,7 @@ public class FilterServiceTest extends LuteceTestCase
         assertEquals( entry.getName( ), f.getName( ) );
     }
 
+	@Test
     public void testOrder( ) throws LuteceInitException
     {
         FilterService.getInstance( ).getFilters( ).clear( );
@@ -123,6 +128,7 @@ public class FilterServiceTest extends LuteceTestCase
     /**
      * Test of getFilters method, of class FilterService.
      */
+	@Test
     public void testGetFilters( )
     {
         System.out.println( "getFilters" );

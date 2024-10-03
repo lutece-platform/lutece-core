@@ -37,6 +37,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Collection;
 
+import org.junit.jupiter.api.Test;
+
 public class AdminRoleTest extends LuteceTestCase
 {
     private final static String ROLEKEY1 = "RoleKey1";
@@ -44,6 +46,7 @@ public class AdminRoleTest extends LuteceTestCase
     private final static String ROLEDESCRIPTION1 = "RoleDescription 1";
     private final static String ROLEDESCRIPTION2 = "RoleDescription 2";
 
+    @Test
     public void testBusiness( )
     {
         // Initialize an object

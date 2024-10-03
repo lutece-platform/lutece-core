@@ -37,6 +37,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.ArrayList;
 
+import org.junit.jupiter.api.Test;
+
 /**
  * LuteceUserTest
  */
@@ -47,6 +49,7 @@ public class LuteceUserTest extends LuteceTestCase
     private static final String ROLE2 = "ROLE2";
     private static final String EMAIL = "EMAIL";
 
+    @Test
     public void testLuteceUser( )
     {
         MokeLuteceAuthentication auth = new MokeLuteceAuthentication( );

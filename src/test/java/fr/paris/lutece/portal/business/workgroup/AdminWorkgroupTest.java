@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.workgroup;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 public class AdminWorkgroupTest extends LuteceTestCase
@@ -41,6 +43,7 @@ public class AdminWorkgroupTest extends LuteceTestCase
     private final static String GROUPDESCRIPTION1 = "AdminWorkgroupDescription1";
     private final static String GROUPDESCRIPTION2 = "AdminWorkgroupDescription2";
 
+    @Test
     public void testBusiness( )
     {
         // Initialize an group

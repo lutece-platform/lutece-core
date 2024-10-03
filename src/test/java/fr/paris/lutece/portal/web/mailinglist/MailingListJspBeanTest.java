@@ -37,6 +37,10 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.business.mailinglist.MailingList;
 import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
 import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
@@ -54,10 +58,9 @@ public class MailingListJspBeanTest extends LuteceTestCase
     private MailingList mailingList;
     private MailingListJspBean bean;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         mailingList = new MailingList( );
         mailingList.setName( getRandomName( ) );
         mailingList.setDescription( mailingList.getName( ) );
@@ -66,7 +69,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         bean = new MailingListJspBean( );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         MailingList storedMailinglist = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
@@ -78,7 +81,6 @@ public class MailingListJspBeanTest extends LuteceTestCase
             }
             MailingListHome.remove( mailingList.getId( ) );
         }
-        super.tearDown( );
     }
 
     private String getRandomName( )
@@ -87,7 +89,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
-
+    @Test
     public void testDoAddUsers( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -106,7 +108,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
 
         assertTrue( MailingListHome.checkFilter( filter, mailingList.getId( ) ) );
     }
-
+    @Test
     public void testDoAddUsersInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -130,7 +132,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
             assertFalse( MailingListHome.checkFilter( filter, mailingList.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoAddUsersNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -152,7 +154,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
             assertFalse( MailingListHome.checkFilter( filter, mailingList.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoCreateMailingList( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -182,7 +184,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
             } );
         }
     }
-
+    @Test
     public void testDoCreateMailingListInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -216,7 +218,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
             } );
         }
     }
-
+    @Test
     public void testDoCreateMailingListNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -248,7 +250,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
             } );
         }
     }
-
+    @Test
     public void testDoDeleteFilter( ) throws AccessDeniedException
     {
         assertEquals( 0, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
@@ -269,7 +271,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         bean.doDeleteFilter( request );
         assertEquals( 0, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
     }
-
+    @Test
     public void testDoDeleteFilterInvalidToken( ) throws AccessDeniedException
     {
         assertEquals( 0, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
@@ -297,7 +299,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
             assertEquals( 1, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
         }
     }
-
+    @Test
     public void testDoDeleteFilterNoToken( ) throws AccessDeniedException
     {
         assertEquals( 0, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
@@ -323,7 +325,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
             assertEquals( 1, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
         }
     }
-
+    @Test
     public void testDoModifyMailingList( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -344,7 +346,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         assertEquals( mailingList.getName( ) + "_mod", storedMailling.getName( ) );
         assertEquals( mailingList.getDescription( ) + "_mod", storedMailling.getDescription( ) );
     }
-
+    @Test
     public void testDoModifyMailingListInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -370,7 +372,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
             assertEquals( mailingList.getDescription( ), storedMailling.getDescription( ) );
         }
     }
-
+    @Test
     public void testDoModifyMailingListNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -394,7 +396,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
             assertEquals( mailingList.getDescription( ), storedMailling.getDescription( ) );
         }
     }
-
+    @Test
     public void testGetConfirmRemoveMailingList( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -407,7 +409,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         assertTrue( message.getRequestParameters( ).containsKey( "id_mailinglist" ) );
         assertEquals( Integer.toString( mailingList.getId( ) ), message.getRequestParameters( ).get( "id_mailinglist" ) );
     }
-
+    @Test
     public void testDoRemoveMailingList( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -419,7 +421,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         bean.doRemoveMailingList( request );
         assertNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
     }
-
+    @Test
     public void testDoRemoveMailingListInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -438,7 +440,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
             assertNotNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoRemoveMailingListNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

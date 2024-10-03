@@ -41,6 +41,8 @@ package fr.paris.lutece.portal.service.plugin;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.includes.PageIncludeEntry;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -55,6 +57,7 @@ public class PluginFileTest extends LuteceTestCase
     /**
      * Test of getName method, of class fr.paris.lutece.portal.service.PluginFile.
      */
+	@Test
     public void testLoad( ) throws LuteceInitException
     {
         System.out.println( "load" );

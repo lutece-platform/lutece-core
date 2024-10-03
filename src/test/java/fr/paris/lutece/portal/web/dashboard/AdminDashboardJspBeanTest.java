@@ -39,6 +39,7 @@ import java.util.Random;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardHome;
@@ -93,6 +94,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
      * @throws Exception
      *             e
      */
+    @Test
     public void testGetAdminDashboards( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -107,7 +109,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         assertNotNull( adminDashboards );
         assertFalse( "".equals( adminDashboards ) );
     }
-
+    @Test
     public void testGetManageDashboards( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -117,7 +119,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
 
         assertNotNull( instance.getManageDashboards( request ) );
     }
-
+    @Test
     public void testDoMoveAdminDashboard( ) throws AccessDeniedException
     {
         IAdminDashboardComponent stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
@@ -139,7 +141,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         assertEquals( 1, stored.getOrder( ) );
         assertEquals( -1, stored.getZone( ) );
     }
-
+    @Test
     public void testDoMoveAdminDashboardInvalidToken( ) throws AccessDeniedException
     {
         IAdminDashboardComponent stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
@@ -167,7 +169,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
             assertEquals( 0, stored.getZone( ) );
         }
     }
-
+    @Test
     public void testDoMoveAdminDashboardNoToken( ) throws AccessDeniedException
     {
         IAdminDashboardComponent stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
@@ -193,7 +195,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
             assertEquals( 0, stored.getZone( ) );
         }
     }
-
+    @Test
     public void testDoReorderColumn( ) throws AccessDeniedException
     {
         IAdminDashboardComponent stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
@@ -219,7 +221,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         assertEquals( 1, stored.getOrder( ) );
         assertEquals( nZone, stored.getZone( ) );
     }
-
+    @Test
     public void testDoReorderColumnInvalidToken( ) throws AccessDeniedException
     {
         IAdminDashboardComponent stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
@@ -251,7 +253,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
             assertEquals( nZone, stored.getZone( ) );
         }
     }
-
+    @Test
     public void testDoReorderColumnNoToken( ) throws AccessDeniedException
     {
         IAdminDashboardComponent stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );

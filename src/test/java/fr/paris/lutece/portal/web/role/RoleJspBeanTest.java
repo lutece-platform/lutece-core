@@ -38,6 +38,10 @@ import java.security.SecureRandom;
 import java.util.Locale;
 import java.util.Random;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -57,10 +61,9 @@ public class RoleJspBeanTest extends LuteceTestCase
     private RoleJspBean bean;
     private Role role;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         bean = new RoleJspBean( );
         role = new Role( );
         role.setRole( getRandomName( ) );
@@ -69,11 +72,10 @@ public class RoleJspBeanTest extends LuteceTestCase
         RoleHome.create( role );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         RoleHome.remove( role.getRole( ) );
-        super.tearDown( );
     }
 
     private String getRandomName( )
@@ -82,7 +84,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
-
+    @Test
     public void testGetRemovePageRole( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -117,7 +119,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         }
         assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
-
+    @Test
     public void testDoCreatePageRole( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -143,7 +145,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             RoleHome.remove( name );
         }
     }
-
+    @Test
     public void testDoCreatePageRoleInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -169,7 +171,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             RoleHome.remove( name );
         }
     }
-
+    @Test
     public void testDoCreatePageRoleNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -193,7 +195,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             RoleHome.remove( name );
         }
     }
-
+    @Test
     public void testDoModifyPageRole( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -207,7 +209,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         bean.doModifyPageRole( request );
         assertEquals( role.getRoleDescription( ) + "_mod", RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
     }
-
+    @Test
     public void testDoModifyPageRoleInvalidtoken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -228,7 +230,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         }
     }
-
+    @Test
     public void testDoModifyPageRoleNotoken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -247,7 +249,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         }
     }
-
+    @Test
     public void testDoRemovePageRole( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -258,7 +260,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         bean.doRemovePageRole( request );
         assertNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
     }
-
+    @Test
     public void testDoRemovePageRoleInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -276,7 +278,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         }
     }
-
+    @Test
     public void testDoRemovePageRoleNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

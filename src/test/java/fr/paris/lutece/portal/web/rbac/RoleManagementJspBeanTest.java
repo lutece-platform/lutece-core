@@ -39,6 +39,7 @@ import java.util.Collection;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -67,6 +68,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of getManageRoles method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
+    @Test
     public void testGetManageRoles( ) throws AccessDeniedException
     {
         System.out.println( "getManageRoles" );
@@ -82,6 +84,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of getCreateRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
+    @Test
     public void testGetCreateRole( ) throws AccessDeniedException
     {
         System.out.println( "getCreateRole" );
@@ -100,6 +103,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoCreateRole( ) throws AccessDeniedException
     {
         RoleManagementJspBean bean = new RoleManagementJspBean( );
@@ -119,7 +123,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( roleName );
         }
     }
-
+    @Test
     public void testDoCreateRoleInvalidToken( ) throws AccessDeniedException
     {
         RoleManagementJspBean bean = new RoleManagementJspBean( );
@@ -144,7 +148,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( roleName );
         }
     }
-
+    @Test
     public void testDoCreateRoleNoToken( ) throws AccessDeniedException
     {
         RoleManagementJspBean bean = new RoleManagementJspBean( );
@@ -169,20 +173,11 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getModifyRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
-     */
-    public void testGetModifyRole( ) throws AccessDeniedException
-    {
-        System.out.println( "getModifyRole" );
-
-        // Not implemented yet
-    }
-
-    /**
      * Test of doModifyRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoModifyRole( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -209,7 +204,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoModifyRoleInvalidToken( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -240,7 +235,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoModifyRoleNoToken( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -273,6 +268,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of doConfirmRemoveRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
+    @Test
     public void testDoConfirmRemoveRole( ) throws AccessDeniedException
     {
         RoleManagementJspBean bean = new RoleManagementJspBean( );
@@ -289,6 +285,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoRemoveRole( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -311,7 +308,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoRemoveRoleInvalidToken( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -338,7 +335,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoRemoveRoleNoToken( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -364,16 +361,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         }
     }
 
-    /**
-     * Test of getViewRoleDescription method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
-     */
-    public void testgetViewRoleDescription( ) throws AccessDeniedException
-    {
-        System.out.println( "getViewRoleDescription" );
-
-        // Not implemented yet
-    }
-
+    @Test
     public void testDoConfirmRemoveControlFromRole( )
     {
         RoleManagementJspBean bean = new RoleManagementJspBean( );
@@ -390,6 +378,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoRemoveControlFromRole( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -439,7 +428,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoRemoveControlFromRoleInvalidToken( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -493,7 +482,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoRemoveControlFromRoleNoToken( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -545,7 +534,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoAssignUsers( ) throws AccessDeniedException
     {
         RoleManagementJspBean bean = new RoleManagementJspBean( );
@@ -580,7 +569,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoAssignUsersInvalidToken( ) throws AccessDeniedException
     {
         RoleManagementJspBean bean = new RoleManagementJspBean( );
@@ -619,7 +608,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoAssignUsersNoToken( ) throws AccessDeniedException
     {
         RoleManagementJspBean bean = new RoleManagementJspBean( );
@@ -657,7 +646,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoSelectPermissions( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -690,7 +679,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoSelectPermissionsInvalidToken( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -723,7 +712,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoSelectPermissionsNoToken( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -754,7 +743,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoUnAssignUser( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -782,7 +771,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoUnAssignUserInvalidToken( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );
@@ -814,7 +803,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             RBACRoleHome.remove( role.getKey( ) );
         }
     }
-
+    @Test
     public void testDoUnAssignUserNoToken( ) throws AccessDeniedException
     {
         RBACRole role = new RBACRole( );

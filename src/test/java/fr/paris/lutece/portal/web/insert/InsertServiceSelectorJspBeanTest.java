@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.insert;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
@@ -46,6 +47,7 @@ public class InsertServiceSelectorJspBeanTest extends LuteceTestCase
     /**
      * Test of getServicesListPage method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
      */
+	@Test
     public void testGetServicesListPage( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -60,6 +62,7 @@ public class InsertServiceSelectorJspBeanTest extends LuteceTestCase
     /**
      * Test of displayService method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
      */
+	@Test
     public void testDisplayService( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

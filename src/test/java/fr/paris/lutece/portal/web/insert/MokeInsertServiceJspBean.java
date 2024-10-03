@@ -45,6 +45,7 @@ public class MokeInsertServiceJspBean extends InsertServiceJspBean
     {
     }
 
+    
     public String testInsertUrl( HttpServletRequest request, String strInput, String strInsert )
     {
         return insertUrl( request, strInput, strInsert );

@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.message;
 
 import java.util.Locale;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
@@ -50,6 +52,7 @@ public class AdminMessageServiceTest extends LuteceTestCase
     /**
      * Test of getMessageUrl method, of class fr.paris.lutece.portal.service.message.AdminMessageService.
      */
+	@Test
     public void testGetMessageUrl( )
     {
         System.out.println( "getMessageUrl" );
@@ -82,6 +85,7 @@ public class AdminMessageServiceTest extends LuteceTestCase
     /**
      * Test of getMessage method, of class fr.paris.lutece.portal.service.message.AdminMessageService.
      */
+	@Test
     public void testGetMessage( )
     {
         System.out.println( "getMessage" );

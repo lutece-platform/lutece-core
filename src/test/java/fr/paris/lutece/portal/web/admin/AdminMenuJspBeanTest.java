@@ -41,6 +41,7 @@ import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
@@ -87,6 +88,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     /**
      * Test of getAdminMenuHeader method, of class fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
      */
+    @Test
     public void testGetAdminMenuHeader( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -100,6 +102,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     /**
      * Test of getAdminMenuUser method, of class fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
      */
+    @Test
     public void testGetAdminMenuUser( ) throws AccessDeniedException
     {
         System.out.println( "getAdminMenuUser" );
@@ -115,6 +118,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     /**
      * Test of doChangeLanguage method, of class fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
      */
+    @Test
     public void testDoChangeLanguage( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -132,7 +136,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         instance.doChangeLanguage( request );
         assertNotSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
     }
-
+    @Test
     public void testDoChangeLanguageInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -157,7 +161,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             assertSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
         }
     }
-
+    @Test
     public void testDoChangeLanguageNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -197,7 +201,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             String strReturn = "../../" + AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
         }
     }
-
+    @Test
     public void testDoModifyDefaultAdminUserPassword( ) throws AccessDeniedException
     {
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
@@ -325,7 +329,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         }
 
     }
-
+    @Test
     public void testDoModifyDefaultAdminUserPasswordInvalidToken( ) throws AccessDeniedException
     {
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
@@ -360,7 +364,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             assertTrue( stored.getPassword( ).check( password ) );
         }
     }
-
+    @Test
     public void testDoModifyDefaultAdminUserPasswordNoToken( ) throws AccessDeniedException
     {
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
@@ -394,7 +398,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             assertTrue( stored.getPassword( ).check( password ) );
         }
     }
-
+    @Test
     public void testDoModifyAccessibilityMode( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -416,7 +420,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             AdminUserHome.update( _user );
         }
     }
-
+    @Test
     public void testDoModifyAccessibilityModeInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -442,7 +446,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             AdminUserHome.update( _user );
         }
     }
-
+    @Test
     public void testDoModifyAccessibilityModeNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

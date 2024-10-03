@@ -71,6 +71,7 @@ public class PortalMenuServiceTest extends LuteceTestCase
     @Inject
     private  PortalMenuService portalMenuService;
 
+    @Test
     public void testGetMenuContent( )
     {
         HttpServletRequest request = new MockHttpServletRequest( );

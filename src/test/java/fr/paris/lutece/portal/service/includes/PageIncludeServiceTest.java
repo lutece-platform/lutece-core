@@ -40,17 +40,20 @@ import fr.paris.lutece.test.LuteceTestCase;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.Test;
+
 import jakarta.servlet.http.HttpServletRequest;
 
 public class PageIncludeServiceTest extends LuteceTestCase
 {
+	@Test
     public void testPageIncludes( )
     {
         List<PageInclude> listIncludes = PageIncludeService.getIncludes( );
         // Assert default includes are loaded
         assertTrue( listIncludes.size( ) > 2 );
     }
-
+	@Test
     public void testEnabledState( ) throws LuteceInitException
     {
         PageIncludeEntry entry = new PageIncludeEntry( );

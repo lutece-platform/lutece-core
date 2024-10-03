@@ -38,6 +38,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.IAdminUserDAO;
 import fr.paris.lutece.portal.business.user.PasswordUpdateMode;
@@ -66,11 +70,9 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     private @Inject IPasswordFactory passwordFactory;
     private @Inject IAdminUserDAO adminUserDAO;
 
-    @Override
+    @BeforeEach
     public void setUp( ) throws Exception
     {
-        super.setUp( );
-
         assertFalse( PASSWORD.equals( NEW_PASSWORD ) );
 
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
@@ -83,14 +85,13 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         adminUserDAO.insert( user );
     }
 
-    @Override
+    @AfterEach
     public void tearDown( ) throws Exception
     {
         AdminUserHome.remove( user.getUserId( ) );
         AdminUserHome.removeAllPasswordHistoryForUser( user.getUserId( ) );
-        super.tearDown( );
     }
-
+    @Test
     public void testDoLogin( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -118,7 +119,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
     }
-
+    @Test
     public void testDoLoginNoCSRFToken( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -135,7 +136,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
             // OK
         }
     }
-
+    @Test
     public void testDoLoginBadCSRFToken( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -153,7 +154,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
             // OK
         }
     }
-
+    @Test
     public void testDoLoginDisabledLuteceUser( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -166,7 +167,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_AUTH_FAILURE, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
     }
-
+    @Test
     public void testDoLoginDisabledRedacUser( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -179,7 +180,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_AUTH_FAILURE, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
     }
-
+    @Test
     public void testDoLoginDisabledValidUser( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -192,7 +193,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_AUTH_FAILURE, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
     }
-
+    @Test
     public void testDoForgotPasswordNoParam( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -202,7 +203,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
     }
-
+    @Test
     public void testDoForgotPasswordDoesNotExist( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -212,7 +213,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         String url = bean.doForgotPassword( request );
         assertEquals( "AdminFormContact.jsp", url );
     }
-
+    @Test
     public void testDoForgotPasswordNoEmail( ) throws Exception
     {
         user.setEmail( null );
@@ -225,7 +226,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         String url = bean.doForgotPassword( request );
         assertEquals( "AdminFormContact.jsp", url );
     }
-
+    @Test
     public void testDoForgotPassword( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -241,7 +242,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testDoResetPasswordNoSessionLock( )
     {
         boolean previousSessionLockParam = setSessionLock( false );
@@ -255,7 +256,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
             restoreSessionLock( previousSessionLockParam );
         }
     }
-
+    @Test
     public void testDoResetPasswordSessionLock( )
     {
         boolean previousSessionLockParam = setSessionLock( true );
@@ -305,6 +306,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertTrue( found );
     }
 
+    @Test
     public void testDoResetPasswordSessionLockDifferentSessions( )
     {
         boolean previousSessionLockParam = setSessionLock( true );
@@ -349,7 +351,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     {
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, Boolean.valueOf( previousSessionLockParam ).toString( ) );
     }
-
+    @Test
     public void testDoResetPasswordShortPassword( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -373,7 +375,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testDoResetPasswordChangedPassword( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -402,7 +404,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( changedPassword ) );
     }
-
+    @Test
     public void testDoResetPasswordExpiredToken( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -426,7 +428,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testDoResetPasswordNonexistentUser( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -447,7 +449,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
     }
-
+    @Test
     public void testDoResetPasswordBadToken( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -472,7 +474,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testDoResetPasswordDifferentPasswords( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -495,7 +497,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testDoResetPasswordNoNewPassword( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -517,7 +519,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testDoResetPasswordNoConfirmPassword( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -539,7 +541,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testDoResetPasswordGET( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -565,7 +567,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testDoResetPasswordNoTimestamp( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -587,7 +589,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testDoResetPasswordNoUserId( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -609,7 +611,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testDoResetPasswordNoToken( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -630,7 +632,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertNotNull( storedUser );
         assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
     }
-
+    @Test
     public void testGetResetPasswordNoRequestParameters( )
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );

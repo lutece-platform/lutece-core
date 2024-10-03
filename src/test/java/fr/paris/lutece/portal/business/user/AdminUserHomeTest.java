@@ -38,6 +38,7 @@ import java.util.Date;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
@@ -97,6 +98,7 @@ public class AdminUserHomeTest extends LuteceTestCase
         AdminUserHome.removeAllPasswordHistoryForUser( user.getUserId( ) );
     }
 
+    @Test
     public void testGetUserPasswordResetTokenLegacyPassword( )
     {
         Date timestamp = new Date( );

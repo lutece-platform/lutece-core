@@ -280,7 +280,6 @@ public class LuceneSearchEngineTest extends LuteceTestCase
     }
 
     // /XXX refactor, this is copy pasted from PortalMenuServiceTest
-    @Test
     private boolean enableAuthentication( ) throws IOException, LuteceInitException
     {
         boolean status = SecurityService.isAuthenticationEnable( );

@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -43,6 +45,7 @@ public class AppLogServiceTest extends LuteceTestCase
     /**
      * Test of debug method, of class AppLogService.
      */
+	@Test
     public void testDebug( )
     {
         try
@@ -62,6 +65,7 @@ public class AppLogServiceTest extends LuteceTestCase
     /**
      * Test of error method, of class AppLogService.
      */
+	@Test
     public void testError( )
     {
         try
@@ -81,6 +85,7 @@ public class AppLogServiceTest extends LuteceTestCase
     /**
      * Test of info method, of class AppLogService.
      */
+	@Test
     public void testInfo( )
     {
         try

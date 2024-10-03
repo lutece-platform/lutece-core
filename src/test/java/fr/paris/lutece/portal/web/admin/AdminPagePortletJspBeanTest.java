@@ -39,6 +39,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.api.user.UserRole;
 import fr.paris.lutece.portal.business.portlet.AliasPortlet;
 import fr.paris.lutece.portal.business.portlet.AliasPortletHome;
@@ -82,6 +84,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetModifyPortletStatusNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -99,6 +102,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetModifyPortletStatusNoStatusParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -117,6 +121,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetModifyPortletStatusNoPortletParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -135,6 +140,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetModifyPortletStatusInvalidStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -162,6 +168,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetModifyPortletStatusInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -181,6 +188,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetModifyPortletStatusInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -205,6 +213,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     /**
      * Test when the user does not have the right ro manage portlets
      */
+    @Test
     public void testGetModifyPortletStatusNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -233,6 +242,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetModifyPortletStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -272,6 +282,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoModifyPortletStatusNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -291,6 +302,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoModifyPortletStatusNoStatusParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -311,6 +323,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoModifyPortletStatusNoPortletParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -331,6 +344,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoModifyPortletStatusInvalidStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -360,6 +374,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoModifyPortletStatusInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -381,6 +396,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoModifyPortletStatusInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -407,6 +423,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     /**
      * Test when the user does not have the right ro manage portlets
      */
+    @Test
     public void testDoModifyPortletStatusNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -437,6 +454,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoModifyPortletStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -481,6 +499,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoModifyPortletStatusNoCSRFToken( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -525,6 +544,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoModifyPortletStatusInvalidCSRFToken( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -571,6 +591,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetRemovePortletNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -588,6 +609,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetRemovePortletInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -606,6 +628,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetRemovePortletInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -629,6 +652,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     /**
      * Test when the user does not have the right ro manage portlets
      */
+    @Test
     public void testGetRemovePortletNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -656,6 +680,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetRemovePortlet( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -699,6 +724,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetRemovePortletWithAlias( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -743,6 +769,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testGetRemovePortletWithPortletRemovalListener( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -809,6 +836,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoRemovePortletNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -828,6 +856,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoRemovePortletInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -848,6 +877,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoRemovePortletInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -873,6 +903,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     /**
      * Test when the user does not have the right ro manage portlets
      */
+    @Test
     public void testDoRemovePortletNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -902,6 +933,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoRemovePortlet( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -949,6 +981,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoRemovePortletNoCSRFToken( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
@@ -987,6 +1020,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      *             should not happen
      */
+    @Test
     public void testDoRemovePortletInvalidCSRFToken( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );

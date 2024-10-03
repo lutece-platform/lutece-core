@@ -79,7 +79,6 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     protected void setUp( ) throws Exception
     {
         AppLogService.info("ExternalFeaturesJspBeanTest.setUp");
-        super.setUp( );
         _right = new Right( );
         _right.setId( RIGHT_ID );
         _right.setNameKey( NAMEKEY );
@@ -104,7 +103,6 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         AppLogService.info("ExternalFeaturesJspBeanTest.tearDown");
         RightHome.remove( RIGHT_ID );
         FeatureGroupHome.remove( FEATUREGROUP );
-        super.tearDown( );
     }
 
     /**

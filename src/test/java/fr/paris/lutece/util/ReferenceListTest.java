@@ -38,6 +38,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.junit.jupiter.api.Test;
+
 /**
  * ReferenceList Test Class
  *
@@ -47,6 +49,7 @@ public class ReferenceListTest extends LuteceTestCase
     /**
      * Test of addItem method, of class fr.paris.lutece.util.ReferenceList.
      */
+	@Test
     public void testAddItem( )
     {
         System.out.println( "addItem" );
@@ -65,6 +68,7 @@ public class ReferenceListTest extends LuteceTestCase
     /**
      * Test of convert method, of class fr.paris.lutece.util.ReferenceList.
      */
+	@Test
     public void testConvert( )
     {
         System.out.println( "convert" );
@@ -91,6 +95,7 @@ public class ReferenceListTest extends LuteceTestCase
     /**
      * Test of checkItems method, of class fr.paris.lutece.util.ReferenceList.
      */
+	@Test
     public void testCheckItems( )
     {
         System.out.println( "checkItems" );

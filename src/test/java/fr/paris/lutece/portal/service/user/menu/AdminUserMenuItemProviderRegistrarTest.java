@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.user.menu;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.menu.AdminUserMenuItem;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -54,7 +55,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         _instance.setService( _adminUserMenuService );
         _instance.setBeanName( "junit" );
     }
-
+    @Test
     public void testSetClassName( ) throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
         _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
@@ -65,7 +66,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         assertEquals( 1, items.size( ) );
         assertEquals( TestAdminUserMenuItemProvider.ITEM, items.get( 0 ) );
     }
-
+    @Test
     public void testSetClassNameProviderAlreadySetDirectly( )
             throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
@@ -80,7 +81,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
 
         }
     }
-
+    @Test
     public void testSetClassNameProviderAlreadySetByClassName( )
             throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
@@ -95,7 +96,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
 
         }
     }
-
+    @Test
     public void testSetProvider( ) throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
         _instance.setProvider( new TestAdminUserMenuItemProvider( ) );
@@ -106,7 +107,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         assertEquals( 1, items.size( ) );
         assertEquals( TestAdminUserMenuItemProvider.ITEM, items.get( 0 ) );
     }
-
+    @Test
     public void testSetProviderProviderAlreadySetDirectly( )
             throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
@@ -121,7 +122,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
 
         }
     }
-
+    @Test
     public void testSetProviderProviderAlreadySetByClassName( )
             throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
@@ -136,7 +137,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
 
         }
     }
-
+    @Test
     public void testRegisterAdminUserMenuItemProviderNullProvider( )
     {
         try

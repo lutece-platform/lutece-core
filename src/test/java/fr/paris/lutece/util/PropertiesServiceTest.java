@@ -44,6 +44,8 @@ import java.io.OutputStream;
 
 import java.util.Properties;
 
+import org.junit.jupiter.api.Test;
+
 /**
  * PropertiesService Test Class
  *
@@ -58,6 +60,7 @@ public class PropertiesServiceTest extends LuteceTestCase
     /**
      * Test of addPropertiesFile method, of class fr.paris.lutece.util.PropertiesService.
      */
+    @Test
     public void testAddPropertiesFile( ) throws Exception
     {
         System.out.println( "addPropertiesFile" );
@@ -74,6 +77,7 @@ public class PropertiesServiceTest extends LuteceTestCase
     /**
      * Test of addPropertiesDirectory method, of class fr.paris.lutece.util.PropertiesService.
      */
+    @Test
     public void testAddPropertiesDirectory( ) throws Exception
     {
         System.out.println( "addPropertiesDirectory" );
@@ -119,7 +123,7 @@ public class PropertiesServiceTest extends LuteceTestCase
         assertEquals( props.getProperty( "test1" ), instance.getProperty( "test1" ) );
         assertNull( instance.getProperty( "test2" ) );
     }
-
+    @Test
     public void testReloadAllOrder( ) throws IOException
     {
         File propsFile = File.createTempFile( "junit", ".properties" );

@@ -69,11 +69,10 @@ public class SiteMapAppCycleTest extends LuteceTestCase
     private @Inject IPageService _pageService;
     private int _nInitialRootId;
 
-    @Override
+    
     @BeforeAll
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         // create pages
         _top = getPage( null );
         _middle = getPage( _top.getId( ) );
@@ -101,7 +100,6 @@ public class SiteMapAppCycleTest extends LuteceTestCase
         return page;
     }
 
-    @Override
     @AfterAll
     protected void tearDown( ) throws Exception
     {
@@ -109,7 +107,6 @@ public class SiteMapAppCycleTest extends LuteceTestCase
         removePageQuietly( _middle.getId( ) );
         removePageQuietly( _top.getId( ) );
         setRootPageId( _nInitialRootId );
-        super.tearDown( );
     }
 
     private void setRootPageId( int nRootPageId ) throws IOException

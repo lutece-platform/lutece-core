@@ -35,11 +35,14 @@ package fr.paris.lutece.portal.service.security;
 
 import java.security.GeneralSecurityException;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 public class RsaServiceTest extends LuteceTestCase
 {
 
+	@Test
     public void testEncryptDecrypt( ) throws GeneralSecurityException
     {
         String message = "This is the text to encrypt";

@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.portalcomponent;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 public class PortalComponentTest extends LuteceTestCase
@@ -43,6 +45,7 @@ public class PortalComponentTest extends LuteceTestCase
     private final static String STRNAME1 = "StrName 1";
     private final static String STRNAME2 = "StrName 2";
 
+    @Test
     public void testBusinessPortalComponent( )
     {
         // Initialize an object

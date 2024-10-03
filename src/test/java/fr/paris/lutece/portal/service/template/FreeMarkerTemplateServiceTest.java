@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
@@ -52,6 +53,7 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
     /**
      * Test of init method, of class fr.paris.lutece.portal.service.template.FreeMarkerTemplateService.
      */
+	@Test
     public void testInit( )
     {
         String strTemplatePath = "/WEB-INF/templates/";
@@ -64,6 +66,7 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
     /**
      * Test of loadTemplate method, of class fr.paris.lutece.portal.service.template.FreeMarkerTemplateService.
      */
+	@Test
     public void testLoadTemplate( )
     {
         String strPath = "/WEB-INF/templates/";
@@ -82,6 +85,7 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
     /**
      * Test of resetCache method, of class fr.paris.lutece.portal.service.template.FreeMarkerTemplateService.
      */
+	@Test
     public void testResetCache( )
     {
         IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );

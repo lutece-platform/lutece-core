@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.user.authentication;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
@@ -41,6 +43,8 @@ import jakarta.inject.Inject;
 public class PasswordFactoryTest extends LuteceTestCase
 {
     private @Inject IPasswordFactory passwordFactory;
+    
+    @Test
     public void testGetPasswordIncorrectFormat( )
     {
         try
@@ -53,6 +57,7 @@ public class PasswordFactoryTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testGetPasswordUnknownFormat( )
     {
         try
@@ -65,6 +70,7 @@ public class PasswordFactoryTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testGetPasswordPlaintext( )
     {
         IPassword password = passwordFactory.getPassword( "PLAINTEXT:PASSWORD" );
@@ -81,6 +87,7 @@ public class PasswordFactoryTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testGetPasswordMD5( )
     {
         IPassword password = passwordFactory.getPassword( "MD5:319f4d26e3c536b5dd871bb2c52e3178" );
@@ -97,6 +104,7 @@ public class PasswordFactoryTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testGetPasswordSHA1( )
     {
         IPassword password = passwordFactory.getPassword( "SHA-1:112bb791304791ddcf692e29fd5cf149b35fea37" );
@@ -113,6 +121,7 @@ public class PasswordFactoryTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testGetPasswordSHA256( )
     {
         IPassword password = passwordFactory.getPassword( "SHA-256:0be64ae89ddd24e225434de95d501711339baeee18f009ba9b4369af27d30d60" );
@@ -128,7 +137,8 @@ public class PasswordFactoryTest extends LuteceTestCase
         {
         }
     }
-
+    
+    @Test
     public void testGetPasswordPBKDF2WithHmacSHA1( )
     {
         String storedPassword = "PBKDF2:40000:c2d05d21e68313aaf55cf16751c53dd9:da09ad1888f548ddf5f2cb0a0b9904aaf547e4b6722d4e04ac75dab73b87d379"
@@ -147,7 +157,7 @@ public class PasswordFactoryTest extends LuteceTestCase
         {
         }
     }
-
+    @Test
     public void testGetPasswordPBKDF2WithHmacSHA512UpgradeIterations( )
     {
         PasswordFactory passwordFactory = new PasswordFactory( );
@@ -159,7 +169,7 @@ public class PasswordFactoryTest extends LuteceTestCase
         assertEquals( false, password.check( "BAR" ) );
         assertTrue( "Password stored with less iterations than the default should be marked as legacy so that it is upgraded", password.isLegacy( ) );
     }
-
+    @Test
     public void testGetPasswordPBKDF2WithHmacSHA512( )
     {
         PasswordFactory passwordFactory = new PasswordFactory( );
@@ -172,14 +182,14 @@ public class PasswordFactoryTest extends LuteceTestCase
         assertFalse( password.isLegacy( ) );
         assertEquals( storedPassword, password.getStorableRepresentation( ) );
     }
-
+    @Test
     public void testGetPasswordFromCleartext( )
     {
         IPassword password = passwordFactory.getPasswordFromCleartext( "PASSWORD" );
         assertFalse( password.isLegacy( ) );
         assertFalse( password.getStorableRepresentation( ).equals( passwordFactory.getPasswordFromCleartext( "PASSWORD" ).getStorableRepresentation( ) ) );
     }
-
+    @Test
     public void testGetDummyPassword( )
     {
         IPassword password = passwordFactory.getDummyPassword( );

@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.user.authentication;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
@@ -45,6 +47,7 @@ public class LuteceDefaultAdminUserDAOTest extends LuteceTestCase
     @Inject
     private IPasswordFactory passwordFactory;
 
+    @Test
     public void testLoadPassword( )
     {
         IPassword password = dao.loadPassword( "admin" );
@@ -56,6 +59,7 @@ public class LuteceDefaultAdminUserDAOTest extends LuteceTestCase
         assertFalse( password.check( "adminadmin" ) );
     }
 
+    @Test
     public void testStore( )
     {
         IPassword password = passwordFactory.getPassword( "PLAINTEXT:PASSWORD" );

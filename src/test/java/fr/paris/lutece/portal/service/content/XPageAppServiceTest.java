@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.content;
 
 import java.util.Collection;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -49,13 +51,14 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class XPageAppServiceTest extends LuteceTestCase
 {
+	@Test
     public void testGetXPageApplicationsList( )
     {
         Collection<XPageApplicationEntry> listXPageApps = XPageAppService.getXPageApplicationsList( );
         // Assert default XPages are loaded
         assertTrue( listXPageApps.size( ) >= 2 );
     }
-
+	@Test
     public void testEnabledState( ) throws LuteceInitException
     {
         XPageApplicationEntry entry = new XPageApplicationEntry( );

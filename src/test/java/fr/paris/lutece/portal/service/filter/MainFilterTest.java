@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.filter;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -43,6 +45,7 @@ public class MainFilterTest extends LuteceTestCase
     /**
      * Test of matchFilterUrl method, of class MainFilter.
      */
+	@Test
     public void testMatchFilterUrl( )
     {
         System.out.println( "matchFilterUrl" );

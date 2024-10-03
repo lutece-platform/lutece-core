@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service.util;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.ReferenceList;
@@ -55,6 +57,7 @@ public class AppPathServiceTest extends LuteceTestCase
     /**
      * Test of getPath method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
+    @Test
     public void testGetPath( )
     {
         System.out.println( "getPath" );
@@ -81,6 +84,7 @@ public class AppPathServiceTest extends LuteceTestCase
     /**
      * Test of getResourceAsStream method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
+    @Test
     public void testGetResourceAsStream( ) throws IOException
     {
         System.out.println( "getResourceAsStream" );
@@ -115,6 +119,7 @@ public class AppPathServiceTest extends LuteceTestCase
     /**
      * Test of getBaseUrl method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
+    @Test
     public void testGetBaseUrl( )
     {
         System.out.println( "getBaseUrl" );
@@ -136,6 +141,7 @@ public class AppPathServiceTest extends LuteceTestCase
     /**
      * Test of getAvailableVirtualHosts method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
+    @Test
     public void testGetAvailableVirtualHosts( )
     {
         System.out.println( "getAvailableVirtualHosts" );
@@ -151,6 +157,7 @@ public class AppPathServiceTest extends LuteceTestCase
     /**
      * Test of getVirtualHostKey method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
+    @Test
     public void testGetVirtualHostKey( )
     {
         System.out.println( "getVirtualHostKey" );

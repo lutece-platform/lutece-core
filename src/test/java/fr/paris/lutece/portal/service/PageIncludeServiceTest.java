@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
@@ -44,6 +46,7 @@ import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
 public class PageIncludeServiceTest extends LuteceTestCase
 {
+	@Test
     public void testPageIncludes( )
     {
         Collection<PageInclude> listIncludes = PageIncludeService.getIncludes( );

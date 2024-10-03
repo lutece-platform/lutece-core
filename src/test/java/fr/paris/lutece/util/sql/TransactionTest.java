@@ -37,6 +37,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.sql.SQLException;
 
+import org.junit.jupiter.api.Test;
+
 /**
  * Transaction Test
  */
@@ -46,6 +48,7 @@ public class TransactionTest extends LuteceTestCase
     private static final String SQL_CREATE_TABLE = "CREATE TABLE test_transaction ( id integer )";
     private static final String SQL_INSERT = "INSERT INTO test_transaction VALUES ( ? )";
 
+    @Test
     public void testCommit( )
     {
         System.out.println( "commit" );
@@ -75,7 +78,7 @@ public class TransactionTest extends LuteceTestCase
 
         assertTrue( transaction.getStatus( ) == Transaction.COMMITTED );
     }
-
+    @Test
     public void testRollback( )
     {
         System.out.println( "rollback" );

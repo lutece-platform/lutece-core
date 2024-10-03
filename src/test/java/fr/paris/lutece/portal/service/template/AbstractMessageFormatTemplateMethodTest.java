@@ -38,6 +38,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -60,6 +62,7 @@ public class AbstractMessageFormatTemplateMethodTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testExec( )
     {
         AbstractMessageFormatTemplateMethod method = new TestAbstractMessageFormatTemplateMethod( "test with 'quote'" );

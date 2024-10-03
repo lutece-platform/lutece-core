@@ -39,6 +39,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -64,6 +65,7 @@ public class AdminJspBeanTest extends LuteceTestCase
     /**
      * Test of getAdminPage method, of class fr.paris.lutece.portal.web.admin.AdminJspBean.
      */
+    @Test
     public void testGetAdminPage() throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -81,6 +83,7 @@ public class AdminJspBeanTest extends LuteceTestCase
      * 
      * @throws UserNotSignedException
      */
+    @Test
     public void testGetAdminPagePreview() throws AccessDeniedException, UserNotSignedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest();

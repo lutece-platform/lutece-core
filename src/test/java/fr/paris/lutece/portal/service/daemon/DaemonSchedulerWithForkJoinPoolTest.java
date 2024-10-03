@@ -41,6 +41,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.daemon.mocks.ExecutorServiceForDaemonTests;
 import fr.paris.lutece.portal.service.daemon.mocks.TestExecutorService;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -51,12 +53,14 @@ public class DaemonSchedulerWithForkJoinPoolTest extends LuteceTestCase
 {
     private @Inject ManagedThreadFactory _managedThreadFactory;
     
+    @Test
     public void testShutdownWhileRunning()
             throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException, BrokenBarrierException, TimeoutException
     {
         testShutdownWhileRunning(false);
     }
 
+    @Test
     public void testShutdownWhileRunningThrows()
             throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException, BrokenBarrierException, TimeoutException
     {

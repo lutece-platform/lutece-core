@@ -79,6 +79,7 @@ public class CacheJspBeanTest extends LuteceTestCase
     /**
      * Test of getManageCaches method, of class fr.paris.lutece.portal.web.system.CacheJspBean.
      */
+    @Test
     public void testGetManageCaches( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -336,7 +337,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             CacheService.getCacheableServicesList( ).get( cacheIndex ).enableCache( true );
         }
     }
-
+    @Test
     public void testGetConfirmToggleCache( )
     {
         CacheJspBean instance = new CacheJspBean( );
@@ -357,7 +358,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
         }
     }
-
+    @Test
     public void testGetConfirmToggleCacheNoParam( )
     {
         CacheJspBean instance = new CacheJspBean( );
@@ -374,6 +375,7 @@ public class CacheJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      * @throws IOException
      */
+    @Test
     public void testDoReloadProperties( ) throws AccessDeniedException, IOException
     {
         String property = "junit_testDoReloadProperties";
@@ -402,7 +404,7 @@ public class CacheJspBeanTest extends LuteceTestCase
 
         assertEquals( propertyValue, AppPropertiesService.getProperty( property ) );
     }
-
+    @Test
     public void testDoReloadPropertiesInvalidToken( ) throws AccessDeniedException, IOException
     {
         String property = "junit_testDoReloadProperties";
@@ -437,7 +439,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
         }
     }
-
+    @Test
     public void testDoReloadPropertiesNoToken( ) throws AccessDeniedException, IOException
     {
         String property = "junit_testDoReloadProperties";

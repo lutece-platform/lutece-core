@@ -36,6 +36,8 @@ package fr.paris.lutece.util.sql;
 import java.security.SecureRandom;
 import java.sql.Statement;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
@@ -49,18 +51,19 @@ public class DAOUtilTest extends LuteceTestCase
     private static final String TESTKEY = "daoutiltestkey";
     private static final String TESTVALUE = "daoutiltestvalue";
 
+    @Test
     public void testDAOUtil_str( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_INSERT );
         doTest( daoUtil, false );
     }
-
+    @Test
     public void testDAOUtil_str_int( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_INSERT, Statement.RETURN_GENERATED_KEYS );
         doTest( daoUtil, true );
     }
-
+    @Test
     public void testDAOUtil_str_plugin( )
     {
         Plugin p = new PluginDefaultImplementation( );
@@ -70,7 +73,7 @@ public class DAOUtilTest extends LuteceTestCase
         DAOUtil daoUtil = new DAOUtil( SQL_INSERT, p );
         doTest( daoUtil, false );
     }
-
+    @Test
     public void testDAOUtil_str_int_plugin( )
     {
         Plugin p = new PluginDefaultImplementation( );
@@ -114,7 +117,7 @@ public class DAOUtilTest extends LuteceTestCase
             fail( );
         }
     }
-
+    @Test
     public void testDAOUtil_str_FAIL_NO_GENERATED_KEYS( )
     {
         String key = TESTKEY + new SecureRandom( ).nextLong( );

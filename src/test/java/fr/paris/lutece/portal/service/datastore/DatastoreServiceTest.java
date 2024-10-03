@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.datastore;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -43,7 +45,7 @@ public class DatastoreServiceTest extends LuteceTestCase
     private static final String KEY1 = "key1";
     private static final String VALUE_DEFAULT = "default";
     private static final String VALUE1 = "value1";
-
+    @Test
     public void test( )
     {
         String strValue = DatastoreService.getDataValue( KEY1, VALUE_DEFAULT );

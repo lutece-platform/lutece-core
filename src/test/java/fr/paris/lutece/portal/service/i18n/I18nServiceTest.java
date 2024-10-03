@@ -48,7 +48,6 @@ import java.util.Properties;
 
 import org.junit.jupiter.api.Test;
 
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -61,6 +60,7 @@ public class I18nServiceTest extends LuteceTestCase
     /**
      * Test of localize method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
+	@Test
     public void testLocalize( )
     {
         System.out.println( "localize" );
@@ -76,6 +76,7 @@ public class I18nServiceTest extends LuteceTestCase
     /**
      * Test of getLocalizedString method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
+	@Test
     public void testGetLocalizedString( )
     {
         System.out.println( "getLocalizedString" );
@@ -91,6 +92,7 @@ public class I18nServiceTest extends LuteceTestCase
     /**
      * Test of getLocalizedDate method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
+	@Test
     public void testGetLocalizedDate( )
     {
         System.out.println( "getLocalizedDate" );
@@ -108,6 +110,7 @@ public class I18nServiceTest extends LuteceTestCase
     /**
      * Test of getLocalizedDateTime method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
+	@Test
     public void testGetLocalizedDateTime( )
     {
         System.out.println( "getLocalizedDateTime" );
@@ -126,6 +129,7 @@ public class I18nServiceTest extends LuteceTestCase
     /**
      * Test of getAdminAvailableLocales method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
+	@Test
     public void testGetAdminAvailableLocales( )
     {
         System.out.println( "getAdminAvailableLocales" );
@@ -137,6 +141,7 @@ public class I18nServiceTest extends LuteceTestCase
     /**
      * Test of getAdminLocales method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
+	@Test
     public void testGetAdminLocales( )
     {
         System.out.println( "getAdminLocales" );

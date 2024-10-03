@@ -38,6 +38,8 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
@@ -62,10 +64,9 @@ public class LevelsJspBeanTest extends LuteceTestCase
     private MockHttpServletRequest request;
     private LevelsJspBean instance;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
 
@@ -76,6 +77,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     /**
      * Test of getCreateLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
+    @Test
     public void testGetCreateLevel( ) throws AccessDeniedException
     {
         assertTrue( StringUtils.isNotEmpty( instance.getCreateLevel( request ) ) );
@@ -86,6 +88,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoCreateLevel( ) throws AccessDeniedException
     {
         final String name = getRandomName( );
@@ -111,7 +114,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
             } );
         }
     }
-
+    @Test
     public void testDoCreateLevelInvalidToken( ) throws AccessDeniedException
     {
         final String name = getRandomName( );
@@ -141,7 +144,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
             } );
         }
     }
-
+    @Test
     public void testDoCreateLevelNoToken( ) throws AccessDeniedException
     {
         final String name = getRandomName( );
@@ -181,6 +184,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     /**
      * Test of getModifyLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
+    @Test
     public void testGetModifyLevel( ) throws AccessDeniedException
     {
         request.addParameter( Parameters.LEVEL_ID, TEST_LEVEL_ID );
@@ -193,6 +197,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoModifyLevel( ) throws AccessDeniedException
     {
         final String name = getRandomName( );
@@ -213,7 +218,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
             LevelHome.remove( level.getId( ) );
         }
     }
-
+    @Test
     public void testDoModifyLevelInvalidToken( ) throws AccessDeniedException
     {
         final String name = getRandomName( );
@@ -238,7 +243,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
             LevelHome.remove( level.getId( ) );
         }
     }
-
+    @Test
     public void testDoModifyLevelNoToken( ) throws AccessDeniedException
     {
         final String name = getRandomName( );

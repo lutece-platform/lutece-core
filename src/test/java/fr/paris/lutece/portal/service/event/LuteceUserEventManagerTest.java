@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.event;
 
 import java.util.function.Consumer;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.business.event.LuteceUserEvent;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
@@ -51,6 +53,7 @@ public class LuteceUserEventManagerTest extends LuteceTestCase
     private static final String VALUE_DEFAULT = "default_value";
     private static final String NEW_VALUE = "new_value";
 
+    @Test
     public void test( )
     {
     	DatastoreService.setDataValue( KEY1, VALUE_DEFAULT );

@@ -37,6 +37,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Collection;
 
+import org.junit.jupiter.api.Test;
+
 public class ModeTest extends LuteceTestCase
 {
     private final static String DESCRIPTION1 = "Description 1";
@@ -58,6 +60,7 @@ public class ModeTest extends LuteceTestCase
     private final static String OUTPUTXSLPROPERTYSTANDALONE1 = "OutputXslPropertyStandalone 1";
     private final static String OUTPUTXSLPROPERTYSTANDALONE2 = "OutputXslPropertyStandalone 2";
 
+    @Test
     public void testBusinessMode( )
     {
         // Initialize an object

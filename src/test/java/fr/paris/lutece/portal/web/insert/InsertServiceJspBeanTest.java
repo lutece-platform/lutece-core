@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
@@ -44,6 +46,7 @@ public class InsertServiceJspBeanTest extends LuteceTestCase
     /**
      * Test of insertUrl method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceJspBean.
      */
+	@Test
     public void testInsertUrl( )
     {
         System.out.println( "insertUrl" );
@@ -59,6 +62,7 @@ public class InsertServiceJspBeanTest extends LuteceTestCase
     /**
      * Test of buildLink method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceJspBean.
      */
+	@Test
     public void testBuildLink( )
     {
         System.out.println( "buildLink" );

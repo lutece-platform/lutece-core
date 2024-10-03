@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.html;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -46,6 +48,7 @@ public class HtmlCleanerServiceTest extends LuteceTestCase
      * @throws HtmlCleanerException
      *             if there is an exception during the test
      */
+	@Test
     public void testClean( ) throws HtmlCleanerException
     {
         System.out.println( "clean" );
@@ -75,7 +78,7 @@ public class HtmlCleanerServiceTest extends LuteceTestCase
         assertNotNull( result );
         assertTrue( result.contains( strExpectedResult ) );
     }
-
+    @Test
     public void testText( )
     {
         String result = HtmlCleanerService.text( "<h2>Titre</h2>" );

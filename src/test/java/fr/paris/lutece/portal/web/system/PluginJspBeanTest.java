@@ -39,6 +39,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -64,10 +67,9 @@ public class PluginJspBeanTest extends LuteceTestCase
     private static final String PATH_PLUGIN = "path.plugins";
     private PluginJspBean instance;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         instance = new PluginJspBean( );
         try ( InputStream in = this.getClass( ).getResourceAsStream( "junit_plugin.xml" ) )
         {
@@ -79,18 +81,18 @@ public class PluginJspBeanTest extends LuteceTestCase
         PluginService.init( );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         PluginService.getPlugin( PLUGIN_NAME ).uninstall( );
         new File( AppPathService.getPath( PATH_PLUGIN ), "junit_plugin.xml" ).delete( );
         PluginService.init( );
-        super.tearDown( );
     }
 
     /**
      * Test of getManagePlugins method, of class fr.paris.lutece.portal.web.system.PluginJspBean.
      */
+    @Test
     public void testGetManagePlugins( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -100,7 +102,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         instance.init( request, PluginJspBean.RIGHT_MANAGE_PLUGINS );
         assertNotNull( instance.getManagePlugins( request ) );
     }
-
+    @Test
     public void testDoInstallPlugin( ) throws AccessDeniedException
     {
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
@@ -111,7 +113,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         instance.doInstallPlugin( request, request.getServletContext( ) );
         assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
     }
-
+    @Test
     public void testDoInstallPluginInvalidToken( ) throws AccessDeniedException
     {
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
@@ -129,7 +131,7 @@ public class PluginJspBeanTest extends LuteceTestCase
             assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
         }
     }
-
+    @Test
     public void testDoInstallPluginNoToken( ) throws AccessDeniedException
     {
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
@@ -145,7 +147,7 @@ public class PluginJspBeanTest extends LuteceTestCase
             assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
         }
     }
-
+    @Test
     public void testDoModifyPluginPool( ) throws AccessDeniedException
     {
         assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
@@ -157,7 +159,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         instance.doModifyPluginPool( request );
         assertEquals( "junit", PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
     }
-
+    @Test
     public void testDoModifyPluginPoolInvalidToken( ) throws AccessDeniedException
     {
         assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
@@ -176,7 +178,7 @@ public class PluginJspBeanTest extends LuteceTestCase
             assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
         }
     }
-
+    @Test
     public void testDoModifyPluginPoolNoToken( ) throws AccessDeniedException
     {
         assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
@@ -194,7 +196,7 @@ public class PluginJspBeanTest extends LuteceTestCase
             assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
         }
     }
-
+    @Test
     public void testGetConfirmUninstallPlugin( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -204,7 +206,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
-
+    @Test
     public void testDoUninstallPlugin( ) throws AccessDeniedException
     {
         PluginService.getPlugin( PLUGIN_NAME ).install( );
@@ -216,7 +218,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         instance.doUninstallPlugin( request, request.getServletContext( ) );
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
     }
-
+    @Test
     public void testDoUninstallPluginInvalidToken( ) throws AccessDeniedException
     {
         PluginService.getPlugin( PLUGIN_NAME ).install( );
@@ -235,7 +237,7 @@ public class PluginJspBeanTest extends LuteceTestCase
             assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
         }
     }
-
+    @Test
     public void testDoUninstallPluginNoToken( ) throws AccessDeniedException
     {
         PluginService.getPlugin( PLUGIN_NAME ).install( );

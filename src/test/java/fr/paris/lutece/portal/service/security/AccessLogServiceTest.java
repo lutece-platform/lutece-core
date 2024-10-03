@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -49,6 +51,7 @@ public final class AccessLogServiceTest extends LuteceTestCase
     /**
      * Log action with info level
      */
+    @Test
     public void testInfo( )
     {
 
@@ -66,6 +69,7 @@ public final class AccessLogServiceTest extends LuteceTestCase
     /**
      * Log action with info level
      */
+    @Test
     public void testDebug( )
     {
         try
@@ -82,6 +86,7 @@ public final class AccessLogServiceTest extends LuteceTestCase
     /**
      * Log action with info level
      */
+    @Test
     public void testTrace( )
     {
         try

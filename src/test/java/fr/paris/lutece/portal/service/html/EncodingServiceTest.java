@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.html;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -43,6 +45,7 @@ public class EncodingServiceTest extends LuteceTestCase
     /**
      * Test of encodeUrl method, of class fr.paris.lutece.portal.service.html.EncodingService.
      */
+	@Test
     public void testEncodeUrl( )
     {
         System.out.println( "encodeUrl" );
@@ -57,6 +60,7 @@ public class EncodingServiceTest extends LuteceTestCase
     /**
      * Test of getEncoding method, of class fr.paris.lutece.portal.service.html.EncodingService.
      */
+	@Test
     public void testGetEncoding( )
     {
         System.out.println( "getEncoding" );

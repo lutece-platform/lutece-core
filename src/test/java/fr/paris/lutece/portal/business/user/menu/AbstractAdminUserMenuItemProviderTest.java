@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.user.menu;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
@@ -40,6 +42,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class AbstractAdminUserMenuItemProviderTest extends LuteceTestCase
 {
+	@Test
     public void testIsInvokedDisabledPlugin( )
     {
         IAdminUserMenuItemProvider provider = new AbstractAdminUserMenuItemProvider( )
@@ -67,7 +70,7 @@ public class AbstractAdminUserMenuItemProviderTest extends LuteceTestCase
         assertFalse( provider.isInvoked( request ) );
         assertNull( request.getAttribute( "called" ) );
     }
-
+	@Test
     public void testIsInvokedEnabledPlugin( )
     {
         IAdminUserMenuItemProvider provider = new AbstractAdminUserMenuItemProvider( )

@@ -39,6 +39,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginEvent;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -50,21 +54,19 @@ public class LinksIncludeCacheServiceTest extends LuteceTestCase
     private @Inject LinksIncludeCacheService service;
     private boolean bOrigCacheStatus;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         bOrigCacheStatus = service.isCacheEnable( );
         service.enableCache( true );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         service.enableCache( bOrigCacheStatus );
-        super.tearDown( );
     }
-
+    @Test
     public void testGetCacheKey( )
     {
         Set<String> keys = new HashSet<>( );
@@ -86,7 +88,7 @@ public class LinksIncludeCacheServiceTest extends LuteceTestCase
             }
         }
     }
-
+    @Test
     public void testProcessPluginEvent( )
     {
         Map<String, Object> value = new HashMap<String, Object>( );

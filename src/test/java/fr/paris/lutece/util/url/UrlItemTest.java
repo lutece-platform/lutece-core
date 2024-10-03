@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.util.url;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -43,6 +45,7 @@ public class UrlItemTest extends LuteceTestCase
     /**
      * Test of addParameter method, of class fr.paris.lutece.util.url.UrlItem.
      */
+	@Test
     public void testUrlItem( )
     {
         System.out.println( "addParameter" );
@@ -65,6 +68,7 @@ public class UrlItemTest extends LuteceTestCase
     /**
      * Test of addAnchor method, of class fr.paris.lutece.util.url.UrlItem.
      */
+	@Test
     public void testAnchorSimple( )
     {
         // Add a parameter to an url that have no parameter
@@ -77,6 +81,7 @@ public class UrlItemTest extends LuteceTestCase
     /**
      * Test of addAnchor method, of class fr.paris.lutece.util.url.UrlItem.
      */
+	@Test
     public void testAnchor( )
     {
         // Add a parameter to an url that have no parameter

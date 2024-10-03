@@ -35,6 +35,10 @@ package fr.paris.lutece.portal.web.editor;
 
 import java.util.Locale;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.editor.RichTextEditorService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -47,23 +51,21 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
     private String _boDefaultEditor;
     private String _foDefaultEditor;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         _instance = new EditorChoiceLutecePanelJspBean( );
         _boDefaultEditor = RichTextEditorService.getBackOfficeDefaultEditor( );
         _foDefaultEditor = RichTextEditorService.getFrontOfficeDefaultEditor( );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         RichTextEditorService.updateBackOfficeDefaultEditor( _boDefaultEditor );
         RichTextEditorService.updateFrontOfficeDefaultEditor( _foDefaultEditor );
-        super.tearDown( );
     }
-
+    @Test
     public void testDoUpdateBackOfficeEditor( ) throws AccessDeniedException
     {
         String strBOEditor = RichTextEditorService.getListEditorsForBackOffice( Locale.FRANCE ).stream( )
@@ -78,7 +80,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
 
         assertEquals( strBOEditor, RichTextEditorService.getBackOfficeDefaultEditor( ) );
     }
-
+    @Test
     public void testDoUpdateBackOfficeEditorInvalidToken( ) throws AccessDeniedException
     {
         String strBOEditor = RichTextEditorService.getListEditorsForBackOffice( Locale.FRANCE ).stream( )
@@ -99,7 +101,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
             assertEquals( _boDefaultEditor, RichTextEditorService.getBackOfficeDefaultEditor( ) );
         }
     }
-
+    @Test
     public void testDoUpdateBackOfficeEditorNoToken( ) throws AccessDeniedException
     {
         String strBOEditor = RichTextEditorService.getListEditorsForBackOffice( Locale.FRANCE ).stream( )
@@ -119,7 +121,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
             assertEquals( _boDefaultEditor, RichTextEditorService.getBackOfficeDefaultEditor( ) );
         }
     }
-
+    @Test
     public void testDoUpdateFrontOfficeEditor( ) throws AccessDeniedException
     {
         String strFOEditor = RichTextEditorService.getListEditorsForFrontOffice( Locale.FRANCE ).stream( )
@@ -134,7 +136,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
 
         assertEquals( strFOEditor, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
     }
-
+    @Test
     public void testDoUpdateFrontOfficeEditorInvalidToken( ) throws AccessDeniedException
     {
         String strFOEditor = RichTextEditorService.getListEditorsForFrontOffice( Locale.FRANCE ).stream( )
@@ -155,7 +157,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
             assertEquals( _foDefaultEditor, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
         }
     }
-
+    @Test
     public void testDoUpdateFrontOfficeEditorNoToken( ) throws AccessDeniedException
     {
         String strFOEditor = RichTextEditorService.getListEditorsForFrontOffice( Locale.FRANCE ).stream( )

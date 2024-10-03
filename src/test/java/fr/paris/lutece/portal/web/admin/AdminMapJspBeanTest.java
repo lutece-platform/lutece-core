@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.admin;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -52,6 +53,7 @@ public class AdminMapJspBeanTest extends LuteceTestCase
     /**
      * Test of getMap method, of class fr.paris.lutece.portal.web.admin.AdminMapJspBean.
      */
+    @Test
     public void testGetMap( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

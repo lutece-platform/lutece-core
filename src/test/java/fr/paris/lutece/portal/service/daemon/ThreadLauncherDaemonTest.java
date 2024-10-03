@@ -45,6 +45,7 @@ import java.util.concurrent.TimeoutException;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -87,6 +88,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
         }
     }
 
+    @Test
     public void testAddItemToQueue( ) throws InterruptedException, BrokenBarrierException, TimeoutException
     {
         CyclicBarrier barrier = new CyclicBarrier( 2 );

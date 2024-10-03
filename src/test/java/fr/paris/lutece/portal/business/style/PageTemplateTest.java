@@ -37,6 +37,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 public class PageTemplateTest extends LuteceTestCase
 {
     private final static String DESCRIPTION1 = "Description 1";
@@ -46,6 +48,7 @@ public class PageTemplateTest extends LuteceTestCase
     private final static String PICTURE1 = "Picture 1";
     private final static String PICTURE2 = "Picture 2";
 
+    @Test
     public void testBusinessPageTemplate( )
     {
         // Initialize an object

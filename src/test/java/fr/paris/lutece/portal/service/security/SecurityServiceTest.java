@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service.security;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.ReflectionTestUtils;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
@@ -50,6 +52,7 @@ public class SecurityServiceTest extends LuteceTestCase
      * 
      * @throws LoginException
      */
+	@Test
     public void testLoginUserFail( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -87,6 +90,7 @@ public class SecurityServiceTest extends LuteceTestCase
      *
      * @throws LoginException
      */
+	@Test
     public void testLoginUserSuccess( ) throws LoginException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

@@ -34,6 +34,8 @@
 package fr.paris.lutece.portal.web.system;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -57,10 +59,9 @@ public class SystemJspBeanTest extends LuteceTestCase
     private MockHttpServletRequest request;
     private SystemJspBean instance;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
 
@@ -71,6 +72,7 @@ public class SystemJspBeanTest extends LuteceTestCase
     /**
      * Test of getManageFilesSystem method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
+    @Test
     public void testGetManageFilesSystem( ) throws AccessDeniedException
     {
         assertTrue( StringUtils.isNotEmpty( instance.getManageFilesSystem( request ) ) );
@@ -79,6 +81,7 @@ public class SystemJspBeanTest extends LuteceTestCase
     /**
      * Test of getManageFilesSystemDir method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
+    @Test
     public void testGetManageFilesSystemDir( ) throws AccessDeniedException
     {
         request.addParameter( PARAMETER_DIR, PARAMETER_DIR_VALUE );
@@ -88,6 +91,7 @@ public class SystemJspBeanTest extends LuteceTestCase
     /**
      * Test of getFileView method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
+    @Test
     public void testGetFileView( ) throws AccessDeniedException
     {
         request.addParameter( PARAMETER_DIRECTORY, PARAMETER_DIR_VALUE );
@@ -99,11 +103,12 @@ public class SystemJspBeanTest extends LuteceTestCase
     /**
      * Test of getManageProperties method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
+    @Test
     public void testGetManageProperties( ) throws AccessDeniedException
     {
         assertTrue( StringUtils.isNotEmpty( instance.getManageProperties( request ) ) );
     }
-
+    @Test
     public void testDoModifyProperties( ) throws AccessDeniedException
     {
         final String property = "portal.site.site_property.email";
@@ -122,7 +127,7 @@ public class SystemJspBeanTest extends LuteceTestCase
             DatastoreService.setDataValue( property, origValue );
         }
     }
-
+    @Test
     public void testDoModifyPropertiesInvalidToken( ) throws AccessDeniedException
     {
         final String property = "portal.site.site_property.email";
@@ -145,7 +150,7 @@ public class SystemJspBeanTest extends LuteceTestCase
             DatastoreService.setDataValue( property, origValue );
         }
     }
-
+    @Test
     public void testDoModifyPropertiesNoToken( ) throws AccessDeniedException
     {
         final String property = "portal.site.site_property.email";

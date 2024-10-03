@@ -53,6 +53,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     /**
      * Test of getContent method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
+	@Test
     public void testGetContent( ) throws Exception
     {
         HttpServletRequest request = new MockHttpServletRequest( );
@@ -66,6 +67,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     /**
      * Test of getStartUpFailurePage method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
+	@Test
     public void testGetStartUpFailurePage( )
     {
         HttpServletRequest request = new MockHttpServletRequest( );
@@ -77,6 +79,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     /**
      * Test of getError500Page method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
+	@Test
     public void testGetError500Page( )
     {
         HttpServletRequest request = new MockHttpServletRequest( );
@@ -88,6 +91,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     /**
      * Test of getError404Page method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
+	@Test
     public void testGetError404Page( )
     {
         HttpServletRequest request = new MockHttpServletRequest( );
@@ -99,6 +103,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     /**
      * Test of getCredits method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
+	@Test
     public void testGetCredits( )
     {
         HttpServletRequest request = new MockHttpServletRequest( );
@@ -110,6 +115,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     /**
      * Test of getLegalInfos method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
+	@Test
     public void testGetLegalInfos( )
     {
         HttpServletRequest request = new MockHttpServletRequest( );
@@ -136,6 +142,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     /**
      * Test of getLoginNextUrl method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
+    @Test
     public void testGetLoginNextUrl( )
     {
         if ( SecurityService.isAuthenticationEnable( ) )

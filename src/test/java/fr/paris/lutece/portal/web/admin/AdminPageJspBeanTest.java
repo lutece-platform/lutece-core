@@ -52,6 +52,7 @@ import org.apache.commons.fileupload2.core.FileUploadException;
 import org.apache.commons.fileupload2.core.FileUploadSizeException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.api.user.UserRole;
 import fr.paris.lutece.portal.business.page.Page;
@@ -157,7 +158,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             RBACHome.removeForRoleKey( roleKey );
         }
     }
-
+    @Test
     public void testGetRemovePageNoArgs( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -166,7 +167,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
     }
-
+    @Test
     public void testGetRemovePageNotANumber( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -176,7 +177,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
     }
-
+    @Test
     public void testGetRemovePageNotExisting( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -186,7 +187,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
     }
-
+    @Test
     public void testGetRemovePage( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -202,7 +203,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( _randomPageName ) );
         }
     }
-
+    @Test
     public void testDoRemovePageNoArgs( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -211,7 +212,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
     }
-
+    @Test
     public void testDoRemovePageNotANumber( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -221,7 +222,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
     }
-
+    @Test
     public void testDoRemovePageNotExisting( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -231,7 +232,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
     }
-
+    @Test
     public void testDoRemovePageWithChild( ) throws AccessDeniedException
     {
         String childPageName = _randomPageName + "-child";
@@ -269,7 +270,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             }
         }
     }
-
+    @Test
     public void testDoRemovePage( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -279,7 +280,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         _bean.doRemovePage( request );
         assertFalse( PageHome.checkPageExist( _page.getId( ) ) );
     }
-
+    @Test
     public void testDoRemovePageNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -294,7 +295,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             assertTrue( PageHome.checkPageExist( _page.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoRemovePageInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -311,7 +312,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             assertTrue( PageHome.checkPageExist( _page.getId( ) ) );
         }
     }
-
+    @Test
     public void testGetAdminPageBlockProperty( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -321,7 +322,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         String html = _bean.getAdminPage( request );
         assertNotNull( html );
     }
-
+    @Test
     public void testDoModifyPage( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -361,7 +362,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         Page page = PageHome.findByPrimaryKey( _page.getId( ) );
         assertEquals( descriptionMod, page.getDescription( ) );
     }
-
+    @Test
     public void testDoModifyPagePageDataError( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -401,7 +402,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         Page page = PageHome.findByPrimaryKey( _page.getId( ) );
         assertEquals( _randomPageName, page.getName( ) );
     }
-
+    @Test
     public void testDoModifyPageInexistentParentPage( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
     {
         int origParentPageId = _page.getParentPageId( );
@@ -441,7 +442,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         Page page = PageHome.findByPrimaryKey( _page.getId( ) );
         assertEquals( origParentPageId, page.getParentPageId( ) );
     }
-
+    @Test
     public void testDoModifyPagePictureError( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -491,7 +492,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNull( page.getImageContent( ) );
         assertNull( page.getMimeType( ) );
     }
-
+    @Test
     public void testDoModifyPageInvalidToken( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -536,7 +537,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             assertEquals( _randomPageName, page.getDescription( ) );
         }
     }
-
+    @Test
     public void testDoModifyPageNoToken( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -578,7 +579,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             assertEquals( _randomPageName, page.getDescription( ) );
         }
     }
-
+    @Test
     public void testDoModifyPageUpdateDateError( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -625,7 +626,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
     }
-
+    @Test
     public void testGetAdminPageBlockChildPage( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -635,7 +636,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         String html = _bean.getAdminPage( request );
         assertNotNull( html );
     }
-
+    @Test
     public void testDoCreateChildPage( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -697,7 +698,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertFalse( children.isEmpty( ) );
         assertTrue( children.stream( ).allMatch( page -> page.getParentPageId( ) == _page.getId( ) && page.getName( ).equals( _page.getName( ) + "_child" ) ) );
     }
-
+    @Test
     public void testDoCreateChildPageInvalidToken( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -753,7 +754,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             assertTrue( children.isEmpty( ) );
         }
     }
-
+    @Test
     public void testDoCreateChildPageNoToken( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

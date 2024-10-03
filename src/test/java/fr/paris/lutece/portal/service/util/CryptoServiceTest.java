@@ -44,6 +44,7 @@ import java.util.Properties;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -60,7 +61,7 @@ public class CryptoServiceTest extends LuteceTestCase
         strOrigCrytoKey = DatastoreService.getDataValue( CryptoService.DSKEY_CRYPTO_KEY, null );
         DatastoreService.removeData( CryptoService.DSKEY_CRYPTO_KEY );
     }
-
+    @Test
     public void testGetCryptoKey( )
     {
         String strCryptoKey = CryptoService.getCryptoKey( );
@@ -69,7 +70,7 @@ public class CryptoServiceTest extends LuteceTestCase
         assertTrue( strCryptoKey.length( ) >= 64 );
         assertEquals( strCryptoKey, CryptoService.getCryptoKey( ) );
     }
-
+    @Test
     public void testGetCryptoKeyLegacy( ) throws FileNotFoundException, IOException
     {
         final String strLegacyKey = "LEGACY";
@@ -115,7 +116,7 @@ public class CryptoServiceTest extends LuteceTestCase
         }
         AppPropertiesService.reloadAll( );
     }
-
+    @Test
     public void testHmacSHA256( )
     {
         assertNotNull( CryptoService.hmacSHA256( "message" ) );

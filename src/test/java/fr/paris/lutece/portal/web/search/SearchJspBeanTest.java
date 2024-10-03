@@ -39,6 +39,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.search.SearchParameterHome;
@@ -65,24 +69,22 @@ public class SearchJspBeanTest extends LuteceTestCase
     private SearchJspBean _bean;
     private ReferenceList _origSearchParameters;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         _bean = new SearchJspBean( );
         _origSearchParameters = SearchParameterHome.findParametersList( );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         for ( ReferenceItem param : _origSearchParameters )
         {
             SearchParameterHome.update( param );
         }
-        super.tearDown( );
     }
-
+    @Test
     public void testDoModifyAdvancedParameters( ) throws AccessDeniedException
     {
         String strTypeFilter;
@@ -163,7 +165,7 @@ public class SearchJspBeanTest extends LuteceTestCase
         assertEquals( strDateFilter, SearchParameterHome.findByKey( PARAMETER_DATE_FILTER ).getName( ) );
         assertEquals( strTagFilter, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName( ) );
     }
-
+    @Test
     public void testDoModifyAdvancedParametersInvalidToken( ) throws AccessDeniedException
     {
         String strTypeFilter;
@@ -239,7 +241,7 @@ public class SearchJspBeanTest extends LuteceTestCase
             }
         }
     }
-
+    @Test
     public void testDoModifyAdvancedParametersNoToken( ) throws AccessDeniedException
     {
         String strTypeFilter;

@@ -47,6 +47,9 @@ import java.util.stream.Collectors;
 import org.apache.commons.fileupload2.core.DiskFileItem;
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.core.FileItem;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
@@ -70,10 +73,9 @@ public class XslExportJspBeanTest extends LuteceTestCase
     private XslExportJspBean _instance;
     private XslExport _xslExport;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         _instance = new XslExportJspBean( );
         String strName = getRandomName( );
         _xslExport = new XslExport( );
@@ -93,7 +95,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         XslExportHome.create( _xslExport );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         XslExportHome.remove( _xslExport.getIdXslExport( ) );
@@ -102,9 +104,8 @@ public class XslExportJspBeanTest extends LuteceTestCase
         {
             FileHome.remove( file.getIdFile( ) );
         }
-        super.tearDown( );
     }
-
+    @Test
     public void testGetCreateXslExport( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -115,7 +116,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
         assertNotNull( _instance.getCreateXslExport( request ) );
     }
-
+    @Test
     public void testDoCreateXslExport( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -157,7 +158,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
             XslExportHome.getList( ).stream( ).filter( e -> randomName.equals( e.getTitle( ) ) ).forEach( e -> XslExportHome.remove( e.getIdXslExport( ) ) );
         }
     }
-
+    @Test
     public void testDoCreateXslExportInvalidToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -203,7 +204,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
             XslExportHome.getList( ).stream( ).filter( e -> randomName.equals( e.getTitle( ) ) ).forEach( e -> XslExportHome.remove( e.getIdXslExport( ) ) );
         }
     }
-
+    @Test
     public void testDoCreateXslExportNoToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -254,7 +255,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
-
+    @Test
     public void testGetModifyXslExport( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -265,7 +266,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
         assertNotNull( _instance.getModifyXslExport( request ) );
     }
-
+    @Test
     public void testDoModifyXslExport( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -301,7 +302,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         assertEquals( randomName, stored.getDescription( ) );
         assertEquals( randomName, stored.getExtension( ) );
     }
-
+    @Test
     public void testDoModifyXslExportInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -343,7 +344,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
             assertEquals( _xslExport.getExtension( ), stored.getExtension( ) );
         }
     }
-
+    @Test
     public void testDoModifyXslExportNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -382,7 +383,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
             assertEquals( _xslExport.getExtension( ), stored.getExtension( ) );
         }
     }
-
+    @Test
     public void testGetConfirmRemoveXslExport( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -398,7 +399,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
-
+    @Test
     public void testDoRemoveXslExport( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -416,7 +417,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         XslExport stored = XslExportHome.findByPrimaryKey( _xslExport.getIdXslExport( ) );
         assertNull( stored );
     }
-
+    @Test
     public void testDoRemoveXslExportInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -440,7 +441,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
             assertNotNull( stored );
         }
     }
-
+    @Test
     public void testDoRemoveXslExportNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

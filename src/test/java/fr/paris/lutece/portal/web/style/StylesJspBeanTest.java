@@ -38,6 +38,9 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.style.Style;
 import fr.paris.lutece.portal.business.style.StyleHome;
@@ -62,10 +65,9 @@ public class StylesJspBeanTest extends LuteceTestCase
     private StylesJspBean instance;
     private Style style;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         instance = new StylesJspBean( );
         style = new Style( );
         int nId = StyleHome.getStylesList( ).stream( ).map( Style::getId ).max( Integer::compare ).get( ) + 1;
@@ -75,11 +77,10 @@ public class StylesJspBeanTest extends LuteceTestCase
         StyleHome.create( style );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         StyleHome.remove( style.getId( ) );
-        super.tearDown( );
     }
 
     private String getRandomName( )
@@ -92,6 +93,7 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of getStylesManagement method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
      */
+    @Test
     public void testGetStylesManagement( ) throws AccessDeniedException
     {
         System.out.println( "getStylesManagement" );
@@ -106,6 +108,7 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of getCreateStyle method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
      */
+    @Test
     public void testGetCreateStyle( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -121,6 +124,7 @@ public class StylesJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoCreateStyle( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -145,7 +149,7 @@ public class StylesJspBeanTest extends LuteceTestCase
             StyleHome.remove( nId );
         }
     }
-
+    @Test
     public void testDoCreateStyleInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -172,7 +176,7 @@ public class StylesJspBeanTest extends LuteceTestCase
             StyleHome.remove( nId );
         }
     }
-
+    @Test
     public void testDoCreateStyleNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -201,6 +205,7 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of getModifyStyle method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
      */
+    @Test
     public void testGetModifyStyle( ) throws AccessDeniedException
     {
         int nStyleId = style.getId( );
@@ -218,6 +223,7 @@ public class StylesJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoModifyStyle( ) throws AccessDeniedException
     {
         int nStyleId = style.getId( );
@@ -234,7 +240,7 @@ public class StylesJspBeanTest extends LuteceTestCase
         assertEquals( style.getId( ), stored.getId( ) );
         assertEquals( style.getDescription( ) + "_mod", stored.getDescription( ) );
     }
-
+    @Test
     public void testDoModifyStyleInvalidToken( ) throws AccessDeniedException
     {
         int nStyleId = style.getId( );
@@ -257,7 +263,7 @@ public class StylesJspBeanTest extends LuteceTestCase
             assertEquals( style.getDescription( ), stored.getDescription( ) );
         }
     }
-
+    @Test
     public void testDoModifyStyleNoToken( ) throws AccessDeniedException
     {
         int nStyleId = style.getId( );
@@ -282,6 +288,7 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of getConfirmRemoveStyle method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
      */
+    @Test
     public void testGetConfirmRemoveStyle( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -294,7 +301,7 @@ public class StylesJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
-
+    @Test
     public void testGetConfirmRemoveStyleWithStyleSheet( ) throws AccessDeniedException
     {
         StyleSheet stylesheet = new StyleSheet( );
@@ -329,6 +336,7 @@ public class StylesJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoRemoveStyle( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -338,7 +346,7 @@ public class StylesJspBeanTest extends LuteceTestCase
         instance.doRemoveStyle( request );
         assertNull( StyleHome.findByPrimaryKey( style.getId( ) ) );
     }
-
+    @Test
     public void testDoRemoveStyleInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -355,7 +363,7 @@ public class StylesJspBeanTest extends LuteceTestCase
             assertNotNull( StyleHome.findByPrimaryKey( style.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoRemoveStyleNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

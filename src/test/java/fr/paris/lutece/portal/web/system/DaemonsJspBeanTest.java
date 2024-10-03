@@ -43,6 +43,10 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
@@ -67,10 +71,9 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     private String origMaxInitialStartDelay;
     private TestDaemon _testDaemon;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         origMaxInitialStartDelay = setInitialStartDelay( );
         assertEquals( "Failed to adjust daemon initial start delay", 1, AppPropertiesService.getPropertyInt( "daemon.maxInitialStartDelay", 3000 ) );
         bean = new DaemonsJspBean( );
@@ -104,7 +107,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         return orig;
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         // Attempt to unlock test daemon threads that would be blocked on the barriers,
@@ -129,7 +132,6 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         restoreInitialStartDelay( origMaxInitialStartDelay );
         assertEquals( origMaxInitialStartDelay,
                 AppPropertiesService.getProperty( "daemon.maxInitialStartDelay" ), "Failed to restore daemon initial start delay" );
-        super.tearDown( );
     }
 
     private void restoreInitialStartDelay( String orig ) throws FileNotFoundException, IOException
@@ -154,7 +156,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         }
         AppPropertiesService.reloadAll( );
     }
-
+    @Test
     public void testDoDaemonActionStart( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
@@ -187,7 +189,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         assertTrue( "Daemon should be re-scheduled approximately 1 second after the end of the previous run, but got " + lRescheduleDurationMilliseconds + "ms",
                 1000 - lMarginMilliseconds <= lRescheduleDurationMilliseconds && lRescheduleDurationMilliseconds <= 1000 + lMarginMilliseconds );
     }
-
+    @Test
     public void testDoDaemonActionStartInvalidToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
@@ -215,7 +217,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             }
         }
     }
-
+    @Test
     public void testDoDaemonActionStartNoToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
@@ -242,7 +244,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             }
         }
     }
-
+    @Test
     public void testDoDaemonActionStop( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
@@ -270,7 +272,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             // ok
         }
     }
-
+    @Test
     public void testDoDaemonActionStopInvalidToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
@@ -296,7 +298,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             _testDaemon.waitForCompletion( );
         }
     }
-
+    @Test
     public void testDoDaemonActionStopNoToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
@@ -321,7 +323,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             _testDaemon.waitForCompletion( );
         }
     }
-
+    @Test
     public void testDoDaemonActionRun( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
@@ -353,7 +355,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
 
         _testDaemon.waitForCompletion( );
     }
-
+    @Test
     public void testDoDaemonActionRunInvalidToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
@@ -396,7 +398,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             }
         }
     }
-
+    @Test
     public void testDoDaemonActionRunNoToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
@@ -438,7 +440,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             }
         }
     }
-
+    @Test
     public void testDoDaemonActionUpdateInterval( ) throws AccessDeniedException
     {
         final long lTestInterval = 314159L;
@@ -450,7 +452,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         bean.doDaemonAction( request );
         assertEquals( lTestInterval, _entry.getInterval( ) );
     }
-
+    @Test
     public void testDoDaemonActionUpdateIntervalInvalidToken( ) throws AccessDeniedException
     {
         final long lTestInterval = 314159L;
@@ -469,7 +471,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             assertEquals( 1, _entry.getInterval( ) );
         }
     }
-
+    @Test
     public void testDoDaemonActionUpdateIntervalNoToken( ) throws AccessDeniedException
     {
         final long lTestInterval = 314159L;
@@ -488,7 +490,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             assertEquals( 1, _entry.getInterval( ) );
         }
     }
-
+    @Test
     public void testDoDaemonActionUnknown( ) throws AccessDeniedException
     {
         try
@@ -503,7 +505,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             fail( e.getMessage( ) );
         }
     }
-
+    @Test
     public void testGetManageDaemons( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

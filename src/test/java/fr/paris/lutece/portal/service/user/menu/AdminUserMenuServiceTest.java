@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.user.menu;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.menu.AdminUserMenuItem;
 import fr.paris.lutece.portal.business.user.menu.IAdminUserMenuItemProvider;
@@ -59,7 +60,7 @@ public class AdminUserMenuServiceTest extends LuteceTestCase
             _service.addItemProvider( item, null, null );
         }
     }
-
+    @Test
     public void testAddItemProvider( )
     {
         final String strClass = "testAddItemProvider";
@@ -74,7 +75,7 @@ public class AdminUserMenuServiceTest extends LuteceTestCase
         assertEquals( NUM_ITEMS + 1, items.size( ) );
         assertEquals( strClass, items.get( NUM_ITEMS ).getItemClass( ) );
     }
-
+    @Test
     public void testAddItemProviderAfterFirst( )
     {
         final String strClass = "testAddItemProvider";
@@ -89,7 +90,7 @@ public class AdminUserMenuServiceTest extends LuteceTestCase
         assertEquals( NUM_ITEMS + 1, items.size( ) );
         assertEquals( strClass, items.get( 1 ).getItemClass( ) );
     }
-
+    @Test
     public void testAddItemProviderAfterLast( )
     {
         final String strClass = "testAddItemProvider";
@@ -104,7 +105,7 @@ public class AdminUserMenuServiceTest extends LuteceTestCase
         assertEquals( NUM_ITEMS + 1, items.size( ) );
         assertEquals( strClass, items.get( NUM_ITEMS ).getItemClass( ) );
     }
-
+    @Test
     public void testAddItemProviderAfterUnknown( )
     {
         final String strClass = "testAddItemProvider";
@@ -119,7 +120,7 @@ public class AdminUserMenuServiceTest extends LuteceTestCase
         assertEquals( NUM_ITEMS + 1, items.size( ) );
         assertEquals( strClass, items.get( NUM_ITEMS ).getItemClass( ) );
     }
-
+    @Test
     public void testAddItemProviderBeforeFirst( )
     {
         final String strClass = "testAddItemProvider";
@@ -134,7 +135,7 @@ public class AdminUserMenuServiceTest extends LuteceTestCase
         assertEquals( NUM_ITEMS + 1, items.size( ) );
         assertEquals( strClass, items.get( 0 ).getItemClass( ) );
     }
-
+    @Test
     public void testAddItemProviderBeforeLast( )
     {
         final String strClass = "testAddItemProvider";
@@ -149,7 +150,7 @@ public class AdminUserMenuServiceTest extends LuteceTestCase
         assertEquals( NUM_ITEMS + 1, items.size( ) );
         assertEquals( strClass, items.get( NUM_ITEMS - 1 ).getItemClass( ) );
     }
-
+    @Test
     public void testAddItemProviderBeforeUnknown( )
     {
         final String strClass = "testAddItemProvider";
@@ -164,7 +165,7 @@ public class AdminUserMenuServiceTest extends LuteceTestCase
         assertEquals( NUM_ITEMS + 1, items.size( ) );
         assertEquals( strClass, items.get( NUM_ITEMS ).getItemClass( ) );
     }
-
+    @Test
     public void testGetItems( )
     {
         HttpServletRequest request = new MockHttpServletRequest( );
@@ -177,7 +178,7 @@ public class AdminUserMenuServiceTest extends LuteceTestCase
             assertEquals( Integer.toString( i ), items.get( i ).getItemClass( ) );
         }
     }
-
+    @Test
     public void testGetItemsInvoked( )
     {
         assertTrue( NUM_ITEMS >= 2 );

@@ -68,12 +68,12 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     private FeaturesGroupJspBean instance;
     private FeatureGroup featureGroup;
     private Right right;
+    private @Inject IRightDAO rightDAO;
 
-    @Override
+    
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         instance = new FeaturesGroupJspBean( );
         String strGroupName = getRandomName( );
         featureGroup = new FeatureGroup( );
@@ -90,13 +90,11 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         RightHome.create( right );
     }
 
-    @Override
     @AfterEach
     protected void tearDown( ) throws Exception
     {
         RightHome.remove( right.getId( ) );
         FeatureGroupHome.remove( featureGroup.getId( ) );
-        super.tearDown( );
     }
 
     /**
@@ -104,6 +102,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoDispatchFeature( ) throws AccessDeniedException
     {
         Right stored = RightHome.findByPrimaryKey( right.getId( ) );
@@ -123,7 +122,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         assertEquals( featureGroup.getId( ), stored.getFeatureGroup( ) );
         assertEquals( stored.getOrder( ) + 1, right.getOrder( ) );
     }
-
+    @Test
     public void testDoDispatchFeatureInvalidToken( ) throws AccessDeniedException
     {
         Right stored = RightHome.findByPrimaryKey( right.getId( ) );
@@ -150,7 +149,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             assertEquals( right.getOrder( ), stored.getOrder( ) );
         }
     }
-
+    @Test
     public void testDoDispatchFeatureNoToken( ) throws AccessDeniedException
     {
         Right stored = RightHome.findByPrimaryKey( right.getId( ) );
@@ -179,6 +178,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     /**
      * Test of getCreateGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
+    @Test
     public void testGetCreateGroup( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -191,6 +191,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     /**
      * Test of getModifyGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
+    @Test
     public void testGetModifyGroup( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -206,6 +207,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoCreateGroup( ) throws AccessDeniedException
     {
         String strGroupName = getRandomName( );
@@ -232,7 +234,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             FeatureGroupHome.remove( strGroupName );
         }
     }
-
+    @Test
     public void testDoCreateGroupInvalidToken( ) throws AccessDeniedException
     {
         String strGroupName = getRandomName( );
@@ -259,7 +261,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             FeatureGroupHome.remove( strGroupName );
         }
     }
-
+    @Test
     public void testDoCreateGroupNoToken( ) throws AccessDeniedException
     {
         String strGroupName = getRandomName( );
@@ -297,6 +299,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoModifyGroup( ) throws AccessDeniedException
     {
         String strGroupName = getRandomName( );
@@ -316,7 +319,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         assertEquals( strGroupName, group.getDescriptionKey( ) );
         assertEquals( featureGroup.getOrder( ) + 1, group.getOrder( ) );
     }
-
+    @Test
     public void testDoModifyGroupInvalidToken( ) throws AccessDeniedException
     {
         String strGroupName = getRandomName( );
@@ -343,7 +346,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             assertEquals( featureGroup.getOrder( ), group.getOrder( ) );
         }
     }
-
+    @Test
     public void testDoModifyGroupNoToken( ) throws AccessDeniedException
     {
         String strGroupName = getRandomName( );
@@ -391,6 +394,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoRemoveGroup( ) throws AccessDeniedException
     {
         assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
@@ -402,7 +406,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         instance.doRemoveGroup( request );
         assertNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
     }
-
+    @Test
     public void testDoRemoveGroupInvalidToken( ) throws AccessDeniedException
     {
         assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
@@ -421,7 +425,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoRemoveGroupNoToken( ) throws AccessDeniedException
     {
         assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
@@ -438,7 +442,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoDispatchFeatureGroup( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -453,7 +457,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         assertEquals( featureGroup.getOrder( ) + 1, stored.getOrder( ) );
 
     }
-
+    @Test
     public void testDoDispatchFeatureGroupInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -474,7 +478,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             assertEquals( featureGroup.getOrder( ), stored.getOrder( ) );
         }
     }
-
+    @Test
     public void testDoDispatchFeatureGroupNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -493,7 +497,8 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             assertEquals( featureGroup.getOrder( ), stored.getOrder( ) );
         }
     }
-private @Inject IRightDAO rightDAO;
+    
+    @Test
     public void testDoReinitFeatures( ) throws AccessDeniedException
     {
         right.setFeatureGroup( featureGroup.getId( ) );
@@ -515,7 +520,7 @@ private @Inject IRightDAO rightDAO;
         assertNotNull( stored );
         assertEquals( 1, stored.getOrder( ) );
     }
-
+    @Test
     public void testDoReinitFeaturesInvalidToken( ) throws AccessDeniedException
     {
         right.setFeatureGroup( featureGroup.getId( ) );
@@ -544,7 +549,7 @@ private @Inject IRightDAO rightDAO;
             assertEquals( 100, stored.getOrder( ) );
         }
     }
-
+    @Test
     public void testDoReinitFeaturesNoToken( ) throws AccessDeniedException
     {
         right.setFeatureGroup( featureGroup.getId( ) );

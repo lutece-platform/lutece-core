@@ -35,6 +35,8 @@ package fr.paris.lutece.util.string;
 
 import java.io.IOException;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -46,6 +48,7 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of substitute method, of class fr.paris.lutece.util.string.StringUtil.
      */
+	@Test
     public void testSubstitute( )
     {
         System.out.println( "substitute" );
@@ -62,6 +65,7 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of replaceAccent method, of class fr.paris.lutece.util.string.StringUtil.
      */
+	@Test
     public void testReplaceAccent( )
     {
         System.out.println( "replaceAccent" );
@@ -76,6 +80,7 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of containsHtmlSpecialCharacters method, of class fr.paris.lutece.util.string.StringUtil.
      */
+	@Test
     public void testContainsHtmlSpecialCharacters( )
     {
         System.out.println( "containsHtmlSpecialCharacters" );
@@ -90,6 +95,7 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of containsXssCharacters method, of class fr.paris.lutece.util.string.StringUtil.
      */
+	@Test
     public void testContainsXssCharacters( )
     {
         System.out.println( "containsXssCharacters" );
@@ -104,6 +110,7 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of getXssCharactersAsString method, of class fr.paris.lutece.util.string.StringUtil.
      */
+	@Test
     public void testGetXssCharactersAsString( )
     {
         System.out.println( "getXssCharactersAsString" );
@@ -116,6 +123,7 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of compress & decompress method, of class fr.paris.lutece.util.string.StringUtil.
      */
+	@Test
     public void testCompress( )
     {
     	String source = "test compress [ é$âë  \"€ \r\n 123 ]";

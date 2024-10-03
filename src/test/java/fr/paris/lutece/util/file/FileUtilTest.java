@@ -41,23 +41,26 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 public class FileUtilTest extends LuteceTestCase
 {
 
+	@Test
     public void testHasImageExtension( )
     {
         assertTrue( FileUtil.hasImageExtension( "temp.jpg" ) );
         assertFalse( FileUtil.hasImageExtension( "temp.html" ) );
     }
-
+	@Test
     public void testHasHtmlExtension( )
     {
         assertFalse( FileUtil.hasHtmlExtension( "temp.jpg" ) );
         assertTrue( FileUtil.hasHtmlExtension( "temp.html" ) );
     }
-
+	@Test
     public void testZipFiles( )
     {
         try
@@ -95,7 +98,7 @@ public class FileUtilTest extends LuteceTestCase
             fail( e.getMessage( ) );
         }
     }
-
+	@Test
     public void testNormalizeFileName( )
     {
         String input = "Test éèà:ô";

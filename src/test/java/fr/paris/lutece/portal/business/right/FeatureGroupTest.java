@@ -37,6 +37,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 public class FeatureGroupTest extends LuteceTestCase
 {
     private static final String ID = "JUNIT_FG";
@@ -47,6 +49,7 @@ public class FeatureGroupTest extends LuteceTestCase
     private final static int ORDER1 = 1;
     private final static int ORDER2 = 2;
 
+    @Test
     public void testBusinessFeatureGroup( )
     {
         // Initialize an object

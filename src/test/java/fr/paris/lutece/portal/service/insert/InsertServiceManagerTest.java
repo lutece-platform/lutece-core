@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.insert;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -43,6 +45,7 @@ public class InsertServiceManagerTest extends LuteceTestCase
     /**
      * Test of registerInsertService method, of class fr.paris.lutece.portal.service.insert.InsertServiceManager.
      */
+	@Test
     public void testRegisterInsertService( )
     {
         MockInsertService is = new MockInsertService( );

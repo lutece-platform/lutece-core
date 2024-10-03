@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.business.right;
 
 import java.util.Collection;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 public class LevelTest extends LuteceTestCase
@@ -42,6 +44,7 @@ public class LevelTest extends LuteceTestCase
     private final static String NAME1 = "Level 1 JUnit";
     private final static String NAME2 = "Level 2 JUnit";
 
+    @Test
     public void testBusinessLevel( )
     {
         // Initialize an object

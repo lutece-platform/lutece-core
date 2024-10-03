@@ -37,6 +37,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Test;
+
 /**
  * UserPreferencesDAOTest
  */
@@ -47,6 +49,7 @@ public class UserPreferencesDAOTest extends LuteceTestCase
     private final static String DEFAULT = "default";
     private final static String VALUE1 = "Value 1";
 
+    @Test
     public void testBusinessLevel( )
     {
         UserPreferencesDAO dao = new UserPreferencesDAO( );

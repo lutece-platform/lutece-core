@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.web.search;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -52,6 +54,7 @@ public class SearchAppTest extends LuteceTestCase
      * 
      * @throws SiteMessageException
      */
+    @Test
     public void testGetPage( ) throws SiteMessageException
     {
         System.out.println( "getPage" );

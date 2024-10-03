@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.role;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.test.LuteceTestCase;
 
 public class RoleTest extends LuteceTestCase
@@ -42,6 +44,7 @@ public class RoleTest extends LuteceTestCase
     private final static String ROLEDESCRIPTION2 = "RoleDescription 2";
     private final static String WORKGROUP_KEY = "all";
 
+    @Test
     public void testBusinessRole( )
     {
         // Initialize an object

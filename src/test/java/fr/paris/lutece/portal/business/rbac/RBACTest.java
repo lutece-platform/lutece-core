@@ -37,6 +37,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Collection;
 
+import org.junit.jupiter.api.Test;
+
 public class RBACTest extends LuteceTestCase
 {
     private final static String ROLEKEY1 = "RoleKey 1";
@@ -48,6 +50,7 @@ public class RBACTest extends LuteceTestCase
     private final static String PERMISSION1 = "Permission 1";
     private final static String PERMISSION2 = "Permission 2";
 
+    @Test
     public void testBusiness( )
     {
         // Initialize an object 1

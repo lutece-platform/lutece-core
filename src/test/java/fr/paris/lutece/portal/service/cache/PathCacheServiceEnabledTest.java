@@ -60,22 +60,18 @@ public class PathCacheServiceEnabledTest extends LuteceTestCase
     private @Inject PathCacheService service;
     boolean bEnabled;
     
-    @Override
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         bEnabled = service.isCacheEnable( );
         service.enableCache( true );
         assertNotNull( service );
     }
 
-    @Override
     @AfterEach
     protected void tearDown( ) throws Exception
     {
         service.enableCache( bEnabled );
-        super.tearDown( );
     }
     
     @Test

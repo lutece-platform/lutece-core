@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.service.security.impl.DefaultAccessLogger;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -49,6 +51,7 @@ public final class DefaultAccessLoggerTest extends LuteceTestCase
      * test valid hash
      *
      */
+    @Test
     public void testValidHashMessage( )
     {
         DefaultAccessLogger logger = new DefaultAccessLogger( );
@@ -60,6 +63,7 @@ public final class DefaultAccessLoggerTest extends LuteceTestCase
      * test wrong hash
      *
      */
+    @Test
     public void testWrongHashMessage( )
     {
         DefaultAccessLogger logger = new DefaultAccessLogger( );

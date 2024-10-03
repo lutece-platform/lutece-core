@@ -42,6 +42,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeType;
@@ -62,10 +66,9 @@ public class AttributeJspBeanTest extends LuteceTestCase
 {
     private Map<AttributeType, IAttribute> _attributes;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         _attributes = new HashMap<>( );
         List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
@@ -83,16 +86,15 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         for ( IAttribute attribute : _attributes.values( ) )
         {
             AttributeService.getInstance( ).removeAttribute( attribute.getIdAttribute( ) );
         }
-        super.tearDown( );
     }
-
+    @Test
     public void testGetCreateAttribute( ) throws PasswordResetException, AccessDeniedException
     {
         List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
@@ -113,7 +115,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         assertNotNull( instance.getCreateAttribute( request ) );
     }
-
+    @Test
     public void testDoCreateAttribute( )
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
@@ -152,7 +154,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
                     .forEach( a -> AttributeService.getInstance( ).removeAttribute( a.getIdAttribute( ) ) );
         }
     }
-
+    @Test
     public void testDoCreateAttributeInvalidToken( )
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
@@ -195,7 +197,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
                     .forEach( a -> AttributeService.getInstance( ).removeAttribute( a.getIdAttribute( ) ) );
         }
     }
-
+    @Test
     public void testDoCreateAttributeNoToken( )
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
@@ -235,7 +237,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
                     .forEach( a -> AttributeService.getInstance( ).removeAttribute( a.getIdAttribute( ) ) );
         }
     }
-
+    @Test
     public void testGetModifyAttribute( ) throws PasswordResetException, AccessDeniedException
     {
         List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
@@ -258,7 +260,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         assertNotNull( instance.getModifyAttribute( request ) );
     }
-
+    @Test
     public void testDoModifyAttribute( )
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
@@ -292,7 +294,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         assertNotNull( stored );
         assertEquals( strTitle, stored.getTitle( ) );
     }
-
+    @Test
     public void testDoModifyAttributeInvalidToken( )
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
@@ -333,7 +335,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             assertEquals( attribute.getTitle( ), stored.getTitle( ) );
         }
     }
-
+    @Test
     public void testDoModifyAttributeNoToken( )
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
@@ -371,7 +373,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             assertEquals( attribute.getTitle( ), stored.getTitle( ) );
         }
     }
-
+    @Test
     public void testDoConfirmRemoveAttribute( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -385,7 +387,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
-
+    @Test
     public void testDoRemoveAttribute( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -400,7 +402,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         IAttribute stored = AttributeService.getInstance( ).getAttributeWithoutFields( idAttribute, Locale.FRANCE );
         assertNull( stored );
     }
-
+    @Test
     public void testDoRemoveAttributeInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -421,7 +423,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             assertNotNull( stored );
         }
     }
-
+    @Test
     public void testDoRemoveAttributeNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -440,7 +442,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             assertNotNull( stored );
         }
     }
-
+    @Test
     public void testDoMoveDownAttribute( ) throws PasswordResetException, AccessDeniedException
     {
         List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( Locale.FRANCE );
@@ -464,7 +466,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         assertNotNull( stored );
         assertEquals( nPosition + 1, stored.getPosition( ) );
     }
-
+    @Test
     public void testDoMoveDownAttributeInvalidToken( ) throws PasswordResetException, AccessDeniedException
     {
         List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( Locale.FRANCE );
@@ -494,7 +496,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             assertEquals( nPosition, stored.getPosition( ) );
         }
     }
-
+    @Test
     public void testDoMoveDownAttributeNoToken( ) throws PasswordResetException, AccessDeniedException
     {
         List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( Locale.FRANCE );
@@ -522,7 +524,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             assertEquals( nPosition, stored.getPosition( ) );
         }
     }
-
+    @Test
     public void testDoMoveUpAttribute( ) throws PasswordResetException, AccessDeniedException
     {
         List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( Locale.FRANCE );
@@ -546,7 +548,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         assertNotNull( stored );
         assertEquals( nPosition - 1, stored.getPosition( ) );
     }
-
+    @Test
     public void testDoMoveUpAttributeInvalidToken( ) throws PasswordResetException, AccessDeniedException
     {
         List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( Locale.FRANCE );
@@ -576,7 +578,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             assertEquals( nPosition, stored.getPosition( ) );
         }
     }
-
+    @Test
     public void testDoMoveUpAttributeNoToken( ) throws PasswordResetException, AccessDeniedException
     {
         List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( Locale.FRANCE );

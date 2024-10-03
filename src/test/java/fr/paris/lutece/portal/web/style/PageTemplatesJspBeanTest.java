@@ -47,6 +47,8 @@ import org.apache.commons.fileupload2.core.DiskFileItem;
 import org.apache.commons.fileupload2.core.DiskFileItemFactory;
 import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
@@ -71,10 +73,9 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     private MockHttpServletRequest request;
     private PageTemplatesJspBean instance;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
         instance = new PageTemplatesJspBean( );
@@ -84,6 +85,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     /**
      * Test of getManagePageTemplate method, of class fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
+    @Test
     public void testGetManagePageTemplate( ) throws AccessDeniedException
     {
         assertTrue( StringUtils.isNotEmpty( instance.getManagePageTemplate( request ) ) );
@@ -92,6 +94,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     /**
      * Test of getCreatePageTemplate method, of class fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
+    @Test
     public void testGetCreatePageTemplate( ) throws AccessDeniedException
     {
         assertTrue( StringUtils.isNotEmpty( instance.getCreatePageTemplate( request ) ) );
@@ -103,6 +106,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
      * @throws AccessDeniedException
      * @throws IOException
      */
+    @Test
     public void testDoCreatePageTemplate( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
@@ -139,7 +143,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
                     .forEach( t -> PageTemplateHome.remove( t.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoCreatePageTemplateInvalidToken( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
@@ -180,7 +184,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
                     .forEach( t -> PageTemplateHome.remove( t.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoCreatePageTemplateNoToken( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
@@ -222,6 +226,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     /**
      * Test of getModifyPageTemplate method, of class fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
+    @Test
     public void testGetModifyPageTemplate( ) throws AccessDeniedException
     {
         request.addParameter( Parameters.PAGE_TEMPLATE_ID, TEST_PAGE_TEMPLATE_ID );
@@ -233,6 +238,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
      * 
      * @throws AccessDeniedException
      */
+    @Test
     public void testDoModifyPageTemplate( ) throws AccessDeniedException
     {
         final String desc = getRandomName( );
@@ -262,7 +268,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             PageTemplateHome.remove( pageTemplate.getId( ) );
         }
     }
-
+    @Test
     public void testDoModifyPageTemplateInvalidToken( ) throws AccessDeniedException
     {
         final String desc = getRandomName( );
@@ -296,7 +302,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             PageTemplateHome.remove( pageTemplate.getId( ) );
         }
     }
-
+    @Test
     public void testDoModifyPageTemplateNoToken( ) throws AccessDeniedException
     {
         final String desc = getRandomName( );
@@ -327,7 +333,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             PageTemplateHome.remove( pageTemplate.getId( ) );
         }
     }
-
+    @Test
     public void testGetConfirmRemovePageTemplate( )
     {
         request.addParameter( Parameters.PAGE_TEMPLATE_ID, TEST_PAGE_TEMPLATE_ID );
@@ -340,7 +346,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             assertEquals( TEST_PAGE_TEMPLATE_ID, message.getRequestParameters( ).get( Parameters.PAGE_TEMPLATE_ID ) );
         }
     }
-
+    @Test
     public void testDoRemovePageTemplate( ) throws AccessDeniedException
     {
         final String desc = getRandomName( );
@@ -363,7 +369,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             PageTemplateHome.remove( pageTemplate.getId( ) );
         }
     }
-
+    @Test
     public void testDoRemovePageTemplateInvalidToken( ) throws AccessDeniedException
     {
         final String desc = getRandomName( );
@@ -390,7 +396,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             PageTemplateHome.remove( pageTemplate.getId( ) );
         }
     }
-
+    @Test
     public void testDoRemovePageTemplateNoToken( ) throws AccessDeniedException
     {
         final String desc = getRandomName( );

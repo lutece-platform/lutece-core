@@ -45,6 +45,8 @@ import java.sql.Connection;
 
 import java.util.HashMap;
 
+import org.junit.jupiter.api.Test;
+
 /**
  * This class tests the class fr.paris.lutece.portal.util.AppInit.
  */
@@ -53,6 +55,7 @@ public class AppInitTest extends LuteceTestCase
     /**
      * Check Template service
      */
+	@Test
     public void testTemplateService( )
     {
         HashMap<String, String> model = new HashMap<>( );
@@ -66,6 +69,7 @@ public class AppInitTest extends LuteceTestCase
     /**
      * Check some keys from config.properties
      */
+	@Test
     public void testInitConfigProperties( )
     {
         assertEquals( "UTF-8", AppPropertiesService.getProperty( "lutece.encoding" ) );
@@ -74,6 +78,7 @@ public class AppInitTest extends LuteceTestCase
     /**
      * Check some keys from lutece.properties
      */
+	@Test
     public void testInitLuteceProperties( )
     {
         assertNotNull( AppPropertiesService.getProperty( "lutece.page.root" ) );
@@ -83,6 +88,7 @@ public class AppInitTest extends LuteceTestCase
     /**
      * Check pool initialization for AppConnection Service
      */
+	@Test
     public void testInitAppConnectionService( )
     {
         Connection connection = AppConnectionService.getConnection( );

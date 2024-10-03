@@ -37,6 +37,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Collection;
 
+import org.junit.jupiter.api.Test;
+
 public class RightTest extends LuteceTestCase
 {
     private static final String RIGHT_ID = "JUNIT_TEST_RIGHT";
@@ -57,6 +59,7 @@ public class RightTest extends LuteceTestCase
     private final static boolean IS_EXTERNAL_FEATURE1 = false;
     private final static boolean IS_EXTERNAL_FEATURE2 = true;
 
+    @Test
     public void testBusinessRight( )
     {
         // Initialize an object

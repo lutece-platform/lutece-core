@@ -37,6 +37,9 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -112,10 +115,9 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         }
     }
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         // we stop the indexer daemon so that it does not interfere with the
         // tests
         for ( DaemonEntry daemonEntry : AppDaemonService.getDaemonEntries( ) )
@@ -133,7 +135,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
 
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         IndexationService.unregisterIndexer( testIndexer );
@@ -141,12 +143,12 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         {
             AppDaemonService.startDaemon( "indexer" );
         }
-        super.tearDown( );
     }
 
     /**
      * Test of getIndexingProperties method, of class fr.paris.lutece.portal.web.search.SearchIndexationJspBean.
      */
+    @Test
     public void testGetIndexingProperties( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -160,6 +162,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
     /**
      * Test of doIndexing method, of class fr.paris.lutece.portal.web.search.SearchIndexationJspBean.
      */
+    @Test
     public void testDoIndexing( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -172,7 +175,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         instance.doIndexing( request );
         assertTrue( testIndexer._bIndexDocumentsCalled );
     }
-
+    @Test
     public void testDoIndexingInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -192,7 +195,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
             assertFalse( testIndexer._bIndexDocumentsCalled );
         }
     }
-
+    @Test
     public void testDoIndexingNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

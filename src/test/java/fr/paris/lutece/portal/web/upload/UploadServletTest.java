@@ -45,6 +45,7 @@ import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
 import org.apache.commons.httpclient.methods.multipart.FilePart;
 import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
 import org.apache.commons.httpclient.methods.multipart.Part;
+import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -63,6 +64,7 @@ public class UploadServletTest extends LuteceTestCase
     /**
      * Test of doPost method, of class fr.paris.lutece.portal.web.upload.UploadServlet.
      */
+	@Test
     public void testDoPost_NoFiles_NoHandler( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -81,7 +83,7 @@ public class UploadServletTest extends LuteceTestCase
 
         assertEquals( objectNodeRef, objectNodeJson );
     }
-
+	@Test
     public void testDoPost_Files_NoHandler( ) throws Exception
     {
         MockHttpServletRequest request = getMultipartRequest( );
@@ -100,7 +102,7 @@ public class UploadServletTest extends LuteceTestCase
 
         assertEquals( objectNodeRef, objectNodeJson );
     }
-
+	@Test
     public void testDoPost_NoFiles_Handler( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -151,7 +153,7 @@ public class UploadServletTest extends LuteceTestCase
             return BEAN_NAME.equals(request.getParameter("handler"));
         }
     }
-
+    @Test
     public void testDoPost_NoFiles_Handler2( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

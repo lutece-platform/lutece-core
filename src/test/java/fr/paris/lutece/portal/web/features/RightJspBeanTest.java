@@ -37,6 +37,10 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -51,10 +55,9 @@ public class RightJspBeanTest extends LuteceTestCase
     private Right right;
     private RightJspBean bean;
 
-    @Override
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
-        super.setUp( );
         right = new Right( );
         right.setId( getRandomName( ) );
         right.setLevel( 0 );
@@ -62,13 +65,12 @@ public class RightJspBeanTest extends LuteceTestCase
         bean = new RightJspBean( );
     }
 
-    @Override
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         RightHome.remove( right.getId( ) );
-        super.tearDown( );
     }
-
+    @Test
     public void testDoAssignUsers( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -82,7 +84,7 @@ public class RightJspBeanTest extends LuteceTestCase
         bean.doAssignUsers( request );
         assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
     }
-
+    @Test
     public void testDoAssignUsersInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -103,7 +105,7 @@ public class RightJspBeanTest extends LuteceTestCase
             assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoAssignUsersNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -122,7 +124,7 @@ public class RightJspBeanTest extends LuteceTestCase
             assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         }
     }
-
+    @Test
     public void testDoUnAssignUser( ) throws AccessDeniedException
     {
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
@@ -145,7 +147,7 @@ public class RightJspBeanTest extends LuteceTestCase
             AdminUserHome.removeRightForUser( user.getUserId( ), right.getId( ) );
         }
     }
-
+    @Test
     public void testDoUnAssignUserInvalidToken( ) throws AccessDeniedException
     {
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
@@ -172,7 +174,7 @@ public class RightJspBeanTest extends LuteceTestCase
             AdminUserHome.removeRightForUser( user.getUserId( ), right.getId( ) );
         }
     }
-
+    @Test
     public void testDoUnAssignUserNoToken( ) throws AccessDeniedException
     {
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
