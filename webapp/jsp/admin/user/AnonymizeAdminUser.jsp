@@ -1,7 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
-<jsp:useBean id="appUser" scope="session" class="fr.paris.lutece.portal.web.user.AdminUserJspBean" />
 
-<%
-	appUser.init( request, "CORE_USERS_MANAGEMENT" ) ;
-	response.sendRedirect( appUser.getAnonymizeAdminUser( request ) );
-%>
+<%@page import="fr.paris.lutece.portal.web.user.AdminUserJspBean"%>
+
+${ adminUserJspBean.init( pageContext.request, AdminUserJspBean.RIGHT_USERS_MANAGEMENT ) }
+${ pageContext.response.sendRedirect( adminUserJspBean.getAnonymizeAdminUser( pageContext.request )) }

@@ -39,6 +39,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.fileupload2.core.DiskFileItem;
@@ -66,6 +68,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 /**
  * This class provides the user interface to manage page templates features ( manage, create, modify, remove)
  */
+@SessionScoped
+@Named
 public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 {
     // Right

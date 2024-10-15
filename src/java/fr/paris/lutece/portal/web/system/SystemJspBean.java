@@ -46,6 +46,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -67,6 +69,8 @@ import fr.paris.lutece.util.http.SecurityUtil;
 /**
  * This class provides the user interface to manage system features ( manage logs, view system files, ... ).
  */
+@SessionScoped
+@Named
 public class SystemJspBean extends AdminFeaturesPageJspBean
 {
     // Right

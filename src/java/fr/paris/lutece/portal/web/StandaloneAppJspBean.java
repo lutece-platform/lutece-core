@@ -40,7 +40,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.service.content.ContentService;
@@ -59,6 +61,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 /**
  * Class of the StandaloneAppJspBean object.
  */
+@Dependent
+@Named
 public class StandaloneAppJspBean
 {
     // //////////////////////////////////////////////////////////////////////////

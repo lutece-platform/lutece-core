@@ -1,8 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="features" scope="session" class="fr.paris.lutece.portal.web.features.FeaturesGroupJspBean" />
+<%@page import="fr.paris.lutece.portal.web.features.FeaturesGroupJspBean"%>
 
-<% 
-    features.init( request , features.RIGHT_FEATURES_MANAGEMENT ); 
-    response.sendRedirect( features.getRemoveGroup ( request ) );
-%>
+${ featuresGroupJspBean.init( pageContext.request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT ) }
+${ pageContext.response.sendRedirect( featuresGroupJspBean.getRemoveGroup( pageContext.request )) }

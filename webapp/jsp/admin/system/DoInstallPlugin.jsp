@@ -1,10 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="plugin" scope="session" class="fr.paris.lutece.portal.web.system.PluginJspBean" />
+<%@page import="fr.paris.lutece.portal.web.system.PluginJspBean"%>
 
-<%
-    plugin.init( request , plugin.RIGHT_MANAGE_PLUGINS );
-    response.sendRedirect( plugin.doInstallPlugin(request,getServletContext() ));
-%>
-
-
+${ pluginJspBean.init( pageContext.request, PluginJspBean.RIGHT_MANAGE_PLUGINS ) }
+${ pageContext.response.sendRedirect( pluginJspBean.doInstallPlugin( pageContext.request, pageContext.servletContext )) }

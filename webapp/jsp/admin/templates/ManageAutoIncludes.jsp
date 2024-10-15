@@ -1,9 +1,9 @@
-<jsp:useBean id="manageautoincludesAutoInclude" scope="session" class="fr.paris.lutece.portal.web.template.AutoIncludeJspBean" />
-<% String strContent = manageautoincludesAutoInclude.processController ( request , response ); %>
-
 <%@ page errorPage="../ErrorPage.jsp" %>
+
+${ pageContext.setAttribute( 'strContent', autoIncludeJspBean.processController( pageContext.request , pageContext.response ) ) }
+
 <jsp:include page="../AdminHeader.jsp" />
 
-<%= strContent %>
+${ pageContext.getAttribute( 'strContent' ) }
 
 <%@ include file="../AdminFooter.jsp" %>

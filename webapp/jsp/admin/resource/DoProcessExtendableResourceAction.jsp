@@ -1,22 +1,10 @@
-<%@page import="fr.paris.lutece.portal.web.pluginaction.IPluginActionResult"%>
+<%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="extendableResourceAction" scope="session" class="fr.paris.lutece.portal.web.resource.ExtendableResourceJspBean" />
+${ pageContext.setAttribute( 'pluginActionResult', extendableResourceJspBean.doProcessExtendableResourceAction( pageContext.request, pageContext.response) ) }
+${ not empty pageContext.getAttribute( 'pluginActionResult' ).redirect ? pageContext.response.sendRedirect( pageContext.getAttribute( 'pluginActionResult' ).redirect ) : '' }
 
-<% 
-	IPluginActionResult result = extendableResourceAction.doProcessExtendableResourceAction( request, response );
-	if ( result.getRedirect(  ) != null )
-	{
-		response.sendRedirect( result.getRedirect(  ) );
-	}
-	else if ( result.getHtmlContent(  ) != null )
-	{
-%>
-		<%@ page errorPage="../ErrorPage.jsp" %>
-		<jsp:include page="../AdminHeader.jsp" />
+<jsp:include page="../AdminHeader.jsp" />
 
-		<%= result.getHtmlContent(  ) %>
+${ not empty pageContext.getAttribute( 'pluginActionResult' ).htmlContent ? pageContext.getAttribute( 'pluginActionResult' ).htmlContent : '' }
 
-		<%@ include file="../AdminFooter.jsp" %>
-<%
-	}
-%>
+<%@ include file="../AdminFooter.jsp" %>

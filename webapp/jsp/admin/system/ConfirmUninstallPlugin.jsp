@@ -1,8 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="plugin" scope="session" class="fr.paris.lutece.portal.web.system.PluginJspBean" />
+<%@page import="fr.paris.lutece.portal.web.system.PluginJspBean"%>
 
-<% 
-    plugin.init( request , plugin.RIGHT_MANAGE_PLUGINS ); 
-    response.sendRedirect( plugin.getConfirmUninstallPlugin( request ) );
-%>
+${ pluginJspBean.init( pageContext.request, PluginJspBean.RIGHT_MANAGE_PLUGINS ) }
+${ pageContext.response.sendRedirect( pluginJspBean.getConfirmUninstallPlugin( pageContext.request )) }

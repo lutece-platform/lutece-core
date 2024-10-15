@@ -1,12 +1,9 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 <jsp:include page="../AdminHeader.jsp" />
 
-<jsp:useBean id="role" scope="session" class="fr.paris.lutece.portal.web.role.RoleJspBean" />
+<%@page import="fr.paris.lutece.portal.web.role.RoleJspBean"%>
 
-<% 
-	role.init( request, role.RIGHT_ROLES_MANAGEMENT ); %>
-<%= role.getModifyPageRole( request ) %>
+${ roleJspBean.init( pageContext.request, RoleJspBean.RIGHT_ROLES_MANAGEMENT ) }
+${ roleJspBean.getModifyPageRole( pageContext.request ) }
 
 <%@ include file="../AdminFooter.jsp" %>
-
-

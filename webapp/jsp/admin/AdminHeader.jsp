@@ -9,7 +9,6 @@
 response.setHeader("Cache-Control","no-cache");
 response.setDateHeader ("Expires", 0);
 %>
-<jsp:useBean id="adminMenu" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMenuJspBean" />
 <!DOCTYPE html>
 <html lang="<%= AdminUserService.getAdminUser( request ).getLocale().getLanguage() %>" >
 <head>
@@ -20,7 +19,7 @@ response.setDateHeader ("Expires", 0);
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- Styles -->
-<%= adminMenu.getAdminStyleSheets() %>
+${ adminMenuJspBean.getAdminStyleSheets( ) }
 <%
 	if ( AdminThemeService.isModeAccessible( request ) ){
 %>
@@ -31,5 +30,5 @@ response.setDateHeader ("Expires", 0);
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon" href="<%= AppPathService.getBaseUrl( request ) %>favicon.ico">
 <%-- Display the admin menu --%>
-<%= adminMenu.getAdminMenuHeader( request ) %>
+${ adminMenuJspBean.getAdminMenuHeader( pageContext.request ) }
 <%-- LUTECE-2310 Remove jQuery Lib - and move /head to adminHeader macro --%>

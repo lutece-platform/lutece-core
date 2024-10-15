@@ -41,6 +41,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -72,6 +74,8 @@ import fr.paris.lutece.util.url.UrlItem;
 /**
  * This class provides the user interface to manage rights features ( manage, create, modify )
  */
+@SessionScoped
+@Named
 public class RightJspBean extends AdminFeaturesPageJspBean
 {
     private static final long serialVersionUID = 8074788265698162631L;

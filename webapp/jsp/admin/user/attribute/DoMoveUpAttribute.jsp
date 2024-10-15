@@ -1,9 +1,6 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
-<jsp:useBean id="attribute" scope="session" class="fr.paris.lutece.portal.web.user.attribute.AttributeJspBean" />
+<%@page import="fr.paris.lutece.portal.web.user.AdminUserJspBean"%>
 
-<%
-	attribute.init( request, "CORE_USERS_MANAGEMENT" ) ; 
-	response.sendRedirect( attribute.doMoveUpAttribute( request ) );  
-%>
-
+${ attributeJspBean.init( pageContext.request, AdminUserJspBean.RIGHT_USERS_MANAGEMENT ) }
+${ pageContext.response.sendRedirect( attributeJspBean.doMoveUpAttribute( pageContext.request )) }

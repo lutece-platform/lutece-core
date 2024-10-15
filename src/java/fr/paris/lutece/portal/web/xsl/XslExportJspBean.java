@@ -70,6 +70,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -81,6 +83,8 @@ import javax.xml.parsers.SAXParserFactory;
  * class XslExportJspBean
  *
  */
+@SessionScoped
+@Named
 public class XslExportJspBean extends PluginAdminPageJspBean
 {
     /**
