@@ -1,34 +1,15 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
-<%@ page import="java.util.Enumeration" %>
-<%@ page import="java.net.URLEncoder" %>
 <jsp:include page="../AdminHeader.jsp" />
-<jsp:useBean id="admin" scope="session" class="fr.paris.lutece.portal.web.admin.AdminPageJspBean" />
-<% admin.init( request , admin.RIGHT_MANAGE_ADMIN_SITE ); %>
+
+<%@page import="fr.paris.lutece.portal.web.admin.AdminPageJspBean"%>
+
+${ adminPageJspBean.init( pageContext.request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE ) }
+
 <jsp:include page="AdminPage.jsp" />
-<%
-	String strParams = "";
-	String strSeparator = "?";
-	Enumeration paramNames = request.getParameterNames();
-	int i = 0;
-	while( paramNames.hasMoreElements() )
-	{
-            i = i + 1;
-            if( i > 1 )
-            {
-                strSeparator = "&#38;";
-            }
-            String strParamName = (String) paramNames.nextElement();
-            String strParamValue = request.getParameter( strParamName );
-            strParams += strSeparator + URLEncoder.encode(strParamName) + "=" + URLEncoder.encode(strParamValue);
-	}
 
-    String strClassPreview = "";
-    
-    String strParamBlock = request.getParameter("param_block");
-
-    int nParamBlock = strParamBlock != null ? Integer.parseInt( strParamBlock ) : 0;
-%>
 <%@ include file="../AdminFooter.jsp"%>
-<jsp:useBean id="adminMap" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMapJspBean" />
-<% adminMap.init( request , adminMap.RIGHT_MANAGE_ADMIN_SITE ); %>
-<%= adminMap.getMap( request ) %>
+
+<%@page import="fr.paris.lutece.portal.web.admin.AdminMapJspBean"%>
+
+${ adminMapJspBean.init( pageContext.request, AdminMapJspBean.RIGHT_MANAGE_ADMIN_SITE ) }
+${ adminMapJspBean.getMap( pageContext.request ) }

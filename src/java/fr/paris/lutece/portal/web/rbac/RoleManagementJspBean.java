@@ -41,6 +41,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -86,6 +88,8 @@ import fr.paris.lutece.util.url.UrlItem;
 /**
  * This class provides methods for role management.
  */
+@SessionScoped
+@Named
 public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 {
     // ////////////////////////////////////////////////////////////////////////////////

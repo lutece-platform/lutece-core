@@ -1,9 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="workgroup" scope="session" class="fr.paris.lutece.portal.web.workgroup.AdminWorkgroupJspBean" />
+<%@page import="fr.paris.lutece.portal.web.workgroup.AdminWorkgroupJspBean"%>
 
-<%
-	workgroup.init( request, "CORE_WORKGROUPS_MANAGEMENT" ) ; 
-	response.sendRedirect( workgroup.doModifyWorkgroup( request ) );  
-%>
-
+${ adminWorkgroupJspBean.init( pageContext.request, AdminWorkgroupJspBean.RIGHT_MANAGE_WORKGROUPS ) }
+${ pageContext.response.sendRedirect( adminWorkgroupJspBean.doModifyWorkgroup( pageContext.request )) }

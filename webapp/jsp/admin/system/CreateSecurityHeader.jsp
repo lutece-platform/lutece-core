@@ -1,9 +1,9 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 <jsp:include page="../AdminHeader.jsp" />
 
-<jsp:useBean id="securityheader" scope="session" class="fr.paris.lutece.portal.web.system.SecurityHeaderJspBean" />
+<%@page import="fr.paris.lutece.portal.web.system.SecurityHeaderJspBean"%>
 
-<% securityheader.init( request, securityheader.RIGHT_SECURITY_HEADER_MANAGEMENT ) ; %>
-<%= securityheader.getCreateSecurityHeader( request ) %>
+${ securityHeaderJspBean.init( pageContext.request, SecurityHeaderJspBean.RIGHT_SECURITY_HEADER_MANAGEMENT ) }
+${ securityHeaderJspBean.getCreateSecurityHeader( pageContext.request ) }
 
 <%@ include file="../AdminFooter.jsp" %>

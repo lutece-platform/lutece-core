@@ -46,6 +46,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -90,6 +91,8 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
     private HttpServletResponse _response;
+    @Inject
+    private transient AccessLogService _accessLogService;
 
     /**
      * Process request as a controller
@@ -118,7 +121,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             if ( m != null )
             {
-                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
+                getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
                         request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
                 return (String) m.invoke( this, request );
             }
@@ -128,7 +131,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             if ( m != null )
             {
-                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), adminUser,
+                getAccessLogService( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), adminUser,
                         request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
                 return (String) m.invoke( this, request );
             }
@@ -136,7 +139,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
 
-            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
+            getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
                     request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
             return (String) m.invoke( this, request );
         }
@@ -578,5 +581,10 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         {
             AppLogService.error( e.getStackTrace( ), e );
         }
+    }
+    
+    private AccessLogService getAccessLogService( )
+    {
+        return null != _accessLogService ? _accessLogService : AccessLogService.getInstance( );
     }
 }

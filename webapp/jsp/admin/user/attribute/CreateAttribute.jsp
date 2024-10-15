@@ -1,9 +1,9 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 <jsp:include page="../../AdminHeader.jsp" />
 
-<jsp:useBean id="attribute" scope="session" class="fr.paris.lutece.portal.web.user.attribute.AttributeJspBean" />
+<%@page import="fr.paris.lutece.portal.web.user.AdminUserJspBean"%>
 
-<% attribute.init( request, "CORE_USERS_MANAGEMENT" ) ; %>
-<%= attribute.getCreateAttribute ( request ) %>
+${ attributeJspBean.init( pageContext.request, AdminUserJspBean.RIGHT_USERS_MANAGEMENT ) }
+${ attributeJspBean.getCreateAttribute( pageContext.request ) }
 
 <%@ include file="../../AdminFooter.jsp" %>

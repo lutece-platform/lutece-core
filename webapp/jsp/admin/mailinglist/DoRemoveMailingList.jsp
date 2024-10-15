@@ -1,8 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="mailinglist" scope="session" class="fr.paris.lutece.portal.web.mailinglist.MailingListJspBean" />
+<%@page import="fr.paris.lutece.portal.web.mailinglist.MailingListJspBean"%>
 
-<%
-        mailinglist.init( request, mailinglist.RIGHT_MANAGE_MAILINGLISTS );
-        response.sendRedirect( mailinglist.doRemoveMailingList( request ) );
-%>
+${ mailingListJspBean.init( pageContext.request, MailingListJspBean.RIGHT_MANAGE_MAILINGLISTS ) }
+${ pageContext.response.sendRedirect( mailingListJspBean.doRemoveMailingList( pageContext.request )) }

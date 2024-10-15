@@ -38,6 +38,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -59,6 +62,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  * AttributeJspBean
  *
  */
+@SessionScoped
+@Named
 public class AttributeJspBean extends AdminFeaturesPageJspBean
 {
     /**
@@ -88,8 +93,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_ATTRIBUTE = "jsp/admin/user/attribute/DoRemoveAttribute.jsp";
     private static final String ANCHOR_ADMIN_DASHBOARDS = "attributes_management";
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
-    private static final AttributeService _attributeService = AttributeService.getInstance( );
 
+    @Inject
+    private transient AttributeService _attributeService;
+    
     /**
      * Get user attribute creation interface
      * 

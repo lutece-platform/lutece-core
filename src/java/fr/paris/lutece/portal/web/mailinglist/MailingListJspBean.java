@@ -40,6 +40,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -75,6 +77,8 @@ import fr.paris.lutece.util.url.UrlItem;
 /**
  * Mailing ListJspBean
  */
+@SessionScoped
+@Named
 public class MailingListJspBean extends AdminFeaturesPageJspBean
 {
     private static final long serialVersionUID = -1589153949244582338L;

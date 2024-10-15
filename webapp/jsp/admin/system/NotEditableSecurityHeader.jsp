@@ -1,8 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="securityheader" scope="session" class="fr.paris.lutece.portal.web.system.SecurityHeaderJspBean" />
+<%@page import="fr.paris.lutece.portal.web.system.SecurityHeaderJspBean"%>
 
-<%
-        securityheader.init( request, securityheader.RIGHT_SECURITY_HEADER_MANAGEMENT );
-        response.sendRedirect( securityheader.getMessageNotEditableSecurityHeader( request ) );
-%>
+${ securityHeaderJspBean.init( pageContext.request, SecurityHeaderJspBean.RIGHT_SECURITY_HEADER_MANAGEMENT ) }
+${ pageContext.response.sendRedirect( securityHeaderJspBean.getMessageNotEditableSecurityHeader( pageContext.request )) }
