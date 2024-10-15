@@ -56,9 +56,11 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 public class DashboardJspBeanTest extends LuteceTestCase
 {
+    @Inject
     private DashboardJspBean _instance;
     private IDashboardComponent _dashboard;
     private int _nZone;
@@ -66,7 +68,6 @@ public class DashboardJspBeanTest extends LuteceTestCase
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        _instance = new DashboardJspBean( );
         _dashboard = new TestDashboardComponent( );
         _dashboard.setName( getRandomName( ) );
         _dashboard.setRight( "ALL" );

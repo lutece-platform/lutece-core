@@ -40,19 +40,23 @@ import org.junit.jupiter.api.Test;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.inject.Inject;
 
 /**
  * FilterService Test
  */
 public class FilterServiceTest extends LuteceTestCase
 {
+    @Inject
+    private FilterService _filterService;
+    
     /**
      * Test of getInstance method, of class FilterService.
      */
 	@Test
     public void testGetInstance( )
     {
-        FilterService result = FilterService.getInstance( );
+        FilterService result = _filterService;
         assertNotNull( result );
     }
 
@@ -62,14 +66,14 @@ public class FilterServiceTest extends LuteceTestCase
 	@Test
     public void testRegisterFilter( )
     {
-        FilterService.getInstance( ).getFilters( ).clear( );
+        _filterService.getFilters( ).clear( );
         FilterEntry entry = new FilterEntry( );
         entry.setName( "filter" );
         entry.setFilterClass( "fr.paris.lutece.portal.service.filter.MainFilter" );
         entry.setMappingUrlPattern( "/jsp/" );
 
         Plugin plugin = null;
-        FilterService instance = FilterService.getInstance( );
+        FilterService instance = _filterService;
         instance.registerFilter( entry, plugin );
 
         LuteceFilter f = instance.getFilters( ).get( 0 );
@@ -80,7 +84,7 @@ public class FilterServiceTest extends LuteceTestCase
 	@Test
     public void testOrder( ) throws LuteceInitException
     {
-        FilterService.getInstance( ).getFilters( ).clear( );
+        _filterService.getFilters( ).clear( );
 
         FilterEntry entry2 = new FilterEntry( );
         entry2.setName( "filter2" );
@@ -105,14 +109,14 @@ public class FilterServiceTest extends LuteceTestCase
         entry.setFilterClass( "fr.paris.lutece.portal.service.filter.MainFilter" );
         entry.setMappingUrlPattern( "/jsp/" );
         // / default order
-        FilterService.getInstance( ).registerFilter( entry1, null );
-        FilterService.getInstance( ).registerFilter( entry, null );
-        FilterService.getInstance( ).registerFilter( entry2, null );
-        FilterService.getInstance( ).registerFilter( entry0, null );
+        _filterService.registerFilter( entry1, null );
+        _filterService.registerFilter( entry, null );
+        _filterService.registerFilter( entry2, null );
+        _filterService.registerFilter( entry0, null );
 
         FilterService.sortFilters( );
 
-        List<LuteceFilter> listFilters = FilterService.getInstance( ).getFilters( );
+        List<LuteceFilter> listFilters = _filterService.getFilters( );
 
         for ( LuteceFilter filter : listFilters )
         {
@@ -133,7 +137,7 @@ public class FilterServiceTest extends LuteceTestCase
     {
         System.out.println( "getFilters" );
 
-        FilterService instance = FilterService.getInstance( );
+        FilterService instance = _filterService;
         List<LuteceFilter> result = instance.getFilters( );
         assertNotNull( result );
     }

@@ -60,18 +60,20 @@ import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 public class AttributeFieldJspBeanTest extends LuteceTestCase
 {
-    private AttributeFieldJspBean instance;
+    private @Inject AttributeFieldJspBean instance;
     private Map<AttributeType, IAttribute> _attributes;
-
+    private @Inject AttributeService _attributeService;
+    private @Inject AttributeTypeService _attributeTypeService;
+    
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        instance = new AttributeFieldJspBean( );
         _attributes = new HashMap<>( );
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             IAttribute attribute = (IAttribute) Class.forName( type.getClassName( ) ).newInstance( );
@@ -87,7 +89,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
                 listAttributeFields.add( attributeField );
             }
             attribute.setListAttributeFields( listAttributeFields );
-            AttributeService.getInstance( ).createAttribute( attribute );
+            _attributeService.createAttribute( attribute );
             _attributes.put( type, attribute );
         }
     }
@@ -97,7 +99,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     {
         for ( IAttribute attribute : _attributes.values( ) )
         {
-            AttributeService.getInstance( ).removeAttribute( attribute.getIdAttribute( ) );
+            _attributeService.removeAttribute( attribute.getIdAttribute( ) );
         }
     }
 
@@ -123,7 +125,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testDoRemoveAttributeField( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testDoRemoveAttributeField( _attributes.get( type ) );
@@ -140,14 +142,14 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         instance.doRemoveAttributeField( request );
 
-        IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+        IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
         assertEquals( 2, stored.getListAttributeFields( ).size( ) );
     }
     @Test
     public void testDoRemoveAttributeFieldInvalidToken( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testDoRemoveAttributeFieldInvalidToken( _attributes.get( type ) );
@@ -169,7 +171,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+            IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( 3, stored.getListAttributeFields( ).size( ) );
         }
@@ -177,7 +179,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testDoRemoveAttributeFieldNoToken( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testDoRemoveAttributeFieldNoToken( _attributes.get( type ) );
@@ -197,7 +199,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+            IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( 3, stored.getListAttributeFields( ).size( ) );
         }
@@ -205,7 +207,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testGetCreateAttributeField( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testGetCreateAttributeField( _attributes.get( type ) );
@@ -224,7 +226,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testDoCreateAttributeField( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testDoCreateAttributeField( _attributes.get( type ) );
@@ -243,7 +245,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         instance.doCreateAttributeField( request );
 
-        IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+        IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
         assertEquals( 4, stored.getListAttributeFields( ).size( ) );
         assertEquals( 1,
@@ -252,7 +254,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testDoCreateAttributeFieldInvalidToken( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testDoCreateAttributeFieldInvalidToken( _attributes.get( type ) );
@@ -276,7 +278,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+            IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( 3, stored.getListAttributeFields( ).size( ) );
             assertEquals( 0,
@@ -286,7 +288,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testDoCreateAttributeFieldNoToken( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testDoCreateAttributeFieldNoToken( _attributes.get( type ) );
@@ -308,7 +310,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+            IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( 3, stored.getListAttributeFields( ).size( ) );
             assertEquals( 0,
@@ -318,7 +320,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testGetModifyAttributeField( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testGetModifyAttributeField( _attributes.get( type ) );
@@ -338,7 +340,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testDoModifyAttributeField( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testDoModifyAttributeField( _attributes.get( type ) );
@@ -358,7 +360,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         instance.doModifyAttributeField( request );
 
-        IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+        IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
         assertEquals( 3, stored.getListAttributeFields( ).size( ) );
         assertEquals( 1,
@@ -367,7 +369,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testDoModifyAttributeFieldInvalidToken( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testDoModifyAttributeFieldInvalidToken( _attributes.get( type ) );
@@ -392,7 +394,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+            IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( 3, stored.getListAttributeFields( ).size( ) );
             assertEquals( 0,
@@ -402,7 +404,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testDoModifyAttributeFieldNoToken( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             testDoModifyAttributeFieldNoToken( _attributes.get( type ) );
@@ -425,7 +427,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+            IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( 3, stored.getListAttributeFields( ).size( ) );
             assertEquals( 0,
@@ -435,12 +437,12 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testdoMoveDownAttributeField( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             // we load the attribute from db to get all fields including
             // position
-            IAttribute attribute = AttributeService.getInstance( ).getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
+            IAttribute attribute = _attributeService.getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
             testdoMoveDownAttributeField( attribute );
         }
     }
@@ -458,7 +460,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         instance.doMoveDownAttributeField( request );
 
-        IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+        IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
         AttributeField field = stored.getListAttributeFields( ).stream( ).filter( f -> f.getIdField( ) == attributeField.getIdField( ) ).findFirst( )
                 .orElseThrow( AssertionError::new );
@@ -468,12 +470,12 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testdoMoveDownAttributeFieldInvalidToken( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             // we load the attribute from db to get all fields including
             // position
-            IAttribute attribute = AttributeService.getInstance( ).getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
+            IAttribute attribute = _attributeService.getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
             testdoMoveDownAttributeFieldInvalidToken( attribute );
         }
     }
@@ -496,7 +498,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+            IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             AttributeField field = stored.getListAttributeFields( ).stream( ).filter( f -> f.getIdField( ) == attributeField.getIdField( ) ).findFirst( )
                     .orElseThrow( AssertionError::new );
@@ -506,12 +508,12 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testdoMoveDownAttributeFieldNoToken( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             // we load the attribute from db to get all fields including
             // position
-            IAttribute attribute = AttributeService.getInstance( ).getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
+            IAttribute attribute = _attributeService.getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
             testdoMoveDownAttributeFieldNoToken( attribute );
         }
     }
@@ -532,7 +534,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+            IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             AttributeField field = stored.getListAttributeFields( ).stream( ).filter( f -> f.getIdField( ) == attributeField.getIdField( ) ).findFirst( )
                     .orElseThrow( AssertionError::new );
@@ -542,12 +544,12 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testdoMoveUpAttributeField( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             // we load the attribute from db to get all fields including
             // position
-            IAttribute attribute = AttributeService.getInstance( ).getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
+            IAttribute attribute = _attributeService.getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
             testdoMoveUpAttributeField( attribute );
         }
     }
@@ -565,7 +567,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         instance.doMoveUpAttributeField( request );
 
-        IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+        IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
         AttributeField field = stored.getListAttributeFields( ).stream( ).filter( f -> f.getIdField( ) == attributeField.getIdField( ) ).findFirst( )
                 .orElseThrow( AssertionError::new );
@@ -575,12 +577,12 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testdoMoveUpAttributeFieldInvalidToken( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             // we load the attribute from db to get all fields including
             // position
-            IAttribute attribute = AttributeService.getInstance( ).getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
+            IAttribute attribute = _attributeService.getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
             testdoMoveUpAttributeFieldInvalidToken( attribute );
         }
     }
@@ -603,7 +605,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+            IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             AttributeField field = stored.getListAttributeFields( ).stream( ).filter( f -> f.getIdField( ) == attributeField.getIdField( ) ).findFirst( )
                     .orElseThrow( AssertionError::new );
@@ -613,12 +615,12 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     @Test
     public void testdoMoveUpAttributeFieldNoToken( ) throws AccessDeniedException
     {
-        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
             // we load the attribute from db to get all fields including
             // position
-            IAttribute attribute = AttributeService.getInstance( ).getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
+            IAttribute attribute = _attributeService.getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
             testdoMoveUpAttributeFieldNoToken( attribute );
         }
     }
@@ -639,7 +641,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
+            IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
             assertNotNull( stored );
             AttributeField field = stored.getListAttributeFields( ).stream( ).filter( f -> f.getIdField( ) == attributeField.getIdField( ) ).findFirst( )
                     .orElseThrow( AssertionError::new );
