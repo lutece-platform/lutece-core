@@ -64,6 +64,7 @@ import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.date.DateUtil;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -72,6 +73,9 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class FileServiceTest extends LuteceTestCase
 {
+    @Inject
+    private FileService _fileService;
+    
     /**
      * test store Lutece File
      * 
@@ -84,15 +88,15 @@ public class FileServiceTest extends LuteceTestCase
 
         try 
         {
-	        String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeFile( file );
+	        String strFileId = _fileService.getFileStoreServiceProvider( ).storeFile( file );
 	
-	        File storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFile( strFileId );
+	        File storedFile = _fileService.getFileStoreServiceProvider( ).getFile( strFileId );
 	
 	        assertEquals( file.getTitle( ), storedFile.getTitle( ) );
 	
 	        // test delete
-	        FileService.getInstance( ).getFileStoreServiceProvider( ).delete( strFileId );
-	        storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFile( strFileId );
+	        _fileService.getFileStoreServiceProvider( ).delete( strFileId );
+	        storedFile = _fileService.getFileStoreServiceProvider( ).getFile( strFileId );
 	
 	        assertNull( storedFile );
         
@@ -117,9 +121,9 @@ public class FileServiceTest extends LuteceTestCase
 	        java.io.File file = getOneFile( );
 	        byte [ ] fileInBytes = FileUtils.readFileToByteArray( file );
 	
-	        String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeBytes( fileInBytes );
+	        String strFileId = _fileService.getFileStoreServiceProvider( ).storeBytes( fileInBytes );
 	
-	        File storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFile( strFileId );
+	        File storedFile = _fileService.getFileStoreServiceProvider( ).getFile( strFileId );
 	
 	        assertEquals( fileInBytes.length, storedFile.getPhysicalFile( ).getValue( ).length );
     	}
@@ -146,9 +150,9 @@ public class FileServiceTest extends LuteceTestCase
         byte [ ] fileInBytes = FileUtils.readFileToByteArray( file );
         InputStream inputStream = new FileInputStream( file );
 
-        String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeFileItem( fileItem );
+        String strFileId = _fileService.getFileStoreServiceProvider( ).storeFileItem( fileItem );
 
-        File storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFile( strFileId );
+        File storedFile = _fileService.getFileStoreServiceProvider( ).getFile( strFileId );
 
         assertEquals( fileInBytes.length, storedFile.getPhysicalFile( ).getValue( ).length );
 		}catch( FileServiceException e )
@@ -172,13 +176,13 @@ public class FileServiceTest extends LuteceTestCase
 
         try
         {
-	        String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeFile( file );
+	        String strFileId = _fileService.getFileStoreServiceProvider( ).storeFile( file );
 	
 	        Map<String, String> data = new HashMap<>( );
 	        data.put( FileService.PARAMETER_RESOURCE_ID, "123" );
 	        data.put( FileService.PARAMETER_RESOURCE_TYPE, "TEST" );
 	
-	        String strUrl = FileService.getInstance( ).getFileStoreServiceProvider( ).getFileDownloadUrlBO( strFileId, data );
+	        String strUrl = _fileService.getFileStoreServiceProvider( ).getFileDownloadUrlBO( strFileId, data );
 	        assertNotNull( strUrl );
 	
 	        List<NameValuePair> params = URLEncodedUtils.parse( strUrl, Charset.forName( "UTF-8" ) );
@@ -192,7 +196,7 @@ public class FileServiceTest extends LuteceTestCase
 	        // add mock BO authentication
 	        registerAdminUserAdmin( request );
 	
-	        File storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFileFromRequestBO( request );
+	        File storedFile = _fileService.getFileStoreServiceProvider( ).getFileFromRequestBO( request );
 	
 	        assertEquals( file.getPhysicalFile( ).getValue( ).length, storedFile.getPhysicalFile( ).getValue( ).length );
         }
@@ -218,13 +222,13 @@ public class FileServiceTest extends LuteceTestCase
 
         try
         {
-	        String strFileId = FileService.getInstance( ).getFileStoreServiceProvider( ).storeFile( file );
+	        String strFileId = _fileService.getFileStoreServiceProvider( ).storeFile( file );
 	
 	        Map<String, String> data = new HashMap<>( );
 	        data.put( FileService.PARAMETER_RESOURCE_ID, "123" );
 	        data.put( FileService.PARAMETER_RESOURCE_TYPE, "TEST" );
 	
-	        String strUrl = FileService.getInstance( ).getFileStoreServiceProvider( ).getFileDownloadUrlFO( strFileId, data );
+	        String strUrl = _fileService.getFileStoreServiceProvider( ).getFileDownloadUrlFO( strFileId, data );
 	        assertNotNull( strUrl );
 	
 	        List<NameValuePair> params = URLEncodedUtils.parse( strUrl, Charset.forName( "UTF-8" ) );
@@ -237,7 +241,7 @@ public class FileServiceTest extends LuteceTestCase
 	
 	        // no authentication
 	
-	        File storedFile = FileService.getInstance( ).getFileStoreServiceProvider( ).getFileFromRequestFO( request );
+	        File storedFile = _fileService.getFileStoreServiceProvider( ).getFileFromRequestFO( request );
 	
 	        assertEquals( file.getPhysicalFile( ).getValue( ).length, storedFile.getPhysicalFile( ).getValue( ).length );
         }

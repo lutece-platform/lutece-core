@@ -1,9 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="cache" scope="session" class="fr.paris.lutece.portal.web.system.CacheJspBean" />
+<%@page import="fr.paris.lutece.portal.web.system.CacheJspBean"%>
 
-<%
-    cache.init( request, cache.RIGHT_CACHE_MANAGEMENT );
-    response.sendRedirect( cache.doToggleCache( request ));
-%>
-
+${ cacheJspBean.init( pageContext.request, CacheJspBean.RIGHT_CACHE_MANAGEMENT ) }
+${ pageContext.response.sendRedirect( cacheJspBean.doToggleCache( pageContext.request )) }

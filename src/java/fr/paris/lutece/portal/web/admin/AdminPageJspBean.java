@@ -39,7 +39,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -86,6 +88,8 @@ import fr.paris.lutece.util.url.UrlItem;
 /**
  * This class provides the admin interface to manage administration of site
  */
+@SessionScoped
+@Named
 public class AdminPageJspBean extends AdminFeaturesPageJspBean
 {
     // //////////////////////////////////////////////////////////////////////////

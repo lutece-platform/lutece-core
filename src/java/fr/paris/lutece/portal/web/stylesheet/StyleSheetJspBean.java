@@ -43,6 +43,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -82,6 +84,8 @@ import fr.paris.lutece.util.sort.AttributeComparator;
 /**
  * This class provides the user interface to manage StyleSheet features
  */
+@SessionScoped
+@Named
 public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 {
     // //////////////////////////////////////////////////////////////////////////

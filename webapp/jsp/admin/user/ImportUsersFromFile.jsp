@@ -1,13 +1,9 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
-
-<jsp:useBean id="appUser" scope="session" class="fr.paris.lutece.portal.web.user.AdminUserJspBean" />
-
-<%
-	appUser.init( request, "CORE_USERS_MANAGEMENT" ) ;
-	String strContent = appUser.getImportUsersFromFile( request );
-%>
 <jsp:include page="../AdminHeader.jsp"  flush="true" />
 
-<%= strContent %>
+<%@page import="fr.paris.lutece.portal.web.user.AdminUserJspBean"%>
+
+${ adminUserJspBean.init( pageContext.request, AdminUserJspBean.RIGHT_USERS_MANAGEMENT ) }
+${ adminUserJspBean.getImportUsersFromFile( pageContext.request ) }
 
 <%@ include file="../AdminFooter.jsp" %>

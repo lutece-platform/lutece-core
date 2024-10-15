@@ -45,7 +45,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -117,8 +120,11 @@ import fr.paris.lutece.util.xml.XmlUtil;
 /**
  * This class provides the user interface to manage app user features ( manage, create, modify, remove, ... )
  */
+@SessionScoped
+@Named
 public class AdminUserJspBean extends AdminFeaturesPageJspBean
 {
+    public static final String RIGHT_USERS_MANAGEMENT = "CORE_USERS_MANAGEMENT";
     private static final String ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES = "importUsersListMessages";
     private static final long serialVersionUID = -6323157489236186522L;
 
@@ -371,13 +377,18 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String ANCHOR_LIFE_TIME_EMAILS = "lifeTimeEmails";
     private static final String ANCHOR_ANONYMIZE_USERS = "anonymizeUsers";
 
-    private transient ImportAdminUserService _importAdminUserService;
     private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
 
     private int _nItemsPerPage;
     private String _strCurrentPageIndex;
     private ItemNavigator _itemNavigator;
-
+    @Inject
+    private transient ImportAdminUserService _importAdminUserService;
+    @Inject
+    private transient AccessLogService _accessLogService;
+    @Inject
+    private transient AttributeService _attributeService;
+    
     /**
      * Build the User list
      *
@@ -578,7 +589,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         int nDefaultUserStatus = Integer.parseInt( DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_STATUS ) );
 
         // Specific attributes
-        List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithFields( getLocale( ) );
+        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithFields( getLocale( ) );
 
         // creation in no-module mode : load empty form
         if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
@@ -742,7 +753,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                         TEMPLATE_NOTIFY_USER );
             }
 
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_CREATE_ADMINUSER, getUser( ), user.getAccessCode( ),
+            _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_CREATE_ADMINUSER, getUser( ), user.getAccessCode( ),
                     CONSTANT_BO );
         }
         else
@@ -762,7 +773,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             AdminUserHome.create( user );
             AdminUserFieldService.doCreateUserFields( user, request, getLocale( ) );
 
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_CREATE_ADMINUSER, getUser( ), user.getAccessCode( ),
+            _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_CREATE_ADMINUSER, getUser( ), user.getAccessCode( ),
                     CONSTANT_BO );
         }
 
@@ -878,7 +889,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // ITEM NAVIGATION
         setItemNavigator( user.getUserId( ), AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_USER );
 
-        List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithFields( getLocale( ) );
+        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithFields( getLocale( ) );
         Map<String, Object> map = AdminUserFieldService.getAdminUserFields( listAttributes, nUserId, getLocale( ) );
 
         model.put( MARK_USER, user );
@@ -987,7 +998,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
 
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser, user.getAccessCode( ),
+            _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser, user.getAccessCode( ),
                     CONSTANT_BO );
         }
         else
@@ -1015,7 +1026,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
 
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser, user.getAccessCode( ),
+            _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser, user.getAccessCode( ),
                     CONSTANT_BO );
         }
 
@@ -1149,7 +1160,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             AdminUserHome.update( user, PasswordUpdateMode.UPDATE );
 
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_PASSWORD, currentUser,
+            _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_PASSWORD, currentUser,
                     user.getAccessCode( ), CONSTANT_BO );
         }
 
@@ -1165,7 +1176,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getImportUsersFromFile( HttpServletRequest request )
     {
-        _importAdminUserService = CDI.current().select(ImportAdminUserService.class ).get( );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
                 getUser( ) ) )
         {
@@ -1252,7 +1262,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             List<CSVMessageDescriptor> listMessages = _importAdminUserService.readCSVFile( fileItem, 0, false, false, bSkipFirstLine,
                     AdminUserService.getLocale( request ), AppPathService.getBaseUrl( request ) );
 
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_IMPORT_ADMINUSERS, getUser( ), fileItem.getName( ),
+            _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_IMPORT_ADMINUSERS, getUser( ), fileItem.getName( ),
                     CONSTANT_BO );
 
             request.setAttribute( ATTRIBUTE_IMPORT_USERS_LIST_MESSAGES, listMessages );
@@ -1348,7 +1358,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         Collection<AdminUser> listUsers = AdminUserHome.findUserList( );
 
-        List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithFields( LocaleService.getDefault( ) );
+        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithFields( LocaleService.getDefault( ) );
         List<IAttribute> listAttributesFiltered = new ArrayList<>( );
 
         for ( IAttribute attribute : listAttributes )
@@ -1477,7 +1487,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUserHome.removeAllPasswordHistoryForUser( nUserId );
         AdminUserHome.remove( nUserId );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADMINUSER, currentUser,
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADMINUSER, currentUser,
                 strUserId + " : " + strRemovedUserAccessCode, CONSTANT_BO );
 
         return JSP_MANAGE_USER;
@@ -1740,7 +1750,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, String [ ]> mapData = new HashMap<>( );
         mapData.put( user.getAccessCode( ), arrayRights );
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_RIGHTS, currentUser, mapData, CONSTANT_BO );
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_RIGHTS, currentUser, mapData, CONSTANT_BO );
 
         if ( user.getUserId( ) == currentUser.getUserId( ) )
         {
@@ -1906,7 +1916,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, String [ ]> mapData = new HashMap<>( );
         mapData.put( selectedUser.getAccessCode( ), arrayRoles );
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_ROLES, currentUser, mapData, CONSTANT_BO );
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_ROLES, currentUser, mapData, CONSTANT_BO );
 
         return JSP_MANAGE_USER_ROLES + "?" + PARAMETER_USER_ID + "=" + nUserId;
     }
@@ -1954,7 +1964,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, String [ ]> mapData = new HashMap<>( );
         mapData.put( user.getAccessCode( ), arrayWorkspaces );
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_GROUPS, currentUser, mapData, CONSTANT_BO );
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER_GROUPS, currentUser, mapData, CONSTANT_BO );
 
         return JSP_MANAGE_USER_WORKGROUPS + "?" + PARAMETER_USER_ID + "=" + nUserId;
     }
@@ -2020,7 +2030,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         logParametersMap.put( AdminUserService.DSKEY_DEFAULT_USER_LEVEL, request.getParameter( PARAMETER_USER_LEVEL ) );
         logParametersMap.put( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION, request.getParameter( PARAMETER_NOTIFY_USER ) );
         logParametersMap.put( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE, request.getParameter( PARAMETER_LANGUAGE ) );
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_DEFAULT_PARAMETERS, getUser( ), logParametersMap,
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_DEFAULT_PARAMETERS, getUser( ), logParametersMap,
                 CONSTANT_BO );
 
         return getAdminDashboardsUrl( request, ANCHOR_DEFAULT_USER_PARAMETER_VALUES );
@@ -2135,7 +2145,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUserService.updateLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES, request.getParameter( MARK_BANNED_DOMAIN_NAMES ) );
         logParametersMap.put( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES, request.getParameter( MARK_BANNED_DOMAIN_NAMES ) );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_DEFAULT_SECURITY, getUser( ), logParametersMap,
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_DEFAULT_SECURITY, getUser( ), logParametersMap,
                 CONSTANT_BO );
 
         return getAdminDashboardsUrl( request, ANCHOR_ADVANCED_SECURITY_PARAMETERS );
@@ -2298,7 +2308,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
         AdminUserService.useAdvancedSecurityParameters( );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_USE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null,
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_USE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null,
                 CONSTANT_BO );
 
         return getAdminDashboardsUrl( request, ANCHOR_ADVANCED_SECURITY_PARAMETERS );
@@ -2321,7 +2331,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
         AdminUserService.removeAdvancedSecurityParameters( );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null,
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADVANCE_SECURITY_PARAMETERS, getUser( ), null,
                 CONSTANT_BO );
 
         return getAdminDashboardsUrl( request, ANCHOR_ADVANCED_SECURITY_PARAMETERS );
@@ -2338,7 +2348,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     {
         Map<String, Object> model = new HashMap<>( );
 
-        List<IAttribute> listAllAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( getLocale( ) );
+        List<IAttribute> listAllAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
         List<IAttribute> listAttributesText = new ArrayList<>( );
 
         for ( IAttribute attribut : listAllAttributes )
@@ -2386,9 +2396,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_LAST_NAME, Boolean.valueOf( request.getParameter( PARAMETER_LAST_NAME ) ) );
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_EMAIL, Boolean.valueOf( request.getParameter( PARAMETER_EMAIL ) ) );
 
-        AttributeService attributeService = AttributeService.getInstance( );
-
-        List<IAttribute> listAllAttributes = attributeService.getAllAttributesWithoutFields( getLocale( ) );
+        List<IAttribute> listAllAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
         List<IAttribute> listAttributesText = new ArrayList<>( );
 
         for ( IAttribute attribut : listAllAttributes )
@@ -2402,7 +2410,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         for ( IAttribute attribute : listAttributesText )
         {
             Boolean bNewValue = Boolean.valueOf( request.getParameter( PARAMETER_ATTRIBUTE + Integer.toString( attribute.getIdAttribute( ) ) ) );
-            attributeService.updateAnonymizationStatusUserField( attribute.getIdAttribute( ), bNewValue );
+            _attributeService.updateAnonymizationStatusUserField( attribute.getIdAttribute( ), bNewValue );
         }
 
         return getAdminDashboardsUrl( request, ANCHOR_ANONYMIZE_USERS );
@@ -2474,7 +2482,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         AdminUserService.anonymizeUser( nUserId, getLocale( ) );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_ANONYMIZE_ADMINUSER, getUser( ), user.getAccessCode( ),
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_ANONYMIZE_ADMINUSER, getUser( ), user.getAccessCode( ),
                 CONSTANT_BO );
 
         return JSP_MANAGE_USER;

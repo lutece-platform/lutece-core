@@ -58,6 +58,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import javax.xml.transform.stream.StreamSource;
@@ -70,6 +72,8 @@ import org.apache.commons.lang3.StringUtils;
  * Classe for display the admin features documentation
  *
  */
+@RequestScoped
+@Named
 public class AdminDocumentationJspBean
 {
     // xsl

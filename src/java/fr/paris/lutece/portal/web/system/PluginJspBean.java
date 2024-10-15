@@ -57,12 +57,16 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage the lutece plugins (install, enable, disable)
  */
+@SessionScoped
+@Named
 public class PluginJspBean extends AdminFeaturesPageJspBean
 {
     // //////////////////////////////////////////////////////////////////////////////

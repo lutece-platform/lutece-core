@@ -1,8 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="role" scope="session" class="fr.paris.lutece.portal.web.role.RoleJspBean" />
+<%@page import="fr.paris.lutece.portal.web.role.RoleJspBean"%>
 
-<% 
-	role.init( request, role.RIGHT_ROLES_MANAGEMENT );
-	response.sendRedirect( role.getRemovePageRole( request ) );
-%>
+${ roleJspBean.init( pageContext.request, RoleJspBean.RIGHT_ROLES_MANAGEMENT ) }
+${ pageContext.response.sendRedirect( roleJspBean.getRemovePageRole( pageContext.request )) }

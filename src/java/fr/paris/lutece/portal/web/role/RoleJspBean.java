@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.web.role;
 
-import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
@@ -55,6 +54,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -62,6 +63,8 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * JspBean for Role management
  */
+@SessionScoped
+@Named
 public class RoleJspBean extends AdminFeaturesPageJspBean
 {
     // //////////////////////////////////////////////////////////////////////////////

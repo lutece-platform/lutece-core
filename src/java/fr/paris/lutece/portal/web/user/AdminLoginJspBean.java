@@ -80,7 +80,10 @@ import java.util.Map;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -88,6 +91,8 @@ import jakarta.servlet.http.HttpSession;
 /**
  * This class provides the user interface to manage login features ( login, logout, ... )
  */
+@RequestScoped
+@Named
 public class AdminLoginJspBean implements Serializable
 {
 
@@ -164,6 +169,9 @@ public class AdminLoginJspBean implements Serializable
     // Properties
     private static final String PROPERTY_LEVEL = "askPasswordReinitialization.admin.level";
 
+    @Inject
+    private transient AccessLogService _accessLogService;
+    
     /**
      * Returns the view of login form
      *
@@ -518,7 +526,7 @@ public class AdminLoginJspBean implements Serializable
 
         MailService.sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTPASSWORD, user, null, CONSTANT_BO );
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTPASSWORD, user, null, CONSTANT_BO );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
     }
@@ -600,7 +608,7 @@ public class AdminLoginJspBean implements Serializable
         AdminUserHome.update( user );
         AdminUserHome.insertNewPasswordInHistory( user.getPassword( ), user.getUserId( ) );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DORESETPASSWORD, user, null, CONSTANT_BO );
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DORESETPASSWORD, user, null, CONSTANT_BO );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_RESET_PASSORWD_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
     }
@@ -654,7 +662,7 @@ public class AdminLoginJspBean implements Serializable
 
         MailService.sendMailHtml( strEmail, strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTLOGIN, null, strAccessCode, CONSTANT_BO );
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOFORGOTLOGIN, null, strAccessCode, CONSTANT_BO );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_FORGOT_LOGIN_SENDING_SUCCESS, AdminMessage.TYPE_INFO );
     }
@@ -738,7 +746,7 @@ public class AdminLoginJspBean implements Serializable
 
         String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOLOGOUT, user, null, CONSTANT_BO );
+        _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOLOGOUT, user, null, CONSTANT_BO );
 
         return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_LOGOUT, strLoginUrl, AdminMessage.TYPE_INFO );
     }

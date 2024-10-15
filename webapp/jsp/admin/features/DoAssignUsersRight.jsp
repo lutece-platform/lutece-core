@@ -1,10 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="right" scope="session" class="fr.paris.lutece.portal.web.features.RightJspBean" />
+<%@page import="fr.paris.lutece.portal.web.features.RightJspBean"%>
 
-<% 
-	right.init( request,  right.RIGHT_MANAGE_RIGHTS ) ; 
-	response.sendRedirect( right.doAssignUsers( request ) );
-%>
-
-
+${ rightJspBean.init( pageContext.request, RightJspBean.RIGHT_MANAGE_RIGHTS ) }
+${ pageContext.response.sendRedirect( rightJspBean.doAssignUsers( pageContext.request )) }

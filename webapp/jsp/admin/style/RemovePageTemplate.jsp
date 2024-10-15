@@ -1,7 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
-<jsp:useBean id="pagetemplate" scope="session" class="fr.paris.lutece.portal.web.style.PageTemplatesJspBean" />
 
-<% 
-    pagetemplate.init(request, pagetemplate.RIGHT_MANAGE_PAGE_TEMPLATES );
-    response.sendRedirect( pagetemplate.getConfirmRemovePageTemplate( request ));
-%>
+<%@page import="fr.paris.lutece.portal.web.style.PageTemplatesJspBean"%>
+
+${ pageTemplatesJspBean.init( pageContext.request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES ) }
+${ pageContext.response.sendRedirect( pageTemplatesJspBean.getConfirmRemovePageTemplate( pageContext.request )) }

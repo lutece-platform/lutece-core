@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.web.features;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.right.Level;
@@ -54,6 +56,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 /**
  * This class provides the user interface to manage levels features ( manage, create, modify )
  */
+@SessionScoped
+@Named
 public class LevelsJspBean extends AdminFeaturesPageJspBean
 {
     private static final long serialVersionUID = 5513182604869973362L;

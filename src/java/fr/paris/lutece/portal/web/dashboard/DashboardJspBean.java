@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.web.dashboard;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -54,6 +57,8 @@ import fr.paris.lutece.util.string.StringUtil;
  * Provides technical admin dashboard managements and display. Display is NOT managed as an admin feature (no right required).
  *
  */
+@SessionScoped
+@Named
 public class DashboardJspBean extends AdminFeaturesPageJspBean
 {
     // Right
@@ -73,7 +78,8 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
     // JSP
     private static final String ANCHOR_ADMIN_DASHBOARDS = "adminHomePageManagement";
-    private transient DashboardService _service = DashboardService.getInstance( );
+    @Inject
+    private transient DashboardService _dashboardService;
 
     /**
      * Reorders columns
@@ -109,7 +115,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-        getDashboardService( ).doReorderColumn( nColumn );
+        _dashboardService.doReorderColumn( nColumn );
 
         return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
@@ -173,18 +179,8 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         dashboard.setOrder( nOrder );
         dashboard.setZone( nColumn );
 
-        getDashboardService( ).doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
+        _dashboardService.doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
 
         return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
-    }
-
-    private DashboardService getDashboardService( )
-    {
-        if ( _service == null )
-        {
-            _service = DashboardService.getInstance( );
-        }
-
-        return _service;
     }
 }

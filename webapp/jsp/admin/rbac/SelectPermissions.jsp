@@ -1,12 +1,9 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 <jsp:include page="../AdminHeader.jsp" />
 
-<jsp:useBean id="rbac" scope="session" class="fr.paris.lutece.portal.web.rbac.RoleManagementJspBean" />
+<%@page import="fr.paris.lutece.portal.web.rbac.RoleManagementJspBean"%>
 
-<%
-    rbac.init( request, rbac.RIGHT_MANAGE_ROLES ) ;
-%>
-<%= rbac.getSelectPermissions( request )%>
-
+${ roleManagementJspBean.init( pageContext.request, RoleManagementJspBean.RIGHT_MANAGE_ROLES ) }
+${ roleManagementJspBean.getSelectPermissions( pageContext.request ) }
 
 <%@ include file="../AdminFooter.jsp" %>

@@ -48,11 +48,15 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Provides the generic interface to choose a particular link service
  */
+@SessionScoped
+@Named
 public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
 {
     /**

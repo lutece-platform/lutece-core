@@ -37,6 +37,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.right.FeatureGroup;
@@ -60,6 +62,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  *
  * @author closea
  */
+@SessionScoped
+@Named
 public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 {
     private static final long serialVersionUID = -5179996626579180810L;

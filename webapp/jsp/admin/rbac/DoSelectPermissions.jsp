@@ -1,9 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="rbac" scope="session" class="fr.paris.lutece.portal.web.rbac.RoleManagementJspBean" />
+<%@page import="fr.paris.lutece.portal.web.rbac.RoleManagementJspBean"%>
 
-<%
-   rbac.init(  request, rbac.RIGHT_MANAGE_ROLES ) ;
-   response.sendRedirect( rbac.doSelectPermissions(request ));
-    
-%>
+${ roleManagementJspBean.init( pageContext.request, RoleManagementJspBean.RIGHT_MANAGE_ROLES ) }
+${ pageContext.response.sendRedirect( roleManagementJspBean.doSelectPermissions( pageContext.request )) }

@@ -54,11 +54,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the map of the pages on the site
  */
+@SessionScoped
+@Named
 public class AdminMapJspBean extends AdminFeaturesPageJspBean
 {
     // Right

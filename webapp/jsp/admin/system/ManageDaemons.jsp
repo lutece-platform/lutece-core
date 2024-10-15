@@ -1,9 +1,9 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 <jsp:include page="../AdminHeader.jsp" />
 
-<jsp:useBean id="daemons" scope="session" class="fr.paris.lutece.portal.web.system.DaemonsJspBean" />
+<%@page import="fr.paris.lutece.portal.web.system.DaemonsJspBean"%>
 
-<% daemons.init( request , daemons.RIGHT_DAEMONS_MANAGEMENT ); %>
-<%= daemons.getManageDaemons( request ) %>
+${ daemonsJspBean.init( pageContext.request, DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT ) }
+${ daemonsJspBean.getManageDaemons( pageContext.request ) }
 
 <%@ include file="../AdminFooter.jsp" %>

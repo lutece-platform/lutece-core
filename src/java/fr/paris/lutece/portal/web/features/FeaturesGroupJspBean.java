@@ -54,6 +54,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -61,6 +63,8 @@ import org.apache.commons.collections.CollectionUtils;
 /**
  * FeaturesGroupJspBean
  */
+@SessionScoped
+@Named
 public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 {
     public static final String RIGHT_FEATURES_MANAGEMENT = "CORE_FEATURES_MANAGEMENT";

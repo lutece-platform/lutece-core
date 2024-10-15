@@ -46,11 +46,15 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
  */
+@RequestScoped
+@Named
 public class AdminMessageJspBean
 {
     private static final String TEMPLATE_MESSAGE = "admin/util/message.html";

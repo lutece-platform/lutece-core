@@ -55,11 +55,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * AttributeFieldJspBean
  */
+@SessionScoped
+@Named
 public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 {
     /**
@@ -95,8 +100,11 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     // JSP
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
     private static final String JSP_URL_REMOVE_ATTRIBUTE_FIELD = "jsp/admin/user/attribute/DoRemoveAttributeField.jsp";
-    private static final AttributeService _attributeService = AttributeService.getInstance( );
-    private static final AttributeFieldService _attributeFieldService = AttributeFieldService.getInstance( );
+    
+    @Inject
+    private transient AttributeService _attributeService;
+    @Inject
+    private transient AttributeFieldService _attributeFieldService;
 
     /**
      * Create attribute field

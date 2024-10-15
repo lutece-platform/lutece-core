@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolation;
@@ -106,7 +107,9 @@ public abstract class MVCApplication implements XPageApplication
     private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private MVCMessageBox _messageBox;
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
-
+    @Inject
+    private transient AccessLogService _accessLogService;
+    
     /**
      * Returns the content of the page
      *
@@ -160,7 +163,7 @@ public abstract class MVCApplication implements XPageApplication
 
             if ( m != null )
             {
-                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), registredUser,
+                getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), registredUser,
                         request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
                 return (XPage) m.invoke( this, request );
             }
@@ -170,7 +173,7 @@ public abstract class MVCApplication implements XPageApplication
 
             if ( m != null )
             {
-                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
+                getAccessLogService( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
                         request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
                 return (XPage) m.invoke( this, request );
             }
@@ -178,7 +181,7 @@ public abstract class MVCApplication implements XPageApplication
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
 
-            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
+            getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
                     request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
             return (XPage) m.invoke( this, request );
         }
@@ -950,4 +953,10 @@ public abstract class MVCApplication implements XPageApplication
 
         return null;
     }
+    
+    private AccessLogService getAccessLogService( )
+    {
+        return null != _accessLogService ? _accessLogService : AccessLogService.getInstance( );
+    }
+    
 }

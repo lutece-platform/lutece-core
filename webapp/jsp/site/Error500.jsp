@@ -3,12 +3,8 @@
 
 <jsp:include page="PortalHeader.jsp" />
 
-<jsp:useBean id="portal" scope="page" class="fr.paris.lutece.portal.web.PortalJspBean" />
-
 <%
 	TransactionManager.rollBackEveryTransaction( exception );
 %>
 
-<%= portal.getError500Page( request , exception ) %>
-
-
+${ portalJspBean.getError500Page( pageContext.request, pageContext.exception ) }

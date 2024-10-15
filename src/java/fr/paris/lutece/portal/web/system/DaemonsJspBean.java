@@ -49,11 +49,15 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
  */
+@SessionScoped
+@Named
 public class DaemonsJspBean extends AdminPageJspBean
 {
     public static final String RIGHT_DAEMONS_MANAGEMENT = "CORE_DAEMONS_MANAGEMENT";

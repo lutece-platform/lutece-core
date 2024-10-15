@@ -1,9 +1,9 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 <jsp:include page="../AdminHeader.jsp" />
 
-<jsp:useBean id="externalFeatures" scope="session" class="fr.paris.lutece.portal.web.features.ExternalFeaturesJspBean" />
+<%@page import="fr.paris.lutece.portal.web.features.ExternalFeaturesJspBean"%>
 
-<% externalFeatures.init( request , externalFeatures.RIGHT_EXTERNAL_FEATURES_MANAGEMENT ); %>
-<%= externalFeatures.getCreateExternalFeature ( request ) %>
+${ externalFeaturesJspBean.init( pageContext.request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT ) }
+${ externalFeaturesJspBean.getCreateExternalFeature( pageContext.request ) }
 
 <%@ include file="../AdminFooter.jsp" %>

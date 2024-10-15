@@ -1,9 +1,9 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 <jsp:include page="../AdminHeader.jsp" />
 
-<jsp:useBean id="workgroup" scope="session" class="fr.paris.lutece.portal.web.workgroup.AdminWorkgroupJspBean" />
+<%@page import="fr.paris.lutece.portal.web.workgroup.AdminWorkgroupJspBean"%>
 
-<% workgroup.init( request, "CORE_WORKGROUPS_MANAGEMENT" ) ; %>
-<%= workgroup.getModifyWorkgroup( request ) %>
+${ adminWorkgroupJspBean.init( pageContext.request, AdminWorkgroupJspBean.RIGHT_MANAGE_WORKGROUPS ) }
+${ adminWorkgroupJspBean.getModifyWorkgroup( pageContext.request ) }
 
 <%@ include file="../AdminFooter.jsp" %>

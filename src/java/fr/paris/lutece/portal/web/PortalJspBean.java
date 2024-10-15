@@ -76,13 +76,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 /**
  * This class provides the methods to display the page of the site
  */
+@Dependent
+@Named
 public class PortalJspBean
 {
     public static final int MODE_HTML = 0;

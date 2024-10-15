@@ -1,9 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="appSearch" scope="session" class="fr.paris.lutece.portal.web.search.SearchJspBean" />
+<%@page import="fr.paris.lutece.portal.web.search.SearchJspBean"%>
 
-<%
-	appSearch.init( request, "CORE_SEARCH_MANAGEMENT" ) ; 
-	response.sendRedirect( appSearch.doModifyAdvancedParameters( request ) );  
-%>
-
+${ searchJspBean.init( pageContext.request, SearchJspBean.RIGHT_SEARCH_MANAGEMENT ) }
+${ pageContext.response.sendRedirect( searchJspBean.doModifyAdvancedParameters( pageContext.request )) }

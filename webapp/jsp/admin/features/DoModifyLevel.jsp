@@ -1,9 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 
-<jsp:useBean id="level" scope="session" class="fr.paris.lutece.portal.web.features.LevelsJspBean" />
+<%@page import="fr.paris.lutece.portal.web.features.LevelsJspBean"%>
 
-<% 
-        level.init( request , level.RIGHT_MANAGE_LEVELS ); 
-        response.sendRedirect( level.doModifyLevel( request ) );
-%>
-
+${ levelsJspBean.init( pageContext.request, LevelsJspBean.RIGHT_MANAGE_LEVELS ) }
+${ pageContext.response.sendRedirect( levelsJspBean.doModifyLevel( pageContext.request )) }

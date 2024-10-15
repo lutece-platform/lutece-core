@@ -41,7 +41,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -85,6 +88,8 @@ import fr.paris.lutece.util.password.IPasswordFactory;
 /**
  * This class provides the user interface to manage admin features ( manage, create, modify, remove)
  */
+@SessionScoped
+@Named
 public class AdminMenuJspBean implements Serializable
 {
     // ///////////////////////////////////////////////////////////////////////////////
@@ -143,7 +148,9 @@ public class AdminMenuJspBean implements Serializable
     private static String _strJavascripts;
     private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
     private static Logger _loggerAccess = LogManager.getLogger( LOGGER_ACCESS );
-
+    @Inject
+    private transient DashboardService _dashboardService;
+    
     /**
      * Returns the Administration header menu
      *
@@ -242,30 +249,30 @@ public class AdminMenuJspBean implements Serializable
      */
     private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request )
     {
-        List<IDashboardComponent> listDashboards = DashboardService.getInstance( ).getDashboards( user, request );
+        List<IDashboardComponent> listDashboards = _dashboardService.getDashboards( user, request );
         int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
 
         if ( CollectionUtils.isNotEmpty( listDashboards ) )
         {
-            int nColumnCount = DashboardService.getInstance( ).getColumnCount( );
+            int nColumnCount = _dashboardService.getColumnCount( );
 
             // Personnalized dashboards for the nColumnCount first zones
             for ( int i = 1; i <= nColumnCount; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance( ).getDashboardData( listDashboards, user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i, _dashboardService.getDashboardData( listDashboards, user, i, request ) );
             }
 
             // Default dashboards for the nColumnCount to nZoneMax zones
             for ( int i = nColumnCount + 1; i < nZoneMax; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance( ).getDashboardData( user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i, _dashboardService.getDashboardData( user, i, request ) );
             }
         }
         else
         {
             for ( int i = 1; i < nZoneMax; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance( ).getDashboardData( user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i, _dashboardService.getDashboardData( user, i, request ) );
             }
         }
     }
@@ -284,7 +291,7 @@ public class AdminMenuJspBean implements Serializable
      */
     private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request, int nDashboardZone )
     {
-        model.put( MARK_DASHBOARD_ZONE + nDashboardZone, DashboardService.getInstance( ).getDashboardData( user, nDashboardZone, request ) );
+        model.put( MARK_DASHBOARD_ZONE + nDashboardZone, _dashboardService.getDashboardData( user, nDashboardZone, request ) );
     }
 
     /**

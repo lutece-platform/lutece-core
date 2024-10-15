@@ -53,6 +53,7 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * AdminDashboardJspBean Test Class
@@ -61,14 +62,14 @@ import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 public class AdminDashboardJspBeanTest extends LuteceTestCase
 {
 
+    @Inject
     private AdminDashboardJspBean instance;
     private IAdminDashboardComponent _dashboard;
 
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        instance = new AdminDashboardJspBean( );
-        _dashboard = new TestAdminDashboardCompoent( );
+        _dashboard = new TestAdminDashboardComponent( );
         _dashboard.setName( getRandomName( ) );
         AdminDashboardFactory.registerDashboardComponent( _dashboard );
         AdminDashboardHome.create( _dashboard );
@@ -101,8 +102,6 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
 
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
-
-        instance = new AdminDashboardJspBean( );
 
         // should not throw on freemarker templating
         String adminDashboards = instance.getAdminDashboards( request );

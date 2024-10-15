@@ -47,11 +47,15 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage Alias Portlet
  */
+@SessionScoped
+@Named
 public class AliasPortletJspBean extends PortletJspBean
 {
     // //////////////////////////////////////////////////////////////////////////

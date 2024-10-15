@@ -37,7 +37,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -63,6 +65,8 @@ import fr.paris.lutece.util.http.SecurityUtil;
 /**
  * This class provides the user interface to manage security headers features ( manage, create, modify, remove, activate/deactivate ).
  */
+@SessionScoped
+@Named
 public class SecurityHeaderJspBean extends MVCAdminJspBean
 {
     // Rights

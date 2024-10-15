@@ -1,10 +1,6 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
-<jsp:useBean id="aliasPortlet" scope="session" class="fr.paris.lutece.portal.web.portlet.AliasPortletJspBean" />
+<%@page import="fr.paris.lutece.portal.web.portlet.AliasPortletJspBean"%>
 
-        
-<%
-    aliasPortlet.init( request, aliasPortlet.RIGHT_MANAGE_ADMIN_SITE );
-    response.sendRedirect( aliasPortlet.doModify( request ) );
-%>
-
+${ aliasPortletJspBean.init( pageContext.request, AliasPortletJspBean.RIGHT_MANAGE_ADMIN_SITE ) }
+${ pageContext.response.sendRedirect( aliasPortletJspBean.doModify( pageContext.request )) }

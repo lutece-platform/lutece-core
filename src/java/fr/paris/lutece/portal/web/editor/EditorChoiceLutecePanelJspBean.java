@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.web.editor;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -43,6 +45,8 @@ import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 /**
  * The Class EditorChoiceLutecePanelJspBean.
  */
+@SessionScoped
+@Named
 public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
 {
     public static final String RIGHT_EDITORS_MANAGEMENT = "CORE_EDITORS_MANAGEMENT";

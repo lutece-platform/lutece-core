@@ -1,9 +1,9 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 <jsp:include page="../AdminHeader.jsp" />
 
-<jsp:useBean id="level" scope="session" class="fr.paris.lutece.portal.web.features.LevelsJspBean" />
+<%@page import="fr.paris.lutece.portal.web.features.LevelsJspBean"%>
 
-<% level.init( request , level.RIGHT_MANAGE_LEVELS ); %>
-<%= level.getCreateLevel( request )%>
+${ levelsJspBean.init( pageContext.request, LevelsJspBean.RIGHT_MANAGE_LEVELS ) }
+${ levelsJspBean.getCreateLevel( pageContext.request ) }
 
 <%@ include file="../AdminFooter.jsp" %>

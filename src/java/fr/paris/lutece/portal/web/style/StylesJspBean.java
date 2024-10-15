@@ -39,6 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -66,6 +68,8 @@ import fr.paris.lutece.util.sort.AttributeComparator;
 /**
  * This class provides the user interface to manage Styles features
  */
+@SessionScoped
+@Named
 public class StylesJspBean extends AdminFeaturesPageJspBean
 {
     // ////////////////////////////////////////////////////////////////////////////////

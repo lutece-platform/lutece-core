@@ -37,6 +37,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -63,6 +66,8 @@ import fr.paris.lutece.util.string.StringUtil;
  * Provides technical admin dashboard managements and display. Display is NOT managed as an admin feature (no right required).
  *
  */
+@RequestScoped
+@Named
 public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 {
     private static final long serialVersionUID = 5312273100074724058L;
@@ -96,7 +101,8 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
     // Jsp
     private static final String JSP_MANAGE_DASHBOARDS = "ManageAdminDashboards.jsp";
     private static final String EMPTY_STRING = "";
-    private transient AdminDashboardService _service = AdminDashboardService.getInstance( );
+    @Inject
+    private transient AdminDashboardService _adminDashboardService;
 
     /**
      * Displays admin dashboards
@@ -111,9 +117,9 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<>( );
 
         // put each column data
-        for ( int nColumn = 1; nColumn <= getAdminDashboardService( ).getColumnCount( ); nColumn++ )
+        for ( int nColumn = 1; nColumn <= _adminDashboardService.getColumnCount( ); nColumn++ )
         {
-            String strColumnData = getAdminDashboardService( ).getDashboardData( user, nColumn, request );
+            String strColumnData = _adminDashboardService.getDashboardData( user, nColumn, request );
 
             model.put( MARK_COLUMN_CONTENT_PREFIX + nColumn, strColumnData );
         }
@@ -136,16 +142,16 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<>( );
 
-        Map<String, List<IAdminDashboardComponent>> mapAdminDashboards = getAdminDashboardService( ).getAllSetDashboards( );
+        Map<String, List<IAdminDashboardComponent>> mapAdminDashboards = _adminDashboardService.getAllSetDashboards( );
         model.put( MARK_MAP_DASHBOARDS, mapAdminDashboards );
 
-        List<IAdminDashboardComponent> listNotSetDashboards = getAdminDashboardService( ).getNotSetDashboards( );
+        List<IAdminDashboardComponent> listNotSetDashboards = _adminDashboardService.getNotSetDashboards( );
         model.put( MARK_NOT_SET_DASHBOARDS, listNotSetDashboards );
 
-        model.put( MARK_COLUMN_COUNT, getAdminDashboardService( ).getColumnCount( ) );
+        model.put( MARK_COLUMN_COUNT, _adminDashboardService.getColumnCount( ) );
         model.put( MARK_MAP_AVAILABLE_ORDERS, getMapAvailableOrders( ) );
         model.put( MARK_LIST_AVAILABLE_COLUMNS, getListAvailableColumns( ) );
-        model.put( MARK_MAP_COLUMN_ORDER_STATUS, getAdminDashboardService( ).getOrderedColumnsStatus( ) );
+        model.put( MARK_MAP_COLUMN_ORDER_STATUS, _adminDashboardService.getOrderedColumnsStatus( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale( ), model );
@@ -187,7 +193,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-        getAdminDashboardService( ).doReorderColumn( nColumn );
+        _adminDashboardService.doReorderColumn( nColumn );
 
         return JSP_MANAGE_DASHBOARDS;
     }
@@ -252,7 +258,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         dashboard.setOrder( nOrder );
         dashboard.setZone( nColumn );
 
-        getAdminDashboardService( ).doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
+        _adminDashboardService.doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
 
         return JSP_MANAGE_DASHBOARDS;
     }
@@ -269,7 +275,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         // add empty item
         refList.addItem( EMPTY_STRING, EMPTY_STRING );
 
-        for ( int nColumnIndex = 1; nColumnIndex <= getAdminDashboardService( ).getColumnCount( ); nColumnIndex++ )
+        for ( int nColumnIndex = 1; nColumnIndex <= _adminDashboardService.getColumnCount( ); nColumnIndex++ )
         {
             refList.addItem( nColumnIndex, Integer.toString( nColumnIndex ) );
         }
@@ -320,12 +326,4 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         return refList;
     }
 
-    private AdminDashboardService getAdminDashboardService( )
-    {
-        if ( _service == null )
-        {
-            _service = AdminDashboardService.getInstance( );
-        }
-        return _service;
-    }
 }

@@ -78,6 +78,8 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     private static final String TEST_LANGUAGE = "en";
     private @Inject IPasswordFactory passwordFactory;
     private @Inject IAdminUserDAO adminUserDAO;
+    private @Inject AdminMenuJspBean instance;
+    
     AdminUser _user = new AdminUser( );
 
     {
@@ -95,7 +97,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         getUser( request );
         AdminUserUtils.registerAdminUser( request, _user );
 
-        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        
         assertNotNull( instance.getAdminMenuHeader( request ) );
     }
 
@@ -111,7 +113,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         getUser( request );
         AdminUserUtils.registerAdminUser( request, _user );
 
-        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        
         assertTrue( StringUtils.isNotEmpty( instance.getAdminMenuUser( request ) ) );
     }
 
@@ -132,7 +134,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
 
         Locale localeSTored = _user.getLocale( );
 
-        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        
         instance.doChangeLanguage( request );
         assertNotSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
     }
@@ -150,7 +152,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
 
         Locale localeSTored = _user.getLocale( );
 
-        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        
         try
         {
             instance.doChangeLanguage( request );
@@ -173,7 +175,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
 
         Locale localeSTored = _user.getLocale( );
 
-        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        
         try
         {
             instance.doChangeLanguage( request );
@@ -215,7 +217,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         adminUserDAO.insert( user );
         try
         {
-            AdminMenuJspBean instance = new AdminMenuJspBean( );
+            
             // no args
             MockHttpServletRequest request = new MockHttpServletRequest( );
             request.getSession( true ).setAttribute( "lutece_admin_user", user );
@@ -341,7 +343,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         user.setLastName( randomUsername );
         user.setEmail( randomUsername + "@lutece.fr" );
         adminUserDAO.insert( user );
-        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.getSession( true ).setAttribute( "lutece_admin_user", user );
         request = new MockHttpServletRequest( );
@@ -376,7 +378,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         user.setLastName( randomUsername );
         user.setEmail( randomUsername + "@lutece.fr" );
         adminUserDAO.insert( user );
-        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.getSession( true ).setAttribute( "lutece_admin_user", user );
         request = new MockHttpServletRequest( );
@@ -410,7 +412,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         boolean bAccessibilityMode = _user.getAccessibilityMode( );
         try
         {
-            AdminMenuJspBean instance = new AdminMenuJspBean( );
+            
             instance.doModifyAccessibilityMode( request );
             assertEquals( !bAccessibilityMode, _user.getAccessibilityMode( ) );
         }
@@ -432,7 +434,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         boolean bAccessibilityMode = _user.getAccessibilityMode( );
         try
         {
-            AdminMenuJspBean instance = new AdminMenuJspBean( );
+            
             instance.doModifyAccessibilityMode( request );
             fail( "Should have thrown" );
         }
@@ -456,7 +458,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         boolean bAccessibilityMode = _user.getAccessibilityMode( );
         try
         {
-            AdminMenuJspBean instance = new AdminMenuJspBean( );
+            
             instance.doModifyAccessibilityMode( request );
             fail( "Should have thrown" );
         }

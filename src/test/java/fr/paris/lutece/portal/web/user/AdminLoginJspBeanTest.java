@@ -69,6 +69,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     private LuteceDefaultAdminUser user;
     private @Inject IPasswordFactory passwordFactory;
     private @Inject IAdminUserDAO adminUserDAO;
+    private @Inject AdminLoginJspBean bean;
 
     @BeforeEach
     public void setUp( ) throws Exception
@@ -94,7 +95,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoLogin( ) throws Exception
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) );
         bean.doLogin( request );
@@ -122,7 +123,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoLoginNoCSRFToken( ) throws Exception
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, "admin" );
         request.addParameter( Parameters.PASSWORD, "adminadmin" );
@@ -139,7 +140,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoLoginBadCSRFToken( ) throws Exception
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) + "b" );
         request.addParameter( Parameters.ACCESS_CODE, "admin" );
@@ -157,7 +158,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoLoginDisabledLuteceUser( ) throws Exception
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) );
         request.addParameter( Parameters.ACCESS_CODE, "lutece" );
@@ -170,7 +171,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoLoginDisabledRedacUser( ) throws Exception
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) );
         request.addParameter( Parameters.ACCESS_CODE, "redac" );
@@ -183,7 +184,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoLoginDisabledValidUser( ) throws Exception
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) );
         request.addParameter( Parameters.ACCESS_CODE, "valid" );
@@ -196,7 +197,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoForgotPasswordNoParam( ) throws Exception
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         bean.doForgotPassword( request );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -206,7 +207,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoForgotPasswordDoesNotExist( ) throws Exception
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, "DOES_NOT_EXIST" );
@@ -219,7 +220,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         user.setEmail( null );
         adminUserDAO.store( user );
 
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, user.getAccessCode( ) );
@@ -229,7 +230,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoForgotPassword( ) throws Exception
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, user.getAccessCode( ) );
@@ -273,7 +274,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
 
     private void doResetPasswordTest( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -313,7 +314,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
 
         try
         {
-            AdminLoginJspBean bean = new AdminLoginJspBean( );
+    
             MockHttpServletRequest request = new MockHttpServletRequest( );
             request.setMethod( "POST" );
             request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -354,7 +355,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordShortPassword( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -378,7 +379,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordChangedPassword( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -407,7 +408,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordExpiredToken( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -431,7 +432,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordNonexistentUser( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( Integer.MAX_VALUE ) );
@@ -452,7 +453,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordBadToken( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -477,7 +478,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordDifferentPasswords( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -500,7 +501,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordNoNewPassword( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -522,7 +523,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordNoConfirmPassword( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -544,7 +545,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordGET( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "GET" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -570,7 +571,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordNoTimestamp( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -592,7 +593,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordNoUserId( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         Date timestamp = new Date( );
@@ -614,7 +615,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoResetPasswordNoToken( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
@@ -635,7 +636,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     @Test
     public void testGetResetPasswordNoRequestParameters( )
     {
-        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
         bean.getResetPassword( request );

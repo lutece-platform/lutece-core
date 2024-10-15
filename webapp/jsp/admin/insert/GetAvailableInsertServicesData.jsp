@@ -1,4 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
-<jsp:useBean id="insertServiceSelector" scope="session" class="fr.paris.lutece.portal.web.insert.InsertServiceSelectorJspBean" />
-<% insertServiceSelector.init( request , insertServiceSelector.RIGHT_MANAGE_LINK_SERVICE ); %>
-<%= insertServiceSelector.getServicesListPage( request ) %>
+
+<%@page import="fr.paris.lutece.portal.web.insert.InsertServiceSelectorJspBean"%>
+
+${ insertServiceSelectorJspBean.init( pageContext.request, InsertServiceSelectorJspBean.RIGHT_MANAGE_LINK_SERVICE ) }
+${ insertServiceSelectorJspBean.getServicesListPage( pageContext.request ) }

@@ -1,8 +1,6 @@
 <%@ page errorPage="../../ErrorPage.jsp" %>
 
-<jsp:useBean id="attributeField" scope="session" class="fr.paris.lutece.portal.web.user.attribute.AttributeFieldJspBean" />
+<%@page import="fr.paris.lutece.portal.web.user.AdminUserJspBean"%>
 
-<%
-	attributeField.init( request, "CORE_USERS_MANAGEMENT" ) ; 
-    response.sendRedirect( attributeField.doRemoveAttributeField( request ) ); 
-%>
+${ attributeFieldJspBean.init( pageContext.request, AdminUserJspBean.RIGHT_USERS_MANAGEMENT ) }
+${ pageContext.response.sendRedirect( attributeFieldJspBean.doRemoveAttributeField( pageContext.request )) }
