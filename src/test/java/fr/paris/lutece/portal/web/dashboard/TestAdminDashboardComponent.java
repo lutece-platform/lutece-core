@@ -38,7 +38,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
 
-final class TestAdminDashboardCompoent extends AdminDashboardComponent
+final class TestAdminDashboardComponent extends AdminDashboardComponent
 {
 
     @Override
