@@ -33,9 +33,15 @@
  */
 package fr.paris.lutece.portal.service.init;
 
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
+
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import jakarta.enterprise.event.Observes;
@@ -56,7 +62,7 @@ public class AppInitExtension implements Extension
         
         if ( Files.notExists( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF ) ) )
         {
-            String _strResourcesDir = getClass( ).getResource( "/" ).toString( ).replaceFirst( "file:", "" )
+        	String _strResourcesDir = getClass( ).getResource( "/" ).toString( ).replaceFirst( "file:", "" )
                     .replaceFirst( "test-classes", "lutece" )
                     .replaceFirst( "classes", "lutece" );
             AppPathService.init( _strResourcesDir );
@@ -64,7 +70,24 @@ public class AppInitExtension implements Extension
         
         if ( Files.exists( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF + FILE_PROPERTIES_CONFIG ) ) )
         {
-            System.setProperty( "log4j.configurationFile", "file:" + AppPathService.getWebAppPath( ) + "/WEB-INF/conf/log.properties" );
+        	String log4jConfigurationFile = System.getProperty( "log4j.configurationFile" );
+            if ( StringUtils.isEmpty( log4jConfigurationFile ) )
+            {
+                String pluginLogsConfigFiles = StringUtils.EMPTY;
+                try
+                {
+                    pluginLogsConfigFiles = Files.walk( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF ) )
+                        .filter( p -> p.toString( ).endsWith( "_log.xml" ) )
+                        .map( Path::toString ).collect( Collectors.joining( ",file:", "file:", "," ) );
+                }
+                catch( IOException e )
+                {
+                    throw new AppException( "Error loading plugins log4j config files", e );
+                }
+                
+                log4jConfigurationFile = pluginLogsConfigFiles.replace("\\", "/") + ( "file:" + AppPathService.getWebAppPath( ) + "/WEB-INF/conf/log.xml" );
+                System.setProperty( "log4j.configurationFile", log4jConfigurationFile );
+            }
             AppLogService.info( " {} {} {} ...\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version", AppInfo.getVersion( ) );
             AppInit.initPropertiesServices( PATH_CONF, AppPathService.getWebAppPath( ) );
         }

@@ -1,0 +1,288 @@
+<Configuration status="error" dest="err" name="PropertiesConfig">
+ 	<Properties>
+ 	    <Property name="luteceLogDirectory">${web:rootDir}/logs</Property>
+	</Properties>
+ 	
+ 	<!-- ########                       A P P E N D E R S                       ######### -->
+	<Appenders>
+	    <!--File "error.log"-->
+	    <RollingFile name="Error"
+                     fileName="${luteceLogDirectory}/error.log"
+                     filePattern="${luteceLogDirectory}/error-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <LevelRangeFilter minLevel="FATAL" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>                            
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!--File "application.log"-->
+	    <RollingFile name="Application"
+                     fileName="${luteceLogDirectory}/application.log"
+                     filePattern="${luteceLogDirectory}/application-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!--File "pool.log"-->
+	    <RollingFile name="Pool"
+                     fileName="${luteceLogDirectory}/pool.log"
+                     filePattern="${luteceLogDirectory}/pool-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!--File "mail.log"-->
+	    <RollingFile name="Mail"
+                     fileName="${luteceLogDirectory}/mail.log"
+                     filePattern="${luteceLogDirectory}/mail-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!--File "PDF.log"-->
+	    <RollingFile name="PDF"
+                     fileName="${luteceLogDirectory}/pdf.log"
+                     filePattern="${luteceLogDirectory}/pdf-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!--File "security.log"-->
+	    <RollingFile name="Security"
+                     fileName="${luteceLogDirectory}/security.log"
+                     filePattern="${luteceLogDirectory}/security-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!--File "jpa.log"-->
+	    <RollingFile name="JPA"
+                     fileName="${luteceLogDirectory}/jpa.log"
+                     filePattern="${luteceLogDirectory}/jpa-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!--File "indexer.log"-->
+	    <RollingFile name="Indexer"
+                     fileName="${luteceLogDirectory}/indexer.log"
+                     filePattern="${luteceLogDirectory}/indexer-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!--Console-->
+        <Console name="STDOUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=green} %style{%pid} --- [%18.18t] %style{%-10.10c{1.}}{cyan}: %m%n%ex"/>
+        </Console>
+        
+        <!--Email-->     
+        <!--SMTP name="SendMail" 
+              subject="Lutece Error" 
+              bufferSize="10"
+              from="noreply@nowhere.org"
+              to="admin@nowhere.org">
+              <PatternLayout pattern="%d{dd/MM/yy HH:mm:ss} %-5p [%t] %c{2} - %m%n"/>
+        </SMTP-->
+        
+        <!--File "admin_access.log"-->
+	    <RollingFile name="AdminAccess"
+                     fileName="${luteceLogDirectory}/adminAccess.log"
+                     filePattern="${luteceLogDirectory}/adminAccess-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        
+        <!--File "accessLogger.log"-->
+	    <RollingFile name="AccessLogger"
+                     fileName="${luteceLogDirectory}/accessLogger.log"
+                     filePattern="${luteceLogDirectory}/accessLogger-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>       
+    </Appenders>
+    
+    <!-- ################################################################################
+         # log4j2 parameters
+         # The following loggers should be set to ERROR level in production mode
+
+         ########                         L O G G E R S                         ######### -->
+    <Loggers>
+        <Root level="error">
+            <AppenderRef ref="Error"/>
+        </Root>
+        
+        <Logger name="lutece.application" level="error" additivity="false">
+            <AppenderRef ref="Application"/>
+            <AppenderRef ref="Error"/>
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        
+        <Logger name="lutece" level="info">
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        
+        <Logger name="lutece.mvc" level="info">
+            <AppenderRef ref="Error"/>
+        </Logger>
+        
+        <Logger name="lutece.cache" level="info">
+            <AppenderRef ref="Error"/>
+        </Logger>
+        
+        <Logger name="lutece.debug.xmlContent" level="error">
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        
+        <Logger name="lutece.debug.sql" level="error">
+            <AppenderRef ref="STDOUT"/>
+        </Logger>
+        
+        <Logger name="lutece.mail" level="info" additivity="false">
+            <AppenderRef ref="Mail"/>
+        </Logger>
+        
+        <Logger name="lutece.pool" level="error">
+            <AppenderRef ref="Pool"/>
+        </Logger>
+        
+        <Logger name="lutece.security" level="warn">
+            <AppenderRef ref="Security"/>
+        </Logger>
+        
+        <Logger name="lutece.adminaccess" level="info">
+            <AppenderRef ref="AdminAccess"/>
+        </Logger>
+        
+        <Logger name="lutece.accessLogger" level="info" additivity="false">
+            <AppenderRef ref="AccessLogger"/>
+        </Logger>
+        
+        <Logger name="lutece.accessLogger.bo" level="info" additivity="false">
+            <AppenderRef ref="AccessLogger"/>
+        </Logger>
+        
+        <Logger name="lutece.accessLogger.fo" level="info" additivity="false">
+            <AppenderRef ref="AccessLogger"/>
+        </Logger>
+        
+        <Logger name="servlet" level="error">
+            <AppenderRef ref="Error"/>
+        </Logger>
+        
+        <Logger name="session" level="error">
+            <AppenderRef ref="Error"/>
+        </Logger>
+        
+        <Logger name="compiler" level="error">
+            <AppenderRef ref="Error"/>
+        </Logger>
+        
+        <Logger name="digester" level="error">
+            <AppenderRef ref="Error"/>
+        </Logger>
+        
+        <Logger name="beanutils" level="error">
+            <AppenderRef ref="Error"/>
+        </Logger>
+        
+        <Logger name="freemarker" level="error">
+            <AppenderRef ref="Error"/>
+        </Logger>
+        
+        <Logger name="httpclient" level="error">
+            <AppenderRef ref="Error"/>
+        </Logger>
+        
+        <Logger name="org.apache.pdfbox" level="error">
+            <AppenderRef ref="PDF"/>
+        </Logger>
+        
+        <Logger name="lutece.jpa" level="info">
+            <AppenderRef ref="JPA"/>
+        </Logger>
+        
+        <Logger name="org.hibernate" level="info">
+            <AppenderRef ref="JPA"/>
+        </Logger>
+        
+        <Logger name="org.springframework.transaction" level="info">
+            <AppenderRef ref="JPA"/>
+        </Logger>
+        
+        <Logger name="org.springframework.orm.jpa" level="info">
+            <AppenderRef ref="JPA"/>
+        </Logger>
+        
+        <Logger name="lutece.indexer" level="error">
+            <AppenderRef ref="Indexer"/>
+        </Logger>
+        
+        <Logger name="lutece.securityHeader" level="error">
+            <AppenderRef ref="Application"/>
+        </Logger>
+        
+        <Logger name="org.apache.tika" level="error">
+            <AppenderRef ref="Indexer"/>
+        </Logger>
+    </Loggers>
+ </Configuration>

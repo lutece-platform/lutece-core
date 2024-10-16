@@ -48,12 +48,8 @@ import org.apache.logging.log4j.util.Supplier;
 public final class AppLogService
 {
     // Constants
-    private static final String LOGGER_EVENTS = "lutece.event";
-    private static final String LOGGER_DEBUG = "lutece.debug";
-    private static final String LOGGER_ERRORS = "lutece.error";
-    private static Logger _loggerEvents = LogManager.getLogger( LOGGER_EVENTS );
-    private static Logger _loggerErrors = LogManager.getLogger( LOGGER_ERRORS );
-    private static Logger _loggerDebug = LogManager.getLogger( LOGGER_DEBUG );
+	private static final String LOGGER = "lutece.application";
+	private static Logger _logger = LogManager.getLogger( LOGGER );
 
     /**
      * Creates a new AppLogService object.
@@ -71,7 +67,7 @@ public final class AppLogService
      */
     public static boolean isDebugEnabled( )
     {
-        return _loggerDebug.isDebugEnabled( );
+        return _logger.isDebugEnabled( );
     }
 
     /**
@@ -82,7 +78,7 @@ public final class AppLogService
      */
     public static void debug( Object objToLog )
     {
-        _loggerDebug.debug( objToLog );
+        _logger.debug( objToLog );
     }
 
     /**
@@ -99,7 +95,7 @@ public final class AppLogService
      */
     public static void debug( String message, Object... params )
     {
-        _loggerDebug.debug( message, params );
+        _logger.debug( message, params );
     }
 
     /**
@@ -112,7 +108,7 @@ public final class AppLogService
      */
     public static void debug( String message, Supplier<?>... paramSuppliers )
     {
-        _loggerDebug.debug( message, paramSuppliers );
+        _logger.debug( message, paramSuppliers );
     }
 
     /**
@@ -137,7 +133,7 @@ public final class AppLogService
      */
     public static void error( Object objToLog )
     {
-        _loggerErrors.error( objToLog );
+        _logger.error( objToLog );
     }
 
     /**
@@ -150,7 +146,7 @@ public final class AppLogService
      */
     public static void error( Object message, Throwable t )
     {
-        _loggerErrors.error( message, t );
+        _logger.error( message, t );
     }
 
     /**
@@ -168,7 +164,7 @@ public final class AppLogService
     public static void error( String message, Object... params )
     {
 
-        _loggerErrors.error( message, params );
+        _logger.error( message, params );
     }
 
     /**
@@ -182,7 +178,7 @@ public final class AppLogService
     public static void error( String message, Supplier<?>... paramSuppliers )
     {
 
-        _loggerErrors.error( message, paramSuppliers );
+        _logger.error( message, paramSuppliers );
     }
 
     /**
@@ -192,7 +188,7 @@ public final class AppLogService
      */
     public static boolean isErrorEnabled( )
     {
-        return _loggerErrors.isErrorEnabled( );
+        return _logger.isErrorEnabled( );
     }
 
     /**
@@ -203,7 +199,7 @@ public final class AppLogService
      */
     public static void info( Object objToLog )
     {
-        _loggerEvents.info( objToLog );
+        _logger.info( objToLog );
 
     }
 
@@ -221,7 +217,7 @@ public final class AppLogService
      */
     public static void info( String message, Object... params )
     {
-        _loggerEvents.info( message, params );
+        _logger.info( message, params );
     }
 
     /**
@@ -234,7 +230,7 @@ public final class AppLogService
      */
     public static void info( String message, Supplier<?>... paramSuppliers )
     {
-        _loggerEvents.info( message, paramSuppliers );
+        _logger.info( message, paramSuppliers );
     }
 
     /**
@@ -244,7 +240,7 @@ public final class AppLogService
      */
     public static boolean isInfoEnabled( )
     {
-        return _loggerEvents.isInfoEnabled( );
+        return _logger.isInfoEnabled( );
     }
     
     /**
