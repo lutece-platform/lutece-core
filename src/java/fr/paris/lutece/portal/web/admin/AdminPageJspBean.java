@@ -154,7 +154,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_PAGE_ID_CHILDPAGE = "portal.site.message.pageIdChildPage";
     private static final String MESSAGE_SAME_PAGE_ID = "portal.site.message.pageSameId";
     private static final String MESSAGE_MISSING_MANUAL_UPDATE_DATE = "portal.site.message.missingManualUpdateDate";
+    private static final String MESSAGE_LENGTH_TITLE = "portal.site.message.pageLengthTitle";
     private static IPageService _pageService = SpringContextService.getBean( "pageService" );
+
+    // Constants
+    private static final int MAX_TITLE_LENGTH = 50;
 
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
@@ -711,7 +715,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-
+        else if ( strName.trim( ).length( ) > MAX_TITLE_LENGTH )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_LENGTH_TITLE, new Object [ ] { MAX_TITLE_LENGTH }, AdminMessage.TYPE_STOP );
+        }
         // Checks if the page name contains HTML special characters
         else
             if ( StringUtil.containsHtmlSpecialCharacters( strName ) )
