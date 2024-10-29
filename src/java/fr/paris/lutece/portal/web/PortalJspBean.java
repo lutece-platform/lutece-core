@@ -76,7 +76,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
@@ -85,7 +85,7 @@ import jakarta.servlet.http.HttpSession;
 /**
  * This class provides the methods to display the page of the site
  */
-@Dependent
+@ApplicationScoped
 @Named
 public class PortalJspBean
 {
