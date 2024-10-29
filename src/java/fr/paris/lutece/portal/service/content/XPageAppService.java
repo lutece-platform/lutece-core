@@ -40,10 +40,12 @@ import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
@@ -104,11 +106,18 @@ public class XPageAppService extends ContentService
                     throw new LuteceInitException( ERROR_INSTANTIATION + entry.getId( ) + " - Could not find bean named " + applicationBeanName,
                             new ResolutionException( applicationBeanName ) );
                 }
+                
+                Class clazz = CDI.current( ).getBeanManager( ).getBeans( applicationBeanName ).iterator( ).next( ).getBeanClass( );
+                SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
+                securityTokenHandler.registerDisabledActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( clazz ) );
             }
             else
             {
                 // check that the class can be found
-                Class.forName( entry.getClassName( ) ).newInstance( );
+                Object instance = Class.forName( entry.getClassName( ) ).newInstance( );
+
+                SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
+                securityTokenHandler.registerDisabledActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( instance.getClass( ) ) );
             }
 
             _mapApplications.put( entry.getId( ), entry );

@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.message;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
+import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.constants.Markers;
@@ -49,6 +50,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -72,6 +74,9 @@ public class SiteMessageHandler implements ISiteMessageHandler
     private static final String BOOKMARK_BASE_URL = "@base_url@";
     private static final String MARK_BACK_URL = "back_url";
 
+    @Inject
+    private SecurityTokenHandler _securityTokenHandler;
+    
     /**
      * {@inheritDoc }
      */
@@ -113,6 +118,8 @@ public class SiteMessageHandler implements ISiteMessageHandler
 
         // Delete message in session
         SiteMessageService.cleanMessageSession( request );
+        
+        _securityTokenHandler.addSessionTokenValue( request, model );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, locale, model );
 

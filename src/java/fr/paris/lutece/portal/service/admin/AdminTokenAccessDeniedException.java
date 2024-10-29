@@ -31,32 +31,26 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.util.mvc.commons.annotations;
-
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package fr.paris.lutece.portal.service.admin;
 
 /**
- * Action annotation to designate controller actions
+ * Exception thrown when the user can't access a feature.
  */
-@Retention( RetentionPolicy.RUNTIME )
-@Inherited
-@Target( ElementType.METHOD )
-@Documented
-public @interface Action
+public class AdminTokenAccessDeniedException extends RuntimeException
 {
     /**
-     * The action code
      *
-     * @return the value
      */
-    String value( );
-    
-    String securityTokenAction( ) default "";
-    
-    boolean securityTokenDisabled( ) default false;
+    private static final long serialVersionUID = 323303358249337792L;
+
+    /**
+     * Builds a AccessDeniedException with the message
+     * 
+     * @param strMessage
+     *            the message
+     */
+    public AdminTokenAccessDeniedException( String strMessage )
+    {
+        super( strMessage );
+    }
 }

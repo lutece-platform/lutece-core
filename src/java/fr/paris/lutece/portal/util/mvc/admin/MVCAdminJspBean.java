@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.util.mvc.admin;
 
-import fr.paris.lutece.portal.service.security.AccessLogService;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -46,16 +45,18 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.Logger;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.AccessLogService;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
+import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -63,11 +64,14 @@ import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessage;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
+import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.beanvalidation.ValidationError;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
 /**
  * MVC Admin JspBean implementation let use MVC model to develop admin feature.
@@ -81,9 +85,6 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
 
-    // properties
-    private static final String PROPERTY_SITE_CODE = "lutece.code";
-
     // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
     private List<ErrorMessage> _listErrors = new ArrayList<>( );
@@ -93,6 +94,8 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private HttpServletResponse _response;
     @Inject
     private transient AccessLogService _accessLogService;
+    @Inject
+    private transient SecurityTokenHandler _securityTokenHandler;
 
     /**
      * Process request as a controller
@@ -111,7 +114,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         init( request, _controller.right( ) );
 
         Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( getClass( ) );
-
+        
+        getSecurityTokenHandler( ).registerDisabledActions( _controller.controllerPath( ) + _controller.controllerJsp( ), methods );
+        
         try
         {
             // Process views
@@ -123,6 +128,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             {
                 getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
                         request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
+                getSecurityTokenHandler( ).handleToken(request, m);
                 return (String) m.invoke( this, request );
             }
 
@@ -133,6 +139,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             {
                 getAccessLogService( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), adminUser,
                         request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
+                getSecurityTokenHandler( ).handleToken(request, m);
                 return (String) m.invoke( this, request );
             }
 
@@ -141,6 +148,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
                     request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
+            getSecurityTokenHandler( ).handleToken(request, m);
             return (String) m.invoke( this, request );
         }
         catch( InvocationTargetException e )
@@ -157,7 +165,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             throw new AppException( "MVC Error dispaching view and action ", e );
         }
     }
-
+    
     // //////////////////////////////////////////////////////////////////////////
     // Page utils
 
@@ -261,7 +269,8 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     {
         Map<String, Object> model = new HashMap<>( );
         fillCommons( model );
-
+        fillSecurityToken( model );
+        
         return model;
     }
 
@@ -583,8 +592,41 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         }
     }
     
+    /**
+     * Returns the AccesLogService instance by privileging direct injection. Used during complete transition do CDI XPages.
+     * 
+     * @return the AccessLogService instance
+     */
     private AccessLogService getAccessLogService( )
     {
-        return null != _accessLogService ? _accessLogService : AccessLogService.getInstance( );
+        return null != _accessLogService ? _accessLogService : CDI.current( ).select( AccessLogService.class ).get( );
+    }
+
+    /**
+     * Returns the SecurityTokenHandler instance by privileging direct injection. Used during complete transition do CDI XPages.
+     * 
+     * @return the SecurityTokenHandler instance
+     */
+    private SecurityTokenHandler getSecurityTokenHandler( )
+    {
+        return null != _securityTokenHandler ? _securityTokenHandler : CDI.current( ).select( SecurityTokenHandler.class ).get( );
+    }
+
+    /**
+     * Fill the model with security token
+     * 
+     * @param model
+     *            The model
+     */
+    private void fillSecurityToken( Map<String, Object> model )
+    {
+        if ( null != LocalVariables.getRequest( ) )
+        {
+            String strToken = getSecurityTokenHandler( ).resolveTokenValue( LocalVariables.getRequest( ) );
+            if ( null != strToken )
+            {
+                model.put( SecurityTokenHandler.MARK_CSRF_TOKEN, strToken );
+            }
+        }
     }
 }

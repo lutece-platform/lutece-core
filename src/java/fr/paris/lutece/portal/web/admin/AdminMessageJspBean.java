@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -47,6 +48,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -67,7 +69,9 @@ public class AdminMessageJspBean
     private static final String MARK_BACK_URL = "back_url";
     private static final String MARK_ADMIN_URL = "admin_url";
     private static final String PROPERTY_TITLE_ERROR = "portal.util.message.titleError";
-
+    @Inject
+    private transient SecurityTokenHandler _securityTokenHandler;
+    
     /**
      * Retrieve a message stored into a request
      * 
@@ -95,7 +99,9 @@ public class AdminMessageJspBean
         model.put( MARK_REQUEST_PARAMETERS, message.getRequestParameters( ) );
         model.put( MARK_BACK_URL, message.getBackUrl( ) );
         model.put( MARK_ADMIN_URL, AppPathService.getAdminMenuUrl( ) );
-
+        
+        _securityTokenHandler.addSessionTokenValue( request, model );
+        
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, locale, model );
 
         return template.getHtml( );

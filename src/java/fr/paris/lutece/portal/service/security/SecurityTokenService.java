@@ -59,7 +59,7 @@ public class SecurityTokenService implements ISecurityTokenService
     /**
      * SecurityTokenService
      */
-    private SecurityTokenService( )
+    SecurityTokenService( )
     {
     }
 
