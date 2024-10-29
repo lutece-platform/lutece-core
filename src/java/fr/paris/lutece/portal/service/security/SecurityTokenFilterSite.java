@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2024, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,32 +31,50 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.util.mvc.commons.annotations;
+package fr.paris.lutece.portal.service.security;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.io.IOException;
+
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import jakarta.inject.Inject;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * Action annotation to designate controller actions
+ * Filter to manage the CSRF token validation for MVCApplication requests.
  */
-@Retention( RetentionPolicy.RUNTIME )
-@Inherited
-@Target( ElementType.METHOD )
-@Documented
-public @interface Action
+public class SecurityTokenFilterSite implements Filter
 {
+    @Inject
+    private SecurityTokenHandler _securityTokenHandler;
+
     /**
-     * The action code
-     *
-     * @return the value
+     * {@inheritDoc}
      */
-    String value( );
-    
-    String securityTokenAction( ) default "";
-    
-    boolean securityTokenDisabled( ) default false;
+    @Override
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain ) throws IOException, ServletException
+    {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        _securityTokenHandler.handle( httpServletRequest );
+
+        if ( _securityTokenHandler.shouldNotFilter( httpServletRequest ) )
+        {
+            chain.doFilter( request, response );
+            return;
+        }
+
+        String action = MVCUtils.getAction( httpServletRequest );
+        if ( !_securityTokenHandler.validate( httpServletRequest, action ) )
+        {
+            throw new ServletException( new AccessDeniedException( "Invalid security token" ) );
+        }
+
+        chain.doFilter( request, response );
+    }
+
 }

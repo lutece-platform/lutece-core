@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.i18n.I18nTemplateMethod;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -235,6 +236,11 @@ public final class AppTemplateService
             String strLocalized = I18nService.localize( template.getHtml( ), locale );
             template = new HtmlTemplate( strLocalized );
         }
+        if ( null != model )
+        {
+            String strLocalized = SecurityTokenHandler.addSecurityToken( template.getHtml( ), model );
+            template = new HtmlTemplate( strLocalized );
+        }
         return template;
     }
     
@@ -262,6 +268,11 @@ public final class AppTemplateService
             String strLocalized = I18nService.localize( template.getHtml( ), locale );
             template = new HtmlTemplate( strLocalized );
         }
+        if ( null != model )
+        {
+            String strLocalized = SecurityTokenHandler.addSecurityToken( template.getHtml( ), model );
+            template = new HtmlTemplate( strLocalized );
+        }
         return template;
     }
 
@@ -286,6 +297,11 @@ public final class AppTemplateService
         if ( locale != null )
         {
             String strLocalized = I18nService.localize( template.getHtml( ), locale );
+            template = new HtmlTemplate( strLocalized );
+        }
+        if ( null != model )
+        {
+            String strLocalized = SecurityTokenHandler.addSecurityToken( template.getHtml( ), model );
             template = new HtmlTemplate( strLocalized );
         }
 

@@ -47,6 +47,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -60,6 +61,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
@@ -109,6 +111,8 @@ public abstract class MVCApplication implements XPageApplication
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
     @Inject
     private transient AccessLogService _accessLogService;
+    @Inject
+    private transient SecurityTokenHandler _securityTokenHandler;
     
     /**
      * Returns the content of the page
@@ -165,6 +169,7 @@ public abstract class MVCApplication implements XPageApplication
             {
                 getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), registredUser,
                         request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
+                getSecurityTokenHandler( ).handleToken(request, m);
                 return (XPage) m.invoke( this, request );
             }
 
@@ -175,6 +180,7 @@ public abstract class MVCApplication implements XPageApplication
             {
                 getAccessLogService( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
                         request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
+                getSecurityTokenHandler( ).handleToken(request, m);
                 return (XPage) m.invoke( this, request );
             }
 
@@ -183,6 +189,7 @@ public abstract class MVCApplication implements XPageApplication
 
             getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
                     request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
+            getSecurityTokenHandler( ).handleToken(request, m);
             return (XPage) m.invoke( this, request );
         }
         catch( InvocationTargetException e )
@@ -346,7 +353,8 @@ public abstract class MVCApplication implements XPageApplication
     {
         Map<String, Object> model = new HashMap<>( );
         fillCommons( model );
-
+        fillSecurityToken( model );
+        
         return model;
     }
 
@@ -954,9 +962,41 @@ public abstract class MVCApplication implements XPageApplication
         return null;
     }
     
+    /**
+     * Returns the AccesLogService instance by privileging direct injection. Used during complete transition do CDI XPages.
+     * 
+     * @return the AccessLogService instance
+     */
     private AccessLogService getAccessLogService( )
     {
-        return null != _accessLogService ? _accessLogService : AccessLogService.getInstance( );
+        return null != _accessLogService ? _accessLogService : CDI.current( ).select( AccessLogService.class ).get( );
     }
-    
+
+    /**
+     * Returns the SecurityTokenHandler instance by privileging direct injection. Used during complete transition do CDI XPages.
+     * 
+     * @return the SecurityTokenHandler instance
+     */
+    private SecurityTokenHandler getSecurityTokenHandler( )
+    {
+        return null != _securityTokenHandler ? _securityTokenHandler : CDI.current( ).select( SecurityTokenHandler.class ).get( );
+    }
+
+    /**
+     * Fill the model with security token
+     * 
+     * @param model
+     *            The model
+     */
+    private void fillSecurityToken( Map<String, Object> model )
+    {
+        if ( null != LocalVariables.getRequest( ) )
+        {
+            String strToken = getSecurityTokenHandler( ).resolveTokenValue( LocalVariables.getRequest( ) );
+            if ( null != strToken )
+            {
+                model.put( SecurityTokenHandler.MARK_CSRF_TOKEN, strToken );
+            }
+        }
+    }
 }
