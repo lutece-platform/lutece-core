@@ -36,9 +36,10 @@ package fr.paris.lutece.portal.service.file;
 import fr.paris.lutece.portal.service.util.AppException;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
-import java.util.List;
 
 /**
  *
@@ -63,12 +64,12 @@ public class FileService
     // messages
     private static final String MSG_NO_FILE_SERVICE = "No file service Available";
 
-    private IFileStoreServiceProvider _currentFileStoreServiceProvider;
 
-    FileService( )
-    {
-        // Ctor
-    }
+    @Inject
+    private IFileStoreServiceProvider _defaulFileStoreServiceProvider;
+    @Inject
+    private Instance<IFileStoreServiceProvider> _fileStoreServiceProviderList;
+
 
     /**
      * init
@@ -76,7 +77,7 @@ public class FileService
     @PostConstruct
     void initFileService( )
     {
-        _currentFileStoreServiceProvider = getDefaultServiceProvider( );
+        _defaulFileStoreServiceProvider = getDefaultServiceProvider( );
     }
 
     /**
@@ -97,24 +98,14 @@ public class FileService
         return CDI.current( ).select( FileService.class ).get( );
     }
 
-    /**
-     * health check 
-     * 
-     * @return true if available
-     */
-    public boolean healthCheck( )
-    {
-        return _currentFileStoreServiceProvider.healthCheck( );
-    }
-
-    /**
+   /**
      * get the current FileStoreService provider
      * 
      * @return the current FileStoreService provider
      */
     public IFileStoreServiceProvider getFileStoreServiceProvider( )
     {
-        return _currentFileStoreServiceProvider;
+        return getFileStoreServiceProvider( null) ;
     }
 
     /**
@@ -125,74 +116,45 @@ public class FileService
      */
     public IFileStoreServiceProvider getFileStoreServiceProvider( String strFileStoreServiceProviderName )
     {
-    	List<IFileStoreServiceProvider> fileStoreServiceProviderList = CDI.current().select( IFileStoreServiceProvider.class ).stream().toList( );
 
+    	if ( strFileStoreServiceProviderName == null && _defaulFileStoreServiceProvider != null )
+    	{
+    		return _defaulFileStoreServiceProvider;
+    	}
+    	
         // search file service
-        if ( !fileStoreServiceProviderList.isEmpty( ) )
+        if ( !_fileStoreServiceProviderList.isUnsatisfied() && strFileStoreServiceProviderName != null )
         {
-            for ( IFileStoreServiceProvider fss : fileStoreServiceProviderList )
+            for ( IFileStoreServiceProvider fss : _fileStoreServiceProviderList )
             {
                 if ( strFileStoreServiceProviderName.equals( fss.getName( ) ) )
                 {
                       return fss;
                 }
             }
+            return _fileStoreServiceProviderList.stream()
+                    .filter(fss -> strFileStoreServiceProviderName.equals(fss.getName()))
+                    .findFirst().orElseThrow(()-> new AppException( MSG_NO_FILE_SERVICE ));
         }
 
         // otherwise
         throw new AppException( MSG_NO_FILE_SERVICE );
     }
-
-    /**
-     * get the current FileStoreService provider
-     * 
-     * @param strFileStoreServiceProviderName
-     */
-    public void setFileStoreServiceProvider( String strFileStoreServiceProviderName )
-    {
-        List<IFileStoreServiceProvider> fileStoreServiceProviderList = CDI.current().select( IFileStoreServiceProvider.class ).stream().toList( );
-
-        // search file service
-        if ( !fileStoreServiceProviderList.isEmpty( ) )
-        {
-            for ( IFileStoreServiceProvider fss : fileStoreServiceProviderList )
-            {
-                if ( strFileStoreServiceProviderName.equals( fss.getName( ) ) )
-                {
-                    _currentFileStoreServiceProvider = fss;
-                    return;
-                }
-            }
-        }
-
-        // otherwise
-        throw new AppException( MSG_NO_FILE_SERVICE );
-    }
-
-    /**
-     * get default File Store Service Provider
+    /** get default File Store Service Provider
      * 
      * @return the provider
      */
     private IFileStoreServiceProvider getDefaultServiceProvider( )
     {
-        List<IFileStoreServiceProvider> fileStoreServiceProviderList = CDI.current().select( IFileStoreServiceProvider.class ).stream().toList( );
-
         // search default file service
-        if ( !fileStoreServiceProviderList.isEmpty( ) )
+        if ( !_fileStoreServiceProviderList.isUnsatisfied() )
         {
-            for ( IFileStoreServiceProvider fss : fileStoreServiceProviderList )
-            {
-                if ( fss.isDefault( ) )
-                {
-                    return fss;
-                }
-            }
-
-            // return the first one otherwise
-            return fileStoreServiceProviderList.get( 0 ) ;
+            _fileStoreServiceProviderList.stream()
+            .filter(fss -> fss.isDefault())
+            .findFirst()
+            .orElseGet(() -> _fileStoreServiceProviderList.stream().findFirst()
+                    .orElseThrow(() -> new AppException(MSG_NO_FILE_SERVICE)));
         }
-
         // otherwise
         throw new AppException( MSG_NO_FILE_SERVICE );
     }
