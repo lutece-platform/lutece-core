@@ -59,7 +59,9 @@ public class FileService
     // messages
     private static final String MSG_NO_FILE_SERVICE = "No file service Available";
 
-    private IFileStoreServiceProvider _currentFileStoreServiceProvider;
+    private IFileStoreServiceProvider _defaulFileStoreServiceProvider;
+    private List<IFileStoreServiceProvider> _fileStoreServiceProviderList = SpringContextService.getBeansOfType( IFileStoreServiceProvider.class );
+
     private static FileService _instance = new FileService( );
 
     /**
@@ -67,7 +69,7 @@ public class FileService
      */
     private FileService( )
     {
-        _currentFileStoreServiceProvider = getDefaultServiceProvider( );
+        _defaulFileStoreServiceProvider = getDefaultServiceProvider( );
     }
 
     /**
@@ -79,18 +81,6 @@ public class FileService
     {
         return _instance;
     }
-    
-
-    /**
-     * health check 
-     * 
-     * @return true if available
-     */
-    public boolean healthCheck( )
-    {
-        return _currentFileStoreServiceProvider.healthCheck( );
-    }
-
 
     /**
      * get the current FileStoreService provider
@@ -99,7 +89,7 @@ public class FileService
      */
     public IFileStoreServiceProvider getFileStoreServiceProvider( )
     {
-        return _currentFileStoreServiceProvider;
+        return getFileStoreServiceProvider( null) ;
     }
 
     /**
@@ -110,42 +100,19 @@ public class FileService
      */
     public IFileStoreServiceProvider getFileStoreServiceProvider( String strFileStoreServiceProviderName )
     {
-    	List<IFileStoreServiceProvider> fileStoreServiceProviderList = SpringContextService.getBeansOfType( IFileStoreServiceProvider.class );
-
+    	if ( strFileStoreServiceProviderName == null && _defaulFileStoreServiceProvider != null )
+    	{
+    		return _defaulFileStoreServiceProvider;
+    	}
+    	
         // search file service
-        if ( !fileStoreServiceProviderList.isEmpty( ) )
+        if ( !_fileStoreServiceProviderList.isEmpty( ) && strFileStoreServiceProviderName != null )
         {
-            for ( IFileStoreServiceProvider fss : fileStoreServiceProviderList )
+            for ( IFileStoreServiceProvider fss : _fileStoreServiceProviderList )
             {
                 if ( strFileStoreServiceProviderName.equals( fss.getName( ) ) )
                 {
                       return fss;
-                }
-            }
-        }
-
-        // otherwise
-        throw new AppException( MSG_NO_FILE_SERVICE );
-    }
-
-    /**
-     * get the current FileStoreService provider
-     * 
-     * @param strFileStoreServiceProviderName
-     */
-    public void setFileStoreServiceProvider( String strFileStoreServiceProviderName )
-    {
-        List<IFileStoreServiceProvider> fileStoreServiceProviderList = SpringContextService.getBeansOfType( IFileStoreServiceProvider.class );
-
-        // search file service
-        if ( !fileStoreServiceProviderList.isEmpty( ) )
-        {
-            for ( IFileStoreServiceProvider fss : fileStoreServiceProviderList )
-            {
-                if ( strFileStoreServiceProviderName.equals( fss.getName( ) ) )
-                {
-                    _currentFileStoreServiceProvider = fss;
-                    return;
                 }
             }
         }
@@ -161,12 +128,10 @@ public class FileService
      */
     private IFileStoreServiceProvider getDefaultServiceProvider( )
     {
-        List<IFileStoreServiceProvider> fileStoreServiceProviderList = SpringContextService.getBeansOfType( IFileStoreServiceProvider.class );
-
         // search default file service
-        if ( !fileStoreServiceProviderList.isEmpty( ) )
+        if ( !_fileStoreServiceProviderList.isEmpty( ) )
         {
-            for ( IFileStoreServiceProvider fss : fileStoreServiceProviderList )
+            for ( IFileStoreServiceProvider fss : _fileStoreServiceProviderList )
             {
                 if ( fss.isDefault( ) )
                 {
@@ -175,7 +140,7 @@ public class FileService
             }
 
             // return the first one otherwise
-            return fileStoreServiceProviderList.get( 0 ) ;
+            return _fileStoreServiceProviderList.get( 0 ) ;
         }
 
         // otherwise
