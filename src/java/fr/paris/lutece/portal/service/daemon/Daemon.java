@@ -54,7 +54,7 @@ public abstract class Daemon implements Runnable
 
     /** A daemon is processing so its result is not yet known */
     public static final int RESULT_PROCESSING = 3;
-    private String _strLastRunLogs;
+    private StringBuilder _sbLastRunLogs;
     private int _nResult;
     private String _strPluginName;
 
@@ -86,7 +86,7 @@ public abstract class Daemon implements Runnable
      */
     public String getLastRunLogs( )
     {
-        return _strLastRunLogs;
+        return ( _sbLastRunLogs != null ?_sbLastRunLogs.toString( ) : "" );
     }
 
     /**
@@ -97,7 +97,26 @@ public abstract class Daemon implements Runnable
      */
     public void setLastRunLogs( String strLastRunLogs )
     {
-        _strLastRunLogs = strLastRunLogs;
+        _sbLastRunLogs = new StringBuilder( strLastRunLogs ) ;
+    }
+
+    /**
+     * Append to LastRunLogs
+     *
+     * @param strLastRunLogsPart
+     *            The LastRunLogs part
+     */
+    public void appendLastRunLogs( String strLastRunLogsPart )
+    {
+    	if ( _sbLastRunLogs == null )
+    	{
+    		_sbLastRunLogs = new StringBuilder( strLastRunLogsPart ) ;
+    	}
+    	else
+    	{
+    		_sbLastRunLogs.append( strLastRunLogsPart ) ;
+    	}
+        
     }
 
     /**
