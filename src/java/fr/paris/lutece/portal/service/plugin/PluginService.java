@@ -36,10 +36,8 @@ package fr.paris.lutece.portal.service.plugin;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeSet;
@@ -50,6 +48,7 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.filesystem.FileListFilter;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides services and utilities for plugins management
@@ -70,7 +69,6 @@ public final class PluginService
 
     // Variables
     private static Map<String, Plugin> _mapPlugins = new HashMap<>( );
-    private static List<PluginEventListener> _listPluginEventListeners = new ArrayList<>( );
 
     /**
      * Creates a new PluginService object.
@@ -201,7 +199,7 @@ public final class PluginService
 
                 // plugin installed event
                 PluginEvent event = new PluginEvent( plugin, PluginEvent.PLUGIN_INSTALLED );
-                notifyListeners( event );
+                CDI.current( ).getBeanManager( ).getEvent( ).fire( event );
             }
             catch( Exception e )
             {
@@ -399,28 +397,4 @@ public final class PluginService
         return ( ( plugin != null ) && ( plugin.isInstalled( ) ) );
     }
 
-    /**
-     * Register a Plugin Event Listener
-     * 
-     * @param listener
-     *            The listener
-     */
-    public static void registerPluginEventListener( PluginEventListener listener )
-    {
-        _listPluginEventListeners.add( listener );
-    }
-
-    /**
-     * Notify an event to all Plugin Event Listeners
-     * 
-     * @param event
-     *            The event
-     */
-    public static void notifyListeners( PluginEvent event )
-    {
-        for ( PluginEventListener listener : _listPluginEventListeners )
-        {
-            listener.processPluginEvent( event );
-        }
-    }
 }

@@ -37,11 +37,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.plugin.PluginEvent;
-import fr.paris.lutece.portal.service.plugin.PluginEventListener;
-import fr.paris.lutece.portal.service.plugin.PluginService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
@@ -52,7 +49,7 @@ import jakarta.servlet.ServletContext;
  * Cache service for LinksInclude
  */
 @ApplicationScoped
-public class LinksIncludeCacheService extends AbstractCacheableService<String,Map<String, Object>> implements PluginEventListener
+public class LinksIncludeCacheService extends AbstractCacheableService<String,Map<String, Object>>
 {
     public static final String SERVICE_NAME = "LinksIncludeCacheService";
 
@@ -60,7 +57,6 @@ public class LinksIncludeCacheService extends AbstractCacheableService<String,Ma
     public void init( )
     {
         initCache( SERVICE_NAME, String.class, (Class<Map<String, Object>>)(Class<?>)HashMap.class);
-        PluginService.registerPluginEventListener( this );
     }
 
     @Override
@@ -92,11 +88,17 @@ public class LinksIncludeCacheService extends AbstractCacheableService<String,Ma
         return builder.toString( );
     }
 
-    @Override
-    public void processPluginEvent( PluginEvent event )
-    {    	
-    	resetCache( );
+    /**
+     * This method observes the plugin events
+     * 
+     * @param event
+     *            The plugin event
+     */
+    public void processPluginEvent( @Observes PluginEvent event )
+    {
+        resetCache( );
     }
+    
     /**
      * This method observes the initialization of the {@link ApplicationScoped} context.
      * It ensures that this CDI beans are instantiated at the application startup.
