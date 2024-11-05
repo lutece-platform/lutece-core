@@ -74,6 +74,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -608,7 +609,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private void notifyListeners( int nEventType )
     {
         PluginEvent event = new PluginEvent( this, nEventType );
-        PluginService.notifyListeners( event );
+        CDI.current( ).getBeanManager( ).getEvent( ).fire( event );
     }
 
     /**
