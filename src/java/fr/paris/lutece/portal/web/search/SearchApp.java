@@ -42,7 +42,6 @@ import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.search.ISponsoredLinksSearchService;
 import fr.paris.lutece.portal.service.search.QueryEvent;
-import fr.paris.lutece.portal.service.search.QueryListenersService;
 import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.portal.service.search.SearchResult;
 import fr.paris.lutece.portal.service.search.SearchService;
@@ -68,6 +67,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -116,6 +116,8 @@ public class SearchApp implements XPageApplication
     @Inject
     @Named( BEAN_SEARCH_ENGINE )
     private SearchEngine _engine;
+    @Inject
+    private Event<QueryEvent> _queryEvent;
 
     /**
      * Returns search results
@@ -285,6 +287,6 @@ public class SearchApp implements XPageApplication
         event.setQuery( strQuery );
         event.setResultsCount( nResultsCount );
         event.setRequest( request );
-        QueryListenersService.getInstance( ).notifyListeners( event );
+        _queryEvent.fire( event );
     }
 }

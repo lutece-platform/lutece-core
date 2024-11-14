@@ -42,7 +42,11 @@ import java.util.List;
 
 /**
  * QueryListenersService
+ * 
+ * @deprecated Use CDI events and @Observes pattern instead. This class will be removed in future versions.
+ * 
  */
+@Deprecated(forRemoval = true, since = "8.0")
 @ApplicationScoped
 public class QueryListenersService
 {
@@ -74,9 +78,12 @@ public class QueryListenersService
     /**
      * Register a new listener
      * 
+     * @deprecated Use CDI events and @Observes pattern instead. This method will be removed in future versions.
+     * 
      * @param listener
      *            The listener to register
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public void registerQueryListener( QueryEventListener listener )
     {
         _listListeners.add( listener );
@@ -86,9 +93,12 @@ public class QueryListenersService
     /**
      * Notify all registered listeners
      * 
+     * @deprecated Use CDI events to notify others. This method will be removed in future versions.
+     * 
      * @param event
      *            The query event to notify
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public void notifyListeners( QueryEvent event )
     {
         for ( QueryEventListener listener : _listListeners )
