@@ -338,6 +338,9 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public static void notifyListeners( PortletEvent event )
     {
+        CDI.current( ).getBeanManager( ).getEvent( ).fire( event );
+
+        // The following lines are for backward compatibility with PortletEventListener mechanism and will be removed in next release
         CDI.current().select(PortletEventListener.class).forEach(
             listener -> listener.processPortletEvent( event )
             );

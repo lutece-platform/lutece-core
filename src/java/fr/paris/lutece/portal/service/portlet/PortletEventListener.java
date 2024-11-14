@@ -35,8 +35,10 @@ package fr.paris.lutece.portal.service.portlet;
 
 /**
  * Portlet event listener
- *
+ * 
+ * @deprecated Use CDI events and @observes instead of implementing this interface. This interface will be removed in future versions.
  */
+@Deprecated( forRemoval = true, since = "8.0" )
 public interface PortletEventListener
 {
     /**
