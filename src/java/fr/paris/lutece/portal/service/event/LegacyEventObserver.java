@@ -37,6 +37,8 @@ import fr.paris.lutece.plugins.workflowcore.business.event.EventAction;
 import fr.paris.lutece.plugins.workflowcore.business.event.Type;
 import fr.paris.lutece.portal.business.event.LuteceUserEvent;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
+import fr.paris.lutece.portal.service.search.QueryEvent;
+import fr.paris.lutece.portal.service.search.QueryListenersService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 
@@ -86,5 +88,16 @@ public class LegacyEventObserver
     public void notifyDeletedResourceEventManager( @Observes @Type(EventAction.REMOVE) ResourceEvent resourceEvent )
     {
         ResourceEventManager.fireDeletedResource( resourceEvent );
+    }
+    
+    /**
+     * Fires the legacy QueryListenersService#notifyListeners
+     * 
+     * @param event
+     *            The Query event
+     */
+    public void notifyQueryListenersService( @Observes QueryEvent event)
+    {
+        QueryListenersService.getInstance( ).notifyListeners( event );
     }
 }
