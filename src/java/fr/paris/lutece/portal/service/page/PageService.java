@@ -77,7 +77,6 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.portlet.PortletEvent;
-import fr.paris.lutece.portal.service.portlet.PortletEventListener;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
@@ -99,7 +98,7 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 @ApplicationScoped
 @Named("pageService")
-public class PageService implements IPageService, ImageResourceProvider, PortletEventListener
+public class PageService implements IPageService, ImageResourceProvider
 {
     // //////////////////////////////////////////////////////////////////////////
     // Variables
@@ -898,10 +897,12 @@ public class PageService implements IPageService, ImageResourceProvider, Portlet
     }
 
     /**
-     * {@inheritDoc}
+     * Process a portlet event
+     *
+     * @param event
+     *            The event to process
      */
-    @Override
-    public void processPortletEvent( PortletEvent event )
+    public void processPortletEvent( @Observes PortletEvent event )
     {
         invalidateContent( event.getPageId( ) );
     }
