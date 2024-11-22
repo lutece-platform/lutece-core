@@ -277,6 +277,10 @@
         <servlet-name>SiteUploadServlet</servlet-name>
         <url-pattern>/jsp/site/upload</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SiteUploadServlet</servlet-name>
+        <url-pattern>/jsp/admin/upload</url-pattern>
+    </servlet-mapping>
   	<!-- 
     <servlet-mapping>
         <servlet-name>ParserBbCodeServlet</servlet-name>
