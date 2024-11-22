@@ -176,52 +176,7 @@
          <#if userReadMode?number = 1>
             <@adminReadMode />
          </#if>
-         <#if user.userLevel==0>
-            <#assign hasIcon=false />
-            <#assign showLog=false />
-            <#if listLoggersInfo?has_content>
-               <#list listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) as logInfo><#assign showLog=true /><#break></#list>
-               <#if showLog>
-               <li class="nav-item dropdown" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}">
-                  <a class="border btn btn-light btn-rounded position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}">
-                        <div class="icon-item-new position-absolute end-0 me-2 mt-1"></div>
-                        <i class="ti ti-bell"></i>
-                  </a>
-                     <ul class="dropdown-menu p-3">
-                        <li class="border-bottom mb-3">
-                           <span class="badge bg-danger-subtle text-danger-emphasis p-1 px-2 rounded-5 mb-3">
-                              <small>#i18n{portal.util.log.warningLevel}</small>
-                           </span>
-                        </li>
-                        <#list listLoggersInfo?filter( logInfoDetail -> ( logInfoDetail.level = 'DEBUG' || logInfoDetail.level = 'TRACE' ) ) as logInfoDetail> 
-                           <li>
-                              <#assign path=logInfoDetail.path?string?replace("\\", "/" )>
-                              <#assign dernier_element=path?split("/")?last>
-                              <div class="d-block text-truncate mb-2 fw-bold" title="${logInfoDetail.path!}">
-                                 ${logInfoDetail.name!}
-                                 <br>
-                                 <#if logInfoDetail.level='DEBUG'>
-                                    <span class="badge bg-warning-subtle text-warning-emphasis p-1 px-2 rounded-5">
-                                       <small>Debug</small>
-                                    </span>
-                                 </#if>
-                                 <#if logInfoDetail.level='TRACE'>
-                                    <span class="badge bg-danger-subtle text-danger-emphasis p-1 px-2 rounded-5">
-                                       <small>Trace</small>
-                                    </span>
-                                 </#if>
-                                 <span class="badge bg-secondary-subtle text-dark-emphasis p-1 px-2 rounded-5">
-                                    <small>
-                                       <i class="ti ti-file-code-2"></i> ${dernier_element!}
-                                    </small>
-                                 </span>
-                              </div>
-                           </li>
-                        </#list>
-                     </ul>
-                  </#if>
-               </li>
-            </#if>
+         <#if user.userLevel==0>            
             <li class="nav-item d-none d-xl-flex">
                <a class="border btn btn-light btn-rounded" href="jsp/admin/ManageProperties.jsp" title="#i18n{portal.site.adminFeature.properties_management.name}" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.site.adminFeature.properties_management.name}">
                   <i class="ti ti-home-cog fs-5"></i><span class="visually-hidden">#i18n{portal.site.adminFeature.properties_management.name}</span>

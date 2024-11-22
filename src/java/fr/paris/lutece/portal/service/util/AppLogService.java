@@ -57,6 +57,14 @@ public final class AppLogService
     private AppLogService( )
     {
     }
+    /**
+     * Returns "lutece.application" a Logger .
+     *
+     * @return The "lutece.application" Logger.
+     */
+    public static Logger getLogger( ) {
+    	return _logger;    
+    }
     // //////////////////////////////////////////////////////////////////////////
     // Log4j wrappers
 
@@ -241,34 +249,5 @@ public final class AppLogService
     public static boolean isInfoEnabled( )
     {
         return _logger.isInfoEnabled( );
-    }
-    
-    /**
-     * Gets the all the loggers.
-     *
-     * @return the all the loggers
-     */
-    public static Collection<LoggerInfo> getLoggersInfo( )
-    {
-    	Collection<LoggerInfo> allLoggersInfo = new ArrayList<>( );
-        try
-        {
-            Collection<org.apache.logging.log4j.core.Logger> allLoggers = LoggerContext.getContext( ).getLoggers( );
-            LoggerContext logContext = LoggerContext.getContext( );
-            for ( org.apache.logging.log4j.core.Logger logger : allLoggers )
-            {
-                LoggerInfo log = new LoggerInfo( );
-                log.setName( logger.getName( ) );
-                log.setLevel( logger.getLevel( ).name( ) );
-                log.setPath( logContext.getConfigLocation( ).getPath( ) );
-                allLoggersInfo.add( log );
-            }
-        }
-        catch( Exception e )
-        {
-            error( "This is not supported by JBoss / Wildfly. Check your server config to disable the server log4j impl or use log4j-core." );
-        }
-    	
-    	return allLoggersInfo;
     }
 }

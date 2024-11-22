@@ -5,6 +5,12 @@
          version="6.0">
                
     <listener>
+	  <description>Handles Log4j Core lifecycle</description>
+	  <listener-class>
+	    org.apache.logging.log4j.web.Log4jServletContextListener
+	  </listener-class>
+	</listener>
+    <listener>
         <display-name>Lutece Main Listener</display-name>
         <listener-class>fr.paris.lutece.portal.service.sessionlistener.MainHttpSessionListener</listener-class>
     </listener>

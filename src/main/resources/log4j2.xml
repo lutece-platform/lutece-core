@@ -1,6 +1,11 @@
-<Configuration status="error" dest="err" name="PropertiesConfig">
+<Configuration status="WARN" dest="err" name="PropertiesConfig">
  	<Properties>
- 	    <Property name="luteceLogDirectory">${web:rootDir}/logs</Property>
+ 	
+ 	    <Property name="luteceLogDirectory">$${sys:LUTECE_LOG_DIRECTORY:-${env:LUTECE_LOG_DIRECTORY:-logs/lutece}}</Property>
+	
+	 <!-- Use this configuration to store logs in the webapp directory.
+	  	<Property name="luteceLogDirectory">${web:rootDir}/logs</Property>
+	  -->
 	</Properties>
  	
  	<!-- ########                       A P P E N D E R S                       ######### -->
@@ -120,9 +125,10 @@
         
         <!--Console-->
         <Console name="STDOUT">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=green} %style{%pid} --- [%18.18t] %style{%-10.10c{1.}}{cyan}: %m%n%ex"/>
+                <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red, ERROR=red, WARN=yellow, INFO=green, DEBUG=green, TRACE=green} %style{%pid} --- [%18.18t] %style{%-20.20c{9.}}{cyan}: %m%n%ex"/>       
         </Console>
         
+       
         <!--Email-->     
         <!--SMTP name="SendMail" 
               subject="Lutece Error" 
@@ -167,122 +173,75 @@
 
          ########                         L O G G E R S                         ######### -->
     <Loggers>
-        <Root level="error">
-            <AppenderRef ref="Error"/>
+        <Root level="${env:LOG4J_LEVEL:-ERROR}">
+            <AppenderRef ref="STDOUT"/>        
         </Root>
-        
-        <Logger name="lutece.application" level="error" additivity="false">
+         <Logger name="lutece" level="${env:LUTECE_LOG4J_LEVEL:-INFO}">
             <AppenderRef ref="Application"/>
-            <AppenderRef ref="Error"/>
-            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="Error"/> 
         </Logger>
-        
-        <Logger name="lutece" level="info">
-            <AppenderRef ref="STDOUT"/>
+        <Logger name="lutece.init" level="info">
         </Logger>
-        
-        <Logger name="lutece.mvc" level="info">
-            <AppenderRef ref="Error"/>
-        </Logger>
-        
-        <Logger name="lutece.cache" level="info">
-            <AppenderRef ref="Error"/>
-        </Logger>
-        
+        <Logger name="lutece.application" level="warn">
+        </Logger>        
+        <Logger name="lutece.mvc" level="error">
+        </Logger>        
+        <Logger name="lutece.cache" level="error">
+        </Logger>        
         <Logger name="lutece.debug.xmlContent" level="error">
-            <AppenderRef ref="STDOUT"/>
         </Logger>
-        
         <Logger name="lutece.debug.sql" level="error">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-        
+        </Logger>        
         <Logger name="lutece.mail" level="info" additivity="false">
             <AppenderRef ref="Mail"/>
-        </Logger>
-        
+            <AppenderRef ref="STDOUT"/>
+        </Logger>        
         <Logger name="lutece.pool" level="error">
             <AppenderRef ref="Pool"/>
-        </Logger>
-        
+        </Logger>        
         <Logger name="lutece.security" level="warn">
             <AppenderRef ref="Security"/>
-        </Logger>
-        
+        </Logger>   
+         <Logger name="lutece.securityHeader" level="error">
+            <AppenderRef ref="Application"/>
+        </Logger>       
         <Logger name="lutece.adminaccess" level="info">
             <AppenderRef ref="AdminAccess"/>
         </Logger>
-        
         <Logger name="lutece.accessLogger" level="info" additivity="false">
             <AppenderRef ref="AccessLogger"/>
         </Logger>
-        
         <Logger name="lutece.accessLogger.bo" level="info" additivity="false">
             <AppenderRef ref="AccessLogger"/>
         </Logger>
-        
         <Logger name="lutece.accessLogger.fo" level="info" additivity="false">
             <AppenderRef ref="AccessLogger"/>
-        </Logger>
-        
-        <Logger name="servlet" level="error">
+        </Logger>  
+            
+    <!-- 
+        <Logger name="org.ehcache" level="error">
+                       <AppenderRef ref="STDOUT"/>        
+        </Logger>     
+    
+    	<Logger name="org.apache.commons.digester3" level="error">
             <AppenderRef ref="Error"/>
         </Logger>
-        
-        <Logger name="session" level="error">
+         
+        <Logger name="org.apache.commons.beanutils" level="error">
             <AppenderRef ref="Error"/>
         </Logger>
-        
-        <Logger name="compiler" level="error">
-            <AppenderRef ref="Error"/>
-        </Logger>
-        
-        <Logger name="digester" level="error">
-            <AppenderRef ref="Error"/>
-        </Logger>
-        
-        <Logger name="beanutils" level="error">
-            <AppenderRef ref="Error"/>
-        </Logger>
-        
+     
         <Logger name="freemarker" level="error">
             <AppenderRef ref="Error"/>
         </Logger>
-        
-        <Logger name="httpclient" level="error">
-            <AppenderRef ref="Error"/>
-        </Logger>
-        
-        <Logger name="org.apache.pdfbox" level="error">
-            <AppenderRef ref="PDF"/>
-        </Logger>
-        
+    
         <Logger name="lutece.jpa" level="info">
             <AppenderRef ref="JPA"/>
-        </Logger>
-        
-        <Logger name="org.hibernate" level="info">
-            <AppenderRef ref="JPA"/>
-        </Logger>
-        
-        <Logger name="org.springframework.transaction" level="info">
-            <AppenderRef ref="JPA"/>
-        </Logger>
-        
-        <Logger name="org.springframework.orm.jpa" level="info">
-            <AppenderRef ref="JPA"/>
-        </Logger>
-        
+        </Logger>  
+                
         <Logger name="lutece.indexer" level="error">
             <AppenderRef ref="Indexer"/>
         </Logger>
-        
-        <Logger name="lutece.securityHeader" level="error">
-            <AppenderRef ref="Application"/>
-        </Logger>
-        
-        <Logger name="org.apache.tika" level="error">
-            <AppenderRef ref="Indexer"/>
-        </Logger>
+   -->              
     </Loggers>
  </Configuration>
