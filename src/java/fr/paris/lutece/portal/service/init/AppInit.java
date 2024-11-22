@@ -33,17 +33,20 @@
  */
 package fr.paris.lutece.portal.service.init;
 
-import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import jakarta.servlet.ServletContext;
-
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
@@ -54,7 +57,6 @@ import fr.paris.lutece.portal.service.datastore.CoreDataKeys;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.fileimage.FileImageService;
 import fr.paris.lutece.portal.service.filter.FilterService;
-import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
@@ -66,7 +68,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.bean.BeanUtil;
-import fr.paris.lutece.util.html.HtmlTemplate;
 
 /**
  * This class initializes all the application services
@@ -75,23 +76,20 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  */
 public final class AppInit
 {
-    private static final String PROPERTY_AUTOINIT = "autoInit";
-    private static final String PROPERTY_INIT_WEBAPP_PROD_URL = "init.webapp.prod.url";
-    private static final String PROPERTY_SENDMAIL_SUBJECT = "portal.system.log4j.sendmail.subject";
-    private static final String PROPERTY_SITE_NAME = "lutece.name";
-    private static final String MARK_WEBAPP_HOME = "webapp_home";
-    private static final String MARK_PROD_URL = "lutece_prod_url";
-    private static final String MARK_SENDMAIL_SUBJECT = "sendmail_subject";
-    private static final String MARK_AUTOINIT = "autoinit";
-    private static final String PATH_CONFIG = "/WEB-INF/conf/";
-    private static final String FILE_PROPERTIES_CONFIG = "config.properties";
     private static final String FILE_PROPERTIES_DATABASE = "db.properties";
     private static final String PATH_TEMPLATES = "/WEB-INF/templates/";
-    private static final String CONFIG_PROPERTIES_TEMPLATE = "admin/system/config_properties.html";
+    private static final String LOGGER_LUTECE_INIT = "lutece.init";
+    private static final String MAIN_LOG_FILE = "log4j2.xml";
+    public static final String LOG4J_CONFIGURATION_FILE_PROPERTY = "log4j.configurationFile";
+
+
     private static boolean _bInitSuccessfull;
-    private static boolean _bStartInitService;
     private static String _strLoadingFailureCause;
     private static String _strLoadingFailureDetails;
+    private static long startTime;
+    private static boolean _bLog4jConfigurationFileSet;
+
+ 
 
     /**
      * Constructor
@@ -99,7 +97,60 @@ public final class AppInit
     private AppInit( )
     {
     }
+    /**
+     * Initializes the Log4j2 configuration by setting the `log4j.configurationFile` system property.
+     * This method should be called first, before any other components or libraries are initialized, 
+     * to ensure that the Log4j logging system is properly configured.
+     * 
+     * If the system property `log4j.configurationFile` is not already set, this method constructs 
+     * the configuration file path using the default location or custom plugin log configuration files.
+     * 
+     * The configuration file will be located at "/WEB-INF/conf/log.xml" by default, 
+     * and it can include additional log configuration files specified by plugins.
+     * The constructed path will be set as the value for the `log4j.configurationFile` system property.
+     * 
+     * <p><strong>Usage:</strong> Call this method at the very beginning of the application startup 
+     * to ensure that Log4j is configured correctly before any logging occurs.</p>
+     * 
+     * @see org.apache.logging.log4j.LogManager
+     */
+    public static void initConfigLog() {
+        // Record the start time if it hasn't been set yet
+        if (startTime == 0) {
+            startTime = System.currentTimeMillis();
+        }
+        // Check if the log4j configuration file property is already set
+        String log4jConfigurationFile = System.getProperty(LOG4J_CONFIGURATION_FILE_PROPERTY);
+        if (log4jConfigurationFile == null || log4jConfigurationFile.isBlank()) {
+            // Retrieve configuration log files from plugins if available
+            Set<String> pathLogFilePlugins = WebConfResourceLocator.getPathConfLog();
+            String luteceLog4jConfigurationFile = System.getProperty("log4j.luteceConfigurationFile");
 
+            // Verify if there are plugin paths or a lutece configuration file
+            if ((luteceLog4jConfigurationFile != null && !luteceLog4jConfigurationFile.isBlank())
+                    || (pathLogFilePlugins != null && !pathLogFilePlugins.isEmpty())) {
+
+                Set<String> paths = new LinkedHashSet<>(); // Ensures insertion order and avoids duplicates
+                paths.add(MAIN_LOG_FILE);
+                // Add plugin configuration paths if available
+                if (pathLogFilePlugins != null) {
+                    paths.addAll(pathLogFilePlugins);
+                }
+                // Add paths specified in the luteceLog4jConfigurationFile property, if present
+                if (luteceLog4jConfigurationFile != null && !luteceLog4jConfigurationFile.isBlank()) {
+                    paths.addAll(Arrays.asList(luteceLog4jConfigurationFile.split(",")));
+                }
+
+                // Construct the configuration paths string and set the system property
+                String logConfigPaths = paths.stream()
+                                             .map(path -> path.replace("\\", "/"))
+                                             .collect(Collectors.joining(","));
+                                             
+                System.setProperty(LOG4J_CONFIGURATION_FILE_PROPERTY, logConfigPaths);
+                _bLog4jConfigurationFileSet = true;
+            }
+        }
+    }
     /**
      * Initializes all the application services (used for junit tests)
      * 
@@ -107,9 +158,9 @@ public final class AppInit
      *            The relative path to the config files
      */
     public static void initServices( String strConfPath )
-    {
-    	initPropertiesServices(  strConfPath, null );
-    	initServices( null, strConfPath, null );
+    { 	   
+    	AppPathService.initResourceManager();
+    	initServices( null, strConfPath );
     }
 
     /**
@@ -121,23 +172,43 @@ public final class AppInit
      *            The relative path to the config files
      * @param strRealPath
      *            The real path to the config files
+     * @throws MalformedURLException 
      */
-    public static void initServices( ServletContext context, String strConfPath, String strRealPath )
+    public static void initServices( ServletContext context, String strConfPath)
     {    	  
+    	Logger _logger = LogManager.getLogger( LOGGER_LUTECE_INIT );    	
         try
         {
             // Initialize and run StartUp services
-            AppLogService.info( "Running extra startup services ..." );
+            AppLogService.info( "Running extra startup services ..." );           
+            // Initializes the template services from the servlet context information
+			AppTemplateService.init( PATH_TEMPLATES, context );     
+			// Initializes the Datastore Service
+			DatastoreService.init( );	
+			// BeanUtil initialization, considering Lutèce availables locales and date
+			// format properties
+			BeanUtil.init( );
+			// Initializes the connection pools
+			try {
+				AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
+				AppLogService.info( "Creating connexions pool 'portal'." );			
+			} catch (LuteceInitException e) {
+				_logger.error("Error ininitialised service", e);
+				_strLoadingFailureCause = e.getMessage( );
+	            Throwable cause = e.getCause( );
+	            while ( cause != null )
+	            {
+	                _strLoadingFailureDetails = cause.getMessage( );
+	                cause = cause.getCause( );
+	            }
+			}
             StartUpServiceManager.init( );
             AdminMailingListService.init( );
-
             // Initializes Search Engine Indexation Service
             IndexationService.init( );
-
             // Initializes PluginService
             AppLogService.info( "Initializing plugins ..." );
             PluginService.init( );
-
             // Initializes FilterService and ServletService
             AppLogService.info( "Initializing plugins filters ..." );
             FilterService.init( context );
@@ -174,26 +245,28 @@ public final class AppInit
             ContentPostProcessorService.init( );
 
             _bInitSuccessfull = true;
-
+            long endTime = System.currentTimeMillis(); 
+            long duration = endTime - startTime; 
             logStartupTime( );
-
             // Start datastore's cache after all processes that may use Datastore
             DatastoreService.startCache( );
-
-
             String strBaseUrl = getBaseUrl( context );
+            
             StringBuilder sbBanner = new StringBuilder( );
             sbBanner.append( AppInfo.LUTECE_BANNER_SERVER ).append( "  started successfully" )
-                    .append( "\n   Front office " ).append( strBaseUrl ).append( AppPathService.getPortalUrl( ) ).append( "\n   Back office  " )
-                    .append( strBaseUrl ).append( AppPathService.getAdminMenuUrl( ) ).append( "\n" );
-            AppLogService.info( sbBanner.toString( ) );
+                    .append( "\n   Front office " )
+                    .append( strBaseUrl ).append(AppPathService.getPortalUrl( ))
+                    .append( "\n   Back office  " )
+                    .append( strBaseUrl ).append( AppPathService.getAdminMenuUrl( ) ).append( "\n" )
+                    .append("   Lutece https port: ["+AppPropertiesService.getProperty("https.port","")).append("]\n" )
+                    .append("   Lutece application services started in : ").append(duration/1000.0 ).append(" secondes \n");                      
+            _logger.info( sbBanner.toString( ) );                                          
         }
-        catch( LuteceInitException e )
+        catch( Exception e)
         {
+        	_logger.error("Error ininitialised service", e);
             _strLoadingFailureCause = e.getMessage( );
-
             Throwable cause = e.getCause( );
-
             while ( cause != null )
             {
                 _strLoadingFailureDetails = cause.getMessage( );
@@ -201,47 +274,6 @@ public final class AppInit
             }
         }
     }
-
-	public static void initPropertiesServices(String strConfPath, String strRealPath) {
-		if(!_bStartInitService) {						
-			// Initializes the properties download files containing the variables used by
-			// the application
-			AppPropertiesService.init( strConfPath );
-			 // Initializes the template services from the servlet context information
-			AppTemplateService.init( PATH_TEMPLATES );     
-			// Initializes the Datastore Service
-			DatastoreService.init( );
-	
-			if ( strRealPath != null )
-			{
-			    // Initializes the properties download files containing the
-			    // variables used by the application
-			    initProperties( strRealPath );
-			}
-		
-			// BeanUtil initialization, considering Lutèce availables locales and date
-			// format properties
-			BeanUtil.init( );
-	
-			// Initializes the connection pools
-			try {
-				AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
-				AppLogService.info( "Creating connexions pool 'portal'." );			
-			} catch (LuteceInitException e) {
-				_strLoadingFailureCause = e.getMessage( );
-	
-	            Throwable cause = e.getCause( );
-	
-	            while ( cause != null )
-	            {
-	                _strLoadingFailureDetails = cause.getMessage( );
-	                cause = cause.getCause( );
-	            }
-			}
-			_bStartInitService =true;
-		}
-	}
-
     /**
      * Get a base url to display in start logs
      * 
@@ -251,7 +283,13 @@ public final class AppInit
      */
     private static String getBaseUrl( ServletContext context )
     {
-        StringBuilder sbBaseUrl = new StringBuilder("http(s)://server:port" );
+        StringBuilder sbBaseUrl=new StringBuilder("http(s)://");
+		try {
+			sbBaseUrl.append(InetAddress.getLocalHost().getCanonicalHostName( ))
+					.append(":").append(AppPropertiesService.getProperty("http.port","port"));
+		} catch (UnknownHostException e) {
+			AppLogService.error(e.getMessage(),e);
+		}
         if ( context != null )
         {
             sbBaseUrl.append( context.getContextPath( ) );
@@ -267,6 +305,16 @@ public final class AppInit
     public static boolean isWebappSuccessfullyLoaded( )
     {
         return _bInitSuccessfull;
+    }
+    /**
+     * Checks if the system property `log4j.configurationFile` is set.
+     * This property determines the configuration file used by Log4j.
+     * 
+     * @return {@code true} if `log4j.configurationFile` is set, otherwise {@code false}.
+     */
+    public static boolean isLog4jConfigurationFileSet( )
+    {
+        return _bLog4jConfigurationFileSet;
     }
 
     /**
@@ -301,53 +349,6 @@ public final class AppInit
     }
 
     /**
-     * Initializes the config.properties file after first installation
-     *
-     * @param strRealPath
-     *            The real path to the configuration file
-     */
-    private static void initProperties( String strRealPath )
-    {
-        Map<String, Object> model = new HashMap<>( );
-        Properties p = new Properties( );
-
-        try ( FileInputStream fis = new FileInputStream( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
-        {
-            p.load( fis );
-        }
-        catch( Exception e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-
-        if ( Boolean.parseBoolean( p.getProperty( PROPERTY_AUTOINIT ) ) )
-        {
-            Object [ ] params = {
-                    AppPropertiesService.getProperty( PROPERTY_SITE_NAME )
-            };
-            String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params, I18nService.getDefaultLocale( ) );
-            model.put( MARK_SENDMAIL_SUBJECT, strSendMailSubject );
-            model.put( MARK_WEBAPP_HOME, AppPathService.getWebAppPath( ) );
-            model.put( MARK_PROD_URL, p.getProperty( PROPERTY_INIT_WEBAPP_PROD_URL ) );
-            model.put( MARK_AUTOINIT, Boolean.FALSE.toString( ) );
-
-            HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE, Locale.getDefault( ), model );
-            // reset configuration cache to avoid configuration caching before macros are
-            // set. See LUTECE-1460
-            AppTemplateService.resetConfiguration( );
-
-            try ( FileWriter fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
-            {
-                fw.write( configTemplate.getHtml( ) );
-            }
-            catch( Exception io )
-            {
-                AppLogService.error( "Error reading file", io );
-            }
-        }
-    }
-
-    /**
      * Log startup time.
      */
     private static void logStartupTime( )
@@ -355,4 +356,5 @@ public final class AppInit
         String strStartupTime = DateFormat.getDateTimeInstance( ).format( new Date( ) );
         DatastoreService.setDataValue( CoreDataKeys.KEY_STARTUP_TIME, strStartupTime );
     }
+    
 }

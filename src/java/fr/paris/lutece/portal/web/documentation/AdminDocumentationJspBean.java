@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.documentation;
 
+import fr.paris.lutece.plugins.resource.LuteceResource;
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -146,26 +147,26 @@ public class AdminDocumentationJspBean
 
         if ( LOCAL_DEFAULT.equals( locale.toString( ) ) )
         {
-            strXmlPath = AppPathService.getWebAppPath( ) + xmlBasePath + userBasePath + strFeature + ".xml";
+            strXmlPath = xmlBasePath + userBasePath + strFeature + ".xml";
         }
         else
         {
-            strXmlPath = AppPathService.getWebAppPath( ) + xmlBasePath + locale.toString( ) + userBasePath + strFeature + ".xml";
+            strXmlPath =  xmlBasePath + locale.toString( ) + userBasePath + strFeature + ".xml";
         }
 
-        sourceXml = new StreamSource( new File( strXmlPath ) );
-
         String strHtmlDoc = null;
-
-        Map<String, String> params = new HashMap<>( );
-        params.put( PARAMS_LOCAL, locale.toString( ) );
-        params.put( PARAMS_DEFAULT_LOCAL, LOCAL_DEFAULT );
-
-        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-        String strUniqueId = ADMIN_DOCUMENTATION_XSL_UNIQUE_PREFIX + strXmlPath;
-
         try
         {
+	        LuteceResource luteceResource= AppPathService.getLuteceResource(strXmlPath);
+	        String systemeId= luteceResource.getURI().toASCIIString();
+	        sourceXml = new StreamSource( luteceResource.getInputStream(), systemeId );	
+	        Map<String, String> params = new HashMap<>( );
+	        params.put( PARAMS_LOCAL, locale.toString( ) );
+	        params.put( PARAMS_DEFAULT_LOCAL, LOCAL_DEFAULT );
+	
+	        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
+	        String strUniqueId = ADMIN_DOCUMENTATION_XSL_UNIQUE_PREFIX + strXmlPath;
+      
             strHtmlDoc = xmlTransformerService.transformBySourceWithXslCache( sourceXml, sourceStyleSheet, strUniqueId, params, null );
         }
         catch( Exception e )

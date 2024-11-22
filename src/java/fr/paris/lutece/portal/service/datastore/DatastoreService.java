@@ -345,7 +345,7 @@ public final class DatastoreService
 
                     if ( VALUE_MISSING.equals( strValue ) )
                     {
-                        AppLogService.error( "Datastore Key missing : {} - Please fix to avoid performance issues.", strKey );
+                        AppLogService.getLogger().warn( "Datastore Key missing : {} - Please fix to avoid performance issues.", strKey );
                     }
 
                     matcher.appendReplacement( sb, strValue );

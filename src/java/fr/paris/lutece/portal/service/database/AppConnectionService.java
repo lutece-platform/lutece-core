@@ -79,7 +79,7 @@ public final class AppConnectionService
     {
         try
         {
-            InputStream is = AppPathService.getResourceAsStream( strConfigPath, strConfigFilename );
+            InputStream is = AppPathService.getResourceStream( strConfigPath, strConfigFilename );
             _poolManager = PoolManager.getInstance( is );
             _connectionService = new PluginConnectionService( strPoolName );
             is.close( );

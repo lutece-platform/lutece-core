@@ -36,16 +36,26 @@ package fr.paris.lutece.portal.service.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.plugins.resource.LuteceResource;
+import fr.paris.lutece.plugins.resource.ResourceManager;
+import fr.paris.lutece.plugins.resource.loader.FileResourceLoader;
+import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -86,7 +96,8 @@ public final class AppPathService
     private static final String KEY_ADMIN_HOME_URL = "portal.site.site_property.admin_home_url";
     private static final String KEY_PORTAL_HOME_URL = "portal.site.site_property.home_url";
     private static String _strWebAppPath = normalizeWebappPath(
-            AppPathService.class.getProtectionDomain( ).getCodeSource( ).getLocation( ).getFile( ).split( "/WEB-INF/" ) [0] );
+           AppPathService.class.getProtectionDomain( ).getCodeSource( ).getLocation( ).getFile( ).split( "/WEB-INF/" ) [0] );
+    private static ResourceManager _resourceManager;
     
     /**
      * Creates a new AppPathService object.
@@ -104,7 +115,18 @@ public final class AppPathService
     public static void init( ServletContext context )
     {
         String strRealPath = context.getRealPath( "/" );
-        _strWebAppPath = normalizeWebappPath( strRealPath );
+        initResourceManager( );
+        //The real path is null when the deployed web application is an archive (.war file)
+        if(strRealPath != null && !strRealPath.isEmpty( )) {
+        	_strWebAppPath = normalizeWebappPath( strRealPath );
+            _resourceManager.addSearchPath(FileResourceLoader.ID, _strWebAppPath);
+        }
+    }
+    public static void initResourceManager( ) {
+    	if( _resourceManager == null ) {
+    		_resourceManager = CDI.current().select(ResourceManager.class).get( ); 
+            _resourceManager.addSearchPath(FileResourceLoader.ID, _strWebAppPath);
+    	}
     }
 
     /**
@@ -118,34 +140,9 @@ public final class AppPathService
         _strWebAppPath = normalizeWebappPath( strWebAppPath );
     }
 
-    /**
-     * Returns the absolute path of a repository from a relative definition in properties file
-     *
-     *
-     * @return the repository absolute path
-     * @param strKey
-     *            the repository key definied in properties file
-     */
-    public static String getPath( String strKey )
-    {
-        // Adds relative path found from strKey
-        String strDirectory = AppPropertiesService.getProperty( strKey );
-
-        if ( strDirectory == null )
-        {
-            Object [ ] propertyMissing = {
-                    strKey
-            };
-            String strMsg = MessageFormat.format( MSG_LOG_PROPERTY_NOT_FOUND, propertyMissing );
-            throw new AppException( strMsg );
-        }
-
-        return getWebAppPath( ) + strDirectory;
-    }
-
+   
     /**
      * Returns the webapp path from the properties file
-     *
      *
      * @return the webapp path
      */
@@ -153,7 +150,25 @@ public final class AppPathService
     {
         return _strWebAppPath;
     }
-
+    /**
+     * Returns the absolute path of a repository from a relative definition in properties file
+     *
+     *
+     * @return the repository absolute path else return null
+     * @param strKey
+     *            the repository key definied in properties file
+     * @throws PathNotFoundException if the resource cannot be found
+     */
+    public static String getPath( String strKey ) 
+    {
+        String strDirectory = getRelativePath( strKey );
+        try {
+			return getRealPath( strDirectory );
+		} catch (ResourceNotFoundException e) {
+			AppLogService.debug("Path not found :{} ",strDirectory, e);
+			throw new PathNotFoundException("Path not found: "+strDirectory,e);
+		}
+    }
     /**
      * Returns the absolute path of file from its relative definition in properties file.
      *
@@ -161,41 +176,19 @@ public final class AppPathService
      *            the repository key defined in properties file
      * @param strFilename
      *            The name of file
-     * @return the absolute path of file
+     * @return the absolute path of file else null if file not found
+     * @throws ResourceNotFoundException if the resource cannot be found
      */
-    public static String getPath( String strKey, String strFilename )
+    public static String getPath( String strKey, String strFilename ) 
     {
-        return getPath( strKey ) + SLASH + strFilename;
+    	String strDirectory = getRelativePath( strKey );
+        try {
+			return getRealPath( strDirectory+ SLASH + strFilename );
+		} catch (ResourceNotFoundException e) {
+			AppLogService.debug("File not found :{}/{}",strDirectory, strFilename, e);
+			throw new PathNotFoundException("File not found at path: "+strDirectory, e);
+		}
     }
-
-    /**
-     * Gets a file as stream
-     *
-     * @param strPath
-     *            the path
-     * @param strFilename
-     *            The name of file
-     * @return a FileInput Stream object
-     */
-    public static FileInputStream getResourceAsStream( String strPath, String strFilename )
-    {
-        String strFilePath = getWebAppPath( ) + strPath + strFilename;
-
-        FileInputStream fis = null;
-        try
-        {
-            File file = new File( strFilePath );
-            fis = new FileInputStream( file );
-
-            return fis;
-        }
-        catch( IOException e )
-        {
-            StreamUtil.safeClose( fis );
-            throw new AppException( "Unable to get file : " + strFilePath );
-        }
-    }
-
     /**
      * Returns the absolute path of a repository from a relative path
      *
@@ -203,10 +196,150 @@ public final class AppPathService
      * @return the repository absolute path
      * @param strDirectory
      *            the relative path
+     * @throws ResourceNotFoundException  if the resource cannot be found
      */
-    public static String getAbsolutePathFromRelativePath( String strDirectory )
+    public static String getAbsolutePathFromRelativePath( String strDirectory ) 
     {
-        return _strWebAppPath + strDirectory;
+        try {
+			return getRealPath( strDirectory );
+		} catch (ResourceNotFoundException e) {
+			AppLogService.debug("Path not found :{}",strDirectory, e);
+			throw new PathNotFoundException("Absolute Path not found at the relative path: "+strDirectory, e);
+		}
+    }
+    /**
+     * Retrieves the resource paths for a given relative path within the web application.
+     * <p>
+     * The path provided should be relative to the web application's root, and the method 
+     * will return a set of resource paths matching that location.
+     * </p>
+     *
+     * @param relativePath The relative path to the resource(s) within the web application.
+     * @return A set of resource paths as strings, or an empty set if no resources are found.
+     * @throws ResourceNotFoundException if the resource cannot be found
+     */
+    public static Set<String> getResourcesPathsFromRelativePath( String relativePath ) throws ResourceNotFoundException
+    {
+    		Set<URL> listURL= getResourceURLFromRelativePath( relativePath );
+    		return listURL.stream()
+                    .map(URL::getPath) 
+                    .collect(Collectors.toSet());
+    }
+    /**
+     * Retrieves the resource paths as a Set<URL> from a given directory.
+     * This method reads the files in the specified directory, converts their paths to URLs,
+     * and returns them in a Set. If no resources are found, a {@link ResourceNotFoundException}
+     * will be thrown.
+     *
+     * @param path The base path in the file system, which can be either relative or absolute.
+     *                 This path is used to locate the directory containing the resources.
+     *                 The path must start with a "/".
+     * @return A Set containing the URLs of the resources found in the directory.
+     * @throws ResourceNotFoundException If no resources are found or if an error occurs while reading
+     *                                    the directory or converting paths to URLs.
+     */
+    public static Set<URL> getResourceURLFromRelativePath(String path) throws ResourceNotFoundException{
+    	return _resourceManager.getResourceURL(path );
+    }
+	/**
+	 * Retrieves a list of files for a given relative path within the web application.
+	 * <p>
+	 * This method constructs the full path to each file based on the relative path provided, 
+	 * and adds the corresponding files to a set. It assumes that the resources are accessible 
+	 * via the servlet context and converts them to file objects.
+	 * </p>
+	 * <p>
+	 * Note: The paths used in this method are relative to the web application, and the method
+	 * processes the paths using the servlet context.
+	 * </p>
+	 *
+	 * @param relativePath The relative path to the resources within the web application.
+	 * @return A set of {@link File} objects corresponding to the resources found at the specified path.
+	 * @throws ResourceNotFoundException if the resource cannot be found
+	 */
+    public static Set<File> getlistFilesFromRelativePath( String relativePath ) throws ResourceNotFoundException
+    {
+    	Set<String> resourcePaths = null;
+        Set<File> listFiles = new HashSet<>( ); 
+		resourcePaths = getResourcesPathsFromRelativePath( relativePath );
+    	if (resourcePaths != null) {
+             for (String resourcePath : resourcePaths) {
+                 File file;
+				try {
+					file = new File (_resourceManager.getResource(resourcePath).getURL().getPath());			
+					listFiles.add(file);  
+				} catch (IOException e) {
+					AppLogService.error(e.getMessage(), e);
+					throw new AppException( e.getMessage(), e );
+				}         		         
+              }
+        }
+        return  listFiles;
+    }
+    
+   
+    /**
+     * Gets a file as stream
+     * This method is deprecated use {@link #getResourceStream(String, String)}
+     * @param strPath
+     *            the path
+     * @param strFilename
+     *            The name of file
+     * @return a FileInput Stream object
+     * @throws ResourceNotFoundException if the resource cannot be found
+     * @deprecatedUse {@link #getResourceStream(String, String)} instead
+     */
+    @Deprecated
+    public static FileInputStream getResourceAsStream( String strPath, String strFilename )
+    {
+        FileInputStream fis = null;
+        try
+        {
+        	File file = new File (_resourceManager.getResource(strPath + strFilename).getURL().getPath());			
+            fis = new FileInputStream( file );
+
+            return fis;
+        }
+        catch( IOException e )
+        {
+            StreamUtil.safeClose( fis );
+            throw new AppException( "Unable to get file : " + strPath+ strFilename);
+        } catch (ResourceNotFoundException e) {
+            throw new AppException( "Unable to get file : " + strPath+ strFilename);
+		}
+    }
+    /**
+     * Retrieves an input stream for a resource based on a path and a file name.
+     *
+     * @param strPath     the relative path to the directory containing the resource
+     * @param strFilename the name of the file to load
+     * @return an input stream representing the requested resource
+     * @throws ResourceNotFoundException if the resource cannot be found
+     */
+    public static InputStream getResourceStream(String strPath, String strFilename) throws ResourceNotFoundException {
+        return getResourceStream(strPath + strFilename);
+    }
+
+    /**
+     * Retrieves an input stream for a resource based solely on its relative path.
+     *
+     * @param strFilename the relative path of the file to load
+     * @return an input stream representing the requested resource
+     * @throws ResourceNotFoundException if the resource cannot be found
+     */
+    public static InputStream getResourceStream(String strFilename) throws ResourceNotFoundException {
+        return _resourceManager.getResourceAsInputStream(strFilename);
+    }
+
+    /**
+     * Retrieves a Lutece resource based on its relative path.
+     *
+     * @param relativePath the relative path of the resource to retrieve
+     * @return an instance of {@link LuteceResource} representing the resource
+     * @throws ResourceNotFoundException if the resource cannot be found
+     */
+    public static LuteceResource getLuteceResource(String relativePath) throws ResourceNotFoundException {
+        return _resourceManager.getResource(relativePath);
     }
 
     /**
@@ -504,27 +637,7 @@ public final class AppPathService
         return strVirtalHostKey;
     }
 
-    /**
-     * Gets a Base Url for a virtual host if the request contains a virtual host key
-     *
-     * @param request
-     *            The HTTP request
-     * @return A virtual host base url if present, otherwise null.
-     */
-    private static String getVirtualHostBaseUrl( HttpServletRequest request )
-    {
-        String strBaseUrl = null;
-        String strVirtalHostKey = getVirtualHostKey( request );
-
-        if ( ( strVirtalHostKey != null ) && ( !strVirtalHostKey.equals( "" ) ) )
-        {
-            // If found gets the Base url for this virtual host by its key
-            strBaseUrl = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST + strVirtalHostKey + SUFFIX_BASE_URL );
-        }
-
-        return strBaseUrl;
-    }
-
+    
     /**
      * Build the url item to use for a url that includes the redirection parameter for reconnection.
      *
@@ -570,7 +683,7 @@ public final class AppPathService
             strUrl = strRedirectUrl;
         }
 
-        Enumeration enumParams = request.getParameterNames( );
+        Enumeration<String> enumParams = request.getParameterNames( );
         UrlItem url = new UrlItem( getBaseUrl( request ) + strUrl );
 
         String strParamName;
@@ -637,5 +750,59 @@ public final class AppPathService
     public static boolean isDefaultWebappInstance( )
     {
         return INSTANCE_DEFAULT.equals( getWebappInstance( ) );
+    }
+    /**
+     * Gets a Base Url for a virtual host if the request contains a virtual host key
+     *
+     * @param request
+     *            The HTTP request
+     * @return A virtual host base url if present, otherwise null.
+     */
+    private static String getVirtualHostBaseUrl( HttpServletRequest request )
+    {
+        String strBaseUrl = null;
+        String strVirtalHostKey = getVirtualHostKey( request );
+
+        if ( ( strVirtalHostKey != null ) && ( !strVirtalHostKey.equals( "" ) ) )
+        {
+            // If found gets the Base url for this virtual host by its key
+            strBaseUrl = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST + strVirtalHostKey + SUFFIX_BASE_URL );
+        }
+
+        return strBaseUrl;
+    }
+
+    /**
+     * Returns the absolute path of a repository from a relative definition in properties file
+     *
+     *
+     * @return the repository absolute path
+     * @param strKey
+     *            the repository key definied in properties file
+     */
+    private static String getRelativePath( String strKey )
+    {
+        // Adds relative path found from strKey
+        String strDirectory = AppPropertiesService.getProperty( strKey );
+
+        if ( strDirectory == null )
+        {
+            Object [ ] propertyMissing = {
+                    strKey
+            };
+            String strMsg = MessageFormat.format( MSG_LOG_PROPERTY_NOT_FOUND, propertyMissing );
+            throw new AppException( strMsg );
+        }
+
+        return strDirectory;
+    }
+    private static String getRealPath( String relativePath ) throws ResourceNotFoundException
+    {
+    	try {
+			return _resourceManager.getResource(relativePath).getURL().getPath();
+		} catch (IOException e) {			
+			AppLogService.error(e.getMessage(), e);
+			throw new PathNotFoundException("Get url exception form relativePath: "+relativePath,e);
+		}
     }
 }

@@ -33,22 +33,24 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
 import java.util.Collection;
 import java.util.HashMap;
+import java.io.IOException;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.TreeSet;
 
+import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.util.filesystem.FileListFilter;
 import jakarta.enterprise.inject.spi.CDI;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
 
 /**
  * This class provides services and utilities for plugins management
@@ -57,12 +59,14 @@ public final class PluginService
 {
     // Constantes
     private static final String PATH_CONF = "path.conf";
+    private static final String DEFAULT_PATH_CONF = "/WEB-INF/conf/";
     private static final String CORE_XML = "core.xml";
     private static final String CORE = "core";
     private static Plugin _pluginCore;
     private static final String PATH_PLUGIN = "path.plugins";
+    private static final String DEFAULT_PLUGINS_PATH_CONF = "/WEB-INF/plugins/";
     private static final String FILE_PLUGINS_STATUS = "plugins.dat";
-    private static final String EXTENSION_FILE = "xml";
+    private static final String EXTENSION_FILE = ".xml";
     private static final String PROPERTY_IS_INSTALLED = ".installed";
     private static final String PROPERTY_DB_POOL_NAME = ".pool";
     private static final String KEY_PLUGINS_STATUS = "core.plugins.status.";
@@ -121,12 +125,7 @@ public final class PluginService
      */
     private static void loadCoreComponents( ) throws LuteceInitException
     {
-        File file = new File( AppPathService.getPath( PATH_CONF, CORE_XML ) );
-
-        if ( file.exists( ) )
-        {
-            loadPluginFromFile( file, false );
-        }
+      loadPluginFromFile( AppPropertiesService.getProperty( PATH_CONF, DEFAULT_PATH_CONF ) + CORE_XML, false );   
     }
 
     /**
@@ -137,17 +136,18 @@ public final class PluginService
      */
     private static void loadPlugins( ) throws LuteceInitException
     {
-        File dirPlugin = new File( AppPathService.getPath( PATH_PLUGIN ) );
-
-        if ( dirPlugin.exists( ) )
+        Set<String> listFile= new HashSet<>( );
+		try {
+			listFile = AppPathService.getResourcesPathsFromRelativePath(AppPropertiesService.getProperty( PATH_PLUGIN, DEFAULT_PLUGINS_PATH_CONF ));
+		} catch (ResourceNotFoundException e) {
+			AppLogService.getLogger().warn("No XML plugins file found for installation in the directory defined by {} properties: {}", PATH_PLUGIN, e.getMessage( ));
+			AppLogService.getLogger().debug("No XML plugins file found for installation in the directory {}", PATH_PLUGIN, e);			
+		}
+        for ( String pathFile : listFile )
         {
-            FilenameFilter select = new FileListFilter( "", EXTENSION_FILE );
-            File [ ] listFile = dirPlugin.listFiles( select );
-
-            for ( File file : listFile )
-            {
-                loadPluginFromFile( file, true );
-            }
+           if(pathFile.endsWith( EXTENSION_FILE )) {
+        	   loadPluginFromFile( pathFile, true );
+           }
         }
     }
 
@@ -161,10 +161,10 @@ public final class PluginService
      * @throws LuteceInitException
      *             If an error occured
      */
-    private static void loadPluginFromFile( File file, boolean bRegisterAsPlugin ) throws LuteceInitException
+    private static void loadPluginFromFile( String path, boolean bRegisterAsPlugin ) throws LuteceInitException
     {
         PluginFile pluginFile = new PluginFile( );
-        pluginFile.load( file.getAbsolutePath( ) );
+        pluginFile.load( path );
 
         String strPluginClass = pluginFile.getPluginClass( );
 
@@ -172,7 +172,7 @@ public final class PluginService
         {
             try
             {
-                Plugin plugin = (Plugin) Class.forName( strPluginClass ).newInstance( );
+                Plugin plugin = (Plugin) Class.forName( strPluginClass ).getDeclaredConstructor().newInstance();;
                 plugin.load( pluginFile );
 
                 if ( bRegisterAsPlugin )
@@ -194,7 +194,6 @@ public final class PluginService
                     plugin.setPoolName( strPoolName );
                     plugin.initConnectionService( strPoolName );
                 }
-
                 plugin.init( );
 
                 // plugin installed event
@@ -203,12 +202,12 @@ public final class PluginService
             }
             catch( Exception e )
             {
-                throw new LuteceInitException( "Error instantiating plugin defined in file : " + file.getAbsolutePath( ), e );
+                throw new LuteceInitException( "Error instantiating plugin defined in file : " + path, e );
             }
         }
         else
         {
-            AppLogService.error( "No plugin class defined in file : {}", file.getAbsolutePath( ) );
+            AppLogService.error( "No plugin class defined in file : {}", path );
         }
     }
 
@@ -295,17 +294,15 @@ public final class PluginService
     private static void loadPluginsStatus( )
     {
         // Load default values from the plugins.dat file
-        String strPluginStatusFile = AppPathService.getPath( PATH_PLUGIN, FILE_PLUGINS_STATUS );
-        File file = new File( strPluginStatusFile );
-        Properties props = new Properties( );
+            Properties props = new Properties( );
 
-        try ( FileInputStream fis = new FileInputStream( file ) )
+        try 
         {
-            props.load( fis );
+            props.load( AppPathService.getResourceStream(AppPropertiesService.getProperty( PATH_PLUGIN, DEFAULT_PATH_CONF ), FILE_PLUGINS_STATUS) );
         }
-        catch( Exception e )
+        catch( IOException | ResourceNotFoundException e )
         {
-            AppLogService.error( "Error loading plugin defined in file : {}", file.getAbsolutePath( ), e );
+            AppLogService.error( "Error loading plugin defined in file : {} defined in the directory property conf {} ", FILE_PLUGINS_STATUS, PATH_PLUGIN, e );
         }
 
         // If the keys aren't found in the datastore then create a key in it
@@ -396,5 +393,4 @@ public final class PluginService
 
         return ( ( plugin != null ) && ( plugin.isInstalled( ) ) );
     }
-
 }

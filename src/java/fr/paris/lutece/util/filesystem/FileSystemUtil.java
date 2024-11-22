@@ -35,6 +35,7 @@ package fr.paris.lutece.util.filesystem;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.PathNotFoundException;
 
 // Java IO
 import java.io.File;
@@ -169,14 +170,12 @@ public final class FileSystemUtil
     {
         try
         {
-            MimetypesFileTypeMap mimeTypeMap = new MimetypesFileTypeMap( AppPathService.getWebAppPath( ) + File.separator + FILE_MIME_TYPE );
-
+            MimetypesFileTypeMap mimeTypeMap = new MimetypesFileTypeMap( AppPathService.getAbsolutePathFromRelativePath(File.separator + FILE_MIME_TYPE ));
             return mimeTypeMap.getContentType( strFilename.toLowerCase( ) );
         }
-        catch( IOException e )
+        catch( IOException | PathNotFoundException e )
         {
             AppLogService.error( e.getMessage( ), e );
-
             return DEFAULT_MIME_TYPE;
         }
     }

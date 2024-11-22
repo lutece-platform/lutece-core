@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util;
 
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.test.LuteceTestCase;
 
 import java.io.File;
@@ -65,7 +64,7 @@ public class PropertiesServiceTest extends LuteceTestCase
     {
         System.out.println( "addPropertiesFile" );
 
-        PropertiesService instance = new PropertiesService( AppPathService.getWebAppPath( ) );
+        PropertiesService instance = new PropertiesService( );
 
         instance.addPropertiesFile( PATH_CONF, FILE_CONFIG );
         instance.getProperty( PROPERTY_PROD_URL );
@@ -83,7 +82,7 @@ public class PropertiesServiceTest extends LuteceTestCase
         System.out.println( "addPropertiesDirectory" );
 
         String strRelativePath = PATH_CONF_PLUGINS;
-        PropertiesService instance = new PropertiesService( AppPathService.getWebAppPath( ) );
+        PropertiesService instance = new PropertiesService( );
 
         instance.addPropertiesDirectory( strRelativePath );
 
@@ -93,7 +92,8 @@ public class PropertiesServiceTest extends LuteceTestCase
 
     public void testReloadAll( ) throws FileNotFoundException, IOException
     {
-        File propsFile = File.createTempFile( "junit", ".properties" );
+    	File targetDir = new File("target/lutece/"+PATH_CONF);
+        File propsFile = File.createTempFile( "junit", ".properties", targetDir );
         propsFile.deleteOnExit( );
 
         Properties props = new Properties( );
@@ -104,8 +104,8 @@ public class PropertiesServiceTest extends LuteceTestCase
         props.store( os, this.getClass( ).getName( ) );
         os.close( );
 
-        PropertiesService instance = new PropertiesService( propsFile.getParent( ) );
-        instance.addPropertiesFile( "", propsFile.getName( ) );
+        PropertiesService instance = new PropertiesService(  );
+        instance.addPropertiesFile( PATH_CONF, propsFile.getName( ) );
 
         for ( String key : props.stringPropertyNames( ) )
         {
@@ -123,10 +123,12 @@ public class PropertiesServiceTest extends LuteceTestCase
         assertEquals( props.getProperty( "test1" ), instance.getProperty( "test1" ) );
         assertNull( instance.getProperty( "test2" ) );
     }
-    @Test
+   
+       @Test
     public void testReloadAllOrder( ) throws IOException
-    {
-        File propsFile = File.createTempFile( "junit", ".properties" );
+    { 
+    	File targetDir = new File("target/lutece/"+PATH_CONF);
+        File propsFile = File.createTempFile( "junit", ".properties", targetDir );
         propsFile.deleteOnExit( );
 
         Properties props = new Properties( );
@@ -136,14 +138,14 @@ public class PropertiesServiceTest extends LuteceTestCase
         props.store( os, this.getClass( ).getName( ) );
         os.close( );
 
-        PropertiesService instance = new PropertiesService( propsFile.getParent( ) );
-        instance.addPropertiesFile( "", propsFile.getName( ) );
+        PropertiesService instance = new PropertiesService( );
+        instance.addPropertiesFile( PATH_CONF, propsFile.getName( ) );
 
         assertEquals( "1", instance.getProperty( "key" ) );
 
         for ( int i = 2; i < 10; i++ )
         {
-            propsFile = File.createTempFile( "junit", ".properties" );
+            propsFile = File.createTempFile( "junit", ".properties", targetDir );
             propsFile.deleteOnExit( );
 
             props = new Properties( );
@@ -152,7 +154,7 @@ public class PropertiesServiceTest extends LuteceTestCase
             props.store( os, this.getClass( ).getName( ) );
             os.close( );
 
-            instance.addPropertiesFile( "", propsFile.getName( ) );
+            instance.addPropertiesFile( PATH_CONF, propsFile.getName( ) );
 
             assertEquals( Integer.toString( i ), instance.getProperty( "key" ) );
 

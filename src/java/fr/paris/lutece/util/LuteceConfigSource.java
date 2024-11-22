@@ -1,5 +1,4 @@
 package fr.paris.lutece.util;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.microprofile.config.spi.ConfigSource;
@@ -8,9 +7,14 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 public class LuteceConfigSource implements ConfigSource{
 
+    private static final String PATH_CONF = "WEB-INF/conf/";
+
+	public LuteceConfigSource ( ){
+    	AppInitPropertiesService.init(PATH_CONF);
+	}
 	@Override
     public int getOrdinal() {
-        return 100;
+        return 50;
     }
 	
 	@Override
@@ -22,17 +26,7 @@ public class LuteceConfigSource implements ConfigSource{
 	@Override
     public Set<String> getPropertyNames( )
     {
-        Set<String> propertyNames = new HashSet<String>( );
-        try
-        {
-            propertyNames = AppInitPropertiesService.getPropertiesAsMap( ).keySet( );
-        }
-        catch( Exception e )
-        {
-            // This shouldn't happen. It happens only if Config API impl is calling getPropertyNames before CDI AppInitExtension (WildFly)
-            AppLogService.error( "LuteceConfigSource initialization error, due to Config API calling getPropertyNames before CDI AppInitExtension", e );
-        }
-        return propertyNames;
+      return AppInitPropertiesService.getPropertiesName( );
     }
 
 	@Override
@@ -51,5 +45,4 @@ public class LuteceConfigSource implements ConfigSource{
         }
         return strValue;
     }
-
 }

@@ -21,9 +21,9 @@
 <link rel="shortcut icon" type="image/x-icon" href="favicon.svg"/>
 <!-- Le style -->
 <#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
-<link href="${thetheme.pathCss}/tabler-icons.min.css" rel="stylesheet">
-<link href="${thetheme.pathCss}/bootstrap.min.css" rel="stylesheet">
-<link href="${thetheme.pathCss}/page_template_styles.css" rel="stylesheet">
+<link href="${thetheme.pathCss!}/tabler-icons.min.css" rel="stylesheet">
+<link href="${thetheme.pathCss!}/bootstrap.min.css" rel="stylesheet">
+<link href="${thetheme.pathCss!}/page_template_styles.css" rel="stylesheet">
 <!-- Twitter metas -->
 <meta property="twitter:image" content="${base_url}images/preview.png">
 <meta property="twitter:image:width" content="1200">

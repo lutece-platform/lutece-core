@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,32 +53,12 @@ import fr.paris.lutece.util.AppInitPropertiesService;
 public final class AppPropertiesService
 {
    
-	private static Config _config;
+	private static Config _config= ConfigProvider.getConfig();
     /**
      * Private constructor
      */
     private AppPropertiesService( )
     {
-    }
-
-    /**
-     * Initializes the service
-     * 
-     * @param strConfPath
-     *            The configuration path
-     */
-    public static void init( String strConfPath )
-    {
-    	AppInitPropertiesService.init(strConfPath);
-    	
-		try {
-			_config= ConfigProvider.getConfig();
-			
-		} catch (Exception e) {
-			AppLogService.error(e.getMessage( ), e);
-			throw e;
-		}	
-		
     }
 
     /**

@@ -40,6 +40,8 @@ import fr.paris.lutece.portal.service.i18n.I18nTemplateMethod;
 import fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import jakarta.servlet.ServletContext;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
@@ -87,9 +89,9 @@ public class MockFreemarkerTemplateService extends AbstractFreeMarkerTemplateSer
      * {@inheritDoc }
      */
     @Override
-    public void init( String strTemplatePath )
+    public void init( String strTemplatePath, ServletContext contex )
     {
-        super.init( strTemplatePath );
+        super.init( strTemplatePath, contex );
         getAutoIncludes( ); // force to initialize a cfg
     }
 

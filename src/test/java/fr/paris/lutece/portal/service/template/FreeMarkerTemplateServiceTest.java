@@ -60,7 +60,7 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
 
         IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
 
-        freeMarkerTemplateService.init( strTemplatePath );
+        freeMarkerTemplateService.init( strTemplatePath, null );
     }
 
     /**

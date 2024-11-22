@@ -70,11 +70,7 @@ public class AppLogServiceTest extends LuteceTestCase
     {
         try
         {
-            System.out.println( "error" );
-
-            Object objToLog = "AppLogServiceTest : JUnit message error test";
-
-            AppLogService.error( objToLog, new AppException( "JUnit test exception" ) );
+            AppLogService.error( "AppLogServiceTest : JUnit message error test: {}", "JUnit test exception"  );
         }
         catch( Exception e )
         {

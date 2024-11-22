@@ -141,13 +141,15 @@ public class LinksInclude implements PageInclude
     private Map<String, Object> buildLinks( HttpServletRequest request, String strPage, int nMode, List<Plugin> installedPlugins )
     {
         Locale locale = request.getLocale( );
+        Map<String, Object> links;
         LinksIncludeCacheService cacheService = CDI.current().select(LinksIncludeCacheService.class).get( );
-        String strKey = cacheService.getCacheKey( nMode, strPage, locale );
-        Map<String, Object> links = cacheService.get( strKey );
-
-        if ( links != null )
-        {
-            return links;
+    	String strKey = cacheService.getCacheKey( nMode, strPage, locale );
+        if(cacheService.isCacheEnable() && !cacheService.isClosed( )) {
+        	links = cacheService.get( strKey );
+        	if ( links != null )
+            {
+                return links;
+            }
         }
         StringBuilder sbCssLinks = new StringBuilder( );
         StringBuilder sbJsLinks = new StringBuilder( );
@@ -178,7 +180,9 @@ public class LinksInclude implements PageInclude
         links = new HashMap<>( 2 );
         links.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString( ) );
         links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString( ) );
-        cacheService.put( strKey, links );
+        if(cacheService.isCacheEnable() && !cacheService.isClosed( )) {
+        	cacheService.put( strKey, links );
+        }
         return links;
     }
 

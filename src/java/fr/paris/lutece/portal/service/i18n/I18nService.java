@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.PathNotFoundException;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.io.File;
@@ -95,7 +96,11 @@ public final class I18nService
         catch( AppException e )
         {
             // the key is unknown. Message override will be deactivated
-            AppLogService.error( "property {} is undefined. Message overriding will be disabled.", PROPERTY_PATH_OVERRIDE );
+            AppLogService.getLogger( ).warn( "property {} is undefined. Message overriding will be disabled.", PROPERTY_PATH_OVERRIDE);
+
+        }catch( PathNotFoundException e ){
+            AppLogService.getLogger( ).warn( "Absolute Path not found with the relative path : {}", AppPropertiesService.getProperty(PROPERTY_PATH_OVERRIDE));
+            AppLogService.debug( "Debug details for the undefined property issue.", e);
         }
 
         URL [ ] overrideURL = null;
@@ -246,14 +251,9 @@ public final class I18nService
         }
         catch( Exception e )
         {
-            String strErrorMessage = "Error localizing key : '" + strKey + "' - " + e.getMessage( );
+            AppLogService.getLogger().warn( "Error localizing key : {} ", strKey );
+            AppLogService.getLogger().debug( "Error localizing key : {} ", strKey, e );
 
-            if ( e.getCause( ) != null )
-            {
-                strErrorMessage += ( " - cause : " + e.getCause( ).getMessage( ) );
-            }
-
-            AppLogService.error( strErrorMessage );
         }
 
         return strReturn;

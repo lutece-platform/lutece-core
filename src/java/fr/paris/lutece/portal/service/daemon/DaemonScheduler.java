@@ -81,6 +81,8 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     private Map<String, DaemonManagedTask> _scheduledDaemons;
     private Map<String, ScheduledFuture<DaemonManagedTask>> _scheduledFutures;
     private volatile boolean _bShuttingDown;
+    private int _maxAwaitTerminationDelay;
+
 
     /**
      * Constructor
@@ -107,6 +109,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         _coordinatorThread.setDaemon( true );
         _coordinatorThread.start( );
         _bShuttingDown = false;
+        _maxAwaitTerminationDelay = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY, 15 );
     }
     
     void initDaemonScheduler(BlockingQueue<DaemonEntry> queue, ExecutorService executor, ManagedThreadFactory managedThreadFactory) {
@@ -280,9 +283,8 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     public void shutdown( )
     {
         _bShuttingDown = true; // prevent future scheduling of daemons
-        int maxAwaitTerminationDelay = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY, 15 );
         AppLogService
-                .info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait " + maxAwaitTerminationDelay + " s)." );
+                .info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait " + _maxAwaitTerminationDelay + " s)." );
         _scheduledExecutorService.shutdown( );
         _coordinatorThread.interrupt( );
         _executor.shutdown( );
@@ -294,7 +296,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
 
         try
         {
-            if ( _executor.awaitTermination( maxAwaitTerminationDelay, TimeUnit.SECONDS ) )
+            if ( _executor.awaitTermination( _maxAwaitTerminationDelay, TimeUnit.SECONDS ) )
             {
                 AppLogService.info( "All daemons shutdown successfully." );
             }

@@ -43,10 +43,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.PathNotFoundException;
 import fr.paris.lutece.portal.web.LocalVariables;
 
 /**
@@ -105,8 +106,14 @@ public class ImageServlet extends HttpServlet
                 else
                 {
                     ServletContext sc = getServletContext( );
-                    String strImageUrl = AppPathService.getAbsolutePathFromRelativePath(
-                            AppPropertiesService.getProperty( PROPERTY_PATH_IMAGES ) + "/" + AppPropertiesService.getProperty( PROPERTY_IMAGE_PAGE_DEFAULT ) ); //
+                    String strImageUrl = null;
+                    String relativePath= AppPropertiesService.getProperty( PROPERTY_PATH_IMAGES ) + "/" + AppPropertiesService.getProperty( PROPERTY_IMAGE_PAGE_DEFAULT );
+					try {
+						strImageUrl = AppPathService.getAbsolutePathFromRelativePath( relativePath);
+					} catch (PathNotFoundException e) {
+						AppLogService.error("Image not found in path: {}.", relativePath, e);
+						throw new AppException("Image not found at path: " + relativePath, e);
+					} 
                     response.setContentType( sc.getMimeType( strImageUrl ) );
 
                     File file = new File( strImageUrl );

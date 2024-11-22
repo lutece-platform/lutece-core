@@ -58,6 +58,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.PathNotFoundException;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -314,7 +315,13 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( bUpdateFile )
         {
-            FileUtil.deleteFile( new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ), pageTemplate.getFile( ) ) );
+        	String pathFile= AppPropertiesService.getProperty(PROPERTY_PATH_TEMPLATE ) +File.separator + pageTemplate.getFile( );
+            try {
+				FileUtil.deleteFile( new File( AppPathService.getAbsolutePathFromRelativePath(pathFile) ) );
+			} catch (PathNotFoundException e) {
+				AppLogService.error("File not found in path: {}.", pathFile, e);
+
+			}
             pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
 
             writeTemplateFile( strFileName, PATH_TEMPLATE, fileTemplate );
@@ -356,7 +363,14 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         }
 
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
-        String strPathPageTemplateFile = AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile( );
+        String strPathPageTemplateFile = null;
+        String pathFile= AppPropertiesService.getProperty(PROPERTY_PATH_TEMPLATE ) +  File.separator + pageTemplate.getFile( );
+        try {
+        	strPathPageTemplateFile= AppPathService.getAbsolutePathFromRelativePath(pathFile) ;
+		} catch (PathNotFoundException e) {
+			AppLogService.error("File not found in path: {}.", pathFile, e);
+		}
+        
         String strPathPictureFile = PATH_IMAGE_PAGE_TEMPLATE + pageTemplate.getPicture( );
         Object [ ] args = {
                 strPathPageTemplateFile, strPathPictureFile
@@ -391,9 +405,13 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         // Delete files associated
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
 
-        File filePageTemplateToDelete = new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ), pageTemplate.getFile( ) );
-        FileUtil.deleteFile( filePageTemplateToDelete );
+        String pathFile= AppPropertiesService.getProperty(PROPERTY_PATH_TEMPLATE ) +File.separator + pageTemplate.getFile( );
+        try {
+			FileUtil.deleteFile( new File( AppPathService.getAbsolutePathFromRelativePath(pathFile) ) );
+		} catch (PathNotFoundException e) {
+			AppLogService.error("File not found in path: {}.", pathFile, e);
 
+		}
         File filePictureToDelete = new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) );
         FileUtil.deleteFile( filePictureToDelete );
 

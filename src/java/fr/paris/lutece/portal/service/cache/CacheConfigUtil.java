@@ -61,6 +61,7 @@ public class CacheConfigUtil {
 	    private static final String PROPERTY_MAX_ELEMENTS_DISK = ".maxElementsOnDisk";
 	    private static final String PROPERTY_STATISTICS = ".statistics";
 	    private static final String PROPERTY_ENABLEMANAGEMENT = ".enableManagement";
+	    private static final String PROPERTY_PERSISTENCEDIRECTORY =".persistenceDirectory";
 	    
 	    private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
 
@@ -156,7 +157,7 @@ public class CacheConfigUtil {
 
 	            writer.write("        </jsr107:defaults>\n" +
 	                    "    </service>\n");
-	            writer.write( "<persistence directory=\"java.io.tmpdir/ehcache/\" />"+
+	            writer.write( "<persistence directory=\""+defaultCacheConfig.getPersistenceDirectory()+ "\" />\n"+
 	            		
 	            		"    <cache-template name=\"" + defaultCacheConfig.getTemplateName() + "\">\n" +
                         "        <expiry>\n" +
@@ -307,12 +308,13 @@ public class CacheConfigUtil {
 	    	return new CacheConfig.ConfigBuilder("luteceCache")
 	    			.heapEntries(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS, Integer.class).orElse(10000))
 	    			.offheapMB(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_OFF_HEAP_MB,Integer.class).orElse(0))
-	    			.diskMB(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS_DISK, Integer.class).orElse(10000))
+	    			.diskMB(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_MAX_ELEMENTS_DISK, Integer.class).orElse(0))
 	    		    .timeToLiveSeconds(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_TIME_TO_LIVE, Integer.class).orElse(1000))
                     .timeToIdleSeconds(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_TIME_TO_IDLE, Integer.class).orElse(1000))
                     .eternal(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_ETERNAL, Boolean.class).orElse(false))
                     .statistics(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_STATISTICS, Boolean.class).orElse(false))
                     .enableManagement(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_ENABLEMANAGEMENT, Boolean.class).orElse(false))
+                    .persistenceDirectory(config.getOptionalValue(PREFIX_DEFAULT + PROPERTY_PERSISTENCEDIRECTORY, String.class).orElse("java.io.tmpdir/ehcache/"))
                     .build();
 	    			
 	    }
@@ -328,8 +330,9 @@ public class CacheConfigUtil {
 	        private int diskMB;
 	        private boolean statistics;
 	        private boolean enableManagement;
+	        private String persistenceDirectory;
 
-	        public CacheConfig(ConfigBuilder builder) {
+			public CacheConfig(ConfigBuilder builder) {
 	            this.name = builder.name;
 	            this.templateName = builder.templateName;
 	            this.heapEntries = builder.heapEntries;
@@ -340,6 +343,7 @@ public class CacheConfigUtil {
 	            this.eternal = builder.eternal;
 	            this.statistics = builder.statistics;
 	            this.enableManagement = builder.enableManagement;
+	            this.persistenceDirectory= builder.persistenceDirectory;
 	        }
 
 	        public static class ConfigBuilder {
@@ -356,6 +360,7 @@ public class CacheConfigUtil {
 	            private int diskMB;
 	            private boolean statistics;
 	            private boolean enableManagement;
+	            private String persistenceDirectory;
 
 	            public ConfigBuilder(String name) {
 	                this.name = name;
@@ -400,7 +405,10 @@ public class CacheConfigUtil {
 	                this.enableManagement = enableManagement;
 	                return this;
 	            }
-
+				public ConfigBuilder persistenceDirectory(String persistenceDirectory) {
+					this.persistenceDirectory = persistenceDirectory;
+					return this;
+				}
 	            public CacheConfig build() {
 	                return new CacheConfig(this);
 	            }
@@ -449,6 +457,10 @@ public class CacheConfigUtil {
 	        public boolean isResource() {
 	            return offheapMB >0 || diskMB > 0 || heapEntries > 0;
 	        }
+	        public String getPersistenceDirectory() {
+				return persistenceDirectory;
+			}
+
 	    }
 	    /**
 	     * Returns the cache status froms database
@@ -496,6 +508,9 @@ public class CacheConfigUtil {
 	     */
 	     public static <K,V>String getInfos( Configuration<K,V> conf )
 	    {
+	    	 if( conf == null) {
+	    		 return new StringBuilder("The cache is desabled").toString();
+	    	 }
 	        StringBuilder sbInfos = new StringBuilder( conf.toString()).append( "\n" );
 	           
 	        sbInfos.append( "key type" ).append( "=" ).append( conf.getKeyType( ) ).append( "\n" );

@@ -34,9 +34,8 @@
 package fr.paris.lutece.portal.web.system;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,7 +49,7 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
-
+import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -60,6 +59,7 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.site.properties.SitePropertiesService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -123,7 +123,6 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_TITLE_MANAGE_FILES_SYSTEM );
         ArrayList<SystemFile> list = new ArrayList<>( );
-
         for ( String strDirectory : getDirectories( ) )
         {
             SystemFile file = new SystemFile( );
@@ -157,21 +156,21 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         {
             return getManageFilesSystem( request );
         }
-
-        String strDirectory = AppPathService.getWebAppPath( ) + strDir;
-        File directory = new File( strDirectory );
         ArrayList<SystemFile> listFiles = new ArrayList<>( );
-        for ( File file : directory.listFiles( ) )
-        {
-            SystemFile sFile = new SystemFile( );
-            sFile.setName( file.getName( ) );
-            sFile.setDirectory( strDir );
-            sFile.setSize( (int) ( file.length( ) / 1000 ) + 1 );
-            sFile.setDate( new Date( file.lastModified( ) ) );
-            listFiles.add( sFile );
-        }
+        try {
+			for ( File file : AppPathService.getlistFilesFromRelativePath( strDir ) )
+			{
+			    SystemFile sFile = new SystemFile( );
+			    sFile.setName( file.getName( ) );
+			    sFile.setDirectory( strDir );
+			    sFile.setSize( (int) ( file.length( ) / 1000 ) + 1 );
+			    sFile.setDate( new Date( file.lastModified( ) ) );
+			    listFiles.add( sFile );
+			}
+		} catch (ResourceNotFoundException e) {
+			AppLogService.error("The {} directory not found", strDir, e );
+		}        
         Collections.sort( listFiles );
-
         Map<String, Serializable> model = new HashMap<>( );
         model.put( MARK_FILES_LIST, listFiles );
         model.put( MARK_FILES_SYSTEM_DIRECTORY, strDir );
@@ -210,11 +209,9 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             }
             else
             {
-                String strFilePath = AppPathService.getWebAppPath( );
-
-                if ( strFilePath != null && !SecurityUtil.containsPathManipulationChars( request, strFile ) )
+                if ( !SecurityUtil.containsPathManipulationChars( request, strFile ) )
                 {
-                    strFileData = getFileData( strFilePath + strDirectory + strFile );
+                    strFileData = getFileData( strDirectory, strFile );
                 }
                 else
                 {
@@ -298,12 +295,12 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      *            The file Path
      * @return The content of the file.
      */
-    private static String getFileData( String strFilePath )
+    private static String getFileData( String strFilePath, String strFile )
     {
         StringBuilder sbData = new StringBuilder( );
 
-        try ( FileInputStream fis = new FileInputStream( strFilePath ) )
-        {
+        try {
+            InputStream fis= AppPathService.getResourceStream(strFilePath, strFile);
             int chr = 0;
 
             while ( chr != -1 )
@@ -315,7 +312,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             // we delete the end of file character
             sbData.setLength( sbData.length( ) - 1 );
         }
-        catch( FileNotFoundException e )
+        catch( ResourceNotFoundException e )
         {
             sbData.append( "ERROR : File " ).append( strFilePath ).append( " not found" );
         }

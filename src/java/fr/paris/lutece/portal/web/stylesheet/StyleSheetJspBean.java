@@ -67,9 +67,11 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.PathNotFoundException;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -445,7 +447,14 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         // removal of the XSL file
         int nModeId = stylesheet.getModeId( );
         Mode mode = ModeHome.findByPrimaryKey( nModeId );
-        String strPathStyleSheet = AppPathService.getPath( PROPERTY_PATH_XSL ) + mode.getPath( );
+        String strPathStyleSheet = null;
+		String propertyPathXsl = AppPropertiesService.getProperty(PROPERTY_PATH_XSL)+mode.getPath();
+		try {
+			strPathStyleSheet = AppPathService.getAbsolutePathFromRelativePath(propertyPathXsl);
+		} catch (PathNotFoundException e) {
+			AppLogService.error("File not found in path: {}.", propertyPathXsl, e);
+			throw new AppException("File not found at path: " + propertyPathXsl, e);
+		}
         File fileToDelete = new File( strPathStyleSheet, strFile );
         FileUtil.deleteFile( fileToDelete );
 
@@ -493,10 +502,18 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     {
         int nModeId = stylesheet.getModeId( );
         Mode mode = ModeHome.findByPrimaryKey( nModeId );
-        String strPathStyleSheet = AppPathService.getPath( PROPERTY_PATH_XSL ) + mode.getPath( );
+        String strPathStyleSheet = null;
+        String propertyPathXsl = AppPropertiesService.getProperty(PROPERTY_PATH_XSL)+ mode.getPath();
+        try {
+			strPathStyleSheet = AppPathService.getAbsolutePathFromRelativePath(propertyPathXsl);
+		} catch (PathNotFoundException e) {
+			AppLogService.error("File not found in path: {}", propertyPathXsl, e);
+			throw new AppException("File not found at path: " + propertyPathXsl, e);
+		}
         String strFileName = stylesheet.getFile( );
         String strFilePath = strPathStyleSheet + strFileName;
 
+        
         File file = new File( strFilePath );
         FileUtil.deleteFile( file );
         try ( FileOutputStream fos = new FileOutputStream( file ) )
@@ -521,7 +538,15 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nId );
         int nMode = stylesheet.getModeId( );
         Mode mode = ModeHome.findByPrimaryKey( nMode );
-        String strPathStyleSheet = AppPathService.getPath( PROPERTY_PATH_XSL ) + mode.getPath( );
+        String strPathStyleSheet = null;
+        String propertyPathXsl = AppPropertiesService.getProperty(PROPERTY_PATH_XSL)+mode.getPath();
+        try {
+			strPathStyleSheet = AppPathService.getAbsolutePathFromRelativePath(propertyPathXsl);
+		} catch (PathNotFoundException e) {
+			AppLogService.error("File not found in path: {}.", propertyPathXsl, e);
+			throw new AppException("File not found at path: " + propertyPathXsl, e);
+		}
+        
         String strOldFileName = stylesheet.getFile( );
         String strOldFilePath = strPathStyleSheet + strOldFileName;
         File oldFile = new File( strOldFilePath );

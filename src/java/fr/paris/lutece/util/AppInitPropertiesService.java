@@ -39,8 +39,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
-import fr.paris.lutece.portal.service.util.AppPathService;
+
 
 /**
  * This class provides management services for properties files
@@ -74,19 +75,18 @@ public final class AppInitPropertiesService
      */
     public static void init( String strConfPath )
     {
-        String confPath = strConfPath;
-        _propertiesService = new PropertiesService( AppPathService.getWebAppPath( ) );
-
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CONFIG );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DATABASE );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_LUTECE );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_SEARCH );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DAEMONS );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CACHES );
-        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_EDITORS );
-        _propertiesService.addPropertiesDirectory( confPath + PATH_PLUGINS );
-        _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_CORE );
-        _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_PLUGINS );
+    	if(_propertiesService == null ) {
+	        String confPath = strConfPath;
+	        _propertiesService = new PropertiesService();
+	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CONFIG );
+	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DATABASE );
+	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_LUTECE );
+	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_SEARCH );
+	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DAEMONS );
+	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CACHES );
+	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_EDITORS );
+	        _propertiesService.addPropertiesDirectory( confPath + PATH_PLUGINS, confPath + PATH_OVERRIDE_CORE, confPath + PATH_OVERRIDE_PLUGINS  );
+    	}
     }
 
     /**
@@ -150,6 +150,15 @@ public final class AppInitPropertiesService
 
         return res;
     }
+    /**
+     * Return Properties Name
+     * @return
+     */
+    public static Set<String> getPropertiesName( )
+    {
+        return _propertiesService.getProperties( ).stringPropertyNames();
+    }
+    
     /**
      * Returns a list of keys that match a given prefix.
      *

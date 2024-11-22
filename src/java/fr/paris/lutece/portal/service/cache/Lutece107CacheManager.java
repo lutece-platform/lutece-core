@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.service.cache;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
@@ -53,6 +51,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
@@ -107,7 +106,7 @@ public class Lutece107CacheManager implements ILutece107CacheManager
 			} catch (IOException e) {
 				logger.error(" Error Uri CacheManager", e);
 			}
-            _manager = cachingProvider.getCacheManager(uri, null, properties); 
+            _manager = cachingProvider.getCacheManager(uri, null, properties);
     		logger.info(" Lutece107CacheManager initialized ");
 
     }
@@ -225,13 +224,11 @@ public class Lutece107CacheManager implements ILutece107CacheManager
     private void loadCachesConfig( )
     {
     	logger.info("Load caches status");
-        String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
-        File file = new File( strCachesStatusFile );
 
-        try ( FileInputStream fis = new FileInputStream( file ) )
+        try 
         {
             Properties properties = new Properties( );
-            properties.load( fis );
+            properties.load( AppPathService.getResourceStream(AppPropertiesService.getProperty( PROPERTY_PATH_CONF ), FILE_CACHES_STATUS) );
 
             // If the keys aren't found in the datastore then create a key in it
             for ( String strKey : properties.stringPropertyNames( ) )
@@ -248,12 +245,11 @@ public class Lutece107CacheManager implements ILutece107CacheManager
         }
         catch( FileNotFoundException e )
         {
-        	logger.error( "No cache.dat file. Should be created at shutdown." );
+        	logger.error( "No cache.dat file. Should be created at shutdown.", e );
         }
         catch( Exception e )
         {
-        	logger.error( "Error loading caches status defined in file : {}", file.getAbsolutePath( ), e );
+        	logger.error( "Error loading caches status defined int path conf directory: {} and file name {}", PROPERTY_PATH_CONF, FILE_CACHES_STATUS, e );
         }
     }
 }
-

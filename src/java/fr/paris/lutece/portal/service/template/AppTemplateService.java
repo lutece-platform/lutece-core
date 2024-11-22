@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import jakarta.servlet.ServletContext;
 
 import java.util.Locale;
 
@@ -53,6 +54,7 @@ public final class AppTemplateService
     // Variables
     private static String _strTemplateDefaultPath;
     private static IFreeMarkerTemplateService _freeMarkerTemplateService;
+    private static ServletContext _context;
 
     /**
      * Protected constructor
@@ -67,10 +69,11 @@ public final class AppTemplateService
      * @param strTemplatePath
      *            The template path
      */
-    public static void init( String strTemplatePath )
+    public static void init( String strTemplatePath, final ServletContext context )
     {
+    	_context= context;
         _strTemplateDefaultPath = strTemplatePath;
-        getFreeMarkerTemplateService( ).setSharedVariable( "i18n", new I18nTemplateMethod( ) );
+        getFreeMarkerTemplateService(  ).setSharedVariable( "i18n", new I18nTemplateMethod( ) );
     }
 
     /**
@@ -293,7 +296,6 @@ public final class AppTemplateService
     {
         HtmlTemplate template;
         template = getFreeMarkerTemplateService( ).loadTemplate( strPath, strTemplate, locale, model );
-
         if ( locale != null )
         {
             String strLocalized = I18nService.localize( template.getHtml( ), locale );
@@ -315,12 +317,12 @@ public final class AppTemplateService
      * 
      * @return the instance of free marker template service
      */
-    private static IFreeMarkerTemplateService getFreeMarkerTemplateService( )
+    private static IFreeMarkerTemplateService getFreeMarkerTemplateService(  )
     {
         if ( _freeMarkerTemplateService == null )
         {
             _freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
-            _freeMarkerTemplateService.init( _strTemplateDefaultPath );
+            _freeMarkerTemplateService.init( _strTemplateDefaultPath, _context );
         }
 
         return _freeMarkerTemplateService;

@@ -39,7 +39,7 @@ import java.util.Locale;
 /**
  * Utility class for SystemJspBean
  */
-public class SystemFile implements Comparable
+public class SystemFile implements Comparable<SystemFile>
 {
     private String _strName;
     private String _strDescription;
@@ -151,17 +151,22 @@ public class SystemFile implements Comparable
     {
         _size = size;
     }
-
     /**
-     * Compare files name in order to sort files by name
-     * 
-     * @param file
-     *            The file to compare
-     * @return
-     */
-    @Override
-    public int compareTo( Object file )
-    {
-        return getName( ).toLowerCase( Locale.ENGLISH ).trim( ).compareTo( ( (SystemFile) file ).getName( ).toLowerCase( Locale.ENGLISH ).trim( ) );
-    }
+    * Returns a negative integer, zero, or a positive integer as this file's name is
+    * lexicographically less than, equal to, or greater than the specified file's name.
+    * 
+    * @param otherFile The file to be compared.
+    * @return A negative integer, zero, or a positive integer as this file's name
+    *         is less than, equal to, or greater than the specified file's name.
+    */
+   @Override
+   public int compareTo(SystemFile otherFile)
+   {
+       if (otherFile == null || otherFile.getName() == null) {
+           return 1;
+       }
+       
+       return this.getName().toLowerCase(Locale.ENGLISH).trim()
+                    .compareTo(otherFile.getName().toLowerCase(Locale.ENGLISH).trim());
+   }
 }

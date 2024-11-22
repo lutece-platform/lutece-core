@@ -126,15 +126,16 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     protected <C extends Configuration<K, V>> Cache<K, V> createCache(String strCacheName, C configuration) {
        
     	ILutece107CacheManager luteceCacheManager = CDI.current().select(ILutece107CacheManager.class).get();
-        if ((_cache == null || _cache.isClosed()) && (CacheConfigUtil.getStatusFromDataBase(strCacheName) || _bEnable)) {
-        	_cache = luteceCacheManager.getCache(strCacheName);
+    	_cache = luteceCacheManager.getCache(strCacheName);
+    	if ((_cache == null || _cache.isClosed()) && (CacheConfigUtil.getStatusFromDataBase(strCacheName) || _bEnable)) {
         	if( _cache == null ) {
         		_cache = luteceCacheManager.createCache(strCacheName, configuration);
-        	}
-        	this.configuration= _cache.getConfiguration(Configuration.class);
-
-        	_bEnable = true;
+        	}       	
         }
+    	if(_cache != null && !_cache.isClosed() ) {
+    		this.configuration= _cache.getConfiguration(Configuration.class);
+        	_bEnable = true;
+    	}
         CacheService.registerCacheableService(this);
         return _cache;
     }

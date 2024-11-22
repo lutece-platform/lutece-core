@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
+import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.content.XPageAppService;
@@ -43,8 +44,10 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.PathNotFoundException;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
@@ -163,9 +166,7 @@ public class StandaloneAppService extends ContentService
     private static String buildPageContent( PageData data, int nMode, String strPluginName, HttpServletRequest request )
     {
         HtmlTemplate template;
-        String strFileName = strPluginName + "/" + TEMPLATE_PAGE_FRAMESET;
-        String strFilePath = AppPathService.getPath( PROPERTY_PATH_LUTECE_PLUGINS, strFileName );
-        File file = new File( strFilePath );
+        String strFileName = strPluginName + "/" + TEMPLATE_PAGE_FRAMESET;       
         String strPluginPath = "skin/plugins/";
 
         // Load of the templates
@@ -180,15 +181,14 @@ public class StandaloneAppService extends ContentService
         {
             pic.fillTemplate( model, data, nMode, request );
         }
-
-        if ( file.exists( ) )
-        {
+		try {
+			//Check if file exist
+			AppPathService.getPath( PROPERTY_PATH_LUTECE_PLUGINS, strFileName );
             template = AppTemplateService.getTemplate( strPluginPath + strFileName, request.getLocale( ), model );
-        }
-        else
-        {
+		} catch (PathNotFoundException | AppException e) {
             template = AppTemplateService.getTemplate( TEMPLATE_STANDALONE_PAGE_FRAMESET, request.getLocale( ), model );
-        }
+		}
+        
 
         return template.getHtml( );
     }

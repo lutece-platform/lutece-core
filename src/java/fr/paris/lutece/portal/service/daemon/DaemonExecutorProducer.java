@@ -5,8 +5,9 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Produces;
 import jakarta.inject.Inject;
@@ -15,22 +16,39 @@ import jakarta.inject.Inject;
 public class DaemonExecutorProducer {
 	@Inject 
 	DaemonThreadFactory _daemonThreadFactory;
-	@Inject
-	private Config _config;
 	
+	@Inject
+    @ConfigProperty(name = "daemon.ScheduledThreadCorePoolSize", defaultValue = "1")
+    private int corePoolSize;
+    @Inject
+    @ConfigProperty(name = "daemon.maximumPoolSize", defaultValue = "30")
+    private int maximumPoolSize;
+    @Inject
+    @ConfigProperty(name = "daemon.keepAliveTime", defaultValue = "60")
+    private long keepAliveTime;
+    @Inject
+    @ConfigProperty(name = "daemon.timeUnit", defaultValue = "SECONDS")
+    private String timeUnitString;
+
+    private TimeUnit timeUnit;
+	
+    @PostConstruct
+    private void init() {
+        // Convert the injected string to TimeUnit enum
+        timeUnit = TimeUnit.valueOf(timeUnitString);
+    }
 	
 	@Produces
 	@ApplicationScoped
 	@DaemonExecutor
 	public ExecutorService executorServiceProduces() {		
 		return new ThreadPoolExecutor (
-				_config.getOptionalValue("daemon.ScheduledThreadCorePoolSize", Integer.class).orElse(1),
-				_config.getOptionalValue("daemon.maximumPoolSize", Integer.class).orElse(30),
-				_config.getOptionalValue("daemon.keepAliveTime", Long.class).orElse(60L),
-				_config.getOptionalValue("daemon.timeUnit", TimeUnit.class).orElse(TimeUnit.SECONDS),
+				corePoolSize,
+				maximumPoolSize,
+				keepAliveTime,
+				timeUnit,
 				new SynchronousQueue<>(),
 				_daemonThreadFactory			    
 		);
 	} 
-
 }

@@ -75,7 +75,7 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
     @Override
     public String getAbsolutePathFromRelativePath( String strPath )
     {
-        return AppPathService.getAbsolutePathFromRelativePath( strPath );
+		return AppPathService.getAbsolutePathFromRelativePath( strPath );	
     }
 
     /**

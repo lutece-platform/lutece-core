@@ -52,6 +52,7 @@ import org.apache.commons.digester3.substitution.VariableSubstitutor;
 import org.apache.commons.digester3.xmlrules.FromXmlRulesModule;
 import org.xml.sax.SAXException;
 
+import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.service.content.ContentServiceEntry;
@@ -65,6 +66,7 @@ import fr.paris.lutece.portal.service.rbac.RBACResourceTypeEntry;
 import fr.paris.lutece.portal.service.search.SearchIndexerEntry;
 import fr.paris.lutece.portal.service.servlet.ServletEntry;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
@@ -148,10 +150,10 @@ public class PluginFile
 
         try
         {
-            InputStream input = new FileInputStream( strFilename );
+            InputStream input = AppPathService.getResourceStream(strFilename) ;
             digester.parse( input );
         }
-        catch( IOException | IllegalArgumentException | SAXException e )
+        catch( IOException | IllegalArgumentException | SAXException | ResourceNotFoundException e )
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }

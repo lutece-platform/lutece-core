@@ -56,7 +56,7 @@ public class LuteceTestCaseInitSupport implements LuteceTestCaseInit
     {
         if ( !_bInit )
         {
-            AppInit.initServices( null );
+            AppInit.initServices( "WEB-INF/conf/" );
             _bInit = true;
         }
     }

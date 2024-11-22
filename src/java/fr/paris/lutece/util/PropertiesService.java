@@ -33,42 +33,47 @@
  */
 package fr.paris.lutece.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
-import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.status.StatusLogger;
 
+import fr.paris.lutece.portal.service.init.WebConfResourceLocator;
 import fr.paris.lutece.portal.service.security.RsaService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class provides utility methods to read values of the properties stored in the .properties file of the application.
  */
+
 public class PropertiesService
 {
     // Static variables
-    private String _strRootPath;
+   // private String _strRootPath;
     private Properties _properties = new Properties( );
     private Map<String, String> _mapPropertiesFiles = new LinkedHashMap<>( );
 
-    public final String RSA_KEY_PREFIX = "PROTECTED::RSA::";
+    private final String RSA_KEY_PREFIX = "PROTECTED::RSA::";
     private final String MESSAGE_CIPHERED_PROPERTY_SECURITY_EXCEPTION = "A ciphered property security exception occured." ;
-    
+    // Use of a static logger because Lutece loggers are loaded after the ServletContext initialization, whereas this class is loaded beforehand.
+    final Logger LOGGER = StatusLogger.getLogger();
     /**
      * Constructor should define the base root path for properties files
      * 
      * @param strRootPath
      *            The root path
      */
-    public PropertiesService( String strRootPath )
+    public PropertiesService(  )
     {
-        _strRootPath = ( strRootPath.endsWith( "/" ) ) ? strRootPath : ( strRootPath + "/" );
     }
 
     /**
@@ -81,49 +86,48 @@ public class PropertiesService
      */
     public void addPropertiesFile( String strRelativePath, String strFilename )
     {
-        String strFullPath = _strRootPath + ( ( strRelativePath.endsWith( "/" ) ) ? strRelativePath : ( strRelativePath + "/" ) ) + strFilename;
-        _mapPropertiesFiles.put( strFilename, strFullPath );
-        loadFile( strFullPath );
+        String strPath =  ( ( strRelativePath.endsWith( "/" ) ) ? strRelativePath : ( strRelativePath + "/" ) ) + strFilename;
+        _mapPropertiesFiles.put( strFilename, strPath );
+        loadFile( strPath );
     }
 
     /**
      * Add properties from all files found in a given directory
      * 
      * @param strRelativePath
-     *            Relative path from the root path
+     *            Relative path
      */
-    public void addPropertiesDirectory( String strRelativePath )
-    {
-        File directory = new File( _strRootPath + strRelativePath );
+    public void addPropertiesDirectory(String ... strRelativePaths)  {
+    	loadProperties(WebConfResourceLocator.getPathPropertiesFile( ));
+    }
 
-        if ( directory.exists( ) )
-        {
-            File [ ] listFile = directory.listFiles( );
-
-            if ( ArrayUtils.isNotEmpty( listFile ) )
-            {
-                for ( File file : listFile )
-                {
-                    if ( file.getName( ).endsWith( ".properties" ) )
-                    {
-                        String strFullPath = file.getAbsolutePath( );
-                        _mapPropertiesFiles.put( file.getName( ), strFullPath );
-                        loadFile( strFullPath );
-                    }
-                }
-            }
+	private void loadProperties( Set<String> listPath) {
+		
+		listPath.forEach(pathResource -> {
+			_mapPropertiesFiles.put( getFileName( pathResource), pathResource );
+			loadFile( pathResource, _properties );
+		}
+		);
+	}
+	
+	private String getFileName(String filePath) {
+        int lastSeparatorIndex = filePath.lastIndexOf('/');
+        if (lastSeparatorIndex >= 0) {
+            return filePath.substring(lastSeparatorIndex + 1);
+        } else {
+            return filePath;
         }
     }
 
     /**
      * Load properties of a file
      * 
-     * @param strFullPath
-     *            The absolute path of the properties file
+     * @param strRelativePath
+     *            The relative path of the properties file
      */
-    private void loadFile( String strFullPath )
+    private void loadFile( String strRelativePath )
     {
-        loadFile( strFullPath, _properties );
+        loadFile( strRelativePath, _properties );
     }
 
     /**
@@ -136,16 +140,18 @@ public class PropertiesService
      * @throws java.io.IOException
      *             If an error occurs reading the file
      */
-    private void loadFile( String strFullPath, Properties props )
-    {
-        try ( FileInputStream fis = new FileInputStream( new File( strFullPath ) ) )
-        {
-            props.load( fis );
-        }
-        catch( IOException ex )
-        {
-            AppLogService.error( "Error loading property file : {}", ex.getMessage( ), ex );
-        }
+    private void loadFile( String strRelatvePath, Properties props )
+    { 
+    	 try {
+    	    InputStream is=Thread.currentThread().getContextClassLoader().getResourceAsStream(strRelatvePath);
+            if(is == null) { 
+            	is = Files.newInputStream(Paths.get(AppPathService.getWebAppPath(), strRelatvePath));
+            }
+    	    props.load( is );
+        } catch (Exception ex) {
+        	LOGGER.error( "Error loading property file, path: {}", strRelatvePath, ex );
+		} 
+      
     }
 
     /**
@@ -186,7 +192,6 @@ public class PropertiesService
     public String getProperty( String strProperty )
     {
     	String strValue = _properties.getProperty( strProperty ) ;
-    	
     	if ( strValue != null && strValue.startsWith( RSA_KEY_PREFIX ) )
 		{
 			try 
@@ -195,7 +200,7 @@ public class PropertiesService
 			} 
 			catch ( GeneralSecurityException e ) 
 			{
-				AppLogService.error( MESSAGE_CIPHERED_PROPERTY_SECURITY_EXCEPTION, e );
+				LOGGER.error( MESSAGE_CIPHERED_PROPERTY_SECURITY_EXCEPTION, e );
 			}
 		}
 
@@ -215,87 +220,6 @@ public class PropertiesService
     {
         return _properties.getProperty( strProperty, strDefault );
     }
-
-    /**
-     * Returns the value of a variable defined in the .properties file of the application as an int
-     *
-     * @param strProperty
-     *            The variable name
-     * @param nDefault
-     *            The default value which is returned if no value is found for the variable in the .properties file, or if the value is not numeric
-     * @return The variable value read in the properties file
-     */
-    public int getPropertyInt( String strProperty, int nDefault )
-    {
-        String strValue = AppPropertiesService.getProperty( strProperty );
-        int nValue = nDefault;
-
-        try
-        {
-            if ( strValue != null )
-            {
-                nValue = Integer.parseInt( strValue );
-            }
-        }
-        catch( NumberFormatException e )
-        {
-            AppLogService.info( e.getMessage( ), e );
-        }
-
-        return nValue;
-    }
-
-    /**
-     * Returns the value of a variable defined in the .properties file of the application as an long
-     *
-     * @param strProperty
-     *            The variable name
-     * @param lDefault
-     *            The default value which is returned if no value is found for the variable in the le downloadFile .properties. .properties file.
-     * @return The variable value read in the properties file
-     */
-    public long getPropertyLong( String strProperty, long lDefault )
-    {
-        String strValue = AppPropertiesService.getProperty( strProperty );
-        long lValue = lDefault;
-
-        try
-        {
-            if ( strValue != null )
-            {
-                lValue = Long.parseLong( strValue );
-            }
-        }
-        catch( NumberFormatException e )
-        {
-            AppLogService.info( e.getMessage( ), e );
-        }
-
-        return lValue;
-    }
-
-    /**
-     * Returns the value of a variable defined in the .properties file of the application as an boolean
-     *
-     * @param strProperty
-     *            The variable name
-     * @param bDefault
-     *            The default value which is returned if no value is found for the variable in the le downloadFile .properties. .properties file.
-     * @return The variable value read in the properties file
-     */
-    public boolean getPropertyBoolean( String strProperty, boolean bDefault )
-    {
-        String strValue = AppPropertiesService.getProperty( strProperty );
-        boolean bValue = bDefault;
-
-        if ( strValue != null )
-        {
-            bValue = strValue.equalsIgnoreCase( "true" );
-        }
-
-        return bValue;
-    }
-
     /**
      * Gets properties
      * 

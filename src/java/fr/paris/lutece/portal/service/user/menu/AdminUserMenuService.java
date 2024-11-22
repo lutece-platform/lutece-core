@@ -40,7 +40,6 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Singleton;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.menu.AdminUserMenuItem;
@@ -114,7 +113,7 @@ public class AdminUserMenuService
         }
         if ( !bFound )
         {
-            AppLogService.error( "Did not find admin user menu item provider named <{}> when registering <{}>", strRefName, itemProvider.getName( ) );
+            AppLogService.getLogger().warn( "Did not find admin user menu item provider named <{}> when registering <{}>", strRefName, itemProvider.getName( ) );
             _itemProviders.add( itemProvider );
         }
     }
