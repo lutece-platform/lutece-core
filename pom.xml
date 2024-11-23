@@ -265,7 +265,6 @@
 		    <groupId>io.github.classgraph</groupId>
 		    <artifactId>classgraph</artifactId>
 		    <version>4.8.177</version>
-		    <optional>true</optional> <!-- Empêche l'héritage par les projets enfants -->
 		</dependency>	
         <!-- LUTECE DEPENDENCIES -->
        
