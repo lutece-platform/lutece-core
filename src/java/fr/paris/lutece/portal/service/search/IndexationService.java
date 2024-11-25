@@ -117,13 +117,13 @@ public final class IndexationService
 
         if ( StringUtils.isEmpty( _strIndex ) )
         {
-            throw new LuteceInitException( "Lucene index path not found in lucene.properties", null );
+            throw new LuteceInitException( "Lucene index path not found in search.properties", null );
         }
         String strAnalyserClassName = AppPropertiesService.getProperty( PROPERTY_ANALYSER_CLASS_NAME );
 
         if ( StringUtils.isEmpty( strAnalyserClassName ) )
         {
-            throw new LuteceInitException( "Analyser class name not found in lucene.properties", null );
+            throw new LuteceInitException( "Analyser class name not found in search.properties", null );
         }
 
         try
