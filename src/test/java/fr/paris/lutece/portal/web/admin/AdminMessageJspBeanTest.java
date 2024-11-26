@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpSession;
 
 /**
@@ -51,6 +52,9 @@ import jakarta.servlet.http.HttpSession;
  */
 public class AdminMessageJspBeanTest extends LuteceTestCase
 {
+    @Inject
+    private AdminMessageJspBean instance;
+    
     /**
      * Test of getMessage method, of class fr.paris.lutece.portal.web.admin.AdminMessageJspBean.
      */
@@ -74,7 +78,6 @@ public class AdminMessageJspBeanTest extends LuteceTestCase
         HttpSession session = request.getSession( true );
         session.setAttribute( "LUTECE_ADMIN_MESSAGE", message );
 
-        AdminMessageJspBean instance = new AdminMessageJspBean( );
         assertTrue( StringUtils.isNotEmpty( instance.getMessage( request ) ) );
     }
 }
