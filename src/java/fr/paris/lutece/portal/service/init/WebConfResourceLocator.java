@@ -134,4 +134,13 @@ public class WebConfResourceLocator {
     public static Set<String> getPathPropertiesFile() {
         return new LinkedHashSet<>(FileSorterUtil.sortByPathPriorityDescending(getResourcesWithExtension("properties").getPathsRelativeToClasspathElement()));
     }
+    
+    /**
+     * Retrieves a set of paths to xml files found in the scanned directories.
+     * 
+     * @return A set of paths to xml files.
+     */
+    public static Set<String> getPathXmlFile() {
+        return new LinkedHashSet<>(FileSorterUtil.sortByPathPriorityDescending(getResourcesWithExtension("xml").getPathsRelativeToClasspathElement()));
+    }
 }
