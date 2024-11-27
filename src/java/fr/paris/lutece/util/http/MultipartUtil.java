@@ -77,7 +77,7 @@ public final class MultipartUtil
 
     /**
      * Check if the given HTTP request has multipart content
-     * 
+     *
      * @param request
      *            the HTTP request
      * @return true if it has multipart content, false otherwise
@@ -89,7 +89,7 @@ public final class MultipartUtil
 
     /**
      * Convert a HTTP request to a {@link MultipartHttpServletRequest}
-     * 
+     *
      * @param nSizeThreshold
      *            the size threshold
      * @param nRequestSizeMax
@@ -125,7 +125,6 @@ public final class MultipartUtil
         Map<String, String [ ]> mapParameters = new HashMap<>( );
 
         List<DiskFileItem> listItems = parseRequest( new JakartaServletRequestContext(request), fileItemFactory, servletFileUpload, bActivateNormalizeFileName);
-
         // Process the uploaded items
         for ( DiskFileItem item : listItems )
         {
