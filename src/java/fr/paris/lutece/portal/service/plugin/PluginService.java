@@ -42,6 +42,9 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+
 import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -70,6 +73,7 @@ public final class PluginService
     private static final String PROPERTY_IS_INSTALLED = ".installed";
     private static final String PROPERTY_DB_POOL_NAME = ".pool";
     private static final String KEY_PLUGINS_STATUS = "core.plugins.status.";
+    private static final String KEY_UNINSTALLED_PLUGIN = "plugins.uninstalled.";
 
     // Variables
     private static Map<String, Plugin> _mapPlugins = new HashMap<>( );
@@ -166,6 +170,15 @@ public final class PluginService
         PluginFile pluginFile = new PluginFile( );
         pluginFile.load( path );
 
+        // Check if plugin is uninstalled. If the plugin in uninstalled then the plugin is skipped, the plugin file is not read at all and no resources are
+        // loaded. If the uninstalled key is not provided or the value is different from 1, the plugin is considered as installed.
+        Config config = ConfigProvider.getConfig( );
+        if ( 1 == config.getOptionalValue( KEY_UNINSTALLED_PLUGIN + pluginFile.getName( ), Integer.class ).orElse( 0 ) )
+        {
+            AppLogService.debug("Plugin uninstalled: {} ", pluginFile.getName( ));
+            return;
+        }
+        
         String strPluginClass = pluginFile.getPluginClass( );
 
         if ( strPluginClass != null )
