@@ -52,6 +52,7 @@ import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 
@@ -143,6 +144,7 @@ public final class AdminUserFieldService
                 if ( userField != null )
                 {
                     AdminUserFieldHome.create( userField );
+                    AppLogService.debug( "User field created for user with id = {} and access code = {} : id = {} ", ( ) ->  user.getUserId( ), ( ) ->  user.getAccessCode( ), ( ) ->  userField.getIdUserField( ) );
                 }
             }
         }

@@ -88,12 +88,14 @@ public final class AdminAuthenticationService
     public static synchronized void init( )
     {
         _authentication = CDI.current().select(AdminAuthentication.class ).get( );
-        AppLogService.info( "Authentication module loaded : {}", _authentication.getAuthServiceName( ) );
+        AppLogService.info( "Authentication module loaded : {}", ( ) -> _authentication.getAuthServiceName( ) );
 
         if ( LuteceDefaultAdminAuthentication.class.isAssignableFrom( _authentication.getClass( ) ) )
         {
             _bUseDefaultModule = true;
+            AppLogService.debug( "Default module is used for authentication" );
         }
+        
     }
 
     /**
@@ -300,7 +302,7 @@ public final class AdminAuthenticationService
     {
         HttpSession session = request.getSession( true );
         session.removeAttribute( ATTRIBUTE_ADMIN_USER );
-    }
+	}
 
     /**
      * Gets the Lutece user registered in the Http session

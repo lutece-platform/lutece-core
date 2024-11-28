@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
+
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.mail.FileAttachment;
@@ -68,6 +70,7 @@ public final class MailService
     {
         getQueue( ).send( item );
         AppDaemonService.signalDaemon( MailSenderDaemon.DAEMON_ID );
+        AppLogService.debug( "Adding new mail to the queue : subject = {} - recipients = {}", ( ) -> item.getSubject( ), ( ) -> item.getRecipientsTo( ) );
     }
 
     /**

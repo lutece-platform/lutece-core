@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.user;
 import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.util.password.IPassword;
 import jakarta.enterprise.inject.spi.CDI;
@@ -46,6 +47,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * This class provides instances management methods (create, find, ...) for AdminUser objects
@@ -113,6 +115,7 @@ public final class AdminUserHome
     public static void create( AdminUser user )
     {
         _dao.insert( user );
+        AppLogService.debug( "User created : User id = {}, User access code = {}", ( ) -> user.getUserId( ), ( ) -> user.getAccessCode( ) );
     }
 
     /**
@@ -122,6 +125,7 @@ public final class AdminUserHome
     public static void update( AdminUser user )
     {
         _dao.store( user );
+        AppLogService.debug( "User updated : User id = {}, User access code = {}",  ( ) -> user.getUserId( ),  ( ) -> user.getAccessCode( ) );
     }
 
     /**
@@ -131,6 +135,7 @@ public final class AdminUserHome
     public static void remove( int nUserId )
     {
         _dao.delete( nUserId );
+        AppLogService.debug( "User removed : User id = {}", nUserId );
     }
 
     /**
@@ -154,6 +159,7 @@ public final class AdminUserHome
     public static void createRightForUser( int nUserId, String strRightId )
     {
         _dao.insertRightsListForUser( nUserId, strRightId );
+        AppLogService.debug( "New right created for user {} : {}", nUserId, strRightId );
     }
 
     /**
@@ -163,6 +169,7 @@ public final class AdminUserHome
     public static void removeAllRightsForUser( int nUserId )
     {
         _dao.deleteAllRightsForUser( nUserId );
+        AppLogService.debug( "All rights removed for user {}", nUserId );
     }
 
     /**
@@ -181,6 +188,7 @@ public final class AdminUserHome
     public static void removeAllOwnRightsForUser( AdminUser user )
     {
         _dao.deleteAllOwnRightsForUser( user.getUserId( ), user.getUserLevel( ) );
+        AppLogService.debug( "Own rights removed for user {}", ( ) -> user.getUserId( ) );
     }
 
     /**
@@ -198,12 +206,13 @@ public final class AdminUserHome
     /**
      * @param nUserId
      *            the id of the user
-     * @param strRightId
-     *            the right identifier
+     * @param strRoleId
+     *            the role identifier
      */
-    public static void createRoleForUser( int nUserId, String strRightId )
+    public static void createRoleForUser( int nUserId, String strRoleId )
     {
-        _dao.insertRolesListForUser( nUserId, strRightId );
+        _dao.insertRolesListForUser( nUserId, strRoleId );
+        AppLogService.debug( "New role created for user {} : {}", nUserId, strRoleId );
     }
 
     /**
@@ -213,6 +222,7 @@ public final class AdminUserHome
     public static void removeAllRolesForUser( int nUserId )
     {
         _dao.deleteAllRolesForUser( nUserId );
+        AppLogService.debug( "All roles removed for user {}", nUserId );
     }
 
     /**
@@ -288,6 +298,7 @@ public final class AdminUserHome
     public static void create( LuteceDefaultAdminUser user )
     {
         _dao.insert( user );
+        AppLogService.debug( "Default user created : User id = {}, User access code = {}", ( ) -> user.getUserId( ), ( ) -> user.getAccessCode( ) );
     }
 
     /**
@@ -308,6 +319,7 @@ public final class AdminUserHome
     public static void update( LuteceDefaultAdminUser user, PasswordUpdateMode passwordMode )
     {
         _dao.store( user, passwordMode );
+        AppLogService.debug( "Default user updated : User id = {}, User access code = {}, passwordMode = {}", ( ) -> user.getUserId( ), ( ) -> user.getAccessCode( ), ( ) -> passwordMode.toString( ) );
     }
 
     /**
@@ -458,6 +470,7 @@ public final class AdminUserHome
     public static void removeAllPasswordHistoryForUser( int nUserId )
     {
         _dao.removeAllPasswordHistoryForUser( nUserId );
+        AppLogService.debug( "All password history removed for user {}", nUserId );
     }
 
     /**

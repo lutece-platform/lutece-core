@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.role;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.util.ReferenceList;
@@ -74,6 +75,7 @@ public final class RoleHome
         if ( !role.getRole( ).equals( getDefaultRole( ).getRole( ) ) )
         {
             _dao.insert( role );
+            AppLogService.debug( "New role created : {}", ( ) -> role.getRole() );
         }
 
         return role;
@@ -91,6 +93,7 @@ public final class RoleHome
         if ( !role.getRole( ).equals( getDefaultRole( ).getRole( ) ) )
         {
             _dao.store( role );
+            AppLogService.info( "Role {} updated", ( ) -> role.getRole() );
         }
 
         return role;
@@ -105,6 +108,7 @@ public final class RoleHome
     public static void remove( String strRole )
     {
         _dao.delete( strRole );
+        AppLogService.info( "Role {} removed", strRole );
     }
 
     // /////////////////////////////////////////////////////////////////////////

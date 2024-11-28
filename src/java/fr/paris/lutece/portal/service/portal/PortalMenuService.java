@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.page.PageEvent;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.xml.XmlUtil;
 
 import org.apache.commons.lang3.StringUtils;
@@ -318,6 +319,7 @@ public class PortalMenuService
     {
     	// page was added, removed or updated; clear cache
     	_cachePortalMenu.resetCache( );
+    	AppLogService.debug( "Portal menu cache has been reset because of a type {} page event on page {}", ( ) -> event.getEventType( ), ( ) -> event.getPage( ).getName( ) );
     }
     
     /**
