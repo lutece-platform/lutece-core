@@ -189,7 +189,7 @@ public class AdminDashboardService
         {
             if ( AppLogService.isDebugEnabled( ) )
             {
-                AppLogService.debug( "Reordering admin dashboard column " + dashboard.getZone( ) );
+                AppLogService.debug( "Reordering admin dashboard column {}", ( ) -> dashboard.getZone( ) );
             }
 
             // sort by order
@@ -220,11 +220,13 @@ public class AdminDashboardService
         {
             // create dashboard
             AdminDashboardHome.create( dashboard );
+            AppLogService.debug( "Admin Dashboard {} created : column = {}, order = {}",  ( ) -> dashboard.getName( ),  ( ) -> dashboard.getZone( ),  ( ) -> dashboard.getOrder( ) );
         }
         else
         {
             // update dashboard
             AdminDashboardHome.update( dashboard );
+            AppLogService.debug( "Admin Dashboard {} updated : column = {}, order = {}",  ( ) -> dashboard.getName( ),  ( ) -> dashboard.getZone( ),  ( ) -> dashboard.getOrder( ) );
         }
     }
 

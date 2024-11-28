@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.workgroup;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
 import jakarta.enterprise.inject.spi.CDI;
 
@@ -64,6 +65,7 @@ public final class AdminWorkgroupHome
     public static AdminWorkgroup create( AdminWorkgroup workgroup )
     {
         _dao.insert( workgroup );
+        AppLogService.debug( "New work group created : key = {}", ( ) -> workgroup.getKey( ) );
 
         return workgroup;
     }
@@ -78,6 +80,7 @@ public final class AdminWorkgroupHome
     public static AdminWorkgroup update( AdminWorkgroup workgroup )
     {
         _dao.store( workgroup );
+        AppLogService.debug( "Work group {} updated", ( ) -> workgroup.getKey( ) );
 
         return workgroup;
     }
@@ -91,6 +94,7 @@ public final class AdminWorkgroupHome
     public static void remove( String strWorkgroupKey )
     {
         _dao.delete( strWorkgroupKey );
+        AppLogService.debug( "Work group {} removed", strWorkgroupKey );
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -191,6 +195,7 @@ public final class AdminWorkgroupHome
     public static void addUserForWorkgroup( AdminUser user, String strWorkgroupKey )
     {
         _dao.insertUserForWorkgroup( user, strWorkgroupKey );
+        AppLogService.debug( "User {} added to work group {}", ( ) -> user.getUserId( ),  ( ) -> strWorkgroupKey );
     }
 
     /**
@@ -215,6 +220,7 @@ public final class AdminWorkgroupHome
     public static void removeUserFromWorkgroup( AdminUser user, String strWorkgroupKey )
     {
         _dao.deleteUserFromWorkgroup( user.getUserId( ), strWorkgroupKey );
+        AppLogService.getLogger().debug( "User {} removed from assignable work group {}",  ( ) -> user.getUserId( ),  ( ) -> strWorkgroupKey );
     }
 
     /**

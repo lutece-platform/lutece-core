@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 /**
  * RemovalListenerService
  */
@@ -52,6 +53,7 @@ public class RemovalListenerService
     public void registerListener( RemovalListener listener )
     {
         _listRegisteredListeners.add( listener );
+        AppLogService.debug( "New removal listener registered : {}", ( ) -> listener.toString() );
     }
 
     /**

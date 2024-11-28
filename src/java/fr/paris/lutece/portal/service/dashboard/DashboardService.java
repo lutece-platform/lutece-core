@@ -150,16 +150,16 @@ public class DashboardService
 
             if ( bRegistered )
             {
-                AppLogService.info( "New Dashboard Component registered : " + entry.getName( ) );
+                AppLogService.info( "New Dashboard Component registered : {}", entry.getName( ) );
             }
             else
             {
-                AppLogService.error( " Dashboard Component not registered : " + entry.getName( ) + " : " + entry.getComponentClass( ) );
+                AppLogService.error( " Dashboard Component not registered : {} : {}", entry.getName( ), entry.getComponentClass( ) );
             }
         }
         catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
         {
-            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage( ), e );
+            AppLogService.error( "Error registering a DashboardComponent : {}", e.getMessage( ), e );
         }
     }
 
@@ -190,7 +190,7 @@ public class DashboardService
         {
             if ( AppLogService.isDebugEnabled( ) )
             {
-                AppLogService.debug( "Reordering  dashboard column " + dashboard.getZone( ) );
+                AppLogService.debug( "Reordering  dashboard column {}", dashboard.getZone( ) );
             }
 
             // sort by order

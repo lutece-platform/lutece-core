@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.user.attribute;
 
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 
@@ -93,6 +94,7 @@ public class AttributeFieldService
         {
             int nId = AttributeFieldHome.create( attributeField );
             attributeField.setIdField( nId );
+            AppLogService.debug( "New attribute field created : id = {}, title = {}", ( ) -> attributeField.getIdField( ), ( ) -> attributeField.getTitle( ) );
         }
     }
 
@@ -107,6 +109,7 @@ public class AttributeFieldService
         if ( attributeField != null )
         {
             AttributeFieldHome.update( attributeField );
+            AppLogService.debug( "Attribute field updated : id = {}", ( ) -> attributeField.getIdField( ) );
         }
     }
 
@@ -119,6 +122,7 @@ public class AttributeFieldService
     public void removeAttributeFieldFromIdField( int nIdAttributeField )
     {
         AttributeFieldHome.remove( nIdAttributeField );
+        AppLogService.debug( "Attribute field removed : id = {}", nIdAttributeField );
     }
 
     /**
@@ -130,5 +134,6 @@ public class AttributeFieldService
     public void removeAttributeFieldsFromIdAttribute( int nIdAttribute )
     {
         AttributeFieldHome.removeAttributeFieldsFromIdAttribute( nIdAttribute );
+        AppLogService.debug( "Attribute fields removed from attribute with id attribute = {}", nIdAttribute );
     }
 }

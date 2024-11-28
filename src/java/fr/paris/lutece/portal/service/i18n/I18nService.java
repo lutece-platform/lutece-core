@@ -540,5 +540,6 @@ public final class I18nService
         }
 
         _resourceBundleCache.clear( );
+        AppLogService.debug( "I18n cache service has been reset" );
     }
 }

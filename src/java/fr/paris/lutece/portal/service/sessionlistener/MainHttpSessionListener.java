@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.sessionlistener;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
 
@@ -51,6 +52,7 @@ public class MainHttpSessionListener implements HttpSessionListener
         for ( HttpSessionListener listener : HttpSessionListenerService.getListeners( ) )
         {
             listener.sessionCreated( se );
+            AppLogService.debug("Session created : ID = {}  ", ( ) -> se.getSession( ).getId( ) );
         }
     }
 
@@ -62,6 +64,7 @@ public class MainHttpSessionListener implements HttpSessionListener
         for ( HttpSessionListener listener : HttpSessionListenerService.getListeners( ) )
         {
             listener.sessionDestroyed( se );
+            AppLogService.debug("Session destroyed : ID = {}  ", ( ) -> se.getSession( ).getId( ) );
         }
     }
 }

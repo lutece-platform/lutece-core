@@ -178,7 +178,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         {
             if ( _scheduledDaemons.containsKey( entry.getId( ) ) )
             {
-                AppLogService.error( "Daemon " + entry.getId( ) + " already scheduled, not scheduling again" );
+                AppLogService.error( "Daemon {} already scheduled, not scheduling again", ( ) -> entry.getId( ) );
             }
             else
             {
@@ -199,7 +199,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             DaemonManagedTask daemonTimerTask = _scheduledDaemons.get( entry.getId( ) );
             if ( daemonTimerTask == null )
             {
-                AppLogService.error( "Could not unschedule daemon " + entry.getId( ) + " which was not scheduled" );
+                AppLogService.error( "Could not unschedule daemon {} which was not scheduled", ( ) -> entry.getId( ) );
             }
             else
             {
@@ -284,7 +284,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     {
         _bShuttingDown = true; // prevent future scheduling of daemons
         AppLogService
-                .info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait " + _maxAwaitTerminationDelay + " s)." );
+                .info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait {} s).", _maxAwaitTerminationDelay );
         _scheduledExecutorService.shutdown( );
         _coordinatorThread.interrupt( );
         _executor.shutdown( );

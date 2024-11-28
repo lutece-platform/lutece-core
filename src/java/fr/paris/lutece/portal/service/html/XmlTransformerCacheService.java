@@ -94,6 +94,7 @@ public class XmlTransformerCacheService implements CacheableService<String,Strin
     public void resetCache( )
     {
         XmlTransformer.cleanTransformerList( );
+        AppLogService.debug( "XmlTransformer cache service cache has been reset" );
     }
 
     /**

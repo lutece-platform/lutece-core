@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.xss;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.http.SecurityUtil;
 
 import java.io.IOException;
@@ -72,6 +73,7 @@ public abstract class SafeRequestFilter implements Filter
         {
             _bActivateXssFilter = Boolean.valueOf( strParamValue );
         }
+        AppLogService.debug( "XSS filter activation parameter value : {} ", _bActivateXssFilter );
     }
 
     /**

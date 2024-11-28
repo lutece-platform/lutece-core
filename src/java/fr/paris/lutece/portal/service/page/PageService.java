@@ -808,7 +808,7 @@ public class PageService implements IPageService, ImageResourceProvider
 
                     if ( AppLogService.isDebugEnabled( ) )
                     {
-                        AppLogService.debug( "Page (cache key : " + strKeyTemp + ") removed from the cache." );
+                        AppLogService.debug( "Page (cache key : {}) removed from the cache.", strKeyTemp );
                     }
                 }
             }
