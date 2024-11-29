@@ -65,4 +65,14 @@ public class UninstalledPluginExtension implements Extension
         }
     }
 
+    /**
+     * Clears system properties related to uninstalled plugins that may have been set within this extension.
+     */
+    public static void clearSystemProperties( )
+    {
+        System.getProperties( ).keySet( ).stream( )
+                .filter( k -> String.valueOf( k ).startsWith( UninstalledPluginExtension.KEY_UNINSTALLED_PLUGIN ) )
+                .map( k -> (String) k )
+                .forEach( System::clearProperty );
+    }
 }
