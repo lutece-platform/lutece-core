@@ -104,6 +104,7 @@ public class AppInitListener
         if(AppInit.isLog4jConfigurationFileSet()) {
         	System.clearProperty(AppInit.LOG4J_CONFIGURATION_FILE_PROPERTY);
         }
+        UninstalledPluginExtension.clearSystemProperties( );
 	}
 	
     /**
