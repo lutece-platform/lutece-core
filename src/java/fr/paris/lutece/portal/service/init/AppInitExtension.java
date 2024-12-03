@@ -51,7 +51,7 @@ public class AppInitExtension implements Extension
 
     protected void initPropertiesServices( @Observes @Priority(value=1) final BeforeBeanDiscovery bd   )
     {
-    	if ( Files.notExists( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF ) ) )
+        if ( !Files.isReadable( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF ) ) )
         {
 	    	String _strResourcesDir = getClass().getResource( "/" ).toString( ).replaceFirst( "file:", "" )
 	                .replaceFirst( "test-classes", "lutece" )
