@@ -310,7 +310,7 @@ public final class SecurityService
         	session.invalidate();
         }
         LuteceUserEventManager.getInstance().notifyListeners( new LuteceUserEvent( user,LuteceUserEvent.EventType.LOGOUT ) );
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null, CONSTANT_FO );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_DISCONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null, CONSTANT_FO );
     }
 
     /**

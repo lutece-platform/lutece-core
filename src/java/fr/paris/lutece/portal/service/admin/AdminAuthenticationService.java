@@ -230,7 +230,7 @@ public final class AdminAuthenticationService
         _authentication.logout( user );
         unregisterUser( request );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_ADMINUSER, user, null, CONSTANT_BO );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_DISCONNECT, CONSTANT_ACTION_LOGOUT_ADMINUSER, user, null, CONSTANT_BO );
 
     }
 
