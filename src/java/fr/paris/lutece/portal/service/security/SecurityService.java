@@ -313,7 +313,7 @@ public final class SecurityService
         
         AccessLogService accessLogService = CDI.current( ).select( AccessLogService.class ).get( );        
         accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null, CONSTANT_FO );
-    }
+   }
 
     /**
      * Retrieves the portal authentication service configured in the config.properties
