@@ -192,7 +192,7 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_ma
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_mail_subject', 'Votre mot de passe a expiré');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.reset_token_validity', '60');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.lock_reset_token_to_session', 'false');
-INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
+INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce6');
 INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'sceeditor');
 INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
 
@@ -241,8 +241,8 @@ INSERT INTO core_template VALUES ('core_other_alert_mail', 'Bonjour ${first_name
 INSERT INTO core_template VALUES ('core_account_reactivated_mail', 'Bonjour ${first_name} ! Votre compte utilisateur a bien été réactivé. Il est désormais valable jusqu''au ${date_valid}.');
 INSERT INTO core_template VALUES ('core_password_expired', 'Bonjour ! Votre mot de passe a expiré. Lors de votre prochaine connexion, vous pourrez le changer.');
 
-INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.admindashboard.editors.labelBackTinyMCE', 1 );
 INSERT INTO core_text_editor VALUES ('tinymce5', 'portal.admindashboard.editors.labelBackTinyMCE5', 1);
+INSERT INTO core_text_editor VALUES ('tinymce6', 'portal.admindashboard.editors.labelBackTinyMCE6', 1);
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelBackNoEditor', 1 );
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelFrontNoEditor', 0 );
 INSERT INTO core_text_editor VALUES ('sceeditor', 'portal.admindashboard.editors.labelFrontSceEditor', 0);
