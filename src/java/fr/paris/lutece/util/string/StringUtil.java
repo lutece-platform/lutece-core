@@ -42,10 +42,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 /**
  * This class provides String utils.
@@ -412,5 +415,39 @@ public final class StringUtil
         }
 
         return out.toString(encoding);
+    }
+
+    /**
+     * convert a string to an int list
+     * 
+     * @param str 
+     *            the string
+     * @param separator
+     *            the separator used to separate the elements of the string
+     * @return the int list
+     */
+    public static List<Integer> convertStringToIntList( String str, String separator ) 
+    {
+        List<Integer> integerList = new ArrayList<>( );
+
+        if ( StringUtils.isNoneBlank( str ) )
+        {
+            String[] elements = str.split( separator );
+
+            for ( String element : elements ) 
+            {
+        		try 
+                {
+                    int integer = Integer.parseInt( element.trim( ) );
+                    integerList.add( integer );
+                } 
+                catch ( NumberFormatException nfe ) 
+                {
+                	AppLogService.error( nfe.getMessage( ), nfe );
+                }
+            }
+        }
+
+        return integerList;
     }
 }
