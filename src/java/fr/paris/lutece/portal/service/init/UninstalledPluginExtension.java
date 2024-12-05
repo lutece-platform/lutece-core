@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2023, City of Paris
+ * Copyright (c) 2002-2024, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,31 +33,46 @@
  */
 package fr.paris.lutece.portal.service.init;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.StreamSupport;
 
-import fr.paris.lutece.portal.service.util.AppPathService;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.spi.BeforeBeanDiscovery;
 import jakarta.enterprise.inject.spi.Extension;
 
-/**
- * The initialization service of the application.
- */
-public class AppInitExtension implements Extension
+public class UninstalledPluginExtension implements Extension
 {
-    private static final String PATH_CONF = "/WEB-INF/conf/";
+    private static final String KEY_UNINSTALLED_PLUGIN = "plugins.uninstalled.";
 
-    protected void initPropertiesServices( @Observes @Priority(value=1) final BeforeBeanDiscovery bd   )
+    public void initSystemProperties( @Observes @Priority( value = 2 ) final BeforeBeanDiscovery bd )
     {
-        if ( !Files.isReadable( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF ) ) )
+        AppLogService.debug( "Processing UninstalledPluginExtension" );
+        Config config = ConfigProvider.getConfig( );
+
+        List<String> listUninstalledPluginsKeys = StreamSupport.stream( config.getPropertyNames( ).spliterator( ), false )
+                .filter( s -> s.startsWith( KEY_UNINSTALLED_PLUGIN ) )
+                .toList( );
+        for ( String key : listUninstalledPluginsKeys )
         {
-	    	String _strResourcesDir = getClass().getResource( "/" ).toString( ).replaceFirst( "file:", "" )
-	                .replaceFirst( "test-classes", "lutece" )
-	                .replaceFirst( "classes", "lutece" );
-	        AppPathService.init( _strResourcesDir );
+            String strValue = config.getValue( key, String.class );
+            System.setProperty( key, strValue );
+            AppLogService.debug( "Uninstalled plugin key found and set as system property: {} / {} ", key, strValue );
         }
-    	AppInit.initConfigLog( );
+    }
+
+    /**
+     * Clears system properties related to uninstalled plugins that may have been set within this extension.
+     */
+    public static void clearSystemProperties( )
+    {
+        System.getProperties( ).keySet( ).stream( )
+                .filter( k -> String.valueOf( k ).startsWith( UninstalledPluginExtension.KEY_UNINSTALLED_PLUGIN ) )
+                .map( k -> (String) k )
+                .forEach( System::clearProperty );
     }
 }
