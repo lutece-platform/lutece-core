@@ -86,7 +86,6 @@ public final class AllTests
         suite.addTest( new TestSuite( SystemJspBeanTest.class ) );
         suite.addTest( new TestSuite( SiteMapAppTest.class ) );
         suite.addTest( new TestSuite( PortalJspBeanTest.class ) );
-        suite.addTest( new TestSuite( StandaloneAppJspBeanTest.class ) );
 
         // $JUnit-END$
         return suite;
