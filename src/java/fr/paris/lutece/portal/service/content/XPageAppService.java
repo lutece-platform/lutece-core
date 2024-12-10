@@ -109,7 +109,7 @@ public class XPageAppService extends ContentService
                 
                 Class clazz = CDI.current( ).getBeanManager( ).getBeans( applicationBeanName ).iterator( ).next( ).getBeanClass( );
                 SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
-                securityTokenHandler.registerDisabledActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( clazz ) );
+                securityTokenHandler.registerActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( clazz ) );
             }
             else
             {
@@ -117,7 +117,7 @@ public class XPageAppService extends ContentService
                 Object instance = Class.forName( entry.getClassName( ) ).newInstance( );
 
                 SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
-                securityTokenHandler.registerDisabledActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( instance.getClass( ) ) );
+                securityTokenHandler.registerActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( instance.getClass( ) ) );
             }
 
             _mapApplications.put( entry.getId( ), entry );

@@ -69,6 +69,7 @@ public class SecurityTokenHandler
     private static final String PARAMETER_PAGE = "page";
     private static final String PATH_ADMIN = "/jsp/admin";
 
+    private Set<String> _actionMethods = new HashSet<String>( );
     private Map<String, HashSet<String>> _mapDisabledActionMethods = new HashMap<String, HashSet<String>>( );
     @Inject
     private SecurityTokenService _securityTokenService;
@@ -76,7 +77,7 @@ public class SecurityTokenHandler
     /**
      * Registers disabled action methods from XPage or MVCAdminJspBean
      */
-    public void registerDisabledActions( String strName, Method [ ] methods )
+    public void registerActions( String strName, Method [ ] methods )
     {
         if ( !_mapDisabledActionMethods.containsKey( strName ) )
         {
@@ -84,10 +85,14 @@ public class SecurityTokenHandler
             HashSet<String> dis = _mapDisabledActionMethods.get( strName );
             for ( Method m : methods )
             {
-                if ( m.isAnnotationPresent( Action.class )
-                        && m.getAnnotation( Action.class ).securityTokenDisabled( ) )
+                if ( m.isAnnotationPresent( Action.class ) )
                 {
-                    dis.add( m.getAnnotation( Action.class ).value( ) );
+                    String strActionMethod = m.getAnnotation( Action.class ).value( ); 
+                    _actionMethods.add( strActionMethod );
+                    if (m.getAnnotation( Action.class ).securityTokenDisabled( ) )
+                    {
+                        dis.add( strActionMethod );
+                    }
                 }
             }
         }
@@ -124,6 +129,11 @@ public class SecurityTokenHandler
             return true;
         }
 
+        if ( null == strPageName && !_actionMethods.contains( strAction ) )
+        {
+            return true;
+        }
+        
         if ( ( _mapDisabledActionMethods.containsKey( strPageName ) && _mapDisabledActionMethods.get( strPageName ).contains( strAction ) )
                 || ( _mapDisabledActionMethods.containsKey( strPath ) && _mapDisabledActionMethods.get( strPath ).contains( strAction ) ) )
         {
@@ -156,7 +166,6 @@ public class SecurityTokenHandler
             String strAction = MVCUtils.getAction( request );
             if ( strAction != null )
             {
-//                Method m = MVCUtils.findActionAnnotedMethod( request, methods, strAction );
                 String secTokenAction = !"".equals( method.getAnnotation( Action.class ).securityTokenAction( ) )
                         ? method.getAnnotation( Action.class ).securityTokenAction( )
                         : method.getAnnotation( Action.class ).value( );
