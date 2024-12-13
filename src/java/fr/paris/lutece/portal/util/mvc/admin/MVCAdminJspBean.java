@@ -115,7 +115,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
         Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( getClass( ) );
         
-        getSecurityTokenHandler( ).registerDisabledActions( _controller.controllerPath( ) + _controller.controllerJsp( ), methods );
+        getSecurityTokenHandler( ).registerActions( _controller.controllerPath( ) + _controller.controllerJsp( ), methods );
         
         try
         {
