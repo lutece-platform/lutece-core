@@ -160,6 +160,7 @@ public class AdminLoginJspBean implements Serializable
     private static final String MESSAGE_INVALID_RESET_TOKEN = "portal.admin.message.invalid.reset.token";
     private static final String MESSAGE_EXPIRED_RESET_TOKEN = "portal.admin.message.expired.reset.token";
     private static final String MESSAGE_RESET_PASSORWD_SUCCESS = "portal.admin.message.reset.password.success";
+    private static final String MESSAGE_FORGOT_PASSWORD_NOT_FOUND = "portal.admin.message.admin_forgot_password.notFound";
 
     // Properties
     private static final String PROPERTY_LEVEL = "askPasswordReinitialization.admin.level";
@@ -494,7 +495,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( ( user == null ) || StringUtils.isEmpty( user.getEmail( ) ) )
         {
-            return JSP_URL_FORM_CONTACT;
+            return AdminMessageService.getMessageUrl( request, MESSAGE_FORGOT_PASSWORD_NOT_FOUND, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
         }
 
         // make password reset token
