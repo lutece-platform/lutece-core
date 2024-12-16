@@ -53,6 +53,8 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.commons.lang3.BooleanUtils;
 
 import fr.paris.lutece.portal.business.page.Page;
@@ -64,6 +66,7 @@ import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.cache.CacheConfigUtil;
 import fr.paris.lutece.portal.service.cache.ICacheKeyService;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
@@ -163,6 +166,9 @@ public class PageService implements IPageService, ImageResourceProvider
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
     private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
+    
+    // Logger
+    private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
     
     @Inject
     private Event<PageEvent> _pageEvent;
@@ -806,10 +812,7 @@ public class PageService implements IPageService, ImageResourceProvider
                 {
                     _cachePages.remove( strKeyTemp );
 
-                    if ( AppLogService.isDebugEnabled( ) )
-                    {
-                        AppLogService.debug( "Page (cache key : {}) removed from the cache.", strKeyTemp );
-                    }
+                    logger.debug( "Page (cache key : {}) removed from the cache.", strKeyTemp );
                 }
             }
         }

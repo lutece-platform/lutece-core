@@ -319,7 +319,10 @@ public class PortalMenuService
     {
     	// page was added, removed or updated; clear cache
     	_cachePortalMenu.resetCache( );
-    	AppLogService.debug( "Portal menu cache has been reset because of a type {} page event on page {}", ( ) -> event.getEventType( ), ( ) -> event.getPage( ).getName( ) );
+    	if ( event != null && event.getPage( ) != null )
+    	{
+    	    AppLogService.debug( "Portal menu cache has been reset because of a type {} page event on page {}", ( ) -> event.getEventType( ), ( ) -> event.getPage( ).getName( ) );
+    	}
     }
     
     /**

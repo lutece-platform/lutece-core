@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.service.html;
 
+import fr.paris.lutece.portal.service.cache.CacheConfigUtil;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.xml.XmlTransformer;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -47,6 +47,9 @@ import jakarta.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * XmlTransformerCacheService
  * 
@@ -57,6 +60,8 @@ public class XmlTransformerCacheService implements CacheableService<String,Strin
 {
     private static final String SERVICE_NAME = "XML Transformer Cache Service (XSLT)";
     private static final String MSG_KEYS_NOT_AVAILABLE = "Keys not available";
+    
+    private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
 
     @Inject 
     XmlTransformerCacheService xmlTransformerCacheService;
@@ -94,7 +99,7 @@ public class XmlTransformerCacheService implements CacheableService<String,Strin
     public void resetCache( )
     {
         XmlTransformer.cleanTransformerList( );
-        AppLogService.debug( "XmlTransformer cache service cache has been reset" );
+        logger.debug( "XmlTransformer cache service cache has been reset" );
     }
 
     /**

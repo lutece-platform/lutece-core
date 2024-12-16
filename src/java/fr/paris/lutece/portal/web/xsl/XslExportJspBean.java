@@ -530,7 +530,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         catch( Exception e )
         {
             strError = e.getMessage( );
-            AppLogService.error( e.getMessage( ), e );
+            AppLogService.debug( e.getMessage( ), e );
         }
 
         return strError;

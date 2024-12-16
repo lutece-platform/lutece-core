@@ -115,7 +115,7 @@ public final class AdminUserHome
     public static void create( AdminUser user )
     {
         _dao.insert( user );
-        AppLogService.debug( "User created : User id = {}, User access code = {}", ( ) -> user.getUserId( ), ( ) -> user.getAccessCode( ) );
+        AppLogService.debug( "User created : User id = {}", ( ) -> user.getUserId( ) );
     }
 
     /**
@@ -125,7 +125,7 @@ public final class AdminUserHome
     public static void update( AdminUser user )
     {
         _dao.store( user );
-        AppLogService.debug( "User updated : User id = {}, User access code = {}",  ( ) -> user.getUserId( ),  ( ) -> user.getAccessCode( ) );
+        AppLogService.debug( "User updated : User id = {}", ( ) -> user.getUserId( ) );
     }
 
     /**
@@ -298,7 +298,7 @@ public final class AdminUserHome
     public static void create( LuteceDefaultAdminUser user )
     {
         _dao.insert( user );
-        AppLogService.debug( "Default user created : User id = {}, User access code = {}", ( ) -> user.getUserId( ), ( ) -> user.getAccessCode( ) );
+        AppLogService.debug( "Default user created : User id = {}", ( ) -> user.getUserId( ) );
     }
 
     /**
@@ -319,7 +319,7 @@ public final class AdminUserHome
     public static void update( LuteceDefaultAdminUser user, PasswordUpdateMode passwordMode )
     {
         _dao.store( user, passwordMode );
-        AppLogService.debug( "Default user updated : User id = {}, User access code = {}, passwordMode = {}", ( ) -> user.getUserId( ), ( ) -> user.getAccessCode( ), ( ) -> passwordMode.toString( ) );
+        AppLogService.debug( "Default user updated : User id = {}, passwordMode = {}", ( ) -> user.getUserId( ), ( ) -> passwordMode.toString( ) );
     }
 
     /**

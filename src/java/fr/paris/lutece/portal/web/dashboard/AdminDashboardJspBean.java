@@ -226,10 +226,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         {
             bCreate = true;
 
-            if ( AppLogService.isDebugEnabled( ) )
-            {
-                AppLogService.debug( "Dashboard {} has no property set. Retrieving from CDI Context", strDashboardName );
-            }
+            AppLogService.debug( "Dashboard {} has no property set. Retrieving from CDI Context", strDashboardName );
 
             dashboard = AdminDashboardFactory.getDashboardComponent( strDashboardName );
 

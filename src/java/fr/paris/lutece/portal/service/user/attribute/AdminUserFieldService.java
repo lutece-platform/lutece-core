@@ -144,7 +144,7 @@ public final class AdminUserFieldService
                 if ( userField != null )
                 {
                     AdminUserFieldHome.create( userField );
-                    AppLogService.debug( "User field created for user with id = {} and access code = {} : id = {} ", ( ) ->  user.getUserId( ), ( ) ->  user.getAccessCode( ), ( ) ->  userField.getIdUserField( ) );
+                    AppLogService.debug( "User field created for user with id = {} : id = {} ", ( ) ->  user.getUserId( ), ( ) ->  userField.getIdUserField( ) );
                 }
             }
         }

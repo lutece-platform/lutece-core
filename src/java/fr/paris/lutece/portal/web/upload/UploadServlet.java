@@ -110,10 +110,7 @@ public class UploadServlet extends HttpServlet
         }
 
         String strResultJson = objectMapper.writeValueAsString( mapJson );
-        if ( AppLogService.isDebugEnabled( ) )
-        {
-            AppLogService.debug( "Aysnchronous upload : {}", strResultJson );
-        }
+        AppLogService.debug( "Aysnchronous upload : {}", strResultJson );
 
         response.setContentType( JSON_UTF8_CONTENT_TYPE );
         response.getWriter( ).print( strResultJson );

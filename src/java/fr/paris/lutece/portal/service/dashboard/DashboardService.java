@@ -188,10 +188,7 @@ public class DashboardService
 
         if ( CollectionUtils.isNotEmpty( listColumnDashboards ) )
         {
-            if ( AppLogService.isDebugEnabled( ) )
-            {
-                AppLogService.debug( "Reordering  dashboard column {}", dashboard.getZone( ) );
-            }
+            AppLogService.debug( "Reordering  dashboard column {}", dashboard.getZone( ) );
 
             // sort by order
             Collections.sort( listColumnDashboards );

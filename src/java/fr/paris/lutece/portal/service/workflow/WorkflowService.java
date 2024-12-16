@@ -290,7 +290,7 @@ public class WorkflowService
             try
             {
                 String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request, user );     
-                AppLogService.debug( "Starting new action process : action id = {} - resource id = {} - user access code = {}", nIdAction, nIdResource, strUserAccessCode );
+                AppLogService.debug( "Starting new action process : action id = {} - resource id = {}", nIdAction, nIdResource );
                 _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, bIsAutomatic, strUserAccessCode, user );
                 AppLogService.debug( "Process ended for action id = {}", nIdAction );
                 

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.i18n;
 
+import fr.paris.lutece.portal.service.cache.CacheConfigUtil;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -63,6 +64,9 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * This class provides services for internationalization (i18n)
  * 
@@ -84,6 +88,7 @@ public final class I18nService
     private static final String PROPERTY_PATH_OVERRIDE = "path.i18n.override";
     private static final ClassLoader _overrideLoader;
     private static final Map<String, ResourceBundle> _resourceBundleCache = Collections.synchronizedMap( new HashMap<String, ResourceBundle>( ) );
+    private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
 
     static
     {
@@ -540,6 +545,6 @@ public final class I18nService
         }
 
         _resourceBundleCache.clear( );
-        AppLogService.debug( "I18n cache service has been reset" );
+        logger.debug( "I18n cache service has been reset" );
     }
 }

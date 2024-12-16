@@ -254,10 +254,7 @@ public class DAOUtil implements AutoCloseable
                         {
                             _connection = syncContext.getConnection( );
                         }
-                        if ( _logger.isDebugEnabled( ) )
-                        {
-                            _logger.debug( "Transactionnal context is used for pool {}", ( ) -> _connectionService.getPoolName( ) );
-                        }
+                        _logger.debug( "Transactionnal context is used for pool {}", ( ) -> _connectionService.getPoolName( ) );
                     }
                 }
                 if (!_bTransactionnal)

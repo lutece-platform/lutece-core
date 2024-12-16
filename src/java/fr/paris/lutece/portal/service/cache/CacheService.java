@@ -45,9 +45,7 @@ import jakarta.enterprise.inject.spi.CDI;
  * Provides cache management services for cacheable components.
  */
 public class CacheService
-{
-	public static final String CACHE_LOGGER_NAME = "lutece.cache";
-	
+{	
     private static final String PROPERTY_IS_ENABLED = ".enabled";
     private static final String ENABLED = "1";
     private static final String DISABLED = "0";
