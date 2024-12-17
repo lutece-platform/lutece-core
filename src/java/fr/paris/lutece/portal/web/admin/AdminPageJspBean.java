@@ -47,6 +47,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
@@ -254,7 +255,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             return strErrorUrl;
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( mRequest, TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY ) )
+        if ( !getSecurityTokenService( ).validate( mRequest, TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -371,7 +372,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         }
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, strPageId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_REMOVE_PAGE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_REMOVE_PAGE ) );
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PAGE, new Object [ ] {
                 page.getName( )
@@ -409,7 +410,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
                     page.getName( ), list.size( )
             }, JSP_PATH + getUrlPage( nPageId ), AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_PAGE ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_REMOVE_PAGE ) )
         {
             throw new AccessDeniedException( "Invalid CSRF token" );
         }
@@ -447,7 +448,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             return strErrorUrl;
         }
-        if ( !SecurityTokenService.getInstance( ).validate( mRequest, TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE ) )
+        if ( !getSecurityTokenService( ).validate( mRequest, TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -629,7 +630,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             strTemplate = TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE;
         }
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, strTemplate ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, strTemplate ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, getLocale( ), model );
 
@@ -794,7 +795,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     {
         List<PortletType> listPortletType = PortletTypeHome.getPortletTypesList( getLocale( ) );
 
-        return RBACService.getAuthorizedCollection( listPortletType, PortletResourceIdService.PERMISSION_CREATE, user );
+        return RBACService.getAuthorizedCollection( listPortletType, PortletResourceIdService.PERMISSION_CREATE, ( User ) user );
     }
 
     /**

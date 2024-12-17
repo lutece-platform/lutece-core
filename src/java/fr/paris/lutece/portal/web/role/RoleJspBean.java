@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.role;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
@@ -134,7 +135,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<>( );
         Collection<Role> listRoles = RoleHome.findAll( );
-        listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, getUser( ) );
+        User user = getUser( );
+        listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, user );
         Map<String, Boolean> mapExistRbac = listRoles.stream( ).collect( Collectors.toMap( Role::getRole, x -> RBACRoleHome.checkExistRole( x.getRole( ) ) ) );
 
         model.put( MARK_ROLES_LIST, listRoles );
@@ -160,7 +162,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_PAGE_ROLE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_PAGE_ROLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_ROLE, getLocale( ), model );
 
@@ -201,7 +203,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_EXIST, AdminMessage.TYPE_STOP );
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_PAGE_ROLE ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_PAGE_ROLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -237,7 +239,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_ROLE, role );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_PAGE_ROLE_MODIFY ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_PAGE_ROLE_MODIFY ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ROLE_MODIFY, getLocale( ), model );
 
@@ -265,7 +267,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_PAGE_ROLE_MODIFY ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_PAGE_ROLE_MODIFY ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -305,7 +307,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         String strURL = PATH_JSP + JSP_REMOVE_ROLE;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_PAGE_ROLE, request.getParameter( PARAMETER_PAGE_ROLE ) );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_REMOVE_ROLE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_REMOVE_ROLE ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, new Object [ ] {
                 strPageRole
@@ -335,7 +337,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_ROLE ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_REMOVE_ROLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

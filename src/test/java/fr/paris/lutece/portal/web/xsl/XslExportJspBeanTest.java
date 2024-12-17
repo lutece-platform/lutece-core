@@ -62,16 +62,19 @@ import fr.paris.lutece.portal.business.xsl.XslExportHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 public class XslExportJspBeanTest extends LuteceTestCase
 {
     private XslExportJspBean _instance;
     private XslExport _xslExport;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -135,7 +138,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
                 randomName
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.html" )
+                _securityTokenService.getToken( request, "admin/xsl/create_xsl_export.html" )
         } );
         Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
         List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
@@ -177,7 +180,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
                 randomName
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.html" ) + "b"
+                _securityTokenService.getToken( request, "admin/xsl/create_xsl_export.html" ) + "b"
         } );
         Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
         List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
@@ -288,7 +291,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
                 Integer.toString( _xslExport.getIdXslExport( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.html" )
+                _securityTokenService.getToken( request, "admin/xsl/modify_xsl_export.html" )
         } );
         Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
 
@@ -324,7 +327,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
                 Integer.toString( _xslExport.getIdXslExport( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.html" ) + "b"
+                _securityTokenService.getToken( request, "admin/xsl/modify_xsl_export.html" ) + "b"
         } );
         Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
 
@@ -409,7 +412,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
 
         request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/xsl/DoRemoveXslExport.jsp" ) );
+                _securityTokenService.getToken( request, "jsp/admin/xsl/DoRemoveXslExport.jsp" ) );
         _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
 
         _instance.doRemoveXslExport( request );
@@ -427,7 +430,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
 
         request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/xsl/DoRemoveXslExport.jsp" ) + "b" );
+                _securityTokenService.getToken( request, "jsp/admin/xsl/DoRemoveXslExport.jsp" ) + "b" );
         _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
 
         try

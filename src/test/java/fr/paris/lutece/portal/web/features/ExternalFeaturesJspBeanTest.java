@@ -50,11 +50,13 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 {
@@ -74,6 +76,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     private static final boolean IS_EXTERNAL_FEATURE = true;
     private Right _right;
     private FeatureGroup _featureGroup;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -162,7 +165,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 
         instance.getModifyExternalFeature( request );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_external_feature.html" ) );
+                _securityTokenService.getToken( request, "admin/features/modify_external_feature.html" ) );
         instance.doModifyExternalFeature( request );
 
         Right right = RightHome.findByPrimaryKey( _right.getId( ) );
@@ -201,7 +204,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 
         instance.getModifyExternalFeature( request );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_external_feature.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/features/modify_external_feature.html" ) + "b" );
         try
         {
             instance.doModifyExternalFeature( request );
@@ -294,7 +297,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_external_feature.html" ) );
+                _securityTokenService.getToken( request, "admin/features/create_external_feature.html" ) );
 
         instance.doCreateExternalFeature( request );
 
@@ -346,7 +349,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_external_feature.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/features/create_external_feature.html" ) + "b" );
 
         try
         {
@@ -436,7 +439,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         instance.getRemoveExternalFeature( request );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) );
+                _securityTokenService.getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) );
         instance.doRemoveExternalFeature( request );
 
         Right right = RightHome.findByPrimaryKey( TEST_EXTERNAL_FEATURE_ID );
@@ -454,7 +457,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         instance.getRemoveExternalFeature( request );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) + "b" );
+                _securityTokenService.getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) + "b" );
         try
         {
             instance.doRemoveExternalFeature( request );

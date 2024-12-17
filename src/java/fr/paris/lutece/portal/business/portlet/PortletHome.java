@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import jakarta.enterprise.inject.spi.CDI;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.List;
 
@@ -73,11 +74,11 @@ public abstract class PortletHome implements PortletHomeInterface
 
         try
         {
-            PortletHomeInterface home = (PortletHomeInterface) Class.forName( strHomeClass ).newInstance( );
+            PortletHomeInterface home = (PortletHomeInterface) Class.forName( strHomeClass ).getDeclaredConstructor().newInstance( );
             p = home.getDAO( ).load( nKey );
             p.copy( portlet );
         }
-        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }

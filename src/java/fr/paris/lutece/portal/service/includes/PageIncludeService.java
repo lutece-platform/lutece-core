@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.includes;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,12 +70,12 @@ public final class PageIncludeService
     {
         try
         {
-            PageInclude pageInclude = (PageInclude) Class.forName( entry.getClassName( ) ).newInstance( );
+            PageInclude pageInclude = (PageInclude) Class.forName( entry.getClassName( ) ).getDeclaredConstructor().newInstance( );
             entry.setPageInclude( pageInclude );
             _mapPageIncludes.put( entry.getId( ), entry );
             AppLogService.info( "New Page Include Service registered : {} {}", entry.getId( ), ( ( !entry.isEnabled( ) ) ? " (disabled)" : "" ) );
         }
-        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e )
         {
             throw new LuteceInitException( e.getMessage( ), e );
         }

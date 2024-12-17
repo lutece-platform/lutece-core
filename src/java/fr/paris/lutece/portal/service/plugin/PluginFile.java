@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;

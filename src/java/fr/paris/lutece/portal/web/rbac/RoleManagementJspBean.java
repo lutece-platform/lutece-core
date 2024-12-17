@@ -263,7 +263,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_ROLE_CREATION_PAGETITLE );
 
         Map<String, Object> model = new HashMap<>( 1 );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_ROLE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_ROLE ) );
         model.put( MARK_HAS_RIGHT_MANAGE_FRONT_ROLE, getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ROLE, getLocale( ), model );
@@ -298,7 +298,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_SPECIAL_CHARACTER, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_ROLE ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_ROLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -347,7 +347,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( strOldRoleKey.equals( strNewRoleKey ) ) // if the key doesn't change, update the description
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
+            if ( !getSecurityTokenService( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -375,7 +375,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             {
                 return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
             }
-            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
+            if ( !getSecurityTokenService( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -418,7 +418,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         String strDeleteUrl = JSP_URL_REMOVE_ROLE;
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_ROLE_KEY, strRoleKey );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ROLE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_ROLE ) );
         return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
@@ -452,7 +452,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
         else
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ROLE ) )
+            if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_ROLE ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -499,7 +499,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ROLE, adminRole );
         model.put( MARK_CONTROLED_RESOURCE_LIST, listResources );
         model.put( MARK_RESOURCE_TYPE_LIST, listResourceTypes );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_ROLE_DESCRIPTION, getLocale( ), model );
 
@@ -522,7 +522,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         String strDeleteUrl = JSP_URL_REMOVE_CONTROL_FROM_ROLE;
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_RBAC_ID, strIdControl );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) );
         return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL,
                 new Object[ ] { rbac.getRoleKey( ), rbac.getPermissionKey( ), rbac.getResourceIdLabel( ),
                         rbac.getResourceTypeLabel( ) },
@@ -540,7 +540,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemoveControlFromRole( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -794,7 +794,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ROLE_KEY, strRoleKey );
         model.put( MARK_RESOURCE_TYPE, strResourceType );
         model.put( MARK_SELECT_RESOURCES_METHOD, strSelectionMethod );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_SELECT_PERMISSIONS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_SELECT_PERMISSIONS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SELECT_PERMISSIONS, getLocale( ), model );
 
@@ -870,7 +870,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                     return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD, AdminMessage.TYPE_STOP );
                 }
 
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_SELECT_PERMISSIONS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_SELECT_PERMISSIONS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -987,7 +987,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_ASSIGN_USERS_TO_ROLE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, JSP_ASSIGN_USERS_TO_ROLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale( ), model );
 
@@ -1005,7 +1005,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      */
     public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -1042,7 +1042,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      */
     public String doUnAssignUser( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

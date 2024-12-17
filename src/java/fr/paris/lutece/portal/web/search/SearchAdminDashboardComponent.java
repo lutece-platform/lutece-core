@@ -33,12 +33,14 @@
  */
 package fr.paris.lutece.portal.web.search;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.search.SearchResourceIdService;
 import fr.paris.lutece.portal.service.search.SearchService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
@@ -46,6 +48,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -63,14 +66,16 @@ public class SearchAdminDashboardComponent extends AdminDashboardComponent
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
         if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                user ) )
+                ( User ) user ) )
         {
             return EMPTY_STRING;
         }
 
+        ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
+        
         Map<String, Object> model = SearchService.getManageAdvancedParameters( user, request );
         model.put( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+                securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale( ), model );
 
         return template.getHtml( );

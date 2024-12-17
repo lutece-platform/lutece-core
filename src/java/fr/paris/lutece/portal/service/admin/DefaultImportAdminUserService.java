@@ -88,7 +88,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
 
     // Template
     private static final String TEMPLATE_DEFAULT_IMPORT_USERS_FROM_FILE = "admin/user/import_users_from_file.html";
-    private static final AttributeService _attributeService = AttributeService.getInstance( );
+    private static final AttributeService _attributeService = CDI.current( ).select( AttributeService.class ).get( );
 
     /**
      * {@inheritDoc}

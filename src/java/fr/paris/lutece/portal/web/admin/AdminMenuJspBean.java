@@ -71,6 +71,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.menu.AdminUserMenuService;
@@ -148,6 +149,8 @@ public class AdminMenuJspBean implements Serializable
     private static Logger _loggerAccess = LogManager.getLogger( LOGGER_ACCESS );
     @Inject
     private transient DashboardService _dashboardService;
+    @Inject
+    private transient ISecurityTokenService _securityTokenService;
     
     /**
      * Returns the Administration header menu
@@ -375,7 +378,7 @@ public class AdminMenuJspBean implements Serializable
      */
     public String doChangeLanguage( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) )
+        if ( !_securityTokenService.validate( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -430,7 +433,7 @@ public class AdminMenuJspBean implements Serializable
         Locale locale = user.getLocale( );
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE, locale, model );
 
         return template.getHtml( );
@@ -487,7 +490,7 @@ public class AdminMenuJspBean implements Serializable
         {
             return AdminMessageService.getMessageUrl( request, PASSWORD_CURRENT_ERROR, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE ) )
+        if ( !_securityTokenService.validate( request, TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -515,7 +518,7 @@ public class AdminMenuJspBean implements Serializable
      */
     public String doModifyAccessibilityMode( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) )
+        if ( !_securityTokenService.validate( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

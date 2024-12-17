@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -90,7 +91,7 @@ public class FilterService
     {
         try
         {
-            Filter filter = (Filter) Class.forName( entry.getFilterClass( ) ).newInstance( );
+            Filter filter = (Filter) Class.forName( entry.getFilterClass( ) ).getDeclaredConstructor().newInstance( );
             LuteceFilter f = new LuteceFilter( entry.getName( ), filter, entry.getMappingUrlPattern( ), plugin, entry.getInitParameters( ) );
             f.setOrder( entry.getOrder( ) );
             _listFilters.add( f );
@@ -101,7 +102,7 @@ public class FilterService
                 AppLogService.info( " * init parameter - name : '{}' - value : '{}'", ( ) -> strKey, ( ) -> entry.getInitParameters( ).get( strKey ) );
             }
         }
-        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e )
         {
             AppLogService.error( "Error registering a filter : {}", e.getMessage( ), e );
         }

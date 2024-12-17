@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Locale;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -252,6 +253,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
     public List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user )
     {
         List<AdminUserField> listUserFields = new ArrayList<>( );
+        AttributeFieldService attributeFieldService = CDI.current( ).select( AttributeFieldService.class ).get( );
 
         if ( strValues != null )
         {
@@ -263,7 +265,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
                 if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
                 {
                     int nIdField = Integer.parseInt( strValue );
-                    attributeField = AttributeFieldService.getInstance( ).getAttributeField( nIdField );
+                    attributeField = attributeFieldService.getAttributeField( nIdField );
                 }
                 else
                 {

@@ -58,12 +58,14 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * StyleSheetJspBean Test Class
@@ -75,6 +77,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     private StyleSheetJspBean instance;
     private Style style;
     private StyleSheet stylesheet;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -159,7 +162,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
                 "0"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.html" )
+                _securityTokenService.getToken( request, "admin/stylesheet/create_stylesheet.html" )
         } );
         Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
         List<FileItem<DiskFileItem>> items = new ArrayList<>( );
@@ -197,7 +200,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
                 "0"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.html" ) + "b"
+                _securityTokenService.getToken( request, "admin/stylesheet/create_stylesheet.html" ) + "b"
         } );
         Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
         List<FileItem<DiskFileItem>> items = new ArrayList<>( );
@@ -301,7 +304,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
                 Integer.toString( stylesheet.getModeId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" )
+                _securityTokenService.getToken( request, "admin/stylesheet/modify_stylesheet.html" )
         } );
         Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
         List<FileItem<DiskFileItem>> items = new ArrayList<>( );
@@ -338,7 +341,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
                 Integer.toString( stylesheet.getModeId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" ) + "b"
+                _securityTokenService.getToken( request, "admin/stylesheet/modify_stylesheet.html" ) + "b"
         } );
         Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
         List<FileItem<DiskFileItem>> items = new ArrayList<>( );
@@ -430,7 +433,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.STYLESHEET_ID, Integer.toString( stylesheet.getId( ) ) );
         request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyleSheet.jsp" ) );
+                _securityTokenService.getToken( request, "jsp/admin/style/DoRemoveStyleSheet.jsp" ) );
 
         instance.doRemoveStyleSheet( request );
         assertNull( StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) ) );
@@ -442,7 +445,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.STYLESHEET_ID, Integer.toString( stylesheet.getId( ) ) );
         request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyleSheet.jsp" ) + "b" );
+                _securityTokenService.getToken( request, "jsp/admin/style/DoRemoveStyleSheet.jsp" ) + "b" );
 
         try
         {

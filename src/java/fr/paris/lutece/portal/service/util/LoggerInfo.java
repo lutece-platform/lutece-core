@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import org.apache.logging.log4j.Level;
 
 /**
  * The Class Logger.

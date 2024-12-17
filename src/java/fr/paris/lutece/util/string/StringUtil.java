@@ -36,11 +36,9 @@ package fr.paris.lutece.util.string;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.search;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.search.SearchParameterHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -41,7 +42,6 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.search.SearchResourceIdService;
 import fr.paris.lutece.portal.service.search.SearchService;
-import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
@@ -94,13 +94,14 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyAdvancedParameters( HttpServletRequest request ) throws AccessDeniedException
     {
+    	User currentUser = getUser( );
         if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
+        		currentUser ) )
         {
             throw new AccessDeniedException(
                     "User " + getUser( ) + " is not authorized to permission " + SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

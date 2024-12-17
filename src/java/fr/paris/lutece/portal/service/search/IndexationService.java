@@ -128,7 +128,7 @@ public final class IndexationService
 
         try
         {
-            _analyzer = (Analyzer) Class.forName( strAnalyserClassName ).newInstance( );
+            _analyzer = (Analyzer) Class.forName( strAnalyserClassName ).getDeclaredConstructor().newInstance( );
         }
         catch( Exception e )
         {

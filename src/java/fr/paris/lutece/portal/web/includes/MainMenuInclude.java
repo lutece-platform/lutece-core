@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -76,9 +77,10 @@ public class MainMenuInclude implements PageInclude
                 AppLogService.info( "MainMenuInclude.fillTemplate() : {}", nfe.getLocalizedMessage( ) );
                 nCurrentPageId = 0;
             }
-
+            
+            PortalMenuService portalMenuService = CDI.current( ).select( PortalMenuService.class ).get( );
             rootModel.put( Markers.PAGE_MAIN_MENU,
-                    PortalMenuService.getInstance( ).getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
+                    portalMenuService.getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
         }
     }
 }

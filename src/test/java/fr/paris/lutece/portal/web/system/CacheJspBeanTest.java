@@ -56,6 +56,7 @@ import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
@@ -70,6 +71,7 @@ import jakarta.inject.Inject;
 public class CacheJspBeanTest extends LuteceTestCase
 {
     private @Inject TestResetCacheObserver resetCacheObserver;
+    private @Inject ISecurityTokenService _securityTokenService;
     
     @BeforeEach
     private void resetObserver() {
@@ -104,7 +106,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+                _securityTokenService.getToken( request, "admin/system/manage_caches.html" ) );
         CacheJspBean.doResetCaches( request );
         assertEquals( "Not all AbstractCacheableService were reset", registeredListener, resetCacheObserver.getCallCount( ) );
     }
@@ -118,7 +120,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/system/manage_caches.html" ) + "b" );
         try
         {
             CacheJspBean.doResetCaches( request );
@@ -171,7 +173,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+                _securityTokenService.getToken( request, "admin/system/manage_caches.html" ) );
         CacheJspBean.doResetCaches( request );
         assertEquals( "Only one cache should have been reset", 1, resetCacheObserver.getCallCount( ) );
         assertEquals( "The target cache should have been reset", 1, resetCacheObserver.getCallCount( cacheName ) );
@@ -199,7 +201,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/system/manage_caches.html" ) + "b" );
         try
         {
             CacheJspBean.doResetCaches( request );
@@ -261,7 +263,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) );
+                _securityTokenService.getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) );
         try
         {
             assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
@@ -290,7 +292,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) + "b" );
+                _securityTokenService.getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) + "b" );
         try
         {
             assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
@@ -397,7 +399,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+                _securityTokenService.getToken( request, "admin/system/manage_caches.html" ) );
 
         CacheJspBean instance = new CacheJspBean( );
         instance.doReloadProperties( request );
@@ -426,7 +428,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/system/manage_caches.html" ) + "b" );
 
         CacheJspBean instance = new CacheJspBean( );
         try

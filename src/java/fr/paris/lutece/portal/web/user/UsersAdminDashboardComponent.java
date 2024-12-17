@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -41,6 +42,7 @@ import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
@@ -52,6 +54,7 @@ import java.util.List;
 
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -69,8 +72,9 @@ public class UsersAdminDashboardComponent extends AdminDashboardComponent
     private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
     private static final String MARK_LEVELS_LIST = "levels_list";
 
-    private static final AttributeService _attributeService = AttributeService.getInstance( );
-    private static final AttributeTypeService _attributeTypeService = AttributeTypeService.getInstance( );
+    private static final AttributeService _attributeService = CDI.current( ).select( AttributeService.class ).get( );
+    private static final AttributeTypeService _attributeTypeService = CDI.current( ).select( AttributeTypeService.class ).get( );
+    private static final ISecurityTokenService _securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
 
     /**
      *
@@ -80,13 +84,14 @@ public class UsersAdminDashboardComponent extends AdminDashboardComponent
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
         if ( RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                user ) )
+                ( User ) user ) )
         {
             List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( user.getLocale( ) );
             List<AttributeType> listAttributeTypes = _attributeTypeService.getAttributeTypes( user.getLocale( ) );
+            
+            
             Map<String, Object> model = AdminUserService.getManageAdvancedParameters( user );
-            model.put( SecurityTokenService.PARAMETER_TOKEN,
-                    SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+            model.put( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
             model.put( MARK_ATTRIBUTES_LIST, listAttributes );
             model.put( MARK_ATTRIBUTE_TYPES_LIST, listAttributeTypes );
             model.put( MARK_LEVELS_LIST, LevelHome.getLevelsList( ) );

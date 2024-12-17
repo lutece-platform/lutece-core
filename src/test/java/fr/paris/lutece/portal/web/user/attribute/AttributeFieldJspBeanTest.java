@@ -54,6 +54,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
@@ -68,6 +69,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private Map<AttributeType, IAttribute> _attributes;
     private @Inject AttributeService _attributeService;
     private @Inject AttributeTypeService _attributeTypeService;
+    private @Inject ISecurityTokenService _securityTokenService;
     
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -76,7 +78,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
-            IAttribute attribute = (IAttribute) Class.forName( type.getClassName( ) ).newInstance( );
+            IAttribute attribute = (IAttribute) Class.forName( type.getClassName( ) ).getDeclaredConstructor().newInstance( );
             String strName = getRandomName( );
             attribute.setTitle( strName );
             attribute.setHelpMessage( strName );
@@ -138,7 +140,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.addParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.addParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/attribute/DoRemoveAttributeField.jsp" ) );
+                _securityTokenService.getToken( request, "jsp/admin/user/attribute/DoRemoveAttributeField.jsp" ) );
 
         instance.doRemoveAttributeField( request );
 
@@ -162,7 +164,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.addParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.addParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/attribute/DoRemoveAttributeField.jsp" ) + "b" );
+                _securityTokenService.getToken( request, "jsp/admin/user/attribute/DoRemoveAttributeField.jsp" ) + "b" );
 
         try
         {
@@ -241,7 +243,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "title", strName );
         request.setParameter( "value", strName );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/create_attribute_field.html" ) );
+                _securityTokenService.getToken( request, "admin/user/attribute/create_attribute_field.html" ) );
 
         instance.doCreateAttributeField( request );
 
@@ -269,7 +271,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "title", strName );
         request.setParameter( "value", strName );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/create_attribute_field.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/user/attribute/create_attribute_field.html" ) + "b" );
 
         try
         {
@@ -356,7 +358,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "title", strName );
         request.setParameter( "value", strName );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/modify_attribute_field.html" ) );
+                _securityTokenService.getToken( request, "admin/user/attribute/modify_attribute_field.html" ) );
 
         instance.doModifyAttributeField( request );
 
@@ -385,7 +387,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "title", strName );
         request.setParameter( "value", strName );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/modify_attribute_field.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/user/attribute/modify_attribute_field.html" ) + "b" );
 
         try
         {
@@ -456,7 +458,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) );
+                _securityTokenService.getToken( request, attribute.getTemplateModifyAttribute( ) ) );
 
         instance.doMoveDownAttributeField( request );
 
@@ -489,7 +491,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) + "b" );
+                _securityTokenService.getToken( request, attribute.getTemplateModifyAttribute( ) ) + "b" );
 
         try
         {
@@ -563,7 +565,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) );
+                _securityTokenService.getToken( request, attribute.getTemplateModifyAttribute( ) ) );
 
         instance.doMoveUpAttributeField( request );
 
@@ -596,7 +598,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) + "b" );
+                _securityTokenService.getToken( request, attribute.getTemplateModifyAttribute( ) ) + "b" );
 
         try
         {

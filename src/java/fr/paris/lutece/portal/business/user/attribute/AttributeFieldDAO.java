@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -155,9 +156,9 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
             {
                 try
                 {
-                    attribute = (IAttribute) Class.forName( daoUtil.getString( 1 ) ).newInstance( );
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( 1 ) ).getDeclaredConstructor().newInstance( );
                 }
-                catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
+                catch( IllegalAccessException | InstantiationException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e  )
                 {
                     AppLogService.error( e.getMessage( ), e );
                 }

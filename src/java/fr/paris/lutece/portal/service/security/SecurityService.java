@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import java.lang.reflect.InvocationTargetException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -266,19 +267,20 @@ public final class SecurityService
         LuteceUser user = _authenticationService.login( strUserName, strPassword, request );
 
         _authenticationService.updateDateLastLogin( user, request );
+        AccessLogService accessLogService = CDI.current( ).select( AccessLogService.class ).get( );        
 
         if ( _authenticationService.findResetPassword( request, strUserName ) )
         {
             String redirect = _authenticationService.getResetPasswordPageUrl( request );
             registerUser( request, user );
-            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null, CONSTANT_FO );
+            accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null, CONSTANT_FO );
 
             throw new LoginRedirectException( redirect );
         }
 
         registerUser( request, user );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null, CONSTANT_FO );
+        accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null, CONSTANT_FO );
 
     }
 
@@ -308,7 +310,9 @@ public final class SecurityService
         	session.invalidate();
         }
         CDI.current( ).getBeanManager( ).getEvent( ).fire( new LuteceUserEvent( user, LuteceUserEvent.EventType.LOGOUT ) );
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null, CONSTANT_FO );
+        
+        AccessLogService accessLogService = CDI.current( ).select( AccessLogService.class ).get( );        
+        accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null, CONSTANT_FO );
     }
 
     /**
@@ -327,10 +331,10 @@ public final class SecurityService
         {
             try
             {
-                authentication = (LuteceAuthentication) Class.forName( strAuthenticationClass ).newInstance( );
+                authentication = (LuteceAuthentication) Class.forName( strAuthenticationClass ).getDeclaredConstructor().newInstance( );
                 AppLogService.info( "Authentication service loaded : {}", authentication.getAuthServiceName( ) );
             }
-            catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+            catch( InstantiationException | IllegalAccessException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e )
             {
                 throw new LuteceInitException( "Error instantiating Authentication Class", e );
             }

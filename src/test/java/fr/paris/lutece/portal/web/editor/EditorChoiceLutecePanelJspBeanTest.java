@@ -41,15 +41,18 @@ import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.editor.RichTextEditorService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
 {
     private EditorChoiceLutecePanelJspBean _instance;
     private String _boDefaultEditor;
     private String _foDefaultEditor;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -75,7 +78,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "editor_back_office", strBOEditor );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/dashboard/admin/editor_dashboard.html" ) );
+                _securityTokenService.getToken( request, "admin/dashboard/admin/editor_dashboard.html" ) );
         _instance.doUpdateBackOfficeEditor( request );
 
         assertEquals( strBOEditor, RichTextEditorService.getBackOfficeDefaultEditor( ) );
@@ -90,7 +93,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "editor_back_office", strBOEditor );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/dashboard/admin/editor_dashboard.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/dashboard/admin/editor_dashboard.html" ) + "b" );
         try
         {
             _instance.doUpdateBackOfficeEditor( request );
@@ -131,7 +134,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "editor_front_office", strFOEditor );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/dashboard/admin/editor_dashboard.html" ) );
+                _securityTokenService.getToken( request, "admin/dashboard/admin/editor_dashboard.html" ) );
         _instance.doUpdateFrontOfficeEditor( request );
 
         assertEquals( strFOEditor, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
@@ -146,7 +149,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "editor_front_office", strFOEditor );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/dashboard/admin/editor_dashboard.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/dashboard/admin/editor_dashboard.html" ) + "b" );
         try
         {
             _instance.doUpdateFrontOfficeEditor( request );

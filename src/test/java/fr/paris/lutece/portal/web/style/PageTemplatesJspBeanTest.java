@@ -56,12 +56,14 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * PageTemplatesJspBeanTest Test Class
@@ -72,6 +74,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     private static final String TEST_PAGE_TEMPLATE_ID = "1"; // Page template one column
     private MockHttpServletRequest request;
     private PageTemplatesJspBean instance;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -115,7 +118,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
                 desc
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" )
+                _securityTokenService.getToken( request, "admin/style/create_page_template.html" )
         } );
         DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
         Map<String, List<FileItem<DiskFileItem>>> files = new HashMap<>( );
@@ -152,7 +155,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
                 desc
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" ) + "b"
+                _securityTokenService.getToken( request, "admin/style/create_page_template.html" ) + "b"
         } );
         DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
         Map<String, List<FileItem<DiskFileItem>>> files = new HashMap<>( );
@@ -254,7 +257,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
                 desc + "mod"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" )
+                _securityTokenService.getToken( request, "admin/style/modify_page_template.html" )
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
@@ -284,7 +287,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
                 desc + "mod"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-                SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" ) + "b"
+                _securityTokenService.getToken( request, "admin/style/modify_page_template.html" ) + "b"
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
@@ -358,7 +361,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
         request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) );
+                _securityTokenService.getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) );
         try
         {
             instance.doRemovePageTemplate( request );
@@ -381,7 +384,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
         request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) + "b" );
+                _securityTokenService.getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) + "b" );
         try
         {
             instance.doRemovePageTemplate( request );

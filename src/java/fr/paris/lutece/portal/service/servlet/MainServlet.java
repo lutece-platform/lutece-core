@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.io.IOException;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
@@ -72,7 +73,8 @@ public class MainServlet implements Servlet
         HttpServletRequest request = (HttpServletRequest) requestServlet;
         HttpServletResponse response = (HttpServletResponse) responseServlet;
 
-        for ( LuteceServlet servlet : ServletService.getInstance( ).getServlets( ) )
+        ServletService servletService = CDI.current( ).select( ServletService.class ).get( );
+        for ( LuteceServlet servlet : servletService.getServlets( ) )
         {
             AppLogService.debug( "PluginServlet : {} - url pattern : {}", servlet.getName( ), servlet.getMappingUrlPattern( ) );
 
@@ -97,7 +99,8 @@ public class MainServlet implements Servlet
     @Override
     public void destroy( )
     {
-        for ( LuteceServlet servlet : ServletService.getInstance( ).getServlets( ) )
+    	ServletService servletService = CDI.current( ).select( ServletService.class ).get( );
+        for ( LuteceServlet servlet : servletService.getServlets( ) )
         {
             // Catch exception for each servlet to execute all chain
             try

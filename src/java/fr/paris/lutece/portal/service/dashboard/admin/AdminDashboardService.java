@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.dashboard.admin;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -140,7 +141,7 @@ public class AdminDashboardService
     {
         try
         {
-            IAdminDashboardComponent dc = (IAdminDashboardComponent) Class.forName( entry.getComponentClass( ) ).newInstance( );
+            IAdminDashboardComponent dc = (IAdminDashboardComponent) Class.forName( entry.getComponentClass( ) ).getDeclaredConstructor().newInstance( );
 
             dc.setName( entry.getName( ) );
             dc.setPlugin( plugin );
@@ -156,7 +157,7 @@ public class AdminDashboardService
                 AppLogService.error( " Admin Dashboard Component not registered : {} : {}", entry.getName( ), entry.getComponentClass( ) );
             }
         }
-        catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e )
         {
             AppLogService.error( "Error registering an Admin DashboardComponent : {}", e.getMessage( ), e );
         }

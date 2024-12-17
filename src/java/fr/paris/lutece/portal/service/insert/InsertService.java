@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.web.insert.InsertServiceSelectionBean;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -214,9 +215,9 @@ public class InsertService implements RBACResource, Localizable
     {
         try
         {
-            return (InsertServiceSelectionBean) Class.forName( getActionBeanString( ) ).newInstance( );
+            return (InsertServiceSelectionBean) Class.forName( getActionBeanString( ) ).getDeclaredConstructor().newInstance( );
         }
-        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e )
         {
             throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage( ), e );
         }

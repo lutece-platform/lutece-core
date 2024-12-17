@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.business.prefs.IPreferencesDAO;
 import fr.paris.lutece.portal.service.security.LuteceUser;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 

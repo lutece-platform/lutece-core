@@ -45,11 +45,13 @@ import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * LevelsJspBeanTest Test Class
@@ -63,6 +65,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     private static final String TEST_LEVEL_ID = "0"; // administrator level_right
     private MockHttpServletRequest request;
     private LevelsJspBean instance;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -93,7 +96,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         final String name = getRandomName( );
         request.setParameter( "level_name", name );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_LEVEL ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_CREATE_LEVEL ) );
 
         LevelHome.getLevelsList( ).forEach( level -> {
             assertFalse( name.equals( level.getName( ) ) );
@@ -119,7 +122,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         final String name = getRandomName( );
         request.setParameter( "level_name", name );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_LEVEL ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_CREATE_LEVEL ) + "b" );
 
         LevelHome.getLevelsList( ).forEach( level -> {
             assertFalse( name.equals( level.getName( ) ) );
@@ -206,7 +209,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
         LevelHome.create( level );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_LEVEL ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MODIFY_LEVEL ) );
         try
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
@@ -227,7 +230,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
         LevelHome.create( level );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_LEVEL ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MODIFY_LEVEL ) + "b" );
         try
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );

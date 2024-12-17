@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.xsl;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
@@ -169,9 +170,10 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         }
 
         model.put( MARK_LIST_PLUGINS, refListPlugins );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_XSL_EXPORT ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_XSL_EXPORT ) );
 
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, getUser( ) ) )
+        User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
@@ -197,7 +199,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         XslExport xslExport = new XslExport( );
         String strError = getXslExportData( request, xslExport );
 
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, getUser( ) ) )
+        User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
@@ -207,7 +210,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
             return strError;
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_XSL_EXPORT ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_XSL_EXPORT ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -233,7 +236,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public String getModifyXslExport( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, getUser( ) ) )
+    	User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
@@ -265,7 +269,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         }
 
         model.put( MARK_LIST_PLUGINS, refListPlugins );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_XSL_EXPORT ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_XSL_EXPORT ) );
 
         setPageTitleProperty( PROPERTY_MODIFY_XSL_EXPORT_TITLE );
 
@@ -285,7 +289,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public String doModifyXslExport( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, getUser( ) ) )
+    	User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
@@ -301,7 +306,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         {
             return strError;
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_XSL_EXPORT ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_XSL_EXPORT ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -344,7 +349,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public String getConfirmRemoveXslExport( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, getUser( ) ) )
+    	User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
@@ -353,7 +359,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_ID_XSL_EXPORT, strIdXslExport );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_XSL_EXPORT ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_XSL_EXPORT ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_XSL_EXPORT, JSP_DO_REMOVE_XSL_EXPORT, AdminMessage.TYPE_CONFIRMATION,
                 parameters );
@@ -370,11 +376,12 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public String doRemoveXslExport( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, getUser( ) ) )
+    	User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_XSL_EXPORT ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_DO_REMOVE_XSL_EXPORT ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

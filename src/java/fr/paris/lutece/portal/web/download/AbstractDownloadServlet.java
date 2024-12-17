@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.download;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -63,7 +64,8 @@ public abstract class AbstractDownloadServlet extends HttpServlet
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         File file = null;
-        IFileStoreServiceProvider fileStoreServiceProvider = FileService.getInstance( )
+        FileService fileService = CDI.current( ).select( FileService.class ).get( );
+        IFileStoreServiceProvider fileStoreServiceProvider = fileService
                 .getFileStoreServiceProvider( request.getParameter( FileService.PARAMETER_PROVIDER ) );
 
         try

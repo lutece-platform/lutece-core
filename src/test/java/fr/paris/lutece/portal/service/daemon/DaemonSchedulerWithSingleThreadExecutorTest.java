@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.BlockingQueue;
@@ -95,7 +96,7 @@ public class DaemonSchedulerWithSingleThreadExecutorTest extends LuteceTestCase
             testDaemon.go(250L, TimeUnit.MILLISECONDS);
             testDaemon.waitForCompletion();
             assertTrue(testDaemon.hasRun());
-        } catch (InterruptedException | BrokenBarrierException | TimeoutException e)
+        } catch (InterruptedException | BrokenBarrierException | TimeoutException | InvocationTargetException | NoSuchMethodException e )
         {
             fail(e.getMessage());
         } finally
@@ -147,7 +148,7 @@ public class DaemonSchedulerWithSingleThreadExecutorTest extends LuteceTestCase
             assertTrue(500L <= Duration.between(start, Instant.now()).toMillis());
             testDaemon.waitForCompletion();
             assertTrue(testDaemon.hasRun());
-        } catch (InterruptedException | BrokenBarrierException | TimeoutException e)
+        } catch (InterruptedException | BrokenBarrierException | TimeoutException | InvocationTargetException | NoSuchMethodException e )
         {
             fail(e.getMessage());
         } finally
@@ -168,7 +169,8 @@ public class DaemonSchedulerWithSingleThreadExecutorTest extends LuteceTestCase
      */
     @Test
     public void testEnqueueDelayIllegalState()
-            throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException, BrokenBarrierException, TimeoutException
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException, InterruptedException, BrokenBarrierException, TimeoutException,
+                   InvocationTargetException, NoSuchMethodException
     {
         String strMethodName = new Object()
         {
@@ -236,7 +238,7 @@ public class DaemonSchedulerWithSingleThreadExecutorTest extends LuteceTestCase
             assertTrue(1000L <= Duration.between(start, Instant.now()).toMillis());
             testDaemon.waitForCompletion();
             assertTrue(testDaemon.hasRun());
-        } catch (InterruptedException | BrokenBarrierException | TimeoutException e)
+        } catch (InterruptedException | BrokenBarrierException | TimeoutException | InvocationTargetException | NoSuchMethodException e )
         {
             fail(e.getMessage());
         } finally
@@ -288,7 +290,7 @@ public class DaemonSchedulerWithSingleThreadExecutorTest extends LuteceTestCase
             assertTrue(500L <= Duration.between(start, Instant.now()).toMillis());
             testDaemon.waitForCompletion();
             assertTrue(testDaemon.hasRun());
-        } catch (InterruptedException | BrokenBarrierException | TimeoutException e)
+        } catch (InterruptedException | BrokenBarrierException | TimeoutException | InvocationTargetException | NoSuchMethodException e )
         {
             fail(e.getMessage());
         } finally
@@ -345,7 +347,7 @@ public class DaemonSchedulerWithSingleThreadExecutorTest extends LuteceTestCase
             assertTrue(1000L <= timeForSecondRun, "Second run was " + timeForSecondRun + "ms after start");
             testDaemon.waitForCompletion();
             assertTrue(testDaemon.hasRun());
-        } catch (InterruptedException | BrokenBarrierException | TimeoutException e)
+        } catch (InterruptedException | BrokenBarrierException | TimeoutException | InvocationTargetException | NoSuchMethodException e )
         {
             fail(e.getMessage());
         } finally
@@ -438,7 +440,7 @@ public class DaemonSchedulerWithSingleThreadExecutorTest extends LuteceTestCase
             {
                 // OK
             }
-        } catch (InterruptedException | BrokenBarrierException | TimeoutException e)
+        } catch (InterruptedException | BrokenBarrierException | TimeoutException | InvocationTargetException | NoSuchMethodException e )
         {
             fail(e.getMessage());
         } finally
@@ -503,7 +505,7 @@ public class DaemonSchedulerWithSingleThreadExecutorTest extends LuteceTestCase
             {
                 // OK
             }
-        } catch (InterruptedException | BrokenBarrierException | TimeoutException e)
+        } catch (InterruptedException | BrokenBarrierException | TimeoutException | InvocationTargetException | NoSuchMethodException e )
         {
             fail(e.getMessage());
         } finally

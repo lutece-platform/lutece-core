@@ -52,6 +52,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -64,6 +65,10 @@ public class DashboardJspBeanTest extends LuteceTestCase
     private DashboardJspBean _instance;
     private IDashboardComponent _dashboard;
     private int _nZone;
+    @Inject
+    private ISecurityTokenService _securityTokenService;
+    @Inject
+    private DashboardService _dashboardService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -71,7 +76,7 @@ public class DashboardJspBeanTest extends LuteceTestCase
         _dashboard = new TestDashboardComponent( );
         _dashboard.setName( getRandomName( ) );
         _dashboard.setRight( "ALL" );
-        _nZone = DashboardService.getInstance( ).getColumnCount( );
+        _nZone = _dashboardService.getColumnCount( );
         _dashboard.setZone( _nZone );
         DashboardFactory.registerDashboardComponent( _dashboard );
         DashboardHome.create( _dashboard );
@@ -114,7 +119,7 @@ public class DashboardJspBeanTest extends LuteceTestCase
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/manage_dashboards.html" ) );
+                _securityTokenService.getToken( request, "/admin/dashboard/manage_dashboards.html" ) );
 
         _instance.doMoveDashboard( request );
 
@@ -136,7 +141,7 @@ public class DashboardJspBeanTest extends LuteceTestCase
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/manage_dashboards.html" ) + "b" );
+                _securityTokenService.getToken( request, "/admin/dashboard/manage_dashboards.html" ) + "b" );
 
         try
         {
@@ -195,7 +200,7 @@ public class DashboardJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "column", Integer.toString( nZone ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/manage_dashboards.html" ) );
+                _securityTokenService.getToken( request, "/admin/dashboard/manage_dashboards.html" ) );
 
         _instance.doReorderColumn( request );
 
@@ -221,7 +226,7 @@ public class DashboardJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "column", Integer.toString( nZone ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/manage_dashboards.html" ) + "b" );
+                _securityTokenService.getToken( request, "/admin/dashboard/manage_dashboards.html" ) + "b" );
 
         try
         {

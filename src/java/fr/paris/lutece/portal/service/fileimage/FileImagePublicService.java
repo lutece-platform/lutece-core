@@ -63,7 +63,7 @@ public class FileImagePublicService implements ImageResourceProvider
 	private Lutece107Cache<String, ImageResource> _cacheFileImage;
 
 	public static final String IMAGE_RESOURCE_TYPE_ID = "public_image_resource";
-	private static final IFileStoreServiceProvider _fileStoreService = FileService.getInstance( ).getFileStoreServiceProvider( );
+	private static final IFileStoreServiceProvider _fileStoreService = CDI.current( ).select( FileService.class ).get( ).getFileStoreServiceProvider( );
 	
     
     /**

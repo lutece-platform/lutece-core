@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -204,7 +205,8 @@ public class AdminUserFieldFilter
 
         if ( strIsSearch != null )
         {
-            List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( locale );
+        	AttributeService attributeService = CDI.current( ).select( AttributeService.class ).get( );
+            List<IAttribute> listAttributes = attributeService.getAllAttributesWithoutFields( locale );
 
             for ( IAttribute attribute : listAttributes )
             {

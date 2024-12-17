@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.i18n.Localizable;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
@@ -179,14 +180,14 @@ public class ResourceType implements Localizable
     {
         try
         {
-            ResourceIdService service = (ResourceIdService) Class.forName( getResourceIdServiceClass( ) ).newInstance( );
+            ResourceIdService service = (ResourceIdService) Class.forName( getResourceIdServiceClass( ) ).getDeclaredConstructor().newInstance( );
             if ( service != null )
             {
                 service.setPluginName( getPluginName( ) );
                 return service;
             }
         }
-        catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+        catch( InstantiationException | IllegalAccessException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }

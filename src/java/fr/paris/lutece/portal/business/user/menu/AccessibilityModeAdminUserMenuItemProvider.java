@@ -37,10 +37,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -64,9 +66,10 @@ public class AccessibilityModeAdminUserMenuItemProvider extends AbstractAdminUse
     public AdminUserMenuItem getItem( HttpServletRequest request )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
+        ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, securityTokenService.getToken( request, TEMPLATE ) );
         model.put( MARK_USER, user );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE, user.getLocale( ), model );

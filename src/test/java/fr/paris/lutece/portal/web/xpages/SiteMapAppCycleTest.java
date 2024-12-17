@@ -51,9 +51,9 @@ import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.util.AppInitPropertiesService;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
@@ -125,7 +125,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
         {
             props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
         }
-        AppPropertiesService.reloadAll( );
+        AppInitPropertiesService.reloadAll( );
     }
 
     private void removePageQuietly( int nPageId )

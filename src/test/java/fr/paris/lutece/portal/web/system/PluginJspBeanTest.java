@@ -48,11 +48,13 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * PluginJspBean Test Class
@@ -66,6 +68,7 @@ public class PluginJspBeanTest extends LuteceTestCase
     private static final String PARAM_DB_POOL_NAME = "db_pool_name";
     private static final String PATH_PLUGIN = "path.plugins";
     private PluginJspBean instance;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -109,7 +112,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.html" ) );
+                _securityTokenService.getToken( request, "admin/system/manage_plugins.html" ) );
         instance.doInstallPlugin( request, request.getServletContext( ) );
         assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
     }
@@ -120,7 +123,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/system/manage_plugins.html" ) + "b" );
         try
         {
             instance.doInstallPlugin( request, request.getServletContext( ) );
@@ -155,7 +158,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( PARAM_DB_POOL_NAME, "junit" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.html" ) );
+                _securityTokenService.getToken( request, "admin/system/manage_plugins.html" ) );
         instance.doModifyPluginPool( request );
         assertEquals( "junit", PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
     }
@@ -167,7 +170,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( PARAM_DB_POOL_NAME, "junit" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/system/manage_plugins.html" ) + "b" );
         try
         {
             instance.doModifyPluginPool( request );
@@ -214,7 +217,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoUninstallPlugin.jsp" ) );
+                _securityTokenService.getToken( request, "jsp/admin/system/DoUninstallPlugin.jsp" ) );
         instance.doUninstallPlugin( request, request.getServletContext( ) );
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
     }
@@ -226,7 +229,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoUninstallPlugin.jsp" ) + "b" );
+                _securityTokenService.getToken( request, "jsp/admin/system/DoUninstallPlugin.jsp" ) + "b" );
         try
         {
             instance.doUninstallPlugin( request, request.getServletContext( ) );

@@ -58,9 +58,9 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.util.AppInitPropertiesService;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -271,7 +271,7 @@ public class SiteMapAppTest extends LuteceTestCase
             OutputStream os = new FileOutputStream( luteceProperties );
             props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
             os.close( );
-            AppPropertiesService.reloadAll( );
+            AppInitPropertiesService.reloadAll( );
             SecurityService.init( );
         }
     }
@@ -293,7 +293,7 @@ public class SiteMapAppTest extends LuteceTestCase
             OutputStream os = new FileOutputStream( luteceProperties );
             props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
             os.close( );
-            AppPropertiesService.reloadAll( );
+            AppInitPropertiesService.reloadAll( );
             SecurityService.init( );
         }
 

@@ -39,7 +39,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.editor.RichTextEditorService;
-import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 
 /**
@@ -71,7 +70,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
      */
     public String doUpdateBackOfficeEditor( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_EDITOR_CHOICE_PANEL ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_EDITOR_CHOICE_PANEL ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -92,7 +91,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
      */
     public String doUpdateFrontOfficeEditor( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_EDITOR_CHOICE_PANEL ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_EDITOR_CHOICE_PANEL ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

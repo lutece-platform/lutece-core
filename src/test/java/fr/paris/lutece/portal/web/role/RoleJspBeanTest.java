@@ -48,18 +48,21 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.inject.Inject;
 
 public class RoleJspBeanTest extends LuteceTestCase
 {
     private static final String PARAMETER_PAGE_ROLE = "role";
     private RoleJspBean bean;
     private Role role;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -128,7 +131,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role_description", name );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" ) );
+                _securityTokenService.getToken( request, "admin/role/create_page_role.html" ) );
 
         assertNull( RoleHome.findByPrimaryKey( name ) );
         try
@@ -154,7 +157,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role_description", name );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/role/create_page_role.html" ) + "b" );
 
         assertNull( RoleHome.findByPrimaryKey( name ) );
         try
@@ -203,7 +206,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" ) );
+                _securityTokenService.getToken( request, "admin/role/modify_page_role.html" ) );
 
         assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         bean.doModifyPageRole( request );
@@ -217,7 +220,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/role/modify_page_role.html" ) + "b" );
 
         assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         try
@@ -254,7 +257,7 @@ public class RoleJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role", role.getRole( ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "DoRemovePageRole.jsp" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "DoRemovePageRole.jsp" ) );
 
         assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         bean.doRemovePageRole( request );
@@ -265,7 +268,7 @@ public class RoleJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role", role.getRole( ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "DoRemovePageRole.jsp" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "DoRemovePageRole.jsp" ) + "b" );
 
         assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         try

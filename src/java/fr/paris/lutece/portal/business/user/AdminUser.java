@@ -371,7 +371,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
     /**
      * Returns user's roles
      * 
-     * @deprecated use getRBACRoles( )
+     * @deprecated use getUserRoles( )
      * @return Returns user's roles
      */
     @Deprecated

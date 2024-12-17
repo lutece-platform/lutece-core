@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.service.event;
 
-import java.util.function.Consumer;
-
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.event.LuteceUserEvent;
@@ -42,6 +40,9 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
 import fr.paris.lutece.portal.service.security.MokeLuteceUser;
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * DatastoreService Test
@@ -60,21 +61,22 @@ public class LuteceUserEventManagerTest extends LuteceTestCase
   
     	MokeLuteceUser user = new MokeLuteceUser( USER_NAME, new MokeLuteceAuthentication( ) );
 
-    	// listener consumer function 
-    	Consumer<LuteceUserEvent> myfuncion = (LuteceUserEvent event) -> {
-    		DatastoreService.setDataValue( KEY1, NEW_VALUE );
-    	};
-
-    	// register listener
-    	LuteceUserEventManager.getInstance( ).register( "mylistener" , myfuncion );
-
-    	// noptify an event
-    	LuteceUserEventManager.getInstance( ).notifyListeners( new LuteceUserEvent( user, LuteceUserEvent.EventType.LOGIN_SUCCESSFUL ) );
+    	// notify an event
+    	CDI.current( ).getBeanManager( ).getEvent( ).fire( new LuteceUserEvent( user, LuteceUserEvent.EventType.LOGIN_SUCCESSFUL ) );
 
     	// check if the datastore value has been changed
     	String strValue = DatastoreService.getDataValue( KEY1, VALUE_DEFAULT );
     	assertEquals( strValue, NEW_VALUE );
 
     	DatastoreService.removeData( KEY1 );
+    }
+    
+    @ApplicationScoped
+    public static class LuteceUserEventObserver {
+    	
+    	public void processLuteceEvent( @Observes LuteceUserEvent event )
+        {
+        	DatastoreService.setDataValue( KEY1, NEW_VALUE );
+        }
     }
 }

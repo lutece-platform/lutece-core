@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Locale;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -286,7 +287,8 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     {
         List<AdminUserField> listUserFields = new ArrayList<>( );
         AdminUserField userField = new AdminUserField( );
-        AttributeService.getInstance( ).setAttributeField( this );
+        AttributeService attributeService = CDI.current( ).select( AttributeService.class ).get( );
+        attributeService.setAttributeField( this );
 
         if ( strValues != null )
         {

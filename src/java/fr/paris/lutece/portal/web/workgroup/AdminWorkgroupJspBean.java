@@ -48,6 +48,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -169,9 +170,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<>( );
 
-        if ( !getUser( ).isAdmin( ) )
+        AdminUser currentUser = getUser( );
+        if ( !currentUser.isAdmin( ) )
         {
-            listFilteredWorkgroups = (List<AdminWorkgroup>) AdminWorkgroupService.getAuthorizedCollection( listFilteredWorkgroups, getUser( ) );
+            listFilteredWorkgroups = (List<AdminWorkgroup>) AdminWorkgroupService.getAuthorizedCollection( listFilteredWorkgroups, ( User ) currentUser );
         }
 
         // SORT
@@ -244,7 +246,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_CREATE_WORKGROUP_PAGETITLE );
 
         Map<String, Object> model = new HashMap<>( 1 );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_WORKGROUP ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_WORKGROUP ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_WORKGROUP, getLocale( ), model );
 
@@ -286,7 +288,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_WORKGROUP ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_WORKGROUP ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -313,7 +315,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         String strUrlRemove = JSP_URL_REMOVE_WORKGROUP;
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_WORKGROUP ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_WORKGROUP ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
@@ -346,7 +348,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_WORKGROUP ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_WORKGROUP ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -378,7 +380,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_WORKGROUP, workgroup );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_WORKGROUP ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_WORKGROUP ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_WORKGROUP, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -402,7 +404,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_WORKGROUP ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_WORKGROUP ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -519,7 +521,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ASSIGN_USERS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_ASSIGN_USERS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale( ), model );
 
@@ -537,7 +539,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      */
     public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -574,7 +576,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      */
     public String doUnAssignUser( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

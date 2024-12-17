@@ -48,6 +48,7 @@ import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.util.AppInitPropertiesService;
 
 public class CryptoServiceTest extends LuteceTestCase
 {
@@ -98,7 +99,7 @@ public class CryptoServiceTest extends LuteceTestCase
         {
             props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
         }
-        AppPropertiesService.reloadAll( );
+        AppInitPropertiesService.reloadAll( );
     }
 
     private void setLegacyKey( final String strLegacyKey ) throws IOException, FileNotFoundException
@@ -114,7 +115,7 @@ public class CryptoServiceTest extends LuteceTestCase
         {
             props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
         }
-        AppPropertiesService.reloadAll( );
+        AppInitPropertiesService.reloadAll( );
     }
     @Test
     public void testHmacSHA256( )

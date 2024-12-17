@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -163,9 +164,9 @@ public final class DaemonEntry
      * @throws IllegalAccessException
      *             If an error occured
      */
-    public void loadDaemon( ) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    public void loadDaemon( ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
     {
-        _daemon = (Daemon) Class.forName( _strClassName ).newInstance( );
+        _daemon = (Daemon) Class.forName( _strClassName ).getDeclaredConstructor().newInstance( );
     }
 
     /**

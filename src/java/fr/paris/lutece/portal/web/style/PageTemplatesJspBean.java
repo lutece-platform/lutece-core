@@ -152,7 +152,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_PAGE_TEMPLATE );
 
         HashMap<String, Object> model = new HashMap<>( );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_PAGE_TEMPLATE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_PAGE_TEMPLATE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_TEMPLATE, getLocale( ), model );
 
@@ -203,7 +203,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION, AdminMessage.TYPE_STOP );
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_CREATE_PAGE_TEMPLATE ) )
+        if ( !getSecurityTokenService( ).validate( multipartRequest, TEMPLATE_CREATE_PAGE_TEMPLATE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -237,7 +237,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_PAGE_TEMPLATE, PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_PAGE_TEMPLATE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_PAGE_TEMPLATE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PAGE_TEMPLATE, getLocale( ), model );
 
@@ -308,7 +308,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_MODIFY_PAGE_TEMPLATE ) )
+        if ( !getSecurityTokenService( ).validate( multipartRequest, TEMPLATE_MODIFY_PAGE_TEMPLATE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -378,7 +378,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, strId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) );
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, args, null, JSP_DO_REMOVE_PAGE_TEMPLATE, null,
                 AdminMessage.TYPE_CONFIRMATION, parameters );
     }
@@ -394,7 +394,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemovePageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

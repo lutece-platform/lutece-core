@@ -47,7 +47,6 @@ import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -111,7 +110,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -165,7 +164,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
             nOldOrder = dashboard.getOrder( );
             nOldColumn = dashboard.getZone( );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
