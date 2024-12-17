@@ -248,7 +248,7 @@ public final class AdminAuthenticationService
      *             If the user is not signed
      * @return The AdminUser
      */
-    private AdminUser bindUser( AdminUser user ) throws AccessDeniedException, UserNotSignedException
+    private <T extends AdminUser> T bindUser(T user) throws AccessDeniedException, UserNotSignedException 
     {
         if ( user == null )
         {
@@ -256,7 +256,7 @@ public final class AdminAuthenticationService
         }
 
         // retrieve the user in local system from the access code
-        AdminUser bindUser = AdminUserHome.findUserByLogin( user.getAccessCode( ) );
+        T bindUser = AdminUserHome.findUserByLogin( user.getAccessCode( ),user );
 
         // only allow a user that is marked active
         if ( ( bindUser == null ) || ( !bindUser.isStatusActive( ) ) )
@@ -273,9 +273,12 @@ public final class AdminAuthenticationService
         // set the workgroups for this user
         bindUser.setUserWorkgroups( AdminWorkgroupHome.getUserWorkgroups( bindUser ).stream( ).map( x -> x.getCode( ) ).collect( Collectors.toList( ) ) );
 
-        return bindUser;
+        return user;
     }
 
+   
+    
+    
     /**
      * Register the user in the Http session
      *
@@ -288,11 +291,14 @@ public final class AdminAuthenticationService
      * @throws UserNotSignedException
      *             If the user is not signed
      */
-    public void registerUser( HttpServletRequest request, AdminUser user ) throws AccessDeniedException, UserNotSignedException
+    public <T extends AdminUser> void registerUser( HttpServletRequest request,  T user ) throws AccessDeniedException, UserNotSignedException
     {
         HttpSession session = request.getSession( true );
         session.setAttribute( ATTRIBUTE_ADMIN_USER, bindUser( user ) );
     }
+    
+    
+    
 
     /**
      * Unregister the user in the Http session

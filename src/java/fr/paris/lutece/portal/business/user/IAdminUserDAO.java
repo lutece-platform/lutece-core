@@ -200,6 +200,16 @@ public interface IAdminUserDAO
      * @return The user found, otherwise null
      */
     AdminUser selectUserByAccessCode( String strUserAccessCode );
+    
+    /**
+     * Get an user by its access code (login)
+     * 
+     * @param strUserAccessCode
+     *            the login
+     * @param user the user to load           
+     * @return The user found, otherwise null
+     */
+    <T extends AdminUser> T selectUserByAccessCode( String strUserAccessCode,T user );
 
     /**
      * Get the user access code from its email.
