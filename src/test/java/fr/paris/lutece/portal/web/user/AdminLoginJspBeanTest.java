@@ -52,6 +52,7 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -70,6 +71,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     private @Inject IPasswordFactory passwordFactory;
     private @Inject IAdminUserDAO adminUserDAO;
     private @Inject AdminLoginJspBean bean;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     public void setUp( ) throws Exception
@@ -97,7 +99,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     {
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/admin_login.html" ) );
         bean.doLogin( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
@@ -105,14 +107,14 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
 
         request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, "admin" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/admin_login.html" ) );
         bean.doLogin( request );
         message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_AUTH_FAILURE, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
 
         request = new MockHttpServletRequest( );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/admin_login.html" ) );
         request.addParameter( Parameters.ACCESS_CODE, "admin" );
         request.addParameter( Parameters.PASSWORD, "adminadmin" );
         bean.doLogin( request );
@@ -142,7 +144,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     {
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/admin_login.html" ) + "b" );
         request.addParameter( Parameters.ACCESS_CODE, "admin" );
         request.addParameter( Parameters.PASSWORD, "adminadmin" );
         try
@@ -160,7 +162,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     {
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/admin_login.html" ) );
         request.addParameter( Parameters.ACCESS_CODE, "lutece" );
         request.addParameter( Parameters.PASSWORD, "adminadmin" );
         bean.doLogin( request );
@@ -173,7 +175,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     {
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/admin_login.html" ) );
         request.addParameter( Parameters.ACCESS_CODE, "redac" );
         request.addParameter( Parameters.PASSWORD, "adminadmin" );
         bean.doLogin( request );
@@ -186,7 +188,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     {
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/admin_login.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/admin_login.html" ) );
         request.addParameter( Parameters.ACCESS_CODE, "valid" );
         request.addParameter( Parameters.PASSWORD, "adminadmin" );
         bean.doLogin( request );

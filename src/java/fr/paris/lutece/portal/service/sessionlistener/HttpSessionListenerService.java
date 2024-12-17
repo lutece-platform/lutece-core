@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.sessionlistener;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,11 +69,11 @@ public final class HttpSessionListenerService
 
         try
         {
-            HttpSessionListener listener = (HttpSessionListener) Class.forName( strListenerClass ).newInstance( );
+            HttpSessionListener listener = (HttpSessionListener) Class.forName( strListenerClass ).getDeclaredConstructor().newInstance( );
             LIST_LISTENERS.add( listener );
             AppLogService.info( "New Listener registered : {}", strListenerClass );
         }
-        catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+        catch( InstantiationException | IllegalAccessException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e )
         {
             AppLogService.error( "Error registering the listener {} : {}", strListenerClass, e.getMessage( ), e );
         }

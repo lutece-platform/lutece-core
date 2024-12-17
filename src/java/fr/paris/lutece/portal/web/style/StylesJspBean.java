@@ -184,7 +184,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_STYLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_STYLE, getLocale( ), model );
 
@@ -235,7 +235,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_COMPONENT_EXISTS, AdminMessage.TYPE_STOP );
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_STYLE ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_STYLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -270,7 +270,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_STYLE, StyleHome.findByPrimaryKey( nStyleId ) );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_STYLE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_STYLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_STYLE, getLocale( ), model );
 
@@ -310,7 +310,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_COMPONENT_EXISTS, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_STYLE ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_STYLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -353,7 +353,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
                 Map<String, Object> parameters = new HashMap<>( );
                 parameters.put( Parameters.STYLESHEET_ID, Integer.toString( styleSheet.getId( ) ) );
                 parameters.put( Parameters.STYLE_ID, Integer.toString( styleSheet.getStyleId( ) ) );
-                parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
+                parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
                 return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null,
                         AdminMessage.TYPE_CONFIRMATION, parameters );
             }
@@ -361,7 +361,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
 
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( Parameters.STYLE_ID, Integer.toString( nId ) );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_STYLE ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, JSP_DO_REMOVE_STYLE, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
@@ -377,7 +377,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemoveStyle( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_STYLE ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_DO_REMOVE_STYLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

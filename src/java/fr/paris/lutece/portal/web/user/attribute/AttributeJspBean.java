@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.user.attribute;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -112,9 +113,9 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         try
         {
-            attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance( );
+            attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).getDeclaredConstructor().newInstance( );
         }
-        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e  )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -131,7 +132,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         HtmlTemplate template;
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE_TYPE, attribute.getAttributeType( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateCreateAttribute( ) ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, attribute.getTemplateCreateAttribute( ) ) );
 
         template = AppTemplateService.getTemplate( attribute.getTemplateCreateAttribute( ), getLocale( ), model );
 
@@ -159,9 +160,9 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
             try
             {
-                attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance( );
+                attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).getDeclaredConstructor().newInstance( );
             }
-            catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
+            catch( IllegalAccessException | InstantiationException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e  )
             {
                 AppLogService.error( e.getMessage( ), e );
             }
@@ -178,7 +179,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
                 {
                     return strError;
                 }
-                if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateCreateAttribute( ) ) )
+                if ( !getSecurityTokenService( ).validate( request, attribute.getTemplateCreateAttribute( ) ) )
                 {
                     throw new AccessDeniedException( ERROR_INVALID_TOKEN );
                 }
@@ -218,7 +219,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             Map<String, Object> model = new HashMap<>( );
             model.put( MARK_ATTRIBUTE, attribute );
             model.put( MARK_ATTRIBUTE_FIELDS_LIST, attribute.getListAttributeFields( ) );
-            model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) );
+            model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) );
 
             template = AppTemplateService.getTemplate( attribute.getTemplateModifyAttribute( ), getLocale( ), model );
 
@@ -257,7 +258,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
                 {
                     return strError;
                 }
-                if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
+                if ( !getSecurityTokenService( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
                 {
                     throw new AccessDeniedException( ERROR_INVALID_TOKEN );
                 }
@@ -287,7 +288,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_ID_ATTRIBUTE, strIdAttribute );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE ) );
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE, JSP_URL_REMOVE_ATTRIBUTE, AdminMessage.TYPE_CONFIRMATION,
                 parameters );
@@ -308,7 +309,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ATTRIBUTE ) )
+            if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_ATTRIBUTE ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -334,7 +335,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+            if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -381,7 +382,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+            if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }

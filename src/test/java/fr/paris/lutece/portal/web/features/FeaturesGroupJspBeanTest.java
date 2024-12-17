@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
@@ -69,6 +70,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     private FeatureGroup featureGroup;
     private Right right;
     private @Inject IRightDAO rightDAO;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     
     @BeforeEach
@@ -114,7 +116,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_name", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( stored.getOrder( ) + 1 ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         instance.doDispatchFeature( request );
         stored = RightHome.findByPrimaryKey( right.getId( ) );
@@ -134,7 +136,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_name", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( stored.getOrder( ) + 1 ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/dispatch_features.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/features/dispatch_features.html" ) + "b" );
 
         try
         {
@@ -217,7 +219,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_description", strGroupName );
         request.addParameter( "group_order", "1" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         try
         {
@@ -244,7 +246,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_description", strGroupName );
         request.addParameter( "group_order", "1" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_group.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/features/create_group.html" ) + "b" );
 
         try
         {
@@ -309,7 +311,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_description", strGroupName );
         request.addParameter( "group_order", Integer.toString( featureGroup.getOrder( ) + 1 ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         instance.doModifyGroup( request );
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
@@ -329,7 +331,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_description", strGroupName );
         request.addParameter( "group_order", Integer.toString( featureGroup.getOrder( ) + 1 ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_group.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/features/modify_group.html" ) + "b" );
 
         try
         {
@@ -401,7 +403,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         instance.doRemoveGroup( request );
         assertNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
@@ -413,7 +415,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/features/DoRemoveGroup.jsp" ) + "b" );
+                _securityTokenService.getToken( request, "jsp/admin/features/DoRemoveGroup.jsp" ) + "b" );
 
         try
         {
@@ -449,7 +451,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( featureGroup.getOrder( ) + 1 ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         instance.doDispatchFeatureGroup( request );
         FeatureGroup stored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
@@ -464,7 +466,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( featureGroup.getOrder( ) + 1 ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/manage_groups.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/features/manage_groups.html" ) + "b" );
 
         try
         {
@@ -513,7 +515,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         instance.doReinitFeatures( request );
         stored = RightHome.findByPrimaryKey( right.getId( ) );
@@ -535,7 +537,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/dispatch_features.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/features/dispatch_features.html" ) + "b" );
 
         try
         {

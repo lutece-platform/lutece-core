@@ -44,8 +44,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 
 /**
  * This Interface defines all methods required for a Lutece user implementation
@@ -226,7 +225,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     public boolean equals( Object object )
     {
         // FIXME : use LuteceUser property instead of object.toString()
-        return ObjectUtils.equals( this.toString( ), ObjectUtils.toString( object ) );
+        return Objects.equals( this, object );
     }
 
     /**

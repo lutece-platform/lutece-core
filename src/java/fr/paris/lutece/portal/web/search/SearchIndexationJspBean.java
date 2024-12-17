@@ -79,7 +79,7 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
         HashMap<String, Object> model = new HashMap<>( );
         Collection<SearchIndexer> listIndexers = IndexationService.getIndexers( );
         model.put( MARK_INDEXERS_LIST, listIndexers );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_INDEXER ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_INDEXER ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_INDEXER, getLocale( ), model );
 
@@ -97,7 +97,7 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
      */
     public String doIndexing( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_INDEXER ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_INDEXER ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

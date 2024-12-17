@@ -42,6 +42,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -112,7 +114,7 @@ public class ProgressManagerServlet extends HttpServlet
             return;
         }
 
-        ProgressManagerService progressManagerService = ProgressManagerService.getInstance( );
+        ProgressManagerService progressManagerService = CDI.current( ).select( ProgressManagerService.class ).get( );
 
         if ( !progressManagerService.isRegistred( strToken ) )
         {

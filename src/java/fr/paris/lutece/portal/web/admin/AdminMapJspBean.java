@@ -33,13 +33,13 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
@@ -153,7 +153,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
     {
         Page page = PageHome.getPage( nPageId );
 
-        AdminUser user = AdminUserService.getAdminUser( request );
+        User user = AdminUserService.getAdminUser( request );
         String strPageId = Integer.toString( nPageId );
 
         boolean bAuthorizationPage;

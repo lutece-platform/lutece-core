@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.role;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
@@ -197,7 +198,7 @@ public final class RoleHome
     public static ReferenceList getRolesList( AdminUser user )
     {
         Collection<Role> listRoles = RoleHome.findAll( );
-        listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, user );
+        listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, ( User ) user );
 
         ReferenceList roleList = new ReferenceList( );
 

@@ -54,14 +54,26 @@ public class DAOUtilTest extends LuteceTestCase
     @Test
     public void testDAOUtil_str( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_INSERT );
-        doTest( daoUtil, false );
+    	try ( DAOUtil daoUtil = new DAOUtil( SQL_INSERT ) )
+    	{
+    		doTest( daoUtil, false );
+    	}       
+        catch( Exception e )
+        {
+            fail( );
+        }
     }
     @Test
     public void testDAOUtil_str_int( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_INSERT, Statement.RETURN_GENERATED_KEYS );
-        doTest( daoUtil, true );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        {
+        	doTest( daoUtil, true );
+        }
+        catch( Exception e )
+        {
+            fail( );
+        }
     }
     @Test
     public void testDAOUtil_str_plugin( )
@@ -70,8 +82,14 @@ public class DAOUtilTest extends LuteceTestCase
         p.setName( "core" ); // DAOUtil.DEFAULT_MODULE_NAME
         p.setConnectionService( AppConnectionService.getDefaultConnectionService( ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_INSERT, p );
-        doTest( daoUtil, false );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_INSERT, p ) )
+        {
+        	doTest( daoUtil, false );
+        }
+        catch( Exception e )
+        {
+            fail( );
+        }
     }
     @Test
     public void testDAOUtil_str_int_plugin( )
@@ -80,8 +98,14 @@ public class DAOUtilTest extends LuteceTestCase
         p.setName( "core" ); // DAOUtil.DEFAULT_MODULE_NAME
         p.setConnectionService( AppConnectionService.getDefaultConnectionService( ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_INSERT, Statement.RETURN_GENERATED_KEYS, p );
-        doTest( daoUtil, true );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_INSERT, Statement.RETURN_GENERATED_KEYS, p ) )
+        {
+        	doTest( daoUtil, true );
+        }
+        catch( Exception e )
+        {
+            fail( );
+        }
     }
 
     private void doTest( DAOUtil daoUtil, boolean hasGeneratedKey )

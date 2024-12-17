@@ -212,7 +212,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             model.put( MARK_WORKGROUP_SELECTED, listWorkgroups.get( 0 ).getCode( ) );
         }
 
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_MAILINGLIST ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_MAILINGLIST ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_MAILINGLIST, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -236,7 +236,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_MAILINGLIST ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_MAILINGLIST ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -285,7 +285,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_MAILINGLIST, mailinglist );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_MAILINGLIST ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_MAILINGLIST ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_MAILINGLIST, getLocale( ), model );
 
@@ -313,7 +313,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -347,7 +347,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strUrlRemove = JSP_URL_REMOVE_MAILINGLIST;
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_MAILINGLIST_ID, strId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_MAILINGLIST ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_MAILINGLIST ) );
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION, parameters );
 
     }
@@ -363,7 +363,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemoveMailingList( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_MAILINGLIST ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_MAILINGLIST ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -437,7 +437,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_ROLES_LIST, listRoles );
         model.put( MARK_MAILINGLIST, mailinglist );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ADD_USERS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_ADD_USERS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADD_USERS, getLocale( ), model );
 
@@ -466,7 +466,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( !AdminMailingListService.checkFilter( filter, nId ) )
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADD_USERS ) )
+            if ( !getSecurityTokenService( ).validate( request, TEMPLATE_ADD_USERS ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -493,7 +493,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      */
     public String doDeleteFilter( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

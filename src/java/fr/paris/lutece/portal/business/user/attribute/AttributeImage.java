@@ -62,6 +62,7 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -306,7 +307,8 @@ public class AttributeImage extends AbstractAttribute
                     userField.setUser( user );
                     userField.setAttribute( this );
 
-                    AttributeService.getInstance( ).setAttributeField( this );
+                    AttributeService attributeService = CDI.current( ).select( AttributeService.class ).get( );
+                    attributeService.setAttributeField( this );
 
                     if ( CollectionUtils.isNotEmpty( getListAttributeFields( ) ) )
                     {

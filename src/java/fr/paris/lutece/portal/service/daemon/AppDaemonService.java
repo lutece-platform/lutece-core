@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -169,7 +170,7 @@ public final class AppDaemonService
         {
             entry.loadDaemon( );
         }
-        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e )
         {
             throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId( ), e );
         }

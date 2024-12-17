@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.user.attribute;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
@@ -69,6 +71,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
     private @Inject AttributeJspBean instance;
     private @Inject AttributeService _attributeService;
     private @Inject AttributeTypeService _attributeTypeService;
+    private @Inject ISecurityTokenService _securityTokenService;
     
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -77,7 +80,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
         {
-            IAttribute attribute = (IAttribute) Class.forName( type.getClassName( ) ).newInstance( );
+            IAttribute attribute = (IAttribute) Class.forName( type.getClassName( ) ).getDeclaredConstructor().newInstance( );
             attribute.setTitle( getRandomName( ) );
             attribute.setHelpMessage( attribute.getTitle( ) );
             List<AttributeField> listAttributeFields = new ArrayList<>( );
@@ -121,7 +124,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
     }
     @Test
     public void testDoCreateAttribute( )
-            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException
     {
         List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
@@ -131,16 +134,16 @@ public class AttributeJspBeanTest extends LuteceTestCase
     }
 
     private void testDoCreateAttribute( AttributeType type )
-            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "attribute_type_class_name", type.getClassName( ) );
         String strTitle = getRandomName( );
         request.setParameter( "title", strTitle );
         request.setParameter( "width", "5" );
-        IAttribute attribute = (IAttribute) Class.forName( type.getClassName( ) ).newInstance( );
+        IAttribute attribute = (IAttribute) Class.forName( type.getClassName( ) ).getDeclaredConstructor().newInstance( );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateCreateAttribute( ) ) );
+                _securityTokenService.getToken( request, attribute.getTemplateCreateAttribute( ) ) );
 
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
@@ -160,7 +163,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
     }
     @Test
     public void testDoCreateAttributeInvalidToken( )
-            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException
     {
         List<AttributeType> types = _attributeTypeService.getAttributeTypes( Locale.FRANCE );
         for ( AttributeType type : types )
@@ -170,16 +173,16 @@ public class AttributeJspBeanTest extends LuteceTestCase
     }
 
     private void testDoCreateAttributeInvalidToken( AttributeType type )
-            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
+            throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "attribute_type_class_name", type.getClassName( ) );
         String strTitle = getRandomName( );
         request.setParameter( "title", strTitle );
         request.setParameter( "width", "5" );
-        IAttribute attribute = (IAttribute) Class.forName( type.getClassName( ) ).newInstance( );
+        IAttribute attribute = (IAttribute) Class.forName( type.getClassName( ) ).getDeclaredConstructor().newInstance( );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateCreateAttribute( ) ) + "b" );
+                _securityTokenService.getToken( request, attribute.getTemplateCreateAttribute( ) ) + "b" );
 
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
@@ -287,7 +290,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         request.setParameter( "width", "5" );
 
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) );
+                _securityTokenService.getToken( request, attribute.getTemplateModifyAttribute( ) ) );
 
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
@@ -321,7 +324,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         request.setParameter( "width", "5" );
 
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) + "b" );
+                _securityTokenService.getToken( request, attribute.getTemplateModifyAttribute( ) ) + "b" );
 
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
@@ -398,7 +401,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         int idAttribute = _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new ).getIdAttribute( );
         request.setParameter( "id_attribute", Integer.toString( idAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/attribute/DoRemoveAttribute.jsp" ) );
+                _securityTokenService.getToken( request, "jsp/admin/user/attribute/DoRemoveAttribute.jsp" ) );
 
         
         instance.doRemoveAttribute( request );
@@ -413,7 +416,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         int idAttribute = _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new ).getIdAttribute( );
         request.setParameter( "id_attribute", Integer.toString( idAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/attribute/DoRemoveAttribute.jsp" ) + "b" );
+                _securityTokenService.getToken( request, "jsp/admin/user/attribute/DoRemoveAttribute.jsp" ) + "b" );
 
         
         try
@@ -462,7 +465,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         instance.doMoveDownAttribute( request );
 
@@ -486,7 +489,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/manage_attributes.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/user/attribute/manage_attributes.html" ) + "b" );
 
         try
         {
@@ -544,7 +547,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         instance.doMoveUpAttribute( request );
 
@@ -568,7 +571,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/manage_attributes.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/user/attribute/manage_attributes.html" ) + "b" );
 
         try
         {

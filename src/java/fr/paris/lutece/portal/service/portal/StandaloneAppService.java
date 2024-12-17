@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
-import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.content.XPageAppService;
@@ -54,8 +53,6 @@ import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
-
-import java.io.File;
 
 import java.util.Collection;
 import java.util.HashMap;

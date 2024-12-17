@@ -35,9 +35,7 @@ package fr.paris.lutece.portal.service.html;
 
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.xml.XmlTransformer;
-import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
@@ -115,33 +113,6 @@ public class XmlTransformerCacheService implements CacheableService<String,Strin
         list.add( MSG_KEYS_NOT_AVAILABLE );
 
         return list;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public int getMaxElements( )
-    {
-        return XmlTransformer.TRANSFORMER_POOL_SIZE * XmlTransformer.MAX_TRANSFORMER_SIZE;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public long getTimeToLive( )
-    {
-        return 0L;
-    }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public long getMemorySize( )
-    {
-        return 0L;
     }
 
     /**

@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
@@ -57,6 +58,7 @@ import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.inject.Inject;
 
 public class SearchJspBeanTest extends LuteceTestCase
 {
@@ -68,6 +70,7 @@ public class SearchJspBeanTest extends LuteceTestCase
     private static final String PARAMETER_TYPE_FILTER = "type_filter";
     private SearchJspBean _bean;
     private ReferenceList _origSearchParameters;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -145,7 +148,7 @@ public class SearchJspBeanTest extends LuteceTestCase
         AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+                _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         _bean.doModifyAdvancedParameters( request );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -226,7 +229,7 @@ public class SearchJspBeanTest extends LuteceTestCase
         AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_advanced_parameters.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/search/manage_advanced_parameters.html" ) + "b" );
 
         try
         {

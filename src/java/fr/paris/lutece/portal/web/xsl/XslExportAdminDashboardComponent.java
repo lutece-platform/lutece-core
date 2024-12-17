@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.xsl;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.xsl.XslExport;
@@ -68,11 +69,11 @@ public class XslExportAdminDashboardComponent extends AdminDashboardComponent
         List<XslExport> listXslExport = XslExportHome.getList( );
 
         model.put( MARK_PERMISSION_CREATE,
-                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, user ) );
+                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, ( User ) user ) );
         model.put( MARK_PERMISSION_MODIFY,
-                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, user ) );
+                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, ( User ) user ) );
         model.put( MARK_PERMISSION_DELETE,
-                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, user ) );
+                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, ( User ) user ) );
 
         model.put( MARK_XSL_EXPORT_LIST, listXslExport );
 

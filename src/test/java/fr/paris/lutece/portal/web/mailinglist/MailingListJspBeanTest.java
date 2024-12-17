@@ -48,15 +48,18 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 public class MailingListJspBeanTest extends LuteceTestCase
 {
     private MailingList mailingList;
     private MailingListJspBean bean;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -97,7 +100,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/add_users.html" ) );
+                _securityTokenService.getToken( request, "admin/mailinglist/add_users.html" ) );
 
         MailingListUsersFilter filter = new MailingListUsersFilter( );
         filter.setRole( AdminMailingListService.ALL_ROLES );
@@ -116,7 +119,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/add_users.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/mailinglist/add_users.html" ) + "b" );
 
         MailingListUsersFilter filter = new MailingListUsersFilter( );
         filter.setRole( AdminMailingListService.ALL_ROLES );
@@ -163,7 +166,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( "description", name );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/create_mailinglist.html" ) );
+                _securityTokenService.getToken( request, "admin/mailinglist/create_mailinglist.html" ) );
 
         MailingListHome.findAll( ).forEach( mailingList -> {
             assertFalse( name.equals( mailingList.getName( ) ) );
@@ -193,7 +196,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( "description", name );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/create_mailinglist.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/mailinglist/create_mailinglist.html" ) + "b" );
 
         MailingListHome.findAll( ).forEach( mailingList -> {
             assertFalse( name.equals( mailingList.getName( ) ) );
@@ -265,7 +268,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/modify_mailinglist.html" ) );
+                _securityTokenService.getToken( request, "admin/mailinglist/modify_mailinglist.html" ) );
 
         assertEquals( 1, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
         bean.doDeleteFilter( request );
@@ -286,7 +289,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         request.setParameter( "role", AdminMailingListService.ALL_ROLES );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/modify_mailinglist.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/mailinglist/modify_mailinglist.html" ) + "b" );
 
         assertEquals( 1, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
         try
@@ -334,7 +337,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         request.setParameter( "description", mailingList.getDescription( ) + "_mod" );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/modify_mailinglist.html" ) );
+                _securityTokenService.getToken( request, "admin/mailinglist/modify_mailinglist.html" ) );
 
         MailingList storedMailling = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
         assertEquals( mailingList.getName( ), storedMailling.getName( ) );
@@ -355,7 +358,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         request.setParameter( "description", mailingList.getDescription( ) + "_mod" );
         request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/modify_mailinglist.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/mailinglist/modify_mailinglist.html" ) + "b" );
 
         MailingList storedMailling = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
         assertEquals( mailingList.getName( ), storedMailling.getName( ) );
@@ -415,7 +418,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/mailinglist/DoRemoveMailingList.jsp" ) );
+                _securityTokenService.getToken( request, "jsp/admin/mailinglist/DoRemoveMailingList.jsp" ) );
 
         assertNotNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
         bean.doRemoveMailingList( request );
@@ -427,7 +430,7 @@ public class MailingListJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/mailinglist/DoRemoveMailingList.jsp" ) + "b" );
+                _securityTokenService.getToken( request, "jsp/admin/mailinglist/DoRemoveMailingList.jsp" ) + "b" );
 
         assertNotNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
         try

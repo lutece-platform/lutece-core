@@ -40,10 +40,12 @@ import org.junit.jupiter.api.Test;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * SystemJspBean Test Class
@@ -58,6 +60,7 @@ public class SystemJspBeanTest extends LuteceTestCase
     private static final String PARAMETER_FILE_VALUE = "config.properties";
     private MockHttpServletRequest request;
     private SystemJspBean instance;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -115,7 +118,7 @@ public class SystemJspBeanTest extends LuteceTestCase
         final String origValue = DatastoreService.getDataValue( property, "" );
         request.setParameter( property, origValue + "_mod" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/modify_properties.html" ) );
+                _securityTokenService.getToken( request, "admin/system/modify_properties.html" ) );
 
         try
         {
@@ -134,7 +137,7 @@ public class SystemJspBeanTest extends LuteceTestCase
         final String origValue = DatastoreService.getDataValue( property, "" );
         request.setParameter( property, origValue + "_mod" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/modify_properties.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/system/modify_properties.html" ) + "b" );
 
         try
         {

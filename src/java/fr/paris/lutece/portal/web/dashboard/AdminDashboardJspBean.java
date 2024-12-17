@@ -152,7 +152,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_MAP_AVAILABLE_ORDERS, getMapAvailableOrders( ) );
         model.put( MARK_LIST_AVAILABLE_COLUMNS, getListAvailableColumns( ) );
         model.put( MARK_MAP_COLUMN_ORDER_STATUS, _adminDashboardService.getOrderedColumnsStatus( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale( ), model );
 
@@ -189,7 +189,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -243,7 +243,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
             nOldOrder = dashboard.getOrder( );
             nOldColumn = dashboard.getZone( );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

@@ -56,6 +56,7 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -79,6 +80,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     private @Inject IPasswordFactory passwordFactory;
     private @Inject IAdminUserDAO adminUserDAO;
     private @Inject AdminMenuJspBean instance;
+    private @Inject ISecurityTokenService _securityTokenService;
     
     AdminUser _user = new AdminUser( );
 
@@ -126,7 +128,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) );
+                _securityTokenService.getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) );
 
         getUser( request );
         AdminUserUtils.registerAdminUser( request, _user );
@@ -144,7 +146,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) + "b" );
+                _securityTokenService.getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) + "b" );
 
         getUser( request );
         AdminUserUtils.registerAdminUser( request, _user );
@@ -314,7 +316,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
             request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                    SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) );
+                    _securityTokenService.getToken( request, "admin/user/modify_password_default_module.html" ) );
             instance.doModifyDefaultAdminUserPassword( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -352,7 +354,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
         request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/user/modify_password_default_module.html" ) + "b" );
         try
         {
             instance.doModifyDefaultAdminUserPassword( request );
@@ -405,7 +407,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) );
+                _securityTokenService.getToken( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) );
 
         getUser( request );
         AdminUserUtils.registerAdminUser( request, _user );
@@ -427,7 +429,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) + "b" );
+                _securityTokenService.getToken( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) + "b" );
 
         getUser( request );
         AdminUserUtils.registerAdminUser( request, _user );

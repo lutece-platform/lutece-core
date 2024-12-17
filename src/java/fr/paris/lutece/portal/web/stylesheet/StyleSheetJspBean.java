@@ -213,7 +213,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_MODE_ID, strModeId );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLESHEET ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_STYLESHEET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_STYLESHEET, getLocale( ), model );
 
@@ -239,7 +239,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         {
             return strErrorUrl;
         }
-        if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_CREATE_STYLESHEET ) )
+        if ( !getSecurityTokenService( ).validate( multipartRequest, TEMPLATE_CREATE_STYLESHEET ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -326,7 +326,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_STYLESHEET, StyleSheetHome.findByPrimaryKey( nId ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_STYLESHEET ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_STYLESHEET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_STYLESHEET, getLocale( ), model );
 
@@ -381,7 +381,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         {
             return strErrorUrl;
         }
-        if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_MODIFY_STYLESHEET ) )
+        if ( !getSecurityTokenService( ).validate( multipartRequest, TEMPLATE_MODIFY_STYLESHEET ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -418,7 +418,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.STYLESHEET_ID, strId );
         parameters.put( Parameters.STYLE_ID, stylesheet.getStyleId( ) );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null,
                 AdminMessage.TYPE_CONFIRMATION, parameters );
     }
@@ -434,7 +434,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemoveStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_STYLESHEET ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_DO_REMOVE_STYLESHEET ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

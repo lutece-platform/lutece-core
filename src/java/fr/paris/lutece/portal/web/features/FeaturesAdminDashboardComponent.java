@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
@@ -50,6 +51,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -79,13 +82,15 @@ public class FeaturesAdminDashboardComponent extends AdminDashboardComponent
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
         List<FeatureGroup> listGroups = FeatureGroupHome.getFeatureGroupsList( );
+        ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
+
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_FEATURE_NO_GROUP, getNoGroup( user.getLocale( ) ) );
         model.put( MARK_FEATURE_GROUP_LIST, getRefListFeatureGroups( user.getLocale( ) ) );
         model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_GROUPS_LIST, listGroups );
         model.put( MARK_EXTERNAL_FEATURES_LIST, RightHome.getExternalRightList( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FEATURES_ADMINDASHBOARD, user.getLocale( ), model );
 

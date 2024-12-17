@@ -54,6 +54,7 @@ import fr.paris.lutece.util.http.SecurityUtil;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -114,7 +115,7 @@ public class XPageAppService extends ContentService
             else
             {
                 // check that the class can be found
-                Object instance = Class.forName( entry.getClassName( ) ).newInstance( );
+                Object instance = Class.forName( entry.getClassName( ) ).getDeclaredConstructor().newInstance( );
 
                 SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
                 securityTokenHandler.registerDisabledActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( instance.getClass( ) ) );
@@ -123,7 +124,7 @@ public class XPageAppService extends ContentService
             _mapApplications.put( entry.getId( ), entry );
             AppLogService.info( "New XPage application registered : {} {}", entry::getId, ( ) -> ( entry.isEnabled( ) ? "" : " (disabled)" ) );
         }
-        catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e  )
         {
             throw new LuteceInitException( ERROR_INSTANTIATION + entry.getId( ) + " - " + e.getCause( ), e );
         }
@@ -321,7 +322,7 @@ public class XPageAppService extends ContentService
             }
             else
             {
-                application = (XPageApplication) Class.forName( entry.getClassName( ) ).newInstance( );
+                application = (XPageApplication) Class.forName( entry.getClassName( ) ).getDeclaredConstructor().newInstance( );
             }
         }
         catch( Exception e )

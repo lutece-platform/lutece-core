@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -99,7 +100,8 @@ public abstract class SimpleAdminUserFieldListener implements AdminUserFieldList
     @Override
     public void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {
-        List<IAttribute> listAttributes = AttributeService.getInstance( ).getPluginAttributesWithoutFields( getPlugin( ).getName( ), locale );
+    	AttributeService attributeService = CDI.current( ).select( AttributeService.class ).get( );    	
+        List<IAttribute> listAttributes = attributeService.getPluginAttributesWithoutFields( getPlugin( ).getName( ), locale );
         List<AdminUserField> listUserFields = new ArrayList<>( );
 
         for ( IAttribute attribute : listAttributes )
@@ -129,7 +131,8 @@ public abstract class SimpleAdminUserFieldListener implements AdminUserFieldList
     @Override
     public void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser )
     {
-        List<IAttribute> listAttributes = AttributeService.getInstance( ).getPluginAttributesWithoutFields( getPlugin( ).getName( ), locale );
+    	AttributeService attributeService = CDI.current( ).select( AttributeService.class ).get( );
+        List<IAttribute> listAttributes = attributeService.getPluginAttributesWithoutFields( getPlugin( ).getName( ), locale );
         List<AdminUserField> listUserFields = new ArrayList<>( );
 
         for ( IAttribute attribute : listAttributes )

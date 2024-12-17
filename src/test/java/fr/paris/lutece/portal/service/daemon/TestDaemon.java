@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
@@ -134,7 +135,7 @@ public final class TestDaemon extends Daemon
      * @param name daemon id
      * @return a new entry
      */
-    static DaemonEntry makeDaemonEntry(String name) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    static DaemonEntry makeDaemonEntry(String name) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
     {
         DaemonEntry entry = new DaemonEntry();
         entry.setId(name);

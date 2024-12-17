@@ -49,7 +49,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.AccessLogService;
 import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
-import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppHTTPSService;
@@ -172,6 +172,9 @@ public class AdminLoginJspBean implements Serializable
     @Inject
     private transient AccessLogService _accessLogService;
     
+    @Inject
+    private transient ISecurityTokenService _securityTokenService;
+    
     /**
      * Returns the view of login form
      *
@@ -235,7 +238,7 @@ public class AdminLoginJspBean implements Serializable
         model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getLostPasswordPageUrl( ) );
         model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance( ).getLostLoginPageUrl( ) );
         model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString( ) );
-        model.put( MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ADMIN_LOGIN ) );
+        model.put( MARK_TOKEN, _securityTokenService.getToken( request, TEMPLATE_ADMIN_LOGIN ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_LOGIN, locale, model );
 
@@ -403,7 +406,7 @@ public class AdminLoginJspBean implements Serializable
         {
             return JSP_URL_ADMIN_LOGIN;
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADMIN_LOGIN ) )
+        if ( !_securityTokenService.validate( request, TEMPLATE_ADMIN_LOGIN ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

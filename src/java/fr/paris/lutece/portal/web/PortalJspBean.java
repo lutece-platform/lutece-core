@@ -557,6 +557,8 @@ public class PortalJspBean
 
         if ( ( strSend != null ) && ( strError == null ) )
         {
+        	EditorBbcodeService editorBbcodeService = CDI.current( ).select( EditorBbcodeService.class ).get( );
+
             Map<String, Object> mailModel = new HashMap<>( );
             mailModel.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
             mailModel.put( MARK_RESOURCE, resource );
@@ -564,7 +566,7 @@ public class PortalJspBean
             mailModel.put( PARAMETER_SENDER_NAME, strSenderName );
             mailModel.put( PARAMETER_SENDER_FIRST_NAME, strSenderFirstName );
             mailModel.put( Parameters.EMAIL, strReceipientEmail );
-            mailModel.put( PARAMETER_CONTENT, EditorBbcodeService.getInstance( ).parse( strContent ) );
+            mailModel.put( PARAMETER_CONTENT, editorBbcodeService.parse( strContent ) );
             mailModel.put( MARK_RESOURCE_URL, resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType ) );
 
             HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EMAIL_SEND_RESOURCE, request.getLocale( ), mailModel );

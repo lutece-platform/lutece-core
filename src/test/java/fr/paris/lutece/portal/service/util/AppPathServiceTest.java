@@ -33,11 +33,12 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.ReferenceList;
@@ -85,20 +86,20 @@ public class AppPathServiceTest extends LuteceTestCase
      * Test of getResourceAsStream method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
     @Test
-    public void testGetResourceAsStream( ) throws IOException
+    public void testGetResourceAsStream( ) throws IOException, ResourceNotFoundException
     {
         System.out.println( "getResourceAsStream" );
 
         String strPath = FRAGMENT_END_PATH_CONF;
         String strFilename = "lutece.properties";
 
-        FileInputStream fis = AppPathService.getResourceAsStream( strPath, strFilename );
-        assertNotNull( fis );
+        InputStream is = AppPathService.getResourceStream( strPath, strFilename );
+        assertNotNull( is );
 
         // Don't forget to close the file input stream
-        if ( fis != null )
+        if ( is != null )
         {
-            fis.close( );
+            is.close( );
         }
     }
 

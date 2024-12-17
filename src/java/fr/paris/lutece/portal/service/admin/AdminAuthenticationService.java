@@ -193,7 +193,8 @@ public final class AdminAuthenticationService
     {
         AdminUser user = _authentication.login( strAccessCode, strPassword, request );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_ADMINUSER, user, null, CONSTANT_BO );
+        AccessLogService accessLogService = CDI.current( ).select( AccessLogService.class ).get( );
+        accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_ADMINUSER, user, null, CONSTANT_BO );
 
         try
         {
@@ -229,7 +230,8 @@ public final class AdminAuthenticationService
         _authentication.logout( user );
         unregisterUser( request );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_ADMINUSER, user, null, CONSTANT_BO );
+        AccessLogService accessLogService = CDI.current( ).select( AccessLogService.class ).get( );
+        accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGOUT_ADMINUSER, user, null, CONSTANT_BO );
 
     }
 

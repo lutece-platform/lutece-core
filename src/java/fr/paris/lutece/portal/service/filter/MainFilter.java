@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.filter;
 
 import java.io.IOException;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -71,7 +72,8 @@ public class MainFilter implements Filter
         HttpServletResponse response = (HttpServletResponse) responseServlet;
         LuteceFilterChain chainPluginsFilters = new LuteceFilterChain( );
 
-        for ( LuteceFilter filter : FilterService.getInstance( ).getFilters( ) )
+        FilterService filterService = CDI.current( ).select( FilterService.class ).get( );
+        for ( LuteceFilter filter : filterService.getFilters( ) )
         {
             AppLogService.debug( "PluginFilter : {} - url pattern : {}", filter.getName( ), filter.getMappingUrlPattern( ) );
 
@@ -113,7 +115,8 @@ public class MainFilter implements Filter
      */
     public void destroy( )
     {
-        for ( LuteceFilter filter : FilterService.getInstance( ).getFilters( ) )
+    	FilterService filterService = CDI.current( ).select( FilterService.class ).get( );
+        for ( LuteceFilter filter : filterService.getFilters( ) )
         {
             // Catch exception for each filter to execute all chain
             try

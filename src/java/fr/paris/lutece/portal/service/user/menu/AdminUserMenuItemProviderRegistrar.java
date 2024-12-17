@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.user.menu;
 
 
 
+import java.lang.reflect.InvocationTargetException;
+
 import fr.paris.lutece.portal.business.user.menu.IAdminUserMenuItemProvider;
 
 /**
@@ -89,10 +91,10 @@ public class AdminUserMenuItemProviderRegistrar
      * @throws ClassNotFoundException
      *             if the class cannot be found
      */
-    public void setClassName( String strClassName ) throws InstantiationException, IllegalAccessException, ClassNotFoundException
+    public void setClassName( String strClassName ) throws InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException
     {
         assertItemProviderNotSet( );
-        _provider = (IAdminUserMenuItemProvider) Class.forName( strClassName ).newInstance( );
+        _provider = (IAdminUserMenuItemProvider) Class.forName( strClassName ).getDeclaredConstructor().newInstance( );
     }
 
     /**
