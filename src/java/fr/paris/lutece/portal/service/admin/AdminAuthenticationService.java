@@ -484,4 +484,14 @@ public final class AdminAuthenticationService
 
         return strNextUrl;
     }
+    
+    /**
+     * 
+     * @return the name of the authentication module load
+     */
+	public String getAuthServiceName() 
+	{
+		return _authentication.getAuthServiceName();
+	}
+    
 }
