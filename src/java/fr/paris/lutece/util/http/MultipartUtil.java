@@ -34,10 +34,13 @@
 package fr.paris.lutece.util.http;
 
 import fr.paris.lutece.portal.service.html.EncodingService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.upload.NormalizeFileItem;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -70,7 +73,7 @@ public final class MultipartUtil
 
     /**
      * Check if the given HTTP request has multipart content
-     * 
+     *
      * @param request
      *            the HTTP request
      * @return true if it has multipart content, false otherwise
@@ -82,7 +85,7 @@ public final class MultipartUtil
 
     /**
      * Convert a HTTP request to a {@link MultipartHttpServletRequest}
-     * 
+     *
      * @param nSizeThreshold
      *            the size threshold
      * @param nRequestSizeMax
@@ -123,7 +126,16 @@ public final class MultipartUtil
         Map<String, List<FileItem>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
 
-        List<FileItem> listItems = upload.parseRequest( request );
+        List<FileItem> listItems;
+
+        try {
+            listItems = upload.parseRequest(request);
+        }
+        catch( SizeLimitExceededException e )
+        {
+            closeInputStream( upload, request );
+            throw e;
+        }
 
         // Process the uploaded items
         for ( FileItem item : listItems )
@@ -132,6 +144,30 @@ public final class MultipartUtil
         }
 
         return new MultipartHttpServletRequest( request, mapFiles, mapParameters );
+    }
+
+    /**
+     * Close the inputStream of the request
+     * @param upload
+     * @param request
+     */
+    private static void closeInputStream( ServletFileUpload upload, HttpServletRequest request)
+    {
+        try {
+            upload.setSizeMax(-1);
+            FileItemIterator fileiterator = upload.getItemIterator(request);
+
+            while (fileiterator.hasNext()) 
+            {
+                FileItemStream item = fileiterator.next();
+                item.openStream().close();
+            }
+        }
+        catch (Exception e)
+        {
+            AppLogService.error( "error occured during closing the stream" , e);
+        }
+
     }
 
     private static void processItem( FileItem item, String strEncoding, boolean bActivateNormalizeFileName, Map<String, List<FileItem>> mapFiles,
