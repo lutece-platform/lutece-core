@@ -73,6 +73,20 @@ public final class AdminUserHome
     {
         return _dao.selectUserByAccessCode( strUserLogin );
     }
+    
+    /**
+     * Get the user infos from the access code.
+     * 
+     * @param strUserLogin
+     *            the login
+     * @param   user the user to load          
+     * @return user info
+     */
+    public static <T extends AdminUser> T findUserByLogin( String strUserLogin,T user )
+    {
+        return _dao.selectUserByAccessCode( strUserLogin ,user);
+    }
+    
 
     /**
      * Get the user access code from its email.
