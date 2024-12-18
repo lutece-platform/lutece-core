@@ -125,10 +125,7 @@ public class ScannotationDB implements IAnnotationDB
         {
             try
             {
-                if ( AppLogService.isDebugEnabled( ) )
-                {
-                    AppLogService.debug( "Scanning " + strJar );
-                }
+                AppLogService.debug( "Scanning {}", strJar );
 
                 _db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath( ) + CONSTANT_WEB_INF_LIB + strJar ) );
             }

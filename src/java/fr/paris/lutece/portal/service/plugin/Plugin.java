@@ -64,6 +64,7 @@ import fr.paris.lutece.portal.service.servlet.ServletEntry;
 import fr.paris.lutece.portal.service.servlet.ServletService;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
@@ -285,6 +286,7 @@ public abstract class Plugin implements Comparable<Plugin>
         update( );
 
         notifyListeners( PluginEvent.PLUGIN_POOL_CHANGED );
+        AppLogService.debug( "Database connection pool associated to plugin {} has been switched to {}", _strName, _strDbPoolName );
     }
 
     /**
@@ -572,16 +574,22 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public void install( )
     {
+    	AppLogService.debug( "Installing plugin {} ...", ( ) -> this.getName( ) );
         // Register a new right for the plugin
+    	AppLogService.debug( "Registering rights for {} plugin...", ( ) -> this.getName( ) );
         registerRights( );
+        AppLogService.debug( "Rights for {} plugin registration completed", ( ) -> this.getName( ) );
 
         // Register a new portlets as plugin
+        AppLogService.debug( "Registering portlets for {} plugin...", ( ) -> this.getName( ) );
         registerPortlets( );
+        AppLogService.debug( "Portlets registration for {} plugin completed", ( ) -> this.getName( ) );
 
         _bIsInstalled = true;
         update( );
-
-        notifyListeners( PluginEvent.PLUGIN_INSTALLED );
+        AppLogService.debug( "Plugin {} installed", ( ) -> this.getName( ) );
+        
+        notifyListeners( PluginEvent.PLUGIN_INSTALLED );       
     }
 
     /**
@@ -589,15 +597,21 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public void uninstall( )
     {
+    	AppLogService.debug( "Uninstalling plugin {}...", ( ) -> this.getName() );
         // Unregister a new right for the plugin
+    	AppLogService.debug( "Unregistering rights for {} plugin...", ( ) -> this.getName( ) );
         unregisterRights( );
+        AppLogService.debug( "Rights for {} plugin unregistration completed", ( ) -> this.getName( ) );
 
         // Unregister a new portlets as plugin
+        AppLogService.debug( "Unregistering portlets for {} plugin...", ( ) -> this.getName( ) );
         unregisterPortlets( );
+        AppLogService.debug( "Portlets unregistration for {} plugin completed", ( ) -> this.getName( ) );
         _bIsInstalled = false;
         update( );
-
-        notifyListeners( PluginEvent.PLUGIN_UNINSTALLED );
+        AppLogService.debug( "Plugin {} uninstalled", ( ) -> this.getName( ) );
+        
+        notifyListeners( PluginEvent.PLUGIN_UNINSTALLED );      
     }
 
     /**

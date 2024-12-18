@@ -269,6 +269,7 @@ public final class AppDaemonService
         {
             entry.setInterval( Long.valueOf( strDaemonInterval ) );
             DatastoreService.setInstanceDataValue( getIntervalKey( entry.getId( ) ), strDaemonInterval );
+            AppLogService.debug( "Interval set to {} seconds for daemon {} ", strDaemonInterval, strDaemonKey );
         }
     }
 

@@ -125,7 +125,7 @@ public class LuteceConnectionService implements ConnectionService
 
         if ( user == null )
         {
-            _logger.error( "No user specified for the pool {}", getPoolName( ) );
+            _logger.error( "No user specified for the pool {}", ( ) -> getPoolName( ) );
         }
         else
         {
@@ -136,7 +136,7 @@ public class LuteceConnectionService implements ConnectionService
 
         if ( password == null )
         {
-            _logger.error( "No password specified for the pool " + getPoolName( ) );
+            _logger.error( "No password specified for the pool {}", ( ) -> getPoolName( ) );
         }
         else
         {

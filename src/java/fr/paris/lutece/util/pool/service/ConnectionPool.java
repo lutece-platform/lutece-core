@@ -313,7 +313,9 @@ public class ConnectionPool implements DataSource
 
         // wrap connection so this connection pool is used when conn.close() is called
         conn = LuteceConnectionFactory.newInstance( this, conn );
-        _logger.info( "New connection created. Connections count is : " + ( getConnectionCount( ) + 1 ) );
+        _logger.info( "New connection created. Connections count is : {}", ( ) ->  ( getConnectionCount( ) + 1 ) );
+
+        
         return conn;
     }
 

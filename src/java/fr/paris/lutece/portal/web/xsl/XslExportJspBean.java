@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.xsl.XslExportResourceIdService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
@@ -529,6 +530,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         catch( Exception e )
         {
             strError = e.getMessage( );
+            AppLogService.debug( e.getMessage( ), e );
         }
 
         return strError;

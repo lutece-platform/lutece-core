@@ -37,6 +37,8 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+
 /**
  * The Class DefaultUserParameterHome.
  */
@@ -73,5 +75,6 @@ public final class DefaultUserParameterHome
     public static void update( String strParameterKey, String strParameterValue )
     {
         DatastoreService.setDataValue( strParameterKey, strParameterValue );
+        AppLogService.debug( "Default user parameter {} set to {}", strParameterKey, strParameterValue );
     }
 }

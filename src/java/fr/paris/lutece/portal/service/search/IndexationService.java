@@ -131,7 +131,7 @@ public final class IndexationService
             _analyzer = (Analyzer) Class.forName( strAnalyserClassName ).newInstance( );
         }
         catch( Exception e )
-        {
+        {       	
             throw new LuteceInitException( "Failed to load Lucene Analyzer class", e );
         }
     }
@@ -147,7 +147,7 @@ public final class IndexationService
         if ( indexer != null )
         {
             _mapIndexers.put( indexer.getName( ), indexer );
-            AppLogService.info( "New search indexer registered : " + indexer.getName( ) );
+            AppLogService.info( "New search indexer registered : {}", ( ) -> indexer.getName( ) );
         }
     }
 
@@ -163,11 +163,11 @@ public final class IndexationService
         {
             if ( _mapIndexers.remove( indexer.getName( ), indexer ) )
             {
-                AppLogService.info( "Search indexer unregistered : " + indexer.getName( ) );
+                AppLogService.info( "Search indexer unregistered : {}", ( ) -> indexer.getName( ) );
             }
             else
             {
-                AppLogService.error( "Search indexer " + indexer.getName( ) + " could not be be unregistered" );
+                AppLogService.error( "Search indexer {} could not be be unregistered", ( ) -> indexer.getName( ) );
             }
         }
     }
@@ -528,7 +528,7 @@ public final class IndexationService
         _sbLogs.append( "</div>\r\n" );
         _sbLogs.append( "<pre>" );
 
-        AppLogService.error( "Indexing error : " + e.getMessage( ), e );
+        AppLogService.error( "Indexing error : {}", e.getMessage( ), e );
     }
 
     /**

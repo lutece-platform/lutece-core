@@ -35,6 +35,9 @@ package fr.paris.lutece.portal.service.cache;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import jakarta.enterprise.inject.spi.CDI;
 
@@ -42,12 +45,17 @@ import jakarta.enterprise.inject.spi.CDI;
  * Provides cache management services for cacheable components.
  */
 public class CacheService
-{
+{	
     private static final String PROPERTY_IS_ENABLED = ".enabled";
     private static final String ENABLED = "1";
     private static final String DISABLED = "0";
+    
+    private static final String LABEL_ENABLED = "enabled";
+    private static final String LABEL_DISABLED = "disabled";
 
     private static ManageCacheService manageCacheService = CDI.current().select(ManageCacheService.class).get();
+    
+    private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
 
     /**
      * Resets all caches managed by the service.
@@ -55,6 +63,7 @@ public class CacheService
     public static void resetCaches()
     {
         manageCacheService.resetCaches();
+        logger.debug( "All caches have been reset" );
     }
 
     /**
@@ -64,6 +73,7 @@ public class CacheService
     public static void shutdown()
     {
         CDI.current().getBeanManager().getEvent().fire(new ShutDownEvent());
+        logger.debug( "Cache service shut down" );
     }
 
     /**
@@ -74,6 +84,7 @@ public class CacheService
     public static void registerCacheableService(CacheableService<?, ?> cs)
     {
         manageCacheService.registerCacheableService(cs);
+        logger.debug( "Cacheable service {} registered", ( ) -> cs.getName() );
     }
 
     /**
@@ -119,6 +130,7 @@ public class CacheService
     {
         String strKey = CacheConfigUtil.getDSKey(cs.getName(), PROPERTY_IS_ENABLED);
         DatastoreService.setInstanceDataValue(strKey, (cs.isCacheEnable() ? ENABLED : DISABLED));
+        logger.debug( "Cache {} {}",  ( ) -> cs.getName( ),  ( ) -> ( cs.isCacheEnable( ) ? LABEL_ENABLED : LABEL_DISABLED ) );
     }
 
     /**

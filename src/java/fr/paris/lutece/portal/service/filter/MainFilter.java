@@ -65,12 +65,12 @@ public class MainFilter implements Filter
      */
     public void doFilter( ServletRequest requestServlet, ServletResponse responseServlet, FilterChain chain ) throws IOException, ServletException
     {
-        AppLogService.debug( "MainFilter : doFilter()" );
-
         HttpServletRequest request = (HttpServletRequest) requestServlet;
-        HttpServletResponse response = (HttpServletResponse) responseServlet;
-        LuteceFilterChain chainPluginsFilters = new LuteceFilterChain( );
+        HttpServletResponse response = (HttpServletResponse) responseServlet; 
+        LuteceFilterChain chainPluginsFilters = new LuteceFilterChain( ); 
 
+        AppLogService.debug("MainFilter : doFilter() - requested URI =  {}", ( ) -> ( ( HttpServletRequest ) requestServlet ).getRequestURI( ) );
+        
         for ( LuteceFilter filter : FilterService.getInstance( ).getFilters( ) )
         {
             AppLogService.debug( "PluginFilter : {} - url pattern : {}", filter.getName( ), filter.getMappingUrlPattern( ) );

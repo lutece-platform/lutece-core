@@ -285,18 +285,24 @@ public class WorkflowService
         if ( isAvailable( ) && canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, bIsAutomatic, user ) )
         {
             TransactionManager.beginTransaction( null );
+            AppLogService.debug( "Transaction started for action with id = {}", nIdAction );
 
             try
             {
                 String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request, user );     
+                AppLogService.debug( "Starting new action process : action id = {} - resource id = {}", nIdAction, nIdResource );
                 _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, bIsAutomatic, strUserAccessCode, user );
+                AppLogService.debug( "Process ended for action id = {}", nIdAction );
+                
                 TransactionManager.commitTransaction( null );
+                AppLogService.debug( "Transaction committed for action with id = {}", nIdAction );
 
                 registerResourceEvent( nIdResource, strResourceType );
             }
             catch( Exception e )
             {
                 TransactionManager.rollBack( null );
+                AppLogService.error( "Transaction rollbacked for action with id = {}", nIdAction );
                 throw new AppException( e.getMessage( ), e );
             }
         }
