@@ -58,8 +58,8 @@
 								<strong>${controled_resource.resourceTypeLabel}
 									(${controled_resource.resourceTypeKey})</strong></#if>
 						</@td>
-						<@td>${controled_resource.resourceIdLabel} (${controled_resource.resourceId})</@td>
-						<@td>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</@td>
+						<@td><#if controled_resource.resourceId??>${controled_resource.resourceIdLabel} (${controled_resource.resourceId})</#if></@td>
+						<@td><#if controled_resource.permissionKey??>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</#if></@td>
 						<@td>
 							<@tform method='post' action='jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp'>
 								<@input type='hidden' name='rbac_id' value='${controled_resource.RBACId}' />
