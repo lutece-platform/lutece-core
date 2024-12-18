@@ -1,0 +1,127 @@
+<#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
+<script src="themes/admin/shared/js/editors/tinymce6/tinymce.min.js"></script>
+<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext' config={}>
+<#assign editorLocale='' />
+<#local toolbar='' />
+<#local userConf='' />
+<#if config?has_content><#local userConf><#list config as prop, value >${prop}: <#if value?is_string>'${value}'<#else>${value}</#if><#sep>,</#sep></#list></#local></#if>
+<#-- We only have the language pack for French (France) installed in webapp/js/editors/tinymce/langs -->
+<#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->
+<#-- Force it here because if it is a wrong value, tinyMCE does not load -->
+<#if locale?? && (2 <= locale?string?length) && (locale?string?substring(0,2) == "fr")>	<#assign editorLocale="fr_FR" /></#if>
+<#if cssFiles==""><#assign cssFiles="editor.css, page_template_styles.css" /></#if>
+<script src="themes/admin/shared/js/editors/tinymce6/langs/${editorLocale}.js"></script>
+<script>
+let autorizedInsertService = [${insert!}], luteceInsertServices=[];
+const request = new XMLHttpRequest();
+request.open( "GET", "jsp/admin/insert/GetAvailableInsertServicesData.jsp?input=tinymce&selected_text=&mode=2", false ); 
+request.send( null );
+
+if (request.status === 200) { luteceInsertServices = request.responseText.trim().split(',') }
+
+if( luteceInsertServices.length > 0){
+  luteceInsertServices=Array.from( new Set( luteceInsertServices ))
+}
+
+let editorQuickbarMenu = 'quicktable lutece code',
+	  editorToolbar = 'undo redo | paste | formatselect fontsizeselect | bold italic | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | blockquote link | lutece | code | fullscreen',
+	  luteceToolbar = '',
+    selectionToolbar='bold italic underline | formatselect | blockquote quicklink';
+
+// Set buttons
+if( luteceInsertServices.length > 0 ){
+	if( luteceInsertServices.includes('library') && autorizedInsertService.includes('library') ){
+		if( luteceInsertServices.includes('image') ){
+			luteceToolbar = ' luteceImage'
+		}	
+		if( luteceInsertServices.includes('pdf') ){
+			luteceToolbar += ' lutecePdf'
+		}	
+	}
+
+	if( luteceInsertServices.includes('pagelinkservice') && autorizedInsertService.includes('pagelinkservice') ){
+		luteceToolbar += ' lutecePageLink';
+    selectionToolbar +=' lutecePageLink'
+	}
+
+	if( luteceInsertServices.includes( 'newsletter-blog' ) && autorizedInsertService.includes('newsletter-blog') ){
+		luteceToolbar += ' luteceNewsletterBlog'
+	}
+}
+
+let tinyToolbar = ''
+let tinyQuickbarMenu = ''
+if( luteceToolbar != '' ){
+  tinyToolbar = editorToolbar.replace( 'lutece', luteceToolbar )
+  tinyQuickbarMenu = editorQuickbarMenu.replace( 'lutece', luteceToolbar )
+} else {
+  tinyToolbar = editorToolbar
+  tinyQuickbarMenu = editorQuickbarMenu
+}
+
+const baseUrl='${webapp_url}';
+const colorMap =  [
+  "FFFFFF", "FFFFFF",
+  "000000", "000000",
+  "071F32", "071F32",
+  "354BCF", "354BCF",
+  "E22C3F", "E22C3F",
+  "248619", "248619",
+  "D14800", "D14800",
+  "31EEF3", "31EEF3",
+  "25DCCC", "25DCCC",
+  "3ECD2E", "3ECD2E",
+  "FFCD00", "FFCD00",
+  "FF3300", "FF3300"
+];
+const fontsizes = '10px 11px 12px 14px 16px 18px 20px 22px 24px 26px 28px 36px 48px 72px';
+const editorConfig = {
+  selector: '${selector}',
+  menubar: false,
+  inline: false,
+  plugins: [
+    'autolink',
+    'code',
+    'image',
+    'importcss',
+    'link',
+    'lists',
+    'media',
+    'table',
+    'lutece',
+    'quickbars',
+    'fullscreen',
+    'help'
+  ],
+  toolbar: tinyToolbar,
+  quickbars_insert_toolbar: tinyQuickbarMenu,
+  quickbars_selection_toolbar: selectionToolbar,
+  language: '${editorLocale}',
+  document_base_url : '${webapp_url}',
+  color_map: colorMap,
+  inline: false,
+  <#if userConf !=''>${userConf?ensure_ends_with(',')}</#if>
+  image_caption: true,
+  image_advtab: true,
+  content_css: '${cssFiles!}',
+  importcss_append: false,
+  extended_valid_elements : "iframe[style|src|width|height|name|align|frameborder|scrolling],script[src|type]",
+  fontsize_formats: fontsizes,
+  target_list: [
+    {title: 'None', value: ''},
+    {title: '_self', value: '_self'},
+    {title: '_blank', value: '_blank'},
+    {title: '_parent', value: '_parent'}
+  ],
+  contextmenu: 'undo redo | image insert | inserttable | cell row column deletetable | code',
+  lutece_insert_service_media_type_image : '#dskey{library.insert_service_media_type_image}',
+	lutece_insert_service_media_type_pdf : '#dskey{library.insert_service_media_type_pdf}',
+	lutece_insert_service_media_type_image_space : '#dskey{library.insert_service_media_type_image_space}',
+	lutece_insert_service_media_type_pdf_space : '#dskey{library.insert_service_media_type_pdf_space}'
+};
+
+document.addEventListener( "DOMContentLoaded", function() {
+  	tinymce.init( editorConfig );
+})
+</script>
+</#macro>
