@@ -71,8 +71,8 @@
 						<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
 							<@formGroup labelFor='status' labelKey='${i18n("portal.users.modify_user.labelStatus")}' rows=2>
 								<@select name="status">
-									<@option value="0" selected=default_user_status=1 label='#i18n{portal.users.create_user.statusLabelEnabled}' />
-									<@option value="0" selected=default_user_status!=1 label='#i18n{portal.users.create_user.statusLabelDisabled}' />
+									<@option value="0" selected=default_user_status!=1 label='#i18n{portal.users.create_user.statusLabelEnabled}' />
+									<@option value="1" selected=default_user_status=1 label='#i18n{portal.users.create_user.statusLabelDisabled}' />
 								</@select>
 							</@formGroup>
 							<#if displayFieldset( user_levels attributes_list )>
