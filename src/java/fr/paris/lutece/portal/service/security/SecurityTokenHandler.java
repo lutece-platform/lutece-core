@@ -260,7 +260,7 @@ public class SecurityTokenHandler
     {
         String result = strSource;
 
-        if ( null != strSource )
+        if ( null != strSource && model instanceof HashMap)
         {
             HashMap<String, Object> rootmap = (HashMap<String, Object>) model;
             String strToken = (String) rootmap.get( MARK_CSRF_TOKEN );
