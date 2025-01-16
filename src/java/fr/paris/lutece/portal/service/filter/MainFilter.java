@@ -66,12 +66,12 @@ public class MainFilter implements Filter
      */
     public void doFilter( ServletRequest requestServlet, ServletResponse responseServlet, FilterChain chain ) throws IOException, ServletException
     {
-        AppLogService.debug( "MainFilter : doFilter()" );
-
         HttpServletRequest request = (HttpServletRequest) requestServlet;
         HttpServletResponse response = (HttpServletResponse) responseServlet;
         LuteceFilterChain chainPluginsFilters = new LuteceFilterChain( );
 
+        AppLogService.debug("MainFilter : doFilter() - requested URI =  {}", ( ) -> ( ( HttpServletRequest ) requestServlet ).getRequestURI( ) );
+        
         FilterService filterService = CDI.current( ).select( FilterService.class ).get( );
         for ( LuteceFilter filter : filterService.getFilters( ) )
         {

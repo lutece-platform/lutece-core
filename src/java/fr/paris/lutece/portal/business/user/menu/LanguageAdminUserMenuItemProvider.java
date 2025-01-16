@@ -38,7 +38,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -59,6 +59,9 @@ public class LanguageAdminUserMenuItemProvider extends AbstractAdminUserMenuItem
     private static final String MARK_CURRENT_LANGUAGE = "current_language";
     private static final String MARK_LANGUAGES_LIST = "languages_list";
 
+    @Inject
+    private transient ISecurityTokenService _securityTokenService;
+    
     @Override
     protected boolean isItemProviderInvoked( HttpServletRequest request )
     {
@@ -70,10 +73,9 @@ public class LanguageAdminUserMenuItemProvider extends AbstractAdminUserMenuItem
     {
         AdminUser user = AdminUserService.getAdminUser( request );
         Locale locale = user.getLocale( );
-        ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( SecurityTokenService.MARK_TOKEN, securityTokenService.getToken( request, TEMPLATE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, _securityTokenService.getToken( request, TEMPLATE ) );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage( ) );
 

@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
@@ -101,6 +100,7 @@ public class AttributeImage extends AbstractAttribute
     private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/image/html_code_value_attribute_image.html";
     private static final String REGEX_ID = "-?[0-9]+";
 
+    
     /**
      * Constructor
      */
@@ -307,8 +307,7 @@ public class AttributeImage extends AbstractAttribute
                     userField.setUser( user );
                     userField.setAttribute( this );
 
-                    AttributeService attributeService = CDI.current( ).select( AttributeService.class ).get( );
-                    attributeService.setAttributeField( this );
+                    this.setListAttributeFields(AttributeFieldHome.selectAttributeFieldsByIdAttribute( this.getIdAttribute( ) ));
 
                     if ( CollectionUtils.isNotEmpty( getListAttributeFields( ) ) )
                     {

@@ -238,14 +238,12 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      * @return The HTML form to update info
      */
     public String getManageProperties( HttpServletRequest request )
-    {
-    	ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );        
-    	
+    {   	
     	Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale( ) ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, securityTokenService.getToken( request, TEMPLATE_MODIFY_PROPERTIES ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_PROPERTIES ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PROPERTIES, getLocale( ), model );
 

@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.user.attribute;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -47,7 +46,6 @@ import java.util.List;
 import java.util.Locale;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -87,6 +85,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/text/html_code_value_attribute_text.html";
     private static final String REGEX_ID = "-?[0-9]+";
 
+    
     /**
      * Constructor
      */
@@ -287,8 +286,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     {
         List<AdminUserField> listUserFields = new ArrayList<>( );
         AdminUserField userField = new AdminUserField( );
-        AttributeService attributeService = CDI.current( ).select( AttributeService.class ).get( );
-        attributeService.setAttributeField( this );
+        this.setListAttributeFields( AttributeFieldHome.selectAttributeFieldsByIdAttribute( this.getIdAttribute( ) ) );
 
         if ( strValues != null )
         {

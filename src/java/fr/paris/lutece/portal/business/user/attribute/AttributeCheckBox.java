@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.user.attribute;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
 import org.apache.commons.lang3.StringUtils;
@@ -46,7 +45,6 @@ import java.util.List;
 import java.util.Locale;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -81,6 +79,7 @@ public class AttributeCheckBox extends AbstractAttribute implements ISimpleValue
     private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/checkbox/html_code_form_search_attribute_checkbox.html";
     private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/checkbox/html_code_value_attribute_checkbox.html";
 
+    
     /**
      * Constructor
      */
@@ -244,7 +243,6 @@ public class AttributeCheckBox extends AbstractAttribute implements ISimpleValue
     public List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user )
     {
         List<AdminUserField> listUserFields = new ArrayList<>( );
-        AttributeFieldService attributeFieldService = CDI.current( ).select( AttributeFieldService.class ).get( );
 
         if ( strValues != null )
         {
@@ -256,7 +254,8 @@ public class AttributeCheckBox extends AbstractAttribute implements ISimpleValue
                 if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
                 {
                     int nIdField = Integer.parseInt( strValue );
-                    attributeField = attributeFieldService.getAttributeField( nIdField );
+                    attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
+                    
                 }
                 else
                 {

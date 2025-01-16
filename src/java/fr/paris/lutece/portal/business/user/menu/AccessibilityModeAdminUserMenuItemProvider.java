@@ -37,7 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -55,6 +55,10 @@ public class AccessibilityModeAdminUserMenuItemProvider extends AbstractAdminUse
 {
     public static final String TEMPLATE = "admin/user/menu/modify_accessibility_mode.html";
     private static final String MARK_USER = "user";
+    
+    @Inject
+    private transient ISecurityTokenService _securityTokenService;
+
 
     @Override
     protected boolean isItemProviderInvoked( HttpServletRequest request )
@@ -66,10 +70,9 @@ public class AccessibilityModeAdminUserMenuItemProvider extends AbstractAdminUse
     public AdminUserMenuItem getItem( HttpServletRequest request )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
-        ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( SecurityTokenService.MARK_TOKEN, securityTokenService.getToken( request, TEMPLATE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, _securityTokenService.getToken( request, TEMPLATE ) );
         model.put( MARK_USER, user );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE, user.getLocale( ), model );
