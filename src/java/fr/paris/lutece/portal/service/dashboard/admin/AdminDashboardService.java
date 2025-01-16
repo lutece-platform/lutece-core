@@ -188,10 +188,7 @@ public class AdminDashboardService
 
         if ( CollectionUtils.isNotEmpty( listColumnDashboards ) )
         {
-            if ( AppLogService.isDebugEnabled( ) )
-            {
-                AppLogService.debug( "Reordering admin dashboard column " + dashboard.getZone( ) );
-            }
+            AppLogService.debug( "Reordering admin dashboard column {}", ( ) -> dashboard.getZone( ) );
 
             // sort by order
             Collections.sort( listColumnDashboards );
@@ -221,11 +218,13 @@ public class AdminDashboardService
         {
             // create dashboard
             AdminDashboardHome.create( dashboard );
+            AppLogService.debug( "Admin Dashboard {} created : column = {}, order = {}",  ( ) -> dashboard.getName( ),  ( ) -> dashboard.getZone( ),  ( ) -> dashboard.getOrder( ) );
         }
         else
         {
             // update dashboard
             AdminDashboardHome.update( dashboard );
+            AppLogService.debug( "Admin Dashboard {} updated : column = {}, order = {}",  ( ) -> dashboard.getName( ),  ( ) -> dashboard.getZone( ),  ( ) -> dashboard.getOrder( ) );
         }
     }
 

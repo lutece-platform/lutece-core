@@ -38,6 +38,8 @@ import jakarta.enterprise.inject.spi.CDI;
 import java.util.Collection;
 import java.util.List;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
+
 /**
  * This class provides instances management methods (create, find, ...) for MailingList objects
  */
@@ -63,6 +65,7 @@ public final class MailingListHome
     public static MailingList create( MailingList mailingList )
     {
         _dao.insert( mailingList );
+        AppLogService.debug("New mailing list created : id = {}, name = {}", ( ) -> mailingList.getId( ), ( ) -> mailingList.getName( ) );
 
         return mailingList;
     }
@@ -77,6 +80,7 @@ public final class MailingListHome
     public static MailingList update( MailingList mailingList )
     {
         _dao.store( mailingList );
+        AppLogService.debug( "Mailing list updated : id = {}", ( ) -> mailingList.getId( ) );
 
         return mailingList;
     }
@@ -90,6 +94,7 @@ public final class MailingListHome
     public static void remove( int nMailingListId )
     {
         _dao.delete( nMailingListId );
+        AppLogService.debug( "Mailing list removed : id = {}", nMailingListId );
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -140,6 +145,7 @@ public final class MailingListHome
     public static void addFilterToMailingList( MailingListUsersFilter filter, int nId )
     {
         _dao.insertFilter( filter, nId );
+        AppLogService.debug( "New filter added to mailing list with id = {} : workgroup = {}, role = {}", ( ) -> nId, ( ) -> filter.getWorkgroup(), ( ) -> filter.getRole() );
     }
 
     /**
@@ -153,6 +159,7 @@ public final class MailingListHome
     public static void deleteFilterToMailingList( MailingListUsersFilter filter, int nId )
     {
         _dao.deleteFilter( filter, nId );
+        AppLogService.debug( "Filter removed from mailing list with id = {} : workgroup = {}, role = {}", ( ) -> nId , ( ) -> filter.getWorkgroup( ), ( ) -> filter.getRole( ) );
     }
 
     /**

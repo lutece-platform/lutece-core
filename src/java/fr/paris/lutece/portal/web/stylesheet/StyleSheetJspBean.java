@@ -487,6 +487,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         catch( Exception e )
         {
             strError = e.getMessage( );
+            AppLogService.debug( e.getMessage( ), e );
         }
 
         return strError;

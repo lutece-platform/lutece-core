@@ -160,7 +160,7 @@ public class FilterService
 
             for ( LuteceFilter filter : FilterService.getInstance( ).getFilters( ) )
             {
-                AppLogService.debug( filter.getName( ) + " - order = " + filter.getOrder( ) );
+                AppLogService.debug( "{} - order = {}", ( ) -> filter.getName( ), ( ) -> filter.getOrder( ) );
             }
         }
     }

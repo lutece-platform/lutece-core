@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.user.attribute;
 
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.List;
@@ -81,6 +82,7 @@ public final class AdminUserFieldHome
         }
 
         _dao.insert( userField );
+        AppLogService.getLogger( ).debug( "Field created for user with user id = {} : field id = {}", ( ) -> userField.getUser( ).getUserId( ), ( ) -> userField.getIdUserField( ) );
     }
 
     /**
@@ -113,8 +115,9 @@ public final class AdminUserFieldHome
             {
                 FileHome.remove( userField.getFile( ).getIdFile( ) );
             }
-
+            
             _dao.delete( userField.getIdUserField( ) );
+            AppLogService.debug(  "User field removed for user with user id = {} : field id = {}", ( ) -> userField.getUser( ).getUserId( ), ( ) -> userField.getIdUserField( ) );
         }
     }
 
@@ -127,6 +130,7 @@ public final class AdminUserFieldHome
     public static void removeUserFieldsFromIdField( int nIdField )
     {
         _dao.deleteUserFieldsFromIdField( nIdField );
+        AppLogService.info( "User field with field id = {} removed", nIdField);
     }
 
     /**

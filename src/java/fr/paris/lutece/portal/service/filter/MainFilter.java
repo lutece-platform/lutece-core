@@ -67,8 +67,8 @@ public class MainFilter implements Filter
     public void doFilter( ServletRequest requestServlet, ServletResponse responseServlet, FilterChain chain ) throws IOException, ServletException
     {
         HttpServletRequest request = (HttpServletRequest) requestServlet;
-        HttpServletResponse response = (HttpServletResponse) responseServlet;
-        LuteceFilterChain chainPluginsFilters = new LuteceFilterChain( );
+        HttpServletResponse response = (HttpServletResponse) responseServlet; 
+        LuteceFilterChain chainPluginsFilters = new LuteceFilterChain( ); 
 
         AppLogService.debug("MainFilter : doFilter() - requested URI =  {}", ( ) -> ( ( HttpServletRequest ) requestServlet ).getRequestURI( ) );
         

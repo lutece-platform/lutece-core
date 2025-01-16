@@ -216,7 +216,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
         }
 
-        // retrieve dashboard from database. If not found, will use Spring.
+        // retrieve dashboard from database. If not found, will use CDI.
         IAdminDashboardComponent dashboard = AdminDashboardHome.findByPrimaryKey( strDashboardName );
         int nOldOrder = 0;
         int nOldColumn = 0;
@@ -226,10 +226,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         {
             bCreate = true;
 
-            if ( AppLogService.isDebugEnabled( ) )
-            {
-                AppLogService.debug( "Dashboard " + strDashboardName + " has no property set. Retrieving from SpringContext" );
-            }
+            AppLogService.debug( "Dashboard {} has no property set. Retrieving from CDI Context", strDashboardName );
 
             dashboard = AdminDashboardFactory.getDashboardComponent( strDashboardName );
 

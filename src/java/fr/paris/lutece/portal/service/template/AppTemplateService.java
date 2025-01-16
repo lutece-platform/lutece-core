@@ -116,6 +116,7 @@ public final class AppTemplateService
     public static void resetCache( )
     {
         getFreeMarkerTemplateService( ).resetCache( );
+        AppLogService.debug( "Freemarker Template service cache has been reset" );
     }
 
     /**
@@ -124,6 +125,7 @@ public final class AppTemplateService
     public static void resetConfiguration( )
     {
         getFreeMarkerTemplateService( ).resetConfiguration( );
+        AppLogService.debug( "Freemarker Template service _mapConfigurations has been reset" );
     }
 
     /**

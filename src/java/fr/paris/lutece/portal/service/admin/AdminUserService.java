@@ -87,6 +87,7 @@ import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
@@ -925,6 +926,7 @@ public final class AdminUserService
     public static void updateLargeSecurityParameter( String strParameterKey, String strValue )
     {
         DatastoreService.setDataValue( PluginService.getCore( ).getName( ) + CONSTANT_UNDERSCORE + strParameterKey, strValue );
+        AppLogService.debug( "Large security parameter {} set to {}", strParameterKey, strValue );
     }
 
     /**

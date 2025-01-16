@@ -67,6 +67,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
@@ -167,6 +168,7 @@ public final class PortalService
     public static void registerContentService( String strName, ContentService cs )
     {
         _mapContentServicesRegistry.put( strName, cs );
+        AppLogService.debug( "New Content Service registered : {}", strName );
     }
 
     /**
