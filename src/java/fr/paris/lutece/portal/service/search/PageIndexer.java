@@ -195,20 +195,17 @@ public class PageIndexer implements SearchIndexer
      */
     protected Document getDocument( Page page, String strUrl ) throws IOException, InterruptedException, SiteMessageException
     {
-        FieldType ft = new FieldType( StringField.TYPE_STORED );
+        FieldType ft = new FieldType( StringField.TYPE_STORED );//Flags : Id-N
         ft.setOmitNorms( false );
+
+        FieldType ftdfp = new FieldType( StringField.TYPE_STORED ); //Flags : Idfp
+        ftdfp.setOmitNorms( false );
+        ftdfp.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS );
 
         FieldType ftNotStored = new FieldType( StringField.TYPE_NOT_STORED );
         ftNotStored.setOmitNorms( false );
         ftNotStored.setTokenized( false );
 
-        FieldType ftDate = new FieldType( StringField.TYPE_STORED );
-        ftDate.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS );
-        ftDate.setStored( true );
-        ftDate.setOmitNorms( false );
-
-        FieldType ftUid = ftNotStored;
-        ftUid.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS );
         // make a new, empty document
         Document doc = new Document( );
 
@@ -220,13 +217,13 @@ public class PageIndexer implements SearchIndexer
         // Use a field that is indexed (i.e. searchable), but don't tokenize
         // the field into words.
         String strDate = DateTools.dateToString( page.getDateUpdate( ), DateTools.Resolution.DAY );
-        doc.add( new Field( SearchItem.FIELD_DATE, strDate, ftDate ) );
+        doc.add( new Field( SearchItem.FIELD_DATE, strDate, ft ) );
 
         // Add the uid as a field, so that index can be incrementally maintained.
         // This field is not stored with document, it is indexed, but it is not
         // tokenized prior to indexing.
         String strIdPage = String.valueOf( page.getId( ) );
-        doc.add( new Field( SearchItem.FIELD_UID, strIdPage, ftUid ) );
+        doc.add( new Field( SearchItem.FIELD_UID, strIdPage, ftNotStored ) );
 
         String strPageContent = _pageService.getPageContent( page.getId( ), 0, null );
         ContentHandler handler = new BodyContentHandler( );
@@ -285,7 +282,7 @@ public class PageIndexer implements SearchIndexer
 
         // Add the title as a separate Text field, so that it can be searched
         // separately.
-        doc.add( new Field( SearchItem.FIELD_TITLE, page.getName( ), ft ) );
+        doc.add( new Field( SearchItem.FIELD_TITLE, page.getName( ), ftdfp ) );
 
         if ( StringUtils.isNotBlank( page.getDescription( ) ) )
         {
