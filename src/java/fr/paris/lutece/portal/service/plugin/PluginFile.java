@@ -93,8 +93,8 @@ public class PluginFile
     private Map<Integer, List<String>> _listJavascriptFiles = new HashMap<>( );
     private List<String> _listAdminCssStyleSheets = new ArrayList<>( );
     private List<String> _listAdminJavascriptFiles = new ArrayList<>( );
-    private List<String> _listFreemarkerIncludeFiles = new ArrayList<>( );
-    private Map<String,String> _listFreemarkerImportFiles = new HashMap<>( );
+    private List<String> _listFreemarkerAutoIncludes = new ArrayList<>( );
+    private Map<String,String> _mapFreemarkerAutoImports = new HashMap<>( );
     private List<Right> _listRights = new ArrayList<>( );
     private List<PortletType> _listPortletTypes = new ArrayList<>( );
     private List<DaemonEntry> _listDaemons = new ArrayList<>( );
@@ -574,7 +574,7 @@ public class PluginFile
     @Deprecated
     public void addFreemarkerMacrosFile( String strFileName )
     {
-        _listFreemarkerIncludeFiles.add( strFileName );
+        _listFreemarkerAutoIncludes.add( strFileName );
     }
 
     /**
@@ -585,7 +585,7 @@ public class PluginFile
     @Deprecated
     public List<String> getFreemarkerMacrosFiles( )
     {
-        return _listFreemarkerIncludeFiles;
+        return _listFreemarkerAutoIncludes;
     }
 
     /**
@@ -594,19 +594,19 @@ public class PluginFile
      * @param strFileName
      *            the file
      */
-    public void addFreemarkerIncludeFile( String strFileName )
+    public void addFreemarkerAutoInclude( String strFileName )
     {
-        _listFreemarkerIncludeFiles.add( strFileName );
+        _listFreemarkerAutoIncludes.add( strFileName );
     }
 
     /**
-     * Gets the freemarker include files.
+     * Gets the freemarker auto-includes.
      *
-     * @return the freemarker include files
+     * @return the freemarker auto-includes
      */
-    public List<String> getFreemarkerIncludeFiles( )
+    public List<String> getFreemarkerAutoIncludes( )
     {
-        return _listFreemarkerIncludeFiles;
+        return _listFreemarkerAutoIncludes;
     }
 
     /**
@@ -617,19 +617,19 @@ public class PluginFile
      * @param strFileName
      *            the file
      */
-    public void addFreemarkerImportFile( String strNamespace, String strFileName )
+    public void addFreemarkerAutoImport( String strNamespace, String strFileName )
     {
-        _listFreemarkerImportFiles.put( strNamespace, strFileName );
+        _mapFreemarkerAutoImports.put( strNamespace, strFileName );
     }
 
     /**
-     * Gets the freemarker import files.
+     * Gets the freemarker auto-imports.
      *
-     * @return the freemarker import files
+     * @return the freemarker auto-imports
      */
-    public Map<String,String> getFreemarkerImportFiles( )
+    public Map<String,String> getFreemarkerAutoImports( )
     {
-        return _listFreemarkerImportFiles;
+        return _mapFreemarkerAutoImports;
     }
 
     /**

@@ -74,18 +74,20 @@ public final class AppTemplateService
     }
 
     /**
-     * Initializes autoincludes for plugins.
+     * Initializes auto-includes and auto-imports for plugins.
      */
-    public static void initAutoIncludes( )
+    public static void initMacros( )
     {
         // register core (commons declared in core.xml)
         Plugin corePlugin = PluginService.getCore( );
-        addPluginIncludes( corePlugin );
+        addPluginAutoIncludes( corePlugin );
+        addPluginAutoImports( corePlugin );
 
         // register plugins
         for ( Plugin plugin : PluginService.getPluginList( ) )
         {
-            addPluginIncludes( plugin );
+            addPluginAutoIncludes( plugin );
+            addPluginAutoImports( plugin );
         }
 
         // activate current commons stored in the datastore
@@ -93,51 +95,32 @@ public final class AppTemplateService
     }
 
     /**
-     * Adds the plugin includes.
+     * Adds the plugin auto-includes.
      *
      * @param plugin
      *            the plugin
      */
-    private static void addPluginIncludes( Plugin plugin )
+    private static void addPluginAutoIncludes( Plugin plugin )
     {
-        for ( String strFileName : plugin.getFreeMarkerIncludeFiles( ) )
+        for ( String strFileName : plugin.getFreeMarkerAutoIncludes( ) )
         {
             AppLogService.info( "New freemarker autoinclude : {} from {}", strFileName, plugin.getName( ) );
-            getFreeMarkerTemplateService( ).addPluginInclude( strFileName );
+            getFreeMarkerTemplateService( ).addPluginAutoInclude( strFileName );
         }
     }
 
     /**
-     * Initializes autoimports for plugins.
-     */
-    public static void initAutoImports( )
-    {
-        // register core (commons declared in core.xml)
-        Plugin corePlugin = PluginService.getCore( );
-        addPluginImports( corePlugin );
-
-        // register plugins
-        for ( Plugin plugin : PluginService.getPluginList( ) )
-        {
-            addPluginImports( plugin );
-        }
-
-        // activate current commons stored in the datastore
-        CommonsService.activateCommons( CommonsService.getCurrentCommonsKey( ) );
-    }
-
-    /**
-     * Adds the plugin imports.
+     * Adds the plugin auto-imports.
      *
      * @param plugin
      *            the plugin
      */
-    private static void addPluginImports( Plugin plugin )
+    private static void addPluginAutoImports( Plugin plugin )
     {
-        for ( Map.Entry<String, String> importEntry : plugin.getFreeMarkerImportFiles( ).entrySet( ) )
+        for ( Map.Entry<String, String> importEntry : plugin.getFreeMarkerAutoImports( ).entrySet( ) )
         {
             AppLogService.info( "New freemarker autoimport : {} as {} from {}", importEntry.getValue( ), importEntry.getKey( ), plugin.getName( ) );
-            getFreeMarkerTemplateService( ).addPluginImport( importEntry.getKey( ), importEntry.getValue( ) );
+            getFreeMarkerTemplateService( ).addPluginAutoImport( importEntry.getKey( ), importEntry.getValue( ) );
         }
     }
 

@@ -132,8 +132,8 @@ public abstract class Plugin implements Comparable<Plugin>
     private List<DashboardComponentEntry> _listAdminDashboardComponents;
     private List<RBACResourceTypeEntry> _listRBACResourceTypes;
     private List<DaemonEntry> _listDaemons;
-    private List<String> _listFreemarkerIncludeFiles;
-    private Map<String,String> _listFreemarkerImportFiles;
+    private List<String> _listFreemarkerAutoIncludes;
+    private Map<String,String> _mapFreemarkerAutoImports;
 
     // hashtable which contains all the params described in the xml plugin file
     private Map<String, String> _mapParams = new HashMap<>( );
@@ -191,8 +191,8 @@ public abstract class Plugin implements Comparable<Plugin>
             _strCssStylesheetsScope = ( pluginFile.getCssStylesheetsScope( ) != null ) ? pluginFile.getCssStylesheetsScope( ) : SCOPE_XPAGE;
             _listJavascriptFiles = pluginFile.getJavascriptFilesForAllModes( );
             _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope( ) != null ) ? pluginFile.getJavascriptFilesScope( ) : SCOPE_XPAGE;
-            _listFreemarkerIncludeFiles = pluginFile.getFreemarkerIncludeFiles( );
-            _listFreemarkerImportFiles = pluginFile.getFreemarkerImportFiles( );
+            _listFreemarkerAutoIncludes = pluginFile.getFreemarkerAutoIncludes( );
+            _mapFreemarkerAutoImports = pluginFile.getFreemarkerAutoImports( );
             _listAdminCssStyleSheets = pluginFile.getAdminCssStyleSheets( );
             _listAdminJavascriptFiles = pluginFile.getAdminJavascriptFiles( );
             // Register plugin components
@@ -1285,7 +1285,7 @@ public abstract class Plugin implements Comparable<Plugin>
     @Deprecated
     public void addFreemarkerMacrosFile( String strMacroFileName )
     {
-        _listFreemarkerIncludeFiles.add( strMacroFileName );
+        _listFreemarkerAutoIncludes.add( strMacroFileName );
     }
 
     /**
@@ -1296,7 +1296,7 @@ public abstract class Plugin implements Comparable<Plugin>
     @Deprecated
     public List<String> getFreeMarkerMacrosFiles( )
     {
-        return _listFreemarkerIncludeFiles;
+        return _listFreemarkerAutoIncludes;
     }
 
     /**
@@ -1305,19 +1305,19 @@ public abstract class Plugin implements Comparable<Plugin>
      * @param strFileName
      *            the file name
      */
-    public void addFreemarkerIncludeFile( String strFileName )
+    public void addFreemarkerAutoInclude( String strFileName )
     {
-        _listFreemarkerIncludeFiles.add( strFileName );
+        _listFreemarkerAutoIncludes.add( strFileName );
     }
 
     /**
-     * Gets the freemarker include files.
+     * Gets the freemarker auto-includes.
      *
-     * @return the freemarker include files
+     * @return the freemarker auto-includes
      */
-    public List<String> getFreeMarkerIncludeFiles( )
+    public List<String> getFreeMarkerAutoIncludes( )
     {
-        return _listFreemarkerIncludeFiles;
+        return _listFreemarkerAutoIncludes;
     }
 
     /**
@@ -1328,19 +1328,19 @@ public abstract class Plugin implements Comparable<Plugin>
      * @param strFileName
      *            the file name
      */
-    public void addFreemarkerImportFile( String strNamespace, String strFileName )
+    public void addFreemarkerAutoImport( String strNamespace, String strFileName )
     {
-        _listFreemarkerImportFiles.put( strNamespace, strFileName );
+        _mapFreemarkerAutoImports.put( strNamespace, strFileName );
     }
 
     /**
-     * Gets the freemarker import files.
+     * Gets the freemarker auto-imports.
      *
-     * @return the freemarker import files
+     * @return the freemarker auto-imports
      */
-    public Map<String,String> getFreeMarkerImportFiles( )
+    public Map<String,String> getFreeMarkerAutoImports( )
     {
-        return _listFreemarkerImportFiles;
+        return _mapFreemarkerAutoImports;
     }
 
     /**

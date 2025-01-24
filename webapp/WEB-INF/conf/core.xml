@@ -208,9 +208,9 @@
         </admindashboard-component>
     </admindashboard-components>
 
-    <freemarker-include-files>
-        <freemarker-include-file>commons_site.html</freemarker-include-file>
-    </freemarker-include-files>
+    <freemarker-auto-includes>
+        <freemarker-auto-include>commons_site.html</freemarker-auto-include>
+    </freemarker-auto-includes>
 
     <css-stylesheets>
         <css-stylesheets-scope>portal</css-stylesheets-scope>
