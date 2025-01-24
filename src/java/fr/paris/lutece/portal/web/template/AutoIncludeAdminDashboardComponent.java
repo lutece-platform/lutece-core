@@ -54,6 +54,7 @@ public class AutoIncludeAdminDashboardComponent extends AdminDashboardComponent
     private static final String TEMPLATE_MANAGE_AUTOINCLUDES = "/admin/dashboard/admin/autoincludes_dashboard.html";
     // Markers
     private static final String MARK_AUTOINCLUDE_LIST = "autoinclude_list";
+    private static final String MARK_AUTOIMPORT_MAP = "autoimport_map";
     private static final String MARK_COMMONS_LIST = "commons_list";
     private static final String MARK_CURRENT_COMMONS = "current_commons";
 
@@ -64,9 +65,10 @@ public class AutoIncludeAdminDashboardComponent extends AdminDashboardComponent
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<>( );
-        List<AutoInclude> listAutoIncludes = FreeMarkerTemplateService.getInstance( ).getAutoIncludesList( );
-        model.put( MARK_AUTOINCLUDE_LIST, listAutoIncludes );
-        model.put( MARK_COMMONS_LIST, CommonsService.getCommonsIncludeList( ) );
+        FreeMarkerTemplateService fmtService = FreeMarkerTemplateService.getInstance( );
+        model.put( MARK_AUTOINCLUDE_LIST, fmtService.getAutoIncludesList( ) );
+        model.put( MARK_AUTOIMPORT_MAP, fmtService.getAutoImportsMap( ) );
+        model.put( MARK_COMMONS_LIST, CommonsService.getCommonsList( ) );
         model.put( MARK_CURRENT_COMMONS, CommonsService.getCurrentCommonsKey( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_AUTOINCLUDES, user.getLocale( ), model );
