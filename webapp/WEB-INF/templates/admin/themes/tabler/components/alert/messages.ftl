@@ -27,7 +27,7 @@ Parameters:
 			<@unstyledList>
 			<#list warnings as warning ><#if warning.message??><@li>${warning.message!' #i18n{portal.util.message.titleWarning} '}</@li></#if></#list>
 			</@unstyledList>
-		</@alert>>
+		</@alert>
 	</#if>
 </#if>
 <#if infos??>
