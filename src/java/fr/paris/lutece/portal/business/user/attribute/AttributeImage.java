@@ -34,13 +34,15 @@
 package fr.paris.lutece.portal.business.user.attribute;
 
 import fr.paris.lutece.portal.business.file.File;
-import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.file.FileServiceException;
+import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
@@ -331,14 +333,7 @@ public class AttributeImage extends AbstractAttribute
                 }
 
                 listUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
-                listUserFields.stream( ).filter( a -> a.getFile( ) != null ).forEach( ( AdminUserField userField ) -> {
-                    File file = FileHome.findByPrimaryKey( userField.getFile( ).getIdFile( ) );
-                    userField.setFile( file );
-
-                    int nIdPhysicalFile = file.getPhysicalFile( ).getIdPhysicalFile( );
-                    PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
-                    userField.getFile( ).setPhysicalFile( physicalFile );
-                } );
+                listUserFields.stream( ).filter( a -> a.getFile( ) != null ).forEach( ( AdminUserField userField ) -> fillFileData( userField ) );
             }
         }
         catch( IOException e )
@@ -349,6 +344,31 @@ public class AttributeImage extends AbstractAttribute
         return listUserFields;
     }
 
+    /**
+     * Fill the user field with file data
+     * 
+     * @param userField
+     *               user field
+     */
+    private void fillFileData( AdminUserField userField )
+    {
+    	try
+    	{
+    	   IFileStoreServiceProvider fileStoreService = CDI.current( ).select( IFileStoreServiceProvider.class ).get( );
+    	   File file = fileStoreService.getFile( userField.getFile( ).getFileKey( ) );
+           userField.setFile( file );
+
+           int nIdPhysicalFile = file.getPhysicalFile( ).getIdPhysicalFile( );
+           PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
+           userField.getFile( ).setPhysicalFile( physicalFile );
+    	}
+    	catch( FileServiceException e )
+    	{
+    		AppLogService.error( "Unable to get file for user field with id="+userField.getIdUserField( ) );
+    		throw new AppException( e.getMessage( ), e );
+    	}
+    }
+    
     /**
      * Get whether the attribute is anonymizable.
      * 

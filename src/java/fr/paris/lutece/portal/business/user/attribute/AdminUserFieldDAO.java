@@ -143,7 +143,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
             if ( userField.getFile( ) != null )
             {
-                daoUtil.setInt( nIndex++, userField.getFile( ).getIdFile( ) );
+            	daoUtil.setInt( nIndex++, Integer.parseInt( userField.getFile( ).getFileKey( ) ) );
             }
             else
             {
@@ -276,7 +276,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
                 if ( daoUtil.getObject( 5 ) != null ) // f.id_file
                 {
                     File file = new File( );
-                    file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
+                    file.setFileKey( String.valueOf( daoUtil.getInt( 5 ) ) ); // f.id_file
                     userField.setFile( file );
                 }
 
@@ -562,7 +562,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         if ( daoUtil.getObject( 5 ) != null ) // f.id_file
         {
             File file = new File( );
-            file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
+            file.setFileKey( String.valueOf( daoUtil.getInt( 5 ) ) ); // f.id_file
             userField.setFile( file );
         }
 

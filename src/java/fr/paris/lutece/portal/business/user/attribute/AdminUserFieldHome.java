@@ -35,6 +35,11 @@ package fr.paris.lutece.portal.business.user.attribute;
 
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+
+import fr.paris.lutece.portal.service.file.FileServiceException;
+import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
+import fr.paris.lutece.portal.service.util.AppException;
+
 import fr.paris.lutece.portal.service.util.AppLogService;
 import jakarta.enterprise.inject.spi.CDI;
 
@@ -48,6 +53,7 @@ import java.util.List;
 public final class AdminUserFieldHome
 {
     private static IAdminUserFieldDAO _dao = CDI.current().select( IAdminUserFieldDAO.class ).get( );
+    private static IFileStoreServiceProvider _fileStoreService = CDI.current().select( IFileStoreServiceProvider.class ).get( );
 
     /**
      * Private constructor
@@ -76,9 +82,17 @@ public final class AdminUserFieldHome
      */
     public static void create( AdminUserField userField )
     {
-        if ( userField.getFile( ) != null )
-        {
-            userField.getFile( ).setIdFile( FileHome.create( userField.getFile( ) ) );
+    	if ( userField.getFile( ) != null )
+        {       	
+        	try
+        	{
+        		userField.getFile( ).setFileKey( _fileStoreService.storeFile( userField.getFile( ) ) );
+        	}
+        	catch( FileServiceException e )
+        	{
+        		AppLogService.error( "Unable to create a file for user field with id="+userField.getIdUserField( ) );
+        		throw new AppException( e.getMessage( ), e );
+        	}
         }
 
         _dao.insert( userField );
@@ -111,9 +125,17 @@ public final class AdminUserFieldHome
     {
         if ( userField != null )
         {
-            if ( userField.getFile( ) != null )
+        	if ( userField.getFile( ) != null )
             {
-                FileHome.remove( userField.getFile( ).getIdFile( ) );
+            	try
+            	{
+            		_fileStoreService.delete( userField.getFile( ).getFileKey( ) );
+            	}
+            	catch( FileServiceException e )
+            	{
+            		AppLogService.error( "Unable to delete a file for user field with id="+userField.getIdUserField( ) );
+            		throw new AppException( e.getMessage( ), e );
+            	}
             }
             
             _dao.delete( userField.getIdUserField( ) );

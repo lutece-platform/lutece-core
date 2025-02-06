@@ -87,12 +87,12 @@ public final class FileDAO implements IFileDAO
 
             if ( daoUtil.nextGeneratedKey( ) )
             {
-                file.setIdFile( daoUtil.getGeneratedKeyInt( 1 ) );
+            	file.setFileKey( String.valueOf( daoUtil.getGeneratedKeyInt( 1 ) ) );
             }
 
         }
 
-        return file.getIdFile( );
+        return Integer.parseInt( file.getFileKey( ) );
     }
 
     /**
@@ -116,7 +116,7 @@ public final class FileDAO implements IFileDAO
             if ( daoUtil.next( ) )
             {
                 file = new File( );
-                file.setIdFile( daoUtil.getInt( 1 ) );
+                file.setFileKey( String.valueOf( daoUtil.getInt( 1 ) ) );
                 file.setTitle( daoUtil.getString( 2 ) );
 
                 if ( daoUtil.getObject( 3 ) != null )
@@ -164,7 +164,7 @@ public final class FileDAO implements IFileDAO
     {
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
-            daoUtil.setInt( 1, file.getIdFile( ) );
+        	daoUtil.setInt( 1, Integer.parseInt( file.getFileKey( ) ) );
             daoUtil.setString( 2, file.getTitle( ) );
 
             if ( file.getPhysicalFile( ) != null )
@@ -179,7 +179,7 @@ public final class FileDAO implements IFileDAO
             daoUtil.setInt( 4, file.getSize( ) );
             daoUtil.setString( 5, file.getMimeType( ) );
             daoUtil.setString( 6, file.getOrigin( ) );
-            daoUtil.setInt( 7, file.getIdFile( ) );
+            daoUtil.setInt( 7, Integer.parseInt( file.getFileKey( ) ) );
             daoUtil.executeUpdate( );
         }
     }

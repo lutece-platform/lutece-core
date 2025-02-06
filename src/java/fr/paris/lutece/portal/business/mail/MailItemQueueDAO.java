@@ -217,23 +217,25 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      */
     @Override
     public void delete( int nIdMailItemQueue )
-    {
-        Transaction transaction = new Transaction( );
-
-        try
+    {       
+    	Transaction transaction = new Transaction( );
+        try ( transaction )
         {
-            transaction.prepareStatement( SQL_QUERY_DELETE_MAIL_ITEM );
-            transaction.getStatement( ).setInt( 1, nIdMailItemQueue );
-            transaction.executeStatement( );
-            transaction.prepareStatement( SQL_QUERY_DELETE );
-            transaction.getStatement( ).setInt( 1, nIdMailItemQueue );
-            transaction.executeStatement( );
-            transaction.commit( );
-        }
-        catch( Exception e )
-        {
-            transaction.rollback( e );
-            AppLogService.error( e );
+        	try
+            {
+                transaction.prepareStatement( SQL_QUERY_DELETE_MAIL_ITEM );
+                transaction.getStatement( ).setInt( 1, nIdMailItemQueue );
+                transaction.executeStatement( );
+                transaction.prepareStatement( SQL_QUERY_DELETE );
+                transaction.getStatement( ).setInt( 1, nIdMailItemQueue );
+                transaction.executeStatement( );
+                transaction.commit( );
+            }
+            catch( Exception e )
+            {
+                transaction.rollback( e );
+                AppLogService.error( e );
+            }
         }
     }
 

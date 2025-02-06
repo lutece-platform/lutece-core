@@ -49,7 +49,7 @@ import java.sql.SQLException;
 /**
  * Transaction
  */
-public class Transaction
+public class Transaction implements AutoCloseable
 {
     /**
      * Status for opened transactions
@@ -388,5 +388,19 @@ public class Transaction
         }
 
         super.finalize( );
+    }
+    
+    /**
+     * Checks that the transaction has been committed (or rolled back) before being destroyed and release all transaction resources (statement, connection, ...)
+     * if not. {@inheritDoc }
+     */
+    @Override
+    public void close( )
+    {
+        if ( _nStatus == OPENED )
+        {
+            _logger.error( "The transaction has not been commited" );
+            closeTransaction( OPENED );
+        }
     }
 }

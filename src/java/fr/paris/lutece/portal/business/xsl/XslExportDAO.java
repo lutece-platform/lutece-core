@@ -72,7 +72,7 @@ public final class XslExportDAO implements IXslExportDAO
 
             if ( xslExport.getFile( ) != null )
             {
-                daoUtil.setInt( nIndex++, xslExport.getFile( ).getIdFile( ) );
+            	daoUtil.setInt( nIndex++, Integer.parseInt( xslExport.getFile( ).getFileKey( ) ) );
             }
             else
             {
@@ -115,7 +115,7 @@ public final class XslExportDAO implements IXslExportDAO
                 if ( daoUtil.getObject( 5 ) != null )
                 {
                     file = new File( );
-                    file.setIdFile( daoUtil.getInt( 5 ) );
+                    file.setFileKey( String.valueOf( daoUtil.getInt( 5 ) ) );
                     xslExport.setFile( file );
                 }
 
@@ -155,7 +155,7 @@ public final class XslExportDAO implements IXslExportDAO
 
             if ( xslExport.getFile( ) != null )
             {
-                daoUtil.setInt( 5, xslExport.getFile( ).getIdFile( ) );
+            	daoUtil.setInt( 5, Integer.parseInt( xslExport.getFile( ).getFileKey( ) ) );
             }
             else
             {
@@ -195,7 +195,7 @@ public final class XslExportDAO implements IXslExportDAO
                 if ( daoUtil.getObject( 5 ) != null )
                 {
                     file = new File( );
-                    file.setIdFile( daoUtil.getInt( 5 ) );
+                    file.setFileKey( String.valueOf( daoUtil.getInt( 5 ) ) );
                     xslExport.setFile( file );
                 }
 
@@ -239,7 +239,7 @@ public final class XslExportDAO implements IXslExportDAO
                 if ( daoUtil.getObject( 5 ) != null )
                 {
                     file = new File( );
-                    file.setIdFile( daoUtil.getInt( 5 ) );
+                    file.setFileKey( String.valueOf( daoUtil.getInt( 5 ) ) );
                     xslExport.setFile( file );
                 }
 
