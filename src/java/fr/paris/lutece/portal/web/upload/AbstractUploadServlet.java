@@ -54,7 +54,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 /**
  * Handles asynchronous uploads.
  */
-public class UploadServlet extends HttpServlet
+public abstract class AbstractUploadServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
     private static final String JSON_FILE_SIZE = "fileSize";

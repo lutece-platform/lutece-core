@@ -64,7 +64,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.http.MultipartUtil;
 
-public class UploadServletTest extends LuteceTestCase
+public class UploadServletFoTest extends LuteceTestCase
 {
 
     /**
@@ -76,7 +76,7 @@ public class UploadServletTest extends LuteceTestCase
         MockHttpServletResponse response = new MockHttpServletResponse( );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, new HashMap<>( ), new HashMap<>( ) );
 
-        new UploadServlet( ).doPost( multipartRequest, response );
+        new UploadServletFo( ).doPost( multipartRequest, response );
 
         String strResponseJson = response.getContentAsString( );
         System.out.println( strResponseJson );
@@ -95,7 +95,7 @@ public class UploadServletTest extends LuteceTestCase
         MockHttpServletResponse response = new MockHttpServletResponse( );
         MultipartHttpServletRequest multipartRequest = MultipartUtil.convert( 10000, 10000, false, request );
 
-        new UploadServlet( ).doPost( multipartRequest, response );
+        new UploadServletFo( ).doPost( multipartRequest, response );
 
         String strResponseJson = response.getContentAsString( );
         System.out.println( strResponseJson );
@@ -140,7 +140,7 @@ public class UploadServletTest extends LuteceTestCase
 
         try
         {
-            new UploadServlet( ).doPost( multipartRequest, response );
+            new UploadServletFo( ).doPost( multipartRequest, response );
         }
         catch( Exception e )
         {
@@ -195,7 +195,7 @@ public class UploadServletTest extends LuteceTestCase
 
         try
         {
-            new UploadServlet( ).doPost( multipartRequest, response );
+            new UploadServletFo( ).doPost( multipartRequest, response );
         }
         catch( Exception e )
         {
