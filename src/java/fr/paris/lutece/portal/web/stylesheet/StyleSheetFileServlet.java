@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 
 /**
@@ -96,24 +97,34 @@ public class StyleSheetFileServlet extends HttpServlet
 
     /**
      * {@inheritDoc}
-     * 
-     * @throws IOException
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
     {
-        processRequest( request, response );
+        try
+        {
+            processRequest( request, response );
+        }
+        catch( IOException e )
+        {
+            AppLogService.error( e.getMessage( ), e );
+        }
     }
 
     /**
      * {@inheritDoc}
-     * 
-     * @throws IOException
      */
     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws IOException
+    protected void doPost( HttpServletRequest request, HttpServletResponse response )
     {
-        processRequest( request, response );
+        try
+        {
+            processRequest( request, response );
+        }
+        catch( IOException e )
+        {
+            AppLogService.error( e.getMessage( ), e );
+        }
     }
 
     /**
