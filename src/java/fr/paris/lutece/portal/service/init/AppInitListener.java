@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.mail.MailService;
-import fr.paris.lutece.portal.service.scheduler.JobSchedulerService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import jakarta.annotation.Priority;
@@ -95,7 +94,6 @@ public class AppInitListener
 		ServletContext context){
 		MailService.shutdown( );
         AppDaemonService.shutdown( );
-        JobSchedulerService.shutdown( );
         ShutdownServiceManager.shutdown( );
         CacheService.shutdown( );
         AppConnectionService.releasePool( );
