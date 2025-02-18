@@ -45,12 +45,14 @@ import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.service.daemon.mocks.ExecutorServiceForDaemonTests;
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.enterprise.concurrent.ManagedScheduledExecutorService;
 import jakarta.enterprise.concurrent.ManagedThreadFactory;
 import jakarta.inject.Inject;
 
 public class DaemonSchedulerWithCachedThreadPoolExecutorTest extends LuteceTestCase
 {
     private @Inject ManagedThreadFactory _managedThreadFactory;
+    private @Inject ManagedScheduledExecutorService _managedScheduledExecutorService;
     
     @Test
     public void testEnqueueWhileRunning()
@@ -182,7 +184,7 @@ public class DaemonSchedulerWithCachedThreadPoolExecutorTest extends LuteceTestC
         BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
         ExecutorService executor = new ExecutorServiceForDaemonTests( ( ) -> Executors.newCachedThreadPool( ) );
         DaemonScheduler scheduler = new DaemonScheduler( );
-        scheduler.initDaemonScheduler( queue, executor, _managedThreadFactory );
+        scheduler.initDaemonScheduler( queue, executor, _managedThreadFactory, _managedScheduledExecutorService );
         return scheduler;
     }
 }

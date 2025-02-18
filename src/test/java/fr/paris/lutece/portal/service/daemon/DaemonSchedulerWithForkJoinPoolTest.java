@@ -46,12 +46,14 @@ import org.junit.jupiter.api.Test;
 import fr.paris.lutece.portal.service.daemon.mocks.ExecutorServiceForDaemonTests;
 import fr.paris.lutece.portal.service.daemon.mocks.TestExecutorService;
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.enterprise.concurrent.ManagedScheduledExecutorService;
 import jakarta.enterprise.concurrent.ManagedThreadFactory;
 import jakarta.inject.Inject;
 
 public class DaemonSchedulerWithForkJoinPoolTest extends LuteceTestCase
 {
     private @Inject ManagedThreadFactory _managedThreadFactory;
+    private @Inject ManagedScheduledExecutorService _managedScheduledExecutorService;
     
     @Test
     public void testShutdownWhileRunning()
@@ -119,7 +121,7 @@ public class DaemonSchedulerWithForkJoinPoolTest extends LuteceTestCase
         ExecutorService executor = new ExecutorServiceForDaemonTests(
                 ( ) -> new TestExecutorService( runnable -> ForkJoinPool.commonPool( ).execute( runnable ) ) );
         DaemonScheduler scheduler = new DaemonScheduler( );
-        scheduler.initDaemonScheduler( queue, executor, _managedThreadFactory );
+        scheduler.initDaemonScheduler( queue, executor, _managedThreadFactory, _managedScheduledExecutorService );
         return scheduler;
     }
 }

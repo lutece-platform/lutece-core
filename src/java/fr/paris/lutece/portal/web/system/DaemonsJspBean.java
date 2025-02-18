@@ -72,10 +72,13 @@ public class DaemonsJspBean extends AdminPageJspBean
     private static final String ACTION_STOP = "STOP";
     private static final String ACTION_RUN = "RUN";
     private static final String ACTION_UPDATE_INTERVAL = "UPDATE_INTERVAL";
+    private static final String ACTION_UPDATE_CRON = "UPDATE_CRON";
     private static final String PROPERTY_FIELD_INTERVAL = "portal.system.manage_daemons.columnTitleInterval";
+    private static final String PROPERTY_FIELD_CRON = "portal.system.manage_daemons.columnTitleIntervalOrCron";
     private static final String PROPERTY_DAEMON_LASTRUNLOG_MAX_SIZE = "portal.system.manage_daemons.lastrunlog.maxsize";
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryField";
     private static final String MESSAGE_NUMERIC_FIELD = "portal.util.message.errorNumericField";
+    private static final String MESSAGE_INVALID_CRON = "portal.util.message.invalidEntry";
 
     /**
      * Build the manage daemon page
@@ -150,6 +153,34 @@ public class DaemonsJspBean extends AdminPageJspBean
 
                 assertSecurityToken( request );
                 AppDaemonService.modifyDaemonInterval( strDaemonKey, strDaemonInterval );
+                break;
+            case ACTION_UPDATE_CRON:
+                String strCronErrorMessage = null;
+                String strDaemonCron = request.getParameter( "cron" );
+
+                Object [ ] tabFieldCron = {
+                        I18nService.getLocalizedString( PROPERTY_FIELD_CRON, getLocale( ) )
+                };
+
+                if ( StringUtils.isEmpty( strDaemonCron ) )
+                {
+                    strCronErrorMessage = MESSAGE_MANDATORY_FIELD;
+                }
+                else
+                {
+                    if (!AppDaemonService.isValidCronExpression(strDaemonCron))
+                    {
+                        strCronErrorMessage = MESSAGE_INVALID_CRON;
+                    }
+                }
+
+                if ( strCronErrorMessage != null )
+                {
+                    return AdminMessageService.getMessageUrl( request, strCronErrorMessage, tabFieldCron, AdminMessage.TYPE_STOP );
+                }
+
+                assertSecurityToken( request );
+                AppDaemonService.modifyDaemonCron( strDaemonKey, strDaemonCron );
                 break;
             default:
                 AppLogService.error( "Unknown daemon action : {}", strAction );
