@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,16 +42,17 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
+import jakarta.enterprise.concurrent.CronTrigger;
+import jakarta.enterprise.concurrent.ManagedScheduledExecutorService;
 import jakarta.enterprise.concurrent.ManagedThreadFactory;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -73,16 +75,19 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     @Inject
     @DaemonExecutor
     private ExecutorService _executor;
-    @Resource
+    @Inject
     private ManagedThreadFactory _managedThreadFactory;
     private Thread _coordinatorThread;
-    private ScheduledExecutorService _scheduledExecutorService;
+    @Inject
+    private ManagedScheduledExecutorService _managedScheduledExecutorService;
     private Map<String, RunnableWrapper> _executingDaemons;
     private Map<String, DaemonManagedTask> _scheduledDaemons;
     private Map<String, ScheduledFuture<DaemonManagedTask>> _scheduledFutures;
     private volatile boolean _bShuttingDown;
     private int _maxAwaitTerminationDelay;
-
+    @Inject
+    @ConfigProperty(name = "daemon.zoneId")
+    private String _zoneId;
 
     /**
      * Constructor
@@ -100,7 +105,6 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     @PostConstruct
     public void initDaemonScheduler( ){  	
     	_queue = new LinkedBlockingQueue<DaemonEntry>();
-    	_scheduledExecutorService =  Executors.newScheduledThreadPool( 1 , _managedThreadFactory);
         _executingDaemons = new HashMap<>( );
         _scheduledDaemons = new HashMap<>( );
         _scheduledFutures = new HashMap<>( );
@@ -112,11 +116,11 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         _maxAwaitTerminationDelay = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY, 15 );
     }
     
-    void initDaemonScheduler(BlockingQueue<DaemonEntry> queue, ExecutorService executor, ManagedThreadFactory managedThreadFactory) {
+    void initDaemonScheduler(BlockingQueue<DaemonEntry> queue, ExecutorService executor, ManagedThreadFactory managedThreadFactory, ManagedScheduledExecutorService managedScheduledExecutorService) {
         _queue = queue;
         _managedThreadFactory = managedThreadFactory;
         _executor = executor;
-        _scheduledExecutorService =  Executors.newScheduledThreadPool( 1 , _managedThreadFactory);
+        _managedScheduledExecutorService = managedScheduledExecutorService;
         _executingDaemons = new HashMap<>( );
         _scheduledDaemons = new HashMap<>( );
         _scheduledFutures = new HashMap<>( );
@@ -142,7 +146,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         }
         try
         {
-            _scheduledExecutorService.schedule( entry.getDaemon( ), nDelay, unit );
+            _managedScheduledExecutorService.schedule( entry.getDaemon( ), nDelay, unit );
             return true;
         }
         catch( IllegalStateException e )
@@ -183,9 +187,26 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             else
             {
                 DaemonManagedTask daemonManagedTask = new DaemonManagedTask( entry );
-                ScheduledFuture sf = _scheduledExecutorService.scheduleAtFixedRate( daemonManagedTask ,  nInitialDelay , unit.convert(entry.getInterval( ), TimeUnit.SECONDS) , unit );
-                _scheduledFutures.put( entry.getId( ), sf );
-                _scheduledDaemons.put( entry.getId( ), daemonManagedTask );
+                ScheduledFuture sf = null;
+                if ( null != entry.getCron( ) && !"".equals( entry.getCron( ) ) )
+                {
+                    ZoneId zoneId = ZoneId.systemDefault( );
+                    if (null != _zoneId) {
+                        zoneId = ZoneId.of( _zoneId );
+                    }
+                    CronTrigger trigger = new CronTrigger( entry.getCron( ), zoneId );
+                    sf = _managedScheduledExecutorService.schedule( daemonManagedTask ,  trigger );
+                    AppLogService.debug( "Preparing daemon {} for cron scheduling", ( ) -> entry.getId( ) );
+                } else {
+                    sf = _managedScheduledExecutorService.scheduleAtFixedRate( daemonManagedTask ,  nInitialDelay , entry.getInterval( ) , unit );
+                    AppLogService.debug( "Preparing daemon {} for interval scheduling", ( ) -> entry.getId( ) );
+                }
+                if ( null != sf )
+                {
+                    _scheduledFutures.put( entry.getId( ), sf );
+                    _scheduledDaemons.put( entry.getId( ), daemonManagedTask );
+                    AppLogService.debug( "Daemon {} scheduled", ( ) -> entry.getId( ) );
+                }
             }
         }
 
@@ -229,6 +250,25 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
                 AppLogService.error( "Failed to stop daemon {}", entry.getId( ), t );
             }
         }
+    }
+
+    @Override
+    public boolean isValidCronExpression( String strDaemonCron )
+    {
+        boolean valid = false;
+        if ( null != strDaemonCron && !"".equals( strDaemonCron ) )
+        {
+            try
+            {
+                new CronTrigger( strDaemonCron, ZoneId.systemDefault( ) );
+                valid = true;
+            }
+            catch( Exception e )
+            {
+                AppLogService.debug( "Invalid cron expression '{}'", strDaemonCron, e );
+            }
+        }
+        return valid;
     }
 
     @Override
@@ -285,7 +325,6 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         _bShuttingDown = true; // prevent future scheduling of daemons
         AppLogService
                 .info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait {} s).", _maxAwaitTerminationDelay );
-        _scheduledExecutorService.shutdown( );
         _coordinatorThread.interrupt( );
         _executor.shutdown( );
 

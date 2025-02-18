@@ -78,5 +78,18 @@ public interface IDaemonScheduler
      * Perform an orderly shutdown, stopping daemon execution
      */
     void shutdown( );
+    
+    /**
+     * Checks if the given cron expression is valid towards the current daemon scheduler.
+     * 
+     * @param strDaemonCron
+     *            the cron expression
+     * @return
+     *         true is the cron expression is valid for the current daemon scheduler
+     */
+    default boolean isValidCronExpression( String strDaemonCron )
+    {
+        return false;
+    }
 
 }

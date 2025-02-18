@@ -58,6 +58,7 @@ public final class DaemonEntry
     private Daemon _daemon;
     private final DaemonThread _thread;
     private String _strPluginName;
+    private String _strCron;
 
     // Variables declarations
 
@@ -318,4 +319,26 @@ public final class DaemonEntry
     {
         _bOnStartup = bOnStartup;
     }
+
+    /**
+     * Returns the Cron expression
+     * 
+     * @return the cron expression
+     */
+    public String getCron( )
+    {
+        return _strCron;
+    }
+
+    /**
+     * Sets the Cron expression
+     * 
+     * @param strCron
+     *            The cron expression
+     */
+    public void setCron( String strCron )
+    {
+        this._strCron = strCron;
+    }
+
 }

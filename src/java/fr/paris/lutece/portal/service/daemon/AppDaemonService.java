@@ -54,6 +54,7 @@ public final class AppDaemonService
     private static final String PROPERTY_MAX_INITIAL_START_DELAY = "daemon.maxInitialStartDelay";
     private static final String PROPERTY_DAEMON_ON_STARTUP = ".onStartUp";
     private static final String PROPERTY_DAEMON_INTERVAL = ".interval";
+    private static final String PROPERTY_DAEMON_CRON = ".cron";
     private static final String KEY_DAEMON = "daemon.";
     private static final String KEY_DAEMON_PREFIX = "core." + KEY_DAEMON;
     private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<>( );
@@ -166,6 +167,17 @@ public final class AppDaemonService
         entry.setInterval( lInterval );
         entry.setOnStartUp( bOnStartup );
 
+        String strCronKey = getCronExpressionKey( entry.getId( ) );
+        String strCronKeyDefaultValue = null;
+        // init cron value if no exists
+        if ( !DatastoreService.existsInstanceKey( strCronKey ) )
+        {
+            strCronKeyDefaultValue = AppPropertiesService.getProperty( KEY_DAEMON + entry.getId( ) + PROPERTY_DAEMON_CRON, "" );
+            DatastoreService.setInstanceDataValue( strCronKey, strCronKeyDefaultValue );
+        }
+        String strCronKeyValue = DatastoreService.getInstanceDataValue( strCronKey, strCronKeyDefaultValue );
+        entry.setCron( strCronKeyValue );
+        
         try
         {
             entry.loadDaemon( );
@@ -269,8 +281,29 @@ public final class AppDaemonService
         if ( entry != null )
         {
             entry.setInterval( Long.valueOf( strDaemonInterval ) );
+            entry.setCron( "" );
             DatastoreService.setInstanceDataValue( getIntervalKey( entry.getId( ) ), strDaemonInterval );
             AppLogService.debug( "Interval set to {} seconds for daemon {} ", strDaemonInterval, strDaemonKey );
+        }
+    }
+    
+    /**
+     * Modify daemon cron expression
+     * 
+     * @param strDaemonKey
+     *            The daemon key
+     * @param strDaemonCron
+     *            The daemon cron expression
+     */
+    public static void modifyDaemonCron( String strDaemonKey, String strDaemonCron )
+    {
+        DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
+
+        if ( entry != null )
+        {
+            entry.setCron( strDaemonCron );
+            DatastoreService.setInstanceDataValue( getCronExpressionKey( entry.getId( ) ), strDaemonCron );
+            AppLogService.debug( "Cron set to {} seconds for daemon {} ", strDaemonCron, strDaemonKey );
         }
     }
 
@@ -337,6 +370,18 @@ public final class AppDaemonService
     {
         return _mapDaemonEntries.values( );
     }
+    
+    /**
+     * Get the DaemonEntry within the current known DaemonEntries within the DaemonFactory
+     * 
+     * @param strDaemonKey
+     *            The daemon key
+     * @return the corresponding DaemonEntry
+     */
+    public static DaemonEntry getDaemonEntry( String strDaemonKey )
+    {
+        return _mapDaemonEntries.get( strDaemonKey );
+    }
 
     /**
      * Performs the shutdown of the DaemonFactory.
@@ -382,5 +427,31 @@ public final class AppDaemonService
     private static String getIntervalKey( String strDaemonKey )
     {
         return KEY_DAEMON_PREFIX + strDaemonKey + PROPERTY_DAEMON_INTERVAL;
+    }
+    
+    /**
+     * Return the Cron key link to the daemon
+     * 
+     * @param strDaemonKey
+     *            The daemon key
+     * @return
+     *         The key
+     */
+    private static String getCronExpressionKey( String strDaemonKey )
+    {
+        return KEY_DAEMON_PREFIX + strDaemonKey + PROPERTY_DAEMON_CRON;
+    }
+
+    /**
+     * Validates a cron expression against the daemon scheduler
+     * 
+     * @param strDaemonCron
+     *            The cron expression to validate
+     * @return
+     *         True if the expression is valid
+     */
+    public static boolean isValidCronExpression( String strDaemonCron )
+    {
+        return _executor.isValidCronExpression( strDaemonCron );
     }
 }
