@@ -120,7 +120,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
             rightLevelsReferenceList.add( rightLevel.getReferenceItem( ) );
         }
         model.put( MARK_RIGHT_LEVELS_REFERENCE_LIST, rightLevelsReferenceList );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_EXTERNAL_FEATURE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_EXTERNAL_FEATURE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_EXTERNAL_FEATURE, getLocale( ), model );
 
@@ -129,7 +129,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 
     public String doCreateExternalFeature( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_EXTERNAL_FEATURE ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_EXTERNAL_FEATURE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -157,7 +157,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_ID_EXTERNAL_FEATURE, strExternalFeatureId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DELETE_EXTERNAL_FEATURE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DELETE_EXTERNAL_FEATURE ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, JSP_DELETE_EXTERNAL_FEATURE, "",
                 AdminMessage.TYPE_CONFIRMATION, parameters );
@@ -165,7 +165,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 
     public String doRemoveExternalFeature( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DELETE_EXTERNAL_FEATURE ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_DELETE_EXTERNAL_FEATURE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -200,7 +200,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
             rightLevelsReferenceList.add( rightLevel.getReferenceItem( ) );
         }
         model.put( MARK_RIGHT_LEVELS_REFERENCE_LIST, rightLevelsReferenceList );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_EXTERNAL_FEATURE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_EXTERNAL_FEATURE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_EXTERNAL_FEATURE, getLocale( ), model );
 
@@ -209,7 +209,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 
     public String doModifyExternalFeature( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_EXTERNAL_FEATURE ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_EXTERNAL_FEATURE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

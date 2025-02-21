@@ -68,6 +68,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
 /**
  * Class to import Admin Users from CSV files.
@@ -88,7 +89,14 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
 
     // Template
     private static final String TEMPLATE_DEFAULT_IMPORT_USERS_FROM_FILE = "admin/user/import_users_from_file.html";
-    private static final AttributeService _attributeService = AttributeService.getInstance( );
+    
+    private transient AttributeService _attributeService;
+    
+    @Inject
+    public DefaultImportAdminUserService( AttributeService attributeService )
+    {
+    	_attributeService = attributeService;
+    }
 
     /**
      * {@inheritDoc}

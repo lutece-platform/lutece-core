@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -44,6 +45,7 @@ import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -64,7 +66,7 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
     private static final String MARK_MAP_AVAILABLE_ORDERS = "map_available_orders";
     private static final String MARK_MAP_COLUMN_ORDER_STATUS = "map_column_order_status";
 
-    private DashboardService _service = DashboardService.getInstance( );
+    private DashboardService _service = CDI.current( ).select( DashboardService.class ).get( );
 
     /**
      * {@inheritDoc}
@@ -73,6 +75,7 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<>( );
+        ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );        
 
         Map<String, List<IDashboardComponent>> mapDashboards = _service.getAllSetDashboards( user );
 
@@ -90,7 +93,7 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
         model.put( MARK_MAP_AVAILABLE_ORDERS, _service.getMapAvailableOrders( ) );
         model.put( MARK_LIST_AVAILABLE_COLUMNS, _service.getListAvailableColumns( ) );
         model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, securityTokenService.getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale( ), model );
 

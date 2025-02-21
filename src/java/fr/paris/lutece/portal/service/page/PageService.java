@@ -57,6 +57,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.commons.lang3.BooleanUtils;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.page.PageRoleRemovalListener;
@@ -944,7 +945,7 @@ public class PageService implements IPageService, ImageResourceProvider
         {
             String strAuthorizationNode = Integer.toString( page.getIdAuthorizationNode( ) );
 
-            return ( RBACService.isAuthorized( Page.RESOURCE_TYPE, strAuthorizationNode, strPermission, user ) );
+            return ( RBACService.isAuthorized( Page.RESOURCE_TYPE, strAuthorizationNode, strPermission, ( User ) user ) );
         }
 
         return true;
@@ -963,7 +964,7 @@ public class PageService implements IPageService, ImageResourceProvider
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        if ( RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
+        if ( RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, ( User ) user ) )
         {
             Locale locale = user.getLocale( );
             Collection<PortletCustomAdminAction> listCustomActions = new ArrayList<>( );

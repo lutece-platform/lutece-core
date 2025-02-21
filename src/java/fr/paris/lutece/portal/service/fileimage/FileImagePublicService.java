@@ -39,7 +39,6 @@ import org.apache.commons.fileupload2.core.FileItem;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.cache.LuteceCache;
-import fr.paris.lutece.portal.service.file.FileService;
 import fr.paris.lutece.portal.service.file.FileServiceException;
 import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.image.ImageResource;
@@ -63,7 +62,9 @@ public class FileImagePublicService implements ImageResourceProvider
 	private Lutece107Cache<String, ImageResource> _cacheFileImage;
 
 	public static final String IMAGE_RESOURCE_TYPE_ID = "public_image_resource";
-	private static final IFileStoreServiceProvider _fileStoreService = FileService.getInstance( ).getFileStoreServiceProvider( );
+	
+	@Inject
+	private transient IFileStoreServiceProvider _fileStoreService;
 	
     
     /**

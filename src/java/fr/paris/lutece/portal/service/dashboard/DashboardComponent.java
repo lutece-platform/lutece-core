@@ -38,8 +38,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import java.util.Locale;
-
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.Objects;
 
 /**
  * Dashboard Component
@@ -209,7 +208,7 @@ public abstract class DashboardComponent implements IDashboardComponent
         {
             IDashboardComponent other = (IDashboardComponent) obj;
 
-            return ObjectUtils.equals( this.getName( ), other.getName( ) );
+            return Objects.equals( this.getName( ), other.getName( ) );
         }
 
         return false;
@@ -222,7 +221,7 @@ public abstract class DashboardComponent implements IDashboardComponent
     @Override
     public int hashCode( )
     {
-        return ObjectUtils.hashCode( this.getName( ) );
+        return Objects.hashCode( this.getName( ) );
     }
 
     /**

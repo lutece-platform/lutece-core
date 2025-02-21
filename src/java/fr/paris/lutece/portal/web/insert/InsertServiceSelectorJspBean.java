@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.insert.InsertResourceIdService;
 import fr.paris.lutece.portal.service.insert.InsertService;
@@ -105,10 +106,11 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         strText = EncodingService.encodeUrl( strText );
 
         Collection<InsertService> listServices = InsertServiceManager.getInsertServicesList( );
-
+        User user = getUser( );
+        
         // building from a template
         Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_INSERT_SERVICES_LIST, RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, getUser( ) ) );
+        model.put( MARK_INSERT_SERVICES_LIST, RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, user ) );
         model.put( MARK_SELECTED_TEXT, strText );
         model.put( MARK_INPUT, strInput );
         

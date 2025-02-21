@@ -33,9 +33,11 @@
  */
 package fr.paris.lutece.portal.business.xsl;
 
-import fr.paris.lutece.portal.business.file.FileHome;
+import fr.paris.lutece.portal.service.file.FileServiceException;
+import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.util.ReferenceList;
 import jakarta.enterprise.inject.spi.CDI;
 
@@ -49,6 +51,8 @@ public final class XslExportHome
     // Static variable pointed at the DAO instance
     private static IXslExportDAO _dao = CDI.current().select( IXslExportDAO.class ).get();
 
+    private static IFileStoreServiceProvider _fileStoreService = CDI.current().select( IFileStoreServiceProvider.class ).get( ) ;
+    
     /**
      * Private constructor - this class do not need to be instantiated
      */
@@ -108,7 +112,14 @@ public final class XslExportHome
 
         if ( ( xslExport != null ) && ( xslExport.getFile( ) != null ) )
         {
-            xslExport.setFile( FileHome.findByPrimaryKey( xslExport.getFile( ).getIdFile( ) ) );
+        	try
+        	{
+        		xslExport.setFile( _fileStoreService.getFile( xslExport.getFile( ).getFileKey( ) ) );
+        	}
+        	catch( FileServiceException e )
+        	{
+        		throw new AppException( e.getMessage( ), e );
+        	}
         }
 
         return xslExport;

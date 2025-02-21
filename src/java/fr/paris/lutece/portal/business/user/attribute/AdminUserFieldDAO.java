@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +143,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
             if ( userField.getFile( ) != null )
             {
-                daoUtil.setInt( nIndex++, userField.getFile( ).getIdFile( ) );
+            	daoUtil.setInt( nIndex++, Integer.parseInt( userField.getFile( ).getFileKey( ) ) );
             }
             else
             {
@@ -275,7 +276,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
                 if ( daoUtil.getObject( 5 ) != null ) // f.id_file
                 {
                     File file = new File( );
-                    file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
+                    file.setFileKey( String.valueOf( daoUtil.getInt( 5 ) ) ); // f.id_file
                     userField.setFile( file );
                 }
 
@@ -289,9 +290,9 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
                 try
                 {
-                    attribute = (IAttribute) Class.forName( daoUtil.getString( 7 ) ).newInstance( );
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( 7 ) ).getDeclaredConstructor( ).newInstance( );
                 }
-                catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
+                catch( IllegalAccessException | InstantiationException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e )
                 {
                     AppLogService.error( e );
                 }
@@ -521,9 +522,9 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
         try
         {
-            attribute = (IAttribute) Class.forName( daoUtil.getString( 14 ) ).newInstance( );
+            attribute = (IAttribute) Class.forName( daoUtil.getString( 14 ) ).getDeclaredConstructor( ).newInstance( );
         }
-        catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e )
         {
             AppLogService.error( e );
         }
@@ -561,7 +562,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         if ( daoUtil.getObject( 5 ) != null ) // f.id_file
         {
             File file = new File( );
-            file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
+            file.setFileKey( String.valueOf( daoUtil.getInt( 5 ) ) ); // f.id_file
             userField.setFile( file );
         }
 

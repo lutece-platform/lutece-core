@@ -68,6 +68,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -390,9 +391,10 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void registerFilters( ) throws LuteceInitException
     {
+    	FilterService filterService = CDI.current( ).select( FilterService.class ).get( );
         for ( FilterEntry entry : _listFilters )
         {
-            FilterService.getInstance( ).registerFilter( entry, this );
+            filterService.registerFilter( entry, this );
         }
     }
 
@@ -404,9 +406,10 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void registerServlets( ) throws LuteceInitException
     {
+    	ServletService servletService = CDI.current( ).select( ServletService.class ).get( );
         for ( ServletEntry entry : _listServlets )
         {
-            ServletService.getInstance( ).registerServlet( entry, this );
+            servletService.registerServlet( entry, this );
         }
     }
 
@@ -436,13 +439,13 @@ public abstract class Plugin implements Comparable<Plugin>
         {
             try
             {
-                ContentService cs = (ContentService) Class.forName( entry.getClassName( ) ).newInstance( );
+                ContentService cs = (ContentService) Class.forName( entry.getClassName( ) ).getDeclaredConstructor( ).newInstance( );
 
                 cs.setPluginName( getName( ) );
 
                 PortalService.registerContentService( cs.getName( ), cs );
             }
-            catch( InstantiationException | ClassNotFoundException | IllegalAccessException e )
+            catch( InstantiationException | ClassNotFoundException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e )
             {
                 throw new LuteceInitException( e.getMessage( ), e );
             }
@@ -476,10 +479,10 @@ public abstract class Plugin implements Comparable<Plugin>
         {
             try
             {
-                SearchIndexer indexer = (SearchIndexer) Class.forName( entry.getClassName( ) ).newInstance( );
+                SearchIndexer indexer = (SearchIndexer) Class.forName( entry.getClassName( ) ).getDeclaredConstructor( ).newInstance( );
                 IndexationService.registerIndexer( indexer );
             }
-            catch( IllegalAccessException | ClassNotFoundException | InstantiationException e )
+            catch( IllegalAccessException | ClassNotFoundException | InstantiationException | InvocationTargetException | NoSuchMethodException e )
             {
                 throw new LuteceInitException( e.getMessage( ), e );
             }
@@ -509,9 +512,10 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void registerDashboardComponents( ) throws LuteceInitException
     {
+    	DashboardService dashboardService = CDI.current( ).select( DashboardService.class ).get( );    	
         for ( DashboardComponentEntry entry : _listDashboardComponents )
         {
-            DashboardService.getInstance( ).registerDashboardComponent( entry, this );
+            dashboardService.registerDashboardComponent( entry, this );
         }
     }
 
@@ -523,9 +527,10 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void registerAdminDashboardComponents( ) throws LuteceInitException
     {
+    	AdminDashboardService adminDashboardService = CDI.current( ).select( AdminDashboardService.class ).get( );    	
         for ( DashboardComponentEntry entry : _listAdminDashboardComponents )
         {
-            AdminDashboardService.getInstance( ).registerDashboardComponent( entry, this );
+            adminDashboardService.registerDashboardComponent( entry, this );
         }
     }
 
@@ -543,11 +548,11 @@ public abstract class Plugin implements Comparable<Plugin>
 
             try
             {
-                ris = (ResourceIdService) Class.forName( entry.getClassName( ) ).newInstance( );
+                ris = (ResourceIdService) Class.forName( entry.getClassName( ) ).getDeclaredConstructor( ).newInstance( );
                 // Each resource id service should register itself and its permissions
                 ris.register( );
             }
-            catch( InstantiationException | ClassNotFoundException | IllegalAccessException e )
+            catch( InstantiationException | ClassNotFoundException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e )
             {
                 throw new LuteceInitException( e.getMessage( ), e );
             }

@@ -42,11 +42,16 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.service.csv.CSVMessageDescriptor;
+import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 public class ImportAdminUserServiceTest extends LuteceTestCase
 {
+	@Inject
+	private AttributeService _attributeService;
+	
 	@Test
     public void testReadLineOfCSVFileForPassword( )
     {
@@ -60,7 +65,7 @@ public class ImportAdminUserServiceTest extends LuteceTestCase
                 "", // datelastlogin
 
         };
-        ImportAdminUserService importAdminuser = new DefaultImportAdminUserService( );
+        ImportAdminUserService importAdminuser = new DefaultImportAdminUserService( _attributeService );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         List<CSVMessageDescriptor> messages = importAdminuser.readLineOfCSVFile( lineData, 1, AdminUserService.getLocale( request ),
                 AppPathService.getBaseUrl( request ) );

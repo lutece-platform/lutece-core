@@ -37,11 +37,14 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
 import fr.paris.lutece.portal.service.editor.RichTextEditorService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import java.util.HashMap;
 import java.util.Map;
+
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -61,6 +64,8 @@ public class EditorAdminDashboardComponent extends AdminDashboardComponent
     @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
+        ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );    	
+    	
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_LIST_EDITORS_BACK_OFFICE, RichTextEditorService.getListEditorsForBackOffice( AdminUserService.getLocale( request ) ) );
         model.put( MARK_CURRENT_EDITOR_BACK_OFFICE, RichTextEditorService.getBackOfficeDefaultEditor( ) );
@@ -68,7 +73,7 @@ public class EditorAdminDashboardComponent extends AdminDashboardComponent
         model.put( MARK_LIST_EDITORS_FRONT_OFFICE, RichTextEditorService.getListEditorsForFrontOffice( AdminUserService.getLocale( request ) ) );
         model.put( MARK_CURRENT_EDITOR_FRONT_OFFICE, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
 
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_EDITOR_CHOICE_PANEL ) );
+        model.put( SecurityTokenService.MARK_TOKEN, securityTokenService.getToken( request, TEMPLATE_EDITOR_CHOICE_PANEL ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EDITOR_CHOICE_PANEL, user.getLocale( ), model );
 

@@ -49,6 +49,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -65,6 +66,8 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
     @Inject
     private AdminDashboardJspBean instance;
     private IAdminDashboardComponent _dashboard;
+    @Inject
+    private ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -131,7 +134,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
+                _securityTokenService.getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
 
         instance.doMoveAdminDashboard( request );
 
@@ -153,7 +156,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) + "b" );
+                _securityTokenService.getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) + "b" );
 
         try
         {
@@ -212,7 +215,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "column", Integer.toString( nZone ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
+                _securityTokenService.getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
 
         instance.doReorderColumn( request );
 
@@ -238,7 +241,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "column", Integer.toString( nZone ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) + "b" );
+                _securityTokenService.getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) + "b" );
 
         try
         {

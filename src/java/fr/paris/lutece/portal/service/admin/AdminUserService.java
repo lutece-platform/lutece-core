@@ -58,6 +58,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
 import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 import fr.paris.lutece.portal.business.right.Level;
@@ -364,7 +365,8 @@ public final class AdminUserService
             map.put( String.valueOf( user.getUserId( ) ), listAdminUserFields );
         }
 
-        List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithFields( currentUser.getLocale( ) );
+        AttributeService attributeService = CDI.current( ).select( AttributeService.class ).get( );
+        List<IAttribute> listAttributes = attributeService.getAllAttributesWithFields( currentUser.getLocale( ) );
 
         String strSortSearchAttribute = StringUtils.EMPTY;
 
@@ -398,7 +400,7 @@ public final class AdminUserService
         Map<String, Object> model = new HashMap<>( );
 
         boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user );
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, ( User ) user );
 
         if ( bPermissionManageAdvancedParameters )
         {
@@ -424,7 +426,8 @@ public final class AdminUserService
             model.put( MARK_DEFAULT_USER_STATUS, nDefaultUserStatus );
 
             // EMAIL PATTERN
-            model.put( MARK_PLUGIN_REGULAREXPRESSION, RegularExpressionService.getInstance( ).isAvailable( ) );
+            RegularExpressionService regularExpressionService = CDI.current( ).select( RegularExpressionService.class ).get( );
+            model.put( MARK_PLUGIN_REGULAREXPRESSION, regularExpressionService.isAvailable( ) );
             model.put( MARK_IS_EMAIL_PATTERN_SET_MANUALLY, isEmailPatternSetManually( ) );
             model.put( MARK_EMAIL_PATTERN, getEmailPattern( ) );
             model.put( MARK_AVAILABLE_REGULAREXPRESSIONS, getAvailableRegularExpressions( ) );
@@ -486,9 +489,10 @@ public final class AdminUserService
         }
         else
         {
+            RegularExpressionService regularExpressionService = CDI.current( ).select( RegularExpressionService.class ).get( );
             for ( RegularExpression regularExpression : getSelectedRegularExpressions( ) )
             {
-                if ( !RegularExpressionService.getInstance( ).isMatches( strEmail, regularExpression ) )
+                if ( !regularExpressionService.isMatches( strEmail, regularExpression ) )
                 {
                     bIsValid = false;
 
@@ -577,6 +581,7 @@ public final class AdminUserService
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
             String [ ] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
 
+            RegularExpressionService regularExpressionService = CDI.current( ).select( RegularExpressionService.class ).get( );
             for ( String strRegularExpressionId : regularExpressionIds )
             {
                 String trimedId = strRegularExpressionId.trim( );
@@ -584,7 +589,7 @@ public final class AdminUserService
                 if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
                     int nRegularExpressionId = Integer.parseInt( trimedId );
-                    RegularExpression regularExpression = RegularExpressionService.getInstance( ).getRegularExpressionByKey( nRegularExpressionId );
+                    RegularExpression regularExpression = regularExpressionService.getRegularExpressionByKey( nRegularExpressionId );
 
                     if ( regularExpression != null )
                     {
@@ -757,7 +762,8 @@ public final class AdminUserService
             }
 
             // Fetch all regular expressions
-            List<RegularExpression> listRegularExpression = RegularExpressionService.getInstance( ).getAllRegularExpression( );
+            RegularExpressionService regularExpressionService = CDI.current( ).select( RegularExpressionService.class ).get( );
+            List<RegularExpression> listRegularExpression = regularExpressionService.getAllRegularExpression( );
 
             // Get only the expressions that are not already selected
             for ( RegularExpression regularExpression : listRegularExpression )
@@ -787,6 +793,7 @@ public final class AdminUserService
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
             String [ ] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
 
+            RegularExpressionService regularExpressionService = CDI.current( ).select( RegularExpressionService.class ).get( );
             for ( String strRegularExpressionId : regularExpressionIds )
             {
                 String trimedId = strRegularExpressionId.trim( );
@@ -794,7 +801,7 @@ public final class AdminUserService
                 if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
                     int nRegularExpressionId = Integer.parseInt( trimedId );
-                    RegularExpression expression = RegularExpressionService.getInstance( ).getRegularExpressionByKey( nRegularExpressionId );
+                    RegularExpression expression = regularExpressionService.getRegularExpressionByKey( nRegularExpressionId );
 
                     if ( expression != null )
                     {
@@ -815,8 +822,9 @@ public final class AdminUserService
     private static boolean isEmailPatternSetManually( )
     {
         boolean bIsSetManually = true;
+        RegularExpressionService regularExpressionService = CDI.current( ).select( RegularExpressionService.class ).get( );
 
-        if ( RegularExpressionService.getInstance( ).isAvailable( ) )
+        if ( regularExpressionService.isAvailable( ) )
         {
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
 
@@ -1216,7 +1224,7 @@ public final class AdminUserService
         AdminUserHome.removeAllPasswordHistoryForUser( nAdminUserId );
         AdminUserHome.update( user );
 
-        AttributeService attributeService = AttributeService.getInstance( );
+        AttributeService attributeService = CDI.current( ).select( AttributeService.class ).get( );
         List<IAttribute> listAllAttributes = attributeService.getAllAttributesWithoutFields( locale );
         List<IAttribute> listAttributesText = new ArrayList<>( );
 

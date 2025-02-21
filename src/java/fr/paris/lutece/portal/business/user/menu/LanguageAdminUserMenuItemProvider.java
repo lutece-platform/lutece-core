@@ -38,11 +38,13 @@ import java.util.Locale;
 import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -57,6 +59,9 @@ public class LanguageAdminUserMenuItemProvider extends AbstractAdminUserMenuItem
     private static final String MARK_CURRENT_LANGUAGE = "current_language";
     private static final String MARK_LANGUAGES_LIST = "languages_list";
 
+    @Inject
+    private transient ISecurityTokenService _securityTokenService;
+    
     @Override
     protected boolean isItemProviderInvoked( HttpServletRequest request )
     {
@@ -70,7 +75,7 @@ public class LanguageAdminUserMenuItemProvider extends AbstractAdminUserMenuItem
         Locale locale = user.getLocale( );
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, _securityTokenService.getToken( request, TEMPLATE ) );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage( ) );
 

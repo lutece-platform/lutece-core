@@ -90,7 +90,7 @@ public class DaemonsJspBean extends AdminPageJspBean
         
         model.put( MARK_LOG_MAX_SIZE, AppPropertiesService.getPropertyInt( PROPERTY_DAEMON_LASTRUNLOG_MAX_SIZE, 30000 ) );
         model.put( MARK_DAEMONS_LIST, AppDaemonService.getDaemonEntries( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DAEMONS, getLocale( ), model );
 
@@ -168,7 +168,7 @@ public class DaemonsJspBean extends AdminPageJspBean
      */
     private void assertSecurityToken( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DAEMONS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_DAEMONS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

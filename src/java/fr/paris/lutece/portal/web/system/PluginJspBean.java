@@ -119,7 +119,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_POOLS_LIST, getPoolsList( ) );
         model.put( MARK_FILTER_LIST, getPluginTypeFilterList( locale ) );
         model.put( MARK_CURRENT_FILTER, ( strPluginTypeFilter != null ) ? strPluginTypeFilter : "" );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_PLUGINS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_PLUGINS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_PLUGINS, locale, model );
 
@@ -151,7 +151,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args, AdminMessage.TYPE_STOP );
 
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -182,7 +182,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     public String doUninstallPlugin( HttpServletRequest request, ServletContext context ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_UNINSTALL_PLUGIN ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_UNINSTALL_PLUGIN ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -215,7 +215,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         String strMessageKey = PROPERTY_PLUGIN_MESSAGE;
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAM_PLUGIN_NAME, strPluginName );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_UNINSTALL_PLUGIN ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_UNINSTALL_PLUGIN ) );
         String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, JSP_UNINSTALL_PLUGIN, AdminMessage.TYPE_CONFIRMATION,
                 parameters );
 
@@ -244,7 +244,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyPluginPool( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -57,6 +58,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.ConstraintViolation;
@@ -100,6 +103,9 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     private Locale _locale;
     private AdminUser _user;
 
+    @Inject
+    private transient ISecurityTokenService _securityTokenService;
+    
     /**
      * Initialize the jspbean data Allows to set the feature url and feature title associated
      * 
@@ -263,6 +269,16 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         return template.getHtml( );
     }
 
+    /**
+     * Returns the SecurityTokenService instance by privileging direct injection. Used during complete transition do CDI XPages.
+     * 
+     * @return the SecurityTokenService instance
+     */
+    public ISecurityTokenService getSecurityTokenService( )
+    {
+        return null != _securityTokenService ? _securityTokenService : CDI.current( ).select( ISecurityTokenService.class ).get( );
+    }
+    
     /**
      * Populate a bean using parameters in http request
      * 

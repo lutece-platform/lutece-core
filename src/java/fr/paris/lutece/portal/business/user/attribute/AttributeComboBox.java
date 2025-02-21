@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.user.attribute;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
 import org.apache.commons.lang3.StringUtils;
@@ -80,6 +79,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
     private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/combobox/html_code_form_search_attribute_combobox.html";
     private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/combobox/html_code_value_attribute_combobox.html";
 
+    
     /**
      * Constructor
      */
@@ -263,7 +263,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
                 if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
                 {
                     int nIdField = Integer.parseInt( strValue );
-                    attributeField = AttributeFieldService.getInstance( ).getAttributeField( nIdField );
+                    attributeField = AttributeFieldHome.findByPrimaryKey( nIdField );
                 }
                 else
                 {

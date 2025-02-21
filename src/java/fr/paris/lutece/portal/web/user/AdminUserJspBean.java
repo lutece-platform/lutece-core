@@ -46,7 +46,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,6 +55,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
@@ -422,7 +422,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         UrlItem url = new UrlItem( strURL );
 
         Collection<AdminUser> listUsers = AdminUserHome.findUserList( );
-        listUsers = AdminWorkgroupService.getAuthorizedCollection( listUsers, getUser( ) );
+        listUsers = AdminWorkgroupService.getAuthorizedCollection( listUsers, ( User ) getUser( ) );
 
         List<AdminUser> availableUsers = AdminUserService.getFilteredUsersInterface( listUsers, request, model, url );
         List<AdminUser> listDisplayUsers = new ArrayList<>( );
@@ -478,9 +478,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         boolean bPermissionAdvancedParameter = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) );
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, ( User ) getUser( ) );
         boolean bPermissionImportExportUsers = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS, getUser( ) );
+                AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS, ( User ) getUser( ) );
 
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_USER_LEVELS_LIST, filteredLevels );
@@ -610,7 +610,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             model.put( MARK_RANDOM_PASSWORD_SIZE,
                     AppPropertiesService.getPropertyInt( PasswordUtil.PROPERTY_PASSWORD_SIZE, PasswordUtil.CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE ) );
             model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
-            model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_CREATE_USER ) );
+            model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_CREATE_USER ) );
 
             template = AppTemplateService.getTemplate( TEMPLATE_DEFAULT_CREATE_USER, getLocale( ), model );
         }
@@ -644,7 +644,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 model.put( MARK_LOCALE, getLocale( ) );
                 model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
                 model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
-                model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_CREATE_USER ) );
+                model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_CREATE_USER ) );
             }
 
             template = AppTemplateService.getTemplate( TEMPLATE_CREATE_USER, getLocale( ), model );
@@ -819,7 +819,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return strError;
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( request, strJspUrl ) )
+        if ( !getSecurityTokenService( ).validate( request, strJspUrl ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -902,7 +902,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_LOCALE, getLocale( ) );
         model.put( MARK_MAP_LIST_ATTRIBUTE_DEFAULT_VALUES, map );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_MODIFY_USER ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_MODIFY_USER ) );
 
         template = AppTemplateService.getTemplate( strTemplateUrl, getLocale( ), model );
 
@@ -1086,7 +1086,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_USER, user );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, PROPERTY_MODIFY_USER_PASSWORD_PAGETITLE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, PROPERTY_MODIFY_USER_PASSWORD_PAGETITLE ) );
 
         template = AppTemplateService.getTemplate( strTemplateUrl, getLocale( ), model );
 
@@ -1104,7 +1104,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyAdminUserPassword( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, PROPERTY_MODIFY_USER_PASSWORD_PAGETITLE ) )
+        if ( !getSecurityTokenService( ).validate( request, PROPERTY_MODIFY_USER_PASSWORD_PAGETITLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -1176,8 +1176,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getImportUsersFromFile( HttpServletRequest request )
     {
+    	User currentUser = getUser( );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
+        		currentUser ) )
         {
             return getManageAdminUsers( request );
         }
@@ -1194,7 +1195,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_CSV_SEPARATOR, strCsvSeparator );
         model.put( MARK_CSV_ESCAPE, strCsvEscapeCharacter );
         model.put( MARK_ATTRIBUTES_SEPARATOR, strAttributesSeparator );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_IMPORT_USER ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_IMPORT_USER ) );
 
         String strTemplate = _importAdminUserService.getImportFromFileTemplate( );
         HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, AdminUserService.getLocale( request ), model );
@@ -1214,9 +1215,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public DefaultPluginActionResult doImportUsersFromFile( HttpServletRequest request ) throws AccessDeniedException
     {
         DefaultPluginActionResult result = new DefaultPluginActionResult( );
+        User currentUser = getUser( );
 
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
+        		currentUser ) )
         {
             result.setHtmlContent( getManageAdminUsers( request ) );
 
@@ -1247,7 +1249,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
                 return result;
             }
-            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_IMPORT_USER ) )
+            if ( !getSecurityTokenService( ).validate( request, JSP_URL_IMPORT_USER ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -1290,8 +1292,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getExportUsers( HttpServletRequest request )
     {
+    	User currentUser = getUser( );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
+        		currentUser ) )
         {
             return getManageAdminUsers( request );
         }
@@ -1323,9 +1326,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public DefaultPluginActionResult doExportUsers( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         DefaultPluginActionResult result = new DefaultPluginActionResult( );
+        User currentUser = getUser( );
 
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_IMPORT_EXPORT_USERS,
-                getUser( ) ) )
+        		currentUser ) )
         {
             result.setHtmlContent( getManageAdminUsers( request ) );
 
@@ -1441,7 +1445,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strUrlRemove = JSP_URL_REMOVE_USER;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_USER_ID, strUserId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_USER ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_USER ) );
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE, new Object [ ] {
                 user.getFirstName( ), user.getLastName( ), user.getAccessCode( )
@@ -1467,7 +1471,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, AdminMessage.TYPE_ERROR );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_USER ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_USER ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -1628,7 +1632,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateWorkgroups ) );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_DEFAULT_MODE_USED, AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_MANAGE_USER_WORKGROUPS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_MANAGE_USER_WORKGROUPS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_WORKGROUPS, getLocale( ), model );
 
@@ -1703,7 +1707,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_SELECT_ALL, bSelectAll );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_DEFAULT_MODE_USED, AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_MANAGE_USER_RIGHTS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_MANAGE_USER_RIGHTS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_RIGHTS, getLocale( ), model );
 
@@ -1721,7 +1725,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyAdminUserRights( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_MANAGE_USER_RIGHTS ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_URL_MANAGE_USER_RIGHTS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -1849,7 +1853,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             for ( RBACRole role : RBACRoleHome.findAll( ) )
             {
-                if ( currentUser.isAdmin( ) || RBACService.isUserInRole( currentUser, role.getKey( ) ) )
+                if ( currentUser.isAdmin( ) || RBACService.isUserInRole( ( User ) currentUser, role.getKey( ) ) )
                 {
                     assignableRoleList.add( role );
                 }
@@ -1870,7 +1874,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ALL_ROLE_LIST, assignableRoleList );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_DEFAULT_MODE_USED, AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_MANAGE_USER_ROLES ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_MANAGE_USER_ROLES ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_ROLES, getLocale( ), model );
 
@@ -1888,7 +1892,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyAdminUserRoles( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_MANAGE_USER_ROLES ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_URL_MANAGE_USER_ROLES ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -1932,7 +1936,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyAdminUserWorkgroups( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_MANAGE_USER_WORKGROUPS ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_URL_MANAGE_USER_WORKGROUPS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -2009,12 +2013,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyDefaultUserParameterValues( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+        
+        User currentUser = getUser( );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
+        		currentUser ) )
         {
             throw new AccessDeniedException(
                     CONSTANT_USER_MSG + getUser( ) + CONSTANT_NOT_AUTHORIZED + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
@@ -2047,12 +2053,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyDefaultUserSecurityValues( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+        
+        User currentUser = getUser( );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
+        		currentUser ) )
         {
             throw new AccessDeniedException(
                     CONSTANT_USER_MSG + getUser( ) + CONSTANT_NOT_AUTHORIZED + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
@@ -2162,15 +2170,16 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyEmailPattern( HttpServletRequest request ) throws AccessDeniedException
     {
+    	User currentUser = getUser( );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
+        		currentUser ) )
         {
             throw new AccessDeniedException(
                     CONSTANT_USER_MSG + getUser( ) + CONSTANT_NOT_AUTHORIZED + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
         if ( PARAMETER_RESET.equals( request.getParameter( PARAMETER_RESET ) ) )
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
+            if ( !getSecurityTokenService( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -2181,7 +2190,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isNotBlank( strEmailPattern ) )
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
+            if ( !getSecurityTokenService( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -2214,12 +2223,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doInsertRegularExpression( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+        
+        User currentUser = getUser( );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
+        		currentUser ) )
         {
             throw new AccessDeniedException(
                     CONSTANT_USER_MSG + getUser( ) + CONSTANT_NOT_AUTHORIZED + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
@@ -2247,12 +2258,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemoveRegularExpression( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+        
+        User currentUser = getUser( );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
+        		currentUser ) )
         {
             throw new AccessDeniedException(
                     CONSTANT_USER_MSG + getUser( ) + CONSTANT_NOT_AUTHORIZED + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
@@ -2279,7 +2292,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String getChangeUseAdvancedSecurityParameters( HttpServletRequest request )
     {
         Map<String, Object> parameters = new HashMap<>( 1 );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TOKEN_TECHNICAL_ADMIN ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, TOKEN_TECHNICAL_ADMIN ) );
 
         if ( AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) )
         {
@@ -2302,7 +2315,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doUseAdvancedSecurityParameters( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -2325,7 +2338,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemoveAdvancedSecurityParameters( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -2362,7 +2375,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ATTRIBUTES_LIST, listAttributesText );
 
         model.putAll( AdminUserHome.getAnonymizationStatusUserStaticField( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TOKEN_TECHNICAL_ADMIN ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TOKEN_TECHNICAL_ADMIN ) );
 
         setPageTitleProperty( PROPERTY_MESSAGE_TITLE_CHANGE_ANONYMIZE_USER );
 
@@ -2386,7 +2399,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             return getAdminDashboardsUrl( request, ANCHOR_ANONYMIZE_USERS );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_TECHNICAL_ADMIN ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -2443,7 +2456,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strUrl = JSP_URL_ANONYMIZE_ADMIN_USER;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_USER_ID, strAdminUserId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_ANONYMIZE_ADMIN_USER ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_ANONYMIZE_ADMIN_USER ) );
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_ANONYMIZE_USER, new Object [ ] {
                 user.getFirstName( ), user.getLastName( ), user.getAccessCode( )
@@ -2475,7 +2488,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, AdminMessage.TYPE_ERROR );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_ANONYMIZE_ADMIN_USER ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_URL_ANONYMIZE_ADMIN_USER ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -2597,7 +2610,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_MODIFY_ACCOUNT_LIFE_TIME_EMAIL ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_MODIFY_ACCOUNT_LIFE_TIME_EMAIL ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL, getLocale( ), model );
 
@@ -2615,7 +2628,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyAccountLifeTimeEmails( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_MODIFY_ACCOUNT_LIFE_TIME_EMAIL ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_URL_MODIFY_ACCOUNT_LIFE_TIME_EMAIL ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

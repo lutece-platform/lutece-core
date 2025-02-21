@@ -147,7 +147,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     {
     	HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_SECURITY_HEADERS_LIST, getSecurityHeaderService( ).findAllSorted( getLocale( ) ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_SECURITY_HEADERS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_SECURITY_HEADERS ) );
         
         return model;
     }
@@ -193,7 +193,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         {
             model.put( MARK_PAGE_CATEGORY_SELECTED, listPageCategories.get( 0 ).getCode( ) );
         }
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_SECURITYHEADER ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_SECURITYHEADER ) );
         
         return model;
     }
@@ -217,7 +217,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
             return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_SECURITYHEADER ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_SECURITYHEADER ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -439,7 +439,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         }
         model.put( MARK_PAGE_CATEGORY_SELECTED, selectedCategory );
         model.put( MARK_SECURITY_HEADER, securityHeader );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_SECURITYHEADER ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_SECURITYHEADER ) );
 		return model;
 	}
     
@@ -463,7 +463,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         {
             return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_SECURITYHEADER ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_SECURITYHEADER ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -560,7 +560,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     {  	
     	Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_SECURITY_HEADER_ID, request.getParameter( PARAMETER_SECURITY_HEADER_ID ) );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_REMOVE_SECURITY_HEADERS ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_REMOVE_SECURITY_HEADERS ) );
         
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, JSP_REMOVE_SECURITY_HEADERS, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
@@ -576,7 +576,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      */
     public String doRemoveSecurityHeader( HttpServletRequest request ) throws AccessDeniedException
     {
-    	if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_SECURITY_HEADERS ) )
+    	if ( !getSecurityTokenService( ).validate( request, JSP_REMOVE_SECURITY_HEADERS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -600,7 +600,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         String strAction = request.getParameter( PARAMETER_ACTION );
         int nId = Integer.parseInt( request.getParameter( PARAMETER_SECURITY_HEADER_ID ) );
         
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_SECURITY_HEADERS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_SECURITY_HEADERS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

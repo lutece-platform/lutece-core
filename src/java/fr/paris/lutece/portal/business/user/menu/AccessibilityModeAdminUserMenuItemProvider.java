@@ -37,10 +37,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -53,6 +55,10 @@ public class AccessibilityModeAdminUserMenuItemProvider extends AbstractAdminUse
 {
     public static final String TEMPLATE = "admin/user/menu/modify_accessibility_mode.html";
     private static final String MARK_USER = "user";
+    
+    @Inject
+    private transient ISecurityTokenService _securityTokenService;
+
 
     @Override
     protected boolean isItemProviderInvoked( HttpServletRequest request )
@@ -66,7 +72,7 @@ public class AccessibilityModeAdminUserMenuItemProvider extends AbstractAdminUse
         AdminUser user = AdminUserService.getAdminUser( request );
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, _securityTokenService.getToken( request, TEMPLATE ) );
         model.put( MARK_USER, user );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE, user.getLocale( ), model );

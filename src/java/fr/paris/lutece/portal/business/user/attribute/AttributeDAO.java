@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -124,9 +125,9 @@ public class AttributeDAO implements IAttributeDAO
 
                 try
                 {
-                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).getDeclaredConstructor().newInstance( );
                 }
-                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e  )
                 {
                     AppLogService.error( e.getMessage( ), e );
                 }
@@ -246,9 +247,9 @@ public class AttributeDAO implements IAttributeDAO
 
                 try
                 {
-                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).getDeclaredConstructor().newInstance( );
                 }
-                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e  )
                 {
                     AppLogService.error( e.getMessage( ), e );
                 }
@@ -304,9 +305,9 @@ public class AttributeDAO implements IAttributeDAO
 
                 try
                 {
-                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).getDeclaredConstructor().newInstance( );
                 }
-                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e  )
                 {
                     AppLogService.error( e.getMessage( ), e );
                 }
@@ -356,9 +357,9 @@ public class AttributeDAO implements IAttributeDAO
 
                 try
                 {
-                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).getDeclaredConstructor().newInstance( );
                 }
-                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e  )
                 {
                     AppLogService.error( e.getMessage( ), e );
                 }

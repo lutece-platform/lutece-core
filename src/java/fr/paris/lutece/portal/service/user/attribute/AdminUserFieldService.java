@@ -70,7 +70,7 @@ public final class AdminUserFieldService
     // PARAMETERS
     private static final String PARAMETER_ATTRIBUTE = "attribute";
     private static final String PARAMETER_UPDATE_ATTRIBUTE = "update_attribute";
-    private static final AttributeService _attributeService = AttributeService.getInstance( );
+    private static final AttributeService _attributeService = CDI.current( ).select( AttributeService.class ).get( );
 
     /**
      * Instantiates a new admin user field service.

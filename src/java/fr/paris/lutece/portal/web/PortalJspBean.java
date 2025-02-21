@@ -78,6 +78,7 @@ import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -132,6 +133,9 @@ public class PortalJspBean
     private static final String PROPERTY_DEBUG_DEFAULT = "true";
     private static final String CONSTANT_SPACE = " ";
     private static final String KEY_WEBMASTER_EMAIL = "portal.site.site_property.noreply_email";
+    
+    @Inject
+    private ISiteMessageHandler _handler;
 
     /**
      * Returns the content of a page according to the parameters found in the http request. One distinguishes article, page and xpage and the mode.
@@ -247,11 +251,9 @@ public class PortalJspBean
             return getStartUpFailurePage( request );
         }
 
-        ISiteMessageHandler handler = CDI.current().select(ISiteMessageHandler.class).get();
-
-        if ( handler.hasMessage( request ) )
+        if ( _handler.hasMessage( request ) )
         {
-            strContent = handler.getPage( request, nMode );
+            strContent = _handler.getPage( request, nMode );
         }
 
         return strContent;
@@ -557,6 +559,8 @@ public class PortalJspBean
 
         if ( ( strSend != null ) && ( strError == null ) )
         {
+        	EditorBbcodeService editorBbcodeService = CDI.current( ).select( EditorBbcodeService.class ).get( );
+
             Map<String, Object> mailModel = new HashMap<>( );
             mailModel.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
             mailModel.put( MARK_RESOURCE, resource );
@@ -564,7 +568,7 @@ public class PortalJspBean
             mailModel.put( PARAMETER_SENDER_NAME, strSenderName );
             mailModel.put( PARAMETER_SENDER_FIRST_NAME, strSenderFirstName );
             mailModel.put( Parameters.EMAIL, strReceipientEmail );
-            mailModel.put( PARAMETER_CONTENT, EditorBbcodeService.getInstance( ).parse( strContent ) );
+            mailModel.put( PARAMETER_CONTENT, editorBbcodeService.parse( strContent ) );
             mailModel.put( MARK_RESOURCE_URL, resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType ) );
 
             HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EMAIL_SEND_RESOURCE, request.getLocale( ), mailModel );

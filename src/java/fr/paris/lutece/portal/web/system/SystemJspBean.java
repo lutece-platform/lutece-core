@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,6 +57,7 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.datastore.LocalizedData;
 import fr.paris.lutece.portal.service.datastore.LocalizedDataGroup;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.site.properties.SitePropertiesService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -236,12 +238,12 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      * @return The HTML form to update info
      */
     public String getManageProperties( HttpServletRequest request )
-    {
-        Map<String, Object> model = new HashMap<>( );
+    {   	
+    	Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale( ) ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_PROPERTIES ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_PROPERTIES ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PROPERTIES, getLocale( ), model );
 
@@ -261,7 +263,8 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public static String doModifyProperties( HttpServletRequest request, ServletContext context ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_PROPERTIES ) )
+    	ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
+        if ( !securityTokenService.validate( request, TEMPLATE_MODIFY_PROPERTIES ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

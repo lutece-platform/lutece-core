@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,7 +90,7 @@ public class ServletService
     {
         try
         {
-            HttpServlet servlet = (HttpServlet) Class.forName( entry.getServletClass( ) ).newInstance( );
+            HttpServlet servlet = (HttpServlet) Class.forName( entry.getServletClass( ) ).getDeclaredConstructor().newInstance( );
             LuteceServlet s = new LuteceServlet( entry.getName( ), servlet, entry.getMappingUrlPattern( ), plugin, entry.getInitParameters( ) );
             _listServlets.add( s );
             AppLogService.info( "New Servlet registered : {}", entry.getName( ) );
@@ -99,7 +100,7 @@ public class ServletService
                 AppLogService.info( " * init parameter - name : '{}' - value : '{}'", strKey, entry.getInitParameters( ).get( strKey ) );
             }
         }
-        catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+        catch( InstantiationException | IllegalAccessException | ClassNotFoundException | InvocationTargetException | NoSuchMethodException e )
         {
             AppLogService.error( "Error registering a servlet : {}", e.getMessage( ), e );
         }

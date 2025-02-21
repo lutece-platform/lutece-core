@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.xsl;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
@@ -41,6 +42,8 @@ import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.xsl.XslExport;
 import fr.paris.lutece.portal.business.xsl.XslExportHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.file.FileServiceException;
+import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -50,6 +53,9 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+
+import fr.paris.lutece.portal.service.util.AppException;
+
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.xsl.XslExportResourceIdService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
@@ -72,6 +78,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -137,6 +144,14 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String ANCHOR_ADMIN_DASHBOARDS = "xslexport";
     private static final String JSP_DO_REMOVE_XSL_EXPORT = "jsp/admin/xsl/DoRemoveXslExport.jsp";
 
+    private transient IFileStoreServiceProvider _fileStoreService;
+
+    @Inject
+    public XslExportJspBean( IFileStoreServiceProvider fileStoreService )
+    {
+    	_fileStoreService = fileStoreService;
+    }
+    
     /**
      * Gets the xsl export creation page
      * 
@@ -170,9 +185,10 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         }
 
         model.put( MARK_LIST_PLUGINS, refListPlugins );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_XSL_EXPORT ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_XSL_EXPORT ) );
 
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, getUser( ) ) )
+        User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
@@ -198,7 +214,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         XslExport xslExport = new XslExport( );
         String strError = getXslExportData( request, xslExport );
 
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, getUser( ) ) )
+        User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
@@ -208,14 +225,22 @@ public class XslExportJspBean extends PluginAdminPageJspBean
             return strError;
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_XSL_EXPORT ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_XSL_EXPORT ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         if ( xslExport.getFile( ) != null )
         {
-            xslExport.getFile( ).setIdFile( FileHome.create( xslExport.getFile( ) ) );
+        	try
+        	{
+        		xslExport.getFile( ).setFileKey( _fileStoreService.storeFile( xslExport.getFile( ) ) );
+        	}
+        	catch( FileServiceException e )
+        	{
+        		AppLogService.error( "Unable to create file for xsl export with id="+xslExport.getIdXslExport( ) );
+        		throw new AppException( e.getMessage( ), e );
+        	}
         }
 
         XslExportHome.create( xslExport );
@@ -234,7 +259,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public String getModifyXslExport( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, getUser( ) ) )
+    	User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
@@ -266,7 +292,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         }
 
         model.put( MARK_LIST_PLUGINS, refListPlugins );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_XSL_EXPORT ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_XSL_EXPORT ) );
 
         setPageTitleProperty( PROPERTY_MODIFY_XSL_EXPORT_TITLE );
 
@@ -286,7 +312,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public String doModifyXslExport( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, getUser( ) ) )
+    	User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
@@ -302,7 +329,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         {
             return strError;
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_XSL_EXPORT ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_XSL_EXPORT ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -314,8 +341,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         {
             // the file has been modified
             File fileSource = xslExport.getFile( );
-            // init id file source and id physical file before update
-            fileSource.setIdFile( fileStore.getIdFile( ) );
+            // init file key source and id physical file before update
+            fileSource.setFileKey( fileStore.getFileKey( ) );
 
             if ( fileStore.getPhysicalFile( ) != null )
             {
@@ -345,7 +372,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public String getConfirmRemoveXslExport( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, getUser( ) ) )
+    	User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
@@ -354,7 +382,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_ID_XSL_EXPORT, strIdXslExport );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_XSL_EXPORT ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_XSL_EXPORT ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_XSL_EXPORT, JSP_DO_REMOVE_XSL_EXPORT, AdminMessage.TYPE_CONFIRMATION,
                 parameters );
@@ -371,11 +399,12 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public String doRemoveXslExport( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, getUser( ) ) )
+    	User currentUser = getUser( );
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, currentUser ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_XSL_EXPORT ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_DO_REMOVE_XSL_EXPORT ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -388,7 +417,15 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
         if ( xslExport.getFile( ) != null )
         {
-            FileHome.remove( xslExport.getFile( ).getIdFile( ) );
+        	try
+        	{
+        		_fileStoreService.delete( xslExport.getFile( ).getFileKey( ) );
+        	}
+        	catch( FileServiceException e )
+        	{
+        		AppLogService.error( "Unable to delete a file for xsl export with id="+xslExport.getIdXslExport( ) );       		
+        		AppLogService.error(e);
+        	}
         }
 
         return getJspManageXslExport( request );

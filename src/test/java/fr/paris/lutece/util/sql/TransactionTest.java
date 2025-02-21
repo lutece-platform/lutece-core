@@ -54,29 +54,31 @@ public class TransactionTest extends LuteceTestCase
         System.out.println( "commit" );
 
         Transaction transaction = new Transaction( );
-
-        try
+        try ( transaction )
         {
-            transaction.prepareStatement( SQL_DROP_TABLE );
-            transaction.executeStatement( );
-            transaction.prepareStatement( SQL_CREATE_TABLE );
-            transaction.executeStatement( );
-
-            for ( int i = 0; i < 3; i++ )
+        	try
             {
-                transaction.prepareStatement( SQL_INSERT );
-                transaction.getStatement( ).setInt( 1, i );
+                transaction.prepareStatement( SQL_DROP_TABLE );
                 transaction.executeStatement( );
+                transaction.prepareStatement( SQL_CREATE_TABLE );
+                transaction.executeStatement( );
+
+                for ( int i = 0; i < 3; i++ )
+                {
+                    transaction.prepareStatement( SQL_INSERT );
+                    transaction.getStatement( ).setInt( 1, i );
+                    transaction.executeStatement( );
+                }
+
+                transaction.commit( );
+            }
+            catch( SQLException ex )
+            {
+                transaction.rollback( ex );
             }
 
-            transaction.commit( );
-        }
-        catch( SQLException ex )
-        {
-            transaction.rollback( ex );
-        }
-
-        assertTrue( transaction.getStatus( ) == Transaction.COMMITTED );
+            assertTrue( transaction.getStatus( ) == Transaction.COMMITTED );
+        }       
     }
     @Test
     public void testRollback( )
@@ -84,23 +86,25 @@ public class TransactionTest extends LuteceTestCase
         System.out.println( "rollback" );
 
         Transaction transaction = new Transaction( );
-
-        try
+        try ( transaction )
         {
-            for ( int i = 3; i < 6; i++ )
+        	try
             {
-                transaction.prepareStatement( SQL_INSERT );
-                transaction.getStatement( ).setInt( 1, i );
-                transaction.executeStatement( );
+                for ( int i = 3; i < 6; i++ )
+                {
+                    transaction.prepareStatement( SQL_INSERT );
+                    transaction.getStatement( ).setInt( 1, i );
+                    transaction.executeStatement( );
+                }
+
+                transaction.rollback( );
+            }
+            catch( SQLException ex )
+            {
+                transaction.rollback( ex );
             }
 
-            transaction.rollback( );
+            assertTrue( transaction.getStatus( ) == Transaction.ROLLEDBACK );
         }
-        catch( SQLException ex )
-        {
-            transaction.rollback( ex );
-        }
-
-        assertTrue( transaction.getStatus( ) == Transaction.ROLLEDBACK );
     }
 }

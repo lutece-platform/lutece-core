@@ -54,12 +54,15 @@ import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.daemon.TestDaemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.util.AppInitPropertiesService;
+import jakarta.inject.Inject;
 
 public class DaemonsJspBeanTest extends LuteceTestCase
 {
@@ -70,6 +73,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     private DaemonEntry _entry;
     private String origMaxInitialStartDelay;
     private TestDaemon _testDaemon;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -103,7 +107,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         {
             props.store( out, "junit" );
         }
-        AppPropertiesService.reloadAll( );
+        AppInitPropertiesService.reloadAll( );
         return orig;
     }
 
@@ -154,7 +158,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         {
             props.store( out, "junit" );
         }
-        AppPropertiesService.reloadAll( );
+        AppInitPropertiesService.reloadAll( );
     }
     @Test
     public void testDoDaemonActionStart( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
@@ -165,7 +169,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "START" );
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         lReadyTime = System.nanoTime( );
         bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
 
@@ -196,7 +200,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "START" );
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
         try
         {
             bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
@@ -257,7 +261,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "STOP" );
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         bean.doDaemonAction( request );
         assertFalse( _entry.isRunning( ) );
         try
@@ -285,7 +289,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "STOP" );
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
         try
         {
             bean.doDaemonAction( request );
@@ -345,7 +349,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         request.setParameter( "action", "RUN" ); // Manually do 1 run of the
                                                  // daemon now
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         lReadyTime = System.nanoTime( );
         bean.doDaemonAction( request );
 
@@ -377,7 +381,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         request.setParameter( "action", "RUN" ); // Manually do 1 run of the
                                                  // daemon now
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
 
         try
         {
@@ -448,7 +452,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         request.setParameter( "action", "UPDATE_INTERVAL" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( "interval", Long.toString( lTestInterval ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         bean.doDaemonAction( request );
         assertEquals( lTestInterval, _entry.getInterval( ) );
     }
@@ -460,7 +464,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         request.setParameter( "action", "UPDATE_INTERVAL" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( "interval", Long.toString( lTestInterval ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
         try
         {
             bean.doDaemonAction( request );

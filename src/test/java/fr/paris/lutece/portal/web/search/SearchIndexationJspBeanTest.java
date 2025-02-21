@@ -48,10 +48,12 @@ import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.search.SearchIndexer;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import jakarta.inject.Inject;
 
 /**
  * SearchIndexationJspBean Test Class
@@ -61,6 +63,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
 {
     private TestSearchIndexer testIndexer;
     private Boolean bIndexDaemonInitialState;
+    private @Inject ISecurityTokenService _securityTokenService;
 
     private static final class TestSearchIndexer implements SearchIndexer
     {
@@ -168,7 +171,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         SearchIndexationJspBean instance = new SearchIndexationJspBean( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_search_indexation.html" ) );
+                _securityTokenService.getToken( request, "admin/search/manage_search_indexation.html" ) );
 
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
@@ -181,7 +184,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         SearchIndexationJspBean instance = new SearchIndexationJspBean( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_search_indexation.html" ) + "b" );
+                _securityTokenService.getToken( request, "admin/search/manage_search_indexation.html" ) + "b" );
 
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );

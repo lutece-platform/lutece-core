@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.ExecutorService;
@@ -102,7 +103,7 @@ public class DaemonSchedulerWithCachedThreadPoolExecutorTest extends LuteceTestC
             executingDaemon.waitForCompletion();
             executingDaemon.go();
             executingDaemon.waitForCompletion();
-        } catch (InterruptedException | BrokenBarrierException | TimeoutException e)
+        } catch (InterruptedException | BrokenBarrierException | TimeoutException | InvocationTargetException | NoSuchMethodException e  )
         {
             fail(e.getMessage());
         } finally
@@ -163,7 +164,7 @@ public class DaemonSchedulerWithCachedThreadPoolExecutorTest extends LuteceTestC
             scheduler.shutdown();
             assertEquals(1, testDaemon.getStopCallNumber());
             assertEquals(1, testDaemon2.getStopCallNumber());
-        } catch (InterruptedException | BrokenBarrierException | TimeoutException e)
+        } catch (InterruptedException | BrokenBarrierException | TimeoutException | InvocationTargetException | NoSuchMethodException e  )
         {
             fail(e.getMessage());
         } finally

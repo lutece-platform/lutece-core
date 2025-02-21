@@ -39,10 +39,11 @@ import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.util.AppInitPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -94,7 +96,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     {
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_CACHES ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_CACHES ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CACHES, getLocale( ), model );
 
@@ -112,7 +114,8 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public static String doResetCaches( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
+    	ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
+        if ( !securityTokenService.validate( request, TEMPLATE_MANAGE_CACHES ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -144,11 +147,11 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public String doReloadProperties( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-        AppPropertiesService.reloadAll( );
+        AppInitPropertiesService.reloadAll( );
 
         return JSP_MANAGE_CACHES;
     }
@@ -207,7 +210,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
 
                 Map<String, Object> parameters = new HashMap<>( );
                 parameters.put( PARAMETER_ID_CACHE, strCacheIndex );
-                parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_TOGGLE_CACHE ) );
+                parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_TOGGLE_CACHE ) );
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE, messageArgs,
                         PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE, JSP_TOGGLE_CACHE, "", AdminMessage.TYPE_CONFIRMATION, parameters );
             }
@@ -226,7 +229,8 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public static String doToggleCache( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_TOGGLE_CACHE ) )
+        ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
+        if ( !securityTokenService.validate( request, JSP_TOGGLE_CACHE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

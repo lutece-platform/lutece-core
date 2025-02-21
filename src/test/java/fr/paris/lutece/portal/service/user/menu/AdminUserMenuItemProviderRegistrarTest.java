@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.user.menu;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -56,7 +57,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         _instance.setBeanName( "junit" );
     }
     @Test
-    public void testSetClassName( ) throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+    public void testSetClassName( ) throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException 
     {
         _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
         _instance.registerAdminUserMenuItemProvider( );
@@ -68,7 +69,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
     }
     @Test
     public void testSetClassNameProviderAlreadySetDirectly( )
-            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException 
     {
         _instance.setProvider( new TestAdminUserMenuItemProvider( ) );
         try
@@ -83,7 +84,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
     }
     @Test
     public void testSetClassNameProviderAlreadySetByClassName( )
-            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException 
     {
         _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
         try
@@ -124,7 +125,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
     }
     @Test
     public void testSetProviderProviderAlreadySetByClassName( )
-            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException 
     {
         _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
         try

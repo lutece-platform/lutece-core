@@ -60,9 +60,9 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
 import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.util.AppInitPropertiesService;
 import jakarta.inject.Inject;
 
 /**
@@ -274,7 +274,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
             OutputStream os = new FileOutputStream( luteceProperties );
             props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
             os.close( );
-            AppPropertiesService.reloadAll( );
+            AppInitPropertiesService.reloadAll( );
             SecurityService.init( );
         }
     }
@@ -297,7 +297,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
             OutputStream os = new FileOutputStream( luteceProperties );
             props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
             os.close( );
-            AppPropertiesService.reloadAll( );
+            AppInitPropertiesService.reloadAll( );
             SecurityService.init( );
         }
 

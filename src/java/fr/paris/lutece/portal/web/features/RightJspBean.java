@@ -240,7 +240,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ASSIGN_USERS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_ASSIGN_USERS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale( ), model );
 
@@ -258,7 +258,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      */
     public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -294,7 +294,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      */
     public String doUnAssignUser( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

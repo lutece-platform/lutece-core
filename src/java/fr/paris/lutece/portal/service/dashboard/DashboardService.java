@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sort.AttributeComparator;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -140,7 +141,7 @@ public class DashboardService
     {
         try
         {
-            DashboardComponent dc = (DashboardComponent) Class.forName( entry.getComponentClass( ) ).newInstance( );
+            DashboardComponent dc = (DashboardComponent) Class.forName( entry.getComponentClass( ) ).getDeclaredConstructor().newInstance( );
 
             dc.setName( entry.getName( ) );
             dc.setRight( entry.getRight( ) );
@@ -157,7 +158,7 @@ public class DashboardService
                 AppLogService.error( " Dashboard Component not registered : {} : {}", entry.getName( ), entry.getComponentClass( ) );
             }
         }
-        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e  )
         {
             AppLogService.error( "Error registering a DashboardComponent : {}", e.getMessage( ), e );
         }

@@ -208,7 +208,7 @@ public final class PoolManager
         {
             String strConnectionService = htParamsPool.get( key + ".poolservice" );
 
-            cs = (ConnectionService) Class.forName( strConnectionService ).newInstance( );
+            cs = (ConnectionService) Class.forName( strConnectionService ).getDeclaredConstructor( ).newInstance( );
         }
         catch( NullPointerException nullEx )
         {

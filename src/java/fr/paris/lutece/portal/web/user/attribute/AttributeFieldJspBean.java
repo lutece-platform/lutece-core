@@ -125,7 +125,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         HtmlTemplate template;
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE, attribute );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) );
 
         template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ATTRIBUTE_FIELD, getLocale( ), model );
 
@@ -161,7 +161,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
 
-            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) )
+            if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -202,7 +202,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE_FIELD, attributeField );
         model.put( MARK_ATTRIBUTE, attribute );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) );
+        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) );
 
         template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_ATTRIBUTE_FIELD, getLocale( ), model );
 
@@ -240,7 +240,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
 
-            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) )
+            if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -274,7 +274,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_ID_ATTRIBUTE, strIdAttribute );
         parameters.put( PARAMETER_ID_FIELD, strIdField );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) );
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD, JSP_URL_REMOVE_ATTRIBUTE_FIELD,
                 AdminMessage.TYPE_CONFIRMATION, parameters );
@@ -294,7 +294,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
 
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) )
+        if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -332,7 +332,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale( ) );
             List<AttributeField> listAttributeFields = attribute.getListAttributeFields( );
 
-            if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
+            if ( !getSecurityTokenService( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
@@ -385,7 +385,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
             IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale( ) );
             List<AttributeField> listAttributeFields = attribute.getListAttributeFields( );
-            if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
+            if ( !getSecurityTokenService( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
             {
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
