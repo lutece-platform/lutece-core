@@ -61,7 +61,7 @@ public final class LevelDAO implements ILevelDAO
      * 
      * @return The new primary key
      */
-    int newPrimaryKey( )
+    public int newPrimaryKey( )
     {
         int nKey;
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
@@ -89,8 +89,6 @@ public final class LevelDAO implements ILevelDAO
      */
     public synchronized void insert( Level level )
     {
-        level.setId( newPrimaryKey( ) );
-
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
             daoUtil.setInt( 1, level.getId( ) );

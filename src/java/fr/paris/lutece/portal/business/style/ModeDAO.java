@@ -47,7 +47,6 @@ import java.util.Collection;
 public final class ModeDAO implements IModeDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = " SELECT max( id_mode ) FROM core_mode";
     private static final String SQL_QUERY_SELECT = " SELECT id_mode, description_mode, path, output_xsl_method, output_xsl_version, "
             + " output_xsl_media_type, output_xsl_encoding, output_xsl_indent, output_xsl_omit_xml_dec, "
             + " output_xsl_standalone FROM core_mode WHERE id_mode = ?";
@@ -64,31 +63,6 @@ public final class ModeDAO implements IModeDAO
     // Access methods to data
 
     /**
-     * Generates a new primary key
-     * 
-     * @return The new primary key
-     */
-    int newPrimaryKey( )
-    {
-        int nKey;
-        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
-        {
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                // if the table is empty
-                nKey = 1;
-            }
-
-            nKey = daoUtil.getInt( 1 ) + 1;
-
-        }
-
-        return nKey;
-    }
-
-    /**
      * Insert a new record in the table.
      * 
      * @param mode
@@ -96,8 +70,6 @@ public final class ModeDAO implements IModeDAO
      */
     public synchronized void insert( Mode mode )
     {
-        mode.setId( newPrimaryKey( ) );
-
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
 

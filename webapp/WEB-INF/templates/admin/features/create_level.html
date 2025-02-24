@@ -5,6 +5,9 @@
 			<@boxBody>
 			<@tform id="create-level-form" method='post' id="create-level-form" name='create_mode' action='jsp/admin/features/DoCreateLevel.jsp'>
 			<@input type='hidden' name='token' value='${token}' />
+			<@formGroup labelKey='#i18n{portal.features.create_level.labelId}' labelFor='level_id' mandatory=true>
+				<@input type='text' name='level_id' id='level_id' value='${level_id}' maxlength=3 />
+			</@formGroup>
 			<@formGroup labelKey='#i18n{portal.features.create_level.labelName}' labelFor='level_name' mandatory=true>
 				<@input type='text' name='level_name' id='level_name' value='' maxlength=80 />
 			</@formGroup>
