@@ -50,6 +50,7 @@ public class LevelTest extends LuteceTestCase
         // Initialize an object
         Level level = new Level( );
         level.setName( NAME1 );
+        level.setId( LevelHome.newPrimaryKey( ) );
 
         // Create test
         LevelHome.create( level );

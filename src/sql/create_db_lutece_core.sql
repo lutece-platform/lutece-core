@@ -214,7 +214,7 @@ CREATE TABLE  core_indexer_action (
 --
 DROP TABLE IF EXISTS core_level_right;
 CREATE TABLE core_level_right (
-	id_level smallint default 0 NOT NULL,
+	id_level smallint NOT NULL,
 	name varchar(80) default NULL,
 	PRIMARY KEY (id_level)
 );
@@ -248,7 +248,7 @@ CREATE TABLE core_mail_item (
 --
 DROP TABLE IF EXISTS core_mode;
 CREATE TABLE core_mode (
-	id_mode int default 0 NOT NULL,
+	id_mode int NOT NULL,
 	description_mode varchar(255),
 	path varchar(50) default '' NOT NULL,
 	output_xsl_method varchar(50) default NULL,

@@ -1,0 +1,2 @@
+ALTER TABLE core_level_right ALTER COLUMN id_level DROP DEFAULT;
+ALTER TABLE core_mode ALTER COLUMN id_mode DROP DEFAULT;

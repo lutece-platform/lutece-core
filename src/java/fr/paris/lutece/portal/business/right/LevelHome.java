@@ -53,38 +53,38 @@ public final class LevelHome
     }
 
     /**
-     * Creation of an instance of a mode
+     * Creation of an instance of a level
      *
-     * @param mode
-     *            An instance of a mode which contains the informations to store
-     * @return The instance of a mode which has been created with its primary key.
+     * @param level
+     *            An instance of a level which contains the informations to store
+     * @return The instance of a level which has been created with its primary key.
      */
-    public static Level create( Level mode )
+    public static Level create( Level level )
     {
-        _dao.insert( mode );
+        _dao.insert( level );
 
-        return mode;
+        return level;
     }
 
     /**
-     * Update of the mode which is specified
+     * Update of the level which is specified
      *
-     * @param mode
-     *            The instance of the mode which contains the data to store
-     * @return The instance of the mode which has been updated
+     * @param level
+     *            The instance of the level which contains the data to store
+     * @return The instance of the level which has been updated
      */
-    public static Level update( Level mode )
+    public static Level update( Level level )
     {
-        _dao.store( mode );
+        _dao.store( level );
 
-        return mode;
+        return level;
     }
 
     /**
-     * Remove the mode whose identifier is specified in parameter
+     * Remove the level whose identifier is specified in parameter
      *
      * @param nId
-     *            The identifier of the mode to remove
+     *            The identifier of the level to remove
      */
     public static void remove( int nId )
     {
@@ -95,11 +95,11 @@ public final class LevelHome
     // Finders
 
     /**
-     * Returns an instance of an mode whose identifier is specified in parameter
+     * Returns an instance of an level whose identifier is specified in parameter
      *
      * @param nKey
-     *            The mode primary key
-     * @return an instance of a mode
+     *            The level primary key
+     * @return an instance of a level
      */
     public static Level findByPrimaryKey( int nKey )
     {
@@ -107,12 +107,22 @@ public final class LevelHome
     }
 
     /**
-     * Return the list of all the modes
+     * Return the list of all the levels
      *
-     * @return A collection of modes objects
+     * @return A collection of levels objects
      */
     public static Collection<Level> getLevelsList( )
     {
         return _dao.selectLevelsList( );
+    }
+    
+    /**
+     * Generates a new primary key
+     * 
+     * @return The new primary key
+     */
+    public static int newPrimaryKey( )
+    {
+        return _dao.newPrimaryKey( );
     }
 }
