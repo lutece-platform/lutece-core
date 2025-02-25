@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.web.features;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
@@ -70,6 +72,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
     // Markers
     private static final String MARK_LEVEL = "level";
+    private static final String MARK_LEVEL_ID = "level_id";
 
     // Templates files path
     private static final String TEMPLATE_CREATE_LEVEL = "admin/features/create_level.html";
@@ -90,6 +93,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<>( );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_LEVEL ) );
+        model.put( MARK_LEVEL_ID, LevelHome.newPrimaryKey() );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_LEVEL, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -107,11 +111,16 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     public String doCreateLevel( HttpServletRequest request ) throws AccessDeniedException
     {
         String strName = request.getParameter( Parameters.LEVEL_NAME );
-
+        String strId = request.getParameter( Parameters.LEVEL_ID );
+        
         // Mandatory fields
-        if ( strName.equals( "" ) )
+        if ( strId.equals( "" ) || strName.equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+        if ( !StringUtils.isNumeric( strId ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, AdminMessage.TYPE_STOP );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_LEVEL ) )
         {
@@ -119,6 +128,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         }
         Level level = new Level( );
         level.setName( strName );
+        level.setId( Integer.parseInt( strId ) );
         LevelHome.create( level );
 
         // If the process is successfull, redirects towards the theme view

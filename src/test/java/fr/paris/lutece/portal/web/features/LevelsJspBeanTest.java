@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.features;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -96,6 +97,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         final String name = getRandomName( );
         request.setParameter( "level_name", name );
+        request.setParameter( "level_id", String.valueOf( getRandomId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_CREATE_LEVEL ) );
 
         LevelHome.getLevelsList( ).forEach( level -> {
@@ -122,6 +124,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         final String name = getRandomName( );
         request.setParameter( "level_name", name );
+        request.setParameter( "level_id", String.valueOf( getRandomId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_CREATE_LEVEL ) + "b" );
 
         LevelHome.getLevelsList( ).forEach( level -> {
@@ -152,6 +155,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         final String name = getRandomName( );
         request.setParameter( "level_name", name );
+        request.setParameter( "level_id", String.valueOf( getRandomId( ) ) );
 
         LevelHome.getLevelsList( ).forEach( level -> {
             assertFalse( name.equals( level.getName( ) ) );
@@ -183,6 +187,11 @@ public class LevelsJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
+    
+    private int getRandomId( )
+    {
+        return ThreadLocalRandom.current( ).nextInt( 10, 50 );
+    }
 
     /**
      * Test of getModifyLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
@@ -206,6 +215,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
         final String name = getRandomName( );
         Level level = new Level( );
         level.setName( name );
+        level.setId( getRandomId( ) );
         LevelHome.create( level );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
@@ -227,6 +237,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
         final String name = getRandomName( );
         Level level = new Level( );
         level.setName( name );
+        level.setId( getRandomId( ) );
         LevelHome.create( level );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
@@ -252,6 +263,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
         final String name = getRandomName( );
         Level level = new Level( );
         level.setName( name );
+        level.setId( getRandomId( ) );
         LevelHome.create( level );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );

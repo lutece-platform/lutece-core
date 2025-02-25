@@ -59,6 +59,7 @@ public class ModeTest extends LuteceTestCase
     private final static String OUTPUTXSLPROPERTYOMITXMLDECLARATION2 = "OutputXslPropertyOmitXmlDeclaration 2";
     private final static String OUTPUTXSLPROPERTYSTANDALONE1 = "OutputXslPropertyStandalone 1";
     private final static String OUTPUTXSLPROPERTYSTANDALONE2 = "OutputXslPropertyStandalone 2";
+    private final static int ID = 50;
 
     @Test
     public void testBusinessMode( )
@@ -74,9 +75,15 @@ public class ModeTest extends LuteceTestCase
         mode.setOutputXslPropertyIndent( OUTPUTXSLPROPERTYINDENT1 );
         mode.setOutputXslPropertyOmitXmlDeclaration( OUTPUTXSLPROPERTYOMITXMLDECLARATION1 );
         mode.setOutputXslPropertyStandalone( OUTPUTXSLPROPERTYSTANDALONE1 );
+        mode.setId( ID );
 
         // Create test
         ModeHome.create( mode );
+        
+        System.err.println(ModeHome.findByPrimaryKey( 0 ).getDescription( ));
+        System.err.println(ModeHome.findByPrimaryKey( 1 ).getDescription( ));
+        System.err.println(ModeHome.findByPrimaryKey( 2 ).getDescription( ));
+        
 
         Mode modeStored = ModeHome.findByPrimaryKey( mode.getId( ) );
         assertEquals( modeStored.getDescription( ), mode.getDescription( ) );

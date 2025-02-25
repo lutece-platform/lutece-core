@@ -79,4 +79,11 @@ public interface ILevelDAO
      * @return A collection of right level objects
      */
     Collection<Level> selectLevelsList( );
+    
+    /**
+     * Generates a new primary key
+     * 
+     * @return The new primary key
+     */
+    int newPrimaryKey( );
 }
