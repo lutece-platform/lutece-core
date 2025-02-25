@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.service.event;
 
-import fr.paris.lutece.plugins.workflowcore.business.event.EventAction;
-import fr.paris.lutece.plugins.workflowcore.business.event.Type;
 import fr.paris.lutece.portal.business.event.LuteceUserEvent;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
 import fr.paris.lutece.portal.service.search.QueryEvent;
