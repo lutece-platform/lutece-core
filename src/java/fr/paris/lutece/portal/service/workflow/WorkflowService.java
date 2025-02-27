@@ -42,12 +42,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
-import fr.paris.lutece.plugins.workflowcore.business.event.EventAction;
-import fr.paris.lutece.plugins.workflowcore.business.event.Type.TypeQualifier;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.event.EventAction;
+import fr.paris.lutece.portal.service.event.Type.TypeQualifier;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -102,7 +102,7 @@ public class WorkflowService
      *             instance. This method will be removed in future versions.
      */
     @Deprecated( since = "8.0", forRemoval = true )
-    public static synchronized WorkflowService getInstance( )
+    public static WorkflowService getInstance( )
     {
         return CDI.current( ).select( WorkflowService.class ).get( );
     }
