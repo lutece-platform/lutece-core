@@ -10,6 +10,8 @@
             </@formGroup>
         </@tform>
         </@pageHeader>
+        <@tform action='jsp/admin/DoModifyProperties.jsp'>
+        <@input type='hidden' name='token' value='${token}' />
         <@tabs>
             <@tabList>
             <#list groups_list as group>
@@ -23,13 +25,12 @@
                 <#assign index = group?index>
                 <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
                 <@tabPanel active=tabactive id='group-${index}'>
-                <@tform action='jsp/admin/DoModifyProperties.jsp'>
-                <@input type='hidden' name='token' value='${token}' />
-                <@row>
+                
+                <#-- <@row>
                     <@columns class='d-flex justify-content-end'>
                         <@button  type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
                     </@columns>
-                </@row>
+                </@row> -->
                 <@row class='d-block properties-container'>
                     <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                     <#assign groupList = []>
@@ -81,22 +82,25 @@
                         </@columns>
                     </#list>
                     </@row>
-                    <@row>
-                        <@columns>
-                        <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
-                        </@columns>
-                    </@row>
-                    </@tform>
                     </@tabPanel>
                 </#list>
-                
 			</@tabContent>
 		</@tabs>
+        <@row class='row bg-dark p-2 position-fixed bottom-0 w-100'>
+            <@columns class='d-flex justify-content-center'>
+                <@button class='btn-lg' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
+            </@columns>
+        </@row>
+        </@tform>
     </@pageColumn>
 </@pageContainer>
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
 <style>
+.row.bg-dark{
+    --tblr-bg-opacity: .5;
+}
+
 .color-input{
     width: 25px;
     padding: 0;
