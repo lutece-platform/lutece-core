@@ -93,16 +93,21 @@ public class DaemonThread implements Runnable
             try
             {
                 _entry.setLastRunDate( new Date( ) );
-
+                _entry.setLastRunEndDate( null );
+                
                 if ( PluginService.isPluginEnable( daemon.getPluginName( ) ) )
                 {
+                    _entry.setInProgress( true );
                     daemon.run( );
                     _entry.setLastRunLogs( daemon.getLastRunLogs( ) );
+                    _entry.setInProgress( false );
                 }
                 else
                 {
                     _entry.setLastRunLogs( "Plugin not enabled" );
                 }
+                
+                _entry.setLastRunEndDate( new Date( ) );
             }
             catch( Throwable t )
             {
