@@ -59,6 +59,8 @@ public final class DaemonEntry
     private final DaemonThread _thread;
     private String _strPluginName;
     private String _strCron;
+    private boolean _bInProgress;
+    private Date _dateLastRunEndDate;
 
     // Variables declarations
 
@@ -67,7 +69,7 @@ public final class DaemonEntry
      */
     public DaemonEntry( )
     {
-        _thread = CDI.current().select(DaemonThread.class ).get( );
+        _thread = CDI.current( ).select( DaemonThread.class ).get( );
         _thread.setDaemonEntry( this );
     }
 
@@ -167,7 +169,7 @@ public final class DaemonEntry
      */
     public void loadDaemon( ) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
     {
-        _daemon = (Daemon) Class.forName( _strClassName ).getDeclaredConstructor().newInstance( );
+        _daemon = (Daemon) Class.forName( _strClassName ).getDeclaredConstructor( ).newInstance( );
     }
 
     /**
@@ -338,7 +340,52 @@ public final class DaemonEntry
      */
     public void setCron( String strCron )
     {
-        this._strCron = strCron;
+        _strCron = strCron;
+    }
+
+    /**
+     * Returns the In Progress indicator
+     * 
+     * @return the In Progress indicator value
+     */
+    public boolean isInProgress( )
+    {
+        return _bInProgress;
+    }
+
+    /**
+     * Sets the In Progress indicator
+     * 
+     * @param bInProgress
+     */
+    public void setInProgress( boolean bInProgress )
+    {
+        _bInProgress = bInProgress;
+    }
+
+    /**
+     * Returns the LastRunEndDate
+     *
+     * @return The LastRunEndDate
+     */
+    public String getLastRunEndDate( )
+    {
+        if ( _dateLastRunEndDate == null )
+        {
+            return "";
+        }
+        return _formatterDateTime.format( new Date( _dateLastRunEndDate.getTime( ) ) );
+    }
+
+    /**
+     * Sets the LastRunEndDate
+     *
+     * @param dateLastRunEndDate
+     *            The LastRunEndDate
+     */
+    public void setLastRunEndDate( Date dateLastRunEndDate )
+    {
+        _dateLastRunEndDate = dateLastRunEndDate;
     }
 
 }
