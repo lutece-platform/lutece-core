@@ -8,7 +8,7 @@ Parameters:
 <@deprecatedWarning args=deprecated />
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox') = '1'> dir="rtl"</#if></#if></#local>
 <#assign logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header.svg')>
-<#local loginLayoutImg=dskey('portal.site.site_property.login.image')?trim />
+<#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim />
 </head>
 <body class="lutece-login" data-bs-theme="light" ${readMode!}<#if params!=''> ${params}</#if>>
 <main>

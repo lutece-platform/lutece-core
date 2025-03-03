@@ -215,7 +215,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.portlet.title.maxl
 INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', 'themes/admin/tabler/images/bg_login1.svg, themes/admin/tabler/images/bg_login2.svg');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXs.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXsWarning.checkbox', '0');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.login.image', '');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.login.image', '');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.darkmode.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.readmode.checkbox', '0');
