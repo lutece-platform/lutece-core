@@ -9,7 +9,7 @@ Parameters:
 <@deprecatedWarning args=deprecated />
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png')>
-<#local loginLayoutImg=dskey('portal.site.site_property.login.image')?trim /> 
+<#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
 </head>
 <body class="antialiased d-flex flex-column" ${readMode!}<#if params!=''> ${params}</#if>>
 <main id="login-page" class="page page-center">
@@ -42,7 +42,7 @@ Parameters:
 			<div class="col-lg">
 </#if>
 <#--  Content  -->
-<#assign containerClass><#if loginLayoutImg?trim =''> container-tight py-4<#else>toto</#if></#assign>
+<#assign containerClass><#if loginLayoutImg?trim =''> container-tight py-4</#if></#assign>
 <@div class="container${containerClass}!''">
 	<@div class="text-center mb-4">
 		<@link href='.' target='_blank' class='admin-logo' >
