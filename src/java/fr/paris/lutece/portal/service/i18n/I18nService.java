@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -541,4 +542,17 @@ public final class I18nService
 
         _resourceBundleCache.clear( );
     }
+    
+    /**
+     * returns the resource bundle keys of a plugin
+     * 
+     * @param strPluginName
+     * @return the enumeration
+     */
+    public static Enumeration<String> getPluginBundleKeys( String strPluginName )
+	{
+		ResourceBundle rb = getResourceBundle( getDefaultLocale(), getPluginBundleName( strPluginName ) );
+		
+		return rb.getKeys( );
+	}
 }
