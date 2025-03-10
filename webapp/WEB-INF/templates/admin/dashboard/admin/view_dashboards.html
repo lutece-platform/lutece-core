@@ -65,12 +65,15 @@ const tabList = tabListParent.querySelectorAll('.nav-link');
 const tabListContent = document.getElementById('admin-tab-content').querySelectorAll('.tab-pane');
 tabListContent.forEach((content) => {
   const contentId = content.getAttribute('id');
+  const contentTitle = content.getAttribute('title');
+  const contentIcon = content.dataset.icon !='' ? content.dataset.icon : 'settings';
+  const contentNav = content.dataset.nav !='' ? content.dataset.nav : 'settings';
   const isMatchFound = Array.from(tabList).some((tab) => {
     return tab.getAttribute('href') === `#${contentId}`;
   });
   if (!isMatchFound) {
-    const tablink = `<h3 class="fw-bolder mb-2 mt-4">${content.getAttribute('title')}</h3><a href="#${content.getAttribute('id')}" class="nav-link" id="${content.getAttribute('id')}-tab" title="${content.getAttribute('title')}" role="tab" aria-expanded="false" aria-controls="search" data-bs-toggle="tab" aria-selected="false" tabindex="-1">	
-         ${content.getAttribute('title')}
+    const tablink = `<h3 class="fw-bolder mb-2 mt-4">${contentNav}</h3><a href="#${contentId}" class="nav-link" id="${contentId}-tab" title="${contentTitle}" role="tab" aria-expanded="false" aria-controls="search" data-bs-toggle="tab" aria-selected="false" tabindex="-1">	
+         <i class="ti ti-${contentIcon} me-1"></i> ${contentTitle}
         </a>`
     tabListParent.insertAdjacentHTML('beforeend', tablink);
   }
