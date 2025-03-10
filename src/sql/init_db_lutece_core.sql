@@ -219,6 +219,8 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.readmode.ch
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.readmode.show.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.darkmode.show.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.menumode.show.checkbox', '1');
+INSERT INTO core_datastore VALUES ('theme.globalThemeCode', 'lutece');
+INSERT INTO core_datastore VALUES ('theme.globalThemeVersion', '1.0');
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
