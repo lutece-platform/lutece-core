@@ -1,0 +1,55 @@
+/* Borders */
+.border-sm,
+.border-lg,
+.border-xl,
+.border-md {
+	border-style: solid;
+}
+
+.border-sm {
+	border-width: var(--border-normal) !important;
+}
+
+.border-md {
+	border-width: var(--border-medium) !important;
+}
+
+.border-lg {
+	border-width: var(--border-large) !important;
+}
+
+.border-b-sm {
+	border-bottom-width: var(--border-normal) !important;
+}
+
+.border-b-md {
+	border-bottom-width: var(--border-medium) !important;
+}
+
+.border-b-lg {
+	border-bottom-width: var(--border-large) !important;
+}
+
+.border-t-sm {
+	border-top-width: var(--border-normal) !important;
+}
+
+.border-t-md {
+	border-top-width: var(--border-medium) !important;
+}
+
+.border-t-lg {
+	border-top-width: var(--border-large) !important;
+}
+
+/* TODO DEPRECATED ??? */
+/* Borders */
+.border-medium {
+	border-width: 1rem !important;
+}
+
+.border-wide {
+	border-width: 2rem !important;
+}
+
+/* END TODO DEPRECATED ??? */

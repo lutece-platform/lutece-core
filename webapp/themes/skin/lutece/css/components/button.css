@@ -1,0 +1,260 @@
+/*** 										***/
+/*** Buttons								***/
+/***  										***/
+.btn{
+	font-family: var( --font-family-list );
+	padding: 13px 30px;
+	padding: var(--spacing-sm) var(--spacing-m);
+	font-weight: 600;
+	font-size: var(--font-m);
+	border-radius: 0;
+	text-decoration: none;
+	position: relative;
+	text-transform: capitalize;
+	border-radius: 6px;
+	border: 1px solid;
+	z-index: 1;
+	transition: 0.2s ease;
+}
+
+:not(.btn-group) > .btn + .btn{
+	margin-inline-start: var(--spacing-xs );
+	margin-block-start: 0;
+}
+
+.btn-sm {
+    font-size: 14px;
+    padding: 10px 25px;
+}
+
+.btn.btn-mini{
+	padding: var(--spacing-xs) var(--spacing-sm );
+}
+
+.btn-hover {
+    box-shadow: 0px 0px 0 var(--spacing-xxs) var( --blue-light );
+}
+
+.btn:active, .btn:focus{
+	outline: 1px solid var(--main-color);
+    outline-offset: calc( var(--spacing-xxs) / 2 ) ;
+    text-decoration: underline !important;
+}
+
+.btn:focus-visible {
+	box-shadow: none;
+}
+
+.btn-label{
+	color: var( --white-color );
+	display: inline-block;
+	font-family: var( --font-family-list );
+	font-size: var(--font-m);
+	font-weight: 600;
+	line-height: var(--line-height-xs);
+	padding-block-end: var(--spacing-xxs);
+	pointer-events: none;
+	position: relative;
+	text-align: center;
+	transition: color .3s ease;
+	z-index: 1;
+}
+
+.btn-mini .btn-label{
+	font-size: var(--font-sm);
+}
+
+.btn:focus .btn-label,
+.btn:hover .btn-label{
+	cursor: pointer;
+}
+
+.btn:disabled::before,
+.btn:disabled::after,
+.btn:disabled:hover,
+.btn:disabled:focus,
+.btn:disabled:active,
+.btn:disabled *,
+.btn:disabled *:hover,
+.btn:disabled *:focus,
+.btn:disabled *:active,
+.btn:disabled{
+	color: var( --blue-darker-color ) !important;
+	background-color: var( --blue-light ) !important;
+	border-color: var( --white-light-color ) !important;
+	box-shadow: none !important;
+	transition: none !important;
+	opacity: 1;
+}
+
+/* btn-primary 					*/
+.btn-primary{
+	background-color: var( --main-info-color );
+	border-color: var( --main-info-color );
+	color: var( --white-color );
+}
+
+.btn-primary:not(:disabled):active,
+.btn-primary:hover:not(:disabled),
+.btn-primary:focus:not(:disabled),
+.btn-primary:not(:disabled).focus,
+.btn-primary:not(:disabled).active{
+	background-color: var(--main-info-color-hover) !important;
+	border-color: var( --main-info-color-hover );
+}
+
+.btn-primary:focus::before,
+.btn-primary:hover::before {
+	width: 100%;
+}
+
+/* btn-secondary 					*/
+.btn-secondary{
+	background-color: var( --white-color );
+	border-color: var( --main-info-color );
+	color: var( --main-info-color );
+}
+
+.btn-secondary .btn-label,
+.btn-secondary .link-label,
+.btn-secondary .paris-icon{
+	color: var( --main-info-color );
+}
+
+.btn-secondary:active,
+.btn-secondary:not(:disabled):active,
+.btn-secondary:hover:not(:disabled),
+.btn-secondary:focus:not(:disabled),
+.btn-secondary:not(:disabled).focus,
+.btn-secondary:not(:disabled).active{
+	background-color: var(--main-info-color) !important;
+	border-color: var( --main-info-color );
+	color: var(--white-color)
+}
+
+.btn-secondary.active:not(:disabled),
+.btn-secondary.active:not(:disabled) .btn-label,
+.btn-secondary.active:not(:disabled) .link-label,
+.btn-secondary:active:not(:disabled) .paris-icon,
+.btn-secondary:hover:not(:disabled) ,
+.btn-secondary:hover:not(:disabled) .btn-label,
+.btn-secondary:hover:not(:disabled) .link-label,
+.btn-secondary:focus:not(:disabled),
+.btn-secondary:focus:not(:disabled) .btn-label,
+.btn-secondary:focus:not(:disabled) .link-label,
+.btn-secondary:focus:not(:disabled) .paris-icon,
+.btn-secondary:hover:not(:disabled) .paris-icon{
+    color: var( --white-color ) !important;
+    fill: var( --white-color ) !important;
+}
+
+.btn-secondary:focus::before,
+.btn-secondary:hover::before {
+	width: 100%;
+	background-color: var(--main-info-color) !important;
+}
+
+.btn-secondary:disabled::before,
+.btn-secondary:disabled::after,
+.btn-secondary:disabled:hover,
+.btn-secondary:disabled:focus,
+.btn-secondary:disabled:active,
+.btn-secondary:disabled *,
+.btn-secondary:disabled *:hover,
+.btn-secondary:disabled *:focus,
+.btn-secondary:disabled *:active,
+.btn-secondary:disabled{
+	color: var( --blue-darker-color ) !important;
+	background-color: var( --white-color ) !important;
+	border-color: var( --blue-color ) !important;
+	box-shadow: none !important;
+	transition: none !important;
+}
+
+/* Go to Top */
+.btn-gototop {
+	position: fixed !important;
+	bottom: 3.5rem !important;      
+	right: .5rem !important; 
+	border-radius: 1rem;
+	width: 3rem;
+	height: 3rem;
+	padding: var(--spacing-xxs) var(--spacing-xs) !important;
+	transition: width .5s ease, opacity .75s ease;
+}
+
+.btn-gototop:hover{
+	width: 15rem;
+	opacity: 1;
+}
+
+/* Go to Top : hover */
+.btn-gototop > .btn-label{
+	bottom: .152rem;
+	font-size: var(--font-sm);
+}
+
+
+@media (max-width: 575.98px) {
+	/* Buttons 			*/
+	.btn-link{
+		font-size: calc( var(--size-base) * 2 );
+		padding: 0;
+	}
+
+	:not(.btn-group) > .btn + .btn {
+		margin-inline-start: 0;
+	}
+}
+
+@media (max-width: 767.98px) {
+	
+	.btn-floating-toolbar{
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.btn-floating-toolbar .btn{
+		width: 20rem;
+		height: var(--spacing-l);
+		margin-bottom: 1rem;
+		border-radius: 0;
+		flex-direction: row;
+		justify-content: center;
+		padding: 0;
+	}
+
+	.btn-floating-toolbar .btn svg{
+		margin-inline-start: calc( var( var(--spacing-xxs) ) * 2.5 );
+		width: var(--spacing-m);
+		height: var(--spacing-m);
+		order: 2
+	}
+}
+
+@media (max-width: 992px) {
+	.btn-gototop {
+	   right: .25rem !important; 
+	   padding: var(--spacing-xxs) var(--spacing-xs) !important;      
+	   font-size: var(--font-xl) !important;      
+   } 
+   
+   .btn-gototop > .btn-label{
+	   display: none;      
+   }
+}
+
+/* Ipad */
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+	.btn::after {
+		content: "";
+		display: none;
+		position: relative;
+		left: 0;
+		top: 0;
+		width: 0;
+		transition: none;
+		z-index: 1
+	}
+}

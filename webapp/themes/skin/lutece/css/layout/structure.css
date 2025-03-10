@@ -1,0 +1,75 @@
+/*** 										***/
+/*** 	Main styles 						***/
+/*** 										***/
+html {
+	position: relative;
+	font-size: 62.5%;
+	font-weight: 400;
+	scroll-behavior: smooth;
+	scroll-padding-top: 10rem;
+}
+
+body {
+	color: var( --main-color );
+	font-family: var(--font-family-list ) !important;
+    -webkit-font-smoothing: antialiased;
+    font-size: var( --bs-body-font-size );
+    line-height: 1.6;
+}
+
+body,
+table {
+	min-height: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+img {
+	vertical-align: middle;
+	border: 0;
+	max-width: 100%;
+	height: auto;
+}
+
+.section {
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+.section-sm {
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+.section-title {
+	margin-bottom: 40px;
+}
+
+
+/* Fluid layout */
+[data-layout="fluid"] .container {
+	max-width: none;
+}
+
+[data-layout="fluid"] #main {
+	padding-inline: var(--spacing-m);
+}
+
+.site-map{
+	min-width: 50vw;
+}
+
+@media (max-width: 767.98px) {
+	.w-half{
+		width: 100% !important;
+	}
+	
+}
+
+/* Remove animation and transition for reduces motions pref */
+@media (prefers-reduced-motion) {
+	*,	*::before,	*::after {
+		animation: none !important;
+		transition: none !important;
+	}
+}

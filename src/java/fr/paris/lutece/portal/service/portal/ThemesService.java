@@ -256,14 +256,14 @@ public final class ThemesService
      * @param strGlobalTheme
      *            The global theme
      */
-    public static void setGlobalTheme( String strGlobalTheme )
+    public static void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion )
     {
         IThemeService themeService;
 
         try
         {
             themeService = getThemeService( );
-            themeService.setGlobalTheme( strGlobalTheme );
+            themeService.setGlobalTheme( strGlobalTheme, strGlobalThemeVersion );
         }
         catch( ThemeNotAvailableException e )
         {
@@ -375,71 +375,6 @@ public final class ThemesService
 
         return PluginService.isPluginEnable( THEME_PLUGIN_NAME ) && ( pluginTheme.getDbPoolName( ) != null )
                 && !AppConnectionService.NO_POOL_DEFINED.equals( pluginTheme.getDbPoolName( ) );
-    }
-
-    /**
-     * Create a new theme
-     * 
-     * @param theme
-     *            the theme
-     * @return The theme
-     */
-    public static Theme create( Theme theme )
-    {
-        try
-        {
-            IThemeService themeService = getThemeService( );
-
-            return themeService.create( theme );
-        }
-        catch( ThemeNotAvailableException e )
-        {
-            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-
-            return null;
-        }
-    }
-
-    /**
-     * Update a theme
-     * 
-     * @param theme
-     *            the theme to update
-     * @return The updated theme
-     */
-    public static Theme update( Theme theme )
-    {
-        try
-        {
-            IThemeService themeService = getThemeService( );
-
-            return themeService.update( theme );
-        }
-        catch( ThemeNotAvailableException e )
-        {
-            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-
-            return null;
-        }
-    }
-
-    /**
-     * Remove a theme
-     * 
-     * @param strCodeTheme
-     *            the code theme
-     */
-    public static void remove( String strCodeTheme )
-    {
-        try
-        {
-            IThemeService themeService = getThemeService( );
-            themeService.remove( strCodeTheme );
-        }
-        catch( ThemeNotAvailableException e )
-        {
-            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-        }
     }
 
     /**

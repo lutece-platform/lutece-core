@@ -1,50 +1,145 @@
 <!DOCTYPE html>
-<html lang="${user_context_language}">
+<html lang="<#if user_context_language?? && user_context_language?has_content>${user_context_language}</#if>">
 <head>
-<base href="${base_url}"/>
-<title>${favourite} - ${page_name}</title>
+<base href="${base_url}">
+<title>#i18n{portal.site.standalone_app.applicationsList.pageTitle}</title>
 <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1" >
-<meta charset="UTF-8"/>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-<meta http-equiv="Content-Language" content="${user_context_language}"/>
-<meta name="author" content=""/>
-<meta name="copyright" content=""/>
-<meta name="keywords" content=""/>
-<meta name="description" content=""/>
-<meta name="generator" content="Lutece"/>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta http-equiv="Content-Language" content="<#if user_context_language?? && user_context_language?has_content>${user_context_language}</#if>">
+<meta name="author" content="">
+<meta name="copyright" content="">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="generator" content="Lutece">
+<#if dskey('theme.site_property.robotIndex.checkbox')?number = 0>
+<!-- ==========================================================	-->
+<!-- Robots noindex 											-->
+<!-- ========================================================== -->
+<meta name="robots" content="noindex" data-test="${dskey('theme.site_property.robotIndex.checkbox')}">
+<meta name="googlebot" content="noindex">
+</#if>
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Le styles -->
-<link href="css/bootstrap.min.css" rel="stylesheet"/>
-<link href="css/page_template_styles.css" rel="stylesheet"  type="text/css"  media="screen"/>
-<link href="css/bootstrap-responsive.min.css" rel="stylesheet"/>
-<link href="js/jquery/plugins/ui/css/jquery-ui.custom.css" rel="stylesheet" />
-<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-<link rel="stylesheet" href="js/jquery/plugins/ui/css/jquery.ui.ie.css"/>
-<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-<link rel="stylesheet" href="css/page_template_styles.css_ie" type="text/css" media="screen, projection"/>
-<![endif]-->
-<!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="favicon.ico"/>
-<!-- 
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
--->
+<!-- Le style -->
+<#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
+<#if themeCSSLinks?? >
+<@themeCSSLinks />
+<#else>
+<link href="${thetheme.pathCss}/bootstrap.min.css" rel="stylesheet">
+<!-- Theme CSS include -->
+<link href="${thetheme.pathCss}/theme-parisfr.min.css" rel="stylesheet">
+<!-- Plugins CSS includes   -->
+<link href="js/jquery/plugins/toastr/toastr.min.css"  rel="stylesheet">
+</#if>
+<!-- Custom site styles include -->
+<link href="${thetheme.pathCss}/page_template_styles.css" rel="stylesheet">
 ${plugins_css_links}
+<!-- Custom site styles include -->
+<#assign optHeaderCss=.get_optional_template('theme_frameset_header_css.html')>
+<#if optHeaderCss.exists><@optHeaderCss.include /></#if>
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+<link rel="manifest" href="./site.webmanifest">
+<link rel="mask-icon" href="./safari-pinned-tab.svg" color="#071f32">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+${rss?default("<!-- no RSS feed -->")}
+<!-- Site JS Include -->
+<#-- Template to add js to header in page_frameset.html theme template -->
 <!-- Included JS Files -->
-<script src="js/jquery/jquery.min.js"></script>
+<#assign optHeaderJs=.get_optional_template('theme_frameset_header_js.html')>
+<#if optHeaderJs.exists><@optHeaderJs.include /></#if>
 </head>
-<body>
-<div class="container">
-${page_content}
-</div>
-<!-- Le javascript ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="js/bootstrap.min.js"></script>
-${plugins_javascript_links}
+<body id="body-page"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if>>
+<!-- Accessibility Skip Nav Menu-->
+<@skipNav />
 
+<!-- main container -->
+<#assign optMainContentHeader=.get_optional_template('theme_frameset_content_header.html')>
+<#if optMainContentHeader.exists><@optMainContentHeader.include /></#if>
+${page_content}
+<#if display_last_modified?? && display_last_modified><@cText class='text-right pt-3 pe-5'><@parisIcon name='clock' title='' class='main-danger-color' /> #i18n{portal.site.site_property.page.lastModified} ${last_modified!}</@cText></#if>
+<#assign optMainContentFooter=.get_optional_template('theme_frameset_content_footer.html')>
+<#if optMainContentFooter.exists><@optMainContentFooter.include /></#if>
+</main>
+<!-- Footer -->
+
+<!-- Le javascript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- Theme JS includes -->
+<#-- Template to add js to footer in page_frameset.html theme template -->
+<#if themeJSLinks?? >
+<@themeJSLinks />
+<#else>
+<script src="themes/skin/parisfr/js/vendor/js/bootstrap.bundle.min.js"></script>
+</#if>
+<#-- Plugins JS includes   			-->
+${plugins_javascript_links!}
+<!-- Theme - Base JS init  -->
+<script>
+var longMenu=${dskey('theme.site_property.menu.longMenu.checkbox')!};
+var xssChars='${dskey("theme.site_property.xss.xssChars")!}';
+var xssMsg='${dskey("theme.site_property.xss.xssMsg")!}';
+</script>
+<#if dskey('theme.site_property.bannerBrowserWarning.checkbox')?number = 1>
+<!-- Browser detection and warning old browser -->
+<script src="themes/skin/parisfr/js/vendor/es5.js"></script>
+<script>
+window.addEventListener( "load", function() {
+	const browser = bowser.getParser(window.navigator.userAgent);
+	const browserName=browser['parsedResult']['browser']['name'];
+	const browserVer=browser['parsedResult']['browser']['version'];
+	const isValidBrowser = browser.satisfies({
+		// declare browsers per OS
+		windows: {
+			"internet explorer": ">11",
+			"edge" : ">=80",
+		},
+		macos: {
+			safari: ">=6"
+		},
+		ios: {
+			safari: ">=6"
+		},
+		// or in general
+		chrome: ">=80",
+		firefox: ">=52",
+		opera: ">=22",
+	});
+	if ( !isValidBrowser ){
+		toastr.options = {
+			"closeButton": true,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": false,
+			"positionClass": "toast-top-full-width browser-warning",
+			"preventDuplicates": true,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "0",
+			"extendedTimeOut": "0",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		}
+		const urlMessage='<p class="mt-3"><a class="btn btn-primary" target="_blank" href="https://browsehappy.com/?locale=fr">#i18n{theme.toast.msg.updateBrowser}</a></p>';
+		toastr["warning"]("#i18n{theme.toast.msg.ContentBrowser}" + urlMessage, "#i18n{theme.toast.msg.titleBrowser}" + browserName + ' ' + browserVer );
+	}
+});   
+</script>
+</#if> 
+<#assign optJsFooter=.get_optional_template('theme_frameset_footer_js.html')>
+<#if optJsFooter.exists><@optJsFooter.include /></#if>
+<#if lutece_user??>
+<#assign optUserFooter=.get_optional_template('theme_frameset_footer_user.html')>
+<#if optUserFooter.exists><@optUserFooter.include /></#if>
+</#if>
+<script src="js/site.js"></script>
+<#if addGoToTop?? && addGoToTop?boolean><@cGoToTop /></#if>
 </body>
 </html>
