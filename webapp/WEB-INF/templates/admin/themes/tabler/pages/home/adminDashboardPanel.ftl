@@ -16,7 +16,7 @@ Parameters:
 <script>
 document.addEventListener( "DOMContentLoaded", function(){
 	const urlHash = document.location.hash, idHash = document.querySelector( urlHash ) ;
-	if ( urlHash != undefined) {
+	if ( urlHash != undefined && idHash != undefined) {
 		idHash.classList.add('show')
 	}
 });
