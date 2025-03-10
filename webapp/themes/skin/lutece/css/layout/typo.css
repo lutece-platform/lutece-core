@@ -1,0 +1,74 @@
+/*** 										***/
+/*** 	Typo / fonts						***/
+/*** 										***/
+.fs-xs,
+.font-xs{ 
+	font-size: var( --font-xs ) !important;
+}
+
+.fs-sm, 
+.font-sm{ 
+	font-size: var( --font-sm ) !important;
+}
+
+.fs-m, 
+.font-m{ 
+	font-size: var( --font-m ) !important;
+}
+
+.fs-ml, 
+.font-ml{ 
+	font-size: var( --font-ml ) !important;
+}
+
+.fs-l, 
+.font-l{ 
+	font-size: var( --font-l ) !important;
+}
+
+.fs-xl, 
+.font-xl{ 
+	font-size: var( --font-xl ) !important;
+}
+
+.fs-xxl, 
+.font-xxl{ 
+	font-size: var( --font-xxl) !important;
+}
+
+.fs-xxxl, 
+.font-xxxl{ 
+	font-size: var( --font-xxxl ) !important;
+}
+
+/* Fonts 					*/
+/* Font weight util classes */
+.font-black {
+	font-family: var(--font-family-list) !important;
+	font-weight: 900 !important;
+}
+
+.font-extra-bold {
+	font-family: var(--font-family-list) !important;
+	font-weight: 800 !important;
+}
+
+.font-bold {
+	font-family: var(--font-family-list) !important;
+	font-weight: 600 !important;
+}
+
+.font-medium-bold {
+	font-family: var(--font-family-list) !important;
+	font-weight: 500 !important;
+}
+
+.font-semi-bold {
+	font-family: var(--font-family-list) !important;
+	font-weight: 600 !important;;
+}
+
+.font-regular {
+	font-family: var(--font-family-list) !important;
+	font-weight: 400 !important;
+}

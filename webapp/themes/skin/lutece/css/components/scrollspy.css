@@ -1,0 +1,21 @@
+.anchors > ul {
+	list-style-type: none;
+	width: 90%;
+}
+
+.anchors > ul > li{
+	padding: var(--spacing-xs );
+	background-color: var(--white-light-color);
+}
+
+.anchors > ul > li:has( .active ) {
+	background-color: var(--main-info-color);
+}
+
+.anchors > ul > li > a {
+	color: var(--dark-color);
+}
+
+.anchors > ul > li > a.active {
+	color: var(--white-light-color);
+}
