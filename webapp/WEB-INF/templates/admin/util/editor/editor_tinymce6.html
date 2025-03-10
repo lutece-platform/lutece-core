@@ -1,6 +1,19 @@
+<#-- 
+Macro : initEditor 
+
+Description: Defines a macro to add tinyMCE editor to a textarea
+
+Parameters:
+@param editorWidth	- number - optionnal - Défaut 450, largeur de l'éditeur
+@param cssFiles		- string - optionnal - Défaut '', any additional CSS files to load separated by commas
+@param type			- string - optionnal - Défaut '', "inline" or "". Documentation avalaible at https://www.tiny.cloud/docs/tinymce/6/
+@param insert		- string - optionnal - Défaut '' . -  ='"library","pagelinkservice"' 
+@param selector='.richtext' 
+@param config={} 
+-->
+<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext' config={}>
 <#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
 <script src="themes/admin/shared/js/editors/tinymce6/tinymce.min.js"></script>
-<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext' config={}>
 <#assign editorLocale='' />
 <#local toolbar='' />
 <#local userConf='' />
