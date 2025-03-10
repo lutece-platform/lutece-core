@@ -1,0 +1,220 @@
+/*** 										***/
+/*** Checkbox and radio 					***/
+/***  										***/
+.form-check-input[type=checkbox]{
+    border-radius: 0
+}
+
+.form-switch .form-check-input[type=checkbox]{
+    border-radius: var(--spacing-ml);
+}
+
+.form-check-input:checked[type=radio] {
+    --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='1.5' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+.form-check {
+	min-height: calc( var(--spacing-xxs) * 4);
+	touch-action: manipulation;
+}
+
+.form-check .form-check-input ~ .form-check-label{
+    width: auto;
+}
+
+.form-check:not( .form-check-inline ){
+	padding-block: calc( var(--spacing-xxs) * 1.875 );
+}
+
+.form-check .form-check-input {
+    background-color: var( --white-color );
+    border-color: var( --main-color );
+	padding-inline-start: var(--spacing-xs);
+}
+
+.form-check .form-check-input:checked{
+    background-color: var( --main-info-color );
+    border-color: var( --main-info-color );
+}
+
+.form-check .form-check-input:focus-within{
+	color: var( --main-info-color );
+}
+
+.form-check .form-check-input:not(:disabled):hover{
+	border-color: var( --dark-color );
+	border-width: .2rem;
+	cursor: pointer;
+}
+
+.form-check .form-check-input:not(:disabled):active,
+.form-check .form-check-input:focus:not(:checked){
+	background-color: var( --main-info-color );
+	border-color: var( --main-info-color );	
+	outline: 1px solid var(--main-info-color);
+}
+
+.form-check .form-check-input:focus{
+	box-shadow: none;
+}
+
+.form-check .form-check-input ~ .form-check-label{
+	font-family: var( --font-family-list );
+	font-weight: 400;
+	font-size: var( --font-m );
+	padding-block-start: calc( var(--spacing-xxs) / 1.15 );
+	width: 100%;
+}
+
+.form-check .form-check-input:not(:disabled) ~ .form-check-label:hover{
+	color: var( --main-info-color );
+	cursor: pointer;
+}
+
+.form-check .form-check-input ~ .form-check-label > a {
+    display: flex;
+	align-items: center;
+	font-weight: 500;
+	color: var( --main-color );
+}
+
+.form-check:active,
+.form-check:focus,
+.form-check:focus-within {
+	outline: .15rem solid var( --main-color ) !important;
+	outline-offset: .25rem !important;
+}
+
+.form-check:focus-within .form-check-label {
+	text-decoration: underline;
+}
+
+/* Invalid */
+.form-check.is-invalid {
+    flex: 0 0 27%;
+}
+
+.form-check.is-invalid + .invalid-feedback{
+    max-width: fit-content;
+}
+
+.form-check .form-check-input.is-invalid{
+	background-color: var( --white-color );
+	border-color: var( --main-danger-color );
+	border-width: 2px;
+}
+
+.form-check .form-check-input.is-invalid ~ .form-check-label{
+	color: var( --main-danger-color ) !important;
+}
+
+/* Disabled */
+.form-check .form-check-input:disabled{
+	background-color: var(--white-light-color);
+	border-color: var( --border-color );
+}
+
+.form-check .form-check-input:disabled ~ .form-check-label{
+	color: var( --blue-darker-color );
+}
+
+/* Checked */
+.form-check .form-check-input:checked ~ .form-check-label,
+.form-check .form-check-input:checked ~ .form-check-label > a{
+	text-shadow: .5px 0 0 #555, -.5px 0 0 #555;
+}
+
+.form-check .form-check-input:checked ~ .form-check-label{
+	color: var( --main-info-color );
+}
+
+.form-check .form-check-input:checked ~ .selection-subtitle,
+.form-check:has(.form-check-input:checked) .selection-subtitle{
+	color: var( --main-info-color );
+}
+
+/* Label Hidden */
+.form-check.form-check-inline.hidden-label .form-check-input{
+    position: relative;
+    top: var(--spacing-xxs);
+}
+
+/* Button Selection */
+.form-check.btn-selection {
+    border: 1px solid var(--blue-light);
+    margin-bottom: var(--spacing-sm);
+    padding-inline-start: 0;
+    padding-block-end: 0;
+}
+
+.form-check.btn-selection .selection-check{
+    padding-inline-start: var(--spacing-ml);
+    padding-block-start: var(--spacing-xs);
+    padding-inline-end: var(--spacing-xs);
+}
+
+.form-check.btn-selection:hover:has(.form-check-input:not(:disabled)) {
+	background-color: var(--blue-bg-colored-light);
+}
+
+.form-check.btn-selection:has(.form-check-input:checked){
+  background-color: var(--blue-bg-colored);
+}
+
+.form-check.btn-selection .selection-content {
+	display: none;
+	background-color: var(--white-color);
+	border-block-start: 1px solid var(--blue-light);
+	margin-block-start: var(--spacing-xs);
+	padding-inline: var( --spacing-ml );
+	padding-block-end: var(--spacing-l);
+}
+
+.form-check.btn-selection .selection-check:has( .form-check-input:checked ) ~ .selection-content,
+.form-check.btn-selection .selection-check:has( .form-check-input.is-invalid ) ~ .invalid-feedback {
+    display: block;
+}
+
+/* TOS */
+.form-check.custom-tos .form-check-input ~ .form-check-label{
+	display: flex;
+}
+
+/* Checkbox or radio as Buttons */
+.btn-check {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}
+
+.btn-check+.btn-primary {
+  display: block;
+}
+
+.btn-check:checked+.btn-primary {
+  display: none;
+}
+
+/* CheckBox as Button */
+.btn-check:checked + .btn-outline{
+	background-color: var( --main-info-color );
+	border-color: var( --main-info-color );
+	color: var( --white-color);
+	fill: var( --white-color);
+}
+
+.btn-check.btn-xl + .btn-outline{
+    padding: 3rem 5.5rem;
+}
+
+@media (max-width: 767.98px) {
+	/* TOS */
+	.form-check.custom-tos .form-check-input ~ .form-check-label{
+		flex-direction: column;
+	}
+
+	.form-check.custom-tos .form-check-input ~ .form-check-label a{
+		margin: 0 !important;
+		font-size: var(--font-sm);
+	}
+}

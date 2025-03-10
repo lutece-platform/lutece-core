@@ -1,63 +1,53 @@
-<#if message.type = 0 >
-	<#assign messageClass = 'info' />
-	<#assign messageTitle='#i18n{portal.util.message.titleWarning}' />
-	<#assign messageIcon = 'info-circle' />
-<#elseif message.type = 1 > 
-	<#assign messageClass = 'info' />
-	<#assign messageTitle='#i18n{portal.util.message.titleWarning}' />
-	<#assign messageIcon = 'help-circle' />
-<#elseif message.type = 2 > 
-	<#assign messageClass = 'danger' />
-	<#assign messageTitle='#i18n{portal.util.message.titleError}' />
-	<#assign messageIcon = 'alert-circle' />
-<#elseif message.type = 3 > 
-	<#assign messageClass = 'warning' />
-	<#assign messageTitle='#i18n{portal.util.message.titleWarning}' />
-	<#assign messageIcon = 'alert-triangle' />
-<#elseif message.type = 4 > 
-	<#assign messageClass = 'success' />
-	<#assign messageTitle='#i18n{portal.util.message.titleConfirmation}' />
-	<#assign messageIcon = 'circle-circle' />
-<#elseif message.type = 5 > 
-	<#assign messageClass = 'danger' />
-	<#assign messageTitle='#i18n{portal.util.message.titleStop}' />
-	<#assign messageIcon = 'alert-circle' />
-<#else> 
-	<#assign messageClass = 'info' />
-	<#assign messageTitle='#i18n{portal.util.message.titleQuestion}' />
-	<#assign messageIcon = 'help-circle' />
-</#if>
-<div class="row">
-	<div class="col-sm-12 col-md-4 offset-md-4">
-		<div class="alert alert-${messageClass}">
-			<h3 class="h3"><i class="ti ti-${messageIcon}"></i> ${messageTitle} ${title!}</h3>
-			${text} 
-		</div>
-		<div class="row">
-			<div class="col">
-			<#if list_parameters?exists><#assign keys = list_parameters?keys></#if>
-			<#if url?has_content> 
-				<form method="post" action="${url!}" target="${target!}" class="form-inline">							
-				<#if list_parameters?exists><#list keys as key><input type="hidden" name="${key}" value="${list_parameters[key]}" /></#list></#if>														
-				<button type="submit"class="btn btn-primary">
-					<i class="ti ti-circle-check"></i> #i18n{portal.util.labelValidate}
-				</button>
-				</form>	
+<#switch message.type>
+<#case 1>
+<#assign messageClass = 'primary' /> 
+<#assign messageTitle='#i18n{portal.util.message.titleQuestion}' />
+<#case 2> 
+<#assign messageClass = 'danger' />
+<#assign messageTitle='#i18n{portal.util.message.titleError} ' />
+<#case 3> 
+<#assign messageClass = 'warning' />
+<#assign messageTitle='#i18n{portal.util.message.titleWarning} ' />
+<#case 4> 
+<#assign messageClass = 'success' />
+<#assign messageTitle='#i18n{portal.util.message.titleConfirmation} ' />
+<#case 5 > 
+<#assign messageClass = 'danger' />
+<#assign messageTitle='#i18n{portal.util.message.titleStop} ' />	
+<#default> 
+<#assign messageClass = 'primary' />
+<#assign messageTitle='' />
+</#switch>
+<@cContainer>
+	<@cRow>
+		<@cCol class='d-flex flex-column justify-content-center align-items-center vh-50'>
+			<@cAlert title='${messageTitle!}${title!}' class=messageClass>${text}</@cAlert>
+			<@cSection class='w-50 d-flex mt-l justify-content-evenly'>
+			<#if url?has_content>
+				<@cForm action='${url!}' params=' target="${target!}" '>
+					<#if list_parameters?exists><#assign keys = list_parameters?keys><#list keys as key><@input type='hidden' name=key! value=list_parameters[key]! /></#list></#if>
+					<@cBtn label='#i18n{portal.util.labelValidate}' />
+				</@cForm>
 			</#if>
 			<#if back_url?has_content>
-				<form method="post" action="${back_url}" class="form-inline" >
-				<#if list_parameters?exists><#list keys as key><input type="hidden" name="${key}" value="${list_parameters[key]}" ></#list></#if>
-				<button type="submit" name="cancel" class="btn btn-primary">
-					<i class="ti ti-circle-x"></i> <#if cancel_button = 1>#i18n{portal.util.labelBack}<#elseif cancel_button = 2>#i18n{portal.util.labelCancel}</#if>
-				</button>
-				</form>		
-			<#else>		
-				<button type="button" class="btn btn-primary" onclick="javascript:window.history.back();">
-					<i class="ti ti-circle-x"></i>
-					<#if cancel_button = 1>#i18n{portal.util.labelBack}<#elseif cancel_button = 2>#i18n{portal.util.labelCancel}</#if>
-				</button>
+				<@cForm action='${back_url!}' params=' target="${target!}" '>
+					<#if list_parameters?exists><#list keys as key><@input type='hidden' name=key! value=list_parameters[key]! /></#list></#if>
+					<#if cancel_button gte 1 > 
+						<@cBtn label='#i18n{portal.util.labelBack}' class='primary me-2' params='name="cancel"' />
+					</#if>
+				</@cForm>
+			<#else>
+				<@cLink href='jsp/site/Portal.jsp' label='#i18n{portal.util.labelBack}' title='#i18n{portal.util.labelBack}' class='btn btn-primary btn-back' />
 			</#if>
-			</div>
-		</div>
-	</div>
-</div>
+			</@cSection>
+		</@cCol>
+	</@cRow>
+</@cContainer>
+<script>
+document.addEventListener('DOMContentLoaded', (e) => {
+	document.querySelector('.btn-back').addEventListener('click', (e) => {
+		e.preventDefault();
+		history.back();
+	})
+})
+</script>

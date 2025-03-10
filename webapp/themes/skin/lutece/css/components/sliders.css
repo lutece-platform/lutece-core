@@ -1,0 +1,66 @@
+/* ********** */
+/* Sliders    */
+/* ********** */
+/* Home Card  */
+.themeparisfr-slider {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+	gap: 1rem
+}
+
+.themeparisfr-slider::-webkit-scrollbar {
+	display: none;
+}
+
+.themeparisfr-slider-wrapper .slider-buttons .prev-slide,
+.themeparisfr-slider-wrapper .slider-buttons .next-slide {
+	cursor: pointer;
+	padding: 15px;
+}
+
+.themeparisfr-slider-wrapper .slider-buttons .next-slide.disabled,
+.themeparisfr-slider-wrapper .slider-buttons .prev-slide.disabled {
+	cursor: auto;
+}
+
+.themeparisfr-slider-wrapper .prev-slide,
+.themeparisfr-slider-wrapper .next-slide {
+	color: var(--main-info-color);
+}
+
+.themeparisfr-slider-wrapper .prev-slide:disabled, 
+.themeparisfr-slider-wrapper .prev-slide:hover:disabled, 
+.themeparisfr-slider-wrapper .prev-slide:focus:disabled, 
+.themeparisfr-slider-wrapper .next-slide:disabled, 
+.themeparisfr-slider-wrapper .next-slide:hover:disabled, 
+.themeparisfr-slider-wrapper .next-slide:focus:disabled {
+	color: var(--blue-dark-color) !important;
+}
+
+.themeparisfr-slider-wrapper .prev-slide, 
+.themeparisfr-slider-wrapper .prev-slide:disabled, 
+.themeparisfr-slider-wrapper .prev-slide:disabled:hover, 
+.themeparisfr-slider-wrapper .prev-slide:disabled:focus, 
+.themeparisfr-slider-wrapper .next-slide, 
+.themeparisfr-slider-wrapper .next-slide:disabled, 
+.themeparisfr-slider-wrapper .next-slide:disabled:hover, 
+.themeparisfr-slider-wrapper .next-slide:disabled:focus {
+	background-color: var(--white-light-color) !important;
+}
+
+.themeparisfr-slider-wrapper .prev-slide:hover, 
+.themeparisfr-slider-wrapper .prev-slide:focus, 
+.themeparisfr-slider-wrapper .next-slide:hover, 
+.themeparisfr-slider-wrapper .next-slide:focus {
+	background-color: var(--main-info-color) !important;
+	box-shadow: none;
+	color: var(--white-color);
+}  
+
+.themeparisfr-slider-wrapper .prev-slide .paris-icon, 
+.themeparisfr-slider-wrapper .next-slide .paris-icon {
+	color: inherit !important;
+	background: none !important;
+}

@@ -1,0 +1,130 @@
+/*** 										***/
+/*** Default link styles					***/
+/***  										***/
+a {
+	color: var(--main-info-color);
+	text-decoration: underline;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+a:focus {
+	text-decoration: underline !important;
+}
+
+/* Accessibility _blank default icon */
+[data-target-icon="true"] [target=_blank]::after,
+.show-icon-target[target=_blank]::after,
+.show-icon-target [target=_blank]::after,
+[target=_blank]::after {
+    --icon-size: var(--font-m );
+    background-color: currentColor;
+    content: "";
+    display: inline-block;
+    height: var(--icon-size);
+    margin-left: .25rem;
+    -webkit-mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZD0iTTEwIDZ2Mkg1djExaDExdi01aDJ2NmExIDEgMCAwIDEtMSAxSDRhMSAxIDAgMCAxLTEtMVY3YTEgMSAwIDAgMSAxLTFoNlptMTEtM3Y4aC0yVjYuNDEzbC03Ljc5MyA3Ljc5NC0xLjQxNC0xLjQxNEwxNy41ODUgNUgxM1YzaDhaIi8+PC9zdmc+);
+    mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZD0iTTEwIDZ2Mkg1djExaDExdi01aDJ2NmExIDEgMCAwIDEtMSAxSDRhMSAxIDAgMCAxLTEtMVY3YTEgMSAwIDAgMSAxLTFoNlptMTEtM3Y4aC0yVjYuNDEzbC03Ljc5MyA3Ljc5NC0xLjQxNC0xLjQxNEwxNy41ODUgNUgxM1YzaDhaIi8+PC9zdmc+);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    vertical-align: calc(.375em - .5rem);
+    vertical-align: calc((.75em - var(--icon-size))*.5);
+    width: var(--icon-size);
+}
+
+[data-target-icon="false"] [target=_blank]::after,
+.hide-icon-target[target=_blank]::after,
+.hide-icon-target [target=_blank]::after{
+	display: none !important;
+}
+
+small a {
+	font-size: inherit;
+}
+
+a.link-secondary{
+    border-bottom: 2px solid var(--main-info-color);
+    text-decoration: none;
+}
+
+a.link-secondary:hover {
+	border-bottom: none;
+}
+
+.link-secondary .link-label{
+    font-weight: 600;
+}
+
+a.link-secondary.disabled {
+	pointer-events: none;
+	border-color: var(--blue-light);
+	opacity:1;
+}
+
+.link-secondary.disabled .link-label,
+.link-secondary.disabled:not(.hide-icon-target)[target=_blank]::after{
+	color: var(--blue-dark-color);
+}
+
+a.btn.btn-primary.disabled {
+	pointer-events: none;
+	background-color: var(--blue-light);
+	border:none;
+	opacity:1;
+}
+
+a.btn.btn-primary.disabled .link-label,
+a.btn.btn-primary.disabled:not(.hide-icon-target)[target=_blank]::after{
+	color: var(--blue-darker-color);
+}
+
+a.btn.btn-primary:not(.hide-icon-target):hover[target=_blank]::after{
+	background-color: var(--main-info-color);
+}
+
+[data-target-icon="true"] .link-secondary:hover[target=_blank]::after,
+[data-target-icon="true"] .link-secondary:focus[target=_blank]::after,
+[data-target-icon="true"] .btn-secondary:hover[target=_blank]::after,
+[data-target-icon="true"] .btn-secondary:focus[target=_blank]::after {
+	color: var(--white-color);
+}
+
+/* Share links */
+.share-link {
+	display: inline-block;
+	height: 3.2rem;
+	text-decoration: none;
+	transition: color .2s ease;
+	width: 3.2rem;
+	fill: var(--main-color);
+	color: var(--main-color);
+}
+
+.share-link .icon,
+.share-link .parisicon {
+	height: 5.12rem;
+	transition: fill .3s ease;
+	width: 3.2rem;
+	fill: var(--main-color);
+	color: var(--main-color);
+}
+
+.share-link:focus .paris-icon,
+.share-link:hover .paris-icon,
+.share-link:focus .icon,
+.share-link:hover .icon,
+.social-link:focus .paris-icon,
+.social-link:hover .paris-icon {
+	fill: var(--main-danger-color);
+	color: var(--main-danger-color);
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+a.link-secondary .link-label {
+	color: var(--main-color);
+}

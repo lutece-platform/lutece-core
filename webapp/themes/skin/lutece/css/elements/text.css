@@ -1,0 +1,85 @@
+/*** 										  ***/
+/*** Text styles					***/
+/***  										***/
+p, .paragraph {
+font-weight: 400;
+color: var( --main-color );
+font-size: 16px;
+line-height: 26px;
+font-family: var(--font-family-list ) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+color: var( --main-color );
+font-family: var(--font-family-list ) !important;
+font-weight: 700;
+line-height: 1.2;
+}
+
+h1, .h1 {
+font-size: 50px;
+font-weight: 800;
+}
+
+p, .p{
+font-weight: 400;
+color: var( --main-color );
+font-size: 16px;
+line-height: 26px;
+font-family: "Montserrat", sans-serif;
+}
+
+blockquote {
+  font-size: 20px !important;
+  color: #222;
+  padding: 20px 40px;
+  border-left: 2px solid #3C5BFE;
+  margin: 40px 0;
+  font-weight: bold;
+  background: #FBFBFB;
+}
+
+blockquote p {
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 575px) {
+	h1, .h1 {
+	  font-size: 36px;
+	  font-weight: 600;
+	}
+}
+  
+h2, .h2 {
+  font-size: 42px;
+  font-weight: 800;
+}
+
+@media (max-width: 575px) {
+	h2, .h2 {
+	  font-size: 32px;
+	  font-weight: 600;
+	}
+  }
+  
+  h3, .h3 {
+	font-size: 32px;
+  }
+  @media (max-width: 575px) {
+	h3, .h3 {
+	  font-size: 28px;
+	}
+  }
+  
+  h4, .h4 {
+	font-size: 26px;
+  }
+  
+  h5, .h5 {
+	font-size: 22px;
+  }
+  
+  h6, .h6 {
+	font-size: 18px;
+  }
+  

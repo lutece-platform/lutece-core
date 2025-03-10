@@ -1,0 +1,112 @@
+/*** 										***/
+/*** Variables  							***/
+/*** 										***/
+:root{
+	/* Default base for all sizes */
+	--size-base: .4rem;
+
+	/* Font Family */
+	--font-family-pref: "Montserrat";
+	--font-family-basics: Arial, Helvetica, sans-serif;
+	--font-family-list: var( --font-family-pref), var(--font-family-basics );
+
+    --bs-font-sans-serif: system-ui, -apple-system, var( --font-family-pref ), "Segoe UI",  "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --bs-body-font-family: var(--bs-font-sans-serif);
+    
+    --bs-body-font-size: calc( var( --size-base ) * 4 );
+    --bs-body-font-weight: 400;  
+    --bs-body-line-height: 1.5;
+    --bs-link-decoration: underline;
+    --bs-border-width: calc( var( --size-base ) / 4 );
+    --bs-border-style: solid;
+    
+    --bs-border-radius: calc( var( --size-base ) * 1.25 );
+    --bs-border-radius-sm: calc( var( --bs-border-radius ) / 2 );
+    --bs-border-radius-lg: var( --bs-border-radius );
+    --bs-border-radius-xl: calc( var( --bs-border-radius ) * 2 );
+    --bs-border-radius-2xl: calc( var( --bs-border-radius ) * 4 );
+    --bs-border-radius-pill: calc( var( --bs-border-radius ) * 10 );
+	
+	/* Menu */
+	--menu-fixed-top: calc( 15.175 * var( --size-base ) );
+	--menu-dropdown-start: calc( 92 * var(--size-base) );
+    --menu-user-monparis-top: calc( -4.375 * var( --size-base ) );
+
+	/* Divider macro */
+	--divider-margin-content-before: 1;
+	--divider-margin-content-after: 1;
+	--divider-margin-start: calc( var( --size-base ) * 1.5 );
+	--divider-margin-end: calc( var( --size-base ) * 1.5 );
+
+	/* Utilities */
+    --scollbar-with: auto; 
+    --scollbar-radius: 0; 
+	
+    /* Text */
+	--text-underline-offset :  calc( var(--size-base, .4rem ) * .375 ) ;
+    
+    /* Line Height */
+    --line-height-xxs: calc( var( --size-base ) * 2.725 );
+    --line-height-xs: calc( var( --size-base ) * 3.75 );    /* Default */
+    --line-height-sm: calc( var( --size-base ) * 5.5 );
+    --line-height-m: calc( var( --size-base ) * 6.25 );
+    --line-height-l: calc( var( --size-base ) * 6.55 );
+    --line-height-xl: calc( var( --size-base ) * 7.5 );
+    --line-height-xxl: calc( var( --size-base ) * 8.5 );
+    --line-height-xxxl: calc( var( --size-base ) * 11.5 );
+
+	/* Spacing utilities */
+	--spacing-base:  var(--size-base, .4rem );
+    --spacing-xxs: var(--spacing-base);             /* .4rem    xxs */
+    --spacing-xs: calc(var(--spacing-base) * 2);    /* .8rem    xs  */
+    --spacing-xls: calc(var(--spacing-base) * 2.5);    /* 1rem    ssm  */
+    --spacing-sms: calc(var(--spacing-base) * 3.5);    /* 1.5rem    ssm  */
+    --spacing-sm: calc(var(--spacing-base) * 4);    /* 1.6rem   sm  */
+    --spacing-m: calc(var(--spacing-base) * 6.5);     /* 2.5rem   m   */
+    --spacing-ml: calc(var(--spacing-base) * 8);    /* 3.2rem   ml  */ 
+    --spacing-l: calc(var(--spacing-base) * 10);    /* 4rem    l    */
+    --spacing-xl: calc(var(--spacing-base) * 14);   /* 5.6rem  xl   */   
+    --spacing-xxl: calc(var(--spacing-base) * 20);  /* 8rem    xxl  */
+    --spacing-xxxl: calc(var(--spacing-base) * 22); /* 8.8rem  xxxl */   
+	
+	/* Border Size */
+    --border-normal: calc( var(--size-base, .4rem ) / 4 );
+    --border-medium: calc(var(--border-normal) * 3);
+    --border-large: calc(var(--border-normal) * 5);
+	
+	/* Shadows */
+    --shadow-radius: calc( var(--size-base, .4rem ) * 2 );
+    --shadow-button: 0 3px 6px 0 rgba(0, 0, 0, calc( var(--size-base, .4rem ) / 1.6 ) );
+    --shadow-card-filter : drop-shadow( 0 10px 20px rgba( 0, 0, 0, calc( var(--size-base, .4rem ) / 2.5 ) ) );
+    --shadow-card-border : 0 0 0 var(--size-base, .4rem ) var( --shadow-border-color );
+    --shadow-focus : 0 0 0 calc( var(--size-base, .4rem ) * 1.5 ) var( --main-color );
+
+	/* Font Size   */
+    --font-xs: calc( var(--size-base, .4rem ) * 2.5 );
+    --font-sm: calc( var(--size-base, .4rem ) * 3 );
+    --font-lm: calc( var(--size-base, .4rem ) * 3.25 );
+    --font-xm: calc( var(--size-base, .4rem ) * 3.75 );
+    --font-m:  calc( var(--size-base, .4rem ) * 4 );
+    --font-ml: calc( var(--size-base, .4rem ) * 4.5 );
+    --font-l: calc( var(--size-base, .4rem ) * 5 );
+    --font-xl: calc( var(--size-base, .4rem ) * 6 );
+    --font-xxl: calc( var(--size-base, .4rem ) * 8 );
+    --font-xxxl: calc( var(--size-base, .4rem ) * 11.25 );
+
+	/* Icons Size   */
+	/* 18px / 24px / 28px / 32px / 40px / 56px */
+    --icon-sm: calc( var(--size-base, .4rem ) * 4.5 );
+    --icon-m: calc( var(--size-base, .4rem ) * 6 );
+    --icon-ml: calc( var(--size-base, .4rem ) * 7 );
+    --icon-l: calc( var(--size-base, .4rem ) * 8 );
+    --icon-xl: calc( var(--size-base, .4rem ) * 10 );
+    --icon-xxl: calc( var(--size-base, .4rem ) * 14 );
+
+	/* Forms - Inputs */
+	--checkbox-size: calc(var(--size-base ) * 4.5 );
+	--radio-size: calc(var(--size-base ) * 5.5 );
+
+    /* Rounded */ 
+    --rounded : 50%;
+}

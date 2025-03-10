@@ -1,0 +1,33 @@
+
+/*** 										***/
+/*** Code elements style					***/
+/***  										***/
+pre {
+	display: block;
+	padding: 9.5px;
+	margin: 10px 0px 10px;
+	position: relative;
+}
+
+code {
+	margin-bottom: 0 !important;
+	font-size: 100%;
+}
+
+pre .copy-to-clipboard {
+	background: #3C5BFE;
+	color: #fff;
+	cursor: pointer;
+	padding: 4px 5px;
+	line-height: 1;
+	font-size: 12px;
+	font-weight: 500;
+	border-radius: 4px;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+
+:not(pre) > code + span.copy-to-clipboard {
+	display: none;
+}

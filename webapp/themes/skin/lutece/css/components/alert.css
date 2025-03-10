@@ -1,0 +1,66 @@
+/*** 		 						***/
+/*** 	Alert 						***/
+/*** 		 						***/
+.alert {
+	margin: 2rem 0;
+	overflow: hidden;
+	display: flex;
+}
+
+.alert p {
+	padding: 10px;
+	margin-bottom: 0;
+	position: relative;
+}
+
+.alert.dismissible p::after {
+	position: absolute;
+	top: -28px;
+	color: #fff;
+	font-family: "tabler-icons";
+	font-weight: 900;
+	content: "\eb55";
+	right: 10px;
+}
+
+.alert p::before {
+	position: absolute;
+	top: -28px;
+	color: #fff;
+	font-family: "tabler-icons";
+	font-weight: 900;
+	content: "\eac5";
+	left: 10px;
+}
+
+.alert.info p {
+	border-top: 30px solid #6ab0de;
+	background: #e7f2fa;
+}
+
+.alert.success p {
+	border-top: 30px solid #78C578;
+	background: #E6F9E6;
+}
+
+.alert.success p::before {
+	content: "\ea67";
+}
+
+.alert.danger p {
+	border-top: 30px solid #E06F6C;
+	background: #FAE2E2;
+}
+
+.alert.danger p::before {
+	content: "\ecc6";
+}
+
+.alert.warning p {
+	border-top: 30px solid #e1ae3e;
+	background: #e0bb6c;
+}
+
+.alert.warning p::before {
+	content: "\ea06";
+}

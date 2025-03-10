@@ -1,0 +1,37 @@
+/*** 										***/
+/*** 	Footer 								***/
+/*** 										***/
+.social-icons {
+  margin-bottom: 0;
+}
+  
+.social-icons a {
+  display: block;
+  height: 42px;
+  width: 42px;
+  line-height: 42px;
+  text-align: center;
+  color: #fff;
+  background: #3C5BFE;
+  border-radius: 6px;
+}
+  
+.social-icons a:hover,
+.social-icons a:hover .ti{
+  background: #FF442A;
+}
+  
+.footer-menu {
+  margin-bottom: 0;
+}
+
+.footer-menu a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  transition: 0.2s ease;
+}
+
+.footer-menu a:hover {
+  color: #3C5BFE;
+}

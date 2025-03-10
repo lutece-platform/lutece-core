@@ -1,0 +1,189 @@
+/*** 										***/
+/*** DARK Theme 							***/
+/*** 										***/
+[data-bs-theme=dark] {
+	/* Main Theme Colors */
+    --theme-bg-default: #071F32 !important;
+	
+    --main-color: #fff;
+
+	--main-info-color: #F2F6FF;
+	--main-info-color-40: #F2F6FF;
+	--main-info-color-light: #F2F6FF;
+	--main-info-color-text: #17215F;
+
+	--main-danger-color: #E22C3F;
+	--main-danger-color-lightest: #FFF2F2;
+	--main-danger-color-text: #86131E;
+
+	--main-footer-danger-color: #9c1621;
+
+	--main-success-color: #248619;
+	--main-success-color-lightest: #ECFAEA;
+	--main-success-color-text: #0F320B;
+	
+	--main-warning-color: #FFA13D;
+	--main-warning-color-lightest: #FFFAE6;
+	--main-warning-color-text: #844501;
+	
+	/* Black to White */
+	--black-color: #fff;
+	--dark-color: #fff;
+	--dark-lighter-color: #6D6D6D;
+
+	--gray-dark-color: #A1A1A1;
+	--gray-color: #C3C3C3;
+	--gray-light-color: #D5D9DD;
+
+	--white-lighter-color : #FCFAFA;
+	--white-light-color: #f0f0f0;
+	--white-color: #071F32;
+
+	/* Blue */
+	--blue-darker-color: #495E7E;
+	--blue-dark-color: #5C769E;
+	--blue-color: #B2BED2;
+	--blue-light: #CFD7E3;
+	--blue-bg-colored: #DFE7FC;
+	--blue-bg-colored-light: #F2F6FF;
+	
+	--blue-gray-color: #5C769E;
+	--blue-turquoise-color: #1CBCB6;
+	
+	/* Icon */
+	--card-title-icon: #0C518A;
+	
+	/* Shadow */
+	--main-color-shadow: #071f321a;
+	--card-color-shadow: #00000029;
+	--switch-color-shadow: #0088dd40;
+	--shadow-border-color: #CFD7E3;
+
+	/* Menu */
+	--sidebar-menu-xs-active: #192DA5;
+	/* France Connect */
+	--fc-bg-color: #000091;
+	--fc-bg-hover-color: #1212FF;
+
+	/* Utils */
+	--file-dropzone-color: var(--white-color);
+    --file-dropzone-hover-color: var(--main-info-color-light);
+	--file-dropzone-border-color: var(--blue-dark-color);
+	--file-dropzone-border-disabled: var(--white-light-color);
+	--file-dropzone-text-disabled: var(--blue-darker-color);
+	--file-dropzone-icon-disabled: var(--blue-light);
+	--file-dropzone-border-hover-color: var(--main-info-color);
+
+	--border-color: var(--blue-color);
+	
+	/* Status */
+	--status-coming: var( --blue-turquoise-color );    
+	--status-todo: var( --main-danger-color );
+	--status-doing: var(--main-warning-color);
+	--status-done: var(--main-success-color);
+	--status-passed:  var( --blue-gray-color );
+
+}
+
+body[data-bs-theme=dark] img.darkmode,
+body[data-bs-theme=dark] .main-footer .logo > img,
+body[data-bs-theme=dark]::-webkit-calendar-picker-indicator {
+    filter: invert(1)
+}
+
+body[data-bs-theme=dark] .main-header.is-sidebar .navbar-paris .navbar-brand .logo {
+    filter: initial;
+}
+
+body[data-bs-theme=dark] svg path{
+    fill: var(--main-color)
+}
+
+body[data-bs-theme=dark] #main-menu-sidebar .nav-item .nav-link svg path{
+    fill: var(--white-color);
+}
+
+body[data-bs-theme=dark] #main-menu-sidebar .nav-item.active .nav-link.help>svg path {
+    stroke: var(--main-color);
+}
+
+body[data-bs-theme=dark] ,
+body[data-bs-theme=dark] .bg-form,
+body[data-bs-theme=dark] footer {
+    background-color: var(--theme-bg-default)
+}
+
+body[data-bs-theme=dark][data-bs-theme-menu=top] #child-menu .list-group-item.active .title {
+    color: #fff !important
+}
+
+body[data-bs-theme=dark] .shadow {
+    box-shadow: none !important
+}
+
+/** Text **/
+body[data-bs-theme=dark]  .text-primary {
+	color: var(--main-color) !important;
+}
+
+body[data-bs-theme=dark]  .text-info {
+	color: var(--main-info-color) !important;
+}
+
+body[data-bs-theme=dark] .text-dark-border {
+	text-shadow: .1rem .1rem 0 var(--dark-color), -.1rem -.1rem 0 var(--dark-color), .1rem -.1rem 0 var(--dark-color), -.1rem .1rem 0 var(--dark-color), .1rem .1rem 0 var(--dark-color);
+}
+
+body[data-bs-theme=dark] .text-dark {
+    color: var(--theme-bg-default) !important
+}
+
+
+body[data-bs-theme=dark] .text-bg-light {
+    color: var(--theme-bg-default) !important;
+    background-color: transparent !important
+}
+
+/** Form **/
+body[data-bs-theme=dark] .form-control,
+body[data-bs-theme=dark] .form-select,
+body[data-bs-theme=dark] .form-control:focus,
+body[data-bs-theme=dark] .form-select:focus {
+    background-color: var(--theme-bg-default);
+    color: #fff
+}
+
+body[data-bs-theme=dark] .card {
+    border: var( --border-normal) solid var(--bs-border-color-translucent) !important;
+    background-color:  var(--theme-bg-default);
+}
+
+body[data-bs-theme=dark] .card-footer {
+    border-top: var( --border-normal) solid var(--bs-border-color-translucent)
+}
+
+
+body[data-bs-theme=dark] .bg-content {
+    background-color: var(--theme-bg-default) !important;
+    border: var( --border-normal) solid  var(--main-color) !important;
+}
+
+body[data-bs-theme=dark] table,
+body[data-bs-theme=dark] .table td,
+body[data-bs-theme=dark] .table th {
+    --bs-table-hover-bg: #222633;
+    background-color:  var(--theme-bg-default);
+}
+
+body[data-bs-theme=dark] * ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .186) !important
+}
+
+body[data-bs-theme=dark] .btn,
+body[data-bs-theme=dark] .badge {
+    border-width: 0 !important
+}
+
+body[data-bs-theme=dark] .btn.btn-default {
+    border-width: 1px !important
+}

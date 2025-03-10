@@ -1,0 +1,54 @@
+/*** 										***/
+/*** Forms Elemnts							***/
+/***  										***/
+
+/* Autocomplete */
+.autocomplete-suggestions {
+	border: 0;
+	border-radius: 0 0 6px 6px;
+	box-shadow: 0px 50px 60px rgba(62, 62, 62, 0.102) !important;
+	background: #fff;
+}
+
+.autocomplete-suggestions .autocomplete-suggestion {
+	transition: 0.2s ease;
+	padding: 10px;
+	font-weight: 500;
+}
+
+.autocomplete-suggestions .autocomplete-suggestion.selected {
+	background: #3C5BFE;
+}
+
+/* Camera */
+.btn-cam {
+    right: calc( 5vw + 25% ) !important;
+}
+
+@media (min-width: 576px) {
+	#layout-sidebar-wrapper #layout-sidebar #main #summary-validate .container,
+	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container{
+		max-width: 540px;
+	}
+}
+
+@media (min-width: 768px) {
+	#layout-sidebar-wrapper #layout-sidebar #main #summary-validate .container,
+	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container{
+		max-width: 720px;
+	}
+}
+
+@media (min-width: 992px) {
+	#layout-sidebar-wrapper #layout-sidebar #main #summary-validate .container,
+	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container{
+		max-width: 960px;
+	}
+}
+
+@media (min-width: 1200px) {
+	#layout-sidebar-wrapper #layout-sidebar #main #summary-validate .container,
+	#layout-sidebar-wrapper #layout-sidebar #main #form-validate .container{
+		max-width: 1140px;
+	}
+}

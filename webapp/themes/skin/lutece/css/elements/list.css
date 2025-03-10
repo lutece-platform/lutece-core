@@ -1,0 +1,32 @@
+/*** 										***/
+/*** List styles							***/
+/***  										***/
+ul,
+ol,
+li {
+	font-family: var(--font-family-list);
+	font-weight: 400;
+	font-size: var(--font-m);
+}
+
+ul li::marker {
+   color: var(--main-info-color);
+   font-size: var(--font-xl);
+}
+
+ol li::marker {
+	font-weight: 600;
+}
+
+ol li::marker::after {
+	content: '.';
+}
+
+/* Small devices and below (small phone, 360px and below) */ 
+@media ( max-width:  358.98px ) {
+	ul,
+	ol,
+	li{
+		font-size: var( --font-sm );
+	}
+}

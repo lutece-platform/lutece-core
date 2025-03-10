@@ -1,0 +1,86 @@
+/*** 										***/
+/*** Content Frame							***/
+/***  										***/
+.content-frame.content-frame-primary{
+	border: .4rem solid var(--main-info-color);
+	padding: var(--spacing-xl);
+	min-height: : var(--spacing-l);
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	gap: 2rem;
+}
+
+.content-frame.content-frame-primary .content-frame-title {
+    overflow-wrap: break-word;
+    color: var(--main-info-color);
+}
+
+article .content-frame-title::after, article header > .content-frame-title::after {
+    content: "";
+    border-block-end: 0;
+	margin-block-start: 0;
+}
+
+.content-frame.content-frame-secondary,
+.content-frame.content-frame-tertiary{
+	padding: 4rem 5.6rem;
+	min-height: : var(--spacing-l);
+	background-color: var(--white-light-color);
+}
+
+.content-frame.content-frame-secondary{
+	border-left: .6rem solid var(--main-info-color);
+}
+
+.content-frame.content-frame-tertiary{
+	border-left: .6rem solid var(--main-color);
+}
+
+.content-frame.content-frame-secondary .content-frame-content,
+.content-frame.content-frame-tertiary .content-frame-content{
+	margin-top: 1.6rem;
+}
+
+.content-frame.content-frame-secondary .content-frame-title {
+    color: var(--main-info-color);
+}
+
+.content-frame.content-frame-tertiary .content-frame-title {
+    color: var(--main-color);
+}
+
+@media (max-width: 354.8px) {
+    .content-frame.content-frame-primary .content-frame-title {
+		font-size: 1rem !important;
+		text-wrap: balance !important;
+	}
+}
+
+@media ( max-width: 767.98px ) {
+	.content-frame.content-frame-primary{
+		position: relative;
+		display: block;
+	}
+
+	.content-frame.content-frame-primary .content-frame-content{
+    	padding: 0;
+    }
+
+}
+
+@media ( min-width: 767.98px ) {
+	.content-frame.content-frame-primary .content-frame-title {
+        margin: 0;
+        overflow-wrap: break-word;
+        color: var(--main-info-color);
+        background-color: var( --white-color );
+        padding: 1.5rem 0 1.5rem 0;
+        transform: translate(-6rem);
+    }
+
+    .content-frame.content-frame-primary .content-frame-content{
+        	margin-top: 0;
+    }
+
+}
