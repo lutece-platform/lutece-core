@@ -1,0 +1,114 @@
+<#-- 
+Macro : initEditor 
+
+Description: Defines a macro to add tinyMCE editor to a textarea
+
+Parameters:
+@param editorWidth	- number - optionnal - Défaut 450, largeur de l'éditeur
+@param cssFiles		- string - optionnal - Défaut '', any additional CSS files to load separated by commas
+@param type			- string - optionnal - Défaut '', "inline" or "". Documentation avalaible at https://www.tiny.cloud/docs/tinymce/6/
+@param insert		- string - optionnal - Défaut '' . -  ='"library","pagelinkservice"' 
+@param selector='editor' 
+@param input='html_content'
+@param placeholder='' 
+@param config={} 
+-->
+<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='editor' input='html_content' placeholder='' config={}>
+<#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
+<#assign editorLocale='' />
+<#local toolbar='' />
+<#local userConf='' />
+<#if config?has_content><#local userConf><#list config as prop, value >${prop}: <#if value?is_string>'${value}'<#else>${value}</#if><#sep>,</#sep></#list></#local></#if>
+<#-- We only have the language pack for French (France) installed in webapp/js/editors/tinymce/langs -->
+<#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->
+<#-- Force it here because if it is a wrong value, tinyMCE does not load -->
+<#if locale?? && (2 <= locale?string?length)>
+<#if (locale?string?substring(0,2) == "fr")>
+<#assign editorLocale='fr-fr' />
+<#assign editorLang='fr' />
+<#else>
+<#if locale?string?substring(0,2) != "en">
+<#assign editorLocale="${locale?lower_case!}-${locale?lower_case!}" />
+<#assign editorLang='${locale?lower_case!}' />
+</#if>
+</#if>
+<#else>
+<#if locale?string?substring(0,2) != 'en'>
+<#assign editorLocale="${locale?replace('_','-')?lower_case!}" />
+<#assign editorLang='${locale?string?substring(0,2)?lower_case!}' />
+</#if>
+</#if>
+<#if cssFiles==""><#assign cssFiles="editor.css, page_template_styles.css" /></#if>
+<!-- Editor -->
+<link rel="stylesheet" href="themes/admin/shared/js/editors/tuieditor3/css/toastui-editor-dark.css" >
+<link rel="stylesheet" href="themes/admin/shared/js/editors/tuieditor3/css/toastui-editor.css" >
+<link rel="stylesheet" href="themes/admin/shared/js/editors/tuieditor3/css/plugins/tui-color-picker.css" >
+<link rel="stylesheet" href="themes/admin/shared/js/editors/tuieditor3/css/plugins/toastui-editor-plugin-table-merged-cell.min.css" >
+<link rel="stylesheet" href="themes/admin/shared/js/editors/tuieditor3/css/plugins/toastui-editor-plugin-code-syntax-highlight.min.css" >
+<!-- Tui Editor integration -->
+<script src="themes/admin/shared/js/editors/tuieditor3/js/toastui-editor-all.min.js"></script>
+<!-- Color Picker -->
+<script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/tui-color-picker.min.js"></script>
+<!-- Editor's Plugin -->
+<script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
+<script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-color-syntax.js"></script>
+<script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-table-merged-cell.min.js"></script>
+<script src="themes/admin/shared/js/lib/prism/prism.js"></script>
+<script type="module">
+/* -------------- EDITOR -------------- */
+<#if editorLocale !=''>import './themes/admin/shared/js/editors/tuieditor3/js/i18n/${editorLocale}.js';</#if>
+
+const { Editor } = toastui;
+
+const { codeSyntaxHighlight, colorSyntax, tableMergedCell } = Editor.plugin;
+let input = document.getElementById('${input}');
+input.style.display = 'none';
+let defaultContent = input.value;
+let editor = new Editor({
+    el: document.getElementById('${selector}'),
+    previewStyle: 'tab', // vertical
+    height: '500px',
+    initialEditType: 'wysiwyg', // markdown
+    initialValue: defaultContent,
+    <#if editorLocale !=''>language: '${editorLang!}',</#if>
+    scrollSync: false,
+    plugins: [[codeSyntaxHighlight, { highlighter: Prism }], tableMergedCell],
+    toolbarItems: [
+        ['heading', 'bold', 'italic', 'strike'],
+        ['hr', 'quote'],
+        ['ul', 'ol', 'task', 'indent', 'outdent'],
+        ['table', 'link', 'image', 'codeblock','code'],
+        ['scrollSync'],
+    ],
+    // customHTMLRenderer: {
+    //     heading(node, context) {
+    //         return {
+    //             type: context.entering ? 'openTag' : 'closeTag',
+    //             tagName: 'div',
+    //             <#noparse>classNames: [`heading-${node.level}`]</#noparse>
+    //         };
+    //     },
+    //     text(node, context) {
+    //         const strongContent = node.parent.type === 'strong';
+    //         return {
+    //             type: 'text',
+    //             content: strongContent ? node.literal.toUpperCase() : node.literal
+    //         };
+    //     },
+    //     linebreak(node, context) {
+    //         return {
+    //             type: 'html',
+    //             content: '\n<br />\n'
+    //         };
+    //     }
+    // },
+    events: {
+        change: (e) => {
+            document.getElementById('${input!}').value = 'MD:' + editor.getMarkdown();
+        },
+    },
+});
+</script>
+
+<!------------------- END OF CUSTOM INPUTS -------------------------->
+</#macro>
