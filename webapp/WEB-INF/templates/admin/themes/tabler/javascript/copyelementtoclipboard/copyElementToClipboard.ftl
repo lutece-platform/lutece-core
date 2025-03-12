@@ -15,7 +15,7 @@ Parameters:
 <script>
 const elems = document.querySelectorAll('${selector!}');
 elems.forEach(elem => {
-	<#if class !=''>elem.classList.add( ${class!} );</#if>
+	<#if class !=''>elem.classList.add( '${class!}' );</#if>
 	elem.setAttribute('title', '#i18n{portal.util.labelCopy}');
   	elem.addEventListener('click', () => {
 		const selection = window.getSelection();
