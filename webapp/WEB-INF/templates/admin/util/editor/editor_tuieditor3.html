@@ -53,6 +53,7 @@ Parameters:
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-color-syntax.js"></script>
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-table-merged-cell.min.js"></script>
+<!-- <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/lutece.js"></script> -->
 <script src="themes/admin/shared/js/lib/prism/prism.js"></script>
 <script type="module">
 /* -------------- EDITOR -------------- */
@@ -82,7 +83,7 @@ let editor = new Editor({
         ['scrollSync'],
     ],
     events: {
-        change: (e) => {
+        blur: (e) => {
             document.getElementById('${input!}').value = 'MD:' + editor.getMarkdown();
         },
     },
