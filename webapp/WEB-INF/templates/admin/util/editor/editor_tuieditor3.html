@@ -27,13 +27,13 @@ Parameters:
 <#assign editorLocale='fr-fr' />
 <#assign editorLang='fr' />
 <#else>
-<#if locale?string?substring(0,2) != "en">
+<#if locale?? && locale?string?substring(0,2) != "en">
 <#assign editorLocale="${locale?lower_case!}-${locale?lower_case!}" />
 <#assign editorLang='${locale?lower_case!}' />
 </#if>
 </#if>
 <#else>
-<#if locale?string?substring(0,2) != 'en'>
+<#if locale?? && locale?string?substring(0,2) != 'en'>
 <#assign editorLocale="${locale?replace('_','-')?lower_case!}" />
 <#assign editorLang='${locale?string?substring(0,2)?lower_case!}' />
 </#if>
@@ -53,6 +53,7 @@ Parameters:
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-color-syntax.js"></script>
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-table-merged-cell.min.js"></script>
+<!-- <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/lutece.js"></script> -->
 <script src="themes/admin/shared/js/lib/prism/prism.js"></script>
 <script type="module">
 /* -------------- EDITOR -------------- */
@@ -77,7 +78,8 @@ let editor = new Editor({
         ['heading', 'bold', 'italic', 'strike'],
         ['hr', 'quote'],
         ['ul', 'ol', 'task', 'indent', 'outdent'],
-        ['table', 'link', 'image', 'codeblock','code'],
+        ['table', 'link', 'image'],
+        [ 'codeblock','code'],
         ['scrollSync'],
     ],
     // customHTMLRenderer: {
@@ -108,6 +110,79 @@ let editor = new Editor({
         },
     },
 });
+
+// Function to create and manage the resource selector modal
+function luteceInsertService() {
+    // Create modal dialog for resource selection
+    let modal = document.createElement('div');
+    modal.id = 'resourceSelectorModal';
+    modal.style.cssText = 'display:none; position:fixed; z-index:1001; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);';
+    
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = 'background-color:#fff; margin:50px auto; padding:20px; border:1px solid #888; width:80%; height:80%; border-radius:5px; box-shadow:0 4px 8px rgba(0,0,0,0.2);';
+    
+    // Header with title and close button
+    const header = document.createElement('div');
+    header.style.cssText = 'display:flex; justify-content:space-between; margin-bottom:15px;';
+    
+    const title = document.createElement('h3');
+    title.textContent = 'Select Resource';
+    
+    const closeBtn = document.createElement('span');
+    closeBtn.innerHTML = '&times;';
+    closeBtn.style.cssText = 'font-size:24px; cursor:pointer;';
+    closeBtn.onclick = () => modal.style.display = 'none';
+    
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+    
+    // Create iframe
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'width:100%; height:calc(100% - 100px); border:1px solid #ddd;';
+    // iframe.src = 'jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=PAGE_INSERT_SERVICE&plugin_name=pagelinkservice&input=tui3&selected_text='; // Replace with your actual resource browser URL
+    iframe.src = 'jsp/admin/insert/GetAvailableInsertServices.jsp?input=tuid3&selected_text=&mode=0'; // Replace with your actual resource browser URL
+        
+    // Assemble modal
+    modalContent.appendChild(header);
+    modalContent.appendChild(iframe);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+    
+    // Add message listener for iframe communication
+    window.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'getSelectedResource') {
+            const resource = event.data.resource;
+            if (resource && resource.url) {
+                // Insert the link into editor
+                <#noparse>editor.insertText(`[${resource.title || resource.url}](${resource.url})`);</#noparse>
+                modal.style.display = 'none';
+            }
+        }
+    });
+    
+    // Add custom button to editor toolbar
+    const toolbarItem = {
+        name: 'luteceSelector',
+        tooltip: 'Insert Resource',
+        command: 'luteceSelector',
+        text: '',
+        className: 'toastui-editor-toolbar-icons lutece text-transparent',
+        style: { backgroundImage: 'url("themes/admin/shared/images/logo-header-icon.svg")',backgroundSize:'80%' }
+    };
+    
+    // Register command
+    editor.addCommand("wysiwyg","luteceSelector", (arg) => {
+        console.log("luteceSelector command called", arg);
+        modal.style.display = 'block';
+    });
+    
+    // Add button to toolbar
+    editor.insertToolbarItem({groupIndex: 3, itemIndex: 2}, toolbarItem);
+}
+
+// Initialize the custom resource selector
+luteceInsertService();
+
 </script>
 
 <!------------------- END OF CUSTOM INPUTS -------------------------->
