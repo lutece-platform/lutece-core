@@ -53,7 +53,6 @@ Parameters:
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-color-syntax.js"></script>
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-table-merged-cell.min.js"></script>
-<!-- <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/lutece.js"></script> -->
 <script src="themes/admin/shared/js/lib/prism/prism.js"></script>
 <script type="module">
 /* -------------- EDITOR -------------- */
@@ -82,28 +81,6 @@ let editor = new Editor({
         [ 'codeblock','code'],
         ['scrollSync'],
     ],
-    // customHTMLRenderer: {
-    //     heading(node, context) {
-    //         return {
-    //             type: context.entering ? 'openTag' : 'closeTag',
-    //             tagName: 'div',
-    //             <#noparse>classNames: [`heading-${node.level}`]</#noparse>
-    //         };
-    //     },
-    //     text(node, context) {
-    //         const strongContent = node.parent.type === 'strong';
-    //         return {
-    //             type: 'text',
-    //             content: strongContent ? node.literal.toUpperCase() : node.literal
-    //         };
-    //     },
-    //     linebreak(node, context) {
-    //         return {
-    //             type: 'html',
-    //             content: '\n<br />\n'
-    //         };
-    //     }
-    // },
     events: {
         change: (e) => {
             document.getElementById('${input!}').value = 'MD:' + editor.getMarkdown();
