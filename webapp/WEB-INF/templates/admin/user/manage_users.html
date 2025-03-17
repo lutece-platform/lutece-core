@@ -77,9 +77,6 @@
         </@pageHeader>
         <@table headBody=true id='userTable'>
             <@tr>
-                <#if adminAvatar>
-                    <@th></@th>
-                </#if>
                 <@th hide=['xs']>#i18n{portal.users.manage_users.columnTitleLastName}
                     <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName${sort_search_attribute}" />
                 </@th>
