@@ -7,6 +7,7 @@
   - title (string, optional): the title of the off-canvas component.
   - btnColor (string, optional): the color of the toggle button.
   - btnTitle (string, optional): the text on the toggle button.
+  - hideTitle (array, optional): an array of breakpoints to hide the button title.
   - btnIcon (string, optional): the icon for the toggle button.
   - btnClass (string, optional): additional classes for the toggle button.
   - bodyClass (string, optional): additional classes for the off-canvas body.
@@ -19,20 +20,15 @@
   - badgeContent (string, optional): the content of the badge on the toggle button.
   - badgeColor (string, optional): the color of the badge.
   -->
-<#macro offcanvas id position='end' title='' btnColor='primary' btnTitle='' btnTitleShow=true btnIcon='' btnClass='' bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' redirectForm=true badgeContent='' badgeColor=''>
+<#macro offcanvas id position='end' title='' btnColor='primary' btnTitle='' hideTitle=[] btnIcon='' btnClass='' bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' redirectForm=true badgeContent='' badgeColor=''>
     <@deprecatedWarning args=deprecated />
     <a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if>${btnClass}<#if badgeContent?has_content> position-relative</#if>" onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if> title="${btnTitle}">
         <#if btnIcon!=''>
             <@icon style=btnIcon />
         </#if>
-        <#if btnIcon!='' && btnTitle!='' && btnTitleShow>
-            <span class="ms-1">
-        </#if>
-        <#if btnTitleShow>${btnTitle}</#if>
-        <span class="visually-hidden">${btnTitle}</span>
-        <#if btnIcon!='' && btnTitle!='' && btnTitleShow>
-            </span>
-        </#if>
+		<#-- Visibility of button title -->
+		<#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
+		<span class="${displayTitleClass}">${btnTitle}</span>
         <#if badgeContent?has_content>
             <#if badgeColor?has_content>
                 <#assign bgColor="bg-" + badgeColor>
