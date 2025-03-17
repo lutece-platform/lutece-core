@@ -2,12 +2,12 @@
     <@pageColumn>
         <@pageHeader title='#i18n{portal.users.manage_users.titleUserList}'>
             <#if permission_advanced_parameter>
-                <@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/AdminTechnicalMenu.jsp?tab=defaultUserParameterValues#users_advanced_parameters' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' hideTitle=['xs','sm'] />
+                <@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/AdminTechnicalMenu.jsp?tab=defaultUserParameterValues#users_advanced_parameters' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' hideTitle=['xs','sm','md'] />
             </#if>
             <#if permission_import_export_users>
-                <@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' hideTitle=['xs','sm'] />
+                <@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' hideTitle=['xs','sm','md'] />
             </#if>
-            <@aButton color='primary' class='me-1' class='me-1' size='' href='${url_user_creation}' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' hideTitle=['xs','sm'] />
+            <@aButton color='primary' class='me-1' class='me-1' size='' href='${url_user_creation}' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' hideTitle=['xs','sm','md'] />
             <@offcanvas id="search-users" title="#i18n{portal.users.manage_users.search_users.buttonSearch}" position="end" btnTitle="#i18n{portal.users.manage_users.search_users.buttonSearch}" btnIcon="search me-1">
             <@tform method='post' name='search_users' action='jsp/admin/user/ManageUsers.jsp' id='userSearch' class='border-bottom pb-3'>
                 <@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelAccessCode}'

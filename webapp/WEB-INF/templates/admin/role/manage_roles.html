@@ -19,7 +19,7 @@
                             <@td>${role.roleDescription}</@td>
                             <@td>${role.workgroup}</@td>
                             <@td>
-                                <@offcanvas targetUrl="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}" targetElement="#modify_page_role_form" redirectForm=false id="template-modify-page-role" title="#i18n{portal.util.labelModify} (${role.role})" btnIcon="edit" position="end"  />
+                                <@offcanvas targetUrl='jsp/admin/role/ModifyPageRole.jsp?role=${role.role}' targetElement='#modify_page_role_form' redirectForm=false id='template-modify-page-role' title='#i18n{portal.util.labelModify} (${role.role})' btnIcon='edit' btnSize='sm' position='end'  />
                                 <#if exist_rbac_map?has_content && exist_rbac_map[role.role]>
                                     <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.role}' title='#i18n{portal.role.manage_roles.labelViewRbacRole} (${role.role})' buttonIcon='link' color='primary' size='sm' hideTitle=['all'] />
                                 </#if>    

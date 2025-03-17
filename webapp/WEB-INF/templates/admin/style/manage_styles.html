@@ -19,7 +19,7 @@
                     <@td>${style.portalComponentName}</@td>
                     <@td>#i18n{${style.portletTypeName}}</@td>
                     <@td>
-                        <@offcanvas targetUrl="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}" targetElement="#modify-style-form" redirectForm=false id="style-modify-${style.id}" title="#i18n{portal.util.labelModify} ${style.description}" btnIcon="edit" position="end" />
+                        <@offcanvas targetUrl="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}" targetElement="#modify-style-form" redirectForm=false id="style-modify-${style.id}" title="#i18n{portal.util.labelModify} ${style.description}" btnIcon="edit" btnSize='sm' position='end' />
                         <@aButton href='jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}' buttonIcon='trash' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] size='sm' color='danger' />
                     </@td>
                 </@tr>
