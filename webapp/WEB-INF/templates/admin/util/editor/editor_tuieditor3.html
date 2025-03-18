@@ -13,7 +13,8 @@ Parameters:
 @param placeholder='' 
 @param config={} 
 -->
-<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='editor' input='html_content' placeholder='' config={}>
+<#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext' placeholder='' config={} deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
 <#assign editorLocale='' />
 <#local toolbar='' />
@@ -53,115 +54,405 @@ Parameters:
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-code-syntax-highlight-all.min.js"></script>
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-color-syntax.js"></script>
 <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/toastui-editor-plugin-table-merged-cell.min.js"></script>
-<!-- <script src="themes/admin/shared/js/editors/tuieditor3/js/plugins/lutece.js"></script> -->
 <script src="themes/admin/shared/js/lib/prism/prism.js"></script>
 <script type="module">
+let autorizedInsertService = [${insert!}], luteceInsertServices=[];
+const request = new XMLHttpRequest();
+request.open( "GET", "jsp/admin/insert/GetAvailableInsertServicesData.jsp?input=tinymce&selected_text=&mode=2", false ); 
+request.send( null );
+
+if (request.status === 200) { luteceInsertServices = request.responseText.trim().split(',') }
+
+if( luteceInsertServices.length > 0){
+  luteceInsertServices=Array.from( new Set( luteceInsertServices ))
+}
+
+let luteceServices = [];
+
 /* -------------- EDITOR -------------- */
 <#if editorLocale !=''>import './themes/admin/shared/js/editors/tuieditor3/js/i18n/${editorLocale}.js';</#if>
+
+const editors = document.querySelectorAll('${selector}');
 
 const { Editor } = toastui;
 
 const { codeSyntaxHighlight, colorSyntax, tableMergedCell } = Editor.plugin;
-let input = document.getElementById('${input}');
-input.style.display = 'none';
-let defaultContent = input.value;
-let editor = new Editor({
-    el: document.getElementById('${selector}'),
-    previewStyle: 'tab', // vertical
-    height: '500px',
-    initialEditType: 'wysiwyg', // markdown
-    initialValue: defaultContent,
-    <#if editorLocale !=''>language: '${editorLang!}',</#if>
-    scrollSync: false,
-    plugins: [[codeSyntaxHighlight, { highlighter: Prism }], tableMergedCell],
-    toolbarItems: [
-        ['heading', 'bold', 'italic', 'strike'],
-        ['hr', 'quote'],
-        ['ul', 'ol', 'task', 'indent', 'outdent'],
-        ['table', 'link', 'image'],
-        [ 'codeblock','code'],
-        ['scrollSync'],
-    ],
-    events: {
-        blur: (e) => {
-            document.getElementById('${input!}').value = 'MD:' + editor.getMarkdown();
-        },
-    },
-});
 
-// Function to create and manage the resource selector modal
-function luteceInsertService() {
-    // Create modal dialog for resource selection
-    let modal = document.createElement('div');
-    modal.id = 'resourceSelectorModal';
-    modal.style.cssText = 'display:none; position:fixed; z-index:1001; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);';
-    
-    const modalContent = document.createElement('div');
-    modalContent.style.cssText = 'background-color:#fff; margin:50px auto; padding:20px; border:1px solid #888; width:80%; height:80%; border-radius:5px; box-shadow:0 4px 8px rgba(0,0,0,0.2);';
-    
-    // Header with title and close button
-    const header = document.createElement('div');
-    header.style.cssText = 'display:flex; justify-content:space-between; margin-bottom:15px;';
-    
-    const title = document.createElement('h3');
-    title.textContent = 'Select Resource';
-    
-    const closeBtn = document.createElement('span');
-    closeBtn.innerHTML = '&times;';
-    closeBtn.style.cssText = 'font-size:24px; cursor:pointer;';
-    closeBtn.onclick = () => modal.style.display = 'none';
-    
-    header.appendChild(title);
-    header.appendChild(closeBtn);
-    
-    // Create iframe
-    const iframe = document.createElement('iframe');
-    iframe.style.cssText = 'width:100%; height:calc(100% - 100px); border:1px solid #ddd;';
-    // iframe.src = 'jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=PAGE_INSERT_SERVICE&plugin_name=pagelinkservice&input=tui3&selected_text='; // Replace with your actual resource browser URL
-    iframe.src = 'jsp/admin/insert/GetAvailableInsertServices.jsp?input=tuid3&selected_text=&mode=0'; // Replace with your actual resource browser URL
-        
-    // Assemble modal
-    modalContent.appendChild(header);
-    modalContent.appendChild(iframe);
-    modal.appendChild(modalContent);
-    document.body.appendChild(modal);
-    
-    // Add message listener for iframe communication
-    window.addEventListener('message', (event) => {
-        if (event.data && event.data.type === 'getSelectedResource') {
-            const resource = event.data.resource;
-            if (resource && resource.url) {
-                // Insert the link into editor
-                <#noparse>editor.insertText(`[${resource.title || resource.url}](${resource.url})`);</#noparse>
-                modal.style.display = 'none';
+editors.forEach( ed => {
+    const input = document.getElementById( ed.id );
+    input.style.display = 'none';
+    const defaultContent = input.value;
+
+    const editorWrapper = document.createElement('div');
+    editorWrapper.id= <#noparse>`editor-${ed.id}`</#noparse>;
+    input.insertAdjacentElement('afterend', editorWrapper);
+    const editorInstance=document.getElementById( editorWrapper.id )  
+
+    const editor = new Editor({
+        el: editorInstance,
+        previewStyle: 'tab', // vertical
+        height: '500px',
+        initialEditType: 'wysiwyg', // markdown
+        initialValue: defaultContent,
+        <#if editorLocale !=''>language: '${editorLang!}',</#if>
+        scrollSync: false,
+        plugins: [[codeSyntaxHighlight, { highlighter: Prism }], tableMergedCell],
+        toolbarItems: [
+            ['heading', 'bold', 'italic', 'strike'],
+            ['hr', 'quote'],
+            ['ul', 'ol', 'task', 'indent', 'outdent'],
+            ['table', 'link', 'image'],
+            [ 'codeblock','code'],
+            ['scrollSync'],
+        ],
+        events: {
+            blur: (e) => {
+                input.value = 'MD:' + editor.getMarkdown();
             }
         }
     });
     
-    // Add custom button to editor toolbar
-    const toolbarItem = {
-        name: 'luteceSelector',
-        tooltip: 'Insert Resource',
-        command: 'luteceSelector',
+    const modal = createLuteceModal( editor.getSelectedText() );
+    
+    // Set LuteceSerices buttons
+    if( luteceInsertServices.length > 0 ){
+        if( luteceInsertServices.includes('library') && autorizedInsertService.includes('library') ){
+            if( luteceInsertServices.includes('image') ){
+                luteceServices.push( {"luteceImage" : {"text": "Image", "icon": "url(\"data:image/svg+xml,%3Csvg%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20%20width%3D%2224%22%20%20height%3D%2224%22%20%20viewBox%3D%220%200%2024%2024%22%20%20fill%3D%22none%22%20%20stroke%3D%22currentColor%22%20%20stroke-width%3D%222%22%20%20stroke-linecap%3D%22round%22%20%20stroke-linejoin%3D%22round%22%20%20class%3D%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-photo-plus%22%3E%3Cpath%20stroke%3D%22none%22%20d%3D%22M0%200h24v24H0z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M15%208h.01%22%20%2F%3E%3Cpath%20d%3D%22M12.5%2021h-6.5a3%203%200%200%201%20-3%20-3v-12a3%203%200%200%201%203%20-3h12a3%203%200%200%201%203%203v6.5%22%20%2F%3E%3Cpath%20d%3D%22M3%2016l5%20-5c.928%20-.893%202.072%20-.893%203%200l4%204%22%20%2F%3E%3Cpath%20d%3D%22M14%2014l1%20-1c.67%20-.644%201.45%20-.824%202.182%20-.54%22%20%2F%3E%3Cpath%20d%3D%22M16%2019h6%22%20%2F%3E%3Cpath%20d%3D%22M19%2016v6%22%20%2F%3E%3C%2Fsvg%3E\")", action: () => showCustomModal( editor, 'image')}
+                })
+            }	
+            if( luteceInsertServices.includes('pdf') ){
+                luteceServices.push({'lutecePdf':{ text: 'PDF', icon: 'url("data:image/svg+xml,%3Csvg%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20%20width%3D%2224%22%20%20height%3D%2224%22%20%20viewBox%3D%220%200%2024%2024%22%20%20fill%3D%22none%22%20%20stroke%3D%22currentColor%22%20%20stroke-width%3D%222%22%20%20stroke-linecap%3D%22round%22%20%20stroke-linejoin%3D%22round%22%20%20class%3D%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-file-type-pdf%22%3E%3Cpath%20stroke%3D%22none%22%20d%3D%22M0%200h24v24H0z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M14%203v4a1%201%200%200%200%201%201h4%22%20%2F%3E%3Cpath%20d%3D%22M5%2012v-7a2%202%200%200%201%202%20-2h7l5%205v4%22%20%2F%3E%3Cpath%20d%3D%22M5%2018h1.5a1.5%201.5%200%200%200%200%20-3h-1.5v6%22%20%2F%3E%3Cpath%20d%3D%22M17%2018h2%22%20%2F%3E%3Cpath%20d%3D%22M20%2015h-3v6%22%20%2F%3E%3Cpath%20d%3D%22M11%2015v6h1a2%202%200%200%200%202%20-2v-2a2%202%200%200%200%20-2%20-2h-1z%22%20%2F%3E%3C%2Fsvg%3E"', action: () => showCustomModal( editor, 'pdf') } })
+            }	
+        }
+
+        if( luteceInsertServices.includes('pagelinkservice') && autorizedInsertService.includes('pagelinkservice') ){
+            luteceServices.push( {'lutecePageLink': { text: 'Page Link', icon: 'url("data:image/svg+xml,%3Csvg%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20%20width%3D%2224%22%20%20height%3D%2224%22%20%20viewBox%3D%220%200%2024%2024%22%20%20fill%3D%22none%22%20%20stroke%3D%22currentColor%22%20%20stroke-width%3D%222%22%20%20stroke-linecap%3D%22round%22%20%20stroke-linejoin%3D%22round%22%20%20class%3D%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-link-plus%22%3E%3Cpath%20stroke%3D%22none%22%20d%3D%22M0%200h24v24H0z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M9%2015l6%20-6%22%20%2F%3E%3Cpath%20d%3D%22M11%206l.463%20-.536a5%205%200%200%201%207.072%200a4.993%204.993%200%200%201%20-.001%207.072%22%20%2F%3E%3Cpath%20d%3D%22M12.603%2018.534a5.07%205.07%200%200%201%20-7.127%200a4.972%204.972%200%200%201%200%20-7.071l.524%20-.463%22%20%2F%3E%3Cpath%20d%3D%22M16%2019h6%22%20%2F%3E%3Cpath%20d%3D%22M19%2016v6%22%20%2F%3E%3C%2Fsvg%3E")', action: () => showCustomModal( editor, 'pagelinkservice') } })
+        }
+
+        if( luteceInsertServices.includes( 'newsletter-blog' ) && autorizedInsertService.includes('newsletter-blog') ){
+            luteceServices.push( {'luteceNewsletterBlog': { text: 'Page Link', icon: 'url("data:image/svg+xml,%3Csvg%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20%20width%3D%2224%22%20%20height%3D%2224%22%20%20viewBox%3D%220%200%2024%2024%22%20%20fill%3D%22none%22%20%20stroke%3D%22currentColor%22%20%20stroke-width%3D%222%22%20%20stroke-linecap%3D%22round%22%20%20stroke-linejoin%3D%22round%22%20%20class%3D%22icon%20icon-tabler%20icons-tabler-outline%20icon-tabler-link-plus%22%3E%3Cpath%20stroke%3D%22none%22%20d%3D%22M0%200h24v24H0z%22%20fill%3D%22none%22%2F%3E%3Cpath%20d%3D%22M9%2015l6%20-6%22%20%2F%3E%3Cpath%20d%3D%22M11%206l.463%20-.536a5%205%200%200%201%207.072%200a4.993%204.993%200%200%201%20-.001%207.072%22%20%2F%3E%3Cpath%20d%3D%22M12.603%2018.534a5.07%205.07%200%200%201%20-7.127%200a4.972%204.972%200%200%201%200%20-7.071l.524%20-.463%22%20%2F%3E%3Cpath%20d%3D%22M16%2019h6%22%20%2F%3E%3Cpath%20d%3D%22M19%2016v6%22%20%2F%3E%3C%2Fsvg%3E")', action: () => showCustomModal( editor, 'newsletter-blog') } })
+        }
+    }
+    
+    popLuteceUi( editor, modal );
+
+    // Add message listener for iframe communication
+    window.addEventListener('message', (event) => {
+        if ( event.data && event.data.type === 'getSelectedResource' && document.body.dataset.current === editor.options.el.id ) {
+            const resource = event.data.resource;
+            const selectedText = editor.getSelectedText();
+            if ( resource && resource.tag ) {
+                // Insert the link into editor
+                if ( editor.isMarkdownMode() ) {
+                    const mdTag = parseResourceToMD( resource.tag ) 
+                    let mdContent = editor.getMarkdown();
+                    if( selectedText.trim() !='' ){
+                        mdContent = mdContent.replace( selectedText, mdTag );
+                    } else {
+                        mdContent += mdTag;
+                    }
+                    editor.setMarkdown( mdContent );
+                } else {
+                    let htmlContent = editor.getHTML();
+                    if( selectedText.trim() !='' ){
+                        htmlContent = htmlContent.replace( selectedText, resource.tag );
+                    } else {
+                        htmlContent += resource.tag;
+                    }
+                    editor.setHTML( htmlContent );
+                }
+                modal.style.display = 'none';
+                togglePopup( null, false );
+            }
+        }
+    }); 
+    
+    // @ Rule
+    editor.on( 'keyup', ( editorType, ev ) => {
+        if ( ev.keyCode === 17 ) {
+            // Get the current cursor position from the editor
+            const rect = ev.currentTarget.getBoundingClientRect();
+
+            // Get the current cursor position from the editor
+            const cursorPos = editor.getSelection();
+            
+            const ce = editor.getCurrentModeEditor();
+            const coords = posToDOMRect( ce.view )
+            
+            const range = ce.getRangeInfoOfNode();
+            const rg = Object.values(range)[0];
+            
+            console.log( editor.getSelectedText(rg[0], rg[1]) );
+            editor.replaceSelection('', rg[0], rg[1]);
+            
+            // Position the popup below the button
+            const position = {
+                left: coords.left,
+                top: coords.top - 10
+            };
+            
+            // Show the popup
+            togglePopup( position, true );
+
+        }
+    });
+    
+});
+    
+// Function to create a custom modal
+function createLuteceModal( selectedText ) {
+    if ( document.getElementById('lutece-insertservice-modal')) {
+        return document.getElementById('lutece-insertservice-modal');
+    }
+    const modal = document.createElement('div');
+    modal.id = 'lutece-insertservice-modal';
+    modal.style.cssText = 'display:block; position:fixed; z-index:1001; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5);';
+    
+    const modalContent = document.createElement('div');
+    modalContent.style.cssText = 'background-color:#fff; margin:50px auto; padding:20px; border:1px solid #888; width:80%; height:80%; border-radius:5px; box-shadow:0 4px 8px rgba(0,0,0,0.2);';
+    
+    const header = document.createElement('div');
+    header.style.cssText = 'display:flex; justify-content:space-between; margin-bottom:15px;';
+    
+    const title = document.createElement('h3');
+    title.textContent = 'Sélectionner un contenu';
+    
+    const closeBtn = document.createElement('span');
+    closeBtn.innerHTML = '&times;';
+    closeBtn.style.cssText = 'font-size:24px; cursor:pointer;';
+    closeBtn.onclick = () => document.body.removeChild(modal);
+    
+    header.appendChild(title);
+    header.appendChild(closeBtn);
+    
+    const iframe = document.createElement('iframe');
+    iframe.style.cssText = 'width:100%; height:calc(100% - 100px); border:1px solid #ddd;';
+    const sText = encodeURIComponent( selectedText || '');
+    iframe.src = <#noparse>`jsp/admin/insert/GetAvailableInsertServices.jsp?input=tuid3&mode=0&selected_text=${sText}`</#noparse>;
+    
+    modalContent.appendChild(header);
+    modalContent.appendChild(iframe);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+    modal.style.display = 'none';   
+    return modal;
+}
+    
+// Function to show custom modal for specific service types
+function showCustomModal( editor, serviceType, subType = '') {
+    const selectedText = encodeURIComponent(editor.getSelectedText() || ''); 
+    let iframeSrc='';
+    switch (serviceType) {
+        case 'all':
+            iframeSrc = <#noparse>`jsp/admin/insert/GetAvailableInsertServices.jsp?input=tuid3&mode=0&selected_text=${selectedText}`</#noparse>;
+            break;
+        case 'pagelinkservice':
+            iframeSrc = <#noparse>`jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=PAGE_INSERT_SERVICE&plugin_name=pagelinkservice&input=tuid3&selected_text=${selectedText}`</#noparse>;
+            break;
+        case 'image':
+            const idImgSpace='${dskey("library.insert_service_media_type_image_space")}';
+            const idImgType='${dskey("library.insert_service_media_type_image")}';
+            iframeSrc = <#noparse>`jsp/admin/plugins/library/SelectMedia.jsp?plugin_name=library&media_type=${idImgType}&browser_id_space=${idImgSpace}&browser_selected_space_id=${idImgSpace}&input=tuid3&mode=0&selected_text=${selectedText}`</#noparse>
+            break;
+        case 'pdf':
+            const idPdfSpace='${dskey("library.insert_service_media_type_pdf_space")}';
+            const idPdfType='${dskey("library.insert_service_media_type_pdf")}';
+            iframeSrc = <#noparse>`jsp/admin/plugins/library/SelectMedia.jsp?plugin_name=library&media_type=${idPdfType}&browser_id_space=${idPdfSpace}&browser_selected_space_id=${idPdfSpace}&mode=0&input=tuid3&selected_text=${selectedText}`</#noparse>
+            break;
+    }
+    return iframeSrc;
+}
+
+
+// Function to create and manage the resource selector modal
+function popLuteceUi( editor, modal ) {
+    // Create and add a "More" button to the toolbar
+    const moreToolbarItem = {
+        name: 'All Lutece Insert Services',
+        tooltip: 'All Lutece Insert Services',
+        command: 'luteceSelectorAll',
         text: '',
-        className: 'toastui-editor-toolbar-icons lutece text-transparent',
+        className: `toastui-editor-toolbar-icons lutece-more-icon`,
         style: { backgroundImage: 'url("themes/admin/shared/images/logo-header-icon.svg")',backgroundSize:'80%' }
     };
     
+    // Add button to toolbar
+    editor.insertToolbarItem({groupIndex: 3, itemIndex: 3}, moreToolbarItem);
+    
+    let popup = null;
+    // Create popup elemeent
+    if( document.querySelector('.lutece-editor-popup') === null ){
+        setLutecePopup( modal  )
+    }
+
     // Register command
-    editor.addCommand("wysiwyg","luteceSelector", (arg) => {
-        console.log("luteceSelector command called", arg);
-        modal.style.display = 'block';
+    editor.addCommand("wysiwyg","luteceSelectorAll", (arg) => {
+        document.body.dataset.current=editor.options.el.id;
+        const ed = document.getElementById( editor.options.el.id );
+        const btnLut = ed.querySelector('.lutece-more-icon');
+        const rect = btnLut.getBoundingClientRect();
+        
+        // Position the popup below the button
+        const position = {
+            left: rect.left,
+            top: rect.bottom + window.scrollY + 5
+        };
+        // Show the popup
+        togglePopup( position, true );
+    });
+
+    editor.addCommand("markdown","luteceSelectorAll", (arg) => {
+        document.body.dataset.current=editor.options.el.id;
+        const ed = document.getElementById( editor.options.el.id );
+        const btnLut = ed.querySelector('.lutece-more-icon');
+        const rect = btnLut.getBoundingClientRect();
+        // Position the popup below the button
+        const position = {
+            left: rect.left,
+            top: rect.bottom + window.scrollY + 5
+        };
+        togglePopup( position, true );
     });
     
-    // Add button to toolbar
-    editor.insertToolbarItem({groupIndex: 3, itemIndex: 2}, toolbarItem);
 }
 
-// Initialize the custom resource selector
-luteceInsertService();
+function setLutecePopup( modal ){
+    const popup = document.createElement('div');
+    popup.className = 'lutece-editor-popup';
+    popup.style.cssText = 'position:absolute; background:#fff; border:1px solid #ddd; border-radius:4px; box-shadow:0 2px 4px rgba(0,0,0,0.2); padding:5px; z-index:1000; display:none;';
+    document.body.appendChild(popup);
+    // Clear previous content
+    popup.innerHTML = '';
+
+    // Add buttons to the popup
+    const buttons = []
+    if (luteceServices && luteceServices.length > 0) {
+        luteceServices.forEach( service => {
+            buttons.push( {text: service[Object.keys(service)[0]].text, icon: service[Object.keys(service)[0]].icon, action: service[Object.keys(service)[0]].action} );
+        });
+    }
+
+    buttons.forEach( btn => {
+        const button = document.createElement('button');
+        button.textContent = '';
+        button.title = btn.text;
+        button.style.cssText = 'width:24px;height:24px;text-align:left;padding: 5px; margin:0; border:none; cursor:pointer;';
+        button.style.backgroundImage = btn.icon;
+        button.style.backgroundRepeat = 'no-repeat';
+        button.style.backgroundSize = 'contain';
+        button.onmouseover = () => button.style.backgroundColor = '#f0f0f0';
+        button.onmouseout = () => button.style.backgroundColor = 'transparent';
+        button.onclick = () => {
+            const ifr = btn.action();
+            const ifrSrc = modal.querySelector('iframe');
+            ifrSrc.src = ifr;
+            modal.style.display = 'block';
+        };
+        popup.appendChild( button );
+    });
+
+    // Close popup when clicking outside
+    const outsideClickHandler = (e) => {
+         popup.style.display = 'none';
+         document.removeEventListener('click', outsideClickHandler);
+    };
+    setTimeout(() => {
+        document.addEventListener('click', outsideClickHandler);
+    }, 0);
+
+    return popup;
+}
+
+// Add custom button to editor toolbar
+function parseResourceToMD(resource) {
+    // Check if resource contains an HTML tag
+    if (!resource || typeof resource !== 'string') {
+        return null;
+    }
+    
+    // Use DOM parser for robust HTML parsing
+    const parser = new DOMParser();
+    const doc = parser.parseFromString( resource, 'text/html');
+    const element = doc.body.firstChild;
+    
+    if (!element || !(element instanceof HTMLElement)) {
+        return null;
+    }
+    
+    // Create result object with tag type and attributes
+    const result = {
+        tagType: element.tagName.toLowerCase(),
+        attributes: {}
+    };
+    
+    // Get all attributes
+    for (const attr of element.attributes) {
+        result.attributes[attr.name] = attr.value;
+    }
+    
+    // Handle specific tags differently
+    if (result.tagType === 'img') {
+        // Format for markdown image is ![alt](src "title")
+        const alt = result.attributes.alt || '';
+        const src = result.attributes.src || '';
+        <#noparse>
+        const title = result.attributes.title ? ` "${result.attributes.title}"` : '';
+        return `![${alt}](${src}${title})`;
+        </#noparse>
+    } else if (result.tagType === 'a') {
+        // Format for markdown link is [text](href "title")
+        const text = element.textContent || result.attributes.href || '';
+        const href = result.attributes.href || '';
+        <#noparse>
+        const title = result.attributes.title ? ` "${result.attributes.title}"` : '';
+        return `[${text}](${href}${title})`;
+        </#noparse>
+    }
+}
+
+// Function to toggle popup visibility
+function togglePopup( pos,  show) {
+    const el = document.querySelector('.lutece-editor-popup');
+    if (show ) {
+        <#noparse>
+        el.style.left = `${pos.left}px`;
+        el.style.top = `${pos.top}px`;
+        </#noparse>
+        el.style.display = 'flex';
+    } else {
+        el.style.display = 'none';
+    }
+}
+
+function posToDOMRect(view) {
+  const { from, to } = view.state.selection
+  const start = view.coordsAtPos(from), end = view.coordsAtPos(to)
+  const top = Math.min(start.top, end.top);
+  const bottom = Math.max(start.bottom, end.bottom);
+// left and right calculation from the example
+  const left = Math.max((start.left + end.left) / 2, start.left + 3)
+  const right = Math.max((start.right + end.right) / 2, start.right + 3);
+  const width = right - left;
+  const height = bottom - top;
+  const x = left;
+  const y = top;
+  const data = {
+    top,
+    bottom,
+    left,
+    right,
+    width,
+    height,
+    x,
+    y,
+  };
+  return {
+    ...data,
+    toJSON: () => data,
+  };
+}
 
 </script>
-
 <!------------------- END OF CUSTOM INPUTS -------------------------->
 </#macro>
