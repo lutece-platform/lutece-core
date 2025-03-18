@@ -1,14 +1,46 @@
 <div id="tag">${insert}</div>
 <script>
-	// TinyMCE insert
-	var textToInsert = document.getElementById("tag").innerHTML.replace(/\r|\n|\r\n/g, "");
-	var t1 = '${.data_model.input}';
- 	if ( t1 !='undefined' ){
+var textToInsert = document.getElementById("tag").innerHTML.replace(/\r|\n|\r\n/g, "");
+var editorType = '${.data_model.input}';
+switch ( editorType ) {
+	case 'undefined':
+		parent.tinymce.activeEditor.insertContent( insertCode );
+		parent.tinymce.activeEditor.windowManager.close();
+		break;
+	case 'null':
+		parent.tinymce.activeEditor.insertContent( insertCode );
+		parent.tinymce.activeEditor.windowManager.close();
+		break;
+	case 'slider-file':
+		sessionStorage.setItem('slidercode', insertCode );
+		window.parent.closeModal( );
+		break;
+	case 'photo-file':
+		var photoUrl = insertCode.match(/("|')(document)((?:\\\1|(?:(?!\1).))*)\1/g);
+		sessionStorage.setItem('photourl', photoUrl );
+		window.parent.closeModal( );
+		break;
+	case 'tinymce':
+		parent.tinymce.activeEditor.insertContent( insertCode );
+		parent.tinymce.activeEditor.windowManager.close();
+		break;
+	// TinyMCE 5	
+	case 'tinymce5':
+		parent.tinymce.activeEditor.insertContent( insertCode );
+		parent.tinymce.activeEditor.windowManager.close();
+		break;
+	case '':
+	case 'tinymce6':
+		parent.tinymce.activeEditor.insertContent( insertCode );
+		parent.tinymce.activeEditor.windowManager.close();
+		break;
+	case 'tuid3':
+		console.log(insertCode)
+		window.parent.postMessage({type: 'getSelectedResource', resource: {url: insertCode}}, '*');
+		break;
+	default:
 		var elementInput = opener.document.getElementById("${.data_model.input}");
-		elementInput.value = textToInsert;
+		elementInput.value = insertCode;
 		window.close();
-	} else {
-		parent.tinymce.activeEditor.insertContent(textToInsert);
-		parent.tinymce.activeEditor.windowManager.close();	
-	}
+}
 </script>

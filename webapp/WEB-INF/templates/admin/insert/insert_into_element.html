@@ -1,8 +1,16 @@
 <!--  Insert service -->
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-const isIt = '${.data_model.input}', insertCode='${insert}';
-switch ( isIt ) {
+const editorType = '${.data_model.input}', insertCode='${insert}';
+switch ( editorType ) {
+	case 'undefined':
+		parent.tinymce.activeEditor.insertContent( insertCode );
+		parent.tinymce.activeEditor.windowManager.close();
+		break;
+	case 'null':
+		parent.tinymce.activeEditor.insertContent( insertCode );
+		parent.tinymce.activeEditor.windowManager.close();
+		break;
 	case 'slider-file':
 		sessionStorage.setItem('slidercode', insertCode );
 		window.parent.closeModal( );
@@ -12,23 +20,20 @@ switch ( isIt ) {
 		sessionStorage.setItem('photourl', photoUrl );
 		window.parent.closeModal( );
 		break;
-	case 'undefined':
-		parent.tinymce.activeEditor.insertContent( insertCode );
-		parent.tinymce.activeEditor.windowManager.close();
-		break;
-	case 'null':
-		parent.tinymce.activeEditor.insertContent( insertCode );
-		parent.tinymce.activeEditor.windowManager.close();
-		break;
 	case 'tinymce':
 		parent.tinymce.activeEditor.insertContent( insertCode );
 		parent.tinymce.activeEditor.windowManager.close();
 		break;
-	// TinyMCE 5	
-	case '':
 	case 'tinymce5':
 		parent.tinymce.activeEditor.insertContent( insertCode );
 		parent.tinymce.activeEditor.windowManager.close();
+		break;
+	case 'tinymce6':
+		parent.tinymce.activeEditor.insertContent( insertCode );
+		parent.tinymce.activeEditor.windowManager.close();
+		break;
+	case 'tuid3':
+		window.parent.postMessage({type: 'getSelectedResource', resource: { tag: insertCode}}, '*');
 		break;
 	default:
 		var elementInput = opener.document.getElementById("${.data_model.input}");
