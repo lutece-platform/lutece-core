@@ -34,39 +34,49 @@
 
 package fr.paris.lutece.portal.service.editor;
 
-import java.util.List;
-
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
 /**
- * Service pour gérer le contenu de texte enrichi.
+ * Interface for Markdown to HTML parser. Provides methods to get and set the prefix and name, and to parse content from Markdown to HTML.
  */
-public class RichTextContentService
+public interface IRichTextContentParser
 {
 
-    private static List<IRichTextContentParser> _parsers = SpringContextService.getBeansOfType( IRichTextContentParser.class );
+    /**
+     * Gets the prefix.
+     *
+     * @return the prefix
+     */
+    public String getPrefix( );
 
     /**
-     * Récupère le contenu en fonction de son type (Markdown, BBCode ou texte brut).
+     * Sets the prefix.
+     *
+     * @param strPrefix
+     *            the prefix to set
+     */
+    public void setPrefix( String strPrefix );
+
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
+    public String getName( );
+
+    /**
+     * Sets the name.
+     *
+     * @param strName
+     *            the name to set
+     */
+    public void setName( String strName );
+
+    /**
+     * Converts Markdown content to HTML.
      *
      * @param content
-     *            Le contenu à traiter.
-     * @return Le contenu converti en HTML si nécessaire, ou le contenu original.
+     *            the Markdown content to be converted
+     * @return the converted HTML content
+     * @throws RichTextParsingException
      */
-    public static String getContent( String content ) throws RichTextParsingException
-    {
-        if ( content == null )
-        {
-            return "";
-        }
-
-        for ( IRichTextContentParser _parser : _parsers )
-        {
-            if ( content.length( ) >= _parser.getPrefix( ).length( ) && content.startsWith( _parser.getPrefix( ) ) )
-            {
-                return _parser.parseContent( content.substring( _parser.getPrefix( ).length( ) ) );
-            }
-        }
-        return content;
-    }
+    public String parseContent( String content ) throws RichTextParsingException;
 }

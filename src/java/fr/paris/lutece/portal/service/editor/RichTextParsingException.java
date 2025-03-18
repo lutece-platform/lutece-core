@@ -34,39 +34,59 @@
 
 package fr.paris.lutece.portal.service.editor;
 
-import java.util.List;
-
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-
-/**
- * Service pour gérer le contenu de texte enrichi.
- */
-public class RichTextContentService
+public class RichTextParsingException extends Exception
 {
 
-    private static List<IRichTextContentParser> _parsers = SpringContextService.getBeansOfType( IRichTextContentParser.class );
+    // The response code status
+    private Integer _nResponseCodeStatus;
 
     /**
-     * Récupère le contenu en fonction de son type (Markdown, BBCode ou texte brut).
-     *
-     * @param content
-     *            Le contenu à traiter.
-     * @return Le contenu converti en HTML si nécessaire, ou le contenu original.
+     * Creates a new instance of ExpiredLinkException
+     * 
+     * @param strMessage
+     *            The exception message
      */
-    public static String getContent( String content ) throws RichTextParsingException
+    public RichTextParsingException( String strMessage )
     {
-        if ( content == null )
-        {
-            return "";
-        }
+        super( strMessage );
+    }
 
-        for ( IRichTextContentParser _parser : _parsers )
-        {
-            if ( content.length( ) >= _parser.getPrefix( ).length( ) && content.startsWith( _parser.getPrefix( ) ) )
-            {
-                return _parser.parseContent( content.substring( _parser.getPrefix( ).length( ) ) );
-            }
-        }
-        return content;
+    /**
+     * Creates a new instance of HttpAccessException.
+     *
+     * @param strMessage
+     *            The error message
+     * @param e
+     *            The exception
+     */
+    public RichTextParsingException( String strMessage, Exception e )
+    {
+        super( strMessage, e );
+    }
+
+    /**
+     * Creates a new instance of HttpAccessException.
+     *
+     * @param strMessage
+     *            The error message
+     * @param nResponseCode
+     *            the http response code associated to the Exception
+     * @param e
+     *            The exception
+     */
+    public RichTextParsingException( String strMessage, Integer nResponseCodeStatus, Exception e )
+    {
+        super( strMessage, e );
+        _nResponseCodeStatus = nResponseCodeStatus;
+    }
+
+    /**
+     * the response code (based on http codes)
+     *
+     * @return the response code associated to the Exception
+     */
+    public Integer getResponseCode( )
+    {
+        return _nResponseCodeStatus;
     }
 }
