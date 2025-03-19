@@ -14,7 +14,6 @@ INSERT INTO core_admin_right VALUES ('CORE_EDITORS_MANAGEMENT', 'portal.admindas
 INSERT INTO core_admin_right VALUES ('CORE_FEATURES_MANAGEMENT', 'portal.admin.adminFeature.features_management.name', 0, NULL, 'portal.admin.adminFeature.features_management.description', 0, '', 'SYSTEM', 'ti ti-apps', NULL, 6, 0);
 INSERT INTO core_admin_right VALUES ('CORE_LEVEL_RIGHT_MANAGEMENT', 'portal.users.adminFeature.level_right_management.name', 2, NULL, 'portal.users.adminFeature.level_right_management.description', 0, '', 'MANAGERS', 'ti ti-list-detail', NULL, 4, 0);
 INSERT INTO core_admin_right VALUES ('CORE_LINK_SERVICE_MANAGEMENT', 'portal.insert.adminFeature.linkService_management.name', 2, NULL, 'portal.insert.adminFeature.linkService_management.description', 0, NULL, NULL, 'ti ti-link', NULL, 1, 0);
-INSERT INTO core_admin_right VALUES ('CORE_LOGS_VISUALISATION', 'portal.system.adminFeature.logs_visualisation.name', 0, 'jsp/admin/system/ManageFilesSystem.jsp', 'portal.system.adminFeature.logs_visualisation.description', 1, '', 'SYSTEM', 'ti ti-list-search', NULL, 4, 0);
 INSERT INTO core_admin_right VALUES ('CORE_MAILINGLISTS_MANAGEMENT', 'portal.mailinglist.adminFeature.mailinglists_management.name', 2, 'jsp/admin/mailinglist/ManageMailingLists.jsp', 'portal.mailinglist.adminFeature.mailinglists_management.description', 0, '', 'MANAGERS', 'ti ti-mail-cog', NULL, 5, 0);
 INSERT INTO core_admin_right VALUES ('CORE_PAGE_TEMPLATE_MANAGEMENT', 'portal.style.adminFeature.page_template_management.name', 0, 'jsp/admin/style/ManagePageTemplates.jsp', 'portal.style.adminFeature.page_template_management.description', 0, '', 'STYLE', 'ti ti-layout-board', NULL, 1, 0);
 INSERT INTO core_admin_right VALUES ('CORE_PLUGINS_MANAGEMENT', 'portal.system.adminFeature.plugins_management.name', 0, 'jsp/admin/system/ManagePlugins.jsp', 'portal.system.adminFeature.plugins_management.description', 1, '', 'SYSTEM', 'ti ti-apps-filled', NULL, 5, 0);
@@ -122,7 +121,6 @@ INSERT INTO core_user_right VALUES ('CORE_CACHE_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_DAEMONS_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_FEATURES_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_LEVEL_RIGHT_MANAGEMENT',1);
-INSERT INTO core_user_right VALUES ('CORE_LOGS_VISUALISATION',1);
 INSERT INTO core_user_right VALUES ('CORE_MAILINGLISTS_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_MODES_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_PAGE_TEMPLATE_MANAGEMENT',1);

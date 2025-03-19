@@ -49,11 +49,6 @@ import fr.paris.lutece.test.Utils;
  */
 public class SystemJspBeanTest extends LuteceTestCase
 {
-    private static final String PARAMETER_DIR = "dir";
-    private static final String PARAMETER_DIR_VALUE = "/WEB-INF/conf/";
-    private static final String PARAMETER_DIRECTORY = "directory";
-    private static final String PARAMETER_FILE = "file";
-    private static final String PARAMETER_FILE_VALUE = "config.properties";
     private MockHttpServletRequest request;
     private SystemJspBean instance;
 
@@ -66,34 +61,6 @@ public class SystemJspBeanTest extends LuteceTestCase
 
         instance = new SystemJspBean( );
         instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-    }
-
-    /**
-     * Test of getManageFilesSystem method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
-     */
-    public void testGetManageFilesSystem( ) throws AccessDeniedException
-    {
-        assertTrue( StringUtils.isNotEmpty( instance.getManageFilesSystem( request ) ) );
-    }
-
-    /**
-     * Test of getManageFilesSystemDir method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
-     */
-    public void testGetManageFilesSystemDir( ) throws AccessDeniedException
-    {
-        request.addParameter( PARAMETER_DIR, PARAMETER_DIR_VALUE );
-        assertTrue( StringUtils.isNotEmpty( instance.getManageFilesSystemDir( request ) ) );
-    }
-
-    /**
-     * Test of getFileView method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
-     */
-    public void testGetFileView( ) throws AccessDeniedException
-    {
-        request.addParameter( PARAMETER_DIRECTORY, PARAMETER_DIR_VALUE );
-        request.addParameter( PARAMETER_FILE, PARAMETER_FILE_VALUE );
-
-        assertTrue( StringUtils.isNotEmpty( instance.getFileView( request ) ) );
     }
 
     /**
