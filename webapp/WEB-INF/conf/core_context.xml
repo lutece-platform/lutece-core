@@ -216,9 +216,11 @@
     <!-- Security header service --> 
     <bean id="securityHeaderService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderService" />    
         
-    <!-- Cleaner HTML -->
-    <!-- Cleaner Jsoup HTML -->
+    <!-- HTML Cleaners-->
+    <!-- Jsoup HTML Cleaner-->
     <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JSoupHtmlCleaner" />
+	<!-- XSS Sanitizer -->
+    <bean id="XSSSanitizer" class="fr.paris.lutece.portal.service.html.OwaspXSSSanitizer" />
 
     <!-- Accesslogger service -->
     <bean id="accessLogger" class="fr.paris.lutece.portal.service.security.impl.DefaultAccessLogger" />
