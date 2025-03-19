@@ -297,8 +297,14 @@
             <artifactId>library-workgroup-api</artifactId>
             <version>1.0.0</version>
             <type>jar</type> 
-        </dependency>
-      
+        </dependency>        
+        <!-- Owasp XSS sanitizer -->
+		<dependency>
+		    <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
+		    <artifactId>owasp-java-html-sanitizer</artifactId>
+		    <version>20240325.1</version>
+		</dependency>
+
         <!-- Lutece Freemarker -->       
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
