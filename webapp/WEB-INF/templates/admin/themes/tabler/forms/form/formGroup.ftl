@@ -53,8 +53,8 @@ Parameters:
 <#assign propagateMandatory = mandatory>
 <div class="${divClass}">
 <#nested>
-</div>
 <#assign propagateMandatory = false>
 <#if helpKey!=''><#if formStyle!='inline'><p></#if><small class="text-muted form-text"<#if labelFor!=''> aria-describedby="${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
+</div>
 </div>
 </#macro>
