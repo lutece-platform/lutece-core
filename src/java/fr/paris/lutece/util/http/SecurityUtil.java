@@ -33,11 +33,12 @@
  */
 package fr.paris.lutece.util.http;
 
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,6 +67,9 @@ public final class SecurityUtil
     };
 
     public static final String PROPERTY_REDIRECT_URL_SAFE_PATTERNS = "lutece.security.redirectUrlSafePatterns";
+    public static final String PROPERTY_REDIRECT_URL_BLOCKED_SCHEMES = "lutece.security.redirectUrlBlockedSchemes";
+    public static final String PROPERTY_REDIRECT_URL_BLOCKED_CHARACTERS_PATTERNS = "lutece.security.redirectUrlBlockedCharactersPatterns";
+    
     public static final Logger _log = LogManager.getLogger( LOGGER_NAME );
 
     /**
@@ -309,16 +313,14 @@ public final class SecurityUtil
         {
             return true; // this is not a valid redirect Url, but it is not unsafe
         }
-
         // filter schemes
-        boolean [ ] conditions = new boolean [ ] {
-                !strUrl.startsWith( "//" ), !strUrl.startsWith( "http:" ), !strUrl.startsWith( "https:" ), !strUrl.contains( "://" ),
-                !strUrl.startsWith( "javascript:" )
-        };
-
-        if ( BooleanUtils.and( conditions ) )
+        String strRedirecUrlBlockedSchemes=AppPropertiesService.getProperty(PROPERTY_REDIRECT_URL_BLOCKED_SCHEMES);
+        String strRedirecUrlBlockedCharactersPatterns=AppPropertiesService.getProperty(PROPERTY_REDIRECT_URL_BLOCKED_CHARACTERS_PATTERNS);
+        if( (strRedirecUrlBlockedCharactersPatterns == null|| !Pattern.compile(strRedirecUrlBlockedCharactersPatterns).matcher(strUrl).find())
+				&&  strRedirecUrlBlockedSchemes != null && !Arrays.stream(strRedirecUrlBlockedSchemes.split(CONSTANT_COMMA)).anyMatch(x->strUrl.startsWith(x)))
         {
-            return true; // should be a relative path
+        	return true; // should be a relative path
+        	
         }
 
         // compare with current baseUrl
