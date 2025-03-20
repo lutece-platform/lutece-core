@@ -33,73 +33,53 @@
  */
 package fr.paris.lutece.portal.service.html;
 
-import jakarta.enterprise.inject.spi.CDI;
+import fr.paris.lutece.test.LuteceTestCase;
 
 /**
- * This class provides management methods for cleaner
+ * HtmlCleanerService Test Class
  */
-public final class XSSSanitizerService
+public class XSSSanitizerServiceTest extends LuteceTestCase
 {
-    /** html Cleaner */
-    private static IXSSSanitizer _xssSanitizer = CDI.current().select(IXSSSanitizer.class).get( );
-    private static boolean _bInit;
-
     /**
-     * Constructor. Creates a new XSSSanitizerService object.
-     */
-    private XSSSanitizerService( )
-    {
-    }
-
-    /**
-     * Clean HTML code from XSS risks
-     *
-     * @param strSource
-     *            The input string to clean
-     * @return The cleaned string
-     */
-    public static String sanitize( String strSource ) throws XSSSanitizerException
-    {
-        init( );
-
-        if ( _xssSanitizer != null )
-        {
-            // use advanced implementation
-            return _xssSanitizer.sanitize( strSource );
-        }
-        else
-        {
-            // use default
-            return cleanXSS( strSource );
-        }
-
-    }
-
-    private static void init( )
-    {
-        // init XSSSanitizerService
-        if ( !_bInit && _xssSanitizer != null )
-        {
-            _xssSanitizer.init( );
-            _bInit = true;
-        }
-    }
-
-    /**
-     * default xss clean (escape chars only)
+     * Test of clean method, of class fr.paris.lutece.portal.service.html.HtmlCleanerService.
      * 
-     * @param value
-     * @return the cleaned value
+     * @throws HtmlCleanerException
+     *             if there is an exception during the test
      */
-    private static String cleanXSS( String value )
+    public void testClean( )
     {
-        if ( value != null )
-        {
-            value = value.replaceAll( "<", "&lt;" ).replaceAll( ">", "&gt;" );
-            value = value.replaceAll( "\"", "&quot;" ).replaceAll( "'", "&#x27;" );
-            value = value.replaceAll( "&", "&amp;" );
-            value = value.replaceAll( "\\(", "&#40;" ).replaceAll( "\\)", "&#41;" );
-        }
-        return value;
+	String strHtmlsuspicious = "<p>text<img src=\"2.gif\" onerror=\"alert(123);\"/><script>alert(123);</script></p>";
+        String strExpectedResult = "<p>text<img src=\"2.gif\" /></p>";
+
+        // test
+        testClean( strHtmlsuspicious, strExpectedResult );
     }
+
+    /**
+     * Test of clean method, of class fr.paris.lutece.portal.service.html.HtmlCleanerService.
+     * 
+     * @param strSource
+     *            the source String to test
+     * @param strExpectedResult
+     *            the expected result
+     * @throws HtmlCleanerException
+     *             if there is an exception during the test
+     */
+    private void testClean( String strSource, String strExpectedResult )
+    {
+        String result ;
+        
+	try
+	{
+	    result = XSSSanitizerService.sanitize( strSource );
+	    assertNotNull( result );
+	    assertTrue( result.equals( strExpectedResult ) );
+	} 
+	catch ( XSSSanitizerException e )
+	{
+	    fail( e.getLocalizedMessage ( ) );
+	}       
+    }
+
+
 }

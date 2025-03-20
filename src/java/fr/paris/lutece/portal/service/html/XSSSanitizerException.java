@@ -31,57 +31,15 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.web.xss;
+package fr.paris.lutece.portal.service.html;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-
-import fr.paris.lutece.portal.service.html.XSSSanitizerException;
-import fr.paris.lutece.portal.service.html.XSSSanitizerService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-
-public class XSSRequestWrapper extends HttpServletRequestWrapper
+/**
+ * Exception thrown by the util class HtmlCleanerService
+ */
+public class XSSSanitizerException extends Exception
 {
-
-    public XSSRequestWrapper( HttpServletRequest request )
-    {
-	super ( request);
-    }
-
-    @Override
-    public String getParameter( String name )
-    {
-	try
-	{
-	    return XSSSanitizerService.sanitize ( super.getParameter ( name));
-	} 
-	catch ( XSSSanitizerException e )
-	{
-	    AppLogService.error ( "XSS Sanitizer error", e );
-	    return null;
-	}
-    }
-
-    @Override
-    public String[ ] getParameterValues( String name )
-    {
-	String[ ] values = super.getParameterValues ( name );
-	if ( values == null )
-	{
-	    return null;
-	}
-	for ( int i = 0; i < values.length; i++ )
-	{
-	    try
-	    {
-		values[ i ] = XSSSanitizerService.sanitize ( ( values[ i ] ));
-	    } 
-	    catch ( XSSSanitizerException e )
-	    {
-		AppLogService.error ( "XSS Sanitizer error", e );
-		values[ i ] = null;
-	    }
-	}
-	return values;
-    }
+    /**
+     *
+     */
+    private static final long serialVersionUID = 6580975969201313830L;
 }
