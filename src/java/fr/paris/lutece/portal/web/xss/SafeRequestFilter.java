@@ -56,8 +56,10 @@ public abstract class SafeRequestFilter implements Filter
     private static final String PROPERTY_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS = "portal.util.message.requestParametersContainsXssCharacters";
     private static final String PARAM_FILTER_XSS_CHARATERS = "xssCharacters";
     private static final String ACTIVATE_XSS_FILTER = "activateXssFilter";
+    private static final String SANITIZE_FILTER_MODE = "sanitizeFilterMode";
     private String _strXssCharacters;
     private boolean _bActivateXssFilter;
+    private boolean _bSanitizeFilterMode;
 
     /**
      * {@inheritDoc}
@@ -67,11 +69,16 @@ public abstract class SafeRequestFilter implements Filter
     {
         String strParamValue = config.getInitParameter( PARAM_FILTER_XSS_CHARATERS );
         _strXssCharacters = strParamValue;
-        strParamValue = config.getInitParameter( ACTIVATE_XSS_FILTER );
+        String strParamActivate = config.getInitParameter( ACTIVATE_XSS_FILTER );
+        String strParamModeSanitize = config.getInitParameter( SANITIZE_FILTER_MODE );
 
-        if ( strParamValue != null )
+        if ( strParamActivate != null )
         {
-            _bActivateXssFilter = Boolean.valueOf( strParamValue );
+            _bActivateXssFilter = Boolean.valueOf( strParamActivate );
+        }
+        if ( strParamModeSanitize != null )
+        {
+        	_bSanitizeFilterMode = Boolean.valueOf( strParamModeSanitize );
         }
         AppLogService.debug( "XSS filter activation parameter value : {} ", _bActivateXssFilter );
     }
@@ -93,16 +100,20 @@ public abstract class SafeRequestFilter implements Filter
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        if ( _bActivateXssFilter && ( _strXssCharacters != null ) && !_strXssCharacters.trim( ).equals( "" )
+    	if ( _bActivateXssFilter && _bSanitizeFilterMode && request instanceof HttpServletRequest)
+    	{
+    		chain.doFilter(new XSSRequestWrapper((HttpServletRequest) request), response);
+    	} 
+    	else if ( _bActivateXssFilter && _strXssCharacters != null && !_strXssCharacters.trim( ).equals( "" )
                 && !SecurityUtil.containsCleanParameters( httpRequest, _strXssCharacters ) )
         {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             httpServletResponse.sendRedirect( getMessageUrl( httpRequest, PROPERTY_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS, null,
                     PROPERTY_TITLE_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS ) );
-        }
-        else
-        {
-            chain.doFilter( request, response );
+        } 
+    	else
+    	{
+            chain.doFilter(request, response);
         }
     }
 
