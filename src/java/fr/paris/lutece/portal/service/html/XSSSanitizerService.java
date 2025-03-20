@@ -61,17 +61,44 @@ public final class XSSSanitizerService
     public static String sanitize( String strSource )
     {
         init( );
-
-        return _xssSanitizer.sanitize( strSource );
+        
+        if ( _xssSanitizer != null )
+        {
+        	// use advanced implementation
+        	return _xssSanitizer.sanitize( strSource );
+        }
+        else
+        {
+        	// use default
+        	return cleanXSS( strSource );
+        }
+        
     }
 
     private static void init( )
     {
         // init XSSSanitizerService
-        if ( !_bInit )
+        if ( !_bInit && _xssSanitizer != null )
         {
         	_xssSanitizer.init( );
             _bInit = true;
         }
+    }
+    
+    /**
+     * default xss clean (escape chars only)
+     * 
+     * @param value
+     * @return the cleaned value
+     */
+    private static String cleanXSS( String value ) 
+    {
+        if (value != null) {
+            value = value.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+            value = value.replaceAll("\"", "&quot;").replaceAll("'", "&#x27;");
+            value = value.replaceAll("&", "&amp;");
+            value = value.replaceAll("\\(" , "&#40;").replaceAll("\\)", "&#41;");
+        }
+        return value;
     }
 }
