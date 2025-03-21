@@ -53,7 +53,12 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper
     {
 	try
 	{
-	    return XSSSanitizerService.sanitize ( super.getParameter ( name));
+		if ( super.getParameter( name ) == null )
+		{
+			return null;
+		}
+
+	    return XSSSanitizerService.sanitize ( super.getParameter( name ) );
 	} 
 	catch ( XSSSanitizerException e )
 	{
@@ -74,7 +79,10 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper
 	{
 	    try
 	    {
-		values[ i ] = XSSSanitizerService.sanitize ( ( values[ i ] ));
+	    	if ( values[ i ] != null )
+	    	{
+	    		values[ i ] = XSSSanitizerService.sanitize ( ( values[ i ] ) );	
+	    	}
 	    } 
 	    catch ( XSSSanitizerException e )
 	    {
