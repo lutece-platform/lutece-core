@@ -67,7 +67,8 @@ public final class SecurityUtil
     public static final String PROPERTY_REDIRECT_URL_SAFE_PATTERNS = "lutece.security.redirectUrlSafePatterns";
     public static final String PROPERTY_REDIRECT_URL_BLOCKED_SCHEMES = "lutece.security.redirectUrlBlockedSchemes";
     public static final String PROPERTY_REDIRECT_URL_BLOCKED_CHARACTERS_PATTERNS = "lutece.security.redirectUrlBlockedCharactersPatterns";
-    
+    private static Pattern PATTERN_URL_SAFE ;
+
     public static final Logger _log = LogManager.getLogger( LOGGER_NAME );
 
     /**
@@ -314,7 +315,13 @@ public final class SecurityUtil
         // filter schemes
         String strRedirecUrlBlockedSchemes=AppPropertiesService.getProperty(PROPERTY_REDIRECT_URL_BLOCKED_SCHEMES);
         String strRedirecUrlBlockedCharactersPatterns=AppPropertiesService.getProperty(PROPERTY_REDIRECT_URL_BLOCKED_CHARACTERS_PATTERNS);
-        if( (strRedirecUrlBlockedCharactersPatterns == null|| !Pattern.compile(strRedirecUrlBlockedCharactersPatterns).matcher(strUrl).find())
+        if( PATTERN_URL_SAFE == null && strRedirecUrlBlockedCharactersPatterns !=null )
+        {
+        	PATTERN_URL_SAFE = Pattern.compile( strRedirecUrlBlockedCharactersPatterns );
+        }
+        
+        
+        if( (strRedirecUrlBlockedCharactersPatterns == null|| !PATTERN_URL_SAFE.matcher( strUrl ).find( ))
 				&&  strRedirecUrlBlockedSchemes != null && !Arrays.stream(strRedirecUrlBlockedSchemes.split(CONSTANT_COMMA)).anyMatch(x->strUrl.startsWith(x)))
         {
         	return true; // should be a relative path
