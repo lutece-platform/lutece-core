@@ -46,12 +46,10 @@
         </@row>
         <!-- HELP MESSAGE -->
         <@formGroup labelFor='help_message' labelKey='${i18n("portal.search.advanced_parameters.helpMessage.label")}'>
-            <@input type='textarea' class='richtext' name='help_message' id='help_message' value=help_message!'' />
+            <@input type='textarea' name='help_message' id='help_message' value=help_message!'' />
         </@formGroup>   
         <@formGroup hideLabel=['all']>
 					<@button name='submit' type='submit' title='${i18n("portal.util.labelModify")}' buttonIcon='check' color='primary'/>
         </@formGroup>   
     </@tform>
-    <#include "/admin/util/editor/editor.html" />
-    <@initEditor />
 </@tabPanel>
