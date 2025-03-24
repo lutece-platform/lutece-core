@@ -63,6 +63,7 @@ public class AdminMessageJspBean
     private static final String MARK_BACK_URL = "back_url";
     private static final String MARK_ADMIN_URL = "admin_url";
     private static final String PROPERTY_TITLE_ERROR = "portal.util.message.titleError";
+    private static final String PROPERTY_TITLE_CONFIRMATION = "portal.util.message.titleConfirmation";
 
     /**
      * Retrieve a message stored into a request
@@ -75,12 +76,21 @@ public class AdminMessageJspBean
     {
         Locale locale = AdminUserService.getLocale( request );
         Map<String, Object> model = new HashMap<>( );
-        AdminMessage message = AdminMessageService.getMessage( request );
-
-        if ( message == null )
+        
+		AdminMessage message = null;
+        if ( AdminMessageService.isLogoutMessageUrl( request ) )
         {
-            message = new AdminMessage( Messages.MESSAGE_ERROR_SESSION, null, PROPERTY_TITLE_ERROR,
-                    AdminAuthenticationService.getInstance( ).getLoginPageUrl( ), "", AdminMessage.TYPE_ERROR, false, null );
+            message = new AdminMessage( Messages.MESSAGE_LOGOUT, null, PROPERTY_TITLE_CONFIRMATION,
+                    AdminAuthenticationService.getInstance( ).getLoginPageUrl( ), "", AdminMessage.TYPE_INFO, false, null );            
+        }
+        else
+        {
+            message = AdminMessageService.getMessage( request );
+            if ( message == null )
+            {
+                message = new AdminMessage( Messages.MESSAGE_ERROR_SESSION, null, PROPERTY_TITLE_ERROR,
+                        AdminAuthenticationService.getInstance( ).getLoginPageUrl( ), "", AdminMessage.TYPE_ERROR, false, null );
+            }
         }
 
         model.put( MARK_MESSAGE, message );
