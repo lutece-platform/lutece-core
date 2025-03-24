@@ -741,6 +741,6 @@ public class AdminLoginJspBean implements Serializable
 
         AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_DISCONNECT, CONSTANT_ACTION_DOLOGOUT, user, null, CONSTANT_BO );
 
-        return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_LOGOUT, strLoginUrl, AdminMessage.TYPE_INFO );
+        return AdminMessageService.getLogoutMessageUrl( request );
     }
 }
