@@ -16,7 +16,7 @@
     </listener>
     <!--cleanup of temporary files -->
     <listener>
-    	<listener-class>org.apache.commons.fileupload2.jakarta.JakartaFileCleaner</listener-class>
+    	<listener-class>org.apache.commons.fileupload2.jakarta.servlet6.JakartaFileCleaner</listener-class>
   	</listener>
     <filter>
         <filter-name>pageSecurityHeaderFilter</filter-name>
