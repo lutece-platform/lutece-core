@@ -539,6 +539,8 @@ public final class AdminMessageService
      */
     public static String getLogoutMessageUrl( HttpServletRequest request )
     {
+        // Force session creation to prevent already commited response and session creation
+        HttpSession session = request.getSession( true );
         return getUrl( request ) + "?" + LOGOUT_PARAMETER;
     }
 
