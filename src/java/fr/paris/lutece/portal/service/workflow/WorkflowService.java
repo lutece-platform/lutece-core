@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.workflow;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -43,7 +42,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
-import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
@@ -281,18 +279,17 @@ public class WorkflowService
      * @param user
      *            The User
      */
-    public List<ResourceHistory> doProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, HttpServletRequest request, Locale locale,
+    public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, HttpServletRequest request, Locale locale,
             boolean bIsAutomatic, User user )
     {
         if ( isAvailable( ) && canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, bIsAutomatic, user ) )
         {
             TransactionManager.beginTransaction( null );
             AppLogService.debug( "Transaction started for action with id = {}", nIdAction );                    
-            List<ResourceHistory> actionHistoryResourceList = new ArrayList<>( );            
             try
             {
                 String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request, user );
-                _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, bIsAutomatic, strUserAccessCode, user, actionHistoryResourceList );
+                _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, bIsAutomatic, strUserAccessCode, user );
                 TransactionManager.commitTransaction( null );
                 AppLogService.debug( "Transaction committed for action with id = {}", nIdAction );
 
@@ -304,11 +301,7 @@ public class WorkflowService
                 AppLogService.error( "Transaction rollbacked for action with id = {}", nIdAction );
                 throw new AppException( e.getMessage( ), e );
             }
-            
-            return actionHistoryResourceList;
         }
-        
-        return null;
     }
 
     /**
@@ -465,37 +458,8 @@ public class WorkflowService
      *            the user
      * @return null if there is no error in the task form else return the error message url
      */
-    @Deprecated
     public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, HttpServletRequest request, Locale locale,
             User user )
-    {
-    	return doSaveTasksForm( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, null, null );
-    }
-
-    /**
-     * Perform the information on the various tasks associated with the given action specified in parameter
-     * 
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param nExternalParentId
-     *            the external parent id
-     * @param request
-     *            the request
-     * @param nIdAction
-     *            the action id
-     * @param locale
-     *            the locale
-     * @param user
-     *            the user
-     * @param actionHistoryResourceList
-     *            the history of action performed on a resource
-     * 
-     * @return null if there is no error in the task form else return the error message url
-     */
-    public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, HttpServletRequest request, Locale locale,
-            User user, List<ResourceHistory> actionHistoryResourceList )
     {
         if ( isAvailable( ) )
         {
@@ -506,12 +470,7 @@ public class WorkflowService
                 return strError;
             }
 
-            List<ResourceHistory> actionHistoryList = doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, false, user );
-            
-            if ( actionHistoryResourceList != null && actionHistoryList != null )
-            {
-            	actionHistoryResourceList.addAll( actionHistoryList );
-            }
+            doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, false, user );
         }
 
         return null;
