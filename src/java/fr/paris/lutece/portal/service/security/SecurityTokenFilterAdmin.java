@@ -101,7 +101,7 @@ public class SecurityTokenFilterAdmin implements Filter
         String action = MVCUtils.getAction( httpServletRequest );
         if ( !_securityTokenHandler.validate( httpServletRequest, action ) )
         {
-            throw new ServletException( new AdminTokenAccessDeniedException( "SecurityTokenFilterSite :: Invalid security token" ) );
+            throw new ServletException( new AdminTokenAccessDeniedException( "SecurityTokenFilterAdmin :: Invalid security token" ) );
         }
 
         chain.doFilter( request, response );

@@ -121,7 +121,7 @@ public class SecurityTokenHandler
     {
         String strAction = MVCUtils.getAction( request );
         String strPageName = request.getParameter( PARAMETER_PAGE );
-        String strPath = request.getServletPath( );
+        String strPath = request.getServletPath( ).substring( 1 );
 
         if ( null == strAction
                 || ALLOWED_METHODS.contains( request.getMethod( ) ) )
