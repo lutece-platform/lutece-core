@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.file.FileService;
 import fr.paris.lutece.portal.service.file.FileServiceException;
 import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
@@ -354,7 +355,7 @@ public class AttributeImage extends AbstractAttribute
     {
     	try
     	{
-    	   IFileStoreServiceProvider fileStoreService = CDI.current( ).select( IFileStoreServiceProvider.class ).get( );
+    	   IFileStoreServiceProvider fileStoreService = CDI.current( ).select( FileService.class ).get( ).getFileStoreServiceProvider( );
     	   File file = fileStoreService.getFile( userField.getFile( ).getFileKey( ) );
            userField.setFile( file );
 

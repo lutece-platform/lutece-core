@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.xsl.XslExport;
 import fr.paris.lutece.portal.business.xsl.XslExportHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.file.FileService;
 import fr.paris.lutece.portal.service.file.FileServiceException;
 import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
@@ -147,11 +148,11 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private transient IFileStoreServiceProvider _fileStoreService;
 
     @Inject
-    public XslExportJspBean( IFileStoreServiceProvider fileStoreService )
+    public XslExportJspBean( FileService fileService )
     {
-    	_fileStoreService = fileStoreService;
+    	_fileStoreService = fileService.getFileStoreServiceProvider( );
     }
-    
+
     /**
      * Gets the xsl export creation page
      * 
