@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.business.user.attribute;
 
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
-
+import fr.paris.lutece.portal.service.file.FileService;
 import fr.paris.lutece.portal.service.file.FileServiceException;
 import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.util.AppException;
@@ -53,7 +53,7 @@ import java.util.List;
 public final class AdminUserFieldHome
 {
     private static IAdminUserFieldDAO _dao = CDI.current().select( IAdminUserFieldDAO.class ).get( );
-    private static IFileStoreServiceProvider _fileStoreService = CDI.current().select( IFileStoreServiceProvider.class ).get( );
+    private static IFileStoreServiceProvider _fileStoreService = CDI.current().select( FileService.class ).get( ).getFileStoreServiceProvider( );
 
     /**
      * Private constructor
