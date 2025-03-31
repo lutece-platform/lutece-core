@@ -34,6 +34,8 @@
 package fr.paris.lutece.util.http;
 
 import fr.paris.lutece.portal.service.html.EncodingService;
+import fr.paris.lutece.portal.service.html.XSSSanitizerException;
+import fr.paris.lutece.portal.service.html.XSSSanitizerService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.upload.NormalizeFileItem;
@@ -101,7 +103,7 @@ public final class MultipartUtil
      *             exception if an unknown error has occurred
      */
     public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax, boolean bActivateNormalizeFileName,
-            HttpServletRequest request ) throws FileUploadException
+            HttpServletRequest request, boolean isXssSanitize ) throws FileUploadException
     {
         if ( !isMultipart( request ) )
         {
@@ -140,7 +142,7 @@ public final class MultipartUtil
         // Process the uploaded items
         for ( FileItem item : listItems )
         {
-            processItem( item, strEncoding, bActivateNormalizeFileName, mapFiles, mapParameters );
+            processItem( item, strEncoding, bActivateNormalizeFileName, mapFiles, mapParameters, isXssSanitize );
         }
 
         return new MultipartHttpServletRequest( request, mapFiles, mapParameters );
@@ -171,7 +173,7 @@ public final class MultipartUtil
     }
 
     private static void processItem( FileItem item, String strEncoding, boolean bActivateNormalizeFileName, Map<String, List<FileItem>> mapFiles,
-            Map<String, String [ ]> mapParameters )
+            Map<String, String [ ]> mapParameters, boolean isXssSanitize )
     {
         if ( item.isFormField( ) )
         {
@@ -190,6 +192,18 @@ public final class MultipartUtil
                 }
             }
 
+            if ( isXssSanitize ) 
+            {
+        	try
+		{
+		    strValue = XSSSanitizerService.sanitize( strValue );
+		} 
+        	catch ( XSSSanitizerException e )
+		{
+		    AppLogService.error( "XSS Sanitize Service Error", e );
+		} 
+            }
+            
             // check if item of same name already in map
             String [ ] curParam = mapParameters.get( item.getFieldName( ) );
 
