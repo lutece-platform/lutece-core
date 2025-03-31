@@ -149,7 +149,18 @@
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
-
+  <filter-mapping>
+        <filter-name>safeRequestFilterSite</filter-name>
+        <url-pattern>/jsp/site/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>safeRequestFilterAdmin</filter-name>
+        <url-pattern>/jsp/admin/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>uploadFilterSite</filter-name>
         <url-pattern>/jsp/site/*</url-pattern>
@@ -163,19 +174,6 @@
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>safeRequestFilterSite</filter-name>
-        <url-pattern>/jsp/site/*</url-pattern>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>safeRequestFilterAdmin</filter-name>
-        <url-pattern>/jsp/admin/*</url-pattern>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
-    
-    <filter-mapping>
         <filter-name>securityTokenFilterSite</filter-name>
         <url-pattern>/jsp/site/*</url-pattern>
         <dispatcher>FORWARD</dispatcher>
@@ -187,7 +185,6 @@
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
-
     <servlet>
         <servlet-name>PluginsServlets</servlet-name>
         <servlet-class>fr.paris.lutece.portal.service.servlet.MainServlet</servlet-class>

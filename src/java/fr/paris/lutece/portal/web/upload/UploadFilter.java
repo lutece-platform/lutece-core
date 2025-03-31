@@ -50,6 +50,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.web.xss.XSSRequestWrapper;
 import fr.paris.lutece.util.http.MultipartUtil;
 
 /**
@@ -148,8 +149,9 @@ public abstract class UploadFilter implements Filter
         {
             try
             {
+        	
                 MultipartHttpServletRequest multiHtppRequest = MultipartUtil.convert( _nSizeThreshold, _nRequestSizeMax, _bActivateNormalizeFileName,
-                        httpRequest );
+                        httpRequest , httpRequest instanceof XSSRequestWrapper );
                 chain.doFilter( multiHtppRequest, response );
             }
             
