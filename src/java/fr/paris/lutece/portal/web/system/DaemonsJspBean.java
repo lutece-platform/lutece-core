@@ -42,7 +42,7 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
+import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.apache.commons.lang3.StringUtils;
@@ -58,7 +58,7 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 @SessionScoped
 @Named
-public class DaemonsJspBean extends AdminPageJspBean
+public class DaemonsJspBean extends AdminFeaturesPageJspBean
 {
     public static final String RIGHT_DAEMONS_MANAGEMENT = "CORE_DAEMONS_MANAGEMENT";
     private static final long serialVersionUID = 3636973660388119199L;
