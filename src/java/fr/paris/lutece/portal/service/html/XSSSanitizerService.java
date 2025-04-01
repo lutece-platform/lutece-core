@@ -96,9 +96,8 @@ public final class XSSSanitizerService
         if ( value != null )
         {
             value = value.replaceAll( "<", "&lt;" ).replaceAll( ">", "&gt;" );
-            value = value.replaceAll( "\"", "&quot;" ).replaceAll( "'", "&#x27;" );
+            value = value.replaceAll( "\"", "&quot;" ).replaceAll( "'", "&#x27;" ).replaceAll("`","&#96;");
             value = value.replaceAll( "&", "&amp;" );
-            value = value.replaceAll( "\\(", "&#40;" ).replaceAll( "\\)", "&#41;" );
         }
         return value;
     }

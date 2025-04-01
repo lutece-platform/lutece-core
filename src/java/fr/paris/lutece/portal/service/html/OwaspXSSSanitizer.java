@@ -13,7 +13,8 @@ public class OwaspXSSSanitizer implements IXSSSanitizer {
 	@Override
 	public String sanitize( String strSource ) 
 	{
-	    return _policy.sanitize( strSource );
+	    // sanitize, but unescape "@" and "+" for emails
+	    return _policy.sanitize( strSource ).replace ( "&#64;", "@").replace( "&#43;", "+" );
 	}
 	    
     public void init( )
@@ -22,6 +23,7 @@ public class OwaspXSSSanitizer implements IXSSSanitizer {
 	            .and(Sanitizers.LINKS)
 	            .and(Sanitizers.BLOCKS)
 	            .and(Sanitizers.IMAGES)
-	            .and(Sanitizers.STYLES); 
+	            .and(Sanitizers.STYLES)
+	            .and ( Sanitizers.TABLES); 
     }
 }
