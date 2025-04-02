@@ -93,7 +93,7 @@ public class UploadServletTest extends LuteceTestCase
     {
         MockHttpServletRequest request = getMultipartRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
-        MultipartHttpServletRequest multipartRequest = MultipartUtil.convert( 10000, 10000, false, request );
+        MultipartHttpServletRequest multipartRequest = MultipartUtil.convert( 10000, 10000, false, request, false);
 
         new UploadServlet( ).doPost( multipartRequest, response );
 
