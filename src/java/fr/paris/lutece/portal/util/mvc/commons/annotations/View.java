@@ -62,4 +62,6 @@ public @interface View
      * @return true if it is the default view
      */
     boolean defaultView( ) default false;
+    
+    String securityTokenAction( ) default "";
 }
