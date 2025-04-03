@@ -44,6 +44,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -158,7 +159,10 @@ public class SecurityTokenHandler
             String strView = MVCUtils.getView( request );
             if ( strView != null )
             {
-                String s = _securityTokenService.getToken( request, strView );
+                String secTokenAction = !"".equals( method.getAnnotation( View.class ).securityTokenAction( ) )
+                        ? method.getAnnotation( View.class ).securityTokenAction( )
+                        : method.getAnnotation( View.class ).value( );
+                String s = _securityTokenService.getToken( request, secTokenAction );
                 request.setAttribute( CSRF_TOKEN, s );
                 return;
             }
