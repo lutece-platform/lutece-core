@@ -149,7 +149,7 @@ public class FileService
         // search default file service
         if ( !_fileStoreServiceProviderList.isUnsatisfied() )
         {
-            _fileStoreServiceProviderList.stream()
+           return  _fileStoreServiceProviderList.stream()
             .filter(fss -> fss.isDefault())
             .findFirst()
             .orElseGet(() -> _fileStoreServiceProviderList.stream().findFirst()

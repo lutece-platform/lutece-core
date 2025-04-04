@@ -35,8 +35,10 @@
 package fr.paris.lutece.portal.service.editor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import jakarta.enterprise.inject.spi.CDI;
+
 
 /**
  * Service pour gérer le contenu de texte enrichi.
@@ -44,7 +46,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public class RichTextContentService
 {
 
-    private static List<IRichTextContentParser> _parsers = SpringContextService.getBeansOfType( IRichTextContentParser.class );
+    private static List<IRichTextContentParser> _parsers = CDI.current().select(IRichTextContentParser.class).stream().collect(Collectors.toList());
 
     /**
      * Récupère le contenu en fonction de son type (Markdown, BBCode ou texte brut).

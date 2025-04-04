@@ -74,7 +74,7 @@ public class CommonsService
      */
     public static List<CommonsImport> getCommonsImports( )
     {
-        return SpringContextService.getBeansOfType( CommonsImport.class );
+    	return  CDI.current().select(CommonsImport.class).stream().toList();
     }
 
     /**

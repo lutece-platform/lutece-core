@@ -237,7 +237,7 @@ public class DaemonSchedulerWithSingleThreadExecutorTest extends LuteceTestCase
             testDaemon.waitForCompletion();
             assertTrue(testDaemon.hasRun());
             testDaemon.go();
-            assertTrue(1000L <= Duration.between(start, Instant.now()).toMillis());
+            assertTrue(9000L <= Duration.between(start, Instant.now()).toMillis());
             testDaemon.waitForCompletion();
             assertTrue(testDaemon.hasRun());
         } catch (InterruptedException | BrokenBarrierException | TimeoutException | InvocationTargetException | NoSuchMethodException e )

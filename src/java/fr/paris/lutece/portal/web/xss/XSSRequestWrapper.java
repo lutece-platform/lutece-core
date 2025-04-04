@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.portal.web.xss;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 
 import fr.paris.lutece.portal.service.html.XSSSanitizerException;
 import fr.paris.lutece.portal.service.html.XSSSanitizerService;
