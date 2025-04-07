@@ -62,7 +62,7 @@ public class FileService
     private IFileStoreServiceProvider _defaulFileStoreServiceProvider;
     private List<IFileStoreServiceProvider> _fileStoreServiceProviderList = SpringContextService.getBeansOfType( IFileStoreServiceProvider.class );
 
-    private static FileService _instance = new FileService( );
+    private static FileService _instance;
 
     /**
      * init
@@ -79,6 +79,10 @@ public class FileService
      */
     public static FileService getInstance( )
     {
+        if ( _instance == null )
+        {
+            _instance = new FileService( );
+        }
         return _instance;
     }
 
@@ -100,6 +104,8 @@ public class FileService
      */
     public IFileStoreServiceProvider getFileStoreServiceProvider( String strFileStoreServiceProviderName )
     {
+        _fileStoreServiceProviderList = SpringContextService.getBeansOfType( IFileStoreServiceProvider.class );
+
     	if ( strFileStoreServiceProviderName == null && _defaulFileStoreServiceProvider != null )
     	{
     		return _defaulFileStoreServiceProvider;
