@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,47 +31,75 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.fileupload;
+package fr.paris.lutece.portal.service.upload;
 
-import org.apache.commons.io.FilenameUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.io.UncheckedIOException;
 
-import fr.paris.lutece.portal.service.upload.MultipartItem;
+import jakarta.servlet.http.Part;
 
-/**
- * This service provides utils to extract parameters from multipart request using Jakarta Commons FileUpload.
- */
-public final class FileUploadService
+public class PartMultipartItem implements MultipartItem, Serializable
 {
-    /** Creates a new instance of FileUploadService */
-    private FileUploadService( )
+
+    private final Part _part;
+    private final String _strFileName;
+
+    public PartMultipartItem( Part part, String fileName )
     {
+        super( );
+        _part = part;
+        _strFileName = fileName;
     }
 
-    /**
-     * Return the file name, without its whole path, from the file item. This should be used has FileItem.getName can return the whole path.
-     * 
-     * @param fileItem
-     *            the fileItem to process
-     * @return the name of the file associated
-     */
-    public static String getFileNameOnly( MultipartItem fileItem )
+    @Override
+    public String getName( )
     {
-        String strFileName;
-
-        if ( fileItem != null )
-        {
-            strFileName = fileItem.getName( );
-
-            if ( strFileName != null )
-            {
-                strFileName = FilenameUtils.getName( strFileName );
-            }
-        }
-        else
-        {
-            strFileName = null;
-        }
-
-        return strFileName;
+        return _strFileName;
     }
+
+    @Override
+    public InputStream getInputStream( ) throws IOException
+    {
+        return this._part.getInputStream( );
+    }
+
+    @Override
+    public String getContentType( )
+    {
+        return _part.getContentType( );
+    }
+
+    @Override
+    public void delete( ) throws IOException
+    {
+        _part.delete( );
+    }
+
+    @Override
+    public String getFieldName( )
+    {
+        return _part.getName( );
+    }
+
+    @Override
+    public byte [ ] get( ) throws UncheckedIOException
+    {
+        try
+        {
+            return _part.getInputStream( ).readAllBytes( );
+        }
+        catch( IOException e )
+        {
+            throw new UncheckedIOException( e );
+        }
+    }
+
+    @Override
+    public long getSize( )
+    {
+        return this._part.getSize( );
+    }
+
 }

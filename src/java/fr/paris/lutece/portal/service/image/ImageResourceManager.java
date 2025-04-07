@@ -33,14 +33,12 @@
  */
 package fr.paris.lutece.portal.service.image;
 
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItem;
 
 /**
  * ImageResourceManager
@@ -95,7 +93,7 @@ public final class ImageResourceManager
      * @param fileItem
      * @return Image Resource Key
      */
-    public static String addImageResource( String strResourceTypeId, FileItem<DiskFileItem> fileItem )
+    public static String addImageResource( String strResourceTypeId, MultipartItem fileItem )
     {
     	ImageResourceProvider resourceProvider = _mapResourceTypes.get( strResourceTypeId );
 

@@ -36,9 +36,7 @@ package fr.paris.lutece.portal.web.upload;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItem;
-
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -62,7 +60,7 @@ public interface IAsynchronousUploadHandler2
      * @param fileItems
      *            uploaded fileItems
      */
-	void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem<DiskFileItem>> fileItems );
+	void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<MultipartItem> fileItems );
 
     /**
      * Defines if this handler is invoked. A parameter (like page=plugin-name) should be found in the request.

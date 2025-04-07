@@ -37,13 +37,11 @@ import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Map;
-
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItem;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -89,13 +87,13 @@ public interface IFileStoreServiceProvider extends Serializable
     String storeFile( File file ) throws FileServiceException;
 
     /**
-     * Stores a org.apache.commons.fileupload.FileItem
+     * Stores a MultipartItem
      * 
      * @param fileItem
      *            the fileItem
      * @return The key of the blob
      */
-    String storeFileItem( FileItem<DiskFileItem> fileItem )throws FileServiceException;
+    String storeFileItem( MultipartItem fileItem )throws FileServiceException;
 
     /**
      * Stores an input stream

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,22 +33,18 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
+import org.apache.commons.lang3.StringUtils;
+
 import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.PortalJspBean;
-
-import org.apache.commons.lang3.StringUtils;
-
 import jakarta.servlet.http.HttpServletRequest;
 
-/**
- * A rewrite of the multipart filter from the com.oreilly.servlet package. The rewrite allows us to use initialization parameters specified in the Lutece
- * configuration files. This filter concern site (front office) jsp pages
- */
-public class UploadFilterSite extends UploadFilter
+public abstract class AbstractSiteMultipartServlet extends AbstractMultipartServlet
 {
+
     /**
      * {@inheritDoc}
      */
@@ -79,4 +75,5 @@ public class UploadFilterSite extends UploadFilter
 
         return null;
     }
+
 }

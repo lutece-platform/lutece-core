@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,47 +31,19 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.fileupload;
+package fr.paris.lutece.portal.service.upload;
 
-import org.apache.commons.io.FilenameUtils;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import fr.paris.lutece.portal.service.upload.MultipartItem;
+import jakarta.inject.Qualifier;
 
-/**
- * This service provides utils to extract parameters from multipart request using Jakarta Commons FileUpload.
- */
-public final class FileUploadService
+@Qualifier
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+public @interface MultipartAsyncUploadHandler
 {
-    /** Creates a new instance of FileUploadService */
-    private FileUploadService( )
-    {
-    }
 
-    /**
-     * Return the file name, without its whole path, from the file item. This should be used has FileItem.getName can return the whole path.
-     * 
-     * @param fileItem
-     *            the fileItem to process
-     * @return the name of the file associated
-     */
-    public static String getFileNameOnly( MultipartItem fileItem )
-    {
-        String strFileName;
-
-        if ( fileItem != null )
-        {
-            strFileName = fileItem.getName( );
-
-            if ( strFileName != null )
-            {
-                strFileName = FilenameUtils.getName( strFileName );
-            }
-        }
-        else
-        {
-            strFileName = null;
-        }
-
-        return strFileName;
-    }
 }

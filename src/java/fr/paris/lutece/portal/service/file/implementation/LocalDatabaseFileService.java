@@ -42,8 +42,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -61,6 +59,7 @@ import fr.paris.lutece.portal.service.file.IFileRBACService;
 import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppException;
 
 /**
@@ -266,7 +265,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
      * {@inheritDoc}
      */
     @Override
-    public String storeFileItem( FileItem<DiskFileItem> fileItem )
+    public String storeFileItem( MultipartItem fileItem )
     {
 
         File file = new File( );

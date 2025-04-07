@@ -38,9 +38,6 @@ import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItem;
-
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
@@ -54,6 +51,7 @@ import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.file.FileUtil;
@@ -169,7 +167,7 @@ public class FileImageService implements ImageResourceProvider
      * @param fileItem
      * @return the Image File Key
      */
-    public String addImageResource( FileItem<DiskFileItem> fileItem )
+    public String addImageResource( MultipartItem fileItem )
 	{
     	try 
     	{

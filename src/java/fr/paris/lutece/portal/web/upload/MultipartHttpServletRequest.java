@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,15 +42,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItem;
+
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 
 /**
  * This class provides a Wrapper of an HTTP request that handle multipart content
  */
 public class  MultipartHttpServletRequest extends HttpServletRequestWrapper
 {
-    private final  Map<String, List<FileItem<DiskFileItem>>> _multipartFiles;
+    private final  Map<String, List<MultipartItem>> _multipartFiles;
     private final  Map<String, String [ ]> _stringParameters;
 
     /**
@@ -63,7 +63,7 @@ public class  MultipartHttpServletRequest extends HttpServletRequestWrapper
      * @param parameters
      *            Request parameters
      */
-    public MultipartHttpServletRequest( HttpServletRequest request, Map<String, List<FileItem<DiskFileItem>>> multipartFiles, Map<String, String [ ]> parameters )
+    public MultipartHttpServletRequest( HttpServletRequest request, Map<String, List<MultipartItem>> multipartFiles, Map<String, String [ ]> parameters )
     {
         super( request );
         _multipartFiles = Collections.unmodifiableMap( multipartFiles );
@@ -135,7 +135,7 @@ public class  MultipartHttpServletRequest extends HttpServletRequestWrapper
      * 
      * @return The map
      */
-    public Map<String, List<FileItem<DiskFileItem>>> getFileListMap( )
+    public Map<String, List<MultipartItem>> getFileListMap( )
     {
         return _multipartFiles;
     }
@@ -147,7 +147,7 @@ public class  MultipartHttpServletRequest extends HttpServletRequestWrapper
      *            The file name
      * @return The file as a FileItem
      */
-    public FileItem<DiskFileItem> getFile( String strName )
+    public MultipartItem getFile( String strName )
     {
         var listFileItem = _multipartFiles.get( strName );
 
@@ -161,7 +161,7 @@ public class  MultipartHttpServletRequest extends HttpServletRequestWrapper
      *            The file name
      * @return The file as a FileItem
      */
-    public List<FileItem<DiskFileItem>> getFileList( String strName )
+    public List<MultipartItem> getFileList( String strName )
     {
         return _multipartFiles.get( strName );
     }
