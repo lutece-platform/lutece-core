@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,20 +33,31 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
+import java.io.IOException;
+
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * A rewrite of the multipart filter from the com.oreilly.servlet package. The rewrite allows us to use initialization parameters specified in the Lutece
- * configuration files. This filter concern administration jsp pages
- */
-public class UploadFilterAdmin extends UploadFilter
+public class AdminMultipartServlet extends AbstractMultipartServlet
 {
-    /**
-     * {@inheritDoc}
-     */
+    private static final String LANDING_PAGE_ATTRIBUTE = "landing_page";
+    
+    @Override
+    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    {
+        MultipartHttpServletRequest httpRequest = handleRequest( request, response );
+        if ( null == httpRequest )
+        {
+            return;
+        }
+
+        String strForward = (String) request.getAttribute( LANDING_PAGE_ATTRIBUTE );
+        request.getRequestDispatcher( strForward ).forward( httpRequest, response );
+    }
+
     @Override
     protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey )
     {

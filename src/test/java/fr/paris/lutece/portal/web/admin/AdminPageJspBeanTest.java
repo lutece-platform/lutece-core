@@ -45,11 +45,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.DiskFileItemFactory;
-import org.apache.commons.fileupload2.core.FileItem;
-import org.apache.commons.fileupload2.core.FileUploadException;
-import org.apache.commons.fileupload2.core.FileUploadSizeException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,22 +67,28 @@ import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.http.MockMultipartItem;
+import fr.paris.lutece.util.http.TemporaryMultipartItemFactory;
 import jakarta.inject.Inject;
 
 public class AdminPageJspBeanTest extends LuteceTestCase
 {
     private String _randomPageName;
     private Page _page;
-    private AdminPageJspBean _bean;
     private AdminUser _adminUser;
-    private @Inject IPageService pageService;
-    private @Inject ISecurityTokenService _securityTokenService;
+    @Inject
+    private AdminPageJspBean _bean;
+    @Inject 
+    private IPageService pageService;
+    @Inject 
+    private ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -105,7 +106,6 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         _page.setDisplayDateUpdate( true );
         _page.setIsManualDateUpdate( true );
         pageService.createPage( _page );
-        _bean = new AdminPageJspBean( );
         _adminUser = getAdminUser( );
     }
 
@@ -325,7 +325,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( html );
     }
     @Test
-    public void testDoModifyPage( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
+    public void testDoModifyPage( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         String descriptionMod = _page.getDescription( ) + "_mod";
@@ -365,7 +365,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertEquals( descriptionMod, page.getDescription( ) );
     }
     @Test
-    public void testDoModifyPagePageDataError( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
+    public void testDoModifyPagePageDataError( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
@@ -405,7 +405,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertEquals( _randomPageName, page.getName( ) );
     }
     @Test
-    public void testDoModifyPageInexistentParentPage( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
+    public void testDoModifyPageInexistentParentPage( ) throws AccessDeniedException, IOException
     {
         int origParentPageId = _page.getParentPageId( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -445,7 +445,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertEquals( origParentPageId, page.getParentPageId( ) );
     }
     @Test
-    public void testDoModifyPagePictureError( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
+    public void testDoModifyPagePictureError( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
@@ -479,11 +479,9 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 _securityTokenService.getToken( request, "admin/site/admin_page_block_property.html" )
         } );
-        Map<String, List<FileItem<DiskFileItem>>> fileItems = new HashMap<>( );
-        List<FileItem<DiskFileItem>> items = new ArrayList<>( );
-        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
-        FileItem<DiskFileItem> fileItem = fileItemFactory.fileItemBuilder( ).setFieldName( "image_content" )
-                .setContentType( "" ).setFormField( false ).setFileName( "" ).get( );
+        Map<String, List<MultipartItem>> fileItems = new HashMap<>( );
+        List<MultipartItem> items = new ArrayList<>( );
+        MockMultipartItem fileItem = TemporaryMultipartItemFactory.create( "image_content", "", "" );
         items.add( fileItem );
         fileItems.put( "image_content", items );
         _bean.doModifyPage( new MultipartHttpServletRequest( request, fileItems, parameters ) );
@@ -495,7 +493,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNull( page.getMimeType( ) );
     }
     @Test
-    public void testDoModifyPageInvalidToken( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
+    public void testDoModifyPageInvalidToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         String descriptionMod = _page.getDescription( ) + "_mod";
@@ -540,7 +538,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoModifyPageNoToken( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
+    public void testDoModifyPageNoToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         String descriptionMod = _page.getDescription( ) + "_mod";
@@ -582,7 +580,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoModifyPageUpdateDateError( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException
+    public void testDoModifyPageUpdateDateError( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
@@ -639,7 +637,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( html );
     }
     @Test
-    public void testDoCreateChildPage( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException, IOException
+    public void testDoCreateChildPage( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
@@ -683,12 +681,9 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
         assertNotNull( children );
         assertTrue( children.isEmpty( ) );
-
-        Map<String, List<FileItem<DiskFileItem>>> fileItems = new HashMap<>( );
-        List<FileItem<DiskFileItem>> listItems = new ArrayList<>( );
-        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
-        FileItem<DiskFileItem> pageImageFile = fileItemFactory.fileItemBuilder( ).setFieldName( "image_content" )
-                .setContentType( "" ).setFormField( true ).setFileName( "" ).get( );
+        Map<String, List<MultipartItem>> fileItems = new HashMap<>( );
+        List<MultipartItem> listItems = new ArrayList<>( );
+        MockMultipartItem pageImageFile = TemporaryMultipartItemFactory.create( "image_content", "", "" );
         pageImageFile.getOutputStream( ).write( new byte [ 1] );
         listItems.add( pageImageFile );
         fileItems.put( "image_content", listItems );
@@ -701,7 +696,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertTrue( children.stream( ).allMatch( page -> page.getParentPageId( ) == _page.getId( ) && page.getName( ).equals( _page.getName( ) + "_child" ) ) );
     }
     @Test
-    public void testDoCreateChildPageInvalidToken( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException, IOException
+    public void testDoCreateChildPageInvalidToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
@@ -735,12 +730,9 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
         assertNotNull( children );
         assertTrue( children.isEmpty( ) );
-
-        Map<String, List<FileItem<DiskFileItem>>> fileItems = new HashMap<>( );
-        List<FileItem<DiskFileItem>> listItems = new ArrayList<>( );
-        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
-        FileItem<DiskFileItem> pageImageFile = fileItemFactory.fileItemBuilder( ).setFieldName( "image_content" )
-                .setContentType( "" ).setFormField( true ).setFileName( "" ).get( );
+        Map<String, List<MultipartItem>> fileItems = new HashMap<>( );
+        List<MultipartItem> listItems = new ArrayList<>( );
+        MockMultipartItem pageImageFile = TemporaryMultipartItemFactory.create( "image_content", "", "" );
         pageImageFile.getOutputStream( ).write( new byte [ 1] );
         listItems.add( pageImageFile );
         fileItems.put( "image_content", listItems );
@@ -757,7 +749,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoCreateChildPageNoToken( ) throws AccessDeniedException, FileUploadSizeException, FileUploadException, IOException
+    public void testDoCreateChildPageNoToken( ) throws AccessDeniedException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Map<String, String [ ]> parameters = new HashMap<>( );
@@ -788,12 +780,9 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
         assertNotNull( children );
         assertTrue( children.isEmpty( ) );
-
-        Map<String, List<FileItem<DiskFileItem>>> fileItems = new HashMap<>( );
-        List<FileItem<DiskFileItem>> listItems = new ArrayList<>( );
-        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
-        FileItem<DiskFileItem> pageImageFile = fileItemFactory.fileItemBuilder( ).setFieldName( "image_content" )
-                .setContentType( "" ).setFormField( true ).setFileName( "" ).get( );
+        Map<String, List<MultipartItem>> fileItems = new HashMap<>( );
+        List<MultipartItem> listItems = new ArrayList<>( );
+        MockMultipartItem pageImageFile = TemporaryMultipartItemFactory.create( "image_content", "", "" );
         pageImageFile.getOutputStream( ).write( new byte [ 1] );
         listItems.add( pageImageFile );
         fileItems.put( "image_content", listItems );

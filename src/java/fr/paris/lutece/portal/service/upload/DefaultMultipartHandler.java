@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,47 +31,41 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.fileupload;
+package fr.paris.lutece.portal.service.upload;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 
-import fr.paris.lutece.portal.service.upload.MultipartItem;
+import fr.paris.lutece.util.filesystem.UploadUtil;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.servlet.http.Part;
 
-/**
- * This service provides utils to extract parameters from multipart request using Jakarta Commons FileUpload.
- */
-public final class FileUploadService
+@ApplicationScoped
+@MultipartUploadHandler
+public class DefaultMultipartHandler extends AbstractMultipartHandler
 {
-    /** Creates a new instance of FileUploadService */
-    private FileUploadService( )
-    {
-    }
 
-    /**
-     * Return the file name, without its whole path, from the file item. This should be used has FileItem.getName can return the whole path.
-     * 
-     * @param fileItem
-     *            the fileItem to process
-     * @return the name of the file associated
-     */
-    public static String getFileNameOnly( MultipartItem fileItem )
+    @Override
+    protected void processFilePart( Part part, Map<String, List<MultipartItem>> mapFiles, String filename, boolean bActivateNormalizeFileName )
+            throws IOException
     {
-        String strFileName;
-
-        if ( fileItem != null )
+        List<MultipartItem> l = null;
+        if ( mapFiles.containsKey( part.getName( ) ) )
         {
-            strFileName = fileItem.getName( );
-
-            if ( strFileName != null )
-            {
-                strFileName = FilenameUtils.getName( strFileName );
-            }
+            l = mapFiles.get( part.getName( ) );
         }
         else
         {
-            strFileName = null;
+            l = new ArrayList<MultipartItem>( );
         }
 
-        return strFileName;
+        l.add( new PartMultipartItem( part, bActivateNormalizeFileName ? UploadUtil.cleanFileName( FilenameUtils.getName( part.getSubmittedFileName( ) ) )
+                : part.getSubmittedFileName( ) ) );
+        mapFiles.put( part.getName( ), l );
     }
+
 }

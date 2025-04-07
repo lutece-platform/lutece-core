@@ -33,9 +33,6 @@
  */
 package fr.paris.lutece.portal.service.fileimage;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItem;
-
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.cache.LuteceCache;
@@ -45,6 +42,7 @@ import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.file.FileUtil;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -161,7 +159,7 @@ public class FileImagePublicService implements ImageResourceProvider
      *            The resource identifier
      * @return The New Resource Id
      */
-	public String addImageResource( FileItem<DiskFileItem> fileItem )
+	public String addImageResource( MultipartItem fileItem )
     {
 		try 
 		{

@@ -44,9 +44,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.DiskFileItemFactory;
-import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
@@ -72,6 +69,7 @@ import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -81,6 +79,8 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.ReflectionTestUtils;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.util.http.MockMultipartItem;
+import fr.paris.lutece.util.http.TemporaryMultipartItemFactory;
 import fr.paris.lutece.util.password.IPasswordFactory;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
@@ -1576,12 +1576,9 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
-        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
-        List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
-        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
-        FileItem<DiskFileItem> file = fileItemFactory.fileItemBuilder( ).setFieldName( "import_file" )
-                .setContentType( "application/csv" ).setFormField( true ).setFileName( "junit.csv" )
-                .setPath( System.getProperty( "java.io.tmpdir" ) ).get( );
+        Map<String, List<MultipartItem>> multipartFiles = new HashMap<>( );
+        List<MultipartItem> fileItems = new ArrayList<>( );
+        MockMultipartItem file = TemporaryMultipartItemFactory.create( "import_file", "application/csv", "junit.csv" );
         OutputStreamWriter writer = new OutputStreamWriter( file.getOutputStream( ), Charset.forName( "UTF-8" ) );
         writer.write( "test;test;test;test@test.fr;" + AdminUser.ACTIVE_CODE + ";" + Locale.FRANCE + ";0;false;false;;;" );
         writer.close( );
@@ -1620,12 +1617,9 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
-        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
-        List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
-        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
-        FileItem<DiskFileItem> file = fileItemFactory.fileItemBuilder( ).setFieldName( "import_file" )
-                .setContentType( "application/csv" ).setFormField( true ).setFileName( "junit.csv" )
-                .setPath( System.getProperty( "java.io.tmpdir" ) ).get( );
+        Map<String, List<MultipartItem>> multipartFiles = new HashMap<>( );
+        List<MultipartItem> fileItems = new ArrayList<>( );
+        MockMultipartItem file = TemporaryMultipartItemFactory.create( "import_file", "application/csv", "junit.csv" );
         OutputStreamWriter writer = new OutputStreamWriter( file.getOutputStream( ), Charset.forName( "UTF-8" ) );
         writer.write( "test;test;test;test@test.fr;" + AdminUser.ACTIVE_CODE + ";" + Locale.FRANCE + ";0;false;false;;;" );
         writer.close( );
@@ -1661,12 +1655,9 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUser user = getUserToModify( );
         AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, RIGHT_CORE_USERS_MANAGEMENT );
-        Map<String, List<FileItem<DiskFileItem>>> multipartFiles = new HashMap<>( );
-        List<FileItem<DiskFileItem>> fileItems = new ArrayList<>( );
-        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
-        FileItem<DiskFileItem> file = fileItemFactory.fileItemBuilder( ).setFieldName( "import_file" )
-                .setContentType( "application/csv" ).setFormField( true ).setFileName( "junit.csv" )
-                .setPath( System.getProperty( "java.io.tmpdir" ) ).get( );
+        Map<String, List<MultipartItem>> multipartFiles = new HashMap<>( );
+        List<MultipartItem> fileItems = new ArrayList<>( );
+        MockMultipartItem file = TemporaryMultipartItemFactory.create( "import_file", "application/csv", "junit.csv" );
         OutputStreamWriter writer = new OutputStreamWriter( file.getOutputStream( ), Charset.forName( "UTF-8" ) );
         writer.write( "test;test;test;test@test.fr;" + AdminUser.ACTIVE_CODE + ";" + Locale.FRANCE + ";0;false;false;;;" );
         writer.close( );

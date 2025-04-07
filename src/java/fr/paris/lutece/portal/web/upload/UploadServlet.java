@@ -39,23 +39,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItem;
-
-import jakarta.enterprise.inject.spi.CDI;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import fr.paris.lutece.portal.service.upload.MultipartAsyncUploadHandler;
+import fr.paris.lutece.portal.service.upload.MultipartHandler;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * Handles asynchronous uploads.
  */
-public class UploadServlet extends HttpServlet
+public class UploadServlet extends AbstractSiteMultipartServlet
 {
     private static final long serialVersionUID = 1L;
     private static final String JSON_FILE_SIZE = "fileSize";
@@ -64,17 +63,25 @@ public class UploadServlet extends HttpServlet
     private static final String JSON_UTF8_CONTENT_TYPE = "application/json; charset=UTF-8";
     private static final ObjectMapper objectMapper = new ObjectMapper( );
 
+    @Inject
+    @MultipartAsyncUploadHandler
+    protected MultipartHandler _multipartHandler;
+    
     /**
      * {@inheritDoc}
      * 
      * @throws IOException
      */
     @Override
-    protected void doPost( HttpServletRequest req, HttpServletResponse response ) throws IOException
+    protected void doPost( HttpServletRequest req, HttpServletResponse response ) throws IOException, ServletException
     {
-    	MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
-
-        List<FileItem<DiskFileItem>> listFileItems = new ArrayList<>( );
+    	MultipartHttpServletRequest request = handleRequest( req, response, _multipartHandler );
+        if ( null == request )
+        {
+            return;
+        }
+    	
+        List<MultipartItem> listFileItems = new ArrayList<>( );
         Map<String, Object> mapJson = new HashMap<>( );
         List<Map<String, Object>> listJsonFileMap = new ArrayList<>( );
         mapJson.put( JSON_FILES, listJsonFileMap );

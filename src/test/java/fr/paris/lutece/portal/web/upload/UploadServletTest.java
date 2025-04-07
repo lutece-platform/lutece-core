@@ -33,34 +33,36 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import java.io.ByteArrayOutputStream;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItem;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import fr.paris.lutece.portal.service.upload.MultipartAsyncUploadHandler;
+import fr.paris.lutece.portal.service.upload.MultipartHandler;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.test.mocks.MockHttpServletResponse;
-import fr.paris.lutece.util.http.MultipartUtil;
+import fr.paris.lutece.test.mocks.MockPart;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class UploadServletTest extends LuteceTestCase
 {
 
+    @Inject
+    @MultipartAsyncUploadHandler
+    private MultipartHandler _multipartHandler;
+    
+    @Inject
+    private UploadServletTestWrapper _uploadServlet;
+    
     /**
      * Test of doPost method, of class fr.paris.lutece.portal.web.upload.UploadServlet.
      */
@@ -69,9 +71,8 @@ public class UploadServletTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
-        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, new HashMap<>( ), new HashMap<>( ) );
 
-        new UploadServlet( ).doPost( multipartRequest, response );
+        _uploadServlet.doPost( request, response );
 
         String strResponseJson = response.getContentAsString( );
         System.out.println( strResponseJson );
@@ -88,9 +89,8 @@ public class UploadServletTest extends LuteceTestCase
     {
         MockHttpServletRequest request = getMultipartRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
-        MultipartHttpServletRequest multipartRequest = MultipartUtil.convert( 10000, 10000, false, request, false );
 
-        new UploadServlet( ).doPost( multipartRequest, response );
+        _uploadServlet.doPost( request, response );
 
         String strResponseJson = response.getContentAsString( );
         System.out.println( strResponseJson );
@@ -107,16 +107,11 @@ public class UploadServletTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
-        Map<String, List<FileItem<DiskFileItem>>> mapFiles = new HashMap<>( );
-        Map<String, String [ ]> mapParameters = new HashMap<>( );
-        mapParameters.put( "handler", new String [ ] {
-                TestAsynchronousUploadHandler2.BEAN_NAME
-        } );
-        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, mapFiles, mapParameters );
-
+        request.addPart( new MockPart( "handler", null, null, TestAsynchronousUploadHandler2.BEAN_NAME.getBytes( ) ) );
+        
         try
         {
-            new UploadServlet( ).doPost( multipartRequest, response );
+            _uploadServlet.doPost( request, response );
         }
         catch( Exception e )
         {
@@ -141,7 +136,7 @@ public class UploadServletTest extends LuteceTestCase
         public static final String SERIALIZED_MAP_CONTENT = "{\"testmap\":\"valuetestmap\"}";
 
         @Override
-        public void process(HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem<DiskFileItem>> fileItems)
+        public void process(HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<MultipartItem> fileItems)
         {
             mainObject.clear();
             mainObject.put("testmap", "valuetestmap");
@@ -153,21 +148,23 @@ public class UploadServletTest extends LuteceTestCase
             return BEAN_NAME.equals(request.getParameter("handler"));
         }
     }
+
+    @ApplicationScoped
+    public static class UploadServletTestWrapper extends UploadServlet
+    {
+
+    }
+
     @Test
     public void testDoPost_NoFiles_Handler2( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
-        Map<String, List<FileItem<DiskFileItem>>> mapFiles = new HashMap<>( );
-        Map<String, String [ ]> mapParameters = new HashMap<>( );
-        mapParameters.put( "handler", new String [ ] {
-                TestAsynchronousUploadHandler2.BEAN_NAME
-        } );
-        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, mapFiles, mapParameters );
+        request.addPart( new MockPart( "handler", null, null, TestAsynchronousUploadHandler2.BEAN_NAME.getBytes( ) ) );
 
         try
         {
-            new UploadServlet( ).doPost( multipartRequest, response );
+            _uploadServlet.doPost( request, response );
         }
         catch( Exception e )
         {
@@ -191,17 +188,7 @@ public class UploadServletTest extends LuteceTestCase
         byte [ ] fileContent = new byte [ ] {
                 1, 2, 3
         };
-        Part [ ] parts = new Part [ ] {
-                new FilePart( "file1", new ByteArrayPartSource( "file1", fileContent ) )
-        };
-        MultipartRequestEntity multipartRequestEntity = new MultipartRequestEntity( parts, new PostMethod( ).getParams( ) );
-        // Serialize request body
-        ByteArrayOutputStream requestContent = new ByteArrayOutputStream( );
-        multipartRequestEntity.writeRequest( requestContent );
-        // Set request body to HTTP servlet request
-        request.setContent( requestContent.toByteArray( ) );
-        // Set content type to HTTP servlet request (important, includes Mime boundary string)
-        request.setContentType( multipartRequestEntity.getContentType( ) );
+        request.addPart( new MockPart( "file1", "", "file1", fileContent) );
         request.setMethod( "POST" );
         return request;
     }

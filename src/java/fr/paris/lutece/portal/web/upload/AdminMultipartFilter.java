@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,47 +31,48 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.fileupload;
+package fr.paris.lutece.portal.web.upload;
 
-import org.apache.commons.io.FilenameUtils;
+import java.io.IOException;
 
-import fr.paris.lutece.portal.service.upload.MultipartItem;
+import fr.paris.lutece.util.http.MultipartUtil;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 
-/**
- * This service provides utils to extract parameters from multipart request using Jakarta Commons FileUpload.
- */
-public final class FileUploadService
+public class AdminMultipartFilter implements Filter
 {
-    /** Creates a new instance of FileUploadService */
-    private FileUploadService( )
+
+    private static final String SERVICE_SERVLET_PATH = "serviceServletPath";
+    private static final String LANDING_PAGE_ATTRIBUTE = "landing_page";
+    private String strServiceServletPath;
+
+    @Override
+    public void init( FilterConfig filterConfig ) throws ServletException
     {
+        strServiceServletPath = filterConfig.getInitParameter( SERVICE_SERVLET_PATH );
     }
 
-    /**
-     * Return the file name, without its whole path, from the file item. This should be used has FileItem.getName can return the whole path.
-     * 
-     * @param fileItem
-     *            the fileItem to process
-     * @return the name of the file associated
-     */
-    public static String getFileNameOnly( MultipartItem fileItem )
+    @Override
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain ) throws IOException, ServletException
     {
-        String strFileName;
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        if ( fileItem != null )
+        if ( !MultipartUtil.isMultipart( httpRequest ) )
         {
-            strFileName = fileItem.getName( );
-
-            if ( strFileName != null )
-            {
-                strFileName = FilenameUtils.getName( strFileName );
-            }
+            chain.doFilter( request, response );
         }
         else
         {
-            strFileName = null;
+            httpRequest.setAttribute( LANDING_PAGE_ATTRIBUTE, httpRequest.getServletPath( ) );
+            RequestDispatcher rd = httpRequest.getRequestDispatcher( strServiceServletPath );
+            rd.forward( httpRequest, response );
         }
-
-        return strFileName;
     }
+
 }

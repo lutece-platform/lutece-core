@@ -43,8 +43,6 @@ import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.style.PageTemplate;
@@ -55,6 +53,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -433,7 +432,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      * @param fileItem
      *            The fileItem object which contains the new file
      */
-    private void writeTemplateFile( String strFileName, String strPath, FileItem<DiskFileItem> fileItem )
+    private void writeTemplateFile( String strFileName, String strPath, MultipartItem fileItem )
     {
         File file = new File( strPath + strFileName );
         FileUtil.deleteFile( file );

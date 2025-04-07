@@ -43,9 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import org.apache.commons.fileupload2.core.DiskFileItem;
-import org.apache.commons.fileupload2.core.DiskFileItemFactory;
-import org.apache.commons.fileupload2.core.FileItem;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,11 +55,14 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.util.http.MockMultipartItem;
+import fr.paris.lutece.util.http.TemporaryMultipartItemFactory;
 import jakarta.inject.Inject;
 
 /**
@@ -120,17 +120,15 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 _securityTokenService.getToken( request, "admin/style/create_page_template.html" )
         } );
-        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
-        Map<String, List<FileItem<DiskFileItem>>> files = new HashMap<>( );
-        List<FileItem<DiskFileItem>> pageTemplateFiles = new ArrayList<>( );
-        FileItem<DiskFileItem> pageTemplateFile = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_file" )
-                .setContentType( "text/html" ).setFormField( false ).setFileName( "junit.html" ).get( );
+        Map<String, List<MultipartItem>> files = new HashMap<>( );
+        List<MultipartItem> pageTemplateFiles = new ArrayList<>( );
+        MockMultipartItem pageTemplateFile = TemporaryMultipartItemFactory.create( "page_template_file", "text/html", "junit.html" );
         pageTemplateFile.getOutputStream( ).write( new byte [ 1] );
         pageTemplateFiles.add( pageTemplateFile );
         files.put( "page_template_file", pageTemplateFiles );
-        List<FileItem<DiskFileItem>> pageTemplatePictures = new ArrayList<>( );
-        FileItem<DiskFileItem> pageTemplatePicture = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_picture" )
-                .setContentType( "image/jpg" ).setFormField( false ).setFileName( "junit.jpg" ).get( );
+        List<MultipartItem> pageTemplatePictures = new ArrayList<>( );
+        MockMultipartItem pageTemplatePicture = TemporaryMultipartItemFactory.create( "page_template_picture", "text/html", "junit.jpg" );
+        
         pageTemplatePicture.getOutputStream( ).write( new byte [ 1] );
         pageTemplatePictures.add( pageTemplatePicture );
         files.put( "page_template_picture", pageTemplatePictures );
@@ -157,17 +155,14 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
                 _securityTokenService.getToken( request, "admin/style/create_page_template.html" ) + "b"
         } );
-        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
-        Map<String, List<FileItem<DiskFileItem>>> files = new HashMap<>( );
-        List<FileItem<DiskFileItem>> pageTemplateFiles = new ArrayList<>( );
-        FileItem<DiskFileItem> pageTemplateFile = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_file" )
-                .setContentType( "text/html" ).setFormField( false ).setFileName( "junit.html" ).get( );
+        Map<String, List<MultipartItem>> files = new HashMap<>( );
+        List<MultipartItem> pageTemplateFiles = new ArrayList<>( );
+        MockMultipartItem pageTemplateFile = TemporaryMultipartItemFactory.create( "page_template_file", "text/html", "junit.html" );
         pageTemplateFile.getOutputStream( ).write( new byte [ 1] );
         pageTemplateFiles.add( pageTemplateFile );
         files.put( "page_template_file", pageTemplateFiles );
-        List<FileItem<DiskFileItem>> pageTemplatePictures = new ArrayList<>( );
-        FileItem<DiskFileItem> pageTemplatePicture = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_picture" )
-                .setContentType( "image/jpg" ).setFormField( false ).setFileName( "junit.jpg" ).get( );
+        List<MultipartItem> pageTemplatePictures = new ArrayList<>( );
+        MockMultipartItem pageTemplatePicture = TemporaryMultipartItemFactory.create( "page_template_picture", "text/html", "junit.jpg" );
         pageTemplatePicture.getOutputStream( ).write( new byte [ 1] );
         pageTemplatePictures.add( pageTemplatePicture );
         files.put( "page_template_picture", pageTemplatePictures );
@@ -195,17 +190,14 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
                 desc
         } );
-        DiskFileItemFactory fileItemFactory = DiskFileItemFactory.builder( ).get( );
-        Map<String, List<FileItem<DiskFileItem>>> files = new HashMap<>( );
-        List<FileItem<DiskFileItem>> pageTemplateFiles = new ArrayList<>( );
-        FileItem<DiskFileItem> pageTemplateFile = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_file" )
-                .setContentType( "text/html" ).setFormField( false ).setFileName( "junit.html" ).get( );
+        Map<String, List<MultipartItem>> files = new HashMap<>( );
+        List<MultipartItem> pageTemplateFiles = new ArrayList<>( );
+        MockMultipartItem pageTemplateFile = TemporaryMultipartItemFactory.create( "page_template_file", "text/html", "junit.html" );
         pageTemplateFile.getOutputStream( ).write( new byte [ 1] );
         pageTemplateFiles.add( pageTemplateFile );
         files.put( "page_template_file", pageTemplateFiles );
-        List<FileItem<DiskFileItem>> pageTemplatePictures = new ArrayList<>( );
-        FileItem<DiskFileItem> pageTemplatePicture = fileItemFactory.fileItemBuilder( ).setFieldName( "page_template_picture" )
-                .setContentType( "image/jpg" ).setFormField( false ).setFileName( "junit.jpg" ).get( );
+        List<MultipartItem> pageTemplatePictures = new ArrayList<>( );
+        MockMultipartItem pageTemplatePicture = TemporaryMultipartItemFactory.create( "page_template_picture", "text/html", "junit.jpg" );
         pageTemplatePicture.getOutputStream( ).write( new byte [ 1] );
         pageTemplatePictures.add( pageTemplatePicture );
         files.put( "page_template_picture", pageTemplatePictures );

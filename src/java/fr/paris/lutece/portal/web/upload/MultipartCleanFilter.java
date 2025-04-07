@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,47 +31,38 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.fileupload;
+package fr.paris.lutece.portal.web.upload;
 
-import org.apache.commons.io.FilenameUtils;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map.Entry;
 
 import fr.paris.lutece.portal.service.upload.MultipartItem;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
-/**
- * This service provides utils to extract parameters from multipart request using Jakarta Commons FileUpload.
- */
-public final class FileUploadService
+public class MultipartCleanFilter implements Filter
 {
-    /** Creates a new instance of FileUploadService */
-    private FileUploadService( )
-    {
-    }
 
-    /**
-     * Return the file name, without its whole path, from the file item. This should be used has FileItem.getName can return the whole path.
-     * 
-     * @param fileItem
-     *            the fileItem to process
-     * @return the name of the file associated
-     */
-    public static String getFileNameOnly( MultipartItem fileItem )
+    @Override
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain ) throws IOException, ServletException
     {
-        String strFileName;
+        chain.doFilter( request, response );
 
-        if ( fileItem != null )
+        if ( request instanceof MultipartHttpServletRequest )
         {
-            strFileName = fileItem.getName( );
-
-            if ( strFileName != null )
+            MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+            for ( Entry<String, List<MultipartItem>> parts : multipartHttpServletRequest.getFileListMap( ).entrySet( ) )
             {
-                strFileName = FilenameUtils.getName( strFileName );
+                for ( MultipartItem item : parts.getValue( ) )
+                {
+                    item.delete( );
+                }
             }
         }
-        else
-        {
-            strFileName = null;
-        }
-
-        return strFileName;
     }
+
 }
