@@ -198,7 +198,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
                     sf = _managedScheduledExecutorService.schedule( daemonManagedTask ,  trigger );
                     AppLogService.debug( "Preparing daemon {} for cron scheduling", ( ) -> entry.getId( ) );
                 } else {
-                    sf = _managedScheduledExecutorService.scheduleAtFixedRate( daemonManagedTask ,  nInitialDelay , entry.getInterval( ) , unit );
+                    sf = _managedScheduledExecutorService.scheduleAtFixedRate( daemonManagedTask ,  nInitialDelay , unit.convert(entry.getInterval( ), TimeUnit.SECONDS) , unit );
                     AppLogService.debug( "Preparing daemon {} for interval scheduling", ( ) -> entry.getId( ) );
                 }
                 if ( null != sf )
