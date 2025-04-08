@@ -63,20 +63,20 @@
                 </@listGroup>
                 <h4>#i18n{portal.templates.manage_autoincludes.autoimports.columnFilePath}</h4> 
                 <@listGroup>
-                <#list (autoimport_map!{})?keys as hash >
-                    <#if autoimport_map[hash].owner?? && defaultThemeName=autoimport_map[hash].owner >
+                <#list autoimport_map as autoimport >
+                    <#if autoimport?? && defaultThemeName=autoimport.owner >
                     <@listGroupItem class='d-flex justify-content-between align-items-center text-truncate text-primary'>
-                        (${hash}) ${autoimport_map[hash].filePath}
+                        ${autoimport.filePath}
                     </@listGroupItem>
                     </#if>
                 </#list>
                 </@listGroup> 
                 <h4 class="my-3">#i18n{portal.templates.manage_autoincludes.autoimports.otherFilePath}</h4>
                 <@listGroup>
-                <#list (autoimport_map!{})?keys as hash >
-                    <#if !(autoimport_map[hash].owner?? && defaultThemeName=autoimport_map[hash].owner) >
+                <#list autoimport_map as autoimport >
+                    <#if !(autoimport?? && defaultThemeName=autoimport.owner) >
                     <@listGroupItem class='d-flex justify-content-between align-items-center text-truncate'>
-                        (${hash}) ${autoimport_map[hash].filePath}
+                         ${autoimport.filePath}
                     </@listGroupItem>
                     </#if>
                 </#list>
