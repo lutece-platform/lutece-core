@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.portal.service.template;
 
+import fr.paris.lutece.portal.business.template.AutoImport;
 import fr.paris.lutece.portal.business.template.AutoInclude;
+import fr.paris.lutece.portal.business.template.CommonsImport;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -42,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Template service based on the Freemarker template engine
@@ -117,21 +120,24 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
      * 
      * @return the list which contains the data of all the autoImport objects
      */
-    public List<AutoInclude> getAutoImportsMap( )
+    public List<AutoImport> getAutoImportsMap( )
     {
-        CommonsInclude ciCurrent = CommonsService.getCurrentCommonsInclude( );
-        List<AutoInclude> list = new ArrayList<>( );
-        for ( String strAutoIncludePath : getAutoIncludes( ) )
+        CommonsImport ciCurrent = CommonsService.getCurrentCommonsImport( );
+        List<AutoImport> list = new ArrayList<>( );
+        
+        Map<String,String> mapAutoImports = getAutoImports ( );
+        
+        for ( String autoImportkey : mapAutoImports.keySet ( ) )
         {
-            AutoInclude include = new AutoInclude( strAutoIncludePath );
-            for ( String strFile : ciCurrent.getFiles( ) )
+            AutoImport autoImport = new AutoImport( autoImportkey, mapAutoImports.get (  autoImportkey ) );
+            for ( String strFileKey : ciCurrent.getMapFiles( ).keySet ( ) )
             {
-                if ( strFile.equals( include.getFilePath( ) ) )
+                if ( ciCurrent.getMapFiles( ).get ( strFileKey ).equals( autoImport.getFilePath( ) ) )
                 {
-                    include.setOwner( ciCurrent.getName( ) );
+                    autoImport.setOwner( ciCurrent.getName( ) );
                 }
             }
-            list.add( include );
+            list.add( autoImport );
 
         }
         return list;
