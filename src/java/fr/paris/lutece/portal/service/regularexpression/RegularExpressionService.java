@@ -41,6 +41,10 @@ import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
+import fr.paris.lutece.portal.service.editor.RichTextContentService;
+import fr.paris.lutece.portal.service.editor.RichTextParsingException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.util.List;
 
 /**
@@ -154,7 +158,21 @@ public final class RegularExpressionService
      */
     public RegularExpression getRegularExpressionByKey( int nKey )
     {
-        return isAvailable( ) ? _service.getRegularExpressionByKey( nKey ) : null;
+        return getRegularExpressionByKey( nKey, false );
+    }
+    
+    /**
+     * return the regular expression object whose identifier is specified in parameter
+     * 
+     * @param nKey
+     *            the regular expression key
+     * @param bForEditor
+     *            True if the template is to be displayed in an editor
+     * @return the regular expression object whose identifier is specified in parameter
+     */   
+    public RegularExpression getRegularExpressionByKey( int nKey, boolean bForEditor )
+    {
+        return isAvailable( ) ? _service.getRegularExpressionByKey( nKey, bForEditor ) : null;
     }
 
     /**
@@ -164,6 +182,19 @@ public final class RegularExpressionService
      */
     public List<RegularExpression> getAllRegularExpression( )
     {
-        return isAvailable( ) ? _service.getAllRegularExpression( ) : null;
+        return getAllRegularExpression( false );
     }
+    
+    /**
+     * return a list of regular expression
+     * 
+     * @param bForEditor
+     *            True if the template is to be displayed in an editor
+     * @return all regular expression
+     */
+    public List<RegularExpression> getAllRegularExpression( boolean bForEditor )
+    {
+        return isAvailable( ) ? _service.getAllRegularExpression( bForEditor ) : null;
+    }
+    
 }
