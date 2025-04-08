@@ -214,7 +214,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, "DOES_NOT_EXIST" );
         String url = bean.doForgotPassword( request );
-        assertEquals( "AdminFormContact.jsp", url );
+        assertTrue( url != null && url.endsWith ( "AdminMessage.jsp" ) );
     }
     @Test
     public void testDoForgotPasswordNoEmail( ) throws Exception
@@ -227,7 +227,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, user.getAccessCode( ) );
         String url = bean.doForgotPassword( request );
-        assertEquals( "AdminFormContact.jsp", url );
+        assertTrue( url != null && url.endsWith ( "AdminMessage.jsp" ) );
     }
     @Test
     public void testDoForgotPassword( ) throws Exception
