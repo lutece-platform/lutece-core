@@ -162,8 +162,7 @@ public class SecurityTokenHandler
                 String secTokenAction = !"".equals( method.getAnnotation( View.class ).securityTokenAction( ) )
                         ? method.getAnnotation( View.class ).securityTokenAction( )
                         : method.getAnnotation( View.class ).value( );
-                String s = _securityTokenService.getToken( request, secTokenAction );
-                request.setAttribute( CSRF_TOKEN, s );
+                handleToken( request, secTokenAction );
                 return;
             }
             
@@ -173,18 +172,31 @@ public class SecurityTokenHandler
                 String secTokenAction = !"".equals( method.getAnnotation( Action.class ).securityTokenAction( ) )
                         ? method.getAnnotation( Action.class ).securityTokenAction( )
                         : method.getAnnotation( Action.class ).value( );
-                String s = _securityTokenService.getToken( request, secTokenAction );
-                request.setAttribute( CSRF_TOKEN, s );
-                HttpSession session = request.getSession( true );
-                if ( !request.getServletPath( ).startsWith( PATH_ADMIN ) )
-                {
-                    session.setAttribute( SESSION_ATTRIBUTE_SITE_TOKEN, s );
-                }
-                else
-                {
-                    session.setAttribute( SESSION_ATTRIBUTE_ADMIN_TOKEN, s );
-                }
+                handleToken( request, secTokenAction );
             }
+        }
+    }
+    
+    /**
+     * Handles the generation and storage of the security token for the given action.
+     * 
+     * @param request
+     *            The request
+     * @param tokenAction
+     *            The token action
+     */
+    private void handleToken( HttpServletRequest request, String tokenAction )
+    {
+        String s = _securityTokenService.getToken( request, tokenAction );
+        request.setAttribute( CSRF_TOKEN, s );
+        HttpSession session = request.getSession( true );
+        if ( !request.getServletPath( ).startsWith( PATH_ADMIN ) )
+        {
+            session.setAttribute( SESSION_ATTRIBUTE_SITE_TOKEN, s );
+        }
+        else
+        {
+            session.setAttribute( SESSION_ATTRIBUTE_ADMIN_TOKEN, s );
         }
     }
 
