@@ -77,7 +77,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
@@ -91,7 +91,7 @@ import javax.xml.parsers.SAXParserFactory;
  * class XslExportJspBean
  *
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class XslExportJspBean extends PluginAdminPageJspBean
 {
@@ -144,7 +144,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String ANCHOR_ADMIN_DASHBOARDS = "xslexport";
     private static final String JSP_DO_REMOVE_XSL_EXPORT = "jsp/admin/xsl/DoRemoveXslExport.jsp";
 
-    private transient IFileStoreServiceProvider _fileStoreService;
+    private IFileStoreServiceProvider _fileStoreService;
 
     @Inject
     public XslExportJspBean( IFileStoreServiceProvider fileStoreService )

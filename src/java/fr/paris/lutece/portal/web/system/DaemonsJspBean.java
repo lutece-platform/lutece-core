@@ -49,14 +49,14 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  *
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class DaemonsJspBean extends AdminFeaturesPageJspBean
 {

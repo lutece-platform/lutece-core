@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.web.editor;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -44,7 +44,7 @@ import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 /**
  * The Class EditorChoiceLutecePanelJspBean.
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
 {

@@ -39,7 +39,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
@@ -63,7 +63,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  * AttributeJspBean
  *
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class AttributeJspBean extends AdminFeaturesPageJspBean
 {
@@ -96,7 +96,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
 
     @Inject
-    private transient AttributeService _attributeService;
+    private AttributeService _attributeService;
     
     /**
      * Get user attribute creation interface

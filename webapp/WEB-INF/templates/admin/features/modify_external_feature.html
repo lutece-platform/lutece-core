@@ -5,6 +5,8 @@
                 <@boxBody>
                 <@tform method='post' id="modify_external_form" name='modify_external_feature' action='jsp/admin/features/DoModifyExternalFeature.jsp'>
                         <@input type='hidden' name='token' value='${token}' />
+                        <@input type='hidden' name='external_feature_id' value=external_feature.id />
+                        <@input type='hidden' name='external_feature_order' value=external_feature.order />
                         <@messages errors=errors />
                         <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.name_key}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.name_key.help}'>
                         <@input type='text' name='name_key' value=external_feature.nameKey />

@@ -48,7 +48,7 @@ public abstract class PluginAdminPageJspBean extends AdminFeaturesPageJspBean
 
     // Parameters
     private static final String PARAMETER_PLUGIN_NAME = "plugin_name";
-    private transient Plugin _plugin;
+    private Plugin _plugin;
 
     /**
      * Initialize the jspbean data Allows to set the feature url and feature title associated

@@ -102,9 +102,9 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_ATTRIBUTE_FIELD = "jsp/admin/user/attribute/DoRemoveAttributeField.jsp";
     
     @Inject
-    private transient AttributeService _attributeService;
+    private AttributeService _attributeService;
     @Inject
-    private transient AttributeFieldService _attributeFieldService;
+    private AttributeFieldService _attributeFieldService;
 
     /**
      * Create attribute field

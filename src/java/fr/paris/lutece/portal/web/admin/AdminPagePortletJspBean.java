@@ -38,7 +38,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -65,7 +65,7 @@ import fr.paris.lutece.util.url.UrlItem;
 /**
  * This class provides the admin interface to manage administration of portlet on the pages
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
 {
@@ -414,7 +414,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         
     }
 
-    private static String getMessageErrorAuthorization( User user, String permission, int nPortletId )
+    private String getMessageErrorAuthorization( User user, String permission, int nPortletId )
     {
         return "User " + user + " is not authorized to permission " + permission + " on portlet " + nPortletId;
     }

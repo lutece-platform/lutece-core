@@ -102,7 +102,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_MANAGE_DASHBOARDS = "ManageAdminDashboards.jsp";
     private static final String EMPTY_STRING = "";
     @Inject
-    private transient AdminDashboardService _adminDashboardService;
+    private AdminDashboardService _adminDashboardService;
 
     /**
      * Displays admin dashboards

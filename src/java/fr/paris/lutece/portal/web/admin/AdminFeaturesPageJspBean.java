@@ -104,7 +104,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     private AdminUser _user;
 
     @Inject
-    private transient ISecurityTokenService _securityTokenService;
+    private ISecurityTokenService _securityTokenService;
     
     /**
      * Initialize the jspbean data Allows to set the feature url and feature title associated

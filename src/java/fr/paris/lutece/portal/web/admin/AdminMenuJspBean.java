@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -88,7 +88,7 @@ import fr.paris.lutece.util.password.IPasswordFactory;
 /**
  * This class provides the user interface to manage admin features ( manage, create, modify, remove)
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class AdminMenuJspBean implements Serializable
 {
@@ -148,9 +148,9 @@ public class AdminMenuJspBean implements Serializable
     private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
     private static Logger _loggerAccess = LogManager.getLogger( LOGGER_ACCESS );
     @Inject
-    private transient DashboardService _dashboardService;
+    private DashboardService _dashboardService;
     @Inject
-    private transient ISecurityTokenService _securityTokenService;
+    private ISecurityTokenService _securityTokenService;
     
     /**
      * Returns the Administration header menu

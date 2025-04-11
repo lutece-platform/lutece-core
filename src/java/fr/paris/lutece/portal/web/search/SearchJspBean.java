@@ -49,14 +49,14 @@ import fr.paris.lutece.util.ReferenceItem;
 
 import org.apache.commons.lang3.StringUtils;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage app search features ( manage filters )
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class SearchJspBean extends AdminFeaturesPageJspBean
 {
