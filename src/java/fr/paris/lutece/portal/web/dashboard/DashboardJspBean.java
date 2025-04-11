@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.web.dashboard;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,7 +56,7 @@ import fr.paris.lutece.util.string.StringUtil;
  * Provides technical admin dashboard managements and display. Display is NOT managed as an admin feature (no right required).
  *
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class DashboardJspBean extends AdminFeaturesPageJspBean
 {
@@ -78,7 +78,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
     // JSP
     private static final String ANCHOR_ADMIN_DASHBOARDS = "adminHomePageManagement";
     @Inject
-    private transient DashboardService _dashboardService;
+    private DashboardService _dashboardService;
 
     /**
      * Reorders columns

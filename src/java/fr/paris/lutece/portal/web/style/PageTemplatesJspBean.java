@@ -39,7 +39,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -68,7 +68,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 /**
  * This class provides the user interface to manage page templates features ( manage, create, modify, remove)
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 {

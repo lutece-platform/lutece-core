@@ -38,7 +38,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -57,7 +57,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 /**
  * This class provides the user interface to manage levels features ( manage, create, modify )
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class LevelsJspBean extends AdminFeaturesPageJspBean
 {

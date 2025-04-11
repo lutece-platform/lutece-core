@@ -93,9 +93,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
     private HttpServletResponse _response;
     @Inject
-    private transient AccessLogService _accessLogService;
+    private AccessLogService _accessLogService;
     @Inject
-    private transient SecurityTokenHandler _securityTokenHandler;
+    private SecurityTokenHandler _securityTokenHandler;
 
     /**
      * Process request as a controller

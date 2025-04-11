@@ -171,10 +171,10 @@ public class AdminLoginJspBean implements Serializable
     private static final String PROPERTY_LEVEL = "askPasswordReinitialization.admin.level";
 
     @Inject
-    private transient AccessLogService _accessLogService;
+    private AccessLogService _accessLogService;
     
     @Inject
-    private transient ISecurityTokenService _securityTokenService;
+    private ISecurityTokenService _securityTokenService;
     
     /**
      * Returns the view of login form

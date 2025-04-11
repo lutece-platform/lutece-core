@@ -54,7 +54,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -63,7 +63,7 @@ import org.apache.commons.collections.CollectionUtils;
 /**
  * FeaturesGroupJspBean
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 {

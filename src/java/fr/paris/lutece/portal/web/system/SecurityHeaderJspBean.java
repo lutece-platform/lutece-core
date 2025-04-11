@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.enterprise.context.SessionScoped;
-import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -95,7 +95,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private static final String MESSAGE_TYPE_UNKNOWN = "portal.securityheader.message.typeUnknown";
     private static final String MESSAGE_PAGE_CATEGORY_UNKNOWN = "portal.securityheader.message.pageCategoryUnknown";
 
- // Validations
+    // Validations
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "portal.securityheader.model.entity.securityheader.attribute.";
     
     // Template Files path
@@ -119,6 +119,9 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private static final String ACTION_DISABLE = "DISABLE";
   
     private static final long serialVersionUID = 7010476999488231065L;
+    
+    @Inject
+    private SecurityHeaderService _securityHeaderService;
     
     /**
      * Returns the page to manage security headers.
@@ -146,7 +149,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private HashMap<String, Object> createModelForHeadersList( HttpServletRequest request )
     {
     	HashMap<String, Object> model = new HashMap<>( );
-        model.put( MARK_SECURITY_HEADERS_LIST, getSecurityHeaderService( ).findAllSorted( getLocale( ) ) );
+        model.put( MARK_SECURITY_HEADERS_LIST, _securityHeaderService.findAllSorted( getLocale( ) ) );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_SECURITY_HEADERS ) );
         
         return model;
@@ -178,8 +181,8 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      */
     private HashMap<String, Object> createModelForHeaderCreation( HttpServletRequest request )
     {
-    	ReferenceList listTypes = getSecurityHeaderService( ).getTypeList( );
-        ReferenceList listPageCategories = getSecurityHeaderService( ).getPageCategoryList( );
+    	ReferenceList listTypes = _securityHeaderService.getTypeList( );
+        ReferenceList listPageCategories = _securityHeaderService.getPageCategoryList( );
    
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_TYPES_LIST, listTypes );
@@ -222,7 +225,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         
-        getSecurityHeaderService( ).create( securityHeader );
+        _securityHeaderService.create( securityHeader );
 
         return JSP_MANAGE_SECURITY_HEADERS;
     }
@@ -302,7 +305,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      */
     private boolean isTypeBelongsToReferenceList( String strType )
     {
-    	for (ReferenceItem referenceType : getSecurityHeaderService( ).getTypeList( ) )
+    	for (ReferenceItem referenceType : _securityHeaderService.getTypeList( ) )
     	{
     		if ( strType.equals( referenceType.getCode() ) )
     		{
@@ -322,7 +325,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      */
     private boolean isPageCategoryBelongsToReferenceList( String strPageCategory )
     {
-    	for (ReferenceItem referencePageCategory : getSecurityHeaderService( ).getPageCategoryList( ) )
+    	for (ReferenceItem referencePageCategory : _securityHeaderService.getPageCategoryList( ) )
     	{
     		if ( strPageCategory.equals( referencePageCategory.getCode() ) )
     		{
@@ -343,7 +346,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      */
     private boolean isSecurityHeaderToCreateUnique( SecurityHeader securityHeaderToCreate )
     {	
-    	return getSecurityHeaderService( ).find( securityHeaderToCreate.getName( ), securityHeaderToCreate.getType( ) , securityHeaderToCreate.getPageCategory( ) ).isEmpty( );
+    	return _securityHeaderService.find( securityHeaderToCreate.getName( ), securityHeaderToCreate.getType( ) , securityHeaderToCreate.getPageCategory( ) ).isEmpty( );
     }
     
     /**
@@ -421,8 +424,8 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      */
 	private HashMap<String, Object> createModelForHeaderModification(HttpServletRequest request, SecurityHeader securityHeader) 
 	{
-		ReferenceList listTypes = getSecurityHeaderService().getTypeList( );
-        ReferenceList listPageCategories = getSecurityHeaderService().getPageCategoryList( );
+		ReferenceList listTypes = _securityHeaderService.getTypeList( );
+        ReferenceList listPageCategories = _securityHeaderService.getPageCategoryList( );
 
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_TYPES_LIST, listTypes );
@@ -468,7 +471,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
-        getSecurityHeaderService( ).update( securityHeader );
+        _securityHeaderService.update( securityHeader );
 
         return getHomeUrl( request );
     }
@@ -538,7 +541,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      */
     private boolean isSecurityHeaderToModifyUnique( SecurityHeader securityHeaderToModify, String strName, String strType, String strPageCategory )
     {	
-    	for( SecurityHeader securityHeader : getSecurityHeaderService( ).find( strName, strType, strPageCategory ) )
+    	for( SecurityHeader securityHeader : _securityHeaderService.find( strName, strType, strPageCategory ) )
     	{
     		if( securityHeaderToModify.getId( ) != securityHeader.getId( ) )
     		{
@@ -581,7 +584,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
     	String strId = request.getParameter( PARAMETER_SECURITY_HEADER_ID );
-    	getSecurityHeaderService( ).remove( Integer.parseInt( strId ) );
+    	_securityHeaderService.remove( Integer.parseInt( strId ) );
     	
     	return JSP_MANAGE_SECURITY_HEADERS;
     }
@@ -607,10 +610,10 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         switch( strAction )
         {
             case ACTION_ENABLE:
-            	getSecurityHeaderService( ).enable( nId );
+            	_securityHeaderService.enable( nId );
                 break;
             case ACTION_DISABLE:
-            	getSecurityHeaderService( ).disable( nId );
+            	_securityHeaderService.disable( nId );
                 break;
             default:
                 AppLogService.error( "Unknown security header action : {}", strAction );
@@ -619,13 +622,4 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         return getHomeUrl( request );
     }
     
-    /**
-     * Returns the security header service.
-     * 
-     * @return the security header service
-     */
-    private SecurityHeaderService getSecurityHeaderService( )
-    {
-    	return CDI.current().select(SecurityHeaderService.class).get() ;
-    }
 }

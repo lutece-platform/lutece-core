@@ -383,11 +383,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private String _strCurrentPageIndex;
     private ItemNavigator _itemNavigator;
     @Inject
-    private transient ImportAdminUserService _importAdminUserService;
+    private ImportAdminUserService _importAdminUserService;
     @Inject
-    private transient AccessLogService _accessLogService;
+    private AccessLogService _accessLogService;
     @Inject
-    private transient AttributeService _attributeService;
+    private AttributeService _attributeService;
     
     /**
      * Build the User list

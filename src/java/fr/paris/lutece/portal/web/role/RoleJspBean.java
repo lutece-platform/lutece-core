@@ -55,7 +55,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -64,7 +64,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * JspBean for Role management
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class RoleJspBean extends AdminFeaturesPageJspBean
 {

@@ -37,7 +37,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -62,7 +62,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  *
  * @author closea
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 {
@@ -82,6 +82,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_ID_FEATURE_GROUP = "feature_group_id";
     private static final String PARAMETER_ID_EXTERNAL_FEATURE = "external_feature_id";
     private static final String PARAMETER_ID_LEVEL = "level_id";
+    private static final String PARAMETER_ORDER_EXTERNAL_FEATURE = "external_feature_order";
 
     // JSP
     private static final String JSP_DELETE_EXTERNAL_FEATURE = "jsp/admin/features/DoRemoveExternalFeature.jsp";
@@ -95,8 +96,6 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_RIGHT_LEVELS_REFERENCE_LIST = "right_levels_labels_list";
 
     private static final String ANCHOR_ADMIN_DASHBOARDS = "external_features";
-
-    private Right _externalFeature;
 
     public String getCreateExternalFeature( HttpServletRequest request )
     {
@@ -133,13 +132,13 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-        _externalFeature = new Right( );
-        populate( _externalFeature, request );
-        _externalFeature.setFeatureGroup( FeatureGroupHome.findByPrimaryKey( request.getParameter( PARAMETER_ID_FEATURE_GROUP ) ).getId( ) );
-        _externalFeature.setExternalFeature( true );
-        _externalFeature.setLevel( Integer.parseInt( request.getParameter( PARAMETER_ID_LEVEL ) ) );
+        Right externalFeature = new Right( );
+        populate( externalFeature, request );
+        externalFeature.setFeatureGroup( FeatureGroupHome.findByPrimaryKey( request.getParameter( PARAMETER_ID_FEATURE_GROUP ) ).getId( ) );
+        externalFeature.setExternalFeature( true );
+        externalFeature.setLevel( Integer.parseInt( request.getParameter( PARAMETER_ID_LEVEL ) ) );
 
-        RightHome.create( _externalFeature );
+        RightHome.create( externalFeature );
         return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
@@ -148,11 +147,11 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 
         String strExternalFeatureId = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
 
-        _externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );
-        _externalFeature.setLocale( getUser( ).getLocale( ) );
+        Right externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );
+        externalFeature.setLocale( getUser( ).getLocale( ) );
 
         Object [ ] messageArgs = {
-                _externalFeature.getName( )
+                externalFeature.getName( )
         };
 
         Map<String, Object> parameters = new HashMap<>( );
@@ -169,7 +168,8 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-        RightHome.remove( _externalFeature.getId( ) );
+        String strExternalFeatureId = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
+        RightHome.remove( strExternalFeatureId );
 
         return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
@@ -181,8 +181,8 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<>( );
 
         String strExternalFeatureId = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
-        _externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );
-        model.put( MARK_EXTERNAL_FEATURE, _externalFeature );
+        Right externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );
+        model.put( MARK_EXTERNAL_FEATURE, externalFeature );
 
         Collection<FeatureGroup> featureGroups = FeatureGroupHome.getFeatureGroupsList( );
         ReferenceList featureGroupsReferenceList = new ReferenceList( );
@@ -213,25 +213,25 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-        int nIdOrder = _externalFeature.getOrder( );
-        String strIdExternalFeature = _externalFeature.getId( );
+        int nIdOrder = Integer.parseInt( request.getParameter( PARAMETER_ORDER_EXTERNAL_FEATURE ) );//externalFeature.getOrder( );
+        String strIdExternalFeature = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );//externalFeature.getId( );
 
-        _externalFeature = new Right( );
-        populate( _externalFeature, request );
+        Right externalFeature = new Right( );
+        populate( externalFeature, request );
 
-        _externalFeature.setId( strIdExternalFeature );
-        _externalFeature.setFeatureGroup( FeatureGroupHome.findByPrimaryKey( request.getParameter( PARAMETER_ID_FEATURE_GROUP ) ).getId( ) );
-        _externalFeature.setExternalFeature( true );
-        _externalFeature.setOrder( nIdOrder );
-        _externalFeature.setLevel( Integer.parseInt( request.getParameter( PARAMETER_ID_LEVEL ) ) );
+        externalFeature.setId( strIdExternalFeature );
+        externalFeature.setFeatureGroup( FeatureGroupHome.findByPrimaryKey( request.getParameter( PARAMETER_ID_FEATURE_GROUP ) ).getId( ) );
+        externalFeature.setExternalFeature( true );
+        externalFeature.setOrder( nIdOrder );
+        externalFeature.setLevel( Integer.parseInt( request.getParameter( PARAMETER_ID_LEVEL ) ) );
 
-        RightHome.update( _externalFeature );
+        RightHome.update( externalFeature );
 
         // update this right for user if he or she already have it
         AdminUser user = AdminUserService.getAdminUser( request );
-        if ( user.checkRight( _externalFeature.getId( ) ) )
+        if ( user.checkRight( externalFeature.getId( ) ) )
         {
-            user.updateRight( _externalFeature );
+            user.updateRight( externalFeature );
         }
 
         return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );

@@ -70,7 +70,7 @@ public class AdminMessageJspBean
     private static final String MARK_ADMIN_URL = "admin_url";
     private static final String PROPERTY_TITLE_ERROR = "portal.util.message.titleError";
     @Inject
-    private transient SecurityTokenHandler _securityTokenHandler;
+    private SecurityTokenHandler _securityTokenHandler;
     
     private static final String PROPERTY_TITLE_CONFIRMATION = "portal.util.message.titleConfirmation";
 

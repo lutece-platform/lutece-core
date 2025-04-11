@@ -44,14 +44,14 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import java.util.Collection;
 import java.util.HashMap;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage the launching of the indexing of the site pages
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
 {
