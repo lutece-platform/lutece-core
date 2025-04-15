@@ -3,22 +3,22 @@
 		<@pageHeader title='#i18n{portal.style.modify_style.title}'/>
 		<@tform method='post' id="modify-style-form" name='modify_style' action='jsp/admin/style/DoModifyStyle.jsp'>
 			<@input type='hidden' name='token' value='${token}' />
-			<@formGroup labelKey='#i18n{portal.style.modify_style.labelId}' labelFor='style_id' mandatory=true>
+			<@formGroup labelKey='#i18n{portal.style.modify_style.labelId}' labelFor='style_id' mandatory=true rows=2>
 				<@input type='text' name='style_id' id='style_id' readonly=true value='${style.id}' />
 			</@formGroup>
-			<@formGroup labelKey='#i18n{portal.style.modify_style.labelName}' labelFor='style_name' mandatory=true>
+			<@formGroup labelKey='#i18n{portal.style.modify_style.labelName}' labelFor='style_name' mandatory=true rows=2>
 				<@input type='text' name='style_name' id='style_name' inputSize=60 maxlength=100 value='${style.description?html}' />
 			</@formGroup>
-			<@formGroup labelKey='#i18n{portal.style.modify_style.labelComponentType}' labelFor='portal_component'>
+			<@formGroup labelKey='#i18n{portal.style.modify_style.labelComponentType}' labelFor='portal_component' rows=2>
 				<#assign javascriptComboParams>onChange="javascript:if( document.modify_style.portal_component.value == '0' ) {document.modify_style.portlet_type.disabled=false;} else {document.modify_style.portlet_type.disabled=true;}"</#assign>
 				<@select name='portal_component' default_value='${style.portalComponentId}' items=portal_component_list params='${javascriptComboParams}' />
 			</@formGroup>
 			<#if style.portletTypeId??>
-				<@formGroup labelKey='#i18n{portal.style.modify_style.labelPortletType}' labelFor='portlet_type'>
+				<@formGroup labelKey='#i18n{portal.style.modify_style.labelPortletType}' labelFor='portlet_type' rows=2>
 					<@select name='portlet_type' default_value='${style.portletTypeId}' items=portlet_type_list />
 				</@formGroup>
 			</#if>
-			<@formGroup>
+			<@formGroup rows=2>
 				<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.modify_style.buttonModify}' color='primary'/>
 				<@aButton href='jsp/admin/style/ManageStyles.jsp' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' color='secondary' />
 			</@formGroup>

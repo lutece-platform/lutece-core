@@ -9,12 +9,18 @@
 
 <@actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' icon1='save' icon2='times' offset=3 url1='' url2=''> - </@actionButtons>
 
+<@addToast title='' content='' titleImg='' titleInfo='' dismiss=true class='' id='' params=''> - </@addToast>
+
 <#assign user = { 'userId' : 0 , 'accessibilityMode' : true , 'userLevel' : 0 } />
 <#assign token='external_var' />
 <@adminAccessibilityMode> - </@adminAccessibilityMode>
 
 
 <@adminContentHeader> - </@adminContentHeader>
+
+<@adminDashboardPanel title='' navTitle='' parentId='' childId='' icon='' color=''> - </@adminDashboardPanel>
+
+<@adminDashboardWidget id title color='primary' url='' class='' bodyClass='table-responsive no-padding' params=''> - </@adminDashboardWidget>
 
 <#assign version='external_var' />
 <#assign javascript_files='external_var' />
@@ -43,27 +49,35 @@
 <#assign text = 'external_var' />
 <@adminMessagePage title=''> - </@adminMessagePage>
 
+<@adminReadMode> - </@adminReadMode>
+
 <@adminSiteColumnOutline columnid=''> - </@adminSiteColumnOutline>
+
+<@adminSiteFooter> - </@adminSiteFooter>
+
+<@adminSiteToolbar> - </@adminSiteToolbar>
+
+<@adminSkipNav> - </@adminSkipNav>
+
+<@autocomplete id='id' name='name'suggestionsUrl='https://dev.lutece.paris.fr/'> - </@autocomplete>
 
 <@alert class='' color='' dismissible=false iconTitle='' id='' params='' title='' titleLevel='h3'> - </@alert>
 
 <@badge badgeIcon='' class='deprecated' color='primary' htmlEl='deprecated' style='deprecated' title='' type='deprecated'> - </@badge>
 
-
 <@boxSized boxClass='box-primary' col=0 i18nTitleKey=''> - </@boxSized>
 
 <@box class='' collapsed=false color='' id='' params='' style=''>
-
-        <@boxHeader boxTools=false hideTitle=[] i18nTitleKey='' id='' params='' showTitle=true title='' titleLevel='h2'> - </@boxHeader>
-        <@boxBody align='' class='' collapsed=false id='' params=''> - </@boxBody>
-        <@boxFooter align='' class='' id='' params=''> - </@boxFooter>
+	<@boxHeader boxTools=false hideTitle=[] i18nTitleKey='' id='' params='' showTitle=true title='' titleLevel='h2'> - </@boxHeader>
+	<@boxBody align='' class='' collapsed=false id='' params=''> - </@boxBody>
+	<@boxFooter align='' class='' id='' params=''> - </@boxFooter>
 </@box>
 
+<@breadcrumbs id='' params=''>
+	<@breadcrumbItem class='' id='' params=''>-</@breadcrumbItem>
+</@breadcrumbs>
 
-
-<@breadcrumbs id='' params=''> - </@breadcrumbs>
-
-<@btnGroup align='' ariaLabel='' class='' hide=[] id='' params='' showLg=true showMd=true showSm=true showXl=true showXs=true size=''> - </@btnGroup>
+<@btnGroup align='' ariaLabel='' class='' hide=[] id='' params='' size=''> - </@btnGroup>
 
 <@btnGroupRadioCheckbox ariaLabel='' checked=false color='primary' id='' labelFor='' labelKey='' labelParams='' name='' params='' size='' tabIndex='' type='checkbox' value=''> - </@btnGroupRadioCheckbox>
 
@@ -71,18 +85,21 @@
 
 <@button buttonIcon='' buttonNested=false buttonTargetId='' cancel=false class='' color='' disabled=false dropdownMenu=false formId='' hideTitle=[] iconPosition='left' id='' name='' params='' showTitle=true showTitleLg=true showTitleMd=true showTitleSm=true showTitleXs=true size='' style='btn-flat' tabIndex='' title='' type='button' value=''> - </@button>
 
-
 <@callOut callOutIcon='' color='' id='' params='' title='' titleLevel='h3'> - </@callOut>
 
 <@card header=false headerIcon=false headerTitle='' headerTitleIcon=''> - </@card>
 
-<@checkBox checked=false disabled=false id='' labelFor='' labelKey='' mandatory=false name='' orientation='vertical' params='' readonly=false tabIndex='' title='' value=''> - </@checkBox>
+<@checkBox checked=false disabled=false id='' labelKey='' mandatory=false name='' orientation='vertical' params='' readonly=false tabIndex='' title='' value=''> - </@checkBox>
 
 <@checkboxList default_values='' inline=0 items=[] name=''> - </@checkboxList>
+
+<@codeHighLight> - </@codeHighLight>
 
 <@coloredBg color='' id='' params='' type='p'> - </@coloredBg>
 
 <@columns align='' class='' collapsed=false id='' lg=0 md=0 offset={} offsetLg=0 offsetMd=0 offsetSm=0 offsetXl=0 offsetXs=0 order={} params='' pullLg=0 pullMd=0 pullSm=0 pullXl=0 pullXs=0 pushLg=0 pushMd=0 pushSm=0 pushXl=0 pushXs=0 sm=0 tag='div' xl=0 xs=12> - </@columns>
+
+<@copyElementToClipboard> - </@copyElementToClipboard>
 
 <@combo default_value='' items=[] name=''> - </@combo>
 
@@ -161,7 +178,7 @@
 <@getDateTimeRange idField='id' idEndField='id2' language='en' format='d/m/Y H:i' showFormat='d/m/Y H:i' />
 <@getTime idField='id' language='en' format='H:i' showFormat='H:i' defaultDate='' minTime='' maxTime='' time_24hr=true dateOptions={} />
 
-<@headerButtons> - </@headerButtons >
+<@headerButtons> - </@headerButtons>
 
 <@icon class='' id='' params='' prefix='fa fa-' style='' title=''> - </@icon>
 
@@ -171,6 +188,10 @@
 
 <@infoBox bgColor='' boxIcon='' boxNumber='0' boxText='' color='' id='' params='' progressBar='' progressDescription='' unit=''> - </@infoBox>
 
+<@initToast class='' id='' position='top-0 end-0' showAll=true autohide=false animation=true duration=2000 params='' />
+
+<@initToolTip class='' id='' options='' autohide=false animation=true duration=2000 params='' />
+
 <@input name='' type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 params='' mandatory=false language=.lang minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' time_24hr=true format='Y-m-d H:i:S' showFormat='d-m-Y H:i' dateRangeEndId=''> - </@input>
 
 <@inputGroup class='' id='' params='' size=''> - </@inputGroup>
@@ -179,6 +200,8 @@
 
 <#assign item_navigator = { 'currentItemId' : 1, 'listItemSize' : 1, 'previousPageLink' : '' } />
 <@item_navigation align='' buttonColor='info' buttonSize='sm' hideButtonTitle=[] id='item-navigator' item_navigator=item_navigator> - </@item_navigation>
+
+<@jsTreeInit id='' btntreeSearch='' multiple=false plugins=[] style='' />
 
 <@li class='' id='' params=''> - </@li>
 
@@ -204,6 +227,18 @@
 
 <@p align='' class='' collapsed=false hide=[] id='' params=''> - </@p>
 
+<@pageColumn id='' width='' class='' height='' title='' flush=false center=false responsiveMenuSize='' responsiveMenuTitle=title responsiveMenuPlacement='' responsiveMenuBodyClass='' responsiveMenuClose=false> - </@pageColumn>
+
+<@pageColumnBtn idPageColumn class='' hideSize='' title='' btnColor='primary' />
+
+<@pageContainer id='' template='' height='' class=''> - </@pageContainer>
+
+<@pageHeader id='' title='' description='' class='' toolsClass='' params=''> - </@pageHeader>
+
+<@pageRow id='' width='' class=''> - </@pageRow>
+
+<@pageWrapper template=''> - </@pageWrapper>
+
 <#assign paginator = { 'pageCurrent' : 1, 'pagesCount' : 1, 'firstPageLink' : 1, 'previousPageLink' : 1, 'pagesLinks' : [], 'nextPageLink' : 1, 'lastPageLink' : 1, 'itemsCount' : 1, 'labelItemCount' : 'label', 'labelItemCountPerPage' : 'label', 'labelPrevious' : 'label', 'labelNext' : 'label', 'itemsPerPageParameterName' : 'items_per_page' } />
 <@pagination paginator=paginator> - </@pagination>
 <#assign nb_items_per_page = "10" />
@@ -212,7 +247,7 @@
 <@paginationItemCount combo=0 nb_items_per_page=nb_items_per_page paginator=paginator showall=0 showcount=1> - </@paginationItemCount>
 <@paginationPageLinks paginator=paginator> - </@paginationPageLinks>
 
-
+<@passwordComplexity id description='' params='' inputId='' value='0' />
 
 <@pre align='' class='' collapsed=false hide=[] id='' params=''> - </@pre>
 
@@ -226,13 +261,15 @@
 
 <@row align='' class='' collapsed=false id='' params=''> - </@row>
 
-<@rowBox boxClass='box-primary' col=12> - </@rowBox >
+<@rowBox boxClass='box-primary' col=12> - </@rowBox>
 
-<@rowBoxHeader boxClass='box-primary' col=12 i18nTitleKey=''> - </@rowBoxHeader >
+<@rowBoxHeader boxClass='box-primary' col=12 i18nTitleKey=''> - </@rowBoxHeader>
 
 <@scrollTopBtn> - </@scrollTopBtn>
 
 <@select class='' default_value="" disabled=false id=name items=[] multiple=0 name='' params='' size='' sort=false tabIndex=0 title='' maxLength=0> - </@select>
+
+<@selectIconFont id='' class='' name='' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='' prefix='' iconsUrl='' resources=true defaultValue=''> - </@selectIconFont>
 
 <@smallBox boxIcon='' color='' fontSize='40px' id='' params='' text='' title='' titleLevel='h3' unit='' url='' urlText=''> - </@smallBox>
 
@@ -245,6 +282,12 @@
 <@tabContent id='' params=''> - </@tabContent>
 
 <@table bordered=false class='' collapsed=false condensed=true hover=true id='' narrow=false params='' responsive=true striped=false> - </@table>
+
+<@tableBody id='' class='' params=''> - </@tableBody>
+
+<@tableFoot id='' class='' params=''> - </@tableFoot>
+
+<@tableHead id='' class='' params=''> - </@tableHead>
 
 <@tableHeadBodySeparator> - </@tableHeadBodySeparator>
 
@@ -263,6 +306,12 @@
 <@tform action='' align='' class='' collapsed=false hide=[] id='' method='post' name='' params='' role='form' type='horizontal' enctype=''> - </@tform>
 
 <@th align='' class='' cols=0 colspan=0 flex=false hide=[] id='' lg=0 md=0 params='' rowspan=0 scope='' sm=0 title='' valign='' xl=0 xs=0> - </@th>
+
+<@timeline class='' id='' params=''> - </@timeline>
+
+<@timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params=''> - </@timelineItem>
+
+<@timelineLabel bg='primary' label='' class='' id='' params=''> - </@timelineLabel>
 
 <@tr class='' hide=[] id='' params=''> - </@tr>
 
