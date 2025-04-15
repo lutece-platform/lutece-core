@@ -207,24 +207,6 @@
             <scope>runtime</scope>
         </dependency>
         
-        <!-- scannotation -->
-        <dependency>
-            <groupId>org.scannotation</groupId>
-            <artifactId>scannotation</artifactId>
-            <version>1.0.3</version>
-            <exclusions>
-                <exclusion>
-                    <!-- javassist:javassist relocated to org.javassist:javassist -->
-                    <groupId>javassist</groupId>
-                    <artifactId>javassist</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.javassist</groupId>
-            <artifactId>javassist</artifactId>
-            <version>3.23.1-GA</version>
-        </dependency>
         <!-- JSON. ( Compile Dependencies: jackson-annotations and jackson-core)-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
