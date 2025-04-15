@@ -1,70 +1,67 @@
 <@pageContainer>
 <@pageColumn>
-<@pageHeader title='#i18n{portal.system.manage_caches.titleCacheList}'
-	description='#i18n{portal.system.manage_caches.featureDescription}'>
-	<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' type='inline'>
-		<@input type='hidden' name='token' value='${token}' />
-		<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' color='danger'
-			hideTitle=['xs','sm'] />
-	</@tform>
-</@pageHeader>
-		<@alert color='warning' title='#i18n{portal.system.manage_caches.cautionTitle}'
-			iconTitle='exclamation-triangle'>#i18n{portal.system.manage_caches.cautionMessage}</@alert>
-				<@table headBody=true>
-					<@tr>
-					<@th></@th>
-						<@th>#i18n{portal.system.manage_caches.columnTitleName}</@th>
-						<@th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</@th>
-						<@th>#i18n{portal.system.manage_caches.columnTitleActions}</@th>
-					</@tr>
-					<@tableHeadBodySeparator />
-					<#assign id=0>
-						<#list services_list as service>
-							<@tr>
-							<@td>
-							<#if service.cacheEnable>
-								<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'>
-								<@icon style='check' />
-								</@tag>
-								<#else>
-									<@tag color='danger'
-										title='#i18n{portal.system.manage_caches.imgAltDisable}'>
-										<@icon style='times' />
-									</@tag>
-							</#if>
-							</@td>
-								<@td>
-								<strong>${service.name}</strong><br>
-								</@td>
-								<@td>${service.cacheSize}</@td>
-								<@td>
-								<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye" btnColor="info" position="end" />
-									<@tform method='post' type='inline' align="middle"
-										action='jsp/admin/system/ConfirmToggleCache.jsp'>
-										<@input type='hidden' name='id_cache' value='${id}' />
-										<@input type='hidden' name='token' value='${token}' />
-										<#if service.cacheEnable>
-											<@button type='submit' buttonIcon='stop'
-												title='#i18n{portal.system.manage_caches.actionDisable}'
-												hideTitle=['all'] color='danger' />
-											<#else>
-												<@button type='submit' buttonIcon='play'
-													title='#i18n{portal.system.manage_caches.actionEnable}'
-													hideTitle=['all'] color='success' />
-										</#if>
-									</@tform>
-									<@tform method='post' type='inline' align="middle" action='jsp/admin/system/DoResetCaches.jsp'>
-										<@input type='hidden' name='id_cache' value='${id}' />
-										<@input type='hidden' name='token' value='${token}' />
-										<@button type='submit' buttonIcon='trash'
-											title='#i18n{portal.system.manage_caches.actionClear}' hideTitle=['all']
-											color='danger' />
-									</@tform>
-								</@td>
-							</@tr>
-							<#assign id=id + 1>
-						</#list>
-				</@table>
+	
+	<@pageHeader title='#i18n{portal.system.manage_caches.titleCacheList}' description='#i18n{portal.system.manage_caches.featureDescription}'>
+		<@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' type='inline'>
+			<@input type='hidden' name='token' value='${token}' />
+			<@button type='submit' buttonIcon='sync' title='#i18n{portal.system.manage_caches.titleReloadProperties}' hideTitle=['xs','sm'] />
+		</@tform>
+		<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' type='inline'>
+			<@input type='hidden' name='token' value='${token}' />
+			<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' color='danger'	hideTitle=['xs','sm'] />
+		</@tform>
+	</@pageHeader>
+	<@alert color='warning' title='#i18n{portal.system.manage_caches.cautionTitle}' iconTitle='exclamation-triangle'>#i18n{portal.system.manage_caches.cautionMessage}</@alert>
+	<@table headBody=true>
+		<@tr>
+			<@th><@span class="visually-hidden">#i18n{portal.system.manage_caches.imgAltEnable} / #i18n{portal.system.manage_caches.imgAltDisable}</@span></@th>
+			<@th>#i18n{portal.system.manage_caches.columnTitleName}</@th>
+			<@th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</@th>
+			<@th>#i18n{portal.system.manage_caches.columnTitleMemorySize}</@th>
+			<@th>#i18n{portal.system.manage_caches.columnTitleActions}</@th>
+		</@tr>
+		<@tableHeadBodySeparator />
+		<#assign id=0>
+			<#list services_list as service>
+			<@tr>
+				<@td>
+				<#if service.cacheEnable>
+					<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'><@icon style='check' /></@tag>
+				<#else>
+					<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'><@icon style='times' /></@tag>
+				</#if>
+				</@td>
+				<@td>
+					<strong>${service.name}</strong><br>
+					<small>
+					#i18n{portal.system.manage_caches.columnTitleMaxElements}: ${service.maxElements!"-"} | 
+					#i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive} -> ${ time2string( service.timeToLive )}
+					</small>
+				</@td>
+				<@td>${service.cacheSize}</@td>
+				<@td>${service.memorySize}</@td>
+				<@td>
+					<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye" btnTitle="#i18n{portal.util.labelMore} : ${service.name}" hideTitle=['all'] btnSize='sm' btnColor="info" position="end" />
+					<@tform method='post' type='inline' align="middle"
+						action='jsp/admin/system/ConfirmToggleCache.jsp'>
+						<@input type='hidden' name='id_cache' value='${id}' />
+						<@input type='hidden' name='token' value='${token}' />
+						<#if service.cacheEnable>
+							<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' hideTitle=['all'] color='danger' size='sm' />
+						<#else>
+							<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' hideTitle=['all'] color='success' size='sm' />
+						</#if>
+					</@tform>
+					<@tform method='post' type='inline' align="middle" action='jsp/admin/system/DoResetCaches.jsp'>
+						<@input type='hidden' name='id_cache' value='${id}' />
+						<@input type='hidden' name='token' value='${token}' />
+						<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' hideTitle=['all'] size='sm' color='danger' />
+					</@tform>
+				</@td>
+			</@tr>
+			<#assign id=id + 1>
+		</#list>
+	</@table>
 </@pageColumn>
 </@pageContainer>
 <#function time2string time>

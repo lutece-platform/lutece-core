@@ -1,7 +1,7 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title='#i18n{portal.rbac.manage_roles.pageTitle}'>
-            <@offcanvas targetUrl="jsp/admin/rbac/CreateRole.jsp" targetElement="#create-role-form" redirectForm=false id="template-create-role" title="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}" btnTitle="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}" btnIcon="plus me-1" position="end" />
+            <@offcanvas targetUrl='jsp/admin/rbac/CreateRole.jsp' targetElement='#create-role-form' redirectForm=false id='template-create-role' title='#i18n{portal.rbac.manage_roles.buttonLabelNewRole}' hideTitle=['xs'] btnTitle='#i18n{portal.rbac.manage_roles.buttonLabelNewRole}' btnIcon='plus me-1' position='end' />
         </@pageHeader>
         <#if role_list?size gt 1>
             <@table headBody=true>
@@ -16,12 +16,12 @@
                         <@td>${role.key}</@td>
                         <@td>${role.description}</@td>
                         <@td>
-                            <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.rbac.view_role_description.labelDescription} (${role.description})' hideTitle=['all'] buttonIcon='edit' size='' color='primary' />
-                            <@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} (${role.description})' hideTitle=['all'] buttonIcon='user' size='' color='primary' />
+                            <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.rbac.view_role_description.labelDescription} (${role.description})' hideTitle=['all'] buttonIcon='edit' size='sm' color='primary' />
+                            <@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} (${role.description})' hideTitle=['all'] buttonIcon='user' size='sm' color='primary' />
                             <#if exist_front_role_map?has_content && exist_front_role_map[role.key]>
-                                <@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelViewFrontRole} (${role.key})' buttonIcon='link' size='' hideTitle=['all'] color='primary' />
+                                <@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelViewFrontRole} (${role.key})' buttonIcon='link' size='sm' hideTitle=['all'] color='primary' />
                             </#if> 
-                            <@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete} (${role.description})' hideTitle=['all'] buttonIcon='trash' color='danger' size='' />
+                            <@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete} (${role.description})' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
                         </@td>
                     </@tr>
                 </#list>

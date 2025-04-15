@@ -9,18 +9,18 @@
                 <@tform method='post' params='enctype="multipart/form-data"' id="modify-template-form" action='jsp/admin/style/DoModifyPageTemplate.jsp' name='modify_page_template'>
                     <@input type='hidden' name='page_template_id' value='${page_template.id}' />
                     <@input type='hidden' name='token' value='${token}' />
-                    <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelDescription}' labelFor='page_template_description' mandatory=true>
+                    <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelDescription}' labelFor='page_template_description' mandatory=true rows=2>
                         <@input type='text' name='page_template_description' id='page_template_description' value='${page_template.description?html}' maxlength=50 />
                     </@formGroup>
-                    <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelFileTitle}' labelFor='page_template_file' helpKey='#i18n{portal.style.modify_page_template.labelCurrentFile} ${page_template.file}'>
+                    <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelFileTitle}' labelFor='page_template_file' helpKey='#i18n{portal.style.modify_page_template.labelCurrentFile} ${page_template.file}' rows=2>
                         <@input type='file' name='page_template_file' id='page_template_file' />
-                        <@checkBox name='update_file' id='update_file' labelKey='#i18n{portal.style.modify_page_template.labelReloadFile}' labelFor='update_file'/>
+                        <@checkBox name='update_file' id='update_file' labelKey='#i18n{portal.style.modify_page_template.labelReloadFile}' labelFor='update_file' class='mt-2' />
                     </@formGroup>
-                    <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelPictureTitle}' labelFor='page_template_picture' helpKey=imageHelpKey>
+                    <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelPictureTitle}' labelFor='page_template_picture' helpKey=imageHelpKey rows=2>
                         <@input type='file' name='page_template_picture' id='page_template_picture' />
-                        <@checkBox name='update_image' id='update_image' labelKey='#i18n{portal.style.modify_page_template.labelReloadPicture}' />
+                        <@checkBox name='update_image' id='update_image' labelKey='#i18n{portal.style.modify_page_template.labelReloadPicture}' class='mt-2' />
                     </@formGroup>
-                    <@formGroup>
+                    <@formGroup rows=2>
                         <@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_mode.buttonLabelValidate}' size='' />
                         <@aButton href='jsp/admin/style/ManagePageTemplates.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}' size='' color='danger' />
                     </@formGroup>

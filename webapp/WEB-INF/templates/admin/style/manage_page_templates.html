@@ -1,7 +1,7 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title='#i18n{portal.style.manage_page_templates.pageTitle}'>
-            <@offcanvas targetUrl="jsp/admin/style/CreatePageTemplate.jsp" targetElement="#create-template-form" redirectForm=false id="template-create" title="#i18n{portal.style.create_page_template.boxTitle}" btnTitle="#i18n{portal.style.manage_page_templates.buttonLabelCreate}" btnIcon="plus" position="end" />
+            <@offcanvas targetUrl="jsp/admin/style/CreatePageTemplate.jsp" targetElement="#create-template-form" redirectForm=false id="template-create" title="#i18n{portal.style.create_page_template.boxTitle}" btnTitle="#i18n{portal.style.manage_page_templates.buttonLabelCreate}" btnIcon="plus" position="end" hideTitle=['xs'] />
         </@pageHeader>
         <@table headBody=true>
             <@tr>
@@ -18,8 +18,8 @@
                     </@td>
                     <@td>${page_templates.file}</@td>
                     <@td>
-                        <@offcanvas targetUrl="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" targetElement="#modify-template-form" redirectForm=false id="template-${page_templates.id}" title="#i18n{portal.util.labelModify} ${page_templates.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit me-1" position="end" />
-                        <@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash me-1' size='' title='#i18n{portal.style.manage_styles.actionDelete}' hideTitle=['xs'] color='danger' />
+                        <@offcanvas targetUrl="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" targetElement="#modify-template-form" redirectForm=false id="template-${page_templates.id}" title="#i18n{portal.util.labelModify} ${page_templates.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit me-1" position="end" hideTitle=['all'] btnSize='sm' />
+                        <@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash me-1' size='sm' title='#i18n{portal.style.manage_styles.actionDelete}' hideTitle=['all'] color='danger' />
                     </@td>
                 </@tr>
             </#list>
