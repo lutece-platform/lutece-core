@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.html;
 
 import java.io.ByteArrayInputStream;
+
 import java.io.StringReader;
 import java.util.Map;
 import java.util.Properties;
