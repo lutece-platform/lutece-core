@@ -38,12 +38,12 @@ public class FileServiceException extends Exception
 
     private static final long serialVersionUID = -4788782240985061911L;
 
-    // The response code status 
+    // The response code status
     private Integer _nResponseCodeStatus;
-    
+
     // The response I18N message key
     private String _strI18nMessageKey;
-    
+
     /**
      * Creates a new instance of ExpiredLinkException
      * 
@@ -54,7 +54,7 @@ public class FileServiceException extends Exception
     {
         super( strMessage );
     }
-    
+
     /**
      * Creates a new instance of HttpAccessException.
      *
@@ -83,7 +83,7 @@ public class FileServiceException extends Exception
         super( strMessage, e );
         _nResponseCodeStatus = nResponseCodeStatus;
     }
-    
+
     /**
      * the response code (based on http codes)
      *
@@ -99,7 +99,8 @@ public class FileServiceException extends Exception
      * 
      * @return the key
      */
-	public String getI18nMessageKey() {
-		return _strI18nMessageKey;
-	}
+    public String getI18nMessageKey( )
+    {
+        return _strI18nMessageKey;
+    }
 }

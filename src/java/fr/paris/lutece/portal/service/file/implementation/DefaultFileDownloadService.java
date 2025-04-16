@@ -34,8 +34,6 @@
 package fr.paris.lutece.portal.service.file.implementation;
 
 import fr.paris.lutece.portal.service.file.ExpiredLinkException;
-import fr.paris.lutece.portal.service.file.FileService;
-import static fr.paris.lutece.portal.service.file.FileService.PARAMETER_VALIDITY_TIME;
 import fr.paris.lutece.portal.service.file.IFileDownloadUrlService;
 import fr.paris.lutece.portal.service.security.RsaService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -48,6 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
@@ -57,16 +56,25 @@ import org.apache.commons.lang3.StringUtils;
  * 
  */
 @ApplicationScoped
+@Named( "defaultFileDownloadService" )
 public class DefaultFileDownloadService implements IFileDownloadUrlService
 {
     private static final long serialVersionUID = 1L;
+
+    // parameters
+    public static final String PARAMETER_FILE_ID = "file_id";
+    public static final String PARAMETER_RESOURCE_ID = "resource_id";
+    public static final String PARAMETER_RESOURCE_TYPE = "resource_type";
+    public static final String PARAMETER_VALIDITY_TIME = "validity_time";
+    public static final String PARAMETER_DATA = "data";
+    public static final String PARAMETER_BO = "is_bo";
+    public static final String PARAMETER_PROVIDER = "provider";
 
     // constants
     protected static final String URL_FO = "jsp/site/file/download";
     protected static final String URL_BO = "jsp/admin/file/download";
     private static final String SERVICE_NAME = "DefaultFileDownloadService";
     private static final String DEFAULT_SEPARATOR = "/";
-
     private String _separator = DEFAULT_SEPARATOR;
 
     // Keys
@@ -94,9 +102,9 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     {
         Map<String, String> map = new HashMap<>( );
 
-        map.put( FileService.PARAMETER_FILE_ID, strFileId );
-        map.put( FileService.PARAMETER_RESOURCE_ID, strResourceId );
-        map.put( FileService.PARAMETER_RESOURCE_TYPE, strResourceType );
+        map.put( PARAMETER_FILE_ID, strFileId );
+        map.put( PARAMETER_RESOURCE_ID, strResourceId );
+        map.put( PARAMETER_RESOURCE_TYPE, strResourceType );
 
         return map;
     }
@@ -126,7 +134,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
         {
             additionnalData = new HashMap<>( );
         }
-        additionnalData.put( FileService.PARAMETER_FILE_ID, strFileKey );
+        additionnalData.put( PARAMETER_FILE_ID, strFileKey );
 
         return getEncryptedUrl( sbUrl.toString( ), getDataToEncrypt( additionnalData ), strFileStorageServiceProviderName );
     }
@@ -156,7 +164,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
         {
             additionnalData = new HashMap<>( );
         }
-        additionnalData.put( FileService.PARAMETER_FILE_ID, strFileKey );
+        additionnalData.put( PARAMETER_FILE_ID, strFileKey );
 
         return getEncryptedUrl( sbUrl.toString( ), getDataToEncrypt( additionnalData ), strFileStorageServiceProviderName );
     }
@@ -177,8 +185,8 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
         {
             String idEncrytped = RsaService.encryptRsa( dataToEncrypt );
 
-            item.addParameter( FileService.PARAMETER_PROVIDER, strFileStorageServiceProviderName );
-            item.addParameter( FileService.PARAMETER_DATA, idEncrytped );
+            item.addParameter( PARAMETER_PROVIDER, strFileStorageServiceProviderName );
+            item.addParameter( PARAMETER_DATA, idEncrytped );
 
             return item.getUrlWithEntity( );
         }
@@ -207,9 +215,9 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     private String getDataToEncrypt( Map<String, String> additionnalData )
     {
         StringBuilder sb = new StringBuilder( );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_FILE_ID ), "" ) ).append( _separator );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_ID ), "" ) ).append( _separator );
-        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( FileService.PARAMETER_RESOURCE_TYPE ), "" ) ).append( _separator );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( PARAMETER_FILE_ID ), "" ) ).append( _separator );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( PARAMETER_RESOURCE_ID ), "" ) ).append( _separator );
+        sb.append( StringUtils.defaultIfEmpty( additionnalData.get( PARAMETER_RESOURCE_TYPE ), "" ) ).append( _separator );
         sb.append( calculateEndValidity( ) );
 
         return sb.toString( );
@@ -236,7 +244,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     @Override
     public Map<String, String> getRequestDataBO( HttpServletRequest request )
     {
-        String strEncryptedData = request.getParameter( FileService.PARAMETER_DATA );
+        String strEncryptedData = request.getParameter( PARAMETER_DATA );
 
         try
         {
@@ -256,7 +264,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     @Override
     public Map<String, String> getRequestDataFO( HttpServletRequest request )
     {
-        String strEncryptedData = request.getParameter( FileService.PARAMETER_DATA );
+        String strEncryptedData = request.getParameter( PARAMETER_DATA );
 
         try
         {
@@ -291,7 +299,7 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     @Override
     public void checkLinkValidity( Map<String, String> fileData ) throws ExpiredLinkException
     {
-        LocalDateTime validityTime = new Timestamp( Long.parseLong( fileData.get( FileService.PARAMETER_VALIDITY_TIME ) ) ).toLocalDateTime( );
+        LocalDateTime validityTime = new Timestamp( Long.parseLong( fileData.get( PARAMETER_VALIDITY_TIME ) ) ).toLocalDateTime( );
 
         if ( LocalDateTime.now( ).isAfter( validityTime ) )
         {

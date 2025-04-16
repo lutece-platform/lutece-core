@@ -33,13 +33,12 @@
  */
 package fr.paris.lutece.portal.service.file;
 
+import org.apache.commons.lang3.StringUtils;
+
 import fr.paris.lutece.portal.service.util.AppException;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
-import jakarta.inject.Inject;
-
 
 /**
  *
@@ -48,8 +47,6 @@ import jakarta.inject.Inject;
 @ApplicationScoped
 public class FileService
 {
-
-    // parameters
     public static final String PARAMETER_FILE_ID = "file_id";
     public static final String PARAMETER_RESOURCE_ID = "resource_id";
     public static final String PARAMETER_RESOURCE_TYPE = "resource_type";
@@ -58,39 +55,20 @@ public class FileService
     public static final String PARAMETER_BO = "is_bo";
     public static final String PARAMETER_PROVIDER = "provider";
 
-    // constants
-    public static final String PERMISSION_VIEW = "VIEW";
-
     // messages
     private static final String MSG_NO_FILE_SERVICE = "No file service Available";
-
-
-    @Inject
-    private IFileStoreServiceProvider _defaulFileStoreServiceProvider;
-    @Inject
-    private Instance<IFileStoreServiceProvider> _fileStoreServiceProviderList;
-
-
-    /**
-     * init
-     */
-    @PostConstruct
-    void initFileService( )
-    {
-        _defaulFileStoreServiceProvider = getDefaultServiceProvider( );
-    }
 
     /**
      * Returns the unique instance of the {@link FileService} service.
      * 
-     * <p>This method is deprecated and is provided for backward compatibility only. 
-     * For new code, use dependency injection with {@code @Inject} to obtain the 
-     * {@link FileService} instance instead.</p>
+     * <p>
+     * This method is deprecated and is provided for backward compatibility only. For new code, use dependency injection with {@code @Inject} to obtain the
+     * {@link FileService} instance instead.
+     * </p>
      * 
      * @return The unique instance of {@link FileService}.
      * 
-     * @deprecated Use {@code @Inject} to obtain the {@link FileService} 
-     * instance. This method will be removed in future versions.
+     * @deprecated Use {@code @Inject} to obtain the {@link FileService} instance. This method will be removed in future versions.
      */
     @Deprecated( since = "8.0", forRemoval = true )
     public static FileService getInstance( )
@@ -98,14 +76,14 @@ public class FileService
         return CDI.current( ).select( FileService.class ).get( );
     }
 
-   /**
+    /**
      * get the current FileStoreService provider
      * 
      * @return the current FileStoreService provider
      */
     public IFileStoreServiceProvider getFileStoreServiceProvider( )
     {
-        return getFileStoreServiceProvider( null) ;
+        return getFileStoreServiceProvider( null );
     }
 
     /**
@@ -116,46 +94,24 @@ public class FileService
      */
     public IFileStoreServiceProvider getFileStoreServiceProvider( String strFileStoreServiceProviderName )
     {
+        Instance<IFileStoreServiceProvider> fileServiceProviders = CDI.current( ).select( IFileStoreServiceProvider.class );
 
-    	if ( strFileStoreServiceProviderName == null && _defaulFileStoreServiceProvider != null )
-    	{
-    		return _defaulFileStoreServiceProvider;
-    	}
-    	
-        // search file service
-        if ( !_fileStoreServiceProviderList.isUnsatisfied() && strFileStoreServiceProviderName != null )
+        if ( fileServiceProviders.stream( ).count( ) == 0 )
         {
-            for ( IFileStoreServiceProvider fss : _fileStoreServiceProviderList )
-            {
-                if ( strFileStoreServiceProviderName.equals( fss.getName( ) ) )
-                {
-                      return fss;
-                }
-            }
-            return _fileStoreServiceProviderList.stream()
-                    .filter(fss -> strFileStoreServiceProviderName.equals(fss.getName()))
-                    .findFirst().orElseThrow(()-> new AppException( MSG_NO_FILE_SERVICE ));
+            throw new AppException( MSG_NO_FILE_SERVICE );
         }
+        ;
 
-        // otherwise
-        throw new AppException( MSG_NO_FILE_SERVICE );
-    }
-    /** get default File Store Service Provider
-     * 
-     * @return the provider
-     */
-    private IFileStoreServiceProvider getDefaultServiceProvider( )
-    {
-        // search default file service
-        if ( !_fileStoreServiceProviderList.isUnsatisfied() )
+        if ( StringUtils.isNotEmpty( strFileStoreServiceProviderName ) )
         {
-           return  _fileStoreServiceProviderList.stream()
-            .filter(fss -> fss.isDefault())
-            .findFirst()
-            .orElseGet(() -> _fileStoreServiceProviderList.stream().findFirst()
-                    .orElseThrow(() -> new AppException(MSG_NO_FILE_SERVICE)));
+            return fileServiceProviders.stream( ).filter( fss -> strFileStoreServiceProviderName.equals( fss.getName( ) ) ).findFirst( )
+                    .orElseThrow( ( ) -> new AppException( MSG_NO_FILE_SERVICE ) );
         }
-        // otherwise
-        throw new AppException( MSG_NO_FILE_SERVICE );
+        else
+        {
+            // search default file service provider
+            return fileServiceProviders.stream( ).filter( IFileStoreServiceProvider::isDefault ).findFirst( )
+                    .orElseThrow( ( ) -> new AppException( MSG_NO_FILE_SERVICE ) );
+        }
     }
 }
