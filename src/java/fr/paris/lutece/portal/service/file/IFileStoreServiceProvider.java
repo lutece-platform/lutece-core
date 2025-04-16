@@ -64,18 +64,17 @@ public interface IFileStoreServiceProvider extends Serializable
      * @return true if default
      */
     public boolean isDefault( );
-    
+
     /**
-     * health check 
+     * health check
      * 
      * @return true if available
      */
     public default boolean healthCheck( )
     {
-    	// default 
+        // default
         return true;
     }
-
 
     /**
      * Stores a file Lutece File
@@ -93,7 +92,7 @@ public interface IFileStoreServiceProvider extends Serializable
      *            the fileItem
      * @return The key of the blob
      */
-    String storeFileItem( MultipartItem fileItem )throws FileServiceException;
+    String storeFileItem( MultipartItem fileItem ) throws FileServiceException;
 
     /**
      * Stores an input stream
@@ -123,8 +122,7 @@ public interface IFileStoreServiceProvider extends Serializable
     File getFile( String strKey ) throws FileServiceException;
 
     /**
-     * Get a file object only filled with the meta data (name, size ...) 
-     * without the physical file content
+     * Get a file object only filled with the meta data (name, size ...) without the physical file content
      * 
      * @param strKey
      *            The key of the file
