@@ -1,4 +1,4 @@
-package fr.paris.lutece.portal.web.mvc;
+package fr.paris.lutece.portal.web.cdi.mvc;
 
 import java.util.Map;
 

@@ -73,6 +73,8 @@ import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.LocalVariables;
+import fr.paris.lutece.portal.web.cdi.mvc.event.ControllerRedirectEvent;
+import fr.paris.lutece.portal.web.cdi.mvc.event.EventDispatcher;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
@@ -113,41 +115,61 @@ public abstract class MVCApplication implements XPageApplication
     private transient AccessLogService _accessLogService;
     @Inject
     private transient SecurityTokenHandler _securityTokenHandler;
+    @Inject 
+    private transient EventDispatcher _eventDispatcher;
     
     /**
-     * Returns the content of the page
+     * Returns the content of the XPage based on the current HTTP request.
+     * <p>
+     * This method is the entry point for the Lutece MVCXPage system. It delegates
+     * the request to the appropriate controller method (action or view) using
+     * {@code processController}, which handles annotation-based dispatching.
+     * </p>
      *
-     * @param request
-     *            The http request
-     * @param nMode
-     *            The current mode
-     * @param plugin
-     *            The plugin object
-     * @return The XPage
-     * @throws fr.paris.lutece.portal.service.message.SiteMessageException
-     *             Message displayed if an exception occurs
-     * @throws UserNotSignedException
-     *             if an authentication is required by a view
+     * @param request the incoming {@link HttpServletRequest}
+     * @param nMode the current portal mode (e.g., normal, admin)
+     * @param plugin the plugin from which this XPage originates
+     * @return the resolved {@link XPage} object to be rendered
+     *
+     * @throws SiteMessageException if a site message needs to be displayed
+     *         instead of the standard page content
+     * @throws UserNotSignedException if a view requires authentication and the
+     *         user is not currently signed in
      */
     @Override
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws SiteMessageException, UserNotSignedException
     {
-        return processController( request );
+       	 return processController( request );
     }
 
     // //////////////////////////////////////////////////////////////////////////
     // Controller
 
     /**
-     * XPage controller
-     * 
-     * @param request
-     *            The HTTP request
-     * @return The XPage
-     * @throws UserNotSignedException
-     *             if an authentication is required by a view
-     * @throws SiteMessageException
-     *             if a message is thrown by an action
+     * Handles the execution of the appropriate controller method (view or action)
+     * based on the incoming HTTP request and the annotations present in the class.
+     * <p>
+     * The flow of this method is as follows:
+     * <ul>
+     *   <li>Fires a {@code BeforeControllerEvent} to allow CDI observers to perform pre-processing</li>
+     *   <li>If the request matches a message box context, it returns the message box page</li>
+     *   <li>Attempts to resolve a view method based on the request and invokes it</li>
+     *   <li>If no view is found, attempts to resolve an action method and invokes it</li>
+     *   <li>If neither is found, falls back to the default view method</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * Exceptions are unwrapped and rethrown to preserve the original cause,
+     * including application-specific exceptions like {@code UserNotSignedException}
+     * and {@code SiteMessageException}.
+     * </p>
+     *
+     * @param request the current {@link HttpServletRequest}
+     * @return the resulting {@link XPage} from the invoked controller method
+     * @throws UserNotSignedException if the controller method requires authentication and the user is not signed in
+     * @throws SiteMessageException if the controller method triggers a site message display
+     * @throws AppException if any other exception occurs during method resolution or invocation
      */
     private XPage processController( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
@@ -155,42 +177,29 @@ public abstract class MVCApplication implements XPageApplication
 
         try
         {
+        	getEventDispatcher().fireBeforeControllerEvent();
             if ( isMessageBox( request ) )
             {
                 return messageBox( request );
             }
-
-            LuteceUser registredUser = getRegistredUser( request );
-
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
-
             if ( m != null )
             {
-                getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), registredUser,
-                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
-                getSecurityTokenHandler( ).handleToken(request, m);
-                return (XPage) m.invoke( this, request );
+                 return processView(  m,  request  );
             }
 
             // Process actions
             m = MVCUtils.findActionAnnotedMethod( request, methods );
-
             if ( m != null )
             {
-                getAccessLogService( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
-                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
-                getSecurityTokenHandler( ).handleToken(request, m);
-                return (XPage) m.invoke( this, request );
+                 return processAction( m, request );
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
 
-            getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
-                    request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
-            getSecurityTokenHandler( ).handleToken(request, m);
-            return (XPage) m.invoke( this, request );
+            return processView( m,  request  );
         }
         catch( InvocationTargetException e )
         {
@@ -216,7 +225,66 @@ public abstract class MVCApplication implements XPageApplication
             throw new AppException( "MVC Error dispaching view and action ", e );
         }
     }
-
+    /**
+     * Processes the execution of a view method in the MVC lifecycle.
+     * <p>
+     * This method performs the following steps:
+     * <ul>
+     *   <li>Logs the access using the {@code AccessLogService}</li>
+     *   <li>Performs security token handling (CSRF protection, etc.)</li>
+     *   <li>Invokes the controller method that returns the view</li>
+     *   <li>Fires the {@code AfterProcessViewEvent} once processing is complete</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * Observers of the {@code AfterProcessViewEvent} can use it to perform any cleanup,
+     * post-render logic, or additional decorations to the view.
+     * </p>
+     *
+     * @param m the controller method to invoke
+     * @param request the current {@link HttpServletRequest}
+     * @return the resulting {@link XPage} object from the view method
+     * @throws IllegalAccessException if the method is inaccessible
+     * @throws IllegalArgumentException if the arguments are invalid
+     * @throws InvocationTargetException if the invoked method throws an exception
+     */
+    private XPage processView( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    	try {
+    		//getEventDispatcher().fireBeforeProcessViewEvent();
+    		getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), getRegistredUser( request ),
+                 request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
+        	getSecurityTokenHandler( ).handleToken(request, m);
+        	return (XPage) m.invoke( this, request );
+        } finally {
+        	getEventDispatcher( ).fireAfterProcessViewEvent();
+        }
+    }
+    /**
+     * Processes the execution of an action method in the MVC lifecycle.
+     * <p>
+     * This method is typically used for handling form submissions or state-changing
+     * operations. It performs:
+     * <ul>
+     *   <li>Access logging for audit or monitoring purposes</li>
+     *   <li>Security token validation (e.g., CSRF protection)</li>
+     *   <li>Invocation of the controller method associated with the action</li>
+     * </ul>
+     * </p>
+     *
+     * @param m the controller method to invoke
+     * @param request the current {@link HttpServletRequest}
+     * @return the resulting {@link XPage} object from the action method
+     * @throws IllegalAccessException if the method is inaccessible
+     * @throws IllegalArgumentException if the arguments are invalid
+     * @throws InvocationTargetException if the invoked method throws an exception
+     */
+    private XPage processAction( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    	getAccessLogService( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), getRegistredUser( request ),
+                 request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
+        getSecurityTokenHandler( ).handleToken(request, m);
+    	return (XPage) m.invoke( this, request );        
+    }
     /**
      * Returns the XPage name
      * 
@@ -598,11 +666,15 @@ public abstract class MVCApplication implements XPageApplication
     protected XPage redirect( HttpServletRequest request, String strTarget )
     {
         HttpServletResponse response = LocalVariables.getResponse( );
-
         try
         {
             _logger.debug( "Redirect :{}", strTarget );
-            response.sendRedirect( strTarget );
+            UrlItem url = new UrlItem( strTarget );
+            ControllerRedirectEvent event= getEventDispatcher().fireControllerRedirectEvent( url );        
+            String finalUrl = event.getLocation( ).toString();
+            _logger.debug("Redirecting to final target: {}", finalUrl);
+         
+            response.sendRedirect( finalUrl );
         }
         catch( IOException e )
         {
@@ -715,7 +787,7 @@ public abstract class MVCApplication implements XPageApplication
 
         return url.getUrl( );
     }
-
+   
     /**
      * Gets the view URL with the JSP path
      * 
@@ -933,12 +1005,14 @@ public abstract class MVCApplication implements XPageApplication
      */
     private XPage messageBox( HttpServletRequest request )
     {
-        _messageBox.localize( getLocale( request ) );
-
-        Map<String, Object> model = getModel( );
-        model.put( MARK_MESSAGE_BOX, _messageBox );
-
-        return getXPage( _messageBox.getTemplate( ), getLocale( request ), model );
+	    try {
+	        _messageBox.localize( getLocale( request ) );
+	        Map<String, Object> model = getModel( );
+	        model.put( MARK_MESSAGE_BOX, _messageBox );
+	        return getXPage( _messageBox.getTemplate( ), getLocale( request ), model );
+	    } finally {
+	    	getEventDispatcher( ).fireAfterProcessViewEvent();
+	    }
     }
 
     /**
@@ -981,6 +1055,17 @@ public abstract class MVCApplication implements XPageApplication
     {
         return null != _securityTokenHandler ? _securityTokenHandler : CDI.current( ).select( SecurityTokenHandler.class ).get( );
     }
+    /**
+     * Returns the EventDispatcher instance by privileging direct injection. Used during complete transition do CDI XPages.
+     * 
+     * @return the EventDispatcher instance
+     */
+    private EventDispatcher getEventDispatcher( )
+    {
+        return null != _eventDispatcher ? _eventDispatcher : CDI.current( ).select( EventDispatcher.class ).get( );
+    }
+    
+    
 
     /**
      * Fill the model with security token

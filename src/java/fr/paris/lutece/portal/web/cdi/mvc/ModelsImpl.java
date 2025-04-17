@@ -1,4 +1,4 @@
-package fr.paris.lutece.portal.web.mvc;
+package fr.paris.lutece.portal.web.cdi.mvc;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -9,7 +9,7 @@ import java.util.Objects;
 import jakarta.enterprise.context.RequestScoped;
 
 /**
- * Implementation of {@link fr.paris.lutece.portal.web.mvc.Models} interface. A CDI class that delegates
+ * Implementation of {@link fr.paris.lutece.portal.web.cdi.mvc.Models} interface. A CDI class that delegates
  * to a {@link java.util.Map} implementation.
  *
  */

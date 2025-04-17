@@ -66,6 +66,9 @@ import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
+import fr.paris.lutece.portal.web.cdi.mvc.event.ControllerRedirectEvent;
+import fr.paris.lutece.portal.web.cdi.mvc.event.EventDispatcher;
+import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.beanvalidation.ValidationError;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -96,17 +99,33 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private AccessLogService _accessLogService;
     @Inject
     private SecurityTokenHandler _securityTokenHandler;
-
+    @Inject 
+    private EventDispatcher _eventDispatcher;
+    
     /**
-     * Process request as a controller
-     * 
-     * @param request
-     *            The HTTP request
-     * @param response
-     *            The HTTP response
-     * @return The page content
-     * @throws AccessDeniedException
-     *             If the user's has no right
+     * Dispatches the HTTP request to the appropriate controller method based on annotations,
+     * and returns the path to the view to render (typically a JSP).
+     * <p>
+     * This method is part of the MVC controller logic for administrative back-office. It performs:
+     * <ul>
+     *   <li>Initialization and permission checks</li>
+     *   <li>Registration of actions for security token validation</li>
+     *   <li>Invocation of view or action methods based on request parameters</li>
+     *   <li>Fallback to the default view if none is explicitly matched</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * A {@code BeforeControllerEvent} is fired at the beginning of execution, allowing
+     * CDI observers to modify behavior or intercept early.
+     * </p>
+     *
+     * @param request the {@link HttpServletRequest} to process
+     * @param response the {@link HttpServletResponse} associated with the request
+     * @return a {@link String} representing the path to the view (e.g., JSP page)
+     *
+     * @throws AccessDeniedException if the invoked method explicitly denies access
+     * @throws AppException if any reflection-related errors occur during method invocation
      */
     public String processController( HttpServletRequest request, HttpServletResponse response ) throws AccessDeniedException
     {
@@ -116,40 +135,28 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( getClass( ) );
         
         getSecurityTokenHandler( ).registerActions( _controller.controllerPath( ) + _controller.controllerJsp( ), methods );
-        
         try
         {
+        	getEventDispatcher().fireBeforeControllerEvent();
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
 
-            AdminUser adminUser = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
-
             if ( m != null )
             {
-                getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
-                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
-                getSecurityTokenHandler( ).handleToken(request, m);
-                return (String) m.invoke( this, request );
+                return (String) processView(m, request);
             }
 
             // Process actions
-            m = MVCUtils.findActionAnnotedMethod( request, methods );
+            m = MVCUtils.findActionAnnotedMethod(request, methods);
 
             if ( m != null )
             {
-                getAccessLogService( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), adminUser,
-                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
-                getSecurityTokenHandler( ).handleToken(request, m);
-                return (String) m.invoke( this, request );
+                return (String) processAction(m, request);
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
-
-            getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
-                    request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
-            getSecurityTokenHandler( ).handleToken(request, m);
-            return (String) m.invoke( this, request );
+            return (String) processView(m, request);
         }
         catch( InvocationTargetException e )
         {
@@ -165,7 +172,67 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             throw new AppException( "MVC Error dispaching view and action ", e );
         }
     }
-    
+    /**
+     * Processes the execution of a view method in the MVC lifecycle.
+     * <p>
+     * This method performs the following steps:
+     * <ul>
+     *   <li>Logs the access using the {@code AccessLogService}</li>
+     *   <li>Performs security token handling (CSRF protection, etc.)</li>
+     *   <li>Invokes the controller method that returns the view</li>
+     *   <li>Fires the {@code AfterProcessViewEvent} once processing is complete</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * Observers of the {@code AfterProcessViewEvent} can use it to perform any cleanup,
+     * post-render logic, or additional decorations to the view.
+     * </p>
+     *
+     * @param m the controller method to invoke
+     * @param request the current {@link HttpServletRequest}
+     * @return the resulting {@link XPage} object from the view method
+     * @throws IllegalAccessException if the method is inaccessible
+     * @throws IllegalArgumentException if the arguments are invalid
+     * @throws InvocationTargetException if the invoked method throws an exception
+     */
+    private String processView( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
+    	try {
+	    	AdminUser adminUser = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
+	    	getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
+	                request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
+	        getSecurityTokenHandler( ).handleToken(request, m);
+        	return (String) m.invoke( this, request );
+        } finally {
+        	getEventDispatcher( ).fireAfterProcessViewEvent();
+        }
+    }
+    /**
+     * Processes the execution of an action method in the MVC lifecycle.
+     * <p>
+     * This method is typically used for handling form submissions or state-changing
+     * operations. It performs:
+     * <ul>
+     *   <li>Access logging for audit or monitoring purposes</li>
+     *   <li>Security token validation (e.g., CSRF protection)</li>
+     *   <li>Invocation of the controller method associated with the action</li>
+     * </ul>
+     * </p>
+     *
+     * @param m the controller method to invoke
+     * @param request the current {@link HttpServletRequest}
+     * @return the resulting {@link XPage} object from the action method
+     * @throws IllegalAccessException if the method is inaccessible
+     * @throws IllegalArgumentException if the arguments are invalid
+     * @throws InvocationTargetException if the invoked method throws an exception
+     */
+    private String processAction( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        AdminUser adminUser = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
+    	getAccessLogService( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), adminUser,
+                request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
+        getSecurityTokenHandler( ).handleToken(request, m);
+    	return (String) m.invoke( this, request );        
+    }
     // //////////////////////////////////////////////////////////////////////////
     // Page utils
 
@@ -390,7 +457,12 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         try
         {
             _logger.debug( "Redirect : {}", strTarget );
-            _response.sendRedirect( strTarget );
+            UrlItem url = new UrlItem( strTarget );
+            ControllerRedirectEvent event= getEventDispatcher().fireControllerRedirectEvent( url );        
+            String finalUrl = event.getLocation( ).toString();
+            _logger.debug("Redirecting to final target: {}", finalUrl);        
+            
+            _response.sendRedirect( finalUrl );
         }
         catch( IOException e )
         {
@@ -612,6 +684,15 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         return null != _securityTokenHandler ? _securityTokenHandler : CDI.current( ).select( SecurityTokenHandler.class ).get( );
     }
 
+    /**
+     * Returns the EventDispatcher instance by privileging direct injection. Used during complete transition do CDI XPages.
+     * 
+     * @return the EventDispatcher instance
+     */
+    private EventDispatcher getEventDispatcher( )
+    {
+        return null != _eventDispatcher ? _eventDispatcher : CDI.current( ).select( EventDispatcher.class ).get( );
+    }
     /**
      * Fill the model with security token
      * 

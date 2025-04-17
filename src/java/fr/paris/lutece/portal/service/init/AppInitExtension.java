@@ -37,8 +37,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.cdi.mvc.RedirectScopeContext;
 import jakarta.annotation.Priority;
 import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.spi.AfterBeanDiscovery;
 import jakarta.enterprise.inject.spi.BeforeBeanDiscovery;
 import jakarta.enterprise.inject.spi.Extension;
 
@@ -49,9 +51,9 @@ public class AppInitExtension implements Extension
 {
     private static final String PATH_CONF = "/WEB-INF/conf/";
 
-    protected void initPropertiesServices( @Observes @Priority(value=1) final BeforeBeanDiscovery bd   )
+    protected void initPropertiesServices( @Observes @Priority(value=1) final BeforeBeanDiscovery bd )
     {
-        if ( !Files.isReadable( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF ) ) )
+    	if ( !Files.isReadable( Paths.get( AppPathService.getWebAppPath( ) + PATH_CONF ) ) )
         {
 	    	String _strResourcesDir = getClass().getResource( "/" ).toString( ).replaceFirst( "file:", "" )
 	                .replaceFirst( "test-classes", "lutece" )
@@ -59,5 +61,14 @@ public class AppInitExtension implements Extension
 	        AppPathService.init( _strResourcesDir );
         }
     	AppInit.initConfigLog( );
+    }
+    /**
+     * After bean discovery.
+     *
+     * @param event the event.
+     * @param beanManager the bean manager.
+     */
+    public void registerRedirectScope(@Observes AfterBeanDiscovery event ) {
+        event.addContext(new RedirectScopeContext());
     }
 }
