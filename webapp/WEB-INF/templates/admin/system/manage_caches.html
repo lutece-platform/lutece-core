@@ -40,21 +40,21 @@
 				<@td>${service.cacheSize}</@td>
 				<@td>${service.memorySize}</@td>
 				<@td>
-					<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye" btnTitle="#i18n{portal.util.labelMore} : ${service.name}" btnTitleShow=false  btnColor="info" position="end" />
+					<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye" btnTitle="#i18n{portal.util.labelMore} : ${service.name}" hideTitle=['all'] btnSize='sm' btnColor="info" position="end" />
 					<@tform method='post' type='inline' align="middle"
 						action='jsp/admin/system/ConfirmToggleCache.jsp'>
 						<@input type='hidden' name='id_cache' value='${id}' />
 						<@input type='hidden' name='token' value='${token}' />
 						<#if service.cacheEnable>
-							<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' hideTitle=['all'] color='danger' />
+							<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' hideTitle=['all'] color='danger' size='sm' />
 						<#else>
-							<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' hideTitle=['all'] color='success' />
+							<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' hideTitle=['all'] color='success' size='sm' />
 						</#if>
 					</@tform>
 					<@tform method='post' type='inline' align="middle" action='jsp/admin/system/DoResetCaches.jsp'>
 						<@input type='hidden' name='id_cache' value='${id}' />
 						<@input type='hidden' name='token' value='${token}' />
-						<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' hideTitle=['all'] color='danger' />
+						<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' hideTitle=['all'] size='sm' color='danger' />
 					</@tform>
 				</@td>
 			</@tr>

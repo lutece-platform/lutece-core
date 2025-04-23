@@ -3,20 +3,20 @@
         <@pageHeader title='#i18n{portal.style.create_style.title}'/>
         <@tform method='post' id="create-style-form" name='create_style' action='jsp/admin/style/DoCreateStyle.jsp'>
             <@input type='hidden' name='token' value='${token}' />
-            <@formGroup labelKey='#i18n{portal.style.create_style.labelId}' labelFor='style_id' mandatory=true>
+            <@formGroup labelKey='#i18n{portal.style.create_style.labelId}' labelFor='style_id' mandatory=true rows=2>
                 <@input type='text' name='style_id' id='style_id' maxlength=10 />
             </@formGroup>
-            <@formGroup labelKey='#i18n{portal.style.create_style.labelName}' labelFor='style_name' mandatory=true>
+            <@formGroup labelKey='#i18n{portal.style.create_style.labelName}' labelFor='style_name' mandatory=true rows=2>
                 <@input type='text' name='style_name' id='style_name' maxlength=100 />
             </@formGroup>
-            <@formGroup labelKey='#i18n{portal.style.create_style.labelComponentType}' labelFor='portal_component'>
+            <@formGroup labelKey='#i18n{portal.style.create_style.labelComponentType}' labelFor='portal_component' rows=2>
                 <#assign javascriptComboParams>onChange="javascript:if( document.create_style.portal_component.value == '0' ) {document.create_style.portlet_type.disabled=false;} else {document.create_style.portlet_type.disabled=true;}"</#assign>
                 <@select name='portal_component' default_value='0' items=portal_component_list params='${javascriptComboParams}' />
             </@formGroup>
-            <@formGroup labelKey='#i18n{portal.style.create_style.labelPortletType}' labelFor='portlet_type'>
+            <@formGroup labelKey='#i18n{portal.style.create_style.labelPortletType}' labelFor='portlet_type' rows=2>
                 <@select name='portlet_type' default_value='0' items=portlet_type_list />
             </@formGroup>
-            <@formGroup>
+            <@formGroup rows=2>
                 <@button type='submit' buttonIcon='plus' title='#i18n{portal.style.create_style.buttonCreate}' color='primary' />
                 <@aButton href='jsp/admin/style/ManageStyles.jsp' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' color='secondary' />
             </@formGroup>

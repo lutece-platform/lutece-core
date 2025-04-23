@@ -10,6 +10,6 @@ Parameters:
 <div class="modal-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<${titleLevel} class="modal-title">${modalTitle}</${titleLevel}>
 	<#nested>
-	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="#i18n{portal.admin_page.buttonClosed}"></button>
+	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="#i18n{portal.site.admin_page.buttonClosed}"></button>
 </div>
 </#macro>
