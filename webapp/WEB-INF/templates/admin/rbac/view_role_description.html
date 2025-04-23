@@ -10,11 +10,11 @@
 							<@option value=resource_type.resourceTypeKey label='${resource_type.resourceTypeLabel}' />
 						</#list>
 						</@select>
-						<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['xs','sm'] buttonIcon='plus' size='' />
+						<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['xs','sm','md'] buttonIcon='plus' size='' />
 					</@inputGroup>
 				</@formGroup>
 			</@tform>
-			<@offcanvas id="edit-role" title="#i18n{portal.rbac.modify_role.titleModifyRole}" position="end" btnTitle="#i18n{portal.rbac.modify_role.titleModifyRole}" btnIcon="edit">
+			<@offcanvas id='edit-role' title='#i18n{portal.rbac.modify_role.titleModifyRole}' position='end' btnTitle='#i18n{portal.rbac.modify_role.titleModifyRole}' hideTitle=['xs','sm','md'] btnIcon='edit'>
 				<@tform method='post' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
 					<@input type='hidden' name='role_key_previous' value='${role.key}' />
 					<@input type='hidden' name='token' value='${token}' />

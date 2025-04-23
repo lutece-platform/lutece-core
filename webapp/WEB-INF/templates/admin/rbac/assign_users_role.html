@@ -1,7 +1,7 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title='${role.description} <strong>[${role.key}]</strong>'>
-			<@offcanvas id="search-users" title="#i18n{portal.users.manage_users.search_users.buttonSearch}" position="end" btnTitle="#i18n{portal.users.manage_users.search_users.buttonSearch}" btnIcon="search me-1"  btnClass="me-1" size="auto">
+			<@offcanvas id='search-users' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' position='end' btnTitle='#i18n{portal.users.manage_users.search_users.buttonSearch}' hideTitle=['xs','sm','md'] btnIcon='search me-1' btnClass='me-1' size='auto'>
 				<@tform method='post' name='search_users' action='jsp/admin/rbac/AssignUsersRole.jsp'>
 					<@input type='hidden' name='role_key' value='${role.key}' />
 					<#if (user_levels?has_content)>
@@ -56,9 +56,9 @@
 					</@formGroup>
 				</@tform>
 			</@offcanvas>
-			<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' hideTitle=['xs','sm'] buttonIcon='edit' size='' class='me-1' />
-			<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' hideTitle=['xs','sm'] buttonIcon='trash' color='danger' size='' class='me-1' />
-			<@item_navigation display='inline' item_navigator=item_navigator />
+			<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' hideTitle=['xs','sm','md'] buttonIcon='edit' size='' class='me-1' />
+			<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' hideTitle=['xs','sm','md'] buttonIcon='trash' color='danger' size='' class='me-1' />
+			<@item_navigation display='inline' item_navigator=item_navigator hideButtonTitle=['xs','sm','md'] buttonSize='' />
 		</@pageHeader>
 		<@row>
 			<@columns md=4 lg=3>
@@ -144,8 +144,8 @@
 											<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
 											<@input type='hidden' name='role_key' value='${role.key?html}' />
 											<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
-											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' hideTitle=['all'] buttonIcon='edit' size='' />
-											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' hideTitle=['all'] buttonIcon='trash' color='danger' size='' />
+											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' hideTitle=['all'] buttonIcon='edit' size='sm' />
+											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
 										</@tform>
 									</@td>
 								</@tr>

@@ -1,7 +1,7 @@
 <@tabPanel id='external_features'>
     <#assign tabTitle>#i18n{portal.features.manage_groups.title}</#assign>
     <@pageHeader title='${tabTitle}' description='#i18n{portal.features.external_features.featureDescription}'>
-        <@offcanvas targetUrl='jsp/admin/features/CreateExternalFeature.jsp' targetElement='#create_external_form' id='external-create' title='#i18n{portal.features.external_features.manage_external_features.create}' btnTitle='#i18n{portal.features.external_features.manage_external_features.create}' btnIcon='plus' btnColor='primary' position='end' />
+        <@offcanvas targetUrl='jsp/admin/features/CreateExternalFeature.jsp' targetElement='#create_external_form' id='external-create' title='#i18n{portal.features.external_features.manage_external_features.create}' hideTitle=['xs','sm','md'] btnTitle='#i18n{portal.features.external_features.manage_external_features.create}' btnIcon='plus' btnColor='primary' position='end' />
     </@pageHeader>
     <@table headBody=true>
         <@tr>
