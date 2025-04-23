@@ -6,37 +6,37 @@
 			<@tform method='post' id="create_external_form" name='create_external_feature' action='jsp/admin/features/DoCreateExternalFeature.jsp'>
 			<@input type='hidden' name='token' value='${token}' />
 			<@messages errors=errors />
-			<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.id}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.id.help}'>
+			<@formGroup labelFor='id' labelKey='#i18n{portal.features.external_features.create_external_features.id}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.id.help}' rows=2>
 				<@input type='text' name='id' value='' />
 			</@formGroup>
-			<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.name_key}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.name_key.help}'>
+			<@formGroup labelFor='name_key' labelKey='#i18n{portal.features.external_features.create_external_features.name_key}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.name_key.help}' rows=2>
 				<@input type='text' name='name_key' value='' />
 			</@formGroup>
-			<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.url}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.url.help}'>
+			<@formGroup labelFor='url' labelKey='#i18n{portal.features.external_features.create_external_features.url}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.url.help}' rows=2>
 				<@input type='text' name='url' value='' />
 			</@formGroup>
-			<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.description_key}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.description_key.help}'>
+			<@formGroup labelFor='description_key' labelKey='#i18n{portal.features.external_features.create_external_features.description_key}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.description_key.help}' rows=2>
 				<@input type='text' name='description_key' value='' />
 			</@formGroup>
 			<#if right_levels_labels_list?has_content>
-				<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.level}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.level.help}'>
+				<@formGroup labelFor='level_id' labelKey='#i18n{portal.features.external_features.create_external_features.level}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.level.help}' rows=2>
 					<@select name='level_id' items=right_levels_labels_list default_value='' />
 				</@formGroup>
 			</#if>
 			<#if features_groups_labels_list?has_content>
-				<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.feature_group}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.feature_group.help}'>
+				<@formGroup  labelFor='feature_group_id' labelKey='#i18n{portal.features.external_features.create_external_features.feature_group}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.feature_group.help}' rows=2>
 					<@select name='feature_group_id' items=features_groups_labels_list default_value='' />
 				</@formGroup>
 			</#if>
-			<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.icon_url}'  helpKey='#i18n{portal.features.external_features.create_external_features.icon_url.help}'>
+			<@formGroup labelFor='icon_url' labelKey='#i18n{portal.features.external_features.create_external_features.icon_url}'  helpKey='#i18n{portal.features.external_features.create_external_features.icon_url.help}' rows=2>
 				<@input type='text' name='icon_url' value='' />
 			</@formGroup>
-			<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.documentation_url}'  helpKey='#i18n{portal.features.external_features.create_external_features.documentation_url.help}'>
+			<@formGroup  labelFor='documentation_url' labelKey='#i18n{portal.features.external_features.create_external_features.documentation_url}' helpKey='#i18n{portal.features.external_features.create_external_features.documentation_url.help}' rows=2>
 				<@input type='text' name='documentation_url' value='' />
 			</@formGroup>
-			<@formGroup>
-				<@button type='submit' title='OK' name='createExternalFeature' buttonIcon='check' color='primary' />
-				<@aButton href='jsp/admin/AdminTechnicalMenu.jsp?#external_features' title='Cancel' name='cancel' buttonIcon='close' color='secondary' />
+			<@formGroup rows=2>
+				<@button type='submit' title='OK' name='createExternalFeature' buttonIcon='device-floppy' color='primary' />
+				<@aButton href='jsp/admin/AdminTechnicalMenu.jsp?#external_features' title='Cancel' name='cancel' buttonIcon='times' color='secondary' />
 			</@formGroup>
 			</@tform>
 		</@boxBody>
