@@ -4,7 +4,7 @@ Description: Generates a Bootstrap form group with a label, input field, and hel
 
 Parameters:
 - id (string, optional): the ID of the form group.
-- formStyle (string, optional): the form style (horizontal, inline, col or blank).
+- formStyle (string, optional): the form style (horizontal, inline, col, fullwidth or blank).
 - groupStyle (string, optional): the style of the form group (success or error).
 - class (string, optional): additional CSS classes to add to the form group.
 - rows (number, optional): the number of rows in the input field.
@@ -26,7 +26,7 @@ Parameters:
     <#local validation = 'is-invalid'>
 </#if>
 <#if collapsed><#local class += ' collapse' /></#if>
-<div class="<#if formStyle != 'inline' && formStyle != 'col'>form-group<#elseif formStyle == 'col'>col-sm-12 <#else>col-lg</#if><#if formStyle='horizontal'> mb-3</#if><#if formStyle='floating'> form-floating</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="<#if formStyle != 'inline' && formStyle != 'col'>form-group<#elseif formStyle == 'col'>col-sm-12 <#else>col-lg</#if><#if formStyle='horizontal' || formStyle='fullwidth' > mb-3</#if><#if formStyle='floating'> form-floating</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local displayLabelClass = displaySettings( hideLabel, 'inline-flex') />
 <#local labelClass = labelClass >
 <#if rows=1>
@@ -43,6 +43,9 @@ Parameters:
     <#elseif formStyle = 'floating'>
         <#local labelClass += ' form-label floating'>
         <#local divClass = 'form-floating'>
+    <#elseif formStyle = 'fullwidth'>
+		<#local labelClass += ' col-12 col-md-2 form-label text-end' />
+		<#local divClass = 'col-md-10' />    
     <#else>
         <#local divClass='col-sm-12 offset-lg-3 col-lg-6'>
     </#if>
