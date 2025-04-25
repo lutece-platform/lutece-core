@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.web.system;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,30 +47,30 @@ import org.apache.commons.text.StringEscapeUtils;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeader;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderHome;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderType;
-import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.securityheader.SecurityHeaderService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
+import fr.paris.lutece.util.url.UrlItem;
 
 /**
  * This class provides the user interface to manage security headers features ( manage, create, modify, remove, activate/deactivate ).
  */
 @SessionScoped
 @Named
+@Controller( controllerJsp = "ManageSecurityHeaders.jsp", controllerPath = "jsp/admin/system/", right = "CORE_SECURITY_HEADER_MANAGEMENT" )
 public class SecurityHeaderJspBean extends MVCAdminJspBean
 {
-    // Rights
-    public static final String RIGHT_SECURITY_HEADER_MANAGEMENT = "CORE_SECURITY_HEADER_MANAGEMENT";
-
     // Templates
     private static final String TEMPLATE_CREATE_SECURITYHEADER = "admin/system/create_securityheader.html";
     private static final String TEMPLATE_MODIFY_SECURITYHEADER = "admin/system/modify_securityheader.html";
@@ -98,6 +97,20 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     // Validations
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "portal.securityheader.model.entity.securityheader.attribute.";
     
+    // Views
+    private static final String VIEW_MANAGE_SECURITYHEADERS = "manageSecurityHeaders";
+    private static final String VIEW_CREATE_SECURITYHEADER = "createSecurityHeader";
+    private static final String VIEW_MODIFY_SECURITYHEADER = "modifySecurityHeader";
+    private static final String VIEW_CONFIRM_REMOVE_SECURITYHEADER = "confirmRemoveSecurityHeader";
+    private static final String VIEW_MESSAGE_NOT_EDITABLE_SECURITYHEADER = "messageNotEditableSecurityHeader";
+    
+    // Actions
+    private static final String ACTION_CREATE_SECURITYHEADER = "createSecurityHeader";
+    private static final String ACTION_MODIFY_SECURITYHEADER = "modifySecurityHeader";
+    private static final String ACTION_REMOVE_SECURITYHEADER = "removeSecurityHeader";
+    private static final String ACTION_ENABLE_SECURITYHEADER = "enableSecurityHeader";
+    private static final String ACTION_DISABLE_SECURITYHEADER = "disableSecurityHeader";
+    
     // Template Files path
     private static final String TEMPLATE_MANAGE_SECURITY_HEADERS = "admin/system/manage_security_headers.html";
     
@@ -108,15 +121,10 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private static final String PARAMETER_DESCRIPTION = "description";
     private static final String PARAMETER_TYPE = "type";
     private static final String PARAMETER_PAGE_CATEGORY  = "pageCategory";
-    private static final String PARAMETER_ACTION = "action";
     
     // Jsp definition
     public static final String JSP_MANAGE_SECURITY_HEADERS = "ManageSecurityHeaders.jsp";
     public static final String JSP_REMOVE_SECURITY_HEADERS = "jsp/admin/system/DoRemoveSecurityHeader.jsp";
-    
-    // Actions
-    private static final String ACTION_ENABLE = "ENABLE";
-    private static final String ACTION_DISABLE = "DISABLE";
   
     private static final long serialVersionUID = 7010476999488231065L;
     
@@ -130,9 +138,10 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            The HttpServletRequest
      * @return The HTML code.
      */
+    @View( value = VIEW_MANAGE_SECURITYHEADERS, defaultView = true )
     public String getManageSecurityHeaders( HttpServletRequest request )
     {
-    	HashMap<String, Object> model = createModelForHeadersList( request );
+    	Map<String, Object> model = createModelForHeadersList( request );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SECURITY_HEADERS, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -146,11 +155,10 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            The HttpServletRequest
      * @return model map
      */
-    private HashMap<String, Object> createModelForHeadersList( HttpServletRequest request )
+    private Map<String, Object> createModelForHeadersList( HttpServletRequest request )
     {
-    	HashMap<String, Object> model = new HashMap<>( );
+    	Map<String, Object> model = getModel( );
         model.put( MARK_SECURITY_HEADERS_LIST, _securityHeaderService.findAllSorted( getLocale( ) ) );
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_SECURITY_HEADERS ) );
         
         return model;
     }
@@ -162,10 +170,11 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            the http request
      * @return the html code for the securityheader creation page
      */
+    @View( value = VIEW_CREATE_SECURITYHEADER )
     public String getCreateSecurityHeader( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_CREATE_SECURITYHEADER_PAGETITLE );
-        HashMap<String, Object> model = createModelForHeaderCreation( request );
+        Map<String, Object> model = createModelForHeaderCreation( request );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_SECURITYHEADER, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -179,12 +188,12 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            The HttpServletRequest
      * @return model map
      */
-    private HashMap<String, Object> createModelForHeaderCreation( HttpServletRequest request )
+    private Map<String, Object> createModelForHeaderCreation( HttpServletRequest request )
     {
     	ReferenceList listTypes = _securityHeaderService.getTypeList( );
         ReferenceList listPageCategories = _securityHeaderService.getPageCategoryList( );
    
-        HashMap<String, Object> model = new HashMap<>( );
+        Map<String, Object> model = getModel( );
         model.put( MARK_TYPES_LIST, listTypes );
         model.put( MARK_PAGE_CATEGORY_LIST, listPageCategories );
         if ( !listTypes.isEmpty( ) )
@@ -196,7 +205,6 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         {
             model.put( MARK_PAGE_CATEGORY_SELECTED, listPageCategories.get( 0 ).getCode( ) );
         }
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_SECURITYHEADER ) );
         
         return model;
     }
@@ -207,27 +215,22 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             If the security token is invalid
      */
-    public String doCreateSecurityHeader( HttpServletRequest request ) throws AccessDeniedException
+    @Action( ACTION_CREATE_SECURITYHEADER )
+    public String doCreateSecurityHeader( HttpServletRequest request )
     {
         SecurityHeader securityHeader = new SecurityHeader( );        
         String strErrors = processCreationFormData( request, securityHeader );
         
         if ( strErrors != null )
         {
-            return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
-        }
-
-        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_SECURITYHEADER ) )
-        {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
+        	String strMessageUrl = AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
+        	return redirect( request, strMessageUrl );
         }
         
         _securityHeaderService.create( securityHeader );
 
-        return JSP_MANAGE_SECURITY_HEADERS;
+        return redirectView( request, VIEW_MANAGE_SECURITYHEADERS );
     }
     
     /**
@@ -356,6 +359,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            the http request
      * @return the html code for the securityheader modification page
      */
+    @View( value = VIEW_MODIFY_SECURITYHEADER )
     public String getModifySecurityHeader( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MODIFY_SECURITYHEADER_PAGETITLE );
@@ -377,7 +381,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
             return getManageSecurityHeaders( request );
         }
 
-        HashMap<String, Object> model = createModelForHeaderModification( request, securityHeader );
+        Map<String, Object> model = createModelForHeaderModification( request, securityHeader );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_SECURITYHEADER, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -409,9 +413,11 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            The Http Request
      * @return the confirmation url
      */
+    @View( value = VIEW_MESSAGE_NOT_EDITABLE_SECURITYHEADER )
     public String getMessageNotEditableSecurityHeader( HttpServletRequest request )
     {  	 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_ACTIVE_HEADER_NOT_EDITABLE, AdminMessage.TYPE_INFO );
+    	String strMessageUrl =  AdminMessageService.getMessageUrl( request, MESSAGE_ACTIVE_HEADER_NOT_EDITABLE, AdminMessage.TYPE_INFO );
+    	return redirect( request, strMessageUrl );   	
     }
       
     /**
@@ -422,12 +428,12 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            The HttpServletRequest
      * @return model map
      */
-	private HashMap<String, Object> createModelForHeaderModification(HttpServletRequest request, SecurityHeader securityHeader) 
+	private Map<String, Object> createModelForHeaderModification(HttpServletRequest request, SecurityHeader securityHeader) 
 	{
 		ReferenceList listTypes = _securityHeaderService.getTypeList( );
         ReferenceList listPageCategories = _securityHeaderService.getPageCategoryList( );
 
-        HashMap<String, Object> model = new HashMap<>( );
+        Map<String, Object> model = getModel( );
         model.put( MARK_TYPES_LIST, listTypes );
         model.put( MARK_PAGE_CATEGORY_LIST, listPageCategories );        
         model.put( MARK_TYPE_SELECTED, securityHeader.getType() );
@@ -442,8 +448,8 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
         }
         model.put( MARK_PAGE_CATEGORY_SELECTED, selectedCategory );
         model.put( MARK_SECURITY_HEADER, securityHeader );
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_SECURITYHEADER ) );
-		return model;
+
+        return model;
 	}
     
     /**
@@ -452,28 +458,24 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
      */
-    public String doModifySecurityHeader( HttpServletRequest request ) throws AccessDeniedException
+	@Action( value = ACTION_MODIFY_SECURITYHEADER )
+    public String doModifySecurityHeader( HttpServletRequest request )
     {
-        int nId = Integer.parseInt( request.getParameter( PARAMETER_SECURITY_HEADER_ID ) );
-        SecurityHeader securityHeader = SecurityHeaderHome.findByPrimaryKey( nId );
+		int nId = Integer.parseInt( request.getParameter( PARAMETER_SECURITY_HEADER_ID ) );
+	    SecurityHeader securityHeader = SecurityHeaderHome.findByPrimaryKey( nId );
 
-        String strErrors = processModifyFormData( request, securityHeader );
+	    String strErrors = processModifyFormData( request, securityHeader );
 
-        if ( strErrors != null )
-        {
-            return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
-        }
-        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_SECURITYHEADER ) )
-        {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
-        }
+	    if ( strErrors != null )
+	    {
+	        String strMessageUrl = AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
+	        return redirect( request, strMessageUrl );
+	    }
 
-        _securityHeaderService.update( securityHeader );
+	    _securityHeaderService.update( securityHeader );		
 
-        return getHomeUrl( request );
+        return redirectView( request, VIEW_MANAGE_SECURITYHEADERS );
     }
     
     /**
@@ -559,13 +561,16 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      *            The Http Request
      * @return the confirmation url
      */
+    @View( value = VIEW_CONFIRM_REMOVE_SECURITYHEADER, securityTokenAction = ACTION_REMOVE_SECURITYHEADER )
     public String getConfirmRemoveSecurityHeader( HttpServletRequest request )
     {  	
-    	Map<String, String> parameters = new HashMap<>( );
-        parameters.put( PARAMETER_SECURITY_HEADER_ID, request.getParameter( PARAMETER_SECURITY_HEADER_ID ) );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_REMOVE_SECURITY_HEADERS ) );
-        
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, JSP_REMOVE_SECURITY_HEADERS, AdminMessage.TYPE_CONFIRMATION, parameters );
+    	int nId = Integer.parseInt( request.getParameter( PARAMETER_SECURITY_HEADER_ID ) );
+        UrlItem url = new UrlItem( getActionUrl( ACTION_REMOVE_SECURITYHEADER ) );
+        url.addParameter( PARAMETER_SECURITY_HEADER_ID, nId );
+
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+
+        return redirect( request, strMessageUrl );
     }
     
     /**
@@ -574,52 +579,45 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
      */
-    public String doRemoveSecurityHeader( HttpServletRequest request ) throws AccessDeniedException
+    @Action( ACTION_REMOVE_SECURITYHEADER )
+    public String doRemoveSecurityHeader( HttpServletRequest request )
     {
-    	if ( !getSecurityTokenService( ).validate( request, JSP_REMOVE_SECURITY_HEADERS ) )
-        {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
-        }
     	String strId = request.getParameter( PARAMETER_SECURITY_HEADER_ID );
     	_securityHeaderService.remove( Integer.parseInt( strId ) );
     	
-    	return JSP_MANAGE_SECURITY_HEADERS;
+    	return redirectView( request, VIEW_MANAGE_SECURITYHEADERS );
     }
     
     /**
-     * Processes the security headers actions (enable and disable).
+     * Enable a security header.
      * 
      * @param request
      *            The HTTP request
      * @return The forward URL
-     * @throws AccessDeniedException
-     *             if the security token is invalid
      */
-    public String doSecurityHeaderAction( HttpServletRequest request ) throws AccessDeniedException
+    @Action( value = ACTION_ENABLE_SECURITYHEADER, securityTokenDisabled = true )
+    public String doEnableSecurityHeaderAction( HttpServletRequest request )
     {
-        String strAction = request.getParameter( PARAMETER_ACTION );
         int nId = Integer.parseInt( request.getParameter( PARAMETER_SECURITY_HEADER_ID ) );
-        
-        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_SECURITY_HEADERS ) )
-        {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
-        }
-        switch( strAction )
-        {
-            case ACTION_ENABLE:
-            	_securityHeaderService.enable( nId );
-                break;
-            case ACTION_DISABLE:
-            	_securityHeaderService.disable( nId );
-                break;
-            default:
-                AppLogService.error( "Unknown security header action : {}", strAction );
-        }
+        _securityHeaderService.enable( nId );
 
-        return getHomeUrl( request );
+        return redirectView( request, VIEW_MANAGE_SECURITYHEADERS );
     }
     
+    /**
+     * Disable a security header.
+     * 
+     * @param request
+     *            The HTTP request
+     * @return The forward URL
+     */
+    @Action( value = ACTION_DISABLE_SECURITYHEADER, securityTokenDisabled = true )
+    public String doDisableSecurityHeaderAction( HttpServletRequest request )
+    {
+        int nId = Integer.parseInt( request.getParameter( PARAMETER_SECURITY_HEADER_ID ) );
+        _securityHeaderService.disable( nId );
+
+        return redirectView( request, VIEW_MANAGE_SECURITYHEADERS );
+    }
 }

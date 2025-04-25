@@ -1,9 +1,8 @@
+${ pageContext.setAttribute( 'strContent', securityHeaderJspBean.processController( pageContext.request, pageContext.response ) ) }
+
 <%@ page errorPage="../ErrorPage.jsp" %>
 <jsp:include page="../AdminHeader.jsp" />
 
-<%@page import="fr.paris.lutece.portal.web.system.SecurityHeaderJspBean"%>
-
-${ securityHeaderJspBean.init( pageContext.request, SecurityHeaderJspBean.RIGHT_SECURITY_HEADER_MANAGEMENT ) }
-${ securityHeaderJspBean.getManageSecurityHeaders( pageContext.request ) }
+${ pageContext.getAttribute( 'strContent' ) }
 
 <%@ include file="../AdminFooter.jsp" %>
