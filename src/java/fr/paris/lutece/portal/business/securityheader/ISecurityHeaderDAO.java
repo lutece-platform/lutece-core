@@ -92,13 +92,4 @@ public interface ISecurityHeaderDAO
      * @return the collection which contains the data of all the security headers
      */
     Collection<SecurityHeader> selectAll( );
-
-    /**
-     * Returns all active security headers from a specified type (page or rest api)
-     *
-     * @param strType
-     *            The type
-     * @return the collection which contains the data of all the securityHeaders
-     */
-    Collection<SecurityHeader> selectActiveByType( String strType );
 }

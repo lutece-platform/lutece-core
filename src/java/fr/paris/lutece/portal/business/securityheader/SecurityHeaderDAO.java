@@ -53,7 +53,6 @@ public final class SecurityHeaderDAO implements ISecurityHeaderDAO
       private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_security_header SET value = ?, description = ?, type = ?, page_category = ? WHERE id_security_header = ?";
       private static final String SQL_QUERY_UPDATE_IS_ACTIVE = "UPDATE core_admin_security_header SET is_active = ? WHERE id_security_header = ?";
       private static final String SQL_QUERY_SELECTALL = "SELECT id_security_header, name, value, description, type, page_category, is_active FROM core_admin_security_header";
-      private static final String SQL_QUERY_SELECT_ACTIVE_BY_TYPE = "SELECT id_security_header, name, value, description, type, page_category, is_active FROM core_admin_security_header WHERE is_active = 'true' and type = ? ";
 
     /**
      * Insert a new record in the table.
@@ -203,41 +202,6 @@ public final class SecurityHeaderDAO implements ISecurityHeaderDAO
             	securityHeadersList.add( securityHeader );
             }
 
-        }
-
-        return securityHeadersList;
-    }
-
-    /**
-     * Returns all active security headers from a specified type (page or REST api)
-     *
-     * @param strType
-     *            The type
-     * @return the list which contains the data of all the securityHeaders
-     */
-    @Override
-    public List<SecurityHeader> selectActiveByType( String strType )
-    {
-        List<SecurityHeader> securityHeadersList = new ArrayList<>( );
-        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACTIVE_BY_TYPE ) )
-        {
-            daoUtil.setString( 1, strType );
-            daoUtil.executeQuery( );
-
-            while ( daoUtil.next( ) )
-            {
-            	SecurityHeader securityHeader = new SecurityHeader( );
-
-            	securityHeader.setId( daoUtil.getInt( 1 ) );
-            	securityHeader.setName( daoUtil.getString( 2 ) );
-            	securityHeader.setDescription( daoUtil.getString( 3 ) );
-            	securityHeader.setValue( daoUtil.getString( 4 ) );
-            	securityHeader.setType( daoUtil.getString( 5 ) );
-            	securityHeader.setPageCategory(daoUtil.getString( 6 ) );
-            	securityHeader.setActive( daoUtil.getBoolean( 7 ) );
-
-            	securityHeadersList.add( securityHeader );
-            }
         }
 
         return securityHeadersList;

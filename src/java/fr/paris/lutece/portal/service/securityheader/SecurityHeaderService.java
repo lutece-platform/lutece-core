@@ -280,7 +280,7 @@ public class SecurityHeaderService
 		//In _mapActiveSecurityHeadersForFilters, 2 keys are necessary to retrieve a list of security headers.
 		//For Page headers, those keys are respectively type and page category
 		//For Rest api headers, those keys are respectively type and null value. 
-		//As page category is not irrelevant for rest api headers, they are grouped using the null key. 
+		//As page category is not relevant for rest api headers, they are grouped using the null key. 
 		String firstKey = securityHeader.getType( );
 		Map<String, List<SecurityHeader>> mapHeadersForType = _mapActiveSecurityHeadersForFilters.get( firstKey );
 		List<SecurityHeader> headersListToUpdate = null;

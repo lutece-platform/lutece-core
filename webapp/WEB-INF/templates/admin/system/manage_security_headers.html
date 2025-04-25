@@ -1,7 +1,7 @@
 <@pageContainer>
 <@pageColumn>
 	<@pageHeader title='#i18n{portal.system.manage_security_headers.titleSecurityHeadersList}' description='#i18n{portal.system.manage_security_headers.featureDescription}'>
-	<@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/system/CreateSecurityHeader.jsp' title='#i18n{portal.securityheader.create_securityheader.title}' buttonIcon='plus' hideTitle=['xs','sm'] />	
+		<@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/system/ManageSecurityHeaders.jsp?view=createSecurityHeader' title='#i18n{portal.securityheader.create_securityheader.title}' buttonIcon='plus' hideTitle=['xs','sm'] />	
 	</@pageHeader>
 	<@table headBody=true>
 		<@tr>
@@ -32,21 +32,20 @@
 				    <@td></@td>
 				</#if>
 				<@td>
-					 <@tform method='post' type='inline' align='middle' action='jsp/admin/system/DoSecurityHeaderAction.jsp'>
+					 <@tform method='post' type='inline' align='middle' action='jsp/admin/system/ManageSecurityHeaders.jsp'>
 						<@input type='hidden' name='id_securityheader' value='${security_header.id}' />
-						<@input type='hidden' name='token' value='${token}' />
 						<#if security_header.active>
-							<@button type='submit' title='#i18n{portal.system.manage_security_headers.actionDisable}' name='action' value='DISABLE' buttonIcon='stop' color='danger' hideTitle=['all'] size='sm' />
+							<@button type='submit' title='#i18n{portal.system.manage_security_headers.actionDisable}' name='action_disableSecurityHeader' value='DISABLE' buttonIcon='stop' color='danger' hideTitle=['all'] size='sm' />
 						<#else>
-							<@button type='submit' title='#i18n{portal.system.manage_security_headers.actionEnable}' name='action' value='ENABLE' buttonIcon='play' color='success' hideTitle=['all'] size='sm' />
+							<@button type='submit' title='#i18n{portal.system.manage_security_headers.actionEnable}' name='action_enableSecurityHeader' value='ENABLE' buttonIcon='play' color='success' hideTitle=['all'] size='sm' />
 						</#if>
 					 </@tform> 
 					 <#if security_header.active>
-					     <@aButton href='jsp/admin/system/NotEditableSecurityHeader.jsp?id_securityheader=${security_header.id}' buttonIcon='edit' size='sm' title='#i18n{portal.securityheader.modify_securityheader.buttonModify} (${security_header.name?html})' hideTitle=['all'] />
+					     <@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp?view=messageNotEditableSecurityHeader' buttonIcon='edit' size='sm' title='#i18n{portal.securityheader.modify_securityheader.buttonModify} (${security_header.name?html})' hideTitle=['all'] />
 					 <#else>
-                         <@aButton href='jsp/admin/system/ModifySecurityHeader.jsp?id_securityheader=${security_header.id}' buttonIcon='edit' size='sm' title='#i18n{portal.securityheader.modify_securityheader.buttonModify} (${security_header.name?html})' hideTitle=['all'] />
+                         <@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp?view=modifySecurityHeader&id_securityheader=${security_header.id}' buttonIcon='edit' size='sm' title='#i18n{portal.securityheader.modify_securityheader.buttonModify} (${security_header.name?html})' hideTitle=['all'] />
 					 </#if>				 				 				
-					 <@aButton href='jsp/admin/system/RemoveSecurityHeader.jsp?id_securityheader=${security_header.id}' buttonIcon='trash' size='sm' title='#i18n{portal.securityheader.modify_securityheader.linkLabelRemove} (${security_header.name?html})' hideTitle=['all'] color='danger' />
+					 <@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp?view=confirmRemoveSecurityHeader&id_securityheader=${security_header.id}' buttonIcon='trash' size='sm' title='#i18n{portal.securityheader.modify_securityheader.linkLabelRemove} (${security_header.name?html})' hideTitle=['all'] color='danger' />
 				</@td>
 			</@tr>
 			<#assign id=id + 1>
