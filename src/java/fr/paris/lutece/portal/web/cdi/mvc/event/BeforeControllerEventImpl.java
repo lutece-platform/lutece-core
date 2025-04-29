@@ -1,5 +1,7 @@
 package fr.paris.lutece.portal.web.cdi.mvc.event;
 
+import java.lang.reflect.Method;
+
 /**
  * Default implementation of the {@link BeforeControllerEvent} interface.
  * <p>
@@ -16,5 +18,37 @@ package fr.paris.lutece.portal.web.cdi.mvc.event;
  * @see BeforeControllerEvent
  */
 public class BeforeControllerEventImpl implements BeforeControllerEvent{
+
+	private final Method invokedMethod;
+	private final boolean isBackOffice;
+    private final ControllerInvocationType invocationType;
+    
+    /**
+     * Constructs a new {@code BeforeControllerEventImpl} with the given parameters.
+     *
+     * @param invokedMethod the method that will be invoked
+     * @param isBackOffice {@code true} if the context is back-office (BO), {@code false} if front-office (FO)
+     * @param invocationType the type of controller call (e.g., VIEW, ACTION, etc.)
+     */
+    public BeforeControllerEventImpl(Method invokedMethod, boolean isBackOffice, ControllerInvocationType invocationType) {
+        this.invokedMethod = invokedMethod;
+        this.isBackOffice = isBackOffice;
+        this.invocationType = invocationType;
+    }
+
+	@Override
+	public Method getInvokedMethod() {
+		return invokedMethod;
+	}
+	
+	@Override
+	public boolean isBackOffice() {
+		return isBackOffice;
+	}
+	
+	@Override
+    public ControllerInvocationType getInvocationType() {
+        return invocationType;
+    }
 
 }

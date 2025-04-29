@@ -50,12 +50,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.Logger;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
-import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.security.AccessLogService;
-import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
@@ -68,6 +65,7 @@ import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.cdi.mvc.event.ControllerRedirectEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.EventDispatcher;
+import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.beanvalidation.ValidationError;
@@ -95,8 +93,6 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
     private HttpServletResponse _response;
-    @Inject
-    private AccessLogService _accessLogService;
     @Inject
     private SecurityTokenHandler _securityTokenHandler;
     @Inject 
@@ -137,12 +133,12 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         getSecurityTokenHandler( ).registerActions( _controller.controllerPath( ) + _controller.controllerJsp( ), methods );
         try
         {
-        	getEventDispatcher().fireBeforeControllerEvent();
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
 
             if ( m != null )
             {
+            	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.VIEW);
                 return (String) processView(m, request);
             }
 
@@ -151,11 +147,13 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             if ( m != null )
             {
+            	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.ACTION);
                 return (String) processAction(m, request);
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
+        	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.DEFAULT_VIEW);
             return (String) processView(m, request);
         }
         catch( InvocationTargetException e )
@@ -198,10 +196,6 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     private String processView( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
     	try {
-	    	AdminUser adminUser = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
-	    	getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
-	                request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
-	        getSecurityTokenHandler( ).handleToken(request, m);
         	return (String) m.invoke( this, request );
         } finally {
         	getEventDispatcher( ).fireAfterProcessViewEvent();
@@ -227,11 +221,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      * @throws InvocationTargetException if the invoked method throws an exception
      */
     private String processAction( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        AdminUser adminUser = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
-    	getAccessLogService( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), adminUser,
-                request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
-        getSecurityTokenHandler( ).handleToken(request, m);
-    	return (String) m.invoke( this, request );        
+        return (String) m.invoke( this, request );        
     }
     // //////////////////////////////////////////////////////////////////////////
     // Page utils
@@ -662,16 +652,6 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         {
             AppLogService.error( e.getStackTrace( ), e );
         }
-    }
-    
-    /**
-     * Returns the AccesLogService instance by privileging direct injection. Used during complete transition do CDI XPages.
-     * 
-     * @return the AccessLogService instance
-     */
-    private AccessLogService getAccessLogService( )
-    {
-        return null != _accessLogService ? _accessLogService : CDI.current( ).select( AccessLogService.class ).get( );
     }
 
     /**

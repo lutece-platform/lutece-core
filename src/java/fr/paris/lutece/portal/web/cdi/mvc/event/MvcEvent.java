@@ -7,4 +7,12 @@ package fr.paris.lutece.portal.web.cdi.mvc.event;
  */
 public interface MvcEvent {
 
+	public enum ControllerInvocationType {
+		ACTION,
+        VIEW,
+        DEFAULT_VIEW,
+        MESSAGE_BOX_VIEW,
+        OTHER
+    }
+	
 }

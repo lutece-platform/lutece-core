@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.util.mvc.xpage;
 
-import fr.paris.lutece.portal.service.security.AccessLogService;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -58,7 +57,6 @@ import org.apache.logging.log4j.Logger;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
@@ -73,8 +71,10 @@ import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.LocalVariables;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.cdi.mvc.event.ControllerRedirectEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.EventDispatcher;
+import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
@@ -111,8 +111,6 @@ public abstract class MVCApplication implements XPageApplication
     private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private MVCMessageBox _messageBox;
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
-    @Inject
-    private transient AccessLogService _accessLogService;
     @Inject
     private transient SecurityTokenHandler _securityTokenHandler;
     @Inject 
@@ -177,15 +175,17 @@ public abstract class MVCApplication implements XPageApplication
 
         try
         {
-        	getEventDispatcher().fireBeforeControllerEvent();
             if ( isMessageBox( request ) )
             {
+            	Method m= getMessageBoxMethod( methods );
+            	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.MESSAGE_BOX_VIEW );
                 return messageBox( request );
             }
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
             if ( m != null )
             {
+            	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.VIEW );
                  return processView(  m,  request  );
             }
 
@@ -193,12 +193,13 @@ public abstract class MVCApplication implements XPageApplication
             m = MVCUtils.findActionAnnotedMethod( request, methods );
             if ( m != null )
             {
-                 return processAction( m, request );
+            	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.ACTION );
+                return processAction( m, request );
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
-
+        	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.DEFAULT_VIEW  );
             return processView( m,  request  );
         }
         catch( InvocationTargetException e )
@@ -251,10 +252,6 @@ public abstract class MVCApplication implements XPageApplication
      */
     private XPage processView( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
     	try {
-    		//getEventDispatcher().fireBeforeProcessViewEvent();
-    		getAccessLogService( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), getRegistredUser( request ),
-                 request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
-        	getSecurityTokenHandler( ).handleToken(request, m);
         	return (XPage) m.invoke( this, request );
         } finally {
         	getEventDispatcher( ).fireAfterProcessViewEvent();
@@ -280,10 +277,32 @@ public abstract class MVCApplication implements XPageApplication
      * @throws InvocationTargetException if the invoked method throws an exception
      */
     private XPage processAction( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-    	getAccessLogService( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), getRegistredUser( request ),
-                 request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
-        getSecurityTokenHandler( ).handleToken(request, m);
+    	
     	return (XPage) m.invoke( this, request );        
+    }
+    /**
+     * Searches for the {@code messageBox} method within the given list of declared methods.
+     * <p>
+     * The method must be named {@code "messageBox"} and take exactly one parameter (typically
+     * an {@link javax.servlet.http.HttpServletRequest}).
+     * </p>
+     * 
+     * @param methods the array of {@link Method} objects to search through, typically from {@code getAllDeclaredMethods()}
+     * @return the matching {@code messageBox} method, or {@code null} if not found
+     */
+    private Method getMessageBoxMethod( Method [ ] methods )
+    {
+        for ( Method m : methods )
+        {
+            if ( "messageBox".equals(m.getName( )) && m.getParameterCount() == 1 )
+            {
+                return m;
+            }
+        }
+
+        _logger.error( "MVC controller - No messageBox method found" );
+
+        return null;
     }
     /**
      * Returns the XPage name
@@ -417,13 +436,15 @@ public abstract class MVCApplication implements XPageApplication
      * 
      * @return The model
      */
+    @Deprecated
     protected Map<String, Object> getModel( )
     {
-        Map<String, Object> model = new HashMap<>( );
+       // Map<String, Object> model = new HashMap<>( );
+    	Models model= CDI.current().select(Models.class).get();
         fillCommons( model );
         fillSecurityToken( model );
         
-        return model;
+        return model.asMap();
     }
 
     // //////////////////////////////////////////////////////////////////////////
@@ -638,7 +659,26 @@ public abstract class MVCApplication implements XPageApplication
      * @param model
      *            The model
      */
+    @Deprecated
     protected void fillCommons( Map<String, Object> model )
+    {
+        List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
+        List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
+        List<ErrorMessage> listWarnings = new ArrayList<>( _listWarnings );
+        model.put( MARK_ERRORS, listErrors );
+        model.put( MARK_INFOS, listInfos );
+        model.put( MARK_WARNINGS, listWarnings );
+        _listErrors.clear( );
+        _listInfos.clear( );
+        _listWarnings.clear( );
+    }
+    /**
+     * Fill the model with commons objects used in templates
+     * 
+     * @param model
+     *            The model
+     */
+    private void fillCommons( Models model )
     {
         List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
         List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
@@ -1034,16 +1074,6 @@ public abstract class MVCApplication implements XPageApplication
         }
 
         return null;
-    }
-    
-    /**
-     * Returns the AccesLogService instance by privileging direct injection. Used during complete transition do CDI XPages.
-     * 
-     * @return the AccessLogService instance
-     */
-    private AccessLogService getAccessLogService( )
-    {
-        return null != _accessLogService ? _accessLogService : CDI.current( ).select( AccessLogService.class ).get( );
     }
 
     /**

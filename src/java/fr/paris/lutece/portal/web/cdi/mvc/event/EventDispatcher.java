@@ -1,5 +1,7 @@
 package fr.paris.lutece.portal.web.cdi.mvc.event;
 
+import java.lang.reflect.Method;
+
 import fr.paris.lutece.util.url.UrlItem;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
@@ -36,10 +38,13 @@ public class EventDispatcher {
      * perform validation before the controller method runs.
      * </p>
      *
+     * @param  invokedMethod controller method that is about to be invoked
+     * @param stIsBackOffice Indicates whether the current request is in the back-office (BO) context or in the FO
      * @return the dispatched {@link BeforeControllerEvent} instance
      */
-    public BeforeControllerEvent fireBeforeControllerEvent() {
-    	final BeforeControllerEventImpl event = new BeforeControllerEventImpl();
+    public BeforeControllerEvent fireBeforeControllerEvent( Method invokedMethod, boolean isBackOffice, BeforeControllerEvent.ControllerInvocationType controllerInvocationType  ) {
+    	final BeforeControllerEventImpl event = new BeforeControllerEventImpl(invokedMethod, isBackOffice, controllerInvocationType);
+    	
         mvcEventDispatcher.fire(event);  
         return event;
     }

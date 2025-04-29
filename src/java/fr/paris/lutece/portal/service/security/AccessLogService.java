@@ -34,9 +34,16 @@
 package fr.paris.lutece.portal.service.security;
 
 import fr.paris.lutece.api.user.User;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
+import fr.paris.lutece.portal.web.cdi.mvc.event.BeforeControllerEvent;
+import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent.ControllerInvocationType;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 
@@ -67,7 +74,8 @@ public class AccessLogService
     // constants
     public static final String ACCESS_LOG_FO = "fo";
     public static final String ACCESS_LOG_BO = "bo";
-
+    @Inject 
+    HttpServletRequest request;
     private List<IAccessLogger> _accessLoggerList;
 
     AccessLogService( )
@@ -226,5 +234,23 @@ public class AccessLogService
     {
         warn( strEventType, strAppEventCode, connectedUser, data, null );
     }
-
+    
+    /**
+     * Observes all controller invocations and logs access according to context.
+     *
+     * @param event the controller invocation event
+     */
+    public void onControllerInvocation(@Observes BeforeControllerEvent event) {
+        ControllerInvocationType type = event.getInvocationType();
+        if( ! event.isBackOffice() ){
+        	trace( type.name(), event.getInvokedMethod( ).getName( ), SecurityService.getInstance( ).getRegisteredUser( request ),
+                    request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
+        }else {
+	    	AdminUser adminUser = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
+        	trace( type.name(), event.getInvokedMethod( ).getName( ), adminUser,
+	                request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
+	  
+        }
+    	
+    }
 }

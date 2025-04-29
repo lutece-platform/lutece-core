@@ -46,7 +46,10 @@ import java.util.regex.Pattern;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import fr.paris.lutece.portal.web.cdi.mvc.event.BeforeControllerEvent;
+import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent.ControllerInvocationType;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -73,6 +76,8 @@ public class SecurityTokenHandler
 
     private Set<String> _actionMethods = new HashSet<String>( );
     private Map<String, HashSet<String>> _mapDisabledActionMethods = new HashMap<String, HashSet<String>>( );
+    @Inject 
+    HttpServletRequest request;
     @Inject
     private SecurityTokenService _securityTokenService;
 
@@ -310,4 +315,20 @@ public class SecurityTokenHandler
         return result;
     }
 
+    /**
+     * Observes controller invocations and handles token validation
+     * for selected invocation types (ACTION, VIEW, DEFAULT_VIEW).
+     *
+     * @param event the controller event
+     */
+    public void onControllerInvocation(@Observes BeforeControllerEvent event)
+    {
+        ControllerInvocationType invocationType = event.getInvocationType();
+    	if(invocationType.equals(ControllerInvocationType.VIEW) 
+    			|| invocationType.equals(ControllerInvocationType.ACTION)
+    			|| invocationType.equals(ControllerInvocationType.DEFAULT_VIEW)) {
+    		handleToken( request, event.getInvokedMethod( ));
+    	}
+
+    }
 }
