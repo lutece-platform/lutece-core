@@ -71,7 +71,6 @@ import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.LocalVariables;
-import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.cdi.mvc.event.ControllerRedirectEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.EventDispatcher;
 import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent;
@@ -436,16 +435,15 @@ public abstract class MVCApplication implements XPageApplication
      * 
      * @return The model
      */
-    @Deprecated
     protected Map<String, Object> getModel( )
     {
-       // Map<String, Object> model = new HashMap<>( );
-    	Models model= CDI.current().select(Models.class).get();
+        Map<String, Object> model = new HashMap<>( );
         fillCommons( model );
         fillSecurityToken( model );
         
-        return model.asMap();
+        return model;
     }
+   
 
     // //////////////////////////////////////////////////////////////////////////
     // Bean processing
@@ -659,7 +657,6 @@ public abstract class MVCApplication implements XPageApplication
      * @param model
      *            The model
      */
-    @Deprecated
     protected void fillCommons( Map<String, Object> model )
     {
         List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
@@ -672,25 +669,7 @@ public abstract class MVCApplication implements XPageApplication
         _listInfos.clear( );
         _listWarnings.clear( );
     }
-    /**
-     * Fill the model with commons objects used in templates
-     * 
-     * @param model
-     *            The model
-     */
-    private void fillCommons( Models model )
-    {
-        List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
-        List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
-        List<ErrorMessage> listWarnings = new ArrayList<>( _listWarnings );
-        model.put( MARK_ERRORS, listErrors );
-        model.put( MARK_INFOS, listInfos );
-        model.put( MARK_WARNINGS, listWarnings );
-        _listErrors.clear( );
-        _listInfos.clear( );
-        _listWarnings.clear( );
-    }
-
+    
     // //////////////////////////////////////////////////////////////////////////
     // Redirect utils
 
@@ -1043,7 +1022,7 @@ public abstract class MVCApplication implements XPageApplication
      *            The HTTP request
      * @return The message box
      */
-    private XPage messageBox( HttpServletRequest request )
+    private XPage messageBox( HttpServletRequest request)
     {
 	    try {
 	        _messageBox.localize( getLocale( request ) );
