@@ -69,6 +69,7 @@ public class SecurityTokenHandler
     private static final String TOKEN_FIELD_PATTERN = "<input type=\"hidden\" name=\"_csrftoken\" value=\"{0}\" >";
     private static final String PARAMETER_PAGE = "page";
     private static final String PATH_ADMIN = "/jsp/admin";
+    private static final String ACTION_METHOD_PREFIX = "do";
 
     private Set<String> _actionMethods = new HashSet<String>( );
     private Map<String, HashSet<String>> _mapDisabledActionMethods = new HashMap<String, HashSet<String>>( );
@@ -94,6 +95,11 @@ public class SecurityTokenHandler
                     {
                         dis.add( strActionMethod );
                     }
+                }
+                else if ( m.getName( ).startsWith( ACTION_METHOD_PREFIX ) && !m.isAnnotationPresent( Action.class ) && !m.isAnnotationPresent( View.class ) )
+                {
+                    // This XPage is not using the MVC model, so every 'do' action should be handled without token validation
+                    dis.add( m.getName( ) );
                 }
             }
         }
