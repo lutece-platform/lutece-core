@@ -37,6 +37,7 @@ import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.file.IFileRBACService;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 
 import java.util.Map;
 
@@ -46,6 +47,7 @@ import java.util.Map;
  * 
  */
 @ApplicationScoped
+@Named( "defaultFileNoRBACService" )
 public class DefaultFileNoRBACService implements IFileRBACService
 {
     private static final long serialVersionUID = 1L;

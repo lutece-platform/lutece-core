@@ -36,108 +36,31 @@ package fr.paris.lutece.portal.service.file.implementation;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
-
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
-import fr.paris.lutece.portal.service.admin.AccessDeniedException;
-import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
-import fr.paris.lutece.portal.service.file.ExpiredLinkException;
-import fr.paris.lutece.portal.service.file.FileService;
-import fr.paris.lutece.portal.service.file.IFileDownloadUrlService;
-import fr.paris.lutece.portal.service.file.IFileRBACService;
-import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
-import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.file.IFileStoreService;
 import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppException;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * 
- * DatabaseBlobStoreService.
+ * Database file Service.
  * 
  */
 @ApplicationScoped
-public class LocalDatabaseFileService implements IFileStoreServiceProvider
+@Named( "localDatabaseFileService" )
+public class LocalDatabaseFileService implements IFileStoreService
 {
     private static final long serialVersionUID = 1L;
-
-    @Inject
-    private IFileDownloadUrlService _fileDownloadUrlService;
-    @Inject
-    private IFileRBACService _fileRBACService;
-    private String _strName= "defaultDatabaseFileStoreProvider";
-    private boolean _bDefault = true;
-
-    /**
-     * Constructor
-     */
-    public LocalDatabaseFileService(  )
-    {  
-    }
-    /**
-     * init
-     * 
-     * @param _fileDownloadUrlService
-     * @param _fileRBACService
-     */
-    @Deprecated
-    public LocalDatabaseFileService( IFileDownloadUrlService _fileDownloadUrlService, IFileRBACService _fileRBACService )
-    {
-        this._fileDownloadUrlService = _fileDownloadUrlService;
-        this._fileRBACService = _fileRBACService;
-    }
-
-    /**
-     * get the FileRBACService
-     * 
-     * @return the FileRBACService
-     */
-    public IFileRBACService getFileRBACService( )
-    {
-        return _fileRBACService;
-    }
-
-    /**
-     * set the FileRBACService
-     * 
-     * @param fileRBACService
-     */
-    public void setFileRBACService( IFileRBACService fileRBACService )
-    {
-        this._fileRBACService = fileRBACService;
-    }
-
-    /**
-     * Get the downloadService
-     * 
-     * @return the downloadService
-     */
-    public IFileDownloadUrlService getDownloadUrlService( )
-    {
-        return _fileDownloadUrlService;
-    }
-
-    /**
-     * Sets the downloadService
-     * 
-     * @param downloadUrlService
-     *            downloadService
-     */
-    public void setDownloadUrlService( IFileDownloadUrlService downloadUrlService )
-    {
-        _fileDownloadUrlService = downloadUrlService;
-    }
 
     /**
      * {@inheritDoc}
@@ -145,7 +68,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     @Override
     public String getName( )
     {
-        return _strName;
+        return "LocalDatabaseFileService";
     }
 
     /**
@@ -190,24 +113,23 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         if ( StringUtils.isNotBlank( strKey ) )
         {
             int nfileId = Integer.parseInt( strKey );
-            
+
             // get meta data
             File file = FileHome.findByPrimaryKey( nfileId );
 
             // check if the file exists and was inserted with this provider
-            if ( file == null 
-            		|| ( file.getOrigin( ) == null && getName( ) != null ) 
-            		|| ( file.getOrigin( ) != null && !file.getOrigin( ).equals( getName( ) ) ) )
+            if ( file == null || ( file.getOrigin( ) == null && getName( ) != null )
+                    || ( file.getOrigin( ) != null && !file.getOrigin( ).equals( getName( ) ) ) )
             {
-            	return null;
+                return null;
             }
-            
+
             if ( withPhysicalFile )
             {
                 // get file content
                 file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) ) );
             }
-            
+
             return file;
         }
 
@@ -225,7 +147,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         physicalFile.setValue( blob );
         file.setPhysicalFile( physicalFile );
         file.setOrigin( getName( ) );
-        
+
         int nFileId = FileHome.create( file );
 
         return String.valueOf( nFileId );
@@ -274,7 +196,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         file.setMimeType( fileItem.getContentType( ) );
 
         file.setOrigin( getName( ) );
-        
+
         PhysicalFile physicalFile = new PhysicalFile( );
 
         byte [ ] byteArray;
@@ -303,29 +225,10 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
     public String storeFile( File file )
     {
         file.setOrigin( getName( ) );
-        
+
         int nFileId = FileHome.create( file );
 
         return String.valueOf( nFileId );
-    }
-
-    public void setDefault( boolean bDefault )
-    {
-        this._bDefault = bDefault;
-    }
-
-    public void setName( String strName )
-    {
-        _strName = strName;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isDefault( )
-    {
-        return _bDefault;
     }
 
     /**
@@ -338,101 +241,5 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
         File file = getFile( strKey );
 
         return new ByteArrayInputStream( file.getPhysicalFile( ).getValue( ) );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getFileDownloadUrlFO( String strKey )
-    {
-        return _fileDownloadUrlService.getFileDownloadUrlFO( strKey, getName( ) );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getFileDownloadUrlFO( String strKey, Map<String, String> additionnalData )
-    {
-        return _fileDownloadUrlService.getFileDownloadUrlFO( strKey, additionnalData, getName( ) );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getFileDownloadUrlBO( String strKey )
-    {
-        return _fileDownloadUrlService.getFileDownloadUrlBO( strKey, getName( ) );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getFileDownloadUrlBO( String strKey, Map<String, String> additionnalData )
-    {
-        return _fileDownloadUrlService.getFileDownloadUrlBO( strKey, additionnalData, getName( ) );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void checkAccessRights( Map<String, String> fileData, User user ) throws AccessDeniedException, UserNotSignedException
-    {
-        if ( _fileRBACService != null )
-        {
-            _fileRBACService.checkAccessRights( fileData, user );
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void checkLinkValidity( Map<String, String> fileData ) throws ExpiredLinkException
-    {
-        _fileDownloadUrlService.checkLinkValidity( fileData );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public File getFileFromRequestBO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException
-    {
-        Map<String, String> fileData = _fileDownloadUrlService.getRequestDataBO( request );
-
-        // check access rights
-        checkAccessRights( fileData, AdminAuthenticationService.getInstance( ).getRegisteredUser( request ) );
-
-        // check validity
-        checkLinkValidity( fileData );
-
-        String strFileId = fileData.get( FileService.PARAMETER_FILE_ID );
-
-        return getFile( strFileId );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public File getFileFromRequestFO( HttpServletRequest request ) throws AccessDeniedException, ExpiredLinkException, UserNotSignedException
-    {
-
-        Map<String, String> fileData = _fileDownloadUrlService.getRequestDataFO( request );
-
-        // check access rights
-        checkAccessRights( fileData, SecurityService.getInstance( ).getRegisteredUser( request ) );
-
-        // check validity
-        checkLinkValidity( fileData );
-
-        String strFileId = fileData.get( FileService.PARAMETER_FILE_ID );
-
-        return getFile( strFileId );
     }
 }

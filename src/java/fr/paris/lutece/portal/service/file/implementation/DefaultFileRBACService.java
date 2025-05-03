@@ -33,16 +33,15 @@
  */
 package fr.paris.lutece.portal.service.file.implementation;
 
+import java.util.Map;
+
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
-import fr.paris.lutece.portal.service.file.FileService;
 import fr.paris.lutece.portal.service.file.IFileRBACService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Alternative;
-
-import java.util.Map;
+import jakarta.inject.Named;
 
 /**
  * 
@@ -50,18 +49,21 @@ import java.util.Map;
  * 
  */
 @ApplicationScoped
-@Alternative
+@Named( "defaultFileRBACService" )
 public class DefaultFileRBACService implements IFileRBACService
 {
     private static final long serialVersionUID = 1L;
     private static final String MESSAGE_ACCESS_DENIED_KEY = "portal.file.download.access.denied";
+    public static final String PERMISSION_VIEW = "VIEW";
+
+    public static final String PARAMETER_RESOURCE_ID = "resource_id";
+    public static final String PARAMETER_RESOURCE_TYPE = "resource_type";
 
     @Override
     public void checkAccessRights( Map<String, String> fileData, User user ) throws AccessDeniedException
     {
 
-        if ( !RBACService.isAuthorized( fileData.get( FileService.PARAMETER_RESOURCE_ID ), fileData.get( FileService.PARAMETER_RESOURCE_TYPE ),
-                FileService.PERMISSION_VIEW, user ) )
+        if ( !RBACService.isAuthorized( fileData.get( PARAMETER_RESOURCE_ID ), fileData.get( PARAMETER_RESOURCE_TYPE ), PERMISSION_VIEW, user ) )
         {
             throw new AccessDeniedException( I18nService.getLocalizedString( MESSAGE_ACCESS_DENIED_KEY, I18nService.getDefaultLocale( ) ) );
         }
