@@ -40,7 +40,7 @@ package fr.paris.lutece.portal.service.progressmanager;
 
 import fr.paris.lutece.portal.business.progressmanager.ProgressFeed;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -275,7 +275,7 @@ public final class ProgressManagerService
                 }
         }
 
-        return null;
+        return Collections.emptyList( );
     }
 
     /**
