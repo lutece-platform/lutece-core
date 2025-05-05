@@ -9,7 +9,7 @@
         </#assign>
         <@pageHeader title='${userImg!} ${user.lastName!} ${user.firstName!}'>
             <#if can_delegate = 'true'><@p>#i18n{portal.users.modify_user_rights.informationRightModification}</@p></#if>
-            <@item_navigation item_navigator=item_navigator />
+            <@item_navigation item_navigator=item_navigator hideButtonTitle=['xs','sm'] buttonSize='' />
         </@pageHeader>
         <@tabs>
             <@tabList>
@@ -26,12 +26,12 @@
                     <@input type='hidden' name='token' value='${token}' />
                     <@div class='d-flex justify-content-between pb-3'>
                         <@btnGroup>
-                            <@button buttonIcon='filter' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
-                            <@button buttonIcon='filter-off' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
+                            <@button buttonIcon='filter' size='' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
+                            <@button buttonIcon='filter-off' size='' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
                         </@btnGroup>
                         <@btnGroup>
-                            <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' color='primary' size='' />
-                            <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
+                            <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' hideTitle=['xs','sm'] color='primary' size='' />
+                            <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' hideTitle=['xs','sm'] size='' />
                         </@btnGroup>
                     </@div>
                     <@listGroup id="user-right-list">
