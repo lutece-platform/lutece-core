@@ -3,13 +3,13 @@
         <@pageHeader title='#i18n{portal.workgroup.create_workgroup.titleCreationForm}' />
 		<@tform method='post' id="create-workgroup-form" action='jsp/admin/workgroup/DoCreateWorkgroup.jsp'>
 			<@input type='hidden' name='token' value='${token}' />
-			<@formGroup labelKey='#i18n{portal.workgroup.create_workgroup.labelKey}' labelFor='workgroup_key' mandatory=true>
+			<@formGroup labelKey='#i18n{portal.workgroup.create_workgroup.labelKey}' labelFor='workgroup_key' mandatory=true rows=2>
 				<@input type='text' id='workgroup_key' name='workgroup_key' maxlength=50 />
 			</@formGroup>
-			<@formGroup labelKey='#i18n{portal.workgroup.create_workgroup.labelDescription}' labelFor='workgroup_description' mandatory=true>
+			<@formGroup labelKey='#i18n{portal.workgroup.create_workgroup.labelDescription}' labelFor='workgroup_description' mandatory=true rows=2>
 				<@input type='text' id='workgroup_description' name='workgroup_description' maxlength=250 />
 			</@formGroup>
-			<@formGroup>
+			<@formGroup rows=2>
 				<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.workgroup.create_workgroup.buttonLabelCreate}' color='primary' size='' />
 				<@aButton href='jsp/admin/workgroup/ManageWorkgroups.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}' color='secondary' size='' />
 			</@formGroup>

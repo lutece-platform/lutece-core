@@ -1,10 +1,10 @@
 <#assign boxTitle>${workgroup.description} <strong>[${workgroup.key}]</strong></#assign>
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title=boxTitle>
+		<@pageHeader title=boxTitle responsiveHeader=true>
 			<@offcanvas id='search-users' title='#i18n{portal.users.manage_users.search_users.buttonSearch}'
 				position='end' btnTitle='#i18n{portal.users.manage_users.search_users.buttonSearch}' btnIcon='search'
-				size='auto'>
+				size='auto' hideTitle=['xs','sm','md']>
 				<@tform method='post' name='search_users' action='jsp/admin/workgroup/AssignUsersWorkgroup.jsp'>
 					<@input type='hidden' name='workgroup_key' value='${workgroup.key}' />
 					<#if (user_levels?has_content)>
@@ -98,12 +98,12 @@
 					</@formGroup>
 				</@tform>
 			</@offcanvas>
-			<@offcanvas targetUrl="jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}"
-				targetElement="#modify_workgroup_form" redirectForm=false id="template-modify-workgroup"
-				title="#i18n{portal.workgroup.modify_workgroup.titleModificationForm}"
-				btnTitle="#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}" btnIcon="edit" position="end" />
+			<@offcanvas targetUrl='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}'
+				targetElement='#modify_workgroup_form' redirectForm=false id='template-modify-workgroup'
+				title='#i18n{portal.workgroup.modify_workgroup.titleModificationForm}'
+				btnTitle='#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}' hideTitle=['xs','sm','md'] btnIcon='edit' position='end' />
 			<@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}'
-				title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' buttonIcon='trash' color='danger' />
+				title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' hideTitle=['xs','sm','md'] buttonIcon='trash' color='danger' />
 			<@item_navigation item_navigator=item_navigator id='item-navigator-availableusers' display='inline' />
 		</@pageHeader>
 		<@row>
@@ -114,19 +114,16 @@
 						<#if users_list?size gt 0>
 							<@tform name='assignUser' method='post'
 								action='jsp/admin/workgroup/DoAssignUsersWorkgroup.jsp'>
-								<@row>
 									<@input type='hidden' name='workgroup_key' value='${workgroup.key}' />
 									<@input type='hidden' name='token' value='${token}' />
-									<@formGroup>
-										<@select class='is-fullwidth' sort=true name='list_users' default_value=''
-											multiple=20 items=users_list />
+									<@formGroup labelFor='list_users' labelKey='#i18n{portal.workgroup.assign_users.labelAvailableUser}' hideLabel=['all'] rows=2>
+										<@select sort=true name='list_users' default_value='' multiple=20 items=users_list />
 									</@formGroup>
 									<#if users_list?size gt 0>
 										<@button type='submit' buttonIcon='arrows-diff'
 											title='#i18n{portal.rbac.assign_users.labelButtonValidate}'
 											color='primary' />
 									</#if>
-								</@row>
 							</@tform>
 							<#else>
 								<@callOut color='warning'>
@@ -209,10 +206,10 @@
 											<@aButton
 												href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}'
 												buttonIcon='edit'
-												title='#i18n{portal.workgroup.assign_users.actionModify}'
+												title='#i18n{portal.workgroup.assign_users.actionModify}' size='sm'
 												hideTitle=['all'] />
 											<@button type='submit' buttonIcon='trash'
-												title='#i18n{portal.workgroup.assign_users.actionUnassign}'
+												title='#i18n{portal.workgroup.assign_users.actionUnassign}' size='sm'
 												color='danger' hideTitle=['all'] />
 										</@tform>
 									</@td>

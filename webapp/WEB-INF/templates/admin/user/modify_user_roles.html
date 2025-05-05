@@ -8,7 +8,7 @@
         </#if>
         </#assign>
         <@pageHeader title='${userImg} ${user.lastName} ${user.firstName}'>
-            <@item_navigation item_navigator=item_navigator />
+            <@item_navigation item_navigator=item_navigator hideButtonTitle=['xs','sm'] buttonSize='' />
         </@pageHeader>
         <@tform role='form' method='post' action='jsp/admin/user/DoModifyUserRoles.jsp'>
         <@tabs>
@@ -24,12 +24,12 @@
             <@tabContent>
                 <@div class='d-flex justify-content-between pb-3'>
                     <@btnGroup>
-                        <@button buttonIcon='filter' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
-                        <@button buttonIcon='filter-off' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
+                        <@button buttonIcon='filter' size='' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
+                        <@button buttonIcon='filter-off' size='' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
                     </@btnGroup>
                     <@btnGroup>
-                        <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}' color='primary' size='' />
-                        <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
+                        <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_roles.buttonLabelModifyRoles}' hideTitle=['xs','sm'] color='primary' size='' />
+                        <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' hideTitle=['xs','sm'] size='' />
                     </@btnGroup>
                 </@div>
                 <@input type='hidden' name='id_user' value='${user.userId}' />
