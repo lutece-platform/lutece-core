@@ -1,10 +1,9 @@
 <@pageContainer>
     <@pageColumn> 
         <@pageHeader title='${securityheader.name?html}' />
-		<@tform method='post' id='modify-securityheader-form' action='jsp/admin/system/DoModifySecurityHeader.jsp'>
+		<@tform method='post' id='modify-securityheader-form' action='jsp/admin/system/ManageSecurityHeaders.jsp'>
 			<@input type='hidden' id='id_securityheader' name='id_securityheader' value='${securityheader.id}' />
 			<@input type='hidden' id='name' name='name' value='${securityheader.name}' />
-			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelValue}' labelFor='value' mandatory=true>
 				<@input type='text' name='value' id='value' value='${securityheader.value}' maxlength=1024 />
 			</@formGroup>
@@ -37,8 +36,8 @@
 			</@formGroup>
 			
 			<@formGroup>
-				<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.securityheader.modify_securityheader.buttonModify}' color='primary' />
-				<@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp' buttonIcon='times' color='default' title='#i18n{portal.admin.message.buttonCancel}' />
+				<@button type='submit' name='action_modifySecurityHeader' buttonIcon='device-floppy' title='#i18n{portal.securityheader.modify_securityheader.buttonModify}' color='primary' />
+				<@button type='submit' name='view_manageSecurityHeaders' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' cancel=true />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>

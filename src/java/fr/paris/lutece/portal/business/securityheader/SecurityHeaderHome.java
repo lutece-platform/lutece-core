@@ -127,16 +127,4 @@ public final class SecurityHeaderHome
     {
         return _dao.selectAll( );
     }
-
-    /**
-     * Find all active security headers by type (page or REST api).
-     * 
-     * @param strType
-     *            The type
-     * @return A security headers collection
-     */
-    public static Collection<SecurityHeader> findActiveByType( String strType )
-    {
-        return _dao.selectActiveByType( strType );
-    }
 }
