@@ -33,21 +33,26 @@
  */
 package fr.paris.lutece.portal.service.file.implementation;
 
-import fr.paris.lutece.portal.service.file.ExpiredLinkException;
-import fr.paris.lutece.portal.service.file.FileService;
 import static fr.paris.lutece.portal.service.file.FileService.PARAMETER_VALIDITY_TIME;
-import fr.paris.lutece.portal.service.file.IFileDownloadUrlService;
-import fr.paris.lutece.portal.service.security.RsaService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.util.url.UrlItem;
+
 import java.security.GeneralSecurityException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
+
+import fr.paris.lutece.portal.service.file.ExpiredLinkException;
+import fr.paris.lutece.portal.service.file.FileService;
+import fr.paris.lutece.portal.service.file.IFileDownloadUrlService;
+import fr.paris.lutece.portal.service.security.RsaService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.url.UrlItem;
 
 /**
  * 
@@ -233,11 +238,13 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     @Override
     public Map<String, String> getRequestDataBO( HttpServletRequest request )
     {
-        String strEncryptedData = request.getParameter( FileService.PARAMETER_DATA );
+        String strEncryptedDataParam = request.getParameter( FileService.PARAMETER_DATA );
 
         try
         {
-            String strDecryptedData = RsaService.decryptRsa( strEncryptedData );
+            // the base64 encoded data "=" characters could be escaped 
+            String unescapedUrlParam = StringEscapeUtils.unescapeHtml4( strEncryptedDataParam );
+            String strDecryptedData = RsaService.decryptRsa( unescapedUrlParam );
             return getDecryptedData( strDecryptedData );
         }
         catch( GeneralSecurityException e )
@@ -253,11 +260,13 @@ public class DefaultFileDownloadService implements IFileDownloadUrlService
     @Override
     public Map<String, String> getRequestDataFO( HttpServletRequest request )
     {
-        String strEncryptedData = request.getParameter( FileService.PARAMETER_DATA );
+        String strEncryptedDataParam = request.getParameter( FileService.PARAMETER_DATA );
 
         try
         {
-            String strDecryptedData = RsaService.decryptRsa( strEncryptedData );
+            // the base64 encoded data "=" characters could be escaped 
+            String unescapedUrlParam = StringEscapeUtils.unescapeHtml4( strEncryptedDataParam );
+            String strDecryptedData = RsaService.decryptRsa( unescapedUrlParam );
             return getDecryptedData( strDecryptedData );
         }
         catch( GeneralSecurityException e )
