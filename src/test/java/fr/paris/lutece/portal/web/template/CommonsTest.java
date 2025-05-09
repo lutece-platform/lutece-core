@@ -61,7 +61,7 @@ public class CommonsTest extends LuteceTestCase
     private static final String MARK_MOCK_OBJECT = "mockObject";
     private static final String MARK_FOREIGN_KEYS_LIST = "id_foreigns_list";
     private static final String [ ] CHARTERS_FOLDERS = {
-            "css", "css/fonts", "js"
+            "css", "fonts", "js", "themes"
     };
 
     @Test
