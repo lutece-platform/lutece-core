@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset core:update_db_lutece_core-4.0.1-4.1.0.sql
+--preconditions onFail:MARK_RAN onError:WARN
 ALTER TABLE core_portlet MODIFY COLUMN name VARCHAR(70) NULL DEFAULT NULL COLLATE 'utf8_unicode_ci' AFTER id_page;
 ALTER TABLE core_xsl_export ADD COLUMN plugin VARCHAR(255) DEFAULT '';
 

@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset core:update_db_lutece_core-7.0.8-7.0.9.sql
+--preconditions onFail:MARK_RAN onError:WARN
 ALTER TABLE core_feature_group ADD COLUMN feature_group_icon VARCHAR(255) DEFAULT NULL;
 DELETE FROM core_feature_group WHERE id_feature_group='CONTENT';
 INSERT INTO core_feature_group (id_feature_group, feature_group_description, feature_group_label, feature_group_order, feature_group_icon) VALUES ('CONTENT', 'portal.features.group.content.description', 'portal.features.group.content.label', 1, 'ti ti-files');
