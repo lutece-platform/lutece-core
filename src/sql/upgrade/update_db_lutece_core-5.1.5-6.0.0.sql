@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset core:update_db_lutece_core-5.1.5-6.0.0.sql
+--preconditions onFail:MARK_RAN onError:WARN
 ALTER TABLE core_admin_user MODIFY COLUMN password LONG VARCHAR default NULL;
 ALTER TABLE core_user_password_history MODIFY COLUMN password LONG VARCHAR NOT NULL;
 

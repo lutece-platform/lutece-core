@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset core:update_db_lutece_core-2.3.7-2.4.0.sql
+--preconditions onFail:MARK_RAN onError:WARN
 ALTER TABLE core_theme ADD COLUMN path_js varchar(255) default NULL;
 
 UPDATE core_theme SET path_css='themes/black/css', path_js='theme/black/js' WHERE code_theme='black';

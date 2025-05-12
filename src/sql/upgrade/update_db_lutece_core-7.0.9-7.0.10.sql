@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset core:update_db_lutece_core-7.0.9-7.0.10.sql
+--preconditions onFail:MARK_RAN onError:WARN
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.code';
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.class';
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.menu.checkbox';

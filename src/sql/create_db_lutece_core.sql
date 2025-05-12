@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset core:create_db_lutece_core.sql
+--preconditions onFail:MARK_RAN onError:WARN
 --
 -- Table structure for table core_admin_dashboard
 --

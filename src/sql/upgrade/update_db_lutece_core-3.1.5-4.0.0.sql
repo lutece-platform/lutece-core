@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset core:update_db_lutece_core-3.1.5-4.0.0.sql
+--preconditions onFail:MARK_RAN onError:WARN
 INSERT INTO core_user_parameter VALUES ('force_change_password_reinit', 'false');
 INSERT INTO core_user_parameter VALUES ('password_minimum_length', '8');
 INSERT INTO core_user_parameter VALUES ('password_format', 'false');

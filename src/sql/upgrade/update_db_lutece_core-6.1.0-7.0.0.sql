@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset core:update_db_lutece_core-6.1.0-7.0.0.sql
+--preconditions onFail:MARK_RAN onError:WARN
 
 -- removed or updated entries
 DELETE FROM core_admin_dashboard WHERE dashboard_name = 'editorAdminDashboardComponent';

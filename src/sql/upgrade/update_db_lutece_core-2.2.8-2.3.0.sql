@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset core:update_db_lutece_core-2.2.8-2.3.0.sql
+--preconditions onFail:MARK_RAN onError:WARN
 ALTER TABLE core_style MODIFY COLUMN description_style VARCHAR(100) NOT NULL;
 
 INSERT INTO core_admin_right VALUES ('CORE_LINK_SERVICE_MANAGEMENT','portal.insert.adminFeature.linkService_management.name',2,NULL,'portal.insert.adminFeature.linkService_management.description',0,NULL,NULL,NULL,NULL,1);
