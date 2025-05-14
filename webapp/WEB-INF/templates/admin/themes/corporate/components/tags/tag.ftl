@@ -16,10 +16,8 @@ Parameters:
 -->
 <#macro tag color='primary' class='' size='' title='' tagIcon='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
-<span class="badge text-${color}-emphasis bg-${color}-subtle border border-${color}-subtle rounded-5 <#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
-	<#if tagIcon !=''>
-	<@icon style=tagIcon />
-	</#if>
-	<#nested>
+<span class="badge text-bg-${color} bg-${color} border border-${color} rounded-5 <#if class!=''> ${class}</#if>"<#if title!=''> title="${title}"</#if><#if id!=''>id="${id}"</#if><#if params!=''>${params}</#if>>
+<#if tagIcon !=''><@icon style=tagIcon /></#if>
+<#nested>
 </span>
 </#macro>
