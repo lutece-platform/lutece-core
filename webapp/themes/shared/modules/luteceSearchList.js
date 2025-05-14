@@ -18,7 +18,10 @@ export default class LuteceSearchList {
       emptyMessageElement: null,
       hideClass: null,
       toggleList: false,
+      toggleDefaultState: 'list',
       toggleId: 'card-to-list',
+      toggleRow: false,
+      toggleRowSelector: '.row',
       toggleSelector: '.card',
       toggleBtnPrefix: 'btn',
       toggleBtnClass: 'primary',
@@ -68,15 +71,25 @@ export default class LuteceSearchList {
     });
 
     if ( this.options.toggleList ) {
+      const displayType = this.getToggleState();
       const cardParent = this.searchInput.closest( '#pageHeaderTools' )
-      const btnCardToList = this.setCardToListBtn( cardParent )
-      btnCardToList.addEventListener( 'click', (event) => {
-        this.searchElementList.forEach( element => {
-           this.toggleElements( element, btnCardToList  )
-        })
-      })
+      const carRows = this.options.toggleRow ? document.querySelector( this.options.toggleRowSelector ) : null;
+      const btnCardToList = this.setCardToListBtn( cardParent );
+      
+      if( displayType === 'list' ){
+        if (carRows != null) {
+          this.displayElements( btnCardToList );
+        }
+      }
+
+      btnCardToList.addEventListener('click', (event) => {
+        if (carRows != null) {
+          this.displayElements( btnCardToList );
+        }
+      });
     }
   }
+
   /**
    * Returns the searchable content of an element as a string.
    * @param {HTMLElement} element - The element to get the searchable content for.
@@ -95,6 +108,7 @@ export default class LuteceSearchList {
       })
       .join(' ');
   }
+
   /**
    * Returns a debounced version of a function.
    * @param {Function} func - The function to debounce.
@@ -109,6 +123,7 @@ export default class LuteceSearchList {
       timeout = setTimeout(() => func.apply(context, args), wait);
     };
   }
+
   /**
    * Highlights search matches in an element's children.
    * @param {HTMLElement} element - The element to highlight search matches in.
@@ -128,6 +143,7 @@ export default class LuteceSearchList {
       });
     });
   }
+
   /**
    * Removes highlighting from an element's children.
    * @private
@@ -142,6 +158,7 @@ export default class LuteceSearchList {
       });
     });
   }
+
   /**
    * Removes highlighting from an element's children.
    * @private
@@ -160,7 +177,7 @@ export default class LuteceSearchList {
     element.appendChild( btnToggler )
     return btnToggler
   }
-  
+
   /**
    * Removes highlighting from an element's children.
    * @private
@@ -169,10 +186,10 @@ export default class LuteceSearchList {
   toggleElements( element, btn ) {
     const icon = btn.querySelector( `.${this.options.toggleIconPrefix}` )
     const status = element.classList.length == 0
-    if ( !status ){
+     if ( !status ){
       icon.classList.add( this.options.toggleIconOff  )
       icon.classList.remove( this.options.toggleIconOn )
-      element.setAttribute( 'data-classes', element.classList )
+      element.setAttribute( 'data-classes', element.className )
       btn.setAttribute('aria-label', this.options.toggleLabelOff )
       btn.setAttribute('title', this.options.toggleLabelOff )
       element.className = '';
@@ -181,13 +198,12 @@ export default class LuteceSearchList {
       icon.classList.add( this.options.toggleIconOn )
       btn.setAttribute('title', this.options.toggleLabel )
       btn.setAttribute('aria-label', this.options.toggleLabel )
-      const aClass = element.getAttribute('data-classes').split(' ')
-      aClass.forEach( (c) => { 
-        element.classList.add( c );
-      })
+      const aClass = element.getAttribute('data-classes')
+      element.className=aClass;
     }
     const cards = element.querySelectorAll( this.options.toggleSelector )
     this.toggleCardElements( cards, status )
+    this.saveToggleState( status )
   }
   /**
    * Removes highlighting from an element's children.
@@ -221,7 +237,6 @@ export default class LuteceSearchList {
           this.options.toggleCardFooterClass.forEach( ( f ) => { 
             cardFooter.classList.add( f );
           })
-
         } else {
           this.options.toggleCardFooterClass.forEach( ( f ) => { 
             cardFooter.classList.remove( f );
@@ -229,5 +244,45 @@ export default class LuteceSearchList {
         }
       })
     })
+  }
+  /**
+   * Set Eleement display
+   */
+  displayElements( btn ){
+      const mainRow = document.querySelector(this.options.toggleRowSelector);
+      // Remove class starting with 'row-cols' and save it
+      if ( mainRow.getAttribute( 'data-classes' ) === null ) {
+        mainRow.setAttribute( 'data-classes', mainRow.className )
+        mainRow.className = 'row';
+      } else {
+        mainRow.className = mainRow.getAttribute( 'data-classes' );
+        mainRow.removeAttribute( 'data-classes' )
+      }  
+
+      this.searchElementList.forEach(element => {
+        this.toggleElements(element, btn );
+      });
+  }
+  /**
+   * Save  toggle state 
+   * @private
+   * @param {HTMLElement} element - The element to remove highlighting from.
+   */
+  saveToggleState( toggled ) {
+    const toggleState = toggled ? 'card' : 'list';
+    localStorage.setItem( this.options.toggleId, toggleState );
+  }
+  /**
+   * Retrieve toggle state 
+   * @private
+   * @param {HTMLElement} element - The element to remove highlighting from.
+   */
+  getToggleState( ) {
+    const tgState = localStorage.getItem( this.options.toggleId );
+    if( tgState != null ) {
+      return tgState;
+    } else {
+      return  this.options.toggleDefaultState;
+    }
   }
 }
