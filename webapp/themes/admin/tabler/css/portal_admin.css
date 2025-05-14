@@ -128,6 +128,9 @@ body[data-bs-theme="dark"] .text-muted {
   justify-content: center;
 }
 
+.lutece-page-wrapper{
+  min-height: 80vh
+}
 
 .lutece-skip-links {
   clip: rect(0 0 0 0);
