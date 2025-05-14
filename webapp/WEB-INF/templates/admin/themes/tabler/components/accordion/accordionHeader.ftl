@@ -13,13 +13,12 @@ Parameters:
 - headerIcon (string, optional): the name of the icon to include in the header element.
 -->
 <#macro accordionHeader id='' title='' parentId=parentId childId=childId boxTools=false params='' headerIcon='' >
-<div class="accordion-item">
-	<h2 class="accordion-header" id="${childId}-header"<#if params!=''> ${params}</#if>>
-		<button class="accordion-button<#if aClass!=''> ${aClass}</#if>" type="button" data-bs-toggle="collapse" data-bs-target="#${childId}" aria-expanded="${expanded}" aria-controls="${childId}">
+<h2 class="accordion-header" id="${childId}-header"<#if params!=''> ${params}</#if>>
+	<button class="accordion-button<#if aClass!=''> ${aClass}</#if>" type="button" data-bs-toggle="collapse" data-bs-target="#${childId}" aria-expanded="${expanded}" aria-controls="${childId}">
 		<#if headerIcon!=''><@icon style=headerIcon /></#if><span class="ms-2">${title}</span>
-	</h2>
-	<#local nested><#nested></#local>
-	<#if nested?has_content><#if boxTools><div class="box-tools"></#if>${nested}<#if boxTools></div></#if></#if>
-</div>
+	</button>
+</h2>
+<#local nested><#nested></#local>
+<#if nested?has_content><#if boxTools><div class="box-tools"></#if>${nested}<#if boxTools></div></#if></#if>
 <#assign parentId = parentId />
 </#macro>
