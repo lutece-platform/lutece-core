@@ -83,11 +83,12 @@ Parameters:
 		</#if>
 		<#local nestedContent><#nested /></#local>
 		<#local nestedContent = nestedContent?trim />
-		<#if nestedContent=''>
+		<#if nestedContent='' && dropdownMenu=false>
 			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
 				${title}
 			<#if displayTitleClass!=''></span></#if>
 		</#if>
+		<#if dropdownMenu=true><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title!}<#if displayTitleClass!=''></span></#if></#if>
 		<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'>
 			<#local buttonIcon = buttonIcon />
