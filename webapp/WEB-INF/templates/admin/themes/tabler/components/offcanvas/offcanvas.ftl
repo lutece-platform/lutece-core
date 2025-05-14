@@ -21,18 +21,13 @@
   -->
 <#macro offcanvas id position='end' title='' btnColor='primary' btnTitle='' btnTitleShow=true btnIcon='' btnClass='' bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' redirectForm=true badgeContent='' badgeColor=''>
     <@deprecatedWarning args=deprecated />
-    <a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if>${btnClass}<#if badgeContent?has_content> position-relative</#if>" onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if> title="${btnTitle}">
+    <a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass !=''> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>" onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if> title="${btnTitle}">
         <#if btnIcon!=''>
             <@icon style=btnIcon />
         </#if>
-        <#if btnIcon!='' && btnTitle!='' && btnTitleShow>
-            <span class="ms-1">
-        </#if>
-        <#if btnTitleShow>${btnTitle}</#if>
-        <span class="visually-hidden">${btnTitle}</span>
-        <#if btnIcon!='' && btnTitle!='' && btnTitleShow>
-            </span>
-        </#if>
+		<#-- Visibility of button title -->
+		<#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
+		<span class="${displayTitleClass} ms-1">${btnTitle}</span>
         <#if badgeContent?has_content>
             <#if badgeColor?has_content>
                 <#assign bgColor="bg-" + badgeColor>
@@ -46,7 +41,7 @@
     </a>
     <div class="offcanvas offcanvas-${position} <#if size !=''>w-${size}</#if>" data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
         <div class="offcanvas-header border-bottom text-break <#if title=''>position-absolute end-0 px-2 pt-2 border-0<#else>px-4</#if>">
-            <button type="button" class="border btn btn-light btn-rounded btn-icon position-absolute end-0 me-4" data-bs-dismiss="offcanvas" aria-label="Fermer">
+            <button type="button" class="border btn btn-light btn-rounded btn-icon position-absolute end-0 me-4" data-bs-dismiss="offcanvas" aria-label="#i18n{portal.util.labelClose}">
                 <i class="ti ti-x fs-5"></i>
             </button>
             <#if title!=''>
