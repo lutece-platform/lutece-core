@@ -110,3 +110,33 @@ Parameters:
 	<@alert class='danger'>${i18n("portal.util.message.unsupportedType")}</@alert>
 </#if>
 </#macro>
+<#macro dynamicColorizedSpansForInputFeedback id patternValidationRules>
+<@initValidationInput id/>
+<div id='${id}-help-message-div'>
+<#list patternValidationRules as rule>
+	<#if rule?? && rule['name']?? && rule['regex']?? && rule['message']??>
+	<span id='${rule.name!''}' class='d-bloc text-muted' rule='${rule.regex!''}'><i id='${rule.name}-help-icon' class='ti ti-info-circle mx-1'></i>${rule.message}</span>
+	<#else>
+	<--'patternValidationRules' is not correctly formatted. The format must be a json with maps with the following keys : name, regex and message.-->
+	</#if>
+</#list>
+</div>
+</#macro>
+<#macro initValidationInput id>
+<#if validationInputIsLoaded?? && validationInputIsLoaded>
+<#else>
+<script src='./themes/shared/modules/luteceInteractiveInputMessages.js'></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+    	document.querySelectorAll('input.input-validation').forEach(function(input) {
+    		input.addEventListener('input', function(event) {  
+        		switchInteractiveValidationMessages(event.target);
+    		});
+    		
+    		input.dispatchEvent(new Event('input'));
+		});		
+    });
+</script>
+<#assign validationInputIsLoaded = true />
+</#if>
+</#macro>
