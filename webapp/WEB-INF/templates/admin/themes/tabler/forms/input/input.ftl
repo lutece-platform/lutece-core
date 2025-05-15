@@ -43,8 +43,11 @@ Parameters:
 - fileName (string, optional): the name of the uploaded file for file inputs.
 - datalist (string, optional): the comma-separated list of options for a datalist input.
 - accept (string, optional): the comma-separated list of options for a datalist input.
+- patternValidationRules (json, optional) : json with id, regex and message to associated with each help controller spans. 
+		example : [{'name':'idSpan1','regex':'regexSpan1','message':'messageSpan1'},{'name':'idSpan2',...}]
+		you can use the string "url" instead of a traditionnal regex if you want to validate an URL. example :  [{'name':'idSpan1','regex':'url','message':'messageSpan1'}]
 -->
-<#macro input name id='' type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 step=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false showImage=false fileURL='' fileName='' datalist='' accept='' params='' deprecated...>
+<#macro input name id='' type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 step=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false showImage=false fileURL='' fileName='' datalist='' accept='' params='' patternValidationRules=[] deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if type='textarea'>
@@ -69,6 +72,9 @@ Parameters:
 		<#else>
 			<!-- Missing id or params attribute for macro @input for type "datalist" -->
 		</#if>
+	</#if>
+	<#if patternValidationRules?? && patternValidationRules?size!=0>
+		<@dynamicColorizedSpansForInputFeedback id=id patternValidationRules=patternValidationRules/>
 	</#if>
 <#elseif type='date' || type='datetime' || type='daterange' || type='datetimerange' || type='time'>
 	<input class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
@@ -112,5 +118,35 @@ Parameters:
 <#elseif type='hidden'>
 	<input type="hidden" name="${name}" <#if id!=''>id="${id}"</#if> value="${value}" />
 <#else><@alert class='danger'>${i18n("portal.util.message.unsupportedType")}</@alert>
+</#if>
+</#macro>
+<#macro dynamicColorizedSpansForInputFeedback id patternValidationRules>
+<@initValidationInput id/>
+<div id='${id}-help-message-div'>
+<#list patternValidationRules as rule>
+	<#if rule?? && rule['name']?? && rule['regex']?? && rule['message']??>
+	<span id='${rule.name!''}' class='d-bloc text-muted' rule='${rule.regex!''}'><i id='${rule.name}-help-icon' class='ti ti-info-circle mx-1'></i>${rule.message}</span>
+	<#else>
+	<--'patternValidationRules' is not correctly formatted. The format must be a json with maps with the following keys : name, regex and message.-->
+	</#if>
+</#list>
+</div>
+</#macro>
+<#macro initValidationInput id>
+<#if validationInputIsLoaded?? && validationInputIsLoaded>
+<#else>
+<script src='./themes/shared/modules/luteceInteractiveInputMessages.js'></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+    	document.querySelectorAll('input.input-validation').forEach(function(input) {
+    		input.addEventListener('input', function(event) {  
+        		switchInteractiveValidationMessages(event.target);
+    		});
+    		
+    		input.dispatchEvent(new Event('input'));
+		});		
+    });
+</script>
+<#assign validationInputIsLoaded = true />
 </#if>
 </#macro>
