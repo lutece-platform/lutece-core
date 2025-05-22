@@ -39,7 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -56,19 +57,18 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
-import fr.paris.lutece.portal.web.util.LocalizedPaginator;
-import fr.paris.lutece.util.html.AbstractPaginator;
+import fr.paris.lutece.portal.web.util.IPager;
+import fr.paris.lutece.portal.web.util.Pager;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.sort.AttributeComparator;
 
 /**
  * This class provides the user interface to manage Styles features
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class StylesJspBean extends AdminFeaturesPageJspBean
 {
@@ -91,8 +91,6 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PORTLET_TYPE_LIST = "portlet_type_list";
     private static final String MARK_PORTAL_COMPONENT_LIST = "portal_component_list";
     private static final String MARK_STYLE = "style";
-    private static final String MARK_PAGINATOR = "paginator";
-    private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
 
     // Properties
     private static final String PROPERTY_STYLES_PER_PAGE = "paginator.style.itemsPerPage";
@@ -117,8 +115,10 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CREATE_STYLE_ID_ALREADY_EXISTS = "portal.style.message.createStyle.idAlreadyExists";
     private static final String MESSAGE_CREATE_STYLE_COMPONENT_EXISTS = "portal.style.message.createStyle.componentHasAlreadyAStyle";
     private static final String MESSAGE_CONFIRM_DELETE_STYLESHEET = "portal.style.message.stylesheetConfirmDelete";
-    private int _nItemsPerPage;
-    private String _strCurrentPageIndex;
+    
+    @Inject
+    @Pager( listBookmark = MARK_STYLE_LIST, defaultItemsPerPage = PROPERTY_STYLES_PER_PAGE)
+    private IPager<Style, Void> pager;
 
     /**
      * Displays the styles list
@@ -142,10 +142,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
 
             Collections.sort( listStyles, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
-
-        int defaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLES_PER_PAGE, 10 );
-        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, defaultItemsPerPage );
+        pager.setList( listStyles );
 
         String strURL = getHomeUrl( request );
 
@@ -158,15 +155,10 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         {
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
+        pager.setBaseUrl( strURL );
 
-        LocalizedPaginator<Style> paginator = new LocalizedPaginator<>( listStyles, _nItemsPerPage, strURL, AbstractPaginator.PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex, getLocale( ) );
-
-        Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-        model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_STYLE_LIST, paginator.getPageItems( ) );
-
+        Map<String, Object> model = pager.getPaginatedListModel( request, getLocale() );
+        
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_STYLES, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );

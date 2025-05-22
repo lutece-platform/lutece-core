@@ -43,7 +43,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import javax.xml.parsers.SAXParser;
@@ -76,17 +77,17 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
-import fr.paris.lutece.portal.web.util.LocalizedPaginator;
+import fr.paris.lutece.portal.web.util.IPager;
+import fr.paris.lutece.portal.web.util.Pager;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.file.FileUtil;
-import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.sort.AttributeComparator;
 
 /**
  * This class provides the user interface to manage StyleSheet features
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 {
@@ -110,8 +111,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_STYLESHEET_LIST = "stylesheet_list";
     private static final String MARK_STYLE_LIST = "style_list";
     private static final String MARK_STYLESHEET = "stylesheet";
-    private static final String MARK_PAGINATOR = "paginator";
-    private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_PORTAL_COMPONENT_NAME = "portal_component_name";
     private static final String MARK_PORTLET_TYPE_NAME = "portlet_type_name";
     private static final String MARK_STYLE_DESCRIPTION = "style_description";
@@ -131,9 +130,11 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String LABEL_ALL = "portal.util.labelAll";
     private static final String JSP_DO_REMOVE_STYLESHEET = "jsp/admin/style/DoRemoveStyleSheet.jsp";
     private static final String JSP_REMOVE_STYLE = "RemoveStyle.jsp";
-    private int _nItemsPerPage;
-    private String _strCurrentPageIndex;
 
+    @Inject
+    @Pager( listBookmark = MARK_STYLESHEET_LIST, defaultItemsPerPage = PROPERTY_STYLESHEETS_PER_PAGE)
+    private IPager<StyleSheet, Void> pager;
+    
     /**
      * Displays the stylesheets list
      * 
@@ -165,11 +166,9 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
 
             Collections.sort( listStyleSheets, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
+            
         }
-
-        int defaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLESHEETS_PER_PAGE, 50 );
-        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, defaultItemsPerPage );
+        pager.setList( listStyleSheets);
 
         String strURL = getHomeUrl( request );
 
@@ -182,16 +181,14 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         {
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
+        pager.setBaseUrl( strURL );
 
-        LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<>( listStyleSheets, _nItemsPerPage, strURL, AbstractPaginator.PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex, getLocale( ) );
-
+        Map<String, Object> pagerModel = pager.getPaginatedListModel( request, getLocale() );
+        
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MODE_ID, strModeId );
-        model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
-        model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_STYLESHEET_LIST, paginator.getPageItems( ) );
         model.put( MARK_MODE_LIST, listModes );
+        model.putAll( pagerModel );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_STYLESHEETS, getLocale( ), model );
 
