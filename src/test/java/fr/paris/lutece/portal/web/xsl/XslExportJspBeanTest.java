@@ -45,6 +45,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -56,6 +57,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.xsl.XslExport;
 import fr.paris.lutece.portal.business.xsl.XslExportHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.file.FileService;
 import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -75,8 +77,15 @@ public class XslExportJspBeanTest extends LuteceTestCase
     private XslExportJspBean _instance;
     private XslExport _xslExport;
     private @Inject ISecurityTokenService _securityTokenService;
-    private @Inject IFileStoreServiceProvider _fileStoreService;
+    private @Inject FileService _fileService;
+    private IFileStoreServiceProvider _fileStoreService;
 
+    @BeforeAll
+    protected void initTest( )
+    {
+        _fileStoreService = _fileService.getFileStoreServiceProvider( );
+    }
+    
     @BeforeEach
     protected void setUp( ) throws Exception
     {

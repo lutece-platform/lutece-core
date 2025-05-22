@@ -36,8 +36,8 @@ package fr.paris.lutece.portal.service.fileimage;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.cache.LuteceCache;
+import fr.paris.lutece.portal.service.file.FileService;
 import fr.paris.lutece.portal.service.file.FileServiceException;
-import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
@@ -62,9 +62,8 @@ public class FileImagePublicService implements ImageResourceProvider
 	public static final String IMAGE_RESOURCE_TYPE_ID = "public_image_resource";
 	
 	@Inject
-	private transient IFileStoreServiceProvider _fileStoreService;
+	private transient FileService _fileService;
 	
-    
     /**
      * Init
      *
@@ -132,7 +131,7 @@ public class FileImagePublicService implements ImageResourceProvider
 			/*if no cache*/
 			try 
 			{
-	        File file = _fileStoreService.getFile( String.valueOf( nIdResource ) );
+	        File file = _fileService.getFileStoreServiceProvider( ).getFile( String.valueOf( nIdResource ) );
 	
 	        if ( ( file != null ) && ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
 	        {
@@ -163,7 +162,7 @@ public class FileImagePublicService implements ImageResourceProvider
     {
 		try 
 		{
-			return _fileStoreService.storeFileItem( fileItem ) ;
+			return _fileService.getFileStoreServiceProvider( ).storeFileItem( fileItem ) ;
 		}
 		catch ( FileServiceException e )
 		{
