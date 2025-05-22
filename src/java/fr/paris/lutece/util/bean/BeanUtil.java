@@ -62,6 +62,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public final class BeanUtil
 {
     private static final char UNDERSCORE = '_';
+    private static final String PROXY_CLASS_PROXY_TOKEN = "Proxy";
+    private static final String PROXY_CLASS_DOLLAR_TOKEN = "$$";
 
     static
     {
@@ -120,7 +122,13 @@ public final class BeanUtil
      */
     public static void populate( Object bean, HttpServletRequest request, Locale locale )
     {
-        for ( Field field : bean.getClass( ).getDeclaredFields( ) )
+        Field [ ] declaredFields = bean.getClass( ).getDeclaredFields( );
+        if ( isProxiedBean( bean ) )
+        {
+            declaredFields = bean.getClass( ).getSuperclass( ).getDeclaredFields( );
+        }
+        
+        for ( Field field : declaredFields )
         {
             try
             {
@@ -211,5 +219,17 @@ public final class BeanUtil
         }
 
         return sb.toString( );
+    }
+    
+    /**
+     * Checks if the bean is a proxy class
+     * 
+     * @param bean
+     *            The bean
+     * @return True if the bean is a proxy class
+     */
+    private static boolean isProxiedBean( Object bean )
+    {
+        return bean.toString( ).contains( PROXY_CLASS_PROXY_TOKEN ) || bean.toString( ).contains( PROXY_CLASS_DOLLAR_TOKEN );
     }
 }
