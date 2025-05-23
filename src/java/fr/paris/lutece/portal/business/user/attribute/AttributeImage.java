@@ -63,6 +63,7 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.literal.NamedLiteral;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -354,7 +355,7 @@ public class AttributeImage extends AbstractAttribute
     {
     	try
     	{
-    	   IFileStoreServiceProvider fileStoreService = CDI.current( ).select( IFileStoreServiceProvider.class ).get( );
+    	   IFileStoreServiceProvider fileStoreService = CDI.current( ).select( IFileStoreServiceProvider.class, NamedLiteral.of( "defaultDatabaseFileStoreProvider" ) ).get( );
     	   File file = fileStoreService.getFile( userField.getFile( ).getFileKey( ) );
            userField.setFile( file );
 

@@ -48,7 +48,6 @@ import fr.paris.lutece.portal.service.file.IFileStoreService;
 import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppException;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 /**
@@ -66,15 +65,6 @@ public class LocalDatabaseFileService implements IFileStoreService
      * {@inheritDoc}
      */
     @Override
-    public String getName( )
-    {
-        return "LocalDatabaseFileService";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void delete( String strKey )
     {
         int nfileId = Integer.parseInt( strKey );
@@ -86,18 +76,18 @@ public class LocalDatabaseFileService implements IFileStoreService
      * {@inheritDoc}
      */
     @Override
-    public File getFile( String strKey )
+    public File getFile( String strKey, String strProviderName )
     {
-        return getFile( strKey, true );
+        return getFile( strKey, true, strProviderName );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public File getFileMetaData( String strKey )
+    public File getFileMetaData( String strKey, String strProviderName )
     {
-        return getFile( strKey, false );
+        return getFile( strKey, false, strProviderName );
     }
 
     /**
@@ -108,7 +98,7 @@ public class LocalDatabaseFileService implements IFileStoreService
      * 
      * @return the file with the physical file content if withPhysicalFile is true, null otherwise
      */
-    public File getFile( String strKey, boolean withPhysicalFile )
+    public File getFile( String strKey, boolean withPhysicalFile, String strProviderName )
     {
         if ( StringUtils.isNotBlank( strKey ) )
         {
@@ -118,8 +108,8 @@ public class LocalDatabaseFileService implements IFileStoreService
             File file = FileHome.findByPrimaryKey( nfileId );
 
             // check if the file exists and was inserted with this provider
-            if ( file == null || ( file.getOrigin( ) == null && getName( ) != null )
-                    || ( file.getOrigin( ) != null && !file.getOrigin( ).equals( getName( ) ) ) )
+            if ( file == null || ( file.getOrigin( ) == null && strProviderName != null )
+                    || ( file.getOrigin( ) != null && !file.getOrigin( ).equals( strProviderName ) ) )
             {
                 return null;
             }
@@ -140,13 +130,13 @@ public class LocalDatabaseFileService implements IFileStoreService
      * {@inheritDoc}
      */
     @Override
-    public String storeBytes( byte [ ] blob )
+    public String storeBytes( byte [ ] blob, String strProviderName )
     {
         File file = new File( );
         PhysicalFile physicalFile = new PhysicalFile( );
         physicalFile.setValue( blob );
         file.setPhysicalFile( physicalFile );
-        file.setOrigin( getName( ) );
+        file.setOrigin( strProviderName );
 
         int nFileId = FileHome.create( file );
 
@@ -157,7 +147,7 @@ public class LocalDatabaseFileService implements IFileStoreService
      * {@inheritDoc}
      */
     @Override
-    public String storeInputStream( InputStream inputStream )
+    public String storeInputStream( InputStream inputStream, String strProviderName )
     {
         File file = new File( );
         PhysicalFile physicalFile = new PhysicalFile( );
@@ -176,7 +166,7 @@ public class LocalDatabaseFileService implements IFileStoreService
         physicalFile.setValue( buffer );
         file.setPhysicalFile( physicalFile );
 
-        file.setOrigin( getName( ) );
+        file.setOrigin( strProviderName );
 
         int nFileId = FileHome.create( file );
 
@@ -187,7 +177,7 @@ public class LocalDatabaseFileService implements IFileStoreService
      * {@inheritDoc}
      */
     @Override
-    public String storeFileItem( MultipartItem fileItem )
+    public String storeFileItem( MultipartItem fileItem, String strProviderName )
     {
 
         File file = new File( );
@@ -195,7 +185,7 @@ public class LocalDatabaseFileService implements IFileStoreService
         file.setSize( (int) fileItem.getSize( ) );
         file.setMimeType( fileItem.getContentType( ) );
 
-        file.setOrigin( getName( ) );
+        file.setOrigin( strProviderName );
 
         PhysicalFile physicalFile = new PhysicalFile( );
 
@@ -222,9 +212,9 @@ public class LocalDatabaseFileService implements IFileStoreService
      * {@inheritDoc}
      */
     @Override
-    public String storeFile( File file )
+    public String storeFile( File file, String strProviderName )
     {
-        file.setOrigin( getName( ) );
+        file.setOrigin( strProviderName );
 
         int nFileId = FileHome.create( file );
 
@@ -235,10 +225,10 @@ public class LocalDatabaseFileService implements IFileStoreService
      * {@inheritDoc}
      */
     @Override
-    public InputStream getInputStream( String strKey )
+    public InputStream getInputStream( String strKey, String strProviderName )
     {
 
-        File file = getFile( strKey );
+        File file = getFile( strKey, strProviderName );
 
         return new ByteArrayInputStream( file.getPhysicalFile( ).getValue( ) );
     }

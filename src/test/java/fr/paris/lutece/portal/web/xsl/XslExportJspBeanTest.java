@@ -69,18 +69,22 @@ import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.http.MockMultipartItem;
 import fr.paris.lutece.util.http.TemporaryMultipartItemFactory;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 public class XslExportJspBeanTest extends LuteceTestCase
 {
-    private XslExportJspBean _instance;
     private XslExport _xslExport;
-    private @Inject ISecurityTokenService _securityTokenService;
-    private @Inject IFileStoreServiceProvider _fileStoreService;
+    @Inject 
+    private XslExportJspBean _instance;
+    @Inject 
+    private ISecurityTokenService _securityTokenService;
+    @Inject
+    @Named( "defaultDatabaseFileStoreProvider" )
+    private IFileStoreServiceProvider _fileStoreServiceProvider;
 
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        _instance = new XslExportJspBean( _fileStoreService );
         String strName = getRandomName( );
         _xslExport = new XslExport( );
         _xslExport.setTitle( strName );
@@ -95,7 +99,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
         file.setPhysicalFile( physicalFile );
         file.setMimeType( "application/xml" );
         _xslExport.setFile( file );
-        _xslExport.getFile( ).setFileKey( _fileStoreService.storeFile( _xslExport.getFile( ) ) );
+        _xslExport.getFile( ).setFileKey( _fileStoreServiceProvider.storeFile( _xslExport.getFile( ) ) );
         XslExportHome.create( _xslExport );
     }
 
@@ -103,10 +107,10 @@ public class XslExportJspBeanTest extends LuteceTestCase
     protected void tearDown( ) throws Exception
     {
         XslExportHome.remove( _xslExport.getIdXslExport( ) );
-        File file = _fileStoreService.getFile( _xslExport.getFile( ).getFileKey( ) );
+        File file = _fileStoreServiceProvider.getFile( _xslExport.getFile( ).getFileKey( ) );
         if ( file != null )
         {
-        	_fileStoreService.delete( file.getFileKey( ) );
+        	_fileStoreServiceProvider.delete( file.getFileKey( ) );
         }
     }
     @Test

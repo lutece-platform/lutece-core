@@ -41,7 +41,9 @@ import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
 import fr.paris.lutece.portal.service.util.AppException;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import jakarta.enterprise.inject.literal.NamedLiteral;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Named;
 
 import java.util.List;
 
@@ -53,7 +55,7 @@ import java.util.List;
 public final class AdminUserFieldHome
 {
     private static IAdminUserFieldDAO _dao = CDI.current().select( IAdminUserFieldDAO.class ).get( );
-    private static IFileStoreServiceProvider _fileStoreService = CDI.current().select( IFileStoreServiceProvider.class ).get( );
+    private static IFileStoreServiceProvider _fileStoreService = CDI.current().select( IFileStoreServiceProvider.class, NamedLiteral.of( "defaultDatabaseFileStoreProvider" ) ).get( );
 
     /**
      * Private constructor
