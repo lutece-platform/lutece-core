@@ -72,28 +72,12 @@ import jakarta.servlet.http.HttpServletRequest;
 public class FileServiceTest extends LuteceTestCase
 {
     @Inject
-    @Named( "localDatabaseFileService" )
-    IFileStoreService LocalDatabaseFileService;
+    @Named( "defaultDatabaseFileStoreProvider" )
+    private IFileStoreServiceProvider _fileServiceProvider;
 
     @Inject
-    @Named( "defaultFileNoRBACService" )
-    IFileRBACService defaultFileNoRBACService;
-
-    @Inject
-    @Named( "defaultFileRBACService" )
-    IFileRBACService defaultFileRBACService;
-
-    @Inject
-    @Named( "defaultFileDownloadService" )
-    IFileDownloadUrlService defaultFileDownloadService;
-
-    @Inject
-    @Named( "defaultFileServiceProvider" )
-    IFileStoreServiceProvider _fileServiceProvider;
-
-    @Inject
-    FileService _fileService;
-
+    private FileService _fileService;
+    
     /**
      * test store Lutece File with deprecated FileService
      * 
@@ -103,7 +87,7 @@ public class FileServiceTest extends LuteceTestCase
     public void testStoreFileWithFileService( ) throws UnsupportedEncodingException
     {
         File file = getOneLuteceFile( );
-
+        
         try
         {
             String strFileId = _fileService.getFileStoreServiceProvider( ).storeFile( file );

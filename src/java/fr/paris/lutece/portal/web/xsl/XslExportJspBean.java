@@ -144,14 +144,10 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String ANCHOR_ADMIN_DASHBOARDS = "xslexport";
     private static final String JSP_DO_REMOVE_XSL_EXPORT = "jsp/admin/xsl/DoRemoveXslExport.jsp";
 
-    private IFileStoreServiceProvider _fileStoreService;
-
     @Inject
-    public XslExportJspBean( IFileStoreServiceProvider fileStoreService )
-    {
-    	_fileStoreService = fileStoreService;
-    }
-    
+    @Named( "defaultDatabaseFileStoreProvider" )
+    private IFileStoreServiceProvider _fileStoreServiceProvider;
+
     /**
      * Gets the xsl export creation page
      * 
@@ -234,7 +230,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         {
         	try
         	{
-        		xslExport.getFile( ).setFileKey( _fileStoreService.storeFile( xslExport.getFile( ) ) );
+        		xslExport.getFile( ).setFileKey( _fileStoreServiceProvider.storeFile( xslExport.getFile( ) ) );
         	}
         	catch( FileServiceException e )
         	{
@@ -419,7 +415,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         {
         	try
         	{
-        		_fileStoreService.delete( xslExport.getFile( ).getFileKey( ) );
+        		_fileStoreServiceProvider.delete( xslExport.getFile( ).getFileKey( ) );
         	}
         	catch( FileServiceException e )
         	{
