@@ -50,6 +50,7 @@ import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
 
 @ApplicationScoped
@@ -62,9 +63,9 @@ public class FileImagePublicService implements ImageResourceProvider
 	public static final String IMAGE_RESOURCE_TYPE_ID = "public_image_resource";
 	
 	@Inject
+	@Named( "defaultDatabaseFileStoreProvider" )
 	private transient IFileStoreServiceProvider _fileStoreService;
-	
-    
+
     /**
      * Init
      *

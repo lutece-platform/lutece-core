@@ -31,59 +31,35 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.file;
+package fr.paris.lutece.portal.service.file.implementation;
 
-import java.io.InputStream;
-import fr.paris.lutece.portal.business.file.File;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
-import fr.paris.lutece.portal.service.upload.MultipartItem;
+import fr.paris.lutece.portal.service.file.IFileDownloadUrlService;
+import fr.paris.lutece.portal.service.file.IFileRBACService;
+import fr.paris.lutece.portal.service.file.IFileStoreService;
+import fr.paris.lutece.portal.service.file.IFileStoreServiceProvider;
+import fr.paris.lutece.portal.service.util.CdiHelper;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Produces;
+import jakarta.inject.Named;
 
-public interface IFileStoreService
+@ApplicationScoped
+public class DefaultFileStoreServiceProviderProducer
 {
-
-    public default boolean healthCheck( )
+    @Produces
+    @ApplicationScoped
+    @Named( "defaultDatabaseFileStoreProvider" )
+    public IFileStoreServiceProvider produceBean( @ConfigProperty( name = "lutece.defaultFileServiceProvider.fileStoreService" ) String fileStoreImplName,
+            @ConfigProperty( name = "lutece.defaultFileServiceProvider.rbacService" ) String rbacImplName,
+            @ConfigProperty( name = "lutece.defaultFileServiceProvider.downloadService" ) String dlImplName )
     {
-        // default
-        return true;
+        FileStoreServiceProvider provider = new FileStoreServiceProvider( "defaultDatabaseFileStoreProvider",
+        		CdiHelper.getReference( IFileStoreService.class, fileStoreImplName ),
+        		CdiHelper.getReference( IFileDownloadUrlService.class, dlImplName ),
+                CdiHelper.getReference( IFileRBACService.class, rbacImplName ),
+                true );
+
+        return provider;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    String storeFile( File file, String strProviderName ) throws FileServiceException;
-
-    /**
-     * {@inheritDoc}
-     */
-    File getFile( String strKey, String strProviderName ) throws FileServiceException;
-
-    /**
-     * {@inheritDoc}
-     */
-    void delete( String strKey );
-
-    /**
-     * {@inheritDoc}
-     */
-    fr.paris.lutece.portal.business.file.File getFileMetaData( String strKey, String strProviderName );
-
-    /**
-     * {@inheritDoc}
-     */
-    String storeBytes( byte [ ] blob, String strProviderName );
-
-    /**
-     * {@inheritDoc}
-     */
-    String storeInputStream( InputStream inputStream, String strProviderName );
-
-    /**
-     * {@inheritDoc}
-     */
-    String storeFileItem( MultipartItem fileItem, String strProviderName );
-
-    /**
-     * {@inheritDoc}
-     */
-    InputStream getInputStream( String strKey, String strProviderName );
 }
