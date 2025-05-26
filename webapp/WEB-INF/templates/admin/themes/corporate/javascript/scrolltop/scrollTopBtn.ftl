@@ -6,19 +6,18 @@ Description: Generates a button that appears when the user scrolls down the page
 <#macro scrollTopBtn>
 <a href="#" id="scroll" style="display: none;"><span></span></a>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var scrollBtn = document.getElementById('scroll');
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 100) {
-            scrollBtn.style.display = 'block';
-        } else {
-            scrollBtn.style.display = 'none';
-        }
-    });
-    scrollBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+$( function(){ 
+    $(window).scroll(function(){ 
+        if ( $(this).scrollTop() > 100) { 
+            $('#scroll').fadeIn(); 
+        } else { 
+            $('#scroll').fadeOut(); 
+        } 
+    }); 
+    $('#scroll').click(function(){ 
+        $("html, body").animate({ scrollTop: 0 }, 600); 
+        return false; 
+    }); 
 });
 </script>
 </#macro>
