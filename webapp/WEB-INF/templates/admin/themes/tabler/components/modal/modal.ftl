@@ -8,7 +8,7 @@ Parameters:
 -->
 <#macro modal id params='' bgColor='' size=''>
 <div class="modal ${bgColor} fade" id="${id}" <#if params!=''> ${params}</#if>>
-	<div class="modal-dialog<#if size!=''> modal-${size}</#if> modal-dialog-centered modal-dialog-scrollable" role="document">
+	<div class="modal-dialog<#if size!=''> modal-${size}</#if>" role="document">
 		<div class="modal-content">
 			<#nested>
 		</div>
