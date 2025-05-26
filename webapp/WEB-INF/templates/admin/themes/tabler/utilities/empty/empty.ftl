@@ -25,7 +25,6 @@ Parameters:
 	<#else>
 		<p class="empty-subtitle text-muted">#i18n{portal.util.message.emptySubTitle}</p>
 </#if>
-<#nested>
 <#if actionTitle !=''>
 	<div class="empty-action<#if actionClass!=''> ${actionClass}</#if>">
 		<a href="${actionUrl}" class="btn btn-${actionBtn}"><#if actionIcon !=''><@icon prefix='ti ti-' style='${actionIcon}' /></#if> ${actionTitle}</a>
