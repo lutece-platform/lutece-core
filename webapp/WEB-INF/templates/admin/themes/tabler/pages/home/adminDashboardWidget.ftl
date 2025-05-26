@@ -13,10 +13,10 @@ Parameters:
 	<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
 		<@boxHeader titleLevel='h2' class='h5' title='${title}'>
 			<#if url!=''>
-				<@aButton color='link' class='card-control' href='${url!}' title='${title!}' buttonIcon='cog' hideTitle=['all'] params='aria-label="${title!}"' />
+				<@aButton color='link' class='card-control' href='${url!}' title='${title!}' size='sm' buttonIcon='cog' hideTitle=['all'] params='aria-label="${title!}"' />
 			</#if>
-			<@button style='card-control collapse' buttonTargetId='#${id}_dashboard_card_body' buttonIcon='minus' params='aria-label="#i18n{portal.util.labelShow}"'/>
-			<@button style='card-control remove' buttonTargetId='#${id}_dashboard_card' buttonIcon='times' color='danger' params='aria-label="#i18n{portal.util.labelHide}"' />
+			<@button style='card-control collapse' buttonTargetId='#${id}_dashboard_card_body' buttonIcon='minus' size='sm' params='aria-label="#i18n{portal.util.labelShow}"'/>
+			<@button style='card-control remove' buttonTargetId='#${id}_dashboard_card' buttonIcon='times' size='sm' params='aria-label="#i18n{portal.util.labelHide}"' />
 		</@boxHeader>
 		<@boxBody class=bodyClass id='${id}_dashboard_card_body'>
 			<#nested>
