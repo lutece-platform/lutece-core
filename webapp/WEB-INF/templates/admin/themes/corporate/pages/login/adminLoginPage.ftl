@@ -63,7 +63,7 @@ Parameters:
 		</@div>
 	</@pageColumn>
 	<#if loginLayoutImg?trim != ''>
-		<@pageColumn id="lutece-advert" class="p-0 d-none d-xxl-block bg-login-adv bg-dark">
+		<@pageColumn id="lutece-advert" class="p-0 d-none d-xxl-block bg-login-adv">
 			<@div class="d-flex align-items-center justify-content-evenly vh-100 fw-bold text-white">
 				<@div class="fadeInTop border-0 border-none bg-transparent">
 					<h1 class="fs-1 text-center">#i18n{portal.admin.admin_login.title}</h1>
