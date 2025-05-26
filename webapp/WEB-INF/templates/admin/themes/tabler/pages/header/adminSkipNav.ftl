@@ -6,5 +6,5 @@
     Nested content : Shows default page menu, but can other item can be add using @mainNavItem macro.
 -->
 <#macro adminSkipNav>
-<a href="jsp/admin/AdminMenu.jsp#lutece-main" class="lutece-skip-links">#i18n{portal.util.labelSkipNav}</a>
+<a href="jsp/admin/AdminMenu.jsp#lutece-main" class="lutece-skip-links">#i18n{portal.util.labelSkipNav}</a></li>
 </#macro> 
