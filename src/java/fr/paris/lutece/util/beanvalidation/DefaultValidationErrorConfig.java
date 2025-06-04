@@ -45,7 +45,7 @@ public class DefaultValidationErrorConfig implements ValidationErrorConfig
     };
     private static final String DEFAULT_WRAPPER_BEGIN = "<strong>";
     private static final String DEFAULT_WRAPPER_END = "</strong>";
-    private String _strFieldKeysPrefix;
+    private String _strFieldKeysPrefix = "";
 
     /**
      * {@inheritDoc }

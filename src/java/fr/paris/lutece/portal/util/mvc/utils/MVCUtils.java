@@ -54,9 +54,18 @@ public final class MVCUtils
     public static final String PARAMETER_VIEW = "view";
     public static final String PARAMETER_ACTION = "action";
     public static final String PARAMETER_PAGE = "page";
+    
     private static final String PREFIX_VIEW = "view_";
     private static final String PREFIX_ACTION = "action_";
     private static Logger _logger = LogManager.getLogger( "lutece.mvc" );
+    
+    /**
+	 * Constant defining a value for no default - as a replacement for {@code null} which
+	 * we cannot use in annotation attributes.
+	 * <p>This is an artificial arrangement of 16 unicode characters, with its sole purpose
+	 * being to never match user-declared values.
+	 */
+	public static final String DEFAULT_NONE = "\n\t\t\n\t\t\n\uE000\uE001\uE002\n\t\t\t\t\n";
 
     /**
      * Private constructor

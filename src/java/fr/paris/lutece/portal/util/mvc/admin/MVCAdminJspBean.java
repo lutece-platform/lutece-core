@@ -52,12 +52,13 @@ import org.apache.logging.log4j.Logger;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.security.AccessLogService;
 import fr.paris.lutece.portal.service.security.SecurityTokenHandler;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.binding.ServletParameterBinder;
+import fr.paris.lutece.portal.util.mvc.binding.validate.ValidationService;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessage;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
@@ -97,6 +98,10 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private SecurityTokenHandler _securityTokenHandler;
     @Inject 
     private EventDispatcher _eventDispatcher;
+    @Inject
+    private ServletParameterBinder _servletParameterBinder;
+    @Inject
+    private ValidationService _validationService;
     
     /**
      * Dispatches the HTTP request to the appropriate controller method based on annotations,
@@ -124,7 +129,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      * @throws AppException if any reflection-related errors occur during method invocation
      */
     public String processController( HttpServletRequest request, HttpServletResponse response ) throws AccessDeniedException
-    {
+    {getLocale();
         _response = response;
         init( request, _controller.right( ) );
 
@@ -196,6 +201,8 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     private String processView( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
     	try {
+    		Object[] args = getServletParameterBinder( ).bindParameters( request, m);
+    		getValidationService( ).validateParameters(this, m, args);
         	return (String) m.invoke( this, request );
         } finally {
         	getEventDispatcher( ).fireAfterProcessViewEvent();
@@ -221,7 +228,10 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      * @throws InvocationTargetException if the invoked method throws an exception
      */
     private String processAction( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        return (String) m.invoke( this, request );        
+        
+    	Object[] args = getServletParameterBinder( ).bindParameters( request, m);
+    	getValidationService( ).validateParameters(this, m, args);
+		return (String) m.invoke( this, args ); 
     }
     // //////////////////////////////////////////////////////////////////////////
     // Page utils
@@ -672,6 +682,24 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private EventDispatcher getEventDispatcher( )
     {
         return null != _eventDispatcher ? _eventDispatcher : CDI.current( ).select( EventDispatcher.class ).get( );
+    }
+    /**
+	 * Returns the ServletParameterBinder instance by privileging direct injection. Used during complete transition do CDI XPages.
+	 * 
+	 * @return the ServletParameterBinder instance
+	 */
+    private ServletParameterBinder getServletParameterBinder( )
+    {
+        return null != _servletParameterBinder ? _servletParameterBinder : CDI.current( ).select( ServletParameterBinder.class ).get( );
+    }
+    /**
+	 * Returns the ValidationService instance by privileging direct injection. Used during complete transition do CDI XPages.
+	 * 
+	 * @return the ValidationService instance
+	 */
+    private ValidationService getValidationService( )
+    {
+        return null != _validationService ? _validationService : CDI.current( ).select( ValidationService.class ).get( );
     }
     /**
      * Fill the model with security token

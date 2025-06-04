@@ -91,4 +91,9 @@ public class ValidationError implements ErrorMessage
 	{
 		return ValidationErrorUtil.getFieldId( _constraintViolation, _config, _locale );
 	}
+
+	@Override
+	public String getParamName() {
+		return getFieldName( );
+	}
 }

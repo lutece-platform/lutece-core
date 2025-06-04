@@ -33,6 +33,11 @@
  */
 package fr.paris.lutece.portal.web;
 
+import java.util.Locale;
+
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,6 +50,7 @@ public final class LocalVariables
     private static ThreadLocal<ServletConfig> _tlConfig = new ThreadLocal<>( );
     private static ThreadLocal<HttpServletRequest> _tlRequest = new ThreadLocal<>( );
     private static ThreadLocal<HttpServletResponse> _tlResponse = new ThreadLocal<>( );
+    private static ThreadLocal<Locale> _tlLocale = new ThreadLocal<>( );
 
     /**
      * Utility classes have no constructor
@@ -52,7 +58,6 @@ public final class LocalVariables
     private LocalVariables( )
     {
     }
-
     /**
      * Initialize thread locals variables
      *
@@ -61,13 +66,20 @@ public final class LocalVariables
      * @param request
      *            Current <code>HttpServletRequest</code> to associate to the thread
      * @param response
-     *            Current <code>HttpServletResponse</code> to associate to the thread
+     *            Current <code>HttpServletResponse</code> to associate to the thread	
      */
     public static void setLocal( ServletConfig config, HttpServletRequest request, HttpServletResponse response )
-    {
+	{ 	
         _tlConfig.set( config );
         _tlRequest.set( request );
         _tlResponse.set( response );
+        if(request != null ) {
+        	AdminUser _user = AdminUserService.getAdminUser( request );	
+        	_tlLocale.set(_user != null ? _user.getLocale() : LocaleService.getContextUserLocale(request));  
+        }else {
+        	_tlLocale.set( null );
+        }      
+        
     }
 
     /**
@@ -98,5 +110,13 @@ public final class LocalVariables
     public static HttpServletResponse getResponse( )
     {
         return _tlResponse.get( );
+    }
+    /**
+     * Read <code>Locale</code> associate to the current thread
+     * @return the <code>Locale</code> associate to the current thread
+     */
+    public static Locale getLocale( )
+    {
+        return _tlLocale.get( );
     }
 }

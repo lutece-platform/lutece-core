@@ -113,6 +113,11 @@ public class MVCMessage implements ErrorMessage, Serializable
 	{
 		return _strFieldName;
 	}
+
+	@Override
+	public String getParamName() {
+		return getFieldName( ) ;
+	}
     
     
 }

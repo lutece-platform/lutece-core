@@ -33,18 +33,13 @@
  */
 package fr.paris.lutece.util;
 
+import fr.paris.lutece.portal.util.mvc.binding.ParamError;
+
 /**
  * ErrorMessage interface
  */
-public interface ErrorMessage
-{
-    /**
-     * Returns the error's message
-     * 
-     * @return The message
-     */
-    String getMessage( );
-    
+public interface ErrorMessage extends ParamError
+{   
     /**
      * Returns the field name
      * 

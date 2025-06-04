@@ -38,8 +38,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import fr.paris.lutece.portal.web.cdi.mvc.MvcInternal;
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.enterprise.util.AnnotationLiteral;
 import jakarta.validation.ConstraintViolation;
-import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
@@ -58,7 +60,9 @@ public final class BeanValidationUtil
     static
     {
         // initialize the validator
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory( );
+        ValidatorFactory factory = CDI.current()
+        	    .select(ValidatorFactory.class, new AnnotationLiteral<MvcInternal>() {})
+        	    .get();
         VALIDATOR = factory.getValidator( );
     }
 

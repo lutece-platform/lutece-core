@@ -65,12 +65,15 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.util.mvc.binding.ServletParameterBinder;
+import fr.paris.lutece.portal.util.mvc.binding.validate.ValidationService;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessage;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessageBox;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
 import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.LocalVariables;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.cdi.mvc.event.ControllerRedirectEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.EventDispatcher;
 import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent;
@@ -114,6 +117,10 @@ public abstract class MVCApplication implements XPageApplication
     private transient SecurityTokenHandler _securityTokenHandler;
     @Inject 
     private transient EventDispatcher _eventDispatcher;
+    @Inject
+    private transient ServletParameterBinder _servletParameterBinder;
+    @Inject
+    private transient ValidationService _validationService;
     
     /**
      * Returns the content of the XPage based on the current HTTP request.
@@ -170,7 +177,7 @@ public abstract class MVCApplication implements XPageApplication
      */
     private XPage processController( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
-        Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( getClass( ) );
+        Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( getRealClass() );
 
         try
         {
@@ -178,7 +185,7 @@ public abstract class MVCApplication implements XPageApplication
             {
             	Method m= getMessageBoxMethod( methods );
             	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.MESSAGE_BOX_VIEW );
-                return messageBox( request );
+                return messageBox( request, getModels());
             }
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
@@ -251,7 +258,9 @@ public abstract class MVCApplication implements XPageApplication
      */
     private XPage processView( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
     	try {
-        	return (XPage) m.invoke( this, request );
+    		Object[] args = getServletParameterBinder( ).bindParameters( request, m);
+    		getValidationService( ).validateParameters(this, m, args);
+    		return (XPage) m.invoke( this, args );
         } finally {
         	getEventDispatcher( ).fireAfterProcessViewEvent();
         }
@@ -276,8 +285,9 @@ public abstract class MVCApplication implements XPageApplication
      * @throws InvocationTargetException if the invoked method throws an exception
      */
     private XPage processAction( Method m, HttpServletRequest request  ) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-    	
-    	return (XPage) m.invoke( this, request );        
+    	Object[] args = getServletParameterBinder( ).bindParameters( request, m);
+    	getValidationService( ).validateParameters(this, m, args);
+		return (XPage) m.invoke( this, args ); 
     }
     /**
      * Searches for the {@code messageBox} method within the given list of declared methods.
@@ -403,7 +413,7 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected XPage getXPage( String strTemplate, Locale locale )
     {
-        return getXPage( strTemplate, locale, getModel( ) );
+        return getXPage( strTemplate, locale, getModels( ).asMap( ) );
     }
 
     /**
@@ -435,15 +445,29 @@ public abstract class MVCApplication implements XPageApplication
      * 
      * @return The model
      */
+    @Deprecated
     protected Map<String, Object> getModel( )
     {
-        Map<String, Object> model = new HashMap<>( );
+       // Map<String, Object> model = new HashMap<>( );
+    	Models model= CDI.current().select(Models.class).get();
+        fillCommons( model );
+        fillSecurityToken( model );
+        
+        return new HashMap<>(model.asMap());
+    }
+    /**
+     * Get a models Object filled with default values
+     * 
+     * @return The models
+     */
+    private Models getModels( )
+    {
+    	Models model= CDI.current().select(Models.class).get();
         fillCommons( model );
         fillSecurityToken( model );
         
         return model;
     }
-   
 
     // //////////////////////////////////////////////////////////////////////////
     // Bean processing
@@ -657,6 +681,7 @@ public abstract class MVCApplication implements XPageApplication
      * @param model
      *            The model
      */
+    @Deprecated
     protected void fillCommons( Map<String, Object> model )
     {
         List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
@@ -669,7 +694,25 @@ public abstract class MVCApplication implements XPageApplication
         _listInfos.clear( );
         _listWarnings.clear( );
     }
-    
+    /**
+     * Fill the model with commons objects used in templates
+     * 
+     * @param model
+     *            The model
+     */
+    private void fillCommons( Models model )
+    {
+        List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
+        List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
+        List<ErrorMessage> listWarnings = new ArrayList<>( _listWarnings );
+        model.put( MARK_ERRORS, listErrors );
+        model.put( MARK_INFOS, listInfos );
+        model.put( MARK_WARNINGS, listWarnings );
+        _listErrors.clear( );
+        _listInfos.clear( );
+        _listWarnings.clear( );
+    }
+
     // //////////////////////////////////////////////////////////////////////////
     // Redirect utils
 
@@ -1022,13 +1065,12 @@ public abstract class MVCApplication implements XPageApplication
      *            The HTTP request
      * @return The message box
      */
-    private XPage messageBox( HttpServletRequest request)
+    private XPage messageBox( HttpServletRequest request, Models model )
     {
 	    try {
 	        _messageBox.localize( getLocale( request ) );
-	        Map<String, Object> model = getModel( );
 	        model.put( MARK_MESSAGE_BOX, _messageBox );
-	        return getXPage( _messageBox.getTemplate( ), getLocale( request ), model );
+	        return getXPage( _messageBox.getTemplate( ), getLocale( request ), model.asMap() );
 	    } finally {
 	    	getEventDispatcher( ).fireAfterProcessViewEvent();
 	    }
@@ -1073,16 +1115,32 @@ public abstract class MVCApplication implements XPageApplication
     {
         return null != _eventDispatcher ? _eventDispatcher : CDI.current( ).select( EventDispatcher.class ).get( );
     }
+    /**
+	 * Returns the ServletParameterBinder instance by privileging direct injection. Used during complete transition do CDI XPages.
+	 * 
+	 * @return the ServletParameterBinder instance
+	 */
+    private ServletParameterBinder getServletParameterBinder( )
+    {
+        return null != _servletParameterBinder ? _servletParameterBinder : CDI.current( ).select( ServletParameterBinder.class ).get( );
+    }
+    /**
+	 * Returns the ValidationService instance by privileging direct injection. Used during complete transition do CDI XPages.
+	 * 
+	 * @return the ValidationService instance
+	 */
+    private ValidationService getValidationService( )
+    {
+        return null != _validationService ? _validationService : CDI.current( ).select( ValidationService.class ).get( );
+    }
     
-    
-
     /**
      * Fill the model with security token
      * 
      * @param model
      *            The model
      */
-    private void fillSecurityToken( Map<String, Object> model )
+    private void fillSecurityToken( Models model )
     {
         if ( null != LocalVariables.getRequest( ) )
         {
@@ -1092,5 +1150,14 @@ public abstract class MVCApplication implements XPageApplication
                 model.put( SecurityTokenHandler.MARK_CSRF_TOKEN, strToken );
             }
         }
+    }
+    
+    public Class<?> getRealClass() {
+        Class<?> clazz = this.getClass();
+        // Si c’est un proxy (généralement contient $$ ou est subclass d’une classe réelle)
+        if (clazz.getName().contains("$$") || clazz.getName().contains("Proxy")) {
+            return clazz.getSuperclass();
+        }
+        return clazz;
     }
 }
