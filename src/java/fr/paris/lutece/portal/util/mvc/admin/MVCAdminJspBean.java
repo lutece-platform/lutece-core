@@ -59,6 +59,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.binding.ServletParameterBinder;
 import fr.paris.lutece.portal.util.mvc.binding.validate.ValidationService;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.ResponseBody;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessage;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
@@ -71,7 +72,9 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.beanvalidation.ValidationError;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.json.JsonUtil;
 import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.util.xml.XmlUtil;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
@@ -86,6 +89,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
+    
 
     // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
@@ -143,8 +147,8 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             if ( m != null )
             {
-            	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.VIEW);
-                return (String) processView(m, request);
+            	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.VIEW); 
+            	return (String) processView(m, request);
             }
 
             // Process actions
@@ -153,7 +157,12 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             if ( m != null )
             {
             	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.ACTION);
-                return (String) processAction(m, request);
+            	// Check for @ResponseBody annotation
+                if (m.isAnnotationPresent(ResponseBody.class)) {
+                    processResponseBody(m, request);
+                    return null; // No page needed
+                }
+            	return (String) processAction(m, request);
             }
 
             // No view or action found so display the default view
@@ -233,6 +242,60 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     	getValidationService( ).validateParameters(this, m, args);
 		return (String) m.invoke( this, args ); 
     }
+    
+    /**
+     * Processes the response body of a controller method annotated with @ResponseBody.
+     * <p>
+     * This method:
+     * <ul>
+     *     <li>Binds HTTP request parameters to method arguments.</li>
+     *     <li>Validates the method arguments.</li>
+     *     <li>Invokes the controller method via reflection.</li>
+     *     <li>Serializes the return value to JSON or XML based on the "Accept" header.</li>
+     *     <li>Writes the serialized content to the HTTP response.</li>
+     * </ul>
+     *
+     * @param m       the controller method to invoke
+     * @param request the current HTTP request
+     * @throws IllegalAccessException    if the method cannot be accessed
+     * @throws IllegalArgumentException  if the method arguments are invalid
+     * @throws InvocationTargetException if the underlying method throws an exception
+     */
+     private void processResponseBody(Method m, HttpServletRequest request) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+         HttpServletResponse response = LocalVariables.getResponse();
+         Object[] args = getServletParameterBinder().bindParameters(request, m);
+         getValidationService().validateParameters(this, m, args);
+
+         Object result = m.invoke(this, args);
+
+         try {
+         	String acceptHeader = request.getHeader("Accept");
+             boolean isXml = acceptHeader != null && acceptHeader.contains(XmlUtil.CONTENT_TYPE_XML);
+             response.setContentType(isXml ? XmlUtil.CONTENT_TYPE_XML : JsonUtil.CONTENT_TYPE_JSON);
+
+             PrintWriter out = response.getWriter();
+
+             if (result instanceof String || result instanceof Number || result instanceof Boolean || result instanceof Character) {
+                 // Write primitive types and their wrappers directly
+                 out.print(result.toString());
+             } else {
+             	if (isXml) {
+                     // Serialize to XML
+                     String xmlResult = XmlUtil.serialize(result);
+                     out.print(xmlResult);
+                 } else {
+ 	                // Serialize non-primitive objects using Jackson
+ 	                String jsonResult = JsonUtil.serialize(result);
+ 	                out.print(jsonResult);
+                 }
+             }
+
+             out.flush();
+             out.close( );
+         } catch (IOException e) {
+             AppLogService.error("Error writing @ResponseBody content to response", e);
+         }
+     }
     // //////////////////////////////////////////////////////////////////////////
     // Page utils
 

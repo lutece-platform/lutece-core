@@ -45,6 +45,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class JsonUtil
 {
+    public static final String CONTENT_TYPE_JSON = "application/json";
+
     // ObjectMapper
     private static final ObjectMapper _mapper = new ObjectMapper( );
 
@@ -75,4 +77,35 @@ public class JsonUtil
 
         return strJsonResponse;
     }
+    /**
+	 * Deserialize a JSON string into an object of the specified type.
+	 * 
+	 * @param requestBody
+	 *            the JSON string to deserialize
+	 * @param targetType
+	 *            the class of the object to deserialize into
+	 * @param <T>
+	 *            the type of the object
+	 * @return the deserialized object
+	 * @throws JsonProcessingException
+	 *             if there is an error during deserialization
+	 */
+    public static <T> T deserialize( String requestBody, Class<T> targetType ) throws JsonProcessingException
+	{
+		// Deserialize the JSON string into the target type
+		return _mapper.readValue( requestBody, targetType );
+	}
+    
+    /** 
+     * Serialize an object to a JSON string.
+     * @param objectValue
+     * @return a JSON string representation of the object
+     * @throws JsonProcessingException
+     */
+    public static String serialize( Object objectValue) throws JsonProcessingException
+   	{
+   		// serialize to JSON string
+   		return _mapper.writeValueAsString( objectValue );
+   	}
+
 }

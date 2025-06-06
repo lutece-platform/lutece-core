@@ -54,6 +54,7 @@ import jakarta.validation.ConstraintViolation;
 
 import org.apache.logging.log4j.Logger;
 
+
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -67,6 +68,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.binding.ServletParameterBinder;
 import fr.paris.lutece.portal.util.mvc.binding.validate.ValidationService;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.ResponseBody;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessage;
 import fr.paris.lutece.portal.util.mvc.utils.MVCMessageBox;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
@@ -84,7 +86,9 @@ import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.json.JsonUtil;
 import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.util.xml.XmlUtil;
 
 /**
  * MVC XPage Application
@@ -103,8 +107,6 @@ public abstract class MVCApplication implements XPageApplication
     private static final String URL_PORTAL = "Portal.jsp";
     private static final String PATH_PORTAL = "jsp/site/";
     private static final String VIEW_MESSAGEBOX = "messageBox";
-    private static final String CONTENT_TYPE_JSON = "application/json";
-    private static final String CONTENT_TYPE_XML = "application/xml";
 
     // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
@@ -192,7 +194,7 @@ public abstract class MVCApplication implements XPageApplication
             if ( m != null )
             {
             	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.VIEW );
-                 return processView(  m,  request  );
+            	return processView(  m,  request  );
             }
 
             // Process actions
@@ -200,7 +202,12 @@ public abstract class MVCApplication implements XPageApplication
             if ( m != null )
             {
             	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.ACTION );
-                return processAction( m, request );
+            	// Check for @ResponseBody annotation
+                if (m.isAnnotationPresent(ResponseBody.class)) {
+                    processResponseBody(m, request);
+                    return new XPage( ); // No XPage needed
+                }
+            	return processAction( m, request );
             }
 
             // No view or action found so display the default view
@@ -288,6 +295,59 @@ public abstract class MVCApplication implements XPageApplication
     	Object[] args = getServletParameterBinder( ).bindParameters( request, m);
     	getValidationService( ).validateParameters(this, m, args);
 		return (XPage) m.invoke( this, args ); 
+    }
+    /**
+    * Processes the response body of a controller method annotated with @ResponseBody.
+    * <p>
+    * This method:
+    * <ul>
+    *     <li>Binds HTTP request parameters to method arguments.</li>
+    *     <li>Validates the method arguments.</li>
+    *     <li>Invokes the controller method via reflection.</li>
+    *     <li>Serializes the return value to JSON or XML based on the "Accept" header.</li>
+    *     <li>Writes the serialized content to the HTTP response.</li>
+    * </ul>
+    *
+    * @param m       the controller method to invoke
+    * @param request the current HTTP request
+    * @throws IllegalAccessException    if the method cannot be accessed
+    * @throws IllegalArgumentException  if the method arguments are invalid
+    * @throws InvocationTargetException if the underlying method throws an exception
+    */
+    private void processResponseBody(Method m, HttpServletRequest request) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        HttpServletResponse response = LocalVariables.getResponse();
+        Object[] args = getServletParameterBinder().bindParameters(request, m);
+        getValidationService().validateParameters(this, m, args);
+
+        Object result = m.invoke(this, args);
+
+        try {
+        	String acceptHeader = request.getHeader("Accept");
+            boolean isXml = acceptHeader != null && acceptHeader.contains(XmlUtil.CONTENT_TYPE_XML);
+            response.setContentType(isXml ? XmlUtil.CONTENT_TYPE_XML : JsonUtil.CONTENT_TYPE_JSON);
+
+            PrintWriter out = response.getWriter();
+
+            if (result instanceof String || result instanceof Number || result instanceof Boolean || result instanceof Character) {
+                // Write primitive types and their wrappers directly
+                out.print(result.toString());
+            } else {
+            	if (isXml) {
+                    // Serialize to XML
+                    String xmlResult =  XmlUtil.serialize( result );
+                    out.print(xmlResult);
+                } else {
+	                // Serialize non-primitive objects using Jackson
+	                String jsonResult = JsonUtil.serialize(result);
+	                out.print(jsonResult);
+                }
+            }
+
+            out.flush();
+            out.close( );
+        } catch (IOException e) {
+            AppLogService.error("Error writing @ResponseBody content to response", e);
+        }
     }
     /**
      * Searches for the {@code messageBox} method within the given list of declared methods.
@@ -969,7 +1029,7 @@ public abstract class MVCApplication implements XPageApplication
     protected XPage responseJSON( String strJSON )
     {
         HttpServletResponse response = LocalVariables.getResponse( );
-        response.setContentType( CONTENT_TYPE_JSON );
+        response.setContentType( JsonUtil.CONTENT_TYPE_JSON );
 
         try
         {
@@ -996,7 +1056,7 @@ public abstract class MVCApplication implements XPageApplication
     protected XPage responseXML( String strXML )
     {
         HttpServletResponse response = LocalVariables.getResponse( );
-        response.setContentType( CONTENT_TYPE_XML );
+        response.setContentType( XmlUtil.CONTENT_TYPE_XML );
 
         try
         {

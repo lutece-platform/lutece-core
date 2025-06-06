@@ -211,7 +211,11 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-        </dependency>        
+        </dependency>    
+        <dependency>
+		    <groupId>com.fasterxml.jackson.dataformat</groupId>
+		    <artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>    
         <!-- Open CSV -->
         <dependency>
             <groupId>net.sf.opencsv</groupId>

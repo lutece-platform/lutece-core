@@ -36,6 +36,9 @@ package fr.paris.lutece.util.xml;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.http.SecurityUtil;
 
@@ -44,6 +47,8 @@ import fr.paris.lutece.util.http.SecurityUtil;
  */
 public final class XmlUtil
 {
+    public static final String CONTENT_TYPE_XML = "application/xml";
+
     public static final String PROPERTIES_XML_HEADER = "xml.header";
     private static final String TAG_BEGIN = "<";
     private static final String TAG_CLOSE_BEGIN = "</";
@@ -52,6 +57,8 @@ public final class XmlUtil
     private static final String TAG_SEPARATOR = " ";
     private static final String TAG_ASSIGNMENT = "=";
     private static final String TAG_ENCLOSED = "\"";
+    
+    private static final XmlMapper xmlMapper = new XmlMapper();
 
     /**
      * Instantiates a new xml util.
@@ -294,5 +301,38 @@ public final class XmlUtil
         strXmlBuffer.append( TAG_CLOSE_BEGIN );
         strXmlBuffer.append( strTag );
         strXmlBuffer.append( TAG_END );
+    }
+    
+    /** Deserialize an XML string into an object of the specified type.
+	 *
+	 * @param requestBody
+	 *            the XML string to deserialize
+	 * @param targetType
+	 *            the class of the object to deserialize into
+	 * @param <T>
+	 *            the type of the object
+	 * @return the deserialized object
+	 * @throws JsonProcessingException
+	 *             if there is an error during deserialization
+	 */
+    public static <T> T deserialize( String requestBody, Class<T> targetType ) throws JsonProcessingException
+   	{
+   		// Deserialize the XML string into the target type
+   		return xmlMapper.readValue( requestBody, targetType );
+   	}
+      
+    /**
+	 * Serialize an object to an XML string.
+	 *
+	 * @param objectValue
+	 *            The object to serialize
+	 * @return The XML string representation of the object
+	 * @throws JsonProcessingException
+	 *             if there is an error during serialization
+	 */
+    public static String serialize( Object objectValue) throws JsonProcessingException 
+    {
+      		// serialize to XML string
+    	return xmlMapper.writeValueAsString( objectValue );
     }
 }
