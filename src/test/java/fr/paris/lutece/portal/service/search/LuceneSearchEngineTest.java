@@ -33,15 +33,9 @@
  */
 package fr.paris.lutece.portal.service.search;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -62,7 +56,6 @@ import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
-import fr.paris.lutece.util.AppInitPropertiesService;
 import jakarta.inject.Inject;
 
 /**
@@ -188,10 +181,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
     @Test
     public void testSearchUserMatch( ) throws Exception
     {
-
-        // XXX copy pasted from PortalMenuServiceTest
-        boolean authStatus;
-        authStatus = enableAuthentication( );
+        boolean authStatus = enableAuthentication( );
         try
         {
             LuteceUser user = new LuteceUser( "junit", SecurityService.getInstance( ).getAuthenticationService( ) )
@@ -214,10 +204,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
     @Test
     public void testSearchUserNoMatch( ) throws Exception
     {
-
-        // XXX copy pasted from PortalMenuServiceTest
-        boolean authStatus;
-        authStatus = enableAuthentication( );
+        boolean authStatus = enableAuthentication( );
         try
         {
             LuteceUser user = new LuteceUser( "junit", SecurityService.getInstance( ).getAuthenticationService( ) )
@@ -240,10 +227,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
     @Test
     public void testSearchUserNoMatchNoUser( ) throws Exception
     {
-
-        // XXX copy pasted from PortalMenuServiceTest
-        boolean authStatus;
-        authStatus = enableAuthentication( );
+        boolean authStatus = enableAuthentication( );
         try
         {
             MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -257,50 +241,25 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         }
     }
 
-    // /XXX refactor, this is copy pasted from PortalMenuServiceTest
-    @Test
     private void restoreAuthentication( boolean status ) throws IOException, LuteceInitException
     {
         if ( !status )
         {
-            File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
-            Properties props = new Properties( );
-            InputStream is = new FileInputStream( luteceProperties );
-            props.load( is );
-            is.close( );
-            props.remove( "mylutece.authentication.enable" );
-            props.remove( "mylutece.authentication.class" );
-
-            OutputStream os = new FileOutputStream( luteceProperties );
-            props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
-            os.close( );
-            AppInitPropertiesService.reloadAll( );
+            System.getProperties( ).remove( "mylutece.authentication.enable");
+            System.getProperties( ).remove( "mylutece.authentication.class" );
             SecurityService.init( );
         }
     }
 
-    // /XXX refactor, this is copy pasted from PortalMenuServiceTest
     private boolean enableAuthentication( ) throws IOException, LuteceInitException
     {
         boolean status = SecurityService.isAuthenticationEnable( );
-
         if ( !status )
         {
-            File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
-            Properties props = new Properties( );
-            InputStream is = new FileInputStream( luteceProperties );
-            props.load( is );
-            is.close( );
-            props.setProperty( "mylutece.authentication.enable", "true" );
-            props.setProperty( "mylutece.authentication.class", MokeLuteceAuthentication.class.getName( ) );
-
-            OutputStream os = new FileOutputStream( luteceProperties );
-            props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
-            os.close( );
-            AppInitPropertiesService.reloadAll( );
+            System.setProperty( "mylutece.authentication.enable", "true" );
+            System.setProperty( "mylutece.authentication.class", MokeLuteceAuthentication.class.getName( ) );
             SecurityService.init( );
         }
-
         return status;
     }
 }

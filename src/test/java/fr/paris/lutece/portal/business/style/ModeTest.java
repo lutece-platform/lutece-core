@@ -80,11 +80,6 @@ public class ModeTest extends LuteceTestCase
         // Create test
         ModeHome.create( mode );
         
-        System.err.println(ModeHome.findByPrimaryKey( 0 ).getDescription( ));
-        System.err.println(ModeHome.findByPrimaryKey( 1 ).getDescription( ));
-        System.err.println(ModeHome.findByPrimaryKey( 2 ).getDescription( ));
-        
-
         Mode modeStored = ModeHome.findByPrimaryKey( mode.getId( ) );
         assertEquals( modeStored.getDescription( ), mode.getDescription( ) );
         assertEquals( modeStored.getPath( ), mode.getPath( ) );

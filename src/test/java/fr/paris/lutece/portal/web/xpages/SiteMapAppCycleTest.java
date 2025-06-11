@@ -33,17 +33,11 @@
  */
 package fr.paris.lutece.portal.web.xpages;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.security.SecureRandom;
-import java.util.Properties;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.page.Page;
@@ -53,8 +47,6 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
-import fr.paris.lutece.util.AppInitPropertiesService;
-import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 /**
@@ -66,11 +58,13 @@ public class SiteMapAppCycleTest extends LuteceTestCase
     private Page _top;
     private Page _middle;
     private Page _bottom;
-    private @Inject IPageService _pageService;
     private int _nInitialRootId;
-
+    @Inject
+    private IPageService _pageService;
+    @Inject
+    private SiteMapApp _app;
     
-    @BeforeAll
+    @BeforeEach
     protected void setUp( ) throws Exception
     {
         // create pages
@@ -100,7 +94,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
         return page;
     }
 
-    @AfterAll
+    @AfterEach
     protected void tearDown( ) throws Exception
     {
         removePageQuietly( _bottom.getId( ) );
@@ -112,20 +106,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
     private void setRootPageId( int nRootPageId ) throws IOException
     {
         AppLogService.info( "Setting root page id to {}", nRootPageId );
-        File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
-        Properties props = new Properties( );
-        try ( InputStream is = new FileInputStream( luteceProperties ) )
-        {
-            props.load( is );
-        }
-
-        props.setProperty( "lutece.page.root", Integer.toString( nRootPageId ) );
-
-        try ( OutputStream os = new FileOutputStream( luteceProperties ) )
-        {
-            props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
-        }
-        AppInitPropertiesService.reloadAll( );
+        System.setProperty( "lutece.page.root", Integer.toString( nRootPageId ) );
     }
 
     private void removePageQuietly( int nPageId )
@@ -143,9 +124,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
     @Test
     public void testGetPage( )
     {
-        SiteMapApp app = CDI.current( ).select( SiteMapApp.class ).get( );
-
-        XPage res = app.getPage( new MockHttpServletRequest( ), 0, null );
+        XPage res = _app.getPage( new MockHttpServletRequest( ), 0, null );
 
         assertNotNull( res );
         assertTrue( "SiteMap should contain reference to page", res.getContent( ).contains( _middle.getName( ) ) );

@@ -213,8 +213,8 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-        int nIdOrder = Integer.parseInt( request.getParameter( PARAMETER_ORDER_EXTERNAL_FEATURE ) );//externalFeature.getOrder( );
-        String strIdExternalFeature = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );//externalFeature.getId( );
+        int nIdOrder = Integer.parseInt( request.getParameter( PARAMETER_ORDER_EXTERNAL_FEATURE ) );
+        String strIdExternalFeature = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
 
         Right externalFeature = new Right( );
         populate( externalFeature, request );

@@ -64,14 +64,15 @@ import jakarta.inject.Inject;
  */
 public class StylesJspBeanTest extends LuteceTestCase
 {
+    @Inject
     private StylesJspBean instance;
     private Style style;
-    private @Inject ISecurityTokenService _securityTokenService;
+    @Inject
+    private ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        instance = new StylesJspBean( );
         style = new Style( );
         int nId = StyleHome.getStylesList( ).stream( ).map( Style::getId ).max( Integer::compare ).get( ) + 1;
         style.setId( nId );

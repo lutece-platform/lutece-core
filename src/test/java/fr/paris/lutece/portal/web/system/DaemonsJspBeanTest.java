@@ -33,12 +33,8 @@
  */
 package fr.paris.lutece.portal.web.system;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -61,7 +57,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
-import fr.paris.lutece.util.AppInitPropertiesService;
 import jakarta.inject.Inject;
 
 public class DaemonsJspBeanTest extends LuteceTestCase
@@ -95,19 +90,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
 
     private String setInitialStartDelay( ) throws FileNotFoundException, IOException
     {
-        File propertiesFile = new File( getResourcesDir( ) + "/WEB-INF/conf/daemons.properties" );
-        Properties props = new Properties( );
-        try ( FileInputStream is = new FileInputStream( propertiesFile ) )
-        {
-            props.load( is );
-        }
-        String orig = props.getProperty( "daemon.maxInitialStartDelay" );
-        props.setProperty( "daemon.maxInitialStartDelay", "1" );
-        try ( FileOutputStream out = new FileOutputStream( propertiesFile ) )
-        {
-            props.store( out, "junit" );
-        }
-        AppInitPropertiesService.reloadAll( );
+        String orig = AppPropertiesService.getProperty( "daemon.maxInitialStartDelay" );
+        System.setProperty( "daemon.maxInitialStartDelay", "1" );
         return orig;
     }
 
@@ -140,26 +124,9 @@ public class DaemonsJspBeanTest extends LuteceTestCase
 
     private void restoreInitialStartDelay( String orig ) throws FileNotFoundException, IOException
     {
-        File propertiesFile = new File( getResourcesDir( ) + "/WEB-INF/conf/daemons.properties" );
-        Properties props = new Properties( );
-        try ( FileInputStream is = new FileInputStream( propertiesFile ) )
-        {
-            props.load( is );
-        }
-        if ( orig == null )
-        {
-            props.remove( "daemon.maxInitialStartDelay" );
-        }
-        else
-        {
-            props.setProperty( "daemon.maxInitialStartDelay", orig );
-        }
-        try ( FileOutputStream out = new FileOutputStream( propertiesFile ) )
-        {
-            props.store( out, "junit" );
-        }
-        AppInitPropertiesService.reloadAll( );
+        System.setProperty( "daemon.maxInitialStartDelay", origMaxInitialStartDelay );
     }
+
     @Test
     public void testDoDaemonActionStart( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
