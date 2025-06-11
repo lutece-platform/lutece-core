@@ -162,6 +162,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "iconUrl", strRandom );
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
+        request.setParameter( "external_feature_order", "100" );
 
         instance.getModifyExternalFeature( request );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,

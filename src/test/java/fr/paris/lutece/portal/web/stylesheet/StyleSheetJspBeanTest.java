@@ -73,16 +73,16 @@ import jakarta.inject.Inject;
  */
 public class StyleSheetJspBeanTest extends LuteceTestCase
 {
-
+    @Inject
     private StyleSheetJspBean instance;
     private Style style;
     private StyleSheet stylesheet;
-    private @Inject ISecurityTokenService _securityTokenService;
+    @Inject
+    private ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        instance = new StyleSheetJspBean( );
         style = new Style( );
         int nId = StyleHome.getStylesList( ).stream( ).map( Style::getId ).max( Integer::compare ).get( ) + 1;
         style.setId( nId );

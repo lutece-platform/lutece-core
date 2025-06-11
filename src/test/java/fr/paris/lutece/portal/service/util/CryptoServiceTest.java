@@ -33,14 +33,8 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Properties;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,7 +42,6 @@ import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.util.AppInitPropertiesService;
 
 public class CryptoServiceTest extends LuteceTestCase
 {
@@ -62,6 +55,7 @@ public class CryptoServiceTest extends LuteceTestCase
         strOrigCrytoKey = DatastoreService.getDataValue( CryptoService.DSKEY_CRYPTO_KEY, null );
         DatastoreService.removeData( CryptoService.DSKEY_CRYPTO_KEY );
     }
+
     @Test
     public void testGetCryptoKey( )
     {
@@ -71,6 +65,7 @@ public class CryptoServiceTest extends LuteceTestCase
         assertTrue( strCryptoKey.length( ) >= 64 );
         assertEquals( strCryptoKey, CryptoService.getCryptoKey( ) );
     }
+
     @Test
     public void testGetCryptoKeyLegacy( ) throws FileNotFoundException, IOException
     {
@@ -88,35 +83,14 @@ public class CryptoServiceTest extends LuteceTestCase
 
     private void removeLegacyKey( ) throws IOException, FileNotFoundException
     {
-        File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
-        Properties props = new Properties( );
-        try ( InputStream is = new FileInputStream( luteceProperties ) )
-        {
-            props.load( is );
-        }
-        props.remove( CryptoService.PROPERTY_CRYPTO_KEY );
-        try ( OutputStream os = new FileOutputStream( luteceProperties ) )
-        {
-            props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
-        }
-        AppInitPropertiesService.reloadAll( );
+        System.getProperties( ).remove( CryptoService.PROPERTY_CRYPTO_KEY );
     }
 
     private void setLegacyKey( final String strLegacyKey ) throws IOException, FileNotFoundException
     {
-        File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
-        Properties props = new Properties( );
-        try ( InputStream is = new FileInputStream( luteceProperties ) )
-        {
-            props.load( is );
-        }
-        props.setProperty( CryptoService.PROPERTY_CRYPTO_KEY, strLegacyKey );
-        try ( OutputStream os = new FileOutputStream( luteceProperties ) )
-        {
-            props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
-        }
-        AppInitPropertiesService.reloadAll( );
+        System.setProperty( CryptoService.PROPERTY_CRYPTO_KEY, strLegacyKey );
     }
+
     @Test
     public void testHmacSHA256( )
     {

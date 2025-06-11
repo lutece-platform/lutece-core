@@ -70,14 +70,12 @@ final class TestUser implements User
         @Override
         public String getKey( )
         {
-            // TODO Auto-generated method stub
             return _strKey;
         }
 
         @Override
         public String getDescription( )
         {
-            // TODO Auto-generated method stub
             return _strKey;
         }
     }
