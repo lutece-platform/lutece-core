@@ -2,11 +2,6 @@
 <@pageColumn>
 <@pageHeader title='#i18n{portal.system.manage_caches.titleCacheList}'
 	description='#i18n{portal.system.manage_caches.featureDescription}'>
-	<@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' type='inline'>
-		<@input type='hidden' name='token' value='${token}' />
-		<@button type='submit' buttonIcon='sync' title='#i18n{portal.system.manage_caches.titleReloadProperties}'
-			hideTitle=['xs','sm'] />
-	</@tform>
 	<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' type='inline'>
 		<@input type='hidden' name='token' value='${token}' />
 		<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' color='danger'
