@@ -43,7 +43,6 @@ import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
-import fr.paris.lutece.util.AppInitPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.ArrayList;
@@ -133,25 +132,6 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
             AppTemplateService.resetCache( );
             I18nService.resetCache( );
         }
-
-        return JSP_MANAGE_CACHES;
-    }
-
-    /**
-     * Reload all properties files of the application
-     *
-     * @param request
-     *            The HTTP request
-     * @return The URL to display when the process is done.
-     * @throws AccessDeniedException
-     */
-    public String doReloadProperties( HttpServletRequest request ) throws AccessDeniedException
-    {
-        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
-        {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
-        }
-        AppInitPropertiesService.reloadAll( );
 
         return JSP_MANAGE_CACHES;
     }
