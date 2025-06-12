@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.web.cdi.mvc.event.EventDispatcher;
+import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent.ControllerInvocationType;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.url.UrlItem;
 import jakarta.inject.Inject;
@@ -43,7 +44,14 @@ public class RedirectScopeTest extends LuteceTestCase{
     {
          UrlItem url = new UrlItem( "/Portal.jsp" );
          // Simulate the start of controller processing
-        _eventDispatcher.fireBeforeControllerEvent();
+         try
+         {
+             _eventDispatcher.fireBeforeControllerEvent( this.getClass( ).getMethod( "mockControllerViewMethod" ), true, ControllerInvocationType.VIEW );
+         }
+         catch( Exception e )
+         {
+             // This case should not happen
+         }
 
         // Set a value in the bean
         bean.setValue("test-through-redirect");
@@ -80,4 +88,9 @@ public class RedirectScopeTest extends LuteceTestCase{
 		  }
 	}
 
+	
+	public void mockControllerViewMethod() 
+	{
+	    // Nothing to do
+	}
 }
