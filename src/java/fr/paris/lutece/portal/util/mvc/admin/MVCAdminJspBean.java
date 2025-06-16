@@ -74,6 +74,7 @@ import fr.paris.lutece.util.beanvalidation.ValidationError;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.json.JsonUtil;
 import fr.paris.lutece.util.url.UrlItem;
+import fr.paris.lutece.util.xml.XmlMarshaller;
 import fr.paris.lutece.util.xml.XmlUtil;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
@@ -281,7 +282,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
              } else {
              	if (isXml) {
                      // Serialize to XML
-                     String xmlResult = XmlUtil.serialize(result);
+                     String xmlResult = XmlMarshaller.serialize(result);
                      out.print(xmlResult);
                  } else {
  	                // Serialize non-primitive objects using Jackson

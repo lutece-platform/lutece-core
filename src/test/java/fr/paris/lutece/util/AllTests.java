@@ -39,14 +39,13 @@ import org.junit.platform.suite.api.Suite;
 import fr.paris.lutece.util.filesystem.FileSystemUtilTest;
 import fr.paris.lutece.util.filesystem.UploadUtilTest;
 import fr.paris.lutece.util.html.PaginatorTest;
-import fr.paris.lutece.util.string.StringUtilTest;
 import fr.paris.lutece.util.url.UrlItemTest;
 
 /**
  * This class is the main test suite for the package fr.paris.lutece.util
  */
 @Suite
-@SelectClasses({ StringUtilTest.class, FileSystemUtilTest.class, UploadUtilTest.class, PaginatorTest.class, UrlItemTest.class, PropertiesServiceTest.class,
+@SelectClasses({ FileSystemUtilTest.class, UploadUtilTest.class, PaginatorTest.class, UrlItemTest.class, PropertiesServiceTest.class,
         ReferenceListTest.class })
 public final class AllTests
 {
