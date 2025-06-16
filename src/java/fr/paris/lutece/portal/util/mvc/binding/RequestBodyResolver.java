@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import fr.paris.lutece.portal.util.mvc.commons.annotations.RequestBody;
 import fr.paris.lutece.util.json.JsonUtil;
+import fr.paris.lutece.util.xml.XmlMarshaller;
 import fr.paris.lutece.util.xml.XmlUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
@@ -133,7 +134,7 @@ public class RequestBodyResolver extends AbstractParameterResolver {
             else if (contentType != null && contentType.toLowerCase().contains(XmlUtil.CONTENT_TYPE_XML)) {
                 _logger.debug("Deserializing XML request body to type '{}' for parameter '{}'", 
                             targetType.getName(), paramName);
-                    T result = XmlUtil.deserialize(requestBody, targetType);
+                    T result = XmlMarshaller.deserialize(requestBody, targetType);
                     return ResolverResult.success(result);
             }
             // For non-JSON content types, try to convert using the standard converter

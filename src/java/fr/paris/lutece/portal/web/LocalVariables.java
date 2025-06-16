@@ -47,9 +47,6 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 public final class LocalVariables
 {
-    private static ThreadLocal<ServletConfig> _tlConfig = new ThreadLocal<>( );
-    private static ThreadLocal<HttpServletRequest> _tlRequest = new ThreadLocal<>( );
-    private static ThreadLocal<HttpServletResponse> _tlResponse = new ThreadLocal<>( );
     private static ThreadLocal<Locale> _tlLocale = new ThreadLocal<>( );
 
     /**
@@ -70,9 +67,7 @@ public final class LocalVariables
      */
     public static void setLocal( ServletConfig config, HttpServletRequest request, HttpServletResponse response )
 	{ 	
-        _tlConfig.set( config );
-        _tlRequest.set( request );
-        _tlResponse.set( response );
+        ServletLocalVariables.setLocal( config, request, response );
         if(request != null ) {
         	AdminUser _user = AdminUserService.getAdminUser( request );	
         	_tlLocale.set(_user != null ? _user.getLocale() : LocaleService.getContextUserLocale(request));  
@@ -89,7 +84,7 @@ public final class LocalVariables
      */
     public static ServletConfig getConfig( )
     {
-        return _tlConfig.get( );
+        return ServletLocalVariables.getConfig( );
     }
 
     /**
@@ -99,7 +94,7 @@ public final class LocalVariables
      */
     public static HttpServletRequest getRequest( )
     {
-        return _tlRequest.get( );
+        return ServletLocalVariables.getRequest( );
     }
 
     /**
@@ -109,7 +104,7 @@ public final class LocalVariables
      */
     public static HttpServletResponse getResponse( )
     {
-        return _tlResponse.get( );
+        return ServletLocalVariables.getResponse( );
     }
     /**
      * Read <code>Locale</code> associate to the current thread
