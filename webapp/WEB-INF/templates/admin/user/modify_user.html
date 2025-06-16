@@ -19,7 +19,7 @@
 						<#if attributes_list?has_content><#assign colsm=4><#else><#assign colsm=6></#if>
 						<@columns sm=colsm>
 						<@fieldSet legend='#i18n{portal.users.modify_user.labelIdentity}'>
-							<@formGroup labelFor='access_code' labelKey='${i18n("portal.users.modify_password_default_module.form.password.new")}' mandatory=true rows=2>
+							<@formGroup labelFor='access_code' labelKey='#i18n{portal.users.modify_user.labelAccessCode}' mandatory=true rows=2>
 								<@input type='text' name='access_code' id='access_code' value="${user.accessCode!''}" />
 							</@formGroup>   
 							<@formGroup labelFor='last_name' labelKey='${i18n("portal.users.modify_user.labelLastName")}' mandatory=true rows=2>
