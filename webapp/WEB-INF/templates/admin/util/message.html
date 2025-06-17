@@ -21,7 +21,7 @@
             <#if list_parameters?exists>
                 <#list keys as key><@input type='hidden' name='${key}' value='${list_parameters[key]}' /></#list>
             </#if>
-            <@button type='submit' color='default'  class=' mt-3'  title='${i18n("portal.admin.message.buttonCancel")}' buttonIcon='times' params='onclick="javascript:window.history.back();"'  />
+            <@button type='submit' color='default'  class=' mt-3'  title='${i18n("portal.admin.message.buttonCancel")}' buttonIcon='times' />
         </@tform>
     <#else>
         <@button type='submit' color='default' class=' mt-3'  title='${i18n("portal.admin.message.buttonCancel")}' buttonIcon='times' params='onclick="javascript:window.history.back();"'  />
