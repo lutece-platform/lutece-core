@@ -97,6 +97,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_ATTRIBUTE_FIELD = "jsp/admin/user/attribute/DoRemoveAttributeField.jsp";
     private static final AttributeService _attributeService = AttributeService.getInstance( );
     private static final AttributeFieldService _attributeFieldService = AttributeFieldService.getInstance( );
+    private static final String JSP_ATTRIBUTES_LIST = "jsp/admin/AdminTechnicalMenu.jsp?tab=attributes_management#users_advanced_parameters";
 
     /**
      * Create attribute field
@@ -145,12 +146,12 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         {
             if ( StringUtils.isBlank( strTitle ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ATTRIBUTES_LIST, AdminMessage.TYPE_STOP );
             }
 
             if ( StringUtils.isBlank( strValue ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ATTRIBUTES_LIST, AdminMessage.TYPE_STOP );
             }
 
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) )

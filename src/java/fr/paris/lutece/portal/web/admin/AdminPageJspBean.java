@@ -361,13 +361,13 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strPageId = request.getParameter( Parameters.PAGE_ID );
         if ( !StringUtils.isNumeric( strPageId ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         int nPageId = Integer.parseInt( strPageId );
         Page page = PageHome.getPage( nPageId );
         if ( page == null || page.getId( ) == 0 || page.getId( ) != nPageId )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, strPageId );
@@ -375,7 +375,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PAGE, new Object [ ] {
                 page.getName( )
-        }, null, JSP_REMOVE_PAGE, null, AdminMessage.TYPE_CONFIRMATION, parameters );
+        }, null, JSP_REMOVE_PAGE, null, AdminMessage.TYPE_CONFIRMATION, parameters, JSP_PATH+JSP_ADMIN_SITE );
     }
 
     /**
@@ -392,13 +392,13 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strPageId = request.getParameter( Parameters.PAGE_ID );
         if ( !StringUtils.isNumeric( strPageId ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         int nPageId = Integer.parseInt( strPageId );
         Page page = PageHome.getPage( nPageId );
         if ( page == null || page.getId( ) == 0 || page.getId( ) != nPageId )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         // Checks that the page has no child
         Collection<Page> list = PageHome.getChildPagesMinimalData( nPageId );
