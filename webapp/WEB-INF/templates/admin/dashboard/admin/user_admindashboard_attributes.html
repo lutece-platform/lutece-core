@@ -1,7 +1,7 @@
 <@tabPanel id='attributes_management'>
 <#assign tabTitle>#i18n{portal.users.manage_attributes.pageTitle} </#assign>
 <@pageHeader title="${tabTitle}">
-<@tform type='inline' method='post' align="middle" action='jsp/admin/user/attribute/CreateAttribute.jsp'>
+<@tform type='inline' method='get' align="middle" action='jsp/admin/user/attribute/CreateAttribute.jsp'>
 <@formGroup labelFor='attribute_type_class_name' formStyle='inline' groupStyle="inline" class='has-addons'>
 	<@inputGroup class=''>
 		<@select id='attribute_type_class_name' name='attribute_type_class_name' size='sm'>

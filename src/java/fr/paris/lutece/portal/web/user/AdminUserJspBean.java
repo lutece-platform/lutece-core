@@ -270,6 +270,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_MANAGE_USER_ROLES = "ManageUserRoles.jsp";
     private static final String JSP_MANAGE_USER = "ManageUsers.jsp";
     private static final String JSP_MANAGE_USER_WORKGROUPS = "ManageUserWorkgroups.jsp";
+    private static final String JSP_URL_MANAGE_USERS = "jsp/admin/user/ManageUsers.jsp";
     private static final String JSP_URL_REMOVE_USER = "jsp/admin/user/DoRemoveUser.jsp";
     private static final String JSP_URL_CREATE_USER = "jsp/admin/user/CreateUser.jsp";
     private static final String JSP_URL_IMPORT_USER = "jsp/admin/user/ImportUser.jsp";
@@ -546,13 +547,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strAccessCode == null ) || ( strAccessCode.equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_URL_IMPORT_USER, AdminMessage.TYPE_STOP );
         }
 
         // check that access code is not in use
         if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) != -1 )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_ACCESS_CODE_ALREADY_USED, JSP_URL_IMPORT_USER, AdminMessage.TYPE_STOP );
         }
 
         return AppPathService.getBaseUrl( request ) + JSP_URL_CREATE_USER + "?" + PARAMETER_ACCESS_CODE + "=" + strAccessCode;
@@ -1433,7 +1434,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( user == null )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, JSP_URL_MANAGE_USERS, AdminMessage.TYPE_ERROR );
         }
 
         AdminUser currentUser = AdminUserService.getAdminUser( request );
@@ -1450,7 +1451,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE, new Object [ ] {
                 user.getFirstName( ), user.getLastName( ), user.getAccessCode( )
-        }, null, strUrlRemove, null, AdminMessage.TYPE_CONFIRMATION, parameters );
+        }, null, strUrlRemove, null, AdminMessage.TYPE_CONFIRMATION, parameters, JSP_URL_MANAGE_USERS );
     }
 
     /**
@@ -1470,7 +1471,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( user == null )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, JSP_URL_MANAGE_USERS, AdminMessage.TYPE_ERROR );
         }
         if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_USER ) )
         {
@@ -2443,7 +2444,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( !StringUtils.isNumeric( strAdminUserId ) || strAdminUserId.isEmpty( ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ADMIN_USER_SELECTED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ADMIN_USER_SELECTED, JSP_URL_MANAGE_USERS, AdminMessage.TYPE_STOP );
         }
 
         int nUserId = Integer.parseInt( strAdminUserId );
@@ -2451,7 +2452,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( user == null )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, JSP_URL_MANAGE_USERS, AdminMessage.TYPE_ERROR );
         }
 
         String strUrl = JSP_URL_ANONYMIZE_ADMIN_USER;
@@ -2461,7 +2462,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_ANONYMIZE_USER, new Object [ ] {
                 user.getFirstName( ), user.getLastName( ), user.getAccessCode( )
-        }, null, strUrl, null, AdminMessage.TYPE_CONFIRMATION, parameters );
+        }, null, strUrl, null, AdminMessage.TYPE_CONFIRMATION, parameters, JSP_URL_MANAGE_USERS );
     }
 
     /**
@@ -2479,7 +2480,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( !StringUtils.isNumeric( strAdminUserId ) || strAdminUserId.isEmpty( ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ADMIN_USER_SELECTED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ADMIN_USER_SELECTED, JSP_URL_MANAGE_USERS, AdminMessage.TYPE_STOP );
         }
 
         int nUserId = Integer.parseInt( strAdminUserId );
@@ -2487,7 +2488,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( user == null )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, JSP_URL_MANAGE_USERS, AdminMessage.TYPE_ERROR );
         }
         if ( !getSecurityTokenService( ).validate( request, JSP_URL_ANONYMIZE_ADMIN_USER ) )
         {

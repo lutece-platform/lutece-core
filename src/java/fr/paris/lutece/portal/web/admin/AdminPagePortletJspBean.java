@@ -83,6 +83,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_DO_MODIFY_POSITION = "jsp/admin/site/DoModifyPortletPosition.jsp";
     private static final String JSP_DO_MODIFY_STATUS = "jsp/admin/site/DoModifyPortletStatus.jsp";
     private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
+    private static final String JSP_PATH = "jsp/admin/site/";
 
     /**
      * Processes the modification of a portlet whose identifier is stored in the http request
@@ -221,7 +222,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
         if ( !StringUtils.isNumeric( strPortletId ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
@@ -237,7 +238,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     nPortletId
-            }, AdminMessage.TYPE_ERROR );
+            }, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         if ( !getSecurityTokenService( ).validate( request, JSP_REMOVE_PORTLET ) )
         {
@@ -334,7 +335,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         String strStatus = request.getParameter( PORTLET_STATUS );
         if ( !StringUtils.isNumeric( strPortletId ) || !StringUtils.isNumeric( strStatus ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
@@ -350,14 +351,14 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     nPortletId
-            }, AdminMessage.TYPE_ERROR );
+            }, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         int nStatus = Integer.parseInt( strStatus );
         if ( nStatus != Portlet.STATUS_PUBLISHED && nStatus != Portlet.STATUS_UNPUBLISHED )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     nStatus
-            }, AdminMessage.TYPE_ERROR );
+            }, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         User user = AdminUserService.getAdminUser( request );
         if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
@@ -387,7 +388,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
 
         if ( !StringUtils.isNumeric( strPortletId ) || !StringUtils.isNumeric( strColumnId ) || !StringUtils.isNumeric( strOrder )  )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         int nPortletId = Integer.parseInt( strPortletId );
         int nColumnId = Integer.parseInt( strColumnId );
@@ -405,7 +406,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     nPortletId
-            }, AdminMessage.TYPE_ERROR );
+            }, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
        
         PortletHome.updatePosition( portlet, nColumnId, nOrder );

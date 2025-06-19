@@ -135,6 +135,7 @@ public class StylesJspBean extends MVCAdminJspBean
     // Jsp Definition
     private static final String JSP_DO_REMOVE_STYLE = "jsp/admin/style/ManageStyles.jsp";
     private static final String JSP_DO_REMOVE_STYLESHEET = "jsp/admin/style/DoRemoveStyleSheet.jsp";
+    private static final String JSP_MANAGE_STYLESHEETS = "jsp/admin/style/ManageStyles.jsp";
 
     // Message keys
     private static final String MESSAGE_CANT_DELETE_STYLE_PORTLETS = "portal.style.message.cannotDeleteStylePorlets";
@@ -346,7 +347,7 @@ public class StylesJspBean extends MVCAdminJspBean
 
         if ( CollectionUtils.isNotEmpty( listPortlets ) )
         {
-            String strMessageUrl= AdminMessageService.getMessageUrl( request, MESSAGE_CANT_DELETE_STYLE_PORTLETS, AdminMessage.TYPE_STOP );
+            String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CANT_DELETE_STYLE_PORTLETS, JSP_MANAGE_STYLESHEETS, AdminMessage.TYPE_STOP );
             return redirect( request, strMessageUrl );
         }
 
@@ -364,17 +365,16 @@ public class StylesJspBean extends MVCAdminJspBean
                 parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
 
                 String strMessageUrl= AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null,
-                        AdminMessage.TYPE_CONFIRMATION, parameters );        
+                        AdminMessage.TYPE_CONFIRMATION, parameters, JSP_MANAGE_STYLESHEETS );        
                 return redirect( request, strMessageUrl );
-
             }
         }
 
-        Map<String, String> parameters = new HashMap<>( );
+        Map<String, Object> parameters = new HashMap<>( );
         parameters.put( STYLE_ID, Integer.toString( nId ) );
         parameters.put(MVCUtils.PARAMETER_ACTION, ACTION_REMOVE_STYLE);
         
-        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, JSP_DO_REMOVE_STYLE, AdminMessage.TYPE_CONFIRMATION, parameters );
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, null, null, JSP_DO_REMOVE_STYLE, null, AdminMessage.TYPE_CONFIRMATION, parameters, JSP_MANAGE_STYLESHEETS );
         return redirect( request, strMessageUrl );
     }
 

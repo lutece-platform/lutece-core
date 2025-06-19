@@ -100,6 +100,8 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_PLUGIN_TYPE_NAME_CONTENTSERVICE = "portal.system.pluginType.name.contentService";
     private static final String TEMPLATE_PLUGIN_DETAILS = "/admin/system/view_plugin.html";
     private static final String JSP_UNINSTALL_PLUGIN = "jsp/admin/system/DoUninstallPlugin.jsp";
+    public static final String JSP_MANAGE_PLUGINS = "ManagePlugins.jsp";
+    private static final String JSP_PATH = "jsp/admin/system/";
 
     /**
      * Returns the plugins management page
@@ -148,7 +150,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
                     plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( )
             };
 
-            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args, JSP_PATH+JSP_MANAGE_PLUGINS, AdminMessage.TYPE_STOP );
 
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
@@ -163,7 +165,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         {
             AppLogService.error( e.getMessage( ), e );
 
-            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_INSTALL_ERROR, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_INSTALL_ERROR, JSP_PATH+JSP_MANAGE_PLUGINS, AdminMessage.TYPE_STOP );
         }
 
         return getHomeUrl( request );
@@ -213,11 +215,11 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Plugin plugin = PluginService.getPlugin( strPluginName );
         Collection<PortletType> listPortletTypes = plugin.getPortletTypes( );
         String strMessageKey = PROPERTY_PLUGIN_MESSAGE;
-        Map<String, String> parameters = new HashMap<>( );
+        Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAM_PLUGIN_NAME, strPluginName );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_UNINSTALL_PLUGIN ) );
-        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, JSP_UNINSTALL_PLUGIN, AdminMessage.TYPE_CONFIRMATION,
-                parameters );
+        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, null, null, JSP_UNINSTALL_PLUGIN, null, AdminMessage.TYPE_CONFIRMATION,
+                parameters, JSP_PATH+JSP_MANAGE_PLUGINS );
 
         for ( PortletType portletType : listPortletTypes )
         {
@@ -226,7 +228,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
             if ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) != 0 && isPortletExists( strPluginHomeClass ) )
             {
                 strMessageKey = PROPERTY_PLUGIN_PORTLET_EXIST_MESSAGE;
-                strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, AdminMessage.TYPE_CONFIRMATION );
+                strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, JSP_PATH+JSP_MANAGE_PLUGINS, AdminMessage.TYPE_STOP );
             }
         }
 
