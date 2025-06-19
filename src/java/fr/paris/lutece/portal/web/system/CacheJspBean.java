@@ -63,6 +63,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
 
     // Jsp definition
     public static final String JSP_MANAGE_CACHES = "ManageCaches.jsp";
+    private static final String JSP_PATH = "jsp/admin/system/";
 
     private static final String JSP_TOGGLE_CACHE = "jsp/admin/system/DoToggleCache.jsp";
     private static final String PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE = "portal.system.message.confirmToggleCache";
@@ -208,7 +209,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
                         PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE, JSP_TOGGLE_CACHE, "", AdminMessage.TYPE_CONFIRMATION, parameters );
             }
         }
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_INVALID_CACHE_ID, JSP_MANAGE_CACHES, AdminMessage.TYPE_ERROR );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_INVALID_CACHE_ID, JSP_PATH+JSP_MANAGE_CACHES, AdminMessage.TYPE_ERROR );
     }
 
     /**

@@ -132,6 +132,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     // Jsp Definition
     private static final String ANCHOR_ADMIN_DASHBOARDS = "xslexport";
     private static final String JSP_DO_REMOVE_XSL_EXPORT = "jsp/admin/xsl/DoRemoveXslExport.jsp";
+    private static final String JSP_XSL_EXPORT_LIST = "jsp/admin/AdminTechnicalMenu.jsp?tab=xslexportManagement#users_advanced_parameters";
 
     /**
      * Gets the xsl export creation page
@@ -475,7 +476,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
                     I18nService.getLocalizedString( strError, getLocale( ) )
             };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields, JSP_XSL_EXPORT_LIST, AdminMessage.TYPE_STOP );
         }
 
         // Check the XML validity of the XSL stylesheet
@@ -489,7 +490,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
                         strError
                 };
 
-                return AdminMessageService.getMessageUrl( request, MESSAGE_XML_NOT_VALID, args, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_XML_NOT_VALID, args, JSP_XSL_EXPORT_LIST, AdminMessage.TYPE_STOP );
             }
         }
 
