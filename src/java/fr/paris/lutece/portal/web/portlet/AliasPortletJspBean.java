@@ -72,6 +72,9 @@ public class AliasPortletJspBean extends PortletJspBean
     private static final String MARK_ALIAS_PORTLETS_LIST = "alias_portlets_list";
     private static final String MARK_ALIAS_PORTLET = "alias_portlet";
     private static final String LABEL_ALIAS_PORTLET_NAME = "portal.site.portlet_alias.portlet.name.label";
+    
+    private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
+    private static final String JSP_PATH = "jsp/admin/site/";
 
     /**
      * Process portlet's creation
@@ -89,7 +92,7 @@ public class AliasPortletJspBean extends PortletJspBean
         // if no portlet has the accept alias field true
         if ( strAliasId == null )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_STOP );
         }
 
         // Gets the parameters of the alias portlet posted in the request
@@ -98,7 +101,7 @@ public class AliasPortletJspBean extends PortletJspBean
         // mandatory field
         if ( ( strName == null ) || strName.trim( ).equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_STOP );
         }
 
         String strOrder = request.getParameter( PARAM_ORDER );
@@ -154,7 +157,7 @@ public class AliasPortletJspBean extends PortletJspBean
         // mandatory field
         if ( ( strName == null ) || strName.trim( ).equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_STOP );
         }
 
         portlet.setName( strName );
