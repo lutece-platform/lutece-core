@@ -185,6 +185,7 @@ public final class AppInit
 			AppTemplateService.init( PATH_TEMPLATES, context );     
 			// Initializes the Datastore Service
 			DatastoreService.init( );	
+			
 			// BeanUtil initialization, considering Lutèce availables locales and date
 			// format properties
 			BeanUtil.init( );
@@ -202,6 +203,7 @@ public final class AppInit
 	                cause = cause.getCause( );
 	            }
 			}
+			StartUpServiceManager.initializeEarlyInitializationServices( );
             StartUpServiceManager.init( );
             AdminMailingListService.init( );
             // Initializes Search Engine Indexation Service

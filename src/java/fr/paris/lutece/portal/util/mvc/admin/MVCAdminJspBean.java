@@ -134,7 +134,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      * @throws AppException if any reflection-related errors occur during method invocation
      */
     public String processController( HttpServletRequest request, HttpServletResponse response ) throws AccessDeniedException
-    {getLocale();
+    {
         _response = response;
         init( request, _controller.right( ) );
 
