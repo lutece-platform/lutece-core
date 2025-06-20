@@ -40,6 +40,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Abstract Paginator
  * 
@@ -345,7 +347,7 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
         int nItemsPerPage;
         String strItemsPerPage = request.getParameter( strParameter );
 
-        if ( strItemsPerPage != null )
+        if ( !StringUtils.isBlank( strItemsPerPage ) )
         {
             nItemsPerPage = Integer.parseInt( strItemsPerPage );
         }
