@@ -163,8 +163,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     // Constants
     private static final int MAX_TITLE_LENGTH = 50;
 
-    // Constants
-    private static final int MAX_TITLE_LENGTH = 50;
+   
 
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
