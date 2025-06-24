@@ -5,36 +5,210 @@
 <@h2>Modal</@h2>
 
 <@row>
-    <@columns>
-
-        <@button style='modal' buttonTargetId='#modalId' title='Launch Modal' />
-        <@modal id='modalId'>
-            <@modalHeader modalTitle='Modal Title' />
+    <@columns md=4>
+        <@button style='modal' buttonTargetId='#modalDefault' title='Launch Default Modal' />
+        <@modal id='modalDefault'>
+            <@modalHeader modalTitle='Default Modal' />
             <@modalBody>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+                Cras elementum ultrices diam.
             </@modalBody>
             <@modalFooter>
-                <@button params='data-dismiss="modal"' title='Close' color='secondary' />
+                <@button params='data-bs-dismiss="modal"' title='Close' color='secondary' />
                 <@button title='Save changes' />
             </@modalFooter>
         </@modal>
     </@columns>
     <@columns>
-    <pre>
-    &lt;@button style='modal' buttonTargetId='#modalId' title='Launch Modal' /&gt;
-    &lt;@modal id='modalId'&gt;
-        &lt;@modalHeader modalTitle='Modal Title' /&gt;
-        &lt;@modalBody&gt;
+<pre>
+&lt;@button style='modal' buttonTargetId='#modalDefault' title='Launch Default Modal' /&gt;
+&lt;@modal id='modalDefault'&gt;
+    &lt;@modalHeader modalTitle='Default Modal' /&gt;
+    &lt;@modalBody&gt;
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+            Cras elementum ultrices diam.
+    &lt;/@modalBody&gt;
+    &lt;@modalFooter&gt;
+            &lt;@button params='data-bs-dismiss="modal"' title='Close' color='secondary' /&gt;
+            &lt;@button title='Save changes' /&gt;
+    &lt;/@modalFooter&gt;
+&lt;/@modal&gt;
+</pre>
+    </@columns>
+</@row>
+
+<@row>
+    <@columns md=4>
+        <@button style='modal' buttonTargetId='#modalDefaultNVC' title='Launch Default Modal<br />(Not vertically centered)' />
+        <@modal id='modalDefaultNVC' vCentered=false>
+            <@modalHeader modalTitle='Default Modal (not vertically centered)' />
+            <@modalBody>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+                Cras elementum ultrices diam.
+            </@modalBody>
+            <@modalFooter>
+                <@button params='data-bs-dismiss="modal"' title='Close' color='secondary' />
+                <@button title='Save changes' />
+            </@modalFooter>
+        </@modal>
+    </@columns>
+    <@columns>
+<pre>
+&lt;@button style='modal' buttonTargetId='#modalDefaultNVC' title='Launch Default Modal<br />(Not vertically centered)' /&gt;
+&lt;@modal id='modalDefaultNVC' <span class="text-success">vCentered=false</span>&gt;
+    &lt;@modalHeader modalTitle='Default Modal' /&gt;
+    &lt;@modalBody&gt;
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+            Cras elementum ultrices diam.
+    &lt;/@modalBody&gt;
+    &lt;@modalFooter&gt;
+            &lt;@button params='data-bs-dismiss="modal"' title='Close' color='secondary' /&gt;
+            &lt;@button title='Save changes' /&gt;
+    &lt;/@modalFooter&gt;
+&lt;/@modal&gt;
+</pre>
+    </@columns>
+</@row>
+
+<@row>
+    <@columns md=4>
+        <@button style='modal' buttonTargetId='#modalSm' title='Launch Small Modal' />
+        <@modal id='modalSm' size='sm'>
+            <@modalHeader modalTitle='Small Modal' />
+            <@modalBody>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                 Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.
-        &lt;/@modalBody&gt;
-        &lt;@modalFooter&gt;
-                &lt;@button params='data-dismiss="modal"' title='Close' color='secondary' /&gt;
-                &lt;@button title='Save changes' /&gt;
-        &lt;/@modalFooter&gt;
-    &lt;/@modal&gt;
-    </pre>
+            </@modalBody>
+            <@modalFooter>
+                <@button params='data-bs-dismiss="modal"' title='Close' color='secondary' />
+                <@button title='Save changes' />
+            </@modalFooter>
+        </@modal>
+    </@columns>
+    <@columns>
+<pre>
+&lt;@button style='modal' buttonTargetId='#modalSm' title='Launch Small Modal' /&gt;
+&lt;@modal id='modalSm' <span class="text-success">size='sm'</span>&gt;
+    &lt;@modalHeader modalTitle='Small Modal' /&gt;
+    &lt;@modalBody&gt;
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+            Cras elementum ultrices diam.
+    &lt;/@modalBody&gt;
+    &lt;@modalFooter&gt;
+            &lt;@button params='data-bs-dismiss="modal"' title='Close' color='secondary' /&gt;
+            &lt;@button title='Save changes' /&gt;
+    &lt;/@modalFooter&gt;
+&lt;/@modal&gt;
+</pre>
+    </@columns>
+</@row>
+
+<@row>
+    <@columns md=4>
+        <@button style='modal' buttonTargetId='#modalLg' title='Launch Large Modal' />
+        <@modal id='modalLg' size='lg'>
+            <@modalHeader modalTitle='Large Modal' />
+            <@modalBody>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.
+            </@modalBody>
+            <@modalFooter>
+                <@button params='data-bs-dismiss="modal"' title='Close' color='secondary' />
+                <@button title='Save changes' />
+            </@modalFooter>
+        </@modal>
+    </@columns>
+    <@columns>
+<pre>
+&lt;@button style='modal' buttonTargetId='#modalLg' title='Launch Large Modal' /&gt;
+&lt;@modal id='modalLg' <span class="text-success">size='lg'</span>&gt;
+    &lt;@modalHeader modalTitle='Large Modal' /&gt;
+    &lt;@modalBody&gt;
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+            Cras elementum ultrices diam.
+    &lt;/@modalBody&gt;
+    &lt;@modalFooter&gt;
+            &lt;@button params='data-bs-dismiss="modal"' title='Close' color='secondary' /&gt;
+            &lt;@button title='Save changes' /&gt;
+    &lt;/@modalFooter&gt;
+&lt;/@modal&gt;
+</pre>
+    </@columns>
+</@row>
+
+<@row>
+    <@columns md=4>
+        <@button style='modal' buttonTargetId='#modalXl' title='Launch Extra Large Modal' />
+        <@modal id='modalXl' size='xl'>
+            <@modalHeader modalTitle='Extra Large Modal' />
+            <@modalBody>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+                Cras elementum ultrices diam.
+            </@modalBody>
+            <@modalFooter>
+                <@button params='data-bs-dismiss="modal"' title='Close' color='secondary' />
+                <@button title='Save changes' />
+            </@modalFooter>
+        </@modal>
+    </@columns>
+    <@columns>
+<pre>
+&lt;@button style='modal' buttonTargetId='#modalXl' title='Launch Extra Large Modal' /&gt;
+&lt;@modal id='modalXl' <span class="text-success">size='xl'</span>&gt;
+    &lt;@modalHeader modalTitle='Extra Large Modal' /&gt;
+    &lt;@modalBody&gt;
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+            Cras elementum ultrices diam.
+    &lt;/@modalBody&gt;
+    &lt;@modalFooter&gt;
+            &lt;@button params='data-bs-dismiss="modal"' title='Close' color='secondary' /&gt;
+            &lt;@button title='Save changes' /&gt;
+    &lt;/@modalFooter&gt;
+&lt;/@modal&gt;
+</pre>
+    </@columns>
+</@row>
+
+<@row>
+    <@columns md=4>
+        <@button style='modal' buttonTargetId='#modalFs' title='Launch Full Screen Modal' />
+        <@modal id='modalFs' fullScreen=true>
+            <@modalHeader modalTitle='Full screen Modal' />
+            <@modalBody>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+                Cras elementum ultrices diam.
+            </@modalBody>
+            <@modalFooter>
+                <@button params='data-bs-dismiss="modal"' title='Close' color='secondary' />
+                <@button title='Save changes' />
+            </@modalFooter>
+        </@modal>
+    </@columns>
+    <@columns>
+<pre>
+&lt;@button style='modal' buttonTargetId='#modalFs' title='Launch Full Screen Modal' /&gt;
+&lt;@modal id='modalFs' <span class="text-success">fullScreen=true</span>&gt;
+    &lt;@modalHeader modalTitle='Full screen Modal' /&gt;
+    &lt;@modalBody&gt;
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+            Cras elementum ultrices diam.
+    &lt;/@modalBody&gt;
+    &lt;@modalFooter&gt;
+            &lt;@button params='data-bs-dismiss="modal"' title='Close' color='secondary' /&gt;
+            &lt;@button title='Save changes' /&gt;
+    &lt;/@modalFooter&gt;
+&lt;/@modal&gt;
+</pre>
     </@columns>
 </@row>
 
@@ -64,6 +238,16 @@
     <@th>bgColor</@th>
     <@td>string</@td>
     <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>fullScreen</@th>
+    <@td>boolean</@td>
+    <@td>false</@td>
+</@tr>
+<@tr>
+    <@th>vCentered</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
 </@tr>
 </@table>
 
