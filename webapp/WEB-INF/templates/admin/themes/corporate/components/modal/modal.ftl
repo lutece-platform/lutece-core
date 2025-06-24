@@ -10,7 +10,7 @@ Parameters:
 -->
 <#macro modal id params='' bgColor='' size='' fullScreen=false vCentered=true>
 <div class="modal ${bgColor} fade" id="${id}" <#if params!=''> ${params}</#if>>
-	<div class="modal-dialog<#if size!=''> modal-${size}</#if>"<#if fullScreen> modal-fullscreen</#if><#if vCentered> modal-dialog-centered</#if>">
+	<div class="modal-dialog<#if size!=''> modal-${size}</#if><#if fullScreen> modal-fullscreen</#if><#if vCentered> modal-dialog-centered</#if>">
 		<div class="modal-content">
 			<#nested>
 		</div>
