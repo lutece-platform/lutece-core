@@ -1,5 +1,5 @@
 <#include "utils.html">
-<@header title='Accordion TEST' />
+<@header title='Accordion' />
 
 <@h2># Default accordion with icons</@h2>
 <p>
@@ -26,6 +26,51 @@
             </@accordionPanel>
         </@accordionContainer>
 	</@columns>
+    <@columns>
+<pre>
+&lt;@accordionContainer id='parent_id'&gt;
+	&lt;@accordionPanel collapsed=true childId='child_id1'&gt;
+		&lt;@accordionHeader title='Panel 1' headerIcon='users' &gt;
+		&lt;/@accordionHeader&gt;
+		&lt;@accordionBody&gt;
+			Nunc tempus ornare sapien vitae volutpat.
+            Nullam a condimentum odio.
+            Nulla ac interdum sapien, vel commodo libero.
+            Morbi vel leo at nisi finibus sagittis a sit amet nunc. 
+		&lt;/@accordionBody&gt;    
+	&lt;/@accordionPanel&gt;
+	&lt;@accordionPanel collapsed=true childId='child_id2'&gt;
+		&lt;@accordionHeader title='Panel 2' headerIcon='cog' &gt;
+		&lt;/@accordionHeader&gt;
+		&lt;@accordionBody&gt;
+			Suspendisse luctus luctus est vel posuere.
+            Cras vitae mattis eros.
+            Aenean venenatis vehicula eros,
+            imperdiet facilisis elit porta non.  
+		&lt;/@accordionBody&gt;    
+	&lt;/@accordionPanel&gt;
+&lt;/@accordionContainer&gt;
+</pre>
+    </@columns>
 </@row>
+
+<@h2># Parameters documentation</@h2>
+
+<@h3>accordionContainer</@h3>
+
+<p>The container for the panel, header, body elements of the accordion.</p>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th></@th>
+    <@td></@td>
+    <@td></@td>
+</@tr>
+</@table>
 
 <@footer />
