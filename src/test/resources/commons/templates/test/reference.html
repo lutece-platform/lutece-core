@@ -20,7 +20,7 @@
 
 <@adminDashboardPanel title='' navTitle='' parentId='' childId='' icon='' color=''> - </@adminDashboardPanel>
 
-<@adminDashboardWidget id title color='primary' url='' class='' bodyClass='table-responsive no-padding' params=''> - </@adminDashboardWidget>
+<@adminDashboardWidget id='' title='' color='' url='' class='' bodyClass='table-responsive no-padding' params=''> - </@adminDashboardWidget>
 
 <#assign version='external_var' />
 <#assign javascript_files='external_var' />
@@ -55,11 +55,14 @@
 
 <@adminSiteFooter> - </@adminSiteFooter>
 
-<@adminSiteToolbar> - </@adminSiteToolbar>
+<#assign page = {"id": 1, "name": "test"}>
+<#assign portlet_types_list = [{"name": "portletName", "id": "ALIAS_PORTLET", "iconName": "icon"}] />
+<#assign portlet_type = {"name": "portal.site.portletAlias.name", "id": "ALIAS_PORTLET", "iconName": "icon"} />
+<@adminSiteToolbar />
 
 <@adminSkipNav> - </@adminSkipNav>
 
-<@autocomplete id='id' name='name'suggestionsUrl='https://dev.lutece.paris.fr/'> - </@autocomplete>
+<@autocomplete id='id' name='name' suggestionsUrl='https://dev.lutece.paris.fr/'> - </@autocomplete>
 
 <@alert class='' color='' dismissible=false iconTitle='' id='' params='' title='' titleLevel='h3'> - </@alert>
 
@@ -229,7 +232,7 @@
 
 <@pageColumn id='' width='' class='' height='' title='' flush=false center=false responsiveMenuSize='' responsiveMenuTitle=title responsiveMenuPlacement='' responsiveMenuBodyClass='' responsiveMenuClose=false> - </@pageColumn>
 
-<@pageColumnBtn idPageColumn class='' hideSize='' title='' btnColor='primary' />
+<@pageColumnBtn idPageColumn='1' class='' hideSize='' title='' btnColor='primary' />
 
 <@pageContainer id='' template='' height='' class=''> - </@pageContainer>
 
@@ -247,7 +250,7 @@
 <@paginationItemCount combo=0 nb_items_per_page=nb_items_per_page paginator=paginator showall=0 showcount=1> - </@paginationItemCount>
 <@paginationPageLinks paginator=paginator> - </@paginationPageLinks>
 
-<@passwordComplexity id description='' params='' inputId='' value='0' />
+<@passwordComplexity id='1' description='' params='' inputId='' value='0' />
 
 <@pre align='' class='' collapsed=false hide=[] id='' params=''> - </@pre>
 
