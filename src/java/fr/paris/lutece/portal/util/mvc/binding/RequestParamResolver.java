@@ -1,11 +1,14 @@
 package fr.paris.lutece.portal.util.mvc.binding;
 
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.RequestParam;
 import fr.paris.lutece.portal.util.mvc.utils.BindingUtils;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
@@ -30,6 +33,25 @@ public class RequestParamResolver extends AbstractParameterResolver {
      */
 	@Override
     public boolean supports(Parameter parameter) {
+		// Exclude MultipartItem, MultipartItem[], List<MultipartItem>, and Collection<MultipartItem>
+        if (MultipartItem.class.isAssignableFrom(parameter.getType())) {
+            return false;
+        }
+        if (parameter.getType().isArray() && MultipartItem.class.isAssignableFrom(parameter.getType().getComponentType())) {
+            return false;
+        }
+        if (Collection.class.isAssignableFrom(parameter.getType())) {
+            Type genericType = parameter.getParameterizedType();
+            if (genericType instanceof ParameterizedType) {
+                Type[] typeArguments = ((ParameterizedType) genericType).getActualTypeArguments();
+                if (typeArguments.length > 0 && typeArguments[0] instanceof Class) {
+                    if (MultipartItem.class.isAssignableFrom((Class<?>) typeArguments[0])) {
+                        return false;
+                    }
+                }
+            }
+        }
+        // Continue with the original check for @RequestParam annotation
         return parameter.isAnnotationPresent(RequestParam.class);
     }
 	/**
