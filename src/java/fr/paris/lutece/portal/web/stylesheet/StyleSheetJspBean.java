@@ -34,9 +34,6 @@
 package fr.paris.lutece.portal.web.stylesheet;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -55,7 +52,6 @@ import org.xml.sax.InputSource;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
-import fr.paris.lutece.portal.business.style.Mode;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.style.Style;
 import fr.paris.lutece.portal.business.style.StyleHome;
@@ -68,11 +64,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.service.util.PathNotFoundException;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -80,7 +72,6 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.util.IPager;
 import fr.paris.lutece.portal.web.util.Pager;
 import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.file.FileUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.sort.AttributeComparator;
 
@@ -122,7 +113,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_STYLE_SELECT_OPTION = "admin/stylesheet/style_select_option.html";
 
     // Properties
-    private static final String PROPERTY_PATH_XSL = "path.stylesheet";
     private static final String PROPERTY_STYLESHEETS_PER_PAGE = "paginator.stylesheet.itemsPerPage";
     private static final String MESSAGE_STYLESHEET_ALREADY_EXISTS = "portal.style.message.stylesheetAlreadyExists";
     private static final String MESSAGE_STYLESHEET_NOT_VALID = "portal.style.message.stylesheetNotValid";
@@ -243,9 +233,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         // insert in the table stylesheet of the database
         StyleSheetHome.create( stylesheet );
-
-        // create a local file
-        localStyleSheetFile( stylesheet );
 
         // Displays the list of the stylesheet files
         return getHomeUrl( request );
@@ -383,14 +370,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
-        // Remove the old local file
-        removeOldLocalStyleSheet( nId );
-
         // Update the stylesheet in database
         StyleSheetHome.update( stylesheet );
-
-        // Recreate the local file
-        localStyleSheetFile( stylesheet );
 
         // Displays the management stylesheet page
         return getHomeUrl( request );
@@ -437,23 +418,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
         int nId = Integer.parseInt( request.getParameter( Parameters.STYLESHEET_ID ) );
         int nIdStyle = Integer.parseInt( request.getParameter( Parameters.STYLE_ID ) );
-        StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nId );
-        String strFile = stylesheet.getFile( );
         StyleSheetHome.remove( nId );
-
-        // removal of the XSL file
-        int nModeId = stylesheet.getModeId( );
-        Mode mode = ModeHome.findByPrimaryKey( nModeId );
-        String strPathStyleSheet = null;
-		String propertyPathXsl = AppPropertiesService.getProperty(PROPERTY_PATH_XSL)+mode.getPath();
-		try {
-			strPathStyleSheet = AppPathService.getAbsolutePathFromRelativePath(propertyPathXsl);
-		} catch (PathNotFoundException e) {
-			AppLogService.error("File not found in path: {}.", propertyPathXsl, e);
-			throw new AppException("File not found at path: " + propertyPathXsl, e);
-		}
-        File fileToDelete = new File( strPathStyleSheet, strFile );
-        FileUtil.deleteFile( fileToDelete );
 
         return JSP_REMOVE_STYLE + "?" + Parameters.STYLE_ID + "=" + nIdStyle;
     }
@@ -490,64 +455,4 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         return strError;
     }
 
-    /**
-     * Create and Update the local download file
-     *
-     * @param stylesheet
-     *            The style sheet
-     */
-    private void localStyleSheetFile( StyleSheet stylesheet )
-    {
-        int nModeId = stylesheet.getModeId( );
-        Mode mode = ModeHome.findByPrimaryKey( nModeId );
-        String strPathStyleSheet = null;
-        String propertyPathXsl = AppPropertiesService.getProperty(PROPERTY_PATH_XSL)+ mode.getPath();
-        try {
-			strPathStyleSheet = AppPathService.getAbsolutePathFromRelativePath(propertyPathXsl);
-		} catch (PathNotFoundException e) {
-			AppLogService.error("File not found in path: {}", propertyPathXsl, e);
-			throw new AppException("File not found at path: " + propertyPathXsl, e);
-		}
-        String strFileName = stylesheet.getFile( );
-        String strFilePath = strPathStyleSheet + strFileName;
-
-        
-        File file = new File( strFilePath );
-        FileUtil.deleteFile( file );
-        try ( FileOutputStream fos = new FileOutputStream( file ) )
-        {
-            fos.write( stylesheet.getSource( ) );
-        }
-        catch( IOException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-    }
-
-    /**
-     * remove the xsl file from the tmp directory
-     * 
-     * @param nId
-     *            the identifier of the file
-     */
-    private void removeOldLocalStyleSheet( int nId )
-    {
-        // Remove the file which been modify
-        StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nId );
-        int nMode = stylesheet.getModeId( );
-        Mode mode = ModeHome.findByPrimaryKey( nMode );
-        String strPathStyleSheet = null;
-        String propertyPathXsl = AppPropertiesService.getProperty(PROPERTY_PATH_XSL)+mode.getPath();
-        try {
-			strPathStyleSheet = AppPathService.getAbsolutePathFromRelativePath(propertyPathXsl);
-		} catch (PathNotFoundException e) {
-			AppLogService.error("File not found in path: {}.", propertyPathXsl, e);
-			throw new AppException("File not found at path: " + propertyPathXsl, e);
-		}
-        
-        String strOldFileName = stylesheet.getFile( );
-        String strOldFilePath = strPathStyleSheet + strOldFileName;
-        File oldFile = new File( strOldFilePath );
-        FileUtil.deleteFile( oldFile );
-    }
 }
