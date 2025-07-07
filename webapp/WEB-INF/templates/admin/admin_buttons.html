@@ -3,7 +3,7 @@
 <#assign portletOrderMax = order_max!20 />
 <#assign portletCol = portlet.column />
 <@btnToolbar class='lutece-admin-toolbar d-flex' params='data-portlet-id="${portletId}" data-portlet-order="${portletOrder}" data-portlet-column="${portletCol}"'>
-	<@tag color='primary rounded-circle me-1' title='${i18n("portal.site.portletPreview.orderBadgeTooltip",portletOrder)}'>${portletOrder}</@tag>
+	<@tag color='primary me-1' title='${i18n("portal.site.portletPreview.orderBadgeTooltip",portletOrder)}'>${portletOrder}</@tag>
 	<@div class='lutece-admin-toolbar-button d-flex'>
 		<@tform action='jsp/admin/DoModifyPortlet.jsp' type=''>
 			<@input type='hidden' name='portlet_id' value=portletId />
