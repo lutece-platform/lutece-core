@@ -65,7 +65,7 @@ Parameters:
         <div class="lutece-dialog-content">
             <div class="lutece-dialog-header">
                 <h2 class="lutece-dialog-title h4 text-dark" id="portletModalLabel">#i18n{portal.site.portletType.labelCreate}</h2>
-                <button type="button" class="btn btn-link btn-close text-dark" aria-label="#i18n{portal.util.labelCancel}"><i class="ti ti-x"></i></button>
+                <button type="button" class="btn btn-link btn-cancel text-dark" aria-label="#i18n{portal.util.labelCancel}"><i class="ti ti-x"></i></button>
             </div>
             <div class="lutece-dialog-body">
                     <form action="jsp/admin/DoCreatePortlet.jsp" type="get">
@@ -73,7 +73,8 @@ Parameters:
                         <div id='portlet_type_id' class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4"></div>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary btn-close" value="cancel" >#i18n{portal.util.labelCancel}</button>
+                        <button type="button" class="btn btn-secondary btn-cancel" value="cancel" >
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> #i18n{portal.util.labelClose}</button>
                     </div>
                     </form>
                 </div>
@@ -95,7 +96,7 @@ document.addEventListener( "DOMContentLoaded", function(){
         aType.classList.add('btn', 'btn-outline-primary', 'btn-lg','btn-block', 'btn-new-portlet', 'py-5', 'px-0' , 'my-3', 'd-flex', 'align-items-center' )
         aType.setAttribute( 'href', item.dataset.portletTypeHref )
         const spanType = document.createElement('span')
-        spanType.classList.add( 'px-2', 'text-left' )
+        spanType.classList.add( 'px-2', 'text-left', 'truncate' )
         spanType.innerText = item.dataset.portletTypeName
         const iconType = document.createElement('i')
         iconType.classList.add('ti', <#noparse>`ti-${item.dataset.portletTypeIcon}`</#noparse> ,'fs-0','d-block','me-4','mr-4','ps-2','pl-2')
