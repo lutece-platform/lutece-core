@@ -33,9 +33,6 @@
  */
 package fr.paris.lutece.portal.web.style;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,26 +40,17 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
-import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.upload.MultipartItem;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.service.util.PathNotFoundException;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
-import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
-import fr.paris.lutece.util.file.FileUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 /**
@@ -85,7 +73,6 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_PAGE_TEMPLATE_LIST = "portal.style.manage_page_templates.pageTitle";
-    private static final String PROPERTY_PAGE_TITLE_CREATE_PAGE_TEMPLATE = "portal.style.create_page_template.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_PAGE_TEMPLATE = "portal.style.modify_page_template.pageTitle";
 
     // Markers
@@ -94,28 +81,11 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
     // Templates files path
     private static final String TEMPLATE_PAGE_TEMPLATES = "admin/style/manage_page_templates.html";
-    private static final String TEMPLATE_CREATE_PAGE_TEMPLATE = "admin/style/create_page_template.html";
     private static final String TEMPLATE_MODIFY_PAGE_TEMPLATE = "admin/style/modify_page_template.html";
-
-    // Properties
-    private static final String PROPERTY_PATH_TEMPLATE = "path.templates";
-    private static final String PROPERTY_PATH_FILE_PAGE_TEMPLATE = "path.file.page.template";
-    private static final String PROPERTY_PATH_IMAGE_PAGE_TEMPLATE = "path.image.page.template";
 
     // Messages
     private static final String MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE = "portal.style.message.pageTemplateConfirmDelete";
     private static final String MESSAGE_PAGE_TEMPLATE_IS_USED = "portal.style.message.pageTemplateIsUsed";
-    private static final String MESSAGE_WRONG_IMAGE_EXTENSION = "portal.util.message.wrongImageExtention";
-    private static final String MESSAGE_WRONG_HTML_EXTENSION = "portal.util.message.wrongHtmlExtention";
-
-    // Parameters
-    private static final String PARAMETER_PAGE_TEMPLATE_FILE = "page_template_file";
-    private static final String PARAMETER_PAGE_TEMPLATE_PICTURE = "page_template_picture";
-    private static final String PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE = "update_image";
-    private static final String PARAMETER_PAGE_TEMPLATE_UPDATE_FILE = "update_file";
-    private static final String PATH_IMAGE_PAGE_TEMPLATE = AppPathService.getPath( PROPERTY_PATH_IMAGE_PAGE_TEMPLATE ) + File.separator;
-    private static final String PATH_TEMPLATE = AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator
-            + AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE );
 
     // JSP
     private static final String JSP_DO_REMOVE_PAGE_TEMPLATE = "jsp/admin/style/DoRemovePageTemplate.jsp";
@@ -137,88 +107,6 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_TEMPLATES, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
-    }
-
-    /**
-     * Returns the page template form of creation
-     *
-     * @param request
-     *            The Http request
-     * @return the html code of the page template
-     */
-    public String getCreatePageTemplate( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_PAGE_TEMPLATE );
-
-        HashMap<String, Object> model = new HashMap<>( );
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_PAGE_TEMPLATE ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_TEMPLATE, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
-
-    /**
-     * Processes the creation form of a new page template by recovering the parameters in the http request
-     *
-     * @param request
-     *            the http request
-     * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
-     */
-    public String doCreatePageTemplate( HttpServletRequest request ) throws AccessDeniedException
-    {
-        PageTemplate pageTemplate = new PageTemplate( );
-
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-
-        String strDescription = multipartRequest.getParameter( Parameters.PAGE_TEMPLATE_DESCRIPTION );
-
-        // Mandatory fields
-        if ( StringUtils.isEmpty( strDescription ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        }
-
-        var fileTemplate = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_FILE );
-        var filePicture = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_PICTURE );
-
-        String strFileName = FileUploadService.getFileNameOnly( fileTemplate );
-        String strPictureName = FileUploadService.getFileNameOnly( filePicture );
-
-        if ( StringUtils.isEmpty( strFileName ) || StringUtils.isEmpty( strPictureName ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
-        }
-
-        if ( !( FileUtil.hasHtmlExtension( strFileName ) || FileUtil.hasFreemarkerExtension( strFileName ) ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION, AdminMessage.TYPE_STOP );
-        }
-
-        if ( !FileUtil.hasImageExtension( strPictureName ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION, AdminMessage.TYPE_STOP );
-        }
-
-        if ( !getSecurityTokenService( ).validate( multipartRequest, TEMPLATE_CREATE_PAGE_TEMPLATE ) )
-        {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
-        }
-
-        pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
-        writeTemplateFile( strFileName, PATH_TEMPLATE, fileTemplate );
-
-        pageTemplate.setPicture( strPictureName );
-
-        writeTemplateFile( strPictureName, PATH_IMAGE_PAGE_TEMPLATE, filePicture );
-
-        pageTemplate.setDescription( strDescription );
-        PageTemplateHome.create( pageTemplate );
-
-        // If the process is successful, redirects towards the theme view
-        return getHomeUrl( request );
     }
 
     /**
@@ -258,82 +146,13 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         String strId = multipartRequest.getParameter( Parameters.PAGE_TEMPLATE_ID );
         String strDescription = multipartRequest.getParameter( Parameters.PAGE_TEMPLATE_DESCRIPTION );
-        String strUpdatePicture = multipartRequest.getParameter( PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE );
-        String strUpdateFile = multipartRequest.getParameter( PARAMETER_PAGE_TEMPLATE_UPDATE_FILE );
-
-        PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
-
-        boolean bUpdateFile = false;
-        boolean bUpdatePicture = false;
-        var fileTemplate = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_FILE );
-        String strFileName = FileUploadService.getFileNameOnly( fileTemplate );
-        var filePicture = multipartRequest.getFile( PARAMETER_PAGE_TEMPLATE_PICTURE );
-        String strPictureName = FileUploadService.getFileNameOnly( filePicture );
-
-        boolean bHasError = false;
-
-        if ( strUpdateFile != null )
-        {
-            if ( StringUtils.isEmpty( strFileName ) )
-            {
-                bHasError = true;
-            }
-            else
-                if ( !( FileUtil.hasHtmlExtension( strFileName ) || FileUtil.hasFreemarkerExtension( strFileName ) ) )
-                {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION, AdminMessage.TYPE_STOP );
-                }
-
-            bUpdateFile = true;
-        }
-
-        if ( strUpdatePicture != null )
-        {
-            if ( StringUtils.isEmpty( strPictureName ) )
-            {
-                bHasError = true;
-            }
-            else
-                if ( !FileUtil.hasImageExtension( strPictureName ) )
-                {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION, AdminMessage.TYPE_STOP );
-                }
-
-            bUpdatePicture = true;
-        }
-
-        if ( bHasError || StringUtils.isEmpty( strDescription ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
-        }
 
         if ( !getSecurityTokenService( ).validate( multipartRequest, TEMPLATE_MODIFY_PAGE_TEMPLATE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
-        if ( bUpdateFile )
-        {
-        	String pathFile= AppPropertiesService.getProperty(PROPERTY_PATH_TEMPLATE ) +File.separator + pageTemplate.getFile( );
-            try {
-				FileUtil.deleteFile( new File( AppPathService.getAbsolutePathFromRelativePath(pathFile) ) );
-			} catch (PathNotFoundException e) {
-				AppLogService.error("File not found in path: {}.", pathFile, e);
-
-			}
-            pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
-
-            writeTemplateFile( strFileName, PATH_TEMPLATE, fileTemplate );
-        }
-
-        if ( bUpdatePicture )
-        {
-            FileUtil.deleteFile( new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) ) );
-            pageTemplate.setPicture( strPictureName );
-
-            writeTemplateFile( strPictureName, PATH_IMAGE_PAGE_TEMPLATE, filePicture );
-        }
-
+        PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
         pageTemplate.setDescription( strDescription );
         PageTemplateHome.update( pageTemplate );
 
@@ -361,24 +180,10 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_TEMPLATE_IS_USED, AdminMessage.TYPE_STOP );
         }
 
-        PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
-        String strPathPageTemplateFile = null;
-        String pathFile= AppPropertiesService.getProperty(PROPERTY_PATH_TEMPLATE ) +  File.separator + pageTemplate.getFile( );
-        try {
-        	strPathPageTemplateFile= AppPathService.getAbsolutePathFromRelativePath(pathFile) ;
-		} catch (PathNotFoundException e) {
-			AppLogService.error("File not found in path: {}.", pathFile, e);
-		}
-        
-        String strPathPictureFile = PATH_IMAGE_PAGE_TEMPLATE + pageTemplate.getPicture( );
-        Object [ ] args = {
-                strPathPageTemplateFile, strPathPictureFile
-        };
-
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, strId );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, args, null, JSP_DO_REMOVE_PAGE_TEMPLATE, null,
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, new Object [ ] {}, null, JSP_DO_REMOVE_PAGE_TEMPLATE, null,
                 AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
@@ -401,49 +206,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
         int nId = Integer.parseInt( strId );
 
-        // Delete files associated
-        PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
-
-        String pathFile= AppPropertiesService.getProperty(PROPERTY_PATH_TEMPLATE ) +File.separator + pageTemplate.getFile( );
-        try {
-			FileUtil.deleteFile( new File( AppPathService.getAbsolutePathFromRelativePath(pathFile) ) );
-		} catch (PathNotFoundException e) {
-			AppLogService.error("File not found in path: {}.", pathFile, e);
-
-		}
-        File filePictureToDelete = new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) );
-        FileUtil.deleteFile( filePictureToDelete );
-
         PageTemplateHome.remove( nId );
 
         return getHomeUrl( request );
-    }
-
-    // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // private methods
-
-    /**
-     * Write the templates files (html and image)
-     *
-     * @param strFileName
-     *            The name of the file
-     * @param strPath
-     *            The path of the file
-     * @param fileItem
-     *            The fileItem object which contains the new file
-     */
-    private void writeTemplateFile( String strFileName, String strPath, MultipartItem fileItem )
-    {
-        File file = new File( strPath + strFileName );
-        FileUtil.deleteFile( file );
-
-        try ( FileOutputStream fosFile = new FileOutputStream( file ) )
-        {
-            fosFile.write( fileItem.get( ) );
-        }
-        catch( IOException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
     }
 }
