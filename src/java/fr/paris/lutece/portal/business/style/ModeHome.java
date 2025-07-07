@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,65 +34,31 @@
 package fr.paris.lutece.portal.business.style;
 
 import fr.paris.lutece.util.ReferenceList;
-import jakarta.enterprise.inject.spi.CDI;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.TreeMap;
 
 import javax.xml.transform.OutputKeys;
+
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
 
 /**
  * This class provides instances management methods (create, find, ...) for Mode objects
  */
 public final class ModeHome
 {
-    // Static variable pointed at the DAO instance
-    private static IModeDAO _dao = CDI.current().select( IModeDAO.class ).get();
-
+    private static final Config _config = ConfigProvider.getConfig( );
+    private static Map<Integer, Mode> _modes;
+    
     /**
      * Creates a new ModeHome object.
      */
     private ModeHome( )
     {
-    }
-
-    /**
-     * Creation of an instance of a mode
-     *
-     * @param mode
-     *            An instance of a mode which contains the informations to store
-     * @return The instance of a mode which has been created with its primary key.
-     */
-    public static Mode create( Mode mode )
-    {
-        _dao.insert( mode );
-
-        return mode;
-    }
-
-    /**
-     * Update of the mode which is specified
-     *
-     * @param mode
-     *            The instance of the mode which contains the data to store
-     * @return The instance of the mode which has been updated
-     */
-    public static Mode update( Mode mode )
-    {
-        _dao.store( mode );
-
-        return mode;
-    }
-
-    /**
-     * Remove the mode whose identifier is specified in parameter
-     *
-     * @param nId
-     *            The identifier of the mode to remove
-     */
-    public static void remove( int nId )
-    {
-        _dao.delete( nId );
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -107,17 +73,42 @@ public final class ModeHome
      */
     public static Mode findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey );
+        if (null == _modes)
+        {
+            initModes();
+        }
+        return _modes.get( nKey );
     }
 
-    /**
-     * Return the list of all the modes
-     *
-     * @return A collection of modes objects
-     */
-    public static Collection<Mode> getModesList( )
+    private static synchronized void initModes( )
     {
-        return _dao.selectModesList( );
+        List<Integer> modeIds = _config.getOptionalValues( "lutece.style.modes", Integer.class ).orElse( new ArrayList<Integer>( ) );
+        _modes = new TreeMap<Integer, Mode>( );
+
+        for ( Integer id : modeIds )
+        {
+            Mode mode = new Mode( );
+            String strDescription = _config.getOptionalValue( "lutece.style.mode." + id + ".description", String.class ).orElse( null );
+            String strPath = _config.getOptionalValue( "lutece.style.mode." + id + ".path", String.class ).orElse( null );
+            String strMethod = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslMethod", String.class ).orElse( "xml" );
+            String strVersion = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslVersion", String.class ).orElse( "1.0" );
+            String strEncoding = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslEncoding", String.class ).orElse( "UTF-8" );
+            String strIndent = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslIndent", String.class ).orElse( "yes" );
+            String strOmitXmlDeclaration = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslOmitXmlDec", String.class ).orElse( "yes" );
+            String strMediaType = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslMediaType", String.class ).orElse( "text/xml" );
+            String strStandalone = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslStandalone", String.class ).orElse( null );
+            mode.setId( id );
+            mode.setDescription( strDescription );
+            mode.setPath( strPath );
+            mode.setOutputXslPropertyMethod( strMethod );
+            mode.setOutputXslPropertyVersion( strVersion );
+            mode.setOutputXslPropertyEncoding( strEncoding );
+            mode.setOutputXslPropertyIndent( strIndent );
+            mode.setOutputXslPropertyOmitXmlDeclaration( strOmitXmlDeclaration );
+            mode.setOutputXslPropertyMediaType( strMediaType );
+            mode.setOutputXslPropertyStandalone( strStandalone );
+            _modes.put( id, mode );
+        }
     }
 
     /**
@@ -127,7 +118,17 @@ public final class ModeHome
      */
     public static ReferenceList getModes( )
     {
-        return _dao.getModesList( );
+        if (null == _modes)
+        {
+            initModes();
+        }
+        
+        ReferenceList modesList = new ReferenceList( );
+        for ( Mode mode : _modes.values( ) )
+        {
+            modesList.addItem( mode.getId( ), mode.getDescription( ) );
+        }
+        return modesList;
     }
 
     /**
@@ -139,7 +140,7 @@ public final class ModeHome
      */
     public static Properties getOuputXslProperties( int nKey )
     {
-        Mode mode = _dao.load( nKey );
+        Mode mode = findByPrimaryKey( nKey );
         Properties ouputProperties = new Properties( );
 
         String strMethod = mode.getOutputXslPropertyMethod( );

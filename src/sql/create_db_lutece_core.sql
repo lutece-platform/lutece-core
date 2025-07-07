@@ -245,25 +245,6 @@ CREATE TABLE core_mail_item (
 	PRIMARY KEY (id_mail_queue)
 );
 
-
---
--- Table structure for table core_mode
---
-DROP TABLE IF EXISTS core_mode;
-CREATE TABLE core_mode (
-	id_mode int NOT NULL,
-	description_mode varchar(255),
-	path varchar(50) default '' NOT NULL,
-	output_xsl_method varchar(50) default NULL,
-	output_xsl_version varchar(50) default NULL,
-	output_xsl_media_type varchar(50) default NULL,
-	output_xsl_encoding varchar(50) default NULL,
-	output_xsl_indent varchar(50) default NULL,
-	output_xsl_omit_xml_dec varchar(50) default NULL,
-	output_xsl_standalone varchar(50) default NULL,
-	PRIMARY KEY (id_mode)
-);
-
 --
 -- Table structure for table core_page
 --
