@@ -261,7 +261,7 @@ public final class BeanUtil
      */
     public static BeanUtilsBean getBeanUtilsBean(Locale locale, boolean enhanced) {
         if (locale == null || _mapBeanUtilsBeans == null) {
-        	BeanUtilsBean.getInstance( );
+        	return BeanUtilsBean.getInstance( );
         }
         
         String key = buildKey(locale, enhanced);
