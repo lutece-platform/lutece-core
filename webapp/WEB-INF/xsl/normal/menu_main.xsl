@@ -8,11 +8,11 @@
     </xsl:template>
 
     <xsl:template match="menu">
-        <li>
-            <a href="{$site-path}?page_id={page-id}" class="first-level" target="_top">
-                <xsl:value-of select="page-name" />
-            </a>
-        </li>
+        <li class="nav-item">
+			<a class="nav-link" href="{$site-path}?page_id={page-id}" target="_top">
+				<xsl:value-of select="page-name"/>
+			</a>
+		</li>
     </xsl:template>
 
 </xsl:stylesheet>

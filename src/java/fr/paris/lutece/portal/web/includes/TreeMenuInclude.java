@@ -44,16 +44,23 @@ import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.portal.PortalMenuService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.menu.MenuItem;
+import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import org.eclipse.microprofile.config.ConfigProvider;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -68,7 +75,14 @@ public class TreeMenuInclude implements PageInclude
 
     // Properties
     private static final String PROPERTY_ROOT_TREE = "lutece.root.tree";
+    private static final String TEMPLATE_TREE_MENU = "skin/site/menu_tree.html";
+    private static final String MARK_SITE_PATH = "site_path";
+    private static final String MARK_MENU_ITEMS = "items";
+    private static final String PARAMETER_SITE_PATH = "site-path";
 
+    private static final boolean _bUseXslStylesheet = ConfigProvider.getConfig( ).getOptionalValue( "lutece.style.menutree.xsl", Boolean.class )
+            .orElse( false );
+    
     /**
      * Substitue specific Freemarker markers in the page template.
      * 
@@ -98,13 +112,21 @@ public class TreeMenuInclude implements PageInclude
                 nCurrentPageId = 0;
             }
 
-            data.setTreeMenu( buildTreeMenuContent( nCurrentPageId, nMode, request ) );
+            if ( _bUseXslStylesheet )
+            {
+                data.setTreeMenu( buildTreeMenuContentXsl( nCurrentPageId, nMode, request ) );
+            }
+            else
+            {
+                data.setTreeMenu( buildTreeMenuContentTemplate( nCurrentPageId, nMode, request ) );
+            }
+            
             rootModel.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu( ) == null ) ? "" : data.getTreeMenu( ) );
         }
     }
 
     /**
-     * Builds the tree menu bar
+     * Builds the tree menu bar through XSL stylesheet
      *
      * @param nIdPage
      *            The page id
@@ -114,7 +136,7 @@ public class TreeMenuInclude implements PageInclude
      *            The HttpServletRequest
      * @return The list of the tree menus layed out with the stylesheet of the mode
      */
-    public String buildTreeMenuContent( int nIdPage, int nMode, HttpServletRequest request )
+    public String buildTreeMenuContentXsl( int nIdPage, int nMode, HttpServletRequest request )
     {
         StringBuffer strXml = new StringBuffer( );
 
@@ -234,5 +256,82 @@ public class TreeMenuInclude implements PageInclude
         }
 
         return nParentTree;
+    }
+
+    /**
+     * Builds the tree menu bar through freemarker template
+     *
+     * @param nIdPage
+     *            The page id
+     * @param nMode
+     *            the mode id
+     * @param request
+     *            The HttpServletRequest
+     * @return The list of the tree menus layed out with the stylesheet of the mode
+     */
+    public String buildTreeMenuContentTemplate( int nIdPage, int nMode, HttpServletRequest request )
+    {
+        String strTreeOnRoot = AppPropertiesService.getProperty( PROPERTY_ROOT_TREE );
+        Collection<Page> listPagesMenu;
+
+        // If the current page is the home page or the string strTreeOnRoot equals false, not display the treeMenu
+        if ( strTreeOnRoot.equalsIgnoreCase( "true" ) )
+        {
+            listPagesMenu = PageHome.getChildPagesMinimalData( getPageTree( nIdPage ) );
+        }
+        else
+        {
+            listPagesMenu = PageHome.getChildPagesMinimalData( nIdPage );
+        }
+
+        List<MenuItem> menuItems = new ArrayList<MenuItem>( );
+
+        int nMenuIndex = 1;
+
+        for ( Page menuPage : listPagesMenu )
+        {
+            if ( ( menuPage.isVisible( request ) ) || ( nMode == PortalMenuService.MODE_ADMIN ) )
+            {
+                buildMenuItem( menuPage, menuItems, nMode, nMenuIndex, nIdPage, request );
+                nMenuIndex++;
+            }
+        }
+
+        Map<String, String> mapParamRequest = new HashMap<>( );
+        PortalService.setXslPortalPath( mapParamRequest, nMode );
+
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_MENU_ITEMS, menuItems );
+        model.put( MARK_SITE_PATH, mapParamRequest.get( PARAMETER_SITE_PATH ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_TREE_MENU, null, model );
+        return template.getHtml( );
+    }
+
+    private void buildMenuItem( Page menuPage, List<MenuItem> menuItems, int nMode, int nMenuIndex, int nCurrentPageId, HttpServletRequest request )
+    {
+        MenuItem menuItem = MenuItem.builder( ).pageId( menuPage.getId( ) ).name( menuPage.getName( ) ).menuIndex( nMenuIndex )
+                .currentPageId( nCurrentPageId ).build( );
+
+        Collection<Page> listSubLevelMenuPages = PageHome.getChildPagesMinimalData( menuPage.getId( ) );
+
+        // add element submenu-list only if list not empty
+        if ( !listSubLevelMenuPages.isEmpty( ) )
+        {
+            // Seek of the sub-menus
+
+            int nSubLevelMenuIndex = 1;
+
+            for ( Page subLevelMenuPage : listSubLevelMenuPages )
+            {
+                if ( ( subLevelMenuPage.isVisible( request ) ) || ( nMode == PortalMenuService.MODE_ADMIN ) )
+                {
+                    MenuItem subMenuItem = MenuItem.builder( ).pageId( subLevelMenuPage.getId( ) ).parentId( menuPage.getId( ) )
+                            .name( subLevelMenuPage.getName( ) ).menuIndex( nMenuIndex ).subMenuIndex( nSubLevelMenuIndex ).currentPageId( nCurrentPageId )
+                            .build( );
+                    menuItem.getChildren( ).add( subMenuItem );
+                }
+            }
+        }
+        menuItems.add( menuItem );
     }
 }

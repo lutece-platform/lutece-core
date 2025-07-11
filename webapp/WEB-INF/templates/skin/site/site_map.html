@@ -1,0 +1,57 @@
+<#macro renderMap items> 
+    <#list items as item>
+        <#if item.level==0>
+            <div class="lutece-tree" id="lutece-map-tree">
+                <ul>
+                    <li class="lutece-tree-node" data-tree-icon="home">
+                        ${item.pageName}
+                        <#if "none" != item.role> 
+                            <strong>
+                                - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
+                            </strong>
+                        </#if>
+                        <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
+                            <span class="ti ti-link" ms-2"/>
+                        </a>
+                        <#if item.children?size gt 0>
+                            <ul>
+                                <@renderMap items=item.children />
+                            </ul>
+                        </#if>
+                    </li>
+                </ul>
+            </div>
+        <#else>
+            <#if item.children?size gt 0>
+                <li class="lutece-tree-node" data-tree-icon="folder" id="node-${item.pageId}">
+                    ${item.pageName}
+                    <#if "none" != item.role> 
+                        <strong>
+                            - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
+                        </strong>
+                    </#if>
+                    <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
+                        <span class="ti ti-link" mx-2"/>
+                    </a>
+                    <ul>
+                        <@renderMap items=item.children />
+                    </ul>
+                </li>  
+            <#else>
+                <li class="lutece-tree-item" data-tree-icon="file" id="node-${item.pageId}">
+                    ${item.pageName}
+                    <#if "none" != item.role> 
+                        <strong>
+                            - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
+                        </strong>
+                    </#if>
+                    <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
+                        <span class="ti ti-link"/>
+                    </a>
+                </li>
+            </#if>
+        </#if>
+    </#list> 
+</#macro>
+
+<@renderMap items=mapItems />

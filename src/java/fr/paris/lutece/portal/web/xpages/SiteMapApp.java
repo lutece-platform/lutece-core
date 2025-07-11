@@ -48,16 +48,23 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
+import fr.paris.lutece.portal.web.menu.MenuItem;
+import fr.paris.lutece.portal.web.menu.MenuItem.MenuTreeBuilder;
+import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
@@ -90,10 +97,16 @@ public class SiteMapApp implements XPageApplication
     private static final String PROPERTY_PATH_LABEL = "portal.site.site_map.pathLabel";
     private static final String PROPERTY_PAGE_TITLE = "portal.site.site_map.pageTitle";
     private static final String CACHE_NAME = "SiteMapService";
+    private static final String TEMPLATE_MAP_TREE = "skin/site/site_map.html";
+    private static final String MARK_MAP_ITEMS = "mapItems";
+    private static final String MARK_SITE_PATH = "site_path";
 
     @Inject
 	@LuteceCache(cacheName = CACHE_NAME, keyType = String.class, valueType = String.class, enable = true)
 	private Lutece107Cache<String, String> _cacheSiteMap;
+    @Inject
+    @ConfigProperty( name = "lutece.style.sitemap.xsl", defaultValue = "false" )
+    private boolean _bUseXslStylesheet;
 
     /**
      * Creates a new SiteMapPage object
@@ -133,8 +146,6 @@ public class SiteMapApp implements XPageApplication
         String strKey = getKey( nMode, request );
 
         Locale locale = request.getLocale( );
-
-        
 
         // Check the key in the cache
         String strCachedPage = _cacheSiteMap.isCacheEnable( ) && !_cacheSiteMap.isClosed()? _cacheSiteMap.get( strKey ) : null;
@@ -196,6 +207,20 @@ public class SiteMapApp implements XPageApplication
         return "[m:" + nMode + "][roles:" + strRoles + "]";
     }
 
+    private String buildPageContent( int nMode, HttpServletRequest request )
+    {
+        String map;
+        if ( _bUseXslStylesheet )
+        {
+            map = buildPageContentXsl( nMode, request );
+        }
+        else
+        {
+            map = buildPageContentTemplate( nMode, request );
+        }
+        return map;
+    }
+
     /**
      * Build an XML document containing the arborescence of the site pages and transform it with the stylesheet combined with the mode
      * 
@@ -205,7 +230,7 @@ public class SiteMapApp implements XPageApplication
      *            The HttpServletRequest
      * @return The content of the site map
      */
-    private String buildPageContent( int nMode, HttpServletRequest request )
+    private String buildPageContentXsl( int nMode, HttpServletRequest request )
     {
         StringBuffer strArborescenceXml = new StringBuffer( );
         strArborescenceXml.append( XmlUtil.getXmlHeader( ) );
@@ -230,7 +255,7 @@ public class SiteMapApp implements XPageApplication
 
                 break;
         }
-
+        
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
         Map<String, String> mapParamRequest = new HashMap<>( );
@@ -305,6 +330,49 @@ public class SiteMapApp implements XPageApplication
             XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_PAGE );
         }
     }
+
+    /**
+     * Build or get in the cache the page which contains the site map depending on the mode
+     *
+     * @param request
+     *            The Http request
+     * @return The content of the site map
+     */
+    public String buildPageContentTemplate( int nMode, HttpServletRequest request )
+    {
+        int nLevel = 0;
+
+        List<MenuItem> mapItems = new ArrayList<MenuItem>( );
+        buildMenu( request, mapItems, PortalService.getRootPageId( ), nLevel );
+
+        Map<String, Object> model = new HashMap<>( );
+        model.put( MARK_MAP_ITEMS, MenuTreeBuilder.buildTree( mapItems ) );
+        model.put( MARK_SITE_PATH, nMode != MODE_ADMIN ? AppPathService.getPortalUrl( ) : AppPathService.getAdminPortalUrl( ) );
+
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_TREE, request.getLocale( ), model );
+        
+        return t.getHtml();
+    }
+    
+    private void buildMenu( HttpServletRequest request, List<MenuItem> flatMenu, int nPageId, int nLevel )
+    {
+        Page page = PageHome.getPage( nPageId );
+
+        if ( page.isVisible( request ) )
+        {
+            MenuItem menuItem = MenuItem.builder( ).pageId( page.getId( ) ).parentId( page.getParentPageId( ) )
+                    .name( page.getName( ) ).description( page.getDescription( ) )
+                    .level( nLevel ).role( page.getRole( ) )
+                    .build( );
+            flatMenu.add( menuItem );
+
+            for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
+            {
+                buildMenu( request, flatMenu, pageChild.getId( ), nLevel + 1 );
+            }
+        }
+    }
+    
     /**
      * Process a page event
      *
