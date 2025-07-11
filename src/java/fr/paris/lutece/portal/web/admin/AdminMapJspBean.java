@@ -47,14 +47,21 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.menu.MenuItem;
+import fr.paris.lutece.portal.web.menu.MenuItem.MenuTreeBuilder;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -72,9 +79,11 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
     // Markers
     private static final String MARKER_MAP_SITE = "map_site";
     private static final String MARK_PAGE = "page";
+    private static final String MARK_MAP_ITEMS = "mapItems";
 
     // Templates
     private static final String TEMPLATE_MAP_SITE = "admin/site/site_map.html";
+    private static final String TEMPLATE_MAP_TREE = "admin/site/admin_site_map_admin.html";
 
     // Parameters
     private static final String PARAMETER_SITE_PATH = "site-path";
@@ -89,6 +98,35 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
     private static final int PORTAL_COMPONENT_SITE_MAP_ID = 8;
     private static final int MODE_ADMIN = 1;
 
+    @Inject
+    @ConfigProperty( name = "lutece.style.sitemap.xsl", defaultValue = "false" )
+    private boolean _bUseXslStylesheet;
+    
+    public String getMap( HttpServletRequest request )
+    {
+        String map;
+        if ( _bUseXslStylesheet )
+        {
+            map = getMapXsl( request );
+        }
+        else
+        {
+            map = getMapTemplate( request );
+        }
+        
+        String strPageId = request.getParameter( PARAMETER_PAGE_ID );
+        int nPageId = ( strPageId != null ) ? Integer.parseInt( strPageId ) : 1;
+        Page page = PageHome.getPage( nPageId );
+
+        Map<String, Object> model = new HashMap<>( );
+        model.put( MARK_PAGE, page );
+        model.put( MARKER_MAP_SITE, map );
+
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_SITE, getLocale( ), model );
+
+        return t.getHtml();
+    }
+    
     /**
      * Build or get in the cache the page which contains the site map depending on the mode
      *
@@ -96,7 +134,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return The content of the site map
      */
-    public String getMap( HttpServletRequest request )
+    public String getMapXsl( HttpServletRequest request )
     {
         StringBuffer strArborescenceXml = new StringBuffer( );
 
@@ -116,20 +154,8 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
 
         Properties outputProperties = ModeHome.getOuputXslProperties( MODE_ADMIN );
 
-        Map<String, Object> model = new HashMap<>( );
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-        String map = xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString( ), xslSource, mapParamRequest, outputProperties );
-
-        String strPageId = request.getParameter( PARAMETER_PAGE_ID );
-        int nPageId = ( strPageId != null ) ? Integer.parseInt( strPageId ) : 1;
-        Page page = PageHome.getPage( nPageId );
-
-        model.put( MARK_PAGE, page );
-        model.put( MARKER_MAP_SITE, map );
-
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_SITE, getLocale( ), model );
-
-        return t.getHtml();
+        return xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString( ), xslSource, mapParamRequest, outputProperties );
     }
 
     /**
@@ -228,5 +254,85 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         }
 
         XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_PAGE );
+    }
+
+    /**
+     * Build or get in the cache the page which contains the site map depending on the mode
+     *
+     * @param request
+     *            The Http request
+     * @return The content of the site map
+     */
+    public String getMapTemplate( HttpServletRequest request )
+    {
+        int nLevel = 0;
+
+        String strCurrentPageId = request.getParameter( PARAMETER_PAGE_ID );
+        Integer nCurrentPageId = null != strCurrentPageId ? Integer.parseInt(strCurrentPageId) : null;
+        
+        List<MenuItem> mapItems = new ArrayList<MenuItem>( );
+        buildMenu( request, mapItems, PortalService.getRootPageId( ), nLevel, nCurrentPageId );
+
+        Map<String, Object> model = new HashMap<>( );
+        model.put( MARK_MAP_ITEMS, MenuTreeBuilder.buildTree( mapItems ) );
+        model.put( "site_path", AppPropertiesService.getProperty( PROPERTY_ADMIN_PATH ) );
+
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_TREE, getLocale( ), model );
+        
+        return t.getHtml();
+    }
+    
+    private void buildMenu( HttpServletRequest request, List<MenuItem> flatMenu, int nPageId, int nLevel, Integer nCurrentPageId )
+    {
+        Page page = PageHome.getPage( nPageId );
+
+        User user = AdminUserService.getAdminUser( request );
+        String strPageId = Integer.toString( nPageId );
+
+        boolean bAuthorizationPage;
+
+        if ( nPageId == PortalService.getRootPageId( ) )
+        {
+            bAuthorizationPage = true;
+        }
+        else
+        {
+            // Control the node_status
+            if ( page.getNodeStatus( ) != 0 )
+            {
+                Page parentPage = PageHome.getPage( page.getParentPageId( ) );
+                int nParentPageNodeStatus = parentPage.getNodeStatus( );
+                int nParentPageId = parentPage.getId( );
+
+                // If 0 the page have a node authorization, else
+                // the parent page node_status must be controlled
+                // until it is equal to 0
+                while ( nParentPageNodeStatus != 0 )
+                {
+                    parentPage = PageHome.getPage( nParentPageId );
+                    nParentPageNodeStatus = parentPage.getNodeStatus( );
+                    nParentPageId = parentPage.getParentPageId( );
+                }
+
+                strPageId = Integer.toString( parentPage.getId( ) );
+            }
+
+            bAuthorizationPage = RBACService.isAuthorized( Page.RESOURCE_TYPE, strPageId, PageResourceIdService.PERMISSION_VIEW, user );
+        }
+
+        if ( bAuthorizationPage )
+        {
+            // Add page
+            MenuItem menuItem = MenuItem.builder( ).pageId( page.getId( ) ).parentId( page.getParentPageId( ) )
+                    .name( page.getName( ) ).description( page.getDescription( ) )
+                    .currentPageId( nCurrentPageId ).level( nLevel ).role( page.getRole( ) )
+                    .build( );
+            flatMenu.add( menuItem );
+        }
+
+        for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
+        {
+            buildMenu( request, flatMenu, pageChild.getId( ), nLevel + 1, nCurrentPageId );
+        }
     }
 }

@@ -45,14 +45,20 @@ import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.page.PageEvent;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.web.menu.MenuItem;
+import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -77,10 +83,17 @@ public class PortalMenuService
     private static final int PORTAL_COMPONENT_MENU_INIT_ID = 3;
     private static final int PORTAL_COMPONENT_MAIN_MENU_ID = 4;
     private static final String SERVICE_NAME = "PortalMenuService";
+    private static final String TEMPLATE_MAIN_MENU = "skin/site/menu_main.html";
+    private static final String MARK_SITE_PATH = "site_path";
+    private static final String MARK_MENU_ITEMS = "items";
+    private static final String PARAMETER_SITE_PATH = "site-path";
     @Inject
 	@LuteceCache(cacheName = SERVICE_NAME, keyType = String.class, valueType = String.class, enable = true)
 	private Lutece107Cache<String, String> _cachePortalMenu;
-
+    @Inject
+    @ConfigProperty( name = "lutece.style.menu.xsl", defaultValue = "false" )
+    private boolean _bUseXslStylesheet;
+    
     PortalMenuService( )
     {
         // Ctor
@@ -163,6 +176,31 @@ public class PortalMenuService
      * @return The list of the menus layed out with the stylesheet of the mode
      */
     private String buildMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
+    {
+        if ( _bUseXslStylesheet )
+        {
+            return buildMenuContentXsl( nCurrentPageId, nMode, nPart, request );
+        }
+        else
+        {
+            return buildMenuContentTemplate( nCurrentPageId, nMode, nPart, request );
+        }
+    }
+    
+    /**
+     * Builds the menu bar with XSL stylesheet
+     *
+     * @param nCurrentPageId
+     *            The current page ID
+     * @param nMode
+     *            The selected mode
+     * @param nPart
+     *            The part of the menu to build
+     * @param request
+     *            The HttpServletRequest
+     * @return The list of the menus layed out with the stylesheet of the mode
+     */
+    private String buildMenuContentXsl( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
         Collection<Page> listPagesMenu = PageHome.getChildPagesMinimalData( PortalService.getRootPageId( ) );
 
@@ -274,6 +312,76 @@ public class PortalMenuService
             }
         }
         return xslSource;
+    }
+
+    /**
+     * Builds the menu bar with freemarker template
+     *
+     * @param nCurrentPageId
+     *            The current page ID
+     * @param nMode
+     *            The selected mode
+     * @param nPart
+     *            The part of the menu to build
+     * @param request
+     *            The HttpServletRequest
+     * @return The list of the menus layed out with the stylesheet of the mode
+     */
+    private String buildMenuContentTemplate( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
+    {
+        Collection<Page> listPagesMenu = PageHome.getChildPagesMinimalData( PortalService.getRootPageId( ) );
+
+        List<MenuItem> menuItems = new ArrayList<MenuItem>( );
+
+        int nMenuIndex = 1;
+
+        for ( Page menuPage : listPagesMenu )
+        {
+            if ( ( menuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
+            {
+                buildMenuItem( menuPage, menuItems, nMode, nMenuIndex, nCurrentPageId, request );
+                nMenuIndex++;
+            }
+        }
+
+        // Added in v1.3
+        // Add a path param for choose url to use in admin or normal mode
+        Map<String, String> mapParamRequest = new HashMap<>( );
+        PortalService.setXslPortalPath( mapParamRequest, nMode );
+
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_MENU_ITEMS, menuItems );
+        model.put( MARK_SITE_PATH, mapParamRequest.get( PARAMETER_SITE_PATH ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MAIN_MENU, null, model );
+        return template.getHtml( );
+    }
+    
+    private void buildMenuItem( Page menuPage, List<MenuItem> menuItems, int nMode, int nMenuIndex, int nCurrentPageId, HttpServletRequest request )
+    {
+        MenuItem menuItem = MenuItem.builder( ).pageId( menuPage.getId( ) ).name( menuPage.getName( ) ).menuIndex( nMenuIndex )
+                .currentPageId( nCurrentPageId ).build( );
+
+        Collection<Page> listSubLevelMenuPages = PageHome.getChildPagesMinimalData( menuPage.getId( ) );
+
+        // add element submenu-list only if list not empty
+        if ( !listSubLevelMenuPages.isEmpty( ) )
+        {
+            // Seek of the sub-menus
+
+            int nSubLevelMenuIndex = 1;
+
+            for ( Page subLevelMenuPage : listSubLevelMenuPages )
+            {
+                if ( ( subLevelMenuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
+                {
+                    MenuItem subMenuItem = MenuItem.builder( ).pageId( subLevelMenuPage.getId( ) ).parentId( menuPage.getId( ) )
+                            .name( subLevelMenuPage.getName( ) ).menuIndex( nMenuIndex ).subMenuIndex( nSubLevelMenuIndex ).currentPageId( nCurrentPageId )
+                            .build( );
+                    menuItem.getChildren( ).add( subMenuItem );
+                }
+            }
+        }
+        menuItems.add( menuItem );
     }
 
     /**
