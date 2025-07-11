@@ -51,14 +51,15 @@ import fr.paris.lutece.portal.service.event.Type.TypeQualifier;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.TransactionManager;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
-import jakarta.enterprise.inject.spi.BeanManager;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -72,8 +73,15 @@ public class WorkflowService
     private static final String PLUGIN_WORKFLOW_NAME = "workflow";
     private static final String BEAN_WORKFLOW_PROVIDER = "workflow.workflowProvider";
     private boolean _bServiceAvailable = true;
-    private IWorkflowService _service;
-    private IWorkflowProvider _provider;
+    
+    @Inject
+    @Named(fr.paris.lutece.plugins.workflowcore.service.workflow.WorkflowService.BEAN_SERVICE)
+    private Instance<IWorkflowService> _service;
+    @Inject
+    @Named(BEAN_WORKFLOW_PROVIDER )
+    private Instance<IWorkflowProvider> _provider;
+    @Inject
+    private Event<ResourceEvent> _resourceEvent;
 
     /**
      * Private constructor
@@ -81,17 +89,8 @@ public class WorkflowService
     @PostConstruct
     void init( )
     {	
-    	try
-        {
-            _service = CdiHelper.getReference(IWorkflowService.class, fr.paris.lutece.plugins.workflowcore.service.workflow.WorkflowService.BEAN_SERVICE );
-            _provider = CdiHelper.getReference( IWorkflowProvider.class, BEAN_WORKFLOW_PROVIDER );
-            _bServiceAvailable = ( _service != null ) && ( _provider != null );
-        }
-        catch(IllegalArgumentException | IllegalStateException e )
-        {
-        	AppLogService.debug("WorkflowService Provider not found ", e);
-            _bServiceAvailable = false;
-        }
+            _bServiceAvailable = ( _service != null && _service.isResolvable( ) ) && ( _provider != null && _provider.isResolvable( ) );
+        
     }
 
     /**
@@ -120,7 +119,7 @@ public class WorkflowService
     {
         // LUTECE-1273 : Condition ( _service != null && _provider != null ) in case the
         // plugin-workflow is removed from a webapp
-        return _bServiceAvailable && ( _service != null ) && ( _provider != null ) && PluginService.isPluginEnable( PLUGIN_WORKFLOW_NAME );
+        return _bServiceAvailable && ( _service != null && _service.isResolvable( ) ) && ( _provider != null  && _provider.isResolvable( )) && PluginService.isPluginEnable( PLUGIN_WORKFLOW_NAME );
     }
 
     /**
@@ -140,9 +139,9 @@ public class WorkflowService
     {
         if ( isAvailable( ) )
         {
-            Collection<Action> listActions = _service.getActions( nIdResource, strResourceType, nIdWorkflow );
+            Collection<Action> listActions = _service.get( ).getActions( nIdResource, strResourceType, nIdWorkflow );
 
-            return _provider.getActions( nIdResource, strResourceType, listActions, user );
+            return _provider.get().getActions( nIdResource, strResourceType, listActions, user );
         }
 
         return null;
@@ -188,9 +187,9 @@ public class WorkflowService
     {
         if ( isAvailable( ) )
         {
-            Map<Integer, List<Action>> mapActions = _service.getActions( listIdResource, strResourceType, nIdExternalParentId, nIdWorkflow );
+            Map<Integer, List<Action>> mapActions = _service.get( ).getActions( listIdResource, strResourceType, nIdExternalParentId, nIdWorkflow );
 
-            return _provider.getActions( strResourceType, mapActions, user );
+            return _provider.get( ).getActions( strResourceType, mapActions, user );
         }
 
         return null;
@@ -230,7 +229,7 @@ public class WorkflowService
      */
     public boolean isDisplayTasksForm( int nIdAction, Locale locale )
     {
-        return isAvailable( ) && _service.isDisplayTasksForm( nIdAction, locale );
+        return isAvailable( ) && _service.get( ).isDisplayTasksForm( nIdAction, locale );
     }
 
     /**
@@ -289,8 +288,8 @@ public class WorkflowService
             
             try
             {
-                String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request, user );
-                _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, bIsAutomatic, strUserAccessCode, user );
+                String strUserAccessCode = bIsAutomatic ? null : _provider.get().getUserAccessCode( request, user );
+                _service.get( ).doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, bIsAutomatic, strUserAccessCode, user );
                 TransactionManager.commitTransaction( null );
                 AppLogService.debug( "Transaction committed for action with id = {}", nIdAction );
 
@@ -346,7 +345,7 @@ public class WorkflowService
      */
     public String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale, User user )
     {
-        return isAvailable( ) ? _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, user ) : null;
+        return isAvailable( ) ? _provider.get( ).getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, user ) : null;
     }
 
     /**
@@ -406,12 +405,12 @@ public class WorkflowService
         }
         try
         {
-            return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, model, strTemplate, user );
+            return _provider.get().getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, model, strTemplate, user );
         }
         catch( NoSuchMethodError ex )
         {
             AppLogService.error( "You are using a too old Workflow provider version. Please upgrade." );
-            return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, user );
+            return _provider.get( ).getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, user );
         }
     }
 
@@ -464,7 +463,7 @@ public class WorkflowService
     {
         if ( isAvailable( ) )
         {
-            String strError = _provider.doValidateTasksForm( nIdResource, strResourceType, nIdAction, request, locale, user );
+            String strError = _provider.get( ).doValidateTasksForm( nIdResource, strResourceType, nIdAction, request, locale, user );
 
             if ( StringUtils.isNotBlank( strError ) )
             {
@@ -491,7 +490,7 @@ public class WorkflowService
     {
         if ( isAvailable( ) )
         {
-            return _service.getResourceIdListByIdState( nIdState, strResourceType );
+            return _service.get( ).getResourceIdListByIdState( nIdState, strResourceType );
         }
 
         return null;
@@ -512,7 +511,7 @@ public class WorkflowService
     {
         if ( isAvailable( ) )
         {
-            return _service.getResourceIdListByIdState( nIdState, strResourceType, nExternalParentId );
+            return _service.get( ).getResourceIdListByIdState( nIdState, strResourceType, nExternalParentId );
         }
 
         return null;
@@ -535,7 +534,7 @@ public class WorkflowService
 
             try
             {
-                _service.doRemoveWorkFlowResource( nIdResource, strResourceType );
+                _service.get( ).doRemoveWorkFlowResource( nIdResource, strResourceType );
                 TransactionManager.commitTransaction( null );
             }
             catch( Exception e )
@@ -564,7 +563,7 @@ public class WorkflowService
 
             try
             {
-                _service.doRemoveWorkFlowResourceByListId( lListIdResource, strResourceType, nIdWorflow );
+                _service.get( ).doRemoveWorkFlowResourceByListId( lListIdResource, strResourceType, nIdWorflow );
                 TransactionManager.commitTransaction( null );
             }
             catch( Exception e )
@@ -619,7 +618,7 @@ public class WorkflowService
      */
     public String getDisplayTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale, User user )
     {
-        return isAvailable( ) ? _provider.getDisplayTasksForm( nIdResource, strResourceType, nIdAction, request, locale, user ) : null;
+        return isAvailable( ) ? _provider.get( ).getDisplayTasksForm( nIdResource, strResourceType, nIdAction, request, locale, user ) : null;
     }
 
     /**
@@ -637,7 +636,7 @@ public class WorkflowService
      */
     public boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, User user )
     {
-        return isAvailable( ) && _provider.isAuthorized( nIdResource, strResourceType, nIdWorkflow, user );
+        return isAvailable( ) && _provider.get( ).isAuthorized( nIdResource, strResourceType, nIdWorkflow, user );
     }
 
     /**
@@ -677,7 +676,7 @@ public class WorkflowService
      */
     public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState, Integer nExternalParentId, User user )
     {
-        return isAvailable( ) ? _provider.getAuthorizedResourceList( strResourceType, nIdWorkflow, nIdWorkflowState, nExternalParentId, user ) : null;
+        return isAvailable( ) ? _provider.get( ).getAuthorizedResourceList( strResourceType, nIdWorkflow, nIdWorkflowState, nExternalParentId, user ) : null;
     }
 
     /**
@@ -721,7 +720,7 @@ public class WorkflowService
     public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, List<Integer> lListIdWorkflowState, Integer nExternalParentId,
             User user )
     {
-        return isAvailable( ) ? _provider.getAuthorizedResourceList( strResourceType, nIdWorkflow, lListIdWorkflowState, nExternalParentId, user ) : null;
+        return isAvailable( ) ? _provider.get( ).getAuthorizedResourceList( strResourceType, nIdWorkflow, lListIdWorkflowState, nExternalParentId, user ) : null;
     }
 
     /**
@@ -758,7 +757,7 @@ public class WorkflowService
      */
     public ReferenceList getWorkflowsEnabled( User user, Locale locale )
     {
-        return isAvailable( ) ? _provider.getWorkflowsEnabled( user, locale ) : null;
+        return isAvailable( ) ? _provider.get( ).getWorkflowsEnabled( user, locale ) : null;
     }
 
     /**
@@ -790,9 +789,9 @@ public class WorkflowService
     {
         if ( isAvailable( ) )
         {
-            Collection<State> listStates = _service.getAllStateByWorkflow( nIdWorkflow );
+            Collection<State> listStates = _service.get( ).getAllStateByWorkflow( nIdWorkflow );
 
-            return _provider.getAllStateByWorkflow( listStates, user );
+            return _provider.get( ).getAllStateByWorkflow( listStates, user );
         }
 
         return null;
@@ -836,7 +835,7 @@ public class WorkflowService
 
             try
             {
-                state = _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId );
+                state = _service.get( ).getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId );
                 TransactionManager.commitTransaction( null );
             }
             catch( Exception e )
@@ -892,7 +891,7 @@ public class WorkflowService
 
             try
             {
-                _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId, user );
+                _service.get( ).executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId, user );
                 TransactionManager.commitTransaction( null );
 
                 registerResourceEvent( nIdResource, strResourceType );
@@ -914,7 +913,7 @@ public class WorkflowService
      */
     public List<Action> getMassActions( int nIdWorkflow )
     {
-        return isAvailable( ) ? _service.getMassActions( nIdWorkflow ) : null;
+        return isAvailable( ) ? _service.get( ).getMassActions( nIdWorkflow ) : null;
     }
 
     /**
@@ -933,9 +932,9 @@ public class WorkflowService
             return null;
         }
 
-        Collection<Action> listActions = _service.getMassActions( nIdWorkflow, nIdState );
+        Collection<Action> listActions = _service.get( ).getMassActions( nIdWorkflow, nIdState );
 
-        return _provider.getAuthorizedActions( listActions, user );
+        return _provider.get( ).getAuthorizedActions( listActions, user );
     }
 
     /**
@@ -985,14 +984,14 @@ public class WorkflowService
     public boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, HttpServletRequest request,
             boolean bIsAutomatic, User user )
     {
-        if ( isAvailable( ) && _service.canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId ) )
+        if ( isAvailable( ) && _service.get( ).canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId ) )
         {
             if ( bIsAutomatic )
             {
                 return true;
             }
 
-            return _provider.canProcessAction( nIdResource, strResourceType, nIdAction, request, user );
+            return _provider.get( ).canProcessAction( nIdResource, strResourceType, nIdAction, request, user );
         }
 
         return false;
@@ -1045,7 +1044,7 @@ public class WorkflowService
 
             try
             {
-                _service.doProcessAutomaticReflexiveActions( nIdResource, strResourceType, nIdState, nIdExternalParent, locale, user );
+                _service.get( ).doProcessAutomaticReflexiveActions( nIdResource, strResourceType, nIdState, nIdExternalParent, locale, user );
                 TransactionManager.commitTransaction( null );
 
                 registerResourceEvent( nIdResource, strResourceType );
@@ -1065,13 +1064,11 @@ public class WorkflowService
      * @param strResourceType
      */
     private void registerResourceEvent( int nIdResource, String strResourceType )
-    {
-        ResourceEvent formResponseEvent = new ResourceEvent( );
-        formResponseEvent.setIdResource( String.valueOf( nIdResource ) );
-        formResponseEvent.setTypeResource( strResourceType );
+    {        
+        ResourceEvent formResponseEvent = new ResourceEvent();
+        formResponseEvent.setIdResource(String.valueOf(nIdResource));
+        formResponseEvent.setTypeResource(strResourceType);
 
-        BeanManager bm = CDI.current( ).getBeanManager( );
-        Event<ResourceEvent> createEvent = bm.getEvent( ).select( ResourceEvent.class, new TypeQualifier( EventAction.UPDATE ) );
-        createEvent.fire( formResponseEvent );
+        _resourceEvent.select(new TypeQualifier(EventAction.UPDATE)).fire(formResponseEvent);
     }
 }
