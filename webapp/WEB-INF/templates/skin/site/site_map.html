@@ -10,7 +10,7 @@
                                 - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
                             </strong>
                         </#if>
-                        <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
+                        <a href="${site_path}?page_id=${item.pageId}" title="${(item.pageDescription)!}">
                             <span class="ti ti-link" ms-2"/>
                         </a>
                         <#if item.children?size gt 0>
@@ -30,7 +30,7 @@
                             - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
                         </strong>
                     </#if>
-                    <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
+                    <a href="${site_path}?page_id=${item.pageId}" title="${(item.pageDescription)!}">
                         <span class="ti ti-link" mx-2"/>
                     </a>
                     <ul>
@@ -45,7 +45,7 @@
                             - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
                         </strong>
                     </#if>
-                    <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
+                    <a href="${site_path}?page_id=${item.pageId}" title="${(item.pageDescription)!}">
                         <span class="ti ti-link"/>
                     </a>
                 </li>
