@@ -2,10 +2,6 @@
 <@pageColumn>
 	
 	<@pageHeader title='#i18n{portal.system.manage_caches.titleCacheList}' description='#i18n{portal.system.manage_caches.featureDescription}'>
-		<@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' type='inline'>
-			<@input type='hidden' name='token' value='${token}' />
-			<@button type='submit' buttonIcon='sync' title='#i18n{portal.system.manage_caches.titleReloadProperties}' hideTitle=['xs','sm'] />
-		</@tform>
 		<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' type='inline'>
 			<@input type='hidden' name='token' value='${token}' />
 			<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' color='danger'	hideTitle=['xs','sm'] />
@@ -14,10 +10,9 @@
 	<@alert color='warning' title='#i18n{portal.system.manage_caches.cautionTitle}' iconTitle='exclamation-triangle'>#i18n{portal.system.manage_caches.cautionMessage}</@alert>
 	<@table headBody=true>
 		<@tr>
-			<@th><@span class="visually-hidden">#i18n{portal.system.manage_caches.imgAltEnable} / #i18n{portal.system.manage_caches.imgAltDisable}</@span></@th>
+			<@th></@th>
 			<@th>#i18n{portal.system.manage_caches.columnTitleName}</@th>
 			<@th>#i18n{portal.system.manage_caches.columnTitleCacheSize}</@th>
-			<@th>#i18n{portal.system.manage_caches.columnTitleMemorySize}</@th>
 			<@th>#i18n{portal.system.manage_caches.columnTitleActions}</@th>
 		</@tr>
 		<@tableHeadBodySeparator />
@@ -33,15 +28,10 @@
 				</@td>
 				<@td>
 					<strong>${service.name}</strong><br>
-					<small>
-					#i18n{portal.system.manage_caches.columnTitleMaxElements}: ${service.maxElements!"-"} | 
-					#i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive} -> ${ time2string( service.timeToLive )}
-					</small>
 				</@td>
 				<@td>${service.cacheSize}</@td>
-				<@td>${service.memorySize}</@td>
 				<@td>
-					<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye" btnTitle="#i18n{portal.util.labelMore} : ${service.name}" hideTitle=['all'] btnSize='sm' btnColor="info" position="end" />
+					<@offcanvas targetUrl="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" targetElement="#cache-infos" id="cache-${id}" title="${service.name}" btnIcon="eye" hideTitle=['all'] btnSize='sm' btnColor="info" position="end" />
 					<@tform method='post' type='inline' align="middle"
 						action='jsp/admin/system/ConfirmToggleCache.jsp'>
 						<@input type='hidden' name='id_cache' value='${id}' />
