@@ -37,12 +37,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
-
-
+import fr.paris.lutece.portal.business.style.IPageTemplateRepository;
 import fr.paris.lutece.portal.business.style.PageTemplate;
-import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -90,6 +89,9 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     // JSP
     private static final String JSP_DO_REMOVE_PAGE_TEMPLATE = "jsp/admin/style/DoRemovePageTemplate.jsp";
 
+    @Inject
+    private IPageTemplateRepository _repository;
+
     /**
      * Returns the list of page templates
      *
@@ -102,7 +104,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_PAGE_TITLE_PAGE_TEMPLATE_LIST );
 
         HashMap<String, Object> model = new HashMap<>( );
-        model.put( MARK_PAGE_TEMPLATES_LIST, PageTemplateHome.getPageTemplatesList( ) );
+        model.put( MARK_PAGE_TEMPLATES_LIST, _repository.findAll( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_TEMPLATES, getLocale( ), model );
 
@@ -123,7 +125,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
 
         HashMap<String, Object> model = new HashMap<>( );
-        model.put( MARK_PAGE_TEMPLATE, PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
+        model.put( MARK_PAGE_TEMPLATE, _repository.load( Integer.parseInt( strId ) ).get( ) );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_PAGE_TEMPLATE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PAGE_TEMPLATE, getLocale( ), model );
@@ -152,9 +154,9 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
-        PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
+        PageTemplate pageTemplate = _repository.load( Integer.parseInt( strId ) ).get( );
         pageTemplate.setDescription( strDescription );
-        PageTemplateHome.update( pageTemplate );
+        _repository.update( pageTemplate );
 
         // If the process is successful, redirects towards the page template management
         // page
@@ -173,7 +175,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
         int nId = Integer.parseInt( strId );
 
-        boolean bIsUsed = PageTemplateHome.checkStylePageTemplateIsUsed( nId );
+        boolean bIsUsed = _repository.isUsedByPage( nId );
 
         if ( !bIsUsed )
         {
@@ -206,7 +208,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
         int nId = Integer.parseInt( strId );
 
-        PageTemplateHome.remove( nId );
+        _repository.remove( nId );
 
         return getHomeUrl( request );
     }

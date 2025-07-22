@@ -41,6 +41,7 @@ import java.util.Map;
 
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -53,8 +54,8 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
+import fr.paris.lutece.portal.business.style.IPageTemplateRepository;
 import fr.paris.lutece.portal.business.style.PageTemplate;
-import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
@@ -163,7 +164,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     // Constants
     private static final int MAX_TITLE_LENGTH = 50;
 
-   
+    @Inject
+    private IPageTemplateRepository _pageTemplateRepository;
 
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
@@ -610,7 +612,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         StringBuilder strPageTemplatesRow = new StringBuilder( );
 
         // Scan of the list
-        for ( PageTemplate pageTemplate : PageTemplateHome.getPageTemplatesList( ) )
+        for ( PageTemplate pageTemplate : _pageTemplateRepository.findAll( ) )
         {
             strPageTemplatesRow.append( getTemplatesPageList( pageTemplate.getId( ), page.getPageTemplateId( ), Integer.toString( nIndexRow ) ) );
             nIndexRow++;
@@ -820,7 +822,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     {
         Map<String, Object> model = new HashMap<>( );
 
-        PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( nTemplatePageId );
+        PageTemplate pageTemplate = _pageTemplateRepository.load( nTemplatePageId ).get( );
         model.put( MARK_PAGE_TEMPLATE, pageTemplate );
         model.put( MARK_INDEX_ROW, nIndexRow );
 

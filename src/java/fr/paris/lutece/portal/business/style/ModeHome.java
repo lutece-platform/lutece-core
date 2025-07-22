@@ -33,27 +33,20 @@
  */
 package fr.paris.lutece.portal.business.style;
 
-import fr.paris.lutece.util.ReferenceList;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.TreeMap;
 
-import javax.xml.transform.OutputKeys;
-
-import org.eclipse.microprofile.config.Config;
-import org.eclipse.microprofile.config.ConfigProvider;
+import fr.paris.lutece.portal.service.style.IStyleService;
+import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides instances management methods (create, find, ...) for Mode objects
  */
+@Deprecated( since = "8.0", forRemoval = true )
 public final class ModeHome
 {
-    private static final Config _config = ConfigProvider.getConfig( );
-    private static Map<Integer, Mode> _modes;
-    
+    private static IModeRepository _repository = CDI.current( ).select( IModeRepository.class ).get( );
+
     /**
      * Creates a new ModeHome object.
      */
@@ -69,129 +62,44 @@ public final class ModeHome
      *
      * @param nKey
      *            The mode primary key
+     * @deprecated From the core use {@code @Inject} to obtain the {@link IModeRepository} instance and access the method {@link IModeRepository#load(int)}. 
+     *             From a plugin use {@code @Inject} to obtain the {@link IStyleService} instance and access the method {@link IStyleService#findModeById(int)}. 
+     *             This method will be removed in future versions.
      * @return an instance of a mode
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static Mode findByPrimaryKey( int nKey )
     {
-        if (null == _modes)
-        {
-            initModes();
-        }
-        return _modes.get( nKey );
-    }
-
-    private static synchronized void initModes( )
-    {
-        List<Integer> modeIds = _config.getOptionalValues( "lutece.style.modes", Integer.class ).orElse( new ArrayList<Integer>( ) );
-        _modes = new TreeMap<Integer, Mode>( );
-
-        for ( Integer id : modeIds )
-        {
-            Mode mode = new Mode( );
-            String strDescription = _config.getOptionalValue( "lutece.style.mode." + id + ".description", String.class ).orElse( null );
-            String strPath = _config.getOptionalValue( "lutece.style.mode." + id + ".path", String.class ).orElse( null );
-            String strMethod = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslMethod", String.class ).orElse( "xml" );
-            String strVersion = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslVersion", String.class ).orElse( "1.0" );
-            String strEncoding = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslEncoding", String.class ).orElse( "UTF-8" );
-            String strIndent = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslIndent", String.class ).orElse( "yes" );
-            String strOmitXmlDeclaration = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslOmitXmlDec", String.class ).orElse( "yes" );
-            String strMediaType = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslMediaType", String.class ).orElse( "text/xml" );
-            String strStandalone = _config.getOptionalValue( "lutece.style.mode." + id + ".outputXslStandalone", String.class ).orElse( null );
-            mode.setId( id );
-            mode.setDescription( strDescription );
-            mode.setPath( strPath );
-            mode.setOutputXslPropertyMethod( strMethod );
-            mode.setOutputXslPropertyVersion( strVersion );
-            mode.setOutputXslPropertyEncoding( strEncoding );
-            mode.setOutputXslPropertyIndent( strIndent );
-            mode.setOutputXslPropertyOmitXmlDeclaration( strOmitXmlDeclaration );
-            mode.setOutputXslPropertyMediaType( strMediaType );
-            mode.setOutputXslPropertyStandalone( strStandalone );
-            _modes.put( id, mode );
-        }
+        return _repository.load( nKey );
     }
 
     /**
      * Returns a reference list which contains all the modes
      *
+     * @deprecated From the core use {@code @Inject} to obtain the {@link IModeRepository} instance and access the method {@link IModeRepository#findAllToReferenceList()}. 
+     *             From a plugin use {@code @Inject} to obtain the {@link IStyleService} instance and access the method {@link IStyleService#findModesToReferenceList()}. 
+     *             This method will be removed in future versions.
      * @return a reference list
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static ReferenceList getModes( )
     {
-        if (null == _modes)
-        {
-            initModes();
-        }
-        
-        ReferenceList modesList = new ReferenceList( );
-        for ( Mode mode : _modes.values( ) )
-        {
-            modesList.addItem( mode.getId( ), mode.getDescription( ) );
-        }
-        return modesList;
+        return _repository.findAllToReferenceList( );
     }
 
     /**
      * Returns a set of properties used for xsl output
      *
+     * @deprecated From the core use {@code @Inject} to obtain the {@link IModeRepository} instance and access the method {@link IModeRepository#findOuputXslProperties(int)}. 
+     *             From a plugin use {@code @Inject} to obtain the {@link IStyleService} instance and access the method {@link IStyleService#findModeXlsOutputProperties(int)}. 
+     *             This method will be removed in future versions.
      * @param nKey
      *            The mode primary key
      * @return the output properties to use for xsl transformation
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static Properties getOuputXslProperties( int nKey )
     {
-        Mode mode = findByPrimaryKey( nKey );
-        Properties ouputProperties = new Properties( );
-
-        String strMethod = mode.getOutputXslPropertyMethod( );
-
-        if ( ( strMethod != null ) && ( !strMethod.trim( ).equals( "" ) ) )
-        {
-            ouputProperties.setProperty( OutputKeys.METHOD, strMethod );
-        }
-
-        String strVersion = mode.getOutputXslPropertyVersion( );
-
-        if ( ( strVersion != null ) && ( !strVersion.trim( ).equals( "" ) ) )
-        {
-            ouputProperties.setProperty( OutputKeys.VERSION, strVersion );
-        }
-
-        String strEncoding = mode.getOutputXslPropertyEncoding( );
-
-        if ( ( strEncoding != null ) && ( !strEncoding.trim( ).equals( "" ) ) )
-        {
-            ouputProperties.setProperty( OutputKeys.ENCODING, strEncoding );
-        }
-
-        String strIndent = mode.getOutputXslPropertyIndent( );
-
-        if ( ( strIndent != null ) && ( !strIndent.trim( ).equals( "" ) ) )
-        {
-            ouputProperties.setProperty( OutputKeys.INDENT, strIndent );
-        }
-
-        String strOmitXmlDeclaration = mode.getOutputXslPropertyOmitXmlDeclaration( );
-
-        if ( ( strOmitXmlDeclaration != null ) && ( !strOmitXmlDeclaration.trim( ).equals( "" ) ) )
-        {
-            ouputProperties.setProperty( OutputKeys.OMIT_XML_DECLARATION, strOmitXmlDeclaration );
-        }
-
-        String strMediaType = mode.getOutputXslPropertyMediaType( );
-
-        if ( ( strMediaType != null ) && ( !strMediaType.trim( ).equals( "" ) ) )
-        {
-            ouputProperties.setProperty( OutputKeys.MEDIA_TYPE, strMediaType );
-        }
-
-        String strStandalone = mode.getOutputXslPropertyStandalone( );
-
-        if ( ( strStandalone != null ) && ( !strStandalone.trim( ).equals( "" ) ) )
-        {
-            ouputProperties.setProperty( OutputKeys.STANDALONE, strStandalone );
-        }
-
-        return ouputProperties;
+        return _repository.findOuputXslProperties( nKey );
     }
 }

@@ -49,8 +49,8 @@ import org.apache.commons.collections.CollectionUtils;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletImpl;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
+import fr.paris.lutece.portal.business.style.IStyleRepository;
 import fr.paris.lutece.portal.business.style.Style;
-import fr.paris.lutece.portal.business.style.StyleHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -115,7 +115,9 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CREATE_STYLE_ID_ALREADY_EXISTS = "portal.style.message.createStyle.idAlreadyExists";
     private static final String MESSAGE_CREATE_STYLE_COMPONENT_EXISTS = "portal.style.message.createStyle.componentHasAlreadyAStyle";
     private static final String MESSAGE_CONFIRM_DELETE_STYLESHEET = "portal.style.message.stylesheetConfirmDelete";
-    
+
+    @Inject
+    private IStyleRepository _repository;
     @Inject
     @Pager( listBookmark = MARK_STYLE_LIST, defaultItemsPerPage = PROPERTY_STYLES_PER_PAGE)
     private IPager<Style, Void> pager;
@@ -129,7 +131,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
      */
     public String getStylesManagement( HttpServletRequest request )
     {
-        List<Style> listStyles = (List<Style>) StyleHome.getStylesList( );
+        List<Style> listStyles = (List<Style>) _repository.findAll( );
 
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
         String strAscSort = null;
@@ -175,7 +177,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     {
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
-        model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
+        model.put( MARK_PORTAL_COMPONENT_LIST, _repository.findPortalComponents( ) );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_STYLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_STYLE, getLocale( ), model );
@@ -213,7 +215,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_INVALID_FORMAT_ID, AdminMessage.TYPE_STOP );
         }
 
-        Style styleExisting = StyleHome.findByPrimaryKey( nId );
+        Style styleExisting = _repository.load( nId ).orElse( null );
 
         if ( styleExisting != null )
         {
@@ -222,7 +224,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
 
         int nPortalComponentId = Integer.parseInt( request.getParameter( Parameters.PORTAL_COMPONENT ) );
 
-        if ( StyleHome.checkStylePortalComponent( nPortalComponentId ) && ( nPortalComponentId != PORTAL_COMPONENT_ID_PORTLET ) )
+        if ( _repository.existsPortalComponentForStyle( nPortalComponentId ) && ( nPortalComponentId != PORTAL_COMPONENT_ID_PORTLET ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_COMPONENT_EXISTS, AdminMessage.TYPE_STOP );
         }
@@ -241,7 +243,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         String strPortletTypeId = request.getParameter( Parameters.PORTLET_TYPE );
         strPortletTypeId = ( strPortletTypeId != null ) ? strPortletTypeId : "";
         style.setPortletTypeId( strPortletTypeId );
-        StyleHome.create( style );
+        _repository.create( style );
 
         return getHomeUrl( request );
     }
@@ -259,9 +261,9 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         int nStyleId = Integer.parseInt( strIdStyles );
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_STYLE, StyleHome.findByPrimaryKey( nStyleId ) );
+        model.put( MARK_STYLE, _repository.load( nStyleId ).get( ) );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
-        model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
+        model.put( MARK_PORTAL_COMPONENT_LIST, _repository.findPortalComponents( ) );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_STYLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_STYLE, getLocale( ), model );
@@ -294,10 +296,10 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        Style style = StyleHome.findByPrimaryKey( nStyleId );
+        Style style = _repository.load( nStyleId ).get( );
         int nPortalComponentOld = style.getPortalComponentId( );
 
-        if ( StyleHome.checkStylePortalComponent( nPortalComponentId ) && ( nPortalComponentId != PORTAL_COMPONENT_ID_PORTLET )
+        if ( _repository.existsPortalComponentForStyle( nPortalComponentId ) && ( nPortalComponentId != PORTAL_COMPONENT_ID_PORTLET )
                 && ( nPortalComponentId != nPortalComponentOld ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_COMPONENT_EXISTS, AdminMessage.TYPE_STOP );
@@ -310,7 +312,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         style.setPortletTypeId( strPortletTypeId );
         style.setPortalComponentId( nPortalComponentId );
         style.setDescription( strStyleDescription );
-        StyleHome.update( style );
+        _repository.update( style );
 
         return getHomeUrl( request );
     }
@@ -327,7 +329,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( Parameters.STYLE_ID );
         int nId = Integer.parseInt( strId );
         Collection<PortletImpl> listPortlets = PortletHome.getPortletListByStyle( nId );
-        Collection<StyleSheet> listStyleSheets = StyleHome.getStyleSheetList( nId );
+        Collection<StyleSheet> listStyleSheets = _repository.findStyleSheetsByStyle( nId );
 
         if ( CollectionUtils.isNotEmpty( listPortlets ) )
         {
@@ -375,7 +377,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         }
         String strId = request.getParameter( Parameters.STYLE_ID );
         int nId = Integer.parseInt( strId );
-        StyleHome.remove( nId );
+        _repository.remove( nId );
 
         return getHomeUrl( request );
     }

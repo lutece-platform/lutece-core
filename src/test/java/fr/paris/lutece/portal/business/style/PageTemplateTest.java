@@ -34,8 +34,10 @@
 package fr.paris.lutece.portal.business.style;
 
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.inject.Inject;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
 
@@ -48,6 +50,9 @@ public class PageTemplateTest extends LuteceTestCase
     private final static String PICTURE1 = "Picture 1";
     private final static String PICTURE2 = "Picture 2";
 
+    @Inject
+    private IPageTemplateRepository _repository;
+    
     @Test
     public void testBusinessPageTemplate( )
     {
@@ -58,9 +63,9 @@ public class PageTemplateTest extends LuteceTestCase
         pageTemplate.setPicture( PICTURE1 );
 
         // Create test
-        PageTemplateHome.create( pageTemplate );
+        _repository.create( pageTemplate );
 
-        PageTemplate pageTemplateStored = PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) );
+        PageTemplate pageTemplateStored = _repository.load( pageTemplate.getId( ) ).get( );
         assertEquals( pageTemplateStored.getDescription( ), pageTemplate.getDescription( ) );
         assertEquals( pageTemplateStored.getFile( ), pageTemplate.getFile( ) );
         assertEquals( pageTemplateStored.getPicture( ), pageTemplate.getPicture( ) );
@@ -69,19 +74,18 @@ public class PageTemplateTest extends LuteceTestCase
         pageTemplate.setDescription( DESCRIPTION2 );
         pageTemplate.setFile( FILE2 );
         pageTemplate.setPicture( PICTURE2 );
-        PageTemplateHome.update( pageTemplate );
-        pageTemplateStored = PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) );
+        _repository.update( pageTemplate );
+        pageTemplateStored = _repository.load( pageTemplate.getId( ) ).get( );
         assertEquals( pageTemplateStored.getDescription( ), pageTemplate.getDescription( ) );
         assertEquals( pageTemplateStored.getFile( ), pageTemplate.getFile( ) );
         assertEquals( pageTemplateStored.getPicture( ), pageTemplate.getPicture( ) );
 
         // List test
-        List<?> listPageTemplates = PageTemplateHome.getPageTemplatesList( );
+        Collection<PageTemplate> listPageTemplates = _repository.findAll( );
         assertTrue( listPageTemplates.size( ) > 0 );
 
         // Delete test
-        PageTemplateHome.remove( pageTemplate.getId( ) );
-        pageTemplateStored = PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) );
-        assertNull( pageTemplateStored );
+        _repository.remove( pageTemplate.getId( ) );
+        assertThrows( NoSuchElementException.class, ( ) -> _repository.load( pageTemplate.getId( ) ).get( ) );
     }
 }

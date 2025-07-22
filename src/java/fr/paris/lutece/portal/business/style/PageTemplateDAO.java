@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -89,7 +90,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      *            The indentifier of the object PageTemplate
      * @return The Instance of the object PageTemplate
      */
-    public PageTemplate load( int nPageTemplateId )
+    public PageTemplate load( Integer nPageTemplateId )
     {
         PageTemplate pageTemplate = null;
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
@@ -118,7 +119,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      * @param nPageTemplateId
      *            The indentifier of the object PageTemplate
      */
-    public void delete( int nPageTemplateId )
+    public void delete( Integer nPageTemplateId )
     {
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
@@ -153,7 +154,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      * 
      * @return A list of PageTemplates objects
      */
-    public List<PageTemplate> selectPageTemplatesList( )
+    public Collection<PageTemplate> selectAll( )
     {
         List<PageTemplate> listPageTemplates = new ArrayList<>( );
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )

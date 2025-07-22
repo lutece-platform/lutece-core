@@ -41,7 +41,7 @@ import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
-import fr.paris.lutece.portal.business.style.PageTemplateHome;
+import fr.paris.lutece.portal.business.style.IPageTemplateRepository;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
@@ -54,6 +54,8 @@ public class PageDAOTest extends LuteceTestCase
     private IPageService pageService;
     @Inject 
     private IPageDAO dao;
+    @Inject
+    private IPageTemplateRepository _pageTemplateRepository;
     
     @Test
     public void testGetPagesByRoleKey( )
@@ -74,7 +76,7 @@ public class PageDAOTest extends LuteceTestCase
             String randomPageName = "page" + rnd.nextLong( );
             page = new Page( );
             page.setParentPageId( PortalService.getRootPageId( ) );
-            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
+            page.setPageTemplateId( _pageTemplateRepository.findAll( ).stream( ).findFirst( ).get( ).getId( ) );
             page.setName( randomPageName );
             page.setRole( randomRoleName );
             page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );

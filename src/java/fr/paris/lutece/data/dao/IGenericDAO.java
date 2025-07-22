@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,44 +31,59 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.style;
-
-import fr.paris.lutece.data.dao.IGenericDAO;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.util.ReferenceList;
+package fr.paris.lutece.data.dao;
 
 import java.util.Collection;
 
 /**
+ * Generic Data Access Object (DAO) interface for CRUD operations on entities.
+ * <p>
+ * Provides methods to insert, update, delete, load, and select all entities of type {@code T} identified by {@code ID}.
  *
- * @author LEVY
+ * @param <T>
+ *            the entity type
+ * @param <ID>
+ *            the type of the entity's identifier
  */
-public interface IStyleDAO extends IGenericDAO<Style, Integer>
+public interface IGenericDAO<T, ID>
 {
     /**
-     * Checks if a style has been created in the database with the given portal componenet
+     * Inserts a new entity into the data store.
      *
-     * @param nPortalComponentId
-     *            The identifier of the portal component
-     * @return true if a style has been created for this portal component, false otherwise
+     * @param paramT
+     *            the entity to insert
      */
-    boolean checkStylePortalComponent( int nPortalComponentId );
+    void insert( T paramT );
 
     /**
-     * Returns the list of the portal component in form of a ReferenceList
+     * Updates an existing entity in the data store.
      *
-     * @return the list of the portal component
+     * @param paramT
+     *            the entity to update
      */
-    ReferenceList selectPortalComponentList( );
+    void store( T paramT );
 
     /**
-     * load the data of the StyleSheet which re associated to the given style
+     * Deletes an entity by its identifier.
      *
-     *
-     * @param nStyleId
-     *            The identifier of the Style
-     * @return an instance of the Style which has been created
+     * @param paramID
+     *            the identifier of the entity to delete
      */
-    Collection<StyleSheet> selectStyleSheetList( int nStyleId );
+    void delete( ID paramID );
 
+    /**
+     * Loads an entity by its identifier.
+     *
+     * @param paramID
+     *            the identifier of the entity to load
+     * @return the entity if found, or {@code null} if not found
+     */
+    T load( ID paramID );
+
+    /**
+     * Selects all entities from the data store.
+     *
+     * @return a collection of all entities
+     */
+    Collection<T> selectAll( );
 }

@@ -52,11 +52,11 @@ import org.xml.sax.InputSource;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
-import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.style.IModeRepository;
+import fr.paris.lutece.portal.business.style.IStyleRepository;
 import fr.paris.lutece.portal.business.style.Style;
-import fr.paris.lutece.portal.business.style.StyleHome;
+import fr.paris.lutece.portal.business.stylesheet.IStyleSheetRepository;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -122,6 +122,12 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_REMOVE_STYLE = "RemoveStyle.jsp";
 
     @Inject
+    private IStyleSheetRepository _styleSheetrepository;
+    @Inject
+    private IStyleRepository _styleRepository;
+    @Inject
+    private IModeRepository _modeRepository;
+    @Inject
     @Pager( listBookmark = MARK_STYLESHEET_LIST, defaultItemsPerPage = PROPERTY_STYLESHEETS_PER_PAGE)
     private IPager<StyleSheet, Void> pager;
     
@@ -140,11 +146,11 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         int nModeId = Integer.parseInt( strModeId );
 
-        ReferenceList listModes = ModeHome.getModes( );
+        ReferenceList listModes = _modeRepository.findAllToReferenceList( );
         String strComboItem = I18nService.getLocalizedString( LABEL_ALL, getLocale( ) );
         listModes.addItem( -1, strComboItem );
 
-        List<StyleSheet> listStyleSheets = (List<StyleSheet>) StyleSheetHome.getStyleSheetList( nModeId );
+        List<StyleSheet> listStyleSheets = (List<StyleSheet>) _styleSheetrepository.findByMode( nModeId );
 
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
         String strAscSort = null;
@@ -198,7 +204,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE_LIST, getStyleList( ) );
-        model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
+        model.put( MARK_MODE_LIST, _modeRepository.findAllToReferenceList( ) );
         model.put( MARK_MODE_ID, strModeId );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_STYLESHEET ) );
 
@@ -232,7 +238,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
 
         // insert in the table stylesheet of the database
-        StyleSheetHome.create( stylesheet );
+        _styleSheetrepository.create( stylesheet );
 
         // Displays the list of the stylesheet files
         return getHomeUrl( request );
@@ -267,7 +273,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         // test the existence of style or mode already associate with this stylesheet
         int nStyleId = Integer.parseInt( strStyleId );
         int nModeId = Integer.parseInt( strModeId );
-        int nCount = StyleSheetHome.getStyleSheetNbPerStyleMode( nStyleId, nModeId );
+        int nCount = _styleSheetrepository.countPerStyleAndMode( nStyleId, nModeId );
 
         // Do not create a stylesheet of there is already one
         if ( ( nCount >= 1 ) && ( stylesheet.getId( ) == 0 /* creation */ ) )
@@ -308,8 +314,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE_LIST, getStyleList( ) );
-        model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
-        model.put( MARK_STYLESHEET, StyleSheetHome.findByPrimaryKey( nId ) );
+        model.put( MARK_MODE_LIST, _modeRepository.findAllToReferenceList( ) );
+        model.put( MARK_STYLESHEET, _styleSheetrepository.load( nId ).get( ) );
         model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_STYLESHEET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_STYLESHEET, getLocale( ), model );
@@ -324,7 +330,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
      */
     public ReferenceList getStyleList( )
     {
-        Collection<Style> stylesList = StyleHome.getStylesList( );
+        Collection<Style> stylesList = _styleRepository.findAll( );
         ReferenceList stylesListWithLabels = new ReferenceList( );
 
         for ( Style style : stylesList )
@@ -358,7 +364,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         int nId = Integer.parseInt( multipartRequest.getParameter( Parameters.STYLESHEET_ID ) );
-        StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nId );
+        StyleSheet stylesheet = _styleSheetrepository.load( nId ).get( );
         String strErrorUrl = getData( multipartRequest, stylesheet );
 
         if ( strErrorUrl != null )
@@ -371,7 +377,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
 
         // Update the stylesheet in database
-        StyleSheetHome.update( stylesheet );
+        _styleSheetrepository.update( stylesheet );
 
         // Displays the management stylesheet page
         return getHomeUrl( request );
@@ -388,7 +394,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     {
         String strId = request.getParameter( Parameters.STYLESHEET_ID );
 
-        StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( Integer.parseInt( strId ) );
+        StyleSheet stylesheet = _styleSheetrepository.load( Integer.parseInt( strId ) ).get( );
         Object [ ] args = {
                 stylesheet.getDescription( )
         };
@@ -418,7 +424,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
         int nId = Integer.parseInt( request.getParameter( Parameters.STYLESHEET_ID ) );
         int nIdStyle = Integer.parseInt( request.getParameter( Parameters.STYLE_ID ) );
-        StyleSheetHome.remove( nId );
+        _styleSheetrepository.remove( nId );
 
         return JSP_REMOVE_STYLE + "?" + Parameters.STYLE_ID + "=" + nIdStyle;
     }

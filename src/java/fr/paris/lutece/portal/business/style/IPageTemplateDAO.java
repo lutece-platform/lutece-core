@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,54 +33,14 @@
  */
 package fr.paris.lutece.portal.business.style;
 
-import java.util.List;
+import fr.paris.lutece.data.dao.IGenericDAO;
 
 /**
  *
  * @author LEVY
  */
-public interface IPageTemplateDAO
+public interface IPageTemplateDAO extends IGenericDAO<PageTemplate, Integer>
 {
-    /**
-     * Delete a record from the table
-     *
-     * @param nPageTemplateId
-     *            The indentifier of the object PageTemplate
-     */
-    void delete( int nPageTemplateId );
-
-    /**
-     * Insert a new record in the table.
-     *
-     * @param pageTemplate
-     *            The Instance of the object PageTemplate
-     */
-    void insert( PageTemplate pageTemplate );
-
-    /**
-     * load the data of PageTemplate from the table
-     *
-     *
-     * @param nPageTemplateId
-     *            The indentifier of the object PageTemplate
-     * @return The Instance of the object PageTemplate
-     */
-    PageTemplate load( int nPageTemplateId );
-
-    /**
-     * Returns a list of all the page templates
-     *
-     * @return A list of PageTemplates objects
-     */
-    List<PageTemplate> selectPageTemplatesList( );
-
-    /**
-     * Update the record in the table
-     *
-     * @param pageTemplate
-     *            The instance of the PageTemplate to update
-     */
-    void store( PageTemplate pageTemplate );
 
     /**
      * Checks if a page template has been used by a page

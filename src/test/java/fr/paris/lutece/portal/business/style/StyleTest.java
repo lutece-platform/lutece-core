@@ -33,9 +33,12 @@
  */
 package fr.paris.lutece.portal.business.style;
 
+import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.inject.Inject;
 
 public class StyleTest extends LuteceTestCase
 {
@@ -49,7 +52,9 @@ public class StyleTest extends LuteceTestCase
     private final static String DESCRIPTION2 = "Description 2";
     private final static String PORTLETTYPENAME1 = "PortletTypeName 1";
     private final static String PORTALCOMPONENTNAME1 = "PortalComponentName 1";
-
+    @Inject
+    private IStyleRepository _repository;
+    
     @Test
     public void testBusinessStyle( )
     {
@@ -63,9 +68,9 @@ public class StyleTest extends LuteceTestCase
         style.setPortalComponentName( PORTALCOMPONENTNAME1 );
 
         // Create test
-        StyleHome.create( style );
+        _repository.create( style );
 
-        Style styleStored = StyleHome.findByPrimaryKey( style.getId( ) );
+        Style styleStored = _repository.load( style.getId( ) ).get( );
         assertEquals( styleStored.getPortalComponentId( ), style.getPortalComponentId( ) );
         assertEquals( styleStored.getPortletTypeId( ), style.getPortletTypeId( ) );
         assertEquals( styleStored.getDescription( ), style.getDescription( ) );
@@ -74,21 +79,20 @@ public class StyleTest extends LuteceTestCase
         style.setPortalComponentId( PORTALCOMPONENTID2 );
         style.setPortletTypeId( PORTLETTYPEID2 );
         style.setDescription( DESCRIPTION2 );
-        StyleHome.update( style );
-        styleStored = StyleHome.findByPrimaryKey( style.getId( ) );
+        _repository.update( style );
+        styleStored = _repository.load( style.getId( ) ).get( );
         assertEquals( styleStored.getPortalComponentId( ), style.getPortalComponentId( ) );
         assertEquals( styleStored.getPortletTypeId( ), style.getPortletTypeId( ) );
         assertEquals( styleStored.getDescription( ), style.getDescription( ) );
 
         // List test
-        StyleHome.getPortalComponentList( );
-        StyleHome.getStylesList( );
-        StyleHome.getStyleSheetList( style.getId( ) );
-        StyleHome.checkStylePortalComponent( TEST_PORTAL_COMPONENT_ID );
+        _repository.findPortalComponents( );
+        _repository.findAll( );
+        _repository.findStyleSheetsByStyle( style.getId( ) );
+        _repository.existsPortalComponentForStyle( TEST_PORTAL_COMPONENT_ID );
 
         // Delete test
-        StyleHome.remove( style.getId( ) );
-        styleStored = StyleHome.findByPrimaryKey( style.getId( ) );
-        assertNull( styleStored );
+        _repository.remove( style.getId( ) );
+        assertThrows( NoSuchElementException.class, ( ) -> _repository.load( style.getId( ) ).get( ) );
     }
 }

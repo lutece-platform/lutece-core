@@ -94,7 +94,7 @@ public final class StyleDAO implements IStyleDAO
      *            The identifier of the Style
      * @return an instance of the Style which has been created
      */
-    public Style load( int nStyleId )
+    public Style load( Integer nStyleId )
     {
         Style style = null;
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
@@ -125,7 +125,7 @@ public final class StyleDAO implements IStyleDAO
      * @param nStyleId
      *            the identifier of the style to delete
      */
-    public void delete( int nStyleId )
+    public void delete( Integer nStyleId )
     {
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
@@ -159,7 +159,7 @@ public final class StyleDAO implements IStyleDAO
      * 
      * @return The styles list in form of a Collection object
      */
-    public Collection<Style> selectStylesList( )
+    public Collection<Style> selectAll( )
     {
         Collection<Style> styleList = new ArrayList<>( );
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
@@ -264,4 +264,5 @@ public final class StyleDAO implements IStyleDAO
 
         return check;
     }
+
 }
