@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,44 +31,54 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.style;
-
-import fr.paris.lutece.data.dao.IGenericDAO;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.util.ReferenceList;
+package fr.paris.lutece.portal.business.stylesheet;
 
 import java.util.Collection;
 
-/**
- *
- * @author LEVY
- */
-public interface IStyleDAO extends IGenericDAO<Style, Integer>
+import fr.paris.lutece.data.dao.IGenericDAO;
+import fr.paris.lutece.data.repository.DAORepository;
+import fr.paris.lutece.portal.service.html.XmlTransformerService;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+@ApplicationScoped
+public class StyleSheetRepository extends DAORepository<StyleSheet, Integer> implements IStyleSheetRepository
 {
-    /**
-     * Checks if a style has been created in the database with the given portal componenet
-     *
-     * @param nPortalComponentId
-     *            The identifier of the portal component
-     * @return true if a style has been created for this portal component, false otherwise
-     */
-    boolean checkStylePortalComponent( int nPortalComponentId );
 
-    /**
-     * Returns the list of the portal component in form of a ReferenceList
-     *
-     * @return the list of the portal component
-     */
-    ReferenceList selectPortalComponentList( );
+    @Inject
+    private IStyleSheetDAO _dao;
 
-    /**
-     * load the data of the StyleSheet which re associated to the given style
-     *
-     *
-     * @param nStyleId
-     *            The identifier of the Style
-     * @return an instance of the Style which has been created
-     */
-    Collection<StyleSheet> selectStyleSheetList( int nStyleId );
+    @Override
+    protected IGenericDAO<StyleSheet, Integer> getDAO( )
+    {
+        return _dao;
+    }
+
+    @Override
+    public StyleSheet update( StyleSheet styleSheet )
+    {
+        super.update( styleSheet );
+        XmlTransformerService.clearXslCache( );
+        return styleSheet;
+    }
+
+    @Override
+    public void remove( Integer paramID )
+    {
+        super.remove( paramID );
+        XmlTransformerService.clearXslCache( );
+    }
+
+    @Override
+    public Collection<StyleSheet> findByMode( int nModeId )
+    {
+        return _dao.selectStyleSheetList( nModeId );
+    }
+
+    @Override
+    public int countPerStyleAndMode( int nStyleId, int nModeId )
+    {
+        return _dao.selectStyleSheetNbPerStyleMode( nStyleId, nModeId );
+    }
 
 }

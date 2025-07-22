@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,42 +33,44 @@
  */
 package fr.paris.lutece.portal.business.style;
 
-import fr.paris.lutece.data.dao.IGenericDAO;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.util.ReferenceList;
-
 import java.util.Collection;
 
-/**
- *
- * @author LEVY
- */
-public interface IStyleDAO extends IGenericDAO<Style, Integer>
+import fr.paris.lutece.data.dao.IGenericDAO;
+import fr.paris.lutece.data.repository.DAORepository;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+
+@ApplicationScoped
+public class StyleRepository extends DAORepository<Style, Integer> implements IStyleRepository
 {
-    /**
-     * Checks if a style has been created in the database with the given portal componenet
-     *
-     * @param nPortalComponentId
-     *            The identifier of the portal component
-     * @return true if a style has been created for this portal component, false otherwise
-     */
-    boolean checkStylePortalComponent( int nPortalComponentId );
 
-    /**
-     * Returns the list of the portal component in form of a ReferenceList
-     *
-     * @return the list of the portal component
-     */
-    ReferenceList selectPortalComponentList( );
+    @Inject
+    private IStyleDAO _dao;
 
-    /**
-     * load the data of the StyleSheet which re associated to the given style
-     *
-     *
-     * @param nStyleId
-     *            The identifier of the Style
-     * @return an instance of the Style which has been created
-     */
-    Collection<StyleSheet> selectStyleSheetList( int nStyleId );
+    @Override
+    protected IGenericDAO<Style, Integer> getDAO( )
+    {
+        return _dao;
+    }
+
+    @Override
+    public ReferenceList findPortalComponents( )
+    {
+        return _dao.selectPortalComponentList( );
+    }
+
+    @Override
+    public boolean existsPortalComponentForStyle( int nPortalComponentId )
+    {
+        return _dao.checkStylePortalComponent( nPortalComponentId );
+    }
+
+    @Override
+    public Collection<StyleSheet> findStyleSheetsByStyle( int nStyleId )
+    {
+        return _dao.selectStyleSheetList( nStyleId );
+    }
 
 }

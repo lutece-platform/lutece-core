@@ -36,13 +36,13 @@ package fr.paris.lutece.portal.web.stylesheet;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
+import fr.paris.lutece.portal.business.stylesheet.IStyleSheetRepository;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -52,11 +52,11 @@ import fr.paris.lutece.portal.web.constants.Parameters;
  */
 public class StyleSheetFileServlet extends HttpServlet
 {
-    /**
-     *
-     */
     private static final long serialVersionUID = 9154028959985088272L;
 
+    @Inject
+    private IStyleSheetRepository _styleSheetRepository;
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * 
@@ -79,8 +79,8 @@ public class StyleSheetFileServlet extends HttpServlet
             {
                 int nStyleSheetId = Integer.parseInt( strStyleSheetId );
 
-                StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nStyleSheetId );
-
+                StyleSheet stylesheet = _styleSheetRepository.load( nStyleSheetId ).get( );
+                
                 ServletContext context = getServletConfig( ).getServletContext( );
                 String strMimetype = context.getMimeType( stylesheet.getFile( ) );
                 response.setContentType( ( strMimetype != null ) ? strMimetype : "application/octet-stream" );

@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
-import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.style.IModeRepository;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
@@ -55,6 +55,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -68,7 +69,8 @@ public class TreeMenuInclude implements PageInclude
 
     // Properties
     private static final String PROPERTY_ROOT_TREE = "lutece.root.tree";
-
+    private static IModeRepository _modeRepository = CDI.current( ).select( IModeRepository.class ).get( );
+    
     /**
      * Substitue specific Freemarker markers in the page template.
      * 
@@ -195,7 +197,7 @@ public class TreeMenuInclude implements PageInclude
                 break;
         }
 
-        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
+        Properties outputProperties = _modeRepository.findOuputXslProperties( nMode );
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode

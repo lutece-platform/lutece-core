@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,7 @@
 package fr.paris.lutece.portal.business.style;
 
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.portal.service.style.IStyleService;
 import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.Collection;
@@ -42,10 +42,10 @@ import java.util.Collection;
 /**
  * This class provides instances management methods (create, find, ...) for Style objects
  */
+@Deprecated( since = "8.0", forRemoval = true )
 public final class StyleHome
 {
-    // Static variable pointed at the DAO instance
-    private static IStyleDAO _dao = CDI.current( ).select( IStyleDAO.class ).get( );
+    private static IStyleRepository _repository = CDI.current( ).select( IStyleRepository.class ).get( );
 
     /**
      * Creates a new StyleHome object.
@@ -55,64 +55,33 @@ public final class StyleHome
     }
 
     /**
-     * Creation of a Style record in the database
-     *
-     * @param style
-     *            An instance of the style which contains the informations to store
-     * @return The instance of the style which has been created.
-     */
-    public static Style create( Style style )
-    {
-        _dao.insert( style );
-
-        return style;
-    }
-
-    /**
-     * Updates the record in the database which corresponds to the Style instance specified in parameter.
-     *
-     * @param style
-     *            the instance of the style to update
-     */
-    public static void update( Style style )
-    {
-        _dao.store( style );
-    }
-
-    /**
-     * Deletes the record in the database which corresponds to the Style instance specified in parameter.
-     *
-     * @param nStyleId
-     *            The identifier of the style
-     */
-    public static void remove( int nStyleId )
-    {
-        _dao.delete( nStyleId );
-    }
-
-    // /////////////////////////////////////////////////////////////////////////
-    // Finders
-
-    /**
      * Returns an instance of a style whose identifier is specified in parameter
      *
      * @param nKey
      *            The primary key of the style to find in the database
+     * @deprecated From the core use {@code @Inject} to obtain the {@link IStyleRepository} instance and access the method {@link IStyleRepository#load(Integer)}. 
+     *             From a plugin use {@code @Inject} to obtain the {@link IStyleService} instance and access the method {@link IStyleService#findStyleById(int)}. 
+     *             This method will be removed in future versions.
      * @return The Style object which corresponds to the key
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static Style findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey );
+        return _repository.load( nKey ).orElse( null );
     }
 
     /**
      * Returns the collection of the Style objects stored in the database
-     *
+     * 
+     * @deprecated From the core use {@code @Inject} to obtain the {@link IStyleRepository} instance and access the method {@link IStyleRepository#findAll()}.
+     *             From a plugin use {@code @Inject} to obtain the {@link IStyleService} instance and access the method {@link IStyleService#findStyleById(int)}. 
+     *             This method will be removed in future versions.
      * @return A collection of styles
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static Collection<Style> getStylesList( )
     {
-        return _dao.selectStylesList( );
+        return _repository.findAll( );
     }
 
     /**
@@ -120,32 +89,14 @@ public final class StyleHome
      *
      * @param nStyleId
      *            identifier of the style
+     * @deprecated From the core use {@code @Inject} to obtain the {@link IStyleRepository} instance and access the method {@link IStyleRepository#findStyleSheetsByStyle(int)}. 
+     *             From a plugin use {@code @Inject} to obtain the {@link IStyleService} instance and access the method {@link IStyleService#findStyleSheetsByStyle(int)}. 
+     *             This method will be removed in future versions.
      * @return A collection of styles
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static Collection<StyleSheet> getStyleSheetList( int nStyleId )
     {
-        return _dao.selectStyleSheetList( nStyleId );
-    }
-
-    /**
-     * Returns a reference list which contains all the Portal Components
-     *
-     * @return a reference list
-     */
-    public static ReferenceList getPortalComponentList( )
-    {
-        return _dao.selectPortalComponentList( );
-    }
-
-    /**
-     * Checks if a style has been created in the database with the given portal componenet
-     *
-     * @param nPortalComponentId
-     *            The identifier of the portal component
-     * @return true if a style has been created for this portal component, false otherwise
-     */
-    public static boolean checkStylePortalComponent( int nPortalComponentId )
-    {
-        return _dao.checkStylePortalComponent( nPortalComponentId );
+        return _repository.findStyleSheetsByStyle( nStyleId );
     }
 }

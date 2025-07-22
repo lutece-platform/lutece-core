@@ -38,14 +38,15 @@ import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.business.style.IPageTemplateRepository;
 import fr.paris.lutece.portal.business.style.PageTemplate;
-import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -67,15 +68,18 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 {
     private static final String TEST_PAGE_TEMPLATE_ID = "1"; // Page template one column
     private MockHttpServletRequest request;
+    @Inject
     private PageTemplatesJspBean instance;
-    private @Inject ISecurityTokenService _securityTokenService;
-
+    @Inject
+    private ISecurityTokenService _securityTokenService;
+    @Inject
+    private IPageTemplateRepository _repository;
+    
     @BeforeEach
     protected void setUp( ) throws Exception
     {
         request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
-        instance = new PageTemplatesJspBean( );
         instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
     }
 
@@ -109,7 +113,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         final String desc = getRandomName( );
         PageTemplate pageTemplate = new PageTemplate( );
         pageTemplate.setDescription( desc );
-        PageTemplateHome.create( pageTemplate );
+        _repository.create( pageTemplate );
 
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
@@ -124,13 +128,13 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
         {
-            assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+            assertEquals( desc, _repository.load( pageTemplate.getId( ) ).get( ).getDescription( ) );
             instance.doModifyPageTemplate( multipartRequest );
-            assertEquals( desc + "mod", PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+            assertEquals( desc + "mod", _repository.load( pageTemplate.getId( ) ).get( ).getDescription( ) );
         }
         finally
         {
-            PageTemplateHome.remove( pageTemplate.getId( ) );
+            _repository.remove( pageTemplate.getId( ) );
         }
     }
 
@@ -140,7 +144,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         final String desc = getRandomName( );
         PageTemplate pageTemplate = new PageTemplate( );
         pageTemplate.setDescription( desc );
-        PageTemplateHome.create( pageTemplate );
+        _repository.create( pageTemplate );
 
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
@@ -155,17 +159,17 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
         {
-            assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+            assertEquals( desc, _repository.load( pageTemplate.getId( ) ).get( ).getDescription( ) );
             instance.doModifyPageTemplate( multipartRequest );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
         {
-            assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+            assertEquals( desc, _repository.load( pageTemplate.getId( ) ).get( ).getDescription( ) );
         }
         finally
         {
-            PageTemplateHome.remove( pageTemplate.getId( ) );
+            _repository.remove( pageTemplate.getId( ) );
         }
     }
 
@@ -175,7 +179,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         final String desc = getRandomName( );
         PageTemplate pageTemplate = new PageTemplate( );
         pageTemplate.setDescription( desc );
-        PageTemplateHome.create( pageTemplate );
+        _repository.create( pageTemplate );
 
         Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
@@ -187,17 +191,17 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
         {
-            assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+            assertEquals( desc, _repository.load( pageTemplate.getId( ) ).get( ).getDescription( ) );
             instance.doModifyPageTemplate( multipartRequest );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
         {
-            assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+            assertEquals( desc, _repository.load( pageTemplate.getId( ) ).get( ).getDescription( ) );
         }
         finally
         {
-            PageTemplateHome.remove( pageTemplate.getId( ) );
+            _repository.remove( pageTemplate.getId( ) );
         }
     }
 
@@ -223,7 +227,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         pageTemplate.setDescription( desc );
         pageTemplate.setFile( "junit" );
         pageTemplate.setPicture( "junit" );
-        PageTemplateHome.create( pageTemplate );
+        _repository.create( pageTemplate );
 
         request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -231,11 +235,11 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         try
         {
             instance.doRemovePageTemplate( request );
-            assertNull( PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ) );
+            assertThrows( NoSuchElementException.class, ( ) -> _repository.load( pageTemplate.getId( ) ).get( ) );
         }
         finally
         {
-            PageTemplateHome.remove( pageTemplate.getId( ) );
+            _repository.remove( pageTemplate.getId( ) );
         }
     }
 
@@ -247,7 +251,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         pageTemplate.setDescription( desc );
         pageTemplate.setFile( "junit" );
         pageTemplate.setPicture( "junit" );
-        PageTemplateHome.create( pageTemplate );
+        _repository.create( pageTemplate );
 
         request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -259,11 +263,11 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            assertNotNull( PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ) );
+            assertNotNull( _repository.load( pageTemplate.getId( ) ).get( ) );
         }
         finally
         {
-            PageTemplateHome.remove( pageTemplate.getId( ) );
+            _repository.remove( pageTemplate.getId( ) );
         }
     }
 
@@ -275,7 +279,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         pageTemplate.setDescription( desc );
         pageTemplate.setFile( "junit" );
         pageTemplate.setPicture( "junit" );
-        PageTemplateHome.create( pageTemplate );
+        _repository.create( pageTemplate );
 
         request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
         try
@@ -285,11 +289,11 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            assertNotNull( PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ) );
+            assertNotNull( _repository.load( pageTemplate.getId( ) ).get( ) );
         }
         finally
         {
-            PageTemplateHome.remove( pageTemplate.getId( ) );
+            _repository.remove( pageTemplate.getId( ) );
         }
     }
 

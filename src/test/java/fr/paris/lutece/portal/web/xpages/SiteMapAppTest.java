@@ -33,22 +33,16 @@
  */
 package fr.paris.lutece.portal.web.xpages;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Properties;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.page.Page;
-import fr.paris.lutece.portal.business.style.PageTemplateHome;
+import fr.paris.lutece.portal.business.style.IPageTemplateRepository;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
@@ -60,7 +54,6 @@ import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
-import fr.paris.lutece.util.AppInitPropertiesService;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
@@ -73,7 +66,10 @@ public class SiteMapAppTest extends LuteceTestCase
     private static final String ROLE1 = "ROLE1";
     private static final String ROLE2 = "ROLE2";
     private static final String SERVICE_NAME = "SiteMapService";
-    private @Inject IPageService pageService;
+    @Inject
+    private IPageService pageService;
+    @Inject
+    private IPageTemplateRepository _pageTemplateRepository;
 
     /**
      * Test of getPage method, of class fr.paris.lutece.portal.web.xpages.SiteMapApp.
@@ -108,7 +104,7 @@ public class SiteMapAppTest extends LuteceTestCase
         // create the page
         Page page = new Page( );
         page.setParentPageId( PortalService.getRootPageId( ) );
-        page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
+        page.setPageTemplateId( _pageTemplateRepository.findAll( ).stream( ).findFirst( ).get( ).getId( ) );
         page.setName( randomPageName );
 
         pageService.createPage( page );
@@ -283,7 +279,7 @@ public class SiteMapAppTest extends LuteceTestCase
         Page page = new Page( );
         page.setParentPageId( PortalService.getRootPageId( ) );
         page.setName( pageName );
-        page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
+        page.setPageTemplateId( _pageTemplateRepository.findAll( ).stream( ).findFirst( ).get( ).getId( ) );
 
         if ( role != null )
         {

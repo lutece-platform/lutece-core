@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
@@ -47,10 +48,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.business.style.IStyleRepository;
 import fr.paris.lutece.portal.business.style.Style;
-import fr.paris.lutece.portal.business.style.StyleHome;
+import fr.paris.lutece.portal.business.stylesheet.IStyleSheetRepository;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -79,30 +80,34 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     private StyleSheet stylesheet;
     @Inject
     private ISecurityTokenService _securityTokenService;
+    @Inject
+    private IStyleSheetRepository _styleSheetRepository;
+    @Inject
+    private IStyleRepository _styleRepository;
 
     @BeforeEach
     protected void setUp( ) throws Exception
     {
         style = new Style( );
-        int nId = StyleHome.getStylesList( ).stream( ).map( Style::getId ).max( Integer::compare ).get( ) + 1;
+        int nId = _styleRepository.findAll( ).stream( ).map( Style::getId ).max( Integer::compare ).get( ) + 1;
         style.setId( nId );
         style.setDescription( getRandomName( ) );
         style.setPortalComponentId( 2 );
-        StyleHome.create( style );
+        _styleRepository.create( style );
         stylesheet = new StyleSheet( );
         stylesheet.setDescription( getRandomName( ) );
         stylesheet.setModeId( 1 );
         stylesheet.setStyleId( style.getId( ) );
         stylesheet.setFile( "file" );
         stylesheet.setSource( "<a/>".getBytes( ) );
-        StyleSheetHome.create( stylesheet );
+        _styleSheetRepository.create( stylesheet );
     }
 
     @AfterEach
     protected void tearDown( ) throws Exception
     {
-        StyleSheetHome.remove( stylesheet.getId( ) );
-        StyleHome.remove( style.getId( ) );
+        _styleSheetRepository.remove( stylesheet.getId( ) );
+        _styleRepository.remove( style.getId( ) );
     }
 
     private String getRandomName( )
@@ -174,12 +179,12 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         try
         {
             instance.doCreateStyleSheet( multipart );
-            assertTrue( StyleSheetHome.getStyleSheetList( 0 ).stream( ).anyMatch( stylesheet -> stylesheet.getDescription( ).equals( randomName ) ) );
+            assertTrue( _styleSheetRepository.findByMode( 0 ).stream( ).anyMatch( stylesheet -> stylesheet.getDescription( ).equals( randomName ) ) );
         }
         finally
         {
-            StyleSheetHome.getStyleSheetList( 0 ).stream( ).filter( stylesheet -> stylesheet.getDescription( ).equals( randomName ) )
-                    .forEach( stylesheet -> StyleSheetHome.remove( stylesheet.getId( ) ) );
+            _styleSheetRepository.findByMode( 0 ).stream( ).filter( stylesheet -> stylesheet.getDescription( ).equals( randomName ) )
+                    .forEach( stylesheet -> _styleSheetRepository.remove( stylesheet.getId( ) ) );
         }
     }
     @Test
@@ -214,12 +219,12 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            assertTrue( StyleSheetHome.getStyleSheetList( 0 ).stream( ).noneMatch( stylesheet -> stylesheet.getDescription( ).equals( randomName ) ) );
+            assertTrue( _styleSheetRepository.findByMode( 0 ).stream( ).noneMatch( stylesheet -> stylesheet.getDescription( ).equals( randomName ) ) );
         }
         finally
         {
-            StyleSheetHome.getStyleSheetList( 0 ).stream( ).filter( stylesheet -> stylesheet.getDescription( ).equals( randomName ) )
-                    .forEach( stylesheet -> StyleSheetHome.remove( stylesheet.getId( ) ) );
+            _styleSheetRepository.findByMode( 0 ).stream( ).filter( stylesheet -> stylesheet.getDescription( ).equals( randomName ) )
+                    .forEach( stylesheet -> _styleSheetRepository.remove( stylesheet.getId( ) ) );
         }
     }
     @Test
@@ -251,12 +256,12 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            assertTrue( StyleSheetHome.getStyleSheetList( 0 ).stream( ).noneMatch( stylesheet -> stylesheet.getDescription( ).equals( randomName ) ) );
+            assertTrue( _styleSheetRepository.findByMode( 0 ).stream( ).noneMatch( stylesheet -> stylesheet.getDescription( ).equals( randomName ) ) );
         }
         finally
         {
-            StyleSheetHome.getStyleSheetList( 0 ).stream( ).filter( stylesheet -> stylesheet.getDescription( ).equals( randomName ) )
-                    .forEach( stylesheet -> StyleSheetHome.remove( stylesheet.getId( ) ) );
+            _styleSheetRepository.findByMode( 0 ).stream( ).filter( stylesheet -> stylesheet.getDescription( ).equals( randomName ) )
+                    .forEach( stylesheet -> _styleSheetRepository.remove( stylesheet.getId( ) ) );
         }
     }
 
@@ -311,7 +316,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         instance.doModifyStyleSheet( multipart );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNull( message );
-        StyleSheet stored = StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) );
+        StyleSheet stored = _styleSheetRepository.load( stylesheet.getId( ) ).get( );
         assertNotNull( stored );
         assertEquals( stylesheet.getDescription( ) + "_mod", stored.getDescription( ) );
     }
@@ -349,7 +354,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            StyleSheet stored = StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) );
+            StyleSheet stored = _styleSheetRepository.load( stylesheet.getId( ) ).get( );
             assertNotNull( stored );
             assertEquals( stylesheet.getDescription( ), stored.getDescription( ) );
         }
@@ -385,7 +390,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            StyleSheet stored = StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) );
+            StyleSheet stored = _styleSheetRepository.load( stylesheet.getId( ) ).get( );
             assertNotNull( stored );
             assertEquals( stylesheet.getDescription( ), stored.getDescription( ) );
         }
@@ -424,7 +429,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
                 _securityTokenService.getToken( request, "jsp/admin/style/DoRemoveStyleSheet.jsp" ) );
 
         instance.doRemoveStyleSheet( request );
-        assertNull( StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) ) );
+        assertThrows( NoSuchElementException.class, ( ) -> _styleSheetRepository.load( stylesheet.getId( ) ).get( ) );
     }
     @Test
     public void testDoRemoveStyleSheetInvalidToken( ) throws AccessDeniedException
@@ -442,7 +447,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            StyleSheet stored = StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) );
+            StyleSheet stored = _styleSheetRepository.load( stylesheet.getId( ) ).get( );
             assertNotNull( stored );
             assertEquals( stylesheet.getId( ), stored.getId( ) );
         }
@@ -461,7 +466,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         }
         catch( AccessDeniedException e )
         {
-            StyleSheet stored = StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) );
+            StyleSheet stored = _styleSheetRepository.load( stylesheet.getId( ) ).get( );
             assertNotNull( stored );
             assertEquals( stylesheet.getId( ), stored.getId( ) );
         }

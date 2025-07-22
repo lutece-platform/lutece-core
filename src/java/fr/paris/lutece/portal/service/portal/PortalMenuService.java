@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
-import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.style.IModeRepository;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.cache.LuteceCache;
@@ -80,6 +80,8 @@ public class PortalMenuService
     @Inject
 	@LuteceCache(cacheName = SERVICE_NAME, keyType = String.class, valueType = String.class, enable = true)
 	private Lutece107Cache<String, String> _cachePortalMenu;
+    @Inject
+    private IModeRepository _modeRepository;
 
     PortalMenuService( )
     {
@@ -187,7 +189,7 @@ public class PortalMenuService
         // Added in v1.3
         StyleSheet xslSource = getMenuXslSource( nMode, nPart );
 
-        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
+        Properties outputProperties = _modeRepository.findOuputXslProperties( nMode );
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode

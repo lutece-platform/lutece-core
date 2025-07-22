@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,15 +35,19 @@ package fr.paris.lutece.portal.business.style;
 
 import jakarta.enterprise.inject.spi.CDI;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import fr.paris.lutece.portal.service.style.IStyleService;
 
 /**
  * This class provides instances management methods (create, find, ...) for PageTemplate objects
  */
+@Deprecated( since = "8.0", forRemoval = true )
 public final class PageTemplateHome
 {
     // Static variable pointed at the DAO instance
-    private static IPageTemplateDAO _dao = CDI.current().select( IPageTemplateDAO.class ).get();
+    private static IPageTemplateRepository _repository = CDI.current( ).select( IPageTemplateRepository.class ).get( );
 
     /**
      * Creates a new PageTemplateHome object.
@@ -53,78 +57,20 @@ public final class PageTemplateHome
     }
 
     /**
-     * Creation of an instance of a page template
-     *
-     * @param pageTemplate
-     *            template An instance of a page template which contains the informations to store
-     * @return The instance of a page template which has been created with its primary key.
-     */
-    public static PageTemplate create( PageTemplate pageTemplate )
-    {
-        _dao.insert( pageTemplate );
-
-        return pageTemplate;
-    }
-
-    /**
-     * Update of the page template which is specified
-     *
-     * @param pageTemplate
-     *            The instance of the page template which contains the data to store
-     * @return The instance of the page template which has been updated
-     */
-    public static PageTemplate update( PageTemplate pageTemplate )
-    {
-        _dao.store( pageTemplate );
-
-        return pageTemplate;
-    }
-
-    /**
-     * Remove the page template whose identifier is specified in parameter
-     *
-     * @param nId
-     *            The identifier of the page template to remove
-     */
-    public static void remove( int nId )
-    {
-        _dao.delete( nId );
-    }
-
-    // /////////////////////////////////////////////////////////////////////////
-    // Finders
-
-    /**
-     * Returns an instance of an page template whose identifier is specified in parameter
-     *
-     * @param nKey
-     *            The page template primary key
-     * @return an instance of a page template
-     */
-    public static PageTemplate findByPrimaryKey( int nKey )
-    {
-        return _dao.load( nKey );
-    }
-
-    /**
      * Return the list of all the page templates
      *
+     * @deprecated From the core use {@code @Inject} to obtain the {@link IPageTemplateRepository} instance and access the method
+     *             {@link IPageTemplateRepository#findAll()}. 
+     *             From a plugin use {@code @Inject} to obtain the {@link IStyleService} instance and access the
+     *             method {@link IStyleService#findPageTemplates()}. 
+     *             This method will be removed in future versions.
+     * 
      * @return A collection of page templates objects
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static List<PageTemplate> getPageTemplatesList( )
     {
-        return _dao.selectPageTemplatesList( );
+        return new ArrayList<PageTemplate>( _repository.findAll( ) );
     }
 
-    /**
-     * Checks if a page template is used by a page
-     *
-     * @param nPageTemplateId
-     *            The identifier of the page Template
-     * @return true if a page template has been used by a page, false otherwise
-     */
-    public static boolean checkStylePageTemplateIsUsed( int nPageTemplateId )
-    {
-        return _dao.checkPageTemplateIsUsed( nPageTemplateId );
-    }
 }

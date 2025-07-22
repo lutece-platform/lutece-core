@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,18 +33,17 @@
  */
 package fr.paris.lutece.portal.business.stylesheet;
 
-import fr.paris.lutece.portal.service.html.XmlTransformerService;
-import jakarta.enterprise.inject.spi.CDI;
-
 import java.util.Collection;
+
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * This class provides instances management methods (create, find, ...) for Stylesheet objects
  */
+@Deprecated( since = "8.0", forRemoval = true )
 public final class StyleSheetHome
 {
-    // Static variable pointed to the DAO instance
-    private static IStyleSheetDAO _dao = CDI.current( ).select( IStyleSheetDAO.class ).get( );
+    private static IStyleSheetRepository _repository = CDI.current( ).select( IStyleSheetRepository.class ).get( );
 
     /**
      * Creates a new StyleSheetHome object.
@@ -54,70 +53,18 @@ public final class StyleSheetHome
     }
 
     /**
-     * Creation of an instance of a Stylesheet file in the database
-     *
-     * @param stylesheet
-     *            An instance of a stylesheet which contains the informations to store
-     * @return The instance of the stylesheet which has been created.
-     */
-    public static StyleSheet create( StyleSheet stylesheet )
-    {
-        _dao.insert( stylesheet );
-
-        return stylesheet;
-    }
-
-    /**
-     * Deletes the StylesSheet whose identifier is specified in parameter
-     *
-     * @param nId
-     *            the identifier of the stylesheet to delete
-     */
-    public static void remove( int nId )
-    {
-        _dao.delete( nId );
-        XmlTransformerService.clearXslCache( );
-    }
-
-    /**
-     * Update the StylesSheet whose identifier is specified in parameter
-     *
-     * @param stylesheet
-     *            the stylesheet to update
-     */
-    public static void update( StyleSheet stylesheet )
-    {
-        _dao.store( stylesheet );
-        XmlTransformerService.clearXslCache( );
-    }
-
-    // /////////////////////////////////////////////////////////////////////////
-    // Finders
-
-    /**
      * Returns an instance of a stylesheet file whose identifier is specified in parameter
      *
      * @param nKey
      *            the stylesheet primary key
+     * @deprecated Use {@code @Inject} to obtain the {@link IStyleSheetRepository} instance and access the method {@link IStyleSheetRepository#load(Integer)}.
+     *             This method will be removed in future versions.
      * @return the instance of the styleSheet whose identifier is the nKey
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static StyleSheet findByPrimaryKey( int nKey )
     {
-        return _dao.load( nKey );
-    }
-
-    /**
-     * Returns the number of stylesheets associated to the style and the mode specified in parameter
-     *
-     * @param nStyleId
-     *            the style id
-     * @param nModeId
-     *            the mode id
-     * @return the number of stylesheet associated
-     */
-    public static int getStyleSheetNbPerStyleMode( int nStyleId, int nModeId )
-    {
-        return _dao.selectStyleSheetNbPerStyleMode( nStyleId, nModeId );
+        return _repository.load( nKey ).orElse( null );
     }
 
     /**
@@ -125,10 +72,13 @@ public final class StyleSheetHome
      *
      * @param nModeId
      *            The mode identifier
+     * @deprecated Use {@code @Inject} to obtain the {@link IStyleSheetRepository} instance and access the method {@link IStyleSheetRepository#findByMode(int)}.
+     *             This method will be removed in future versions.
      * @return A collection of StyleSheet object
      */
+    @Deprecated( since = "8.0", forRemoval = true )
     public static Collection<StyleSheet> getStyleSheetList( int nModeId )
     {
-        return _dao.selectStyleSheetList( nModeId );
+        return _repository.findByMode( nModeId );
     }
 }

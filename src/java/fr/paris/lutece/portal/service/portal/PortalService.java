@@ -52,7 +52,7 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
-import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.style.IModeRepository;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.PathCacheService;
 import fr.paris.lutece.portal.service.content.ContentService;
@@ -130,6 +130,8 @@ public final class PortalService
     private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<>( );
     private static IPageService _pageService = CDI.current().select(IPageService.class).get();  
     private static PathCacheService _pathCacheService = CDI.current().select( PathCacheService.class ).get( );
+    private static IModeRepository _modeRepository = CDI.current( ).select( IModeRepository.class ).get( );
+
     /**
      * Private Constructor
      */
@@ -403,7 +405,7 @@ public final class PortalService
 
         String strXml = getXmlPagesList( getPagePath( nPageId ) );
 
-        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
+        Properties outputProperties = _modeRepository.findOuputXslProperties( nMode );
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
@@ -488,7 +490,7 @@ public final class PortalService
             strXml = getXmlPagesList( getXPagePath( strXPageName ) );
         }
 
-        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
+        Properties outputProperties = _modeRepository.findOuputXslProperties( nMode );
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
@@ -709,7 +711,7 @@ public final class PortalService
 
         String strXml = getXmlPagesListExtended( strTitlesUrls );
 
-        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
+        Properties outputProperties = _modeRepository.findOuputXslProperties( nMode );
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode

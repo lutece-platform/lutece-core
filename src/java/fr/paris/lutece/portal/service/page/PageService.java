@@ -64,7 +64,7 @@ import fr.paris.lutece.portal.business.page.PageRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.PortletType;
-import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.style.IModeRepository;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.cache.CacheConfigUtil;
@@ -183,7 +183,8 @@ public class PageService implements IPageService, ImageResourceProvider
     private PageCacheService _cachePages;
     @Inject
     private PortletCacheService _cachePortlets;
-
+    @Inject
+    private IModeRepository _modeRepository;
 
     /**
      * Initializes the service
@@ -678,7 +679,7 @@ public class PageService implements IPageService, ImageResourceProvider
                 }
             }
 
-            Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
+            Properties outputProperties = _modeRepository.findOuputXslProperties( nMode );
             String strXslUniqueId = XSL_UNIQUE_PREFIX + String.valueOf( portlet.getStyleId( ) );
             XmlTransformerService xmlTransformerService = new XmlTransformerService( );
             String strPortletXmlContent = portlet.getXml( request );

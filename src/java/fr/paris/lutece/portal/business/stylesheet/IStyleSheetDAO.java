@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,11 +35,13 @@ package fr.paris.lutece.portal.business.stylesheet;
 
 import java.util.Collection;
 
+import fr.paris.lutece.data.dao.IGenericDAO;
+
 /**
  *
  * @author LEVY
  */
-public interface IStyleSheetDAO
+public interface IStyleSheetDAO extends IGenericDAO<StyleSheet, Integer>
 {
     /**
      * Delete the StyleSheet from the database whose identifier is specified in parameter
@@ -47,7 +49,7 @@ public interface IStyleSheetDAO
      * @param nIdStylesheet
      *            the identifier of the StyleSheet to delete
      */
-    void delete( int nIdStylesheet );
+    void delete( Integer nIdStylesheet );
 
     /**
      * Insert a new record in the table.
@@ -64,16 +66,7 @@ public interface IStyleSheetDAO
      *            the identifier of the Stylesheet to load
      * @return stylesheet
      */
-    StyleSheet load( int nIdStylesheet );
-
-    /**
-     * Returns the identifier of the mode of the stylesheet whose identifier is specified in parameter
-     *
-     * @param nIdStylesheet
-     *            the identifier of the stylesheet
-     * @return the identifier of the mode
-     */
-    int selectModeId( int nIdStylesheet );
+    StyleSheet load( Integer nIdStylesheet );
 
     /**
      * Load the list of stylesheet

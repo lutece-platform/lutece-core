@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
-import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.style.IModeRepository;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.cache.LuteceCache;
@@ -94,7 +94,9 @@ public class SiteMapApp implements XPageApplication
     @Inject
 	@LuteceCache(cacheName = CACHE_NAME, keyType = String.class, valueType = String.class, enable = true)
 	private Lutece107Cache<String, String> _cacheSiteMap;
-
+    @Inject
+    private IModeRepository _modeRepository;
+    
     /**
      * Creates a new SiteMapPage object
      */
@@ -245,7 +247,7 @@ public class SiteMapApp implements XPageApplication
             mapParamRequest.put( MARKER_TARGET, TARGET_TOP );
         }
 
-        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
+        Properties outputProperties = _modeRepository.findOuputXslProperties( nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
 

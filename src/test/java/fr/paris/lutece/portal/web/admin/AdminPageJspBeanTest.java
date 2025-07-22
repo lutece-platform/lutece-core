@@ -55,7 +55,7 @@ import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.rbac.RBACRole;
-import fr.paris.lutece.portal.business.style.PageTemplateHome;
+import fr.paris.lutece.portal.business.style.IPageTemplateRepository;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
@@ -89,6 +89,8 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     private IPageService pageService;
     @Inject 
     private ISecurityTokenService _securityTokenService;
+    @Inject
+    private IPageTemplateRepository _pageTemplateRepository;
 
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -96,7 +98,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         _randomPageName = "page" + new SecureRandom( ).nextLong( );
         _page = new Page( );
         _page.setParentPageId( PortalService.getRootPageId( ) );
-        _page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
+        _page.setPageTemplateId( _pageTemplateRepository.findAll( ).stream( ).findFirst( ).get( ).getId( ) );
         _page.setName( _randomPageName );
         _page.setDescription( _randomPageName );
         _page.setMetaKeywords( "" );
@@ -243,7 +245,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         {
             childPage = new Page( );
             childPage.setParentPageId( _page.getId( ) );
-            childPage.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
+            childPage.setPageTemplateId( _pageTemplateRepository.findAll( ).stream( ).findFirst( ).get( ).getId( ) );
             childPage.setName( childPageName );
             pageService.createPage( childPage );
             MockHttpServletRequest request = new MockHttpServletRequest( );

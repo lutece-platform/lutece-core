@@ -41,7 +41,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.page.Page;
-import fr.paris.lutece.portal.business.style.PageTemplateHome;
+import fr.paris.lutece.portal.business.style.IPageTemplateRepository;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -63,6 +63,8 @@ public class SiteMapAppCycleTest extends LuteceTestCase
     private IPageService _pageService;
     @Inject
     private SiteMapApp _app;
+    @Inject
+    private IPageTemplateRepository _pageTemplateRepository;
     
     @BeforeEach
     protected void setUp( ) throws Exception
@@ -86,7 +88,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
         {
             page.setParentPageId( parentId );
         }
-        page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
+        page.setPageTemplateId( _pageTemplateRepository.findAll( ).stream( ).findFirst( ).get( ).getId( ) );
         page.setName( "page" + new SecureRandom( ).nextLong( ) );
 
         _pageService.createPage( page );

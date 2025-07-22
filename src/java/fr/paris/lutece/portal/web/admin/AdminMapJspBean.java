@@ -38,7 +38,7 @@ import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
-import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.business.style.IModeRepository;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
@@ -55,6 +55,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -89,6 +90,9 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
     private static final int PORTAL_COMPONENT_SITE_MAP_ID = 8;
     private static final int MODE_ADMIN = 1;
 
+    @Inject
+    private IModeRepository _modeRepository;
+
     /**
      * Build or get in the cache the page which contains the site map depending on the mode
      *
@@ -114,7 +118,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         Map<String, String> mapParamRequest = new HashMap<>( );
         mapParamRequest.put( PARAMETER_SITE_PATH, AppPropertiesService.getProperty( PROPERTY_ADMIN_PATH ) );
 
-        Properties outputProperties = ModeHome.getOuputXslProperties( MODE_ADMIN );
+        Properties outputProperties = _modeRepository.findOuputXslProperties( MODE_ADMIN );
 
         Map<String, Object> model = new HashMap<>( );
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );

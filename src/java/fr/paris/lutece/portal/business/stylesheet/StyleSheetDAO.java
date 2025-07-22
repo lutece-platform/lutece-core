@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,8 +53,6 @@ public final class StyleSheetDAO implements IStyleSheetDAO
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_stylesheet ( description , file_name, source ) " + " VALUES ( ? ,?, ? )";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_stylesheet WHERE id_stylesheet = ? ";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_stylesheet SET id_stylesheet = ?, description = ?, file_name = ?, source = ? WHERE id_stylesheet = ?  ";
-    private static final String SQL_QUERY_SELECT_MODEID = " SELECT a.id_mode FROM core_mode a , core_style_mode_stylesheet b  "
-            + " WHERE a.id_mode = b.id_mode AND b.id_stylesheet = ?";
     private static final String SQL_QUERY_COUNT_STYLESHEET = " SELECT count(*) FROM core_style_mode_stylesheet WHERE id_style = ? AND id_mode = ? ";
     private static final String SQL_QUERY_INSERT_STYLEMODESTYLESHEET = " INSERT INTO core_style_mode_stylesheet ( id_style , id_mode , id_stylesheet ) "
             + " VALUES ( ?, ? ,? )";
@@ -100,7 +98,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      *            the identifier of the Stylesheet to load
      * @return stylesheet
      */
-    public StyleSheet load( int nIdStylesheet )
+    public StyleSheet load( Integer nIdStylesheet )
     {
         StyleSheet stylesheet = null;
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
@@ -130,7 +128,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      * @param nIdStylesheet
      *            the identifier of the StyleSheet to delete
      */
-    public void delete( int nIdStylesheet )
+    public void delete( Integer nIdStylesheet )
     {
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
@@ -299,32 +297,9 @@ public final class StyleSheetDAO implements IStyleSheetDAO
         return nCount;
     }
 
-    /**
-     * Returns the identifier of the mode of the stylesheet whose identifier is specified in parameter
-     * 
-     * @param nIdStylesheet
-     *            the identifier of the stylesheet
-     * @return the identifier of the mode
-     */
-    public int selectModeId( int nIdStylesheet )
+    public Collection<StyleSheet> selectAll()
     {
-        int nModeId;
-        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MODEID ) )
-        {
-
-            daoUtil.setInt( 1, nIdStylesheet );
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                daoUtil.free( );
-                throw new AppException( DAOUtil.MSG_EXCEPTION_SELECT_ERROR + nIdStylesheet );
-            }
-
-            nModeId = ( daoUtil.getInt( 1 ) );
-
-        }
-
-        return nModeId;
+        return selectStyleSheetList( -1 );
     }
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,9 +33,12 @@
  */
 package fr.paris.lutece.portal.business.stylesheet;
 
+import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.inject.Inject;
 
 public class StyleSheetTest extends LuteceTestCase
 {
@@ -45,6 +48,8 @@ public class StyleSheetTest extends LuteceTestCase
     private final static String FILE2 = "Fileamne 2";
     private final static String SOURCE1 = "<xsl Source 1>";
     private final static String SOURCE2 = "<xsl Source 2>";
+    @Inject
+    private StyleSheetRepository _styleSheetRepository;
 
     @Test
     public void testBusiness( )
@@ -56,9 +61,9 @@ public class StyleSheetTest extends LuteceTestCase
         styleSheet.setSource( SOURCE1.getBytes( ) );
 
         // Create test
-        StyleSheetHome.create( styleSheet );
+        _styleSheetRepository.create( styleSheet );
 
-        StyleSheet styleSheetStored = StyleSheetHome.findByPrimaryKey( styleSheet.getId( ) );
+        StyleSheet styleSheetStored = _styleSheetRepository.load( styleSheet.getId( ) ).get( );
         assertEquals( styleSheetStored.getDescription( ), styleSheet.getDescription( ) );
         assertEquals( styleSheetStored.getFile( ), styleSheet.getFile( ) );
         assertEquals( styleSheetStored.getSource( ).length, styleSheet.getSource( ).length );
@@ -68,18 +73,17 @@ public class StyleSheetTest extends LuteceTestCase
         styleSheet.setFile( FILE2 );
         styleSheet.setSource( SOURCE2.getBytes( ) );
 
-        StyleSheetHome.update( styleSheet );
-        styleSheetStored = StyleSheetHome.findByPrimaryKey( styleSheet.getId( ) );
+        _styleSheetRepository.update( styleSheet );
+        styleSheetStored = _styleSheetRepository.load( styleSheet.getId( ) ).get( );
         assertEquals( styleSheetStored.getDescription( ), styleSheet.getDescription( ) );
         assertEquals( styleSheetStored.getFile( ), styleSheet.getFile( ) );
         assertEquals( styleSheetStored.getSource( ).length, styleSheet.getSource( ).length );
 
         // List Test
-        StyleSheetHome.getStyleSheetList( 0 );
+        _styleSheetRepository.findByMode( 0 );
 
         // Delete test
-        StyleSheetHome.remove( styleSheet.getId( ) );
-        styleSheetStored = StyleSheetHome.findByPrimaryKey( styleSheet.getId( ) );
-        assertNull( styleSheetStored );
+        _styleSheetRepository.remove( styleSheet.getId( ) );
+        assertThrows( NoSuchElementException.class, ( ) -> _styleSheetRepository.load( styleSheet.getId( ) ).get( ) );
     }
 }
