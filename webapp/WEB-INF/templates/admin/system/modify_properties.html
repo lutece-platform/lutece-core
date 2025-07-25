@@ -1,4 +1,6 @@
 <@pageContainer>
+
+    
     <@pageColumn> 
         <@pageHeader title='#i18n{portal.system.modify_properties.boxTitle}'>
         <@tform>
@@ -64,7 +66,8 @@
                                         <@inputGroup class='color-wrapper-input'>
                                             <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
                                             <@inputGroupItem>
-                                                <@input type='color' class='color-input' name='color-input' value=groupItem.value?html />
+                                                <!-- <@input type='color' class='color-input' name='color-input' value=groupItem.value?html /> -->
+                                               <input type="color" class="color-input" name="color-input" value="${groupItem.value?html}" colorspace="display-p3" alpha>
                                             </@inputGroupItem>
                                         </@inputGroup>
                                     <#else>
@@ -141,5 +144,43 @@ window.addEventListener( "load", function(){
             colorInput.value = colorValue.value;
         });
     });
+
+    // Tab management with sessionStorage
+    const tabLinks = document.querySelectorAll('[data-bs-toggle="tab"]');
+    const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+    const storageKey = "lutece-admin-prop-tab";
+
+    // Restore last active tab on page load
+    const savedTabId = sessionStorage.getItem(storageKey);
+    if (savedTabId) {
+        // Deactivate all tabs and panels
+        tabLinks.forEach(link => {
+            link.classList.remove('active');
+            link.setAttribute('aria-selected', 'false');
+        });
+        tabPanels.forEach(panel => {
+            panel.classList.remove('active', 'show');
+        });
+
+        // Activate the saved tab
+        const savedTabLink = <#noparse>document.querySelector(`[href="${savedTabId}"]`);</#noparse>
+        const savedTabPanel = document.querySelector(savedTabId);
+        
+        if (savedTabLink && savedTabPanel) {
+            savedTabLink.classList.add('active');
+            savedTabLink.setAttribute('aria-selected', 'true');
+            savedTabPanel.classList.add('active', 'show');
+        }
+    }
+
+    // Save tab selection on click
+    tabLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            sessionStorage.setItem(storageKey, targetId);
+        });
+    });
+
 });
 </script>
+<@overlay />
