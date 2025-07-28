@@ -90,4 +90,11 @@ public @interface Controller
      * @return the i18n key for the page path
      */
     String pagePathI18nKey( ) default "";
+
+    /**
+     * Enables the security token automatic processing (generation and validation)
+     * 
+     * @return True if this controller security token is handled by the automatic process.
+     */
+    boolean securityTokenEnabled( ) default false;
 }

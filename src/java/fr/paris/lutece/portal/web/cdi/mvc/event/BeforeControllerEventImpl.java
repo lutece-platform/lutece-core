@@ -22,7 +22,8 @@ public class BeforeControllerEventImpl implements BeforeControllerEvent{
 	private final Method invokedMethod;
 	private final boolean isBackOffice;
     private final ControllerInvocationType invocationType;
-    
+    private final boolean isSecurityTokenEnabled;
+
     /**
      * Constructs a new {@code BeforeControllerEventImpl} with the given parameters.
      *
@@ -30,10 +31,11 @@ public class BeforeControllerEventImpl implements BeforeControllerEvent{
      * @param isBackOffice {@code true} if the context is back-office (BO), {@code false} if front-office (FO)
      * @param invocationType the type of controller call (e.g., VIEW, ACTION, etc.)
      */
-    public BeforeControllerEventImpl(Method invokedMethod, boolean isBackOffice, ControllerInvocationType invocationType) {
+    public BeforeControllerEventImpl(Method invokedMethod, boolean isBackOffice, ControllerInvocationType invocationType, boolean isSecurityTokenEnabled) {
         this.invokedMethod = invokedMethod;
         this.isBackOffice = isBackOffice;
         this.invocationType = invocationType;
+        this.isSecurityTokenEnabled = isSecurityTokenEnabled;
     }
 
 	@Override
@@ -49,6 +51,12 @@ public class BeforeControllerEventImpl implements BeforeControllerEvent{
 	@Override
     public ControllerInvocationType getInvocationType() {
         return invocationType;
+    }
+
+    @Override
+    public boolean isSecurityTokenEnabled( )
+    {
+        return isSecurityTokenEnabled;
     }
 
 }

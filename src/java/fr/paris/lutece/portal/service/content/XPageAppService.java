@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,6 +46,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
+import fr.paris.lutece.portal.util.mvc.xpage.annotations.Controller;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
@@ -109,16 +110,23 @@ public class XPageAppService extends ContentService
                 }
                 
                 Class clazz = CDI.current( ).getBeanManager( ).getBeans( applicationBeanName ).iterator( ).next( ).getBeanClass( );
-                SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
-                securityTokenHandler.registerActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( clazz ) );
+                Controller controller = (Controller) clazz.getAnnotation( Controller.class );
+                if ( null != controller && controller.securityTokenEnabled( ) )
+                {
+                    SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
+                    securityTokenHandler.registerActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( clazz ) );
+                }
             }
             else
             {
                 // check that the class can be found
                 Object instance = Class.forName( entry.getClassName( ) ).getDeclaredConstructor().newInstance( );
-
-                SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
-                securityTokenHandler.registerActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( instance.getClass( ) ) );
+                Controller controller = (Controller) instance.getClass( ).getAnnotation( Controller.class );
+                if ( null != controller && controller.securityTokenEnabled( ) )
+                {
+                    SecurityTokenHandler securityTokenHandler = CDI.current( ).select( SecurityTokenHandler.class ).get( );
+                    securityTokenHandler.registerActions( entry.getId( ), ReflectionUtils.getDeclaredMethods( instance.getClass( ) ) );
+                }
             }
 
             _mapApplications.put( entry.getId( ), entry );

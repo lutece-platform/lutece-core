@@ -44,5 +44,10 @@ public interface BeforeControllerEvent extends MvcEvent{
      */
     ControllerInvocationType getInvocationType();
 
-    
+    /**
+     * Returns the status of the automatic security token generation and validation.
+     * 
+     * @return {@code true} if the controller uses the automatic security token process, {@code false} otherwise
+     */
+    boolean isSecurityTokenEnabled( );
 }

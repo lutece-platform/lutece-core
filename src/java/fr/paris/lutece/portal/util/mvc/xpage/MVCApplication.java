@@ -187,14 +187,14 @@ public abstract class MVCApplication implements XPageApplication
             if ( isMessageBox( request ) )
             {
             	Method m= getMessageBoxMethod( methods );
-            	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.MESSAGE_BOX_VIEW );
+            	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.MESSAGE_BOX_VIEW, _controller.securityTokenEnabled( ) );
                 return messageBox( request, getModels());
             }
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
             if ( m != null )
             {
-            	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.VIEW );
+            	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.VIEW, _controller.securityTokenEnabled( ) );
             	return processView(  m,  request  );
             }
 
@@ -202,7 +202,7 @@ public abstract class MVCApplication implements XPageApplication
             m = MVCUtils.findActionAnnotedMethod( request, methods );
             if ( m != null )
             {
-            	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.ACTION );
+            	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.ACTION, _controller.securityTokenEnabled( ) );
             	// Check for @ResponseBody annotation
                 if (m.isAnnotationPresent(ResponseBody.class)) {
                     processResponseBody(m, request);
@@ -213,7 +213,7 @@ public abstract class MVCApplication implements XPageApplication
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
-        	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.DEFAULT_VIEW  );
+        	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.DEFAULT_VIEW, _controller.securityTokenEnabled( ) );
             return processView( m,  request  );
         }
         catch( InvocationTargetException e )

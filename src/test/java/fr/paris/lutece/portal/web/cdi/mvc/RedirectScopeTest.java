@@ -46,7 +46,7 @@ public class RedirectScopeTest extends LuteceTestCase{
          // Simulate the start of controller processing
          try
          {
-             _eventDispatcher.fireBeforeControllerEvent( this.getClass( ).getMethod( "mockControllerViewMethod" ), true, ControllerInvocationType.VIEW );
+             _eventDispatcher.fireBeforeControllerEvent( this.getClass( ).getMethod( "mockControllerViewMethod" ), true, ControllerInvocationType.VIEW, false );
          }
          catch( Exception e )
          {

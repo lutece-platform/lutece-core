@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2024, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,8 +76,9 @@ public class SecurityTokenHandler
 
     private Set<String> _actionMethods = new HashSet<String>( );
     private Map<String, HashSet<String>> _mapDisabledActionMethods = new HashMap<String, HashSet<String>>( );
+    private Set<String> _handledControllers = new HashSet<String>( );
     @Inject 
-    HttpServletRequest request;
+    private HttpServletRequest request;
     @Inject
     private SecurityTokenService _securityTokenService;
 
@@ -88,6 +89,7 @@ public class SecurityTokenHandler
     {
         if ( !_mapDisabledActionMethods.containsKey( strName ) )
         {
+            _handledControllers.add( strName );
             _mapDisabledActionMethods.put( strName, new HashSet<String>( ) );
             HashSet<String> dis = _mapDisabledActionMethods.get( strName );
             for ( Method m : methods )
@@ -132,8 +134,6 @@ public class SecurityTokenHandler
     public boolean shouldNotFilter( HttpServletRequest request )
     {
         String strAction = MVCUtils.getAction( request );
-        String strPageName = request.getParameter( PARAMETER_PAGE );
-        String strPath = request.getServletPath( ).substring( 1 );
 
         if ( null == strAction
                 || ALLOWED_METHODS.contains( request.getMethod( ) ) )
@@ -141,20 +141,64 @@ public class SecurityTokenHandler
             return true;
         }
 
-        if ( null == strPageName && !_actionMethods.contains( strAction ) )
+        String strPageName = request.getParameter( PARAMETER_PAGE );
+        String strPath = request.getServletPath( ).substring( 1 );
+        if ( null != strPageName )
         {
-            return true;
+            return shouldNotFilterXPageAction( request, strPageName, strAction );
         }
-        
-        if ( ( _mapDisabledActionMethods.containsKey( strPageName ) && _mapDisabledActionMethods.get( strPageName ).contains( strAction ) )
-                || ( _mapDisabledActionMethods.containsKey( strPath ) && _mapDisabledActionMethods.get( strPath ).contains( strAction ) ) )
+        else
         {
-            return true;
+            return shouldNotFilterPath( request, strPath, strAction );
         }
+    }
 
+    /**
+     * Checks if the request should validate the security token for the given Admin feature.
+     * 
+     * @param request
+     *            The request
+     * @return
+     *         True if the request should be skipped from the SecurityTokenFilter validation, false otherwise.
+     */
+    private boolean shouldNotFilterPath( HttpServletRequest request2, String strPath, String strAction )
+    {
+        if ( !_actionMethods.contains( strAction ) )
+        {
+            return true;
+        }
+        if ( null != strPath && !_handledControllers.contains( strPath ) )
+        {
+            return true;
+        }
+        if ( _mapDisabledActionMethods.containsKey( strPath ) && _mapDisabledActionMethods.get( strPath ).contains( strAction ) )
+        {
+            return true;
+        }
         return false;
     }
 
+    /**
+     * Checks if the request should validate the security token for the given XPage.
+     * 
+     * @param request
+     *            The request
+     * @return
+     *         True if the request should be skipped from the SecurityTokenFilter validation, false otherwise.
+     */
+    private boolean shouldNotFilterXPageAction( HttpServletRequest request, String strPageName, String strAction )
+    {
+        if ( !_handledControllers.contains( strPageName ) )
+        {
+            return true;
+        }
+        if ( _mapDisabledActionMethods.containsKey( strPageName ) && _mapDisabledActionMethods.get( strPageName ).contains( strAction ) )
+        {
+            return true;
+        }
+        return false;
+    }
+    
     /**
      * Handles the generation and storage of the security token.
      * 
@@ -316,19 +360,18 @@ public class SecurityTokenHandler
     }
 
     /**
-     * Observes controller invocations and handles token validation
-     * for selected invocation types (ACTION, VIEW, DEFAULT_VIEW).
+     * Observes controller invocations and handles token validation for selected invocation types (ACTION, VIEW, DEFAULT_VIEW).
      *
-     * @param event the controller event
+     * @param event
+     *            the controller event
      */
-    public void onControllerInvocation(@Observes BeforeControllerEvent event)
+    public void onControllerInvocation( @Observes BeforeControllerEvent event )
     {
-        ControllerInvocationType invocationType = event.getInvocationType();
-    	if(invocationType.equals(ControllerInvocationType.VIEW) 
-    			|| invocationType.equals(ControllerInvocationType.ACTION)
-    			|| invocationType.equals(ControllerInvocationType.DEFAULT_VIEW)) {
-    		handleToken( request, event.getInvokedMethod( ));
-    	}
-
+        ControllerInvocationType invocationType = event.getInvocationType( );
+        if ( ( invocationType.equals( ControllerInvocationType.VIEW ) || invocationType.equals( ControllerInvocationType.ACTION )
+                || invocationType.equals( ControllerInvocationType.DEFAULT_VIEW ) ) && event.isSecurityTokenEnabled( ) )
+        {
+            handleToken( request, event.getInvokedMethod( ) );
+        }
     }
 }
