@@ -42,8 +42,8 @@ public class EventDispatcher {
      * @param stIsBackOffice Indicates whether the current request is in the back-office (BO) context or in the FO
      * @return the dispatched {@link BeforeControllerEvent} instance
      */
-    public BeforeControllerEvent fireBeforeControllerEvent( Method invokedMethod, boolean isBackOffice, BeforeControllerEvent.ControllerInvocationType controllerInvocationType  ) {
-    	final BeforeControllerEventImpl event = new BeforeControllerEventImpl(invokedMethod, isBackOffice, controllerInvocationType);
+    public BeforeControllerEvent fireBeforeControllerEvent( Method invokedMethod, boolean isBackOffice, BeforeControllerEvent.ControllerInvocationType controllerInvocationType , boolean isSecurityTokenEnabled ) {
+    	final BeforeControllerEventImpl event = new BeforeControllerEventImpl(invokedMethod, isBackOffice, controllerInvocationType, isSecurityTokenEnabled);
     	
         mvcEventDispatcher.fire(event);  
         return event;

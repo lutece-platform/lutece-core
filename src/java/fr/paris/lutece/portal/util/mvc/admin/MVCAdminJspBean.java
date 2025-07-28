@@ -139,8 +139,12 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         init( request, _controller.right( ) );
 
         Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( getClass( ) );
-        
-        getSecurityTokenHandler( ).registerActions( _controller.controllerPath( ) + _controller.controllerJsp( ), methods );
+
+        if ( _controller.securityTokenEnabled( ) )
+        {
+            getSecurityTokenHandler( ).registerActions( _controller.controllerPath( ) + _controller.controllerJsp( ), methods );
+        }
+
         try
         {
             // Process views
@@ -148,7 +152,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             if ( m != null )
             {
-            	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.VIEW); 
+            	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.VIEW, _controller.securityTokenEnabled( )); 
             	return (String) processView(m, request);
             }
 
@@ -157,7 +161,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             if ( m != null )
             {
-            	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.ACTION);
+            	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.ACTION, _controller.securityTokenEnabled( ));
             	// Check for @ResponseBody annotation
                 if (m.isAnnotationPresent(ResponseBody.class)) {
                     processResponseBody(m, request);
@@ -168,7 +172,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
-        	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.DEFAULT_VIEW);
+        	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.DEFAULT_VIEW, _controller.securityTokenEnabled( ));
             return (String) processView(m, request);
         }
         catch( InvocationTargetException e )
