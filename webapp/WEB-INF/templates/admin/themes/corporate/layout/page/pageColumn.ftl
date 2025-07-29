@@ -22,7 +22,7 @@ Parameters:
 		<#if flush>
 			<#assign classValue = class>
 		<#else>
-			<#assign classValue = class + " p-2 p-md-5">
+			<#assign classValue = class + " p-2 p-md-4">
 		</#if>
 	</#if>
     <#if responsiveMenuSize != '' || responsiveMenuClose >
