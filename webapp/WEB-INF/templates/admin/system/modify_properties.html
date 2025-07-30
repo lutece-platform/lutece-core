@@ -1,6 +1,4 @@
 <@pageContainer>
-
-    
     <@pageColumn> 
         <@pageHeader title='#i18n{portal.system.modify_properties.boxTitle}'>
         <@tform>
@@ -80,21 +78,25 @@
                         </@columns>
                     </#list>
                     </@row>
-                    <@row class='position-fixed bottom-0 end-0 w-100' params='style="height:5rem"'>
-                        <@columns class='d-flex justify-content-center align-items-center col-12' params='style="background-color:rgba(255,255,255,.8)"'>
-                            <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
-                        </@columns>
-                    </@row>
+                    
                     </@tform>
                     </@tabPanel>
                 </#list>
 			</@tabContent>
 		</@tabs>
     </@pageColumn>
+    <@row class='position-fixed bottom-0 end-0 w-100 zh-5'>
+        <@columns class='d-flex justify-content-center align-items-center col-12' params='style="background-color:rgba(255,255,255,.8)"'>
+            <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
+        </@columns>
+    </@row>
 </@pageContainer>
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
 <style>
+.zh-5 {
+    height: 5rem;
+}
 .color-input{
     width: 25px;
     padding: 0;
