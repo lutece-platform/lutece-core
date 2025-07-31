@@ -69,11 +69,13 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  * Class to import Admin Users from CSV files.
  */
 @ApplicationScoped
+@Named( "adminUserImportService" )
 public class DefaultImportAdminUserService extends ImportAdminUserService
 {
 
