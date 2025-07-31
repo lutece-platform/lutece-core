@@ -38,6 +38,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -86,11 +88,13 @@ public final class AppPathService
     private static final String PROPERTY_PREFIX_URL = "url.";
     private static final String PROPERTY_PROD_BASE_URL = "lutece.prod.url";
     private static final String PROPERTY_INSTANCE = "lutece.webapp.instance";
+    private static final String PROPERTY_EXPORT_PATH = "lutece.export.path";
     private static final String INSTANCE_DEFAULT = "default";
     private static final String SUFFIX_BASE_URL = ".baseUrl";
     private static final String SUFFIX_DESCRIPTION = ".description";
     private static final String SLASH = "/";
     private static final String DOUBLE_POINTS = ":";
+    private static final String SYSTEM_TMP_DIR = "java.io.tmpdir";
 
     // Datastore keys
     private static final String KEY_ADMIN_HOME_URL = "portal.site.site_property.admin_home_url";
@@ -796,6 +800,7 @@ public final class AppPathService
 
         return strDirectory;
     }
+
     private static String getRealPath( String relativePath ) throws ResourceNotFoundException
     {
     	try {
@@ -805,4 +810,24 @@ public final class AppPathService
 			throw new PathNotFoundException("Get url exception form relativePath: "+relativePath,e);
 		}
     }
+
+    /**
+     * Returns the lutece global export path, defined in lutece.export.path property
+     * 
+     * @return The export path
+     */
+    public static String getExportPath( )
+    {
+        String strPath = null;
+        String p = AppPropertiesService.getProperty( PROPERTY_EXPORT_PATH, SYSTEM_TMP_DIR );
+        if ( p.startsWith( SYSTEM_TMP_DIR ) )
+        {
+            String strTmpPath = p.replace( SYSTEM_TMP_DIR, "" );
+            File f = new File( System.getProperty( SYSTEM_TMP_DIR ), strTmpPath );
+            f.mkdir( );
+            strPath = f.getAbsolutePath( );
+        }
+        return strPath;
+    }
+
 }
