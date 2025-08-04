@@ -15,9 +15,12 @@ Parameters:
 </@tabPanel>
 <script>
 document.addEventListener( "DOMContentLoaded", function(){
-	const urlHash = document.location.hash, idHash = document.querySelector( urlHash ) ;
-	if ( urlHash != undefined && idHash != undefined) {
-		idHash.classList.add('show')
+	const urlHash = document.location.hash; 
+	if( urlHash != undefined && urlHash != '' ) {
+		const idHash = document.querySelector( urlHash ) ;
+		if ( urlHash != undefined && idHash != undefined) {
+			idHash.classList.add('show')
+		}
 	}
 });
 </script>
