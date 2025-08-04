@@ -55,7 +55,7 @@
 						<@input type='hidden' name='token' value='${token}' />
 						<@formGroup rows=2 class='has-addons' formStyle='inline' groupStyle="inline">
 							<@inputGroup>
-								<@select id='group_name-${right.id}' name='group_name' title=''>
+								<@select id='group_name-${right.id}' class='form-select features-group' name='group_name' title=''>
 								<#if right.featureGroup?if_exists = no_group.feature_group.id?if_exists>
 									<option selected="selected" label="${i18n(no_group.feature_group.descriptionKey)?html}" value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
 								<#else>
@@ -82,10 +82,10 @@
 						<@input type='hidden' name='token' value='${token}' />
 						<@formGroup rows=2 class='has-addons' formStyle='inline' groupStyle="inline">
 							<@inputGroup>
-								<@select name='order_id' id='order_id-${right.id}' title='#i18n{portal.features.dispatch_features.tableLabelOrder}' >
+								<@select class='form-select features-order' name='order_id' id='order_id-${right.id}' title='#i18n{portal.features.dispatch_features.tableLabelOrder}' params='data-group="${right.featureGroup?if_exists}"'>
 								<#list 1..groupDisplay.feature_list?size as i>
 								<#if "${right.order}" == "${i}">
-									<option selected="selected" value="${i}" >${i}</option>
+									<option selected="selected" value="${i}">${i}</option>
 								<#else>
 									<option value="${i}" >${i}</option>
 								</#if>
