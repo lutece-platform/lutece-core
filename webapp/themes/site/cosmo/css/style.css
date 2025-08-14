@@ -1,0 +1,4 @@
+/* SURCHARGE */
+.splash { background-image: url(../../../images/bg.jpg); }
+footer{ background-color:#212121; color: #FFF }
+#login-form label, #login-form .help-block { color: #fff }

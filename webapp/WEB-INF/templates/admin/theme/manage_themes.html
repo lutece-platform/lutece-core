@@ -1,0 +1,101 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-info">
+			<div class="box-header">
+				<h3 class="box-title"><i class="fa fa-home fa-fw"></i> Th&egrave;me en cours : <strong class="text-success">${theme_default.themeDescription}</strong></h3>
+				<div class="box-tools pull-right">
+					<div class="callout callout-theme callout-warning pull-left hidden-xs">
+						<i class="fa fa-warning"></i> <a href="jsp/admin/system/ManageCaches.jsp?plugin_name=">#i18n{portal.theme.manage_themes.emptyCache}</a>
+					</div>
+					<#if permission_create_theme>
+						<form class="form-inline pull-left" method="post" action="jsp/admin/theme/CreateTheme.jsp">
+							<button class="btn btn-primary " type="submit" >
+								<i class="fa fa-plus" ></i> <span class="hidden-xs" >#i18n{portal.theme.manage_themes.buttonCreate}</span>
+							</button>
+						</form>
+					</#if>
+				</div>
+			</div>
+			<div class="box-body">
+				<div class="row">
+				<#list themes_list as theme>
+					<#assign actions = actions_list[theme.codeTheme]>
+					<div class="col-xs-12 col-sm-6 col-md-3">
+						<div class="card-theme <#if theme_default.codeTheme==theme.codeTheme>default-theme</#if>">
+							<div class="theme-selected">Th&egrave;me actuel <i class="fa fa-check-circle-o"></i></div>
+							<div class="card-header" style="width:100%;height:80px; background-size:cover; background-image: url(${theme.pathImages}preview.png); " >
+								<#if theme_default.codeTheme!=theme.codeTheme>
+									<span style="position:absolute; top:15px; right:15px; z-index:999; padding:5px 15px; display: inline-block; border-radius: 50px; background-color: rgba(255,255,255,0.8)">
+										<#if permission_modify_global_theme>
+											<a <#if theme_default.codeTheme==theme.codeTheme>disabled</#if> href="${base_url}jsp/admin/theme/DoModifyGlobalTheme.jsp?theme=${theme.codeTheme}" title="#i18n{portal.theme.manage_themes.buttonChangeChoose}">
+												<i class="fa fa-check fa-2x text-success"></i>
+											</a>
+										</#if>
+										<#if actions?? && actions['DELETE_THEME']>
+											<a href="jsp/admin/theme/RemoveTheme.jsp?code_theme=${theme.codeTheme}"  title="Supprimer" >
+												<i class="fa fa-trash fa-2x text-danger"></i>
+											</a>
+										</#if>
+									</span>
+								</#if>
+								<div class="avatar">
+									<a class="preview" href="${base_url}jsp/admin/theme/AdminThemePreview.jsp?theme_test=${theme.codeTheme}" target="previews" title="#i18n{portal.theme.manage_themes.preview}" >
+										<img src="${theme.pathImages}preview.png" alt="" id="img-bg-${theme.codeTheme}">
+										<i class="fa fa-eye fa-2x hidden"></i>
+									</a>
+								</div>
+							</div>
+							<div class="card-content">
+								<h2>
+									<#if actions?? && actions['MODIFY_THEME']>
+										<a href="${base_url}jsp/admin/theme/ModifyTheme.jsp?code_theme=${theme.codeTheme}"  title="#i18n{portal.util.labelModify}" >
+											${theme.themeDescription} <i class="fa fa-pencil"></i>
+										</a>
+									</#if>
+								</h2>
+								<ul>
+									<li><strong>#i18n{portal.theme.manage_themes.author} :</strong>  <a href="${theme_default.themeAuthorUrl}" target="_author_url">${theme_default.themeAuthor}</a></li>
+									<li><strong>#i18n{portal.theme.manage_themes.version}</strong> : ${theme.themeVersion}</li>
+									<li><strong>#i18n{portal.theme.manage_themes.licence}</strong> : ${theme.themeLicence}</li>
+								</ul>
+
+							</div>
+						</div>
+					</div>
+				</#list>
+			  	</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--Overlay Container-->
+<div id="preview-frame-container" class="col-xs-12 col-sm-12 col-md-12">
+	<iframe id="preview-frame" name="preview-frame" src="" class="col-xs-12 col-sm-12 col-md-12"></iframe>
+	<div id="back-to-preview">
+		<a href="" title="#i18n{portal.util.labelBack}">
+			<i class="fa fa-3x fa-remove"></i>
+		</a>
+	</div>
+</div>
+<script>
+  $( function() {
+    $('.preview').click(function() {
+        var href = $(this).attr('href');
+        $('#preview-frame').attr("src", href);
+        $("body").addClass('oyh');
+        $("body").addClass('modal-open')
+        $('#preview-frame-container').fadeIn();
+        $('#preview-frame-container').addClass('in')
+        return false;
+    });
+    /* Hide container */
+    $('#back-to-preview').click(function() {
+      $("body").removeClass("oyh");
+      $("body").removeClass('modal-open')
+      $('#preview-frame-container').fadeOut();
+      $('#preview-frame-container').removeClass('in')
+      $("#preview-frame").attr('src', '');
+      return false;
+    });
+  });
+</script>
