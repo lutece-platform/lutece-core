@@ -177,6 +177,9 @@
 
     <bean id="richTextEditorDAO" class="fr.paris.lutece.portal.business.editor.RichTextEditorDAO" />
 
+    <!-- Theme DAO -->
+    <bean id="themeDAO"  class="fr.paris.lutece.portal.business.theme.ThemeDAO" />
+
     <!-- annotation db -->
     <!-- scans WEB-INF/lib for classes within jars, and web-inf/classes for .class -->
     <bean id="annotationDB" class="fr.paris.lutece.util.annotation.ScannotationDB">
@@ -215,6 +218,10 @@
         
     <!-- Security header service --> 
     <bean id="securityHeaderService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderService" />    
+
+    <!-- Theme Service -->
+    <bean id="themeService"  class="fr.paris.lutece.portal.service.theme.ThemeService" />
+
         
     <!-- HTML Cleaners-->
     <!-- Jsoup HTML Cleaner-->
