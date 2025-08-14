@@ -1,0 +1,78 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<div class="box box-primary">
+			<div class="box-header">
+				<h3 class="box-title">#i18n{portal.theme.modify_theme.title}</h3>
+			</div>
+			<div class="box-body">
+				<form class="form-horizontal" method="post" action="jsp/admin/theme/DoModifyTheme.jsp">
+					<div class="form-group">
+					<label class="control-label col-xs-12 col-sm-3 col-md-3"> #i18n{portal.theme.create_theme.codeTheme} *</label>
+						<div class="col-xs-12 col-sm-3 col-md-3">
+							<input type="text" class="form-control " name="code_theme" class="all" value="${theme.codeTheme!}" readonly>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3"> #i18n{portal.theme.create_theme.themeDescription} *</label>
+							<div class="col-xs-12 col-sm-6 col-md-6">
+								<input type="text" class="form-control " name="theme_description" value="${theme.themeDescription!}" maxlength="40">
+							</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.theme.create_theme.pathImages} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control " name="path_images" value="${theme.pathImages!}" maxlength="40">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.theme.create_theme.pathCss} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control " name="path_css" value="${theme.pathCss!}" maxlength="40">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.theme.create_theme.pathJs} *</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control " name="path_js" maxlength="40" value="${theme.pathJs!}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.theme.create_theme.themeAuthor}</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control " name="theme_author"maxlength="40" value="${theme.themeAuthor!}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.theme.create_theme.themeAuthorUrl}</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control " name="theme_author_url"  maxlength="40" value="${theme.themeAuthorUrl!}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.theme.create_theme.themeVersion} </label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control " name="theme_version" maxlength="40" value="${theme.themeVersion!}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.theme.create_theme.themeLicence}</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control " name="theme_licence" maxlength="40" value="${theme.themeLicence!}">
+						</div>
+					</div>
+					<hr></hr>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
+							<button class="btn btn-primary btn-sm" type="submit">
+								<i class="fa fa-check"></i>&nbsp;#i18n{portal.theme.modify_theme.buttonModify}
+							</button>
+							<a class="btn btn-default btn-sm" href="jsp/admin/theme/ManageThemes.jsp">
+								<i class="fa fa-remove"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
+							</a>
+						</div>
+					</div>
+				</form>
+    		</div>
+		</div>
+	</div>
+</div>
