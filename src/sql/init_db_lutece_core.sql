@@ -32,9 +32,12 @@ INSERT INTO core_admin_right VALUES ('CORE_WORKGROUPS_MANAGEMENT', 'portal.workg
 INSERT INTO core_admin_right VALUES ('CORE_XSL_EXPORT_MANAGEMENT', 'portal.xsl.adminFeature.xsl_export_management.name', 2, NULL, 'portal.xsl.adminFeature.xsl_export_management.description', 1, '', 'SYSTEM', 'ti ti-file-export', NULL, 11, 0);
 INSERT INTO core_admin_right VALUES ('CORE_SECURITY_HEADER_MANAGEMENT', 'portal.system.adminFeature.security_header_management.name', 0, 'jsp/admin/system/ManageSecurityHeaders.jsp', 'portal.system.adminFeature.security_header_management.description', 1, '', 'SYSTEM', 'ti ti-box-align-top', NULL, 12, 0);
 
+INSERT INTO core_admin_right VALUES ('CORE_THEME_MANAGEMENT','portal.theme.adminFeature.theme_management.name',0,'jsp/admin/theme/ManageThemes.jsp','portal.theme.adminFeature.theme_management.description',1,'','STYLE','images/admin/skin/features/manage_styles.png', NULL, 1, 0);
+
 
 INSERT INTO core_admin_role VALUES ('all_site_manager','Site Manager');
 INSERT INTO core_admin_role VALUES ('super_admin','Super Administrateur');
+INSERT INTO core_admin_role VALUES ('theme_manager', 'Theme management');
 
 INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager','PAGE','*','VIEW');
 INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager','PAGE','*','MANAGE');
@@ -43,6 +46,7 @@ INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permi
 INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager', 'ADMIN_USER', '*', '*');
 INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager', 'SEARCH_SERVICE', '*', '*');
 INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager', 'XSL_EXPORT', '*', '*');
+INSERT INTO core_admin_role_resource (rbac_id,role_key,resource_type,resource_id,permission) VALUES (155,'theme_manager','THEME','*','*');
 
 -- default accounts; password storage will be upgraded on first login
 INSERT INTO core_admin_user (access_code,last_name,first_name,email,status,password,locale,level_user,reset_password,accessibility_mode,password_max_valid_date,account_max_valid_date,nb_alerts_sent,last_login,workgroup_key) VALUES ('admin','Admin','admin','admin@lutece.fr',0,'PLAINTEXT:adminadmin','fr',0,0,0,'1980-01-01 00:00:00',null,0,'1980-01-01 00:00:00','all');
@@ -150,11 +154,14 @@ INSERT INTO core_user_right VALUES ('CORE_XSL_EXPORT_MANAGEMENT', 1);
 INSERT INTO core_user_right VALUES ('CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT', 1);
 INSERT INTO core_user_right VALUES ('CORE_EDITORS_MANAGEMENT', 1);
 INSERT INTO core_user_right VALUES ('CORE_SECURITY_HEADER_MANAGEMENT',1);
+INSERT INTO core_user_right VALUES ('CORE_THEME_MANAGEMENT',1);
 
 INSERT INTO core_user_role VALUES ('all_site_manager',1);
 INSERT INTO core_user_role VALUES ('super_admin',1);
 INSERT INTO core_user_role VALUES ('all_site_manager',2);
 INSERT INTO core_user_role VALUES ('super_admin',2);
+INSERT INTO core_user_role (role_key,id_user) VALUES ('theme_manager',1);
+
 
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_duration', '120');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_level', '0');
@@ -329,3 +336,16 @@ INSERT INTO core_admin_security_header (name, value, description, type, page_cat
 INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('Clear-Site-Data', '"cache","cookies","storage"', 'The Clear-Site-Data header clears browsing data (cookies, storage, cache) associated with the requesting website. It allows web developers to have more control over the data stored by a client browser for their origins. This header is useful for example, during a logout process, in order to ensure that all stored content on the client side like cookies, storage and cache are removed. The value recommended by OWASP for this header is ''"cache","cookies","storage"'' and this is the value retained for Lutece. It is added to the front office/back office logout pages of Lutece.', 'page', 'logout_FO', 1);
 INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('Strict-Transport-Security', 'max-age=31536000; includeSubDomains', 'The HTTP Content-Security-Policy response header allows website administrators to control resources the user agent is allowed to load for a given page. With a few exceptions, policies mostly involve specifying server origins and script endpoints. This helps guard against cross-site scripting attacks (Cross-site_scripting). The value recommended by OWASP for this header when used as a response of an API call is ''frame-ancestors ''none'''' and this is the value retained for Lutece. It prevents any domain from framing the response returned by the API call.', 'rest_api', NULL, 1);
 INSERT INTO core_admin_security_header (name, value, description, type, page_category, is_active) VALUES ('Content-Security-Policy', 'frame-ancestors ''none''', 'The HTTP Strict-Transport-Security response header (often abbreviated as HSTS) informs browsers that the site should only be accessed using HTTPS, and that any future attempts to access it using HTTP should automatically be converted to HTTPS. The value recommended by OWASP for this header when used as a response of an API call is ''max-age=31536000; includeSubDomains'' and this is the value retained for Lutece. This setting means that the browser should remember that this site and all of his subdomains are only to be accessed using HTTPS for 31536000 seconds (1 year).', 'rest_api', NULL, 1);
+
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('amelia', 'Amelia', 'themes/site/amelia/img/', 'themes/site/amelia/css', 'Bootswatch', 'http://bootswatch.com/', '1.0', 'Apache 2.0', 'js/');
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('blue', 'Thème Défaut', 'images/', 'css', 'Mairie de Paris', 'http://fr.lutece.paris.fr', '1.0', 'BSD', 'js/');
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('slate', 'Slate', 'themes/site/slate/img/', 'themes/site/slate/css', 'Bootswatch', 'http://bootswatch.com/', '1.0', 'Apache 2.0', 'js/');
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('superhero', 'Superhero', 'themes/site/superhero/img/', 'themes/site/superhero/css', 'Bootswatch', 'http://bootswatch.com/', '1.0', 'Apache 2.0', 'js/');
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('flatly', 'Flatly', 'themes/site/flatly/img/', 'themes/site/flatly/css', 'Bootswatch', 'http://bootswatch.com/', '1.0', 'Apache 2.0', 'js/');
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('darkly', 'Darkly', 'themes/site/darkly/img/', 'themes/site/darkly/css', 'Bootswatch', 'http://bootswatch.com/', '1.0', 'Apache 2.0', 'js/');
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('cyborg', 'Cyborg', 'themes/site/cyborg/img/', 'themes/site/cyborg/css', 'Bootswatch', 'http://bootswatch.com/', '1.0', 'Apache 2.0', 'js/');
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('readable', 'Readable', 'themes/site/readable/img/', 'themes/site/readable/css', 'Bootswatch', 'http://bootswatch.com/', '1.0', 'Apache 2.0', 'js/');
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('cosmo', 'Cosmo', 'themes/site/cosmo/img/', 'themes/site/cosmo/css', 'Bootswatch', 'http://bootswatch.com/', '1.0', 'Apache 2.0', 'js/');
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('united', 'United', 'themes/site/united/img/', 'themes/site/united/css', 'Bootswatch', 'http://bootswatch.com/', '1.0', 'Apache 2.0', 'js/');
+
+INSERT INTO core_theme_global VALUES ('blue');
