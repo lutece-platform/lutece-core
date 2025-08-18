@@ -65,6 +65,7 @@ import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.portal.util.mvc.utils.ReflectionUtils;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.cdi.mvc.event.ControllerRedirectEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.EventDispatcher;
 import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent;
@@ -217,7 +218,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     	try {
     		Object[] args = getServletParameterBinder( ).bindParameters( request, m);
     		getValidationService( ).validateParameters(this, m, args);
-        	return (String) m.invoke( this, request );
+        	return (String) m.invoke( this, args );
         } finally {
         	getEventDispatcher( ).fireAfterProcessViewEvent();
         }
@@ -447,8 +448,30 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      * @param model
      *            The model
      * @return The page
+     * @deprecated This method is deprecated.
+     * Please use {@link #getXPage(String, String, Models)} instead.
      */
+    @Deprecated
     protected String getPage( String strPageTitleProperty, String strTemplate, Map<String, Object> model )
+    {
+        setPageTitleProperty( strPageTitleProperty );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, getLocale( ), model );
+
+        return getAdminPage( template.getHtml( ) );
+    }
+    /**
+	 * Return the page content
+	 * 
+	 * @param strPageTitleProperty
+	 *            The page title property
+	 * @param strTemplate
+	 *            The template
+	 * @param model
+	 *            The model
+	 * @return The page
+	 */
+    protected String getPage( String strPageTitleProperty, String strTemplate, Models model )
     {
         setPageTitleProperty( strPageTitleProperty );
 

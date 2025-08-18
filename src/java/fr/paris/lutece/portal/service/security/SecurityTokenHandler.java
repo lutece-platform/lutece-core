@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.cdi.mvc.event.BeforeControllerEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent.ControllerInvocationType;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -331,10 +332,17 @@ public class SecurityTokenHandler
     {
         String result = strSource;
 
-        if ( null != strSource && model instanceof HashMap)
-        {
-            HashMap<String, Object> rootmap = (HashMap<String, Object>) model;
-            String strToken = (String) rootmap.get( MARK_CSRF_TOKEN );
+        if ( null != strSource  && model != null) {
+        	String strToken = null;
+            
+            // Extraire le token selon le type de model
+            if (model instanceof HashMap) {
+                HashMap<String, Object> map = (HashMap<String, Object>) model;
+                strToken = (String) map.get(MARK_CSRF_TOKEN);
+            } else if (model instanceof Models) {
+                Models modelObj = (Models) model;
+                strToken = (String) modelObj.get(MARK_CSRF_TOKEN);
+            }        
             if ( null != strToken )
             {
                 Pattern p = Pattern.compile( PATTERN_FORM );

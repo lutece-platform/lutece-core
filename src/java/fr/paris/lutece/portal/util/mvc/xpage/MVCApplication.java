@@ -488,8 +488,36 @@ public abstract class MVCApplication implements XPageApplication
      *            The model
      *
      * @return An XPage Object
+     * 
+     * @deprecated This method is deprecated.
+     * Please use {@link #getXPage(String, Locale, Models)} instead.
+     *
      */
+    @Deprecated
     protected XPage getXPage( String strTemplate, Locale locale, Map<String, Object> model )
+    {
+        XPage page = getXPage( );
+
+        HtmlTemplate t = AppTemplateService.getTemplate( strTemplate, locale, model );
+        page.setContent( t.getHtml( ) );
+        page.setTitle( getDefaultPageTitle( locale ) );
+        page.setPathLabel( getDefaultPagePath( locale ) );
+
+        return page;
+    }
+    /**
+	 * Returns a new XPage object with default values and the content filled by a template using a given model and for a given locale
+	 * 
+	 * @param strTemplate
+	 *            The template
+	 * @param locale
+	 *            The locale
+	 * @param model
+	 *            The model
+	 *
+	 * @return An XPage Object
+	 */
+    protected XPage getXPage( String strTemplate, Locale locale, Models model )
     {
         XPage page = getXPage( );
 
