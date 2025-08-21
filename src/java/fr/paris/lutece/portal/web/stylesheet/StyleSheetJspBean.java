@@ -66,6 +66,7 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
@@ -119,12 +120,12 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CONFIRM_DELETE_STYLESHEET = "portal.style.message.stylesheetConfirmDelete";
     private static final String LABEL_ALL = "portal.util.labelAll";
     private static final String JSP_DO_REMOVE_STYLESHEET = "jsp/admin/style/DoRemoveStyleSheet.jsp";
-    private static final String JSP_REMOVE_STYLE = "RemoveStyle.jsp";
+    private static final String JSP_REMOVE_STYLE = "ManageStyles.jsp";
 
     @Inject
     @Pager( listBookmark = MARK_STYLESHEET_LIST, defaultItemsPerPage = PROPERTY_STYLESHEETS_PER_PAGE)
     private IPager<StyleSheet, Void> pager;
-    
+    @Inject Models model;
     /**
      * Displays the stylesheets list
      * 
@@ -158,7 +159,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listStyleSheets, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
             
         }
-        pager.setList( listStyleSheets);
 
         String strURL = getHomeUrl( request );
 
@@ -171,14 +171,13 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         {
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
-        pager.setBaseUrl( strURL );
+               
+        pager.withIdList( listStyleSheets)
+        .withBaseUrl(strURL)
+        .populateModels(request,model, getLocale());
 
-        Map<String, Object> pagerModel = pager.getPaginatedListModel( request, getLocale() );
-        
-        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MODE_ID, strModeId );
         model.put( MARK_MODE_LIST, listModes );
-        model.putAll( pagerModel );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_STYLESHEETS, getLocale( ), model );
 
@@ -196,7 +195,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     {
         String strModeId = request.getParameter( Parameters.MODE_ID );
 
-        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_MODE_ID, strModeId );
@@ -306,7 +304,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strStyleSheetId = request.getParameter( Parameters.STYLESHEET_ID );
         int nId = Integer.parseInt( strStyleSheetId );
 
-        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_STYLESHEET, StyleSheetHome.findByPrimaryKey( nId ) );
@@ -329,7 +326,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         for ( Style style : stylesList )
         {
-            HashMap<String, Object> model = new HashMap<>( );
             model.put( MARK_PORTAL_COMPONENT_NAME, PortalComponentHome.findByPrimaryKey( style.getPortalComponentId( ) ).getName( ) );
 
             PortletType portletType = PortletTypeHome.findByPrimaryKey( style.getPortletTypeId( ) );
@@ -420,7 +416,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         int nIdStyle = Integer.parseInt( request.getParameter( Parameters.STYLE_ID ) );
         StyleSheetHome.remove( nId );
 
-        return JSP_REMOVE_STYLE + "?" + Parameters.STYLE_ID + "=" + nIdStyle;
+        return JSP_REMOVE_STYLE + "?" + "view=getConfirmRemoveStyle&id=" + nIdStyle;
     }
 
     // ////////////////////////////////////////////////////////////////////////////////

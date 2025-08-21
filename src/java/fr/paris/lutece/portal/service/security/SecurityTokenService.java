@@ -39,8 +39,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -55,6 +58,8 @@ public class SecurityTokenService implements ISecurityTokenService
     public static final String MARK_TOKEN = "token";
     public static final String PARAMETER_TOKEN = "token";
     private static final String PARAMETER_SESSION_TOKENS = "tokens";
+    @Inject 	
+    private Instance<Models> modelInstance;
 
     /**
      * SecurityTokenService
@@ -103,10 +108,24 @@ public class SecurityTokenService implements ISecurityTokenService
         }
 
         hashTokens.get( strAction ).add( strToken );
-
+        fillSecurityToken( strToken );
+        
         return strToken;
     }
-
+    /**
+     * Fill the model with security token
+     * 
+     * @param strToken
+     *            The token
+     */
+    private void fillSecurityToken( String  strToken )
+    {
+    	Models model = modelInstance.get();
+        if (model != null) {
+            model.put( SecurityTokenHandler.MARK_CSRF_TOKEN, strToken );
+        }                
+    }
+    
     /**
      * {@inheritDoc}
      */

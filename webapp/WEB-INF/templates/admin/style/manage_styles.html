@@ -1,30 +1,48 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title='#i18n{portal.style.manage_styles.title}'>
-            <@offcanvas targetUrl="jsp/admin/style/CreateStyle.jsp" targetElement="#create-style-form" redirectForm=false id="style-create" title="#i18n{portal.style.manage_styles.buttonCreate}" btnTitle="#i18n{portal.style.manage_styles.buttonCreate}" btnIcon="plus" position="end" hideTitle=['xs'] />
-        </@pageHeader>
-        <@table headBody=true >
-            <@tr>
-                <@th> #i18n{portal.style.manage_styles.labelId} <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="id" /> </@th>
-                <@th> #i18n{portal.style.manage_styles.labelName} <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="description" /> </@th>
-                <@th> #i18n{portal.style.manage_styles.labelComponentType} <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="portalComponentName" /> </@th>
-                <@th>#i18n{portal.style.manage_styles.labelPortletType}</@th>
-                <@th>#i18n{portal.style.manage_styles.labelActions}</@th>
-            </@tr>
-            <@tableHeadBodySeparator />
-            <#list style_list as style>
-                <@tr>
-                    <@td>${style.id}</@td>
-                    <@td>${style.description}</@td>
-                    <@td>${style.portalComponentName}</@td>
-                    <@td>#i18n{${style.portletTypeName}}</@td>
-                    <@td>
-                        <@offcanvas targetUrl="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}" targetElement="#modify-style-form" redirectForm=false id="style-modify-${style.id}" title="#i18n{portal.util.labelModify} ${style.description}" btnIcon="edit" btnSize='sm' position='end' />
-                        <@aButton href='jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}' buttonIcon='trash' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] size='sm' color='danger' />
-                    </@td>
-                </@tr>
-            </#list>
-        </@table>
-        <@paginationAdmin paginator=paginator combo=1 />
-    </@pageColumn>
+            <@offcanvas targetUrl="jsp/admin/style/ManageStyles.jsp?view=getCreateStyle" targetElement="#create-style-form" redirectForm=false id="style-create" title="#i18n{portal.style.manage_styles.buttonCreate}" btnTitle="#i18n{portal.style.manage_styles.buttonCreate}" btnIcon="plus" position="end" hideTitle=['xs'] />
+        </@pageHeader>        
+    <#-- Exemple avec personnalisation supplémentaire -->
+    <#-- Définition des colonnes de la table -->
+	<#assign styleColumns = [
+	  {"name": "#i18n{portal.style.manage_styles.labelId}", "property": "id", "sortable": false},
+	  {"name": "#i18n{portal.style.manage_styles.labelName}", "property": "description", "sortable": true},
+	  {"name": "#i18n{portal.style.manage_styles.labelComponentType}", "property": "portalComponentName", "sortable": false},
+	  {"name": "#i18n{portal.style.manage_styles.labelPortletType}", "property": "portletTypeName", "sortable": false}
+	]>
+	           
+	<#-- Définition des actions -->
+	  <#assign styleActions = {
+	    "edit": {
+	      "url": "jsp/admin/style/ManageStyles.jsp?view=getModifyStyle&id={id}",
+	      "icon": "edit",
+	      "title": "#i18n{portal.util.labelModify}",
+	      "btnClass": "btn-primary btn-sm",
+	      "offcanvas": {
+	        "targetElement": "#modify-style-form",
+	        "position": "end"
+	      }
+	    },
+	    "delete": {
+	      "url": "jsp/admin/style/ManageStyles.jsp?view=getConfirmRemoveStyle&id={id}",
+	      "icon": "trash",
+	      "title": "#i18n{portal.util.labelDelete}",
+	      "btnClass": "btn-danger btn-sm",
+	      "confirm": "false"
+	    }
+	  }>
+	
+	<#-- Page complète avec navigation -->
+	  <#-- Table avec pagination AJAX -->
+	  <@paginationAjax 
+	    paginator=paginator 
+	    columns=styleColumns 
+	    ajaxUrl="jsp/admin/style/ManageStyles.jsp?action=getStyleItems"
+	    tableId="stylesTable"
+	    combo=1
+	    showcount=1
+	    actions=styleActions
+	  />
+ </@pageColumn>  
 </@pageContainer>

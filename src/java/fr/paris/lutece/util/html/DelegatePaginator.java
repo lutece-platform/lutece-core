@@ -121,4 +121,10 @@ public class DelegatePaginator<E> extends AbstractPaginator<E>
     {
         return _list;
     }
+
+	@Override
+	public List<E> getPageItems(int nPage) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getPageItems'");
+	}
 }

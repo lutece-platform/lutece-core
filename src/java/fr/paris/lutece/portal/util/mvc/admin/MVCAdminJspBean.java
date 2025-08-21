@@ -88,9 +88,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private static final long serialVersionUID = 278165302545398831L;
 
     // markers
-    private static final String MARK_ERRORS = "errors";
-    private static final String MARK_INFOS = "infos";
-    private static final String MARK_WARNINGS = "warnings";
+    protected static final String MARK_ERRORS = "errors";
+    protected static final String MARK_INFOS = "infos";
+    protected static final String MARK_WARNINGS = "warnings";
     
 
     // instance vars

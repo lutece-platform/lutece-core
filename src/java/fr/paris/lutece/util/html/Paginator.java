@@ -132,4 +132,15 @@ public class Paginator<E> extends AbstractPaginator<E>
 
         return list;
     }
+
+    @Override
+	public List<E> getPageItems(int nPage) {
+    	
+    	_nPageCurrent = nPage;
+        if ( _nPageCurrent > getPagesCount( ) )
+        {
+            _nPageCurrent = 1;
+        }
+    	return getPageItems( );
+    }
 }

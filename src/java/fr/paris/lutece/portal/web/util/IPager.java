@@ -35,66 +35,75 @@ package fr.paris.lutece.portal.web.util;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
+import fr.paris.lutece.util.html.IPaginator;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * 
- * @param <S>
- * @param <T>
+ * Interface representing a pager for managing pagination of items.
+ *
+ * @param <S> The type of source objects (e.g., IDs or items).
+ * @param <T> The type of target objects (e.g., fully loaded objects).
  */
 public interface IPager<S, T>
 {
     /**
-     * Gets the name
-     * 
-     * @return The name of the pager
+	 * Allows to update the base url of the pager in case this url should be dynamic.
+	 * 
+	 * @return The IPager instance with the updated base URL
+	 */
+    IPager<S, T> withBaseUrl(String baseUrl);
+    /**
+    * Sets the default number of items per page.
+    *
+    * @param defaultItemsPerPage The default number of items per page.
+    * @return The updated IPager instance.
+    */
+    IPager<S, T> withItemsPerPage(int defaultItemsPerPage);
+    /**
+     * Sets the list of IDs of type <S>. This list will be used to load the objects of type <T>
+     * through the `getPaginatedListModel` method with a delegate function.
+     *
+     * @param idList The list of IDs to set.
+     * @return The updated IPager instance.
      */
-    String getName( );
+    IPager<S, T> withIdList(List<S> idList);
+    /**
+     * Sets the list of items directly. This method should be used when the pager is of type
+     * `IPager<S, Void>` and no delegate function is involved during page retrieval.
+     *
+     * @param listItem The list of items to set.
+     * @return The updated IPager instance.
+     */
+    IPager<S, T> withListItem(List<S> listItem);
+ 
+    /**
+     * Populates the given Models object with pagination data.
+     *
+     * @param request The HTTP request object.
+     * @param models The Models object to populate.
+     * @param locale The locale for internationalization.
+     */
+    IPaginator<S> populateModels(HttpServletRequest request, Models models, Locale locale);
 
     /**
-     * Returns the paged list model based on the List provided through initList method.
-     * 
-     * @param <T>
-     * @param request
-     * @param locale
-     * @return
+     * Populates the given Models object with pagination data using a delegate function.
+     *
+     * @param request The HTTP request object.
+     * @param models The Models object to populate.
+     * @param delegate A function that takes a list of source objects and returns a list of target objects.
+     * @param locale The locale for internationalization.
      */
-    <T> Map<String, Object> getPaginatedListModel( HttpServletRequest request, Locale locale );
+    IPaginator<S> populateModels(HttpServletRequest request, Models models, Function<List<S>, List<T>> delegate, Locale locale);
 
+    
     /**
-     * Returns the paged list model based on the List provided through initIdList method and the delegate function to load the objects with their ids.
-     * 
-     * @param <T>
-     * @param request
-     * @param delegate
-     * @param locale
-     * @return
+     * Retrieves the optional paginator instance associated with this pager.
+     *
+     * @return An {@link Optional} containing the {@link IPaginator} instance if available, or an empty {@link Optional} if not.
      */
-    <T> Map<String, Object> getPaginatedListModel( HttpServletRequest request, Function<List<S>, List<T>> delegate, Locale locale );
-
-    /**
-     * Set the list of IDs <S>. This list will be used to load the objects <T> through getPaginatedListModel method with a delegate on the concrete method that
-     * will load the complete objects.
-     * 
-     * @param listIds
-     */
-    void setIdList( List<S> listIds );
-
-    /**
-     * Set the list of items. In that case, no delegate will be involved during the retrieval of a page. This method should be used when the pager is of type
-     * IPager<S, Void>.
-     * 
-     * @param listItems
-     */
-    void setList( List<S> listItems );
-
-    /**
-     * Allows to update the base url of the pager in case this url should be dynamic.
-     * 
-     * @param strBaseUrl
-     */
-    void setBaseUrl( String strBaseUrl );
+    Optional<IPaginator<S>> getPaginator();
 }

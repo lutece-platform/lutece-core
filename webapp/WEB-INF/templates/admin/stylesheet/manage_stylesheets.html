@@ -11,7 +11,7 @@
             </@tform>
             <@offcanvas targetUrl="jsp/admin/style/CreateStyleSheet.jsp?mode_id=${mode_id}" targetElement="#create-stylesheet-form" redirectForm=false id="stylesheet-create" title="#i18n{portal.style.manage_stylesheets.buttonAdd}" btnTitle="#i18n{portal.style.manage_stylesheets.buttonAdd}" btnIcon="plus" position="end" />
         </@pageHeader>
-        <#if stylesheet_list?size gt 1>
+        <#if stylesheet_list?size gte 1>
             <@table headBody=true>
                 <@tr>
                     <@th>#i18n{portal.style.manage_stylesheets.columnName} <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="description" /></@th>

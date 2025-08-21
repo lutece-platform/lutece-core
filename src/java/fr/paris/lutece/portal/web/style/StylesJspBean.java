@@ -43,6 +43,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -57,8 +58,16 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
-import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.binding.BindingResult;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.ModelAttribute;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.RequestParam;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.ResponseBody;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.IPager;
 import fr.paris.lutece.portal.web.util.Pager;
@@ -70,7 +79,8 @@ import fr.paris.lutece.util.sort.AttributeComparator;
  */
 @RequestScoped
 @Named
-public class StylesJspBean extends AdminFeaturesPageJspBean
+@Controller( controllerJsp = "ManageStyles.jsp", controllerPath = "jsp/admin/style/", right = "CORE_STYLES_MANAGEMENT", securityTokenEnabled=true )
+public class StylesJspBean extends MVCAdminJspBean
 {
     // ////////////////////////////////////////////////////////////////////////////////
     // Constants
@@ -86,6 +96,19 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
      */
     private static final long serialVersionUID = 7138319350433775587L;
 
+ // Views
+    private static final String VIEW_MANAGE_STYLES = "manageStyles";
+    private static final String VIEW_CREATE_STYLE = "getCreateStyle";
+    private static final String VIEW_MODIFY_STYLE = "getModifyStyle";
+    private static final String VIEW_CONFIRM_REMOVE_STYLE = "getConfirmRemoveStyle";
+    
+    // Actions
+    private static final String ACTION_GET_STYLE_ITEMS = "getStyleItems";
+    private static final String ACTION_CREATE_STYLE = "createStyle";
+    private static final String ACTION_MODIFY_STYLE = "modifyStyle";
+    private static final String ACTION_REMOVE_STYLE = "removeStyle";
+
+
     // Markers
     private static final String MARK_STYLE_LIST = "style_list";
     private static final String MARK_PORTLET_TYPE_LIST = "portlet_type_list";
@@ -95,6 +118,12 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     // Properties
     private static final String PROPERTY_STYLES_PER_PAGE = "paginator.style.itemsPerPage";
 
+    public static final String PORTLET_TYPE = "portletTypeId";
+    public static final String STYLE_ID = "id";
+    public static final String STYLE_NAME = "description";
+    public static final String STYLES = "styles";
+    public static final String PORTAL_COMPONENT = "portalComponentId";
+    
     // Templates files path
     private static final String TEMPLATE_MANAGE_STYLES = "admin/style/manage_styles.html";
     private static final String TEMPLATE_CREATE_STYLE = "admin/style/create_style.html";
@@ -104,7 +133,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     private static final int PORTAL_COMPONENT_ID_PORTLET = 0;
 
     // Jsp Definition
-    private static final String JSP_DO_REMOVE_STYLE = "jsp/admin/style/DoRemoveStyle.jsp";
+    private static final String JSP_DO_REMOVE_STYLE = "jsp/admin/style/ManageStyles.jsp";
     private static final String JSP_DO_REMOVE_STYLESHEET = "jsp/admin/style/DoRemoveStyleSheet.jsp";
 
     // Message keys
@@ -116,18 +145,26 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CREATE_STYLE_COMPONENT_EXISTS = "portal.style.message.createStyle.componentHasAlreadyAStyle";
     private static final String MESSAGE_CONFIRM_DELETE_STYLESHEET = "portal.style.message.stylesheetConfirmDelete";
     
+    // Infos
+    private static final String INFO_STYLE_CREATED = "portal.style.info.style.created";
+    private static final String INFO_STYLE_UPDATED = "portal.style.info.style.updated";
+    private static final String INFO_STYLE_REMOVED = "portal.style.info.style.removed";
+    
     @Inject
     @Pager( listBookmark = MARK_STYLE_LIST, defaultItemsPerPage = PROPERTY_STYLES_PER_PAGE)
     private IPager<Style, Void> pager;
-
+    
     /**
-     * Displays the styles list
-     * 
-     * @param request
-     *            The HTTP request
-     * @return the html code for displaying the styles list
-     */
-    public String getStylesManagement( HttpServletRequest request )
+    * Displays the list of styles in the management view.
+    *
+    * @param model
+    *            the model used to pass attributes to the view
+    * @param request
+    *            the HTTP request
+    * @return the HTML code of the styles management page
+    */
+    @View( value = VIEW_MANAGE_STYLES, defaultView = true )
+    public String getStylesManagement(  Models model, HttpServletRequest request )
     {
         List<Style> listStyles = (List<Style>) StyleHome.getStylesList( );
 
@@ -142,7 +179,6 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
 
             Collections.sort( listStyles, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
-        pager.setList( listStyles );
 
         String strURL = getHomeUrl( request );
 
@@ -155,28 +191,39 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         {
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
-        pager.setBaseUrl( strURL );
-
-        Map<String, Object> model = pager.getPaginatedListModel( request, getLocale() );
-        
+        pager.withBaseUrl(strURL)
+        .withListItem(listStyles)
+        .populateModels(request, model, getLocale());
+                
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_STYLES, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
 
     /**
+     * Retrieves a paginated list of style items for the specified page number.
+     *
+     * @param numPage The page number to retrieve.
+     * @return A list of style items for the specified page.
+     */
+    @Action( value = ACTION_GET_STYLE_ITEMS )
+	@ResponseBody
+    public List<Style> getStyleItems( @RequestParam("page") int numPage )
+    {
+    	return pager.getPaginator().get().getPageItems(numPage);
+    }
+    /**
      * Returns the create form of a new style
      * 
-     * @param request
-     *            The http request
+     * @param model
+     *            The Models
      * @return The html code for the create form of a new style
      */
-    public String getCreateStyle( HttpServletRequest request )
+    @View( value = VIEW_CREATE_STYLE, securityTokenAction = ACTION_CREATE_STYLE )
+    public String getCreateStyle( Models model)
     {
-        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_STYLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_STYLE, getLocale( ), model );
 
@@ -184,85 +231,62 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new style by recovering the parameters in the http request
-     * 
+     * Handles the creation of a new style by validating the form inputs, 
+     * checking for conflicts, and persisting the style if valid.
+     *
+     * @param style
+     *            the style object bound from the creation form
+     * @param bindingResult
+     *            the result of the validation of the style object
+     * @param model
+     *            the model used to pass attributes to the view
      * @param request
-     *            the http request
-     * @return The Jsp URL of the process result
+     *            the HTTP request
+     * @return the JSP URL or redirect URL of the process result
      * @throws AccessDeniedException
-     *             If the security token is invalid
+     *             if the security token is invalid
      */
-    public String doCreateStyle( HttpServletRequest request ) throws AccessDeniedException
+    @Action( value = ACTION_CREATE_STYLE )
+    public String doCreateStyle(@Valid @ModelAttribute Style style, BindingResult bindingResult, Models model, HttpServletRequest request ) throws AccessDeniedException
     {
-        String strId = request.getParameter( Parameters.STYLE_ID );
-
-        // Mandatory fields
-        if ( request.getParameter( Parameters.STYLE_ID ).equals( "" ) || request.getParameter( Parameters.STYLE_NAME ).equals( "" ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        if(bindingResult.isFailed( )) {
+        	model.put(MARK_ERRORS, bindingResult.getAllErrors( ));
+        	return getCreateStyle( model);
         }
-
-        int nId;
-
-        try
-        {
-            nId = Integer.parseInt( strId );
-        }
-        catch( NumberFormatException nb )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_INVALID_FORMAT_ID, AdminMessage.TYPE_STOP );
-        }
-
-        Style styleExisting = StyleHome.findByPrimaryKey( nId );
+        Style styleExisting = StyleHome.findByPrimaryKey( style.getId( ) );
 
         if ( styleExisting != null )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_ID_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
+        	String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_ID_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
+            return redirect( request, strMessageUrl );
         }
 
-        int nPortalComponentId = Integer.parseInt( request.getParameter( Parameters.PORTAL_COMPONENT ) );
-
-        if ( StyleHome.checkStylePortalComponent( nPortalComponentId ) && ( nPortalComponentId != PORTAL_COMPONENT_ID_PORTLET ) )
+        if ( StyleHome.checkStylePortalComponent( style.getPortalComponentId( ) ) && ( style.getPortalComponentId( ) != PORTAL_COMPONENT_ID_PORTLET ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_COMPONENT_EXISTS, AdminMessage.TYPE_STOP );
+        	String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_COMPONENT_EXISTS, AdminMessage.TYPE_STOP );
+            return redirect( request, strMessageUrl );
         }
 
-        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_STYLE ) )
-        {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
-        }
-
-        // The style doesn't exist in the database, we can create it
-        Style style = new Style( );
-        style.setId( nId );
-        style.setDescription( request.getParameter( Parameters.STYLE_NAME ) );
-        style.setPortalComponentId( nPortalComponentId );
-
-        String strPortletTypeId = request.getParameter( Parameters.PORTLET_TYPE );
-        strPortletTypeId = ( strPortletTypeId != null ) ? strPortletTypeId : "";
-        style.setPortletTypeId( strPortletTypeId );
         StyleHome.create( style );
 
-        return getHomeUrl( request );
+        return redirectView(request, VIEW_MANAGE_STYLES );
     }
 
     /**
-     * Returns the form to update a style whose identifer is stored in the http request
-     * 
-     * @param request
-     *            The http request
-     * @return The html code
+     * Returns the form to update a style identified by its id.
+     *
+     * @param nStyleId
+     *            the identifier of the style to modify
+     * @param model
+     *            the model used to pass attributes to the view
+     * @return the HTML code of the update form
      */
-    public String getModifyStyle( HttpServletRequest request )
+    @View( value = VIEW_MODIFY_STYLE, securityTokenAction = ACTION_MODIFY_STYLE  )
+    public String getModifyStyle(  @RequestParam(STYLE_ID) int nStyleId, Models model )
     {
-        String strIdStyles = request.getParameter( Parameters.STYLE_ID );
-        int nStyleId = Integer.parseInt( strIdStyles );
-
-        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE, StyleHome.findByPrimaryKey( nStyleId ) );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_STYLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_STYLE, getLocale( ), model );
 
@@ -270,68 +294,60 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a style whose new parameters are stored in the http request
-     * 
+     * Processes the update of a style by validating the form inputs, 
+     * checking for conflicts, and persisting the modifications if valid.
+     *
+     * @param style
+     *            the style object bound from the update form
+     * @param nStyleId
+     *            the identifier of the style being updated
+     * @param bindingResult
+     *            the result of the validation of the style object
+     * @param model
+     *            the model used to pass attributes to the view
      * @param request
-     *            The http request
-     * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     *            the HTTP request
+     * @return the JSP URL or redirect URL of the process result
      */
-    public String doModifyStyle( HttpServletRequest request ) throws AccessDeniedException
+    @Action( value = ACTION_MODIFY_STYLE )
+    public String doModifyStyle( @Valid @ModelAttribute Style style, @RequestParam(STYLE_ID) int nStyleId,  BindingResult bindingResult, Models model, HttpServletRequest request )
     {
-        int nStyleId = Integer.parseInt( request.getParameter( Parameters.STYLE_ID ) );
-
-        // the portlet type can be not present the request if the portal component is not a portlet
-        String strPortletTypeId = request.getParameter( Parameters.PORTLET_TYPE );
-        strPortletTypeId = ( strPortletTypeId != null ) ? strPortletTypeId : "";
-
-        int nPortalComponentId = Integer.parseInt( request.getParameter( Parameters.PORTAL_COMPONENT ) );
-        String strStyleDescription = request.getParameter( Parameters.STYLE_NAME );
-
-        if ( strStyleDescription.trim( ).equals( "" ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+    	if(bindingResult.isFailed( )) {
+        	model.put(MARK_ERRORS, bindingResult.getAllMessages());
+        	return getModifyStyle( nStyleId, model);
         }
+        Style styleOld = StyleHome.findByPrimaryKey( nStyleId );
+        int nPortalComponentOld = styleOld.getPortalComponentId( );
 
-        Style style = StyleHome.findByPrimaryKey( nStyleId );
-        int nPortalComponentOld = style.getPortalComponentId( );
-
-        if ( StyleHome.checkStylePortalComponent( nPortalComponentId ) && ( nPortalComponentId != PORTAL_COMPONENT_ID_PORTLET )
-                && ( nPortalComponentId != nPortalComponentOld ) )
+        if ( StyleHome.checkStylePortalComponent( style.getPortalComponentId() ) && ( style.getPortalComponentId() != PORTAL_COMPONENT_ID_PORTLET )
+                && ( style.getPortalComponentId() != nPortalComponentOld ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_COMPONENT_EXISTS, AdminMessage.TYPE_STOP );
+            String strMessageUrl= AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_COMPONENT_EXISTS, AdminMessage.TYPE_STOP );
+            return redirect( request, strMessageUrl );
         }
-        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_STYLE ) )
-        {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
-        }
-
-        style.setPortletTypeId( strPortletTypeId );
-        style.setPortalComponentId( nPortalComponentId );
-        style.setDescription( strStyleDescription );
         StyleHome.update( style );
-
-        return getHomeUrl( request );
+        return redirectView(request, VIEW_MANAGE_STYLES );
     }
 
     /**
-     * Returns the confirm of removing the style whose identifier is in the http request
+     * Returns the confirmation page for removing a style identified by its id.
      *
+     * @param nId
+     *            the identifier of the style to remove
      * @param request
-     *            The Http request
-     * @return the html code for the remove confirmation page
+     *            the HTTP request
+     * @return the HTML code of the remove confirmation page
      */
-    public String getConfirmRemoveStyle( HttpServletRequest request )
+    @View( value = VIEW_CONFIRM_REMOVE_STYLE, securityTokenAction = ACTION_REMOVE_STYLE )
+    public String getConfirmRemoveStyle( @RequestParam(STYLE_ID) int nId, HttpServletRequest request )
     {
-        String strId = request.getParameter( Parameters.STYLE_ID );
-        int nId = Integer.parseInt( strId );
         Collection<PortletImpl> listPortlets = PortletHome.getPortletListByStyle( nId );
         Collection<StyleSheet> listStyleSheets = StyleHome.getStyleSheetList( nId );
 
         if ( CollectionUtils.isNotEmpty( listPortlets ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANT_DELETE_STYLE_PORTLETS, AdminMessage.TYPE_STOP );
+            String strMessageUrl= AdminMessageService.getMessageUrl( request, MESSAGE_CANT_DELETE_STYLE_PORTLETS, AdminMessage.TYPE_STOP );
+            return redirect( request, strMessageUrl );
         }
 
         if ( CollectionUtils.isNotEmpty( listStyleSheets ) )
@@ -344,39 +360,37 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
 
                 Map<String, Object> parameters = new HashMap<>( );
                 parameters.put( Parameters.STYLESHEET_ID, Integer.toString( styleSheet.getId( ) ) );
-                parameters.put( Parameters.STYLE_ID, Integer.toString( styleSheet.getStyleId( ) ) );
+                parameters.put( Parameters.STYLE_ID, nId );
                 parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
-                return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null,
-                        AdminMessage.TYPE_CONFIRMATION, parameters );
+
+                String strMessageUrl= AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null,
+                        AdminMessage.TYPE_CONFIRMATION, parameters );        
+                return redirect( request, strMessageUrl );
+
             }
         }
 
         Map<String, String> parameters = new HashMap<>( );
-        parameters.put( Parameters.STYLE_ID, Integer.toString( nId ) );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_STYLE ) );
-
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, JSP_DO_REMOVE_STYLE, AdminMessage.TYPE_CONFIRMATION, parameters );
+        parameters.put( STYLE_ID, Integer.toString( nId ) );
+        parameters.put(MVCUtils.PARAMETER_ACTION, ACTION_REMOVE_STYLE);
+        
+        String strMessageUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, JSP_DO_REMOVE_STYLE, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return redirect( request, strMessageUrl );
     }
 
     /**
-     * Processes the deletion of a style
-     * 
+     * Processes the deletion of a style identified by its id.
+     *
+     * @param nId
+     *            the identifier of the style to remove
      * @param request
-     *            the http request
-     * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     *            the HTTP request
+     * @return the JSP URL or redirect URL of the process result
      */
-    public String doRemoveStyle( HttpServletRequest request ) throws AccessDeniedException
+    @Action( value = ACTION_REMOVE_STYLE )
+    public String doRemoveStyle( @RequestParam(STYLE_ID) int nId, HttpServletRequest request )
     {
-        if ( !getSecurityTokenService( ).validate( request, JSP_DO_REMOVE_STYLE ) )
-        {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
-        }
-        String strId = request.getParameter( Parameters.STYLE_ID );
-        int nId = Integer.parseInt( strId );
         StyleHome.remove( nId );
-
-        return getHomeUrl( request );
+        return redirectView(request, VIEW_MANAGE_STYLES );
     }
 }

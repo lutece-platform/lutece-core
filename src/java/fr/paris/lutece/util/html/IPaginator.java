@@ -68,6 +68,13 @@ public interface IPaginator<E> extends Serializable
      * @return The List
      */
     List<E> getPageItems( );
+    
+    /**
+     * Returns the List
+     *
+     * @return The List
+     */
+    List<E> getPageItems( int nPage);
 
     /**
      * Returns the current page index

@@ -33,16 +33,29 @@
  */
 package fr.paris.lutece.portal.business.style;
 
+import fr.paris.lutece.portal.web.constants.Messages;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 /**
  * This class represents style business objects
  */
 public class Style
 {
     private static final String EMPTY_STRING = "";
+
+    @Positive( message = "#i18n{portal.style.message.createStyle.InvalidIdFormat}")
     private int _nId;
+
     private int _nPortalComponentId;
-    private String _strPortletTypeId;
+
+    private String _strPortletTypeId="";
+
+    @NotBlank( message = "#i18n{"+Messages.MANDATORY_FIELDS +"}")
     private String _strDescription;
+    
     private String _strPortletTypeName;
     private String _strPortalComponentName;
 
