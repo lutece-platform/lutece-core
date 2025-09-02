@@ -62,7 +62,11 @@ import jakarta.servlet.http.HttpServletResponse;
 public final class ThemesService
 {
     public static final String GLOBAL_THEME = "default";
+<<<<<<< HEAD
     private static final String THEME_PLUGIN_NAME = "theme";
+=======
+    private static final String BEAN_THEME_SERVICE = "themeService";
+>>>>>>> b3df3401f (LUT-30367: Remove create, delete and update theme code add theme default global code and version in lutece datastore)
     private static final String COOKIE_NAME = "theme";
     private static final String THEME_TEST = "theme_test";
     private static final String BEAN_THEME_SERVICE = "theme.themeService";
@@ -309,11 +313,6 @@ public final class ThemesService
     {
         IThemeService themeService = null;
 
-        if ( !isAvailable( ) )
-        {
-            throw new ThemeNotAvailableException( );
-        }
-     
         try
         {
         	themeService= CDI.current()
@@ -358,23 +357,6 @@ public final class ThemesService
         theme.setThemeVersion( strThemeVersion );
 
         return theme;
-    }
-
-    /**
-     * Check if the theme service is available. It must have the following requirement to be available :
-     * <ul>
-     * <li>The <code>plugin-theme</code> is activated</li>
-     * <li>The pool of the <code>plugin-theme</code> is defined</li>
-     * </ul>
-     * 
-     * @return true if it is available, false otherwise
-     */
-    public static boolean isAvailable( )
-    {
-        Plugin pluginTheme = PluginService.getPlugin( THEME_PLUGIN_NAME );
-
-        return PluginService.isPluginEnable( THEME_PLUGIN_NAME ) && ( pluginTheme.getDbPoolName( ) != null )
-                && !AppConnectionService.NO_POOL_DEFINED.equals( pluginTheme.getDbPoolName( ) );
     }
 
     /**

@@ -22,11 +22,12 @@
 <#macro cTpl tpl=''>
 <#local tplName><#if tpl=''>${.caller_template_name?keep_after("skin/")}<#else>${tpl}</#if></#local>
 <#local tplPath='../themes/${commonsGlobalThemeCode}/tpl/${tplName}' >
-<#attempt>
-<#include tplPath >
-<#recover>
+<#assign optTemp = .get_optional_template( tplPath )>
+<#if optTemp.exists>
+<@optTemp.include />
+<#else>
 <#nested> 
-</#attempt>
+</#if>
 </#macro>
 <#-- THEME SPEC                            -->
 <#include "${commonsGlobalThemeCode}/_theme.ftl" />

@@ -56,45 +56,6 @@ public final class ThemeHome
     }
 
     /**
-     * Creation of an instance of a theme
-     *
-     * @param theme An instance of a theme which contains the informations to store
-
-     * @return The instance of a theme which has been created with its primary key.
-     */
-    public static Theme create( Theme theme )
-    {
-        _dao.insert( theme );
-
-        return theme;
-    }
-
-    /**
-     * Update of the theme which is specified
-     *
-     * @param theme The instance of the theme which contains the data to store
-
-     * @return The instance of the theme which has been updated
-     */
-    public static Theme update( Theme theme )
-    {
-        _dao.store( theme );
-
-        return theme;
-    }
-
-    /**
-     * Remove the theme whose identifier is specified in parameter
-     *
-     * @param strCodeTheme The identifier of the theme to remove
-
-     */
-    public static void remove( String strCodeTheme )
-    {
-        _dao.delete( strCodeTheme );
-    }
-
-    /**
      * Returns an instance of an theme whose identifier is specified in parameter
      *
      * @param strCodeTheme The theme primary key
@@ -148,9 +109,9 @@ public final class ThemeHome
      *
      * @param strGlobalTheme The Global Theme
      */
-    public static void setGlobalTheme( String strGlobalTheme )
+    public static void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion )
     {
-        _dao.setGlobalTheme( strGlobalTheme );
+        _dao.setGlobalTheme( strGlobalTheme, strGlobalThemeVersion );
     }
 
     /**
