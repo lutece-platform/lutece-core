@@ -157,39 +157,7 @@ public class ThemeService implements IThemeService
      */
      public void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion  )
     {
-        ThemeHome.setGlobalTheme( strGlobalTheme );
-    }
-
-    /**
-    * Creation of an instance of a theme
-    *
-    * @param theme An instance of a theme which contains the informations to store
-    * @return The instance of a theme which has been created with its primary key.
-    */
-    public Theme create( Theme theme )
-    {
-        return ThemeHome.create( theme );
-    }
-
-    /**
-    * Update of the theme which is specified
-    *
-    * @param theme The instance of the theme which contains the data to store
-    * @return The instance of the theme which has been updated
-    */
-    public Theme update( Theme theme )
-    {
-        return ThemeHome.update( theme );
-    }
-
-    /**
-    * Remove the theme whose identifier is specified in parameter
-    *
-    * @param strCodeTheme The identifier of the theme to remove
-    */
-    public void remove( String strCodeTheme )
-    {
-        ThemeHome.remove( strCodeTheme );
+        ThemeHome.setGlobalTheme( strGlobalTheme, strGlobalThemeVersion );
     }
 
     /**

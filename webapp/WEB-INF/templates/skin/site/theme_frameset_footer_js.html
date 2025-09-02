@@ -1,6 +1,7 @@
 <#-- Template to add js to footer in page_frameset.html theme template -->
 <@cTpl>
 <#-- Update ME -->
+<script src="themes/skin/shared/vendor/clipboard/clipboard.min.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <#if dskey('theme.site_property.bannerBrowserWarning.checkbox')?number = 1>
 <!-- Browser detection and warning old browser -->
 <script src="${thetheme.pathJs}/vendor/es5.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>

@@ -2,6 +2,10 @@
 <#assign commonsGlobalThemeCode=thetheme.codeTheme!>
 <#assign commonsGlobalThemeVersion=thetheme.themeVersion!>
 <#assign commonsGlobalThemeImg=thetheme.pathImages!>
+<#assign themeFrameset=.get_optional_template('../themes/${commonsGlobalThemeCode}/tpl/site/page_frameset.html')>
+<#if themeFrameset.exists>
+<@themeFrameset.include />
+<#else>
 <!DOCTYPE html>
 <html lang="${user_context_language}"<#if isRtl?boolean> dir="rtl"</#if>>
 <head>
@@ -100,8 +104,8 @@ ${plugins_javascript_links!}
 <#assign optUserFooter=.get_optional_template('theme_frameset_footer_user.html')>
 <#if optUserFooter.exists><@optUserFooter.include /></#if>
 </#if>
-<script src="themes/skin/shared/vendor/clipboard/clipboard.min.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <script src="themes/skin/shared/js/site.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <#if addGoToTop?? && addGoToTop?boolean><@cGoToTop /></#if>
 </body>
 </html>
+</#if>
