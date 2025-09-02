@@ -48,13 +48,13 @@ Parameters:
 			<#if style?contains('collapse')>
 				<#local widgetAction = 'collapse' />
 				<script>
-					$( function() {
-					<#if buttonIcon = 'minus'>
-						$("${buttonTargetId}").addClass("show");
-					<#else>
-						$("${buttonTargetId}").addClass("collapse");
-					</#if>
-					});
+				document.addEventListener('DOMContentLoaded', function() {
+				<#if buttonIcon = 'minus'>
+					document.querySelector("${buttonTargetId}").classList.add("show");
+				<#else>
+					document.querySelector("${buttonTargetId}").classList.add("collapse");
+				</#if>
+				});
 				</script>
 			<#elseif style?contains('remove')>
 				<#local widgetAction = 'remove' />

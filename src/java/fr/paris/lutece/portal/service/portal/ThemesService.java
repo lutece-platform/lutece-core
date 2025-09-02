@@ -65,8 +65,7 @@ import javax.servlet.http.HttpServletResponse;
 public final class ThemesService
 {
     public static final String GLOBAL_THEME = "default";
-    private static final String THEME_PLUGIN_NAME = "theme";
-    private static final String BEAN_THEME_SERVICE = "theme.themeService";
+    private static final String BEAN_THEME_SERVICE = "themeService";
     private static final String COOKIE_NAME = "theme";
     private static final String THEME_TEST = "theme_test";
 
@@ -312,11 +311,6 @@ public final class ThemesService
     {
         IThemeService themeService = null;
 
-        if ( !isAvailable( ) )
-        {
-            throw new ThemeNotAvailableException( );
-        }
-
         try
         {
             themeService = SpringContextService.getBean( BEAN_THEME_SERVICE );
@@ -358,23 +352,6 @@ public final class ThemesService
         theme.setThemeVersion( strThemeVersion );
 
         return theme;
-    }
-
-    /**
-     * Check if the theme service is available. It must have the following requirement to be available :
-     * <ul>
-     * <li>The <code>plugin-theme</code> is activated</li>
-     * <li>The pool of the <code>plugin-theme</code> is defined</li>
-     * </ul>
-     * 
-     * @return true if it is available, false otherwise
-     */
-    public static boolean isAvailable( )
-    {
-        Plugin pluginTheme = PluginService.getPlugin( THEME_PLUGIN_NAME );
-
-        return PluginService.isPluginEnable( THEME_PLUGIN_NAME ) && ( pluginTheme.getDbPoolName( ) != null )
-                && !AppConnectionService.NO_POOL_DEFINED.equals( pluginTheme.getDbPoolName( ) );
     }
 
     /**

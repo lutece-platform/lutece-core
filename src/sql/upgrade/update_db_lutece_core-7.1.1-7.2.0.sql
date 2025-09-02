@@ -1,5 +1,32 @@
 --
--- Add core_datastore theme values
+-- Remove core_theme_global -> core_datastore
+--
+DROP TABLE IF EXISTS core_theme_global;
+
+
+--
+-- Update core_theme datas
+--
+DROP TABLE IF EXISTS core_theme;
+CREATE TABLE IF NOT EXISTS core_theme (
+  code_theme varchar(25) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  theme_description varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  path_images varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  path_css varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  theme_author varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  theme_author_url varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  theme_version varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  theme_licence varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  path_js varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (code_theme)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DELETE FROM core_theme;
+
+INSERT INTO core_theme (code_theme, theme_description, path_images, path_css, theme_author, theme_author_url, theme_version, theme_licence, path_js) VALUES ('lutece', 'Lutece', 'images/', 'css', 'Ville de Paris', 'https://lutece.paris.fr', '1.0', 'BSD', 'js');
+
+--
+-- Update core_datastore keys
 --
 DELETE FROM core_datastore WHERE entity_key='theme.globalThemeCode';
 INSERT INTO core_datastore VALUES ('theme.globalThemeCode', 'lutece');

@@ -45,35 +45,13 @@ import java.util.Collection;
 public interface IThemeDAO
 {
     /**
-     * Insert a new record in the table.
-     *
-     * @param mode The mode object
-     */
-    void insert( Theme mode );
-
-    /**
      * load the data of Level from the table
      *
      * @param strCodeTheme The indentifier of the object Theme
      * @return The Instance of the object Theme
      */
     Theme load( String strCodeTheme );
-
-    /**
-     * Delete a record from the table
-     *
-     * @param strCodeTheme The indentifier of the object Theme
-
-     */
-    void delete( String strCodeTheme );
-
-    /**
-     * Update the record in the table
-     *
-     * @param theme The instance of the Theme to update
-     */
-    void store( Theme theme );
-
+    
     /**
      * Returns a list of all the themes
      *
@@ -94,7 +72,7 @@ public interface IThemeDAO
      * @param strGlobalTheme The Global Theme
 
      */
-    void setGlobalTheme( String strGlobalTheme );
+    void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion );
 
     /**
      * Returns the global theme
