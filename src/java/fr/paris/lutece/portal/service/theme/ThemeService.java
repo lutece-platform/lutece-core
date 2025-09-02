@@ -150,11 +150,12 @@ public class ThemeService implements IThemeService
         return ThemeHome.getThemesList(  );
     }
 
+
     /**
-         * Set the global theme
-         * @param strGlobalTheme the code theme of the global theme
-         */
-    public void setGlobalTheme( String strGlobalTheme )
+     * Set the global theme
+     * @param strGlobalTheme the code theme of the global theme
+     */
+     public void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion  )
     {
         ThemeHome.setGlobalTheme( strGlobalTheme );
     }

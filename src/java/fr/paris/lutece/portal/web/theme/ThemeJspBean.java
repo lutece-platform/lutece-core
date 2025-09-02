@@ -130,7 +130,7 @@ public class ThemeJspBean extends MVCAdminJspBean
 
         if ( !strTheme.isBlank() )
         {
-            ThemeService.getInstance(  ).setGlobalTheme( strTheme );
+            ThemeService.getInstance(  ).setGlobalTheme( strTheme, null );
             strUrl = getHomeUrl( request );
         }
         else
