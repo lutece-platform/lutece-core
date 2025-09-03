@@ -293,6 +293,11 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         AdminWorkgroupHome.create( adminWorkgroup );
         AdminWorkgroupHome.addUserForWorkgroup( getUser( ), strKey );
 
+        if( !getUser().getUserWorkgroups().contains( strKey ) )
+        {
+            getUser().getUserWorkgroups().add( strKey );
+        }
+
         return JSP_MANAGE_WORKGROUPS;
     }
 
