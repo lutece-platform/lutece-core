@@ -11,7 +11,7 @@ response.setDateHeader ("Expires", 0);
 %>
 <jsp:useBean id="adminMenu" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMenuJspBean" />
 <!DOCTYPE html>
-<html lang="<%= AdminUserService.getAdminUser( request ).getLocale().getLanguage() %>" >
+<html lang="<%= AdminUserService.getAdminUser( request ).getLocale().getLanguage() %>" dir="ltr" class="loading">
 <head>
 <base href="<%= AppPathService.getBaseUrl( request ) %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>

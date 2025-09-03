@@ -23,6 +23,7 @@ Parameters:
 - title (string, optional): the title text of the input field.
 - min (int, optional): the minimum value of the input field.
 - max (int, optional): the maximum value of the input field.
+- step (int, optional): the step value of the input field for number and time input.
 - params (string, optional): additional parameters for the input field.
 - mandatory (boolean, optional): whether the input field is required.
 - language (string, optional): the language code for date and time pickers.
@@ -43,22 +44,19 @@ Parameters:
 - datalist (string, optional): the comma-separated list of options for a datalist input.
 - accept (string, optional): the comma-separated list of options for a datalist input.
 - patternValidationRules (json, optional) : json with id, regex and message to associated with each help controller spans. 
-		example : [{'name':'idSpan1','regex':'regexSpan1','message':'messageSpan1'},{'name':'idSpan2',...}]
-		you can use the string "url" instead of a traditionnal regex if you want to validate an URL. example :  [{'name':'idSpan1','regex':'url','message':'messageSpan1'}]
+  	example : [{'name':'idSpan1','regex':'regexSpan1','message':'messageSpan1'},{'name':'idSpan2',...}]
+        you can use the string "url" instead of a traditionnal regex if you want to validate an URL. example : [{'name':'idSpan1','regex':'url','message':'messageSpan1'}]
 -->
-<#macro input name id='' type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 step=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false showImage=false fileURL='' fileName='' datalist='' accept='' params='' patternValidationRules=[] deprecated...>
+<#macro input name id='' type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 step=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist='' accept='' params='' patternValidationRules=[] deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if type='textarea'>
-	<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
+	<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if> <#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='url'  || type='range' || type='tel' || type='datalist'>
-	<input class="form-control<#if size!=''> form-control-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if autoComplete !=''> autocomplete="${autoComplete}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if accept!='' && type='file'>accept=${accept}</#if><#if min?number!=max?number> min="${min}"</#if><#if max?number!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if><#if type='datalist'> list="${name}_list"</#if>>
+	<input class="form-control<#if size!=''> form-control-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if> <#if patternValidationRules?? && patternValidationRules?size!=0>input-validation</#if>" type="${type}" name="${name}" value="${value}"<#if autoComplete !=''> autocomplete="${autoComplete}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if accept!='' && type='file'>accept=${accept}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if><#if type='datalist'> list="${name}_list"</#if>>
 	<#if type='file'>
 		<input type="hidden" id=${id}Key name="${name}Key" value="${value}" />
-		<#if showFileUrl && fileURL?? && fileName??>
-			<#if showImage><img src="${fileURL}" alt="${fileName}" class="img-thumbnail thumbnail thumbnail-sm" ></#if>
-			<@link href="${fileURL}">${fileName}</@link>
-		</#if>
+		<#if showFileUrl && fileURL?? && fileName??><@link href="${fileURL}">${fileName}</@link></#if>
 	</#if>
 	<#if type='datalist'>
 		<#if id !='' && datalist !='' >
@@ -141,11 +139,10 @@ Parameters:
     		input.addEventListener('input', function(event) {  
         		switchInteractiveValidationMessages(event.target);
     		});
-    		
     		input.dispatchEvent(new Event('input'));
 		});		
     });
 </script>
 <#assign validationInputIsLoaded = true />
-</#if>
+</#if> 
 </#macro>

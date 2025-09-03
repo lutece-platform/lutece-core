@@ -2,62 +2,62 @@
 <@tabPanel id='defaultUserParameterValues'>
 <#assign tabTitle>#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues} </#assign>
 <@pageHeader title="${tabTitle}" />
-
 <@tform method='post' name='default_user_parameters' action='jsp/admin/user/DoModifyDefaultUserParameterValues.jsp' boxed=true>
     <@input type='hidden' name='token' value='${token!""}' />
     <@input type='hidden' name='tab' value='defaultUserParameterValues' />
     <@row>
-    <@columns sm=12 md=12 lg=6 xl=6>
-        <!-- USER LEVEL -->
-        <@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.userLevelLabel}' labelFor='user_level' rows=2>
-            <@select id='user_level' name='user_level'>
-                <#list user_levels as user_level>
-                    <#if user_level.id = default_user_level.id>
-                        <option value="${user_level.id}" selected="selected">${user_level.name}</option>
-                    <#else>
-                        <option value="${user_level.id}">${user_level.name}</option>
-                    </#if>
-                </#list>
-            </@select>
-        </@formGroup>
-    </@columns>
-    
-    <@columns sm=12 md=12 lg=6 xl=6>
-        <!-- USER LANGUAGE -->
-        <@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelLanguage}' labelFor='language' rows=2>
-            <@select name='language' default_value='${default_user_language}' items=languages_list sort=true />
-        </@formGroup>
-    </@columns>
-    
-    <@columns sm=12 md=12 lg=6 xl=6>
-        <!-- USER STATUS -->
-        <@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelStatus}' labelFor='status' rows=2>
-            <@select id='status' name='status'>
-                <#if default_user_status = 1>
-                    <option value="0">#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
-                    <option value="1" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
-                <#else>
-                    <option value="0" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
-                    <option value="1">#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
-                </#if>
-            </@select>
-        </@formGroup>
-    </@columns>
-	<@columns sm=12 md=12 lg=6 xl=6>
-	<!-- USER NOTIFICATION -->
-	<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelNotify}' rows=2>
-		<#if default_user_notification = 1>
-			<@radioButton name='notify_user' value='1' orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' checked=true />
-			<@radioButton name='notify_user' value='0' orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' />
-		<#else>
-			<@radioButton name='notify_user' value='1' orientation='horizontal' labelKey='#i18n{portal.util.labelYes}'/>
-			<@radioButton name='notify_user' value='0' orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' checked=true />
-		</#if>
-	</@formGroup>
-</@columns>
-    <@columns sm=12 md=12 lg=12 xl=12>
-        <@formGroup>
-            <@button type='submit' buttonIcon='check' title='#i18n{portal.users.manage_advanced_parameters.buttonModify}' color='primary' />
+		<@columns md=6>
+			<!-- USER LEVEL -->
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.userLevelLabel}' labelFor='user_level' rows=2>
+				<@select id='user_level' name='user_level'>
+					<#list user_levels as user_level>
+						<#if user_level.id = default_user_level.id>
+							<option value="${user_level.id}" selected="selected">${user_level.name}</option>
+						<#else>
+							<option value="${user_level.id}">${user_level.name}</option>
+						</#if>
+					</#list>
+				</@select>
+			</@formGroup>
+		</@columns>
+		
+		<@columns md=6>
+			<!-- USER LANGUAGE -->
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelLanguage}' labelFor='language' rows=2>
+				<@select name='language' default_value='${default_user_language}' items=languages_list sort=true />
+			</@formGroup>
+		</@columns>
+		
+		<@columns md=6>
+			<!-- USER STATUS -->
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelStatus}' labelFor='status' rows=2>
+				<@select id='status' name='status'>
+					<#if default_user_status = 1>
+						<option value="0">#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
+						<option value="1" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
+					<#else>
+						<option value="0" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
+						<option value="1">#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
+					</#if>
+				</@select>
+			</@formGroup>
+		</@columns>
+		
+		<@columns md=6>
+			<!-- USER NOTIFICATION -->
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelNotify}' rows=2>
+				<#if default_user_notification = 1>
+					<@radioButton name='notify_user' value='1' orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' checked=true />
+					<@radioButton name='notify_user' value='0' orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' />
+				<#else>
+					<@radioButton name='notify_user' value='1' orientation='horizontal' labelKey='#i18n{portal.util.labelYes}'/>
+					<@radioButton name='notify_user' value='0' orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' checked=true />
+				</#if>
+			</@formGroup>
+		</@columns>
+		<@columns>
+			<@formGroup rows=2>
+				<@button type='submit' buttonIcon='check' title='#i18n{portal.users.manage_advanced_parameters.buttonModify}' color='primary' />
 			</@formGroup>
 		</@columns>
 		</@row>

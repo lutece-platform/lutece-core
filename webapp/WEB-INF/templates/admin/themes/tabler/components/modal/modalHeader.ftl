@@ -8,8 +8,8 @@ Parameters:
 -->
 <#macro modalHeader titleLevel='h4' modalTitle='' id='' params=''>
 <div class="modal-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<${titleLevel} class="modal-title">${modalTitle}</${titleLevel}>
+	<${titleLevel} class="modal-title fs-2">${modalTitle}</${titleLevel}>
 	<#nested>
-	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="#i18n{portal.admin_page.buttonClosed}"></button>
+	<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="#i18n{portal.site.admin_page.buttonClosed}"></button>
 </div>
 </#macro>

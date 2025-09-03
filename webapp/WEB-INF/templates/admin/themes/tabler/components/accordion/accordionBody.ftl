@@ -11,6 +11,8 @@ Parameters:
 -->
 <#macro accordionBody id=childId class=childClass expanded=expanded params=''>
 <div id="${id}" class="accordion-collapse ${class}" aria-labelledby="${childId}-header" data-bs-parent="#${parentId}" <#if params!=''> ${params}</#if>>
-<#nested>
+<@boxBody>
+	<#nested>
+</@boxBody>
 </div>
 </#macro>

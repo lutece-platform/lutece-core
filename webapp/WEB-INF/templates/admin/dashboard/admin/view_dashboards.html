@@ -36,47 +36,80 @@
     </@pageColumn>
 </@pageContainer>
 <#noparse>
-<script type="module">
-const tabsLink = (element) => {
-  const tabs = element.querySelectorAll('.nav-link');
-  for (const tab of tabs) {
-    tab.addEventListener('show.bs.tab', (e) => {
-      const url = new URL(window.location.href);
-      url.searchParams.set('tab', e.target.getAttribute('href').substring(1));
-      window.history.pushState({}, '', url);
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const tabListParent = document.getElementById('adminTechnicalList');
+    const tabList = tabListParent.querySelectorAll('.nav-link');
+    const tabListContent = document.getElementById('admin-tab-content').querySelectorAll('.tab-pane');
+
+    tabListContent.forEach((content) => {
+        const contentId = content.getAttribute('id');
+        const contentTitle = content.getAttribute('title');
+        const contentIcon = content.dataset.icon !='' ? content.dataset.icon : 'settings';
+        const contentNav = content.dataset.nav !='' ? content.dataset.nav : 'settings';
+        const isMatchFound = Array.from(tabList).some((tab) => {
+            return tab.getAttribute('href') === `#${contentId}`;
+        });
+    
+        if (!isMatchFound) {
+            const tablink = `<h3 class="fw-bolder mb-2 mt-4">${contentNav}</h3>
+            <a href="#${contentId}" class="nav-link" id="${contentId}-tab" title="${contentTitle}" role="tab" aria-expanded="false" aria-controls="search" data-bs-toggle="tab" aria-selected="false" tabindex="-1">	
+                <i class="ti ti-${contentIcon} me-1"></i> ${contentTitle}
+            </a>`
+            tabListParent.insertAdjacentHTML('beforeend', tablink);
+        }
     });
-  }
-  const urlParams = new URLSearchParams(window.location.search);
-  const hashFragments = window.location.hash.split('#');
-  const activeTab = urlParams.get('tab') || (hashFragments.length > 2 ? document.getElementById( hashFragments[2] ).getAttribute('tab') : hashFragments[1]);
-  const tabToActivate = element.querySelector(`.nav-link[href="#${activeTab}"]`);
-  if (tabToActivate) {
-      tabToActivate.click();
-      tabToActivate.scrollIntoView({ behavior: 'instant', block: hashFragments.length > 2 ? 'start' : 'end'});
-      hashFragments.length > 2 && document.getElementById( hashFragments[2] ).scrollIntoView({ behavior: 'instant', block: 'start' });
-  } else {
-      tabs[0].click();
-      tabs[0].scrollIntoView({ behavior: 'smooth', block: 'end' });
-  }
-};
-tabsLink(document.getElementById('adminTechnical'));
-const tabListParent = document.getElementById('adminTechnicalList');
-const tabList = tabListParent.querySelectorAll('.nav-link');
-const tabListContent = document.getElementById('admin-tab-content').querySelectorAll('.tab-pane');
-tabListContent.forEach((content) => {
-  const contentId = content.getAttribute('id');
-  const contentTitle = content.getAttribute('title');
-  const contentIcon = content.dataset.icon !='' ? content.dataset.icon : 'settings';
-  const contentNav = content.dataset.nav !='' ? content.dataset.nav : 'settings';
-  const isMatchFound = Array.from(tabList).some((tab) => {
-    return tab.getAttribute('href') === `#${contentId}`;
-  });
-  if (!isMatchFound) {
-    const tablink = `<h3 class="fw-bolder mb-2 mt-4">${contentNav}</h3><a href="#${contentId}" class="nav-link" id="${contentId}-tab" title="${contentTitle}" role="tab" aria-expanded="false" aria-controls="search" data-bs-toggle="tab" aria-selected="false" tabindex="-1">	
-         <i class="ti ti-${contentIcon} me-1"></i> ${contentTitle}
-        </a>`
-    tabListParent.insertAdjacentHTML('beforeend', tablink);
-  }
+
+    const tabs = document.getElementById('adminTechnical').querySelectorAll('.nav-link');
+    
+    for (const tab of tabs) {
+        tab.addEventListener('show.bs.tab', (e) => {
+            sessionStorage.setItem('activeFeatureTab', e.target.getAttribute('href').substring(1));
+        });
+
+        tab.addEventListener('shown.bs.tab', event => {
+            document.body.classList.add('loaded');
+            const activeGroup = sessionStorage.getItem('activeFeatureGroup');
+            if (activeGroup != null && activeGroup != '') {
+                const activeGroupElement = document.querySelector(`#${activeGroup}`);
+                activeGroupElement.scrollIntoView({ behavior: 'instant', block: 'end' });
+                sessionStorage.removeItem('activeFeatureGroup');
+            }
+        });
+    }
+
+    const activeTab = sessionStorage.getItem('activeFeatureTab');
+    const tabToActivate = document.querySelector(`.nav-link[href="#${activeTab}"]`);
+
+    if (tabToActivate) {
+        tabToActivate.click();
+    } else {
+        tabs[0].click();
+        tabs[0].scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+    
+    const featureSelects = document.querySelectorAll('.form-select.features-group');
+    featureSelects.forEach((select) => {
+        select.addEventListener('change', (event) => {
+            const formEl = event.target.closest('form');
+            if (formEl) {
+                sessionStorage.setItem('activeFeatureGroup', event.currentTarget.value);
+                formEl.submit();
+            }
+        });
+    });
+
+    const orderSelects = document.querySelectorAll('.form-select.features-order');
+    orderSelects.forEach((select) => {
+        select.addEventListener('change', (event) => {
+            const formEl = event.target.closest('form');
+            if (formEl) {
+                sessionStorage.setItem('activeFeatureGroup', event.currentTarget.dataset.group );
+                formEl.submit();
+            }
+        });
+    });
+
 });
 </script>
 </#noparse>

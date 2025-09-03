@@ -7,31 +7,37 @@ Parameters:
 - version : The version number
 -->
 <#macro adminFooter closeMain=true >
-<!-- footer menu -->
-<footer class="lutece-main-footer footer footer-transparent d-print-none">
-	<div class="container-fluid">
-		<div class="row text-center align-items-center flex-row-reverse">
-			<div class="col-lg-auto ms-lg-auto">
-				<ul class="list-inline mb-0">
-					<li class="list-inline-item nav-item "><a href="https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki" class="nav-link">Documentation</a></li>
-					<li class="list-inline-item nav-item "><a href="https://github.com/lutece-platform/" target="_blank" class="nav-link" rel="noopener">Source code</a></li>
-				</ul>
-			</div>
-			<div class="col-12 col-lg-auto mt-3 mt-lg-0">
-				<ul class="nav list-inline mb-0">
-					<li class="list-inline-item nav-item">
-						<a class="nav-link d-flex align-items-center" href="https://lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-							<span class="me-2">${site_name}</span>
-							<img src="themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
-							<span class="visually-hidden">LUTECE</span>
-							<span class="text-muted ms-2" rel="noopener">version ${version}</span>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+</div>
+ <!--  BEGIN FOOTER  -->
+<footer class="footer footer-transparent d-print-none">
+    <div class="container-xl">
+        <div class="row text-center align-items-center flex-row-reverse">
+            <div class="col-lg-auto ms-lg-auto">
+            <ul class="list-inline list-inline-dots mb-0">
+                <li class="list-inline-item"><a href="https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki" class="nav-link">Documentation</a></li>
+                <li class="list-inline-item">
+                <a href="https://github.com/lutece-platform/" target="_blank" class="link-secondary" rel="noopener">Source code</a>
+                </li>
+               
+            </ul>
+            </div>
+            <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+            <ul class="list-inline list-inline-dots mb-0">
+                <li class="list-inline-item">
+                    <a class="nav-link d-flex align-items-center" href="https://lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
+                        <span class="me-2">${site_name}</span>
+                        <img src="themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
+                        <span class="visually-hidden">LUTECE</span>
+                        <span class="text-muted ms-2" rel="noopener">version ${version}</span>
+                    </a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </div>
 </footer>
+</div>
+<!--  END FOOTER  -->
 <!-- Included JS Files 												-->
 <!-- Le javascript 													-->
 <!-- ============================================================== -->
@@ -56,7 +62,7 @@ Parameters:
         <div class="lutece-dialog-content">
             <div class="lutece-dialog-header">
                 <h2 class="lutece-dialog-title h4 text-dark" id="portletModalLabel">#i18n{portal.site.portletType.labelCreate}</h2>
-                <button type="button" class="btn btn-link btn-close text-dark" aria-label="#i18n{portal.util.labelCancel}"><i class="ti ti-x"></i></button>
+                <button type="button" class="btn btn-link btn-cancel text-dark" aria-label="#i18n{portal.util.labelCancel}"><i class="ti ti-x"></i></button>
             </div>
             <div class="lutece-dialog-body">
                     <form action="jsp/admin/DoCreatePortlet.jsp" type="get">
@@ -64,7 +70,8 @@ Parameters:
                         <div id='portlet_type_id' class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4"></div>
                     </div>
                     <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary btn-close" value="cancel" >#i18n{portal.util.labelCancel}</button>
+                        <button type="button" class="btn btn-secondary btn-cancel" value="cancel" >
+                        <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> #i18n{portal.util.labelClose}</button>
                     </div>
                     </form>
                 </div>
@@ -83,13 +90,13 @@ document.addEventListener( "DOMContentLoaded", function(){
         const divType = document.createElement('div')
         divType.classList.add('col')
         const aType = document.createElement('a')
-        aType.classList.add('btn', 'btn-outline-primary', 'btn-lg','btn-block', 'btn-new-portlet', 'py-5', 'px-0' , 'my-3', 'd-flex', 'align-items-center' )
+        aType.classList.add('btn', 'btn-secondary', 'btn-lg', 'btn-block', 'btn-new-portlet', 'py-5', 'px-0' , 'my-3', 'd-flex', 'align-items-center' )
         aType.setAttribute( 'href', item.dataset.portletTypeHref )
         const spanType = document.createElement('span')
-        spanType.classList.add( 'px-2', 'text-left' )
+        spanType.classList.add( 'px-2', 'text-left', 'truncate' )
         spanType.innerText = item.dataset.portletTypeName
         const iconType = document.createElement('i')
-        iconType.classList.add('ti', <#noparse>`ti-${item.dataset.portletTypeIcon}`</#noparse> ,'fs-0','d-block','me-4','mr-4','ps-2','pl-2')
+        iconType.classList.add('ti', <#noparse>`ti-${item.dataset.portletTypeIcon}`</#noparse> ,'fs-1','d-block','ps-2','pl-2')
         aType.appendChild( iconType );
         aType.appendChild( spanType );
         divType.appendChild( aType );
@@ -131,7 +138,7 @@ document.addEventListener( "DOMContentLoaded", function(){
         })
     })
 
-    const btnCloseDialogList = document.querySelectorAll( '.btn-close' );
+    const btnCloseDialogList = document.querySelectorAll( '.btn-cancel' );
     btnCloseDialogList.forEach( ( btnCloseDialog ) => {
         btnCloseDialog.addEventListener( 'click', ( event ) => {
             portletDialog.close()
