@@ -10,7 +10,7 @@ Description: Generates the home page for the admin dashboard. It generates a con
 			<div class="col">
 				<!-- Page pre-title -->
 				<div class="page-pretitle" id="feature-title">${favourite!}</div>
-				<h2 class="page-title">#i18n{portal.admin.admin_login.welcome}</h2>
+				<h2 class="page-title">#i18n{portal.admin.admin_home.welcome}</h2>
 			</div>
 			<div class="page-header-buttons col-auto ms-auto d-print-none">
 				<@adminHeaderDocumentationLink />
