@@ -10,7 +10,7 @@ response.setHeader("Cache-Control","no-cache");
 response.setDateHeader ("Expires", 0);
 %>
 <!DOCTYPE html>
-<html lang="<%= AdminUserService.getAdminUser( request ).getLocale().getLanguage() %>" >
+<html lang="<%= AdminUserService.getAdminUser( request ).getLocale().getLanguage() %>" dir="ltr" class="loading">
 <head>
 <base href="<%= AppPathService.getBaseUrl( request ) %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>

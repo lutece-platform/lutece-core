@@ -2,7 +2,6 @@
 <@tabPanel id='defaultUserParameterValues'>
 <#assign tabTitle>#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues} </#assign>
 <@pageHeader title="${tabTitle}" />
-
 <@tform method='post' name='default_user_parameters' action='jsp/admin/user/DoModifyDefaultUserParameterValues.jsp' boxed=true>
     <@input type='hidden' name='token' value='${token!""}' />
     <@input type='hidden' name='tab' value='defaultUserParameterValues' />

@@ -3,7 +3,7 @@
 <%@ page import="fr.paris.lutece.portal.web.l10n.LocaleService" %>
 
 <!DOCTYPE html>
-<html lang="<%= LocaleService.getDefault().getLanguage() %>">
+<html lang="<%= LocaleService.getDefault().getLanguage() %>" dir="ltr" class="loading">
 <head>
 <base href="<%= AppPathService.getBaseUrl( request ) %>">
 <title>Administration</title>

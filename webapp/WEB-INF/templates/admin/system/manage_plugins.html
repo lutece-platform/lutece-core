@@ -1,6 +1,7 @@
 <@pageContainer>
     <@pageColumn>
-		<@pageHeader title='#i18n{portal.system.manage_plugins.labelTitleList}'>
+		<@pageHeader title='#i18n{portal.system.manage_plugins.labelTitleList}' actions=true>
+		<@div class='mb-3'>
 			<@tform method='post' type='inline'>
 				<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all']
 					formStyle='inline'>
@@ -19,6 +20,7 @@
 					</@inputGroup>
 				</@formGroup>
 			</@tform>
+		</@div>
 		</@pageHeader>
 		<#if plugins_list?has_content>
 			<@row id='plugins'>
