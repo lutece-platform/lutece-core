@@ -11,7 +11,7 @@
 	String strBase = AppPathService.getBaseUrl( request ) ;
 %>
 <!DOCTYPE html>
-<html lang="<%= LocaleService.getDefault().getLanguage() %>" dir="ltr" class="loading">
+<html lang="<%= LocaleService.getDefault().getLanguage() %>" dir="ltr">
 <head>
 <base href="<%= strBase %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>
