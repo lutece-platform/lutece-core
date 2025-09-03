@@ -17,7 +17,7 @@ Parameters:
 <div class="alert<#if color!=''> alert-${color}</#if><#if class!=''> ${class}</#if><#if dismissible> alert-dismissible</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if color!=''><#assign txtColor> text-${color}</#assign></#if>
 <#if iconTitle!=''><@icon style=iconTitle class='${txtColor} mx-2' /></#if>
-<#if title!=''><${titleLevel} class="alert-title mb-0">${title}</${titleLevel}></#if>
+<#if title!=''><${titleLevel} class="alert-title">${title}</${titleLevel}></#if>
 <#nested>
 <#if dismissible><a class="btn-close" data-bs-dismiss="alert" aria-label="close"></a></#if>
 </div>

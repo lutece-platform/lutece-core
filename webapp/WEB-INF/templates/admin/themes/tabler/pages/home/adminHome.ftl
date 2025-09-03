@@ -4,24 +4,29 @@ Description: Generates the home page for the admin dashboard. It generates a con
 <#macro adminHome>
 <#assign head = .get_optional_template('../../../../../admin/user/adminHeader.html')>
 <#if head.exists><@head.include /></#if>
-<main id="lutece-main" class="lutece-main-content">
-<h1 class="visually-hidden">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h1>
+<div class="page-header d-print-none" aria-label="Page header">
+	<div class="container-xl">
+		<div class="row g-2 align-items-center">
+			<div class="col">
+				<!-- Page pre-title -->
+				<div class="page-pretitle" id="feature-title">${favourite!}</div>
+				<h2 class="page-title">#i18n{portal.admin.admin_login.welcome}</h2>
+			</div>
+			<div class="page-header-buttons col-auto ms-auto d-print-none">
+				<@adminHeaderDocumentationLink />
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END PAGE HEADER -->
 <@pageWrapper>
-<@div id="dashboard-widgets" class="dashboard-widgets pt-3">
-	<@row>
-		<@columns sm=12 md=4 class='widget-col' id='zone-1'>
-			${dashboard_zone_1!}
-		</@columns>
-		<@columns sm=12 md=4 class='widget-col' id='zone-2'>
-			${dashboard_zone_2!}
-		</@columns>
-		<@columns sm=12 md=4 class='widget-col' id='zone-3'>
-			${dashboard_zone_3!}
-		</@columns>
-	</@row>
-</@div>
+<#--  <@div id="dashboard-widgets" class="row row-deck row-cards dashboard-widgets">  -->
+<div id="dashboard-widgets" class="row row-cards dashboard-widgets" data-masonry="{'percentPosition': true }">
+${dashboard_zone_1!}
+${dashboard_zone_2!}
+${dashboard_zone_3!}
+</div>
 </@pageWrapper>
-</main>
 <#assign foot = .get_optional_template('../../../../../admin/user/adminFooter.html')>
 <#if foot.exists><@foot.include /></#if>
 <script type="module">
@@ -44,7 +49,6 @@ const elements = document.querySelectorAll('#dashboard-widgets .widget-col > .ca
 elements.forEach((element) => {
 	element.style.cursor = 'move';
 });
-
 
 function setCounters( speed, counters  ){
 	counters.forEach( counter => {
@@ -92,6 +96,5 @@ for ( var i = 0; i < dashSortables.length; i++) {
 
 const boxCount = document.querySelectorAll('.box-widget .counter')
 setCounters( 200, boxCount );
-
 </script>
 </#macro>

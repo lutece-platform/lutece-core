@@ -9,8 +9,6 @@ Parameters:
 - btnColor (string, optional): The color variant of the button. Default is 'primary'.
 -->
 <#macro pageColumnBtn idPageColumn class='' hideSize='' title='' btnColor='primary'>
-	<#assign hideSizebtn>
-		<#if hideSize!=''>d-${hideSize}-none</#if>
-	</#assign>
-	<@button color='primary' class='${hideSizebtn} ${class}' title='${title}' buttonIcon='menu-2'  params='data-bs-toggle="offcanvas" data-bs-target="#${idPageColumn}" aria-controls="${idPageColumn}"' />
+<#assign hideSizebtn><#if hideSize!=''>d-${hideSize}-none</#if></#assign>
+<@button color='primary' class='${hideSizebtn} ${class}' title='${title}' buttonIcon='menu-2'  params='data-bs-toggle="offcanvas" data-bs-target="#${idPageColumn}" aria-controls="${idPageColumn}"' />
 </#macro>
