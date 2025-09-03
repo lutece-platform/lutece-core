@@ -233,8 +233,19 @@
     <bean id="accessLogger" class="fr.paris.lutece.portal.service.security.impl.DefaultAccessLogger" />
     
     <!-- Site Properties Groups -->
-    <bean id="sitePropertiesGroup"
-          class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
+    <bean id="sitePropertiesGroup" class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
+
+    <bean id="theme.sitePropertiesGroup" class="fr.paris.lutece.portal.service.site.properties.SitePropertiesGroup" >
+        <property name="nameKey">
+            <value>theme.site_properties.name</value>
+        </property>
+        <property name="descriptionKey">
+            <value>theme.site_properties.description</value>
+        </property>
+        <property name="keysPrefix">
+            <value>theme.site_property.</value>
+        </property>
+    </bean>
 
     <bean id="core.xpage.search" class="fr.paris.lutece.portal.web.search.SearchApp" scope="session" />
 

@@ -10,21 +10,20 @@
             </@formGroup>
         </@tform>
         </@pageHeader>
-        <@tform action='jsp/admin/DoModifyProperties.jsp'>
+         <@tform action='jsp/admin/DoModifyProperties.jsp' class='mt-2'>
         <@tabs>
-            <@tabList>
-            <#list groups_list as group>
-                <#assign index = group?index>
-                <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
-                <@tabLink active=tabactive href='#group-${index}' title='${group.name}' />
-            </#list>
-            </@tabList>
-            <@tabContent class='pt-0'>
+        <@tabList>
+        <#list groups_list as group>
+        <#assign index = group?index>
+        <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
+            <@tabLink active=tabactive href='#group-${index}' title='${group.name}' />
+        </#list>
+        </@tabList>
+        <@tabContent class='pt-0'>
             <#list groups_list as group>
                 <#assign index = group?index>
                 <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
                 <@tabPanel active=tabactive id='group-${index}'>
-                
                 <@input type='hidden' name='token' value='${token}' />
                 <@row class='d-block properties-container'>
                     <#assign groups = group.localizedDataList?map( prop -> prop.group )>
@@ -79,18 +78,20 @@
                         </@columns>
                     </#list>
                     </@row>
-                </@tabPanel>
-            </#list>
-            </@tabContent>
-        </@tabs>
-        <@row class='position-fixed bottom-0 end-0 w-100 zh-5'>
-            <@columns class='d-flex justify-content-center align-items-center col-12' params='style="background-color:rgba(255,255,255,.8)"'>
-                <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
-            </@columns>
-        </@row>
-    </@tform>
-    </@pageColumn>
+                    
+                    </@tabPanel>
+                    </#list>
+                    <@row class='position-fixed bottom-0 end-0 w-100 zh-5'>
+                    <@columns class='d-flex justify-content-center align-items-center col-12' params='style="background-color:rgba(255,255,255,.8)"'>
+                    <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
+                    </@columns>
+                    </@row>
+                </@tabContent>
+            </@tabs>
+            </@tform>
+        </@pageColumn>
 </@pageContainer>
+<@overlay />
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
 <style>
@@ -185,4 +186,3 @@ window.addEventListener( "load", function(){
 
 });
 </script>
-<@overlay />

@@ -25,7 +25,7 @@ Parameters:
 <#if striped>   <#local class += ' table-striped'   /> </#if>
 <#if bordered>  <#local class += ' table-bordered'  /> </#if>
 <#if collapsed> <#local class += ' collapse' /> </#if>
-<#if responsive><div class="table-responsive bg-white"></#if>
+<#if responsive><div class="table-responsive"></#if>
 <table class="table ${class?trim}" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if caption!=''><caption>${caption}</caption></#if>
 <#if headBody><thead></#if>

@@ -14,12 +14,16 @@ Parameters:
 <@deprecatedWarning args=deprecated />
 <!-- Loading overlay -->
 <div id="${id}" class="${class}" ${params}>
-    <div class="text-center">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">#i18n{portal.util.labelLoading}</span>
+    <div class="page page-center">
+      <div class="container container-slim py-4">
+        <div class="text-center">
+          <div class="text-secondary mb-3">#i18n{portal.util.labelLoading}</div>
+          <#nested>
+          <div class="progress progress-sm">
+            <div class="progress-bar progress-bar-indeterminate"></div>
+          </div>
         </div>
-        <div class="mt-2">${label}</div>
-        <#nested>
+      </div>
     </div>
 </div>
 <script>
