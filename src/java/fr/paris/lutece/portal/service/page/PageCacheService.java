@@ -63,8 +63,6 @@ public class PageCacheService extends AbstractCacheableService<String,String>
 
     // Performance patch
     private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<>( );
-    private String testCache= "init";
-    
     
     /**
      * Init the cache. Should be called by the service at its initialization.
@@ -76,11 +74,14 @@ public class PageCacheService extends AbstractCacheableService<String,String>
     public void initCache( String strCacheName )
     {
     	Cache<String, String> cache= createCache( strCacheName, new MutableConfiguration<String,String>().setTypes(String.class, String.class)  );
-    	cache.registerCacheEntryListener(
-    			   new MutableCacheEntryListenerConfiguration<String, String>
-    			   (FactoryBuilder.factoryOf(new PageCacheEntryListener<String, String>()),null,false,false));
-        CacheService.registerCacheableService( this );
+        if ( null != cache )
+        {
+            cache.registerCacheEntryListener( new MutableCacheEntryListenerConfiguration<String, String>(
+                    FactoryBuilder.factoryOf( new PageCacheEntryListener<String, String>( ) ), null, false, false ) );
+            CacheService.registerCacheableService( this );
+        }
     }
+
     /**
      * {@inheritDoc }
      */
@@ -117,15 +118,8 @@ public class PageCacheService extends AbstractCacheableService<String,String>
     {
         throw new AppException( "This class shouldn't be cloned" );
     }
-    public String getTest() {
-    	return testCache;
-    }
-    public void setTest(String tes) {
-    	testCache= tes;
-    }
 
-	
-	class PageCacheEntryListener<K, V> implements CacheEntryRemovedListener<K, V>, CacheEntryExpiredListener<K, V>, Serializable
+	static class PageCacheEntryListener<K, V> implements CacheEntryRemovedListener<K, V>, CacheEntryExpiredListener<K, V>, Serializable
 	{
 
 		@Override
@@ -140,13 +134,14 @@ public class PageCacheService extends AbstractCacheableService<String,String>
 		@Override
 		public void onRemoved(Iterable<CacheEntryEvent<? extends K, ? extends V>> events)
 				throws CacheEntryListenerException {
-			for (CacheEntryEvent<? extends K, ? extends V> event : events)
-	        {
-				_keyMemory.remove( (String) event.getKey( ) );
-	        }
-			}
+            for ( CacheEntryEvent<? extends K, ? extends V> event : events )
+            {
+                _keyMemory.remove( (String) event.getKey( ) );
+            }
+        }
 
 	}
+
 	/**
      * This method observes the initialization of the {@link ApplicationScoped} context.
      * It ensures that this CDI beans are instantiated at the application startup.
