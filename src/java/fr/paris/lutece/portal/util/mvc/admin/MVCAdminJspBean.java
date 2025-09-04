@@ -449,7 +449,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      *            The model
      * @return The page
      * @deprecated This method is deprecated.
-     * Please use {@link #getXPage(String, String, Models)} instead.
+     * Please use {@link #getPage(String, String, Models)} instead.
      */
     @Deprecated
     protected String getPage( String strPageTitleProperty, String strTemplate, Map<String, Object> model )
