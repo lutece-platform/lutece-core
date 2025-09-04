@@ -1,6 +1,7 @@
 package fr.paris.lutece.portal.web.menu;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -260,15 +261,20 @@ public class MenuItem
         {
             Map<Integer, MenuItem> nodeMap = new HashMap<>( );
             List<MenuItem> roots = new ArrayList<>( );
-
+            int root = 0;
+            
             for ( MenuItem node : nodes )
             {
                 nodeMap.put( node.getPageId( ), node );
             }
+            if ( !nodeMap.isEmpty( ) && !nodeMap.containsKey( root ) )
+            {
+                root = Collections.min( nodeMap.entrySet( ), Map.Entry.comparingByKey( ) ).getKey( );
+            }
 
             for ( MenuItem node : nodes )
             {
-                if ( 0 == node.getParentId( ) )
+                if ( root == node.getParentId( ) )
                 {
                     roots.add( node );
                 }

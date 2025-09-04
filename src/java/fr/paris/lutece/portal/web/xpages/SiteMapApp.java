@@ -343,7 +343,7 @@ public class SiteMapApp implements XPageApplication
         int nLevel = 0;
 
         List<MenuItem> mapItems = new ArrayList<MenuItem>( );
-        buildMenu( request, mapItems, PortalService.getRootPageId( ), nLevel );
+        buildMenu( request, mapItems, PortalService.getRootPageId( ), nLevel, new HashSet<>( ) );
 
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MAP_ITEMS, MenuTreeBuilder.buildTree( mapItems ) );
@@ -353,9 +353,14 @@ public class SiteMapApp implements XPageApplication
         
         return t.getHtml();
     }
-    
-    private void buildMenu( HttpServletRequest request, List<MenuItem> flatMenu, int nPageId, int nLevel )
+
+    private void buildMenu( HttpServletRequest request, List<MenuItem> flatMenu, int nPageId, int nLevel, Set<Integer> seenPages )
     {
+        if ( !seenPages.add( nPageId ) )
+        {
+            AppLogService.error( "SiteMapApp : A cycle exists in pages; page id {} was already processed", nPageId );
+            return;
+        }
         Page page = PageHome.getPage( nPageId );
 
         if ( page.isVisible( request ) )
@@ -368,7 +373,7 @@ public class SiteMapApp implements XPageApplication
 
             for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
             {
-                buildMenu( request, flatMenu, pageChild.getId( ), nLevel + 1 );
+                buildMenu( request, flatMenu, pageChild.getId( ), nLevel + 1, seenPages );
             }
         }
     }
