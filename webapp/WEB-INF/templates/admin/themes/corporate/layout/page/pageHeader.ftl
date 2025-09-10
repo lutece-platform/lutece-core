@@ -8,12 +8,12 @@ Parameters:
 - title (string, optional): the title of the page header.
 - description (string, optional): the description of the page header.
 -->
-<#macro pageHeader id='' title='' description='' class='' toolsClass='' params='' deprecated...>
+<#macro pageHeader id='' title='' titleClass='' description='' class='' toolsClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div id="pageHeader" class="mb-3 <#if toolsClass !=''>${class}</#if>">
 <div class="d-lg-flex align-items-center justify-content-between">
 	<div class="flex-grow-1 py-2">
-		<h1 class="mb-0 fw-bolder">${title}</h1>
+		<h1 class="mb-0 fw-bolder ${titleClass!}">${title}</h1>
 		<#if description !=''>
 			<p class="lead">${description}</p>
 		</#if>

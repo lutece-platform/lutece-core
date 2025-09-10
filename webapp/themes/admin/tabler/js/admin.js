@@ -1,6 +1,6 @@
 /* ****************************************************************
  *
- * BS 5.1 + Tabler
+ * BS 5.1 + Tabler 1.4
  *
  * ****************************************************************/
 const themeRoot = document.querySelector('html'); 
@@ -19,6 +19,7 @@ function switchThemeMode( mode ){
                 themeRoot.dataset.bsTheme = 'light'; 
             }
             localStorage.setItem( 'lutece-tabler-theme', themeRoot.dataset.bsTheme )
+			
         });
 		iconSwitch.addEventListener( 'keydown', ( keyboardEvent ) => {
 			switch (keyboardEvent.key) {
@@ -34,12 +35,13 @@ function switchThemeMode( mode ){
 }
 
 function themeMode( ){
-    let luteceTablerTheme=localStorage.getItem('lutece-tabler-theme')
-		  
+    let luteceTablerTheme =localStorage.getItem('lutece-tabler-theme')
+		
 	if( luteceTablerTheme === null ){
-        luteceTablerTheme = 'light';
+		luteceTablerTheme = 'light';
 		localStorage.setItem( 'lutece-tabler-theme', luteceTablerTheme )
 	} 
+	
     switchThemeMode( luteceTablerTheme )
 	
 }
@@ -74,11 +76,11 @@ function themeMenu( ){
     const userName = userMenu.dataset.username;
 
 	// Set the main menu as active
-	const mainMenus = mainMenu.querySelectorAll('.dropdown-item');
+	const mainMenus = mainMenu.querySelectorAll('.dropdown-item, .nav-item .nav-link');
 	mainMenus.forEach((link) => {
 		const activeMenu = sessionStorage.getItem( 'lutece-admin-active-menu' );
 		if( activeMenu !== null && activeMenu !== '' ){
-			const parentMenu = link.closest('.nav-item.dropdown');
+			const parentMenu = link.closest('.nav-item');
 			if (link.id === activeMenu) {
 				parentMenu.classList.add('active');
 				link.classList.add('active');
@@ -95,50 +97,6 @@ function themeMenu( ){
         userMenu.textContent = initials;
     }
 
-// 	const defaultMenu = menuHeader.classList[0];
-// 	let localMenu =  localStorage.getItem( 'lutece-tabler-theme-menu' );
-// 	let localMenuState =  localStorage.getItem( 'lutece-tabler-theme-menu-state' );
-	
-// 	if( localMenu === null ){ 
-// 		localMenu = defaultMenu 
-// 	} else if ( localMenu != defaultMenu ) {
-// 		menuHeader.classList.remove( defaultMenu )
-// 		menuHeader.classList.add( localMenu )
-// 		if( localMenu === 'aside'){
-// 			if( localMenuState != null && localMenuState != '' ){
-// 				menuHeader.classList.add( localMenuState )
-// 			} else {
-// 				localStorage.setItem('lutece-tabler-theme-menu-state', '');
-// 			}
-// 		}
-// 	}
-// 	if( switchMode != null ){
-// 		switchMode.addEventListener( 'click', (e) => {	
-// 			if ( menuHeader.classList[0]  === 'header' ) {
-// 				menuHeader.classList.add( 'aside' )
-// 				menuHeader.classList.remove( 'header' )
-// 				localStorage.setItem('lutece-tabler-theme-menu', 'aside');
-// 			} else {
-// 				localStorage.setItem('lutece-tabler-theme-menu', 'header');
-// 				menuHeader.classList.add( 'header' )
-// 				menuHeader.classList.remove( 'aside') 
-// 				menuHeader.classList.remove( 'collapsed') 
-// 			}
-// 		});
-// 	}
-
-// 	const btnAsideCollapse = document.querySelector('#aside-header-collapse');
-// 	btnAsideCollapse.addEventListener( 'click', (e) => {	
-// 		//menuHeader.classList.toggle('collapsed')
-// 			if ( !menuHeader.classList.contains('collapsed') ) {
-// 				menuHeader.classList.add( 'collapsed' )
-// 				localStorage.setItem('lutece-tabler-theme-menu-state', 'collapsed');
-// 			} else {
-// 				localStorage.setItem('lutece-tabler-theme-menu-state', '');
-// 				menuHeader.classList.remove( 'collapsed') 
-// 			}
-// 	});
-
 	themeRoot.classList.remove( 'loading' )
 	themeRoot.classList.add( 'loaded' )
 }
@@ -153,24 +111,6 @@ function readMode( ){
 	} else {
 		themeRoot.removeAttribute('dir')
 	}
-	// if( switchReadMode != null ){
-	// 	switchReadMode.addEventListener( "click", function(e){
-	// 		const readModeBtn = switchReadMode.querySelector('.ti'); 
-	// 		defaultReadMode = themeRoot.getAttribute('dir')
-	// 		if( defaultReadMode === null ){
-	// 			themeRoot.setAttribute('dir','rtl')
-	// 			localStorage.setItem( 'lutece-bo-readmode', 'rtl' );
-	// 			readModeBtn.classList.toggle('ti-text-direction-rtl')
-	// 			readModeBtn.classList.toggle('ti-text-direction-ltr')
-	// 		} else {
-	// 			themeRoot.removeAttribute('dir')
-	// 			localStorage.removeItem( 'lutece-bo-readmode' );
-	// 			readModeBtn.classList.toggle('ti-text-direction-ltr')
-	// 			readModeBtn.classList.toggle('ti-text-direction-rtl')
-	// 		} 
-
-	// 	})
-	// }
 }
 
 /* Pretty print file size */

@@ -7,11 +7,11 @@ Parameters:
 <#macro adminHeader site_name=site_name!'Lutece' admin_url=admin_url >
 <#local userReadMode><#attempt>${dskey('portal.site.site_property.layout.user.readmode.show.checkbox')?number}<#recover>0</#attempt></#local>
 <#local userDarkMode><#attempt>${dskey('portal.site.site_property.layout.user.darkmode.show.checkbox')?number}<#recover>0</#attempt></#local>
+<#local adminDarkMode><#attempt>${dskey('portal.site.site_property.layout.darkmode.checkbox')?number}<#recover>0</#attempt></#local>
 <#local userMenuMode><#attempt>${dskey('portal.site.site_property.layout.user.menumode.show.checkbox')?number}<#recover>0</#attempt></#local>
 <#local readMode><#attempt><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if><#recover></#attempt></#local>
-<#local darkMode><#attempt><#if dskey('portal.site.site_property.layout.darkmode.checkbox')?number==1> theme-dark</#if><#recover></#attempt></#local>
 <#local layoutBoxed><#attempt><#if dskey('portal.site.site_property.layout.menu.boxed.checkbox')?number==1> layout-boxed</#if><#recover></#attempt></#local>
-<#local layoutFluid><#attempt><#if dskey('portal.site.site_property.layout.menu.fluid.checkbox')?number==1> layout-fluid</#if><#recover></#attempt></#local>
+<#local layoutFluid><#attempt><#if dskey('portal.site.site_property.layout.fluid.checkbox')?number==1> layout-fluid</#if><#recover></#attempt></#local>
 <#local bodyClass><#if layoutBoxed!=''>${layoutBoxed!}</#if><#if layoutFluid!=''> ${layoutFluid!}</#if></#local>
 <#local navbarSticky><#attempt><#if dskey('portal.site.site_property.layout.menu.sticky.checkbox')?number==1> sticky-top</#if><#recover></#attempt></#local>
 <#local menuCondensed><#attempt><#if dskey('portal.site.site_property.layout.menu.condensed.checkbox')?number==1>condensed</#if><#recover></#attempt></#local>
@@ -20,6 +20,21 @@ Parameters:
 <#local menuHome><#attempt>${dskey('portal.site.site_property.layout.menu.home.checkbox')?number}<#recover>0</#attempt></#local>
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url')?trim, '')>
 <#local logoSvg = (dskey('portal.site.site_property.logo_svg.textblock')!)?has_content?then(dskey('portal.site.site_property.logo_svg.textblock'), '')>
+<script>
+document.documentElement.classList.add('loading');
+document.documentElement.classList.add('loaded');
+let localTheme=localStorage.getItem('lutece-tabler-theme')
+<#if adminDarkMode?number==1>
+<#if userDarkMode?number!=1>
+localStorage.setItem( 'lutece-tabler-theme','dark');
+<#else>
+if( localTheme === null ){
+	localTheme = 'dark';
+}
+localStorage.setItem( 'lutece-tabler-theme',localTheme );
+</#if>
+</#if>
+</script>
 </head>
 <body<#if bodyClass!=''> class="${bodyClass!}"</#if> ${readMode} data-bs-theme-base="neutral" data-bs-theme-radius="2">
 <@adminSkipNav />
@@ -27,7 +42,7 @@ Parameters:
 <#if menuVertical == 'vertical'>
 <!--  BEGIN SIDEBAR  -->
       <aside class="navbar navbar-vertical navbar-expand-lg<#if menuTransparent!=''>${menuTransparent}</#if>"<#if menuTransparent=''> data-bs-theme="dark"</#if> >
-        <div class="container-fluid">
+      <div class="container-fluid">
 <#else>
 	<!-- BEGIN NAVBAR  -->
 	<#if navbarSticky !=''><div class="${navbarSticky!}"></#if>
@@ -53,6 +68,14 @@ Parameters:
           	<!-- END NAVBAR LOGO -->
 		  	<div id="main-nav"class="navbar-nav flex-row <#if menuVertical == 'vertical'>order-last d-flex flex-column align-items-center<#else>order-md-last</#if>">
           		<div class="d-none<#if menuVertical == 'vertical'> d-lg-flex me-3<#else> d-md-flex</#if>">
+					<#if menuHome?number==1 && menuCondensed?trim = 'condensed'>
+					<div class="nav-item">
+						<a class="nav-link" href="." target="_blank">
+							<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-external-link"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6" /><path d="M11 13l9 -9" /><path d="M15 4h5v5" /></svg>
+							<span class="nav-link-title ms-1">#i18n{portal.users.admin_header.homePage}</span>
+						</a>
+					</div>
+					</#if>
 					<#if userDarkMode?number = 1>
 					<div class="nav-item">
 						<a href="?theme=dark" class="nav-link px-0 hide-theme-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Enable dark mode" data-bs-original-title="Enable dark mode">
@@ -76,7 +99,7 @@ Parameters:
 					<#assign listLogDebug = listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) />
 					<#if listLogDebug?has_content>
 					<div class="nav-item dropdown d-none d-md-flex">
-						<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications" data-bs-auto-close="outside" aria-expanded="false">
+						<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="#i18n{portal.admin.notification.labelShow}" data-bs-auto-close="outside" aria-expanded="false">
 							<!-- Download SVG icon from http://tabler.io/icons/icon/bell -->
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
 								<path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path>
@@ -87,7 +110,7 @@ Parameters:
 						<div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
 							<div class="card">
 								<div class="card-header d-flex">
-									<h3 class="card-title">Notifications</h3>
+									<h3 class="card-title">#i18n{portal.admin.notification.title}</h3>
 									<#--  <div class="btn-close ms-auto" data-bs-dismiss="dropdown"></div>  -->
 								</div>
 								<div class="list-group list-group-flush list-group-hoverable">
@@ -182,7 +205,7 @@ Parameters:
             	<ul id="main-menu" class="navbar-nav">
 				<#list feature_group_list as feature_group>
 					<#if feature_group.icon?length < 1><#assign icon_class = "ti ti-mood-empty"><#else><#assign icon_class = feature_group.icon></#if>
-					<#if feature_group.features?size &gt; 1>
+					<#if feature_group.features?size gt 1>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" id="dLabel${feature_group.id}Header" role="button" data-bs-toggle="dropdown" role="button" data-bs-auto-close="outside" aria-expanded="false" href="${admin_url}#${feature_group.id}">
 							<span class="nav-link-icon d-md-none d-lg-inline-block"><i class="${icon_class} me-1"></i></span>
@@ -212,12 +235,12 @@ Parameters:
 					<#list feature_group.features as feature>
 					<li class="nav-item">
 					<#if !feature.externalFeature>
-						<a class="nav-link" href="${feature.url}?plugin_name=${feature.pluginName}"><#if feature.iconUrl?has_content>
+						<a class="nav-link" id="feature-${feature.id?lower_case}" href="${feature.url}?plugin_name=${feature.pluginName}"><#if feature.iconUrl?has_content>
 							<span class="nav-link-icon d-md-none d-lg-inline-block"><i class="${feature.iconUrl} me-1"></i></span></#if> 
 							<span class="nav-link-title">${feature.name}</span>
 						</a>
 					<#else>
-						<a class="nav-link" href="${feature.url}">
+						<a class="nav-link" id="feature-${feature.id?lower_case}" href="${feature.url}">
 							<#if feature.iconUrl?has_content><span class="nav-link-icon d-md-none d-lg-inline-block"><i class="${feature.iconUrl} me-1"></i></span></#if> 
 							<span class="nav-link-title">${feature.name}</span>
 						</a>
@@ -260,7 +283,7 @@ Parameters:
 	</aside>
 	<!--  END SIDEBAR  -->
 	<#else>
-		</div>
+			</div>
         </div>
       </header>
 </#if>
@@ -295,6 +318,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 			myAdminModal.show();
 		}
 	}
+	
 }); 
 </script>
 </#if>

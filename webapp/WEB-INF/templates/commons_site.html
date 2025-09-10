@@ -1,388 +1,366 @@
 <#assign optSiteCommons=.get_optional_template('commons_site.ftl')>
 <#if optSiteCommons.exists><@optSiteCommons.include /></#if>
 <#-- WARNING : be careful to white-space and lines break in FreeMarker macros.
- # This macro template can be used to output white-space-sensitive formats (like RSS files).
- # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
+# This macro template can be used to output white-space-sensitive formats (like RSS files).
+# See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
 <#-- Do not remove this comment -->
 <#macro comboSiteWithParams name default_value additionalParameters items >
-	<select id="${name}" name="${name}" ${additionalParameters} >
-		<#list items as item>
-			<#if default_value="${item.code}">
-				<option selected="selected" value="${item.code}" >${item.name}</option>
-		   	<#else>
-		   		<option value="${item.code}" >${item.name}</option>
-		   	</#if>
-		</#list>
-	</select>
+<select class="form-select" id="${name}" name="${name}" ${additionalParameters} >
+<#list items as item>
+<#if default_value="${item.code}">
+	<option selected="selected" value="${item.code}" >${item.name}</option>
+<#else>
+	<option value="${item.code}" >${item.name}</option>
+</#if>
+</#list>
+</select>
 </#macro>
 <#macro comboSiteSortedWithParams name default_value additionalParameters items >
-	<select id="${name}" name="${name}" ${additionalParameters} >
-		<#list items?sort_by("name") as item>
-			<#if default_value="${item.code}">
-				<option selected="selected" value="${item.code}" >${item.name}</option>
-		   	<#else>
-		   		<option value="${item.code}" >${item.name}</option>
-		   	</#if>
-		</#list>
-	</select>
+<select class="form-select" id="${name}" name="${name}" ${additionalParameters} >
+<#list items?sort_by("name") as item>
+<#if default_value="${item.code}">
+<option selected="selected" value="${item.code}" >${item.name}</option>
+<#else>
+<option value="${item.code}" >${item.name}</option>
+</#if>
+</#list>
+</select>
 </#macro>
 <#macro comboSiteWithParamsAndLength name default_value additionalParameters items max_length >
-	<select id="${name}" name="${name}" ${additionalParameters} >
-		<#list items as item>
-    	    <#if max_length < item.name?length >
-            	<#assign item_new = "..." + "${item.name?substring(item.name?length-max_length+3)}" >
-            <#else>
-              	<#assign item_new = "${item.name}">
-            </#if>
-			<#if default_value="${item.code}">
-      			<option selected="selected" value="${item.code}" >${item_new}</option>
-      		<#else>
-      			<option value="${item.code}" >${item_new}</option>
-      		</#if>
-    	</#list>
-	</select>
+<select class="form-select" id="${name}" name="${name}" ${additionalParameters} >
+<#list items as item>
+<#if max_length < item.name?length ><#assign item_new = "..." + "${item.name?substring(item.name?length-max_length+3)}" ><#else><#assign item_new = "${item.name}"></#if>
+<#if default_value="${item.code}">
+<option selected="selected" value="${item.code}" >${item_new}</option>
+<#else>
+<option value="${item.code}" >${item_new}</option>
+</#if>
+</#list>
+</select>
 </#macro>
 <#macro comboSite name default_value items >
-	<@comboSiteWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
+<@comboSiteWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
 </#macro>
 <#macro comboSiteSorted name default_value items >
-	<@comboSite name="${name}" default_value="${default_value}" items=items?sort_by("name") />
+<@comboSite name="${name}" default_value="${default_value}" items=items?sort_by("name") />
 </#macro>
 <#macro sortSite jsp_url attribute id="" >
-	<#if jsp_url?contains("?")>
-		<#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
-	<#else>
-		<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
-	</#if>
-	<a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
-		<i class="icon-chevron-up">&nbsp;</i>
-	</a>
-	<a href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}">
-    	<i class="icon-chevron-down">&nbsp;</i>
-    </a>
+<#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" /></#if>
+<a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
+	<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-up"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 15l6 -6l6 6" /></svg>
+</a>
+<a href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}">
+	<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-chevron-down"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M6 9l6 6l6 -6" /></svg>
+</a>
 </#macro>
 <#macro paginationSite paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=0>
-	<#if (paginator.pagesCount > 1) >
-		<@paginationSitePageLinks paginator=paginator />
-	</#if>
-	<#if form == 1 >
-		<form method="post" action="">
-	</#if>
-		<div class="row-fluid">
-			<div class="pull-right" >
-				<div class="form-inline">
-					<@paginationSiteItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount />
-				</div>
-			</div>
-		</div>
-	<#if form == 1 >
-		</form>
-	</#if>
-	<div class="table"></div>
- </#macro>
- <#macro paginationSitePageLinks paginator >
-	<#assign nbLinkPagesToDisplay = 10 />
-	<#assign offsetPrev = nbLinkPagesToDisplay / 2 />
-	<#assign offsetNext = nbLinkPagesToDisplay / 2 />
-	<#if ( paginator.pageCurrent <= nbLinkPagesToDisplay - offsetPrev )>
-		<#assign offsetPrev = paginator.pageCurrent - 1 />
-		<#assign offsetNext = nbLinkPagesToDisplay - offsetPrev />
-	<#elseif ( paginator.pageCurrent + offsetNext > paginator.pagesCount )>
-		<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
-		<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
-	</#if>
-		<ul class="pagination pagination-sm">
-			<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-				<li>
-					<a href="${paginator.firstPageLink?xhtml}">
-						${paginator.labelFirst}
-					</a>
-				</li>
-			</#if>
-			<#if (paginator.pageCurrent > 1) >
-				<li class="previous">
-					<a href="${paginator.previousPageLink?xhtml}">
-						${paginator.labelPrevious}
-					</a>
-				</li>
-			<#else>
-				<li class="disabled">
-					<a href="${paginator.firstPageLink?xhtml}">${paginator.labelPrevious}</a>
-				</li>
-			</#if>
-			<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-				<li>
-					<a href="${(paginator.pagesLinks?first).url?xhtml}"><strong>...</strong></a>
-				</li>
-			</#if>
-			<#list paginator.pagesLinks as link>
-				<#if ( link.index == paginator.pageCurrent )>
-					<li class="active">
-						<a href="${link.url?xhtml}">${link.name}</a>
-					</li>
-				<#else>
-					<li>
-						<a href="${link.url?xhtml}">${link.name}</a>
-					</li>
-				</#if>
-			</#list>
-			<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-				<li>
-					<a href="${(paginator.pagesLinks?last).url?xhtml}"><strong>...</strong></a>
-				</li>
-			</#if>
-			<#if (paginator.pageCurrent < paginator.pagesCount) >
-				<li class="next">
-					<a href="${paginator.nextPageLink?xhtml}">
-					${paginator.labelNext}
-					</a>
-				</li>
-				<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-					<li class="next">
-						<a href="${paginator.lastPageLink?xhtml}">
-							${paginator.labelLast}
-						</a>
-					</li>
-				</#if>
-			<#else>
-				<li class="disabled">
-					<a href="${paginator.lastPageLink?xhtml}">${paginator.labelNext}</a>
-				</li>
-			</#if>
-		</ul>
- </#macro>
+<#if paginator??>
+<#if (paginator.pagesCount > 1) ><@paginationSitePageLinks paginator=paginator /></#if>
+<#if form == 1 ><form method="post" action=""></#if>
+<div class="row">
+	<div class="col" >
+		<@paginationSiteItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount />
+	</div>
+</div>
+<#if form == 1 ></form></#if>
+<div class="table"></div>
+</#if>
+</#macro>
+<#macro paginationSitePageLinks paginator >
+<#assign nbLinkPagesToDisplay = 10 />
+<#assign offsetPrev = nbLinkPagesToDisplay / 2 />
+<#assign offsetNext = nbLinkPagesToDisplay / 2 />
+<#if ( paginator.pageCurrent <= nbLinkPagesToDisplay - offsetPrev )>
+<#assign offsetPrev = paginator.pageCurrent - 1 />
+<#assign offsetNext = nbLinkPagesToDisplay - offsetPrev />
+<#elseif ( paginator.pageCurrent + offsetNext > paginator.pagesCount )>
+<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
+<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
+</#if>
+<ul class="pagination pagination-sm">
+<#if ( paginator.pageCurrent - offsetPrev > 1 )>
+<li class="page-item">
+	<a class="page-link" href="${paginator.firstPageLink?xhtml}">
+		${paginator.labelFirst}
+	</a>
+</li>
+</#if>
+<#if (paginator.pageCurrent > 1) >
+<li class="page-item previous">
+	<a class="page-link" href="${paginator.previousPageLink?xhtml}">
+		${paginator.labelPrevious}
+	</a>
+</li>
+<#else>
+<li class="page-item disabled">
+	<a class="page-link" href="${paginator.firstPageLink?xhtml}">${paginator.labelPrevious}</a>
+</li>
+</#if>
+<#if ( paginator.pageCurrent - offsetPrev > 1 )>
+<li class="page-item">
+	<a class="page-link" href="${(paginator.pagesLinks?first).url?xhtml}"><strong>...</strong></a>
+</li>
+</#if>
+<#list paginator.pagesLinks as link>
+<#if ( link.index == paginator.pageCurrent )>
+	<li class="page-item active">
+		<a class="page-link" href="${link.url?xhtml}">${link.name}</a>
+	</li>
+<#else>
+	<li class="page-item">
+		<a class="page-link" href="${link.url?xhtml}">${link.name}</a>
+	</li>
+</#if>
+</#list>
+<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
+<li class="page-item">
+	<a class="page-link" href="${(paginator.pagesLinks?last).url?xhtml}"><strong>...</strong></a>
+</li>
+</#if>
+<#if (paginator.pageCurrent < paginator.pagesCount) >
+<li class="page-item next">
+	<a class="page-link" href="${paginator.nextPageLink?xhtml}">
+	${paginator.labelNext}
+	</a>
+</li>
+<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
+	<li class="page-item next">
+		<a class="page-link" href="${paginator.lastPageLink?xhtml}">
+			${paginator.labelLast}
+		</a>
+	</li>
+</#if>
+<#else>
+<li class="page-item disabled">
+	<a class="page-link" href="${paginator.lastPageLink?xhtml}">${paginator.labelNext}</a>
+</li>
+</#if>
+</ul>
+</#macro>
 <#macro paginationSiteCombo paginator nb_items_per_page=nb_items_per_page>
-	<span class="add-on">${paginator.labelItemCountPerPage}</span>
-	<select class="input-mini" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
-		<#list [ "10" , "20" , "50" , "100" ] as nb>
-			<#if nb_items_per_page = nb >
-				<option selected="selected" value="${nb}">${nb}</option>
-			<#else>
-			  	<option value="${nb}">${nb}</option>
-			</#if>
-		</#list>
+<div class="input-group">
+	<span class="input-group-text">${paginator.labelItemCountPerPage}</span>
+	<select class="form-select" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
+	<#list [ "10" , "20" , "50" , "100" ] as nb>
+	<#if nb_items_per_page = nb >
+		<option selected="selected" value="${nb}">${nb}</option>
+	<#else>
+		<option value="${nb}">${nb}</option>
+	</#if>
+	</#list>
 	</select>
-	<button class="btn btn-small" type="submit" title="#i18n{portal.util.labelRefresh}"/>
-		<i class="icon-repeat"></i>
-	</button>
-	&nbsp;-&nbsp;
+</div>
+<button class="btn btn-secondary" type="submit" title="#i18n{portal.util.labelRefresh}"/>
+	<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-repeat"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 12v-3a3 3 0 0 1 3 -3h13m-3 -3l3 3l-3 3" /><path d="M20 12v3a3 3 0 0 1 -3 3h-13m3 3l-3 -3l3 -3" /></svg>
+</button>
 </#macro>
 <#macro paginationSiteItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=0>
-	<#-- Display combo -->
-	<#if combo == 1 >
-		<@paginationSiteCombo paginator=paginator nb_items_per_page=nb_items_per_page/>
-	</#if>
-  <#if showcount == 1 >
-	  <#-- Display item count -->
-	  <#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>${paginator.labelItemCount} : </#if>${paginator.itemsCount}
-  </#if>
+<#-- Display combo -->
+<#if combo == 1 >
+<@paginationSiteCombo paginator=paginator nb_items_per_page=nb_items_per_page/>
+</#if>
+<#if showcount == 1 >
+<#-- Display item count -->
+<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>${paginator.labelItemCount} : </#if>${paginator.itemsCount}
+</#if>
 </#macro>
 <#macro item_navigationSite item_navigator>
-	<div id="item-navigator">
-		<#if (item_navigator.currentItemId > 0)>
-			<a href="${item_navigator.previousPageLink?xhtml}" title="#i18n{portal.util.labelPrevious}">
-				<i class="icon-circle-arrow-left"></i>
-				#i18n{portal.util.labelPrevious}
-			</a>
-		<#else>
-			&nbsp;&nbsp;
-		</#if>
-		<#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-			<a href="${item_navigator.nextPageLink?xhtml}" title="#i18n{portal.util.labelNext}">
-				#i18n{portal.util.labelNext}
-				<i class="icon-circle-arrow-right"></i>
-			</a>
-		<#else>
-			&nbsp;&nbsp;
-		</#if>
-	</div>
+<div id="item-navigator">
+<#if (item_navigator.currentItemId > 0)>
+<a href="${item_navigator.previousPageLink?xhtml}" title="#i18n{portal.util.labelPrevious}">
+	<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" /><path d="M8 12l4 4" /><path d="M8 12h8" /><path d="M12 8l-4 4" /></svg>
+	#i18n{portal.util.labelPrevious}
+</a>
+</#if>
+<#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
+<a href="${item_navigator.nextPageLink?xhtml}" title="#i18n{portal.util.labelNext}">
+	#i18n{portal.util.labelNext}
+	<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-right"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18" /><path d="M16 12l-4 -4" /><path d="M16 12h-8" /><path d="M12 16l4 -4" /></svg>
+</a>
+</#if>
+</div>
 </#macro>
 <#macro dataTableSite dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
-	<#if 0 < dataTableManager.items?size >
-		<#if dataTableManager.enablePaginator>
-			<form class="form-inline" method="post" action="${dataTableManager.sortUrl}">
-			    <#if (dataTableManager.paginator.pagesCount > 1) >
-			        <@paginationSitePageLinks paginator=dataTableManager.paginator />
-			    </#if>
-			    <div class="pull-right">
-					<@paginationSiteItemCount paginator=dataTableManager.paginator combo=1 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string/>
-				</div>
-			</form>
-		</#if>
-		<table class="${tableClass}" summary="${summary}">
-			<caption>${caption}</caption>
-			<tr>
-			<#list dataTableManager.listColumn as column>
-				<th scope="col">
-					#i18n{${column.titleKey}}
-					<#if !(column.typeColumn = "ACTION") && column.sortable>
-						<@sortSite jsp_url=dataTableManager.sortUrl attribute=column.parameterName />
-					</#if>
-				</th>
-			</#list>
-			</tr>
-			<#list dataTableManager.items as item>
-				<tr>
-					<#list dataTableManager.listColumn as column>
-						<#if column.typeColumn = "STRING">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<td>${value!}</td>
-						<#elseif column.typeColumn = "LABEL">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<td>#i18n{${value!}}</td>
-						<#elseif column.typeColumn = "BOOLEAN">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<#if value?? && value>
-								<td><span class="label label-success" title="#i18n{${column.labelTrue!}}"><i class="icon-ok-sign icon-white"></i>#i18n{${column.labelTrue!}}</span></td>
-							<#else>
-								<td><span class="label label-important" title="#i18n{${column.labelFalse!}}"><i class="icon-remove-sign icon-white"></i>#i18n{${column.labelFalse!}}</span></td>
-							</#if>
-						<#elseif column.typeColumn = "EMAIL">
-							<#assign propName = "item." + column.parameterName>
-							<#assign value = propName?eval>
-							<td><#if value?? && value != ""><a href="mailto:${value}" title="${value}" >${value}</a></#if></td>
-						<#elseif column.typeColumn = "ACTION">
-							<#if column.parameterName?? && column.parameterName != "">
-								<#assign macroName = column.parameterName>
-							<#elseif actionMacro?? && actionMacro != "">
-								<#assign macroName = actionMacro>
-							</#if>
-							<#if macroName?? && macroName != "">
-								<td><@.vars[macroName] item=item /></td>
-							</#if>
-						</#if>
-					</#list>
-				</tr>
-			</#list>
-		</table>
-		<#if dataTableManager.enablePaginator>
-			<form class="form-inline" method="post" action="${dataTableManager.sortUrl}">
-			    <#if (dataTableManager.paginator.pagesCount > 1) >
-			        <@paginationSitePageLinks paginator=dataTableManager.paginator />
-			    </#if>
-			    <div class="pull-right">
-					<@paginationSiteItemCount paginator=dataTableManager.paginator combo=0 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string/>
-				</div>
-			</form>
-		</#if>
+<#if 0 < dataTableManager.items?size >
+<#if dataTableManager.enablePaginator>
+<form class="d-inline" method="post" action="${dataTableManager.sortUrl}">
+<#if (dataTableManager.paginator.pagesCount > 1) >
+<@paginationSitePageLinks paginator=dataTableManager.paginator />
+</#if>
+<@paginationSiteItemCount paginator=dataTableManager.paginator combo=1 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string/>
+</form>
+</#if>
+<table class="${tableClass}" summary="${summary}">
+<caption>${caption}</caption>
+<tr>
+<#list dataTableManager.listColumn as column>
+<th scope="col">
+#i18n{${column.titleKey}}
+<#if !(column.typeColumn = "ACTION") && column.sortable>
+	<@sortSite jsp_url=dataTableManager.sortUrl attribute=column.parameterName />
+</#if>
+</th>
+</#list>
+</tr>
+<#list dataTableManager.items as item>
+<tr>
+<#list dataTableManager.listColumn as column>
+<#if column.typeColumn = "STRING">
+	<#assign propName = "item." + column.parameterName>
+	<#assign value = propName?eval>
+	<td>${value!}</td>
+<#elseif column.typeColumn = "LABEL">
+	<#assign propName = "item." + column.parameterName>
+	<#assign value = propName?eval>
+	<td>#i18n{${value!}}</td>
+<#elseif column.typeColumn = "BOOLEAN">
+	<#assign propName = "item." + column.parameterName>
+	<#assign value = propName?eval>
+	<#if value?? && value>
+		<td>
+			<span class="badge text-bg-success" title="#i18n{${column.labelTrue!}}">
+			<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M5 12l5 5l10 -10" /></svg> #i18n{${column.labelTrue!}}
+		</span>
+		</td>
 	<#else>
-		#i18n{portal.util.labelNoItem}
+		<td>
+			<span class="badge text-bg-danger" title="#i18n{${column.labelFalse!}}">
+				<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> #i18n{${column.labelFalse!}}
+			</span>
+			</td>
 	</#if>
+<#elseif column.typeColumn = "EMAIL">
+	<#assign propName = "item." + column.parameterName>
+	<#assign value = propName?eval>
+	<td><#if value?? && value != ""><a href="mailto:${value}" title="${value}" >${value}</a></#if></td>
+<#elseif column.typeColumn = "ACTION">
+	<#if column.parameterName?? && column.parameterName != "">
+		<#assign macroName = column.parameterName>
+	<#elseif actionMacro?? && actionMacro != "">
+		<#assign macroName = actionMacro>
+	</#if>
+	<#if macroName?? && macroName != "">
+		<td><@.vars[macroName] item=item /></td>
+	</#if>
+</#if>
+</#list>
+</tr>
+</#list>
+</table>
+<#if dataTableManager.enablePaginator>
+<form class="form-inline" method="post" action="${dataTableManager.sortUrl}">
+<#if (dataTableManager.paginator.pagesCount > 1) >
+	<@paginationSitePageLinks paginator=dataTableManager.paginator />
+</#if>
+<@paginationSiteItemCount paginator=dataTableManager.paginator combo=0 nb_items_per_page=dataTableManager.paginator.itemsPerPage?string/>
+</form>
+</#if>
+<#else>
+#i18n{portal.util.labelNoItem}
+</#if>
 </#macro>
 <#macro filterPanelSite dataTableManager formClass="form-horizontal" >
-	<#if dataTableManager.filterPanel.listFilter?? && 0 < dataTableManager.filterPanel.listFilter?size>
-		<form class="${formClass}" method="post" action="${dataTableManager.filterPanel.formUrl}" >
-			<fieldset>
-				<#list dataTableManager.filterPanel.listFilter as filter>
-					<div class="control-group">
-						<label class="control-label" for="description" >#i18n{${filter.filterLabel}} :</label>
-						<div class="controls">
-							<#if filter.filterType = "STRING">
-								<input type="text" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${filter.parameterName}" size="30" value="${filter.value!}"/>
-							<#elseif filter.filterType = "BOOLEAN">
-								<input type="checkbox" value="true" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${dataTableManager.filterPanelPrefix}${filter.parameterName}" <#if filter.value?? && filter.value = "true">checked="checked" </#if>/>
-							<#elseif filter.filterType = "DROPDOWNLIST">
-								<#if filter.value??>
-									<#assign filter_value = filter.value >
-								<#else>
-									<#assign filter_value = "" >
-								</#if>
-								<@comboSite name=dataTableManager.filterPanelPrefix+filter.parameterName default_value=filter_value items=filter.refList />
-							</#if>
-						</div>
-					</div>
-				</#list>
-				<div class="form-actions">
-					<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
-					<button class="btn btn-primary btn-small" type="submit" >
-						<i class="icon-search icon-white"></i>
-						<span class="hidden-phone" >#i18n{portal.util.labelSearch}</span>
-					</button>
-					<#if dataTableManager.filterPanel.formUrl?contains("?")>
-						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "&" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
-					<#else>
-						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
-					</#if>
-					<a class="btn btn-primary btn-small" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
-						<i class="icon-remove-circle icon-white"></i>
-						<span class="hidden-phone" >#i18n{portal.util.labelReset}</span>
-					</a>
-				</div>
-			</fieldset>
-		</form>
+<#if dataTableManager.filterPanel.listFilter?? && 0 < dataTableManager.filterPanel.listFilter?size>
+<form class="${formClass}" method="post" action="${dataTableManager.filterPanel.formUrl}" >
+<fieldset>
+<#list dataTableManager.filterPanel.listFilter as filter>
+<div class="mb-3">
+	<#if filter.filterType = "STRING">
+		<label class="form-label" for="${filter.parameterName}" >#i18n{${filter.filterLabel}} :</label>
+		<input type="text" class="form-control" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${filter.parameterName}"  value="${filter.value!}"/>
+	<#elseif filter.filterType = "BOOLEAN">
+		<div class="form-check">
+			<input type="form-check-input" class="form-control" value="true" name="${dataTableManager.filterPanelPrefix}${filter.parameterName}" id="${dataTableManager.filterPanelPrefix}${filter.parameterName}" <#if filter.value?? && filter.value = "true">checked="checked" </#if>/>
+			<label class="form-label" for="${dataTableManager.filterPanelPrefix}${filter.parameterName}" >#i18n{${filter.filterLabel}} :</label>
+		</div>
+	<#elseif filter.filterType = "DROPDOWNLIST">
+		<#if filter.value??><#assign filter_value = filter.value ><#else><#assign filter_value = "" ></#if>
+		<label class="form-label" for="${filter.parameterName}" >#i18n{${filter.filterLabel}} :</label>
+		<@comboSite name=dataTableManager.filterPanelPrefix+filter.parameterName default_value=filter_value items=filter.refList />
 	</#if>
+	</div>
+</div>
+</#list>
+<div class="row">
+	<div class="col">
+		<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
+		<button class="btn btn-primary" type="submit" >
+			<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg> <span class="hidden-xs" >#i18n{portal.util.labelSearch}</span>
+		</button>
+		<#if dataTableManager.filterPanel.formUrl?contains("?")>
+			<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "&" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
+		<#else>
+			<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
+		</#if>
+		<a class="btn btn-primary" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
+			<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-trash"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7l16 0" /><path d="M10 11l0 6" /><path d="M14 11l0 6" /><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" /><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" /></svg>
+			<span class="hidden-xs" >#i18n{portal.util.labelReset}</span>
+		</a>
+	</div>
+</div>
+</fieldset>
+</form>
+</#if>
 </#macro>
 <#macro fieldInputTextSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
-		<div class="controls">
-			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
-		</div>
+<div class="mb-3">
+	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
+	<input class="form-control ${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" aria-describedby="${inputName}HelpBlock"<#if maxlength &gt; 0>maxlength=${maxlength}</#if>>
+	<#if i18nHelpBlockKey != ''><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
 	</div>
+</div>
 </#macro>
 <#macro fieldInputCalendarSite i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='' language='fr'>
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
-		<div class="controls">
-			<div class="input-prepend">
-				<span class="add-on"><i class="icon-calendar">&nbsp;</i></span>
-				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" />
-			</div>
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
-		</div>
+<div class="mb-3">
+	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
+	<div class="input-group">
+		<span class="input-group-text"><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-calendar"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M11 15h1" /><path d="M12 15v3" /></svg></span>
+		<input class="form-control${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" aria-describedby="${inputName}HelpBlock">
 	</div>
-	<@getDatePicker idField=inputName language=language />
+	<#if i18nHelpBlockKey != ''><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
+</div>
+<@getDatePicker idField=inputName language=language />
 </#macro>
 <#macro fieldInputCheckBoxSite i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='' >
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} :</label>
-		<div class="controls">
-			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked="checked"</#if> />
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
-		</div>
-	</div>
+<div class="mb-3">
+	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} :</label>
+	<input class="form-control ${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked="checked"</#if> />
+	<#if i18nHelpBlockKey != ''><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
+</div>
 </#macro>
 <#macro fieldInputComboSite i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label>
-		<div class="controls">
-			<#assign params = "class='" + cssClass + "'" >
-			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
-		</div>
-	</div>
+<div class="mb-3">
+	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label>
+	<#assign params = "class='" + cssClass + "'" >
+	<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
+	<#if i18nHelpBlockKey != ''><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
+</div>
 </#macro>
 <#macro fieldTextAreaSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
-	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
-		<div class="controls">
-			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
-			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
-		</div>
-	</div>
+<div class="mb-3">
+	<label class="form-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
+	<textarea class="form-control ${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
+	<#if i18nHelpBlockKey != ''><p id="${inputName}HelpBlock" class="help-text">#i18n{${i18nHelpBlockKey}}</p></#if>
+</div>
 </#macro>
 <#macro autocompleteFO id name suggestionsUrl suggestionsPath="" itemValueFieldName="value" btnColor="light" btnSize="" itemLabelFieldNames="[]" itemTitleFieldNames=itemLabelFieldNames itemDescriptionFieldNames="[]" itemTagsFieldNames="[]" copyFields="[]" currentValue="" currentLabel="" required=false minimumInputLength=1 minimumInputLenghtLabel="#i18n{portal.util.labelMinimumSearchLenght}" searchLabel="#i18n{portal.util.labelSearch}" placeHolder="#i18n{portal.util.labelSearch}" emptyLabel="#i18n{portal.util.labelNoItem}" additionnalRequestParamInputId="" >
 <div id="${id}" class="lutece-autocomplete dropdown form-group form-floating" data-itemTitleFieldNames=${itemTitleFieldNames} data-suggestionsUrl="${suggestionsUrl}" data-suggestionsPath="${suggestionsPath}" data-itemValueFieldName=${itemValueFieldName} data-minimumInputLength=${minimumInputLength} data-itemDescriptionFieldNames=${itemDescriptionFieldNames} data-itemTagsFieldNames=${itemTagsFieldNames} data-copyFields=${copyFields} data-emptyLabel="${emptyLabel}" data-currentValue="${currentValue}" data-currentLabel="${currentLabel}" data-suggestionItemClass='["list-group-item", "p-3"]' data-titleClass='["mb-0", "fw-bolder"]' data-descriptionClass='["text-muted", "mb-0"]' data-tagClass='["badge", "bg-blue-lt", "me-1"]' data-loaderIconClasses='{"loading": ["ti-loader-2", "icon-rotate"], "error": ["ti-zoom-exclamation", "text-danger"], "search": ["ti-search"]}' data-emptyClass='["list-group-item", "p-3", "text-muted", "text-center"]' data-searchLabel="${searchLabel}">
-	<label for="${id}-input">${searchLabel}</label>
-	<div class="input-group">
-		<input class="form-control lutece-autocomplete-search-input w-75" type="text" name="${name}" role="combobox" autocomplete="off" value="<#if currentValue!=''>${currentValue!}</#if>" id="${id}-input" aria-expanded="false" aria-owns="${id}-list-container" aria-autocomplete="list" aria-describedby="${id}-lutece-autocomplete-default-assistive">
-		<span role="button" class="input-group-text lutece-autocomplete-remove <#if currentValue=''>d-none</#if> text-danger">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
-		</span>
-		<span role="button" class="input-group-text lutece-autocomplete-search-icon">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-		</span>
-	</div>
-	<div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
-		<ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto bg-white" role="listbox" id="suggestions-list" aria-labelledby="${id}-input" style="max-height:15rem;"></ul>
-		<span id="${id}-lutece-autocomplete-default-assistive" class="sr-only visually-hidden">#i18n{portal.util.message.autocomplete.avalailbleResults}</span>
-		<div class="sr-only lutece-autocomplete-status" role="status" aria-atomic="true" aria-live="polite"></div>
-	</div>
+<label for="${id}-input">${searchLabel}</label>
+<div class="input-group">
+	<input class="form-control lutece-autocomplete-search-input w-75" type="text" name="${name}" role="combobox" autocomplete="off" value="<#if currentValue!=''>${currentValue!}</#if>" id="${id}-input" aria-expanded="false" aria-owns="${id}-list-container" aria-autocomplete="list" aria-describedby="${id}-lutece-autocomplete-default-assistive">
+	<span role="button" class="input-group-text lutece-autocomplete-remove <#if currentValue=''>d-none</#if> text-danger">
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+	</span>
+	<span role="button" class="input-group-text lutece-autocomplete-search-icon">
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+	</span>
+</div>
+<div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
+	<ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto bg-white" role="listbox" id="suggestions-list" aria-labelledby="${id}-input" style="max-height:15rem;"></ul>
+	<span id="${id}-lutece-autocomplete-default-assistive" class="sr-only visually-hidden">#i18n{portal.util.message.autocomplete.avalailbleResults}</span>
+	<div class="sr-only lutece-autocomplete-status" role="status" aria-atomic="true" aria-live="polite"></div>
+</div>
 </div>
 <script type="module">
 import LuteceAutoComplete from "./themes/shared/modules/luteceAutoComplete.js";
