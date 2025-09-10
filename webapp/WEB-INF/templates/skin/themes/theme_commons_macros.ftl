@@ -1,7 +1,7 @@
 <#ftl strip_whitespace=true strip_text=true />
 <#-- DO NOT UPDATE                            -->
 <#include "${commonsMacrosPath}components/accordion/cAccordion.ftl" />
-<#include "${commonsMacrosPath}components/accordion/cCascading.ftl" />
+<#include "${commonsMacrosPath}components/cascading/cCascading.ftl" />
 <#include "${commonsMacrosPath}components/alert/cAlert.ftl" />
 <#include "${commonsMacrosPath}components/anchor/cAnchor.ftl" />
 <#include "${commonsMacrosPath}components/badge/cBadge.ftl" />
