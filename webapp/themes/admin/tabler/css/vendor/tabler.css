@@ -754,11 +754,19 @@ progress {
     max-width: 1140px;
   }
 }
+
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1320px;
   }
 }
+
+@media (min-width: 1850px) {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 1850px;
+  }
+}
+
 :root {
   --tblr-breakpoint-xs: 0;
   --tblr-breakpoint-sm: 576px;
@@ -766,6 +774,7 @@ progress {
   --tblr-breakpoint-lg: 992px;
   --tblr-breakpoint-xl: 1200px;
   --tblr-breakpoint-xxl: 1400px;
+  --tblr-breakpoint-xxxl: 1850px;
 }
 
 .row {

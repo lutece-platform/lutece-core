@@ -71,22 +71,12 @@
     fill: var(--main-color)
 }
 
-[data-bs-theme=dark] #main-menu-sidebar .nav-item .nav-link svg path{
-    fill: var(--white-color);
+[data-bs-theme=dark] .navigation .navbar-nav .nav-item .nav-link {
+	color: var(--white-color);
 }
 
-[data-bs-theme=dark] #main-menu-sidebar .nav-item.active .nav-link.help>svg path {
-    stroke: var(--main-color);
-}
-
-[data-bs-theme=dark] ,
-[data-bs-theme=dark] .bg-form,
-[data-bs-theme=dark] footer {
-    background-color: var(--theme-bg-default)
-}
-
-[data-bs-theme=dark][data-bs-theme-menu=top] #child-menu .list-group-item.active .title {
-    color: var(--white-color) !important;
+[data-bs-theme=dark] .navigation .navbar-nav .nav-item.active .nav-link {
+	text-decoration: underline;
 }
 
 [data-bs-theme=dark] .shadow {

@@ -39,7 +39,7 @@ Parameters:
 		<#break>
 </#switch>
 </head>
-<body class="loaded">
+<body >
 <@div class="page page-center">
 	<@div class="container">
 		<@div class="text-center mb-4">
@@ -61,4 +61,7 @@ Parameters:
 		</@row>
 	</@div>
 </@div>
+<script>
+document.documentElement.classList.remove('loading');
+</script>
 </#macro>
