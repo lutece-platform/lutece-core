@@ -77,7 +77,6 @@ INSERT INTO core_mode VALUES (1,'Administration','admin/','xml','1.0','text/xml'
 INSERT INTO core_mode VALUES (2,'Wap','wml/','xml','1.0','text/xml','UTF-8','yes','yes',null);
 
 INSERT INTO core_page (id_parent,name,description,date_update,status,page_order,id_template,date_creation,role,code_theme,node_status,image_content,mime_type,meta_keywords,meta_description,id_authorization_node,display_date_update,is_manual_date_update) VALUES (0,'Home','Home Page',now(),1,1,1,now(),'none','default',0,'','application/octet-stream',NULL,NULL,1,0,0);
-INSERT INTO core_page (id_parent,name,description,date_update,status,page_order,id_template,date_creation,role,code_theme,node_status,image_content,mime_type,meta_keywords,meta_description,id_authorization_node,display_date_update,is_manual_date_update) VALUES (1,'Page 1','A child page',now(),0,1,2,now(),'none','default',1,NULL,'application/octet-stream',NULL,NULL,1,0,0);
 
 INSERT INTO core_page_template VALUES (1, 'Home page', 'skin/site/page_home_demo.html', 'layout-home.svg');
 INSERT INTO core_page_template VALUES (2, 'One column', 'skin/site/page_template1.html', 'layout-one.svg');
