@@ -18,7 +18,7 @@
 			<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
 				<#assign checked = true>
 			</#if>
-			<@checkBox labelKey='${attributeField.title}' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked />
+			<@checkBox orientation='switch' labelKey='${attributeField.title}' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked />
 		</#if>
 	</#list>
 </@formGroup>

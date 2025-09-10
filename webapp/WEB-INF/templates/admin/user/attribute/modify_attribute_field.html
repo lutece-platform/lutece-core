@@ -14,7 +14,7 @@
 						<@input type='text' name='value' id='value' value='${attribute_field.value?html}' />
 					</@formGroup>
 					<@formGroup>
-						<@checkBox name='default_value' id='default_value' value='1' checked=attribute_field.defaultValue labelKey='#i18n{portal.users.modify_attribute_field.labelDefaultValue}' />
+						<@checkBox orientation='switch' name='default_value' id='default_value' value='1' checked=attribute_field.defaultValue labelKey='#i18n{portal.users.modify_attribute_field.labelDefaultValue}' />
 					</@formGroup>
 					<@formGroup>
 						<@button type='submit' value='#i18n{portal.users.modify_attribute_field.buttonSave}' name='save' buttonIcon='check' title='#i18n{portal.users.modify_attribute_field.buttonSave}'  color='primary' size='' />
