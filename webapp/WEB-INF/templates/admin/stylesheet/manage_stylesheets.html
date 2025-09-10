@@ -11,27 +11,28 @@
             </@tform>
             <@offcanvas targetUrl="jsp/admin/style/CreateStyleSheet.jsp?mode_id=${mode_id}" targetElement="#create-stylesheet-form" redirectForm=false id="stylesheet-create" title="#i18n{portal.style.manage_stylesheets.buttonAdd}" btnTitle="#i18n{portal.style.manage_stylesheets.buttonAdd}" btnIcon="plus" position="end" />
         </@pageHeader>
-        <#if stylesheet_list?size gte 1>
-            <@table headBody=true>
-                <@tr>
-                    <@th>#i18n{portal.style.manage_stylesheets.columnName} <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="description" /></@th>
-                    <@th>#i18n{portal.style.manage_stylesheets.columnFilename} <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="file" /> </@th>
-                    <@th>#i18n{portal.util.labelActions}</@th>
-                </@tr>
-                <@tableHeadBodySeparator />
-                <#list stylesheet_list as stylesheet>
-                <@tr>
-                    <@td>${stylesheet.description}</@td>
-                    <@td>${stylesheet.file}</@td>
-                    <@td>
-                        <@offcanvas targetUrl='jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}' targetElement='#modify-stylesheet-form' redirectForm=false id='stylesheet-${stylesheet.id}' title='#i18n{portal.util.labelModify} ${stylesheet.description}' btnIcon='edit' btnSize='sm' position='end' />
-                    </@td>
-                </@tr>
-                </#list>
-            </@table>
+        <#if stylesheet_list?size gt 5><@paginationAdmin paginator=paginator showcount=1 combo=0 /></#if>
+        <#if stylesheet_list?size gt 1>
+            <@manageFeature>
+            <#list stylesheet_list as stylesheet>
+                <@manageFeatureItem >
+                    <@manageFeatureItemColumn>
+                        #i18n{portal.style.manage_stylesheets.columnName} ${stylesheet.description}
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn>
+                        #i18n{portal.style.manage_stylesheets.columnFilename} ${stylesheet.file}
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn auto=true>
+                        <@offcanvas targetUrl="jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}" targetElement="#modify-stylesheet-form" redirectForm=false id="stylesheet-${stylesheet.id}" title="#i18n{portal.util.labelModify} ${stylesheet.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit" position="end" />
+                    </@manageFeatureItemColumn>
+                </@manageFeatureItem>
+            </#list>
+            </@manageFeature>
         <#else>
-            <@empty />
+            <@box class='mt-3'>
+                <@empty />
+            </@box>
         </#if>
-        <@paginationAdmin paginator=paginator combo=1 />
+        <#if stylesheet_list?size gt 5><@paginationAdmin paginator=paginator showcount=0 combo=1 /></#if>
     </@pageColumn>
 </@pageContainer>
