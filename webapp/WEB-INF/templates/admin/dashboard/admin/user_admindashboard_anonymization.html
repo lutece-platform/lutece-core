@@ -1,25 +1,23 @@
 <@tabPanel id='anonymizeUsers'>
-    <#assign tabTitle>#i18n{portal.users.anonymize_user.titleAnonymizeUser}</#assign>
-    <@pageHeader title='${tabTitle}'/>
-    <@tform role='form' style="inline" method='post' name='anonymize_user' action='jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp' boxed=true>
-        <@input type='hidden' name='token' value='${token}' />
-        <@formGroup labelKey="#i18n{portal.users.create_user.labelIdentity}">
-            <@btnGroupRadioCheckbox type='checkbox' color='default'  id="access_code" name='access_code' value='true' checked=access_code??&&access_code labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code'  />
-            <@btnGroupRadioCheckbox type='checkbox' color='default'  id="last_name" name='last_name' value='true' checked=last_name??&&last_name labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' />
-            <@btnGroupRadioCheckbox type='checkbox' color='default'  id='first_name' name='first_name' value='true' checked=first_name??&&first_name labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name'  />
-            <@btnGroupRadioCheckbox type='checkbox' color='default'  id='email'   name='email' value='true' checked=email??&&email labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email'  />
+<#assign tabTitle>#i18n{portal.users.anonymize_user.titleAnonymizeUser}</#assign>
+<@pageHeader title="${tabTitle}" titleClass="pb-3" />
+<@tform role='form' style="inline" method='post' name='anonymize_user' action='jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp' boxed=true>
+    <@input type='hidden' name='token' value='${token}' />
+    <@formGroup labelKey="#i18n{portal.users.create_user.labelIdentity}">
+        <@btnGroupRadioCheckbox type='checkbox' color='default'  id="access_code" name='access_code' value='true' checked=access_code??&&access_code labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code'  />
+        <@btnGroupRadioCheckbox type='checkbox' color='default'  id="last_name" name='last_name' value='true' checked=last_name??&&last_name labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' />
+        <@btnGroupRadioCheckbox type='checkbox' color='default'  id='first_name' name='first_name' value='true' checked=first_name??&&first_name labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name'  />
+        <@btnGroupRadioCheckbox type='checkbox' color='default'  id='email'   name='email' value='true' checked=email??&&email labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email'  />
+    </@formGroup>
+    <#if attributes_list?has_content>
+        <@formGroup labelKey="#i18n{portal.users.create_user.labelComplementaryAttributes}">
+            <#list attributes_list as attribute>
+                <#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+                    <@btnGroupRadioCheckbox type='checkbox' color='default'  id='attribute_${attribute.idAttribute}' name='attribute_${attribute.idAttribute}' value='true' checked=attribute.anonymize labelFor='attribute_${attribute.idAttribute}' labelKey='${attribute.title}'  />
+                </#if>
+            </#list>
         </@formGroup>
-        <#if attributes_list?has_content>
-            <@formGroup labelKey="#i18n{portal.users.create_user.labelComplementaryAttributes}">
-                <#list attributes_list as attribute>
-                    <#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
-                        <@btnGroupRadioCheckbox type='checkbox' color='default'  id='attribute_${attribute.idAttribute}' name='attribute_${attribute.idAttribute}' value='true' checked=attribute.anonymize labelFor='attribute_${attribute.idAttribute}' labelKey='${attribute.title}'  />
-                    </#if>
-                </#list>
-            </@formGroup>
-        </#if>
-		<@formGroup>
-			<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.util.labelModify}' color='primary' />
-		</@formGroup>
-    </@tform>
+    </#if>
+    <@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' color='primary' />
+</@tform>
 </@tabPanel>
