@@ -14,6 +14,7 @@
 					</@inputGroup>
 				</@formGroup>
 			</@tform>
+			<@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} ' buttonIcon='user' color='primary' />
 			<@offcanvas id="edit-role" title="#i18n{portal.rbac.modify_role.titleModifyRole}" position="end" btnTitle="#i18n{portal.rbac.modify_role.titleModifyRole}" btnIcon="edit">
 				<@tform method='post' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
 					<@input type='hidden' name='role_key_previous' value='${role.key}' />
@@ -42,35 +43,34 @@
 				</@tform>
 			</@offcanvas>
 		</@pageHeader>
-		<@table headBody=true>
-			<@tr>
-				<@th>#i18n{portal.rbac.view_role_description.columnTitleResourceType}</@th>
-				<@th>#i18n{portal.rbac.view_role_description.columnTitleResourceId}</@th>
-				<@th>#i18n{portal.rbac.view_role_description.columnTitlePermission}</@th>
-				<@th>#i18n{portal.rbac.view_role_description.columnTitleDeleteControl}</@th>
-			</@tr>
-			<@tableHeadBodySeparator />
-			<#assign previousResourceTypeKey="">
-				<#list controled_resource_list as controled_resource>
-					<@tr>
-						<@td>
-							<#if controled_resource.resourceTypeKey!=previousResourceTypeKey>
-								<strong>${controled_resource.resourceTypeLabel}
-									(${controled_resource.resourceTypeKey})</strong></#if>
-						</@td>
-						<@td><#if controled_resource.resourceId??>${controled_resource.resourceIdLabel} (${controled_resource.resourceId})</#if></@td>
-						<@td><#if controled_resource.permissionKey??>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</#if></@td>
-						<@td>
-							<@tform method='post' action='jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp'>
-								<@input type='hidden' name='rbac_id' value='${controled_resource.RBACId}' />
-								<@button type='submit'
-									title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}'
-									buttonIcon='trash' size='sm' hideTitle=['all'] color='danger' />
-							</@tform>
-						</@td>
-					</@tr>
-					<#assign previousResourceTypeKey=controled_resource.resourceTypeKey>
-				</#list>
-		</@table>
+		<#if controled_resource_list?size gt 5><@paginationAdmin paginator=paginator showcount=1 combo=0 /></#if>
+		<#if controled_resource_list?size gt 0>
+		<@manageFeature>
+		<#assign previousResourceTypeKey=''>
+		<#list controled_resource_list as controled_resource>
+		<@manageFeatureItem>
+			<@manageFeatureItemColumn>
+				<p>#i18n{portal.rbac.view_role_description.columnTitleResourceType} <strong> ${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</strong></p>
+				</@manageFeatureItemColumn>
+				<@manageFeatureItemColumn>
+				<p>#i18n{portal.rbac.view_role_description.columnTitleResourceId} : <#if controled_resource.resourceId??><strong>${controled_resource.resourceIdLabel}  (${controled_resource.resourceId})</strong></#if></p>
+				<p>#i18n{portal.rbac.view_role_description.columnTitlePermission} : <#if controled_resource.permissionKey??><strong>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</strong></#if></p>
+			</@manageFeatureItemColumn>
+			<@manageFeatureItemColumn auto=true>
+				<@tform method='post' action='jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp'>
+					<@input type='hidden' name='rbac_id' value='${controled_resource.RBACId}' />
+					<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' color='danger' />
+				</@tform>
+			</@manageFeatureItemColumn>
+		</@manageFeatureItem>
+		<#assign previousResourceTypeKey=controled_resource.resourceTypeKey>
+		</#list>
+		</@manageFeature>
+		<#else>
+			<@box class='mt-3'>
+				<@empty />
+			</@box>
+		</#if>
+		<#if controled_resource_list?size gt 5><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if>
 	</@pageColumn>
 </@pageContainer>

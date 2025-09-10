@@ -3,32 +3,31 @@
         <@pageHeader title='#i18n{portal.rbac.manage_roles.pageTitle}'>
             <@offcanvas targetUrl="jsp/admin/rbac/CreateRole.jsp" targetElement="#create-role-form" redirectForm=false id="template-create-role" title="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}" btnTitle="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}" btnIcon="plus me-1" position="end" />
         </@pageHeader>
+        <#if role_list?size gt 5><@paginationAdmin paginator=paginator /></#if>
         <#if role_list?size gt 1>
-            <@table headBody=true>
-                <@tr>
-                    <@th> #i18n{portal.rbac.manage_roles.columnTitleKey} <@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="key" /> </@th>
-                    <@th>#i18n{portal.rbac.manage_roles.columnTitleDescription} <@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="description" /> </@th>
-                    <@th>#i18n{portal.rbac.manage_roles.columnTitleActions}</@th>
-                </@tr>
-                <@tableHeadBodySeparator />
+            <@manageFeature>
                 <#list role_list as role>
-                    <@tr>
-                        <@td>${role.key}</@td>
-                        <@td>${role.description}</@td>
-                        <@td>
-                            <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.rbac.view_role_description.labelDescription} (${role.description})' hideTitle=['all'] buttonIcon='edit' size='' color='primary' />
-                            <@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} (${role.description})' hideTitle=['all'] buttonIcon='user' size='' color='primary' />
+                    <@manageFeatureItem>
+                        <@manageFeatureItemColumn>
+                            <@p>#i18n{portal.rbac.manage_roles.columnTitleKey}: <strong>${role.key}</strong></@p>
+                            <@p>#i18n{portal.rbac.manage_roles.columnTitleDescription}: <strong>${role.description}</strong></@p>
+                        </@manageFeatureItemColumn>
+                        <@manageFeatureItemColumn auto=true>
+                            <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.rbac.view_role_description.labelDescription}'  buttonIcon='edit' color='primary' />
+                            <@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} ' buttonIcon='user' color='primary' />
                             <#if exist_front_role_map?has_content && exist_front_role_map[role.key]>
-                                <@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelViewFrontRole} (${role.key})' buttonIcon='link' size='' hideTitle=['all'] color='primary' />
+                                <@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelViewFrontRole} ' buttonIcon='link'  color='primary' />
                             </#if> 
-                            <@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete} (${role.description})' hideTitle=['all'] buttonIcon='trash' color='danger' size='' />
-                        </@td>
-                    </@tr>
+                            <@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete} ' buttonIcon='trash' color='danger' />
+                        </@manageFeatureItemColumn>
+                    </@manageFeatureItem>
                 </#list>
-            </@table>
+            </@manageFeature>
         <#else>
-            <@empty />
+            <@box>
+                <@empty />
+            </@box>
         </#if>
-        <@paginationAdmin paginator=paginator combo=1 />   
+        <#if role_list?size gt 5><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if>
     </@pageColumn>
 </@pageContainer>
