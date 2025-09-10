@@ -1,7 +1,11 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title=i18n('portal.rbac.add_control_to_role.titleAddControl', role_key?html) />
-		<@tform method='post' action='jsp/admin/rbac/DoSelectResources.jsp' name='add_control' boxed=true>
+        <@pageHeader title=i18n('portal.rbac.add_control_to_role.titleAddControl', role_key?html) skipHeader=true />
+		<ul class="steps">
+			<li class="step-item active">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}</li>
+			<li class="step-item">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)}</li>
+		</ul>
+		<@tform method='post' class='d-flex justify-content-center align-items-center flex-column' action='jsp/admin/rbac/DoSelectResources.jsp' name='add_control' boxed=true>
 			<@input type='hidden' name='role_key' value='${role_key}' />
 			<@input type='hidden' name='resource_type' value='${resource_type}' />
 			<@formGroup>
@@ -15,7 +19,7 @@
 					</@tag>
 				</#if>
 			</@formGroup>
-			<@formGroup>
+			<@formGroup class='text-center'>
 				<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role_key}' buttonIcon='times' title='#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}' color='default' />
 				<@button type='submit' buttonIcon='arrow-right' title='#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}' iconPosition='right' color='primary' />
 			</@formGroup>
