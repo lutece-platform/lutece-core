@@ -69,9 +69,9 @@ document.addEventListener("DOMContentLoaded", function() {
         
     function _resizePreview( ) {
         previewFrame.style.height = ( window.innerHeight - 30 ) + "px";
-        previewFrame.style.width = "100%";
+        previewFrame.style.width = "105%";
         previewIframe.style.height = ( window.innerHeight - 30 ) + "px";
-        previewIframe.style.width = "100%";
+        previewIframe.style.width = "105%";
     }
 
     function _setBtnPreview( el, w ) {
@@ -128,8 +128,8 @@ document.addEventListener("DOMContentLoaded", function() {
         const manualUpdateDate = document.querySelector( '#manual_update_date' );
 
         // Image management
-        updateImage.parentElement.setAttribute('hidden','hidden')
-        imageContent.parentElement.setAttribute('hidden','hidden')
+        // updateImage.parentElement.setAttribute('hidden','hidden')
+        // imageContent.parentElement.setAttribute('hidden','hidden')
 
         // Check Image exists
         const image = new Image();
