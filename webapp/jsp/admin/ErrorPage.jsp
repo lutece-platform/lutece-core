@@ -7,11 +7,8 @@
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessage" %>
 <%@ page import="fr.paris.lutece.portal.service.i18n.I18nService" %>
 
-
-
 <%@ page buffer="1024kb"%>
 <%@ page autoFlush="false"%>
-
 <%!
 	private final static String JSP_URL_MODIFY_DEFAULT_USER_PASSWORD = "jsp/admin/user/ModifyDefaultUserPassword.jsp";
 
@@ -29,12 +26,13 @@
     private final static String PROPERTY_XPAGE_CONTACT = "portal.site.page_menu_tools.xpage.contact";
 	private final static String PROPERTY_CREDITS = "portal.site.portal_footer.labelCredits";
 	private final static String PROPERTY_WINDOW = "portal.site.portal_footer.newWindow";
+	private final static String PROPERTY_LABELMADEBY = "portal.site.portal_footer.labelMadeBy";
+	private final static String PROPERTY_LABELPORTAL = "portal.site.portal_footer.labelPortal";
+
 %>
-
 <%
-
-	TransactionManager.rollBackEveryTransaction( exception.getCause(  ) );
-    if( exception.getCause(  ) instanceof fr.paris.lutece.portal.service.admin.AccessDeniedException )
+	TransactionManager.rollBackEveryTransaction( exception );
+    if( exception instanceof fr.paris.lutece.portal.service.admin.AccessDeniedException )
     {
     	if ( exception.getMessage(  ) != null )
     	{
@@ -53,130 +51,146 @@
     else
     {
 %>
-
-<!DOCTYPE html>
-<html>
-<head>
-<base href="<%= AppPathService.getBaseUrl( request ) %>/" />
-<!-- Set the viewport width to device width for mobile -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Le styles -->
-<link href="css/admin/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="css/admin/portal_admin.css" />
-<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-<link href="css/admin/bootstrap-responsive.min.css" rel="stylesheet">
-</head>
-<body>
-<header>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="navbar-inner">
-            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="brand">
-                &nbsp;<img class="logo" src="images/logo-header.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}"  alt="${site_name}" />
-                
-            </a>
-            
-        </div> <!-- /navbar-inner -->
-    </div>
-    <h1 class="header"><a name="top">&nbsp;</a></h1>
-</header>
-<div class="container-fluid">
+<script>
+if( document.getElementById('navbar-menu') != null ){
+	document.getElementById('navbar-menu').remove()
+	document.getElementById('main-nav').remove()
+	document.documentElement.classList.remove('loading');
+} else {
+	document.body.classList.add('loaded');
+}
+</script>
+<div class="container">
 <!-- container -->
-	<div class="row-fluid">
-		<div class="span12">
-			<br>
-			<br>
-			<br>
-			<div class="alert alert-error">
-			<h3>Internal error</h3>
-			<%
-			if ( exception instanceof AppException )
-			{
-			    //AppException calls AppLogService.error( message, this ) in the
-			    //constructor, so don't call it here again Call toString to have
-			    //the Class and the message to be able to identify the correct
-			    //stacktrace in the preceding logs.
-			    AppLogService.error( "Error 500 : Caused by previous Critical AppException" );
-			}
-			else
-			{
-			    AppLogService.error( exception.getMessage(  ), exception );
-			}
-			if( AppPropertiesService.getProperty( PROPERTY_DEBUG , PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ))
-			{
-			%>
-			<p class="lead">
-				<i class="icon-ban-circle icon-white"></i>&nbsp;
-				<%
-				String strErrorMessage = (exception.getMessage() != null ) ? exception.getMessage() : exception.toString();
-				%>
-			</p>
-			<p>
-				<a class="btn btn-danger" id="btnStack">
-				<%= I18nService.getLocalizedString(PROPERTY_DETAIL, request.getLocale() ) %>
-				</a>
-			</p>
-			<pre id="stackMsg">
-				<%
-				java.io.CharArrayWriter cw = new java.io.CharArrayWriter();
-				java.io.PrintWriter pw = new java.io.PrintWriter(cw,true);
-				exception.printStackTrace(pw);
-				out.println(cw.toString());
-				%>
-			</pre>
-			<p>
-				<a class="btn btn-danger" href="jsp/site/Portal.jsp">
-					<i class="icon-home icon-white"></i>
-					   &nbsp;<%= I18nService.getLocalizedString(PROPERTY_HOME, request.getLocale() ) %>
-				</a>
-			</p>
-			<%
-				
-				} else {
-			%>
-			<p>
-				<i class="icon-warning-sign"></i>
-				&nbsp;<%= I18nService.getLocalizedString(PROPERTY_MESSAGE, request.getLocale() ) %>
-			</p>
-			<p>
-				<a class="btn btn-danger" href="<%= AppPathService.getAdminMenuUrl() %>">
-					<i class="icon-home icon-white"></i>
-					&nbsp;<%= I18nService.getLocalizedString(PROPERTY_ADMIN_HOME_LABEL, request.getLocale() ) %>
-				</a>
-			</p>
-			<%
-				}
-				} // end else access denied
-			%>
+	<div class="row">
+		<div class="col">
+			<div class="card mt-3" style="height: 80vh;">
+				<div class="card-body d-flex align-items-center justify-content-center h-100">
+					<div class="alert alert-danger" role="alert">
+                      <div class="alert-icon">
+                        <!-- Download SVG icon from http://tabler.io/icons/icon/alert-circle -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon alert-icon icon-2">
+                          <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                          <path d="M12 8v4"></path>
+                          <path d="M12 16h.01"></path>
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 class="alert-heading">Internal error</h4>
+                        <div class="alert-description">
+                        <%
+							if ( exception instanceof AppException )
+							{
+								//AppException calls AppLogService.error( message, this ) in the
+								//constructor, so don't call it here again Call toString to have
+								//the Class and the message to be able to identify the correct
+								//stacktrace in the preceding logs.
+								AppLogService.error( "Error 500 : Caused by previous Critical AppException" );
+							}
+							else
+							{
+								AppLogService.error( exception.getMessage(  ), exception );
+							}
+							if( AppPropertiesService.getProperty( PROPERTY_DEBUG , PROPERTY_DEBUG_DEFAULT ).equalsIgnoreCase( "true" ))
+							{
+							%>
+							<p class="fw-bold fs-3">
+								<%
+								String strErrorMessage = (exception.getMessage() != null ) ? exception.getMessage() : exception.toString();
+								%>
+							</p>
+							<details>
+  								<summary>
+								<%= I18nService.getLocalizedString(PROPERTY_DETAIL, request.getLocale() ) %>
+								</summary>
+								<pre>
+									<code>
+<%
+java.io.CharArrayWriter cw = new java.io.CharArrayWriter();
+java.io.PrintWriter pw = new java.io.PrintWriter(cw,true);
+exception.printStackTrace(pw);
+out.println(cw.toString());
+%>
+									</code>
+								</pre>
+								<p class="text-center">
+									<a class="btn btn-outline-primary" href="jsp/site/Portal.jsp">
+										<%= I18nService.getLocalizedString(PROPERTY_HOME, request.getLocale() ) %>
+									</a>
+								</p>
+							</details>
+							<%
+								
+								} else {
+							%>
+							<p><%= I18nService.getLocalizedString(PROPERTY_MESSAGE, request.getLocale() ) %></p>
+							<p class="text-center">
+								<a class="btn btn-outline-primary" href="<%= AppPathService.getAdminMenuUrl() %>">
+									<%= I18nService.getLocalizedString(PROPERTY_ADMIN_HOME_LABEL, request.getLocale() ) %>
+								</a>
+							</p>
+						<%
+							}
+						} // end else access denied
+						%>
+                        </div>
+                      </div>
+                    </div>
+				</div>
 			</div>
 		</div>
 	</div>
-<!-- end container -->
 </div>
-<!-- footer menu -->
-<footer>
-<div id="footer" class="navbar navbar-fixed-bottom  hidden-phone">
-	<div class="pull-right">
-		<a href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-			<img src="images/poweredby.svg" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
-			<small>version ${version}</small>
-		</a>
-	</div>
-</div>
+<!--  BEGIN FOOTER  -->
+<footer class="footer footer-transparent d-print-none">
+    <div class="container-xl">
+        <div class="row text-center align-items-center flex-row-reverse">
+            <div class="col-lg-auto ms-lg-auto">
+            <ul class="list-inline list-inline-dots mb-0">
+                <li class="list-inline-item"><a href="https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki" class="nav-link">Documentation</a></li>
+                <li class="list-inline-item"><a href="https://github.com/lutece-platform/" target="_blank" class="link-secondary" rel="noopener">Source code</a></li>
+            </ul>
+            </div>
+            <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+            <ul class="list-inline list-inline-dots mb-0">
+                <li class="list-inline-item">
+                    <a class="nav-link d-flex align-items-center" href="https://lutece.paris.fr" target="lutece" title="<%= I18nService.getLocalizedString(PROPERTY_LABELPORTAL, request.getLocale() ) %>">
+                        <span class="me-2"></span>
+                        <img src="themes/admin/shared/images/poweredby.svg" style="height:15px" class="img-fluid theme-invert" alt="<%= I18nService.getLocalizedString(PROPERTY_LABELMADEBY, request.getLocale() ) %>">
+                        <span class="visually-hidden">LUTECE</span>
+                        <!-- <span class="text-muted ms-2" rel="noopener">Version</span> -->
+                    </a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </div>
 </footer>
+<!--  END FOOTER  -->
 <!-- Included JS Files -->
 <!-- Le javascript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="js/jquery/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <script>
-$(document).ready(function(e){
-	$('#stackMsg').toggle();
-	$("#btnStack").click( function(e){
-		$('#stackMsg').toggle();
+document.addEventListener('DOMContentLoaded', function() {
+	
+	const stackMsg = document.getElementById('stackMsg');
+	const btnStack = document.getElementById('btnStack');
+	
+	// Initially hide the stack trace
+	stackMsg.style.display = 'none';
+	
+	// Toggle stack trace visibility on button click
+	btnStack.addEventListener('click', function(e) {
+		e.preventDefault();
+		if (stackMsg.style.display === 'none') {
+			stackMsg.style.display = 'block';
+		} else {
+			stackMsg.style.display = 'none';
+		}
 	});
+	
 });
 </script>
-
 </body>
 </html>
