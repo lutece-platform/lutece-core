@@ -44,6 +44,28 @@ Parameters:
 <!-- Placed at the end of the document so the pages load faster 	-->
 <@coreAdminJSLinks />
 ${javascript_files}
+<script>
+/* Manage Header */
+document.addEventListener( "DOMContentLoaded", function() {
+	// Initialize the feature title container
+	const adminContentHeader = document.querySelector('#admin-content-header');
+	const adminHeaderTitle = adminContentHeader.querySelector( '.page-title'	);
+	const adminHeaderPreTitle = adminContentHeader.querySelector( '.page-pretitle'	);
+    const pageHeader = document.getElementById('page-header');
+	if( adminHeaderPreTitle != null && pageHeader != null ) {
+        const pageHeaderPreTitle = pageHeader.querySelector('.page-pretitle');
+        const pageHeaderTitle = pageHeader.querySelector('.page-title');
+		pageHeaderPreTitle.innerHTML = adminHeaderPreTitle.innerHTML;
+        if( adminHeaderTitle != null && (adminHeaderTitle.textContent.trim() != pageHeaderTitle.textContent.trim() ) && pageHeaderPreTitle.textContent.trim() == '' ) {
+            pageHeaderPreTitle.remove()
+            adminContentHeader.classList.remove('d-none');
+        }
+	}
+    if( pageHeader === null ) {
+        adminContentHeader.classList.remove('d-none');
+    }
+});
+</script>
 </div><!-- Close wrapper -->
 </#macro>
 <#--

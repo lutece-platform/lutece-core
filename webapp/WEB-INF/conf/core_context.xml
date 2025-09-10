@@ -300,7 +300,7 @@
     <bean id="commonsBoostrap5Tabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bootstrap5Tabler" />
          <property name="default" value="true" />
-        <property name="name" value="Tabler 1.0.0" />
+        <property name="name" value="Tabler 1.4" />
         <property name="files">
             <list>
                 <value>commons_bs5_tabler.html</value>

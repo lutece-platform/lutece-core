@@ -8,11 +8,12 @@ Parameters:
 - title (string, optional): the title of the page header.
 - description (string, optional): the description of the page header.
 -->
-<#macro pageHeader id='' title='' description='' class='' toolsClass='' responsiveHeader=false params='' deprecated...>
+<#macro pageHeader id='' title='' titleClass='' description='' class='' toolsClass='' responsiveHeader=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div id="page-header" class="row g-2 align-items-center<#if responsiveHeader>flex-column flex-md-row</#if> d-none">
+<div id="page-header" class="row g-2 align-items-center<#if responsiveHeader>flex-column flex-md-row</#if><#if titleClass !=''> ${titleClass!}</#if>">
 	<div class="col<#if class !=''> ${class}</#if>">
-		<h2 class="page-title">${title}</h2>
+		<div class="page-pretitle"></div>
+		<h2 class="page-title mt-2">${title}</h2>
 		<#if description !=''><p class="">${description}</p></#if>
 	</div>
 	<!-- Page title actions -->
@@ -20,23 +21,4 @@ Parameters:
 	<#nested>
 	</div>
 </div>
-<script>
-// Initialize the feature title container
-const adminContentHeader = document.querySelector('#admin-content-header');
-const adminContentButtons = adminContentHeader.querySelector('.page-header-buttons');
-const adminHeaderTitle = adminContentHeader.querySelector('.page-title');
-const pageHeader = document.getElementById('page-header');
-const pageHeaderTitle = pageHeader.querySelector('.page-title');
-const pageHeaderTools = document.getElementById('page-header-tools');
-if( adminHeaderTitle.textContent.trim() === pageHeaderTitle.textContent.trim() ) {
-	pageHeader.remove();
-} 
-
-if ( pageHeaderTools != null && pageHeaderTools.textContent.trim() !== ''  ) {
-	adminContentButtons.innerHTML = pageHeaderTools.innerHTML;
-} else {
-	pageHeader.classList.remove('d-none');
-}
-	
-</script>
 </#macro>

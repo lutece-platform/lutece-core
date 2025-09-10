@@ -16,7 +16,7 @@ Parameters:
 </head>
 <body class="loaded<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<#if params!=''> ${params}</#if>>
 <main class="<#if loginIsCover?number == 1>row g-0 flex-fill<#else>page page-center"</#if>">
-<#if loginIsCover?number == 0 && loginLayoutImg=='' > <div class="container container-tight py-4"> </#if>
+<#if loginIsCover?number == 0 && loginLayoutImg==''><div class="container container-tight py-4"> </#if>
 <#if loginIsCover?number == 1>
 <!-- COVER -->
 	<div class="col-12 col-lg-6 col-xl-4 border-top-wide border-primary d-flex flex-column justify-content-center">
@@ -31,7 +31,7 @@ Parameters:
 </#if>
 					<div class="text-center mb-4">
 						<!-- BEGIN NAVBAR LOGO -->
-						<a href="." aria-label="#i18n{portal.admin.admin_login.gotoFO} ${site_name!}" class="navbar-brand navbar-brand-autodark">
+						<a href="." aria-label="#i18n{portal.admin.admin_login.gotoFO} ${site_name!}" target="_blank" class="navbar-brand navbar-brand-autodark">
 							<#if logoUrl !=''>
 							<@img url='${logoUrl}' alt='${site_name!}' class='logo' params='aria-hidden="true" height="24" width="24"' />
 							<#else>
