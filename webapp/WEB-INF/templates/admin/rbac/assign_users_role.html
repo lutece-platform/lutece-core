@@ -61,12 +61,12 @@
 			<@item_navigation display='inline' item_navigator=item_navigator />
 		</@pageHeader>
 		<@row>
-			<@columns md=4 lg=3>
+			<@columns md=4>
 				<@box>
 					<#assign available_users_number=available_users_list?size>
 					<@boxHeader title="#i18n{portal.rbac.assign_users.labelAvailableUser} (${available_users_number})" />
 					<@boxBody>
-						<@tform name='assignUser' method='post' action='jsp/admin/rbac/DoAssignUsersRole.jsp'>
+						<@tform name='assignUser' method='post' action='jsp/admin/rbac/DoAssignUsersRole.jsp' >
 						<#assign available_users_number=available_users_list?size>
 						<#if available_users_number gt 0>
 							<@input type='hidden' name='role_key' value='${role.key}' />
@@ -75,16 +75,16 @@
 								<@select name='available_users_list' default_value=''items=available_users_list multiple=20 />
 							</@formGroup>
 						<#else>
-							<@empty title='#i18n{portal.rbac.assign_users.noUserToAssign}' subtitle=' ' />
+							<@empty title='#i18n{portal.rbac.assign_users.noUserToAssign}' subtitle=' ' iconName='user-off' />
 						</#if>
 						<#if available_users_number gt 0>
-							<@button color='primary' type='submit' buttonIcon='arrows-diff' title='#i18n{portal.rbac.assign_users.labelButtonValidate}' size='' style='w-100' />
+							<@button color='primary' type='submit' buttonIcon='playlist-add' title='#i18n{portal.rbac.assign_users.labelButtonValidate}' size='' style='w-100' />
 						</#if>
 						</@tform>
 					</@boxBody>
 				</@box>
 			</@columns>
-			<@columns md=8 lg=9>
+			<@columns md=8>
 				<@box>
 					<@boxHeader title="#i18n{portal.rbac.assign_users.labelAssignedUser} (${assigned_users_number})" />
 					<@boxBody>
@@ -110,50 +110,34 @@
 						</#if>
 						<@input type='hidden' name='role_key' value='${role.key}' />
 						</@tform>
-						<@table headBody=true>
-							<@tr>
-								<@th>#i18n{portal.users.manage_users.columnTitleLastName}
-									<@sort jsp_url="jsp/admin/rbac/AssignUsersRole.jsp" attribute="lastName&role_key=${role.key}${sort_search_attribute}" />
-								</@th>
-								<@th>#i18n{portal.users.manage_users.columnTitleFirstName}
-									<@sort jsp_url="jsp/admin/rbac/AssignUsersRole.jsp" attribute="firstName&role_key=${role.key}${sort_search_attribute}" />
-								</@th>
-								<@th>#i18n{portal.users.manage_users.columnTitleAccessCode}
-									<@sort jsp_url="jsp/admin/rbac/AssignUsersRole.jsp" attribute="accessCode&role_key=${role.key}${sort_search_attribute}" />
-								</@th>
-								<@th>#i18n{portal.users.manage_users.columnTitleEmail}
-									<@sort jsp_url="jsp/admin/rbac/AssignUsersRole.jsp" attribute="email&role_key=${role.key}${sort_search_attribute}" />
-								</@th>
-								<@th>#i18n{portal.users.manage_users.columnTitleActions}</@th>
-							</@tr>
-							<@tableHeadBodySeparator />
-							<#list assigned_users_list as assigned_user>
-								<#if assigned_user_has_next>
-									<#assign anchor=assigned_user_index>
-										<#else>
-									<#assign anchor=assigned_user_index - 1>
-								</#if>
-								<@tr id="anchor-${assigned_user_index}">
-									<@td>${assigned_user.lastName}</@td>
-									<@td>${assigned_user.firstName}</@td>
-									<@td><em>${assigned_user.accessCode}</em></@td>
-									<@td><@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'> ${assigned_user.email}</@link></@td>
-									<@td>
-										<@tform method='post' action='jsp/admin/rbac/DoUnassignUserRole.jsp'>
-											<@input type='hidden' name='token' value='${token}' />
-											<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
-											<@input type='hidden' name='role_key' value='${role.key?html}' />
-											<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
-											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' hideTitle=['all'] buttonIcon='edit' size='' />
-											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' hideTitle=['all'] buttonIcon='trash' color='danger' size='' />
-										</@tform>
-									</@td>
-								</@tr>
-							</#list>
-						</@table>
+						<@manageFeature>
+						<#list assigned_users_list as assigned_user>
+							<@manageFeatureItem>
+								<#if assigned_user_has_next><#assign anchor=assigned_user_index><#else><#assign anchor=assigned_user_index - 1></#if>
+								<@manageFeatureItemColumn id='anchor-${assigned_user_index}'>
+									<@p>#i18n{portal.users.manage_users.columnTitleLastName} ${assigned_user.lastName}</@p>
+									<@p>#i18n{portal.users.manage_users.columnTitleFirstName} ${assigned_user.firstName}</@p>
+								</@manageFeatureItemColumn>
+								<@manageFeatureItemColumn>
+									<@p>#i18n{portal.users.manage_users.columnTitleAccessCode} <em>${assigned_user.accessCode}</em></@p>
+									<@p>#i18n{portal.users.manage_users.columnTitleEmail} <@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'> ${assigned_user.email}</@link></@p>
+								</@manageFeatureItemColumn>
+								<@manageFeatureItemColumn auto=true>
+									<@tform method='post' action='jsp/admin/rbac/DoUnassignUserRole.jsp'>
+										<@input type='hidden' name='token' value='${token}' />
+										<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
+										<@input type='hidden' name='role_key' value='${role.key?html}' />
+										<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
+										<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' buttonIcon='edit' size='' />
+										<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' buttonIcon='playlist-x' color='danger' size='' />
+									</@tform>
+								</@manageFeatureItemColumn>
+							</@manageFeatureItem>
+						</#list>
+						</@manageFeature>
 						<#if assigned_users_list?size gt 8><@paginationAdmin paginator=paginator combo=1 form=0 /></#if>
 					<#else>
-						<@empty title='#i18n{portal.rbac.assign_users.noAssignedList}' subtitle=' ' />
+						<@empty title='#i18n{portal.rbac.assign_users.noAssignedList}' subtitle=' ' iconName='user-off' />
 					</#if>
 					</@boxBody>
 				</@box>
