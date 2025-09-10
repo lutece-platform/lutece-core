@@ -10,86 +10,80 @@
             </@formGroup>
         </@tform>
         </@pageHeader>
-         <@tform action='jsp/admin/DoModifyProperties.jsp' class='mt-2'>
+        <@tform action='jsp/admin/DoModifyProperties.jsp' class='mt-2'>
         <@tabs>
-        <@tabList>
-        <#list groups_list as group>
-        <#assign index = group?index>
-        <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
-            <@tabLink active=tabactive href='#group-${index}' title='${group.name}' />
-        </#list>
-        </@tabList>
-        <@tabContent class='pt-0'>
-            <#list groups_list as group>
+            <@tabList>
+                <#list groups_list as group>
                 <#assign index = group?index>
                 <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
-                <@tabPanel active=tabactive id='group-${index}'>
-                <@input type='hidden' name='token' value='${token}' />
-                <@row class='d-block properties-container'>
-                    <#assign groups = group.localizedDataList?map( prop -> prop.group )>
-                    <#assign groupList = []>
-                    <#list groups?sort as groupGroup>
-                        <#if !groupList?seq_contains(groupGroup)> 
-                            <#assign groupList = groupList + [groupGroup]>
-                        </#if>
-                    </#list>
-                    <#list groupList?sort as groupCol>
-                    <@columns class='col-property' params='data-prop="${groupCol}"'> 
-                    <#assign groupName=''>
-                    <#assign helpText=''>
-                    <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
-                            <#if groupName=''>
-                            <#assign prefix=groupItem.key?keep_before(".site_property")  >
-                            <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
-                            <h3>${groupName} </h3>
-                            </#if>
-                            <#assign labelText=groupItem.label>
-                            <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
-                            <#if groupItem.help?length gt 0><#assign helpText = groupItem.help></#if>
-                            <@box>
-                                <@boxBody class='searchable'>
-                                <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
-                                    <#if groupItem.key?ends_with( ".textblock" )>
-                                        <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
-                                    <#elseif groupItem.key?ends_with( ".htmlblock" )>
-                                        <@input type='textarea' name=groupItem.key id=groupItem.key class='richtext'>${groupItem.value?html}</@input>
-                                    <#elseif groupItem.key?ends_with( ".checkbox" )>
-                                        <#if groupItem.value == "1">
-                                            <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=true />
+                    <@tabLink active=tabactive href='#group-${index}' title=group.description tabLabel=group.name />
+                </#list>
+            </@tabList>
+            <@tabContent class='pt-0'>
+                <#list groups_list as group>
+                <#assign index = group?index>
+                <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
+                    <@tabPanel active=tabactive id='group-${index}'>
+                        <@input type='hidden' name='token' value='${token}' />
+                        <@row class='d-block properties-container'>
+                        <#assign groups = group.localizedDataList?map( prop -> prop.group )>
+                        <#assign groupList = []>
+                        <#list groups?sort as groupGroup><#if !groupList?seq_contains(groupGroup)><#assign groupList = groupList + [groupGroup]></#if></#list>
+                        <#list groupList?sort as groupCol>
+                            <@columns class='col-property' params='data-prop="${groupCol}"'> 
+                            <#assign groupName=''>
+                            <#assign helpText=''>
+                            <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
+                                <#if groupName=''>
+                                    <#assign prefix=groupItem.key?keep_before(".site_property")  >
+                                    <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
+                                    <h3>${groupName!}</h3>
+                                </#if>
+                                <#assign labelText=groupItem.label>
+                                <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
+                                <#if groupItem.help?length gt 0><#assign helpText = groupItem.help></#if>
+                                <@box id='box_${groupItem.key}'>
+                                    <@boxBody class='searchable'>
+                                    <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
+                                        <#if groupItem.key?ends_with( ".textblock" )>
+                                            <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
+                                        <#elseif groupItem.key?ends_with( ".htmlblock" )>
+                                            <@input type='textarea' name=groupItem.key id=groupItem.key class='richtext'>${groupItem.value?html}</@input>
+                                        <#elseif groupItem.key?ends_with( ".checkbox" )>
+                                            <#if groupItem.value == "1">
+                                                <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=true />
+                                            <#else>
+                                                <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=false />
+                                            </#if>
+                                            <@input type='hidden' name='${groupItem.key}' value='0' />
+                                        <#elseif groupItem.key?contains( "color" )>
+                                            <@inputGroup class='color-wrapper-input'>
+                                                <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
+                                                <@inputGroupItem>
+                                                    <input type="color" class="color-input" name="color-input" value="${groupItem.value?html}" colorspace="display-p3" alpha>
+                                                </@inputGroupItem>
+                                            </@inputGroup>
                                         <#else>
-                                            <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=false />
+                                            <@input type='text' name=groupItem.key id=groupItem.key value=groupItem.value?html />
                                         </#if>
-                                        <@input type='hidden' name='${groupItem.key}' value='0' />
-                                    <#elseif groupItem.key?contains( "color" )>
-                                        <@inputGroup class='color-wrapper-input'>
-                                            <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
-                                            <@inputGroupItem>
-                                                <!-- <@input type='color' class='color-input' name='color-input' value=groupItem.value?html /> -->
-                                               <input type="color" class="color-input" name="color-input" value="${groupItem.value?html}" colorspace="display-p3" alpha>
-                                            </@inputGroupItem>
-                                        </@inputGroup>
-                                    <#else>
-                                        <@input type='text' name=groupItem.key id=groupItem.key value=groupItem.value?html />
-                                    </#if>
-                                </@formGroup>
-                                </@boxBody>
-                            </@box> 
+                                    </@formGroup>
+                                    </@boxBody>
+                                </@box> 
+                            </#list>
+                            </@columns>
                         </#list>
-                        </@columns>
-                    </#list>
-                    </@row>
-                    
+                        </@row>
                     </@tabPanel>
-                    </#list>
-                    <@row class='position-fixed bottom-0 end-0 w-100 zh-5'>
+                </#list>
+                <@row class='position-fixed bottom-0 end-0 w-100 zh-5'>
                     <@columns class='d-flex justify-content-center align-items-center col-12' params='style="background-color:rgba(255,255,255,.8)"'>
-                    <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
+                        <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
                     </@columns>
-                    </@row>
+                </@row>
                 </@tabContent>
             </@tabs>
-            </@tform>
-        </@pageColumn>
+        </@tform>
+    </@pageColumn>
 </@pageContainer>
 <@overlay />
 <#include "/admin/util/editor/editor.html" />
@@ -99,18 +93,18 @@
     height: 5rem;
 }
 .color-input{
-    width: 25px;
+    width: 2.5rem;
     padding: 0;
 }
 
 .properties-container {
     column-count: 3;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .col-property {
     display: inline-block;
-    margin-block-start: 2rem;
+    margin-block-start: 1rem;
 }
 
 .col-property > .card > .card-body > .form-group {
@@ -118,9 +112,9 @@
 }
 
 .col-property h3{
-  padding-block-end: .5rem;
-  margin-block-end: 1rem;
-  border-block-end: 4px solid var( --bs-border-color );
+    padding-block-end: .5rem;
+    margin-block-end: 1rem;
+    border-block-end: .4rem solid var( --bs-border-color );
 }
 
 .col-property .card:hover {
@@ -136,6 +130,11 @@ new LuteceSearchList( searchInput, searchElementList, {
 });
 
 window.addEventListener( "load", function(){
+    <#-- Theme specific code        -->
+    <#if commonsThemeCode = 'tabler'>
+    document.querySelector('[data-prop="bo"]').classList.add('d-none');
+    </#if>
+    <#-- End theme specific code    -->
     const colorInputs = document.querySelectorAll(".color-wrapper-input");
     colorInputs.forEach( input => {
         const colorInput = input.querySelector("input[type='color']");
@@ -183,6 +182,69 @@ window.addEventListener( "load", function(){
             sessionStorage.setItem(storageKey, targetId);
         });
     });
+});
 
+// Checkbox dependent inputs
+document.addEventListener( "DOMContentLoaded", function(){
+    // Custom styles option
+    const showStyles = document.getElementById('theme.site_property.layout.customstyles.checkbox');
+    if( showStyles ){
+        if( !showStyles.checked ){
+               document.getElementById('box_theme.site_property.layout.colors.light.textblock').classList.add('d-none');
+               document.getElementById('box_theme.site_property.layout.colors.dark.textblock').classList.add('d-none');
+        }
+        showStyles.addEventListener('change', function(){
+            if( this.checked ){
+                document.getElementById('box_theme.site_property.layout.colors.dark.textblock').classList.remove('d-none');
+                document.getElementById('box_theme.site_property.layout.colors.light.textblock').classList.remove('d-none');
+            } else {
+                document.getElementById('box_theme.site_property.layout.colors.dark.textblock').classList.add('d-none');
+                document.getElementById('box_theme.site_property.layout.colors.light.textblock').classList.add('d-none');
+            }
+        });
+    }
+
+    // Bo vertical menu transparent option
+    const verticalMenu = document.getElementById('portal.site.site_property.layout.menu.vertical.checkbox');
+    if( verticalMenu ){
+        if( !verticalMenu.checked ){
+               document.getElementById('box_portal.site.site_property.layout.menu.transparent.checkbox').classList.add('d-none');
+        }
+        verticalMenu.addEventListener('change', function(){
+            if( this.checked ){
+                document.getElementById('box_portal.site.site_property.layout.menu.transparent.checkbox').classList.remove('d-none');
+            } else {
+                document.getElementById('box_portal.site.site_property.layout.menu.transparent.checkbox').classList.add('d-none');
+            }
+        });
+    }
+
+    // Login cover options
+    const loginCover = document.getElementById('portal.site.site_property.layout.login.cover.checkbox');
+    if( loginCover ){
+        if( !loginCover.checked ){
+               document.getElementById('box_portal.site.site_property.layout.login.cover.contain.checkbox').classList.add('d-none');
+        }
+        loginCover.addEventListener('change', function(){
+            if( this.checked ){
+                document.getElementById('box_portal.site.site_property.layout.login.cover.contain.checkbox').classList.remove('d-none');
+                
+            } else {
+                document.getElementById('box_portal.site.site_property.layout.login.cover.contain.checkbox').classList.add('d-none');
+                
+            }
+        });
+    }
+
+    // Theme dark light options
+    const darkmode = document.getElementById('portal.site.site_property.layout.darkmode.checkbox');
+    darkmode.addEventListener('change', function(){
+        if( this.checked ){
+            localStorage.setItem('lutece-tabler-theme', 'dark');
+
+        } else {
+            localStorage.setItem('lutece-tabler-theme', 'light');
+        }
+    });
 });
 </script>
