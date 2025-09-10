@@ -1,40 +1,33 @@
 <@pageContainer>
     <@pageColumn> 
         <@pageHeader title='#i18n{portal.role.manage_roles.boxTitle}'>
-            <@offcanvas targetUrl="jsp/admin/role/CreatePageRole.jsp" targetElement="#create_page_role_form" redirectForm=false id="template-create-page-role" title="#i18n{portal.role.create_role.boxTitle}" btnTitle="#i18n{portal.role.manage_roles.buttonLabelCreate}" btnIcon="plus" position="end" hideTitle=['xs'] />
+            <@offcanvas targetUrl="jsp/admin/role/CreatePageRole.jsp" targetElement="#create_page_role_form" redirectForm=false id="template-create-page-role" title="#i18n{portal.role.create_role.boxTitle}" btnTitle="#i18n{portal.role.manage_roles.buttonLabelCreate}" btnIcon="plus" position="end" />
         </@pageHeader>
-        <@table headBody=true >
-            <@tr>
-                <@th>#i18n{portal.role.manage_roles.columnTitleId}</@th>
-                <@th>#i18n{portal.role.manage_roles.columnTitleDescription}</@th>
-                <@th>#i18n{portal.role.manage_roles.columnTitleWorkgroup}</@th>
-                <@th>#i18n{portal.role.manage_roles.columnTitleActions}</@th>
-            </@tr>
-            <@tableHeadBodySeparator />
-            <#if roles_list?size gt 1>
-                <#list roles_list as role>
-                    <#if role.role !="none">
-                        <@tr>
-                            <@td>${role.role}</@td>
-                            <@td>${role.roleDescription}</@td>
-                            <@td>${role.workgroup}</@td>
-                            <@td>
-                                <@offcanvas targetUrl='jsp/admin/role/ModifyPageRole.jsp?role=${role.role}' targetElement='#modify_page_role_form' redirectForm=false id='template-modify-page-role' title='#i18n{portal.util.labelModify} (${role.role})' btnIcon='edit' btnSize='sm' position='end'  />
-                                <#if exist_rbac_map?has_content && exist_rbac_map[role.role]>
-                                    <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.role}' title='#i18n{portal.role.manage_roles.labelViewRbacRole} (${role.role})' buttonIcon='link' color='primary' size='sm' hideTitle=['all'] />
-                                </#if>    
-                                <@aButton color='danger' href='jsp/admin/role/RemovePageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelDelete} (${role.role})' buttonIcon='trash' size='sm' hideTitle=['all'] />
-                            </@td>
-                        </@tr>
-                    </#if>
-                </#list>
-            <#else>
-                <@tr>
-                    <@td colspan=4>
-                        <@empty />
-                    </@td>
-                </@tr>
-            </#if>
-        </@table>
+        <#if roles_list?size gt 1>
+            <@manageFeature>
+            <#list roles_list as role>
+                <#if role.role !="none">
+                    <@manageFeatureItem>
+                        <@manageFeatureItemColumn>
+                            <@p>#i18n{portal.role.manage_roles.columnTitleId} : <strong>${role.role}</strong></@p>
+                            <@p>#i18n{portal.role.manage_roles.columnTitleDescription} : <strong>${role.roleDescription}</strong></@p>
+                            <@p>#i18n{portal.role.manage_roles.columnTitleWorkgroup} : <strong>${role.workgroup}</strong></@p>
+                        </@manageFeatureItemColumn>
+                        <@manageFeatureItemColumn auto=true>
+                            <@offcanvas targetUrl="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}" targetElement="#modify_page_role_form" redirectForm=false id="template-modify-page-role" title="#i18n{portal.util.labelModify} (${role.role})" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit" position="end"  />
+                            <#if exist_rbac_map?has_content && exist_rbac_map[role.role]>
+                               <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.role}' title='#i18n{portal.role.manage_roles.labelViewRbacRole}' buttonIcon='link' color='primary' />
+                            </#if>    
+                            <@aButton color='danger' href='jsp/admin/role/RemovePageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' />
+                        </@manageFeatureItemColumn>
+                    </@manageFeatureItem>    
+                </#if>
+            </#list>
+            </@manageFeature>
+        <#else>
+            <@box>
+                <@empty />
+            </@box>
+        </#if>
     </@pageColumn>
 </@pageContainer>
