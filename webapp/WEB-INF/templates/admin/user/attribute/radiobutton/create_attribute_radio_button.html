@@ -12,16 +12,16 @@
 						<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5 />
 					</@formGroup>
 					<@formGroup>
-						<@checkBox name='is_shown_in_search' id='is_shown_in_search' labelKey='#i18n{portal.users.create_attribute.labelIsShownInSearch}' value='1' />
+						<@checkBox orientation='switch' name='is_shown_in_search' id='is_shown_in_search' labelKey='#i18n{portal.users.create_attribute.labelIsShownInSearch}' value='1' />
 					</@formGroup>
 					<@formGroup>
-						<@checkBox name='is_shown_in_result_list' id='is_shown_in_result_list' labelKey='#i18n{portal.users.create_attribute.labelIsShownInResultList}' value='1' />
+						<@checkBox orientation='switch' name='is_shown_in_result_list' id='is_shown_in_result_list' labelKey='#i18n{portal.users.create_attribute.labelIsShownInResultList}' value='1' />
 					</@formGroup>
 					<@formGroup>
-						<@checkBox name='mandatory' id='mandatory' labelKey='#i18n{portal.users.create_attribute.labelMandatory}' value='1' />
+						<@checkBox orientation='switch' name='mandatory' id='mandatory' labelKey='#i18n{portal.users.create_attribute.labelMandatory}' value='1' />
 					</@formGroup>
 					<@formGroup helpKey='#i18n{portal.users.create_attribute.labelIsFieldInLineComment}'>
-						<@checkBox name='is_field_in_line' id='is_field_in_line' labelKey='#i18n{portal.users.create_attribute.labelIsFieldInLine}' value='1' />
+						<@checkBox orientation='switch' name='is_field_in_line' id='is_field_in_line' labelKey='#i18n{portal.users.create_attribute.labelIsFieldInLine}' value='1' />
 					</@formGroup>
 					<@formGroup>
 						<@input type='hidden' name='attribute_type_class_name' value='${attribute_type.className}' />
