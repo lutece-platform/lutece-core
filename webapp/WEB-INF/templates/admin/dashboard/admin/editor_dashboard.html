@@ -1,7 +1,6 @@
+<#assign tabTitle>#i18n{portal.admindashboard.editorChoice.title}</#assign>
 <@tabPanel id='editors'>
-    <#assign tabTitle>#i18n{portal.admindashboard.editorChoice.title}</#assign>
-    <@pageHeader title="${tabTitle}"/>
-
+    <@pageHeader title="${tabTitle}" titleClass="pb-3"/>
     <@row>
         <@columns sm=12 md=6>
             <@tform action='jsp/admin/admindashboard/DoUpdateBackOfficeEditor.jsp' boxed=true>

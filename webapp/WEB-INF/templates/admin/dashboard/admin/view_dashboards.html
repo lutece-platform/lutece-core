@@ -1,4 +1,5 @@
-<@pageContainer id="adminTechnical" height="full">
+<#assign containerClass><#if commonsThemeCode = 'tabler'>container</#if></#assign>
+<@pageContainer id="adminTechnical" height="full" class="${containerClass!''}">
     <@pageColumn id="adminTechnicalMenu" class="bg-light border-end p-4" width="28rem" height="full" responsiveMenuSize="xl" responsiveMenuPlacement="start" title="#i18n{portal.admindashboard.view_dashboards.title}">
         <@tabList id="adminTechnicalList" style='pills' vertical=true>
 		<h3 class="fw-bolder mb-2 mt-2">#i18n{portal.templates.manage_autoincludes.menuTitle}</h3>
