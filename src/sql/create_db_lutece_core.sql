@@ -597,13 +597,3 @@ CREATE TABLE  core_theme (
   path_js varchar(255) NOT NULL,
   PRIMARY KEY (code_theme)
 );
-
-
---
--- Table structure for table core_theme_global
---
-DROP TABLE IF EXISTS core_theme_global;
-CREATE TABLE core_theme_global (
-  global_theme_code varchar(50) default '' NOT NULL,
-  PRIMARY KEY  (global_theme_code)
-);

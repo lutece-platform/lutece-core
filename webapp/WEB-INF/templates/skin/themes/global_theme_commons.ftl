@@ -9,6 +9,7 @@
 <#assign commonsGlobalThemeCode><#if !dskey('theme.globalThemeCode')?starts_with('DS') && dskey('theme.globalThemeCode') !=''>${dskey('theme.globalThemeCode')}<#else>lutece</#if></#assign>
 <#assign commonsGlobalThemeVersion><#if !dskey('theme.globalThemeVersion')?starts_with('DS') && dskey('theme.globalThemeVersion') !=''>${dskey('theme.globalThemeVersion')}<#else>1.0</#if></#assign>
 <#-- Path                 -->
+<#assign commonsSiteSharedPath='themes/shared/' /> 
 <#assign commonsSiteThemePath='themes/skin/${commonsGlobalThemeCode}/' /> 
 <#assign commonsSharedThemePath='themes/skin/shared/' />
 <#assign commonsMacrosPath='${commonsGlobalThemeCode}/macros/' />
@@ -40,8 +41,9 @@
 <#assign isBannerOnlyHome=showWholeSiteBannerEverywhere?boolean >
 <#-- END BANNER MANAGEMENT    -->
 <#-- MENU MANAGEMENT          -->
-<#assign isRtl><#if !dskey('theme.site_property.dir.checkbox')?starts_with('DS') &&  dskey('theme.site_property.dir.checkbox') =='1'>true<#else>false</#if></#assign>
-<#assign isDark><#if dskey('theme.site_property.theme.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign isRtl><#if !dskey('theme.site_property.layout.dir.checkbox')?starts_with('DS') &&  dskey('theme.site_property.layout.dir.checkbox') =='1'>true<#else>false</#if></#assign>
+<#assign hasUserThemeSwitch><#if !dskey('theme.site_property.menu.userthemeswitch.checkbox')?starts_with('DS') &&  dskey('theme.site_property.menu.userthemeswitch.checkbox') =='1'>true<#else>false</#if></#assign>
+<#assign isDark><#if dskey('theme.site_property.layout.theme.checkbox') == '1'>true<#else>false</#if></#assign>
 <#assign skipLinkMenu><#if !dskey('theme.site_property.menu.skipLinkMenu.checkbox')?starts_with('DS') && dskey('theme.site_property.menu.skipLinkMenu.checkbox') == '1'>true<#else>false</#if></#assign>
 <#assign skipLinkMainId>${dskey('theme.site_property.menu.skipLinkMainId')}</#assign>
 <#assign hasDefaultMenu><#if dskey('theme.site_property.menu.hasDefaultMenu.checkbox') == '1'>true<#else>false</#if></#assign>
