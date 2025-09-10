@@ -11,17 +11,23 @@
 <#-- Theme Infos                        -->
 <#macro commonsName>Thème LUTECE</#macro>
 <#macro commonsDescription>Default theme for FO theme </#macro>
-<#macro commonsPreview>themes/skin/${commonsGlobalThemeCode}/images/preview.png</#macro>
+<#macro commonsPreview>${commonsSiteThemePath}/images/preview.png</#macro>
 <#-- THEME LINKS AND LABELS VARIABLES                                               -->
 <#macro themeCSSLinks>
 <!-- Theme CSS include                  -->
-<link href="themes/skin/${commonsGlobalThemeCode}/${commonsSiteCssPath}theme<#if isRtl?boolean>.rtl</#if>.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${commonsSiteThemePath}${commonsSiteCssPath}theme<#if isRtl?boolean>.rtl</#if>.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${commonsSharedThemePath}${commonsSiteCssPath}shared.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<script src="${commonsSiteSharedPath}${commonsSiteCssPath}tabler-icons.min.css?version=${commonsGlobalThemeVersion}"></script>
+<!-- Site CSS include                  -->
+<link href="${commonsSiteCssPath}site.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 </#macro>
 <#macro themeJSLinks>
 <!-- Shared JS                          -->
-<script src="themes/skin/${commonsGlobalThemeCode}/${commonsSiteJsPath}vendor/bootstrap.bundle.min.js?version=${commonsGlobalThemeVersion}"></script>
-<script src="themes/shared/css/table-icons.min.js?version=${commonsGlobalThemeVersion}"></script>
-<script type="module" src="themes/skin/${commonsGlobalThemeCode}/${commonsSiteJsPath}theme.min.js?version=${commonsGlobalThemeVersion}"></script>
+<script src="${commonsSiteThemePath}${commonsSiteJsPath}vendor/bootstrap.bundle.min.js?version=${commonsGlobalThemeVersion}"></script>
+<script src="${commonsSharedThemePath}${commonsSiteJsPath}shared.js?version=${commonsGlobalThemeVersion}"></script>
+<script type="module" src="${commonsSiteThemePath}${commonsSiteJsPath}theme.min.js?version=${commonsGlobalThemeVersion}"></script>
+<!-- Site CSS include                  -->
+<script src="${commonsSiteJsPath}site.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 </#macro>
 <#-- MAIN VARS MANAGEMENT               -->
 <#assign mainSite>Lutece</#assign>
@@ -33,7 +39,8 @@
 <#-- ---------------------------------- -->
 <#-- Theme Specific VARS                -->
 <#-- ---------------------------------- -->
-<#assign logoHeader>${commonsSharedThemePath}images/logo.png</#assign><#assign logoFooter>${commonsSiteThemePath}images/logo.png</#assign>
+<#assign logoHeader>${commonsSiteThemePath}images/logo.png</#assign>
+<#assign logoFooter>${commonsSiteThemePath}images/logo.png</#assign>
 <#assign footerLinkContact><#if dskey('theme.site_property.Url.contactURL') !=''>${dskey('theme.site_property.Url.contactURL')!'${urlMainSite}/contact'}</#if></#assign>
 <#assign footerLinkContactLabel><#if dskey('theme.site_property.Url.contactURLLabel') !=''>${dskey('theme.site_property.Url.contactURLLabel')!'${urlMainSite}/contact'}</#if></#assign>
 <#assign footerLinkLegal><#if dskey('theme.site_property.Url.legalURL') !=''>${dskey('theme.site_property.Url.legalURL')!'${urlMainSite}/mentionslegales'}</#if></#assign>
