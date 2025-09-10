@@ -1,23 +1,15 @@
 <@tabPanel id='right_levels'>
-    <#assign tabTitle>#i18n{portal.users.adminFeature.level_right_management.name}</#assign>
-    <@pageHeader title="${tabTitle}" description="#i18n{portal.features.manage_levels.featureDescription}">
+    <@pageHeader title="#i18n{portal.users.adminFeature.level_right_management.name}" titleClass="pb-3" description="#i18n{portal.features.manage_levels.featureDescription}">
         <@offcanvas targetUrl="jsp/admin/features/CreateLevel.jsp" targetElement="#create-level-form" id="create-level" title="#i18n{portal.features.create_level.boxTitle}" btnTitle="#i18n{portal.features.manage_levels.buttonLabelCreate}" btnIcon="plus" btnColor="primary" position="end"  />
     </@pageHeader>
-    <@table headBody=true>
-        <@tr>            
-            <@th>#i18n{portal.features.manage_levels.columnTitleId}</@th>
-            <@th>#i18n{portal.features.manage_levels.columnTitleName}</@th>
-            <@th>#i18n{portal.features.manage_groups.labelActions}</@th>
-        </@tr>
-        <@tableHeadBodySeparator />
+    <@manageFeature>
         <#list levels_list as level >
-            <@tr>
-                <@td>${level.id}</@td>
-                <@td>${level.name}</@td>
-                <@td>
-                    <@offcanvas targetUrl="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" targetElement="#right-level-form" id="level-${level.id}" title="#i18n{portal.features.manage_groups.buttonModify} ${level.name?html}" btnIcon="edit" btnColor="primary" position="end" />
-                </@td>
-            </@tr>			
+            <@manageFeatureItem>
+                <@manageFeatureItemColumn>${level.name}</@manageFeatureItemColumn>
+                <@manageFeatureItemColumn auto=true>
+                    <@offcanvas targetUrl="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" targetElement="#right-level-form" id="level-${level.id}" title="#i18n{portal.features.manage_groups.buttonModify} ${level.name?html}" btnTitle="#i18n{portal.features.manage_groups.buttonModify}" btnIcon="edit" btnColor="primary" position="end" />
+                </@manageFeatureItemColumn>
+            </@manageFeatureItem>
         </#list>
-    </@table>
+    </@manageFeature>
 </@tabPanel>
