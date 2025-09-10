@@ -16,17 +16,17 @@
                                 </#list>
                             </@select>
                         </@formGroup>
-                        <@formGroup labelKey='#i18n{portal.users.export_users.labelExportAttributes}' labelFor='export_attributes' helpKey='#i18n{portal.users.export_users.labelHelpExportAttributes}'>
-                            <@checkBox orientation='switch' id='export_attributes' name='export_attributes' checked=true />
+                        <@formGroup labelKey='#i18n{portal.users.export_users.labelExportAttributes}' labelFor='export_attributes' helpKey='#i18n{portal.users.export_users.labelHelpExportAttributes}' hideLabel=['all']>
+                            <@checkBox orientation='switch' id='export_attributes' name='export_attributes' checked=true labelKey='#i18n{portal.users.export_users.labelExportAttributes}' labelClass='fw-bold' /> 
                         </@formGroup>
-                        <@formGroup labelKey='#i18n{portal.users.export_users.labelExportRoles}' labelFor='export_roles' helpKey='#i18n{portal.users.export_users.labelHelpExportRoles}'>
-                            <@checkBox orientation='switch' id='export_roles' name='export_roles' checked=true />
+                        <@formGroup labelKey='#i18n{portal.users.export_users.labelExportRoles}' labelFor='export_roles' helpKey='#i18n{portal.users.export_users.labelHelpExportRoles}' hideLabel=['all']>
+                            <@checkBox orientation='switch' id='export_roles' name='export_roles' checked=true labelKey='#i18n{portal.users.export_users.labelExportRoles}' labelClass='fw-bold' />
                         </@formGroup>
-                        <@formGroup labelKey='#i18n{portal.users.export_users.labelExportRights}' labelFor='export_rights' helpKey='#i18n{portal.users.export_users.labelHelpExportRights}'>
-                            <@checkBox orientation='switch' id='export_rights' name='export_rights' checked=true />
+                        <@formGroup labelKey='#i18n{portal.users.export_users.labelExportRights}' labelFor='export_rights' helpKey='#i18n{portal.users.export_users.labelHelpExportRights}' hideLabel=['all']>
+                            <@checkBox orientation='switch' id='export_rights' name='export_rights' checked=true labelKey='#i18n{portal.users.export_users.labelExportRights}'  labelClass='fw-bold' />
                         </@formGroup>
-                        <@formGroup labelKey='#i18n{portal.users.export_users.labelExportWorkgroups}' labelFor='export_workgroups' helpKey='#i18n{portal.users.export_users.labelHelpExportWorkgroups}'>
-                            <@checkBox orientation='switch' id='export_workgroups' name='export_workgroups' checked=true />
+                        <@formGroup labelKey='#i18n{portal.users.export_users.labelExportWorkgroups}' labelFor='export_workgroups' helpKey='#i18n{portal.users.export_users.labelHelpExportWorkgroups}' hideLabel=['all']>
+                            <@checkBox orientation='switch' id='export_workgroups' name='export_workgroups' checked=true labelKey='#i18n{portal.users.export_users.labelExportWorkgroups}' labelClass='fw-bold' />
                         </@formGroup>
                         <@formGroup>
                             <@button type='submit' title='#i18n{portal.util.labelValidate}'  buttonIcon='check' size='' color='primary' />

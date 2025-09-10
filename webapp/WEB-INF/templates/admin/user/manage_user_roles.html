@@ -1,6 +1,13 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title=' ${user.lastName} ${user.firstName}'>
+		<#assign userImg>
+		<#if adminAvatar??>
+			<@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' style='max-width:80px' title='Avatar' />
+		<#else>    
+			<@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' title='' />
+		</#if>
+		</#assign>
+        <@pageHeader title='${userImg} ${user.lastName} ${user.firstName}'>
             <@item_navigation item_navigator=item_navigator />
         </@pageHeader>
 		<@tabs>
@@ -12,32 +19,26 @@
 				<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
 			</@tabList>
 			<@tabContent>
-				<@div class='d-flex justify-content-between'>
+				<@div class='d-flex justify-content-between mb-2'>
 					<h2>#i18n{portal.users.manage_user_roles.titleRoleList}</h2>
 					<@tform align='right' method='post' name='modifyform' action='jsp/admin/user/ModifyUserRoles.jsp'>
 						<@input type='hidden' name='id_user' value='${user.userId}' />
 						<@input type='hidden' name='delegate_rights' value='false' />
 						<#if can_modify>
-							<@button type='submit' buttonIcon='edit' title='#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}' size='' hideTitle=['xs','sm'] />
+							<@button type='submit' buttonIcon='edit' title='#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}' class='me-2' hideTitle=['xs','sm'] />
 						</#if>
 						<#if can_delegate>
-							<@button type='submit' buttonIcon='users-plus' title='#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}' size='' hideTitle=['xs','sm'] params=' data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="#i18n{portal.users.modify_user_rights.informationRightModification}"' />
+							<@button type='submit' buttonIcon='users-plus' title='#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}' hideTitle=['xs','sm'] params=' data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="#i18n{portal.users.modify_user_rights.informationRightModification}"' />
 						</#if>
 					</@tform>
 				</@div>
-				<@table headBody=true >
-					<@tr>
-						<@th>#i18n{portal.users.manage_user_roles.columnTitleKey}</@th>
-						<@th>#i18n{portal.users.manage_user_roles.columnTitleDescription}</@th>
-					</@tr>
-					<@tableHeadBodySeparator />
-					<#list user_role_list?sort_by('key') as role>
-					<@tr>
-						<@td>${role.key}</@td>
-						<@td>${role.description}</@td>            
-					</@tr>
-					</#list>
-				</@table>
+				<@listGroup id="user-role-list">
+				<#list user_role_list?sort_by('key') as role>
+					<@listGroupItem>
+						<@p>#i18n{portal.users.manage_user_roles.columnTitleKey} : <strong>${role.key}</strong> - #i18n{portal.users.manage_user_roles.columnTitleDescription} :	 ${role.description}</@p>
+					</@listGroupItem>
+				</#list>
+				</@listGroup>
 			</@tabContent>
 		</@tabs>
 	</@pageColumn>

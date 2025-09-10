@@ -1,6 +1,13 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title='${user.lastName} ${user.firstName}'>
+		<#assign userImg>
+		<#if adminAvatar??>
+			<@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' style='max-width:80px' title='Avatar' />
+		<#else>    
+			<@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' title='' />
+		</#if>
+		</#assign>
+        <@pageHeader title='${userImg} ${user.lastName} ${user.firstName}'>
             <@item_navigation item_navigator=item_navigator />
         </@pageHeader>
 		<@tabs>
@@ -12,34 +19,27 @@
 				<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
 			</@tabList>
 			<@tabContent>
-				<@div class='d-flex justify-content-between'>
-					<h2>#i18n{portal.users.manage_user_right.titleRightList}</h2>
+				<@div class='d-flex justify-content-between mb-2'>
+					<h3>#i18n{portal.users.manage_user_right.titleRightList}</h3>
 					<@tform method='post' name='modifyform' action='jsp/admin/user/ModifyUserRights.jsp' class='d-flex justify-content-end is-flex is-justify-content-end'>
 					<@input type='hidden' name='id_user' value='${user.userId}' />
 					<@input type='hidden' name='delegate_rights' value='false' />
 					<#if can_modify>
-						<@button type='submit' buttonIcon='edit' title='#i18n{portal.users.manage_user_rights.buttonLabelModifyRights}' size='sm' hideTitle=['xs','sm'] />
+						<@button type='submit' buttonIcon='edit' title='#i18n{portal.users.manage_user_rights.buttonLabelModifyRights}' class='me-2' hideTitle=['xs','sm'] />
 					</#if>
 					<#if can_delegate>
-						<@button type='submit' buttonIcon='users-plus' title='#i18n{portal.users.manage_user_rights.buttonLabelDelegateRights}' size='sm' hideTitle=['xs','sm'] params=' data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="#i18n{portal.users.modify_user_rights.informationRightModification}"' />
+						<@button type='submit' buttonIcon='users-plus' title='#i18n{portal.users.manage_user_rights.buttonLabelDelegateRights}' hideTitle=['xs','sm'] params=' data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="#i18n{portal.users.modify_user_rights.informationRightModification}"' />
 					</#if>
 					</@tform>
 				</@div>
-				<@table headBody=true >
-					<@tr>
-						<@th>#i18n{portal.users.manage_user_rights.columnTitleName}</@th>
-						<@th>#i18n{portal.users.manage_user_rights.columnTitleDescription}</@th>
-						<@th>#i18n{portal.users.manage_user_rights.columnTitleLevel}</@th>
-					</@tr>
-					<@tableHeadBodySeparator />
+				<!-- #i18n{portal.users.manage_user_rights.columnTitleName}
+				#i18n{portal.users.manage_user_rights.columnTitleDescription}
+				#i18n{portal.users.manage_user_rights.columnTitleLevel} -->
+				<@listGroup id="user-right-list">
 					<#list user_right_list?sort_by('name') as right>
-					<@tr>
-						<@td>${right.name}</@td>
-						<@td>${right.description}</@td>           
-						<@td>${right.level}</@td>
-					</@tr>
+						<@listGroupItem><@p>${right.name} - <strong>#i18n{portal.users.manage_user_rights.columnTitleLevel} : ${right.level}</strong></@p><@p>${right.description}</@p></@listGroupItem>
 					</#list>
-				</@table>
+				</@listGroup >
 			</@tabContent>
 		</@tabs>
 	</@pageColumn>

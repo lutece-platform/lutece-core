@@ -2,9 +2,9 @@
     <@pageColumn>
         <#assign userImg>
         <#if adminAvatar??>
-            <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId!}' class='img-fluid thumbnail me-2' alt='' style='max-width:80px' title='Avatar' />
+            <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId!}' class='img-fluid thumbnail me-2  bg-primary rounded' alt='' style='max-width:80px' title='Avatar' />
         <#else>    
-            <@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2' alt='' title='' />
+            <@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2  bg-primary rounded' alt='' title='' />
         </#if>
         </#assign>
         <@pageHeader title='${userImg!} ${user.lastName!} ${user.firstName!}'>
@@ -26,12 +26,12 @@
                     <@input type='hidden' name='token' value='${token}' />
                     <@div class='d-flex justify-content-between pb-3'>
                         <@btnGroup>
-                            <@button buttonIcon='filter' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
-                            <@button buttonIcon='filter-off' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
+                            <@button buttonIcon='filter' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check"' hideTitle=['all'] />
+                            <@button buttonIcon='filter-off' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck"' hideTitle=['all'] />
                         </@btnGroup>
                         <@btnGroup>
-                            <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' color='primary' size='' />
-                            <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
+                            <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' color='primary' />
+                            <@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' />
                         </@btnGroup>
                     </@div>
                     <@listGroup id="user-right-list">
@@ -55,8 +55,8 @@
                     <#if all_right_list?size gt 25>
                     <@div class='d-flex justify-content-between pt-3'>
                         <@btnGroup>
-                            <@button buttonIcon='filter' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
-                            <@button buttonIcon='filter-off' size='sm' color='info' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
+                            <@button buttonIcon='filter' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' params=' data-check="check" ' hideTitle=['all'] />
+                            <@button buttonIcon='filter-off' color='secondary' class='toggleCheck' title='#i18n{portal.users.modify_user_rights.buttonLabelUnSelectAll}' params=' data-check="uncheck" '  hideTitle=['all'] />
                         </@btnGroup>
                         <@btnGroup> 
                             <@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}' color='primary' size='' />
