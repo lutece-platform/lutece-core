@@ -26,7 +26,7 @@ Parameters:
     </div>
     <div class="offcanvas-body p-0 overflow-hidden ${responsiveMenuBodyClass}">
 </#if>
-<div class="<#if width = '' >w-100<#else>border-start border-end</#if> overflow-auto ${class}" style="<#if width != '' >width:${width};min-width:${width};</#if><#if height='full'>height:calc(100vh - 64px);max-height:calc(100vh - 64px)</#if>">
+<div class="<#if width = '' >w-100<#else>border-start border-end</#if> ${class}" style="<#if width != '' >width:${width};min-width:${width};</#if><#if height='full'>height:calc(100vh - 64px);max-height:calc(100vh - 64px)</#if>">
     <#if containerClass != ''><div class="${containerClass}"></#if>
         <#if title!=''><h1 class="fw-bolder <#if responsiveMenuSize !=''>d-none d-${responsiveMenuSize}-block</#if>">${title}</h1></#if>
         <#nested>

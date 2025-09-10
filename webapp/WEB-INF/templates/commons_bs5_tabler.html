@@ -5,9 +5,9 @@
 <#-- Do not remove this comment -->
 <#-- Information about this commons file -->
 <#macro commonsFile>commons_bs5_tabler.html</#macro>
-<#macro commonsName>Commons Bootstrap 5 + Tabler 1.0</#macro>
+<#macro commonsName>Commons Bootstrap 5 + Tabler 1.4</#macro>
 <#macro commonsPreview>themes/admin/tabler/images/preview.png</#macro>
-<#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 5 + Tabler 1</#macro>
+<#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 5 + Tabler 1.4</#macro>
 <#-- Path               -->
 <#assign commonsJsPath='js/' /> 
 <#assign commonsCssPath='css/' /> 
@@ -26,11 +26,6 @@
 <#-- Theme Macros       -->
 <#macro coreAdminCSSLinks>
 <!-- Shared CSS -->
-<link href="css/admin/style/tabler/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1 -->
-<link href="css/admin/style/tabler/bootstrap-colorpicker.min.css" rel="stylesheet"><!-- BS colorpicker -->
-<link href="css/admin/jquery-ui.min.css" rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/jquery-ui.structure.min.css" rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/jquery-ui.theme.min.css" rel="stylesheet" > <!-- provided by core -->
 <link href="${commonsSharedPath}${commonsCssPath}vendor/bootstrap/bootstrap-icons.min.css" rel="stylesheet" > <#-- Bootstrap Icons -->
 <link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-icons.min.css" rel="stylesheet"><#-- Tabler icons -->
 <link href="${commonsSharedPath}${commonsCssPath}vendor/tabler/tabler-flags.min.css" rel="stylesheet"><#-- Tabler flags -->
@@ -42,19 +37,16 @@
 <link href="${commonsThemePath}${commonsCssPath}portal_admin.min.css" rel="stylesheet"><#-- Lutece main admin CSS -->
 <link href="${commonsThemePath}${commonsCssPath}portal_admin_site.min.css" rel="stylesheet"><#-- Site override admin CSS -Empty by default- -->
 <link href="${commonsThemePath}${commonsCssPath}vendor/tabler.min.css" rel="stylesheet"><#-- Tabler main -->
-<script src="js/admin/jquery/jquery.min.js"></script> <!-- main JQuery file -->
+<!-- <script src="${commonsSharedPath}${commonsJsPath}/js/lib/jquery/jquery.min.js"></script> main JQuery file -->
 </#macro>
 <#macro coreAdminJSLinks>
 <!-- Shared JS -->
-<script src="js/admin/jquery/jquery-migrate-1.4.1.min.js"></script> <!-- Compat JQuery file -->
-<script src="js/admin/jquery/jquery-ui.min.js"></script>
-<script src="js/admin/style/tabler/bootstrap-filestyle.min.js"></script> 
-<script src="js/admin/style/tabler/bootstrap-colorpicker.js"></script> 
-<script src="js/util/progress-manager.js"></script>
-<script src="${commonsSharedPath}${commonsJsPath}lib/bootstrap/bootstrap.bundle.min.js"></script><#-- Bootstrap main -->
+<script src="${commonsSharedPath}${commonsJsPath}util/progress-manager.js"></script>
 <script src="${commonsSharedPath}${commonsJsPath}lib/sortable/Sortable.min.js"></script> <#-- Sortable lib main -->
 <script src="${commonsSharedPath}${commonsJsPath}lib/polipop/polipop.min.js"></script><#-- Polipop main -->
 <!-- Theme <@commonsName /> JS -->
+<!-- <script src="${commonsThemePath}${commonsJsPath}vendor/tabler.min.js"></script><#-- Bootstrap main --> -->
+<script src="${commonsSharedPath}${commonsJsPath}lib/bootstrap/bootstrap.bundle.min.js"></script> 
 <script src="${commonsThemePath}${commonsJsPath}admin.min.js"></script><#-- Theme main JS -->  
 </#macro>
 <#include "commons_macros.html" />

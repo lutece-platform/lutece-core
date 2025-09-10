@@ -13,9 +13,9 @@ Parameters:
 <#macro paginationItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
 <#-- Display item count -->
 <#if showcount == 1 >
-<@div class='d-flex align-items-center me-3'>
+<@p class='text-start mb-0'>
 <#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&#160;${paginator.labelItemCount} : <#else>#i18n{portal.util.labelItemCount} : </#if> ${paginator.itemsCount}
-</@div>
+</@p>
 </#if>
 <#-- Display combo -->
 <#if combo == 1 >
