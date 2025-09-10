@@ -1,0 +1,175 @@
+.datepicker {
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.datepicker-dropdown .datepicker-picker {
+  border-radius: 0;
+  /* width: auto; */
+  padding: var( --spacing-3 );
+  border: 1px solid var(--blue-light, #CFD7E3);
+  box-shadow: none;
+  width: calc( ( var( --size-base ) * 9.5 ) * 8 );
+}
+
+.datepicker-header .datepicker-controls{
+  padding-block-end: var(--spacing-2 );
+  border-block-end: 1px solid var(--white-light-color);
+}
+
+.datepicker-header .datepicker-controls .btn {
+  padding-block: var(--spacing-1 );
+}
+
+.datepicker-header .datepicker-controls .view-switch{
+  font-size: var(--font-m);
+  font-weight: 700;
+  color: var( --main-color );
+  text-transform: capitalize;
+}
+
+.datepicker-header .datepicker-controls .btn:not(.view-switch):focus, 
+.datepicker-header .datepicker-controls .btn:not(.view-switch):hover {
+  background-color: var( --white-color );
+  border-color: var( --main-color );
+  color: var( --main-color );
+}
+
+.datepicker-controls .prev-button, .datepicker-controls .next-button {
+  border: 1px solid var( --main-color );
+  color: var( --main-color );
+}
+
+.datepicker-controls .prev-button:hover, .datepicker-controls .next-button:hover{
+  color: var( --main-info-color );
+}
+
+.datepicker-main .datepicker-view .days .days-of-week .dow {
+  font-size: var(--font-m);
+  font-weight: 700; 
+  padding: var(--spacing-2);
+  width: calc( var( --size-base ) * 9.5 );
+  height: calc( var( --size-base ) * 9.5 ); 
+}
+
+.datepicker-main .datepicker-view.datepicker-grid{
+  width: auto
+}
+
+.datepicker-main .datepicker-grid .datepicker-cell{
+  background: transparent;
+  border: 4px solid var( --white-color );
+  border-radius: .1px;
+  color: var( --main-color );
+  cursor: pointer;
+  font-size: var(--font-m);
+  font-weight: 700; 
+  padding: var(--spacing-2);
+  width: calc( var( --size-base ) * 9.5 );
+  height: calc( var( --size-base ) * 9.5 ); 
+} 
+
+.datepicker-main .datepicker-grid .datepicker-cell.focused,
+.datepicker-main .datepicker-grid .datepicker-cell:hover{
+  border-color: var(--main-info-color);
+}
+
+.datepicker-main .datepicker-grid .datepicker-cell.today{
+  border-color: var(--main-info-color);
+  background-color: var(--white-color);
+  color: var(--main-info-color )
+}
+
+.datepicker-main .datepicker-grid .datepicker-cell.selected{
+  background-color: var(--main-info-color);
+  color: var(--white-color )
+}
+
+.datepicker-main .datepicker-grid .datepicker-cell.selected.focused{
+  border-color: var(--white-color );
+}
+
+.datepicker-main .datepicker-grid .datepicker-cell.disabled{
+  color: var(--blue-darker-color);
+  background-color: var(--white-light-color);
+  font-weight: 400;
+}
+
+.datepicker-main .datepicker-grid .datepicker-cell.disabled:hover{
+  border-color: var(--white-color);
+  cursor: default;
+}
+
+.datepicker-main .datepicker-view .days .datepicker-grid .datepicker-cell.day.next,
+.datepicker-main .datepicker-view .days .datepicker-grid .datepicker-cell.day.prev{
+  font-weight: 400; 
+}
+
+.datepicker-main .datepicker-grid .datepicker-cell.month:not(.focused),
+.datepicker-main .datepicker-grid .datepicker-cell.year:not(.focused){
+  color: var(--blue-darker-color);
+  font-weight: 400;
+}
+
+.datepicker-footer {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.datepicker-footer .datepicker-controls:has( .btn:not([style]) ) {
+  margin-block-start: var(--spacing-2);
+  padding-block-start: var(--spacing-2);
+  border-block-start: 1px solid var(--blue-light, #CFD7E3);
+}
+
+.datepicker-footer .datepicker-controls .btn {
+  font-size: var(--font-m);
+}
+
+.datepicker-footer .datepicker-controls .btn:hover {
+  background-color: var(--main-info-color);
+  color: var(--white-color )
+}
+
+.datepicker .days-of-week {
+  height: calc( var(--size-base ) * 7 ) ;
+}
+
+.datepicker .week {
+  color: var(--blue-darker-color);
+  font-size: var(--font-xs);
+}
+
+/* Range */
+/* Inputs */
+.daterange .input-group{
+  width: 100%;
+}
+
+.daterange .datepicker-input:first-child{
+  background-color: transparent;
+}
+
+.daterange .datepicker-input:not(:first-child){
+  border: 0 !important;
+  position: absolute;
+  left: 150px;
+  width: 150px;
+  border: 0;
+  outline: 0;
+  border-block-start: 1px solid black;
+  padding-inline-start: 1rem;
+}
+/* Calendar */
+.datepicker-main .datepicker-grid .datepicker-cell.range {
+  background-color: var(--white-light-color);
+  border-color: var(--white-color );
+  color: var(--main-info-color)
+}
+
+.datepicker-main .datepicker-grid .datepicker-cell.range-start,
+.datepicker-main .datepicker-grid .datepicker-cell.range-end {
+  background-color: var(--main-info-color);
+  color: var(--white-color );
+  border-color: var(--white-color );
+} 
