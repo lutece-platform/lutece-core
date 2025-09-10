@@ -7,7 +7,7 @@
 <@themeFrameset.include />
 <#else>
 <!DOCTYPE html>
-<html lang="${user_context_language}"<#if isRtl?boolean> dir="rtl"</#if>>
+<html lang="${user_context_language}" dir="<#if isRtl?boolean>rtl<#else>ltr</#if>" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>">
 <head>
 <base href="${base_url}">
 <title>${favourite!} - ${page_name!}</title>
@@ -40,9 +40,9 @@
 <link href="${thetheme.pathCss}/bootstrap.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <!-- Theme CSS include -->
 <link href="${thetheme.pathCss}/theme.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
-</#if>
 <!-- Custom site styles include -->
 <link href="${thetheme.pathCss}/styles.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+</#if>
 ${plugins_css_links}
 <!-- Custom site styles include -->
 <#assign optHeaderCss=.get_optional_template('theme_frameset_header_css.html')>
@@ -61,8 +61,11 @@ ${rss?default("<!-- no RSS feed -->")}
 <#assign optHeaderJs=.get_optional_template('theme_frameset_header_js.html')>
 <#if optHeaderJs.exists><@optHeaderJs.include /></#if>
 <@initThemeDatePicker />
+<!-- Theme Color Palette -->
+<#assign optThemeColors=.get_optional_template('../themes/${commonsGlobalThemeCode}/_theme_colors.ftl')>
+<#if optThemeColors.exists><@optThemeColors.include /></#if>
 </head>
-<body id="body-page<#if data.homePage>-home<#elseif page_id=1>-<#if data.name !=''>${data.name?replace(' ','_')?lower_case!}<#else>xpage</#if><#else>-${page_id!}</#if>"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if>>
+<body id="body-page<#if data.homePage>-home<#elseif page_id=1>-<#if data.name !=''>${data.name?replace(' ','_')?lower_case!}<#else>xpage</#if><#else>-${page_id!}</#if>"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if>>
 <!-- Accessibility Skip Nav Menu-->
 <@skipNav skipMenu=skipLinkMenu?boolean target=skipLinkMainId!'main' />
 <#-- Add your own Nav Menu Content here with @mainNavItem macro  -->
@@ -104,7 +107,6 @@ ${plugins_javascript_links!}
 <#assign optUserFooter=.get_optional_template('theme_frameset_footer_user.html')>
 <#if optUserFooter.exists><@optUserFooter.include /></#if>
 </#if>
-<script src="themes/skin/shared/js/site.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <#if addGoToTop?? && addGoToTop?boolean><@cGoToTop /></#if>
 </body>
 </html>

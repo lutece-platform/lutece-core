@@ -13,8 +13,9 @@ Parameters:
 @param - cookiename - string - optional - Nom du cookie posé pour le consentement (par défaut: 'cookiepageId')
 @param - nocredit - boolean - optional - Option permettant d'afficher les crédit du projet TarteAuCitron (par défaut: false)
  -->
-<#macro cConsentTac title='Ce site' privacyLink='' denyAll=false cookieMenu='Gestion des cookies' cookiePolicyLink='' hashtag='cookiepolicy' cookiename='cookiepageId' nocredit=false  deprecated...>
+<#macro cConsentTac title='Ce site'  privacyLink='' denyAll=false cookieMenu='Gestion des cookies' cookiePolicyLink='' hashtag='cookiepolicy' cookiename='cookiepageId' nocredit=false  deprecated...>
 <@deprecatedWarning args=deprecated />
+
 <link rel="stylesheet" href="${commonsSiteThemePath}${commonsSiteCssPath}vendor/tarteaucitron.min.css" >
 <script src="${commonsSharedThemePath}vendor/tarteaucitron/tarteaucitron.min.js"></script>
 <script>

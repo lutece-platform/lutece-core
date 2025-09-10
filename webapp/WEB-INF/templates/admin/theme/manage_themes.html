@@ -1,29 +1,45 @@
 <@pageContainer>
-	<@pageColumn>
-	<#assign headerTitle>#i18n{portal.theme.manage_themes.globalTheme} <@tag>${theme_default.themeDescription}</@tag></#assign>
-		<@pageHeader title=headerTitle />
-		<@row class='row-cols-1 row-cols-md-5 g-2'>
-		<#list themes_list as theme>
-			<#assign colClass><#if theme_default.codeTheme==theme.codeTheme>order-1<#else>order-2</#if></#assign>
-			<@columns class=colClass>
-				<#assign titleClass='mb-0'>
-				<#assign cardClass>mb-0</#assign>
-				<#if theme_default.codeTheme==theme.codeTheme><#assign cardClass += ' opacity-75' /></#if>	
-				<#assign headerContent><h2 class="${titleClass}">${theme.themeDescription}</h2></#assign>
-				<@box class=cardClass> 
-					<@boxHeader title=headerContent />
+	<@pageColumn class='overflow-hidden'>
+		<@row>
+			<@columns>
+			<#list themes_list?filter( theme -> theme_default.codeTheme == theme.codeTheme) as theme>
+			<div class="card">
+				<div class="row row-0">
+                    <div class="col-3 order-md-last">
+					  <!-- <span class="status status-green my-2"><span class="status-dot status-dot-animated"></span> #i18n{portal.theme.manage_themes.themeRunning}</span> -->
+                      <!-- Photo -->
+                      <img src="themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png" class="w-100 h-100 object-cover card-img-end" alt="${theme.themeDescription!}">
+                    </div>
+                    <div class="col">
+                      <div class="card-body">
+                        <h3 class="card-title d-flex">
+							#i18n{portal.theme.manage_themes.globalTheme} "${theme.themeDescription!}"
+							<span class="ms-auto status status-green my-2"><span class="status-dot status-dot-animated"></span> #i18n{portal.theme.manage_themes.themeSelectedRunning}</span>
+						</h3>
+						<p><strong>#i18n{portal.theme.manage_themes.author}</strong> : <a class="link-info link-offset-2" href="${theme.themeAuthorUrl}" target="_author_url">${theme.themeAuthor}</a></p>
+						<p><strong>#i18n{portal.theme.manage_themes.version}</strong> : ${theme.themeVersion}</p>
+						<p><strong>#i18n{portal.theme.manage_themes.licence}</strong> : ${theme.themeLicence}</p>
+                      </div>
+                    </div>
+				</div>
+			</div>
+			</#list>
+		</@columns>
+		</@row>
+		<#if themes_list?filter( theme -> theme_default.codeTheme != theme.codeTheme)?size gt 0>
+		<@row class='row-cols-1 row-cols-md-4 g-3 mt-1'>
+		<#list themes_list?filter( theme -> theme_default.codeTheme != theme.codeTheme) as theme>
+			<@columns>
+				<@box> 
+					<@boxHeader title=theme.themeDescription />
 					<@boxBody class='p-0' params='style="position:relative;background-position:center;background-size:contain;background-repeat:no-repeat;width:100%;height:210px;top:0;left:0; background-image: url(\'themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png\');"' />
 					<@boxFooter class='bg-light'>
 						<p class="text-center my-3">
-						<#if theme_default.codeTheme!=theme.codeTheme>
 							<#if permission_modify_global_theme>
 							<a class="btn btn-outline-primary" href="jsp/admin/theme/DoModifyGlobalTheme.jsp?theme=${theme.codeTheme}&theme_version=${theme.themeVersion}" title="#i18n{portal.theme.manage_themes.buttonChangeChoose}">
 								#i18n{portal.theme.manage_themes.themeSelection} <i class="ti ti-click ms-2"></i> 
 							</a>
 							</#if>
-						<#else>
-							<span class="status status-green my-2"><span class="status-dot status-dot-animated"></span> #i18n{portal.theme.manage_themes.themeRunning}</span>
-						</#if>
 						</p>
 						<@row>
 							<@columns>
@@ -44,5 +60,12 @@
 			</@columns>
 		</#list>
 		</@row>
+		<#else>
+			<@row>			
+				<@columns>	
+					<@empty title='Aucun autre thème disponible' subtitle='Pour en créer un consulter la documentation' iconName='palette-off' iconClass='' />
+				</@columns>
+			</@row>				
+		</#if>
 	</@pageColumn>
 </@pageContainer>
