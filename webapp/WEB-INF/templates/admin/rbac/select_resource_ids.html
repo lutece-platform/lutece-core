@@ -2,8 +2,8 @@
 	<@pageColumn>
 		<@pageHeader title=i18n('portal.rbac.select_resource_ids.titleSelectIds', role_key?html)>
 		<@ul class="steps steps-counter">
-			<@li class="step-item active">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}</li>
-			<@li class="step-item">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)}</li>
+			<@li class="step-item active">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}</@li>
+			<@li class="step-item">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)}</@li>
 		</@ul>
 		<@tform method='post' type='inline'>
 			<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
