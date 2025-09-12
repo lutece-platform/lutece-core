@@ -47,7 +47,7 @@ Parameters:
         <span class="navbar-toggler-icon"><span class="visually-hidden-focusable">#i18n{theme.showmenu}</span></span>
     </button>
     <div class="collapse navbar-collapse text-center" aria-label="#i18n{theme.mainMenu} #i18n{theme.showmenu}" role="navigation">
-        <ul class="navbar-nav mx-auto align-items-center" aria-label="#i18n{theme.mainMenu}">
+        <ul class="navbar-nav w-100 align-items-center" aria-label="#i18n{theme.mainMenu}">
             <li class="nav-item<#if pageId = '1'> active</#if>">
                 <a class="nav-link text-capitalize" title="${title}" href="." target="_top" aria-current="<#if pageId = '1'>page<#else>false</#if>">#i18n{portal.site.page_home.label}</a>
             </li>
@@ -118,17 +118,19 @@ Parameters:
                     </li>
                 </ul> 
             </li>
-        </ul>
-        </#if>
+        </#if>            
+        <li class="nav-item dropdown" >   
         <#if pageId = '1'>
-        <a href="${footerLinkContact!}" class="btn btn-sm btn-primary ms-lg-4">${footerLinkContactLabel!}</a>
+            <a href="${footerLinkContact!}" class="btn btn-sm btn-primary ms-lg-4">${footerLinkContactLabel!}</a>
         <#else>
-        <form class="form-inline search-wrapper d-none d-lg-block" action="jsp/site/Portal.jsp">
-          <input name="page" type="hidden" value="search">
-          <input id="search-by" name="query" type="search" class="form-control" placeholder="Search here ...">
-          <button class="border-0 bg-white" type="submit"><i class="ti ti-search"></i></button>
-        </form>
+            <form class="form-inline search-wrapper d-none d-lg-block" action="jsp/site/Portal.jsp">
+            <input name="page" type="hidden" value="search">
+            <input id="search-by" name="query" type="search" class="form-control" placeholder="Search here ...">
+            <button class="border-0 bg-white" type="submit"><i class="ti ti-search"></i></button>
+            </form>
         </#if>
+        </li>
+        </ul>
         
     </div>
 </nav>
