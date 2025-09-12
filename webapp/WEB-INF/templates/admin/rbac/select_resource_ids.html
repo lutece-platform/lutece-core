@@ -1,10 +1,10 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title=i18n('portal.rbac.select_resource_ids.titleSelectIds', role_key?html)>
-		<ul class="steps">
-			<li class="step-item active">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}</li>
-			<li class="step-item">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)}</li>
-		</ul>
+		<@ul class="steps steps-counter">
+			<@li class="step-item active">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}</li>
+			<@li class="step-item">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)}</li>
+		</@ul>
 		<@tform method='post' type='inline'>
 			<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 				<@inputGroup>
@@ -38,8 +38,5 @@ const searchElementList = document.querySelectorAll("*[data-role]");
 new LuteceSearchList( searchInput, searchElementList, {
 	searchableChild: [".searchable"],
 	highlight: true,
-	toggleList: true,
-	toggleLabel: '#i18n{portal.util.labelToggleList}',
-	toggleLabelOff: '#i18n{portal.util.labelToggleListOff}'
 });
 </script>

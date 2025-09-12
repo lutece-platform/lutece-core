@@ -11,12 +11,12 @@
 			</@formGroup>
 			<#if has_right_manage_front_role>
 				<@formGroup labelFor='can_be_assigned_to_user_front'>
-						<@checkBox name='can_be_assigned_to_user_front' id='can_be_assigned_to_user_front' value='true' labelKey='#i18n{portal.rbac.create_role.labelCanBeAssignedToUserFront}' labelFor='can_be_assigned_to_user_front' />
+					<@checkBox orientation='switch' name='can_be_assigned_to_user_front' id='can_be_assigned_to_user_front' value='true' labelKey='#i18n{portal.rbac.create_role.labelCanBeAssignedToUserFront}' labelFor='can_be_assigned_to_user_front' />
 				</@formGroup>
 			</#if>	
 			<@formGroup>
-				<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.create_role.buttonLabelCreate}' color='primary' size='sm' />
-				<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='times' color='danger' size='sm' title='#i18n{portal.admin.message.buttonCancel}' />
+				<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.create_role.buttonLabelCreate}' color='primary'  />
+				<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='times' color='danger' title='#i18n{portal.admin.message.buttonCancel}' />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>
