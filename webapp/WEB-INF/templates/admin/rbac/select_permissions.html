@@ -1,10 +1,10 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title=i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)  skipHeader=true />
-		<ul class="steps  my-4">
-			<li class="step-item">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources} <@icon style='check text-green' /></li>
-			<li class="step-item active">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key)}</li>
-		</ul>
+		<@ul class="steps steps-counter">
+			<@li class="step-item">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources} <@icon style='check text-green' /></li>
+			<@li class="step-item active">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key)}</li>
+		</@ul>
 		<@tform method='post'  class='d-flex justify-content-center align-items-center flex-column'  action='jsp/admin/rbac/DoSelectPermissions.jsp' name='add_control' boxed=true>
 		<@input type='hidden' name='role_key' value='${role_key}' />
 		<@input type='hidden' name='resource_type' value='${resource_type}' />
