@@ -1,6 +1,7 @@
 package fr.paris.lutece.portal.web.util;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -11,6 +12,7 @@ import java.util.function.Function;
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.IPaginator;
+import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -22,8 +24,10 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class SimplePager<S, T> implements IPager<S, T>, Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
+    private static final IPaginator VOID_PAGINATOR = new Paginator<>( new ArrayList<>( ), 0, "", "", "" );
 
     private final String _strName;
     private String _strListBookmark;
@@ -89,10 +93,11 @@ public class SimplePager<S, T> implements IPager<S, T>, Serializable
         Objects.requireNonNull(request, "HttpServletRequest cannot be null");
         Objects.requireNonNull(models, "Models cannot be null");
         if (_listId == null || _listId.isEmpty()) {
+            paginator = VOID_PAGINATOR;
             models.put(_strListBookmark, Collections.emptyList())
-                  .put(MARK_PAGINATOR, null)
+                  .put(MARK_PAGINATOR, paginator)
                   .put(MARK_NB_ITEMS_PER_PAGE, "0");
-            return null;
+            return paginator;
         }
 
 		_strCurrentPageIndex = AbstractPaginator.getPageIndex(request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex);
