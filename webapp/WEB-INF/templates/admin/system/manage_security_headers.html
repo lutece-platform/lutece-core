@@ -1,15 +1,8 @@
 <@pageContainer>
 <@pageColumn>
 	<@pageHeader title='#i18n{portal.system.manage_security_headers.titleSecurityHeadersList}' description='#i18n{portal.system.manage_security_headers.featureDescription}'>
-	<@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/system/CreateSecurityHeader.jsp' title='#i18n{portal.securityheader.create_securityheader.title}' buttonIcon='plus' hideTitle=['xs','sm'] />	
+		<@offcanvas targetUrl="jsp/admin/system/CreateSecurityHeader.jsp" targetElement="#create-securityheader-form" redirectForm=false id="template-create-securityheader" title="#i18n{portal.securityheader.create_securityheader.title}" btnTitle="#i18n{portal.securityheader.create_securityheader.title}" btnIcon="plus me-1" position="end" />
 	</@pageHeader>
-		#i18n{portal.system.manage_security_headers.imgAltEnable} / #i18n{portal.system.manage_security_headers.imgAltDisable}
-		
-		#i18n{portal.system.manage_security_headers.columnTitleValue}
-		
-		
-		#i18n{portal.system.manage_security_headers.columnTitleActions}
-	
 		<#assign id=0>
 		<@manageFeature>
 			<#list security_headers_list as security_header>
