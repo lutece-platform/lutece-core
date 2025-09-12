@@ -80,7 +80,7 @@
 										</@tform>
 									</#if>
 								</#if>
-								<@offcanvas targetUrl="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" targetElement="#plugin-content" id="plugin-${plugin?index}" btnIcon="info-circle" btnColor="info" position="end" title="#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${plugin.name}" />
+								<@offcanvas targetUrl="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" targetElement="#plugin-content" id="plugin-${plugin?index}" btnIcon="info-circle" btnColor="info me-1" position="end" title="#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${plugin.name}" />
 								<#if plugin.installed>
 									<@aButton href='jsp/admin/system/ConfirmUninstallPlugin.jsp?plugin_name=${plugin.name}' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' hideTitle=['all'] color='danger' />
 								<#else>
@@ -108,6 +108,8 @@ new LuteceSearchList( searchInput, searchElementList, {
 	searchableChild: [".searchable",".title"],
 	highlight: true,
 	toggleList: true,
+	toggleRow: true,
+	toggleBtnClassAlign: [ 'd-inline-flex','mb-1'],
 	toggleLabel: '#i18n{portal.util.labelToggleList}',
 	toggleLabelOff: '#i18n{portal.util.labelToggleListOff}'
 });
