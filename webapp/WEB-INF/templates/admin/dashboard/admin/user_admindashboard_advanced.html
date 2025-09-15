@@ -1,7 +1,6 @@
 <!-- DEFAULT USER PARAMETERS -->
 <@tabPanel id='defaultUserParameterValues'>
-<#assign tabTitle>#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues} </#assign>
-<@pageHeader title="${tabTitle}" titleClass="pb-3" />
+<@pageHeader title="#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}" class="col-md-12" titleClass="pb-3" />
 <@tform method='post' name='default_user_parameters' action='jsp/admin/user/DoModifyDefaultUserParameterValues.jsp' boxed=true>
 <@input type='hidden' name='token' value='${token!""}' />
 <@input type='hidden' name='tab' value='defaultUserParameterValues' />
@@ -42,7 +41,7 @@
 	</@columns>
 	<@columns md=6>
 		<!-- USER NOTIFICATION -->
-		<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelNotify}' rows=2>
+		<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelNotify} ' rows=2>
 			<#if default_user_notification = 1>
 				<@radioButton name='notify_user' value='1' orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' checked=true />
 				<@radioButton name='notify_user' value='0' orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' />
@@ -63,8 +62,7 @@
 <!-- EMAIL PATTERN -->
 <#if email_pattern??>
 <@tabPanel id='modifyEmailPattern'>
-<#assign tabTitle>#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}</#assign>
-<@pageHeader title="${tabTitle}" />
+<@pageHeader title="#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}" />
 	<@tform method='post' name='email_pattern_form' action='jsp/admin/user/DoModifyEmailPattern.jsp' boxed=true>
 	<@input type='hidden' name='token' value='${token!""}' />
 	<#if plugin_regularexpression>
