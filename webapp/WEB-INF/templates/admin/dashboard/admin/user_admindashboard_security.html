@@ -130,8 +130,7 @@
 	</@tform>
 </@tabPanel>
 <@tabPanel id='lifeTimeEmails'>
-<#assign tabTitle>#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}</#assign>
-<@pageHeader title="${tabTitle}"/>
+<@pageHeader title="#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}"  class='mt-3' />
 	<@tform method='post' action='jsp/admin/user/ModifyAccountLifeTimeEmails.jsp' boxed=true>
 	<@formGroup labelKey='#i18n{portal.users.accountLifeTime.labelSelectEmail}' labelFor='email_type'>
 		<@select name='email_type' id='email_type'>

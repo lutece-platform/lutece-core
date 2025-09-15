@@ -1,6 +1,5 @@
 <@tabPanel id='features_management'>
-    <#assign tabTitle>#i18n{portal.features.manage_groups.title}</#assign>
-    <@pageHeader title="${tabTitle}"  description="#i18n{portal.features.manage_groups.featureDescription}">
+    <@pageHeader title="#i18n{portal.features.manage_groups.title}"  description="#i18n{portal.features.manage_groups.featureDescription}">
         <@offcanvas targetUrl='jsp/admin/features/CreateGroup.jsp' targetElement='#create-group-form' id='group-create' title='#i18n{portal.features.external_features.manage_external_features.create}' btnTitle='#i18n{portal.features.manage_groups.buttonCreate}' btnIcon='plus' btnColor='primary' position='end' />
     </@pageHeader>
     <@manageFeature>
