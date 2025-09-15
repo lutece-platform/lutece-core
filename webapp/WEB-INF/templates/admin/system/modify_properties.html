@@ -25,12 +25,13 @@
                 <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
                     <@tabPanel active=tabactive id='group-${index}'>
                         <@input type='hidden' name='token' value='${token}' />
-                        <@row class='d-block properties-container'>
+                        <#-- <@row class='d-block properties-container'> -->
+                        <@row class='row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
                         <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                         <#assign groupList = []>
                         <#list groups?sort as groupGroup><#if !groupList?seq_contains(groupGroup)><#assign groupList = groupList + [groupGroup]></#if></#list>
                         <#list groupList?sort as groupCol>
-                            <@columns class='col-property' params='data-prop="${groupCol}"'> 
+                            <@columns params='data-prop="${groupCol}"'> 
                             <#assign groupName=''>
                             <#assign helpText=''>
                             <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
@@ -88,39 +89,6 @@
 <@overlay />
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
-<style>
-.zh-5 {
-    height: 5rem;
-}
-.color-input{
-    width: 2.5rem;
-    padding: 0;
-}
-
-.properties-container {
-    column-count: 3;
-    gap: 1rem;
-}
-
-.col-property {
-    display: inline-block;
-    margin-block-start: 1rem;
-}
-
-.col-property > .card > .card-body > .form-group {
-    margin-block-end: 0 !important;
-}
-
-.col-property h3{
-    padding-block-end: .5rem;
-    margin-block-end: 1rem;
-    border-block-end: .4rem solid var( --bs-border-color );
-}
-
-.col-property .card:hover {
-    border-color: var(--bs-dark);
-}
-</style>
 <script type="module">
 import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
 const searchInput = document.querySelector("#search_prop");
