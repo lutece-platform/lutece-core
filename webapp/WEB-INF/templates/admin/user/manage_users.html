@@ -26,15 +26,12 @@
                         hideLabel=['all'] rows=2>
                         <@select id='status' name='search_status' size=''>
                             <#assign statusOptions=[
-                                {"name":"#i18n{portal.users.manage_users.search_users.labelAllStatus}", "code"
-                                : "noValue" , "selected" : false, "disabled" : false },
-                                {"name":"#i18n{portal.users.create_user.statusLabelEnabled}", "code" : "0" , "selected"
-                                : false, "disabled" : false },
-                                {"name":"#i18n{portal.users.create_user.statusLabelDisabled}", "code" : "1" , "selected"
-                                : false, "disabled" : false },
-                                {"name":"#i18n{portal.users.anonymize_user.statusLabelAnonymize}", "code" : "10"
-                                , "selected" : false, "disabled" : false } ]>
-                                <@options items=statusOptions selected=search_admin_user_filter.status?string />
+                                {"name":"#i18n{portal.users.manage_users.search_users.labelAllStatus}", "code" : "noValue" , "selected" : false, "disabled" : false },
+                                {"name":"#i18n{portal.users.create_user.statusLabelEnabled}", "code" : "0" , "selected" : false, "disabled" : false },
+                                {"name":"#i18n{portal.users.create_user.statusLabelDisabled}", "code" : "1" , "selected" : false, "disabled" : false },
+                                {"name":"#i18n{portal.users.anonymize_user.statusLabelAnonymize}", "code" : "10" , "selected" : false, "disabled" : false } 
+                            ]>
+                            <@options items=statusOptions selected=search_admin_user_filter.status?string />
                         </@select>
                     </@formGroup>
                     <#list attributes_list as attribute>
@@ -73,21 +70,8 @@
                 <#list user_list as user>
                     <@manageFeatureItem>
                         <@manageFeatureItemColumn auto=true params='data-url="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" title="#i18n{portal.users.actions.labelUpdate}"'>
-                            <!-- #i18n{portal.users.manage_users.columnTitleStatus} -->
-                             <@p class='text-center'>
-                            <#if adminAvatar>
-                                <@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' params='style="max-width:80px"' title='Avatar' />
-                            <#else>    
-                                <@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' title='' />
-                            </#if>
-                            </@p>
-                            <@p class='text-center'>
-                            <#if user.status==0>
-                                <@tag color='success'><@icon style='check' /> #i18n{portal.util.labelEnabled}</@tag>
-                            <#else>
-                                <@tag color='danger'> #i18n{portal.util.labelDisabled}</@tag>
-                            </#if>
-                            </@p>
+                            <@p class='text-center'><#if adminAvatar><@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' params='style="max-width:80px"' title='Avatar' /><#else><@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' title='' /></#if></@p>
+                            <@p class='text-center'><#if user.status==0><@tag color='success'><@icon style='check' /> #i18n{portal.util.labelEnabled}</@tag><#else><@tag color='danger'> #i18n{portal.util.labelDisabled}</@tag></#if></@p>
                         </@manageFeatureItemColumn>
                         <@manageFeatureItemColumn auto=true>
                             <@p>#i18n{portal.users.manage_users.columnTitleLastName}  #i18n{portal.users.manage_users.columnTitleFirstName} : <strong><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if> <#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></strong></@p>
@@ -99,17 +83,19 @@
                         <#assign list_user_fields=map_id_user_list_user_fields["" + user.userId]>
                         <#list attributes_list as attribute>
                             <#if attribute.shownInResultList>
-                                <@manageFeatureItemColumn >
-                                ${attribute.title} : 
+                            <@manageFeatureItemColumn>
+                                <@p>${attribute.title} : 
                                 <#assign index_user_field=0>
                                 <#list list_user_fields as user_field>
                                     <#if user_field.attribute.idAttribute==attribute.idAttribute>
                                         <#if index_user_field !=0><br /></#if>
-                                        <#assign index_user_field=index_user_field + 1>
-                                        <#if user.status !=10><strong>${attribute.getHtmlValue( locale, user_field )}</strong></#if>
+                                            <#assign index_user_field=index_user_field + 1>
+                                            <#if user.status !=10><strong>${attribute.getHtmlValue( locale, user_field )}</strong>
+                                        </#if>
                                     </#if>
                                 </#list>
-                                </@manageFeatureItemColumn>
+                                </@p>
+                            </@manageFeatureItemColumn>
                             </#if>
                         </#list>
                         <#if user.dateLastLogin?? && user.dateLastLogin!=''>
@@ -118,7 +104,7 @@
                         </@manageFeatureItemColumn>
                         </#if>
                         <@manageFeatureItemColumn auto=true>
-                            <@aButton class='dropdown-toggle' size='' id='portlet-type' dropdownMenu=true href='#' title='#i18n{portal.util.labelActions}' color='' hideTitle=['xs','sm','md']>
+                            <@aButton class='dropdown-toggle' size='' id='portlet-type' dropdownMenu=true href='#' title='#i18n{portal.util.labelActions}' color=''>
                                 <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' label='#i18n{portal.users.actions.labelUpdate}' /></@div>
                                 <#if defaultModeUsed>
                                     <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' label='#i18n{portal.users.actions.labelPassword}' /></@div>
