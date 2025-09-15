@@ -1,6 +1,5 @@
 <@tabPanel id='search'>
-    <#assign tabTitle>#i18n{portal.search.manage_advanced_parameters.pageTitle}</#assign>
-    <@pageHeader title="${tabTitle}" titleClass="pb-3" />
+    <@pageHeader title="#i18n{portal.search.manage_advanced_parameters.pageTitle}" titleClass="pb-3" />
     <@tform  name='search_advanced_parameters' action='jsp/admin/search/DoModifyAdvancedParameters.jsp' boxed=true>
         <@input type='hidden' name='token' value='${token}' />
         <@row>

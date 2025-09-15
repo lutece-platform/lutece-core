@@ -1,6 +1,6 @@
 <@tabPanel id='assign_features_groups'>
 <@tabContent>
-	<@pageHeader title="#i18n{portal.features.dispatch_features.title}" description="#i18n{portal.features.dispatch_features.featureDescription}"/>
+	<@pageHeader class="col-md-12" title="#i18n{portal.features.dispatch_features.title}" description="#i18n{portal.features.dispatch_features.featureDescription}"/>
 	<#if no_group.feature_list?has_content && no_group.feature_list?size gt 1>
 		<@featuresGroupDisplay groupDisplay=no_group />
 	</#if>
@@ -38,11 +38,6 @@
 		</@boxHeader>
 		<@boxBody class='px-2 py-0'> 
 			<#if groupDisplay.feature_list?has_content>
-			<!-- 
-				#i18n{portal.features.dispatch_features.tableLabelFeatureName}
-				#i18n{portal.features.dispatch_features.tableLabelGroup}
-				#i18n{portal.features.dispatch_features.tableLabelOrder}
-			 -->
 			<@manageFeature class='mt-0'>
 			<#list groupDisplay.feature_list?sort_by('order') as right>
 			<#if right.url?has_content>
