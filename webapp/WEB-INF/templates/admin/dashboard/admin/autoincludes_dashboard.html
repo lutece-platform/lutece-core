@@ -1,6 +1,5 @@
 <@tabPanel id='autoincludes'>
-<#assign tabTitle>#i18n{portal.templates.manage_autoincludes.pageTitle} </#assign>
-<@pageHeader title="${tabTitle}" />
+<@pageHeader title="#i18n{portal.templates.manage_autoincludes.pageTitle}" />
 <#assign defaultThemeName='' >
 <#list commons_list as item>
 	<#if current_commons="${item.code}">

@@ -1,6 +1,5 @@
 <@tabPanel id='anonymizeUsers'>
-<#assign tabTitle>#i18n{portal.users.anonymize_user.titleAnonymizeUser}</#assign>
-<@pageHeader title="${tabTitle}" titleClass="pb-3" />
+<@pageHeader title="#i18n{portal.users.anonymize_user.titleAnonymizeUser}" titleClass="pb-3" />
 <@tform role='form' style="inline" method='post' name='anonymize_user' action='jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp' boxed=true>
     <@input type='hidden' name='token' value='${token}' />
     <@formGroup labelKey="#i18n{portal.users.create_user.labelIdentity}">
