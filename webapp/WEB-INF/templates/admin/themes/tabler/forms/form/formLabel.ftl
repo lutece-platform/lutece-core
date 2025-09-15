@@ -16,6 +16,6 @@ Parameters:
 <@deprecatedWarning args=deprecated />	
 <#local labelClass = ' ' + displaySettings(hideLabel,'') />
 <label class="<#if class !=''>${class?trim}</#if><#if hideLabel?seq_contains('all')> visually-hidden</#if>"<#if labelFor!=''> for="${labelFor}"</#if><#if labelId!=''> id="${labelId}"</#if>>
-<#if labelKey?trim !=''><#if labelClass?trim !=''><span class="${labelClass}"></#if>${labelKey}<#if mandatory> *</#if><#if labelClass?trim !=''></span></#if><#if labelKeyDesc?trim !=''><span class="form-label-description">${labelKeyDesc}</span></#if><#else><#nested></#if>
+<#if labelKey?trim !=''><#if labelClass?trim !=''><span class="${labelClass}"></#if>${labelKey}<#if mandatory> <span class="text-danger">*</span></#if><#if labelClass?trim !=''></span></#if><#if labelKeyDesc?trim !=''><span class="form-label-description">${labelKeyDesc}</span></#if><#else><#nested></#if>
 </label>
 </#macro>
