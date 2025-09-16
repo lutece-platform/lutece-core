@@ -25,13 +25,12 @@
                 <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
                     <@tabPanel active=tabactive id='group-${index}'>
                         <@input type='hidden' name='token' value='${token}' />
-                        <#-- <@row class='d-block properties-container'> -->
-                        <@row class='row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
+                        <@row class='row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'> 
                         <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                         <#assign groupList = []>
                         <#list groups?sort as groupGroup><#if !groupList?seq_contains(groupGroup)><#assign groupList = groupList + [groupGroup]></#if></#list>
                         <#list groupList?sort as groupCol>
-                            <@columns params='data-prop="${groupCol}"'> 
+                            <@columns params='data-prop="${groupCol}"'>
                             <#assign groupName=''>
                             <#assign helpText=''>
                             <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
@@ -76,7 +75,7 @@
                         </@row>
                     </@tabPanel>
                 </#list>
-                <@row class='position-fixed bottom-0 end-0 w-100 zh-5'>
+                <@row class='position-fixed bottom-0 end-0 w-100 h-10'>
                     <@columns class='d-flex justify-content-center align-items-center col-12' params='style="background-color:rgba(255,255,255,.8)"'>
                         <@button class='mt-3' type='submit' buttonIcon='device-floppy' title='#i18n{portal.system.modify_properties.buttonLabel}' />
                     </@columns>
