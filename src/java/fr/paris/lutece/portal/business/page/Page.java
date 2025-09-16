@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.security.SecurityService;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * This class reprsents business objects Page
  */
-public class Page implements RBACResource, IExtendableResource
+public class Page implements RBACResource, IExtendableResource, Serializable
 {
     // ///////////////////////////////////////////////////////////////////////////////
     // Constants
