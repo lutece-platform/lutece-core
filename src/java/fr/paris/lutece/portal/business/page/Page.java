@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.service.security.SecurityService;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
@@ -47,9 +48,9 @@ import java.util.List;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * This class reprsents business objects Page
+ * This class represents business objects Page
  */
-public class Page implements RBACResource, IExtendableResource
+public class Page implements RBACResource, IExtendableResource, Serializable
 {
     // ///////////////////////////////////////////////////////////////////////////////
     // Constants
@@ -63,6 +64,7 @@ public class Page implements RBACResource, IExtendableResource
     private static final String CONSTANT_EQUALS = "=";
     private static final String MARK_RESOURCE_TYPE = "resource_type";
     private static final String MARK_RESOURCE_ID = "id";
+    private static final long serialVersionUID = 1L;
 
     // Variables declarations
     private int _nId;
