@@ -101,6 +101,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 
     // Jsp
     private static final String JSP_ADMIN_SITE = "../../site/AdminSite.jsp";
+    private static final String JSP_ADMIN_SITE_WITH_PATH = "jsp/admin/site/AdminSite.jsp";
 
     /**
      * Displays the portlet's creation form
@@ -210,13 +211,13 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         // Check Mandatory fields
         if ( StringUtil.isAnyEmpty( strName, strOrder, strColumn, strAcceptAlias, strAcceptPortletTitle ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
         }
 
         // style id is not mandatory if the content is not generated from XML and XSL
         if ( portlet.isContentGeneratedByXmlAndXsl( ) && ( strStyleId == null || strStyleId.trim( ).equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
         }
 
         String strPageId = request.getParameter( PARAMETER_PAGE_ID );
@@ -229,14 +230,14 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 
             if ( !PageHome.checkPageExist( nPageId ) )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
             }
         }
         catch( NumberFormatException e )
         {
             AppLogService.error( e.getMessage( ), e );
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
         }
 
         int nOrder = Integer.parseInt( strOrder );

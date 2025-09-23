@@ -102,6 +102,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_CREATE_WORKGROUP = "admin/workgroup/create_workgroup.html";
     private static final String TEMPLATE_MODIFY_WORKGROUP = "admin/workgroup/modify_workgroup.html";
     private static final String TEMPLATE_ASSIGN_USERS = "admin/workgroup/assign_users_workgroup.html";
+    private static final String JSP_PATH = "jsp/admin/workgroup/";
 
     // Markers Freemarker
     private static final String MARK_WORKGROUPS_LIST = "workgroups_list";
@@ -299,6 +300,11 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         AdminWorkgroupHome.create( adminWorkgroup );
         AdminWorkgroupHome.addUserForWorkgroup( getUser( ), strKey );
 
+        if( !getUser().getUserWorkgroups().contains( strKey ) )
+        {
+            getUser().getUserWorkgroups().add( strKey );
+        }
+
         return JSP_MANAGE_WORKGROUPS;
     }
 
@@ -313,11 +319,11 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         String strUrlRemove = JSP_URL_REMOVE_WORKGROUP;
-        Map<String, String> parameters = new HashMap<>( );
+        Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_WORKGROUP ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, null, null, strUrlRemove, null, AdminMessage.TYPE_CONFIRMATION, parameters, JSP_PATH+JSP_MANAGE_WORKGROUPS );
     }
 
     /**
@@ -336,7 +342,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         if ( CollectionUtils.isNotEmpty( AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_USED, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_USED, JSP_PATH+JSP_MANAGE_WORKGROUPS, AdminMessage.TYPE_STOP );
         }
 
         if ( !WorkgroupRemovalListenerService.getService( ).checkForRemoval( strWorkgroupKey, listErrors, getLocale( ) ) )
@@ -346,7 +352,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
                     strCause
             };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args, JSP_PATH+JSP_MANAGE_WORKGROUPS, AdminMessage.TYPE_STOP );
         }
         if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_WORKGROUP ) )
         {

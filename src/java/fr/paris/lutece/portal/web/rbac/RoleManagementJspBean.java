@@ -183,6 +183,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_CONTROL_FROM_ROLE = "jsp/admin/rbac/DoRemoveControlFromRole.jsp";
     private static final String JSP_ASSIGN_USERS_TO_ROLE = "AssignUsersRole.jsp";
     private static final String JSP_URL_ASSIGN_USERS_TO_ROLE = "jsp/admin/rbac/AssignUsersRole.jsp";
+    private static final String JSP_PATH = "jsp/admin/rbac/";
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -615,7 +616,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strSelectionMethod == null ) || ( strSelectionMethod.trim( ).equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, JSP_PATH+JSP_URL_ROLES_MANAGEMENT, AdminMessage.TYPE_STOP );
         }
         else
             if ( strSelectionMethod.equals( PARAMETER_SELECTION_METHOD_CHOOSE ) )
@@ -631,7 +632,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 }
                 else
                 {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, JSP_PATH+JSP_URL_ROLES_MANAGEMENT, AdminMessage.TYPE_STOP );
                 }
     }
 
