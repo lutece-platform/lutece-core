@@ -26,15 +26,15 @@
 	private final static String PROPERTY_MESSAGE_STACK = "portal.util.error.page.message.stack_trace";
 	private final static String PROPERTY_HOME = "portal.site.page_home.label";
 	private final static String PROPERTY_SITE_MAP = "portal.site.site_map.pathLabel";
-        private final static String PROPERTY_XPAGE_CONTACT = "portal.site.page_menu_tools.xpage.contact";
+    private final static String PROPERTY_XPAGE_CONTACT = "portal.site.page_menu_tools.xpage.contact";
 	private final static String PROPERTY_CREDITS = "portal.site.portal_footer.labelCredits";
 	private final static String PROPERTY_WINDOW = "portal.site.portal_footer.newWindow";
 %>
 
 <%
 
-	TransactionManager.rollBackEveryTransaction( exception );
-    if( exception instanceof fr.paris.lutece.portal.service.admin.AccessDeniedException )
+	TransactionManager.rollBackEveryTransaction( exception.getCause(  ) );
+    if( exception.getCause(  ) instanceof fr.paris.lutece.portal.service.admin.AccessDeniedException )
     {
     	if ( exception.getMessage(  ) != null )
     	{
@@ -42,7 +42,7 @@
     	}
         response.sendRedirect( AdminMessageService.getMessageUrl( request , Messages.USER_ACCESS_DENIED , AdminMessage.TYPE_STOP ) );
     }
-    else if ( exception instanceof fr.paris.lutece.portal.service.admin.PasswordResetException )
+    else if ( exception.getCause( ) instanceof fr.paris.lutece.portal.service.admin.PasswordResetException )
     {
         String strRedirectUrl = AdminMessageService.getMessageUrl( request,
                 Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, JSP_URL_MODIFY_DEFAULT_USER_PASSWORD,
