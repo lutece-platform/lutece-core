@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS core_theme_global;
 --
 DROP TABLE IF EXISTS core_theme;
 CREATE TABLE IF NOT EXISTS core_theme (
-  code_theme varchar(25) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  code_theme varchar(25) COLLATE utf8_unicode_ci NOT NULL,
   theme_description varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   path_images varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   path_css varchar(255) COLLATE utf8_unicode_ci NOT NULL,

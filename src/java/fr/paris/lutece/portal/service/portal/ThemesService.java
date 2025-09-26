@@ -62,11 +62,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public final class ThemesService
 {
     public static final String GLOBAL_THEME = "default";
-<<<<<<< HEAD
-    private static final String THEME_PLUGIN_NAME = "theme";
-=======
     private static final String BEAN_THEME_SERVICE = "themeService";
->>>>>>> b3df3401f (LUT-30367: Remove create, delete and update theme code add theme default global code and version in lutece datastore)
     private static final String COOKIE_NAME = "theme";
     private static final String THEME_TEST = "theme_test";
     private static final String BEAN_THEME_SERVICE = "theme.themeService";

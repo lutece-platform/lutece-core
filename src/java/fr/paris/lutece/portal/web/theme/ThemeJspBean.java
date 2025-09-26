@@ -37,6 +37,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -50,9 +52,13 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
@@ -61,13 +67,23 @@ import fr.paris.lutece.util.url.UrlItem;
 /**
  * ThemeJspBean
  */
+@Controller( controllerJsp = "ManageThemes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_THEME_MANAGEMENT" )
 public class ThemeJspBean extends MVCAdminJspBean
 {
-    // Right
-    public static final String RIGHT_MANAGE_THEMES = "CORE_THEME_MANAGEMENT";
+    private static final long serialVersionUID = 3959917474602825328L;
 
     // Templates files path
     private static final String TEMPLATE_MANAGE_THEMES = "admin/theme/manage_themes.html";
+
+    private static final String JSP_MANAGE_THEMES = "jsp/admin/plugins/filestoragetransfer/ManageRequests.jsp";
+
+    // Views
+    private static final String VIEW_MANAGE_THEMES = "manageThemes";
+
+    // Actions
+    private static final String ACTION_MODIFY_GLOBAL_THEME = "modifyGlobalTheme";
+
+    private static ThemeService _themeService = SpringContextService.getBean( "themeService");
 
     /**
      * Returns the list of Themes
@@ -75,14 +91,14 @@ public class ThemeJspBean extends MVCAdminJspBean
      * @param request The Http request
      * @return the html code for display the manage themes page
      */
+     @View( value = VIEW_MANAGE_THEMES, defaultView = true )
     public String getManageThemes( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-
-        Collection<Theme> listThemes = ThemeService.getInstance(  ).getThemesList(  );
+        Collection<Theme> _listThemes = _themeService.getThemesList(  );
         
-        model.put( ThemeUtil.MARK_THEMES_LIST, listThemes );
-        model.put( ThemeUtil.MARK_THEME_DEFAULT, ThemeService.getInstance(  ).getGlobalTheme(  ) );
+        Map<String, Object> model = getModel( );
+        model.put( ThemeUtil.MARK_THEMES_LIST, _listThemes );
+        model.put( ThemeUtil.MARK_THEME_DEFAULT, _themeService.getGlobalTheme(  ) );
         model.put( ThemeUtil.MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
         model.put( ThemeUtil.MARK_PERMISSION_MODIFY_GLOBAL_THEME,
                 RBACService.isAuthorized( Theme.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
@@ -100,6 +116,7 @@ public class ThemeJspBean extends MVCAdminJspBean
      * @param request The Http request
      * @return the html code for display the manage themes page
      */
+    @Action( ACTION_MODIFY_GLOBAL_THEME )
     public String doModifyGlobalTheme( HttpServletRequest request )
     {
         String strUrl = "";
@@ -108,7 +125,7 @@ public class ThemeJspBean extends MVCAdminJspBean
 
         if ( !strTheme.isBlank() )
         {
-            ThemeService.getInstance(  ).setGlobalTheme( strTheme, strVersion );
+            _themeService.setGlobalTheme( strTheme, strVersion );
             strUrl = getHomeUrl( request );
         }
         else
