@@ -3,7 +3,7 @@
     <!-- Plugin Informations -->
     <name>core</name>
     <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
-    <version>7.1.1-SNAPSHOT</version>
+    <version>7.2.0-SNAPSHOT</version>
     <description>portal.system.core_components.description</description>
     <documentation/>
     <installation/>
@@ -12,7 +12,7 @@
     <provider>portal.system.core_components.provider</provider>
     <provider-url>http://fr.lutece.paris.fr</provider-url>
     <icon-url>themes/admin/shared/images/core.svg</icon-url>
-    <copyright>Copyright (c) 2001-2015 Mairie de Paris</copyright>
+    <copyright>Copyright (c) 2001-2025 Mairie de Paris</copyright>
     <db-pool-required>1</db-pool-required>
 
     <!-- Contents Service -->

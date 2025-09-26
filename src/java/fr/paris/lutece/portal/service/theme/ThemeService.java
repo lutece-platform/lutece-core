@@ -52,24 +52,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class ThemeService implements IThemeService
 {
-    private static ThemeService _singleton;
-
-    /**
-     * Return the ThemeService singleton
-     *
-     * @return the ThemeService singleton
-     */
-    public static ThemeService getInstance( )
-    {
-        if ( _singleton == null )
-        {
-            _singleton = new ThemeService( );
-        }
-
-        return _singleton;
-    }
-
-    /**
+        /**
      * Init
      */
     public void init( )
