@@ -602,7 +602,7 @@ CREATE TABLE core_admin_security_header (
 --
 DROP TABLE IF EXISTS core_theme;
 CREATE TABLE  core_theme (
-  code_theme varchar(25) default '' NOT NULL,
+  code_theme varchar(25) NOT NULL,
   theme_description varchar(255),
   path_images varchar(255) NOT NULL,
   path_css varchar(255) NOT NULL,
