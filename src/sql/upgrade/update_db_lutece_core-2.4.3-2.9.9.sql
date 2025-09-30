@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset core:update_db_lutece_core-2.4.3-2.9.9.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset core:update_db_lutece_core-2.4.3-2.9.9.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 ALTER TABLE core_portlet ADD role varchar(50) default NULL;
 -- search admin dashboard --
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('searchAdminDashboardComponent', 1, 2);
