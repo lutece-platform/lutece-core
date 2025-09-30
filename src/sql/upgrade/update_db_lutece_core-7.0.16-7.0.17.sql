@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset core:update_db_lutece_core-7.0.16-7.0.17.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset core:update_db_lutece_core-7.0.16-7.0.17.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Table structure for table core_admin_security_header
 --
