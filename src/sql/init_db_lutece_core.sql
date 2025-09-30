@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset core:init_db_lutece_core.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset core:init_db_lutece_core.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('usersAdminDashboardComponent', 1, 1);
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('searchAdminDashboardComponent', 1, 2);
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('editorAdminDashboardComponent', 1, 3);
