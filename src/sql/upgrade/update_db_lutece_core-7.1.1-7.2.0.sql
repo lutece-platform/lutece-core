@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+-- changeset core:update_db_lutece_core-7.1.1-7.2.0.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Remove core_theme_global -> core_datastore
 --
