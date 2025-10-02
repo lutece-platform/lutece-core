@@ -34,12 +34,12 @@ if( localTheme === null ){
 localStorage.setItem( 'lutece-tabler-theme',localTheme );
 </#if>
 </#if>
+</script>
 <#-- Optional Jquery Inclusion for compat need the library-theme-jquery library https://github.com/lutece-platform/lutece-tech-library-theme-jquery -->
 <#if jqueryHeader??>
 <@jqueryHeader />
 </#if>
 <#-- End of Optional Jquery Inclusion -->
-</script>
 </head>
 <body<#if bodyClass!=''> class="${bodyClass!}"</#if> ${readMode} data-bs-theme-base="neutral" data-bs-theme-radius="2">
 <@adminSkipNav />
