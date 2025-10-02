@@ -13,6 +13,11 @@
 <#local userMenuMode><#attempt>${dskey('portal.site.site_property.layout.user.menumode.show.checkbox')?number}<#recover>0</#attempt></#local>
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header.svg')>
 <style>.icon-item-new {width: .5rem;height: .5rem;background: #c00;border-radius: 100%; display: block; position: absolute; right: 0; top: 0; z-index: 1}</style>
+<#-- Optional Jquery Inclusion for compat need the library-theme-jquery library https://github.com/lutece-platform/lutece-tech-library-theme-jquery -->
+<#if jqueryHeader??>
+<@jqueryHeader />
+</#if>
+<#-- End of Optional Jquery Inclusion -->
 </head>
 <body class="antialiased"${readMode} data-bs-theme="${darkMode!}" data-bs-theme-menu="${layout!}" data-layout="${layout!}">
 <@adminSkipNav />
