@@ -35,24 +35,11 @@
 	</repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>com.mchange</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.5.5</version>
-        </dependency>
+        
         <!--  Compile Dependencies commons-collections:3.2.2-->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.4</version>
-        </dependency>
-        <!-- commons-digester deprecated, use commons-digester3 instead. To be removed in the future -->
-        <!-- Not upgrading to 2.1 because for new projects we should use digester3, and for old projects -->
-        <!-- compilation can be broken by digester's new usage of generics -->
-        <dependency>
-            <groupId>commons-digester</groupId>
-            <artifactId>commons-digester</artifactId>
-            <version>1.8.1</version>
         </dependency>
         <dependency>       
             <groupId>org.apache.commons</groupId>
@@ -60,37 +47,19 @@
             <version>3.2</version>
         </dependency>
         <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-		    </exclusions>
-	        <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.18.0</version>
+            <version>2.20.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.18.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.10.0</version>
+            <version>1.14.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-            <version>2.1.1</version>
-        </dependency> 
          <dependency>
 		    <groupId>javax.cache</groupId>
 		    <artifactId>cache-api</artifactId>
@@ -99,7 +68,7 @@
         <dependency>
 		  <groupId>org.ehcache</groupId>
 		  <artifactId>ehcache</artifactId>
-		  <version>3.10.8</version>
+		  <version>3.11.1</version>
 		  <classifier>jakarta</classifier>
 		  <scope>runtime</scope>
 		  <exclusions>
@@ -182,15 +151,10 @@
 		    <scope>runtime</scope>
 		 </dependency>
 		-->
-		<dependency>
-            <groupId>jtidy</groupId>
-            <artifactId>jtidy</artifactId>
-            <version>8.0</version>
-		</dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.16.2</version>
+            <version>1.21.2</version>
         </dependency>
         <!--  Apache Commons Codec (TM) software provides implementations of 
         	  common encoders and decoders such as Base64, Hex, Phonetic and URLs.
@@ -198,7 +162,7 @@
         <dependency>
 		    <groupId>commons-codec</groupId>
 		    <artifactId>commons-codec</artifactId>
-		    <version>1.15</version>
+		    <version>1.19.0</version>
 		</dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -222,7 +186,7 @@
 		<dependency>
 		    <groupId>io.github.classgraph</groupId>
 		    <artifactId>classgraph</artifactId>
-		    <version>4.8.177</version>
+		    <version>4.8.181</version>
 		</dependency>	
         <!-- LUTECE DEPENDENCIES -->
        
