@@ -35,14 +35,13 @@ package fr.paris.lutece.util.mail;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import org.jsoup.Jsoup;
+import org.jsoup.helper.W3CDom;
+import org.jsoup.safety.Safelist;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
-import org.w3c.tidy.Tidy;
-
-import java.io.ByteArrayInputStream;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -108,14 +107,21 @@ public class HtmlDocument {
 	 *                       element's names
 	 */
 	public HtmlDocument(String strHtml, String strBaseUrl, boolean useAbsoluteUrl) {
-		// use of tidy to retrieve the DOM tree
-		Tidy tidy = new Tidy();
-		tidy.setQuiet(true);
-		tidy.setShowWarnings(false);
-
-		_content = tidy.parseDOM(new ByteArrayInputStream(strHtml.getBytes()), null);
-		_strBaseUrl = (strBaseUrl == null) ? "" : strBaseUrl;
-		_useAbsoluteUrl = useAbsoluteUrl;
+		
+	    if (strHtml == null || strHtml.trim().isEmpty()) {
+	        throw new IllegalArgumentException("HTML content cannot be null or empty");
+	    }
+	    this._strBaseUrl = (strBaseUrl != null) ? strBaseUrl : "";
+	    this._useAbsoluteUrl = useAbsoluteUrl;
+	    try {
+	        String cleanHtml = Jsoup.clean(strHtml, _strBaseUrl, Safelist.basic());
+	        org.jsoup.nodes.Document jsoupDoc = (_useAbsoluteUrl && !_strBaseUrl.isEmpty()) 
+	            ? Jsoup.parse(cleanHtml, _strBaseUrl)
+	            : Jsoup.parse(cleanHtml);	            
+	        this._content = new W3CDom().fromJsoup(jsoupDoc);
+	    } catch (Exception e) {
+	        throw new IllegalArgumentException("Failed to parse HTML content", e);
+	    }
 	}
 
 	/**
