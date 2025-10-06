@@ -61,16 +61,148 @@
 <p>The container for the panel, header, body elements of the accordion.</p>
 
 <@table>
-<@tr>
-    <@th>Parameter</@th>
-    <@th>Value</@th>
-    <@th>Default</@th>
-</@tr>
-<@tr>
-    <@th></@th>
-    <@td></@td>
-    <@td></@td>
-</@tr>
+    <@tr>
+        <@th>Parameter</@th>
+        <@th>Value</@th>
+        <@th>Default</@th>
+        <@th>Use</@th>
+    </@tr>
+    <@tr>
+        <@th>id</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>Unique identifier for the accordion container. If not provided, a default ID will be generated.</@td>
+    </@tr>
+</@table>
+
+<@h3>accordionPanel</@h3>
+
+<p>Defines a panel in the accordion. The panel can be collapsed or expanded.</p>
+<@table>
+    <@tr>
+        <@th>Parameter</@th>
+        <@th>Value</@th>
+        <@th>Default</@th>
+        <@th>Use</@th>
+    </@tr>
+    <@tr>
+        <@th>color</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>Defines the color of the panel. Options include primary, info, warning, danger, success.</@td>
+    </@tr>
+    <@tr>
+        <@th>collapsed</@th>
+        <@td>boolean</@td>
+        <@td>true</@td>
+        <@td>Indicates whether the panel is collapsed by default.</@td>
+    </@tr>
+    <@tr>
+        <@th>childId*</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>Unique identifier for the child element of the accordion panel. If not provided, a default ID will be generated.</@td>
+    </@tr>
+    <@tr>
+        <@th>id</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>Unique identifier for the accordion panel. If not provided, a default ID will be generated.</@td>
+    </@tr>
+    <@tr>
+        <@th>params</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>Additional parameters for the panel.</@td>
+    </@tr>
+</@table>
+
+<@h3>accordionHeader</@h3>
+<p>Defines the header of the accordion panel. It can include a title and an icon.</p>
+<@table>
+    <@tr>
+        <@th>Parameter</@th>
+        <@th>Value</@th>
+        <@th>Default</@th>
+        <@th>Use</@th>
+    </@tr>
+    <@tr>
+        <@th>id</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>Unique identifier for the accordion header. If not provided, a default ID will be generated.</@td>
+    </@tr>
+    <@tr>
+        <@th>title</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>H2 title of the accordion header.</@td>
+    </@tr>
+    <@tr>
+        <@th>parentId*</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td><em>Variable from the accordionContainer macro</em></@td>
+    </@tr>
+    <@tr>
+        <@th>childId*</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td><em>Variable from the accordionPanel macro</em></@td>
+    </@tr>
+    <@tr>
+        <@th>boxTools</@th>
+        <@td>boolean</@td>
+        <@td>false</@td>
+        <@td>Indicates whether the box tools are displayed in the header.</@td>
+    </@tr>
+    <@tr>
+        <@th>params</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>Additional parameters for the header.</@td>
+    </@tr>
+    <@tr>
+        <@th>headerIcon</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>Icon to display in the header.</@td>
+    </@tr>
+</@table>
+
+<@h3>accordionBody</@h3>
+<p>Defines the body of the accordion panel. It contains the content displayed when the panel is expanded.</p>
+<@table>
+    <@tr>
+        <@th>Parameter</@th>
+        <@th>Value</@th>
+        <@th>Default</@th>
+        <@th>Use</@th>
+    </@tr>
+    <@tr>
+        <@th>id</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>The childID defined in the parent accordionPanel macro.</@td>
+    </@tr>
+    <@tr>
+        <@th>class</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>The childClass defined in the parent accordionPanel macro.</@td>
+    </@tr>
+    <@tr>
+        <@th>expanded</@th>
+        <@td>boolean</@td>
+        <@td>none</@td>
+        <@td>The expanded state defined in the parent accordionPanel macro.</@td>
+    </@tr>
+    <@tr>
+        <@th>params</@th>
+        <@td>string</@td>
+        <@td>none</@td>
+        <@td>Additional parameters for the body.</@td>
+    </@tr>
 </@table>
 
 <@footer />
