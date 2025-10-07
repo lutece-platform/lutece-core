@@ -58,13 +58,13 @@
 		<@row>
 			<@columns>
 				<@formGroup rows=2>
-					<@checkBox name='display_update_date' id='display_update_date' labelKey='#i18n{portal.site.admin_page.labelDisplayUpdateDate}' checked=page.displayDateUpdate />
+					<@checkBox orientation='switch' name='display_update_date' id='display_update_date' labelKey='#i18n{portal.site.admin_page.labelDisplayUpdateDate}' checked=page.displayDateUpdate />
 				</@formGroup>
 				<#assign groupClass = ''>
 				<#if !page.displayDateUpdate><#assign groupClass='visually-hidden'></#if>
 				<@div id='manual_date' class=groupClass >
 					<@formGroup rows=2>
-						<@checkBox name='enable_manual_update_date' id='enable_manual_update_date' labelKey='#i18n{portal.site.admin_page.labelEnableManualUpdateDate}' checked=page.isManualDateUpdate />
+						<@checkBox orientation='switch' name='enable_manual_update_date' id='enable_manual_update_date' labelKey='#i18n{portal.site.admin_page.labelEnableManualUpdateDate}' checked=page.isManualDateUpdate />
 					</@formGroup>
 					<@formGroup rows=2>
 					<#if !page.isManualDateUpdate><#assign disabled = true></#if>
@@ -90,7 +90,7 @@
 				<@formGroup labelKey='#i18n{portal.site.admin_page.labelNewPicture}' rows=2>
 					<@input type='file' id='image_content' name='image_content' accept='image/*'  />
 				</@formGroup>
-				<@checkBox name='update_image' id='update_image' labelKey='#i18n{portal.site.admin_page.checkedUpdateImage}'/>
+				<@checkBox orientation='switch' orientation='switch' name='update_image' id='update_image' labelKey='#i18n{portal.site.admin_page.checkedUpdateImage}'/>
 			</@columns>
 		</@row>
 		</@fieldSet>

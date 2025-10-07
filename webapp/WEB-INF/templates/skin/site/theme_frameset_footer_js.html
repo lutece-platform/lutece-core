@@ -1,0 +1,76 @@
+<#-- Template to add js to footer in page_frameset.html theme template -->
+<@cTpl>
+<#-- Update ME -->
+<script src="themes/skin/shared/vendor/clipboard/clipboard.min.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
+<#if dskey('theme.site_property.bannerBrowserWarning.checkbox')?number = 1>
+<!-- Browser detection and warning old browser -->
+<script src="${thetheme.pathJs}/vendor/es5.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
+<script>
+window.addEventListener( "load", function() {
+	const browser = bowser.getParser(window.navigator.userAgent);
+	const browserName=browser['parsedResult']['browser']['name'];
+	const browserVer=browser['parsedResult']['browser']['version'];
+	const isValidBrowser = browser.satisfies({
+		// declare browsers per OS
+		windows: {
+			"internet explorer": ">11",
+			"edge" : ">=80",
+		},
+		macos: {
+			safari: ">=6"
+		},
+		ios: {
+			safari: ">=6"
+		},
+		// or in general
+		chrome: ">=80",
+		firefox: ">=52",
+		opera: ">=22",
+	});
+	if ( !isValidBrowser ){
+		toastr.options = {
+			"closeButton": true,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": false,
+			"positionClass": "toast-top-full-width browser-warning",
+			"preventDuplicates": true,
+			"onclick": null,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "0",
+			"extendedTimeOut": "0",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		}
+		const urlMessage='<p class="mt-3"><a class="btn btn-primary" target="_blank" href="https://browsehappy.com/?locale=fr">#i18n{theme.toast.msg.updateBrowser}</a></p>';
+		toastr["warning"]("#i18n{theme.toast.msg.ContentBrowser}" + urlMessage, "#i18n{theme.toast.msg.titleBrowser}" + browserName + ' ' + browserVer );
+	}
+});   
+</script>
+</#if> 
+<!-- CNIL Consent TarteAuCitron / Needs Matomo plugin -->
+<@cConsentTac title=favourite>
+<#-- Tarte au Citron Service : - default- -->
+<@cConsentTacService  />
+<#-- Tarte au Citron Service : Matomo  -->
+<@cConsentTacService code='matomohightrack'>${matomo!}</@cConsentTacService>
+</@cConsentTac>
+<#if urlAccount !=''>
+<!-- MyLutece User Connexion -->
+</#if>
+<#-- User message toastr notification - Parameter in back office - Menu Site / Site Properties -> Theme Paris.fr 	-->
+<#if dskey('theme.site_property.bannerMessage.htmlblock') !='' && dskey('theme.site_property.bannerMessage.Title') !=''>
+<!-- ========================================================   -->
+<!-- USER MESSAGE NOTIF		                                   -->
+<!-- ========================================================   -->
+<#assign bannerMessageDuration>${dskey('theme.site_property.bannerMessage.Duration')}</#assign>
+<#assign bannerMessagePosition>${dskey('theme.site_property.bannerMessage.Position')}</#assign>
+<@cInitToast showAll=true duration=bannerMessageDuration?number position=bannerMessagePosition >
+    <@cToast title=dskey('theme.site_property.bannerMessage.Title') content=dskey('theme.site_property.bannerMessage.htmlblock') delay=bannerMessageDuration?number class='bg-${dskey(\'theme.site_property.bannerMessage.Type\')}' />
+</@cInitToast>
+</#if>
+<#-- End Update ME -->
+</@cTpl>

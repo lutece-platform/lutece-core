@@ -1,0 +1,23 @@
+/*********************************************/
+/** 	Clipboard							**/
+/*********************************************/
+  pre {
+	position: relative;
+  }
+  pre .copy-to-clipboard {
+	background: #3C5BFE;
+	color: #fff;
+	cursor: pointer;
+	padding: 4px 5px;
+	line-height: 1;
+	font-size: 12px;
+	font-weight: 500;
+	border-radius: 4px;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+  }
+  
+  :not(pre) > code + span.copy-to-clipboard {
+	display: none;
+  }

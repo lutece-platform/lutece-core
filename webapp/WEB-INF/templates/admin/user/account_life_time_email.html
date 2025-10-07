@@ -10,38 +10,42 @@
 				<@tform action='jsp/admin/user/DoModifyAccountLifeTimeEmails.jsp'>
 					<@input type='hidden' name='token' value='${token}' />
 					<@input type='hidden' name='email_type' value='${email_type}' />
-					<@formGroup labelFor='email_sender' labelKey='${i18n("portal.users.accountLifeTime.labelSenderEmail")}' mandatory=true rows=2>
-						<@input type='text' name='email_sender' id='email_sender' value="${email_sender!}" />
-					</@formGroup>  
-					<@formGroup labelFor='email_subject' labelKey='${i18n("portal.users.accountLifeTime.labelSubjectEmail")}' mandatory=true rows=2>
-						<@input type='text' name='email_subject' id='email_subject' value="${email_subject!}" />
-					</@formGroup>
-					<@formGroup labelFor='email_body' labelKey='${i18n("portal.users.accountLifeTime.labelBodyEmail")}' mandatory=true rows=2>
-						<@input type='textarea' name='email_body' richtext=true id='email_body' value="${email_body!}" />
-					</@formGroup>
 					<@row>
-						<@columns sm=9 offsetSm=3 md=3 offsetMd=3>
-							<h3>#i18n{portal.users.accountLifeTime.labelParameters}</h3>
-							<@ul>
-								<#if email_type != "reactivated" && email_type != "expired" && email_type != "password_expired" >
-									<@li>${r"${url}"} : #i18n{portal.users.accountLifeTime.labelUrl}</@li>
-								</#if>
-								<@li>${r"${first_name}"} : #i18n{portal.users.accountLifeTime.labelFirstName}</@li>
-								<@li>${r"${last_name}"} : #i18n{portal.users.accountLifeTime.labelLastName}</@li>
-								<#if email_type != "password_expired" >
-									<@li>${r"${date_valid}"} : #i18n{portal.users.accountLifeTime.labelDateValid}</@li>
-								</#if>
-							</@ul>
+						<@columns sm=12 md=9 lg=6>
+							<@formGroup labelFor='email_sender' labelKey='${i18n("portal.users.accountLifeTime.labelSenderEmail")}' mandatory=true>
+								<@input type='text' name='email_sender' id='email_sender' value="${email_sender!}" />
+							</@formGroup>  
+							<@formGroup labelFor='email_subject' labelKey='${i18n("portal.users.accountLifeTime.labelSubjectEmail")}' mandatory=true>
+								<@input type='text' name='email_subject' id='email_subject' value="${email_subject!}" />
+							</@formGroup>
 						</@columns>    
 					</@row>  
 					<@row>
-						<@columns sm=9 offsetSm=3 md=3 offsetMd=3>
-							<@button type='submit' style='btn-block' buttonIcon='check' title='#i18n{portal.users.modify_user.buttonLabelModify}' />
+						<@columns sm=9>
+							<@formGroup labelFor='email_body' labelKey='${i18n("portal.users.accountLifeTime.labelBodyEmail")}' mandatory=true>
+								<@input type='textarea' name='email_body' richtext=true id='email_body' value="${email_body!}" />
+							</@formGroup>
+						</@columns>
+						<@columns sm=3>
+							<@alert title='#i18n{portal.users.accountLifeTime.labelParameters}' class='alert-minor mt-5' iconTitle='info-circle' >
+							<@ul>
+								<#if email_type != "reactivated" && email_type != "expired" && email_type != "password_expired" >
+									<@li><span class="copy-content fw-bold">${r"${url}"} : </span> #i18n{portal.users.accountLifeTime.labelUrl}</@li>
+								</#if>
+								<@li><span class="copy-content fw-bold">${r"${first_name}"} : </span> #i18n{portal.users.accountLifeTime.labelFirstName}</@li>
+								<@li><span class="copy-content fw-bold">${r"${last_name}"} : </span> #i18n{portal.users.accountLifeTime.labelLastName}</@li>
+								<#if email_type != "password_expired" >
+									<@li><span class="copy-content fw-bold">${r"${date_valid}"} : </span> #i18n{portal.users.accountLifeTime.labelDateValid}</@li>
+								</#if>
+							</@ul>
+							</@alert>
 						</@columns>    
-					</@row>
+					</@row>  
+					<@button type='submit' style='btn-block' buttonIcon='check' title='#i18n{portal.users.modify_user.buttonLabelModify}' />
 				</@tform>
 			</@boxBody>
 		</@box>
 	</@columns>
 </@row>
 <@initEditor />
+<@copyElementToClipboard class='' />

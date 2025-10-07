@@ -3,7 +3,7 @@
     <!-- Plugin Informations -->
     <name>core</name>
     <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
-    <version>7.1.5-SNAPSHOT</version>
+    <version>7.2.0-SNAPSHOT</version>
     <description>portal.system.core_components.description</description>
     <documentation/>
     <installation/>
@@ -12,7 +12,7 @@
     <provider>portal.system.core_components.provider</provider>
     <provider-url>http://fr.lutece.paris.fr</provider-url>
     <icon-url>themes/admin/shared/images/core.svg</icon-url>
-    <copyright>Copyright (c) 2001-2015 Mairie de Paris</copyright>
+    <copyright>Copyright (c) 2001-2025 Mairie de Paris</copyright>
     <db-pool-required>1</db-pool-required>
 
     <!-- Contents Service -->
@@ -208,14 +208,15 @@
         </admindashboard-component>
     </admindashboard-components>
 
-    <freemarker-auto-includes>
-        <freemarker-auto-include>commons_site.html</freemarker-auto-include>
-    </freemarker-auto-includes>
+    <freemarker-macro-files>
+        <freemarker-macro-file>commons_site.html</freemarker-macro-file>
+        <freemarker-macro-file>skin/themes/global_theme_commons.ftl</freemarker-macro-file>
+    </freemarker-macro-files>
 
     <css-stylesheets>
         <css-stylesheets-scope>portal</css-stylesheets-scope>
-        <css-stylesheet mode="1">../page_template_styles_admin.min.css</css-stylesheet>
-        <css-stylesheet mode="1">../page_template_styles_admin_site.css</css-stylesheet>
+        <css-stylesheet mode="1">../../themes/shared/css/page_template_styles_admin.min.css</css-stylesheet>
+        <css-stylesheet mode="1">../../themes/shared/css/page_template_styles_admin_site.css</css-stylesheet>
     </css-stylesheets>
 
     <admin-css-stylesheets>

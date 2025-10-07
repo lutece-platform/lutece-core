@@ -1,7 +1,6 @@
 <@tabPanel id='assign_features_groups'>
 <@tabContent>
-<#assign tabTitle>#i18n{portal.features.dispatch_features.title}</#assign>
-<@pageHeader title="${tabTitle}" description="#i18n{portal.features.dispatch_features.featureDescription}"/>
+	<@pageHeader class="col-md-12" title="#i18n{portal.features.dispatch_features.title}" description="#i18n{portal.features.dispatch_features.featureDescription}"/>
 	<#if no_group.feature_list?has_content && no_group.feature_list?size gt 1>
 		<@featuresGroupDisplay groupDisplay=no_group />
 	</#if>
@@ -37,19 +36,14 @@
 			</#if>
 		</#if>
 		</@boxHeader>
+		<@boxBody class='px-2 py-0'> 
 			<#if groupDisplay.feature_list?has_content>
-			<@table headBody=true>
-			<@tr>
-				<@th sm=4 md=5 lg=6 xl=7>#i18n{portal.features.dispatch_features.tableLabelFeatureName}</@th>
-				<@th sm=4 md=4 lg=4 xl=3>#i18n{portal.features.dispatch_features.tableLabelGroup}</@th>
-				<@th sm=2 md=3 lg=2>#i18n{portal.features.dispatch_features.tableLabelOrder}</@th>
-			</@tr>
-			<@tableHeadBodySeparator />
+			<@manageFeature class='mt-0'>
 			<#list groupDisplay.feature_list?sort_by('order') as right>
 			<#if right.url?has_content>
-				<@tr>
-					<@td><strong>${right.name}</strong>	<br><small>${right.description}</small></@td>
-					<@td>
+				<@manageFeatureItem>
+					<@manageFeatureItemColumn><strong>${right.name}</strong> <br><small>${right.description}</small></@manageFeatureItemColumn>
+					<@manageFeatureItemColumn>
 					<@tform method='post' type='inline' action='jsp/admin/features/DoDispatchFeature.jsp?tab=assign_features_groups'>
 						<@input type='hidden' name='right_id' value='${right.id}' />
 						<@input type='hidden' name='token' value='${token}' />
@@ -73,8 +67,8 @@
 						</@inputGroup>
 						</@formGroup>
 					</@tform>
-					</@td>
-					<@td>
+					</@manageFeatureItemColumn>
+					<@manageFeatureItemColumn>
 					<#if groupDisplay.order_list_state==true>
 						<@tform method='post' type='inline' action='jsp/admin/features/DoDispatchFeature.jsp?tab=assign_features_groups'>
 						<@input type='hidden' name='right_id' value='${right.id}' />
@@ -95,17 +89,18 @@
 							</@inputGroup>
 						</@formGroup>
 						</@tform>
-						<#else>
+					<#else>
 						<@tag color='danger'><em>#i18n{portal.features.dispatch_features.notAvailable}</em></@tag>
 					</#if>
-					</@td>
-				</@tr>
+					</@manageFeatureItemColumn>
+				</@manageFeatureItem>
 			</#if>
 			</#list>
-			</@table>
-			<#else>
-				<@empty />
-			</#if>
+			</@manageFeature>
+		<#else>
+			<@empty title='#i18n{portal.features.nogroup.label}' subtitle=' ' />
+		</#if>
+        </@boxBody>
         </@box>
     </@columns>
 </@row>

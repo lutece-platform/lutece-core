@@ -65,8 +65,7 @@ import javax.servlet.http.HttpServletResponse;
 public final class ThemesService
 {
     public static final String GLOBAL_THEME = "default";
-    private static final String THEME_PLUGIN_NAME = "theme";
-    private static final String BEAN_THEME_SERVICE = "theme.themeService";
+    private static final String BEAN_THEME_SERVICE = "themeService";
     private static final String COOKIE_NAME = "theme";
     private static final String THEME_TEST = "theme_test";
 
@@ -259,14 +258,14 @@ public final class ThemesService
      * @param strGlobalTheme
      *            The global theme
      */
-    public static void setGlobalTheme( String strGlobalTheme )
+    public static void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion )
     {
         IThemeService themeService;
 
         try
         {
             themeService = getThemeService( );
-            themeService.setGlobalTheme( strGlobalTheme );
+            themeService.setGlobalTheme( strGlobalTheme, strGlobalThemeVersion );
         }
         catch( ThemeNotAvailableException e )
         {
@@ -312,11 +311,6 @@ public final class ThemesService
     {
         IThemeService themeService = null;
 
-        if ( !isAvailable( ) )
-        {
-            throw new ThemeNotAvailableException( );
-        }
-
         try
         {
             themeService = SpringContextService.getBean( BEAN_THEME_SERVICE );
@@ -358,88 +352,6 @@ public final class ThemesService
         theme.setThemeVersion( strThemeVersion );
 
         return theme;
-    }
-
-    /**
-     * Check if the theme service is available. It must have the following requirement to be available :
-     * <ul>
-     * <li>The <code>plugin-theme</code> is activated</li>
-     * <li>The pool of the <code>plugin-theme</code> is defined</li>
-     * </ul>
-     * 
-     * @return true if it is available, false otherwise
-     */
-    public static boolean isAvailable( )
-    {
-        Plugin pluginTheme = PluginService.getPlugin( THEME_PLUGIN_NAME );
-
-        return PluginService.isPluginEnable( THEME_PLUGIN_NAME ) && ( pluginTheme.getDbPoolName( ) != null )
-                && !AppConnectionService.NO_POOL_DEFINED.equals( pluginTheme.getDbPoolName( ) );
-    }
-
-    /**
-     * Create a new theme
-     * 
-     * @param theme
-     *            the theme
-     * @return The theme
-     */
-    public static Theme create( Theme theme )
-    {
-        try
-        {
-            IThemeService themeService = getThemeService( );
-
-            return themeService.create( theme );
-        }
-        catch( ThemeNotAvailableException e )
-        {
-            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-
-            return null;
-        }
-    }
-
-    /**
-     * Update a theme
-     * 
-     * @param theme
-     *            the theme to update
-     * @return The updated theme
-     */
-    public static Theme update( Theme theme )
-    {
-        try
-        {
-            IThemeService themeService = getThemeService( );
-
-            return themeService.update( theme );
-        }
-        catch( ThemeNotAvailableException e )
-        {
-            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-
-            return null;
-        }
-    }
-
-    /**
-     * Remove a theme
-     * 
-     * @param strCodeTheme
-     *            the code theme
-     */
-    public static void remove( String strCodeTheme )
-    {
-        try
-        {
-            IThemeService themeService = getThemeService( );
-            themeService.remove( strCodeTheme );
-        }
-        catch( ThemeNotAvailableException e )
-        {
-            AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
-        }
     }
 
     /**

@@ -1,0 +1,39 @@
+
+/*** 										***/
+/*** Table elements style					***/
+/***  										***/
+table {
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: 1rem;
+	border: 1px solid #EEEEEE;
+}
+  
+table td,
+table th {
+	padding: 0.75rem;
+	vertical-align: top;
+	margin-bottom: 0;
+}
+  
+tr:not(:last-child) {
+	border-bottom: 1px solid #EEEEEE;
+}
+  
+th {
+	font-weight: 500;
+}
+  
+thead {
+	background: #FBFBFB;
+	margin-bottom: 0;
+}
+  
+thead tr {
+	border-bottom: 1px solid #EEEEEE;
+}
+  
+tbody {
+	background: #fff;
+	margin-bottom: 0;
+  }

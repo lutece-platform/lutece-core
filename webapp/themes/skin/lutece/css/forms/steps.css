@@ -1,0 +1,362 @@
+/*** 										***/
+/*** Forms Validation Screen				***/
+/***  										***/
+.form-submited {
+	margin: var(--spacing-ml) 15%;
+}
+
+/*  Summary of a submission 					 */
+#summary-validate .card>.card-heading {
+	position: relative;
+}
+
+#summary-validate .card>.card-heading>.card-title {
+	margin-inline-start: var(--spacing-ml);
+	position: relative;
+}
+
+#summary-validate .card>.card-heading>.card-title:before {
+	content: url('data:image/svg+xml,%3Csvg%20focusable%3D%22false%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M9.72151%2017.9951L4%2012.2914L5.75892%2010.5379L9.72151%2014.4882L18.2411%205.99512L20%207.74857L9.72151%2017.9951Z%22%20fill%3D%22currentColor%22%2F%3E%3C%2Fsvg%3E');
+	position: absolute;
+	top: 0;
+	left: -4rem;
+	border-radius: 50%;
+	padding: 1rem;
+	background-color: var(--card-title-icon);
+	border-color: var(--card-title-icon);
+	color: var(--white-color);
+}
+
+#summary-validate .summary-actions {
+	position: sticky;
+	top: 2rem;
+	bottom: 0;
+	background-color: var(--white-color);
+	padding: 1rem 0;
+}
+
+#summary-validate .summary-actions.actions_shadow {
+	box-shadow: 0 -.5rem .5rem 0 var(--card-color-shadow);
+}
+
+.summary-steps .step.step-done:first-of-type{
+	border-top: 0;
+}
+
+.summary-teps h2 {
+	font-size: 2rem;
+	line-height: 2.62rem;
+}
+
+/*** 										***/
+/*** Forms Steps							***/
+/***  										***/
+/** 		Step 								**/
+header+main form .step.step-done~.step.step-done,
+header+main form .step.step-done~.step.step-current,
+header+main .breadcrumb-nav+form .step,
+#main-banner+header+main form .step {
+	margin-block-start: 0
+}
+
+/* 		Steps Commons	 					*/
+.step-title {
+	border-bottom: .1rem solid var(--blue-light);
+	border-top: .1rem solid var(--blue-light);
+	height: 9rem;
+	display: flex;
+	align-items: center;
+}
+
+/* 		Step-group 									*/
+.step-title .title,
+.step-group .title {
+	font-size: 3.2rem;
+}
+
+.step-group .title {
+	margin-bottom: 0.8rem;
+}
+
+.step-title .title {
+	color: var(--main-info-color);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+/* 		Step Title Icon / Number				 */
+.step-title .title .step-number {
+	border: .4rem solid var(--main-info-color);
+	border-radius: 100%;
+	margin-top: .5rem;
+	margin-right: var(--spacing-m);
+	padding-top: 0.1rem;
+	height: 5rem;
+	width: 5rem;
+	background: none;
+	text-align: center;
+	line-height: 4rem;
+	content: attr(data-step);
+	font-family: var(--font-family-list);
+	font-weight: 900;
+	font-size: 2.7rem;
+}
+
+.step-title .title .step-number+span {
+	flex: 1;
+	width: fit-content;
+	position: static;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.step-content {
+	position: relative;
+	padding: var(--spacing-l);
+}
+
+/* Previous Steps  									*/
+.step-done {
+	padding-bottom: 2rem;
+	border-top: .1rem solid var(--blue-light);
+}
+
+.step-done .step-title {
+	border-bottom: 0;
+	border-top: 0;
+	position: relative;
+}
+
+.step-done .step-title .title {
+	position: relative;
+	max-width: 85%;
+}
+
+.step-done .step-title .title .step-number {
+	background: var(--main-info-color);
+	flex-shrink: 0;
+}
+
+.step-done .step-content {
+    padding: 0 0 0 calc( var(--spacing-xl) + 1.75rem );
+}
+
+.step-done strong {
+	font-family: var(--font-family-list);
+	font-weight: 500;
+	line-height: 1.5rem;
+}
+
+.step-done .step-done-hide {
+	display: none;
+}
+
+/** 		Next Step 									**/
+.step.step-next{
+	margin-block-start: 0;
+}
+
+.step-next .step-title .title,
+.step-next .step-title .title span{
+	margin-block-start: 0;
+}
+
+/** 		Current Step 								**/
+.step-current {
+	background-color: var(--white-light-color);
+}
+
+.step-current .step-title {
+	background-color: var(--main-info-color);
+	margin-block-end: var(--spacing-m );
+	position: relative;
+}
+
+.step-current .step-title .title{
+	color: var(--white-color);
+	position: relative;
+	margin-block-start: 0;
+	height: var(--spacing-xl);
+}
+
+.step-current .step-title .title .step-number {
+	color: var(--white-color);
+	border-color: var(--white-color);
+	flex-shrink: 0;
+}
+
+.step-current .step-title .title.no-step {
+	justify-content: flex-start;
+}
+
+.step-current .step-title .title.no-step .step-number {
+	border-color: transparent;
+}
+
+/* Arrow 											*/
+.step-current .step-title .title::after {
+	content: '';
+	width: 0;
+	height: 0;
+	position: absolute;
+	border-top: 2.3rem solid var(--main-info-color);
+	border-bottom: 1.1rem solid transparent;
+	border-left: 5rem solid transparent;
+	border-right: 5rem solid transparent;
+	left: 50%;
+	bottom: calc( var(--spacing-m) * -2.04 );
+	margin-inline-start: calc( var(--spacing-m) * -2.5 );
+}
+
+/* 	Current Step Group								*/
+.step-current .step-content .step-group {
+	background-color: var(--white-color);
+	border-radius: 0;
+	padding: var(--spacing-l);
+}
+
+.step-current .step-content .form-row.step-group header[class*=col-]{
+	border-bottom: .6rem solid var(--white-light-color);
+	justify-content: space-between;
+	padding-inline: 0;
+	padding-block-end: var(--spacing-m);
+}
+
+.step-current .step-content .step-group .group-title {
+	padding: 0;
+	margin-block-start: 0;
+	flex: 1
+}
+
+.step-current .step-content .step-group > div > .h1 {
+	align-self: flex-end;
+	margin-bottom: 3.5rem;
+}
+
+.step-current .step-content .mandatory-warning {
+	margin-block: var(--spacing-l );
+}
+
+.step-current .step-content .step-group.form-row>.col, .step-current .step-content .step-group.form-row>[class*=col-] {
+    padding-inline: 0 var(--spacing-ml);
+}
+
+/* Ensure group iteration can be scrolled to the top of the screen */
+a[name^="last_"]:before {
+	content: "\00a0";
+	position: absolute;
+	height: 100vh;
+	margin-top: -6em;
+}
+
+@media (max-width: 354.8px) {
+	.step-content {
+		padding: 0 3.5rem;
+		padding: 0 5rem;
+	}
+}
+
+@media (max-width: 575.98px) {
+	.step-group > header {
+		flex-direction: column !important;
+		text-align: center;
+	}
+
+	.step-title .title,
+	.step-group .title {
+		font-size: 2.4rem;
+		justify-content: flex-start;
+	}
+
+	.step-title .title .step-number {
+		height: 3.5rem;
+		width: 3.5rem;
+		line-height: 2.8rem;
+		font-size: 1.8rem;
+		display: flex;
+        align-items: center;
+        justify-content: center;
+	}
+
+	.step-title .title .step-number+span {
+		max-width: 80%;
+		font-size: 2rem;
+	}
+
+	.step-title .title {
+		font-size: 1rem;
+		margin-block-start: 0;
+		margin-inline-start: 0;
+	}
+
+	.step-title .title span {
+		font-size: 1rem;
+	}
+
+	.step-title.current h2::after {
+		left: 50%;
+	}
+
+	.step-current .step-content .mandatory-warning {
+		font-size: var( --font-m );
+		font-weight: 300;
+	}
+
+	.step-done .step-title .title .step-number {
+		display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0
+	}
+
+	.step-done .step-content {
+		padding: 0;
+	}
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+	.step-title.current h2::after {
+		left: 50%;
+	}
+}
+
+@media (max-width: 767.98px) {
+	header+main form .step {
+		margin-block-start: calc( var(--size-base, .4rem ) * 20 );
+	}
+	
+	.step-current .step-content {
+		padding: 0;
+	}
+	
+	.step-done .step-content h2{
+		margin-block-start: 0;
+		margin-block-end: var(--spacing-sm);
+	}
+
+	.step .step-content .step-group {
+		padding: var( --spacing-xs );
+	}
+
+	.step-current .step-content .step-group.form-row >.col, 
+	.step-current .step-content .step-group.form-row>[class*=col-] {
+		padding-inline: 0;
+	}
+
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+	.step-help {
+		margin-inline-start: 2rem;
+	}
+
+	.step-help::after {
+		left: 1.5rem;
+	}
+
+	.step-current .step-content {
+		padding: 0;
+	}
+}

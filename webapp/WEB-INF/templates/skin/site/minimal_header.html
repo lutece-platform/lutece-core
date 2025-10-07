@@ -1,53 +1,39 @@
+<#if lutece_name??><#assign favourite=lutece_name!'LUTECE' /><#else><#assign favourite='LUTECE'></#if>
+<#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
+<#assign commonsGlobalThemeCode=thetheme.codeTheme!>
+<#assign commonsGlobalThemeVersion=thetheme.themeVersion!>  
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>${page_title}</title>
-        <base href="${base_url}" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- Le style -->
-        <#if plugin_theme?? >
-            <link href="${plugin_theme.pathCss}/bootstrap.min.css" rel="stylesheet">
-            <link rel="stylesheet"  href="${plugin_theme.pathCss}/page_template_styles.css" type="text/css"  media="screen" />
-        <#else>
-            <link href="${theme.pathCss}/bootstrap.min.css" rel="stylesheet">
-            <link rel="stylesheet" href="${theme.pathCss}/page_template_styles.css" type="text/css" media="screen, projection" />
-        </#if>
-        <link href="css/tabler-icons.min.css" rel="stylesheet">
-        <!-- Le fav and touch icons -->
-        <link rel="shortcut icon" href="/favicon.ico">
-    </head>
-<body>
-<!-- header -->
-<body id="home">
-<div class="wrapper">
-  <!-- header -->
-  <header class="header">
-    <div class="navbar-main">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-lg-12">
-            <nav class="navbar navbar-expand-lg bg-transparent">
-              <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                  <img src="images/lutece-logo-dark.svg" alt="Logo">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul id="nav" class="navbar-nav ml-auto">
-                      <li class="nav-item">
-                        <a class="page-scroll" href="#home">accueil</a>
-                      </li>
-                  </ul>    
-                </div>
-              </div>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-  <!-- end header -->
-  <main>
-    <div class="container mt-5 pt-5">
+<html lang="${user_context_language!'fr'}">
+<head>
+<title>${page_title!}</title>
+<base href="${base_url}">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="${encoding!'UTF-8'}">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<!-- Le style -->
+<!-- Theme CSS include -->
+<#if themeCSSLinks??>
+<@themeCSSLinks />
+<#else>
+<link href="${thetheme.pathCss}/bootstrap.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<!-- Theme CSS include -->
+<link href="${thetheme.pathCss}/theme.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+</#if>
+<!-- Custom site styles include -->
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+<link rel="manifest" href="./site.webmanifest">
+<link rel="mask-icon" href="./safari-pinned-tab.svg" color="#071f32">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+<!-- Site JS Include -->
+<!-- Included JS Files 
+<script src="themes/skin/parisfr/js/vendor/jquery/jquery-1.11.3.min.js"></script>
+-->
+</head>
+<body data-bs-theme="light">
+<!-- Accessibility Skip Nav Menu-->
+<@skipNav skipMenu=false target='main'  />
+<@cMainNav title=lutece_name!'LUTECE' logoImg=logoHeader />

@@ -1,0 +1,14 @@
+/*** 										***/
+/*** 	Scrollbars 							***/
+/*** 										***/
+::-webkit-scrollbar {
+    width: var( --scollbar-with )
+}
+
+::-webkit-scrollbar-track {
+    border-radius: var( --scollbar-radius )
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, .186) !important;
+}

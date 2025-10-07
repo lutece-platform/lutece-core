@@ -50,7 +50,7 @@
             <#assign selectedStoredAttribute = hasStoredValue && default_values_list?has_content && isSelected(attributeField.idField default_values_list)>
             <#assign selectedDefaultAttribute = !hasStoredValue && attributeField.defaultValue>
             <#assign checked=selectedStoredAttribute || selectedDefaultAttribute>
-			<@checkBox name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked labelKey='${attributeField.title}' orientation=orientation mandatory=checkboxMandatory />
+			<@checkBox orientation='switch' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked labelKey='${attributeField.title}' orientation=orientation mandatory=checkboxMandatory />
 		</#if>
 	</#list>
 </@formGroup>

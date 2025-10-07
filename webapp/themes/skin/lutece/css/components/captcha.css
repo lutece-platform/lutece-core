@@ -1,0 +1,34 @@
+#captchaImage {
+    flex-grow: 0 !important;
+    flex-shrink: 1 !important;
+    flex-basis: 250px !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 1px solid var(--main-color) !important;
+	max-height: 7rem !important;
+}
+
+#button-captcha {
+	background-color: var(--main-color) !important;
+}
+
+#button-captcha .btn {
+	padding-block: 0 !important;
+	padding-inline: calc( var(--spacing-xxs) * 4.625) !important;
+}
+
+@media (max-width: 575.98px) {
+	#captcha-wrapper{
+		display: block !important;
+	}
+
+	#button-captcha {
+		justify-content: center !important;
+	}
+
+	#captchaImage {
+		max-width: 100% !important;
+		width: 100% !important;
+		margin-bottom: -.25rem !important;
+	}
+}

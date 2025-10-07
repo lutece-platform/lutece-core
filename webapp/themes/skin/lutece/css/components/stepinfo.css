@@ -1,0 +1,378 @@
+/*** 										***/
+/*** Info-step								***/
+/***  										***/
+.info-step {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-step .info-step-figure {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.info-step .info-step-list{
+	display: inline-flex;
+	justify-content: space-around;
+	padding: 0;
+}
+
+.info-step > ol > li{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 30rem;
+}
+
+.info-step li .idx{
+    border-radius: 50%;
+    background-color: var( --main-info-color );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 2.8rem;
+    height: 2.8rem;
+    border: .4rem solid var( --main-info-color );
+}
+
+/* Progress line */
+.info-step .bs-infostep-container {
+	flex: 1 1 32px;
+	margin: 0 0.5%;
+	display: flex;
+    flex-direction: row;
+	justify-content: center;
+}
+
+.info-step .bs-infostep-container .bs-infostep-line {
+    width: 100%;
+    height: 3px;
+    background-color: var(--blue-light);
+}
+
+.info-step li figure {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 5.6rem;
+    height: 5.6rem;
+	filter: invert();
+}
+
+.info-step li:first-child::after {
+	border: 0;
+}
+
+.info-step li .idx span{
+	display: inline-block;
+	font-family: var( --font-family-list );
+	font-weight: 800;
+	font-size: var(--font-sm);
+	text-align: center;
+	color: var( --white-color )
+}
+
+article .info-step li p, 
+.info-step li p {
+	text-align: center;
+	padding: 0;
+	flex: 1;
+}
+
+/* Active item management : status = done */
+.info-step li.done .idx + li::after,
+.info-step li.done + li::after{
+	border-top: .3rem solid var( --main-info-color );
+}
+
+/* Active item management : status = active */
+.info-step li.active .idx + li::after,
+.info-step li.active + li::after{
+	border-top: .3rem solid var( --gray-dark-color );
+}
+
+.info-step li.active ~ li .idx,
+.info-step li.active ~ li figure{
+	border-color: var( --gray-dark-color );
+	background-color: var(--white-color);
+}
+
+.info-step li.active ~ li .idx span{
+	color: var( --gray-dark-color );
+}
+
+.info-step li.active ~ li .idx > img,
+.info-step li.active ~ li figure > img{
+	filter: brightness( 0.6 )
+}
+
+.info-step li.active .idx + li ~ li::after,
+.info-step li.active + li ~ li::after{
+	border-top: .3rem dashed var( --gray-dark-color );
+}
+
+
+@media (max-width: 354.8px) {
+	.info-step li .idx span {
+		font-family: var( --font-family-list );
+		font-weight: 600;
+		font-size: 3rem;
+		text-align: center;
+		color: var( --white-color );
+	}
+
+	.info-step li::after {
+		top: 3.75rem;
+		transform: rotate(90deg);
+		left: -9rem;
+	}
+
+	.info-step.info-title li::after {
+		left: -6.45rem;
+	}
+
+	.info-step li p {
+		padding: 0 1rem;
+		flex: 2 0 80%;
+	}
+}
+
+@media (min-width: 355px) and (max-width: 575.98px) {
+	.info-step li::after {
+		transform: rotate(90deg);
+		left: -10.5rem;
+		top: 5.25rem;
+	}
+
+	.info-step.info-title li::after   {
+		left: -6.55rem;
+	} 	
+	
+	.info-step.info-content li::after   {
+		left: -11.95rem;
+	} 	
+
+	.info-step li p {
+		padding: 0 1rem;
+		width: 210px;
+		overflow: hidden;
+		position: relative;
+	}
+}	
+
+@media (max-width: 575.98px) {
+	.info-step ol {
+		display: block;
+	}
+
+	.info-step > ol > li {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding: 2rem 0;
+		max-width: initial;
+		font-size: 1rem;
+	}
+
+	.info-step .list-idx li .idx::before, 
+	.info-step .list-idx li figure::before {
+		top: -.5rem;
+		left: -.5rem;
+		width: 2.5rem;
+		height: 2.5rem;
+		padding-top: .25rem;
+	}
+
+	.info-step li .idx::before {
+		width: 2.3rem;
+		height: 2.3rem;
+		padding-top: 0.3rem;
+	}
+
+	.info-step li:last-child:after {
+		border: 0;
+	}
+
+}	
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+	.info-step .list-idx li div::before, 
+	.info-step .list-idx li figure::before {
+		width: 2.5rem;
+		height: 2.5rem;
+		padding-top: .25rem;
+	}
+
+	.info-step li p {
+		padding: 0;
+	}
+
+	.info-step li div::before {
+		width: 2.3rem;
+		height: 2.3rem;
+		padding-top: 0.3rem;
+	}
+
+	.info-step li::after {
+		left: -5rem;
+	}
+}
+
+/* New step Info */
+.c-info-step__title {
+  font-weight: 600;
+  font-size: var(--font-ml);
+  color: var(--main-color);
+  margin-bottom: 0.5rem;
+  margin-top: var(--spacing-sm);
+}
+
+.stepper-horizontal.c-info-step-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stepper-horizontal .c-info-step-icons, .stepper-horizontal .c-info-step {
+  display: flex;
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stepper-horizontal .c-info-step {
+  counter-reset: step-counter 1; /* Initialiser le compteur à 1 */
+}
+
+.stepper-horizontal .c-info-step-icons__item, .stepper-horizontal .c-info-step__item {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.stepper-horizontal .c-info-step-icons__item {
+  align-items: center;
+}
+
+.stepper-horizontal .c-info-step__item:before {
+  content: counter(step-counter); /* Afficher le numéro de l'étape */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem; /* Taille du cercle */
+  height: 4.4rem; /* Taille du cercle */
+  border-radius: 50%;
+  margin: 0 auto 0;
+  color: white;
+  background-color: var(--main-info-color);
+  font-size: var(--font-l);
+  font-weight: 800;
+}
+
+.stepper-horizontal .c-info-step__item:not(:last-child):after {
+  content: "";
+  position: relative;
+  top: 2.2rem; /* Position de la ligne (la moitié de la taille du cercle) */
+  width: calc(100% - 4.4rem); /* Longueur de la ligne */
+  left: calc(50% + 2.2rem); /* Position horizontale de la ligne */
+  height: 0.2rem;
+  background-color: var(--blue-light);
+  order: -1;
+}
+
+.stepper-horizontal .c-info-step__item + .c-info-step__item {
+  counter-increment: step-counter; /* Incrémenter le compteur pour chaque élément suivant */
+}
+
+.stepper-horizontal .c-info-step__desc {
+  color: var(--main-color);
+  font-size: var(--font-m);
+  padding-left: var(--spacing-ml); /* Espace à gauche */
+  padding-right: var(--spacing-ml); /* Espace à droite */
+}
+
+.stepper-vertical .c-info-step {
+  counter-reset: step-counter; /* Initialiser le compteur à 0 */
+}
+
+.stepper-vertical .c-info-step__item {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding-bottom: 4rem;
+  counter-increment: step-counter; /* Incrémenter le compteur pour chaque élément */
+}
+
+/* Numéro de l'étape */
+.stepper-vertical .c-info-step__item:before {
+  content: counter(step-counter); /* Afficher le numéro de l'étape */
+  flex: 0 0 4.4rem; /* Taille du cercle */
+  height: 4.4rem; /* Taille du cercle */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background-color: var(--main-info-color);
+  font-size: var(--font-l);
+  font-weight: 800;
+  z-index: 1;
+}
+
+/* Trait entre les étapes */
+.stepper-vertical .c-info-step__item:not(:last-child):after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4.4rem; /* Position du trait */
+  bottom: -3rem; /* Ajustement de la position */
+  transform: translateX(2.2rem); /* Position du trait */
+  width: 0.2rem; /* Largeur du trait */
+  background-color: var(--blue-light);
+}
+
+.stepper-vertical .c-info-step__desc {
+  color: var(--main-color);
+  font-size: var(--font-m);
+}
+
+.stepper-vertical .c-info-step__icon {
+  flex: 0 0 4.4rem; /* Taille de l'icône */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1; /* Assure que l'icône est au-dessus de :after */
+}
+
+@media (max-width: 767.98px) {
+
+    /* Numéro de l'étape */
+    .stepper-vertical .c-info-step__item:before {
+      flex: 0 0 3rem; /* Taille du cercle */
+      height: 3rem; /* Taille du cercle */
+      font-size: var(--font-m);
+      font-weight: 600;
+    }
+
+    /* Trait entre les étapes */
+    .stepper-vertical .c-info-step__item:not(:last-child):after {
+      top: 3rem; /* Position du trait */
+      transform: translateX(1.5rem); /* Position du trait */
+      width: 0.1rem; /* Largeur du trait */
+    }
+
+    .stepper-vertical .c-info-step__icon {
+      flex: 0 0 3rem; /* Taille de l'icône */
+    }
+}

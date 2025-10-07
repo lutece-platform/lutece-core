@@ -1,153 +1,106 @@
-<div class="container">
-	<div class="row g-4">
-		<div class="col-md-3">
-			<div class="card">
-				<div class="card-body">
-		  			<form method="get" action="jsp/site/Portal.jsp" class="form">
-					<input type="hidden" name="page" value="search" >
-					<div class="form-label">#i18n{portal.search.search_results.pageTitle}</div>
-					<label for="">#i18n{portal.search.search_results.buttonSearch}</label>
-					<div class="input-group mb-3">
-						<input type="text" class="form-control" name="query" value="${query?if_exists}" placeholder="Ex: Lutece">
-						<button class="btn btn-outline-secondary" type="submit" title="#i18n{portal.search.search_results.buttonSearch}">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-						</button>
-						</span>
-					</div>
-					<#-- Number of documents per page selector -->
-					<div class="form-label">#i18n{portal.search.search_results.labelNbDocsPerPage}</div>
-					<@NbItemsPerPageSelectorRadioList nb_items_per_page />
-					<#if type_filter != "none">
-					<#-- type_filter -->
-					<label for="type_filter">i18n{portal.search.search_results.typeFilter}</label>
-					<#if type_filter == "option">
-						<select name="type_filter" class="form-control form-select">
-							<#list list_type_and_link as map><option value="${map.type}"><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></option></#list>
-						</select>
-					<#else>
-						<#list list_type_and_link as map>
-						<#if type_filter != "checkbox" || map_index != 0>
-							<input type=${type_filter} name="type_filter"  class="form-control" value="${map.type}" />
-							<#if map.link?exists && map.link != ""><a href="${map.link!}"  ><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></a><#else><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#if>
-						</#if>
-						</#list>
-					</#if>
-					</#if>
-					<#-- default_operator and/or -->
-					<label for="default_operator">#i18n{portal.search.search_results.operator}</label>
-					<select name="default_operator"  id="default_operator" class="form-control form-select">
-						<#list ["OR","AND"] as operator><option value="${operator}" <#if operator = default_operator> selected="selected"</#if>>${operator}</option></#list>
-					</select>
-					<#if date_filter == "1">
-						<#-- date_filter 0/1 -->
-						<p>#i18n{portal.search.search_results.dateFilter} :</p>
-						<@fieldInputCalendarSite i18nLabelKey="portal.search.search_results.dateFilterAfter" inputName="date_after" />
-						<@fieldInputCalendarSite i18nLabelKey="portal.search.search_results.dateFilterBefore" inputName="date_before" />
-					</#if>
-					<#if taglist?has_content><#if tag_filter == "1" && taglist?trim != ""><#list taglist?split(" ") as tag><#if tag?exists && tag?trim !=""><button type="submit" name="tag_filter" value="${tag}">${tag}</button></#if></#list></#if></#if>
-					</form>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-9">
-			<#if error?has_content><div class="alert alert-danger">${error}</div></#if>
-			<#if query?has_content && paginator.itemsCount gt 0>
-			<h2 class="h3 mt-3">#i18n{portal.search.search_results.title}</h2>
-			<h3 class="h4 d-flex">
-				<span>
-					<strong class="text-danger">${paginator.itemsCount}</strong> #i18n{portal.search.search_results.labelResultsFoundForSearch} <strong class="text-danger">${query?if_exists}</strong> 
-				</span>
-				<span class="ms-auto">#i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong></span>
-			</h3>					
-			<@pagination paginator=paginator/>
-			<div class="row row-cards">
-				<div class="space-y">
-					<!-- Result Card -->	
-					${sponsoredlinks_set!}
-					<#list results_list as result>
-					<div class="card mb-1">
-						<div class="row g-0">
-							<div class="col-auto">
-								<div class="card-body">
-								<div class="avatar avatar-md" style="background-image: url(./images/local/skin/logo-nav.png)"></div>
-								</div>
-							</div>
-							<div class="col">
-								<div class="card-body ps-0">
-									<div class="row">
-										<div class="col-auto">
-											<h3 class="mb-0"><a href="${result.url?xhtml}">${result.title}</a></h3>
-										</div>
-										<div class="col d-flex align-items-center">
-											<#if result.summary?has_content>
-											${result.summary}
-											</#if>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md">
-											<div class="mt-3 list-inline list-inline-dots mb-0 text-secondary d-sm-block d-none">
-												<div class="list-inline-item">
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-stats" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" /><path d="M18 14v4h4" /><path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M15 3v4" /><path d="M7 3v4" /><path d="M3 11h16" /></svg>
-													<#if result.date?has_content>${result.date?date?string.short}</#if> ${result.date?time?string.short}
-												</div>
-												<div class="list-inline-item">
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-info" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M11 14h1v4h1" /><path d="M12 11h.01" /></svg>
-													${result.type}
-												</div>
-											</div>
-											<div class="mt-3 list mb-0 text-secondary d-block d-sm-none">
-												<div class="list-item">
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-stats" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" /><path d="M18 14v4h4" /><path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M15 3v4" /><path d="M7 3v4" /><path d="M3 11h16" /></svg>
-													<#if result.date?has_content>${result.date?date?string.short}</#if> ${result.date?time?string.short}
-												</div>
-												<div class="list-item">
-													<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-info" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" /><path d="M11 14h1v4h1" /><path d="M12 11h.01" /></svg>
-													${result.type}
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</#list>
-				</div>
-			</div>
-			<#else>
-			<div class="container-xl d-flex justify-content-center">
-				<div class="empty d-flex flex-column align-items-center">
-					<div class="empty-img">
-						<svg xmlns="http://www.w3.org/2000/svg"  width="128" height="128" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /><path d="M9 10l.01 0" /><path d="M15 10l.01 0" /><path d="M9 15l6 0" /></svg>
-					</div>
-					<p class="empty-title">No results found</p>
-					<p class="empty-subtitle text-secondary">Try adjusting your search or filter to find what you're looking for.</p>
-					<div class="empty-action">
-					<a href="./." class="btn btn-primary">
-						<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
-						Relancer une recherche
-					</a>
-					</div>
-				</div>
-			</div>
-			</#if>	
-		</div>
-	</div>
-</div>
-<#-- Search macros -->
-<#-- Number of items per page selector - Combo Box implementation -->
-<#macro NbItemsPerPageSelectorCombo nb_items_per_page>
-<label for="items_per_page">#i18n{portal.search.search_results.labelNbDocsPerPage}</label>
-<select name="items_per_page" id="items_per_page"  class="form-control form-select">
-<#list [ "10" , "20" , "50" , "100" ] as nb><#if nb_items_per_page = nb ><option selected="selected" value="${nb}">${nb}</option><#else><option value="${nb}">${nb}</option></#if></#list>
-</select>
-</#macro>
-<#-- Number of items per page selector - Radio List implementation -->
-<#macro NbItemsPerPageSelectorRadioList nb_items_per_page>
-<#list [ "5" , "10" , "20" , "50" ] as nb>
-<label class="form-check form-check-inline">
-	<input class="form-check-input" type="radio" value="${nb}" id="items_per_page${nb}" name="items_per_page" <#if nb = nb_items_per_page >checked</#if> ><span class="form-check-label"> ${nb}</span>
-</label>
-</#list>
-</#macro>
+<@cContainer class='section'>
+    <@cRow>
+        <@cCol>
+            <@cForm action='jsp/site/Portal.jsp' >
+                <@cInput type='hidden' name='page' value='search' />
+                <@cField label='#i18n{portal.search.search_results.buttonSearch}' for='query' >
+                    <@cInputGroup>
+                        <@cInput name='query' placeholder='Exemple: composant' value='${query!}' />
+                        <@cInputGroupAddon>
+                            <@cBtn label='#i18n{portal.search.search_results.buttonSearch}' nestedPos='after' >
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+                            </@cBtn>
+                        </@cInputGroupAddon>
+                    </@cInputGroup>
+                </@cField>
+                <#if type_filter != "none">
+                    <@cField label='#i18n{portal.search.search_results.typeFilter}' for='type_filter' >
+                        <#-- type_filter -->
+                        <#if type_filter == "option">
+                            <@cSelect name='type_filter'>
+                                <#list list_type_and_link as map>
+                                    <#assign labelOption><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
+                                    <@cOption value=map.type label=labelOption />
+                                </#list>
+                            </@cSelect>
+                        <#else>
+                            <#list list_type_and_link as map>
+                                <#if type_filter != "checkbox" || map_index != 0>
+                                    <input type=${type_filter} name="type_filter" value="${map.type}" />
+                                    <#if map.link?exists && map.link != "">
+                                        <a href="${map.link!}"  ><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></a>
+                                    <#else>
+                                        <#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if>
+                                    </#if>
+                                </#if>
+                            </#list>
+                        </#if>
+                    </@cField>
+                </#if>
+                <#if date_filter == '1'>
+                    <#-- date_filter 0/1 -->
+                    <@cFieldset legend='#i18n{portal.search.search_results.dateFilter}'>
+                        <@cField label='#i18n{ i18nLabelKey="portal.search.search_results.dateFilterAfter" }' for='date_after'>
+                            <@input name='date_after' />
+                        </@cField>
+                        <@cField label='#i18n{ i18nLabelKey="portal.search.search_results.dateFilterBefore" }' for='date_before'>
+                            <@input name='date_before' />
+                        </@cField>
+                    </@cFieldset>
+                </#if>
+                <#if taglist?has_content>
+                    <#if tag_filter == "1" && taglist?trim != "">
+                        <@cFormRow>
+                            <#-- tag_filter -->
+                            <#list taglist?split(" ") as tag>
+                                <#if tag?exists && tag?trim !="">
+                                    <@cBtn label=tag class='btn btn-outline-action' name='tag_filter' value=tag />
+                                </#if>
+                            </#list>
+                        </@cFormRow>
+                    </#if>
+                </#if>
+            </@cForm>
+        </@cCol>
+    </@cRow>
+    <@cRow>
+        <@cCol class='p-sm-4'>
+            <@cTitle level=2 class='h3'>#i18n{portal.search.search_results.title}</@cTitle>
+            <@cCard>
+                <#if error?has_content><@cAlert title=error class='danger' /></#if>
+                <#-- included sponsored links if available - might be null -->
+                ${sponsoredlinks_set!}
+                <#if results_list??>
+                    <#if results_list?size gt 0>
+                        <ul class="list-group list-group-flush">
+                        <#list results_list as result>
+                            <#assign imgUrl='' >
+                            <#assign resultHeader='<small>[ ${result.type} ]</small> - ${result.title}' >
+                            <#list result.url?split("=") as x><#assign imgUrl=x ></#list>
+                            <#assign resultUrl = result.url! />
+                            <#assign resultTitle = '[ ${result.type!} ] ${result.title!}' />
+                            <#assign resultDate = '<small class="mx-3">${result.date?date?string.short!}</small>' />
+                            <li class="list-group-item d-flex justify-content-between">
+                                <@cLink href=resultUrl label='${resultTitle} ${resultDate}' title='${resultTitle}' />
+                            </li>
+                        </#list>
+                        </ul>
+                    <#else>
+                        <@cAlert title='#i18n{portal.util.labelNoItem}' dismissible=false class='warning' classText='' outline=true />
+                    </#if>
+                </#if>
+            </@cCard>
+            <@cRow class='mt-5'>
+                <@cCol>
+                    <@cPagination paginator=paginator  />
+                </@cCol>
+                <@cCol class='d-flex justify-content-end'>
+                    <@cText>#i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong> #i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong></@cText>
+                </@cCol>
+            </@cRow>
+        </@cCol>
+    </@cRow>
+</@cContainer>
+<script>
+<@cSearchSetResultPageTitle />
+</script>

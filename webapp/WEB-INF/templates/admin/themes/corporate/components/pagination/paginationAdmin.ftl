@@ -12,6 +12,7 @@ Parameters:
 
 -->
 <#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
+<#if paginator??>
 <@div class='d-flex is-flex justify-content-between is-justify-content-space-between'>
 	<@div align='right'>
 		<#if (paginator.pagesCount > 1) >
@@ -28,4 +29,5 @@ Parameters:
 	</#if>
 	</@div>
 </@div>
+</#if>
 </#macro>

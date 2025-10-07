@@ -1,30 +1,35 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title='#i18n{portal.style.manage_styles.title}'>
-            <@offcanvas targetUrl="jsp/admin/style/CreateStyle.jsp" targetElement="#create-style-form" redirectForm=false id="style-create" title="#i18n{portal.style.manage_styles.buttonCreate}" btnTitle="#i18n{portal.style.manage_styles.buttonCreate}" btnIcon="plus" position="end" hideTitle=['xs'] />
+            <@offcanvas targetUrl="jsp/admin/style/CreateStyle.jsp" targetElement="#create-style-form" redirectForm=false id="style-create" title="#i18n{portal.style.manage_styles.buttonCreate}" btnTitle="#i18n{portal.style.manage_styles.buttonCreate}" btnIcon="plus" position="end" />
         </@pageHeader>
-        <@table headBody=true >
-            <@tr>
-                <@th> #i18n{portal.style.manage_styles.labelId} <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="id" /> </@th>
-                <@th> #i18n{portal.style.manage_styles.labelName} <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="description" /> </@th>
-                <@th> #i18n{portal.style.manage_styles.labelComponentType} <@sort jsp_url="jsp/admin/style/ManageStyles.jsp" attribute="portalComponentName" /> </@th>
-                <@th>#i18n{portal.style.manage_styles.labelPortletType}</@th>
-                <@th>#i18n{portal.style.manage_styles.labelActions}</@th>
-            </@tr>
-            <@tableHeadBodySeparator />
+        <#if style_list?size gt 1> 
+        <#if style_list?size gt 5><@paginationAdmin paginator=paginator showcount=1 combo=0 /></#if> 
+            <@manageFeature>
             <#list style_list as style>
-                <@tr>
-                    <@td>${style.id}</@td>
-                    <@td>${style.description}</@td>
-                    <@td>${style.portalComponentName}</@td>
-                    <@td>#i18n{${style.portletTypeName}}</@td>
-                    <@td>
-                        <@offcanvas targetUrl="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}" targetElement="#modify-style-form" redirectForm=false id="style-modify-${style.id}" title="#i18n{portal.util.labelModify} ${style.description}" btnIcon="edit" btnSize='sm' position='end' />
-                        <@aButton href='jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}' buttonIcon='trash' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] size='sm' color='danger' />
-                    </@td>
-                </@tr>
+                <@manageFeatureItem>
+                    <@manageFeatureItemColumn auto=true>
+                        <@p>#i18n{portal.style.manage_styles.labelId}: <strong>${style.id}</strong></@p>
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn>
+                        <@p>#i18n{portal.style.manage_styles.labelName}: <strong>${style.description}</strong></@p>
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn>
+                        <@p>#i18n{portal.style.manage_styles.labelComponentType}: <strong>${style.portalComponentName}</strong></@p>
+                        <#if style.portletTypeName !=''><@p>#i18n{portal.style.manage_styles.labelPortletType}: <strong>#i18n{${style.portletTypeName}}</strong></@p></#if>
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn auto=true>
+                        <@offcanvas targetUrl="jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}" targetElement="#modify-style-form" redirectForm=false id="style-modify-${style.id}" title="#i18n{portal.util.labelModify} ${style.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit" position="end" />
+                        <@aButton href='jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}' buttonIcon='trash' title='#i18n{portal.util.labelDelete}' color='danger' />
+                    </@manageFeatureItemColumn>
+                </@manageFeatureItem>
             </#list>
-        </@table>
-        <@paginationAdmin paginator=paginator combo=1 />
+            </@manageFeature>
+            <#if style_list?size gt 5><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if>
+        <#else>
+            <@box class='mt-3'>
+                <@empty />
+            </@box>
+        </#if>
     </@pageColumn>
 </@pageContainer>

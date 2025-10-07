@@ -1,0 +1,46 @@
+/* ******* */
+/* Status  */
+/* ******* */
+.status{
+	display: inline-block;
+    font-size: var(--font-sm);
+    font-weight: 600;
+    padding-inline-start: var( --spacing-xxs );
+}
+
+.status > svg{
+	transform: translateY(-.15rem);
+}
+
+.status .status-label{
+	text-transform: uppercase;
+}
+
+.status > svg + .status-label{
+	margin-inline-start: var(--spacing-xxs );
+}
+
+.status.forthcoming, 
+.status.coming > .status-label {
+	color: var( --status-coming );  
+}
+
+.status.tobecompleted, 
+.status.tobecompleted > .status-label  {
+	color: var( --status-todo )
+}
+
+.status.inprogress, 
+.status.inprogress > .status-label  {
+	color: var( --status-doing )
+}
+
+.status.over, 
+.status.over > .status-label {
+	color: var( --status-done )
+}
+
+.status.bygone, 
+.status.bygone > .status-label  {
+	color: var( --status-passed )
+}

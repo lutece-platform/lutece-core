@@ -1,0 +1,17 @@
+/* Effects */
+.fadeout, .fadein{
+	transition: opacity 400ms;
+    opacity: 0;
+}
+
+.fadein.active{
+	opacity: 1;
+}
+  
+.fadeout{
+	opacity: 1;
+}
+
+.fadeout.active{
+	opacity: 0;
+}
