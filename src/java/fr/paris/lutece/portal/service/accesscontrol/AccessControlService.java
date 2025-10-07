@@ -35,16 +35,16 @@ package fr.paris.lutece.portal.service.accesscontrol;
 
 import java.util.Locale;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.portal.business.accesscontrol.AccessControlSessionData;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -54,27 +54,18 @@ import fr.paris.lutece.util.ReferenceList;
 @ApplicationScoped
 public class AccessControlService
 {
-    private boolean _bServiceAvailable = true;
     private IAccessControlServiceProvider _provider;
 
-    AccessControlService( )
-    {
-        // Ctor
-    }
-
-    @PostConstruct
-    void initAccessControlService( )
-    {
-        try
-        {
-            _provider = CdiHelper.getReference( IAccessControlServiceProvider.class, "accesscontrol.accessControlServiceProvider" );
-            _bServiceAvailable = ( _provider != null );
-        }
-        catch( IllegalArgumentException | IllegalStateException e )
-        {
-            AppLogService.debug( "Access ControlService Provider not found {}", e );
-            _bServiceAvailable = false;
-        }
+    
+ 
+    @Inject
+    public AccessControlService(
+            @Named("accesscontrol.accessControlServiceProvider")
+            Instance<IAccessControlServiceProvider> providerInstance) {
+    	
+        this._provider = providerInstance.stream()
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -88,7 +79,7 @@ public class AccessControlService
      */
     public boolean isAvailable( )
     {
-        return _bServiceAvailable && ( _provider != null ) && PluginService.isPluginEnable( "accesscontrol" );
+        return   _provider != null  && PluginService.isPluginEnable( "accesscontrol" );
     }
 
     /**

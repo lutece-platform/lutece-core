@@ -40,9 +40,10 @@ import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.role.RoleRemovalListenerService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.BeanUtils;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -56,6 +57,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -114,6 +116,10 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CONFIRM_REMOVE = "portal.role.message.confirmRemoveRole";
     private static final String MESSAGE_CANNOT_REMOVE_ROLE = "portal.role.message.cannotRemoveRole";
 
+    @Inject 
+    @Named(BeanUtils.BEAN_ROLE_REMOVAL_SERVICE)
+    private RemovalListenerService _removalListenerService;
+  
     /**
      * Creates a new RoleJspBean object.
      */
@@ -328,7 +334,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         ArrayList<String> listErrors = new ArrayList<>( );
 
-        if ( !RoleRemovalListenerService.getService( ).checkForRemoval( strPageRole, listErrors, getLocale( ) ) )
+        if ( !_removalListenerService.checkForRemoval( strPageRole, listErrors, getLocale( ) ) )
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
             Object [ ] args = {

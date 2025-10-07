@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.business.mailinglist;
 
-import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -44,7 +42,6 @@ import java.util.Collection;
  */
 public class MailingList
 {
-    private static MailingListWorkgroupRemovalListener _listenerWorkgroup;
 
     // Variables declarations
     private int _nId;
@@ -53,18 +50,6 @@ public class MailingList
     private String _strWorkgroup;
     private Collection<MailingListUsersFilter> _listFilters = new ArrayList<>( );
 
-    /**
-     * Initialize the rule
-     */
-    public static synchronized void init( )
-    {
-        // Create removal listeners and register them
-        if ( _listenerWorkgroup == null )
-        {
-            _listenerWorkgroup = new MailingListWorkgroupRemovalListener( );
-            WorkgroupRemovalListenerService.getService( ).registerListener( _listenerWorkgroup );
-        }
-    }
 
     /**
      * Returns the Id

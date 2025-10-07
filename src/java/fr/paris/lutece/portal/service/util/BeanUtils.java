@@ -6,6 +6,16 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 public class BeanUtils {
 
 	
+    public static final String BEAN_PORTLET_REMOVAL_SERVICE = "portletRemovalService";
+    public static final String BEAN_MAILINGLIST_REMOVAL_SERVICE = "mailinglistRemovalService";
+    public static final String BEAN_RBAC_REMOVAL_SERVICE ="rbacRemovalService";
+    public static final String BEAN_REGULAR_EXPRESSION_REMOVAL_SERVICE = "regularExpressionRemovalService";
+    public static final String BEAN_ROLE_REMOVAL_SERVICE = "roleRemovalService";
+    public static final String BEAN_WORKFLOW_REMOVAL_SERVICE = "workflowRemovalService";
+    public static final String BEAN_WORKGROUP_REMOVAL_SERVICE = "workgroupRemovalService";
+    
+    public static final String BEAN_CAPTCHA_SERVICE = "captcha.captchaService";
+
 	 /**
      * Indicates if a bean, referenced by its name, is part of an enabled plugin.
      * 

@@ -33,15 +33,17 @@
  */
 package fr.paris.lutece.portal.service.portlet;
 
-import fr.paris.lutece.portal.service.util.CdiHelper;
+import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
+import jakarta.enterprise.inject.literal.NamedLiteral;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * PortletRemovalListenerService
  */
+@Deprecated(since = "8.0", forRemoval = true)
 public final class PortletRemovalListenerService
 {
-    private static final String BEAN_PORTLET_REMOVAL_SERVICE = "portletRemovalService";
 
     /**
      * Private constructor
@@ -51,12 +53,27 @@ public final class PortletRemovalListenerService
     }
 
     /**
-     * Returns the removal service
-     * 
-     * @return The removal service
+     * Returns the {@link RemovalListenerService} instance.
+     * <p>
+     * This static accessor is <strong>deprecated</strong> and will be removed in a future release.
+     * Instead of calling this method directly, you should use <b>CDI dependency injection</b>
+     * to obtain an instance of {@code RemovalListenerService}.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * @Named(RemovalListenerService.BEAN_PORTLET_REMOVAL_SERVICE)
+     * private RemovalListenerService removalListenerService;
+     * }</pre>
+     *
+     * @deprecated since 8.0 — use CDI injection instead of this static method.
+     * @return the {@link RemovalListenerService} instance
      */
-    public static RemovalListenerService getService( )
-    {
-        return CdiHelper.getReference( RemovalListenerService.class, BEAN_PORTLET_REMOVAL_SERVICE );
+    @Deprecated(since = "8.0", forRemoval = true)
+    public static RemovalListenerService getService() {
+        return CDI.current()
+            .select(RemovalListenerService.class, NamedLiteral.of(BeanUtils.BEAN_PORTLET_REMOVAL_SERVICE))
+            .get();
     }
+
 }

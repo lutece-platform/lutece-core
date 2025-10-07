@@ -64,15 +64,6 @@ public final class AdminMailingListService
     }
 
     /**
-     * Initialize
-     */
-    public static void init( )
-    {
-        // Initialize mailing list
-        MailingList.init( );
-    }
-
-    /**
      * Returns a list of all mailing list visible by the user
      * 
      * @param user

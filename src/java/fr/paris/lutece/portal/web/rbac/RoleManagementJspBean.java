@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -63,13 +64,14 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.rbac.RBACRemovalListenerService;
 import fr.paris.lutece.portal.service.rbac.ResourceType;
 import fr.paris.lutece.portal.service.rbac.ResourceTypeManager;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.BeanUtils;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -188,7 +190,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
     private ItemNavigator _itemNavigator;
-
+    @Inject 
+    @Named(BeanUtils.BEAN_RBAC_REMOVAL_SERVICE)
+    private RemovalListenerService _removalListenerService;
+    
     /**
      * Get the roles management page. This page provides the list of all existing roles.
      * 
@@ -442,7 +447,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ATTRIBUTED, AdminMessage.TYPE_STOP );
         }
-        if ( !RBACRemovalListenerService.getService( ).checkForRemoval( strRoleKey, listErrors, getLocale( ) ) )
+        if ( !_removalListenerService.checkForRemoval( strRoleKey, listErrors, getLocale( ) ) )
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
             Object [ ] args = {

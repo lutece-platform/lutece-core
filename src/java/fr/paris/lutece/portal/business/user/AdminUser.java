@@ -39,8 +39,6 @@ import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
-import fr.paris.lutece.portal.business.user.parameter.EmailPatternRegularExpressionRemovalListener;
-import fr.paris.lutece.portal.service.regularexpression.RegularExpressionRemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 
@@ -71,7 +69,6 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
     public static final int ANONYMIZED_CODE = 10;
     private static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
     private static final long serialVersionUID = 7533831976351347197L;
-    private static EmailPatternRegularExpressionRemovalListener _listenerRegularExpression;
     private int _nUserId;
     private String _strAccessCode;
     private String _strLastName;
@@ -127,18 +124,6 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
     {
         _strAccessCode = stAccessCode;
         _strAuthenticationService = authenticationService.getAuthServiceName( );
-    }
-
-    /**
-     * Init
-     */
-    public static synchronized void init( )
-    {
-        if ( _listenerRegularExpression == null )
-        {
-            _listenerRegularExpression = new EmailPatternRegularExpressionRemovalListener( );
-            RegularExpressionRemovalListenerService.getService( ).registerListener( _listenerRegularExpression );
-        }
     }
 
     /**

@@ -37,12 +37,11 @@ import java.util.List;
 
 import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.CdiHelper;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.UnsatisfiedResolutionException;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
  *
@@ -52,30 +51,17 @@ import jakarta.enterprise.inject.spi.CDI;
 public class RegularExpressionService
 {
     private static final String PLUGIN_REGULAR_EXPRESSION_NAME = "regularexpression";
-    private boolean _bServiceAvailable = true;
+    private boolean _bServiceAvailable = false;
     private IRegularExpressionService _service;
 
-    RegularExpressionService( )
-    {
-     // Ctor
-    }
-
-    /**
-     * Private constructor
-     */
-    @PostConstruct
-    void initRegularExpressionService( )
-    {
-    	try
-        {
-        	_service = CdiHelper.getReference(IRegularExpressionService.class, "regularExpressionService");
-            _bServiceAvailable = ( _service != null );       
-        }
-        catch( IllegalArgumentException | IllegalStateException | UnsatisfiedResolutionException e )
-        {	
-        	AppLogService.debug("RegularExpressionService Provider not found", e);
-            _bServiceAvailable = false;
-        }
+    
+    @Inject
+    public RegularExpressionService(
+        @Named("regularExpressionService") Instance<IRegularExpressionService> service) {
+        this._service = service.stream()
+                .findFirst()
+                .orElse(null);
+        this._bServiceAvailable= this._service != null;
     }
 
     /**

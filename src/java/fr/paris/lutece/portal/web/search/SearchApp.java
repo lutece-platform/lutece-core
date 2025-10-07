@@ -40,12 +40,11 @@ import fr.paris.lutece.portal.service.message.SiteMessage;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.search.ISponsoredLinksSearchService;
+import fr.paris.lutece.portal.service.search.ISponsoredLinksService;
 import fr.paris.lutece.portal.service.search.QueryEvent;
 import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.portal.service.search.SearchResult;
 import fr.paris.lutece.portal.service.search.SearchService;
-import fr.paris.lutece.portal.service.search.SponsoredLinksSearchService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -68,6 +67,7 @@ import java.util.Optional;
 
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.enterprise.event.Event;
+import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
@@ -118,6 +118,10 @@ public class SearchApp implements XPageApplication
     private SearchEngine _engine;
     @Inject
     private Event<QueryEvent> _queryEvent;
+    @Inject
+    @Named("sponsoredlinks.sponsoredLinksService")
+    private Instance<ISponsoredLinksService> _sponsoredLinksService;
+
 
     /**
      * Returns search results
@@ -228,11 +232,9 @@ public class SearchApp implements XPageApplication
         model.put( MARK_NB_ITEMS_PER_PAGE, strNbItemPerPage );
         model.put( MARK_ERROR, strError );
 
-        ISponsoredLinksSearchService sponsoredLinksService = new SponsoredLinksSearchService( );
-
-        if ( sponsoredLinksService.isAvailable( ) )
+        if ( _sponsoredLinksService.isResolvable( ) )
         {
-            model.put( MARK_SPONSOREDLINKS_SET, sponsoredLinksService.getHtmlCode( strQuery, locale ) );
+            model.put( MARK_SPONSOREDLINKS_SET, _sponsoredLinksService.get( ).getHtmlCode( strQuery, locale ) );
         }
 
         model.put( MARK_LIST_TYPE_AND_LINK, SearchService.getSearchTypesAndLinks( ) );

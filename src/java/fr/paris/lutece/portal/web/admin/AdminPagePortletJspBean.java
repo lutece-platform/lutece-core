@@ -39,6 +39,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -53,11 +54,12 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.portlet.PortletRemovalListenerService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.BeanUtils;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
@@ -80,10 +82,13 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_CONFIRM_MODIFY_STATUS = "portal.site.message.confirmModifyStatus";
     private static final String PORTLET_STATUS = "status";
     private static final String JSP_REMOVE_PORTLET = "jsp/admin/site/DoRemovePortlet.jsp";
-    private static final String JSP_DO_MODIFY_POSITION = "jsp/admin/site/DoModifyPortletPosition.jsp";
     private static final String JSP_DO_MODIFY_STATUS = "jsp/admin/site/DoModifyPortletStatus.jsp";
     private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
     private static final String JSP_PATH = "jsp/admin/site/";
+    @Inject 
+    @Named(BeanUtils.BEAN_PORTLET_REMOVAL_SERVICE)
+    private RemovalListenerService _removalListenerService;
+    
 
     /**
      * Processes the modification of a portlet whose identifier is stored in the http request
@@ -192,7 +197,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
 
         ArrayList<String> listErrors = new ArrayList<>( );
         Locale locale = AdminUserService.getLocale( request );
-        if ( !PortletRemovalListenerService.getService( ).checkForRemoval( strPortletId, listErrors, locale ) )
+        if ( !_removalListenerService.checkForRemoval( strPortletId, listErrors, locale ) )
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, locale );
             Object [ ] args = {
@@ -252,7 +257,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         ArrayList<String> listErrors = new ArrayList<>( );
         Locale locale = AdminUserService.getLocale( request );
 
-        if ( PortletRemovalListenerService.getService( ).checkForRemoval( strPortletId, listErrors, locale ) )
+        if ( _removalListenerService.checkForRemoval( strPortletId, listErrors, locale ) )
         {
             portlet.remove( );
         }

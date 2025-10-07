@@ -63,12 +63,14 @@ import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.RemovalListener;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -82,6 +84,10 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     
     private @Inject ISecurityTokenService _securityTokenService;
 
+    @Inject 
+    @Named("portletRemovalService")
+    private RemovalListenerService _removalListenerService;
+    
     /**
      * Test when no parameter given
      * 
@@ -788,7 +794,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             AdminUserUtils.registerAdminUser( request, user );
             final int nPortletId = portlet.getId( );
             final String removalRefusedMessage = "REMOVAL_REFUSED_" + nPortletId;
-            PortletRemovalListenerService.getService( ).registerListener( new RemovalListener( )
+            _removalListenerService.registerListener( new RemovalListener( )
             {
                 // removalListener cannot be unregistered. Try not to interfere with other tests
                 private boolean first = true;

@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.service.init;
 
 import java.net.InetAddress;
-import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.util.Arrays;
@@ -172,7 +171,6 @@ public final class AppInit
      *            The relative path to the config files
      * @param strRealPath
      *            The real path to the config files
-     * @throws MalformedURLException 
      */
     public static void initServices( ServletContext context, String strConfPath)
     {    	  
@@ -205,7 +203,6 @@ public final class AppInit
 			}
 			StartUpServiceManager.initializeEarlyInitializationServices( );
             StartUpServiceManager.init( );
-            AdminMailingListService.init( );
             // Initializes Search Engine Indexation Service
             IndexationService.init( );
             // Initializes PluginService
@@ -235,9 +232,6 @@ public final class AppInit
 
             // Initialize FileImageService
             FileImageService.init( );
-
-            // Initialize AdminUserService
-            AdminUserService.init( );
 
             // Process post startup services
             AppLogService.info( "Running post startup services ..." );

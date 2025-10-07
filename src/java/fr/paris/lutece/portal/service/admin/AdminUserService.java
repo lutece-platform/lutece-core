@@ -246,14 +246,6 @@ public final class AdminUserService
     }
 
     /**
-     * Init
-     */
-    public static void init( )
-    {
-        AdminUser.init( );
-    }
-
-    /**
      * Get the user in session
      * 
      * @param request

@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -51,6 +50,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 
+import jakarta.enterprise.inject.literal.NamedLiteral;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -315,7 +316,9 @@ public final class ThemesService
      
         try
         {
-        	themeService = CdiHelper.getReference(IThemeService.class, BEAN_THEME_SERVICE );
+        	themeService= CDI.current()
+        	            .select(IThemeService.class, NamedLiteral.of(BEAN_THEME_SERVICE))
+        	            .get();
         }
         catch( IllegalArgumentException | IllegalStateException e )
         {

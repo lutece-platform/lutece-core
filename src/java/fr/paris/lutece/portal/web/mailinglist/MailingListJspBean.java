@@ -41,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -54,7 +55,6 @@ import fr.paris.lutece.portal.business.mailinglist.Recipient;
 import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
-import fr.paris.lutece.portal.service.mailinglist.MailingListRemovalListenerService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -62,6 +62,8 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.BeanUtils;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -129,6 +131,10 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     private MailingListFilter _mailingListFilter;
     private int _nItemsPerPage;
     private String _strCurrentPageIndex;
+    @Inject 
+    @Named(BeanUtils.BEAN_MAILINGLIST_REMOVAL_SERVICE)
+    private RemovalListenerService _removalListenerService;
+   
 
     /**
      * Get the mailinglists management page. This page provides the list of all existing mailinglists.
@@ -336,7 +342,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         ArrayList<String> listErrors = new ArrayList<>( );
 
-        if ( !MailingListRemovalListenerService.getService( ).checkForRemoval( strId, listErrors, getLocale( ) ) )
+        if ( !_removalListenerService.checkForRemoval( strId, listErrors, getLocale( ) ) )
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
             Object [ ] args = {

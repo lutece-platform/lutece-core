@@ -34,12 +34,33 @@
 package fr.paris.lutece.portal.service.captcha;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.CdiHelper;
+import fr.paris.lutece.portal.service.util.BeanUtils;
+import jakarta.enterprise.inject.literal.NamedLiteral;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * Default captcha security service implementation
+ * Legacy implementation providing access to the {@link ICaptchaService}.
+ * <p>
+ * This class is <strong>deprecated</strong> and will be removed in a future release.
+ * It was originally responsible for managing access to the {@code ICaptchaService}.
+ * </p>
+ *
+ * <p>
+ * The recommended approach is now to use <b>CDI dependency injection</b> to obtain
+ * the {@code ICaptchaService} directly, instead of instantiating or referencing this class.
+ * </p>
+ *
+ * <p>Example of recommended usage:</p>
+ * <pre>{@code
+ * @Inject
+ * @Named(BeanUtils.BEAN_CAPTCHA_SERVICE)
+ * private ICaptchaService _captchaService;
+ * }</pre>
+ *
+ * @deprecated since 8.0 — use CDI injection of the {@code ICaptchaService} bean instead.
  */
+@Deprecated(since = "8.0", forRemoval = true)
 public class CaptchaSecurityService implements ICaptchaSecurityService
 {
     private boolean _bActive = true;
@@ -56,7 +77,9 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         // first check if captchaValidator bean is available in the jcaptcha plugin context    	
     	try
         {
-    		_captchaService = CdiHelper.getReference(ICaptchaService.class, "regularExpressionService");
+    		_captchaService= CDI.current()
+    	            .select(ICaptchaService.class, NamedLiteral.of( BeanUtils.BEAN_CAPTCHA_SERVICE ))
+    	            .get();
     		_bAvailable = ( _captchaService != null );       
         }
         catch( IllegalArgumentException | IllegalStateException e )

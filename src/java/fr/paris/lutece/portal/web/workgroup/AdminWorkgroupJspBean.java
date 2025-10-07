@@ -42,6 +42,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -64,8 +65,9 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.BeanUtils;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
-import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -148,7 +150,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
     private ItemNavigator _itemNavigator;
-
+    @Inject 
+    @Named(BeanUtils.BEAN_WORKGROUP_REMOVAL_SERVICE)
+    private RemovalListenerService _removalListenerService;
+    
     /**
      * Get the workgroups management page. This page provides the list of all existing workgroups.
      * 
@@ -345,7 +350,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_USED, JSP_PATH+JSP_MANAGE_WORKGROUPS, AdminMessage.TYPE_STOP );
         }
 
-        if ( !WorkgroupRemovalListenerService.getService( ).checkForRemoval( strWorkgroupKey, listErrors, getLocale( ) ) )
+        if ( !_removalListenerService.checkForRemoval( strWorkgroupKey, listErrors, getLocale( ) ) )
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
             Object [ ] args = {

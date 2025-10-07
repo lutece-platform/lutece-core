@@ -33,30 +33,45 @@
  */
 package fr.paris.lutece.portal.service.workflow;
 
-import fr.paris.lutece.portal.service.util.CdiHelper;
+import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
+import jakarta.enterprise.inject.literal.NamedLiteral;
+import jakarta.enterprise.inject.spi.CDI;
 
 /**
  * WorkflowRemovalListenerService
  */
+@Deprecated(since = "8.0", forRemoval = true)
 public final class WorkflowRemovalListenerService
 {
-    private static final String BEAN_FORM_REMOVAL_SERVICE = "workflowRemovalService";
-
     /**
      * Private constructor
      */
     private WorkflowRemovalListenerService( )
     {
     }
-
+    
     /**
-     * Returns the removal service
-     * 
-     * @return The removal service
+     * Returns the {@link RemovalListenerService} instance.
+     * <p>
+     * This static accessor is <strong>deprecated</strong> and will be removed in a future release.
+     * Instead of calling this method directly, you should use <b>CDI dependency injection</b>
+     * to obtain an instance of {@code RemovalListenerService}.
+     * </p>
+     *
+     * <pre>{@code
+     * @Inject
+     * @Named(BeanUtils.BEAN_WORKFLOW_REMOVAL_SERVICE)
+     * private RemovalListenerService removalListenerService;
+     * }</pre>
+     *
+     * @deprecated since 8.0 — use CDI injection instead of this static method.
+     * @return the {@link RemovalListenerService} instance
      */
     public static RemovalListenerService getService( )
     {
-        return CdiHelper.getReference( RemovalListenerService.class, BEAN_FORM_REMOVAL_SERVICE );
+    	return CDI.current()
+                .select(RemovalListenerService.class, NamedLiteral.of(BeanUtils.BEAN_WORKFLOW_REMOVAL_SERVICE))
+                .get();
     }
 }
