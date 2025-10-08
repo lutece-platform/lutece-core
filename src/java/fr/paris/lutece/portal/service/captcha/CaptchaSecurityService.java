@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.captcha;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.BeanUtils;
+import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.literal.NamedLiteral;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
@@ -55,7 +56,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * <pre>{@code
  * @Inject
  * @Named(BeanUtils.BEAN_CAPTCHA_SERVICE)
- * private ICaptchaService _captchaService;
+ * private Instance<ICaptchaService> _captchaService;
  * }</pre>
  *
  * @deprecated since 8.0 — use CDI injection of the {@code ICaptchaService} bean instead.
@@ -77,10 +78,12 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
         // first check if captchaValidator bean is available in the jcaptcha plugin context    	
     	try
         {
-    		_captchaService= CDI.current()
-    	            .select(ICaptchaService.class, NamedLiteral.of( BeanUtils.BEAN_CAPTCHA_SERVICE ))
-    	            .get();
-    		_bAvailable = ( _captchaService != null );       
+    		Instance<ICaptchaService> instance= CDI.current()
+    	            .select(ICaptchaService.class, NamedLiteral.of( BeanUtils.BEAN_CAPTCHA_SERVICE ));
+    		if( instance.isResolvable()) {
+    			_captchaService = instance.get();
+    		}
+    		_bAvailable = ( _captchaService != null );  
         }
         catch( IllegalArgumentException | IllegalStateException e )
         {	
