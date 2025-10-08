@@ -57,12 +57,13 @@ public class AccessControlService
     private IAccessControlServiceProvider _provider;
 
     
- 
+    public AccessControlService() {
+    }
+    
     @Inject
     public AccessControlService(
             @Named("accesscontrol.accessControlServiceProvider")
-            Instance<IAccessControlServiceProvider> providerInstance) {
-    	
+            Instance<IAccessControlServiceProvider> providerInstance) {    	
         this._provider = providerInstance.stream()
                 .findFirst()
                 .orElse(null);

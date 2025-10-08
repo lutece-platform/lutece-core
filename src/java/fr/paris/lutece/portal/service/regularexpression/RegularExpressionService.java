@@ -54,7 +54,9 @@ public class RegularExpressionService
     private boolean _bServiceAvailable = false;
     private IRegularExpressionService _service;
 
-    
+    public RegularExpressionService() {
+    	
+    }
     @Inject
     public RegularExpressionService(
         @Named("regularExpressionService") Instance<IRegularExpressionService> service) {
