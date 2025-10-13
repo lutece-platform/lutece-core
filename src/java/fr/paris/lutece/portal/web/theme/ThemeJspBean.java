@@ -37,10 +37,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import fr.paris.lutece.portal.service.theme.ThemeResourceIdService;
 import fr.paris.lutece.portal.service.theme.ThemeService;
@@ -52,7 +52,6 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
@@ -63,10 +62,15 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.inject.spi.CDI;
+
 
 /**
  * ThemeJspBean
  */
+@SessionScoped
+@Named
 @Controller( controllerJsp = "ManageThemes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_THEME_MANAGEMENT" )
 public class ThemeJspBean extends MVCAdminJspBean
 {
@@ -83,7 +87,8 @@ public class ThemeJspBean extends MVCAdminJspBean
     // Actions
     private static final String ACTION_MODIFY_GLOBAL_THEME = "modifyGlobalTheme";
 
-    private static ThemeService _themeService = SpringContextService.getBean( "themeService");
+    @Inject
+    private ThemeService _themeService;
 
     /**
      * Returns the list of Themes

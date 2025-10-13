@@ -65,7 +65,6 @@ public final class ThemesService
     private static final String BEAN_THEME_SERVICE = "themeService";
     private static final String COOKIE_NAME = "theme";
     private static final String THEME_TEST = "theme_test";
-    private static final String BEAN_THEME_SERVICE = "theme.themeService";
 
     // PROPERTIES
     private static final String PROPERTY_USE_GLOBAL_THEME = "portal.style.label.useGlobalTheme";
