@@ -38,11 +38,13 @@ import fr.paris.lutece.portal.business.style.Theme;
 
 import fr.paris.lutece.portal.service.portal.IThemeService;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Named;
 
 import java.util.Collection;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 
 
 /**
@@ -50,9 +52,10 @@ import javax.servlet.http.HttpServletRequest;
  * ThemeService
  *
  */
+@ApplicationScoped
 public class ThemeService implements IThemeService
 {
-        /**
+    /**
      * Init
      */
     public void init( )

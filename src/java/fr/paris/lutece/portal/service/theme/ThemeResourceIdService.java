@@ -38,10 +38,10 @@ import fr.paris.lutece.portal.service.rbac.Permission;
 import fr.paris.lutece.portal.service.rbac.ResourceIdService;
 import fr.paris.lutece.portal.service.rbac.ResourceType;
 import fr.paris.lutece.portal.service.rbac.ResourceTypeManager;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Locale;
+import jakarta.inject.Inject;
 
 /**
  *
@@ -55,7 +55,8 @@ public class ThemeResourceIdService extends ResourceIdService
     private static final String PROPERTY_LABEL_RESOURCE_TYPE = "theme.permission.label.resource_type_theme";
     private static final String PROPERTY_LABEL_MODIFY_GLOBAL_THEME = "theme.permission.label.modify_global_theme";
 
-    private static ThemeService _themeService = SpringContextService.getBean( "themeService");
+    @Inject
+    private static ThemeService _themeService;
 
     /**
      * Create a new instance of ThemeResourceIdService

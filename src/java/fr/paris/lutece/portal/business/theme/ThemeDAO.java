@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.datastore.DataEntityHome;
 import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +48,8 @@ import java.util.Collection;
 /**
  * This class provides Data Access methods for Theme objects
  */
-public final class ThemeDAO implements IThemeDAO
+@ApplicationScoped
+public class ThemeDAO implements IThemeDAO
 {
     private static final String SQL_QUERY_SELECT = " SELECT code_theme, theme_description, path_images, path_css, theme_author, " +
         " theme_author_url, theme_version, theme_licence, path_js FROM core_theme WHERE code_theme = ?";
