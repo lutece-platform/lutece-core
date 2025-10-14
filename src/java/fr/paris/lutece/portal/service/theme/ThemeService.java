@@ -56,18 +56,10 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ThemeService implements IThemeService
 {
     /**
-     * Init
-     */
-    public void init( )
-    {
-
-    }
-
-
-    /**
     * Get the list of themes
     * @return a list of themes
     */
+    @Override
     public ReferenceList getThemes( )
     {
         return ThemeHome.getThemes( );
@@ -78,6 +70,7 @@ public class ThemeService implements IThemeService
      * @param strCodeTheme the code theme
      * @return the theme
      */
+    @Override
     public Theme getTheme( String strCodeTheme )
     {
         return ThemeHome.findByPrimaryKey( strCodeTheme );
@@ -87,6 +80,7 @@ public class ThemeService implements IThemeService
      * Get the global theme
      * @return the global theme
      */
+    @Override
     public Theme getGlobalTheme( )
     {
         return ThemeHome.getGlobalTheme( );
@@ -98,6 +92,7 @@ public class ThemeService implements IThemeService
     * @param request The HTTP request
     * @return The theme if available otherwise null
     */
+    @Override
     public String getUserTheme( HttpServletRequest request )
     {
         if ( request != null )
@@ -131,15 +126,17 @@ public class ThemeService implements IThemeService
      *
      * @return A collection of themes objects
      */
+    @Override
     public Collection<Theme> getThemesList(  )
     {
         return ThemeHome.getThemesList(  );
     }
 
     /**
-         * Set the global theme
-         * @param strGlobalTheme the code theme of the global theme
-         */
+     * Set the global theme
+     * @param strGlobalTheme the code theme of the global theme
+     */
+    @Override
     public void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion )
     {
         ThemeHome.setGlobalTheme( strGlobalTheme, strGlobalThemeVersion );
@@ -151,6 +148,7 @@ public class ThemeService implements IThemeService
     * @param strCodeTheme The theme to check
     * @return True if the theme is valid
     */
+    @Override
     public boolean isValidTheme( String strCodeTheme )
     {
         return ThemeHome.isValidTheme( strCodeTheme );

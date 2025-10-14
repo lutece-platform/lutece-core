@@ -42,7 +42,6 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import fr.paris.lutece.portal.service.theme.ThemeResourceIdService;
 import fr.paris.lutece.portal.service.theme.ThemeService;
 import fr.paris.lutece.portal.service.theme.ThemeUtil;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -59,17 +58,18 @@ import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.spi.CDI;
 
 
 /**
  * ThemeJspBean
  */
-@SessionScoped
+@RequestScoped
 @Named
 @Controller( controllerJsp = "ManageThemes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_THEME_MANAGEMENT" )
 public class ThemeJspBean extends MVCAdminJspBean
@@ -96,18 +96,14 @@ public class ThemeJspBean extends MVCAdminJspBean
      * @param request The Http request
      * @return the html code for display the manage themes page
      */
-     @View( value = VIEW_MANAGE_THEMES, defaultView = true )
-    public String getManageThemes( HttpServletRequest request )
+    @View( value = VIEW_MANAGE_THEMES, defaultView = true )
+    public String getManageThemes( HttpServletRequest request, Models model )
     {
         Collection<Theme> _listThemes = _themeService.getThemesList(  );
         
-        Map<String, Object> model = getModel( );
         model.put( ThemeUtil.MARK_THEMES_LIST, _listThemes );
         model.put( ThemeUtil.MARK_THEME_DEFAULT, _themeService.getGlobalTheme(  ) );
         model.put( ThemeUtil.MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
-        model.put( ThemeUtil.MARK_PERMISSION_MODIFY_GLOBAL_THEME,
-                RBACService.isAuthorized( Theme.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                    ThemeResourceIdService.PERMISSION_MODIFY_GLOBAL_THEME, getUser(  ) ) );
         
         setPageTitleProperty( ThemeUtil.PROPERTY_MANAGE_THEMES_PAGE_TITLE );
 
