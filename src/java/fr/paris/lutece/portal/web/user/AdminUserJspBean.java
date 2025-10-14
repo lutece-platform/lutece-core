@@ -1478,14 +1478,29 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         String strRemovedUserAccessCode = user.getAccessCode( );
 
-        AdminUserFieldService.doRemoveUserFields( user, request, getLocale( ) );
-        AdminUserHome.removeAllRightsForUser( nUserId );
-        AdminUserHome.removeAllRolesForUser( nUserId );
-        AdminUserHome.removeAllPasswordHistoryForUser( nUserId );
-        AdminUserHome.remove( nUserId );
+        // Only level 0 users can physically delete a user.
+        if( currentUser.isAdmin( ) )
+        {
+            AdminUserFieldService.doRemoveUserFields( user, request, getLocale( ) );
+            AdminUserHome.removeAllRightsForUser( nUserId );
+            AdminUserHome.removeAllRolesForUser( nUserId );
+            AdminUserHome.removeAllPasswordHistoryForUser( nUserId );
+            AdminUserHome.remove( nUserId );
 
-        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADMINUSER, currentUser,
-                strUserId + " : " + strRemovedUserAccessCode, CONSTANT_BO );
+            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADMINUSER, currentUser,
+                    strUserId + " : " + strRemovedUserAccessCode, CONSTANT_BO );
+        }
+        else
+        {
+            if (user.isStatusActive())
+            {
+                user.setStatus( AdminUser.NOT_ACTIVE_CODE );
+                AdminUserHome.update( user );
+
+                AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser,
+                        strUserId + " : " + strRemovedUserAccessCode, CONSTANT_BO );
+            }
+        }
 
         return JSP_MANAGE_USER;
     }
