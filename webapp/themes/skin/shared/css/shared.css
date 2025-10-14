@@ -1,0 +1,16 @@
+/****************************************************/
+/* SPECIFIC THEME CUSTOM SITE STYLES OVERRIDES      */
+/****************************************************/
+[data-bs-theme="dark"] #bd-theme > .icon-tabler-moon,
+[data-bs-theme="light"] #bd-theme > .icon-tabler-sun{
+    display: block;
+}
+
+[data-bs-theme="dark"] #bd-theme > .icon-tabler-sun,
+[data-bs-theme="light"] #bd-theme > .icon-tabler-moon{
+    display: none;
+}
+
+[data-bs-theme="light"] #bs-theme-switcher .dropdown-menu .dropdown-item.active{
+    color: var(--main-info-color-40)
+}

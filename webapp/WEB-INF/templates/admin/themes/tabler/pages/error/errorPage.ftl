@@ -10,6 +10,8 @@ Parameters:
 - params (string, optional): additional parameters to be added to the error page container.
 -->
 <#macro errorPage color='' errorType='' id='' params=''>
+<@pageContainer>
+<@pageColumn>
 <div class="error-page"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<h2 class="headline text-${color}">${errorType}</h2>
 	<div class="error-content">
@@ -23,12 +25,12 @@ Parameters:
 			</#if>
 		</h3>
 		<p>
-			<#if errorType=='404'>
-				#i18n{portal.util.error404.text} 
-			<#elseif errorType='500'>
-				#i18n{portal.util.error500.text} 
-			<#else>...
-			</#if>
+		<#if errorType=='404'>
+			#i18n{portal.util.error404.text} 
+		<#elseif errorType='500'>
+			#i18n{portal.util.error500.text} 
+		<#else>...
+		</#if>
 		</p>
 		<@aButton href='' size='' color='bg-${color}' style='btn-flat'>
 			<@icon style='home' />
@@ -36,4 +38,10 @@ Parameters:
 		</@aButton>
 	</div>
 </div>
+<script>
+document.documentElement.classList.remove('loading');
+document.documentElement.classList.add('loaded');
+</script>
+</@pageColumn>
+</@pageContainer>
 </#macro>

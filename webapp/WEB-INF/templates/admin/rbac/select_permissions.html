@@ -1,7 +1,11 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title=i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)  skipHeader=true />
-		<@tform method='post' action='jsp/admin/rbac/DoSelectPermissions.jsp' name='add_control' boxed=true>
+		<@ul class="steps steps-counter">
+			<@li class="step-item">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources} <@icon style='check text-green' /></@li>
+			<@li class="step-item active">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key)}</@li>
+		</@ul>
+		<@tform method='post'  class='d-flex justify-content-center align-items-center flex-column'  action='jsp/admin/rbac/DoSelectPermissions.jsp' name='add_control' boxed=true>
 		<@input type='hidden' name='role_key' value='${role_key}' />
 		<@input type='hidden' name='resource_type' value='${resource_type}' />
 		<@input type='hidden' name='select_resources' value='${select_resources}' />
@@ -12,16 +16,20 @@
 			<@radioButton name='select_permissions' id='select_choose' value='choose' labelKey='#i18n{portal.rbac.select_permissions.labelSelectPermissionsFromList}' />
 		</@formGroup>
 		<@formGroup>
+		<@ul class='list-unstyled ps-5'>
 		<#list permissions_list as item>
-			<#if item.checked >
-				<@checkBox name='permission_key' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
-			<#else>
-				<@checkBox name='permission_key' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
-			</#if>
+		<@li>
+		<#if item.checked >
+		<@checkBox orientation='switch' name='permission_key' id='${item.name}' checked=true value='${item.code}' labelKey='${item.name}' />
+		<#else>
+		<@checkBox orientation='switch' name='permission_key' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
+		</#if>
+		</@li>
 		</#list>
+		</@ul>
 		</@formGroup>
 		<@formGroup>
-			<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' color='default' />
+			<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='default' />
 			<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' color='primary'/>
 		</@formGroup>
 		</@tform>

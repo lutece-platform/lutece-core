@@ -3,32 +3,29 @@
     <@pageHeader title="${tabTitle}">
         <@tform type='inline' method='post' action='jsp/admin/xsl/CreateXslExport.jsp'>
             <@btnGroup align='right'>
-                <@button type='submit' title='#i18n{portal.xsl.manage_xsl_export.button_create}' buttonIcon='plus' size='sm' />
+                <@button type='submit' title='#i18n{portal.xsl.manage_xsl_export.button_create}' buttonIcon='plus'  />
             </@btnGroup>
         </@tform>
     </@pageHeader>
-    <@table headBody=true params='aria-describedby="manage_xsl_export"'>
-        <@tr>
-            <@th>#i18n{portal.xsl.manage_xsl_export.row_title}</@th>
-            <@th hide=['xs']>#i18n{portal.xsl.manage_xsl_export.row_description}</@th>
-            <@th hide=['xs']>#i18n{portal.xsl.manage_xsl_export.row_extension}</@th>
-            <@th>#i18n{portal.xsl.manage_xsl_export.row_actions}</@th>
-        </@tr>
-        <@tableHeadBodySeparator />
+    <!-- 
+    
+    
+    
+    -->
+    <@manageFeature params='aria-describedby="manage_xsl_export"'>
         <#list xsl_export_list as xsl_export>
-            <@tr>
-                <@td>${xsl_export.title}</@td>
-                <@td hide=['xs']>${xsl_export.description}</@td>
-                <@td hide=['xs']>${xsl_export.extension}</@td>
-                <@td>
+            <@manageFeatureItem>
+                <@manageFeatureItemColumn auto=true><@span class="badge bg-blue text-blue-fg">#i18n{portal.xsl.manage_xsl_export.row_extension}  ${xsl_export.extension?trim}</@span> </@manageFeatureItemColumn>
+                <@manageFeatureItemColumn>#i18n{portal.xsl.manage_xsl_export.row_title} : ${xsl_export.title} - <br>#i18n{portal.xsl.manage_xsl_export.row_description} : ${xsl_export.description}</@manageFeatureItemColumn>
+                <@manageFeatureItemColumn auto=true>
                     <#if right_modify>
-                        <@aButton href='jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_modify} (${xsl_export.title?html})' buttonIcon='edit' hideTitle=['all'] size='sm' />
+                        <@aButton href='jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_modify}' buttonIcon='edit' />
                     </#if>
                     <#if right_delete>
-                        <@aButton href='jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_delete} (${xsl_export.title?html})' buttonIcon='trash' hideTitle=['all'] color='danger' size='sm' />
+                        <@aButton href='jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_delete}' buttonIcon='trash' color='danger' />
                     </#if>
-                </@td>
-            </@tr>
+                </@manageFeatureItemColumn>
+            </@manageFeatureItem>
         </#list>
-    </@table>
+    </@manageFeature>
 </@tabPanel>

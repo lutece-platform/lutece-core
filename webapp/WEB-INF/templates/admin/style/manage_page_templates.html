@@ -1,27 +1,32 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title='#i18n{portal.style.manage_page_templates.pageTitle}'>
+            <@offcanvas targetUrl="jsp/admin/style/CreatePageTemplate.jsp" targetElement="#create-template-form" redirectForm=false id="template-create" title="#i18n{portal.style.create_page_template.boxTitle}" btnTitle="#i18n{portal.style.manage_page_templates.buttonLabelCreate}" btnIcon="plus" position="end" />
         </@pageHeader>
-        <@table headBody=true>
-            <@tr>
-                <@th>#i18n{portal.style.manage_page_templates.columnTitleDescription}</@th>
-                <@th>#i18n{portal.style.manage_page_templates.columnTitleFile}</@th>
-                <@th>#i18n{portal.style.manage_page_templates.columnTitleActions}</@th>
-            </@tr>
-            <@tableHeadBodySeparator />
+        <#if page_templates_list?size gt 0>
+        <@manageFeature>
             <#list page_templates_list as page_templates>
-                <@tr>
-                    <@td>
-                        <@img url='themes/admin/shared/images/page_templates/${page_templates.picture}' class='thumbnail-sm me-2' alt='${i18n("portal.style.manage_page_templates.picturealt",page_templates.description?html)}' />
-                        ${page_templates.description}
-                    </@td>
-                    <@td>${page_templates.file}</@td>
-                    <@td>
-                        <@offcanvas targetUrl="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" targetElement="#modify-template-form" redirectForm=false id="template-${page_templates.id}" title="#i18n{portal.util.labelModify} ${page_templates.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit me-1" position="end" hideTitle=['all'] btnSize='sm' />
-                        <@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash me-1' size='sm' title='#i18n{portal.style.manage_styles.actionDelete}' hideTitle=['all'] color='danger' />
-                    </@td>
-                </@tr>
+                <@manageFeatureItem>
+                    <@manageFeatureItemColumn auto=true>
+                        <@img url='themes/admin/shared/images/page_templates/${page_templates.picture}' class='thumbnail-sm img-invert' alt='${i18n("portal.style.manage_page_templates.picturealt",page_templates.description?html)}' />
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn>
+                    #i18n{portal.style.manage_page_templates.columnTitleDescription} ${page_templates.description}
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn>
+                        ${page_templates.file}
+                     </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn auto=true>
+                        <@offcanvas targetUrl="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" targetElement="#modify-template-form" redirectForm=false id="template-${page_templates.id}" title="#i18n{portal.util.labelModify} ${page_templates.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit me-1" position="end" />
+                        <@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash me-1' size='' title='#i18n{portal.style.manage_styles.actionDelete}' hideTitle=['xs'] color='danger' />
+                    </@manageFeatureItemColumn>
+                </@manageFeatureItem>
             </#list>
-        </@table>
+            </@manageFeature>
+        <#else>
+            <@box class='mt-3'>
+                <@empty />
+            </@box>  
+        </#if>
     </@pageColumn>
 </@pageContainer>

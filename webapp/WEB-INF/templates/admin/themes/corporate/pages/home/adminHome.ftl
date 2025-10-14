@@ -7,22 +7,13 @@ Description: Generates the home page for the admin dashboard. It generates a con
 <@pageContainer>
 <@pageColumn>
 <@pageHeader title=" " />
-<@div id="dashboard-widgets" class="dashboard-widgets pt-md-3">
-	<@row>
-		<@columns sm=12 md=6 class='widget-col col-xl-auto' id='zone-1'>
-			${dashboard_zone_1!}
-		</@columns>
-		<@columns  sm=12 md=6 class='widget-col col-xl-auto' id='zone-2'>
-			${dashboard_zone_2!}
-		</@columns>
-		<@columns  sm=12 md=6 class='widget-col col-xl-auto' id='zone-3'>
-			${dashboard_zone_3!}
-		</@columns>
-	</@row>
-</@div>
+<div id="dashboard-widgets" class="row row-cards dashboard-widgets" data-masonry="{'percentPosition': true }">
+${dashboard_zone_1!}
+${dashboard_zone_2!}
+${dashboard_zone_3!}
+</div>
 </@pageColumn>
 </@pageContainer>
-
 <script type="module">
 import {
 	LuteceDraggable

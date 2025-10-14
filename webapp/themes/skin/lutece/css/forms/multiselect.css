@@ -1,0 +1,96 @@
+/*** 										***/
+/***  Muliselect							***/
+/***  										***/
+.multiselect .form-select {
+	text-align: left;	
+}
+
+.multiselect .dropdown-menu.show {
+    display: block;
+    width: 100%;
+    padding: 0;
+}
+
+.multiselect .dropdown-menu .selected .btn{
+    background-color: var(--main-info-color);
+    color: var( --white-color );
+}
+
+.multiselect .dropdown-menu .selected:hover .btn{
+    background-color: var(--white-color);
+    color: var( --main-info-color );
+}
+
+.multiselect .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.multiselect .tag {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    background-color: var(--main-info-color);
+    border: 2px solid var(--main-info-color);
+    color: var( --white-color );
+    padding: var( --spacing-xs );
+    margin-inline-end: var( --spacing-xs );
+    margin-block-end: var( --spacing-xs );
+    line-height: 22px;
+}
+
+.multiselect .tags-container > .tag.btn + .tag.btn {
+    margin-inline-start: var(--spacing-xs);
+}
+
+.multiselect .tag:hover {
+   text-decoration: underline;
+   background-color: var( --white-color );
+   border-color: var( --main-info-color );
+   color: var( --main-info-color )
+}
+
+.multiselect .tag .btn-close {
+    padding-block-start: var( --spacing-xs );
+    margin-inline-start: var( --spacing-xs );
+    opacity: 1;
+    height: var(--spacing-xxs);
+    width: var(--spacing-xxs);
+}
+
+.multiselect .tag:hover .btn-close,
+.multiselect .tag .btn-close:hover {
+    --bs-btn-close-bg: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20aria-hidden%3D%22true%22%20focusable%3D%22false%22%20role%3D%22img%22%3E%3Cpath%20d%3D%22M6.40005%2019.4523L4.54785%2017.6001L10.1479%2012.0001L4.54785%206.40005L6.40005%204.54785L12.0001%2010.1479L17.6001%204.54785L19.4523%206.40005L13.8523%2012.0001L19.4523%2017.6001L17.6001%2019.4523L12.0001%2013.8523L6.40005%2019.4523Z%22%20fill%3D%22%23D71D31%22%2F%3E%0A%3C%2Fsvg%3E');
+    font-weight: 700;
+    text-decoration: underline;
+    background-color: var( --white-color );
+    filter: none;
+}
+
+.multiselect .selected .form-check-label {
+	color: var(--main-info-color);
+	font-weight: bold; 
+}
+
+.multiselect .form-check-input {
+	display: none;
+}
+
+.multiselect .dropdown-menu .btn-check + .btn {
+    width: 100%;
+    text-align: start;
+    border: 0;
+    padding: var(--spacing-xs) 
+}
+
+.multiselect .dropdown-menu .btn-check:checked + .btn::after {
+    content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+    position: absolute;
+    right: var(--spacing-xs);
+    width: var(--spacing-m);
+    height: var(--spacing-m);
+}
+
+.multiselect .dropdown-menu li:hover .btn-check:checked + .btn::after {
+    content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23354BCF' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}

@@ -8,7 +8,7 @@ Parameters:
 - showall (boolean, optional): whether to display an option to show all items on a single page (default is 0).
 -->
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0>
-
+<#if paginator??>
 <nav aria-label="Page navigation example">
   <ul class="pagination justify-content-end">
       <li class="page-item border-end-0" style="">
@@ -33,4 +33,5 @@ Parameters:
     </li>
   </ul>
 </nav>
+</#if>
 </#macro>

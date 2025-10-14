@@ -1,0 +1,9 @@
+<#ftl strip_whitespace='true'>
+<#-- Template to add js to footer in page_frameset.html theme template -->
+<!-- CNIL Consent TarteAuCitron / Needs Matomo plugin -->
+<@cConsentTac title=favourite>
+<#-- Tarte au Citron Service : - default- -->
+<@cConsentTacService  />
+<#-- Tarte au Citron Service : Matomo  -->
+<@cConsentTacService code='matomohightrack'>${matomo!}</@cConsentTacService>
+</@cConsentTac>

@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset core:update_db_lutece_core-3.0.1-3.0.2.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset core:update_db_lutece_core-3.0.1-3.0.2.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Table structure for table core_mail_queue
 --

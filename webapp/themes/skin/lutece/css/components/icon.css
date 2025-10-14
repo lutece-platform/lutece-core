@@ -1,0 +1,59 @@
+/*** 										***/
+/*** Icons								    ***/
+/***  										***/
+/***  Icons Size                            ***/
+.icon-sm {
+	height: var(--icon-sm) !important;
+	width: var(--icon-sm) !important;
+}
+
+.icon-m {
+	height: var(--icon-m) !important;
+	width: var(--icon-m) !important;
+}
+
+.icon-ml {
+	height: var(--icon-ml) !important;
+	width: var(--icon-ml) !important;
+}
+
+.icon-l {
+	height: var(--icon-l) !important;
+	width: var(--icon-l) !important;
+}
+
+.icon-xl {
+	height: var(--icon-xl) !important;
+	width: var(--icon-xl) !important;
+}
+
+.icon-xxl {
+	height: var(--icon-xxl) !important;
+	width: var(--icon-xxl) !important;
+}
+
+/*** Paris Icon								***/
+.paris-icon {
+    fill: var(--white-color);
+    transition: fill .3s ease;
+    height: calc(var(--size-base) * 6);
+    width: calc(var(--size-base) * 6);
+	transform: translateY(-2px);
+}
+
+.paris-icon-sprite {
+    display: none;
+}
+
+/* Icons Utils 						*/
+.rounded-bg-icon {
+    width: calc(var(--size-base) * 10);
+    height: calc(var(--size-base) * 10);
+    background-color: var(--white-color);
+    border-radius: var(--rounded);
+    margin: 0 calc(var(--size-base) * 2.5)
+}
+
+.btn-close:hover{
+    background-color:var(--gray-color);
+}

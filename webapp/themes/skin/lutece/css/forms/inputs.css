@@ -1,0 +1,208 @@
+/*** 										***/
+/*** Label + inputs							***/
+/***  										***/
+option,
+input,
+textarea {
+	color: var(--main-color) !important;
+	font-size: var( --font-m ) !important;
+	font-weight: 500 !important;
+}
+
+input:disabled + .btn,
+input:disabled + .btn:hover {
+	color: var( --main-color);
+    cursor: default;
+    opacity: .5
+}
+
+/* BS Overrides */
+label {
+	font-size: 15px;
+	font-weight: 500;
+}
+
+.form-control{
+	height: 40px;
+	background: transparent;
+	border: 0;
+	border-bottom: 1px solid #E2E2E2;
+	border-radius: 0;
+	padding: 10px 0;
+}
+  
+.form-control::-moz-placeholder {
+	font-size: 13px;
+	color: #999;
+}
+
+.form-control::placeholder {
+	font-size: 13px;
+	color: #999;
+}
+  
+.form-control:focus {
+	outline: 0;
+	border-color: #3C5BFE;
+	box-shadow: none;
+}
+
+.form-select {
+	font-size: 13px;
+	color: #999;
+	border: 0;
+	border-bottom: 1px solid #E2E2E2;
+	border-radius: 0;
+	padding: 10px 0;
+}
+
+textarea.form-control {
+	height: 100px;
+}
+
+/* Invalid */
+.invalid-feedback {
+	font-size: var(--font-m);
+	font-weight: 500;
+	padding-block-start: var(--spacing-xxs);
+	color: var(--main-danger-color);
+	display: block;
+}
+
+label:has( ~ .is-invalid),
+label:has( ~ .input-group ~ .is-invalid),
+label:has( ~ .input-group .is-invalid),
+legend.is-invalid,
+label:has( .is-invalid ){
+	color: var(--main-danger-color) !important
+}
+
+.form-control.is-invalid,
+.was-validated .form-control:invalid {
+    background-image:none;
+    box-shadow: none;
+	outline: var(--main-danger-color) solid 2px;
+	outline-offset: 0;
+}
+
+.form-control.is-invalid:focus {
+	box-shadow: inset 0 0 0 .2rem rgba(220,53,69,.25);
+}
+
+/*** 										***/
+/*** Input Type Number + suffix				***/
+/*** 										***/
+input[type="number"] + .input-group-append > .input-group-text {
+    border: 1px solid;
+    right: calc( var(--spacing-l) * -1 );
+    top: .25rem;
+    padding: calc( var(--spacing-sm) + .25rem) var(--spacing-xxs);
+}
+
+/*** 										***/
+/*** Input Password strength 				***/
+/*** 										***/
+.indicator {
+	font-size: var(--font-xs);
+	font-weight: 600;
+	min-height: calc(var(--size-base, .4rem) * 8.75);
+}
+
+.indicator .dot {
+	width: var(--spacing-xs);
+	height: var(--spacing-xs);
+	display: inline-block;
+	border-radius: 50%;
+	background: var(--white-color);
+}
+
+.password-refresh {
+	width: calc(var(--size-1, .4rem) * 4.5);
+	height: calc(var(--size-1, .4rem) * 4.5);
+}
+
+#form-separator {
+	height: 1px;
+	width: 200%;
+	background-color: #a8a8a8;
+}
+
+@media (max-width: 767.98px) {
+	.form-control {
+		font-size: var(--font-m)
+	}
+}
+
+/* Quantity Picker */
+/* Quantity input */
+.quantity-picker .quantity-input {
+	width: var(--spacing-xxl);
+	border: none;
+	text-align: center;
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+.quantity-picker .quantity-input::-webkit-outer-spin-button,
+.quantity-picker .quantity-input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.quantity-picker.is-invalid .input-group {
+	outline: var(--main-danger-color) solid 3px;
+	padding-left: 1px;
+}
+
+/* Quantity button  */
+.quantity-btn{
+	background-color: var( --white-color );
+	border-color: var( --blue-dark-color );
+	outline: var(--blue-dark-color) solid 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity-btn .btn-label{
+	color: var(--main-color);
+	font-size: var(var(--font-l);)
+}
+
+.quantity-btn:active,
+.quantity-btn:not(.disabled):active,
+.quantity-btn:active .btn-label,
+.quantity-btn:active .paris-icon
+.quantity-btn:hover .btn-label,
+.btn:hover.quantity-btn .btn-label,
+.quantity-btn:hover,
+.quantity-btn:focus,
+.quantity-btn:not(.disabled).focus,
+.quantity-btn:not(.disabled).active,
+.quantity-btn:not(.disabled):not(.disabled).active,
+.quantity-btn:focus .btn-label{
+	color: var(--main-color) !important;
+	background-color: transparent !important;
+}
+
+.quantity-btn:disabled::before,
+.quantity-btn:disabled::after,
+.quantity-btn:disabled:hover,
+.quantity-btn:disabled:focus,
+.quantity-btn:disabled:active,
+.quantity-btn:disabled *,
+.quantity-btn:disabled *:hover,
+.quantity-btn:disabled *:focus,
+.quantity-btn:disabled *:active,
+.quantity-btn:disabled{
+	color: var( --blue-dark-color ) !important;
+	background-color: var( --white-light-color ) !important;
+	border-color: var( --white-light-color ) !important;
+	box-shadow: none !important;
+	transition: none !important;
+}
+
+.quantity-btn:disabled {
+	color: var(--gray-darklight-color );
+	cursor: not-allowed;
+}

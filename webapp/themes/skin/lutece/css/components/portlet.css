@@ -1,0 +1,27 @@
+/*** 										***/
+/*** Portlets								***/
+/*** 										***/
+.portlet.card, .portlet.card .card-header {
+    background-color: var(--white-color) !important;
+    padding: var(--bs-card-spacer-x) var(--bs-card-spacer-y);
+}
+
+.portlet.card .card-header{
+	border-bottom: 0;
+	padding-inline-start: var(--spacing-m);
+}
+
+.portlet.card .card-body{
+	padding-block-start: 0;
+	margin-block-start: 0;
+}
+
+.portlet.card .card-body .card-title{
+	font-size: var(--font-xl);
+	font-weight: 700;
+}
+
+.portlet.card.main-bg-color .card-body,
+.portlet.card.main-bg-color .card-body :is( a,p,h1,h2,h3,h4,h5,h6,.h2,.h3,.h4,.h5,.h6,span,strong ){
+	color: var( --white-color )
+}

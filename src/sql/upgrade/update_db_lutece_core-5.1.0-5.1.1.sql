@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset core:update_db_lutece_core-5.1.0-5.1.1.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset core:update_db_lutece_core-5.1.0-5.1.1.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 ALTER TABLE core_file ADD COLUMN date_creation timestamp default NULL NULL;
 
 -- updating core_admin_right and core_user_right for external features management 

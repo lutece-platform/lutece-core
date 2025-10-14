@@ -47,13 +47,13 @@ Parameters:
 			<#if style?contains('collapse')>
 				<#local widgetAction = 'collapse' />
 				<script>
-					$( function() {
-					<#if buttonIcon = 'minus'>
-						$("${buttonTargetId}").addClass("show");
-					<#else>
-						$("${buttonTargetId}").addClass("collapse");
-					</#if>
-					});
+				document.addEventListener('DOMContentLoaded', function() {
+				<#if buttonIcon = 'minus'>
+					document.querySelector("${buttonTargetId}").classList.add("show");
+				<#else>
+					document.querySelector("${buttonTargetId}").classList.add("collapse");
+				</#if>
+				});
 				</script>
 			<#elseif style?contains('remove')>
 				<#local widgetAction = 'remove' />
@@ -83,11 +83,12 @@ Parameters:
 		</#if>
 		<#local nestedContent><#nested /></#local>
 		<#local nestedContent = nestedContent?trim />
-		<#if nestedContent=''>
+		<#if nestedContent='' && dropdownMenu=false>
 			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
 				${title}
 			<#if displayTitleClass!=''></span></#if>
 		</#if>
+		<#if dropdownMenu=true><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title!}<#if displayTitleClass!=''></span></#if></#if>
 		<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'>
 			<#local buttonIcon = buttonIcon />

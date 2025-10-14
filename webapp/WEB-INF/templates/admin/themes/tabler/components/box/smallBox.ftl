@@ -15,7 +15,7 @@ Parameters:
 - fontSize (string, optional): the font size of the widget icon.
 -->
 <#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px'>
-<div class="card card-sm mb-3 box-widget yeah" draggable='true' <#if id!=''> id="${id}" data-id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card card-sm mb-3 box-widget" draggable='true' <#if id!=''> id="${id}" data-id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div class="card-body">
 		<div class="row align-items-center">
 			<div class="col-auto">

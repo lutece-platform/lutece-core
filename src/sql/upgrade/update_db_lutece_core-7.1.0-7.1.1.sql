@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset core:update_db_lutece_core-7.1.0-7.1.1.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset core:update_db_lutece_core-7.1.0-7.1.1.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Switch tinymce to tinymce6
 --

@@ -8,7 +8,8 @@ Parameters:
 - user.accessibilityMode (boolean, required): a boolean value indicating whether accessibility mode is currently active.
 -->
 <#macro adminAccessibilityMode>
-<@tform method='post' action='jsp/admin/DoModifyAccessibilityMode.jsp' class='form-inline ms-0 mb-2'>
+<div class="nav-item">
+<@tform method='post' action='jsp/admin/DoModifyAccessibilityMode.jsp' >
 	<@input type='hidden' name='token' value='${token}' />
 	<#local btnIcon='eye-slash me-1' > 
 	<#local btnTitle='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}' >
@@ -19,4 +20,5 @@ Parameters:
 	</#if>
 	<@button color='dropdown dropdown-item mb-0 ms-0' type='submit' buttonIcon=btnIcon><span>${btnTitle}</span></@button>
 </@tform>
+</div>
 </#macro>

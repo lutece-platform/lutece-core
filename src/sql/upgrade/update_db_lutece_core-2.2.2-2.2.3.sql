@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset core:update_db_lutece_core-2.2.2-2.2.3.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset core:update_db_lutece_core-2.2.2-2.2.3.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 ALTER TABLE core_page ADD COLUMN workgroup_key varchar(50) DEFAULT NULL;
 
 ALTER TABLE core_page ADD COLUMN workgroup_key varchar(50) collate utf8_unicode_ci DEFAULT NULL;

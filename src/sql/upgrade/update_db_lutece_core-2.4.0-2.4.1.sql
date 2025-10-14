@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset core:update_db_lutece_core-2.4.0-2.4.1.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset core:update_db_lutece_core-2.4.0-2.4.1.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Table structure for table core_user_parameters
 --

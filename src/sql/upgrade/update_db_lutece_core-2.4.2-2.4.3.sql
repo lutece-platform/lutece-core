@@ -1,6 +1,6 @@
---liquibase formatted sql
---changeset core:update_db_lutece_core-2.4.2-2.4.3.sql
---preconditions onFail:MARK_RAN onError:WARN
+-- liquibase formatted sql
+-- changeset core:update_db_lutece_core-2.4.2-2.4.3.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Update table core_admin_right
 --

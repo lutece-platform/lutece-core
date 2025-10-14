@@ -1,0 +1,37 @@
+/*** 										***/
+/*** Badges	    							***/
+/***  										***/
+.badge {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-m);
+    background-color: var(--blue-bg-colored-light);
+    position: relative;
+}
+
+.badge.dismissible{
+    padding: var(--spacing-xs);
+}
+
+.badge .btn-close {
+    position: relative;
+    margin-inline-start: var(--spacing-xs);
+    width: var(--spacing-xxs);
+    height: var(--spacing-xxs);
+}
+
+.badge .badge-label {
+    text-transform: uppercase;
+    letter-spacing: calc( var(--spacing-xxs) / 3 );
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.badge .badge-content {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.badge.badge-secondary {
+    background-color: var(--white-color);
+}
