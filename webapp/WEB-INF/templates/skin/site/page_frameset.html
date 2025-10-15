@@ -64,9 +64,24 @@ ${page_path!}
 @Extender[${page_id},PAGE,rating,{show:"all"}]@
 @Extender[${page_id},PAGE,actionbar]@
 </#if>
-<div class="main-content mt-5 p-5">
+<div class="container my-5 py-5">
+<div class="row">
+<#if customMenuSideBar??>
+	 ${customMenuSideBar}
+	 <div class="col-xl-9">
+	     <!-- Contenu principal -->
+		 <div class="main-content">
+		${page_content}
+		<#if display_last_modified?? && display_last_modified ><p class="text-right pt-2 pr-5">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p></#if>
+		</div>
+	</div>
+<#else>
+ <div class="main-content">
 ${page_content}
 <#if display_last_modified?? && display_last_modified ><p class="text-right pt-2 pr-5">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p></#if>
+</div>
+</#if>
+</div>
 </div>
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled>
 <!-- Extends -->

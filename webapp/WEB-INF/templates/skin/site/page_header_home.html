@@ -15,6 +15,9 @@
                   <li class="nav-item">
                     <a class="page-scroll" href="#home">#i18n{portal.site.page_home.label}</a>
                   </li>
+                  <#if customMenuMainPage??>
+                  ${customMenuMainPage}
+                  <#else>
                   <#assign menu=page_main_menu>
                   ${page_main_menu_html!menu}
                   <li class="nav-item">
@@ -22,7 +25,8 @@
                   </li>
                   <li class="nav-item">
                     <a target="_blank" title="Documentation [Open in new window]" href="https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki&view=page&page_name=home&language=en" class="nav-link">Documentation</a>
-                  </li>
+                  </li>            
+                  </#if>
                   ${pageinclude_userlogin?default("<!-- No myLutece Authentication plugin installed -->")}
               </ul>    
             </div>
