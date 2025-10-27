@@ -37,11 +37,12 @@ import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.cache.Cache;
-import javax.cache.configuration.FactoryBuilder;
+import javax.cache.configuration.Factory;
 import javax.cache.configuration.MutableCacheEntryListenerConfiguration;
 import javax.cache.configuration.MutableConfiguration;
 import javax.cache.event.CacheEntryEvent;
 import javax.cache.event.CacheEntryExpiredListener;
+import javax.cache.event.CacheEntryListener;
 import javax.cache.event.CacheEntryListenerException;
 import javax.cache.event.CacheEntryRemovedListener;
 
@@ -75,9 +76,18 @@ public class PageCacheService extends AbstractCacheableService<String,String>
     {
     	Cache<String, String> cache= createCache( strCacheName, new MutableConfiguration<String,String>().setTypes(String.class, String.class)  );
         if ( null != cache )
-        {
-            cache.registerCacheEntryListener( new MutableCacheEntryListenerConfiguration<String, String>(
-                    FactoryBuilder.factoryOf( new PageCacheEntryListener<String, String>( ) ), null, false, false ) );
+        {       	
+               Factory<CacheEntryListener<String, String>> factory = 
+                            new PageCacheEntryListenerFactory();
+                MutableCacheEntryListenerConfiguration<String, String> listenerConfig =
+                    new MutableCacheEntryListenerConfiguration<>(
+                        factory,
+                        null,
+                        false,
+                        false
+                    );
+
+            cache.registerCacheEntryListener( listenerConfig );
             CacheService.registerCacheableService( this );
         }
     }
@@ -119,6 +129,18 @@ public class PageCacheService extends AbstractCacheableService<String,String>
         throw new AppException( "This class shouldn't be cloned" );
     }
 
+   // Factory Class and static and sérialisable
+    private static class PageCacheEntryListenerFactory 
+        implements Factory<CacheEntryListener<String, String>> {
+        
+        private static final long serialVersionUID = 1L;
+        
+        @Override
+        public CacheEntryListener<String, String> create() {
+            return new PageCacheEntryListener<>();
+        }
+    }
+    
 	static class PageCacheEntryListener<K, V> implements CacheEntryRemovedListener<K, V>, CacheEntryExpiredListener<K, V>, Serializable
 	{
 

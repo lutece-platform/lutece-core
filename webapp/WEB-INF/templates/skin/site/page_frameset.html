@@ -79,10 +79,33 @@ ${page_path}
 <!-- main container -->
 <#assign optMainContentHeader=.get_optional_template('${commonsGlobalThemeCode}theme_frameset_content_header.html')>
 <#if optMainContentHeader.exists><@optMainContentHeader.include /></#if>
+<div class="container my-5 py-5">
+<div class="row">
+<#if customMenuSideBar??>
+	 ${customMenuSideBar}
+	 <div class="col-xl-9">
+	     <!-- Contenu principal -->
+		 <div class="main-content">
+		${page_content}
+		<#if display_last_modified?? && display_last_modified ><p class="text-right pt-2 pr-5">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p></#if>
+		</div>
+	</div>
+<#else>
+ <div class="main-content">
 ${page_content}
+<#if display_last_modified?? && display_last_modified ><p class="text-right pt-2 pr-5">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p></#if>
+</div>
+</#if>
+</div>
+</div>
 <#if display_last_modified?? && display_last_modified><@cText class='text-right pt-3 pr-5'><@parisIcon name='clock' title='' class='main-danger-color' /> #i18n{portal.site.site_property.page.lastModified} ${last_modified!}</@cText></#if>
 <#assign optMainContentFooter=.get_optional_template('theme_frameset_content_footer.html')>
 <#if optMainContentFooter.exists><@optMainContentFooter.include /></#if>
+<#if page_id?? && isExtendInstalled?? && isExtendInstalled>
+<!-- Extends -->
+@Extender[${page_id},PAGE,comment]@
+@Extender[${page_id},PAGE,feedback]@
+</#if>
 </main>
 <!-- Footer -->
 <#-- Add your own Footer Menu Content here with @mainNavItem macro  -->
