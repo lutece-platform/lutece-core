@@ -69,9 +69,6 @@ public final class ThemeUtil
     // PROPERTIES
     public static final String PROPERTY_MANAGE_THEMES_PAGE_TITLE = "theme.manage_themes.page_title";
 
-    // MESSAGES
-    public static final String MESSAGE_OBJECT_NOT_FOUND = "theme.message.object_not_found";
-
     /**
      * Private constructor
      */
