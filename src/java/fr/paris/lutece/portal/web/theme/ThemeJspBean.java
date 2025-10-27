@@ -43,7 +43,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import fr.paris.lutece.portal.service.theme.ThemeService;
-import fr.paris.lutece.portal.service.theme.ThemeUtil;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -64,6 +63,8 @@ import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.RequestParam;
+import fr.paris.lutece.portal.util.mvc.binding.BindingResult;
 
 
 /**
@@ -79,6 +80,7 @@ public class ThemeJspBean extends MVCAdminJspBean
     // Templates files path
     private static final String TEMPLATE_MANAGE_THEMES = "admin/theme/manage_themes.html";
 
+    // Controller
     private static final String JSP_MANAGE_THEMES = "jsp/admin/plugins/filestoragetransfer/ManageRequests.jsp";
 
     // Views
@@ -87,6 +89,22 @@ public class ThemeJspBean extends MVCAdminJspBean
     // Actions
     private static final String ACTION_MODIFY_GLOBAL_THEME = "modifyGlobalTheme";
 
+    // Messages
+    private static final String MESSAGE_OBJECT_NOT_FOUND = "theme.message.object_not_found";
+    private static final String MESSAGE_BINDING_RESULT_FAILED = "theme.message.binding_result_failed";
+
+    // Parameters
+    public static final String PARAMETER_THEME = "theme";
+    public static final String PARAMETER_URL = "url";
+
+    // Properties
+    public static final String PROPERTY_MANAGE_THEMES_PAGE_TITLE = "theme.manage_themes.page_title";
+
+    // Marks
+    public static final String MARK_THEMES_LIST = "themes_list";
+    public static final String MARK_THEME_DEFAULT = "theme_default";
+    public static final String MARK_BASE_URL = "base_url";
+    
     @Inject
     private ThemeService _themeService;
 
@@ -101,11 +119,11 @@ public class ThemeJspBean extends MVCAdminJspBean
     {
         Collection<Theme> _listThemes = _themeService.getThemesList(  );
         
-        model.put( ThemeUtil.MARK_THEMES_LIST, _listThemes );
-        model.put( ThemeUtil.MARK_THEME_DEFAULT, _themeService.getGlobalTheme(  ) );
-        model.put( ThemeUtil.MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
+        model.put( MARK_THEMES_LIST, _listThemes );
+        model.put( MARK_THEME_DEFAULT, _themeService.getGlobalTheme(  ) );
+        model.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
         
-        setPageTitleProperty( ThemeUtil.PROPERTY_MANAGE_THEMES_PAGE_TITLE );
+        setPageTitleProperty( PROPERTY_MANAGE_THEMES_PAGE_TITLE );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_THEMES, getLocale(  ), model );
 
@@ -118,24 +136,26 @@ public class ThemeJspBean extends MVCAdminJspBean
      * @return the html code for display the manage themes page
      */
     @Action( ACTION_MODIFY_GLOBAL_THEME )
-    public String doModifyGlobalTheme( HttpServletRequest request )
+    public String doModifyGlobalTheme( HttpServletRequest request, 
+    @RequestParam( value="theme", defaultValue="") String strTheme,
+    @RequestParam( value="theme_version", defaultValue="") String strVersion, 
+    BindingResult result)
     {
-        String strUrl = "";
-        String strTheme = request.getParameter( ThemeUtil.PARAMETER_THEME );
-        String strVersion = request.getParameter( ThemeUtil.PARAMETER_THEME_VERSION );
-
-        if ( !strTheme.isBlank() )
+        if( result.isFailed( ) )
         {
-            _themeService.setGlobalTheme( strTheme, strVersion );
-            strUrl = getHomeUrl( request );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_BINDING_RESULT_FAILED, AdminMessage.TYPE_STOP );
         }
-        else
-        {
-            strUrl = AdminMessageService.getMessageUrl( request, ThemeUtil.MESSAGE_OBJECT_NOT_FOUND,
-                    AdminMessage.TYPE_STOP );
+        else {
+            if ( !strTheme.isBlank() )
+            {
+                _themeService.setGlobalTheme( strTheme, strVersion );
+                return redirect( request, VIEW_MANAGE_THEMES );
+            }
+            else
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_OBJECT_NOT_FOUND, AdminMessage.TYPE_STOP );
+            }
         }
-
-        return strUrl;
     }
 
 }
