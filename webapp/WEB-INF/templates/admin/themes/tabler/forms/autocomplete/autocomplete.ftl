@@ -35,7 +35,7 @@ Parameters:
 			</span>	
     </@inputGroup>
     <div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
-			<ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto bg-white" role="listbox" id="suggestions-list" aria-labelledby="${id}-input" style="max-height:15rem;"></ul>
+			<ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto" role="listbox" id="suggestions-list" aria-labelledby="${id}-input" style="max-height:15rem;"></ul>
 			<span id="${id}-lutece-autocomplete-default-assistive" class="sr-only visually-hidden">#i18n{portal.util.message.autocomplete.avalailbleResults}</span>
 			<div class="sr-only lutece-autocomplete-status" role="status" aria-atomic="true" aria-live="polite"></div>
 		</div>

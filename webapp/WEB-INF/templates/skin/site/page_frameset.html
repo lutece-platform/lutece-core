@@ -1,91 +1,113 @@
+<#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
+<#assign commonsGlobalThemeCode=thetheme.codeTheme!>
+<#assign commonsGlobalThemeVersion=thetheme.themeVersion!>
+<#assign commonsGlobalThemeImg=thetheme.pathImages!>
+<#assign themeFrameset=.get_optional_template('../themes/${commonsGlobalThemeCode}/tpl/site/page_frameset.html')>
+<#if themeFrameset.exists>
+<@themeFrameset.include />
+<#else>
 <!DOCTYPE html>
-<html lang="${user_context_language}">
+<html lang="${user_context_language}" dir="<#if isRtl?boolean>rtl<#else>ltr</#if>" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>">
 <head>
 <base href="${base_url}">
-<title>${favourite} - ${page_name}</title>
-<meta http-equiv="x-ua-compatible" content="IE=edge" >
+<title>${favourite!} - ${page_name!}</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta charset="${encoding}">
-<meta http-equiv="Content-Type" content="text/html">
 <meta name="author" content="${meta_author}">
 <meta name="copyright" content="${meta_copyright}">
 <meta name="keywords" content="${meta_keywords}">
 <meta name="description" content="${meta_description}">
 <meta name="generator" content="${meta_generator}">
-<!-- Dublin Core metadatas -->
+<!-- Dublin Core metadatas 	-->
 <meta name="DC.Creator" content="${meta_author}">
 <meta name="DC.Rights" content="${meta_copyright}">
 <meta name="DC.Subject" content="${meta_keywords}">
 <meta name="DC.Description" content="${meta_description}">
+<meta name="theme" content="${theme.codeTheme!}">
+<#if dskey('theme.site_property.robotIndex.checkbox')?number = 0>
+<!-- ==========================================================	-->
+<!-- Robots noindex 											-->
+<!-- ========================================================== -->
+<meta name="robots" content="noindex" data-test="${dskey('theme.site_property.robotIndex.checkbox')}">
+<meta name="googlebot" content="noindex">
+</#if>
 <!-- Set the viewport width to device width for mobile -->
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="shortcut icon" type="image/x-icon" href="favicon.svg"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le style -->
-<#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
-<link href="${thetheme.pathCss}/tabler-icons.min.css" rel="stylesheet">
-<link href="${thetheme.pathCss}/bootstrap.min.css" rel="stylesheet">
-<link href="${thetheme.pathCss}/page_template_styles.css" rel="stylesheet">
-<!-- Twitter metas -->
-<meta property="twitter:image" content="${base_url}images/preview.png">
-<meta property="twitter:image:width" content="1200">
-<meta property="twitter:image:height" content="630">
-<meta property="twitter:site" content="@LuteceNews">
-<meta property="twitter:card" content="summary"> 
-<meta property="twitter:description" content="Anything ?">
-<#if isExtendInstalled?? && isExtendInstalled >
-<!-- Extends -->
-<#if page_id??>@Extender[${page_id},PAGE,opengraph,{header:true}]@</#if>
-@Extender[ExtendParameteredId,document,opengraph,{header:true}]@
-@Extender[ExtendParameteredId,DIRECTORY_RECORD,opengraph,{header:true}]@
+<#if themeCSSLinks??>
+<@themeCSSLinks />
+<#else>
+<link href="${thetheme.pathCss}/bootstrap.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<!-- Theme CSS include -->
+<link href="${thetheme.pathCss}/theme.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<!-- Custom site styles include -->
+<link href="${thetheme.pathCss}/styles.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 </#if>
-${extend_meta!}
-${document_meta?default("<!-- No Document Meta -->")}
-${rss?default("<!-- no RSS feed -->")}
 ${plugins_css_links}
+<!-- Custom site styles include -->
+<#assign optHeaderCss=.get_optional_template('theme_frameset_header_css.html')>
+<#if optHeaderCss.exists><@optHeaderCss.include /></#if>
+<link rel="apple-touch-icon" sizes="180x180" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}apple-touch-icon.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
+<link rel="icon" type="image/png" sizes="32x32" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}favicon-32x32.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
+<link rel="icon" type="image/png" sizes="16x16" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}favicon-16x16.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
+<link rel="manifest" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}site.webmanifest?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
+<link rel="mask-icon" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}safari-pinned-tab.svg?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" color="#333333">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+${rss?default("<!-- no RSS feed -->")}
+<!-- Site JS Include -->
+<#-- Template to add js to header in page_frameset.html theme template -->
 <!-- Included JS Files -->
-<script src="js/jquery/jquery.min.js"></script>
-${statistical_include_head}
+<#assign optHeaderJs=.get_optional_template('theme_frameset_header_js.html')>
+<#if optHeaderJs.exists><@optHeaderJs.include /></#if>
+<@initThemeDatePicker />
+<!-- Theme Color Palette -->
+<#assign optThemeColors=.get_optional_template('../themes/${commonsGlobalThemeCode}/_theme_colors.ftl')>
+<#if optThemeColors.exists><@optThemeColors.include /></#if>
 </head>
-<body>
-<!-- header -->
-<header role="banner" class="header">
-${page_header}
-</header>
-<!-- end header -->
-<!-- Main Content -->
-${social!}
-${contextinclude!}
-${contextinclude_1!}
-<main role="main" class="container">
-${page_path!}
-<#if page_id?? && isExtendInstalled?? && isExtendInstalled >
-<!-- Extends -->
-@Extender[${page_id},PAGE,opengraph,{header:false,footer:false}]@
-@Extender[${page_id},PAGE,hit,{show:true}]@
-@Extender[${page_id},PAGE,rating,{show:"all"}]@
-@Extender[${page_id},PAGE,actionbar]@
+<body id="body-page<#if data.homePage>-home<#elseif page_id=1>-<#if data.name !=''>${data.name?replace(' ','_')?lower_case!}<#else>xpage</#if><#else>-${page_id!}</#if>"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if>>
+<!-- Accessibility Skip Nav Menu-->
+<@skipNav skipMenu=skipLinkMenu?boolean target=skipLinkMainId!'main' />
+<#-- Add your own Nav Menu Content here with @mainNavItem macro  -->
+<#assign optMainNav=.get_optional_template('theme_frameset_main_nav.html')>
+<#if optMainNav.exists><@optMainNav.include /></#if>
+<#if page_id &gt; 1>
+<!-- breadcrumb -->
+${page_path}
+<!-- breadcrumb -->
 </#if>
-<div class="main-content mt-5 p-5">
+<!-- main container -->
+<#assign optMainContentHeader=.get_optional_template('${commonsGlobalThemeCode}theme_frameset_content_header.html')>
+<#if optMainContentHeader.exists><@optMainContentHeader.include /></#if>
 ${page_content}
-<#if display_last_modified?? && display_last_modified ><p class="text-right pt-2 pr-5">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p></#if>
-</div>
-<#if page_id?? && isExtendInstalled?? && isExtendInstalled>
-<!-- Extends -->
-@Extender[${page_id},PAGE,comment]@
-@Extender[${page_id},PAGE,feedback]@
-</#if>
-${contextinclude_2!}
+<#if display_last_modified?? && display_last_modified><@cText class='text-right pt-3 pr-5'><@parisIcon name='clock' title='' class='main-danger-color' /> #i18n{portal.site.site_property.page.lastModified} ${last_modified!}</@cText></#if>
+<#assign optMainContentFooter=.get_optional_template('theme_frameset_content_footer.html')>
+<#if optMainContentFooter.exists><@optMainContentFooter.include /></#if>
 </main>
-<!-- Main Content -->
-${page_footer}
-<#if page_id?? && isExtendInstalled?? && isExtendInstalled >
-@Extender[${page_id},PAGE,opengraph,{footer:true}]@
-</#if>	
-<!--    ======================================================= -->
-<!-- 	Le javascript											-->
-<!--    ======================================================= -->
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="js/site.js"></script>
-${plugins_javascript_links}
-${statistical_include}
+<!-- Footer -->
+<#-- Add your own Footer Menu Content here with @mainNavItem macro  -->
+<#assign optMenuFooter=.get_optional_template('theme_frameset_menu_footer.html')>
+<#if optMenuFooter.exists><@optMenuFooter.include /></#if>
+<!-- Le javascript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- Theme JS includes -->
+<#-- Template to add js to footer in page_frameset.html theme template -->
+<#if themeJSLinks?? >
+<@themeJSLinks />
+<#else>
+<script src="${thetheme.pathJs}/js/vendor/js/bootstrap.bundle.min.js?theme=${commonsGlobalThemeCode}${commonsGlobalThemeVersion}"></script>
+</#if>
+<#-- Plugins JS includes   			-->
+${plugins_javascript_links!}
+<!-- Theme - Base JS init  -->
+<#assign optJsFooter=.get_optional_template('theme_frameset_footer_js.html')>
+<#if optJsFooter.exists><@optJsFooter.include /></#if>
+<#if lutece_user??>
+<#assign optUserFooter=.get_optional_template('theme_frameset_footer_user.html')>
+<#if optUserFooter.exists><@optUserFooter.include /></#if>
+</#if>
+<#if addGoToTop?? && addGoToTop?boolean><@cGoToTop /></#if>
 </body>
 </html>
+</#if>

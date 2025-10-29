@@ -117,7 +117,6 @@ Parameters:
 <#else><@alert class='danger'>${i18n("portal.util.message.unsupportedType")}</@alert>
 </#if>
 </#macro>
-
 <#macro dynamicColorizedSpansForInputFeedback id patternValidationRules>
 <@initValidationInput id/>
 <div id='${id}-help-message-div'>
@@ -130,7 +129,6 @@ Parameters:
 </#list>
 </div>
 </#macro>
- 
 <#macro initValidationInput id>
 <#if validationInputIsLoaded?? && validationInputIsLoaded>
 <#else>

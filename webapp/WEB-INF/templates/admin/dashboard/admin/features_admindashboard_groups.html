@@ -1,42 +1,35 @@
 <@tabPanel id='features_management'>
-    <#assign tabTitle>#i18n{portal.features.manage_groups.title}</#assign>
-    <@pageHeader title="${tabTitle}" description="#i18n{portal.features.manage_groups.featureDescription}">
+    <@pageHeader title="#i18n{portal.features.manage_groups.title}"  description="#i18n{portal.features.manage_groups.featureDescription}">
         <@offcanvas targetUrl='jsp/admin/features/CreateGroup.jsp' targetElement='#create-group-form' id='group-create' title='#i18n{portal.features.external_features.manage_external_features.create}' btnTitle='#i18n{portal.features.manage_groups.buttonCreate}' btnIcon='plus' btnColor='primary' position='end' />
     </@pageHeader>
-    <@table headBody=true >
-        <@tr>
-            <@th sm=6 md=8>#i18n{portal.features.manage_groups.labelId}</@th>
-            <@th sm=3 md=2>#i18n{portal.features.manage_groups.labelOrder}</@th>
-            <@th sm=3 md=2>#i18n{portal.features.manage_groups.labelActions}</@th>
-        </@tr>
-        <@tableHeadBodySeparator />
+    <@manageFeature>
         <#list groups_list?sort_by('order') as group>
-            <@tr>
-                <@td>
-                    <strong>${group.id}</strong><br>
-                    #i18n{portal.features.manage_groups.labelName}: <small>${group.labelKey}</small><br>
-                    #i18n{portal.features.manage_groups.labelDescription}: <small>${group.descriptionKey}</small>
-                </@td>
-                <@td>
+            <@manageFeatureItem>
+                <@manageFeatureItemColumn>
+                    <p><strong>${group.id}</strong></p>
+                    <p>#i18n{portal.features.manage_groups.labelName}: <small>${group.labelKey}</small></p>
+                    <p>#i18n{portal.features.manage_groups.labelDescription}: <small>${group.descriptionKey}</small></p>
+                </@manageFeatureItemColumn>
+                <@manageFeatureItemColumn>
                     <@tform type='inline' align="middle" method='post' action='jsp/admin/features/DoDispatchFeatureGroup.jsp'>
                         <@input type='hidden' name='group_id' value='${group.id?html}' />
                         <@input type='hidden' name='token' value='${token}' />
                         <@formGroup rows=2 class='has-addons' formStyle='inline' groupStyle="inline">
                             <@inputGroup class=''>
                                 <@select name='order_id' id='order_id-${group.id?html}' default_value=group.order?string items=order_list sort=true size='sm' />
-                                <@button type='submit' title='#i18n{portal.features.manage_groups.buttonChangeOrder}' hideTitle=['all'] size='sm' buttonIcon='check' color='primary' />
+                                <@button type='submit' title='#i18n{portal.features.manage_groups.buttonChangeOrder}' buttonIcon='check' color='primary' />
                             </@inputGroup>
                         </@formGroup>
                     </@tform>
-                </@td>
-                <@td>
-                    <@offcanvas targetUrl='jsp/admin/features/ModifyGroup.jsp?group_id=${group.id?html}' targetElement='#modify-group-form' id='group-modify-${group.id?html}' title='#i18n{portal.features.modify_group.title}' btnIcon='edit' btnColor='primary' btnSize='sm' position='end' />
+                </@manageFeatureItemColumn>
+                <@manageFeatureItemColumn auto=true>
+                    <@offcanvas targetUrl='jsp/admin/features/ModifyGroup.jsp?group_id=${group.id?html}' targetElement='#modify-group-form' id='group-modify-${group.id?html}' title='#i18n{portal.features.modify_group.title}' btnTitle='#i18n{portal.util.labelModify}' btnIcon='edit' btnColor='primary' position='end' />
                     <@tform type='inline' align="middle" class="ml-1" method='post' action='jsp/admin/features/RemoveGroup.jsp'>
                         <@input type='hidden' name='group_id' value='${group.id?html}' />
-                        <@button type='submit' title='#i18n{portal.features.manage_groups.buttonDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' color='danger' />
+                        <@button type='submit' title='#i18n{portal.features.manage_groups.buttonDelete}' buttonIcon='trash' color='danger' />
                     </@tform>
-                </@td>
-            </@tr>
+                </@manageFeatureItemColumn>
+            </@manageFeatureItem>
         </#list>
-    </@table>
+    </@manageFeature>
 </@tabPanel>

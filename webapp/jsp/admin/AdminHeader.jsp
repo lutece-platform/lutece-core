@@ -11,14 +11,13 @@ response.setDateHeader ("Expires", 0);
 %>
 <jsp:useBean id="adminMenu" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMenuJspBean" />
 <!DOCTYPE html>
-<html lang="<%= AdminUserService.getAdminUser( request ).getLocale().getLanguage() %>" >
+<html lang="<%= AdminUserService.getAdminUser( request ).getLocale().getLanguage() %>" dir="ltr">
 <head>
 <base href="<%= AppPathService.getBaseUrl( request ) %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>
 <meta charset="utf-8" />
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <!-- Styles -->
 <%= adminMenu.getAdminStyleSheets() %>
 <%
@@ -30,6 +29,7 @@ response.setDateHeader ("Expires", 0);
 %>
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon" href="<%= AppPathService.getBaseUrl( request ) %>favicon.ico">
+
 <%-- Display the admin menu --%>
 <%= adminMenu.getAdminMenuHeader( request ) %>
 <%-- LUTECE-2310 Remove jQuery Lib - and move /head to adminHeader macro --%>

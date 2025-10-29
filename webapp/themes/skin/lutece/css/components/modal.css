@@ -1,0 +1,42 @@
+/*** 										***/
+/*** Modal									***/
+/***  										***/
+.cmodal .modal-header{
+	padding: 0 0 var(--spacing-m);
+}
+
+.cmodal .modal-header .close .paris-icon{
+	fill: var( --black-color );
+}
+
+.cmodal .modal-header .modal-title {
+	font-size: var(--font-l);
+    font-weight: 800;
+}
+
+.cmodal .modal-content{
+	padding: var(--spacing-xl);
+}
+
+.cmodal .modal-body{
+	font-family: var( --font-family-list );
+	font-size: var( --font-m );
+	font-weight: 400;
+	padding: var(--spacing-m) 0;
+}
+
+.cmodal .modal-footer {
+	border: 0;
+	padding: 0;
+}
+
+.cmodal .modal-footer>* {
+    margin: 0 .25rem;
+}
+
+@media (max-width: 575.98px) {
+	.cmodal .modal-footer {
+		align-items: start;
+		flex-direction: column;
+	}
+}

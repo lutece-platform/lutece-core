@@ -48,6 +48,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.paris.lutece.portal.service.user.IUserAdminRemovalListener;
+import fr.paris.lutece.portal.service.user.UserAdminErrorException;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang3.StringUtils;
 
@@ -1469,6 +1471,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
+        try
+        {
+            checkRemoveListener(nUserId);
+        }
+        catch (UserAdminErrorException e)
+        {
+            return AdminMessageService.getMessageUrl( request, e.getI18nErrorMessage(), e.getMessageArgs() ,AdminMessage.TYPE_ERROR );
+        }
+
         AdminUser currentUser = AdminUserService.getAdminUser( request );
 
         if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
@@ -2778,4 +2789,21 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
         return false;
     }
+
+    /**
+     * Notifies all registered listeners about the attempt to remove a user.
+     *
+     * @param nUserId the ID of the user
+     * @throws UserAdminErrorException if an error occurs during listener notification
+     */
+    private void checkRemoveListener( int nUserId ) throws UserAdminErrorException
+    {
+        // Notify registered listener
+        List<IUserAdminRemovalListener> listRemovalListener = SpringContextService.getBeansOfType( IUserAdminRemovalListener.class );
+        for ( IUserAdminRemovalListener removalLister : listRemovalListener )
+        {
+            removalLister.notify( nUserId );
+        }
+    }
+
 }

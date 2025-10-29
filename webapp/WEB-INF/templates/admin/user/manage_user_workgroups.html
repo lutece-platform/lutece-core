@@ -1,6 +1,13 @@
 <@pageContainer>
     <@pageColumn>
-        <@pageHeader title=' ${user.lastName} ${user.firstName}'>
+		<#assign userImg>
+		<#if adminAvatar??>
+			<@img url='servlet/plugins/adminavatar/avatar?id_user=${user.userId}' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' style='max-width:80px' title='Avatar' />
+		<#else>    
+			<@img url='themes/admin/shared/images/unknown.svg' class='img-fluid thumbnail me-2 bg-primary rounded' alt='' title='' />
+		</#if>
+		</#assign>
+        <@pageHeader title='${userImg} ${user.lastName} ${user.firstName}'>
             <@item_navigation item_navigator=item_navigator />
         </@pageHeader>
 		<@tabs>
@@ -22,19 +29,13 @@
 						</#if>
 					</@tform>
 				</@div>
-				<@table headBody=true >
-					<@tr>
-						<@th>#i18n{portal.users.manage_user_workgroups.columnTitleName}</@th>
-						<@th>#i18n{portal.users.manage_user_workgroups.columnTitleDescription}</@th>
-					</@tr>
-					<@tableHeadBodySeparator />
+				<@listGroup id="user-workgroup-list">
 					<#list user_workgroup_list?sort_by('code') as workgroup>
-					<@tr>
-						<@td>${workgroup.code}</@td>
-						<@td>${workgroup.name}</@td>			
-					</@tr>
-					</#list>		
-				</@table>
+						<@listGroupItem>
+							<@p>#i18n{portal.users.manage_user_workgroups.columnTitleName} : <strong>${workgroup.code}</strong> - #i18n{portal.users.manage_user_workgroups.columnTitleDescription} :	 ${workgroup.name}</@p>
+						</@listGroupItem>
+					</#list>
+				</@listGroup>
 			</@tabContent>
 		</@tabs>
 	</@pageColumn>

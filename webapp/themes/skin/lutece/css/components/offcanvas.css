@@ -1,0 +1,27 @@
+/*** 										***/
+/*** Offcanvas								***/
+/***  										***/
+@media ( max-width: 767.98px ) {
+	/* Offcanvas Menu 			*/
+	.offcanvas-collapse {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 100%;
+		width: 100%;
+		padding-top: 10rem;
+		overflow-y: auto;
+		visibility: hidden;
+		background-color: var( --white-color );
+		transition-timing-function: ease-in-out;
+		transition-duration: .3s;
+		transition-property: left, visibility;
+		z-index: -1;
+	}
+
+	.offcanvas-collapse.open {
+		left: 0;
+		visibility: visible;
+	}
+}

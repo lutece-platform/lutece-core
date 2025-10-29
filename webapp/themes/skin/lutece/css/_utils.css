@@ -1,0 +1,76 @@
+/*** 										***/
+/*** Utils 									***/
+/*** 										***/
+/* Helper classes 							 */
+.img-home {
+	background-size: contain;
+	width: 20rem;
+}
+
+.hidden {
+	display: none !important;
+}
+
+.bg-cover {
+	background-size: cover;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.border-default {
+border-color: #E2E2E2 !important;
+}
+
+/* overlay */
+.overlay {
+	position: relative;
+}
+.overlay::before {
+	position: absolute;
+	content: "";
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background: #000;
+	opacity: .5;
+}
+
+.outline-0 {
+	outline: 0 !important;
+}
+
+.rounded, .card-icon, .card {
+	border-radius: 12px !important;
+}
+
+.d-unset {
+	display: unset !important;
+}
+
+.w-half{
+	width: 50% !important;
+}
+
+.shadow{
+	box-shadow: 0px 15px 60px rgba(62, 62, 62, 0.102) !important;
+}
+
+/* Remove shadow on card... 		*/
+.no-shadow {
+	box-shadow: none !important;
+}
+
+.vh-50{ 
+	height:50vh; 
+}
+
+
+@media (prefers-reduced-motion) {
+	*, *::before, *::after {
+	  animation-duration: 0s !important;
+	  /* additional recommendation */
+	  transition: none !important;
+	  scroll-behavior: auto !important;
+	}
+}

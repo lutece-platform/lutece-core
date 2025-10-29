@@ -1,5 +1,0 @@
-/* Those elements are not usefull in printed page... */
-input, .button, .no_print, #admin-header, #content-header, #main-footer { display: none; }
-
-/* page breaks : new page before this element */
-.page_break {page-break-before: always;}

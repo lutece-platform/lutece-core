@@ -1,0 +1,1061 @@
+:root[data-rf-theme="dark"] {
+    --bf500: #bfbfe3;
+    --w-bf500: #071F32;
+    --t-plain: transparent;
+    --g800: #fff;
+    --g700: #f0f0f0;
+    --g600: #e7e7e7;
+    --g400: #9c9c9c;
+    --g300: #6a6a6a;
+    --g200: #383838;
+    --w: #1e1e1e;
+    --g100-g800: #1e1e1e;
+    --focus: #354BCF;
+    --rm500: #f7bfc3;
+    --overlay: rgba(206, 206, 206, 0.08);
+}
+
+:root {
+    --bf500: #071F32;
+    --w-bf500: #fff;
+    --t-plain: transparent;
+    --g800: #1e1e1e;
+    --g700: #383838;
+    --g600: #6a6a6a;
+    --g400: #cecece;
+    --g300: #e7e7e7;
+    --g200: #f0f0f0;
+    --w: #fff;
+    --g100-g800: #f8f8f8;
+    --focus: #354BCF;
+    --rm500: #E22C3F;
+    --overlay: rgba(156, 156, 156, 0.32);
+    --focus-z-index: 2000;
+}
+
+@font-face {
+    font-family: dsfr-tac-icons;
+    src: url("data:font/truetype;charset=utf-8;base64,d09GRgABAAAAAASYAAsAAAAABtgAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADsAAABUIIslek9TLzIAAAFEAAAAQwAAAFY4wUKAY21hcAAAAYgAAABVAAABjOEvI+NnbHlmAAAB4AAAALEAAAC8RwSAoGhlYWQAAAKUAAAAMAAAADYcco6VaGhlYQAAAsQAAAAeAAAAJAgEA+1obXR4AAAC5AAAAA8AAAAQDhAAAGxvY2EAAAL0AAAACgAAAAoAcgAubWF4cAAAAwAAAAAeAAAAIAEQAChuYW1lAAADIAAAATEAAAIuRB1J2XBvc3QAAARUAAAAQwAAAF18Wox+eJxjYGRgYOBiMGCwY2BycfMJYeDLSSzJY5BiYGGAAJA8MpsxJzM9kYEDxgPKsYBpDiBmg4gCACY7BUgAeJxjYGRuYZzAwMrAwPST2YOBgWEFhGZyYLBiNAXSDKzMDFhBQJprCoPDA4YHTMwv/lsw5DC/YDgBFGYEyQEA8HwMsgB4nO2QsQ2AQAwDL59AgZiDipJJqBifTR4n/2Ng6SzZilIYWAAXpwiwByN1q7Xqna364KibyP5tvctJV47ylp9s5ddefs3kudSgtptoL+04wD9smw0NAAAAeJxjYGQAAuZpTL4MrAwMjObinIzmTBE/XP8d/nfIjTHsu/u/Q4x27kAlEHXTmc4xcIPVsYuzq7Orm6uDVX/74fbzu9u3726M1364/QCygPwfbgxMDAz/z7FIMQcxCDFIA3WJKgsqmhoLirApKyqpmQqamBmrCiqbMqozAokvv5jUUmRF/5aJysqKMgel/KtyY2x7xrQn5e+tX/+ugASZukRlp/0reAaWSQG6BgBlHzlCAAAAeJxjYGRgYADiImfHBfH8Nl8ZuFk2AEUY7sxZ8gRB/z/HIsUcBORyMDCBRAFWOQxBeJxjYGRgYH7x34KBgWUDAxCwSDEwMqACFgBU5AL7AAB4nGNgYGBg2YDAAA7gAh0AAAAAAAAUAC4AXgAAeJxjYGRgYGBhkGFgYgABEMkFhAwM/8F8BgALoAE5AAB4nG2RPU7DMBiG3/QP0UoIBGJh8QILavozdmRo9w7d08RJUyVx5LgVvQMn4BAcgoEzcAgOwVvzSZVQbcl+vsfvFysJgGt8IcBxBOj79ThauGD1x23SjXCH/CDcxQCPwj36sXAfz5gJD3ALzScEnUuaO7wKt3CFN+E2/btwh/wh3MU9PoV79N/CfazwIzzAU/CSNKkd5rGpmqXOdkVkT+JEK22b3FRqEo5PcqErbSOnE7U+qGafTZ1LVWpNqeamcroojKqt2erYhRvn6tlolIoPY1MiQYMUFkPkiGFQsV7yfTPsUCDiybnEObdil+We+1phgpDf81xywWTl0xEc94TpNQ5cG+x585TWsUv5ToOSNPe9x3TBaWhqf7alielDbHxXzf824kz/5UN/e/kLsDVkLAAAAHicY2BigAAeBuyAhZGJkZmRhZGVQTCxqCi/XDclvzxPt1g3JzMvlSs5J784FcwUSq0oSS3KS8wB8bLBQgwMANcAEdUA") format("truetype")
+}
+
+#tarteaucitronRoot {
+    box-sizing: border-box;
+    color: var(--g700);
+    font-family: Marianne, arial, sans-serif;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+.tac_visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+#tarteaucitronRoot *,
+#tarteaucitronRoot ::after,
+#tarteaucitronRoot ::before {
+    box-sizing: inherit
+}
+
+#tarteaucitronRoot h1 {
+    font-size: 2.75rem;
+    line-height: 1.25;
+    color: var(--g800);
+    font-weight: 700
+}
+
+@media (min-width:48em) {
+    #tarteaucitronRoot h1 {
+        font-size: 3rem
+    }
+}
+
+#tarteaucitronRoot h2 {
+    font-size: 2rem;
+    line-height: 1.25;
+    color: var(--g800);
+    font-weight: 700
+}
+
+#tarteaucitronRoot h3 {
+    font-size: 1.5rem;
+    line-height: 1.25;
+    color: var(--g800);
+    font-weight: 700
+}
+
+#tarteaucitronRoot h4 {
+    font-size: 1.375rem;
+    line-height: 1.375;
+    color: var(--g800);
+    font-weight: 700
+}
+
+#tarteaucitronRoot a {
+    box-shadow: 0 1px 0 0 currentColor;
+    color: inherit
+}
+
+#tarteaucitronRoot a:focus {
+    outline: 2px solid;
+    outline-color: var(--focus);
+    outline-offset: 2px;
+    z-index: var(--focus-z-index)
+}
+
+#tarteaucitronRoot a {
+    text-decoration: none
+}
+
+#tarteaucitronRoot a[target="_blank"]::after {
+    content: "";
+    font-family: dsfr-tac-icons !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    font-size: 1rem;
+    margin-left: .25rem;
+    vertical-align: baseline
+}
+
+#tarteaucitronRoot button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-family: inherit;
+    border: none;
+    cursor: pointer
+}
+
+#tarteaucitronRoot button:focus {
+    outline: 2px solid;
+    outline-color: var(--focus);
+    outline-offset: 2px;
+    z-index: var(--focus-z-index)
+}
+
+button#tarteaucitronPrivacyUrl {
+    position: absolute;
+    font-size: 9px;
+    background: 0 0;
+    bottom: .5em;
+    left: 2.5em
+}
+
+#tarteaucitronRoot ol,
+#tarteaucitronRoot ul {
+    list-style: none;
+    padding: 0;
+    margin: 0
+}
+
+#tarteaucitronBack {
+    background-color: var(--overlay);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    opacity: 1 !important;
+    z-index: 2147483646
+}
+
+.tarteaucitronIconBottomLeft {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 4000
+}
+
+.tarteaucitronIconBottomRight {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 4000
+}
+
+.tarteaucitronIconTopLeft {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 4000
+}
+
+.tarteaucitronIconTopRight {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 4000
+}
+
+#tarteaucitronIcon #tarteaucitronManager>img {
+    display: none
+}
+
+#tarteaucitronIcon #tarteaucitronManager {
+    background: var(--bf500);
+    color: var(--w);
+    padding: .5rem 1.5rem;
+    line-height: 1.5rem;
+    min-height: 2.5rem;
+    font-size: inherit
+}
+
+#tarteaucitronIcon #tarteaucitronManager::before {
+    content: "Cookies"
+}
+
+div#tarteaucitronRoot.tarteaucitronBeforeVisible:before {
+    opacity: 1 !important;
+    background-color: var(--overlay) !important
+}
+
+div#tarteaucitronAlertBig:before {
+    content: none !important
+}
+
+body #tarteaucitronRoot div#tarteaucitronAlertBig {
+    border-radius: 0
+}
+
+.tarteaucitronBeforeVisible #tarteaucitronAlertBig {
+    display: flex !important
+}
+
+#tarteaucitronAlertBig {
+    position: fixed;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    color: var(--g700);
+    background: var(--g200);
+    box-shadow: inset 0 0 0 1px var(--g400);
+    z-index: 2147483645;
+    max-height: 73vh;
+    overflow-y: scroll;
+    background: linear-gradient(#f0f0f0 33%, rgba(240, 240, 240, 0)), linear-gradient(rgba(240, 240, 240, 0), #f0f0f0 66%) 0 100%, radial-gradient(farthest-side at 50% 0, rgba(34, 34, 34, .5), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 50% 100%, rgba(34, 34, 34, .5), rgba(0, 0, 0, 0)) 0 100%;
+    background-color: #f0f0f0;
+    background-repeat: no-repeat;
+    background-attachment: local, local, scroll, scroll;
+    background-size: 100% 18px, 100% 18px, 100% 6px, 100% 10px
+}
+
+@media screen and (min-width:48em) {
+    #tarteaucitronRoot #tarteaucitronAlertBig {
+        width: 40rem !important;
+        bottom: 2.5rem !important;
+        left: 2.5rem !important;
+        padding: 2rem !important;
+        margin: auto;
+        top: auto !important;
+        transform: none !important;
+        box-shadow: inset 0 0 0 1px var(--g400) !important;
+        border-radius: 0 !important
+    }
+}
+
+#tarteaucitronDisclaimerAlert {
+    margin-bottom: 2rem
+}
+
+@media screen and (min-width:48em) {
+    #tarteaucitronAlertBig {
+        max-height: initial;
+        height: auto;
+        padding-right: 0;
+        overflow: initial
+    }
+}
+
+#tarteaucitronDisclaimerAlert>p {
+    margin-bottom: 1rem
+}
+
+#tarteaucitronDisclaimerAlert>p:last-child {
+    margin-bottom: 0
+}
+
+#tarteaucitronRoot #tarteaucitronCloseCross::first-letter {
+    color: transparent
+}
+
+#tarteaucitronRoot #tarteaucitronCloseCross {
+    position: relative;
+    background-color: var(--t-plain);
+    color: var(--bf500);
+    padding: .25rem .75rem;
+    display: block;
+    line-height: 1.5rem;
+    min-height: 2rem;
+    font-size: .875rem;
+    border-radius: 1rem;
+    width: 5rem;
+    margin-bottom: .5rem;
+    border-radius: 1rem
+}
+
+#tarteaucitronRoot #tarteaucitronCloseCross:before {
+    content: "Fermer";
+    position: absolute;
+    left: .75rem
+}
+
+#tarteaucitronRoot #tarteaucitronCloseCross:after {
+    font-family: dsfr-tac-icons !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    content: "";
+    font-size: 1rem;
+    height: 1rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto
+}
+
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize,
+#tarteaucitronRoot #tarteaucitronAlertBig .tarteaucitronCTAButton {
+    font-size: inherit;
+    cursor: pointer;
+    background: var(--bf500);
+    color: var(--w);
+    padding: .5rem 1.5rem;
+    line-height: 1.5rem;
+    min-height: 2.5rem;
+    width: 100%;
+    margin: .5rem 0
+}
+
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert {
+    background-color: var(--t-plain);
+    color: var(--bf500);
+    box-shadow: inset 0 0 0 1px var(--bf500);
+    order: 5;
+    margin-bottom: 0
+}
+
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronAllDenied2 {
+    order: 4
+}
+
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize,
+#tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize2 {
+    order: 3;
+    margin-right: 0
+}
+
+@media screen and (min-width:36em) {
+
+    #tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert,
+    #tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize,
+    #tarteaucitronRoot #tarteaucitronAlertBig .tarteaucitronCTAButton {
+        width: auto;
+        margin: 0 .5rem !important;
+        display: flex !important
+    }
+
+    #tarteaucitronRoot #tarteaucitronAlertBig .tarteaucitronCTAButton:not(.tarteaucitronAllow, .tarteaucitronDeny) {
+        margin: 0 0 0 auto !important
+    }
+
+    #tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronCloseAlert {
+        order: 3
+    }
+
+    #tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronAllDenied2 {
+        order: 4
+    }
+
+    #tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize,
+    #tarteaucitronRoot #tarteaucitronAlertBig #tarteaucitronPersonalize2 {
+        order: 5;
+        margin-right: 0 !important
+    }
+}
+
+#tarteaucitron {
+    display: none;
+    height: 90%;
+    padding: 3rem 0 0;
+    margin: 0;
+    left: 0;
+    top: auto !important;
+    bottom: 0 !important;
+    position: fixed;
+    width: 100%;
+    z-index: 2147483647
+}
+
+#tarteaucitron::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--w);
+    height: calc(3rem + 1px);
+    width: 100%
+}
+
+@media screen and (min-width:48em) {
+    #tarteaucitron {
+        width: 50rem;
+        height: initial;
+        max-height: 80%;
+        left: 50%;
+        top: 0 !important;
+        margin: auto auto auto -25rem
+    }
+}
+
+#tarteaucitronRoot #tarteaucitronClosePanel {
+    background: var(--tplain);
+    color: var(--bf500);
+    padding: .25rem .75rem;
+    line-height: 1.5rem;
+    min-height: 2rem;
+    display: inline-flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    font-size: .875rem;
+    border-radius: 1rem;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    outline-offset: 0
+}
+
+#tarteaucitronRoot #tarteaucitronClosePanel::before {
+    font-family: dsfr-tac-icons !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    content: "";
+    font-size: 1rem;
+    margin-right: -.25rem;
+    margin-left: .5rem
+}
+
+.tarteaucitronSelfLink>img {
+    display: none
+}
+
+.tarteaucitronSelfLink:before {
+    content: "Site officiel de Tarte au citron"
+}
+
+#tarteaucitronServices ul>li::before {
+    content: none
+}
+
+#tarteaucitronServices ul>li>ul {
+    padding-left: 0
+}
+
+#tarteaucitronRoot .tarteaucitronMainLine {
+    padding-bottom: 2.5rem;
+    box-shadow: inset 0 -1px 0 0 var(--g300)
+}
+
+#tarteaucitronRoot .tarteaucitronMainLine .tarteaucitronH1 {
+    display: block;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: var(--g700);
+    margin: 0 0 1rem;
+    font-weight: 700
+}
+
+#tarteaucitronRoot .tarteaucitronMainLine .tarteaucitronAsk {
+    flex-direction: column;
+    align-items: flex-start
+}
+
+#tarteaucitronRoot .tarteaucitronMainLine .tarteaucitronAsk::before {
+    content: none
+}
+
+#tarteaucitronRoot .tarteaucitronMainLine .tarteaucitronAsk .tarteaucitronDeny {
+    margin-left: 0;
+    margin-top: 1.5rem
+}
+
+@media screen and (min-width:48em) {
+    #tarteaucitronRoot .tarteaucitronMainLine .tarteaucitronAsk {
+        flex-direction: row;
+        align-items: center
+    }
+
+    #tarteaucitronRoot .tarteaucitronMainLine .tarteaucitronAsk::before {
+        content: ""
+    }
+
+    #tarteaucitronRoot .tarteaucitronMainLine .tarteaucitronAsk .tarteaucitronDeny {
+        margin-left: 1.5rem;
+        margin-top: 0
+    }
+}
+
+#tarteaucitronServices {
+    background-color: var(--w);
+    padding: 1rem 1rem 2rem
+}
+
+@media screen and (min-width:48em) {
+    #tarteaucitronServices {
+        padding: 1rem 2rem 2rem
+    }
+}
+
+#tarteaucitronServicesTitle_mandatory .tarteaucitronH3 {
+    font-size: 1rem;
+    margin-bottom: .5rem;
+    max-width: initial
+}
+
+#tarteaucitronServicesTitle_mandatory .tarteaucitronTitle {
+    margin-bottom: 1rem
+}
+
+#tarteaucitronServicesTitle_mandatory .tarteaucitronAsk {
+    position: relative;
+    top: auto;
+    right: auto
+}
+
+@media screen and (min-width:48em) {
+    .tarteaucitronName {
+        max-width: 60%
+    }
+}
+
+.tarteaucitronAsk {
+    display: flex;
+    margin-top: 2rem
+}
+
+@media screen and (min-width:48em) {
+    .tarteaucitronAsk {
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 0 !important
+    }
+
+    .tarteaucitronLine:not(.tarteaucitronMainLine) .tarteaucitronAsk {
+        position: absolute;
+        top: 0;
+        right: 0
+    }
+}
+
+#tarteaucitronRoot .tarteaucitronAsk .tarteaucitronAllow {
+    order: 1;
+    margin-right: 1.5rem;
+    font-size: 1rem
+}
+
+#tarteaucitronRoot .tarteaucitronAsk .tarteaucitronDeny {
+    margin-left: 1.5rem;
+    order: 3;
+    font-size: 1rem
+}
+
+#tarteaucitronRoot .tarteaucitronAsk::before {
+    content: "";
+    width: 1px;
+    height: 1.5rem;
+    order: 2;
+    background: var(--g300)
+}
+
+#tarteaucitronRoot .tarteaucitronAllow:not(.tarteaucitronCTAButton),
+#tarteaucitronRoot .tarteaucitronDeny:not(.tarteaucitronCTAButton) {
+    background: var(--tplain);
+    color: var(--g800);
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    padding: 0
+}
+
+#tarteaucitronRoot .tarteaucitronAllow:disabled:not(.tarteaucitronCTAButton),
+#tarteaucitronRoot .tarteaucitronDeny:disabled:not(.tarteaucitronCTAButton) {
+    color: var(--g600-g400)
+}
+
+#tarteaucitronRoot .tarteaucitronAllow:disabled:not(.tarteaucitronCTAButton)::before,
+#tarteaucitronRoot .tarteaucitronDeny:disabled:not(.tarteaucitronCTAButton)::before {
+    background-color: var(--g200);
+    border: 1px solid var(--g400)
+}
+
+#tarteaucitronRoot .tarteaucitronAllow:disabled:not(.tarteaucitronCTAButton)::after,
+#tarteaucitronRoot .tarteaucitronDeny:disabled:not(.tarteaucitronCTAButton)::after {
+    content: none
+}
+
+#tarteaucitronRoot .tarteaucitronAllow.tarteaucitronIsSelected::after,
+#tarteaucitronRoot .tarteaucitronDeny.tarteaucitronIsSelected::after {
+    opacity: 1
+}
+
+#tarteaucitronRoot .tarteaucitronAllow.tarteaucitronIsSelected::before,
+#tarteaucitronRoot .tarteaucitronDeny.tarteaucitronIsSelected::before {
+    border: 1px solid var(--bf500)
+}
+
+#tarteaucitronRoot .tarteaucitronAllow:not(.tarteaucitronCTAButton)::before,
+#tarteaucitronRoot .tarteaucitronDeny:not(.tarteaucitronCTAButton)::before {
+    content: "";
+    display: block;
+    flex-shrink: 0;
+    border: 1px solid var(--g800);
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: .5rem
+}
+
+#tarteaucitronRoot .tarteaucitronAllow:not(.tarteaucitronCTAButton)::after,
+#tarteaucitronRoot .tarteaucitronDeny:not(.tarteaucitronCTAButton)::after {
+    content: "";
+    display: block;
+    background: var(--bf500);
+    border-radius: 50%;
+    width: .75rem;
+    height: .75rem;
+    position: absolute;
+    left: .375rem;
+    opacity: 0
+}
+
+#tarteaucitronRoot .tarteaucitronIsAllowed .tarteaucitronAllow::after {
+    opacity: 1
+}
+
+#tarteaucitronRoot .tarteaucitronIsDenied .tarteaucitronDeny::after {
+    opacity: 1
+}
+
+#tarteaucitronRoot #tarteaucitronServices_mandatory .tarteaucitronAllow::after {
+    opacity: 1
+}
+
+#tarteaucitronRoot #tarteaucitronServices_mandatory .tarteaucitronAsk::before {
+    content: none
+}
+
+#tarteaucitronRoot [id^=tarteaucitronServices_] {
+    margin-top: 1.5rem
+}
+
+@media screen and (min-width:48em) {
+    #tarteaucitronRoot [id^=tarteaucitronServices_] {
+        margin-top: 0
+    }
+}
+
+.tarteaucitronBorder>ul>li {
+    padding: 1.5rem 0;
+    box-shadow: inset 0 1px 0 0 var(--g300)
+}
+
+.tarteaucitronBorder>ul>li:first-child {
+    box-shadow: none
+}
+
+#tarteaucitronRoot .tarteaucitronTitle>.catToggleBtn,
+#tarteaucitronRoot .tarteaucitronTitle>button {
+    background: 0;
+    color: var(--g800);
+    font-size: 1.25rem;
+    font-weight: 700;
+    padding: 0;
+    text-align: left
+}
+
+#tarteaucitron #tarteaucitronInfo,
+#tarteaucitron #tarteaucitronServices .tarteaucitronDetails {
+    color: var(--w);
+    background: var(--g700);
+    display: none;
+    font-size: .75rem;
+    margin-top: 0;
+    max-width: 270px;
+    padding: 1rem;
+    position: absolute;
+    z-index: 2147483647
+}
+
+#tarteaucitron #tarteaucitronServices .tarteaucitronHidden {
+    display: none;
+    position: relative
+}
+
+.tarteaucitronH3 {
+    display: block;
+    color: var(--g800);
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    max-width: 24rem
+}
+
+.tarteaucitronH3+span {
+    display: block
+}
+
+.tarteaucitronLine {
+    position: relative
+}
+
+.tarteaucitronLine {
+    margin-bottom: 1rem !important
+}
+
+ul[style="display: block;"] .tarteaucitronLine {
+    margin-bottom: 1.5rem
+}
+
+@media screen and (min-width:48em) {
+
+    .tarteaucitronHidden>ul:last-child:not([style="display: block;"]) .tarteaucitronLine:not(:last-child),
+    .tarteaucitronHidden>ul[style="display: block;"] .tarteaucitronLine:not(:last-child) {
+        margin-bottom: 0
+    }
+}
+
+.tarteaucitronHidden>ul:last-child:not([style="display: block;"]) .tarteaucitronLine .tarteaucitronH3,
+.tarteaucitronHidden>ul[style="display: block;"] .tarteaucitronLine .tarteaucitronH3 {
+    margin-bottom: .5rem;
+    font-size: 1rem
+}
+
+.tarteaucitronHidden>ul:last-child:not([style="display: block;"]) .tarteaucitronLine:first-child {
+    margin-top: 1.5rem
+}
+
+@media screen and (min-width:48em) {
+    .tarteaucitronHidden>ul[style="display: block;"] .tarteaucitronLine {
+        display: flex
+    }
+}
+
+@media screen and (min-width:48em) {
+    .tarteaucitronHidden>ul[style="display: block;"] .tarteaucitronAsk {
+        margin-top: 0;
+        margin-right: 0;
+        margin-left: auto
+    }
+}
+
+.tarteaucitronHidden>ul[style="display: block;"] .tarteaucitronLine:not(.tarteaucitronMainLine) .tarteaucitronAsk,
+.tarteaucitronHidden>ul[style="display: none;"] .tarteaucitronLine:not(.tarteaucitronMainLine) .tarteaucitronAsk {
+    position: relative;
+    top: auto;
+    right: auto;
+    align-items: flex-start
+}
+
+#tarteaucitronRoot .tarteaucitron-toggle-group {
+    background: 0 0;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    border-bottom: var(--is-link) solid 1px currentColor;
+    font-size: inherit
+}
+
+#tarteaucitronRoot .tarteaucitron-toggle-group::after {
+    font-family: dsfr-tac-icons !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    content: "";
+    font-size: 1rem;
+    margin-left: .5rem
+}
+
+.tarteaucitronAlertSmallBottom {
+    display: none;
+    padding: 0;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    width: auto;
+    z-index: 2147483646
+}
+
+.tarteaucitronAlertSmallBottom,
+.tarteaucitronAlertSmallTop {
+    bottom: 0
+}
+
+#tarteaucitronAlertSmall {
+    display: none;
+    padding: 0;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    width: auto;
+    z-index: 2147483646
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesNumber,
+#tarteaucitronAlertSmall #tarteaucitronManager {
+    position: relative;
+    font-size: inherit;
+    cursor: pointer;
+    background: var(--bf500);
+    color: var(--w);
+    padding: .5rem 1.5rem !important;
+    line-height: 1.5rem;
+    min-height: 2.5rem
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesNumber {
+    margin-left: .25rem
+}
+
+#tarteaucitronAlertSmall #tarteaucitronManager #tarteaucitronDot {
+    position: absolute;
+    background-color: gray;
+    border-radius: 5px;
+    display: block;
+    height: 5px;
+    overflow: hidden;
+    width: calc(100% - 3rem);
+    left: 1.5rem
+}
+
+#tarteaucitronAlertSmall #tarteaucitronManager #tarteaucitronDot #tarteaucitronDotGreen,
+#tarteaucitronAlertSmall #tarteaucitronManager #tarteaucitronDot #tarteaucitronDotRed,
+#tarteaucitronAlertSmall #tarteaucitronManager #tarteaucitronDot #tarteaucitronDotYellow {
+    display: block;
+    float: left;
+    height: 100%;
+    width: 0%
+}
+
+#tarteaucitronAlertSmall #tarteaucitronManager #tarteaucitronDot #tarteaucitronDotGreen {
+    background-color: #1b870b
+}
+
+#tarteaucitronAlertSmall #tarteaucitronManager #tarteaucitronDot #tarteaucitronDotYellow {
+    background-color: #fbda26
+}
+
+#tarteaucitronAlertSmall #tarteaucitronManager #tarteaucitronDot #tarteaucitronDotRed {
+    background-color: #9c1a1a
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer {
+    display: none;
+    max-height: 50%;
+    max-width: 500px;
+    position: fixed;
+    right: 0;
+    width: 100%;
+    background: #fff;
+    padding-top: 1rem
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList {
+    color: #333;
+    font-size: .75rem;
+    height: auto;
+    overflow: auto;
+    text-align: left;
+    padding: 0 1.5rem
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronTitle {
+    color: var(--g800);
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 1.5rem 0 0;
+    padding: 1rem 0;
+    text-align: left;
+    width: auto
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList strong {
+    color: var(--g800)
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesTitle {
+    padding: .5rem 1.5rem;
+    text-align: left;
+    color: var(--g800);
+    font-size: 1.25rem;
+    font-weight: 700
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesTitle strong {
+    color: var(--w);
+    font-size: 1rem
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain {
+    padding: 0 0 .25rem;
+    word-wrap: break-word
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain:before {
+    content: none
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain a {
+    color: var(--g800);
+    text-decoration: none
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain .tarteaucitronCookiesListLeft {
+    display: inline-flex;
+    width: 50%;
+    align-items: center
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain .tarteaucitronCookiesListLeft a strong {
+    color: var(--rm500)
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain .tarteaucitronCookiesListRight {
+    color: var(--g800);
+    display: inline-block;
+    font-size: .75rem;
+    margin-left: 10%;
+    vertical-align: top;
+    width: 30%
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronClosePanelCookie {
+    background: var(--tplain);
+    color: var(--bf500);
+    padding: .25rem .75rem;
+    line-height: 1.5rem;
+    min-height: 2rem;
+    display: inline-flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    font-size: .875rem;
+    border-radius: 1rem;
+    position: absolute;
+    right: 1rem;
+    top: 0
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronClosePanelCookie::before {
+    font-family: dsfr-tac-icons !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    content: "";
+    font-size: 1rem;
+    margin-right: -.25rem;
+    margin-left: .5rem
+}
+
+#tarteaucitronRoot .purgeBtn {
+    flex-direction: row;
+    max-width: 2rem;
+    max-height: 2rem;
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5rem;
+    min-height: 2rem;
+    background-color: var(--bf500);
+    color: var(--w-bf500);
+    flex-shrink: 0;
+    margin-right: .25rem
+}
+
+#tarteaucitronRoot .purgeBtn::before {
+    font-family: dsfr-tac-icons !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    content: "";
+    font-size: 1rem;
+    margin-left: 0;
+    margin-right: .5rem
+}
+
+#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .purgeBtn strong {
+    display: none
+}
+
+.tac_activate {
+    background: var(--g200);
+    display: flex;
+    padding: 6rem 0;
+    justify-content: center;
+    width: 100%
+}
+
+.tac_activate .tac_float {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
+}
+
+.rf-responsive-vid__player .tac_activate {
+    padding: O;
+    height: 100%
+}
+
+.tac_activate .tarteaucitronAllow:not(.tarteaucitronCTAButton)::after,
+.tac_activate .tarteaucitronAllow:not(.tarteaucitronCTAButton)::before {
+    content: none
+}
+
+.tac_activate .tarteaucitronAllow:not(.tarteaucitronCTAButton) {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-family: inherit;
+    border: none;
+    font-size: inherit;
+    cursor: pointer;
+    background: var(--bf500);
+    color: var(--w);
+    padding: .5rem 1.5rem;
+    line-height: 1.5rem;
+    min-height: 2.5rem;
+    margin-top: 1.5rem
+}
+
+.tac_activate .tarteaucitronAllow:not(.tarteaucitronCTAButton):focus {
+    outline: 2px solid;
+    outline-color: var(--focus);
+    outline-offset: 2px;
+    z-index: var(--focus-z-index)
+}

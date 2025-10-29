@@ -1,0 +1,151 @@
+/*** 										***/
+/*** DARK Theme 							***/
+/*** 										***/
+[data-bs-theme=dark] {
+	/* Main colors are managed in BO or theme template named _theme_color.ftl */
+	/* Main Theme Colors */
+	/* Default styles init */
+    --theme-bg-default: #071F32 !important;
+	
+    --main-color: #fff;
+
+	--main-info-color: #F2F6FF;
+	--main-info-color-40: #F2F6FF;
+	--main-info-color-light: #F2F6FF;
+	--main-info-color-text: #17215F;
+
+	--main-danger-color: #E22C3F;
+	--main-danger-color-lightest: #FFF2F2;
+	--main-danger-color-text: #86131E;
+
+	--main-footer-danger-color: #9c1621;
+
+	--main-success-color: #248619;
+	--main-success-color-lightest: #ECFAEA;
+	--main-success-color-text: #0F320B;
+	
+	--main-warning-color: #FFA13D;
+	--main-warning-color-lightest: #FFFAE6;
+	--main-warning-color-text: #844501;
+	
+	/* Black to White */
+	--black-color: #fff;
+	--dark-color: #fff;
+	--dark-lighter-color: #6D6D6D;
+
+	--gray-dark-color: #A1A1A1;
+	--gray-color: #C3C3C3;
+	--gray-light-color: #D5D9DD;
+
+	--white-lighter-color : #FCFAFA;
+	--white-light-color: #f0f0f0;
+	--white-color: #071F32;
+
+	/* Blue */
+	--blue-darker-color: #495E7E;
+	--blue-dark-color: #5C769E;
+	--blue-color: #B2BED2;
+	--blue-light: #CFD7E3;
+	--blue-bg-colored: #DFE7FC;
+	--blue-bg-colored-light: #F2F6FF;
+	
+	--blue-gray-color: #5C769E;
+	--blue-turquoise-color: #1CBCB6;
+	
+	/* Icon */
+	--card-title-icon: #0C518A;
+	
+	/* Shadow */
+	--main-color-shadow: #071f321a;
+	--card-color-shadow: #00000029;
+	--switch-color-shadow: #0088dd40;
+}
+
+[data-bs-theme=dark] img.darkmode,
+[data-bs-theme=dark] .main-footer .logo > img,
+[data-bs-theme=dark]::-webkit-calendar-picker-indicator {
+    filter: invert(1)
+}
+
+[data-bs-theme=dark] svg path{
+    fill: var(--main-color)
+}
+
+[data-bs-theme=dark] .navigation .navbar-nav .nav-item .nav-link {
+	color: var(--white-color);
+}
+
+[data-bs-theme=dark] .navigation .navbar-nav .nav-item.active .nav-link {
+	text-decoration: underline;
+}
+
+[data-bs-theme=dark] .shadow {
+    box-shadow: none !important
+}
+
+/** Text **/
+[data-bs-theme=dark]  .text-primary {
+	color: var(--main-color) !important;
+}
+
+[data-bs-theme=dark]  .text-info {
+	color: var(--main-info-color) !important;
+}
+
+[data-bs-theme=dark] .text-dark-border {
+	text-shadow: .1rem .1rem 0 var(--dark-color), -.1rem -.1rem 0 var(--dark-color), .1rem -.1rem 0 var(--dark-color), -.1rem .1rem 0 var(--dark-color), .1rem .1rem 0 var(--dark-color);
+}
+
+[data-bs-theme=dark] .text-dark {
+    color: var(--theme-bg-default) !important
+}
+
+
+[data-bs-theme=dark] .text-bg-light {
+    color: var(--theme-bg-default) !important;
+    background-color: transparent !important
+}
+
+/** Form **/
+[data-bs-theme=dark] .form-control,
+[data-bs-theme=dark] .form-select,
+[data-bs-theme=dark] .form-control:focus,
+[data-bs-theme=dark] .form-select:focus {
+    background-color: var(--theme-bg-default);
+    color:  var(--white-color);
+}
+
+[data-bs-theme=dark] .card {
+    border: var( --border-normal) solid var(--bs-border-color-translucent) !important;
+    background-color:  var(--theme-bg-default);
+}
+
+[data-bs-theme=dark] .card-footer {
+    border-top: var( --border-normal) solid var(--bs-border-color-translucent)
+}
+
+
+[data-bs-theme=dark] .bg-content {
+    background-color: var(--theme-bg-default) !important;
+    border: var( --border-normal) solid  var(--main-color) !important;
+}
+
+[data-bs-theme=dark] table,
+[data-bs-theme=dark] .table td,
+[data-bs-theme=dark] .table th {
+    --bs-table-hover-bg: #222633;
+    background-color:  var(--theme-bg-default);
+}
+
+[data-bs-theme=dark] * ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, .186) !important
+}
+
+[data-bs-theme=dark] .btn,
+[data-bs-theme=dark] .badge {
+    border-width: 0 !important
+}
+
+[data-bs-theme=dark] .btn.btn-default {
+    border-width: 1px !important
+}

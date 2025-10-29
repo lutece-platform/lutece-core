@@ -1,0 +1,53 @@
+<#switch message.type>
+<#case 1>
+<#assign messageClass = 'info' /> 
+<#assign messageTitle='#i18n{portal.util.message.titleQuestion}' />
+<#case 2> 
+<#assign messageClass = 'danger' />
+<#assign messageTitle='#i18n{portal.util.message.titleError} ' />
+<#case 3> 
+<#assign messageClass = 'warning' />
+<#assign messageTitle='#i18n{portal.util.message.titleWarning} ' />
+<#case 4> 
+<#assign messageClass = 'success' />
+<#assign messageTitle='#i18n{portal.util.message.titleConfirmation} ' />
+<#case 5 > 
+<#assign messageClass = 'danger' />
+<#assign messageTitle='#i18n{portal.util.message.titleStop} ' />	
+<#default> 
+<#assign messageClass = 'info' />
+<#assign messageTitle='' />
+</#switch>
+<@cContainer>
+	<@cRow>
+		<@cCol class='d-flex flex-column justify-content-center align-items-center vh-50'>
+			<@cAlert title='${messageTitle!}${title!}' class=messageClass>${text}</@cAlert>
+			<@cSection class='w-50 d-flex mt-l justify-content-evenly'>
+			<#if url?has_content>
+				<@cForm action='${url!}' params=' target="${target!}" '>
+					<#if list_parameters?exists><#assign keys = list_parameters?keys><#list keys as key><@input type='hidden' name=key! value=list_parameters[key]! /></#list></#if>
+					<@cBtn label='#i18n{portal.util.labelValidate}' />
+				</@cForm>
+			</#if>
+			<#if back_url?has_content>
+				<@cForm action='${back_url!}' params=' target="${target!}" '>
+					<#if list_parameters?exists><#list keys as key><@input type='hidden' name=key! value=list_parameters[key]! /></#list></#if>
+					<#if cancel_button gte 1 > 
+						<@cBtn label='#i18n{portal.util.labelBack}' class='primary me-2' params='name="cancel"' />
+					</#if>
+				</@cForm>
+			<#else>
+				<@cLink href='jsp/site/Portal.jsp' label='#i18n{portal.util.labelBack}' title='#i18n{portal.util.labelBack}' class='btn btn-primary btn-back' />
+			</#if>
+			</@cSection>
+		</@cCol>
+	</@cRow>
+</@cContainer>
+<script>
+document.addEventListener('DOMContentLoaded', (e) => {
+	document.querySelector('.btn-back').addEventListener('click', (e) => {
+		e.preventDefault();
+		history.back();
+	})
+})
+</script>

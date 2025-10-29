@@ -15,10 +15,10 @@
 						<@staticText>${attribute.attributeType.name}</@staticText>
 					</@formGroup>
 					<@formGroup>
-						<@checkBox name='is_shown_in_result_list' id='is_shown_in_result_list' value='1' checked=attribute.shownInResultList labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
+						<@checkBox orientation='switch' name='is_shown_in_result_list' id='is_shown_in_result_list' value='1' checked=attribute.shownInResultList labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
 					</@formGroup>
 					<@formGroup>
-						<@checkBox name='mandatory' id='mandatory' value='1' checked=attribute.mandatory labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
+						<@checkBox orientation='switch' name='mandatory' id='mandatory' value='1' checked=attribute.mandatory labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelWidth}' labelFor='width'>
 						<#list attribute_fields_list as attribute_field>

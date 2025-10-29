@@ -3,20 +3,20 @@
         <@pageHeader title='#i18n{portal.rbac.create_role.titleCreateRole}' />
 		<@tform method='post' action='jsp/admin/rbac/DoCreateRole.jsp' id="create-role-form" name='create_role' boxed=true>
 			<@input type='hidden' name='token' value='${token}' />
-			<@formGroup labelKey='#i18n{portal.rbac.create_role.labelKey}' labelFor='role_key' mandatory=true rows=2>
+			<@formGroup labelKey='#i18n{portal.rbac.create_role.labelKey}' labelFor='role_key' mandatory=true>
 				<@input type='text' id='role_key' name='role_key' maxlength=255 />
 			</@formGroup>
-			<@formGroup labelKey='#i18n{portal.rbac.create_role.labelDescription}' labelFor='role_description' mandatory=true rows=2>
+			<@formGroup labelKey='#i18n{portal.rbac.create_role.labelDescription}' labelFor='role_description' mandatory=true>
 				<@input type='text' id='role_description' name='role_description' maxlength=255 />
 			</@formGroup>
 			<#if has_right_manage_front_role>
-				<@formGroup labelFor='can_be_assigned_to_user_front' rows=2>
-					<@checkBox name='can_be_assigned_to_user_front' id='can_be_assigned_to_user_front' value='true' labelKey='#i18n{portal.rbac.create_role.labelCanBeAssignedToUserFront}' labelFor='can_be_assigned_to_user_front' />
+				<@formGroup labelFor='can_be_assigned_to_user_front'>
+					<@checkBox orientation='switch' name='can_be_assigned_to_user_front' id='can_be_assigned_to_user_front' value='true' labelKey='#i18n{portal.rbac.create_role.labelCanBeAssignedToUserFront}' labelFor='can_be_assigned_to_user_front' />
 				</@formGroup>
 			</#if>	
-			<@formGroup rows=2>
-				<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.create_role.buttonLabelCreate}' hideTitle=['xs'] color='primary' size='' />
-				<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='times' color='secondary' size='' title='#i18n{portal.admin.message.buttonCancel}' hideTitle=['xs'] />
+			<@formGroup>
+				<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.create_role.buttonLabelCreate}' color='primary'  />
+				<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='times' color='danger' title='#i18n{portal.admin.message.buttonCancel}' />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>

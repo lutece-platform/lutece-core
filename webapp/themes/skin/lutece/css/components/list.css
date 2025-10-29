@@ -1,0 +1,40 @@
+
+/* sidenav */
+.sidenav {
+	border-right: 1px solid #E2E2E2;
+	padding-right: 20px;
+	position: sticky;
+	top: 150px;
+	list-style-type: none;
+}
+
+.sidenav ul {
+	padding-left: 10px;
+}
+
+.sidenav li a {
+	padding: 20px 0;
+	color: #222;
+	display: block;
+	font-size: 18px;
+	font-weight: 500;
+}
+.sidenav > li:not(:last-child) {
+	border-bottom: 1px solid #E2E2E2;
+}
+
+.sidenav > li .active {
+	color: #3C5BFE !important;
+	position: relative;
+	margin-left: 10px;
+}
+
+.sidenav > li:has( .active) ::before{
+	position: absolute;
+	content: "";
+	left: -10px;
+	top: 25%;
+	height: 50%;
+	width: 2px;
+	background: #FF442A;
+}

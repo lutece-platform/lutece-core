@@ -11,17 +11,19 @@ Parameters:
 - showall (boolean, optional): whether to display a link to show all items on a single page (default is 0).
 
 -->
-<#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
-<@div class='d-flex justify-content-end mt-3'>
+<#macro paginationAdmin paginator class='' combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
+<#if paginator??>
+<@div class='d-flex ${class}'>
 <#if (paginator.pagesCount > 1) >
 <@paginationPageLinks paginator=paginator />
 </#if>
 <#if form == 1 >
-	<@tform type='' class='d-flex'>
-		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall />
-	</@tform>
+<@tform type='' class='d-flex w-100'>
+<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall />
+</@tform>
 <#else>
-	<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall />
+<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall />
 </#if>
 </@div>
+</#if>
 </#macro>

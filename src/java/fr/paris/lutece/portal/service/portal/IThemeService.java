@@ -60,7 +60,7 @@ public interface IThemeService
      * @param strGlobalTheme
      *            the global theme
      */
-    void setGlobalTheme( String strGlobalTheme );
+    void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion );
 
     /**
      * Get the theme given the <code>code_theme</code>
@@ -87,32 +87,7 @@ public interface IThemeService
      */
     String getUserTheme( HttpServletRequest request );
 
-    /**
-     * Creation of an instance of a theme
-     *
-     * @param theme
-     *            An instance of a theme which contains the informations to store
-     * @return The instance of a theme which has been created with its primary key.
-     */
-    Theme create( Theme theme );
-
-    /**
-     * Update of the theme which is specified
-     *
-     * @param theme
-     *            The instance of the theme which contains the data to store
-     * @return The instance of the theme which has been updated
-     */
-    Theme update( Theme theme );
-
-    /**
-     * Remove the theme whose identifier is specified in parameter
-     *
-     * @param strCodeTheme
-     *            The identifier of the theme to remove
-     */
-    void remove( String strCodeTheme );
-
+    
     /**
      * Return the list of all the themes
      *

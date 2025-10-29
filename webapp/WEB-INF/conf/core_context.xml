@@ -177,6 +177,9 @@
 
     <bean id="richTextEditorDAO" class="fr.paris.lutece.portal.business.editor.RichTextEditorDAO" />
 
+    <!-- Theme DAO -->
+    <bean id="themeDAO"  class="fr.paris.lutece.portal.business.theme.ThemeDAO" />
+
     <!-- annotation db -->
     <!-- scans WEB-INF/lib for classes within jars, and web-inf/classes for .class -->
     <bean id="annotationDB" class="fr.paris.lutece.util.annotation.ScannotationDB">
@@ -215,6 +218,10 @@
         
     <!-- Security header service --> 
     <bean id="securityHeaderService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderService" />    
+
+    <!-- Theme Service -->
+    <bean id="themeService"  class="fr.paris.lutece.portal.service.theme.ThemeService" />
+
         
     <!-- HTML Cleaners-->
     <!-- Jsoup HTML Cleaner-->
@@ -226,8 +233,19 @@
     <bean id="accessLogger" class="fr.paris.lutece.portal.service.security.impl.DefaultAccessLogger" />
     
     <!-- Site Properties Groups -->
-    <bean id="sitePropertiesGroup"
-          class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
+    <bean id="sitePropertiesGroup" class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
+
+    <bean id="themeSitePropertiesGroup" class="fr.paris.lutece.portal.service.site.properties.SitePropertiesGroup" >
+        <property name="nameKey">
+            <value>theme.site_properties.name</value>
+        </property>
+        <property name="descriptionKey">
+            <value>theme.site_properties.description</value>
+        </property>
+        <property name="keysPrefix">
+            <value>theme.site_property.</value>
+        </property>
+    </bean>
 
     <bean id="core.xpage.search" class="fr.paris.lutece.portal.web.search.SearchApp" scope="session" />
 
@@ -282,7 +300,7 @@
     <bean id="commonsBoostrap5Tabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bootstrap5Tabler" />
          <property name="default" value="true" />
-        <property name="name" value="Tabler 1.0.0" />
+        <property name="name" value="Tabler 1.4" />
         <property name="files">
             <list>
                 <value>commons_bs5_tabler.html</value>

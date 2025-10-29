@@ -1,0 +1,73 @@
+/*** 										***/
+/*** Pagination								***/
+/***  										***/
+.pagination {
+	flex-wrap: wrap;
+	margin-bottom: 2rem;
+}
+
+.page-item {
+	display: flex;
+	align-items: center;
+	margin-inline-start: var(--spacing-xs);
+}
+
+.page-item .page-link {
+	font-family: var(--font-family-list);
+	font-weight: 600;
+	font-size: var(--font-m);
+	color: var(--main-color);
+	background-color: transparent;
+	border: 0;
+	text-decoration: none;
+	line-height: 2.2rem;
+	display: flex;
+	padding: 6px var(--spacing-xs, 8px);
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: var(--spacing-l);
+	height: var(--spacing-l);
+	background-color: var(--white-light-color)
+}
+
+.page-link:hover,
+.page-link:focus,
+.page-link:active {
+	box-shadow: none;
+	background-color:var(--blue-light);
+}
+
+.page-item .page-link svg {
+	fill: var(--main-color);
+	stroke: none;
+    width: 24px;
+    height: auto;
+}
+
+.page-item.disabled .page-link svg {
+	color: var(--blue-color);
+}
+
+.page-item.active .page-link {
+	color: var(--white-color);
+	background-color: var(--main-info-color);
+}
+
+.page-link.cesure {
+	background-color: transparent;
+}
+
+#paginator-search {
+	width: 52.5%;
+	display: flex;
+}
+
+#paginator-search label {
+	flex: 2
+}
+
+#paginator-search label+select,
+#paginator-search label+.input-group {
+	flex: 1;
+}

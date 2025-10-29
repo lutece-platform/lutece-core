@@ -18,16 +18,21 @@ export default class LuteceSearchList {
       emptyMessageElement: null,
       hideClass: null,
       toggleList: false,
+      toggleDefaultState: 'list',
       toggleId: 'card-to-list',
+      toggleRow: false,
+      toggleRowSelector: '.row',
       toggleSelector: '.card',
       toggleBtnPrefix: 'btn',
       toggleBtnClass: 'primary',
+      toggleBtnClassAlign: ['d-none', 'd-sm-block'],
       toggleBtnShowXs: false,
       toggleLabel: 'Toggle List',
       toggleLabelOff: 'Toggle Cards',
       toggleIconPrefix: 'ti',
       toggleIconOn: 'ti-list',
       toggleIconOff: 'ti-cards',
+      toggleCardParentId: 'page-header-tools .mb-3',  
       toggleCardClass: ['flex-row'],  
       toggleCardHeaderClass : ['flex-column','justify-content-around','align-items-start'],  
       toggleCardFooterClass : ['d-flex','align-items-center','mt-0'],
@@ -62,21 +67,31 @@ export default class LuteceSearchList {
     }, this.options.debounceTime ));
 
     this.searchInput.addEventListener("keydown", (event) => {
-        if (event.keyCode === 13) {
+        if (event.key === "Enter") {
           event.preventDefault();
         }
     });
 
     if ( this.options.toggleList ) {
-      const cardParent = this.searchInput.closest( '#pageHeaderTools' )
-      const btnCardToList = this.setCardToListBtn( cardParent )
-      btnCardToList.addEventListener( 'click', (event) => {
-        this.searchElementList.forEach( element => {
-           this.toggleElements( element, btnCardToList  )
-        })
-      })
+      const displayType = this.getToggleState();
+      const cardParent = this.searchInput.closest( `#${this.options.toggleCardParentId}` );
+      const carRows = this.options.toggleRow ? document.querySelector( this.options.toggleRowSelector ) : null;
+      const btnCardToList = this.setCardToListBtn( cardParent );
+      
+      if( displayType === 'list' ){
+        if (carRows != null) {
+          this.displayElements( btnCardToList );
+        }
+      }
+
+      btnCardToList.addEventListener('click', (event) => {
+        if (carRows != null) {
+          this.displayElements( btnCardToList );
+        }
+      });
     }
   }
+
   /**
    * Returns the searchable content of an element as a string.
    * @param {HTMLElement} element - The element to get the searchable content for.
@@ -95,6 +110,7 @@ export default class LuteceSearchList {
       })
       .join(' ');
   }
+
   /**
    * Returns a debounced version of a function.
    * @param {Function} func - The function to debounce.
@@ -109,6 +125,7 @@ export default class LuteceSearchList {
       timeout = setTimeout(() => func.apply(context, args), wait);
     };
   }
+
   /**
    * Highlights search matches in an element's children.
    * @param {HTMLElement} element - The element to highlight search matches in.
@@ -128,6 +145,7 @@ export default class LuteceSearchList {
       });
     });
   }
+
   /**
    * Removes highlighting from an element's children.
    * @private
@@ -142,8 +160,9 @@ export default class LuteceSearchList {
       });
     });
   }
+
   /**
-   * Removes highlighting from an element's children.
+   * Add button to toggle between card and list view.
    * @private
    * @param {HTMLElement} element - The element to remove highlighting from.
    */
@@ -151,28 +170,29 @@ export default class LuteceSearchList {
     const btnToggler = document.createElement("button");
     const iconToggler = document.createElement('i');
     btnToggler.classList.add( this.options.toggleBtnPrefix, `${this.options.toggleBtnPrefix}-${this.options.toggleBtnClass}` )
-    btnToggler.setAttribute( 'id', this.options.toggleList )
+    btnToggler.setAttribute( 'id', this.options.toggleId )
     btnToggler.setAttribute( 'aria-label', this.options.toggleLabel )
     btnToggler.setAttribute( 'title', this.options.toggleLabel )
-    if( !this.options.toggleBtnShowXs ){ btnToggler.classList.add( 'd-none','d-sm-block' ) }
+    if( !this.options.toggleBtnShowXs ){ btnToggler.classList.add( ...this.options.toggleBtnClassAlign ) }
     iconToggler.classList.add( this.options.toggleIconPrefix, this.options.toggleIconOn )
     btnToggler.appendChild( iconToggler )
     element.appendChild( btnToggler )
     return btnToggler
   }
-  
+
   /**
-   * Removes highlighting from an element's children.
+   * Toggles  display between card and list view.
    * @private
    * @param {HTMLElement} element - The element to remove highlighting from.
+   * @param {HTMLElement} btn - The button element to update.
    */
   toggleElements( element, btn ) {
     const icon = btn.querySelector( `.${this.options.toggleIconPrefix}` )
     const status = element.classList.length == 0
-    if ( !status ){
+     if ( !status ){
       icon.classList.add( this.options.toggleIconOff  )
       icon.classList.remove( this.options.toggleIconOn )
-      element.setAttribute( 'data-classes', element.classList )
+      element.setAttribute( 'data-classes', element.className )
       btn.setAttribute('aria-label', this.options.toggleLabelOff )
       btn.setAttribute('title', this.options.toggleLabelOff )
       element.className = '';
@@ -181,18 +201,19 @@ export default class LuteceSearchList {
       icon.classList.add( this.options.toggleIconOn )
       btn.setAttribute('title', this.options.toggleLabel )
       btn.setAttribute('aria-label', this.options.toggleLabel )
-      const aClass = element.getAttribute('data-classes').split(' ')
-      aClass.forEach( (c) => { 
-        element.classList.add( c );
-      })
+      const aClass = element.getAttribute('data-classes')
+      element.className=aClass;
     }
     const cards = element.querySelectorAll( this.options.toggleSelector )
     this.toggleCardElements( cards, status )
+    this.saveToggleState( status )
   }
+
   /**
-   * Removes highlighting from an element's children.
+   * Toggles cards display between card and list view.
    * @private
    * @param {HTMLElement} element - The element to remove highlighting from.
+   * @param {boolean} status - The current display status.
    */
   toggleCardElements( elements, status ) {
     elements.forEach( card => {
@@ -221,7 +242,6 @@ export default class LuteceSearchList {
           this.options.toggleCardFooterClass.forEach( ( f ) => { 
             cardFooter.classList.add( f );
           })
-
         } else {
           this.options.toggleCardFooterClass.forEach( ( f ) => { 
             cardFooter.classList.remove( f );
@@ -229,5 +249,50 @@ export default class LuteceSearchList {
         }
       })
     })
+  }
+
+  /**
+  * Set Element display
+  * @private
+  * @param {HTMLElement} btn - The button element to update.
+  */
+  displayElements( btn ){
+      const mainRow = document.querySelector(this.options.toggleRowSelector);
+      // Remove class starting with 'row-cols' and save it
+      if ( mainRow.getAttribute( 'data-classes' ) === null ) {
+        mainRow.setAttribute( 'data-classes', mainRow.className )
+        mainRow.className = 'row';
+      } else {
+        mainRow.className = mainRow.getAttribute( 'data-classes' );
+        mainRow.removeAttribute( 'data-classes' )
+      }  
+
+      this.searchElementList.forEach(element => {
+        this.toggleElements(element, btn );
+      });
+  }
+
+  /**
+   * Save  toggle state 
+   * @private
+   * @param {HTMLElement} element - The element to remove highlighting from.
+   */
+  saveToggleState( toggled ) {
+    const toggleState = toggled ? 'card' : 'list';
+    localStorage.setItem( this.options.toggleId, toggleState );
+  }
+
+  /**
+   * Retrieve toggle state 
+   * @private
+   * @param {HTMLElement} element - The element to remove highlighting from.
+   */
+  getToggleState( ) {
+    const tgState = localStorage.getItem( this.options.toggleId );
+    if( tgState != null ) {
+      return tgState;
+    } else {
+      return  this.options.toggleDefaultState;
+    }
   }
 }

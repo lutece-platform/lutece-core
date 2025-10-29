@@ -71,6 +71,7 @@ public final class AppTemplateService
     {
         _strTemplateDefaultPath = strTemplatePath;
         getFreeMarkerTemplateService( ).setSharedVariable( "i18n", new I18nTemplateMethod( ) );
+        
     }
 
     /**
