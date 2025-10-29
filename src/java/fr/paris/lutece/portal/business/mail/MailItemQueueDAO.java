@@ -114,7 +114,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
      *            the mail item
      */
     @Override
-    public synchronized void insert( MailItemQueue mailItemQueue )
+    public void insert( MailItemQueue mailItemQueue )
     {
         try
         {

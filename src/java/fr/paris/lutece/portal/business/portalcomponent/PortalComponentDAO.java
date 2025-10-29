@@ -59,7 +59,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     /**
      * {@inheritDoc}
      */
-    public synchronized void insert( PortalComponent portalComponent )
+    public void insert( PortalComponent portalComponent )
     {
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {

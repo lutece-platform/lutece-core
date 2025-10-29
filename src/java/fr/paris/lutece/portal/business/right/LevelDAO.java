@@ -87,7 +87,7 @@ public final class LevelDAO implements ILevelDAO
      * @param level
      *            The level object
      */
-    public synchronized void insert( Level level )
+    public void insert( Level level )
     {
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {

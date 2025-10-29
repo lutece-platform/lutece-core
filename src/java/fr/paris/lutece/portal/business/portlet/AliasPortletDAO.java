@@ -63,7 +63,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     /**
      * {@inheritDoc}
      */
-    public synchronized void insert( Portlet portlet )
+    public void insert( Portlet portlet )
     {
         AliasPortlet alias = (AliasPortlet) portlet;
 

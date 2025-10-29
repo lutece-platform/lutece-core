@@ -33,11 +33,14 @@
  */
 package fr.paris.lutece.portal.business.stylesheet;
 
+import java.io.Serializable;
+
 /**
  * This class represents business StyleSheet objects
  */
-public class StyleSheet
+public class StyleSheet implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static final String EMPTY_STRING = "";
     private int _nId;
     private int _nStyleId;

@@ -40,12 +40,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
+import fr.paris.lutece.portal.service.cache.Default107Cache;
+import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
@@ -65,7 +68,6 @@ public final class PluginService
     private static final String DEFAULT_PATH_CONF = "/WEB-INF/conf/";
     private static final String CORE_XML = "core.xml";
     private static final String CORE = "core";
-    private static Plugin _pluginCore;
     private static final String PATH_PLUGIN = "path.plugins";
     private static final String DEFAULT_PLUGINS_PATH_CONF = "/WEB-INF/plugins/";
     private static final String FILE_PLUGINS_STATUS = "plugins.dat";
@@ -75,9 +77,12 @@ public final class PluginService
     private static final String KEY_PLUGINS_STATUS = "core.plugins.status.";
     private static final String KEY_UNINSTALLED_PLUGIN = "plugins.uninstalled.";
 
-    // Variables
-    private static Map<String, Plugin> _mapPlugins = new HashMap<>( );
+    // This map holds information associated only with the current instance and not shared across other instances.
+    private static Map<String, PluginData> _mapPluginData = new HashMap<>( );
 
+    private static Lutece107Cache<String, Plugin> _pluginCache;
+
+    
     /**
      * Creates a new PluginService object.
      */
@@ -93,8 +98,17 @@ public final class PluginService
      */
     public static void init( ) throws LuteceInitException
     {
-        loadPluginsStatus( );
-        _mapPlugins.clear( );
+    	loadPluginsStatus( );
+
+    	if( _pluginCache == null || _pluginCache.isClosed( )) {
+    		
+    		_pluginCache = new Default107Cache<>( "pluginCache", String.class, Plugin.class, true );
+    	
+    	}else {
+            _pluginCache.clear( );
+    	}
+    	
+        //_mapPlugins.clear( );
         loadCoreComponents( );
         loadPlugins( );
     }
@@ -106,7 +120,10 @@ public final class PluginService
      */
     public static Collection<Plugin> getPluginList( )
     {
-        return new TreeSet<>( _mapPlugins.values( ) );
+    	return StreamSupport.stream(_pluginCache.spliterator(), false)
+    		    .filter(entry -> !CORE.equals(entry.getKey()))
+    		    .map(Lutece107Cache.Entry::getValue)
+    		    .collect(Collectors.toList());
     }
 
     /**
@@ -118,7 +135,7 @@ public final class PluginService
      */
     public static Plugin getPlugin( String strPluginName )
     {
-        return _mapPlugins.get( strPluginName );
+    	return _pluginCache.get(strPluginName);
     }
 
     /**
@@ -196,7 +213,6 @@ public final class PluginService
                 else
                 {
                     plugin.setStatus( true );
-                    registerCore( plugin );
                 }
 
                 // If the plugin requires a database connection pool then
@@ -207,11 +223,15 @@ public final class PluginService
                     plugin.setPoolName( strPoolName );
                     plugin.initConnectionService( strPoolName );
                 }
+                
                 plugin.init( );
+                _pluginCache.put(plugin.getName( ), plugin);
 
                 // plugin installed event
-                PluginEvent event = new PluginEvent( plugin, PluginEvent.PLUGIN_INSTALLED );
-                CDI.current( ).getBeanManager( ).getEvent( ).fire( event );
+                if( plugin.isInstalled()) {
+                	PluginEvent event = new PluginEvent( plugin, PluginEvent.PLUGIN_INSTALLED );
+                	CDI.current( ).getBeanManager( ).getEvent( ).fire( event );
+                }
             }
             catch( Exception e )
             {
@@ -232,23 +252,10 @@ public final class PluginService
      */
     private static void registerPlugin( Plugin plugin )
     {
-        _mapPlugins.put( plugin.getName( ), plugin );
-
+        //_mapPlugins.put( plugin.getName( ), plugin );
         String strStatusWarning = ( plugin.isInstalled( ) ) ? "" : " *** Warning : current status is 'disabled' ***";
         AppLogService.info( "New Plugin registered : {} {}", plugin.getName( ), strStatusWarning );
     }
-
-    /**
-     * Gets the core plugin
-     * 
-     * @param plugin
-     *            the plugin
-     */
-    private static synchronized void registerCore( Plugin plugin )
-    {
-        _pluginCore = plugin;
-    }
-
     /**
      * Gets the core.
      *
@@ -256,7 +263,8 @@ public final class PluginService
      */
     public static Plugin getCore( )
     {
-        return _pluginCore;
+    	return _pluginCache.get(CORE);
+        //return _pluginCore;
     }
 
     /**
@@ -275,6 +283,7 @@ public final class PluginService
         {
             DatastoreService.setInstanceDataValue( getPoolNameKey( plugin.getName( ) ), plugin.getDbPoolName( ) );
         }
+        _pluginCache.put(plugin.getName( ), plugin);
     }
 
     /**
@@ -405,5 +414,20 @@ public final class PluginService
         Plugin plugin = getPlugin( strPluginName );
 
         return ( ( plugin != null ) && ( plugin.isInstalled( ) ) );
+    }
+    /**
+     * Add plginData object
+     * @param pluginData
+     */
+    public static void addPluginData(PluginData pluginData) {
+    	_mapPluginData.put(pluginData.getPluginName(), pluginData);
+    }
+    /**
+     * Get pluginData object
+     * @param pluginName the plugin name
+     * @return the pluginData object
+     */
+    public static PluginData getPluginData(String pluginName) {
+    	return _mapPluginData.get(pluginName);
     }
 }

@@ -99,7 +99,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private List<ErrorMessage> _listInfos = new ArrayList<>( );
     private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
-    private HttpServletResponse _response;
+    private transient HttpServletResponse _response;
     @Inject
     private SecurityTokenHandler _securityTokenHandler;
     @Inject 
@@ -268,7 +268,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      * @throws InvocationTargetException if the underlying method throws an exception
      */
      private void processResponseBody(Method m, HttpServletRequest request) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-         HttpServletResponse response = LocalVariables.getResponse();
+         HttpServletResponse response = _response;
          Object[] args = getServletParameterBinder().bindParameters(request, m);
          getValidationService().validateParameters(this, m, args);
 

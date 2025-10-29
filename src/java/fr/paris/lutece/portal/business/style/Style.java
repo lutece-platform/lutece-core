@@ -33,17 +33,18 @@
  */
 package fr.paris.lutece.portal.business.style;
 
+import java.io.Serializable;
+
 import fr.paris.lutece.portal.web.constants.Messages;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 /**
  * This class represents style business objects
  */
-public class Style
+public class Style implements Serializable
 {
+    private static final long serialVersionUID = 1L;
     private static final String EMPTY_STRING = "";
 
     @Positive( message = "#i18n{portal.style.message.createStyle.InvalidIdFormat}")

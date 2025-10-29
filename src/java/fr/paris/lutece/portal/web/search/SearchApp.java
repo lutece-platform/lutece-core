@@ -65,7 +65,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.enterprise.event.Event;
 import jakarta.enterprise.inject.Instance;
 import jakarta.inject.Inject;
@@ -76,7 +76,7 @@ import jakarta.servlet.http.HttpServletRequest;
 /**
  * This class provides search results pages.
  */
-@SessionScoped
+@RequestScoped
 @Named("core.xpage.search")
 public class SearchApp implements XPageApplication
 {
@@ -121,7 +121,6 @@ public class SearchApp implements XPageApplication
     @Inject
     @Named("sponsoredlinks.sponsoredLinksService")
     private Instance<ISponsoredLinksService> _sponsoredLinksService;
-
 
     /**
      * Returns search results

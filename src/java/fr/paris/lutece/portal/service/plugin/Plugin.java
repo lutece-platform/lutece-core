@@ -68,11 +68,10 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,7 +83,7 @@ import org.apache.commons.collections.CollectionUtils;
 /**
  * This class is the general plugin element
  */
-public abstract class Plugin implements Comparable<Plugin>
+public abstract class Plugin implements Comparable<Plugin>, Serializable
 {
     // Constantes
     public static final int PLUGIN_TYPE_FEATURE = 0x01;
@@ -112,35 +111,11 @@ public abstract class Plugin implements Comparable<Plugin>
     private String _strMaxCoreVersion;
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
-    private ContentService _contentService;
     private String _strCssStylesheetsScope;
     private String _strJavascriptFilesScope;
 
-    // Lists of rights and portlets of the plugin
-    private List<XPageApplicationEntry> _listXPageApplications;
-    private List<FilterEntry> _listFilters;
-    private List<ServletEntry> _listServlets;
-    private List<HttpSessionListenerEntry> _listListeners;
-    private Map<Integer, List<String>> _listCssStyleSheets;
-    private Map<Integer, List<String>> _listJavascriptFiles;
-    private List<String> _listAdminCssStyleSheets;
-    private List<String> _listAdminJavascriptFiles;
-    private List<Right> _listRights;
-    private List<PortletType> _listPortletTypes;
-    private List<ContentServiceEntry> _listContentServices;
-    private List<SearchIndexerEntry> _listSearchIndexers;
-    private List<InsertService> _listInsertServices;
-    private List<PageIncludeEntry> _listPageIncludes;
-    private List<DashboardComponentEntry> _listDashboardComponents;
-    private List<DashboardComponentEntry> _listAdminDashboardComponents;
-    private List<RBACResourceTypeEntry> _listRBACResourceTypes;
-    private List<DaemonEntry> _listDaemons;
-    private List<String> _listFreemarkerAutoIncludes;
-    private Map<String,String> _mapFreemarkerAutoImports;
-
-    // hashtable which contains all the params described in the xml plugin file
-    private Map<String, String> _mapParams = new HashMap<>( );
-    private PluginConnectionService _connectionService;
+    private boolean _bHasContentServices;
+    private boolean _bhasDaemons;
 
     /**
      * Initializes the plugin at the first load
@@ -173,58 +148,42 @@ public abstract class Plugin implements Comparable<Plugin>
             _strPluginClass = pluginFile.getPluginClass( );
             _strMinCoreVersion = pluginFile.getMinCoreVersion( );
             _strMaxCoreVersion = pluginFile.getMaxCoreVersion( );
-            _listXPageApplications = pluginFile.getXPageApplications( );
-            _listFilters = pluginFile.getFilters( );
-            _listServlets = pluginFile.getServlets( );
-            _listListeners = pluginFile.getListeners( );
-            _listRights = pluginFile.getRights( );
-            _listPortletTypes = pluginFile.getPortletTypes( );
-            _listContentServices = pluginFile.getContentServices( );
-            _listInsertServices = pluginFile.getInsertServices( );
-            _listSearchIndexers = pluginFile.getSearchIndexers( );
-            _listPageIncludes = pluginFile.getPageIncludes( );
-            _listDashboardComponents = pluginFile.getDashboardComponents( );
-            _listAdminDashboardComponents = pluginFile.getAdminDashboardComponents( );
-            _listRBACResourceTypes = pluginFile.getRBACResourceTypes( );
-            _listDaemons = pluginFile.getDaemons( );
-            _mapParams = pluginFile.getParams( );
             _bDbPoolRequired = pluginFile.isDbPoolRequired( );
-
-            _listCssStyleSheets = pluginFile.getCssStyleSheetsForAllModes( );
             _strCssStylesheetsScope = ( pluginFile.getCssStylesheetsScope( ) != null ) ? pluginFile.getCssStylesheetsScope( ) : SCOPE_XPAGE;
-            _listJavascriptFiles = pluginFile.getJavascriptFilesForAllModes( );
             _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope( ) != null ) ? pluginFile.getJavascriptFilesScope( ) : SCOPE_XPAGE;
-            _listFreemarkerAutoIncludes = pluginFile.getFreemarkerAutoIncludes( );
-            _mapFreemarkerAutoImports = pluginFile.getFreemarkerAutoImports( );
-            _listAdminCssStyleSheets = pluginFile.getAdminCssStyleSheets( );
-            _listAdminJavascriptFiles = pluginFile.getAdminJavascriptFiles( );
+
+        	PluginData pluginData= new PluginData( pluginFile.getName( ) );
+            pluginData.setXPageApplications(pluginFile.getXPageApplications( ));
+            pluginData.setRights(pluginFile.getRights( ));
+            pluginData.setInsertServices(pluginFile.getInsertServices( ));
+            pluginData.setParams(pluginFile.getParams( ));
+            pluginData.setPortletTypes(pluginFile.getPortletTypes( ));
+            pluginData.setCssStyleSheets(pluginFile.getCssStyleSheetsForAllModes( ));
+            pluginData.setJavascriptFiles(pluginFile.getJavascriptFilesForAllModes( ));
+            pluginData.setFreemarkerAutoImports(pluginFile.getFreemarkerAutoImports( ));
+            pluginData.setFreemarkerAutoIncludes(pluginFile.getFreemarkerAutoIncludes( ));
+            pluginData.setAdminCssStyleSheets(pluginFile.getAdminCssStyleSheets( ));
+            pluginData.setAdminJavascriptFiles(pluginFile.getAdminJavascriptFiles( ));
+            
+            registerPluginData( pluginData );            
             // Register plugin components
             registerXPageApplications( );
-            registerFilters( );
-            registerServlets( );
-            registerListeners( );
-            registerContentServices( );
+            registerFilters( pluginFile.getFilters( ) );
+            registerServlets( pluginFile.getServlets( ) );
+            registerListeners( pluginFile.getListeners( ) );
+            registerContentServices( pluginFile.getContentServices( ) );
             registerInsertServices( );
-            registerSearchIndexers( );
-            registerPageIncludes( );
-            registerDashboardComponents( );
-            registerAdminDashboardComponents( );
-            registerRBACResourceTypes( );
-            registerDaemons( );
+            registerSearchIndexers(pluginFile.getSearchIndexers( ) );
+            registerPageIncludes( pluginFile.getPageIncludes( ) );
+            registerDashboardComponents( pluginFile.getDashboardComponents( ) );
+            registerAdminDashboardComponents(pluginFile.getAdminDashboardComponents( ) );
+            registerRBACResourceTypes( pluginFile.getRBACResourceTypes( ) );
+            registerDaemons( pluginFile.getDaemons( ) );
         }
         catch( Exception e )
         {
             throw new LuteceInitException( "Error loading plugin : " + e.getMessage( ), e );
         }
-    }
-
-    /**
-     *
-     * @return the content service
-     */
-    public ContentService getContentService( )
-    {
-        return _contentService;
     }
 
     /**
@@ -234,7 +193,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public boolean hasPortlets( )
     {
-        return CollectionUtils.isNotEmpty( _listPortletTypes );
+        return CollectionUtils.isNotEmpty( PluginService.getPluginData( this._strName ).getPortletTypes( ) );
     }
 
     /**
@@ -244,17 +203,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public boolean hasDaemons( )
     {
-        return CollectionUtils.isNotEmpty( _listDaemons );
-    }
-
-    /**
-     * Returns The daemons list of the plugin.
-     *
-     * @return The daemons list of the plugin
-     */
-    public List<DaemonEntry> getDaemons( )
-    {
-        return _listDaemons;
+        return _bhasDaemons;
     }
 
     /**
@@ -285,7 +234,7 @@ public abstract class Plugin implements Comparable<Plugin>
     public void updatePoolName( String strPoolName )
     {
         _strDbPoolName = strPoolName;
-        _connectionService.setPool( strPoolName );
+        PluginService.getPluginData( this._strName ).getConnectionService( ).setPool(strPoolName);
         update( );
 
         notifyListeners( PluginEvent.PLUGIN_POOL_CHANGED );
@@ -318,7 +267,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void registerRights( )
     {
-        for ( Right right : _listRights )
+        for ( Right right : PluginService.getPluginData( this._strName ).getRights( ) )
         {
             RightHome.remove( right.getId( ) );
 
@@ -334,7 +283,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void unregisterRights( )
     {
-        for ( Right right : _listRights )
+        for ( Right right : PluginService.getPluginData( this._strName ).getRights( ) )
         {
             if ( ( right != null ) && ( !( right.getId( ).equals( "" ) ) ) )
             {
@@ -348,7 +297,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void registerPortlets( )
     {
-        for ( PortletType portletType : _listPortletTypes )
+        for ( PortletType portletType : PluginService.getPluginData( this._strName ).getPortletTypes( ) )
         {
             PortletTypeHome.remove( portletType.getId( ) );
 
@@ -364,7 +313,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void unregisterPortlets( )
     {
-        for ( PortletType portletType : _listPortletTypes )
+        for ( PortletType portletType : PluginService.getPluginData( this._strName ).getPortletTypes( ) )
         {
             PortletTypeHome.remove( portletType.getId( ) );
         }
@@ -378,7 +327,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void registerXPageApplications( ) throws LuteceInitException
     {
-        for ( XPageApplicationEntry entry : _listXPageApplications )
+        for ( XPageApplicationEntry entry : PluginService.getPluginData( this._strName ).getXPageApplications( ) )
         {
             entry.setPluginName( getName( ) );
             XPageAppService.registerXPageApplication( entry );
@@ -391,10 +340,10 @@ public abstract class Plugin implements Comparable<Plugin>
      * @throws LuteceInitException
      *             If an error occurs
      */
-    protected void registerFilters( ) throws LuteceInitException
+    protected void registerFilters( List<FilterEntry> listFilters ) throws LuteceInitException
     {
     	FilterService filterService = CDI.current( ).select( FilterService.class ).get( );
-        for ( FilterEntry entry : _listFilters )
+        for ( FilterEntry entry : listFilters )
         {
             filterService.registerFilter( entry, this );
         }
@@ -406,10 +355,10 @@ public abstract class Plugin implements Comparable<Plugin>
      * @throws LuteceInitException
      *             If an error occurs
      */
-    protected void registerServlets( ) throws LuteceInitException
+    protected void registerServlets( List<ServletEntry> listServlets) throws LuteceInitException
     {
     	ServletService servletService = CDI.current( ).select( ServletService.class ).get( );
-        for ( ServletEntry entry : _listServlets )
+        for ( ServletEntry entry : listServlets )
         {
             servletService.registerServlet( entry, this );
         }
@@ -421,9 +370,9 @@ public abstract class Plugin implements Comparable<Plugin>
      * @throws LuteceInitException
      *             if an error occurs
      */
-    protected void registerListeners( ) throws LuteceInitException
+    protected void registerListeners( List<HttpSessionListenerEntry> listListeners) throws LuteceInitException
     {
-        for ( HttpSessionListenerEntry entry : _listListeners )
+        for ( HttpSessionListenerEntry entry : listListeners )
         {
             HttpSessionListenerService.registerListener( entry );
         }
@@ -435,9 +384,10 @@ public abstract class Plugin implements Comparable<Plugin>
      * @throws LuteceInitException
      *             If an error occurs
      */
-    protected void registerContentServices( ) throws LuteceInitException
+    protected void registerContentServices(List<ContentServiceEntry> listContentServices) throws LuteceInitException
     {
-        for ( ContentServiceEntry entry : _listContentServices )
+    	_bHasContentServices= CollectionUtils.isNotEmpty( listContentServices );
+        for ( ContentServiceEntry entry : listContentServices )
         {
             try
             {
@@ -462,7 +412,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     protected void registerInsertServices( ) throws LuteceInitException
     {
-        for ( InsertService is : _listInsertServices )
+        for ( InsertService is : PluginService.getPluginData( this._strName ).getInsertServices( ) )
         {
             is.setPluginName( getName( ) );
             InsertServiceManager.registerInsertService( is );
@@ -475,9 +425,9 @@ public abstract class Plugin implements Comparable<Plugin>
      * @throws LuteceInitException
      *             If an error occurs
      */
-    protected void registerSearchIndexers( ) throws LuteceInitException
+    protected void registerSearchIndexers( List<SearchIndexerEntry> listSearchIndexers ) throws LuteceInitException
     {
-        for ( SearchIndexerEntry entry : _listSearchIndexers )
+        for ( SearchIndexerEntry entry : listSearchIndexers )
         {
             try
             {
@@ -497,9 +447,9 @@ public abstract class Plugin implements Comparable<Plugin>
      * @throws LuteceInitException
      *             If an error occured
      */
-    protected void registerPageIncludes( ) throws LuteceInitException
+    protected void registerPageIncludes( List<PageIncludeEntry> listPageIncludes) throws LuteceInitException
     {
-        for ( PageIncludeEntry entry : _listPageIncludes )
+        for ( PageIncludeEntry entry : listPageIncludes )
         {
             entry.setPluginName( getName( ) );
             PageIncludeService.registerPageInclude( entry );
@@ -512,10 +462,10 @@ public abstract class Plugin implements Comparable<Plugin>
      * @throws LuteceInitException
      *             If an error occured
      */
-    protected void registerDashboardComponents( ) throws LuteceInitException
+    protected void registerDashboardComponents( List<DashboardComponentEntry>  listDashboardComponents) throws LuteceInitException
     {
     	DashboardService dashboardService = CDI.current( ).select( DashboardService.class ).get( );    	
-        for ( DashboardComponentEntry entry : _listDashboardComponents )
+        for ( DashboardComponentEntry entry : listDashboardComponents )
         {
             dashboardService.registerDashboardComponent( entry, this );
         }
@@ -527,10 +477,10 @@ public abstract class Plugin implements Comparable<Plugin>
      * @throws LuteceInitException
      *             If an error occured
      */
-    protected void registerAdminDashboardComponents( ) throws LuteceInitException
+    protected void registerAdminDashboardComponents( List<DashboardComponentEntry> listAdminDashboardComponents ) throws LuteceInitException
     {
     	AdminDashboardService adminDashboardService = CDI.current( ).select( AdminDashboardService.class ).get( );    	
-        for ( DashboardComponentEntry entry : _listAdminDashboardComponents )
+        for ( DashboardComponentEntry entry : listAdminDashboardComponents )
         {
             adminDashboardService.registerDashboardComponent( entry, this );
         }
@@ -542,9 +492,9 @@ public abstract class Plugin implements Comparable<Plugin>
      * @throws LuteceInitException
      *             If an error occurs
      */
-    protected void registerRBACResourceTypes( ) throws LuteceInitException
+    protected void registerRBACResourceTypes( List<RBACResourceTypeEntry>  listRBACResourceTypes ) throws LuteceInitException
     {
-        for ( RBACResourceTypeEntry entry : _listRBACResourceTypes )
+        for ( RBACResourceTypeEntry entry : listRBACResourceTypes )
         {
             ResourceIdService ris;
 
@@ -567,9 +517,10 @@ public abstract class Plugin implements Comparable<Plugin>
      * @throws LuteceInitException
      *             If an error occurs
      */
-    protected void registerDaemons( ) throws LuteceInitException
+    protected void registerDaemons( List<DaemonEntry> listDaemons ) throws LuteceInitException
     {
-        for ( DaemonEntry entry : _listDaemons )
+    	_bhasDaemons = CollectionUtils.isNotEmpty( listDaemons );
+        for ( DaemonEntry entry : listDaemons )
         {
             entry.setPluginName( getName( ) );
             AppDaemonService.registerDaemon( entry );
@@ -643,32 +594,32 @@ public abstract class Plugin implements Comparable<Plugin>
         // Load the Type
         int nPluginTypeFlags = 0;
 
-        if ( CollectionUtils.isNotEmpty( _listXPageApplications ) )
+        if ( CollectionUtils.isNotEmpty( PluginService.getPluginData( this._strName ).getXPageApplications( ) ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_APPLICATION;
         }
 
-        if ( CollectionUtils.isNotEmpty( _listPortletTypes ) )
+        if ( CollectionUtils.isNotEmpty( PluginService.getPluginData( this._strName ).getPortletTypes( ) ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_PORTLET;
         }
 
-        if ( CollectionUtils.isNotEmpty( _listRights ) )
+        if ( CollectionUtils.isNotEmpty( PluginService.getPluginData( this._strName ).getRights( ) ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_FEATURE;
         }
 
-        if ( CollectionUtils.isNotEmpty( _listInsertServices ) )
+        if ( CollectionUtils.isNotEmpty( PluginService.getPluginData( this._strName ).getInsertServices( ) ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_INSERTSERVICE;
         }
 
-        if ( CollectionUtils.isNotEmpty( _listContentServices ) )
+        if ( _bHasContentServices )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_CONTENTSERVICE;
         }
 
-        if ( CollectionUtils.isNotEmpty( _listDaemons ) )
+        if ( _bhasDaemons )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_DAEMON;
         }
@@ -683,18 +634,9 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public List<InsertService> getInsertServices( )
     {
-        return _listInsertServices;
+        return PluginService.getPluginData( this._strName ).getInsertServices( );
     }
 
-    /**
-     * Returns the list of Content services of the plugin
-     *
-     * @return the plugin list of ContentServiceEntry
-     */
-    public List<ContentServiceEntry> getContentServices( )
-    {
-        return _listContentServices;
-    }
 
     /**
      * Returns the list of XPage Applications of the plugin
@@ -703,7 +645,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public List<XPageApplicationEntry> getApplications( )
     {
-        return _listXPageApplications;
+        return PluginService.getPluginData( this._strName ).getXPageApplications( );
     }
 
     /**
@@ -713,18 +655,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public List<PortletType> getPortletTypes( )
     {
-        return _listPortletTypes;
-    }
-
-    /**
-     * Sets the list of portlet type
-     *
-     * @param listPortletTypes
-     *            The portlet type list
-     */
-    public void setPortletTypes( List<PortletType> listPortletTypes )
-    {
-        _listPortletTypes = listPortletTypes;
+        return PluginService.getPluginData( this._strName ).getPortletTypes( );
     }
 
     /**
@@ -734,19 +665,9 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public List<Right> getRights( )
     {
-        return _listRights;
+        return PluginService.getPluginData( this._strName ).getRights( );
     }
 
-    /**
-     * Sets plugin rights list
-     *
-     * @param listRights
-     *            The rights list
-     */
-    public void setRights( List<Right> listRights )
-    {
-        _listRights = listRights;
-    }
 
     /**
      * Returns the name of the plugin
@@ -1028,7 +949,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public PluginConnectionService getConnectionService( )
     {
-        return _connectionService;
+        return PluginService.getPluginData( this._strName ).getConnectionService( );
     }
 
     /**
@@ -1039,7 +960,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public void setConnectionService( PluginConnectionService connectionService )
     {
-        _connectionService = connectionService;
+    	PluginService.getPluginData( this._strName ).setConnectionService(connectionService);
     }
 
     /**
@@ -1050,7 +971,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public void initConnectionService( String strPoolName )
     {
-        _connectionService = new PluginConnectionService( strPoolName );
+    	PluginService.getPluginData( this._strName ).setConnectionService(new PluginConnectionService( strPoolName ));
     }
 
     /**
@@ -1060,7 +981,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public Map<String, String> getParams( )
     {
-        return _mapParams;
+        return PluginService.getPluginData( this._strName ).getParams( );
     }
 
     /**
@@ -1072,41 +993,13 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public String getParamValue( String strParamName )
     {
-        if ( !_mapParams.containsKey( strParamName ) )
+        if ( !PluginService.getPluginData( this._strName ).getParams( ).containsKey( strParamName ) )
         {
             return null;
         }
 
-        return _mapParams.get( strParamName );
+        return PluginService.getPluginData( this._strName ).getParams( ).get( strParamName );
     }
-
-    /**
-     * Sets parameters values with an hashtable
-     * 
-     * @param mapParams
-     *            The parameter map
-     */
-    public void setParams( Map<String, String> mapParams )
-    {
-        _mapParams = mapParams;
-    }
-
-    /**
-     * Sets a parameter value for a given parameter name
-     * 
-     * @param strParamName
-     *            The name of the parameter
-     * @param strParamValue
-     *            The value of the parameter
-     */
-    public void setParamValue( String strParamName, String strParamValue )
-    {
-        if ( _mapParams.containsKey( strParamName ) )
-        {
-            _mapParams.put( strParamName, strParamValue );
-        }
-    }
-
     /**
      * Implementation of the Comparable interface.
      * 
@@ -1143,8 +1036,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public List<String> getCssStyleSheets( )
     {
-        List<String> res = _listCssStyleSheets.get( null );
-
+        List<String> res = PluginService.getPluginData( this._strName ).getCssStyleSheets().get( null );        		
         if ( res == null )
         {
             return Collections.emptyList( );
@@ -1163,8 +1055,8 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public List<String> getCssStyleSheets( int mode )
     {
-        List<String> res = _listCssStyleSheets.get( mode );
-
+        List<String> res = PluginService.getPluginData( this._strName ).getCssStyleSheets( ).get( mode );
+        		
         if ( res == null )
         {
             return Collections.emptyList( );
@@ -1186,26 +1078,13 @@ public abstract class Plugin implements Comparable<Plugin>
     }
 
     /**
-     * Add an Javascript File to the plugin definition, not associated with a mode
-     * 
-     * @param strJavascriptFile
-     *            The Javascript File path
-     */
-    public void addJavascriptFile( String strJavascriptFile )
-    {
-        List<String> files = _listJavascriptFiles.computeIfAbsent( null, s -> new ArrayList<>( ) );
-        files.add( strJavascriptFile );
-    }
-
-    /**
      * Returns all Javascript File of the plugin with no mode associated
      * 
      * @return The list of Javascript File with no mode associated
      */
     public List<String> getJavascriptFiles( )
     {
-        List<String> res = _listJavascriptFiles.get( null );
-
+        List<String> res = PluginService.getPluginData( this._strName ).getJavascriptFiles( ).get( null );        		
         if ( res == null )
         {
             return Collections.emptyList( );
@@ -1224,8 +1103,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public List<String> getJavascriptFiles( int mode )
     {
-        List<String> res = _listJavascriptFiles.get( mode );
-
+        List<String> res = PluginService.getPluginData( this._strName ).getJavascriptFiles().get( mode );
         if ( res == null )
         {
             return Collections.emptyList( );
@@ -1282,7 +1160,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public List<String> getAdminCssStyleSheets( )
     {
-        return _listAdminCssStyleSheets;
+    	return PluginService.getPluginData( this._strName ).getAdminCssStyleSheets( );
     }
 
     /**
@@ -1293,41 +1171,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public List<String> getAdminJavascriptFiles( )
     {
-        return _listAdminJavascriptFiles;
-    }
-
-    /**
-     * Adds a that file that will be autoincluded in freemarker templates
-     * 
-     * @param strMacroFileName
-     *            the file name
-     */
-    @Deprecated
-    public void addFreemarkerMacrosFile( String strMacroFileName )
-    {
-        _listFreemarkerAutoIncludes.add( strMacroFileName );
-    }
-
-    /**
-     * Gets the free marker macros files.
-     *
-     * @return the free marker macros files
-     */
-    @Deprecated
-    public List<String> getFreeMarkerMacrosFiles( )
-    {
-        return _listFreemarkerAutoIncludes;
-    }
-
-    /**
-     * Adds a file that will be autoincluded in freemarker templates
-     * 
-     * @param strFileName
-     *            the file name
-     */
-    public void addFreemarkerAutoInclude( String strFileName )
-    {
-        _listFreemarkerAutoIncludes.add( strFileName );
+    	return PluginService.getPluginData( this._strName ).getAdminJavascriptFiles( );
     }
 
     /**
@@ -1337,21 +1181,9 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public List<String> getFreeMarkerAutoIncludes( )
     {
-        return _listFreemarkerAutoIncludes;
+    	return PluginService.getPluginData( this._strName ).getFreemarkerAutoIncludes( );
     }
 
-    /**
-     * Adds a file that will be autoimported in freemarker templates
-     * 
-     * @param strNamespace
-     *            The namespace corresponding to the import file
-     * @param strFileName
-     *            the file name
-     */
-    public void addFreemarkerAutoImport( String strNamespace, String strFileName )
-    {
-        _mapFreemarkerAutoImports.put( strNamespace, strFileName );
-    }
 
     /**
      * Gets the freemarker auto-imports.
@@ -1360,7 +1192,12 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public Map<String,String> getFreeMarkerAutoImports( )
     {
-        return _mapFreemarkerAutoImports;
+    	return PluginService.getPluginData( this._strName ).getFreemarkerAutoImports( );
+    }
+    
+    private void registerPluginData( PluginData pluginData ) 
+    {
+    	PluginService.addPluginData(pluginData);
     }
 
     /**
@@ -1387,4 +1224,5 @@ public abstract class Plugin implements Comparable<Plugin>
 
         return getName( ).toLowerCase( ).hashCode( );
     }
+    
 }

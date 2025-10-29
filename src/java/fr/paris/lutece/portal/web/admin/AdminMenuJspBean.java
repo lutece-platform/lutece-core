@@ -386,7 +386,6 @@ public class AdminMenuJspBean implements Serializable
         AdminUser user = AdminUserService.getAdminUser( request );
         Locale locale = new Locale( strLanguage );
         user.setLocale( locale );
-        AppPathService.getBaseUrl( request );
 
         return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( );
     }
