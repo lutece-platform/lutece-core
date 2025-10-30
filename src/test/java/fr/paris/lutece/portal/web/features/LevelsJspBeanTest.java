@@ -48,7 +48,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
@@ -72,7 +72,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     protected void setUp( ) throws Exception
     {
         request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
 
         instance = new LevelsJspBean( );
         instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );

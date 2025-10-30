@@ -50,7 +50,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.inject.Inject;
@@ -137,7 +137,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         AdminUser user = new AdminUser( );
-        AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
         bean.init( request, "CORE_WORKGROUPS_MANAGEMENT" );
 
         String html = bean.getAssignUsers( request );
@@ -150,7 +150,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         final String key = getRandomName( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
         request.setParameter( "workgroup_key", key );
         request.setParameter( "workgroup_description", key );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -169,7 +169,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         final String key = getRandomName( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
         request.setParameter( "workgroup_key", key );
         request.setParameter( "workgroup_description", key );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -195,7 +195,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         final String key = getRandomName( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUser user = new AdminUser( );
-        AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
         request.setParameter( "workgroup_key", key );
         request.setParameter( "workgroup_description", key );
 

@@ -51,7 +51,7 @@ import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.dashboard.admin.IAdminDashboardComponent;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.inject.Inject;
@@ -115,7 +115,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
     public void testGetManageDashboards( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
 
         instance.init( request, AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
 

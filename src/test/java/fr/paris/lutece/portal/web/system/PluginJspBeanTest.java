@@ -51,7 +51,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.inject.Inject;
@@ -99,7 +99,7 @@ public class PluginJspBeanTest extends LuteceTestCase
     public void testGetManagePlugins( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( PARAM_PLUGIN_TYPE, PARAM_PLUGIN_TYPE_ALL );
 
         instance.init( request, PluginJspBean.RIGHT_MANAGE_PLUGINS );

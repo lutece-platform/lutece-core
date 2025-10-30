@@ -53,7 +53,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.inject.Inject;
@@ -115,7 +115,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     public void testGetCreateExternalFeature( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -130,7 +130,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -147,7 +147,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -187,7 +187,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -232,7 +232,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -282,7 +282,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -334,7 +334,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -373,7 +373,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -413,7 +413,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -434,7 +434,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -452,7 +452,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -476,7 +476,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );

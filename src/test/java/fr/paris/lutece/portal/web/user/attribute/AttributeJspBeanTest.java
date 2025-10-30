@@ -59,7 +59,7 @@ import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
@@ -116,7 +116,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "attribute_type_class_name", type.getClassName( ) );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -145,7 +145,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, attribute.getTemplateCreateAttribute( ) ) );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -184,7 +184,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, attribute.getTemplateCreateAttribute( ) ) + "b" );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -224,7 +224,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         request.setParameter( "title", strTitle );
         request.setParameter( "width", "5" );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -261,7 +261,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         assertNotNull( attribute );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -292,7 +292,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, attribute.getTemplateModifyAttribute( ) ) );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -326,7 +326,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, attribute.getTemplateModifyAttribute( ) ) + "b" );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -364,7 +364,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         request.setParameter( "title", strTitle );
         request.setParameter( "width", "5" );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -459,7 +459,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -483,7 +483,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -513,7 +513,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -541,7 +541,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -565,7 +565,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
@@ -595,7 +595,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 

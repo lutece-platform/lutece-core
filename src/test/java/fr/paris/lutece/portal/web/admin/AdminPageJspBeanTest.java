@@ -70,6 +70,7 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.util.ReferenceItem;
@@ -318,7 +319,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testGetAdminPageBlockProperty( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        AdminUserUtils.registerAdminUserWithRight( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         request.addParameter( "param_block", "2" );
         String html = _bean.getAdminPage( request );
@@ -630,7 +631,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     public void testGetAdminPageBlockChildPage( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        AdminUserUtils.registerAdminUserWithRight( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         request.addParameter( "param_block", "5" );
         String html = _bean.getAdminPage( request );

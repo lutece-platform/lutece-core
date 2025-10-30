@@ -39,6 +39,7 @@ import org.junit.jupiter.api.Test;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 
@@ -58,7 +59,7 @@ public class AdminMapJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.PAGE_ID, TEST_PAGE_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
 
         AdminMapJspBean instance = new AdminMapJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
