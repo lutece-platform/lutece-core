@@ -52,7 +52,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
@@ -145,7 +145,7 @@ public class SearchJspBeanTest extends LuteceTestCase
             roles.put( role.getKey( ), role );
         }
         user.addRoles( roles );
-        AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
@@ -226,7 +226,7 @@ public class SearchJspBeanTest extends LuteceTestCase
             roles.put( role.getKey( ), role );
         }
         user.addRoles( roles );
-        AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "admin/search/manage_advanced_parameters.html" ) + "b" );
@@ -302,7 +302,7 @@ public class SearchJspBeanTest extends LuteceTestCase
             roles.put( role.getKey( ), role );
         }
         user.addRoles( roles );
-        AdminUserUtils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
 
         try

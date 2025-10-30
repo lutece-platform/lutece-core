@@ -52,7 +52,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
@@ -184,7 +184,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     public void testGetCreateGroup( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         assertNotNull( instance.getCreateGroup( request ) );
@@ -198,7 +198,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_GROUP_ID, TEST_GROUP_ID );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         assertNotNull( instance.getModifyGroup( request ) );
@@ -382,7 +382,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         instance.getRemoveGroup( request );

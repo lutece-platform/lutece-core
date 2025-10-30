@@ -54,7 +54,7 @@ import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.inject.Inject;
@@ -480,7 +480,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     public void testGetManageDaemons( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
         bean.init( request, DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
         assertNotNull( bean.getManageDaemons( request ) );
     }

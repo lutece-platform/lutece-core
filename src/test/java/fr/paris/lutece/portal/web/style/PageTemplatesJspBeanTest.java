@@ -52,7 +52,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -74,7 +74,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     protected void setUp( ) throws Exception
     {
         request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
         instance = new PageTemplatesJspBean( );
         instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
     }

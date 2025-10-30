@@ -58,7 +58,7 @@ import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.inject.Inject;
@@ -220,7 +220,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         assertNotNull( instance.getCreateAttributeField( request ) );
@@ -334,7 +334,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         assertNotNull( instance.getModifyAttributeField( request ) );

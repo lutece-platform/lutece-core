@@ -53,7 +53,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.web.admin.AdminUserUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import jakarta.inject.Inject;
@@ -77,7 +77,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         System.out.println( "getManageRoles" );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
 
         RoleManagementJspBean instance = new RoleManagementJspBean( );
         instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
@@ -94,7 +94,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
-        AdminUserUtils.registerAdminUserWithRigth( request, new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
 
         RoleManagementJspBean instance = new RoleManagementJspBean( );
         instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
