@@ -53,6 +53,7 @@ import jakarta.servlet.http.HttpServletRequest;
  *
  */
 @ApplicationScoped
+@Named
 public class ThemeService implements IThemeService
 {
     /**
