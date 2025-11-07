@@ -51,6 +51,11 @@ import org.apache.logging.log4j.Logger;
  */
 public final class MVCUtils
 {
+	public static final String MARK_ERRORS = "errors";
+	public static final String MARK_INFOS = "infos";
+	public static final String MARK_WARNINGS = "warnings";
+	public static final String MARK_MESSAGE_BOX = "messageBox";
+
     public static final String PARAMETER_VIEW = "view";
     public static final String PARAMETER_ACTION = "action";
     public static final String PARAMETER_PAGE = "page";

@@ -38,9 +38,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -66,6 +65,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.util.mvc.binding.ParamError;
 import fr.paris.lutece.portal.util.mvc.binding.ServletParameterBinder;
 import fr.paris.lutece.portal.util.mvc.binding.validate.ValidationService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.ResponseBody;
@@ -82,7 +82,6 @@ import fr.paris.lutece.portal.web.cdi.mvc.event.MvcEvent;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
-import fr.paris.lutece.util.ErrorMessage;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -98,12 +97,6 @@ public abstract class MVCApplication implements XPageApplication
 {
     private static final long serialVersionUID = 6093635383465830355L;
 
-    // markers
-    private static final String MARK_ERRORS = "errors";
-    private static final String MARK_INFOS = "infos";
-    private static final String MARK_WARNINGS = "warnings";
-    private static final String MARK_MESSAGE_BOX = "messageBox";
-
     // constants
     private static final String URL_PORTAL = "Portal.jsp";
     private static final String PATH_PORTAL = "jsp/site/";
@@ -111,9 +104,6 @@ public abstract class MVCApplication implements XPageApplication
 
     // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
-    private List<ErrorMessage> _listErrors = new ArrayList<>( );
-    private List<ErrorMessage> _listInfos = new ArrayList<>( );
-    private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private MVCMessageBox _messageBox;
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
     @Inject
@@ -124,6 +114,8 @@ public abstract class MVCApplication implements XPageApplication
     private transient ServletParameterBinder _servletParameterBinder;
     @Inject
     private transient ValidationService _validationService;
+    @Inject 
+    private Models models;
     
     /**
      * Returns the content of the XPage based on the current HTTP request.
@@ -188,7 +180,7 @@ public abstract class MVCApplication implements XPageApplication
             {
             	Method m= getMessageBoxMethod( methods );
             	getEventDispatcher().fireBeforeControllerEvent( m, false, MvcEvent.ControllerInvocationType.MESSAGE_BOX_VIEW, _controller.securityTokenEnabled( ) );
-                return messageBox( request, getModels());
+                return messageBox( request, getModelsWithSecurityToken( ));
             }
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
@@ -474,7 +466,7 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected XPage getXPage( String strTemplate, Locale locale )
     {
-        return getXPage( strTemplate, locale, getModels( ).asMap( ) );
+        return getXPage( strTemplate, locale, getModelsWithSecurityToken( ) );
     }
 
     /**
@@ -488,12 +480,7 @@ public abstract class MVCApplication implements XPageApplication
      *            The model
      *
      * @return An XPage Object
-     * 
-     * @deprecated This method is deprecated.
-     * Please use {@link #getXPage(String, Locale, Models)} instead.
-     *
      */
-    @Deprecated
     protected XPage getXPage( String strTemplate, Locale locale, Map<String, Object> model )
     {
         XPage page = getXPage( );
@@ -531,17 +518,19 @@ public abstract class MVCApplication implements XPageApplication
 
     /**
      * Get a model Object filled with default values
-     * 
-     * @return The model
-     */
+     * <p>
+	 * This method is deprecated. It is recommended to use <b>dependency injection</b> 
+	 * to obtain an instance of {@link Models} directly, instead of calling this method.
+	 * </p>
+	 *
+	 * @deprecated Use {@link Models} injection directly to access or populate model data.
+	 * @return the model as a {@link Map} containing default values.
+	 */
     @Deprecated
     protected Map<String, Object> getModel( )
     {
-       // Map<String, Object> model = new HashMap<>( );
-    	Models model= CDI.current().select(Models.class).get();
-        fillCommons( model );
-        fillSecurityToken( model );
-        
+    	Models model= getModels();
+        fillSecurityToken( model );        
         return new HashMap<>(model.asMap());
     }
     /**
@@ -549,12 +538,10 @@ public abstract class MVCApplication implements XPageApplication
      * 
      * @return The models
      */
-    private Models getModels( )
+    private Models getModelsWithSecurityToken( )
     {
-    	Models model= CDI.current().select(Models.class).get();
-        fillCommons( model );
-        fillSecurityToken( model );
-        
+    	Models model= getModels( );
+        fillSecurityToken( model );        
         return model;
     }
 
@@ -611,9 +598,10 @@ public abstract class MVCApplication implements XPageApplication
 
         for ( ConstraintViolation<T> constraint : errors )
         {
-            MVCMessage error = new MVCMessage( );
-            error.setMessage( constraint.getMessage( ) );
-            _listErrors.add( error );
+        	  MVCMessage error = new MVCMessage( );
+              error.setMessage( constraint.getMessage( ) );
+              error.setFieldName(constraint.getPropertyPath().toString());
+              addError( error );
         }
 
         return false;
@@ -643,25 +631,68 @@ public abstract class MVCApplication implements XPageApplication
 
         for ( ConstraintViolation<T> constraint : errors )
         {
-            MVCMessage error = new MVCMessage( );
-            error.setMessage( I18nService.getLocalizedString( constraint.getMessage( ), locale ) );
-            _listErrors.add( error );
+        	  MVCMessage error = new MVCMessage( );
+              error.setMessage( I18nService.getLocalizedString( constraint.getMessage( ), locale )  );
+              error.setFieldName(constraint.getPropertyPath().toString());
+              addError( error );
         }
 
         return false;
     }
 
     /**
-     * Add an error message. The error message must NOT be an I18n key.
-     * 
-     * @param strMessage
-     *            The message
+     * Adds a message of a given type (error, warning, info) to the model.
+     *
+     * @param key      the model key (e.g. {@code MVCUtils.MARK_ERRORS})
+     * @param message  the message text
      */
-    protected void addError( String strMessage )
-    {
-        _listErrors.add( new MVCMessage( strMessage ) );
+    private void addMessage(String key, String message) {
+        Models models = getModels();
+        Set<String> messages = models.get(key, Set.class);
+        if (messages == null) {
+            messages = new LinkedHashSet<>();
+        }
+        messages.add(message);
+        models.put(key, messages);
     }
-    
+    /**
+     * Adds a ParamError to the model.
+     *
+     * @param paramError  the paramError
+     */
+    private void addError(ParamError paramError) {
+        Models models = getModels();
+        Set<ParamError> messages = models.get(MVCUtils.MARK_ERRORS, Set.class);
+        if (messages == null) {
+            messages = new LinkedHashSet<>();
+        }
+        messages.add(paramError);
+        models.put(MVCUtils.MARK_ERRORS, messages);
+    }
+
+    /**
+     * Adds a localized message of a given type (error, warning, info) to the model.
+     *
+     * @param key         the model key (e.g. {@code MVCUtils.MARK_ERRORS})
+     * @param messageKey  the i18n key
+     * @param locale      the locale to use for translation
+     */
+    private void addMessage(String key, String messageKey, Locale locale) {
+        addMessage(key, I18nService.getLocalizedString(messageKey, locale));
+    }
+
+    // ---------------------------------------------------------------------------
+    // Convenience methods for errors, warnings and infos
+    // ---------------------------------------------------------------------------
+
+    /**
+     * Adds a plain error message.
+     *
+     * @param message the message text
+     */
+    protected void addError(String message) {
+    	addError(new MVCMessage( message) );
+    }
     /**
      * Add an error message. The error message must NOT be an I18n key.
      * 
@@ -671,137 +702,74 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected void addError( String strMessage, String strFieldName )
     {
-        _listErrors.add( new MVCMessage( strMessage,strFieldName ) );
+    	addError( new MVCMessage( strMessage,strFieldName ) );
+    }
+    /**
+     * Adds a localized error message.
+     *
+     * @param messageKey the i18n key
+     * @param locale     the locale to use
+     */
+    protected void addError(String strMessageKey, Locale locale) {
+    	addError(new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ));
     }
 
     /**
-     * Add an error message. The error message must be an I18n key.
-     * 
-     * @param strMessageKey
-     *            The message
-     * @param locale
-     *            The locale to display the message in
+     * Adds a plain warning message.
+     *
+     * @param strMessage the message text
      */
-    protected void addError( String strMessageKey, Locale locale )
-    {
-        _listErrors.add( new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ) );
-    }
-
-    
-    /**
-     * Add an warning message. The warning message must NOT be an I18n key.
-     * 
-     * @param strMessage
-     *            The message
-     */
-    protected void addWarning( String strMessage )
-    {
-        _listWarnings.add( new MVCMessage( strMessage ) );
-    }
-    
-    /**
-     * Add an warning message. The warning message must NOT be an I18n key.
-     * 
-     * @param strMessage
-     *            The message
-     *            
-     * @param  strFieldName the field name            
-     *            
-     */
-    protected void addWarning( String strMessage, String strFieldName  )
-    {
-        _listWarnings.add( new MVCMessage( strMessage,strFieldName ) );
-    }
-    
-
-
-    /**
-     * Add an warning message. The warning message must be an I18n key.
-     * 
-     * @param strMessageKey
-     *            The message
-     * @param locale
-     *            The locale to display the message in
-     */
-    protected void addWarning( String strMessageKey, Locale locale )
-    {
-        _listWarnings.add( new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ) );
+    protected void addWarning(String strMessage) {
+        addMessage(MVCUtils.MARK_WARNINGS, strMessage);
     }
 
     /**
-     * Add an info message. The info message must NOT be an I18n key.
-     * 
-     * @param strMessage
-     *            The message
+     * Adds a localized warning message.
+     *
+     * @param messageKey the i18n key
+     * @param locale     the locale to use
      */
-    protected void addInfo( String strMessage )
-    {
-        _listInfos.add( new MVCMessage( strMessage ) );
+    protected void addWarning(String strMessageKey, Locale locale) {
+        addMessage(MVCUtils.MARK_WARNINGS, strMessageKey, locale);
+    }
+
+    /**
+     * Adds a plain info message.
+     *
+     * @param message the message text
+     */
+    protected void addInfo(String strMessage) {
+        addMessage(MVCUtils.MARK_INFOS, strMessage);
+    }
+
+    /**
+     * Adds a localized info message.
+     *
+     * @param messageKey the i18n key
+     * @param locale     the locale to use
+     */
+    protected void addInfo(String strMessageKey, Locale locale) {
+        addMessage(MVCUtils.MARK_INFOS, strMessageKey, locale);
     }
     
-    /**
-     * Add an info message. The info message must NOT be an I18n key.
-     * 
-     * @param strMessage
-     *            The message
-     * @param  strFieldName the field name             
-     */
-    protected void addInfo( String strMessage, String strFieldName )
-    {
-        _listInfos.add( new MVCMessage( strMessage,strFieldName )  );
-    }
-
-    /**
-     * Add an info message. The info message must be an I18n key.
-     * 
-     * @param strMessageKey
-     *            The message key
-     * @param locale
-     *            The locale to display the message in
-     */
-    protected void addInfo( String strMessageKey, Locale locale )
-    {
-        _listInfos.add( new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ) );
-    }
-
     /**
      * Fill the model with commons objects used in templates
-     * 
+     
      * @param model
      *            The model
+     * <p>
+	 * This method is deprecated. It is recommended to use <b>dependency injection</b> 
+	 * to obtain an instance of {@link Models} directly, instead of calling this method.
+	 * </p>
+	 *
+	 * @deprecated Use {@link Models} injection directly to access or populate model data.
      */
     @Deprecated
     protected void fillCommons( Map<String, Object> model )
     {
-        List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
-        List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
-        List<ErrorMessage> listWarnings = new ArrayList<>( _listWarnings );
-        model.put( MARK_ERRORS, listErrors );
-        model.put( MARK_INFOS, listInfos );
-        model.put( MARK_WARNINGS, listWarnings );
-        _listErrors.clear( );
-        _listInfos.clear( );
-        _listWarnings.clear( );
+    	Models models= getModels();
+        model.putAll(models.asMap());       
     }
-    /**
-     * Fill the model with commons objects used in templates
-     * 
-     * @param model
-     *            The model
-     */
-    private void fillCommons( Models model )
-    {
-        List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
-        List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
-        List<ErrorMessage> listWarnings = new ArrayList<>( _listWarnings );
-        model.put( MARK_ERRORS, listErrors );
-        model.put( MARK_INFOS, listInfos );
-        model.put( MARK_WARNINGS, listWarnings );
-        _listErrors.clear( );
-        _listInfos.clear( );
-        _listWarnings.clear( );
-    }
-
     // //////////////////////////////////////////////////////////////////////////
     // Redirect utils
 
@@ -1158,7 +1126,7 @@ public abstract class MVCApplication implements XPageApplication
     {
 	    try {
 	        _messageBox.localize( getLocale( request ) );
-	        model.put( MARK_MESSAGE_BOX, _messageBox );
+	        model.put( MVCUtils.MARK_MESSAGE_BOX, _messageBox );
 	        return getXPage( _messageBox.getTemplate( ), getLocale( request ), model.asMap() );
 	    } finally {
 	    	getEventDispatcher( ).fireAfterProcessViewEvent();
@@ -1221,6 +1189,14 @@ public abstract class MVCApplication implements XPageApplication
     private ValidationService getValidationService( )
     {
         return null != _validationService ? _validationService : CDI.current( ).select( ValidationService.class ).get( );
+    }
+    /**
+     * Get Models
+     * @return models object
+     */
+    private Models getModels( )
+    {
+        return null != models ? models : CDI.current().select(Models.class).get();
     }
     
     /**

@@ -120,8 +120,8 @@ public class SecurityTokenService implements ISecurityTokenService
      */
     private void fillSecurityToken( String  strToken )
     {
-    	Models model = modelInstance.get();
-        if (model != null) {
+        if (modelInstance.isResolvable()) {
+        	Models model = modelInstance.get();
             model.put( SecurityTokenHandler.MARK_CSRF_TOKEN, strToken );
         }                
     }

@@ -2,6 +2,7 @@
 	<@pageColumn>
 		<@pageHeader title='#i18n{portal.style.modify_style.title}'/>
 		<@tform method='post' id="modify-style-form" name='modify_style' action='jsp/admin/style/ManageStyles.jsp'>
+			<@messages errors=errors />
 			<@input type='hidden' name='action' value='modifyStyle' />
 			
 			<@formGroup labelKey='#i18n{portal.style.modify_style.labelId}' labelFor='style_id' mandatory=true rows=2>

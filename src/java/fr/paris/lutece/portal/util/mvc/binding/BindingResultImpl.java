@@ -27,7 +27,7 @@ public class BindingResultImpl implements BindingResult {
 
 	    private boolean consumed;
 
-	    /**
+		/**
 	     * {@inheritDoc}
 	     */
 	    @Override
@@ -65,7 +65,20 @@ public class BindingResultImpl implements BindingResult {
 	                .filter(paramError -> Objects.equals(paramError.getParamName(), param))
 	                .collect(Collectors.collectingAndThen(Collectors.toSet(), Collections::unmodifiableSet));
 	    }
-	    
+	    /**
+		 * {@inheritDoc}
+		 */
+		@Override
+	    public Set<BindingError> getBindingErrors() {
+			return Collections.unmodifiableSet( bindingErrors );
+		}
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public Set<ValidationError> getValidationErrors() {
+			return Collections.unmodifiableSet( validationErrors );
+		}	    
 	    /**
 	     * Adds a binding error to the result.
 	     */

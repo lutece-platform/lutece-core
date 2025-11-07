@@ -251,7 +251,7 @@ public class StylesJspBean extends MVCAdminJspBean
     public String doCreateStyle(@Valid @ModelAttribute Style style, BindingResult bindingResult, Models model, HttpServletRequest request ) throws AccessDeniedException
     {
         if(bindingResult.isFailed( )) {
-        	model.put(MARK_ERRORS, bindingResult.getAllErrors( ));
+        	model.put(MVCUtils.MARK_ERRORS, bindingResult.getAllErrors( ));
         	return getCreateStyle( model);
         }
         Style styleExisting = StyleHome.findByPrimaryKey( style.getId( ) );
@@ -314,7 +314,7 @@ public class StylesJspBean extends MVCAdminJspBean
     public String doModifyStyle( @Valid @ModelAttribute Style style, @RequestParam(STYLE_ID) int nStyleId,  BindingResult bindingResult, Models model, HttpServletRequest request )
     {
     	if(bindingResult.isFailed( )) {
-        	model.put(MARK_ERRORS, bindingResult.getAllMessages());
+        	model.put(MVCUtils.MARK_ERRORS, bindingResult.getAllErrors( ));
         	return getModifyStyle( nStyleId, model);
         }
         Style styleOld = StyleHome.findByPrimaryKey( nStyleId );

@@ -38,11 +38,12 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,6 +58,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.binding.ParamError;
 import fr.paris.lutece.portal.util.mvc.binding.ServletParameterBinder;
 import fr.paris.lutece.portal.util.mvc.binding.validate.ValidationService;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.ResponseBody;
@@ -87,17 +89,8 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 {
     private static final long serialVersionUID = 278165302545398831L;
 
-    // markers
-    protected static final String MARK_ERRORS = "errors";
-    protected static final String MARK_INFOS = "infos";
-    protected static final String MARK_WARNINGS = "warnings";
-    
-
     // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
-    private List<ErrorMessage> _listErrors = new ArrayList<>( );
-    private List<ErrorMessage> _listInfos = new ArrayList<>( );
-    private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
     private transient HttpServletResponse _response;
     @Inject
@@ -108,6 +101,8 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     private ServletParameterBinder _servletParameterBinder;
     @Inject
     private ValidationService _validationService;
+    @Inject 
+    private Models models;
     
     /**
      * Dispatches the HTTP request to the appropriate controller method based on annotations,
@@ -304,6 +299,46 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      }
     // //////////////////////////////////////////////////////////////////////////
     // Page utils
+     /**
+      * Adds a message of a given type (error, warning, info) to the model.
+      *
+      * @param key      the model key (e.g. {@code MVCUtils.MARK_ERRORS})
+      * @param message  the message text
+      */
+     private void addMessage(String key, String message) {
+         Models models = getModels();
+         Set<String> messages = models.get(key, Set.class);
+         if (messages == null) {
+             messages = new LinkedHashSet<>();
+         }
+         messages.add(message);
+         models.put(key, messages);
+     }
+     /**
+      * Adds a ParamError to the model.
+      *
+      * @param paramError  the paramError
+      */
+     private void addError(ParamError paramError) {
+         Models models = getModels();
+         Set<ParamError> messages = models.get(MVCUtils.MARK_ERRORS, Set.class);
+         if (messages == null) {
+             messages = new LinkedHashSet<>();
+         }
+         messages.add(paramError);
+         models.put(MVCUtils.MARK_ERRORS, messages);
+     }
+
+     /**
+      * Adds a localized message of a given type (error, warning, info) to the model.
+      *
+      * @param key         the model key (e.g. {@code MVCUtils.MARK_ERRORS})
+      * @param messageKey  the i18n key
+      * @param locale      the locale to use for translation
+      */
+     private void addMessage(String key, String messageKey, Locale locale) {
+         addMessage(key, I18nService.getLocalizedString(messageKey, locale));
+     }
 
     /**
      * Add an error message
@@ -313,7 +348,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected void addError( String strMessage )
     {
-        _listErrors.add( new MVCMessage( strMessage ) );
+    	addError( new MVCMessage( strMessage ) );
     }
 
     /**
@@ -326,7 +361,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected void addError( String strMessageKey, Locale locale )
     {
-        _listErrors.add( new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ) );
+    	addError( new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ) );
     }
 
     /**
@@ -337,7 +372,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected void addWarning( String strMessage )
     {
-        _listWarnings.add( new MVCMessage( strMessage ) );
+        addMessage(MVCUtils.MARK_WARNINGS, strMessage);
     }
 
     /**
@@ -350,7 +385,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected void addWarning( String strMessageKey, Locale locale )
     {
-        _listWarnings.add( new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ) );
+        addMessage(MVCUtils.MARK_WARNINGS, strMessageKey, locale);
     }
 
     /**
@@ -361,7 +396,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected void addInfo( String strMessage )
     {
-        _listInfos.add( new MVCMessage( strMessage ) );
+        addMessage(MVCUtils.MARK_INFOS, strMessage);
     }
 
     /**
@@ -374,40 +409,44 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected void addInfo( String strMessageKey, Locale locale )
     {
-        _listInfos.add( new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ) );
+        addMessage(MVCUtils.MARK_INFOS, strMessageKey, locale);
     }
 
     /**
      * Fill the model with commons objects used in templates
-     * 
+     
      * @param model
      *            The model
+     * <p>
+	 * This method is deprecated. It is recommended to use <b>dependency injection</b> 
+	 * to obtain an instance of {@link Models} directly, instead of calling this method.
+	 * </p>
+	 *
+	 * @deprecated Use {@link Models} injection directly to access or populate model data.
      */
+    @Deprecated
     protected void fillCommons( Map<String, Object> model )
     {
-        List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
-        List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
-        List<ErrorMessage> listWarnings = new ArrayList<>( _listWarnings );
-        model.put( MARK_ERRORS, listErrors );
-        model.put( MARK_INFOS, listInfos );
-        model.put( MARK_WARNINGS, listWarnings );
-        _listErrors.clear( );
-        _listInfos.clear( );
-        _listWarnings.clear( );
+    	Models models= getModels();
+        model.putAll(models.asMap());  
     }
 
     /**
      * Get a model Object filled with default values
-     * 
-     * @return The model
-     */
+     * <p>
+	 * This method is deprecated. It is recommended to use <b>dependency injection</b> 
+	 * to obtain an instance of {@link Models} directly, instead of calling this method.
+	 * </p>
+	 *
+	 * @deprecated Use {@link Models} injection directly to access or populate model data.
+	 * @return the model as a {@link Map} containing default values.
+	 */
+    @Deprecated
     protected Map<String, Object> getModel( )
     {
-        Map<String, Object> model = new HashMap<>( );
-        fillCommons( model );
-        fillSecurityToken( model );
-        
-        return model;
+    	Models model= getModels();
+        fillSecurityToken( model );        
+        return new HashMap<>(model.asMap());
     }
 
     /**
@@ -421,7 +460,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     {
         String strPageTitleProperty = _controller.pageTitleProperty( );
 
-        return getPage( strPageTitleProperty, strTemplate, getModel( ) );
+        return getPage( strPageTitleProperty, strTemplate, getModelsWithSecurityToken( ) );
     }
 
     /**
@@ -435,7 +474,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected String getPage( String strPageTitleProperty, String strTemplate )
     {
-        return getPage( strPageTitleProperty, strTemplate, getModel( ) );
+        return getPage( strPageTitleProperty, strTemplate, getModelsWithSecurityToken( ) );
     }
 
     /**
@@ -448,10 +487,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      * @param model
      *            The model
      * @return The page
-     * @deprecated This method is deprecated.
-     * Please use {@link #getPage(String, String, Models)} instead.
      */
-    @Deprecated
     protected String getPage( String strPageTitleProperty, String strTemplate, Map<String, Object> model )
     {
         setPageTitleProperty( strPageTitleProperty );
@@ -505,7 +541,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             MVCMessage error = new MVCMessage( );
             error.setMessage( errorValidation.getMessage( ) );
             error.setFieldName( errorValidation.getFieldName( ) );
-            _listErrors.add( error );
+            addError( error );
         }
 
         return false;
@@ -793,12 +829,31 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         return null != _validationService ? _validationService : CDI.current( ).select( ValidationService.class ).get( );
     }
     /**
+     * Get Models
+     * @return models object
+     */
+    private Models getModels( )
+    {
+        return null != models ? models : CDI.current().select(Models.class).get();
+    }
+    /**
+     * Get a models Object filled with default values
+     * 
+     * @return The models
+     */
+    private Models getModelsWithSecurityToken( )
+    {
+    	Models model= getModels( );
+        fillSecurityToken( model );        
+        return model;
+    }
+    /**
      * Fill the model with security token
      * 
      * @param model
      *            The model
      */
-    private void fillSecurityToken( Map<String, Object> model )
+    private void fillSecurityToken( Models model )
     {
         if ( null != LocalVariables.getRequest( ) )
         {

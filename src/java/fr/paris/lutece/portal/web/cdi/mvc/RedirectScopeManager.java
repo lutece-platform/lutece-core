@@ -11,6 +11,7 @@ import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.cdi.mvc.event.AfterProcessViewEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.BeforeControllerEvent;
 import fr.paris.lutece.portal.web.cdi.mvc.event.ControllerRedirectEvent;
+import jakarta.annotation.Priority;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.spi.Contextual;
 import jakarta.enterprise.context.spi.CreationalContext;
@@ -20,6 +21,7 @@ import jakarta.enterprise.inject.spi.BeanManager;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.enterprise.inject.spi.PassivationCapable;
 import jakarta.inject.Inject;
+import jakarta.interceptor.Interceptor;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -149,7 +151,7 @@ public class RedirectScopeManager {
      *
      * @param event the event.
      */
-    public void beforeProcessControllerEvent(@Observes BeforeControllerEvent event) {
+    public void beforeProcessControllerEvent(@Observes @Priority(1) BeforeControllerEvent event) {
         if (usingCookies()) {
             final Cookie[] cookies = request.getCookies();
             if (null != cookies) {
@@ -203,7 +205,7 @@ public class RedirectScopeManager {
      *
      * @param event the event.
      */
-    public void controllerRedirectEvent(@Observes ControllerRedirectEvent event) {
+    public void controllerRedirectEvent(@Observes @Priority(Interceptor.Priority.APPLICATION + 1000) ControllerRedirectEvent event) {
     	Object scopeId = request.getAttribute(SCOPE_ID);
         if (scopeId != null) {
             HttpServletResponse response = LocalVariables.getResponse( );

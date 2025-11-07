@@ -3,6 +3,8 @@ package fr.paris.lutece.portal.util.mvc.binding;
 import java.util.List;
 import java.util.Set;
 
+import fr.paris.lutece.portal.util.mvc.binding.validate.ValidationError;
+
 /**
  * Represents the result of a binding operation in the Lutece MVC framework.
  * This interface provides methods to check for errors, retrieve error messages,
@@ -35,6 +37,20 @@ public interface BindingResult {
      * @return All binding and validation errors.
      */
     Set<ParamError> getAllErrors();
+   
+    /**
+     * Returns an immutable set of all binding errors.
+     *
+     * @return All binding errors.
+     */
+    Set<BindingError> getBindingErrors();
+    
+    /**
+     * Returns an immutable set of all validation errors.
+     *
+     * @return All validation errors.
+     */
+	Set<ValidationError> getValidationErrors();
 
     /**
      * Returns an immutable set of all binding and validation errors for

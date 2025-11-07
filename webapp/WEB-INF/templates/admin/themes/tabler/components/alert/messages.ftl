@@ -23,18 +23,28 @@ Parameters:
 </#if>
 <#if warnings??>
 	<#if warnings?size gt 0 >
+	<#assign first = warnings[0] />
 		<@alert color='warning' title='#i18n{portal.util.message.titleWarning}' iconTitle='exclamation-circle' dismissible=true id='messages_warnings_div'>
 			<@unstyledList>
-			<#list warnings as warning ><#if warning.message??><@li>${warning.message!' #i18n{portal.util.message.titleWarning} '}</@li></#if></#list>
+			 <#if first?is_string>
+				<#list warnings as warning ><@li>${warning!' #i18n{portal.util.message.titleWarning} '}</@li></#list>
+	        <#else >
+	        	<#list warnings as warning ><#if warning.message??><@li>${warning.message!' #i18n{portal.util.message.titleWarning} '}</@li></#if></#list>
+	        </#if>
 			</@unstyledList>
 		</@alert>
 	</#if>
 </#if>
 <#if infos??>
 	<#if infos?size gt 0 >
+	<#assign first = infos[0] />
 		<@alert color='info' title='#i18n{portal.util.labelWarning}' iconTitle='info-circle' dismissible=true id='messages_infos_div'>
 			<@unstyledList>
-			<#list infos as info ><#if info.message??><@li>${info.message!' #i18n{portal.util.labelWarning} '}</@li></#if></#list>
+			 <#if first?is_string>
+				<#list infos as info ><@li>${info!' #i18n{portal.util.labelWarning} '}</@li></#list>
+	        <#else>
+				<#list infos as info ><#if info.message??><@li>${info.message!' #i18n{portal.util.labelWarning} '}</@li></#if></#list>
+	        </#if>
 			</@unstyledList>
 		</@alert>
 	</#if>
