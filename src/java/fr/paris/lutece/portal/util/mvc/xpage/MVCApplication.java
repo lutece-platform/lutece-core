@@ -38,6 +38,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Locale;
@@ -960,29 +961,7 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected XPage download( String strData, String strFilename, String strContentType )
     {
-        HttpServletResponse response = LocalVariables.getResponse( );
-        PrintWriter out = null;
-        response.setHeader( "Content-Disposition", "attachment; filename=\"" + strFilename + "\";" );
-        MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
-
-        try
-        {
-            out = response.getWriter( );
-            out.print( strData );
-        }
-        catch( IOException e )
-        {
-            AppLogService.error( e.getStackTrace( ), e );
-        }
-        finally
-        {
-            if ( out != null )
-            {
-                out.close( );
-            }
-        }
-
-        return new XPage( );
+        return download( strData.getBytes( StandardCharsets.UTF_8 ), strFilename, strContentType );
     }
 
     /**
@@ -999,21 +978,20 @@ public abstract class MVCApplication implements XPageApplication
     protected XPage download( byte [ ] data, String strFilename, String strContentType )
     {
         HttpServletResponse response = LocalVariables.getResponse( );
-        OutputStream os;
         MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
 
-        try
+        try ( OutputStream os = response.getOutputStream( ) )
         {
-            os = response.getOutputStream( );
             os.write( data );
-            os.close( );
         }
         catch( IOException e )
         {
-            AppLogService.error( e.getStackTrace( ), e );
+            AppLogService.error( "An error occured while writing the downloaded data", e );
         }
 
-        return new XPage( );
+        XPage xPage = new XPage( );
+        xPage.setStandalone( true );
+        return xPage;
     }
 
     /**

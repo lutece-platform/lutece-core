@@ -67,7 +67,7 @@ public class PortalServlet extends AbstractSiteMultipartServlet
 
         if ( MultipartUtil.isMultipart( httpRequest ) )
         {
-            httpRequest = handleRequest( httpRequest, response ); // _multipartHandler.handle( httpRequest, _bActivateNormalizeFileName );
+            httpRequest = handleRequest( httpRequest, response );
             if ( null == httpRequest )
             {
                 return;
@@ -80,8 +80,14 @@ public class PortalServlet extends AbstractSiteMultipartServlet
             response.setHeader( "Cache-Control", "no-cache" ); // HTTP 1.1
             response.setDateHeader( "Expires", 0 ); // prevents caching at the proxy server
             response.setContentType( "text/html" );
-            response.getWriter( ).println( _portalJspBean.getContent( httpRequest ) );
-            response.flushBuffer( );
+            
+            String strContent = _portalJspBean.getContent( httpRequest );
+            if ( strContent != null && strContent.length( ) > 0 )
+            {
+                response.getWriter( ).println( strContent );
+                response.flushBuffer( );
+            }
+            
         }
         catch( UserNotSignedException e )
         {
@@ -106,7 +112,6 @@ public class PortalServlet extends AbstractSiteMultipartServlet
         }
         finally
         {
-            //LocalVariables.setLocal( null, null, null );
         	LocalVariables.remove( );
         }
     }
