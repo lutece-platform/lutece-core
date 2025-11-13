@@ -76,4 +76,12 @@ public @interface LuteceCache{
      */
 	@Nonbinding
     boolean enable() default false;
+
+	/**
+	 * Flag indicating whether the cache can be reset by global cache resets
+	 * 
+	 * @return {@code true} if cache reset is prevented, {@code false} otherwise
+	 */
+	@Nonbinding
+	boolean preventGlobalReset() default false;
 }

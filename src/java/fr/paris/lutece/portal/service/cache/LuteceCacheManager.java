@@ -84,7 +84,7 @@ public class LuteceCacheManager implements ILuteceCacheManager
         logger.debug("Start creating a named cache: '{}'", strCacheName);
         return CDI.current().select(
                 new TypeLiteral<Lutece107Cache<K, V>>() {},
-                new LuteceCacheLiteral(strCacheName, (Class<K>)Object.class, (Class<V>)Object.class, false)
+                new LuteceCacheLiteral(strCacheName, (Class<K>)Object.class, (Class<V>)Object.class, false, false)
             ).get(); 
 
     }
@@ -98,7 +98,7 @@ public class LuteceCacheManager implements ILuteceCacheManager
                 strCacheName, k, v);
     	return CDI.current().select(
                 new TypeLiteral<Lutece107Cache<K, V>>() {},
-                new LuteceCacheLiteral(strCacheName, k, v, false)
+                new LuteceCacheLiteral(strCacheName, k, v, false, false)
             ).get();    	
 	}
     /**
@@ -111,9 +111,20 @@ public class LuteceCacheManager implements ILuteceCacheManager
                 strCacheName, k, v, enable);
     	return CDI.current().select(
                 new TypeLiteral<Lutece107Cache<K, V>>() {},
-                new LuteceCacheLiteral(strCacheName, k, v, enable)
+                new LuteceCacheLiteral(strCacheName, k, v, enable, false)
             ).get();    	
 	}
+    @Override
+    public <K, V, C extends Configuration<K, V>> Lutece107Cache<K, V> createCache( String strCacheName, Class<K> k, Class<V> v, boolean enable,
+            boolean automaticResetDisabled ) throws IllegalArgumentException
+    {
+        logger.debug("Start creating a named cache: '{}', key type: '{}', value type: '{}', enable: '{}', automaticResetDisabled: '{}'", 
+                strCacheName, k, v, enable, automaticResetDisabled);
+        return CDI.current().select(
+                new TypeLiteral<Lutece107Cache<K, V>>() {},
+                new LuteceCacheLiteral(strCacheName, k, v, enable, automaticResetDisabled)
+            ).get();        
+    }
     /**
      * {@inheritDoc }
      */

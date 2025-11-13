@@ -39,7 +39,7 @@ public class LuteceCacheProducer {
 	 * @throws IllegalArgumentException
 	 */
 	@Produces
-    @LuteceCache(cacheName = "", keyType = Object.class, valueType = Object.class, enable = false )
+    @LuteceCache(cacheName = "", keyType = Object.class, valueType = Object.class, enable = false, preventGlobalReset = false )
     public <K, V> Lutece107Cache<K, V> produceLuteceCache(InjectionPoint injectionPoint) throws IllegalArgumentException{
 		LuteceCache qualifier = injectionPoint.getQualifiers().stream()
                 .filter(LuteceCache.class::isInstance)
@@ -51,7 +51,7 @@ public class LuteceCacheProducer {
         }
         Lutece107Cache<K, V> cache= (Lutece107Cache<K, V>) luteceCacheManager.getCache(qualifier.cacheName(), qualifier.keyType(), qualifier.valueType( ));
         if( cache == null ) {
-        	cache= new Default107Cache<>(qualifier.cacheName(), (Class<K>) qualifier.keyType(), (Class<V>) qualifier.valueType( ), qualifier.enable( ) );
+        	cache= new Default107Cache<>(qualifier.cacheName(), (Class<K>) qualifier.keyType(), (Class<V>) qualifier.valueType( ), qualifier.enable( ), qualifier.preventGlobalReset( ) );
     		logger.info("The new cache '{}' is created", cache.getName() );
         	return cache;
         }
@@ -75,7 +75,7 @@ public class LuteceCacheProducer {
         }
         Lutece107Cache<K, V> cache= (Lutece107Cache<K, V>) luteceCacheManager.getCache(parameterHolder.getCacheName( ), parameterHolder.getConfig().getKeyType(), parameterHolder.getConfig().getValueType( ));
         if( cache == null ) {
-        	cache= new Default107Cache<>( parameterHolder.getCacheName(), parameterHolder.getConfig(), parameterHolder.isEnable( ) );
+        	cache= new Default107Cache<>( parameterHolder.getCacheName(), parameterHolder.getConfig(), parameterHolder.isEnable( ), parameterHolder.isPreventGlobalReset( ) );
     		logger.info("The new cache '{}' is created", cache.getName() );
     		return cache;
         }

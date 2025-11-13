@@ -3,6 +3,7 @@ package fr.paris.lutece.portal.service.cache;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -86,8 +87,8 @@ public class ManageCacheService {
     public void resetCaches( )
     {
     	 // Reset cache
-    	_listCacheableServicesRegistry.values().forEach(cs ->
-    	cs.resetCache( ));    	
+        _listCacheableServicesRegistry.values( ).stream( ).filter( Predicate.not( CacheableService::isPreventGlobalReset ) )
+                .forEach( cs -> cs.resetCache( ) );
     }
     /**
      * Returns the cache status froms database

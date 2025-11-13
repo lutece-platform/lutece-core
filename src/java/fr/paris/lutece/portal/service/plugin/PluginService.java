@@ -102,7 +102,7 @@ public final class PluginService
 
     	if( _pluginCache == null || _pluginCache.isClosed( )) {
     		
-    		_pluginCache = new Default107Cache<>( "pluginCache", String.class, Plugin.class, true );
+    		_pluginCache = new Default107Cache<>( "pluginCache", String.class, Plugin.class, true, true );
     	
     	}else {
             _pluginCache.clear( );
@@ -135,7 +135,12 @@ public final class PluginService
      */
     public static Plugin getPlugin( String strPluginName )
     {
-    	return _pluginCache.get(strPluginName);
+        Plugin plugin = null;
+        if ( null != strPluginName )
+        {
+            plugin = _pluginCache.get( strPluginName );
+        }
+        return plugin;
     }
 
     /**

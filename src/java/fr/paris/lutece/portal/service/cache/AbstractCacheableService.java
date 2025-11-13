@@ -67,6 +67,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
     protected Cache<K, V> _cache;
     protected boolean _bEnable;
     protected Configuration<K, V> configuration; 
+    protected boolean _bPreventGlobalReset;
 
     /**
      * Init & create the cache. Should be called by the class (cache) that extends AbstractCacheableService during its initialization.
@@ -488,5 +489,11 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     public Cache<K, V> getCache() {
         return _cache;
+    }
+
+    @Override
+    public boolean isPreventGlobalReset( )
+    {
+        return _bPreventGlobalReset;
     }
 }
