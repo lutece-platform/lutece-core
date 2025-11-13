@@ -25,18 +25,27 @@
 							<@ul class="list-unstyled mb-0 text-secondary">
 								<@li>
 									<#if daemon.running>
+									   <#if !daemon.cron?has_content>
 										#i18n{portal.system.manage_daemons.columnTitleInterval} <span class="fw-bold">${daemon.interval} #i18n{portal.system.manage_daemons.unit.sec} </span>
-										<small class="d-inline-block mb-2">
-											<#if daemon.interval gte 3600>
-												<#assign hour=daemon.interval / 3600 />
-												( ${hour} #i18n{portal.system.manage_daemons.unit.hour} )
-											<#else>
-												<#if daemon.interval gte 60>
-													<#assign mn=daemon.interval / 60 />
-													( ${mn} #i18n{portal.system.manage_daemons.unit.mn} )
+											<small class="d-inline-block mb-2">
+												<#if daemon.interval gte 3600>
+													<#assign hour=daemon.interval / 3600 />
+													( ${hour} #i18n{portal.system.manage_daemons.unit.hour} )
+												<#else>
+													<#if daemon.interval gte 60>
+														<#assign mn=daemon.interval / 60 />
+														( ${mn} #i18n{portal.system.manage_daemons.unit.mn} )
+													</#if>
 												</#if>
-											</#if>
-										</small>
+											</small>
+										 <#else>
+										  #i18n{portal.system.manage_daemons.columnTitleCron}
+										 </#if>
+										 <#if daemon.inProgress>
+											<@tag color='info' title='#i18n{portal.system.manage_daemons.labelInProgress}'>
+												<@icon style='clock' />
+											</@tag>								
+				 						</#if>
 									<#else>
 										<@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='inline' >
 											<@input type='hidden' name='daemon' value='${daemon.id}' />
@@ -51,15 +60,40 @@
 									</#if>
 								</@li>
 								<@li>
+								
+								    <#if daemon.running && daemon.cron??>
+									<#if daemon.cron?has_content>
+										${(daemon.cron)!}&nbsp;
+									<#else>
+										&nbsp;
+									</#if>
+								<#else>
+									<@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='inline'>
+										<@input type='hidden' name='daemon' value='${daemon.id}' />
+										<@input type='hidden' name='token' value='${token}' />
+										<@formGroup labelFor='cron'  labelKey='#i18n{portal.system.manage_daemons.columnTitleCron}' rows=2>								
+											<@inputGroup>
+												<@input type='text' name='cron' id='cron' value='${(daemon.cron)!}' size='sm' params='addons' />
+													<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateCron}' name='action' value='UPDATE_CRON' buttonIcon='check' color='primary' hideTitle=['all'] size='sm' />
+											</@inputGroup>
+										</@formGroup>
+									</@tform>
+								</#if>
+								
+								</@li>
+								<@li>
 									<#if daemon.lastRunDate?has_content>
 										<#if daemon.lastRunLogs?has_content>
-											<@offcanvas id="${daemon.id}" title="${daemon.id} (${daemon.pluginName})<br><small>#i18n{${daemon.nameKey}}</small>" btnColor="action" btnTitle="#i18n{portal.system.manage_daemons.columnTitleLastRun} : ${daemon.lastRunDate}" position="end">
+										
+										<@offcanvas id="${daemon.id}" title="#i18n{${daemon.nameKey}}" btnColor="light" btnTitle="${daemon.lastRunDate} - ${(daemon.lastRunEndDate?has_content)?string(daemon.lastRunEndDate, '...')}" position="end">
++									${daemon.lastRunDate} - <#if daemon.lastRunEndDate?has_content>${daemon.lastRunEndDate}</#if>
 												<h4>#i18n{portal.system.manage_daemons.columnTitleLogs}</h4>
 												<h5>#i18n{portal.system.manage_daemons.columnTitleLastRun} ${daemon.lastRunDate}</h5>
+												
 												<@pre><#if daemon.lastRunLogs?length &lt; log_max_size>${daemon.lastRunLogs}<#else>${daemon.lastRunLogs?substring(0,log_max_size -1)} <#if daemon.lastRunLogs?length &gt; log_max_size + 200><br>(...)<br>${daemon.lastRunLogs?substring(daemon.lastRunLogs?length -200,daemon.lastRunLogs?length)}</#if></#if> </@pre>
 											</@offcanvas>
 										<#else>
-											#i18n{portal.system.manage_daemons.columnTitleLastRun}  <strong>${daemon.lastRunDate}</strong>
+											#i18n{portal.system.manage_daemons.columnTitleLastRun}  <strong>${daemon.lastRunDate} - ${(daemon.lastRunEndDate?has_content)?string(daemon.lastRunEndDate, '...')}</strong>
 										</#if>
 									</#if>
 								</@li>

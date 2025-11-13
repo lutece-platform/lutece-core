@@ -16,9 +16,9 @@
 <#if themeCSSLinks??>
 <@themeCSSLinks />
 <#else>
-<link href="${thetheme.pathCss}/bootstrap.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${thetheme.pathCss!}/bootstrap.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <!-- Theme CSS include -->
-<link href="${thetheme.pathCss}/theme.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${thetheme.pathCss!}/theme.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 </#if>
 <!-- Custom site styles include -->
 <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">

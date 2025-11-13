@@ -37,11 +37,11 @@
 <#if themeCSSLinks??>
 <@themeCSSLinks />
 <#else>
-<link href="${thetheme.pathCss}/bootstrap.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${thetheme.pathCss!}/bootstrap.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <!-- Theme CSS include -->
-<link href="${thetheme.pathCss}/theme.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${thetheme.pathCss!}/theme.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <!-- Custom site styles include -->
-<link href="${thetheme.pathCss}/styles.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${thetheme.pathCss!}/styles.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 </#if>
 ${plugins_css_links}
 <!-- Custom site styles include -->
