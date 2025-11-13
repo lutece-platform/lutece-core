@@ -16,7 +16,7 @@ public class  LuteceCacheParameterHolder {
     private String cacheName;
     private Configuration<?,?> config;
     protected boolean _bEnable;
-
+    protected boolean _bPreventGlobalReset;
 
     /**
      * Gets the name of the cache.
@@ -69,5 +69,9 @@ public class  LuteceCacheParameterHolder {
      */
     public void setEnable(boolean enable) {
         this._bEnable = enable;
+    }
+
+    public boolean isPreventGlobalReset() {
+        return _bPreventGlobalReset;
     }
 }

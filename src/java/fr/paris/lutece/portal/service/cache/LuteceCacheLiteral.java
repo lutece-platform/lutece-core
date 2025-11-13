@@ -54,7 +54,8 @@ public class LuteceCacheLiteral extends AnnotationLiteral<LuteceCache> implement
 	private final String cacheName;
     private final Class<?> keyType;
     private final Class<?> valueType;
-    private final  boolean enable;
+    private final boolean enable;
+    private final boolean preventGlobalReset;
 
     /**
      * Constructs a new {@code LuteceCacheLiteral} with the specified parameters.
@@ -63,12 +64,14 @@ public class LuteceCacheLiteral extends AnnotationLiteral<LuteceCache> implement
      * @param keyType the class type of the cache keys
      * @param valueType the class type of the cache values
      * @param enable whether cache injection is enabled
+     * @param preventGlobalReset whether the cache can be reset by global resets
      */
-    public LuteceCacheLiteral(String cacheName, Class<?> keyType, Class<?> valueType, boolean enable) {
+    public LuteceCacheLiteral(String cacheName, Class<?> keyType, Class<?> valueType, boolean enable, boolean preventGlobalReset) {
         this.cacheName = cacheName;
         this.keyType = keyType;
         this.valueType = valueType;
         this.enable = enable;
+        this.preventGlobalReset = preventGlobalReset;
     }
 
     @Override
@@ -89,5 +92,11 @@ public class LuteceCacheLiteral extends AnnotationLiteral<LuteceCache> implement
 	@Override
 	public boolean enable() {
 		return enable;
-	}	
+	}
+
+    @Override
+    public boolean preventGlobalReset( )
+    {
+        return preventGlobalReset;
+    }
 }

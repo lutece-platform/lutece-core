@@ -145,5 +145,11 @@ public class XmlTransformerCacheService implements CacheableService<String,Strin
    	ServletContext context){		
         CacheService.registerCacheableService( xmlTransformerCacheService );     
    	}
-    
+
+    @Override
+    public boolean isPreventGlobalReset( )
+    {
+        return false;
+    }
+
 }

@@ -118,4 +118,11 @@ public interface CacheableService<K, V> extends LuteceService {
      * @return cache information
      */
     String getInfos();
+
+    /**
+     * Can the cache be reset by automatic caches resets
+     * 
+     * @return true is the cache can be reset by automatic / massive caches resets, false otherwise
+     */
+    boolean isPreventGlobalReset( );
 }
