@@ -33,18 +33,8 @@
  */
 package fr.paris.lutece.portal.service.page;
 
-import java.io.Serializable;
-import java.util.concurrent.ConcurrentHashMap;
 
-import javax.cache.Cache;
-import javax.cache.configuration.Factory;
-import javax.cache.configuration.MutableCacheEntryListenerConfiguration;
 import javax.cache.configuration.MutableConfiguration;
-import javax.cache.event.CacheEntryEvent;
-import javax.cache.event.CacheEntryExpiredListener;
-import javax.cache.event.CacheEntryListener;
-import javax.cache.event.CacheEntryListenerException;
-import javax.cache.event.CacheEntryRemovedListener;
 
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.cache.CacheService;
@@ -62,9 +52,6 @@ public class PageCacheService extends AbstractCacheableService<String,String>
 {
     private static final String SERVICE_NAME = "PageCacheService";
 
-    // Performance patch
-    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<>( );
-    
     /**
      * Init the cache. Should be called by the service at its initialization.
      * 
@@ -74,22 +61,9 @@ public class PageCacheService extends AbstractCacheableService<String,String>
     @Override
     public void initCache( String strCacheName )
     {
-    	Cache<String, String> cache= createCache( strCacheName, new MutableConfiguration<String,String>().setTypes(String.class, String.class)  );
-        if ( null != cache )
-        {       	
-               Factory<CacheEntryListener<String, String>> factory = 
-                            new PageCacheEntryListenerFactory();
-                MutableCacheEntryListenerConfiguration<String, String> listenerConfig =
-                    new MutableCacheEntryListenerConfiguration<>(
-                        factory,
-                        null,
-                        false,
-                        false
-                    );
-
-            cache.registerCacheEntryListener( listenerConfig );
-            CacheService.registerCacheableService( this );
-        }
+    	createCache( strCacheName, new MutableConfiguration<String,String>().setTypes(String.class, String.class)  );       	             
+        CacheService.registerCacheableService( this );
+        
     }
 
     /**
@@ -98,25 +72,6 @@ public class PageCacheService extends AbstractCacheableService<String,String>
     public String getName( )
     {
         return SERVICE_NAME;
-    }
-
-    /**
-     * Get a memory key
-     * 
-     * @param strKey
-     *            The key
-     * @return The key
-     */
-    String getKey( String strKey )
-    {
-        String keyInMemory = _keyMemory.putIfAbsent( strKey, strKey );
-
-        if ( keyInMemory != null )
-        {
-            return keyInMemory;
-        }
-
-        return strKey;
     }
 
     /**
@@ -129,41 +84,8 @@ public class PageCacheService extends AbstractCacheableService<String,String>
         throw new AppException( "This class shouldn't be cloned" );
     }
 
-   // Factory Class and static and sérialisable
-    private static class PageCacheEntryListenerFactory 
-        implements Factory<CacheEntryListener<String, String>> {
-        
-        private static final long serialVersionUID = 1L;
-        
-        @Override
-        public CacheEntryListener<String, String> create() {
-            return new PageCacheEntryListener<>();
-        }
-    }
     
-	static class PageCacheEntryListener<K, V> implements CacheEntryRemovedListener<K, V>, CacheEntryExpiredListener<K, V>, Serializable
-	{
-
-		@Override
-		public void onExpired(Iterable<CacheEntryEvent<? extends K, ? extends V>> events)
-				throws CacheEntryListenerException {
-			for (CacheEntryEvent<? extends K, ? extends V> event : events)
-	        {
-				_keyMemory.remove( (String) event.getKey( ) );
-	        }
-		}
-
-		@Override
-		public void onRemoved(Iterable<CacheEntryEvent<? extends K, ? extends V>> events)
-				throws CacheEntryListenerException {
-            for ( CacheEntryEvent<? extends K, ? extends V> event : events )
-            {
-                _keyMemory.remove( (String) event.getKey( ) );
-            }
-        }
-
-	}
-
+	
 	/**
      * This method observes the initialization of the {@link ApplicationScoped} context.
      * It ensures that this CDI beans are instantiated at the application startup.
