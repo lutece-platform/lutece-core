@@ -14,3 +14,4 @@ LuteceUserCacheService.enabled=1
 LuteceUserCacheService.maxElementsInMemory=1000
 pathCacheService.enabled=1
 LinksIncludeCacheService.enabled=1
+pluginCache.enabled=1
