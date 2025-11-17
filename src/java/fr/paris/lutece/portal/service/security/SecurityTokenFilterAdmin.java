@@ -89,6 +89,7 @@ public class SecurityTokenFilterAdmin implements Filter
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         LocalVariables.setLocal( null, httpServletRequest, httpServletResponse );
+        try {
         _securityTokenHandler.handle( httpServletRequest );
 
         if ( _securityTokenHandler.shouldNotFilter( httpServletRequest )
@@ -105,6 +106,10 @@ public class SecurityTokenFilterAdmin implements Filter
         }
 
         chain.doFilter( request, response );
+        }
+        finally {
+        	LocalVariables.remove( );
+        }
     }
 
     /**

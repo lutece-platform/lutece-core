@@ -114,4 +114,12 @@ public final class LocalVariables
     {
         return _tlLocale.get( );
     }
+    /**
+     * Removes the current thread's value for this thread-local
+     *
+     */
+    public static void remove() {
+    	_tlLocale.remove();
+    	ServletLocalVariables.remove();
+    }
 }

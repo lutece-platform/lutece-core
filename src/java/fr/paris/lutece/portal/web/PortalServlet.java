@@ -106,7 +106,8 @@ public class PortalServlet extends AbstractSiteMultipartServlet
         }
         finally
         {
-            LocalVariables.setLocal( null, null, null );
+            //LocalVariables.setLocal( null, null, null );
+        	LocalVariables.remove( );
         }
     }
 
