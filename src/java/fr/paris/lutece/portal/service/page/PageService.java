@@ -44,10 +44,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
-import javax.cache.processor.EntryProcessor;
-import javax.cache.processor.EntryProcessorException;
-import javax.cache.processor.MutableEntry;
-
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
@@ -295,10 +291,8 @@ public class PageService implements IPageService, ImageResourceProvider
     {
         // Get request paramaters and store them in a HashMap
         Map<String, String> htParamRequest = readRequestParams( request, strIdPage );
-
         LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
-        // we add the key in the memory key only if cache is enable
         String strKey = getKey( htParamRequest, nMode, user );
 
     	String strPage = _cachePages.get( strKey );
@@ -306,17 +300,26 @@ public class PageService implements IPageService, ImageResourceProvider
        if ( strPage != null ) {
             return strPage;
         }
-       // Pass a reference to the method through an interface.
-       PageBuilder builder = this::buildPageContent;
        
-       try {
-           return _cachePages.invoke(strKey, new PageEntryProcessor(strIdPage, nMode, request, builder));
-       } catch (EntryProcessorException e) {
-           if (e.getCause() instanceof SiteMessageException) {
-               throw (SiteMessageException) e.getCause();
-           }
-           throw new RuntimeException("Unexpected error", e);
+       // generate page
+       RedirectionResponseWrapper response = new RedirectionResponseWrapper(LocalVariables.getResponse());
+       LocalVariables.setLocal(LocalVariables.getConfig(), request, response);
+       request.setAttribute(ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, null);
+       
+       String generatedPage = buildPageContent(strIdPage, nMode, request);
+
+       // Check if the page can be cached
+       boolean bCanBeCached = !Boolean.FALSE.equals(request.getAttribute(ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED));
+
+       // Manage redirect url
+       if (response.getRedirectLocation() != null) {
+           generatedPage = REDIRECTION_KEY + response.getRedirectLocation();
        }
+       // Store in cache if allowed
+       if (bCanBeCached && nMode != MODE_ADMIN) {
+           _cachePages.putIfAbsent(strKey, generatedPage);
+       } 
+           return generatedPage;
     }
 
     private Map<String, String> readRequestParams( HttpServletRequest request, String strIdPage )
@@ -1085,70 +1088,5 @@ public class PageService implements IPageService, ImageResourceProvider
                 updateChildrenAuthorizationNode( idPage, nIdNewAuthorizationNode );
             }
         }
-    }
-    
-    /**
-     * EntryProcessor pour la génération atomique de page
-     */
-    private static class PageEntryProcessor implements EntryProcessor<String, String, String> {
-        private final String strIdPage;
-        private final int nMode;
-        private final HttpServletRequest request;
-        private final PageBuilder pageBuilder;
-        
-        public PageEntryProcessor(String strIdPage, int nMode, HttpServletRequest request, PageBuilder pageBuilder) {
-            this.strIdPage = strIdPage;
-            this.nMode = nMode;
-            this.request = request;
-            this.pageBuilder = pageBuilder;
-        }
-        
-        @Override
-        public String process(MutableEntry<String, String> entry, Object... arguments) throws EntryProcessorException 
-        {
-            // Si la page existe déjà dans le cache, on la retourne
-            if (entry.exists()) {
-                AppLogService.debug("Page read from cache {}", entry.getKey());
-                return entry.getValue();
-            }
-            
-            // Sinon, on génère la page
-            AppLogService.debug("Page generation {}", entry.getKey());
-            
-            RedirectionResponseWrapper response = new RedirectionResponseWrapper(LocalVariables.getResponse());
-            LocalVariables.setLocal(LocalVariables.getConfig(), LocalVariables.getRequest(), response);
-            request.setAttribute(ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, null);
-            
-            // Build the page
-            String strPage;
-			try {
-				strPage = pageBuilder.buildPageContent(strIdPage, nMode, request);
-			} catch (SiteMessageException e) {			
-				throw new EntryProcessorException(e);
-			}
-            
-            // // We check if the page contains portlets that can not be cached.
-            boolean bCanBeCached = !Boolean.FALSE.equals(request.getAttribute(ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED));
-            
-            // Handle redirections
-            if (response.getRedirectLocation() != null) {
-                AppLogService.debug("Redirection found {}", response.getRedirectLocation());
-                strPage = REDIRECTION_KEY + response.getRedirectLocation();
-            }
-            
-            // Store in cache if allowed
-            if (bCanBeCached && nMode != MODE_ADMIN) {
-                entry.setValue(strPage);
-            }
-            
-            return strPage;
-        }
-    }
-    /**
-     * Interface to encapsulate the page-building logic.
-     */
-    private interface PageBuilder {
-        String buildPageContent(String strIdPage, int nMode, HttpServletRequest request) 
-            throws SiteMessageException;
     }
 }
