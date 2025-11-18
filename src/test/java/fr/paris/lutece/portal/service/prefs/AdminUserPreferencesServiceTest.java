@@ -34,9 +34,12 @@
 package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.test.LuteceTestCase;
+import jakarta.inject.Inject;
 
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -54,6 +57,22 @@ public class AdminUserPreferencesServiceTest extends LuteceTestCase
     private static final int INT_VALUE = 20;
     private static final boolean BOOL_DEFAULT = true;
     private static final boolean BOOL_VALUE = false;
+
+    private @Inject BaseUserPreferencesCacheService service;
+    private boolean bCacheStatus;
+    
+    @BeforeEach
+    protected void setUp( ) throws Exception
+    {
+        bCacheStatus = service.isCacheEnable( );
+        service.enableCache( true );
+    }
+
+    @AfterEach
+    protected void tearDown( ) throws Exception
+    {
+        service.enableCache( bCacheStatus );
+    }
 
     @Test
     public void testBusinessLevel( )

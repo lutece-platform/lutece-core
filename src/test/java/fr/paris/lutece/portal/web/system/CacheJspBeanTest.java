@@ -148,7 +148,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         for ( CacheableService service : CacheService.getCacheableServicesList( ) )
         {
             cacheIndex++;
-            if ( service instanceof AbstractCacheableService && service.isCacheEnable( )) 
+            if ( service instanceof AbstractCacheableService && service.isCacheEnable( ) && !service.isPreventGlobalReset( ) ) 
             {
                 cacheName = ((AbstractCacheableService) service ).getCache( ).getName( );
                 break;
@@ -176,7 +176,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         for ( CacheableService service : CacheService.getCacheableServicesList( ) )
         {
             cacheIndex++;
-            if ( service instanceof AbstractCacheableService && service.isCacheEnable( )) 
+            if ( service instanceof AbstractCacheableService && service.isCacheEnable( ) && !service.isPreventGlobalReset( ) ) 
             {
                 cacheName = ((AbstractCacheableService) service ).getCache( ).getName( );
                 break;
@@ -211,7 +211,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         for ( CacheableService service : CacheService.getCacheableServicesList( ) )
         {
             cacheIndex++;
-            if ( service instanceof AbstractCacheableService && service.isCacheEnable( )) 
+            if ( service instanceof AbstractCacheableService && service.isCacheEnable( ) && !service.isPreventGlobalReset( ) )
             {
                 cacheName = ((AbstractCacheableService) service ).getCache( ).getName( );
                 break;

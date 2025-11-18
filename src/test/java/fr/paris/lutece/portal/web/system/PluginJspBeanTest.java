@@ -67,13 +67,12 @@ public class PluginJspBeanTest extends LuteceTestCase
     private static final String PARAM_PLUGIN_TYPE_ALL = "all";
     private static final String PARAM_DB_POOL_NAME = "db_pool_name";
     private static final String PATH_PLUGIN = "path.plugins";
-    private PluginJspBean instance;
+    private @Inject PluginJspBean instance;
     private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        instance = new PluginJspBean( );
         try ( InputStream in = this.getClass( ).getResourceAsStream( "junit_plugin.xml" ) )
         {
             try ( OutputStream out = new FileOutputStream( new File( AppPathService.getPath( PATH_PLUGIN ), "junit_plugin.xml" ) ) )

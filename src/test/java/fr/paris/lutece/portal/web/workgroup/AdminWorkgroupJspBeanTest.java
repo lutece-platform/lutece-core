@@ -58,7 +58,7 @@ import jakarta.inject.Inject;
 public class AdminWorkgroupJspBeanTest extends LuteceTestCase
 {
     private AdminWorkgroup adminWorkgroup;
-    private AdminWorkgroupJspBean bean;
+    private @Inject AdminWorkgroupJspBean bean;
     private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
@@ -68,7 +68,6 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         adminWorkgroup.setKey( getRandomName( ) );
         adminWorkgroup.setDescription( adminWorkgroup.getKey( ) );
         AdminWorkgroupHome.create( adminWorkgroup );
-        bean = new AdminWorkgroupJspBean( );
     }
 
     @AfterEach

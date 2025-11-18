@@ -106,7 +106,10 @@ public class XPageAppServiceTest extends LuteceTestCase
         @Override
         public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws UserNotSignedException, SiteMessageException
         {
-            return new XPage( );
+            XPage page =  new XPage( );
+            page.setContent( "CONTENT" );
+            page.setTitle( "TITLE" );
+            return page;
         }
     }
 }

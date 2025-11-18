@@ -338,6 +338,12 @@ DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.Url.acce
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.accessibilityURL', '');
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.Url.account';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.account', '');
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.user.menumode.show.checkbox';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.menumode.show.checkbox', '1');
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.menu.boxed.checkbox';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.boxed.checkbox', '1');
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.menu.checkbox';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.checkbox', '0');
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.Url.auth';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.auth', '');
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.Url.cguURL';

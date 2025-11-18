@@ -265,6 +265,9 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_credits.text
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.copyright.textblock', '<copyright text>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '<privacy text>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.portlet.title.maxlength', '75');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.menumode.show.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.boxed.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.checkbox', '0');
 INSERT INTO core_datastore VALUES ('theme.globalThemeCode', 'lutece');
 INSERT INTO core_datastore VALUES ('theme.globalThemeVersion', '1.0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner', 'images/banner.jpg');
