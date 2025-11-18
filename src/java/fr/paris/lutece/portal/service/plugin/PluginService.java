@@ -43,10 +43,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eclipse.microprofile.config.Config;
 import org.eclipse.microprofile.config.ConfigProvider;
 
 import fr.paris.lutece.plugins.resource.loader.ResourceNotFoundException;
+import fr.paris.lutece.portal.service.cache.CacheConfigUtil;
 import fr.paris.lutece.portal.service.cache.Default107Cache;
 import fr.paris.lutece.portal.service.cache.Lutece107Cache;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
@@ -76,6 +79,7 @@ public final class PluginService
     private static final String PROPERTY_DB_POOL_NAME = ".pool";
     private static final String KEY_PLUGINS_STATUS = "core.plugins.status.";
     private static final String KEY_UNINSTALLED_PLUGIN = "plugins.uninstalled.";
+    private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
 
     // This map holds information associated only with the current instance and not shared across other instances.
     private static Map<String, PluginData> _mapPluginData = new HashMap<>( );
@@ -102,7 +106,16 @@ public final class PluginService
 
     	if( _pluginCache == null || _pluginCache.isClosed( )) {
     		
-    		_pluginCache = new Default107Cache<>( "pluginCache", String.class, Plugin.class, true, true );
+    		_pluginCache = new Default107Cache<String, Plugin>( "pluginCache", String.class, Plugin.class, true, true ){
+    			 @Override
+    		      public void enableCache(boolean bEnable) {
+    				 logger.info( "pluginCache cache cannot be disabled because it contains information required for Lutece to operate correctly." );    			       
+    		      }
+    			 @Override
+    			 public void resetCache() { 
+    				 logger.info( "pluginCache cache cannot be reset because it contains information required for Lutece to operate correctly." );    			       
+    			 }
+    		};
     	
     	}else {
             _pluginCache.clear( );

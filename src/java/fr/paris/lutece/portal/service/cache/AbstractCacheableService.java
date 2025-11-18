@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.service.cache;
 
 import fr.paris.lutece.portal.service.cache.LuteceCacheEvent.LuteceCacheEventType;
-import fr.paris.lutece.portal.service.util.AppLogService;
 
 import jakarta.enterprise.inject.spi.CDI;
 
@@ -54,6 +53,9 @@ import javax.cache.integration.CompletionListener;
 import javax.cache.processor.EntryProcessor;
 import javax.cache.processor.EntryProcessorResult;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * Base Lutece implementation of the Cache using JCache (JSR-107) and cacheable service.
  * This class implements the JCache (JSR-107) cache API and provides the service for enabling and disabling caches
@@ -63,9 +65,9 @@ import javax.cache.processor.EntryProcessorResult;
  * @param <V> the type of cached values
  */
 public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K, V> {
-    
+    private static final Logger logger = LogManager.getLogger(CacheConfigUtil.CACHE_LOGGER_NAME);
+
     protected Cache<K, V> _cache;
-    protected boolean _bEnable;
     protected Configuration<K, V> configuration; 
     protected boolean _bPreventGlobalReset;
 
@@ -83,6 +85,16 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     public void initCache(String strCacheName) {
         createCache(strCacheName);
+    }
+    /**
+     * Init & create the cache. Should be called by the class (cache) that extends AbstractCacheableService during its initialization.
+     * 
+     * @param strCacheName The cache name
+     * @param bEnable enable cache
+     */
+    public void initCache(String strCacheName, boolean bEnable) {
+    	 Configuration<K, V> config = (this.configuration != null) ? this.configuration : new MutableConfiguration<>();
+         createCache(strCacheName, config, bEnable);
     }
 
     /**
@@ -125,17 +137,27 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      * @return A cache object
      */
     protected <C extends Configuration<K, V>> Cache<K, V> createCache(String strCacheName, C configuration) {
+    	return createCache(strCacheName, configuration, false);
+    }
+    /**
+     * Create a cache for a given Service.
+     *
+     * @param strCacheName The Cache/Service name
+     * @param configuration a {@link Configuration} for the {@link Cache}
+     * @param bEnable the enbale param
+     * @return A cache object
+     */
+    protected <C extends Configuration<K, V>> Cache<K, V> createCache(String strCacheName, C configuration, boolean enable) {
        
     	ILutece107CacheManager luteceCacheManager = CDI.current().select(ILutece107CacheManager.class).get();
     	_cache = luteceCacheManager.getCache(strCacheName);
-    	if ((_cache == null || _cache.isClosed()) && (CacheConfigUtil.getStatusFromDataBase(strCacheName) || _bEnable)) {
+    	if ((_cache == null || _cache.isClosed()) && (CacheConfigUtil.getStatusFromDataBase(strCacheName) || enable)) {
         	if( _cache == null ) {
         		_cache = luteceCacheManager.createCache(strCacheName, configuration);
         	}       	
         }
     	if(_cache != null && !_cache.isClosed() ) {
     		this.configuration= _cache.getConfiguration(Configuration.class);
-        	_bEnable = true;
     	}
         CacheService.registerCacheableService(this);
         return _cache;
@@ -172,7 +194,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public boolean isCacheEnable() {
-        return _bEnable;
+        return _cache != null && !_cache.isClosed();
     }
     /**
      * {@inheritDoc }
@@ -193,7 +215,6 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
      */
     @Override
     public void enableCache(boolean bEnable) {
-    	_bEnable = bEnable;
         CacheService.updateCacheStatus(this);
         if (!bEnable && (_cache != null && !_cache.isClosed())) {
             _cache.clear();
@@ -217,7 +238,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
                 CDI.current().getBeanManager().getEvent( ).fire(new LuteceCacheEvent( _cache, LuteceCacheEventType.RESET ));
             }
         } catch (CacheException | IllegalStateException e) {
-            AppLogService.error(e.getMessage(), e);
+        	logger.error(e.getMessage(), e);
         }
     }
 

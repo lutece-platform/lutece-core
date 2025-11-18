@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -233,7 +232,83 @@ public final class TransactionManager
             mapTransactions.clear( );
         }
     }
+    /**
+     * Log all uncommitted transactions in the current thread with detailed information,
+     * rollback them automatically to prevent data inconsistencies, and clear the ThreadLocal.
+     * 
+     * <p>This method should be called at the end of a request in a servlet filter to detect
+     * transactions that were started but not properly committed.</p>
+     */
+    public static void logAndRollbackUncommittedTransactions() {
+        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get();
 
+        if (mapTransactions != null && !mapTransactions.isEmpty()) {
+            for (Map.Entry<String, MultiPluginTransaction> entry : mapTransactions.entrySet()) {
+                String poolName = entry.getKey();
+                MultiPluginTransaction transaction = entry.getValue();
+                int nbOpen = transaction.getNbTransactionsOpened();
+                AppLogService.error(
+                        "TransactionManager detected uncommitted transactions in the current thread.\n" +
+                        "Pool/Plugin: " + poolName + "\n" +
+                        "Number of open transactions: " + nbOpen + "\n" +
+                        "All active transactions have been rolled back automatically to prevent data inconsistency.\n" +
+                        "Please check the service code to ensure that commitTransaction() is called for every beginTransaction()."
+                    );
+
+                // Rollback the transaction
+                transaction.rollback(null);
+            }
+
+            // Clear the map
+            mapTransactions.clear();
+        }
+
+        // Remove the ThreadLocal reference
+        clear();
+    }
+    /**
+     * Clear the ThreadLocal context associated with the current thread.
+     *
+     * <p>This method removes the internal ThreadLocal Map that stores
+     * the active transactions for the current thread. It MUST be called
+     * at the end of each request in a web application environment 
+     * (typically in a servlet filter, inside a {@code finally} block).</p>
+     *
+     * <p>Failing to call this method may cause serious issues, including:</p>
+     * <ul>
+     *   <li><b>Memory leaks</b> due to ThreadLocal values remaining attached
+     *       to threads from the servlet container thread pool.</li>
+     *   <li><b>Cross-request contamination</b>, where transactions or 
+     *       transaction states from a previous request persist and interfere 
+     *       with the logic of subsequent requests handled by the same thread.</li>
+     *   <li><b>Incorrect behavior in multi-instance or multi-tenant deployments</b>,
+     *       since ThreadLocal content may belong to a different instance.</li>
+     * </ul>
+     *
+     * <p>This method does NOT attempt to commit or roll back any open
+     * transactions. It simply clears the ThreadLocal reference. Therefore,
+     * it should be used only after explicitly calling 
+     * {@link #commitTransaction(Plugin)} or {@link #rollBackEveryTransaction(Throwable)} 
+     * depending on the request outcome.</p>
+     *
+     * <p>Typical usage inside a filter:</p>
+     *
+     * <pre>
+     * try {
+     *     chain.doFilter(request, response);
+     * } catch (Exception e) {
+     *     TransactionManager.rollBackEveryTransaction(e);
+     *     throw e;
+     * } finally {
+     *     TransactionManager.clear();
+     * }
+     * </pre>
+     *
+     * @since 8.0.0
+     */
+    public static void clear() {
+        _tlTransactions.remove();
+    }
     /**
      * Get the name of the pool of a given plugin
      * 

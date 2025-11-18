@@ -66,12 +66,13 @@ public class MainFilter implements Filter
      */
     public void doFilter( ServletRequest requestServlet, ServletResponse responseServlet, FilterChain chain ) throws IOException, ServletException
     {
+    	
         HttpServletRequest request = (HttpServletRequest) requestServlet;
         HttpServletResponse response = (HttpServletResponse) responseServlet; 
         LuteceFilterChain chainPluginsFilters = new LuteceFilterChain( ); 
 
         AppLogService.debug("MainFilter : doFilter() - requested URI =  {}", ( ) -> ( ( HttpServletRequest ) requestServlet ).getRequestURI( ) );
-        
+        try { 
         FilterService filterService = CDI.current( ).select( FilterService.class ).get( );
         for ( LuteceFilter filter : filterService.getFilters( ) )
         {
@@ -102,12 +103,14 @@ public class MainFilter implements Filter
             {
                 AppLogService.error( "Error execution doFilter method - Filter {}", filter.getName( ), e );
             }
-        }
-
+        }       
         // Follow the standard filters chain
-        chain.doFilter( request, response );
-        // We check that some transactions is not still running for the current thread
-        TransactionManager.rollBackEveryTransaction( );
+       	chain.doFilter( request, response );
+       
+    	}finally {
+    		// We check that some transactions is not still running for the current thread     
+    		TransactionManager.logAndRollbackUncommittedTransactions( );
+    	}
     }
 
     /**

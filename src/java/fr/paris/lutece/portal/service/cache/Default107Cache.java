@@ -73,11 +73,10 @@ public class Default107Cache<K, V> extends AbstractCacheableService<K, V> {
      */
     public Default107Cache(String name, Class<K> k, Class<V> v, boolean enable, boolean preventGlobalReset) {
     	this.name = name;
-        this._bEnable= enable;
         this.configuration = new MutableConfiguration<K, V>().setTypes(k, v);
         this._bPreventGlobalReset = preventGlobalReset;
         validate();
-        this.initCache(name);
+        this.initCache(name, enable);
     }
 
     /**
@@ -92,10 +91,9 @@ public class Default107Cache<K, V> extends AbstractCacheableService<K, V> {
     public <C extends Configuration<K, V>> Default107Cache(String name, C configuration, boolean enable, boolean preventGlobalReset) {
         this.name = name;
         this.configuration = configuration;
-        this._bEnable= enable;
         this._bPreventGlobalReset = preventGlobalReset;
         validate();
-        this.initCache(name);
+        this.initCache(name, enable);
     }
 
     /**
