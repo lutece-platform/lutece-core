@@ -90,7 +90,7 @@ public class CacheJspBeanTest extends LuteceTestCase
     public void testDoResetCaches( ) throws AccessDeniedException
     {
         long registeredListener = CacheService.getCacheableServicesList( ).stream( )
-                .filter( service -> service instanceof AbstractCacheableService && service.isCacheEnable( ) ).count( );
+                .filter( service -> service instanceof AbstractCacheableService && service.isCacheEnable( ) && !service.isPreventGlobalReset( ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
@@ -148,7 +148,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         for ( CacheableService service : CacheService.getCacheableServicesList( ) )
         {
             cacheIndex++;
-            if ( service instanceof AbstractCacheableService && service.isCacheEnable( )) 
+            if ( service instanceof AbstractCacheableService && service.isCacheEnable( ) && !service.isPreventGlobalReset( ) ) 
             {
                 cacheName = ((AbstractCacheableService) service ).getCache( ).getName( );
                 break;
@@ -176,7 +176,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         for ( CacheableService service : CacheService.getCacheableServicesList( ) )
         {
             cacheIndex++;
-            if ( service instanceof AbstractCacheableService && service.isCacheEnable( )) 
+            if ( service instanceof AbstractCacheableService && service.isCacheEnable( ) && !service.isPreventGlobalReset( ) ) 
             {
                 cacheName = ((AbstractCacheableService) service ).getCache( ).getName( );
                 break;
@@ -211,7 +211,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         for ( CacheableService service : CacheService.getCacheableServicesList( ) )
         {
             cacheIndex++;
-            if ( service instanceof AbstractCacheableService && service.isCacheEnable( )) 
+            if ( service instanceof AbstractCacheableService && service.isCacheEnable( ) && !service.isPreventGlobalReset( ) )
             {
                 cacheName = ((AbstractCacheableService) service ).getCache( ).getName( );
                 break;
@@ -245,7 +245,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             cacheIndex++;
             if ( service instanceof AbstractCacheableService )
             {
-                if (service.isCacheEnable( )) { break; }
+                if (service.isCacheEnable( ) && !service.isPreventGlobalReset( ) ) { break; }
             }
         }
         assertFalse( "There should be at least one active AbstractCacheableService", cacheIndex == -1 );

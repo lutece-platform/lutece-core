@@ -222,7 +222,7 @@ public abstract class AbstractCacheableService<K, V> implements Lutece107Cache<K
         }
 
         if (bEnable && (_cache == null || _cache.isClosed())) {
-            this.initCache();
+            this.initCache(getName( ), bEnable);
         }
         
     }

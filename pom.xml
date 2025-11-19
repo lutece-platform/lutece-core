@@ -21,6 +21,7 @@
         <github.project>lutece-platform/lutece-core</github.project>
         <twitter.account>LuteceFoundry</twitter.account>
         <openhub.id>7203</openhub.id>
+        <localConfDirectory>/home/lutece/lutece/conf/lutece-core/WEB-INF/conf/</localConfDirectory>
     </properties>
 
     <repositories>

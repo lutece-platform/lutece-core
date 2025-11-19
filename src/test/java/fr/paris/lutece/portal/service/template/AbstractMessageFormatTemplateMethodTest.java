@@ -108,7 +108,7 @@ public class AbstractMessageFormatTemplateMethodTest extends LuteceTestCase
         assertNotNull( res );
         expResultJava8 = "test with quote and arg 1/2/70 11:17 AM";
         expResultJava10 = "test with quote and arg 1/2/70, 11:17 AM";
-        assertTrue( expResultJava8.equals( res.getHtml( ).replaceAll( "\n", "" ) ) || expResultJava10.equals( res.getHtml( ).replaceAll( "\n", "" ) ) );
+        assertTrue( expResultJava8.equals( res.getHtml( ).replaceAll( "\n", "" ).replaceAll( " ", " " ) ) || expResultJava10.equals( res.getHtml( ).replaceAll( "\n", "" ).replaceAll( " ", " " ) ) );
     }
 
 }
