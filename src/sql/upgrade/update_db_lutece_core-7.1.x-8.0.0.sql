@@ -218,6 +218,10 @@ DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.me
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.vertical.checkbox', '0');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.readmode.checkbox';
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.readmode.checkbox', '0');
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.menu.boxed.checkbox';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.boxed.checkbox', '0');
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.user.menumode.show.checkbox';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.menumode.show.checkbox', '0');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.user.darkmode.show.checkbox';
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.darkmode.show.checkbox', '0');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.user.readmode.show.checkbox';

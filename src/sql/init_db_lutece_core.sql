@@ -326,6 +326,8 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.wikiURL', 'ht
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.wikiURLLabel', 'Wiki');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssChars', '<>#"&');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssMsg', 'Les caract\\u00e8res &#60; &#62; &#35; et &#34;  &amp; sont interdits dans le contenu de votre message.');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.boxed.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.menumode.show.checkbox', '0');
 
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
