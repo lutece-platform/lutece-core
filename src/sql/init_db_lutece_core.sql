@@ -167,7 +167,7 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_langua
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_level', '0');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_notification', '1');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_status', '0');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.email_pattern', '^[\\w_.\\-!\\#$\\%\\&\'\\*\\+\\/\\=\\?\\^\\\\}\\{\\|\\~]+@[\\w_.\\-]+\\.[\\w]+$');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.email_pattern', '^[\\w_.\\-!\\#$\\%\\&\'\\*\\+\\/\\=\\?\\^\\`\\}\\{\\|\\~]+@[\\w_.\\-]+\\.[\\w]+$');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.email_pattern_verify_by', '');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.expired_alert_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.expired_alert_mail_subject', 'Votre compte a expiré');

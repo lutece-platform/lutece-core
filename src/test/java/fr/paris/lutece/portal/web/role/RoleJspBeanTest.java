@@ -60,14 +60,13 @@ import jakarta.inject.Inject;
 public class RoleJspBeanTest extends LuteceTestCase
 {
     private static final String PARAMETER_PAGE_ROLE = "role";
-    private RoleJspBean bean;
+    private @Inject RoleJspBean bean;
     private Role role;
     private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        bean = new RoleJspBean( );
         role = new Role( );
         role.setRole( getRandomName( ) );
         role.setRoleDescription( role.getRole( ) );
