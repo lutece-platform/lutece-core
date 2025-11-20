@@ -166,4 +166,9 @@ public final class LinksIncludeTestPlugin extends PluginDefaultImplementation
         _listJavascriptFiles.put( null, javascriptFiles );
     }
 
+    public void updatePluginConfig()
+    {
+        update( );
+    }
+
 }
