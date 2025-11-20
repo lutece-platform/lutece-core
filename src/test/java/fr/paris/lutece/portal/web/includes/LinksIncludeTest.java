@@ -140,6 +140,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         styleSheets.add( PLUGIN_NAME + "/style.css" );
         plugin.setCssStyleSheets( styleSheets );
         plugin.setCssStyleSheetsScopePortal( true );
+        plugin.updatePluginConfig( );
         LinksInclude include = new LinksInclude( );
         Map<String, Object> rootModel = new HashMap<>( );
         PageData data = new PageData( );
@@ -170,6 +171,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         styleSheets.add( "http://example.com/style.css" );
         plugin.setCssStyleSheets( styleSheets );
         plugin.setCssStyleSheetsScopePortal( true );
+        plugin.updatePluginConfig( );
         LinksInclude include = new LinksInclude( );
         Map<String, Object> rootModel = new HashMap<>( );
         PageData data = new PageData( );
@@ -200,6 +202,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         styleSheets.add( "https://example.com/style.css" );
         plugin.setCssStyleSheets( styleSheets );
         plugin.setCssStyleSheetsScopePortal( true );
+        plugin.updatePluginConfig( );
         LinksInclude include = new LinksInclude( );
         Map<String, Object> rootModel = new HashMap<>( );
         PageData data = new PageData( );
@@ -230,6 +233,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         styleSheets.add( "//example.com/style.css" );
         plugin.setCssStyleSheets( styleSheets );
         plugin.setCssStyleSheetsScopePortal( true );
+        plugin.updatePluginConfig( );
         LinksInclude include = new LinksInclude( );
         Map<String, Object> rootModel = new HashMap<>( );
         PageData data = new PageData( );
@@ -269,6 +273,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         {
             plugin.setCssStyleSheets( styleSheets );
             plugin.setCssStyleSheetsScopePortal( true );
+            plugin.updatePluginConfig( );
             LinksInclude include = new LinksInclude( );
             Map<String, Object> rootModel = new HashMap<>( );
             PageData data = new PageData( );
@@ -361,6 +366,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         {
             plugin.setCssStyleSheets( styleSheets );
             plugin.setCssStyleSheetsScopePortal( true );
+            plugin.updatePluginConfig( );
             LinksInclude include = new LinksInclude( );
             Map<String, Object> rootModel = new HashMap<>( );
             PageData data = new PageData( );
@@ -428,6 +434,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         {
             plugin.setCssStyleSheets( styleSheets );
             plugin.setCssStyleSheetsScopePortal( true );
+            plugin.updatePluginConfig( );
             LinksInclude include = new LinksInclude( );
             Map<String, Object> rootModel = new HashMap<>( );
             PageData data = new PageData( );
@@ -495,6 +502,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         {
             plugin.setCssStyleSheets( styleSheets );
             plugin.setCssStyleSheetsScopePortal( true );
+            plugin.updatePluginConfig( );
             LinksInclude include = new LinksInclude( );
             Map<String, Object> rootModel = new HashMap<>( );
             PageData data = new PageData( );
@@ -592,6 +600,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         javascripts.add( PLUGIN_NAME + "/script.js" );
         plugin.setJavascriptFiles( javascripts );
         plugin.setJavascriptFilesScopePortal( true );
+        plugin.updatePluginConfig( );
         LinksInclude include = new LinksInclude( );
         Map<String, Object> rootModel = new HashMap<>( );
         PageData data = new PageData( );
@@ -620,6 +629,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         javascripts.add( "http://example.com/script.js" );
         plugin.setJavascriptFiles( javascripts );
         plugin.setJavascriptFilesScopePortal( true );
+        plugin.updatePluginConfig( );
         LinksInclude include = new LinksInclude( );
         Map<String, Object> rootModel = new HashMap<>( );
         PageData data = new PageData( );
@@ -648,6 +658,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         javascripts.add( "https://example.com/script.js" );
         plugin.setJavascriptFiles( javascripts );
         plugin.setJavascriptFilesScopePortal( true );
+        plugin.updatePluginConfig( );
         LinksInclude include = new LinksInclude( );
         Map<String, Object> rootModel = new HashMap<>( );
         PageData data = new PageData( );
@@ -676,6 +687,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         javascripts.add( "//example.com/script.js" );
         plugin.setJavascriptFiles( javascripts );
         plugin.setJavascriptFilesScopePortal( true );
+        plugin.updatePluginConfig( );
         LinksInclude include = new LinksInclude( );
         Map<String, Object> rootModel = new HashMap<>( );
         PageData data = new PageData( );
@@ -712,6 +724,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         {
             plugin.setJavascriptFiles( javascripts );
             plugin.setJavascriptFilesScopePortal( true );
+            plugin.updatePluginConfig( );
             LinksInclude include = new LinksInclude( );
             Map<String, Object> rootModel = new HashMap<>( );
             PageData data = new PageData( );
@@ -800,6 +813,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         {
             plugin.setJavascriptFiles( javascripts );
             plugin.setJavascriptFilesScopePortal( true );
+            plugin.updatePluginConfig( );
             LinksInclude include = new LinksInclude( );
             Map<String, Object> rootModel = new HashMap<>( );
             PageData data = new PageData( );
@@ -865,6 +879,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         {
             plugin.setJavascriptFiles( javascripts );
             plugin.setJavascriptFilesScopePortal( true );
+            plugin.updatePluginConfig( );
             LinksInclude include = new LinksInclude( );
             Map<String, Object> rootModel = new HashMap<>( );
             PageData data = new PageData( );
@@ -929,6 +944,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         {
             plugin.setJavascriptFiles( javascripts );
             plugin.setJavascriptFilesScopePortal( true );
+            plugin.updatePluginConfig( );
             LinksInclude include = new LinksInclude( );
             Map<String, Object> rootModel = new HashMap<>( );
             PageData data = new PageData( );
