@@ -225,7 +225,7 @@ public class CacheConfigUtil {
 	        propertyNamesWithPrefix.forEach(propertyName -> {
 	            String propertyValue = config.getOptionalValue(propertyName, String.class)
 	                    .orElse("");
-	            configPropertiesWithPrefix.put(propertyName.substring(0,KEY_PREFIX.length()), propertyValue);
+	            configPropertiesWithPrefix.put(propertyName, propertyValue);
 	        });
 	        DatastoreService.getDataByPrefix(KEY_PREFIX).forEach(refItem ->{
 	        	configPropertiesWithPrefix.put(refItem.getCode(), refItem.getName());
