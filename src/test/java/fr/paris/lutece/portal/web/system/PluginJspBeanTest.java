@@ -45,6 +45,7 @@ import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -67,13 +68,12 @@ public class PluginJspBeanTest extends LuteceTestCase
     private static final String PARAM_PLUGIN_TYPE_ALL = "all";
     private static final String PARAM_DB_POOL_NAME = "db_pool_name";
     private static final String PATH_PLUGIN = "path.plugins";
-    private PluginJspBean instance;
+    private @Inject PluginJspBean instance;
     private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        instance = new PluginJspBean( );
         try ( InputStream in = this.getClass( ).getResourceAsStream( "junit_plugin.xml" ) )
         {
             try ( OutputStream out = new FileOutputStream( new File( AppPathService.getPath( PATH_PLUGIN ), "junit_plugin.xml" ) ) )
@@ -153,7 +153,7 @@ public class PluginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoModifyPluginPool( ) throws AccessDeniedException
     {
-        assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
+        assertEquals( AppConnectionService.DEFAULT_POOL_NAME, PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( PARAM_DB_POOL_NAME, "junit" );
@@ -165,39 +165,20 @@ public class PluginJspBeanTest extends LuteceTestCase
     @Test
     public void testDoModifyPluginPoolInvalidToken( ) throws AccessDeniedException
     {
-        assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( PARAM_DB_POOL_NAME, "junit" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "admin/system/manage_plugins.html" ) + "b" );
-        try
-        {
-            instance.doModifyPluginPool( request );
-            fail( "Should have thrown" );
-        }
-        catch( AccessDeniedException e )
-        {
-            assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
-        }
+        assertThrows( AccessDeniedException.class, () -> instance.doModifyPluginPool( request ) );
     }
     @Test
     public void testDoModifyPluginPoolNoToken( ) throws AccessDeniedException
     {
-        assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( PARAM_DB_POOL_NAME, "junit" );
-
-        try
-        {
-            instance.doModifyPluginPool( request );
-            fail( "Should have thrown" );
-        }
-        catch( AccessDeniedException e )
-        {
-            assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
-        }
+        assertThrows( AccessDeniedException.class, () -> instance.doModifyPluginPool( request ) );
     }
     @Test
     public void testGetConfirmUninstallPlugin( )

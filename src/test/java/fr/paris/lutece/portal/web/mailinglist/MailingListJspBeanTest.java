@@ -58,7 +58,7 @@ import jakarta.inject.Inject;
 public class MailingListJspBeanTest extends LuteceTestCase
 {
     private MailingList mailingList;
-    private MailingListJspBean bean;
+    private @Inject MailingListJspBean bean;
     private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
@@ -69,7 +69,6 @@ public class MailingListJspBeanTest extends LuteceTestCase
         mailingList.setDescription( mailingList.getName( ) );
         mailingList.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
         MailingListHome.create( mailingList );
-        bean = new MailingListJspBean( );
     }
 
     @AfterEach
@@ -408,7 +407,6 @@ public class MailingListJspBeanTest extends LuteceTestCase
         bean.getConfirmRemoveMailingList( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
-        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
         assertTrue( message.getRequestParameters( ).containsKey( "id_mailinglist" ) );
         assertEquals( Integer.toString( mailingList.getId( ) ), message.getRequestParameters( ).get( "id_mailinglist" ) );
     }

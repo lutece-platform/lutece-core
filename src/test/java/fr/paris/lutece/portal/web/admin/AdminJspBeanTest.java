@@ -52,6 +52,7 @@ import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
 import fr.paris.lutece.test.mocks.MockHttpServletResponse;
 import fr.paris.lutece.test.mocks.MockServletConfig;
+import jakarta.inject.Inject;
 
 /**
  * AdminJspBeanTest Test Class
@@ -62,6 +63,8 @@ public class AdminJspBeanTest extends LuteceTestCase
     private static final String PARAMETER_PAGE_ID = "page_id"; // home page
     private static final String TEST_PAGE_ID = "1"; // home page
     private static final String ATTRIBUTE_ADMIN_USER = "lutece_admin_user";
+    @Inject
+    private AdminPageJspBean _instance;
 
     /**
      * Test of getAdminPage method, of class fr.paris.lutece.portal.web.admin.AdminJspBean.
@@ -73,10 +76,9 @@ public class AdminJspBeanTest extends LuteceTestCase
         request.addParameter(PARAMETER_PAGE_ID, TEST_PAGE_ID);
         AdminUserUtils.registerAdminUserWithRight(request, new AdminUser(), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE);
 
-        AdminPageJspBean instance = new AdminPageJspBean();
-        instance.init(request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE);
+        _instance.init(request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE);
 
-        assertTrue(StringUtils.isNotEmpty(instance.getAdminPage(request)));
+        assertTrue(StringUtils.isNotEmpty(_instance.getAdminPage(request)));
     }
 
     /**
@@ -100,12 +102,11 @@ public class AdminJspBeanTest extends LuteceTestCase
         request.getSession(true).setAttribute(ATTRIBUTE_ADMIN_USER, user);
         LocalVariables.setLocal(new MockServletConfig(), request, new MockHttpServletResponse());
 
-        AdminPageJspBean instance = new AdminPageJspBean();
-        instance.init(request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE);
+        _instance.init(request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE);
 
         try
         {
-            instance.getAdminPagePreview(request);
+            _instance.getAdminPagePreview(request);
         } catch (SiteMessageException e)
         {
             fail();

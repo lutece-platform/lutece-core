@@ -7,4 +7,5 @@
     <description/>
     <provider/>
     <provider-url/>
+    <db-pool-required>1</db-pool-required>
 </plug-in>
