@@ -53,16 +53,3 @@
 	</@manageFeature>
 </@pageColumn>
 </@pageContainer>
-<#function time2string time>
-<#assign hour=( time / 3600 )?floor>
-<#assign mn=((time - (hour * 3600)) / 60)?floor>
-<#if hour !=0>
-	<#assign result='' + hour + 'h'>
-	<#if mn !=0>
-		<#assign result=result + ' ' + mn + 'mn'>
-	</#if>
-<#else>
-	<#assign result='' + mn + 'mn'>
-</#if>
-<#return result>
-</#function>
