@@ -16,10 +16,10 @@
 							<@input type='file' id='import_file' name='import_file' />
 						</@formGroup>
 						<@formGroup labelFor='ignore_first_line' helpKey='#i18n{portal.users.import_users_from_file.labelHelpIgnoreFirstLine}'>
-							<@checkBox orientation='switch' id='ignore_first_line' name='ignore_first_line' labelKey='#i18n{portal.users.import_users_from_file.labelIgnoreFirstLine}'  labelClass='fw-bold' />
+							<@checkBox orientation='switch' id='ignore_first_line' name='ignore_first_line' labelKey='#i18n{portal.users.import_users_from_file.labelIgnoreFirstLine}' labelClass='fw-bold' value='on' />
 						</@formGroup>
 						<@formGroup labelFor='update_existing_users' helpKey='#i18n{portal.users.import_users_from_file.labelHelpUpdateExistingUsers}'>
-							<@checkBox orientation='switch' id='update_existing_users' name='update_existing_users' labelKey='#i18n{portal.users.import_users_from_file.labelUpdateExistingUsers}'  labelClass='fw-bold' />
+							<@checkBox orientation='switch' id='update_existing_users' name='update_existing_users' labelKey='#i18n{portal.users.import_users_from_file.labelUpdateExistingUsers}' labelClass='fw-bold' value='on' />
 						</@formGroup>
 						<#if csv_messages?? && csv_messages?has_content>
 							<#list csv_messages as csv_message>
