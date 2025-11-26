@@ -1,52 +1,38 @@
 <footer>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-6 col-lg-4">
-				<form class="form-inline mx-5 mx-md-0 mb-3 mb-md-0" action="jsp/site/Portal.jsp" method="get">
+			<div class="col-md-6 ">
+				<form class="form-inline " action="jsp/site/Portal.jsp" method="get">
 					<input name="page" type="hidden" value="search" >
 					<div class="input-group">
-						<input id="query" class="form-control input-lg" name="query"  type="text" placeholder="Rechercher" />
+						<input id="query" class="form-control input-lg" name="query"  type="text" placeholder="Search" />
 						<button type="submit" class="btn btn-light btn-lg" title="#i18n{portal.site.page_menu_tools.labelSearch}">
 							<i class="ti ti-search"></i> <span class="visually-hidden">#i18n{portal.site.page_menu_tools.labelSearch}</span>
 						</button>
 					</div>
 				</form>
+				<p> <a href="jsp/site/Portal.jsp?page=map" data-bs-info="Plan du site" data-bs-toggle="modal" data-bs-target="#lutece-modal">Site map</a> </p>
+				<p> <a href="jsp/site/PopupCredits.jsp" data-bs-info="Crédits" data-bs-toggle="modal" data-bs-target="#lutece-modal" title="[New window] About" target="info_credit">About</a> - <a href="jsp/site/PopupLegalInfo.jsp" data-bs-info="Informations légales" data-bs-toggle="modal" data-bs-target="#lutece-modal" title="[New window] Terms of service" target="info_legal">Terms of service</a> 
 			</div>
-			<div class="col-md-4 ps-5">
-				<h3 class="ms-5">#i18n{portal.site.portal_footer.labelTitle}</h3>
-				<ul class="list-unstyled ms-5">
-					<li><a href="#home" class="page-scroll text-capitalize">#i18n{portal.site.page_home.label}</a></li>
-					<li><a href="jsp/site/Portal.jsp?page=map" data-bs-info="#i18n{portal.site.site_map.pageTitle}" data-bs-toggle="modal" data-bs-target="#lutece-modal" >#i18n{portal.site.site_map.pageTitle}</a></li>
-					<li><a href="jsp/site/PopupCredits.jsp" data-bs-info="#i18n{portal.site.portal_footer.labelCredits}" data-bs-toggle="modal" data-bs-target="#lutece-modal" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_credit">#i18n{portal.site.portal_footer.labelCredits}</a></li>
-					<li><a href="jsp/site/PopupLegalInfo.jsp" data-bs-info="#i18n{portal.site.portal_footer.labelInfo}" data-bs-toggle="modal" data-bs-target="#lutece-modal" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelInfo}" target="info_legal">#i18n{portal.site.portal_footer.labelInfo}</a></li>
-				</ul>	
-			</div>
-			<div class="col-md-6 col-lg-4 text-sm-center text-md-end">
-				<strong>Follow us : </strong>
-				<a href="https://www.linkedin.com/groups/Lutece-3925974" target="_blank" title="Follow us on Linkedin [Open in new window]"><img src="images/local/skin/linkedin.jpg" alt="Nous suivre sur Linkedin" class="social-pics"/></a>
-				<a href="https://twitter.com/lutecenews" target="_blank" title="Follow us on Twitter [Open in new window]"><img src="images/local/skin/Twitter_logo_white.png" alt="Nous suivre sur Twitter" class="social-pics"/></a>
-				<a href="https://www.openhub.net/p/lutece" target="_blank" title="Follow us on openHub [Open in new window]"><img src="images/local/skin/OH_logo.png" alt="Nous suivre sur openHub" class="social-pics"/></a>
-				<a href="https://github.com/lutece-platform" target="_blank" title="Follow us on GitHub [Open in new window]"><img src="images/local/skin/GitHub-white-Mark-v02.png" alt="Nous suivre sur GitHub" class="social-pics"/></a>
-			</div>
-		</div>
-		<div class="row mt-3">
-			<div class="col-sm-12 col-md-3 col-lg-3 mt-3">
-				<p class="text-sm-center text-md-start">
-					<a class="text-decoration-none" href="http://lutece.paris.fr/" title="Lutece [Open in new window]" target="_blank">
-						<span class="me-2">Powered by</span>
-						<img src="images/logo-lutece-footer.png" alt="Powered by Lutece" class="logo-footer">
-					</a>	
+			
+			<div class="col-md-6  text-md-end">
+				<p>
+				Powered by : <a  href="http://lutece.paris.fr/" title="Lutece [Open in new window]" target="_blank">
+					     <img src="images/Lutece-logo.png" alt="Powered by Lutece" style="width:100px">
+					  </a>	
 				</p>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-6 mt-3">
-				<p class="mb-3 text-center">2023 - Coded by the <a href="https://github.com/orgs/lutece-platform/people" title="Lutece Github [Open in new window]">Lutece Dev Team</a> on <a href="https://github.com/lutece-platform/lutece-core" title="Lutece Github [Open in new window]"> Lutece core 7 </a></p>
-			</div>
-			<div class="col-sm-12 col-md-3 col-lg-3 mt-3">
-				<p class="text-md-end text-sm-center">
-					<a href="http://paris.fr/" title="City of Paris" target="_blank">
-						<img src="images/logo-paris-footer.svg" class="logo-footer" alt="City of Paris" title="City of Paris [Open in new window]" >
-					</a>
+				
+				<p>
+				Follow us : 
+				<a href="https://www.linkedin.com/groups/Lutece-3925974" target="_blank" title="Follow us on Linkedin [Open in new window]"><img src="images/site/linkedin.jpg" alt="Nous suivre sur Linkedin" class="social-pics"/></a>
+				<a href="https://x.com/lutecenews" target="_blank" title="Follow us on Twitter [Open in new window]"><img src="images/site/x.jpg" alt="Nous suivre sur X" class="social-pics"/></a>
+				<a href="https://www.openhub.net/p/lutece" target="_blank" title="Follow us on openHub [Open in new window]"><img src="images/site/openhub.png" alt="Nous suivre sur openHub" class="social-pics"/></a>
+				<a href="https://github.com/lutece-platform" target="_blank" title="Follow us on GitHub [Open in new window]"><img src="images/site/github.png" alt="Nous suivre sur GitHub" class="social-pics"/></a>
 				</p>
+				
+				<p>&copy; 2025 - Coded by : <a href="https://github.com/orgs/lutece-platform/people" title="Lutece Github [Open in new window]">Lutece Dev Team</a> on <a href="https://github.com/lutece-platform/lutece-core" title="Lutece Github [Open in new window]"> Lutece core 7 </a>
+				</p>
+				
 			</div>
 		</div>
 	</div>
