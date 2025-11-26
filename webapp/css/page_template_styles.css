@@ -352,3 +352,7 @@ p {
 .footer .lutece-wrapper .footer-lutece .links li a:hover {
   color: var(--main-info-color );
 }
+
+footer .social-pics{ max-width:40px; padding:5px; display: inline-block;}
+
+
