@@ -19,9 +19,11 @@
 	try
 	{
 		String strContent = portal.getContent( request );
-
-		out.print( strContent );
-		out.flush();
+		if ( strContent != null && strContent.length( ) > 0 )
+		{
+			out.print( strContent );
+			out.flush();
+		}
 	}
 	catch ( PageNotFoundException pnfe )
 	{
