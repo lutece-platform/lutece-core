@@ -7,7 +7,7 @@
 <#macro adminHeader site_name=site_name admin_url=admin_url>
 <#local readMode><#attempt><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if><#recover></#attempt></#local>
 <#local darkMode><#attempt><#if dskey('portal.site.site_property.layout.darkmode.checkbox')?number==1>dark<#else>light</#if><#recover>light</#attempt></#local>
-<#local layout><#attempt><#if dskey('portal.site.site_property.layout.menu.checkbox')?number==1>left<#else>top</#if><#recover>top</#attempt></#local>
+<#local layout><#attempt><#if dskey('portal.site.site_property.layout.menu.vertical.checkbox')?number==1>left<#else>top</#if><#recover>top</#attempt></#local>
 <#local userReadMode><#attempt>${dskey('portal.site.site_property.layout.user.readmode.show.checkbox')?number}<#recover>0</#attempt></#local>
 <#local userDarkMode><#attempt>${dskey('portal.site.site_property.layout.user.darkmode.show.checkbox')?number}<#recover>0</#attempt></#local>
 <#local userMenuMode><#attempt>${dskey('portal.site.site_property.layout.user.menumode.show.checkbox')?number}<#recover>0</#attempt></#local>
