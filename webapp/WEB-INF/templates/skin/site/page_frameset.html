@@ -68,9 +68,8 @@ ${rss?default("<!-- no RSS feed -->")}
 <body id="body-page<#if data.homePage>-home<#elseif page_id=1>-<#if data.name !=''>${data.name?replace(' ','_')?lower_case!}<#else>xpage</#if><#else>-${page_id!}</#if>"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if>>
 <!-- Accessibility Skip Nav Menu-->
 <@skipNav skipMenu=skipLinkMenu?boolean target=skipLinkMainId!'main' />
-<#-- Add your own Nav Menu Content here with @mainNavItem macro  -->
-<#assign optMainNav=.get_optional_template('theme_frameset_main_nav.html')>
-<#if optMainNav.exists><@optMainNav.include /></#if>
+<!-- Page Header -->
+${page_header}
 <#if page_id &gt; 1>
 <!-- breadcrumb -->
 ${page_path}
@@ -80,21 +79,10 @@ ${page_path}
 <#if optMainContentHeader.exists><@optMainContentHeader.include /></#if>
 <div class="container my-5 py-5">
 <div class="row">
-<#if customMenuSideBar??>
-	 ${customMenuSideBar}
-	 <div class="col-xl-9">
-	     <!-- Contenu principal -->
-		 <div class="main-content">
-		${page_content}
-		<#if display_last_modified?? && display_last_modified><@cText class='text-right pt-3 pr-5'><@parisIcon name='clock' title='' class='main-danger-color' /> #i18n{portal.site.site_property.page.lastModified} ${last_modified!}</@cText></#if>
-		</div>
-	</div>
-<#else>
- <div class="main-content">
+<div class="main-content">
 ${page_content}
 <#if display_last_modified?? && display_last_modified><@cText class='text-right pt-3 pr-5'><@parisIcon name='clock' title='' class='main-danger-color' /> #i18n{portal.site.site_property.page.lastModified} ${last_modified!}</@cText></#if>
 </div>
-</#if>
 </div>
 </div>
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled>

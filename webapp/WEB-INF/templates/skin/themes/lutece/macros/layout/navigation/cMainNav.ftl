@@ -54,6 +54,8 @@ Parameters:
             <#if hasMenu>
                 <#assign menu=page_main_menu!>
                 <#if showDefaultMenu>${page_main_menu_html!menu}</#if>
+                <#if customMenuMainPage??>${customMenuMainPage}</#if>
+                <#if customMenuInternalPage??>${customMenuInternalPage!customMenuMainPage}</#if>
             </#if>
             <#if hasNestedMenu>
             <#nested>
@@ -147,7 +149,10 @@ Parameters:
             </#if>
             <nav class="navbar-main sidebar-nav " id="main-menu-sidebar" aria-label="#i18n{theme.mainMenu}" role="navigation">
                 <ul class="navbar-nav navbar-main flex-column me-auto" aria-label="#i18n{theme.mainMenu}">
-                    <#if showDefaultMenu>${page_main_menu_html!menu}</#if>
+                    <#if hasMenu>
+                        <#if showDefaultMenu>${page_main_menu_html!menu}</#if>
+                        <#if customMenuSideBar??>${customMenuSideBar!}</#if>
+                    </#if>
                     <#if hasSearchMenu && typeSearch='icon'>
                         <@cMainNavItem title='' url=searchUrl >
                             <svg class="paris-icon paris-icon-search main-color" role="img" aria-hidden="true" focusable="false">
@@ -156,7 +161,9 @@ Parameters:
                             <@cInline class='visually-hidden'>#i18n{portal.util.labelSearch}</@cInline>
                         </@cMainNavItem>
                     </#if>
+                    <#if hasNestedMenu>
                     <#nested>
+                    </#if>
                 </ul>
                 <#if hasSearchMenu && typeSearch='field'>
                     <#assign formSearchAction><#if searchAction=''>${urlSearch!}<#else>${searchAction!}</#if></#assign>
