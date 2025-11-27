@@ -6,8 +6,8 @@
 -->
 <#-- THEME LINKS AND LABELS VARIABLES -->
 <#-- Theme Code           -->
-<#assign commonsGlobalThemeCode><#if !dskey('theme.globalThemeCode')?starts_with('DS') && dskey('theme.globalThemeCode') !=''>${dskey('theme.globalThemeCode')}<#else>lutece</#if></#assign>
-<#assign commonsGlobalThemeVersion><#if !dskey('theme.globalThemeVersion')?starts_with('DS') && dskey('theme.globalThemeVersion') !=''>${dskey('theme.globalThemeVersion')}<#else>1.0</#if></#assign>
+<#assign commonsGlobalThemeCode><#if !dskey('portal.theme.globalThemeCode')?starts_with('DS') && dskey('portal.theme.globalThemeCode') !=''>${dskey('portal.theme.globalThemeCode')}<#else>lutece</#if></#assign>
+<#assign commonsGlobalThemeVersion><#if !dskey('portal.theme.globalThemeVersion')?starts_with('DS') && dskey('portal.theme.globalThemeVersion') !=''>${dskey('portal.theme.globalThemeVersion')}<#else>1.0</#if></#assign>
 <#-- Path                 -->
 <#assign commonsSiteSharedPath='themes/shared/' /> 
 <#assign commonsSiteThemePath='themes/skin/${commonsGlobalThemeCode}/' /> 
@@ -35,27 +35,27 @@
 <#-- MACROS LIST                            -->
 <#include "theme_commons_macros.ftl" />
 <#-- BANNER MANAGEMENT        -->
-<#assign hasBanner><#if !dskey('theme.site_property.banner.shown.checkbox')?starts_with('DS') &&  dskey('theme.site_property.banner.shown.checkbox') =='1'>true<#else>false</#if></#assign>
-<#assign urlDefaultBannerImage>${dskey('theme.site_property.banner')}</#assign>
-<#assign showWholeSiteBannerEverywhere><#if dskey('theme.site_property.banner.showSiteImgEverywhere.checkbox') =='1'>false<#else>true</#if></#assign>
+<#assign hasBanner><#if !dskey('portal.theme.site_property.banner.shown.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.banner.shown.checkbox') =='1'>true<#else>false</#if></#assign>
+<#assign urlDefaultBannerImage>${dskey('portal.theme.site_property.banner')}</#assign>
+<#assign showWholeSiteBannerEverywhere><#if dskey('portal.theme.site_property.banner.showSiteImgEverywhere.checkbox') =='1'>false<#else>true</#if></#assign>
 <#assign isBannerOnlyHome=showWholeSiteBannerEverywhere?boolean >
 <#-- END BANNER MANAGEMENT    -->
 <#-- MENU MANAGEMENT          -->
-<#assign isRtl><#if !dskey('theme.site_property.layout.dir.checkbox')?starts_with('DS') &&  dskey('theme.site_property.layout.dir.checkbox') =='1'>true<#else>false</#if></#assign>
-<#assign hasUserThemeSwitch><#if !dskey('theme.site_property.menu.userthemeswitch.checkbox')?starts_with('DS') &&  dskey('theme.site_property.menu.userthemeswitch.checkbox') =='1'>true<#else>false</#if></#assign>
-<#assign isDark><#if dskey('theme.site_property.layout.theme.checkbox') == '1'>true<#else>false</#if></#assign>
-<#assign skipLinkMenu><#if !dskey('theme.site_property.menu.skipLinkMenu.checkbox')?starts_with('DS') && dskey('theme.site_property.menu.skipLinkMenu.checkbox') == '1'>true<#else>false</#if></#assign>
-<#assign skipLinkMainId>${dskey('theme.site_property.menu.skipLinkMainId')}</#assign>
-<#assign hasDefaultMenu><#if dskey('theme.site_property.menu.hasDefaultMenu.checkbox') == '1'>true<#else>false</#if></#assign>
-<#assign isFixedMenu><#if dskey('theme.site_property.menu.fixedMenu.checkbox') == '1'>true<#else>false</#if></#assign>
-<#assign isMainSidebarMenu><#if dskey('theme.site_property.menu.sidebarMenu.checkbox') == '1'>true<#else>false</#if></#assign>
-<#assign isMainSidebarMenuCollapse><#if dskey('theme.site_property.menu.sidebarMenuCollapse.checkbox') == '1'>true<#else>false</#if></#assign>
-<#assign urlDefaultSearch>${dskey('theme.site_property.Url.search')!}</#assign>
+<#assign isRtl><#if !dskey('portal.theme.site_property.layout.dir.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.layout.dir.checkbox') =='1'>true<#else>false</#if></#assign>
+<#assign hasUserThemeSwitch><#if !dskey('portal.theme.site_property.menu.userthemeswitch.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.userthemeswitch.checkbox') =='1'>true<#else>false</#if></#assign>
+<#assign isDark><#if dskey('portal.theme.site_property.layout.theme.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign skipLinkMenu><#if !dskey('portal.theme.site_property.menu.skipLinkMenu.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.menu.skipLinkMenu.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign skipLinkMainId>${dskey('portal.theme.site_property.menu.skipLinkMainId')}</#assign>
+<#assign hasDefaultMenu><#if dskey('portal.theme.site_property.menu.hasDefaultMenu.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign isFixedMenu><#if dskey('portal.theme.site_property.menu.fixedMenu.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign isMainSidebarMenu><#if dskey('portal.theme.site_property.menu.sidebarMenu.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign isMainSidebarMenuCollapse><#if dskey('portal.theme.site_property.menu.sidebarMenuCollapse.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign urlDefaultSearch>${dskey('portal.theme.site_property.Url.search')!}</#assign>
 <#-- MENU MANAGEMENT          -->
 <#-- LAYOUT MANAGEMENT        -->
-<#assign isLayoutFluid><#if dskey('theme.site_property.layout.type.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign isLayoutFluid><#if dskey('portal.theme.site_property.layout.type.checkbox') == '1'>true<#else>false</#if></#assign>
 <#-- END LAYOUT MANAGEMENT    -->
 <#-- UTILS MANAGEMENT         -->
-<#assign addGoToTop><#if dskey('theme.site_property.menu.gototop.checkbox') == '1'>true<#else>false</#if></#assign>
-<#assign isTargetDefaultIconShown><#if dskey('theme.site_property.link.showTargetIcon.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign addGoToTop><#if dskey('portal.theme.site_property.menu.gototop.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign isTargetDefaultIconShown><#if dskey('portal.theme.site_property.link.showTargetIcon.checkbox') == '1'>true<#else>false</#if></#assign>
 <#-- END UTILS MANAGEMENT     -->
