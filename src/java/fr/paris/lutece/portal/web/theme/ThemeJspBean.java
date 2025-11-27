@@ -149,7 +149,7 @@ public class ThemeJspBean extends MVCAdminJspBean
             if ( !strTheme.isBlank() )
             {
                 _themeService.setGlobalTheme( strTheme, strVersion );
-                return redirect( request, VIEW_MANAGE_THEMES );
+                return redirectView( request, VIEW_MANAGE_THEMES );
             }
             else
             {
