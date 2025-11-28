@@ -6,8 +6,8 @@
 -->
 <#-- THEME LINKS AND LABELS VARIABLES -->
 <#-- Theme Code           -->
-<#assign commonsGlobalThemeCode><#if !dskey('portal.theme.globalThemeCode')?starts_with('DS') && dskey('portal.theme.globalThemeCode') !=''>${dskey('portal.theme.globalThemeCode')}<#else>lutece</#if></#assign>
-<#assign commonsGlobalThemeVersion><#if !dskey('portal.theme.globalThemeVersion')?starts_with('DS') && dskey('portal.theme.globalThemeVersion') !=''>${dskey('portal.theme.globalThemeVersion')}<#else>1.0</#if></#assign>
+<#assign commonsGlobalThemeCode><#if !dskey('theme.globalThemeCode')?starts_with('DS') && dskey('theme.globalThemeCode') !=''>${dskey('theme.globalThemeCode')}<#else>lutece</#if></#assign>
+<#assign commonsGlobalThemeVersion><#if !dskey('theme.globalThemeVersion')?starts_with('DS') && dskey('theme.globalThemeVersion') !=''>${dskey('theme.globalThemeVersion')}<#else>1.0</#if></#assign>
 <#-- Path                 -->
 <#assign commonsSiteSharedPath='themes/shared/' /> 
 <#assign commonsSiteThemePath='themes/skin/${commonsGlobalThemeCode}/' /> 
@@ -16,7 +16,7 @@
 <#assign commonsTplPath='${commonsGlobalThemeCode}/tpl/' />
 <#assign commonsSiteJsPath='js/' /> 
 <#assign commonsSiteCssPath='css/' /> 
-<#assign commonsSiteCssImages='images/' /> 
+<#assign commonsSiteImagesPath='images/' /> 
 <#-- Doc Generator Path -->
 <#assign commonsFtlPath='${commonsGlobalThemeCode}/macros/' />
 <#-- Theme Macros             -->

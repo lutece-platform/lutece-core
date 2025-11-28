@@ -1,4 +1,8 @@
 <#-- Template to add content to footer menu in page_frameset.html theme template -->
-<#-- Update ME -->
+<@cTpl>
+<#if !dskey('portal.theme.site_property.layout.footerSocial.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.layout.footerSocial.checkbox') =='1'>
+<@cMainFooterSocial title=favourite />
+<#else>
 <@cMainFooter title=favourite />
-<#-- End Update ME -->
+</#if>
+</@cTpl>

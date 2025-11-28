@@ -1,7 +1,6 @@
 <#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
-<#assign commonsGlobalThemeCode=thetheme.codeTheme!>
+<#assign commonsGlobalThemeCode=thetheme.codeTheme! >
 <#assign commonsGlobalThemeVersion=thetheme.themeVersion!>
-<#assign commonsGlobalThemeImg=thetheme.pathImages!>
 <#assign themeFrameset=.get_optional_template('../themes/${commonsGlobalThemeCode}/tpl/site/page_frameset.html')>
 <#if themeFrameset.exists>
 <@themeFrameset.include />
@@ -37,11 +36,11 @@
 <#if themeCSSLinks??>
 <@themeCSSLinks />
 <#else>
-<link href="${thetheme.pathCss!}/bootstrap.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${commonsGlobalThemeCode}/${commonsSiteCssPath!}bootstrap.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <!-- Theme CSS include -->
-<link href="${thetheme.pathCss!}/theme.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${commonsGlobalThemeCode}/${commonsSiteCssPath!}theme.min.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <!-- Custom site styles include -->
-<link href="${thetheme.pathCss!}/styles.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${commonsGlobalThemeCode}/${commonsSiteCssPath!}styles.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 </#if>
 ${plugins_css_links}
 <!-- Custom site styles include -->
@@ -106,7 +105,7 @@ ${contextinclude_2!}
 <#if themeJSLinks?? >
 <@themeJSLinks />
 <#else>
-<script src="${thetheme.pathJs}/js/vendor/js/bootstrap.bundle.min.js?theme=${commonsGlobalThemeCode}${commonsGlobalThemeVersion}"></script>
+<script src="${commonsGlobalThemeCode}/${commonsSiteJsPath}/vendor/js/bootstrap.bundle.min.js?theme=${commonsGlobalThemeCode}${commonsGlobalThemeVersion}"></script>
 </#if>
 <#-- Plugins JS includes   			-->
 ${plugins_javascript_links!}

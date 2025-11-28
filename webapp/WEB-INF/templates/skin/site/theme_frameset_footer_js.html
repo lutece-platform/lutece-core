@@ -2,10 +2,12 @@
 <@cTpl>
 <#-- Update ME -->
 <script src="themes/skin/shared/vendor/clipboard/clipboard.min.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
-<#if dskey('theme.site_property.bannerBrowserWarning.checkbox')?number = 1>
+<#if dskey('portal.theme.site_property.bannerBrowserWarning.checkbox')?number = 1>
 <!-- Browser detection and warning old browser -->
 <script src="${thetheme.pathJs}/vendor/es5.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <script>
+var xssChars='${dskey("themeparisfr.site_property.xss.xssChars")!}';
+var xssMsg='${dskey("themeparisfr.site_property.xss.xssMsg")!}';
 window.addEventListener( "load", function() {
 	const browser = bowser.getParser(window.navigator.userAgent);
 	const browserName=browser['parsedResult']['browser']['name'];
@@ -62,14 +64,14 @@ window.addEventListener( "load", function() {
 <!-- MyLutece User Connexion -->
 </#if>
 <#-- User message toastr notification - Parameter in back office - Menu Site / Site Properties -> Theme Paris.fr 	-->
-<#if dskey('theme.site_property.bannerMessage.htmlblock') !='' && dskey('theme.site_property.bannerMessage.Title') !=''>
+<#if dskey('portal.theme.site_property.bannerMessage.htmlblock') !='' && dskey('portal.theme.site_property.bannerMessage.Title') !=''>
 <!-- ========================================================   -->
 <!-- USER MESSAGE NOTIF		                                   -->
 <!-- ========================================================   -->
-<#assign bannerMessageDuration>${dskey('theme.site_property.bannerMessage.Duration')}</#assign>
-<#assign bannerMessagePosition>${dskey('theme.site_property.bannerMessage.Position')}</#assign>
+<#assign bannerMessageDuration>${dskey('portal.theme.site_property.bannerMessage.Duration')!}</#assign>
+<#assign bannerMessagePosition>${dskey('portal.theme.site_property.bannerMessage.Position')!}</#assign>
 <@cInitToast showAll=true duration=bannerMessageDuration?number position=bannerMessagePosition >
-    <@cToast title=dskey('theme.site_property.bannerMessage.Title') content=dskey('theme.site_property.bannerMessage.htmlblock') delay=bannerMessageDuration?number class='bg-${dskey(\'theme.site_property.bannerMessage.Type\')}' />
+    <@cToast title=dskey('portal.theme.site_property.bannerMessage.Title') content=dskey('portal.theme.site_property.bannerMessage.htmlblock') delay=bannerMessageDuration?number class='bg-${dskey(\'theme.site_property.bannerMessage.Type\')}' />
 </@cInitToast>
 </#if>
 <#-- End Update ME -->
