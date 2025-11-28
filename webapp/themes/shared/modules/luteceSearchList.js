@@ -32,7 +32,7 @@ export default class LuteceSearchList {
       toggleIconPrefix: 'ti',
       toggleIconOn: 'ti-list',
       toggleIconOff: 'ti-cards',
-      toggleCardParentId: 'page-header-tools .mb-3',  
+      toggleCardParentId: 'page-header-tools',  
       toggleCardClass: ['flex-row'],  
       toggleCardHeaderClass : ['flex-column','justify-content-around','align-items-start'],  
       toggleCardFooterClass : ['d-flex','align-items-center','mt-0'],
