@@ -174,7 +174,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         url.addParameter( PARAMETER_SESSION, PARAMETER_SESSION );
 
         LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<>( listMailinglists, _nItemsPerPage, url.getUrl( ),
-                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         model.put( MARK_MAILINGLISTS_LIST, paginator.getPageItems( ) );
         model.put( MARK_PAGINATOR, paginator );
