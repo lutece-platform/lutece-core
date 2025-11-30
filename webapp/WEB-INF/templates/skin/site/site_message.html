@@ -30,7 +30,7 @@
 <div class="row">
 	<div class="col-sm-12 col-md-4 offset-md-4">
 		<div class="alert alert-${messageClass}">
-			<h3 class="h3"><i class="ti ti-${messageIcon}"></i> ${title?has_content?then(title, messageTitle)}</h3>
+			<h3 class="h3"><i class="ti ti-${messageIcon}" aria-hidden="true"></i> ${title?has_content?then(title, messageTitle)}</h3>
 			${text} 
 		</div>
 		<div class="row">
@@ -40,7 +40,7 @@
 				<form method="post" action="${url!}" target="${target!}" class="form-inline">							
 				<#if list_parameters?exists><#list keys as key><input type="hidden" name="${key}" value="${list_parameters[key]}" /></#list></#if>														
 				<button type="submit"class="btn btn-primary">
-					<i class="ti ti-circle-check"></i> #i18n{portal.util.labelValidate}
+					<@icon style="circle-check"/> #i18n{portal.util.labelValidate}
 				</button>
 				</form>	
 			</#if>
@@ -48,12 +48,12 @@
 				<form method="post" action="${back_url}" class="form-inline" >
 				<#if list_parameters?exists><#list keys as key><input type="hidden" name="${key}" value="${list_parameters[key]}" ></#list></#if>
 				<button type="submit" name="cancel" class="btn btn-primary">
-					<i class="ti ti-circle-x"></i> <#if cancel_button = 1>#i18n{portal.util.labelBack}<#elseif cancel_button = 2>#i18n{portal.util.labelCancel}</#if>
+					<@icon style="circle-x"/> <#if cancel_button = 1>#i18n{portal.util.labelBack}<#elseif cancel_button = 2>#i18n{portal.util.labelCancel}</#if>
 				</button>
 				</form>		
 			<#else>		
 				<button type="button" class="btn btn-primary" onclick="javascript:window.history.back();">
-					<i class="ti ti-circle-x"></i>
+					<@icon style="circle-x"/>
 					<#if cancel_button = 1>#i18n{portal.util.labelBack}<#elseif cancel_button = 2>#i18n{portal.util.labelCancel}</#if>
 				</button>
 			</#if>

@@ -4,7 +4,7 @@
       <#nested>
           <div class="col-md-auto d-flex align-items-center justify-content-center position-relative align-self-stretch py-2">
       <button id="searchButton" type="submit" class="btn btn-primary rounded-pill h-100 align-center d-flex align-items-center px-3">
-        <i class="ti ti-search"></i>
+        <@icon style="search"/>
       </button>
     </div>
     </div>

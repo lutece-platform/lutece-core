@@ -56,7 +56,7 @@ Parameters:
         <div class="lutece-dialog-content">
             <div class="lutece-dialog-header">
                 <h2 class="lutece-dialog-title h4 text-dark" id="portletModalLabel">#i18n{portal.site.portletType.labelCreate}</h2>
-                <button type="button" class="btn btn-link btn-cancel text-dark" aria-label="#i18n{portal.util.labelCancel}"><i class="ti ti-x"></i></button>
+                <button type="button" class="btn btn-link btn-cancel text-dark" aria-label="#i18n{portal.util.labelCancel}"><@icon style="x"/></button>
             </div>
             <div class="lutece-dialog-body">
                     <form action="jsp/admin/DoCreatePortlet.jsp" type="get">

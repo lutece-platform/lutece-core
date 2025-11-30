@@ -21,7 +21,7 @@ Parameters:
         <div class="offcanvas-header border-bottom text-break px-4">
             <h2 class="offcanvas-title fw-bolder" id="template-create-page-roleLabel">${responsiveMenuTitle}</h2>
             <button type="button" class="ms-3 border btn btn-light btn-rounded btn-icon" data-bs-dismiss="offcanvas" data-bs-target="#<#if id != ''>${id}</#if>" aria-label="Close">
-                <i class="ti ti-x fs-5"></i>
+                <@icon style="x" class="fs-5"/>
             </button>
         </div>
         <div class="offcanvas-body p-0 overflow-hidden ${responsiveMenuBodyClass}">
