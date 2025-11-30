@@ -8,7 +8,7 @@ Parameters:
 - showall (boolean, optional): whether to display an option to show all items on a single page (default is 0).
 -->
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0>
-<@formGroup labelFor='${paginator.itemsPerPageParameterName}' labelKey='#i18n{portal.util.labelItemCountPerPage}' formStyle='inline'>
+<@formGroup labelFor='${paginator.itemsPerPageParameterName}' labelKey='#i18n{portal.util.labelItemCountPerPage}' formStyle='inline' class="align-items-center">
 <@inputGroup size='sm'>
 	<@select params='data-max-item="${paginator.itemsCount}"' size='sm' name='${paginator.itemsPerPageParameterName}' id='${paginator.itemsPerPageParameterName}' title='${paginator.labelItemCountPerPage}'>
   		<#list [ "10" , "20" , "50" , "100" ] as nb>
