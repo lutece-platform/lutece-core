@@ -35,6 +35,10 @@ body.loaded #lutece-layout-wrapper {
 }
 
 /* Dark theme */
+body[data-bs-theme="dark"] {
+	--dark: var(--tblr-dark);
+}
+
 body[data-bs-theme="dark"] a:not(.btn) {
     color: var(--dark-light) !important;
 }
