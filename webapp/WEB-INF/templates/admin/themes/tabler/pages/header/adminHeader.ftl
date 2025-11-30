@@ -38,7 +38,7 @@ Parameters:
 						<#if feature_group.features?size &gt; 1>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" id="dLabel${feature_group.id}Header" role="button" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="${admin_url}#${feature_group.id}">
-									<i class="${icon_class} me-1"></i> <span>${feature_group.label}</span>
+									<i class="${icon_class} me-1" aria-hidden="true"></i> <span>${feature_group.label}</span>
 								</a>
 								<div class="dropdown-menu" aria-labelledby="dLabel${feature_group.id}Header">
 									<div class="dropdown-menu-columns">
@@ -46,7 +46,7 @@ Parameters:
 										<#list feature_group.features as feature>
 											<#if !feature.externalFeature>
 												<a class="dropdown-item" href="${feature.url}?plugin_name=${feature.pluginName}" title="${feature.name}">
-													<i class="${feature.iconUrl} me-1"></i> 
+													<i class="${feature.iconUrl} me-1" aria-hidden="true"></i> 
 													<span>${feature.name} </span>
 												</a>
 											<#else>
@@ -65,11 +65,11 @@ Parameters:
 								<li class="nav-item">
 								<#if !feature.externalFeature>
 									<a class="nav-link" href="${feature.url}?plugin_name=${feature.pluginName}"><#if feature.iconUrl?has_content>
-										<i class="${feature.iconUrl} me-1"></i></#if> 
+										<i class="${feature.iconUrl} me-1" aria-hidden="true"></i></#if> 
 										<span>${feature.name}</span>
 									</a>
 								<#else>
-									<a class="nav-link" href="${feature.url}"><#if feature.iconUrl?has_content><i class="${feature.iconUrl} me-1"></i></#if> 
+									<a class="nav-link" href="${feature.url}"><#if feature.iconUrl?has_content><i class="${feature.iconUrl} me-1" aria-hidden="true"></i></#if> 
 										<span>${feature.name}</span>
 									</a>
 								</#if>
@@ -79,28 +79,28 @@ Parameters:
 					</#list>
 					<li class="nav-item d-none d-lg-flex ms-auto">
 						<a class="nav-link"  href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}" id="go-home">
-							<i class="ti ti-home"></i><span class="visually-hidden">#i18n{portal.users.admin_header.homePage}</span>
+							<@icon style="home"/> <span class="visually-hidden">#i18n{portal.users.admin_header.homePage}</span>
 						</a>
 					</li>
 					<li class="nav-item d-flex d-lg-none mt-2">
 						<a class="nav-link"  href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}" id="go-home">
-							<i class="ti ti-home me-2"></i> <span>#i18n{portal.users.admin_header.homePage}</span>
+							<@icon style="home" class="me-2"/> <span>#i18n{portal.users.admin_header.homePage}</span>
 						</a>
 					</li>
 					<#if userMenuMode?number = 1>
 					<li class="nav-item d-none d-lg-flex">
 						<div class="nav-link" title="#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}" id="switch-menu" tabindex="0" role="button" data-bs-toggle="tooltip" data-bs-animation="false" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}">
-							<i class="ti ti-layout-navbar-collapse menu-rotate-icon"></i><span class="visually-hidden">#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}</span>
+							<@icon style="layout-navbar-collapse" class="menu-rotate-icon"/><span class="visually-hidden">#i18n{portal.users.admin_header.labelMenuV} / #i18n{portal.users.admin_header.labelMenuH}</span>
 						</div> 
 					</li>
 					</#if>
 					<#if userDarkMode?number = 1>
 					<li class="nav-item" id="switch-darkmode">
 						<div class="nav-link d-none d-lg-flex" tabindex="0" role="button">
-							<i class="ti ti-moon"></i><span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></span>
+							<@icon style="moon"/><span class="visually-hidden">#i18n{portal.users.admin_header.labelMode} <span>#i18n{portal.users.admin_header.labelDarkMode}</span></span>
 						</div>
 						<div class="nav-link d-flex d-lg-none" tabindex="0" role="button">
-							<i class="ti ti-moon me-2"></i> <span>#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode}</span>
+							<@icon style="moon" class="me-2"/> <span>#i18n{portal.users.admin_header.labelMode} #i18n{portal.users.admin_header.labelDarkMode}</span>
 						</div>
 					</li>
 					</#if>
@@ -143,24 +143,24 @@ Parameters:
 					</#if>
 					<li class="nav-item d-none d-lg-flex">
 						<a class="nav-link" href="jsp/admin/ManageProperties.jsp" title="#i18n{portal.site.adminFeature.properties_management.name}" >
-							<i class="ti ti-home-cog"></i>
+							<@icon style="home-cog"/>
 							<span class="visually-hidden">#i18n{portal.site.adminFeature.properties_management.name}</span>
 						</a>
 					</li>
 					<li class="nav-item d-flex d-lg-none">
 						<a class="nav-link" href="jsp/admin/ManageProperties.jsp" title="#i18n{portal.site.adminFeature.properties_management.name}" >
-							<i class="ti ti-home-cog me-2"></i> <span>#i18n{portal.site.adminFeature.properties_management.name}</span>
+							<@icon style="home-cog" class="me-2"/> <span>#i18n{portal.site.adminFeature.properties_management.name}</span>
 						</a>
 					</li>
 					<li class="nav-item d-none d-lg-flex">
 						<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
-							<i class="ti ti-settings"></i>
+							<@icon style="settings"/>
 							<span class="visually-hidden">#i18n{portal.admindashboard.view_dashboards.title}</span>
 						</a>
 					</li>
 					<li class="nav-item d-flex d-lg-none">
 						<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
-							<i class="ti ti-settings me-2"></i> <span>#i18n{portal.admindashboard.view_dashboards.title}</span>
+							<@icon style="settings" class="me-2"/> <span>#i18n{portal.admindashboard.view_dashboards.title}</span>
 						</a>
 					</li>
 					</#if>
@@ -182,17 +182,17 @@ Parameters:
 						<div class="dropdown-divider nav-info"></div>
 						<#if admin_logout_url?has_content>
 						<a class="dropdown-item dropdown-logout d-none d-lg-flex" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
-							<i class="ti ti-logout me-1"></i> 
+							<@icon style="logout" class="me-1"/>
 							<span>#i18n{portal.users.admin_header.deconnectionLink}</span>
 						</a>
 						</#if> 
 						</div>
 					</li>
 					<li class="nav-item justify-content-start d-lg-none">
-						<a class="nav-link dropdown-toggle" id="mobile_usermenuitems" role="button" data-bs-toggle="dropdown" role="button" aria-expanded="false" href=""><i class="ti ti-user me-2"></i>${dashboard_zone_4!}</a>
+						<a class="nav-link dropdown-toggle" id="mobile_usermenuitems" role="button" data-bs-toggle="dropdown" role="button" aria-expanded="false" href=""><@icon style="user" class="me-2"/>${dashboard_zone_4!}</a>
 						<#if userMenuItems?has_content>
 							<ul class="dropdown-menu">
-								<li class="nav-item d-flex"><span class="dropdown-item"><i class="ti ti-calendar me-2"></i> #i18n{portal.users.admin_header.labelLastLogin} ${user.dateLastLogin!}</span></li>
+								<li class="nav-item d-flex"><span class="dropdown-item"><@icon style="calendar" class="me-2"/> #i18n{portal.users.admin_header.labelLastLogin} ${user.dateLastLogin!}</span></li>
 								<#list userMenuItems as item>
 								<li class="nav-item d-flex">${item.content}</li>
 								</#list>
@@ -202,14 +202,14 @@ Parameters:
 					<#if admin_logout_url?has_content>
 					<li class="nav-item d-flex d-lg-none">
 						<a class="nav-link" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
-							<i class="ti ti-logout me-2"></i> 
+							<@icon style="logout" class="me-2"/>
 							<span>#i18n{portal.users.admin_header.deconnectionLink}</span>
 						</a>
 					</li>	
 					</#if>
 				</ul>
 				<button id="aside-header-collapse" class="btn btn-dark btn-sm mt-5" type="button" title="#i18n{portal.util.labelToggleSize}">
-					<span class="ti ti-switch-horizontal"></span>
+					<@icon style="switch-horizontal"/>
 					<span class="visually-hidden">#i18n{portal.util.labelToggleSize}</span>
 				</button>
 			</div>

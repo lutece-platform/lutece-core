@@ -50,10 +50,10 @@ Parameters:
 <#macro adminReadMode>
 <li class="nav-item dropdown me-2" id="lutece-rtl">
 	<div class="nav-link d-none d-lg-flex" tabindex="0" role="button" title="#i18n{portal.site.site_property.layout.readmode.checkbox}">
-		<i class="ti ti-text-direction-rtl"></i> <span class="visually-hidden">#i18n{portal.site.site_property.layout.readmode.checkbox}</span>
+		<@icon style="text-direction-rtl"/> <span class="visually-hidden">#i18n{portal.site.site_property.layout.readmode.checkbox}</span>
 	</div>
 	<div class="nav-link d-flex d-lg-none" tabindex="0" role="button" title="#i18n{portal.site.site_property.layout.readmode.checkbox}">
-		<i class="ti ti-text-direction-rtl  me-2"></i> #i18n{portal.site.site_property.layout.readmode.checkbox}
+		<@icon style="text-direction-rtl" class="me-2"/> #i18n{portal.site.site_property.layout.readmode.checkbox}
 	</div>
 </li>
 </#macro>
