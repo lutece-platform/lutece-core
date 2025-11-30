@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isMatchFound) {
             const tablink = `<h3 class="fw-bolder mb-2 mt-4">${contentNav}</h3>
             <a href="#${contentId}" class="nav-link" id="${contentId}-tab" title="${contentTitle}" role="tab" aria-expanded="false" aria-controls="search" data-bs-toggle="tab" aria-selected="false" tabindex="-1">	
-                <i class="ti ti-${contentIcon} me-1"></i> ${contentTitle}
+                <i class="ti ti-${contentIcon} me-1" aria-hidden="true"></i> ${contentTitle}
             </a>`
             tabListParent.insertAdjacentHTML('beforeend', tablink);
         }
