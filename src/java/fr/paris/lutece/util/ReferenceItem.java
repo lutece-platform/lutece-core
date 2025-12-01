@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.util;
 
+import java.io.Serializable;
+
 /**
  * This class is the representation of a ReferenceItem composed of a code and a name. It also provides the methods to access to those attributes.
  */
-public class ReferenceItem
+public class ReferenceItem implements Serializable
 {
     private String _strCode;
     private String _strName;
