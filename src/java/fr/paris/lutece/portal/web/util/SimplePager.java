@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
+import fr.paris.lutece.util.function.SerializableFunction;
 import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.IPaginator;
 import fr.paris.lutece.util.html.Paginator;
@@ -87,7 +88,7 @@ public class SimplePager<S, T> implements IPager<S, T>, Serializable
 	}
 
 	@Override
-	public IPaginator<S> populateModels(HttpServletRequest request, Models models, Function<List<S>, List<T>> delegate,
+	public IPaginator<S> populateModels(HttpServletRequest request, Models models, SerializableFunction<List<S>, List<T>> delegate,
 			Locale locale) {
 
         Objects.requireNonNull(request, "HttpServletRequest cannot be null");
