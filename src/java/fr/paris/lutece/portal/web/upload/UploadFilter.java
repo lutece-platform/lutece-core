@@ -156,7 +156,7 @@ public abstract class UploadFilter implements Filter
             }
             catch( SizeLimitExceededException e )
             {
-                AppLogService.error( e.getMessage( ), e );
+                AppLogService.error( "Size limit error for upload: {}", e.getMessage( ) );
 
                 Object [ ] args = {
                         getDisplaySize( )
