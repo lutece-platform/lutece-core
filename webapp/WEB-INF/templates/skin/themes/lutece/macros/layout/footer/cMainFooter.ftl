@@ -14,7 +14,7 @@ Parameters:
   <div class="container">
     <div class="row align-items-center border-bottom py-5">
       <div class="col-lg-8">
-        <ul class="list-inline footer-menu text-center text-lg-start"  aria-label="#i18n{theme.footerInfo}" >
+        <ul class="list-inline footer-menu text-center text-lg-start"  aria-label="#i18n{portal.theme.footerInfo}" >
             <#if nested_pos='before'><#nested></#if>
             <@_footerMenu />
             <#if nested_pos='after'>
@@ -25,12 +25,12 @@ Parameters:
       <div class="col-lg-4">
         <ul class="list-inline social-icons text-lg-end text-center">
             <li class="list-inline-item">
-                <a target="_blank" aria-label="#i18n{theme.labelGoToSite} ${footerSocialTitleTw}" href="${footerSocialLinkTw}" class="hide-icon-target">        
+                <a target="_blank" aria-label="#i18n{portal.theme.labelGoToSite} ${footerSocialTitleTw}" href="${footerSocialLinkTw}" class="hide-icon-target">        
                     <i class="ti ti-brand-x"></i>
                 </a>
             </li>
             <li class="list-inline-item">
-                <a target="_blank" href="#" aria-label="#i18n{theme.labelGoToSite} ${footerSocialTitleGithub}" href="${footerSocialLinkGithub}" class="hide-icon-target">
+                <a target="_blank" href="#" aria-label="#i18n{portal.theme.labelGoToSite} ${footerSocialTitleGithub}" href="${footerSocialLinkGithub}" class="hide-icon-target">
                     <i class="ti ti-brand-github"></i>
                 </a>
             </li>

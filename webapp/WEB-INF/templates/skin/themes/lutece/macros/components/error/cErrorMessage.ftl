@@ -25,7 +25,7 @@ Parameters:
       <#if linkUrl !=''>
         <@chList class='list-unstyled d-flex justify-content-center gap-2 mt-l'>
           <@chItem>
-            <@cLink href='.' label='#i18n{theme.home}' class='btn btn-secondary' />
+            <@cLink href='.' label='#i18n{portal.theme.home}' class='btn btn-secondary' />
           </@chItem>
           <@chItem>
             <#if linkLabelUrl=''><#local linkLabelUrl>#i18n{portal.util.labelBackHome}</#local></#if>
@@ -34,7 +34,7 @@ Parameters:
         </@chList>
       <#else>
         <@cText class='text-center mt-l'>
-          <@cLink href='.' label='#i18n{theme.home}' class='btn btn-secondary' />
+          <@cLink href='.' label='#i18n{portal.theme.home}' class='btn btn-secondary' />
         </@cText>
       </#if>
     </@cCol>

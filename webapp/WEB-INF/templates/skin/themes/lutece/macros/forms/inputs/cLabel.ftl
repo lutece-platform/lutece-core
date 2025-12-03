@@ -17,7 +17,7 @@ Parameters:
 <#local isrequired=required />
 <#if propagateRequired?? && propagateRequired ><#local isrequired=true /></#if>
 <label class="<#if class!=''>${class}</#if><#if !showLabel> visually-hidden</#if>"<#if for!=''> for="${for!}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-${label!}<#if isrequired>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{theme.labelMandatory}">*</span></#if>
+${label!}<#if isrequired>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{portal.theme.labelMandatory}">*</span></#if>
 <#nested>
 </label>
 </#macro>

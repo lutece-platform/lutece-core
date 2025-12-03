@@ -20,7 +20,7 @@ Parameters:
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id=''>id-${random()}<#else>${id}</#if></#local>
 <fieldset<#if class!=''> class="${class}"</#if><#if for!=''> for="${for!}"</#if> id="fieldset-${cId}"<#if params!=''> ${params}</#if><#if role!=''> role="${role}"</#if> aria-labelledby="legend-${cId}"<#if helpMsg !=''> aria-describedby="help_${cId!}"</#if>'>
-<#if legend!=''><legend <#if legendClass!='' || !showLabel>class="${legendClass!}<#if !showLabel> visually-hidden</#if>"</#if> id="legend-${cId}" <#if required> aria-required="true"</#if>>${legend!}<#if required> <span class="main-danger-color" tabindex="-1" title="#i18n{theme.labelMandatory}">*</span></#if></legend></#if>
+<#if legend!=''><legend <#if legendClass!='' || !showLabel>class="${legendClass!}<#if !showLabel> visually-hidden</#if>"</#if> id="legend-${cId}" <#if required> aria-required="true"</#if>>${legend!}<#if required> <span class="main-danger-color" tabindex="-1" title="#i18n{portal.theme.labelMandatory}">*</span></#if></legend></#if>
 <#if helpPos == 'top' && helpMsg !=''><@cFormHelp cId helpMsg /></#if>
 <#nested>
 <#if helpPos == 'after' && helpMsg !=''><@cFormHelp cId helpMsg /></#if>

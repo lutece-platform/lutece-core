@@ -10,14 +10,14 @@ Parameters:
 @param - class - string - optional - the CSS class of the element, default '' 
 @param - id - string - optional - the ID of the element, default ''
 @param - actionName - string - optional - Action name for submit step button, default 'action_doGoToStep'
-@param - actionLabel - string - optional - Label for action step button, default '#i18n{theme.labelUpdate}'
-@param - actionAriaLabelKey - string - optional - Aria label for action step button, default '#i18n{theme.ariaLabelUpdate}'
-@param - actionHref - string - optional - Url for action step button, default '#i18n{theme.ariaLabelUpdate}'
-@param - actionClass - string - optional - Class for action step button, default '#i18n{theme.ariaLabelUpdate}'
-@param - actionParams - string - optional - additional HTML attributes for action step button, default '#i18n{theme.ariaLabelUpdate}'
+@param - actionLabel - string - optional - Label for action step button, default '#i18n{portal.theme.labelUpdate}'
+@param - actionAriaLabelKey - string - optional - Aria label for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
+@param - actionHref - string - optional - Url for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
+@param - actionClass - string - optional - Class for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
+@param - actionParams - string - optional - additional HTML attributes for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
 -->
-<#macro cStepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{theme.labelUpdate}' actionAriaLabelKey='theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
+<#macro cStepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cSection class='step step-done ${class!}' id=id params=params>
 	<@cSection class='step-title'>

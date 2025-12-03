@@ -12,7 +12,7 @@ Parameters:
 @param - params - optional - additional HTML attributes to include in the ckeckbox element default ''
 @param - disabled - boolean - optional - Disable element, default false
 -->
-<#macro cMultiselect class='' labelOptionSelection='#i18n{theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params='' disabled=false deprecated...>
+<#macro cMultiselect class='' labelOptionSelection='#i18n{portal.theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params='' disabled=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id!=''>${id}<#else>msg-${random()!}</#if></#local>
 <#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>

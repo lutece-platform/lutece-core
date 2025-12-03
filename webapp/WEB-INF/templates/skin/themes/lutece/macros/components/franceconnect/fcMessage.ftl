@@ -9,7 +9,7 @@ Parameters:
 @param - pclass - string - optional - Classe CSS pour le paragraphe
 @param - brlink - boolean - optional - Ajoute un saut de ligne après le lien
 -->
-<#macro fcMessage label='#i18n{theme.labelFranceConnect}' url='https://franceconnect.gouv.fr/' class='' pclass='' brlink=true deprecated...>
+<#macro fcMessage label='#i18n{portal.theme.labelFranceConnect}' url='https://franceconnect.gouv.fr/' class='' pclass='' brlink=true deprecated...>
 <@cText class=pclass>
 <#if brlink><span class="d-block"></#if>
 <#nested>

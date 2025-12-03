@@ -11,12 +11,12 @@ Parameters:
 @param - iterable - boolean - optional - Add box to the checkbox, default false 
 @param - iteration - number - optional - Number of iteration default 0
 @param - iterationMax - number - optional - Number of max iteration possible default 10
-@param - labelAddIteration - string - optional - Label to add an iteration, default '#i18n{theme.labelAdd}'
-@param - labelDelIteration - string - optional - Label to remove an iteration, default '#i18n{theme.labelDelete}'
+@param - labelAddIteration - string - optional - Label to add an iteration, default '#i18n{portal.theme.labelAdd}'
+@param - labelDelIteration - string - optional - Label to remove an iteration, default '#i18n{portal.theme.labelDelete}'
 @param - headerParams - string - optional - additional HTML attributes to include in the header of step group element default ''
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
 -->
-<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{theme.labelAdd}' labelDelIteration='#i18n{theme.labelDelete}' headerParams='' help='' class='' id='' params='' deprecated...>
+<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.theme.labelAdd}' labelDelIteration='#i18n{portal.theme.labelDelete}' headerParams='' help='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cFormRow>
 	<@cSection class='w-100 flex-fill step-group ${class!}' id=id params=params >

@@ -9,9 +9,9 @@ Parameters:
 @param - type - string - optional - Si fluid ajoute une classe pour un affichage en largeur 100%    
 @param - params - string - optional - permet d'ajouter des paramètres HTML au fil d'ariane
 -->
-<#macro cBreadCrumb home='#i18n{theme.home}' items='' class='' type='' params='' deprecated...>
+<#macro cBreadCrumb home='#i18n{portal.theme.home}' items='' class='' type='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<nav aria-label="#i18n{theme.breadcrumb}" class="breadcrumb-nav<#if class!=''> ${class!}</#if>"<#if params!=''> ${params!}</#if>>
+<nav aria-label="#i18n{portal.theme.breadcrumb}" class="breadcrumb-nav<#if class!=''> ${class!}</#if>"<#if params!=''> ${params!}</#if>>
 	<div class="container<#if type='fluid'>-fluid</#if>">
 		<ol class="breadcrumb">
             <#if home!=''>

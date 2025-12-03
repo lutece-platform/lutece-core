@@ -43,11 +43,11 @@ Parameters:
             ${title} 
         </span>
     </a>
-    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMainMenu" aria-label="#i18n{theme.showmenu}" aria-controls="navbarMainMenu">
-        <span class="navbar-toggler-icon"><span class="visually-hidden-focusable">#i18n{theme.showmenu}</span></span>
+    <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMainMenu" aria-label="#i18n{portal.theme.showmenu}" aria-controls="navbarMainMenu">
+        <span class="navbar-toggler-icon"><span class="visually-hidden-focusable">#i18n{portal.theme.showmenu}</span></span>
     </button>
-    <div class="collapse navbar-collapse text-center" aria-label="#i18n{theme.mainMenu} #i18n{theme.showmenu}" role="navigation">
-        <ul class="navbar-nav w-100 align-items-center" aria-label="#i18n{theme.mainMenu}">
+    <div class="collapse navbar-collapse text-center" aria-label="#i18n{portal.theme.mainMenu} #i18n{portal.theme.showmenu}" role="navigation">
+        <ul class="navbar-nav w-100 align-items-center" aria-label="#i18n{portal.theme.mainMenu}">
             <li class="nav-item<#if pageId = '1'> active</#if>">
                 <a class="nav-link text-capitalize" title="${title}" href="." target="_top" aria-current="<#if pageId = '1'>page<#else>false</#if>">#i18n{portal.site.page_home.label}</a>
             </li>
@@ -89,7 +89,7 @@ Parameters:
                 </@cMainNavItem>
             </#if>
             <#if hasLogin>
-                <li class="nav-item navbar-user<#if loginClass !='' > ${loginClass!}</#if> ms-auto" aria-label="#i18n{theme.labelMyAcount}">
+                <li class="nav-item navbar-user<#if loginClass !='' > ${loginClass!}</#if> ms-auto" aria-label="#i18n{portal.theme.labelMyAcount}">
                     ${pageinclude_userlogin?default("")}
                 </li>
             </#if>
@@ -143,12 +143,12 @@ Parameters:
     <header class="theme-main-header<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if>" id="main-banner-${pageId!'theme'}" role="banner">
         <div id="sidebar-main-menu">
              <#if isSibebarCollapsible>
-            <button id="main-sidebar-collapse" type="button" class="btn btn-outline-primary btn-mini" aria-label="#i18n{portal.util.labelShow} / #i18n{portal.util.labelHide} #i18n{theme.mainMenu}" aria-expanded="true" aria-controls="main-menu-sidebar">
+            <button id="main-sidebar-collapse" type="button" class="btn btn-outline-primary btn-mini" aria-label="#i18n{portal.util.labelShow} / #i18n{portal.util.labelHide} #i18n{portal.theme.mainMenu}" aria-expanded="true" aria-controls="main-menu-sidebar">
                 <@parisIcon name='burger' />
             </button>
             </#if>
-            <nav class="navbar-main sidebar-nav " id="main-menu-sidebar" aria-label="#i18n{theme.mainMenu}" role="navigation">
-                <ul class="navbar-nav navbar-main flex-column me-auto" aria-label="#i18n{theme.mainMenu}">
+            <nav class="navbar-main sidebar-nav " id="main-menu-sidebar" aria-label="#i18n{portal.theme.mainMenu}" role="navigation">
+                <ul class="navbar-nav navbar-main flex-column me-auto" aria-label="#i18n{portal.theme.mainMenu}">
                     <#if hasMenu>
                         <#if showDefaultMenu>${page_main_menu_html!menu}</#if>
                         <#if customMenuSideBar??>${customMenuSideBar!}</#if>

@@ -11,13 +11,13 @@ Parameters:
 @param - maxFileSize - number - optional - Max file size that can be uploaded, default 0
 @param - unit - string - optional - the unit used to show the file size, default ''
 @param - accept - string - optional - Mimit the extensions the user can upload, default ''
-@param - label - string - optional - label associated to the upload input default '#i18n{theme.labelUploadFiles}' 
+@param - label - string - optional - label associated to the upload input default '#i18n{portal.theme.labelUploadFiles}' 
 @param - showLabel - number - optional - Show label if equal to one, otherwise hide it , default 1
 @param - labelPos - number - optional - Set label before input if equal to one, otherwise set after input , default 1
-@param - labelSelect - string - optional - label associated to the upload input default '#i18n{theme.labelSelect}' - deprecated
-@param - labelSubmit - string - optional - label associated to the upload input default '#i18n{theme.labelSubmit}' - deprecated
+@param - labelSelect - string - optional - label associated to the upload input default '#i18n{portal.theme.labelSelect}' - deprecated
+@param - labelSubmit - string - optional - label associated to the upload input default '#i18n{portal.theme.labelSubmit}' - deprecated
 @param - formSubmitButtonName - string - optional - name of the submit "button" of the parent form, used in js to prevent validation of mandatory fields, default 'action_doSaveStep' 
-@param - labelDelete - string - optional - label of the label button default '#i18n{theme.labelDelete}' - deprecated
+@param - labelDelete - string - optional - label of the label button default '#i18n{portal.theme.labelDelete}' - deprecated
 @param - required - boolean - optional - Set element as required, default false
 @param - disabled - boolean - optional - Disable element, default false
 @param - multiple - boolean - optional - Set multiple attribute to select default false
@@ -29,7 +29,7 @@ Parameters:
 @param - class - string - optional - the CSS class of the element, default '' 
 @param - params - optional - additional HTML attributes to include in the ckeckbox element default ''
 -->
-<#macro cInputDropFiles name handler={} type='dropzone' nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{theme.labelSelect}' labelSubmit='#i18n{theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
+<#macro cInputDropFiles name handler={} type='dropzone' nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{portal.theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{portal.theme.labelSelect}' labelSubmit='#i18n{portal.theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id!=''>${id!}<#else>${name!}</#if></#local>
 <#local nbFiles = nbFiles?number >
@@ -41,7 +41,7 @@ Parameters:
 <div class="row group-files ${type} <#if !multiple> one-file</#if><#if nbUplodadedFiles?number=nbFiles?number> no-file</#if>">
 	<div class="col">
         <#if labelPos == 1>
-        <label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable</#if><#if errorMsg !=''> main-danger-color</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{theme.labelMandatory}">*</span></#if></label>
+        <label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable</#if><#if errorMsg !=''> main-danger-color</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{portal.theme.labelMandatory}">*</span></#if></label>
         </#if>
         <#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>	
         <#if type="dropzone">
@@ -50,7 +50,7 @@ Parameters:
                  <svg class="paris-icon paris-icon-upload white-color" role="img" aria-hidden="true" focusable="false">
                     <use xlink:href="#paris-icon-upload"></use>
                 </svg>
-                <p class="flex-1 text-left ms-sm mb-0">#i18n{theme.labelDropFiles} <span class="text-primary text-underline">#i18n{asynchronousupload.action.browse.name}</span></p>
+                <p class="flex-1 text-left ms-sm mb-0">#i18n{portal.theme.labelDropFiles} <span class="text-primary text-underline">#i18n{asynchronousupload.action.browse.name}</span></p>
             </div>
             <#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
         <#elseif type="button">

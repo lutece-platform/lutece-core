@@ -10,13 +10,13 @@ Parameters:
 @param - class - string - optional - the CSS class of the element, default '' 
 @param - actionNextStep - string - optional - If set add a next step button, default ''
 @param - titleNextStep - string - optional - If set add a title for next step button, default ''
-@param - labelNextStep - string - optional - Label of the next button '#i18n{theme.labelNextStep}'
+@param - labelNextStep - string - optional - Label of the next button '#i18n{portal.theme.labelNextStep}'
 @param - actionPrevStep - string - optional - If set add a previous step button, default ''
 @param - titlePrevStep - string - optional - If set add a title for prev step button, default ''
-@param - labelPrevStep - string - optional - Label of the previous step button, default '#i18n{theme.labelPrevStep}'
+@param - labelPrevStep - string - optional - Label of the previous step button, default '#i18n{portal.theme.labelPrevStep}'
 @param - actionSaveStep - string - optional - If set add a save step button, default ''
 @param - titleSaveStep - string - optional - If set add a title for save step button, default ''
-@param - labelSaveStep - string - optional - Label of the save step button , default '#i18n{theme.labelSaveStep}'
+@param - labelSaveStep - string - optional - Label of the save step button , default '#i18n{portal.theme.labelSaveStep}'
 @param - actionSaveForBackUpStep - string - optional - If set add a save step for backup button, default ''
 @param - titleSaveForBackUpStep - string - optional - If set add a title for "SaveForBackUpStep" step button, default ''
 @param - labelSaveForBackUpStep - string - optional - Label of the save backup button, default '#i18n{forms.step.saveResponse}'
@@ -28,19 +28,19 @@ Parameters:
 @param - hasMandatory - boolean - optional - Add mandatory warning, default true 
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
 -->
-<#macro cStepCurrent step title showTitle=true titleLevel=2 actionNextStep='' titleNextStep='' labelNextStep='#i18n{theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{forms.step.saveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{forms.step.resetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params='' deprecated...>
+<#macro cStepCurrent step title showTitle=true titleLevel=2 actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{forms.step.saveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{forms.step.resetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cSection id='current_step' class='step step-current ${class!}' params=params >
 <#if showTitle>
 <@cSection class='step-title'>
 	<@cContainer>
 		<#if hasSteps>
-			<@cTitle class='title' level=titleLevel params='data-step="${step}" title="${title} - #i18n{theme.labelCurrentStep}" aria-current="step"'>
+			<@cTitle class='title' level=titleLevel params='data-step="${step}" title="${title} - #i18n{portal.theme.labelCurrentStep}" aria-current="step"'>
 				<@cText type='span' class='step-number'>${step}</@cText>
 				<@cText type='span'>${title}</@cText>
 			</@cTitle>
 		<#else>
-			<@cTitle class='title no-step' params='title="${title} - #i18n{theme.labelCurrentStep}"'>${title}</@cTitle>
+			<@cTitle class='title no-step' params='title="${title} - #i18n{portal.theme.labelCurrentStep}"'>${title}</@cTitle>
 		</#if>
 	</@cContainer>
 </@cSection>
@@ -50,7 +50,7 @@ Parameters:
 	<#if hasMandatory>
 		<@cFormRow>
 			<@cCol class="visually-hidden">
-				<@cText class="mandatory-warning">#i18n{theme.msgMandatory}</@cText>
+				<@cText class="mandatory-warning">#i18n{portal.theme.msgMandatory}</@cText>
 			</@cCol>
 		</@cFormRow>
 	</#if>
@@ -58,7 +58,7 @@ Parameters:
 	<#if hasMandatory>
 		<@cFormRow>
 			<@cCol cols='12 col-md-10'>
-				<@cText class="mandatory-warning">#i18n{theme.msgMandatory}</@cText>
+				<@cText class="mandatory-warning">#i18n{portal.theme.msgMandatory}</@cText>
 			</@cCol>
 		</@cFormRow>
 	</#if>
@@ -86,7 +86,7 @@ Parameters:
 			<#if actionSaveForBackUpStep !=''>
 				<#assign paramsSaveForBackUpStep> name="${actionSaveForBackUpStep}" formnovalidate<#if titleSaveForBackUpStep !=''> title="${titleSaveForBackUpStep}"</#if></#assign>
 				<@chItem>
-					<@cBtn class='primary btn-action ms-sm order-3' id=actionSaveForBackUpStep params=paramsSaveForBackUpStep label='#i18n{theme.labelSaveStep}' />
+					<@cBtn class='primary btn-action ms-sm order-3' id=actionSaveForBackUpStep params=paramsSaveForBackUpStep label='#i18n{portal.theme.labelSaveStep}' />
 				</@chItem>
 			</#if>
 			<#if actionResetBackUpStep !=''>    
@@ -120,7 +120,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 					let pInvalid = document.createElement("p");
 					pInvalid.classList.add( 'invalid-feedback' );
 					pInvalid.setAttribute( 'role', 'alert' );
-					<#assign invalidLabel>#i18n{theme.msgMandatory}</#assign>
+					<#assign invalidLabel>#i18n{portal.theme.msgMandatory}</#assign>
 					pInvalid.innerHTML = `${invalidLabel}`;
 					if (invalid.closest('.input-group') != null) {
 						invalid.closest('.input-group').after(pInvalid);

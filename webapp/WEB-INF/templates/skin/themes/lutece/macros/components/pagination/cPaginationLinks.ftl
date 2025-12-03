@@ -35,7 +35,7 @@ Parameters:
 </#if>
 <#if (paginator.pageCurrent > 1) >
 	<li class="page-item">
-		<a class="page-link" href="${paginator.previousPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="#i18n{theme.labelPrev}">
+		<a class="page-link" href="${paginator.previousPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="#i18n{portal.theme.labelPrev}">
 			<svg xmlns="http://www.w3.org/2000/svg" width="9.638" height="15.153" viewBox="0 0 9.638 15.153">
 				<g transform="translate(8.279 13.676) rotate(180)">
 					<g transform="translate(0 0)">
@@ -58,7 +58,7 @@ Parameters:
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<li class="page-item group">
-		<a class="page-link cesure" href="${(paginator.pagesLinks?first).url?xhtml}<#if fragment !=''>#${fragment}</#if>" title="#i18n{theme.labelNextGroup}"><strong>...</strong></a>
+		<a class="page-link cesure" href="${(paginator.pagesLinks?first).url?xhtml}<#if fragment !=''>#${fragment}</#if>" title="#i18n{portal.theme.labelNextGroup}"><strong>...</strong></a>
 	</li>
 </#if>
 <#list paginator.pagesLinks as link>
@@ -74,14 +74,14 @@ Parameters:
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount) >
 	<li class="page-item group">
-		<a class="page-link cesure" href="${(paginator.pagesLinks?last).url?xhtml}<#if fragment !=''>#${fragment}</#if>" title="#i18n{theme.labelNextGroup}" >
+		<a class="page-link cesure" href="${(paginator.pagesLinks?last).url?xhtml}<#if fragment !=''>#${fragment}</#if>" title="#i18n{portal.theme.labelNextGroup}" >
 			<strong>...</strong>
 		</a>
 	</li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
 	<li class="page-item">
-		<a class="page-link" href="${paginator.nextPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="#i18n{theme.labelNext}">
+		<a class="page-link" href="${paginator.nextPageLink?xhtml}<#if fragment !=''>#${fragment}</#if>" title="#i18n{portal.theme.labelNext}">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.638 15.153">
 				<g transform="translate(1.359 1.477)">
 					<path class="a" d="M1.309,0,0,1.423,4.3,6.1,0,10.776,1.309,12.2,6.92,6.1Z"/>

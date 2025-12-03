@@ -12,15 +12,15 @@ Parameters:
 @param - subTitle - string - optional - sous titre de l'accordion
 @param - subTitleClass - string - optional - nom de classe pour le sous titre de l'accordion.
 @param - btnClass - string - optional - nom de classe pour l'icon du bouton "collapse"
-@param - btnShowLabel - string - optional - (NEW) gérer le texte du parametre "data-show-label" de l'accordion (par défaut: '#i18n{theme.labelShowDetail}')
-@param - btnHideLabel - string - optional - (NEW) gérer le texte du parametre "data-hide-label" de l'accordion (par défaut: '#i18n{theme.labelHideDetail}')
+@param - btnShowLabel - string - optional - (NEW) gérer le texte du parametre "data-show-label" de l'accordion (par défaut: '#i18n{portal.theme.labelShowDetail}')
+@param - btnHideLabel - string - optional - (NEW) gérer le texte du parametre "data-hide-label" de l'accordion (par défaut: '#i18n{portal.theme.labelHideDetail}')
 @param - header - string - optional - contenu HTML ajouté au niveau du titre de l'accordion
 @param - border - boolean - optional - si true une bordure est ajoutée (par défaut: false)
 @param - state - boolean - optional - si true l'accordéon est déplié par défaut (par défaut: true)
 @param - hasCollapse - boolean - optional - si true affiche l'icône pour le collapse (par défaut: true)
 @param - params - string - optional - permet d'ajouter des parametres HTML à l'accordion
 -->
-<#macro cAccordion id title btnTitle='' class='' titleClass='' titleLevel=3 subTitle='' subTitleClass='' btnClass='' btnShowLabel='#i18n{theme.labelShowDetail}' btnHideLabel='#i18n{theme.labelHideDetail}' header='' border=false state=true hasCollapse=true params='' deprecated...>
+<#macro cAccordion id title btnTitle='' class='' titleClass='' titleLevel=3 subTitle='' subTitleClass='' btnClass='' btnShowLabel='#i18n{portal.theme.labelShowDetail}' btnHideLabel='#i18n{portal.theme.labelHideDetail}' header='' border=false state=true hasCollapse=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local iconType><#if class?contains('danger')>danger<#elseif class?contains('warning')>warning<#elseif class?contains('success')>success<#else>info</#if></#local>
 <#local accordionRole><#if class?contains('danger')>alert<#elseif class?contains('warning')>alert<#elseif class?contains('success')>status<#else>status</#if></#local>

@@ -7,6 +7,6 @@ Parameters:
 @param - id - string - required - l'ID du champs password
 -->
 <#macro cPasswordCheck id >
-<#local checkMsg><@cInline class='charlength'><@parisIcon name='check' /> #i18n{theme.labelNbChars}</@cInline> <@cInline class='uppercase'><@parisIcon name='check' /> #i18n{theme.labelNbUppercase} </@cInline> <@cInline class='digit'><@parisIcon name='check' /> #i18n{theme.labelNbDigit}</@cInline></#local>
+<#local checkMsg><@cInline class='charlength'><@parisIcon name='check' /> #i18n{portal.theme.labelNbChars}</@cInline> <@cInline class='uppercase'><@parisIcon name='check' /> #i18n{portal.theme.labelNbUppercase} </@cInline> <@cInline class='digit'><@parisIcon name='check' /> #i18n{portal.theme.labelNbDigit}</@cInline></#local>
 <@cFormHelp id checkMsg />
 </#macro>

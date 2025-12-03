@@ -18,7 +18,7 @@ Parameters:
 <li class="nav-item<#if class !='' > ${class!}</#if>"<#if id !='' > id="${id!}"</#if><#if params!=''> ${params}</#if>>
 <#if url !=''>
     <a class="nav-link<#if urlClass !='' > ${urlClass!}</#if>"<#if role !=''> role="${role!}"</#if> href="${url}" <#if showTitle>title="${title!}"</#if><#if target!=''> target="${target}"</#if>>
-        ${title!}<#if target='_blank'> <span class="visually-hidden">#i18n{theme.newWindowLink}</span></#if>
+        ${title!}<#if target='_blank'> <span class="visually-hidden">#i18n{portal.theme.newWindowLink}</span></#if>
         <#nested>
     </a>
 <#else>

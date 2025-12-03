@@ -4,7 +4,7 @@ Parameters:
 @param - name - string - optionnal - Libellé du champ
 @param - btnShowPassword - boolean - Default true, affiche le bouton pour afficher le mot de passe
 @param - passwordMeter - boolean - Default false, affiche les informations de force du mot de passe
-@param - pmLabel - string - Default '#i18n{theme.labelPasswordStrength} #i18n{theme.labelPasswordNoPasswordTyped}' Label asssocié ua message sur la force du mot de passe
+@param - pmLabel - string - Default '#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' Label asssocié ua message sur la force du mot de passe
 @param - pmUrl - string - Default '' Url to generate password
 @param - pmConfirmFieldId - string - Default '' If not empty, the field will be used to link the confirm field by id
 @param - id - string - Default '', Id de l'input                           
@@ -17,24 +17,24 @@ Parameters:
 @param - required - boolean - Default true, champ obligatoire ou non                 
 @param - disabled - boolean - Default false, champ désactivé ou non
 @param - readonly - boolean - Default false, champ en lecture seule ou non                
-@param - helpMsg - string - Default '#i18n{theme.labelPasswordHelp}', Message d'aide pour l'input                                   
+@param - helpMsg - string - Default '#i18n{portal.theme.labelPasswordHelp}', Message d'aide pour l'input                                   
 @param - errorMsg - string - Default '', Message d'erreur pour l'input                      
 @param - params - string - Default '', Tous autres paramètres à ajouter à l'input                   
 
 @sample : 
 
  -->
-<#macro cInputPassword name label='#i18n{theme.labelPassword}' btnShowPassword=true passwordMeter=false pmLabel='#i18n{theme.labelPasswordStrength} #i18n{theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='#i18n{theme.labelPasswordHelp}' errorMsg='' params='' deprecated...>
+<#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='#i18n{portal.theme.labelPasswordHelp}' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local passId><#if id !=''>${id!}<#else>${name!}</#if></#local>
-<#local passLabel><#if pmLabel !=''>${pmLabel!}<#else>#i18n{theme.labelPasswordStrength} #i18n{theme.labelPasswordNoPasswordTyped}</#if></#local>
+<#local passLabel><#if pmLabel !=''>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
 <#local passClass>form-control pwd<#if class!=''> ${class!}</#if><#if size!=''> form-control-${size!}</#if><#if errorMsg!=''> is-invalid</#if></#local>
 <@cLabel label=label for=passId required=required />
 <#if helpMsg !=''><@cFormHelp passId helpMsg /></#if>
 <@cInputGroup class='password'>
     <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=autocomplete params='autocomplete="off" ${params!}'>
     <#if btnShowPassword>
-    <@cBtn class='secondary toggle-password' type='button' label='' params='data-bs-toggle="#${passId}" aria-pressed="false" title="#i18n{theme.labelPasswordShow}" tabindex="0"'>
+    <@cBtn class='secondary toggle-password' type='button' label='' params='data-bs-toggle="#${passId}" aria-pressed="false" title="#i18n{portal.theme.labelPasswordShow}" tabindex="0"'>
          <@parisIcon name='eye-off' class='main-info-color' />
     </@cBtn>
     </#if>
@@ -234,17 +234,17 @@ function togglePasswordIcon( field, show=false ){
       if( input.attr("type") == "password") {
           input.attr("type", "text");
           $(this).attr('aria-pressed','true');
-          $(this).attr('title','#i18n{theme.labelPasswordHide}');
+          $(this).attr('title','#i18n{portal.theme.labelPasswordHide}');
       }
   } else {
     if( input.attr("type") == "password") {
         input.attr("type", "text");
         btnToggle.attr('aria-pressed','true');
-        btnToggle.attr('title','#i18n{theme.labelPasswordHide}');
+        btnToggle.attr('title','#i18n{portal.theme.labelPasswordHide}');
     } else {
         input.attr("type", "password");
         btnToggle.attr('aria-pressed','false');
-        btnToggle.attr('title','#i18n{theme.labelPasswordShow}');
+        btnToggle.attr('title','#i18n{portal.theme.labelPasswordShow}');
     }
   }
 }
@@ -266,7 +266,7 @@ document.addEventListener( "DOMContentLoaded", function(e){
                 fieldConfirmDest.value = data.password;
                 togglePasswordIcon( '#${pmConfirmFieldId}', true )
                 </#if>
-                showIndicator( '${passId}', '${pmLabel}', '#i18n{theme.labelPasswordStrength}'  )
+                showIndicator( '${passId}', '${pmLabel}', '#i18n{portal.theme.labelPasswordStrength}'  )
             },
             error: function (jqXHR, textStatus, errorThrown) {
             }
@@ -278,10 +278,10 @@ document.addEventListener( "DOMContentLoaded", function(e){
         fieldConfirmDest.value = generateLocalPassword()
         togglePasswordIcon( '#${pmConfirmFieldId}', true )
         </#if>
-        showIndicator('${passId}', '${pmLabel}', '#i18n{theme.labelPasswordStrength}')
+        showIndicator('${passId}', '${pmLabel}', '#i18n{portal.theme.labelPasswordStrength}')
       </#if>  
     });
-    passwordStrength( '${passId}', '${pmLabel}', '#i18n{theme.labelPasswordStrength}' )
+    passwordStrength( '${passId}', '${pmLabel}', '#i18n{portal.theme.labelPasswordStrength}' )
 <#if !isTogglePasswordLoaded?? || !isTogglePasswordLoaded>
     $(".toggle-password").each( function(){ 
         $(this).on('click', function(e){

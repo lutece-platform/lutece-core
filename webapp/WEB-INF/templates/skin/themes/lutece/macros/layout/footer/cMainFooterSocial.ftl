@@ -20,15 +20,15 @@ Parameters:
             <div class="main-footer justify-content-${align} py-4">
                 <div class="d-flex align-items-center justify-content-center justify-content-lg-start w-100">
                     <a class="logo hide-icon-target" href="${urlMainSite}" target="_blank">
-                        <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='#i18n{theme.labelGoToSite} ${mainSite!}' />
+                        <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='#i18n{portal.theme.labelGoToSite} ${mainSite!}' />
                     </a>
                     <hr aria-hidden="true">
-                    <a class="site" title="#i18n{theme.labelGoToSite} ${title}" href=".">${title}</a>
+                    <a class="site" title="#i18n{portal.theme.labelGoToSite} ${title}" href=".">${title}</a>
                 </div>
             </div>  
             <div class="main-footer justify-content-${align}">
                 <div class="d-flex align-items-center">
-                    <ul class="nav d-flex justify-content-center justify-content-md-start" aria-label="#i18n{theme.footerInfo}" >
+                    <ul class="nav d-flex justify-content-center justify-content-md-start" aria-label="#i18n{portal.theme.footerInfo}" >
                         <#if nested_pos='before'><#nested></#if>
                         <@_footerMenu />
                         <#if nested_pos='after'>
@@ -41,7 +41,7 @@ Parameters:
         <div class="col-12 main-bg-color<#if classColSocial !=''> ${classColSocial}</#if> d-flex justify-align-items">
             <div class="social-links">
                 <#if socialNested !=''><div class="d-flex justify-content-center align-items-center">${socialNested}</div></#if>
-                <h2 class="paris-footer-social-title text-center text-gray">#i18n{theme.labelFollow}</h2>
+                <h2 class="paris-footer-social-title text-center text-gray">#i18n{portal.theme.labelFollow}</h2>
                 <ul class="list-inline text-center">
                     <li class="list-inline-item">
                         <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleFb}" href="${footerSocialLinkFb}">        
@@ -76,7 +76,7 @@ Parameters:
                         </a>    
                     </li>
                 </ul>
-                <p class="paris-footer-social-title text-center">#i18n{theme.footerSocialText}</p>
+                <p class="paris-footer-social-title text-center">#i18n{portal.theme.footerSocialText}</p>
             </div>
         </div>
     </div>

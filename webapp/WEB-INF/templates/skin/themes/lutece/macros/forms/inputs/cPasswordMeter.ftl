@@ -1,9 +1,9 @@
 <#-- Macro: cPasswordMeter                               
 Parameters:
 @param - name - string - required - Nom du champ
-@param - label - string - Default '#i18n{theme.labelPasswordStrength} #i18n{theme.labelPasswordNoPasswordTyped}' Label asssocié ua message sur la force du mot de passe
-@param - labelRefresh - string - Default '#i18n{theme.labelPasswordRandomize}' label associé au bouton de rafraichir le mot de passe
-@param - labelSecurity - string - Default '#i18n{theme.labelPasswordSecurity}' label sur les conditions de sécurité du mot de passe
+@param - label - string - Default '#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' Label asssocié ua message sur la force du mot de passe
+@param - labelRefresh - string - Default '#i18n{portal.theme.labelPasswordRandomize}' label associé au bouton de rafraichir le mot de passe
+@param - labelSecurity - string - Default '#i18n{portal.theme.labelPasswordSecurity}' label sur les conditions de sécurité du mot de passe
 @param - url - string - Default '' Url to generate password
 @param - indicator - string - Default '', Id de l'input                           
 @param - class - string -  Default 'custom-checkbox', classe css à ajouter à l'input
@@ -12,7 +12,7 @@ Parameters:
 @sample : 
 
  -->
-<#macro cPasswordMeter id label='#i18n{theme.labelPasswordStrength} #i18n{theme.labelPasswordNoPasswordTyped}' labelRefresh='#i18n{theme.labelPasswordRandomize}' labelSecurity='#i18n{theme.labelPasswordSecurity} :' url='' indicator='' class='' params='' deprecated...>
+<#macro cPasswordMeter id label='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' labelRefresh='#i18n{portal.theme.labelPasswordRandomize}' labelSecurity='#i18n{portal.theme.labelPasswordSecurity} :' url='' indicator='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cRow id='password-${id}-wrapper' params=params>
     <@cCol cols='12 col-md-7'>
@@ -21,7 +21,7 @@ Parameters:
         </@cBtn>
     </@cCol>
     <@cCol cols='12 col-md-5'>
-        <@cBlock params='aria-valuemax="100" aria-valuemin="0" aria-valuetext="${label!}" aria-label="#i18n{theme.labelPasswordStrength}" aria-valuenow="0" role="meter" id="aria-${id}-meter"'>
+        <@cBlock params='aria-valuemax="100" aria-valuemin="0" aria-valuetext="${label!}" aria-label="#i18n{portal.theme.labelPasswordStrength}" aria-valuenow="0" role="meter" id="aria-${id}-meter"'>
             <@cBlock class="indicator visually-hidden d-flex align-items-center justify-content-end">
                 <@cInline>${labelSecurity!}</@cInline><#if indicator=''><@cInline class='ml-2'><@cInline class='dot'></@cInline></@cInline><#else>${indicator}</#if><@cInline class='meter-text ml-1'></@cInline>
             </@cBlock>    

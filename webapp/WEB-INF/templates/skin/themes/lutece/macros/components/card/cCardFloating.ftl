@@ -18,7 +18,7 @@ Parameters:
     	<div class='card-title-container'>
     		<@cTitle level=titleLevel class='card-title'>${title!}</@cTitle>
     		<#if dismissible>
-              <button type="button" class="btn-close" aria-label="#i18n{theme.labelClose}" data-bs-target="#${id!}-card" data-bs-dismiss="alert" />
+              <button type="button" class="btn-close" aria-label="#i18n{portal.theme.labelClose}" data-bs-target="#${id!}-card" data-bs-dismiss="alert" />
               </button>
             </#if>
        	</div>
