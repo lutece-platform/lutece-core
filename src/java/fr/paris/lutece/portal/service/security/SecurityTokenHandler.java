@@ -205,30 +205,35 @@ public class SecurityTokenHandler
      * 
      * @param request
      *            The request
+     * @param invocationType
+     *            The invocation type
      * @param methods
      *            The MVC methods
      */
-    public void handleToken( HttpServletRequest request, Method method )
+    public void handleToken( HttpServletRequest request, ControllerInvocationType invocationType, Method method )
     {
         if ( Boolean.TRUE.equals( request.getAttribute( FILTER_ENABLED ) ) )
         {
-            String strView = MVCUtils.getView( request );
-            if ( strView != null )
+            if ( invocationType.equals( ControllerInvocationType.ACTION ) )
             {
-                String secTokenAction = !"".equals( method.getAnnotation( View.class ).securityTokenAction( ) )
-                        ? method.getAnnotation( View.class ).securityTokenAction( )
-                        : method.getAnnotation( View.class ).value( );
-                handleToken( request, secTokenAction );
-                return;
-            }
-            
-            String strAction = MVCUtils.getAction( request );
-            if ( strAction != null )
-            {
-                String secTokenAction = !"".equals( method.getAnnotation( Action.class ).securityTokenAction( ) )
-                        ? method.getAnnotation( Action.class ).securityTokenAction( )
-                        : method.getAnnotation( Action.class ).value( );
-                handleToken( request, secTokenAction );
+                String strAction = MVCUtils.getAction( request );
+                if ( strAction != null )
+                {
+                    String secTokenAction = !"".equals( method.getAnnotation( Action.class ).securityTokenAction( ) )
+                            ? method.getAnnotation( Action.class ).securityTokenAction( )
+                            : method.getAnnotation( Action.class ).value( );
+                    handleToken( request, secTokenAction );
+                }
+            } else {
+                String strView = MVCUtils.getView( request );
+                if ( strView != null )
+                {
+                    String secTokenAction = !"".equals( method.getAnnotation( View.class ).securityTokenAction( ) )
+                            ? method.getAnnotation( View.class ).securityTokenAction( )
+                            : method.getAnnotation( View.class ).value( );
+                    handleToken( request, secTokenAction );
+                    return;
+                }
             }
         }
     }
@@ -379,7 +384,7 @@ public class SecurityTokenHandler
         if ( ( invocationType.equals( ControllerInvocationType.VIEW ) || invocationType.equals( ControllerInvocationType.ACTION )
                 || invocationType.equals( ControllerInvocationType.DEFAULT_VIEW ) ) && event.isSecurityTokenEnabled( ) )
         {
-            handleToken( request, event.getInvokedMethod( ) );
+            handleToken( request, invocationType, event.getInvokedMethod( ) );
         }
     }
 }
