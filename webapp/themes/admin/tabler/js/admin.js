@@ -73,7 +73,7 @@ function themeMenu( ){
     const mainMenu = document.getElementById('main-menu');
     const mainNav = document.getElementById('main-nav');
     const userMenu = mainNav.querySelector('.user-initials');
-    const userName = userMenu.dataset.username;
+    const userName = userMenu != null ? userMenu.dataset.username : '';
 
 	// Set the main menu as active
 	const mainMenus = mainMenu.querySelectorAll('.dropdown-item, .nav-item .nav-link');

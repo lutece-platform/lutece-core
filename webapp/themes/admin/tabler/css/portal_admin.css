@@ -41,12 +41,12 @@ body.loaded #lutece-layout-wrapper {
     display: block !important;
 }
 
-#lutece-main #page-header {
+#page-header-tools > * {
     margin-block-end: 1rem;
 }
 
 .skip-links,
-.skip-links>li {
+.skip-links > li {
     position: absolute;
     width: 100%;
 }
