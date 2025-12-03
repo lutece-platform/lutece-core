@@ -5,7 +5,7 @@ Description: Generates the home page for the admin dashboard. It generates a con
 <#assign head = .get_optional_template('../../../../../admin/user/adminHeader.html')>
 <#if head.exists><@head.include /></#if>
 <main id="lutece-main" class="lutece-main-content">
-<h1 class="visually-hidden">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h1>
+<h1 class="visually-hidden">${i18n("portal.admin.admin_login.welcome", site_name!"LUTECE")}</h1>
 <@pageWrapper>
 <@div id="dashboard-widgets" class="dashboard-widgets pt-3">
 	<@row>
