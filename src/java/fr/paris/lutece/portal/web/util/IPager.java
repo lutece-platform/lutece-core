@@ -39,6 +39,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import fr.paris.lutece.portal.web.cdi.mvc.Models;
+import fr.paris.lutece.util.function.SerializableFunction;
 import fr.paris.lutece.util.html.IPaginator;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -97,7 +98,7 @@ public interface IPager<S, T>
      * @param delegate A function that takes a list of source objects and returns a list of target objects.
      * @param locale The locale for internationalization.
      */
-    IPaginator<S> populateModels(HttpServletRequest request, Models models, Function<List<S>, List<T>> delegate, Locale locale);
+    IPaginator<S> populateModels(HttpServletRequest request, Models models, SerializableFunction<List<S>, List<T>> delegate, Locale locale);
 
     
     /**
