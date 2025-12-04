@@ -1,1 +1,0 @@
- body[data-bs-theme="dark"] .darkmode-moon{display:none!important}body[data-bs-theme="light"] .darkmode-sun{display:none!important}body[data-bs-theme="dark"] .darkmode-sun{animation-duration:.6s;animation-timing-function:ease-in-out}body[data-bs-theme="light"] .darkmode-moon{animation-duration:.3s;animation-timing-function:ease-in-out}
