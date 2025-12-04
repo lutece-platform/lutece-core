@@ -1,4 +1,4 @@
-body, h1, h2, h3, h4, h5, h6, .info-box-text, .info-box-number {font-size:200%;}
+:host, :root { font-size: 32px;}
 
 /* Apply contrasted colors to links and features titles */ 
 a{color: #363636;}

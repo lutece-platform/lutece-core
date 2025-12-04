@@ -11,7 +11,7 @@ Parameters:
 -->
 <#macro adminDashboardWidget id title color='primary' url='' class='' bodyClass='table-responsive no-padding' params=''>
 	<@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
-		<@boxHeader titleLevel='h2' class='h5' title='${title}'>
+		<@boxHeader titleLevel='h2' title='${title}'>
 			<#if url!=''>
 				<@aButton color='link' class='card-control' href='${url!}' title='${title!}' size='sm' buttonIcon='cog' hideTitle=['all'] params='aria-label="${title!}"' />
 			</#if>
