@@ -43,10 +43,6 @@
 </#if>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-<#if commonsThemeCode = 'corporate'>
-    document.querySelector( '#lutece-page-wrapper .lutece-column' ).classList.remove( 'p-md-5' );
-    document.querySelector( '.lutece-page-wrapper' ).style.padding = 0;
-</#if>
     // Admin responsive preview
     const previewPage = document.getElementById( 'lutece-admin-page-preview' );
     const previewWrapper = document.getElementById( 'lutece-admin-site-preview-wrapper' );
