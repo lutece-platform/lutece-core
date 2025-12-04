@@ -42,7 +42,7 @@ body.loaded #lutece-layout-wrapper {
 }
 
 #page-header-tools > * {
-    margin-block-end: 1rem;
+    margin-block-end: .25rem;
 }
 
 .skip-links,

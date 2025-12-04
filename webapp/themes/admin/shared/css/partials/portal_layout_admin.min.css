@@ -30,5 +30,5 @@
 }
 
 #page-header-tools > * {
-    margin-block-end: 1rem;
+    margin-inline-end: .25rem;
 }
