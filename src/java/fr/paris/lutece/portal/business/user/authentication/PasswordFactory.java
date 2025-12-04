@@ -180,7 +180,7 @@ class PasswordFactory implements IPasswordFactory
             {
                 case CLEARTEXT:
                     _iterations = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_ITERATIONS, DEFAULT_HASH_ITERATIONS );
-                    int hashLength = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_LENGTH, 128 );
+                    int hashLength = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_LENGTH, 64 );
                     try
                     {
                         _salt = new byte [ 16];
