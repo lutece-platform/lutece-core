@@ -1,39 +1,34 @@
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#tree").treeview({
-            animated: "fast",
-            collapsed: false,
-            unique: true,
-            persist: "cookie"
-        });
-    });
-</script>
-
+<@cTpl>
 <#if menuItems?has_content>
-    <div class="tree4">
-        <h2>&#160;</h2>
-        <ul id="tree" class="tree4">
-            <#list menuItems as menu>
-                <li>
-                    <a href="${site_path}?page_id=${menu.pageId}" target="_top">
-                        ${menu.pageName}
+<div id="lutece-main-menu-tree">
+    <ul class="list-unstyled">
+    <#list menuItems as menu>
+        <li class="nav-item lutece-tree-node" id="node-${menu.pageId}">
+            <a href="${site_path}?page_id=${menu.pageId}" target="_top" aria-current="<#if page?? &&menu.pageId == page.id>true<#else>false</#if>" class="nav-link">
+                ${menu.pageName}
+            </a>
+            <br />
+            ${(menu.pageDescription)!}
+            <#if menu.children??>
+            <ul class="list-unstyled">
+            <#list menu.children as child>
+                <li class="nav-item lutece-tree-node" id="node-${child.pageId}">
+                    <a href="${site_path}?page_id=${child.pageId}" target="_top" aria-current="<#if page?? &&child.pageId == page.id>true<#else>false</#if>" class="nav-link" >
+                        ${child.pageName!}
                     </a>
-                    <br />
-                    ${(menu.pageDescription)!}
-                    <#if menu.children??>
-                        <ul>
-                            <#list menu.children as child>
-                                <li>
-                                    <a href="${site_path}?page_id=${child.pageId}" target="_top">
-                                        ${child.pageName}
-                                    </a>
-                                </li>
-                            </#list>
-                        </ul>
-                    </#if>
                 </li>
             </#list>
-        </ul>
-    </div>
-    <br />
+            </ul>
+            </#if>
+        </li>
+    </#list>
+    </ul>
+</div>
+<script type="module">
+import LuteceTree from './themes/shared/modules/luteceTree.js';
+const tree = document.querySelector("#lutece-main-menu-tree");
+const mapTree = new LuteceTree( tree );
+mapTree.selectTreeNode( '#node-${page.id}' )
+</script>
 </#if>
+</@cTpl>
