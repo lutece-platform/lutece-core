@@ -65,11 +65,10 @@
 		<#assign previousResourceTypeKey=controled_resource.resourceTypeKey>
 		</#list>
 		</@manageFeature>
-		<#else>
-			<@box class='mt-3'>
-				<@empty />
-			</@box>
-		</#if>
-		<#if controled_resource_list?size gt 5><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if>
+	<#else>
+		<@box class='mt-3'>
+			<@empty />
+		</@box>
+	</#if>
 	</@pageColumn>
 </@pageContainer>
