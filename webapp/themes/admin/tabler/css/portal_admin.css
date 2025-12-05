@@ -75,6 +75,14 @@ body.loaded #lutece-layout-wrapper {
     left: 0;
 }
 
+.dropdown-menu-columns {
+    max-height: 85vh;
+}
+
+.dropdown-menu-column {
+    overflow-y: auto;
+}
+
 .dropdown-menu-arrow.border-0:before {
     border: 0
 }
