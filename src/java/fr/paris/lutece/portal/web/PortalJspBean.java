@@ -112,7 +112,6 @@ public class PortalJspBean
     private static final String MARK_ERROR = "error";
     private static final String MARK_SUCCESS = "success";
     private static final String MARK_ERROR_CAUSE = "error_cause";
-    private static final String MARK_PLUGIN_THEME = "plugin_theme";
     private static final String MARK_THEME = "theme";
     private static final String PARAMETER_EXTENDABLE_RESOURCE_TYPE = "extendableResourceType";
     private static final String PARAMETER_ID_EXTENDABLE_RESOURCE = "idExtendableResource";
@@ -408,7 +407,6 @@ public class PortalJspBean
     private static void fillPageModel( HttpServletRequest request, HashMap<String, Object> model )
     {
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_PLUGIN_THEME, null );
         model.put( MARK_THEME, ThemesService.getGlobalThemeObject( ) );
     }
 
