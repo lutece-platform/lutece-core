@@ -1,7 +1,7 @@
 <@pageContainer>
     <@pageColumn>
 		<@pageHeader title='#i18n{portal.system.manage_plugins.labelTitleList}' actions=true>
-		<@div class='mb-3'>
+		<@div>
 			<@tform method='post' type='inline'>
 				<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all']
 					formStyle='inline'>
@@ -109,7 +109,7 @@ new LuteceSearchList( searchInput, searchElementList, {
 	highlight: true,
 	toggleList: true,
 	toggleRow: true,
-	toggleBtnClassAlign: [ 'd-inline-flex','mb-1'],
+	toggleBtnClassAlign: [ 'd-inline-flex'],
 	toggleLabel: '#i18n{portal.util.labelToggleList}',
 	toggleLabelOff: '#i18n{portal.util.labelToggleListOff}'
 });
