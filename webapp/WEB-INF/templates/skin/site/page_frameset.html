@@ -1,4 +1,4 @@
-<#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
+<#assign thetheme=theme />
 <#assign commonsGlobalThemeCode=thetheme.codeTheme! >
 <#assign commonsGlobalThemeVersion=thetheme.themeVersion!>
 <#assign themeFrameset=.get_optional_template('../themes/${commonsGlobalThemeCode}/tpl/site/page_frameset.html')>
