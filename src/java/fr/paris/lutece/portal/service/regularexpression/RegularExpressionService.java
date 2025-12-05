@@ -41,7 +41,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Instance;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
-import jakarta.inject.Named;
 
 /**
  *
@@ -58,8 +57,7 @@ public class RegularExpressionService
     	
     }
     @Inject
-    public RegularExpressionService(
-        @Named("regularExpressionService") Instance<IRegularExpressionService> service) {
+    public RegularExpressionService( Instance<IRegularExpressionService> service ) {
         this._service = service.stream()
                 .findFirst()
                 .orElse(null);
