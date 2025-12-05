@@ -1,57 +1,49 @@
 <#macro renderMap items> 
-    <#list items as item>
-        <#if item.level==0>
-            <div class="lutece-tree" id="lutece-map-tree">
-                <ul>
-                    <li class="lutece-tree-node" data-tree-icon="home">
-                        ${item.pageName}
-                        <#if "none" != item.role> 
-                            <strong>
-                                - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
-                            </strong>
-                        </#if>
-                        <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
-                            <span class="ti ti-link"/>
-                        </a>
-                        <#if item.children?size gt 0>
-                            <ul>
-                                <@renderMap items=item.children />
-                            </ul>
-                        </#if>
-                    </li>
-                </ul>
-            </div>
-        <#else>
-            <#if item.children?size gt 0>
-                <li class="lutece-tree-node" data-tree-icon="folder" id="node-${item.pageId}">
-                    ${item.pageName}
-                    <#if "none" != item.role> 
-                        <strong>
-                            - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
-                        </strong>
-                    </#if>
-                    <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
-                        <span class="ti ti-link"/>
-                    </a>
-                    <ul>
-                        <@renderMap items=item.children />
-                    </ul>
-                </li>  
-            <#else>
-                <li class="lutece-tree-item" data-tree-icon="file" id="node-${item.pageId}">
-                    ${item.pageName}
-                    <#if "none" != item.role> 
-                        <strong>
-                            - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
-                        </strong>
-                    </#if>
-                    <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
-                        <span class="ti ti-link"/>
-                    </a>
-                </li>
+<#list items as item>
+<#if item.level==0>
+<div class="lutece-tree" id="lutece-map-tree">
+    <ul>
+        <li class="lutece-tree-node" data-tree-icon="home">
+            ${item.pageName}
+            <#if "none" != item.role> 
+                <strong>
+                    - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}
+                </strong>
             </#if>
-        </#if>
-    </#list> 
+            <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
+                <span class="ti ti-link"></span>
+            </a>
+            <#-- Filtrer les éléments de niveau > 0 et les passer à la macro -->
+            <#assign childItems = items?filter(i -> i.level gt 0)>
+            <#if childItems?size gt 0>
+                <ul><@renderSubMap items=childItems /></ul>
+            </#if>
+        </li>
+    </ul>
+</div>
+</#if>
+</#list> 
 </#macro>
-
+<#macro renderSubMap items> 
+<#list items as item>
+<#if item.children?size gt 0>
+    <li class="lutece-tree-node" data-tree-icon="folder" id="node-${item.pageId}">
+        ${item.pageName} - level : ${item.level}
+        <#if "none" != item.role><strong> - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}</strong></#if>
+        <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
+            <span class="ti ti-link"></span>
+        </a>
+        <ul>
+            <@renderSubMap items=item.children />
+        </ul>
+    </li>  
+<#else>
+    <li class="lutece-tree-item" data-tree-icon="file" id="node-${item.pageId}">
+        <a href="${site_path}?page_id=${item.pageId}" title="${item.pageDescription}">
+        ${item.pageName} - level :  ${item.level} <#if "none" != item.role><strong> - #i18n{portal.site.admin_page.tabAdminMapRoleReserved} ${item.role}</strong></#if>
+        </a>
+    </li>
+</#if>
+</#list>
+</#macro>
 <@renderMap items=mapItems />
