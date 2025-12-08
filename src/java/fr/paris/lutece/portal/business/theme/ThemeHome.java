@@ -105,16 +105,6 @@ public final class ThemeHome
     }
 
     /**
-     * Sets the global theme
-     *
-     * @param strGlobalTheme The Global Theme
-     */
-    public static void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion )
-    {
-        _dao.setGlobalTheme( strGlobalTheme, strGlobalThemeVersion );
-    }
-
-    /**
      * Returns the global theme
      *
      * @return The Global Theme

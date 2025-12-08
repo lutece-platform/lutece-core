@@ -144,7 +144,6 @@ public class ThemeService implements IThemeService
     @Override
     public void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion )
     {
-        ThemeHome.setGlobalTheme( strGlobalTheme, strGlobalThemeVersion );
         DatastoreService.setDataValue( MARK_DATASTORE_KEY_GLOBAL_THEME_CODE ,strGlobalTheme );
         DatastoreService.setDataValue( MARK_DATASTORE_KEY_GLOBAL_THEME_VERSION ,strGlobalThemeVersion );
     }
