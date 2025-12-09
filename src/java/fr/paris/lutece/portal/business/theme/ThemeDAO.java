@@ -59,9 +59,6 @@ public class ThemeDAO implements IThemeDAO
     private static final String SQL_QUERY_SELECT_GLOBAL_THEME = " SELECT tt.code_theme, tt.theme_description, tt.path_images, tt.path_css, " +
         " tt.theme_author, tt.theme_author_url, tt.theme_version, tt.theme_licence, tt.path_js " +
         " FROM core_theme tt WHERE tt.code_theme = ?";
-    private static final String SQL_QUERY_UPDATE_GLOBAL_THEME = " UPDATE core_datastore SET entity_value=? WHERE entity_key = 'theme.globalThemeCode' ";
-    private static final String SQL_QUERY_UPDATE_GLOBAL_THEME_VERSION = " UPDATE core_datastore SET entity_value=? WHERE entity_key = 'theme.globalThemeVersion' ";
-
     /**
      * {@inheritDoc}
      */
@@ -140,28 +137,10 @@ public class ThemeDAO implements IThemeDAO
     /**
      * {@inheritDoc }
      */
-    public void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion )
-    {
-        try (DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_GLOBAL_THEME ) )
-        {
-            daoUtil.setString( 1, strGlobalTheme );
-            daoUtil.executeUpdate(  );
-        }
-
-        try (DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_GLOBAL_THEME_VERSION ) )
-        {
-            daoUtil.setString( 1, strGlobalThemeVersion );
-            daoUtil.executeUpdate(  );
-        }
-    }
-
-    /**
-     * {@inheritDoc }
-     */
     public Theme getGlobalTheme( )
     {
         Theme theme = null;
-        DataEntity globalTheme = DataEntityHome.findByPrimaryKey("theme.globalThemeCode");
+        DataEntity globalTheme = DataEntityHome.findByPrimaryKey( "theme.globalThemeCode" );
         try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_GLOBAL_THEME ) ) 
         {
             daoUtil.setString( 1, globalTheme.getValue() );

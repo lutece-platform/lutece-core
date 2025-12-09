@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.style.Theme;
 
 import fr.paris.lutece.portal.service.portal.IThemeService;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 
@@ -56,6 +57,9 @@ import jakarta.servlet.http.HttpServletRequest;
 @Named
 public class ThemeService implements IThemeService
 {
+
+    private static final String MARK_DATASTORE_KEY_GLOBAL_THEME_CODE = "theme.globalThemeCode";
+    private static final String MARK_DATASTORE_KEY_GLOBAL_THEME_VERSION = "theme.globalThemeVersion";
     /**
     * Get the list of themes
     * @return a list of themes
@@ -140,7 +144,8 @@ public class ThemeService implements IThemeService
     @Override
     public void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion )
     {
-        ThemeHome.setGlobalTheme( strGlobalTheme, strGlobalThemeVersion );
+        DatastoreService.setDataValue( MARK_DATASTORE_KEY_GLOBAL_THEME_CODE ,strGlobalTheme );
+        DatastoreService.setDataValue( MARK_DATASTORE_KEY_GLOBAL_THEME_VERSION ,strGlobalThemeVersion );
     }
 
     /**

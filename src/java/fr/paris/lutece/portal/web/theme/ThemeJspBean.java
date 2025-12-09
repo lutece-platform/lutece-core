@@ -80,9 +80,6 @@ public class ThemeJspBean extends MVCAdminJspBean
     // Templates files path
     private static final String TEMPLATE_MANAGE_THEMES = "admin/theme/manage_themes.html";
 
-    // Controller
-    private static final String JSP_MANAGE_THEMES = "jsp/admin/plugins/filestoragetransfer/ManageRequests.jsp";
-
     // Views
     private static final String VIEW_MANAGE_THEMES = "manageThemes";
 

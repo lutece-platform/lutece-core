@@ -65,15 +65,6 @@ public interface IThemeDAO
      * @return the themes list in form of a ReferenceList object
      */
     ReferenceList getThemesList( );
-
-    /**
-     * Sets the global theme
-     *
-     * @param strGlobalTheme The Global Theme
-
-     */
-    void setGlobalTheme( String strGlobalTheme, String strGlobalThemeVersion );
-
     /**
      * Returns the global theme
      *
