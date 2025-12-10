@@ -21,7 +21,7 @@ Description: Generates the home page for the admin dashboard. It generates a con
 <!-- END PAGE HEADER -->
 <@pageWrapper>
 <#--  <@div id="dashboard-widgets" class="row row-deck row-cards dashboard-widgets">  -->
-<div id="dashboard-widgets" class="row row-cards dashboard-widgets" data-masonry="{'percentPosition': true }">
+<div id="dashboard-widgets" class="row dashboard-widgets" data-masonry='{"percentPosition": true }'>
 ${dashboard_zone_1!}
 ${dashboard_zone_2!}
 ${dashboard_zone_3!}
@@ -29,6 +29,7 @@ ${dashboard_zone_3!}
 </@pageWrapper>
 <#assign foot = .get_optional_template('../../../../../admin/user/adminFooter.html')>
 <#if foot.exists><@foot.include /></#if>
+<script src="themes/admin/shared/js/lib/bootstrap/masonry.pkgd.min.js"></script>
 <script type="module">
 import {
 	LuteceDraggable
