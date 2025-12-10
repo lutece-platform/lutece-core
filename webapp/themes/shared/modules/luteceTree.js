@@ -26,6 +26,7 @@ export default class LuteceTree {
 				luteceTreeToggler.forEach( (toggler) => {
 					if( toggler.dataset.treeIcon !='' ){
 						let span = document.createElement("span");
+						span.classList.add('me-2')
 						span.classList.add('ti')
 						span.classList.add(`ti-${toggler.dataset.treeIcon}`);
 						toggler.prepend( span )
@@ -42,10 +43,23 @@ export default class LuteceTree {
 			if( luteceTreeLeaf != null){ 
 				luteceTreeLeaf.forEach( (leaf) => {
 					if( leaf.dataset.treeIcon !='' ){
-						let span = document.createElement('span');
-						span.classList.add('ti')
-						span.classList.add(`ti-${leaf.dataset.treeIcon}`);
-						leaf.prepend( span )
+						const iconValue = leaf.dataset.treeIcon;
+						const imageRegex = /\.(png|jpg|svg)$/i;
+						if( iconValue && iconValue !== '' ){
+							let span = document.createElement('span');
+							if( imageRegex.test(iconValue) ){
+								let img = document.createElement('img');
+								img.src = iconValue;
+								img.classList.add('me-2');
+								leaf.prepend( img );
+							} else {
+								span.classList.add('me-2');
+								span.classList.add('ti');
+								span.classList.add(`ti-${iconValue}`);
+								leaf.prepend( span );
+							}
+						
+						}
 					}
 					leaf.addEventListener( "click", ( event ) => {
 						event.stopPropagation();
