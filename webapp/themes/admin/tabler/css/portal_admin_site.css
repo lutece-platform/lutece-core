@@ -1,5 +1,11 @@
-/****************************/
-/* Site Admin Style 		*/
-/* Overrides and more 		*/
-/****************************/
-/* Feel free to ad your own site styles overrides ! */
+    /****************************/
+    /* Site Admin Style 		*/
+    /* Overrides and more 		*/
+    /****************************/
+    /* Feel free to ad your own site styles overrides ! */
+    @media (min-width: 992px) {
+        :host, :root {
+            margin-left: auto;
+            margin-right: 60px;
+        }
+    }
