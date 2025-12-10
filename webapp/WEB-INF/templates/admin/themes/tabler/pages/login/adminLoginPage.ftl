@@ -26,7 +26,7 @@ Parameters:
 							</@link>
 						</@div>
 						<@div class='d-flex flex-column align-items-center'>
-							<h2 class="h1 mb-4 text-center">#i18n{portal.admin.admin_login.welcome} ${site_name!}</h2>
+							<h2 class="h1 mb-4 text-center">${i18n("portal.admin.admin_login.welcome", site_name!)}</h2>
 							<@icon style="device-mobile-off" params=" style='font-size:120px !important'"/>
 						</@div>
 					</@div>
@@ -53,8 +53,7 @@ Parameters:
 	<@div class="card card-md">
 		<@div class="card-body bg-white">
 			<h2 class="card-title text-center mb-4 pt-2">
-				#i18n{portal.admin.admin_login.welcome}
-				<span class="d-block">${site_name!}</span>
+				${i18n("portal.admin.admin_login.welcome", "<span class='d-block'>${site_name!}</span>")}
 			</h2>
 			<#nested>
 		</@div>
