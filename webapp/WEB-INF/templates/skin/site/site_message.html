@@ -30,7 +30,7 @@
 <div class="row">
 	<div class="col-sm-12 col-md-4 offset-md-4">
 		<div class="alert alert-${messageClass}">
-			<h3 class="h3"><i class="ti ti-${messageIcon}"></i> ${messageTitle} ${title!}</h3>
+			<h3 class="h3"><i class="ti ti-${messageIcon}"></i> ${title?has_content?then(title, messageTitle)}</h3>
 			${text} 
 		</div>
 		<div class="row">
