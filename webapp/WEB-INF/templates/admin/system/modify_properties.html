@@ -16,7 +16,12 @@
                 <#list groups_list as group>
                 <#assign index = group?index>
                 <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
+                <#assign groups = group.localizedDataList?map( prop -> prop.group )>
+                <#assign groupList = []>
+                <#list groups?sort as groupGroup><#if !groupList?seq_contains(groupGroup)><#assign groupList = groupList + [groupGroup]></#if></#list>
+                    <#if groupList?size gt 1>
                     <@tabLink active=tabactive href='#group-${index}' title=group.description tabLabel=group.name />
+                    </#if>
                 </#list>
             </@tabList>
             <@tabContent class='pt-0'>
@@ -25,54 +30,63 @@
                 <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
                     <@tabPanel active=tabactive id='group-${index}'>
                         <@input type='hidden' name='token' value='${token}' />
-                        <@row class='row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'> 
                         <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                         <#assign groupList = []>
                         <#list groups?sort as groupGroup><#if !groupList?seq_contains(groupGroup)><#assign groupList = groupList + [groupGroup]></#if></#list>
-                        <#list groupList?sort as groupCol>
-                            <@columns class='pt-3' params='data-prop="${groupCol}"'>
-                            <#assign groupName=''>
-                            <#assign helpText=''>
-                            <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
-                                <#if groupName=''>
-                                    <#assign prefix=groupItem.key?keep_before(".site_property")  >
-                                    <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
-                                    <h3>${groupName!}</h3>
-                                </#if>
-                                <#assign labelText=groupItem.label>
-                                <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
-                                <#if groupItem.help?length gt 0><#assign helpText = groupItem.help></#if>
-                                <@box id='box_${groupItem.key}'>
-                                    <@boxBody class='searchable'>
-                                    <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
-                                        <#if groupItem.key?ends_with( ".textblock" )>
-                                            <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
-                                        <#elseif groupItem.key?ends_with( ".htmlblock" )>
-                                            <@input type='textarea' name=groupItem.key id=groupItem.key class='richtext'>${groupItem.value?html}</@input>
-                                        <#elseif groupItem.key?ends_with( ".checkbox" )>
-                                            <#if groupItem.value == "1">
-                                                <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=true />
+                        <#if groupList?size gt 1>
+                        <@row class='row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
+                        <#list groupList?chunk(5) as groupListCol>
+                        <@columns class='col pt-3'>
+                        <#list groupListCol?sort as groupCol>
+                            <#if groupCol == '' ><#continue></#if>
+                                <@box params='data-prop="${groupCol}"'>
+                                <@boxBody>
+                                <#assign groupName=''>
+                                <#assign helpText=''>
+                                <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
+                                    <#if groupName=''>
+                                        <#assign prefix=groupItem.key?keep_before(".site_property")  >
+                                        <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
+                                        <h3>${groupName!}</h3>
+                                    </#if>
+                                    <#assign labelText=groupItem.label>
+                                    <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
+                                    <#if groupItem.help?length gt 0><#assign helpText = groupItem.help></#if>
+                                    <@box id='box_${groupItem.key}'>
+                                        <@boxBody class='searchable'>
+                                        <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
+                                            <#if groupItem.key?ends_with( ".textblock" )>
+                                                <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
+                                            <#elseif groupItem.key?ends_with( ".htmlblock" )>
+                                                <@input type='textarea' name=groupItem.key id=groupItem.key class='richtext'>${groupItem.value?html}</@input>
+                                            <#elseif groupItem.key?ends_with( ".checkbox" )>
+                                                <#if groupItem.value == "1">
+                                                    <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=true />
+                                                <#else>
+                                                    <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=false />
+                                                </#if>
+                                                <@input type='hidden' name='${groupItem.key}' value='0' />
+                                            <#elseif groupItem.key?contains( "color" )>
+                                                <@inputGroup class='color-wrapper-input'>
+                                                    <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
+                                                    <@inputGroupItem>
+                                                        <input type="color" class="color-input" name="color-input" value="${groupItem.value?html}" colorspace="display-p3" alpha>
+                                                    </@inputGroupItem>
+                                                </@inputGroup>
                                             <#else>
-                                                <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=false />
+                                                <@input type='text' name=groupItem.key id=groupItem.key value=groupItem.value?html />
                                             </#if>
-                                            <@input type='hidden' name='${groupItem.key}' value='0' />
-                                        <#elseif groupItem.key?contains( "color" )>
-                                            <@inputGroup class='color-wrapper-input'>
-                                                <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
-                                                <@inputGroupItem>
-                                                    <input type="color" class="color-input" name="color-input" value="${groupItem.value?html}" colorspace="display-p3" alpha>
-                                                </@inputGroupItem>
-                                            </@inputGroup>
-                                        <#else>
-                                            <@input type='text' name=groupItem.key id=groupItem.key value=groupItem.value?html />
-                                        </#if>
-                                    </@formGroup>
-                                    </@boxBody>
-                                </@box> 
+                                        </@formGroup>
+                                        </@boxBody>
+                                    </@box> 
+                                </#list>
+                                </@boxBody>
+                            </@box> 
                             </#list>
-                            </@columns>
+                        </@columns>
                         </#list>
                         </@row>
+                        </#if>
                     </@tabPanel>
                 </#list>
             </@tabContent>
@@ -85,9 +99,10 @@
     </@row>
 </@pageContainer>
 </@tform>
-<@overlay />
+<#-- <@overlay /> -->
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
+<script src="themes/admin/shared/js/lib/bootstrap/masonry.pkgd.min.js"></script>
 <script type="module">
 import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
 const searchInput = document.querySelector("#search_prop");
@@ -97,10 +112,9 @@ new LuteceSearchList( searchInput, searchElementList, {
 });
 
 window.addEventListener( "load", function(){
-    <#-- Theme specific code        -->
-    <#if commonsThemeCode = 'tabler'>
-    document.querySelector('[data-prop="bo"]').classList.add('d-none');
-    </#if>
+    <#-- Theme specific code        
+    <#if commonsThemeCode = 'tabler'>document.querySelector('[data-prop="bo"]').classList.add('d-none');</#if>
+    -->
     <#-- End theme specific code    -->
     const colorInputs = document.querySelectorAll(".color-wrapper-input");
     colorInputs.forEach( input => {
