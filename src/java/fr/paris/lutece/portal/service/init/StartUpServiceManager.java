@@ -79,8 +79,10 @@ public final class StartUpServiceManager
                         // Display a success message after processing the service
                         AppLogService.info("StartUp service processed successfully: {}", serviceName);
                     } catch (Exception e) {
-                        // In case of error, display an error message and log the exception
+
+                        // In case of error, display an error message and throw exception if the service is marked as critical
                         AppLogService.error("Error while processing StartUp service: {}", serviceName, e);
+                        if(service.isCriticalService())throw e;
                     }
                 });
     }

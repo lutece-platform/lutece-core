@@ -56,4 +56,12 @@ public interface IEarlyInitializationService {
         // Default order value: 100 (can be adjusted by implementing classes)
         return 100;
     }
+    /**
+     * true if the service is critical 
+     * @return true if the service is critical
+     */
+    default boolean isCriticalService()
+    {
+        return false;
+    }
 }
