@@ -19,7 +19,7 @@
                 <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                 <#assign groupList = []>
                 <#list groups?sort as groupGroup><#if !groupList?seq_contains(groupGroup)><#assign groupList = groupList + [groupGroup]></#if></#list>
-                    <#if groupList?size gt 1>
+                    <#if groupList?size gt 0>
                     <@tabLink active=tabactive href='#group-${index}' title=group.description tabLabel=group.name />
                     </#if>
                 </#list>
@@ -33,14 +33,13 @@
                         <#assign groups = group.localizedDataList?map( prop -> prop.group )>
                         <#assign groupList = []>
                         <#list groups?sort as groupGroup><#if !groupList?seq_contains(groupGroup)><#assign groupList = groupList + [groupGroup]></#if></#list>
-                        <#if groupList?size gt 1>
+                        <#if groupList?size gt 0>
                         <@row class='row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
                         <#list groupList?chunk(5) as groupListCol>
                         <@columns class='col pt-3'>
                         <#list groupListCol?sort as groupCol>
-                            <#if groupCol == '' ><#continue></#if>
-                                <@box params='data-prop="${groupCol}"'>
-                                <@boxBody>
+                           <@box params='data-prop="${groupCol}"'>
+                              <@boxBody>
                                 <#assign groupName=''>
                                 <#assign helpText=''>
                                 <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
@@ -82,7 +81,7 @@
                                 </#list>
                                 </@boxBody>
                             </@box> 
-                            </#list>
+                        </#list>    
                         </@columns>
                         </#list>
                         </@row>
@@ -99,7 +98,7 @@
     </@row>
 </@pageContainer>
 </@tform>
-<#-- <@overlay /> -->
+<@overlay />
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
 <script src="themes/admin/shared/js/lib/bootstrap/masonry.pkgd.min.js"></script>
