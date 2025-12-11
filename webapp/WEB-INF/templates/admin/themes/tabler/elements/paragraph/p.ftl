@@ -11,7 +11,8 @@ Parameters:
 - align (string, optional): the alignment setting for the paragraph element, e.g., "center" or "right".
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro p id='' params='' class='' hide=[] collapsed=false align=''>
+<#macro p id='' params='' class='' hide=[] collapsed=false align='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#local class += ' ' + displaySettings(hide,'block') + ' ' + alignmentSettings(align,'') />
 <p<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>

@@ -11,7 +11,8 @@ Parameters:
 - target (string, optional): the target for the link element, e.g., "_blank".
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro link href='' class='' id='' name='' label='' title='' alt='' target='' params=''>
+<#macro link href='' class='' id='' name='' label='' title='' alt='' target='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if name!=''> name="${name}"</#if><#if target!=''> target="${target}"</#if><#if title!=''> title="${title}"</#if><#if alt!=''> alt="${alt}"</#if><#if params!=''> ${params}</#if>>
 <#if label !=''>${label}<#else><#nested></#if>
 </a>

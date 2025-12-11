@@ -6,7 +6,8 @@ Description: Generates the footer section, including documentation and source co
 Parameters:
 - version : The version number
 -->
-<#macro adminFooter closeMain=true >
+<#macro adminFooter closeMain=true deprecated...>
+<@deprecatedWarning args=deprecated />
 </div>
  <!--  BEGIN FOOTER  -->
 <footer class="footer footer-transparent d-print-none">

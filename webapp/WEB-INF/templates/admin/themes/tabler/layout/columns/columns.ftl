@@ -33,7 +33,8 @@ Parameters:
 - collapsed (boolean, optional): whether to add the "collapse" class to the column element (useful for hiding/showing columns).
 - params (string, optional): any additional attributes to include in the column elemen
 -->
-<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=0 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params=''>
+<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=0 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
 <#local class += ' ' + responsiveDisplay('col',{'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}) />

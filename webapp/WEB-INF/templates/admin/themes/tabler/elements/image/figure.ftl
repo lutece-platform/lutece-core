@@ -10,7 +10,8 @@ Parameters:
 - id (string, optional): the ID for the image element.
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro figure caption='' captionPos='bottom' class='' id='' params=''> 
+<#macro figure caption='' captionPos='bottom' class='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <figure<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
 <#if captionPos='top'><#if caption!=''><figcaption>${caption}</figcaption></#if></#if>
 <#nested>

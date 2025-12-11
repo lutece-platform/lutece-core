@@ -48,13 +48,16 @@ Parameters:
 			<#if style?contains('collapse')>
 				<#local widgetAction = 'collapse' />
 				<script>
-					$( function() {
+				document.addEventListener('DOMContentLoaded', function() {
+					var targetEl = document.querySelector('${buttonTargetId}');
+					if (targetEl) {
 					<#if buttonIcon = 'minus'>
-						$("${buttonTargetId}").addClass("show");
+						targetEl.classList.add('show');
 					<#else>
-						$("${buttonTargetId}").addClass("collapse");
+						targetEl.classList.add('collapse');
 					</#if>
-					});
+					}
+				});
 				</script>
 			<#elseif style?contains('remove')>
 				<#local widgetAction = 'remove' />
@@ -81,11 +84,7 @@ Parameters:
 		</#if>
 		<#local nestedContent><#nested /></#local>
 		<#local nestedContent = nestedContent?trim />
-		<#if nestedContent=''>
-			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
-				${title}
-			<#if displayTitleClass!=''></span></#if>
-		</#if>
+		<#if nestedContent=''><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if></#if>
 		<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'>
 			<#local buttonIcon = buttonIcon + ' ms-1' />

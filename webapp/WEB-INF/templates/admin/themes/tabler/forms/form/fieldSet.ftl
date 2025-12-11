@@ -15,7 +15,8 @@ Parameters:
 - hideLegend (list, optional): list of strings that, if non-empty, hide the legend.
 - disabled (boolean, optional): specifies whether the fieldset is disabled.
 -->
-<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendIcon='' legendParams='' hideLegend=[] disabled=false>
+<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendIcon='' legendParams='' hideLegend=[] disabled=false deprecated...>
+<@deprecatedWarning args=deprecated />
 <fieldset class="mb-3<#if class!=''> ${class}</#if>"<#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if><#if disabled> disabled</#if>>
 <#if legend!=''>
 	<#local legendClass += ' ' +  displaySettings(hideLegend,'block') />

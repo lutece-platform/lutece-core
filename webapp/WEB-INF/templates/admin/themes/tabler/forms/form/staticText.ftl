@@ -9,7 +9,8 @@ Parameters:
 - params (string, optional): additional parameters to add to the static text element.
 
 -->
-<#macro staticText inForm=true color='' id='' params=''>
+<#macro staticText inForm=true color='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <p class="<#if inForm>form-control-plaintext</#if><#if color!=''> text-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </p>

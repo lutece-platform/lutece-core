@@ -18,7 +18,8 @@ Parameters:
 - resources (boolean, optional): whether to load the SlimSelect CSS and JS resources.
 -->
 <#-- TODO Check accessibility of slim-select lib -->
-<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='json' prefix='ti' iconsUrl='themes/admin/shared/css/vendor/tabler/tabler-icons.json' resources=true defaultValue=''>
+<#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='json' prefix='ti' iconsUrl='themes/admin/shared/css/vendor/tabler/tabler-icons.json' resources=true defaultValue='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <@select name=name id=id class=class />
 <#if resources>
 <link rel="stylesheet" href="js/admin/lib/slimselect/slimselect.min.css">

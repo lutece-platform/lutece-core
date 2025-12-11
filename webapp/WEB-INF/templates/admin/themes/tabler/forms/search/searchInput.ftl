@@ -1,4 +1,5 @@
-<#macro searchInput name label="" value="" type="" minWidth="" mandatory=false>
+<#macro searchInput name label="" value="" type="" minWidth="" mandatory=false deprecated...>
+<@deprecatedWarning args=deprecated />
   <div class="col-md">
     <div class="form-floating">
       <#if type !="select">

@@ -20,7 +20,8 @@ Parameters:
 - mandatory (boolean, optional): whether the select field is mandatory.
 
 -->
-<#macro select name id=name class='' items='' default_value='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 maxLength=0 mandatory=false>
+<#macro select name id=name class='' items='' default_value='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 maxLength=0 mandatory=false deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <select id="${id}" name="${name}" class="<#if size!=''>form-control form-control-${size}</#if><#if class!=''> ${class}<#else> form-select</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if><#if mandatory> required</#if><#if disabled> disabled</#if>>
 <#if items?has_content>

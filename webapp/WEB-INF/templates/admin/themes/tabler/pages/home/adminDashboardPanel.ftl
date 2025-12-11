@@ -7,7 +7,8 @@ Parameters:
 - icon (string, optional): the icon to display in the panel header.
 - color (string, optional): the color of the panel header, using a Bootstrap color class (e.g. "primary", "success", "danger").
 -->
-<#macro adminDashboardPanel title='' navTitle='' parentId='' childId='' icon='' color=''>
+<#macro adminDashboardPanel title='' navTitle='' parentId='' childId='' icon='' color='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#assign parentId=parentId />
 <@tabPanel id='${childId}' params='title="${title}" data-nav="${navTitle}" data-icon="${icon}" data-color="${color}"'>
 <@pageHeader title="${title}" />

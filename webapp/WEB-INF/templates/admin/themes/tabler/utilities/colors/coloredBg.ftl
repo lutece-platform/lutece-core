@@ -8,7 +8,8 @@ Parameters:
 - id (string, optional): the ID of the element.
 - params (string, optional): additional parameters to add to the element.
 -->
-<#macro coloredBg color='' type='p' id='' params=''>
+<#macro coloredBg color='' type='p' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <${type} class="bg-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </${type}>

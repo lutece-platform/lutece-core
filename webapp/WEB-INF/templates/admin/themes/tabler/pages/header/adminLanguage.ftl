@@ -5,7 +5,8 @@ Parameters:
 - lang (string): the code of the currently selected language.
 - action (string, optional): the URL of the form submission handler.
 -->
-<#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' >
+<#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#list languages?filter( language -> language.code == lang ) as language>
 <div class="dropdown-item justify-content-center">
 	<span title="#i18n{portal.admin.admin_home.language} ${language.name!}" data-lang="${language.code}" data-lang-name="${language.name?capitalize}">

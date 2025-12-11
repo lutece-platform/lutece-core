@@ -9,7 +9,8 @@ Parameters:
 - id (string, optional): the ID of the error page container.
 - params (string, optional): additional parameters to be added to the error page container.
 -->
-<#macro errorPage color='' errorType='' id='' params=''>
+<#macro errorPage color='' errorType='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <@pageContainer>
 <@pageColumn>
 <div class="error-page"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>

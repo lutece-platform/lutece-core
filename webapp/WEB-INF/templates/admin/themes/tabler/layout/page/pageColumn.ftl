@@ -15,7 +15,8 @@ Parameters:
 - responsiveMenuBodyClass (string, optional): Additional CSS classes to be applied to the offcanvas-body in responsiveMenu mode.
 - responsiveMenuClose (boolean, optional) : If true, close by default the offcanvas menu. Default is false.
 -->
-<#macro pageColumn id='' width='' class='' containerClass='' height='' title='' flush=false center=false responsiveMenuSize='' responsiveMenuTitle=title responsiveMenuPlacement='end' responsiveMenuBodyClass='' responsiveMenuClose=false>
+<#macro pageColumn id='' width='' class='' containerClass='' height='' title='' flush=false center=false responsiveMenuSize='' responsiveMenuTitle=title responsiveMenuPlacement='end' responsiveMenuBodyClass='' responsiveMenuClose=false deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if responsiveMenuSize != '' || responsiveMenuClose >
 <div class="<#if responsiveMenuClose>offcanvas<#else>offcanvas-${responsiveMenuSize}</#if> offcanvas-${responsiveMenuPlacement} w-auto border-end overflow-x-hidden" style="<#if width != ''>min-width:${width}</#if>" tabindex="-1" <#if id != ''> id="${id}"</#if>>
     <div class="offcanvas-header border-bottom text-break px-4">

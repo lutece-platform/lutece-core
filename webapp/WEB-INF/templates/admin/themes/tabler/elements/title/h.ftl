@@ -11,7 +11,8 @@ Parameters:
 - align (string, optional): the alignment setting for the span element, e.g., "center" or "right".
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro h level=2 id='' class='' hide=[] align='' params=''>
+<#macro h level=2 id='' class='' hide=[] align='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#local class += ' ' + alignmentSettings( align,'' ) + ' ' + displaySettings( hide, 'inline-flex' ) />
 <h${level}<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>
 <#nested>

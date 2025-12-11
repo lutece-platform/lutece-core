@@ -3,7 +3,8 @@ Description: Wraps a column's content in an outline that includes the column's I
 Parameters:
 - columnid (string, optional): the ID of the column to be displayed in the outline.
 -->
-<#macro adminSiteColumnOutline columnid=''>
+<#macro adminSiteColumnOutline columnid='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#local content><#compress><#nested></#compress></#local>
 <@div id='lutece-column-${columnid}' class='lutece-admin-column'>
     <@div class='lutece-column-toolbar'>

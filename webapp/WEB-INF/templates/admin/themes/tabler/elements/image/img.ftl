@@ -11,6 +11,7 @@ Parameters:
 - id (string, optional): the ID for the image element.
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro img url='' alt='' title='' class='img-fluid' id='' params=''> 
+<#macro img url='' alt='' title='' class='img-fluid' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated /> 
 <img src="${url}" alt="<#if alt!=''>${alt!}<#else>${title!}</#if>" title="${title}"<#if class!=''> class=" ${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> />
 </#macro>

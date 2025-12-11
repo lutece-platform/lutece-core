@@ -8,7 +8,8 @@ Parameters:
 - message (object): an object containing information about the message to be displayed, including its type and text.
 - text (string): the text of the message.
 -->
-<#macro adminMessagePage title=''>
+<#macro adminMessagePage title='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url')?trim, '')>
 <#local logoSvg = (dskey('portal.site.site_property.logo_svg.textblock')!)?has_content?then(dskey('portal.site.site_property.logo_svg.textblock'), '')>
 <#local title=title />

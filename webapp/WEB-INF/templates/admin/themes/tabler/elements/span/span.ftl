@@ -11,7 +11,8 @@ Parameters:
 - align (string, optional): the alignment setting for the span element, e.g., "center" or "right".
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro span id='' class='' hide=[] collapsed=false align='' params=''>
+<#macro span id='' class='' hide=[] collapsed=false align='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'inline-flex') />
 <span<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>

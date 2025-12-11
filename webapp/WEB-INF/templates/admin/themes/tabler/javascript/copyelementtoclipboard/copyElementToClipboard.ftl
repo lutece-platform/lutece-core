@@ -11,7 +11,8 @@ Parameters:
 - msgError (string, optional): the error message to display.
 
 -->
-<#macro copyElementToClipboard selector='.copy-content' class='copy-icon' showMsg=true msgDone='#i18n{portal.util.copy.done}' msgError='#i18n{portal.util.copy.error}'>
+<#macro copyElementToClipboard selector='.copy-content' class='copy-icon' showMsg=true msgDone='#i18n{portal.util.copy.done}' msgError='#i18n{portal.util.copy.error}' deprecated...>
+<@deprecatedWarning args=deprecated />
 <script>
 const elems = document.querySelectorAll('${selector!}');
 elems.forEach(elem => {

@@ -11,7 +11,8 @@ Parameters:
 - params (string, optional): additional parameters for each option element.
 -->
 
-<#macro options items selected='' id=false class='' params=''>
+<#macro options items selected='' id=false class='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if items??>
 	<#list items as item>
 		<#local idItem><#if id>${item.code}_${item?index}<#else></#if></#local>

@@ -10,7 +10,8 @@ Parameters:
 - align (string, optional): the alignment of the row container element (left, right, or center).
 - params (string, optional): additional parameters to be added to the row container element.
 -->
-<#macro row class='' id='' collapsed=false align='' params=''>
+<#macro row class='' id='' collapsed=false align='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 <div class="row<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>

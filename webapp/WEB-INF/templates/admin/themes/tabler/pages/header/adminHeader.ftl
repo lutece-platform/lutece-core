@@ -4,7 +4,8 @@ Description: Generates a header section for an administrative page, including a 
 Parameters:
 - site_name (string, required): the name of the website or application.
 -->
-<#macro adminHeader site_name=site_name!'Lutece' admin_url=admin_url >
+<#macro adminHeader site_name=site_name!'Lutece' admin_url=admin_url deprecated...>
+<@deprecatedWarning args=deprecated />
 <#local userReadMode><#attempt>${dskey('portal.site.site_property.layout.user.readmode.show.checkbox')?number}<#recover>0</#attempt></#local>
 <#local userDarkMode><#attempt>${dskey('portal.site.site_property.layout.user.darkmode.show.checkbox')?number}<#recover>0</#attempt></#local>
 <#local adminDarkMode><#attempt>${dskey('portal.site.site_property.layout.darkmode.checkbox')?number}<#recover>0</#attempt></#local>

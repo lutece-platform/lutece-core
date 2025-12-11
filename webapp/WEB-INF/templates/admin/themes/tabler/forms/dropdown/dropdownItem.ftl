@@ -11,7 +11,8 @@ Parameters:
 - id (string, optional): the ID for the list item.
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro dropdownItem class='' href='' target='' title='' id='' params=''>
+<#macro dropdownItem class='' href='' target='' title='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <li>
 	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if target!=''> target="${target}"</#if>>${title}</a>
 </li>

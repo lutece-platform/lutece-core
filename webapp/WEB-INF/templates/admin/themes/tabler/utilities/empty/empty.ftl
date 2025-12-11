@@ -12,7 +12,8 @@ Parameters:
 - actionIcon (string, optional): the name of the icon to use for the action button, using the Themify Icon font.
 - actionUrl (string, optional): the URL to link to when the action button is clicked.
 -->
-<#macro empty title='' subtitle='' id='' class='' iconName='mood-empty' iconClass='' img='' imgClass='' actionTitle='' actionBtn='primary' actionIcon='plus' actionClass='' actionUrl='#'>
+<#macro empty title='' subtitle='' id='' class='' iconName='mood-empty' iconClass='' img='' imgClass='' actionTitle='' actionBtn='primary' actionIcon='plus' actionClass='' actionUrl='#' deprecated...>
+<@deprecatedWarning args=deprecated />
 <div class="empty<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if>>
 <#if img=''>
 	<div class="empty-icon<#if iconClass!=''> ${iconClass}</#if>"><@icon prefix='ti ti-' style='${iconName}' params='style="font-size:48px"' /></div>
@@ -22,8 +23,8 @@ Parameters:
 	<p class="empty-title"><#if title=''>#i18n{portal.util.message.emptyTitle}	<#else>${title}</#if></p>
 <#if subtitle !=''>
 	<p class="empty-subtitle text-muted">${subtitle}</p>
-	<#else>
-		<p class="empty-subtitle text-muted">#i18n{portal.util.message.emptySubTitle}</p>
+<#else>
+	<p class="empty-subtitle text-muted">#i18n{portal.util.message.emptySubTitle}</p>
 </#if>
 <#nested>
 <#if actionTitle !=''>

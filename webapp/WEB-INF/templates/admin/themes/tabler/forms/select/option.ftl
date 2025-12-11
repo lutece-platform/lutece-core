@@ -12,6 +12,7 @@ Parameters:
 - disabled (boolean, optional): whether the option should be disabled. Default is false.
 - params (string, optional): additional parameters for the option element.
 -->
-<#macro option label value help='' id='' class='' selected=false disabled=false params=''>
+<#macro option label value help='' id='' class='' selected=false disabled=false params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <option<#if id!=''>id="${id}</#if><#if class!=''> class="${class}"</#if> value="${value!}"<#if selected> selected</#if><#if disabled> disabled</#if><#if help !=''> label="${help}"</#if><#if params!=''> ${params}</#if>>${label!} <#nested></option>
 </#macro>

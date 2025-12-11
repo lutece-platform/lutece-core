@@ -12,7 +12,8 @@ Parameters:
 - params (string): additional parameters to include in the div element (default: '')
 
 -->
-<#macro div id='' class='' hide=[] collapsed=false align='' params=''>
+<#macro div id='' class='' hide=[] collapsed=false align='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 <#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>

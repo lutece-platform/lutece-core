@@ -19,7 +19,8 @@ Parameters:
 - mandatory (boolean, optional): whether the radio button element is mandatory.
 - propagateMandatory (boolean, optional): whether to propagate the mandatory flag to the radio button element.
 -->
-<#macro radioButton name id='' class='form-check-input' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false >
+<#macro radioButton name id='' class='form-check-input' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false  deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if orientation='vertical'><div class="radio"<#if params!=''> ${params}</#if>>	</#if>
 <label  class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if labelClass!=''> ${labelClass!}</#if>"<#if labelFor!=''> for="${labelFor}"</#if>>

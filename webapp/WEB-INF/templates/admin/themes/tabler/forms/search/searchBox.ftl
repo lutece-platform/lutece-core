@@ -1,4 +1,5 @@
-<#macro searchBox id>
+<#macro searchBox id deprecated...>
+<@deprecatedWarning args=deprecated />
   <div id="${id}" class="card rounded-pill px-4 py-0 pe-2 bg-form mb-0">
     <div class="row g-2 align-items-center">
       <#nested>
