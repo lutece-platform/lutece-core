@@ -73,6 +73,9 @@ export default class LuteceTree {
 			if( currentNode != null){ 
 				currentNode.classList.add('active') 
 				let el = currentNode.closest( `.${this.options.treeNode}` );
+				if( el === null ){
+					return 
+				}
 				do {
 					el.classList.toggle( this.options.treeOpenNode );
 					el = el.parentNode.closest( `.${this.options.treeNode}` );
