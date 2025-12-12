@@ -7,12 +7,12 @@ Parameters:
 - id (string, optional): the ID of the container element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the container element.
 -->
-<#macro accordionContainer id='' params=''>
+<#macro accordionContainer id='' class='' params=''>
 <#if id = '' >
    <#if accordionContainerId?? == false><#assign accordionContainerId = 1 ><#else><#assign accordionContainerId = accordionContainerId + 1 ></#if>
    <#local id = 'accCont_'+ accordionContainerId >
 </#if>
-<div class="accordion" id="${id}"<#if params!=''> ${params}</#if>>
+<div class="accordion<#if class!=''> ${class}</#if>" id="${id}"<#if params!=''> ${params}</#if>>
 <#assign parentId = id>
 <#nested>
 </div>
