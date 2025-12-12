@@ -148,7 +148,12 @@ public class MainFilter implements Filter
      */
     boolean matchMapping( LuteceFilter filter, HttpServletRequest request )
     {
-        return matchFilterUrl( filter.getMappingUrlPattern( ), request.getServletPath( ) );
+        String strRequestUrl = request.getServletPath( );
+        if (null == strRequestUrl || strRequestUrl.isEmpty( ))
+        {
+            strRequestUrl = request.getPathInfo( );
+        }
+        return matchFilterUrl( filter.getMappingUrlPattern( ), strRequestUrl);
     }
 
     /**
