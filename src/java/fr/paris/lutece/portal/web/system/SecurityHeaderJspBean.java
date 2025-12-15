@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +49,7 @@ import fr.paris.lutece.portal.business.securityheader.SecurityHeader;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderHome;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderType;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -481,7 +485,14 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private String processModifyFormData( HttpServletRequest request, SecurityHeader securityHeader )
     {
     	securityHeader.setName( request.getParameter( PARAMETER_NAME ) );
-    	securityHeader.setValue( request.getParameter( PARAMETER_VALUE ) );
+    	try
+        {
+            securityHeader.setValue( URLDecoder.decode( request.getParameter( PARAMETER_VALUE ), EncodingService.getEncoding( ) ) );
+        }
+        catch( UnsupportedEncodingException uee )
+        {
+            AppLogService.error( "Unsupported encoding during url decoding" );
+        }
     	securityHeader.setDescription( request.getParameter( PARAMETER_DESCRIPTION ) );
     	securityHeader.setType( request.getParameter( PARAMETER_TYPE ) );
     	securityHeader.setPageCategory( getPageCategory( request.getParameter( PARAMETER_PAGE_CATEGORY ), securityHeader.getType( ) ) );
