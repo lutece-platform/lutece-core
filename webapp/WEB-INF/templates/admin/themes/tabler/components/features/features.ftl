@@ -1,8 +1,8 @@
-<#macro manageFeature class='mt-2' id='' params='' deprecated...>
+<#macro manageFeature class='mt-2' colClass='space-y' listClass='space-y' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="row row-cards<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
-    <div class="col space-y">
-        <ul class="list-unstyled space-y">
+    <div class="col ${colClass}">
+        <ul class="list-unstyled ${listClass}">
             <#nested>
         </ul>
     </div>
