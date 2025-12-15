@@ -63,8 +63,19 @@ public abstract class SafeRequestFilter implements Filter
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void init( FilterConfig config ) throws ServletException
+    public void initFilter( boolean activateXssFilter, boolean sanitizeFilterMode, String strXssCharacters )
+    {
+        _bActivateXssFilter = activateXssFilter;
+        _bSanitizeFilterMode = sanitizeFilterMode;
+        _strXssCharacters = strXssCharacters;
+    }
+
+    /**
+     * init the filter from xml configuration
+     *
+     * @param config The FilterConfig
+     */
+    public void initFromFilterConfig( FilterConfig config )
     {
         String strParamValue = config.getInitParameter( PARAM_FILTER_XSS_CHARATERS );
         _strXssCharacters = strParamValue;
@@ -77,7 +88,7 @@ public abstract class SafeRequestFilter implements Filter
         }
         if ( strParamModeSanitize != null )
         {
-        	_bSanitizeFilterMode = Boolean.valueOf( strParamModeSanitize );
+            _bSanitizeFilterMode = Boolean.valueOf( strParamModeSanitize );
         }
     }
 
