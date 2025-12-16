@@ -37,7 +37,6 @@
                     <#list groupList?sort as groupCol>
                     <@columns class='col-property' params='data-prop="${groupCol}"'> 
                     <#assign groupName=''>
-                    <#assign helpText=''>
                     <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
                             <#if groupName=''>
                             <#assign prefix=groupItem.key?keep_before(".site_property")  >
@@ -46,7 +45,7 @@
                             </#if>
                             <#assign labelText=groupItem.label>
                             <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
-                            <#if groupItem.help?length gt 0><#assign helpText = groupItem.help></#if>
+                            <#assign helpText=groupItem.help!''>
                             <@box>
                                 <@boxBody class='searchable'>
                                 <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
