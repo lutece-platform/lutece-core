@@ -78,7 +78,7 @@ body.loaded #lutece-layout-wrapper {
 .navbar-expand-md .navbar-nav .dropdown-menu {
     position: absolute;
     overflow-y: auto;
-    height: 85vh;
+    max-height: 85vh;
 }
 
 .dropdown-menu-arrow.border-0:before {
