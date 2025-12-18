@@ -31,8 +31,8 @@
 
 %>
 <%
-	TransactionManager.rollBackEveryTransaction( exception );
-    if( exception instanceof fr.paris.lutece.portal.service.admin.AccessDeniedException )
+	TransactionManager.rollBackEveryTransaction( exception.getCause(  ) );
+    if( exception.getCause(  ) instanceof fr.paris.lutece.portal.service.admin.AccessDeniedException )
     {
     	if ( exception.getMessage(  ) != null )
     	{
