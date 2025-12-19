@@ -481,7 +481,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private String processModifyFormData( HttpServletRequest request, SecurityHeader securityHeader )
     {
     	securityHeader.setName( request.getParameter( PARAMETER_NAME ) );
-    	securityHeader.setValue( request.getParameter( PARAMETER_VALUE ) );
+    	securityHeader.setValue( StringEscapeUtils.unescapeHtml4( request.getParameter( PARAMETER_VALUE ) ) );
     	securityHeader.setDescription( request.getParameter( PARAMETER_DESCRIPTION ) );
     	securityHeader.setType( request.getParameter( PARAMETER_TYPE ) );
     	securityHeader.setPageCategory( getPageCategory( request.getParameter( PARAMETER_PAGE_CATEGORY ), securityHeader.getType( ) ) );
