@@ -159,7 +159,7 @@ public class FileImageService implements ImageResourceProvider
         HttpServletRequest request = LocalVariables.getRequest( );
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        return ( user == null || !AdminUserFieldHome.existsWithFile( nIdResource ) );
+        return ( null != user && AdminUserFieldHome.existsWithFile( nIdResource ) );
     }
     
     /**
