@@ -108,7 +108,7 @@ public class FileImageService implements ImageResourceProvider
     public ImageResource getImageResource( int nIdResource )
     {
         
-        if ( isNotAuthorized( nIdResource ) ) return null;
+        if ( !isAuthorized( nIdResource ) ) return null;
         
         File file = FileHome.findByPrimaryKey( nIdResource );
 
@@ -142,12 +142,12 @@ public class FileImageService implements ImageResourceProvider
      * @param nIdResource
      * @return true if authorized
      */
-    private static boolean isNotAuthorized(  int nIdResource  )
+    private static boolean isAuthorized(  int nIdResource  )
     {
         HttpServletRequest request = LocalVariables.getRequest( );
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        return ( user == null || !AdminUserFieldHome.existsWithFile( nIdResource ) );
+        return ( null != user && AdminUserFieldHome.existsWithFile( nIdResource ) );
     }
     
     /**
