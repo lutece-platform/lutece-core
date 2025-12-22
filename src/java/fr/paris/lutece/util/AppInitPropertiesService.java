@@ -55,6 +55,7 @@ public final class AppInitPropertiesService
     private static final String FILE_PROPERTIES_CACHES = "caches.properties";
     private static final String FILE_PROPERTIES_EDITORS = "editors.properties";
     private static final String PATH_PLUGINS = "plugins/";
+    private static final String PATH_THEMES="themes/";
     private static final String PATH_OVERRIDE_CORE = "override/";
     private static final String PATH_OVERRIDE_PLUGINS = "override/plugins";
     private static PropertiesService _propertiesService;
@@ -85,8 +86,10 @@ public final class AppInitPropertiesService
         _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CACHES );
         _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_EDITORS );
         _propertiesService.addPropertiesDirectory( confPath + PATH_PLUGINS );
+        _propertiesService.addPropertiesDirectory( confPath + PATH_THEMES );
         _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_CORE );
         _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_PLUGINS );
+        
     }
 
     /**
