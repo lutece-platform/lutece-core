@@ -35,6 +35,7 @@ package fr.paris.lutece.util.url;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 // Java Util
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ import java.util.List;
 /**
  * This class provides utility methods for the generation of Url String
  */
-public class UrlItem
+public class UrlItem implements Serializable
 {
     // //////////////////////////////////////////////////////////////////////////
     // Constants

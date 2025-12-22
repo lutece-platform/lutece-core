@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.util.url;
 
+import java.io.Serializable;
+
 /**
  * This class provides utility methods to manipulate an url parameter
  */
-public class UrlParameterItem
+public class UrlParameterItem implements Serializable
 {
     // //////////////////////////////////////////////////////////////////////////
     // Attributes
