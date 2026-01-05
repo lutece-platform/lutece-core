@@ -16,7 +16,7 @@ Parameters:
 -->
 <#macro tag color='primary' class='' size='' title='' tagIcon='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
-<span class="tag<#if color!=''> bg-${color} text-${color}-fg</#if><#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+<span class="badge<#if color!=''> bg-${color} text-${color}-fg</#if><#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
 	<#if tagIcon !=''>
 	<@icon style=tagIcon />
 	</#if>

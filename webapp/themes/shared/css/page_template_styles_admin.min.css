@@ -42,11 +42,11 @@
      justify-content: space-between;
      align-items: center;
      border-bottom: var(--border-medium) solid var(--gray-color);
-     padding: var(--spacing-2) var(--spacing-4)
+     padding: var(--spacing-xs) var(--spacing-m)
  }
 
  .lutece-dialog .lutece-dialog-content .lutece-dialog-body {
-     padding: var(--spacing-2) var(--spacing-4)
+     padding: var(--spacing-xs) var(--spacing-m)
  }
 
  .lutece-dialog .lutece-dialog-content .lutece-dialog-body .btn-new-portlet {
@@ -57,14 +57,14 @@
      padding: var(--spacing-1);
      position: relative;
      border: 2px dotted transparent;
-     border-radius: var(--spacing-4)
+     border-radius: var(--spacing-m)
  }
 
  .lutece-admin-column:has(.lutece-admin-column-outline:empty),
  .lutece-admin-column:hover {
      --default-border-radius: .25rem;
      border-color: var(--gray-color);
-     margin-block-start: var(--spacing-2)
+     margin-block-start: var(--spacing-xs)
  }
 
  .lutece-admin-column:has(.lutece-admin-column-outline:empty)::before {
@@ -93,7 +93,7 @@
      left: 0;
      width: 100%;
      z-index: 400;
-     padding: var(--spacing-1)
+     padding: var(--spacing-xxs)
  }
 
  .lutece-admin-column:has(.lutece-admin-column-outline:empty) .lutece-column-toolbar,
@@ -107,7 +107,7 @@
      top: .25rem;
      left: .25rem;
      border-radius: 15px;
-     padding: var(--spacing-2);
+     padding: var(--spacing-xs);
      color: var(--white-color);
      box-shadow: var(--shadow-card-filter)
  }
@@ -135,9 +135,9 @@
      border: var(--border-medium);
      border-style: dashed;
      border-color: transparent;
-     border-radius: var(--spacing-3l);
+     border-radius: var(--spacing-l);
      position: relative;
-     margin-bottom: var(--spacing-3);
+     margin-bottom: var(--spacing-l);
      min-height: auto;
      transition: min-height 2s ease-in-out
  }

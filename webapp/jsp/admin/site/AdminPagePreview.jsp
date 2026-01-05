@@ -23,14 +23,14 @@ ${ adminPageJspBean.init( pageContext.request, AdminPageJspBean.RIGHT_MANAGE_ADM
        
 
 %>
-  	${ adminPageJspBean.getAdminPagePreview( pageContext.request ) }
-    <!--JSP -->
+${ adminPageJspBean.getAdminPagePreview( pageContext.request ) }
+<!--JSP -->
 <!-- A modal dialog containing a form -->
 <dialog id="addPortletDialog" class="lutece-dialog" aria-labelledby="portletModalLabel" aria-hidden="true" tabindex="-1">
     <div class="lutece-dialog lutece-dialog-fullscreen">
         <div class="lutece-dialog-content">
             <div class="lutece-dialog-header">
-                <h2 class="lutece-dialog-title h4 text-dark" id="portletModalLabel"><%= I18nService.getLocalizedString(PROPERTY_LABELPORTLETTYPE_CREATE, request.getLocale() ) %></h2>
+                <h2 class="lutece-dialog-title h4 text-dark m-0" id="portletModalLabel"><%= I18nService.getLocalizedString(PROPERTY_LABELPORTLETTYPE_CREATE, request.getLocale() ) %></h2>
                 <button type="button" class="btn btn-link btn-cancel text-dark" aria-label="<%= I18nService.getLocalizedString(PROPERTY_LABEL_CANCEL, request.getLocale() ) %>"><i class="ti ti-x"></i></button>
             </div>
             <div class="lutece-dialog-body">
@@ -56,10 +56,10 @@ document.addEventListener( "DOMContentLoaded", function(){
         const divType = document.createElement('div')
         divType.classList.add('col')
         const aType = document.createElement('a')
-        aType.classList.add('btn', 'btn-secondary', 'btn-lg', 'btn-block', 'btn-new-portlet', 'py-5', 'px-0' , 'my-3', 'd-flex', 'align-items-center' )
+        aType.classList.add('btn', 'btn-secondary', 'btn-lg', 'btn-block', 'btn-new-portlet', 'py-5', 'px-3' , 'my-3', 'd-flex', 'align-items-center' )
         aType.setAttribute( 'href', item.dataset.portletTypeHref )
         const spanType = document.createElement('span')
-        spanType.classList.add( 'px-2', 'text-left', 'truncate' )
+        spanType.classList.add( 'text-start', 'truncate','d-block' )
         spanType.innerText = item.dataset.portletTypeName
         const iconType = document.createElement('i')
         iconType.classList.add('ti', 'ti-' + item.dataset.portletTypeIcon ,'fs-1','d-block','ps-2','pl-2')
