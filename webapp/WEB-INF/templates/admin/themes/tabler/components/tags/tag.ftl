@@ -14,9 +14,9 @@ Parameters:
 - deprecated (string, optional): an optional message indicating that this macro is deprecated.
 
 -->
-<#macro tag color='blue' class='' size='' title='' tagIcon='' id='' params='' deprecated...>
+<#macro tag color='primary' class='' size='' title='' tagIcon='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />	
-<span class="badge bg-${color} text-${color}-fg <#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+<span class="tag<#if color!=''> bg-${color} text-${color}-fg</#if><#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
 	<#if tagIcon !=''>
 	<@icon style=tagIcon />
 	</#if>

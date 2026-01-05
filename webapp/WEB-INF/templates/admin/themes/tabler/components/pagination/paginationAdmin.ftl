@@ -54,7 +54,7 @@ Parameters:
         <#-- Affichage du nombre d'éléments -->
         <#if showcount == 1>
           <div class="mb-3">
-            <span class="badge bg-info">
+            <span class="badge bg-info text-info-fg">
               <i class="ti ti-list-numbers"></i>
               <span id="${tableId}-count">${paginator.itemsCount}</span> ${paginator.labelItemCount}
             </span>
