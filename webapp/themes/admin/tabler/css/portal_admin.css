@@ -153,3 +153,22 @@ body.loaded #lutece-layout-wrapper {
 [data-bs-theme=dark] .img-invert {
     filter: invert(1) hue-rotate(180deg);
 }
+
+:not(.btn-group, .input-group, .btn-toolbar) > :is( 
+.btn:first-child, 
+form:first-child, 
+.offcanvas:first-child, 
+.btn + .btn,
+.btn + form,
+form + .btn,
+form .btn,
+.offcanvas + .btn,  
+.btn + .offcanvas){
+  margin-inline-end:.5rem;
+}
+
+.btn .ti{margin-inline-end:.25rem;}
+
+.ti {
+    line-height: normal;
+}
