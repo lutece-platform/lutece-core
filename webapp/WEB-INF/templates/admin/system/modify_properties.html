@@ -45,8 +45,10 @@
                                 <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
                                     <#if groupName=''>
                                         <#assign prefix=groupItem.key?keep_before(".site_property")  >
+                                        <#if groupCol?trim !=''>
                                         <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
-                                        <h3>${groupName!}</h3>
+                                        <@h level=3>${groupName!}</@h>
+                                        </#if>
                                     </#if>
                                     <#assign labelText=groupItem.label>
                                     <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>

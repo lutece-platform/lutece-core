@@ -1,7 +1,8 @@
 <@pageContainer class='lutece-admin-site'>
     <@pageColumn>
         <@div id='lutece-admin-site-preview-box'>
-            <@div class='lutece-admin-site-header d-flex justify-content-between'>
+            <@row class='lutece-admin-site-header justify-content-between'>
+                <@columns>
                 <@breadcrumbs class='breadcrumb-arrows has-arrow-separator '>
                     <#if page.id=1>
                         <@breadcrumbItem><@link href='jsp/admin/site/AdminSite.jsp?page_id=1' title='${page.name}'><@icon style='home' /> ${page.name} [${page.id}]</@link></@breadcrumbItem>
@@ -17,14 +18,15 @@
                         <@breadcrumbItem class='active'>${page.name} [${page.id}]</@breadcrumbItem>
                     </#if>
                 </@breadcrumbs>
+                </@columns>
                 <@adminSiteToolbar />
-            </@div>
+            </@row>
             <@div id='lutece-admin-page-preview' class='d-flex flex-column align-items-center'>
                 <@p class='text-center' params='hidden'><@button id='btn-minimize' buttonIcon='minimize' title='#i18n{portal.site.admin_page.minimize}' params='style="height: 2rem;margin-top: 1rem "' /></@p>
                 ${page_block}
-                <!-- HTML iframe to show FO -->
+                <!-- HTML iframe to show FO  -->
                 <@div id='lutece-admin-site-preview-wrapper' class='d-flex justify-content-center w-100'>
-                    <@div id='lutece-admin-site-preview-frame' class="desktop">
+                    <@div id='lutece-admin-site-preview-frame' class='desktop'>
                         <iframe id="lutece-admin-site-preview" name="preview" src="jsp/admin/site/AdminPagePreview.jsp?page_id=${page.id}" title="#i18n{portal.site.admin_page.labelPreviewSite}">#i18n{portal.site.admin_page.labelPreviewSite}</iframe>
                     </@div>
                 </@div>
@@ -65,9 +67,9 @@ document.addEventListener("DOMContentLoaded", function() {
         
     function _resizePreview( ) {
         previewFrame.style.height = ( window.innerHeight - 30 ) + "px";
-        previewFrame.style.width = "105%";
+        previewFrame.style.width = "100%";
         previewIframe.style.height = ( window.innerHeight - 30 ) + "px";
-        previewIframe.style.width = "105%";
+        previewIframe.style.width = "100%";
     }
 
     function _setBtnPreview( el, w ) {

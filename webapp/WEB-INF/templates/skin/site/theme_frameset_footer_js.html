@@ -6,8 +6,8 @@
 <!-- Browser detection and warning old browser -->
 <script src="${thetheme.pathJs}/vendor/es5.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <script>
-var xssChars='${dskey("themeparisfr.site_property.xss.xssChars")!}';
-var xssMsg='${dskey("themeparisfr.site_property.xss.xssMsg")!}';
+var xssChars='${dskey("portal.site.site_property.xss.xssChars")!}';
+var xssMsg='${dskey("portal.site.site_property.xss.xssMsg")!}';
 window.addEventListener( "load", function() {
 	const browser = bowser.getParser(window.navigator.userAgent);
 	const browserName=browser['parsedResult']['browser']['name'];

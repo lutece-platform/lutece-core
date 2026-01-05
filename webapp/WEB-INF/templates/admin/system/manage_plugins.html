@@ -31,9 +31,9 @@
 							<small>#i18n{portal.system.manage_plugins.labelVersion}: <strong>${core.version}</strong></small>
 						</@boxHeader>
 						<@boxBody class="searchable">
-							<@p>#i18n{${core.description}}</@p>
-							<@p><@icon style='user' /> <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${core.provider}}</em></@p>
-							<@p><@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${core.providerUrl}' target='_blank'>${core.providerUrl}</@link></em></@p>
+							<@p class='mb-2'>#i18n{${core.description}}</@p>
+							<@p class='mb-0'><@icon style='user' /> <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${core.provider}}</em></@p>
+							<@p class='mb-0'><@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${core.providerUrl}' target='_blank'>${core.providerUrl}</@link></em></@p>
 						</@boxBody>
 						<@boxFooter>
                             <@offcanvas targetUrl="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}" targetElement="#plugin-content" id="plugin-core"  btnIcon="info-circle" btnColor="info" position="end" title="#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${core.name}" />
@@ -44,8 +44,9 @@
 					<@columns xs=12 sm=6 lg=4 id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"'>
 						<@box>
 							<#assign logo><@img url='${plugin.iconUrl}' alt='logo' class='thumbnail thumbnail-sm' title='${plugin.name}' params=' onerror="this.onerror=null;this.src=\'themes/admin/shared/images/apps.svg\'"' /></#assign>
-							<@boxHeader title='${logo} ${plugin.name}' class="searchable" boxTools=true>
+							<@boxHeader title='${logo} ${plugin.name}' class='searchable' titleAuto=false boxTools=true>
 								<small>#i18n{portal.system.manage_plugins.labelVersion}: <strong>${plugin.version}</strong></small>
+								<@p class='my-1'>
 								<#if plugin.installed>
 									<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'>
 										<@icon style='check-circle' /> #i18n{portal.system.manage_caches.imgAltEnable}
@@ -55,13 +56,14 @@
 										<@icon style='times-circle' /> #i18n{portal.system.manage_caches.imgAltDisable}
 									</@tag>
 								</#if>
+								</@p>
 							</@boxHeader>
 							<@boxBody class="searchable">
-								<@p>#i18n{${plugin.description}}</@p>
-								<@p>
+								<@p class='mb-2'>#i18n{${plugin.description}}</@p>
+								<@p class='mb-0'>
 									<@icon style='user' /><em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em>
 								</@p>
-								<@p>
+								<@p class='mb-0'>
 									<@icon style='globe' /><em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${plugin.providerUrl}' target='_blank'>${plugin.providerUrl}</@link></em>
 								</@p>
 							</@boxBody>
