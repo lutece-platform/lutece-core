@@ -141,6 +141,9 @@ document.addEventListener( "DOMContentLoaded", function(){
 		return new bootstrap.Popover(popoverTriggerEl, {container: 'body', sanitize : false, placement: 'left'})
 	})
 
+	const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+	const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 	const tgCheck = document.querySelectorAll('.toggleCheck')
 	tgCheck.forEach( (tg) => {
     	tg.addEventListener( 'click', ( el ) => {
