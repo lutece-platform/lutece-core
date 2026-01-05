@@ -22,7 +22,7 @@
 </#macro>
 <#macro manageFeatureItemColumn auto=false flex=true cols='' valign='center' align='start' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="col-md<#if flex> d-flex align-items-${valign} justify-content-${align}</#if><#if cols !=''>-${cols}<#elseif auto> col-md-auto</#if><#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="col-md<#if flex> d-flex align-items-${valign} justify-content-${align}</#if><#if cols !=''> col-${cols}<#elseif auto> col-md-auto</#if><#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
 <#nested>
 </div>
 </#macro>
