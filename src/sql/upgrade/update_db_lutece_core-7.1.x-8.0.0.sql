@@ -372,6 +372,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.sidebarMenu.
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.sidebarMenu.sidebarCol.number', '3');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.sidebarMenuCollapse.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.siteMapMenu.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.search.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.skipLinkMainId', 'main');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.skipLinkMenu.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.userthemeswitch.checkbox', '1');
