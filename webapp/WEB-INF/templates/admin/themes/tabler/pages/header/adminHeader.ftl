@@ -9,7 +9,7 @@ Parameters:
 <#local userReadMode><#attempt>${dskey('portal.site.site_property.layout.user.readmode.show.checkbox')?number}<#recover>0</#attempt></#local>
 <#local userDarkMode><#attempt>${dskey('portal.site.site_property.layout.user.darkmode.show.checkbox')?number}<#recover>0</#attempt></#local>
 <#local adminDarkMode><#attempt>${dskey('portal.site.site_property.layout.darkmode.checkbox')?number}<#recover>0</#attempt></#local>
-<#local userMenuMode><#attempt>${dskey('portal.site.site_property.layout.user.menumode.show.checkbox')?number}<#recover>0</#attempt></#local>
+<#--  <#local userMenuMode><#attempt>${dskey('portal.site.site_property.layout.user.menumode.show.checkbox')?number}<#recover>0</#attempt></#local>  -->
 <#local readMode><#attempt><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if><#recover></#attempt></#local>
 <#local layoutBoxed><#attempt><#if dskey('portal.site.site_property.layout.menu.boxed.checkbox')?number==1> layout-boxed</#if><#recover></#attempt></#local>
 <#local layoutFluid><#attempt><#if dskey('portal.site.site_property.layout.fluid.checkbox')?number==1> layout-fluid</#if><#recover></#attempt></#local>
@@ -44,7 +44,8 @@ localStorage.setItem( 'lutece-tabler-theme',localTheme );
 </head>
 <body<#if bodyClass!=''> class="${bodyClass!}"</#if> ${readMode} data-bs-theme-base="neutral" data-bs-theme-radius="2">
 <@adminSkipNav />
-<div class="page" data-userdarkmode="${userDarkMode}" data-usermenu="${userMenuMode}">
+<#--  <div class="page" data-userdarkmode="${userDarkMode}" data-usermenu="${userMenuMode}">  -->
+<div class="page" data-userdarkmode="${userDarkMode}">
 <#if menuVertical == 'vertical'>
 <!--  BEGIN SIDEBAR  -->
       <aside class="navbar navbar-vertical navbar-expand-lg<#if menuTransparent!=''>${menuTransparent}</#if>"<#if menuTransparent=''> data-bs-theme="dark"</#if> >
