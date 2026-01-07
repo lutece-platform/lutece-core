@@ -48,7 +48,7 @@
 						<@td hide=['xs']>${mailinglist.workgroup}</@td>
 						<@td>
 							<@aButton href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='edit' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify} (${mailinglist.name?html})' hideTitle=['all'] />
-							<@offcanvas targetUrl='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' targetElement='#mailinglist-users-table' redirectForm=false id='mailinglist-users-${mailinglist.name}' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})'  btnIcon='user' btnSize='sm' position='end' />
+                            <@offcanvas targetUrl='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' targetElement='#mailinglist-users-table' redirectForm=false id='mailinglist-users-${mailinglist.name}' btnTitle='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})' hideTitle=['all'] title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})' btnIcon='user' btnSize='sm' position='end' />
 							<@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='trash' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name?html})' hideTitle=['all'] color='danger' />
 						</@td>
 					</@tr>
