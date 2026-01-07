@@ -97,7 +97,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_UPDATE_USERS_ROLE = "UPDATE core_user_role SET role_key = ? WHERE role_key = ?";
     private static final String SQL_QUERY_SELECT_USER_ROLE = " SELECT id_user FROM core_user_role WHERE id_user = ? AND role_key = ? ";
     private static final String SQL_QUERY_DELETE_ROLE_FOR_USER = " DELETE FROM core_user_role WHERE id_user = ? AND role_key = ? ";
-    private static final String SQL_QUERY_SELECT_USER_FROM_SEARCH = " SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, accessibility_mode "
+    private static final String SQL_QUERY_SELECT_USER_FROM_SEARCH = " SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, accessibility_mode, last_login "
             + " FROM core_admin_user WHERE access_code LIKE ? AND last_name LIKE ? AND email LIKE ? AND first_name LIKE ? ";
     private static final String SQL_QUERY_SELECT_USERS_BY_RIGHT = " SELECT  u.id_user , u.access_code, u.last_name , u.first_name, u.email, u.status, u.locale, u.level_user, u.accessibility_mode "
             + " FROM core_admin_user u INNER JOIN core_user_right r ON u.id_user = r.id_user WHERE r.id_right = ? ";
@@ -939,6 +939,13 @@ public class AdminUserDAO implements IAdminUserDAO
                 user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
                 user.setUserLevel( daoUtil.getInt( 8 ) );
                 user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
+
+                Timestamp dateLastLogin = daoUtil.getTimestamp( 10 );
+                if ( ( dateLastLogin != null ) && !dateLastLogin.equals( AdminUser.getDefaultDateLastLogin( ) ) )
+                {
+                    user.setDateLastLogin( dateLastLogin );
+                }
+
                 userList.add( user );
             }
 
