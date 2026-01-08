@@ -2,7 +2,7 @@
 <html lang="${user_context_language}">
 <head>
 <base href="${base_url}"/>
-<title>${favourite} - ${page_name}</title>
+<title>${favourite?has_content?then(favourite + " - ", "")}${page_name!}</title>
 <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1" >
 <meta charset="UTF-8"/>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
@@ -33,7 +33,7 @@
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
 -->
-${plugins_css_links}
+${plugins_css_links!}
 <!-- Included JS Files -->
 <script src="js/jquery/jquery.min.js"></script>
 </head>
@@ -44,7 +44,7 @@ ${page_content}
 <!-- Le javascript ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/bootstrap.min.js"></script>
-${plugins_javascript_links}
+${plugins_javascript_links!}
 
 </body>
 </html>
