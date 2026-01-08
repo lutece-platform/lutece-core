@@ -2,28 +2,30 @@
 <html lang="${user_context_language}">
 <head>
 <base href="${base_url}">
-<title>${favourite} - ${page_name}</title>
+<title>${favourite?has_content?then(favourite + " - ", "")}${page_name!}</title>
 <meta http-equiv="x-ua-compatible" content="IE=edge" >
 <meta charset="${encoding}">
 <meta http-equiv="Content-Type" content="text/html">
-<meta name="author" content="${meta_author}">
-<meta name="copyright" content="${meta_copyright}">
-<meta name="keywords" content="${meta_keywords}">
-<meta name="description" content="${meta_description}">
-<meta name="generator" content="${meta_generator}">
+<meta name="author" content="${meta_author!}">
+<meta name="copyright" content="${meta_copyright!}">
+<meta name="keywords" content="${meta_keywords!}">
+<meta name="description" content="${meta_description!}">
+<meta name="generator" content="${meta_generator!}">
 <!-- Dublin Core metadatas -->
-<meta name="DC.Creator" content="${meta_author}">
-<meta name="DC.Rights" content="${meta_copyright}">
-<meta name="DC.Subject" content="${meta_keywords}">
-<meta name="DC.Description" content="${meta_description}">
+<meta name="DC.Creator" content="${meta_author!}">
+<meta name="DC.Rights" content="${meta_copyright!}">
+<meta name="DC.Subject" content="${meta_keywords!}">
+<meta name="DC.Description" content="${meta_description!}">
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="shortcut icon" type="image/x-icon" href="favicon.svg"/>
 <!-- Le style -->
-<#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
+<#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme! /></#if>
+<#if theme?? >
 <link href="${thetheme.pathCss}/tabler-icons.min.css" rel="stylesheet">
 <link href="${thetheme.pathCss}/bootstrap.min.css" rel="stylesheet">
 <link href="${thetheme.pathCss}/page_template_styles.css" rel="stylesheet">
+</#if>
 <!-- Twitter metas -->
 <meta property="twitter:image" content="${base_url}images/preview.png">
 <meta property="twitter:image:width" content="1200">
@@ -40,10 +42,10 @@
 ${extend_meta!}
 ${document_meta?default("<!-- No Document Meta -->")}
 ${rss?default("<!-- no RSS feed -->")}
-${plugins_css_links}
+${plugins_css_links!}
 <!-- Included JS Files -->
 <script src="js/jquery/jquery.min.js"></script>
-${statistical_include_head}
+${statistical_include_head!}
 </head>
 <body>
 <!-- header -->
@@ -85,7 +87,7 @@ ${page_footer}
 <!--    ======================================================= -->
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/site.js"></script>
-${plugins_javascript_links}
-${statistical_include}
+${plugins_javascript_links!}
+${statistical_include!}
 </body>
 </html>
