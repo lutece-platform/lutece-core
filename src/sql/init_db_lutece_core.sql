@@ -265,6 +265,8 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_credits.text
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.copyright.textblock', '<copyright text>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '<privacy text>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.portlet.title.maxlength', '75');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.boxed.checkbox', '0');
+
 INSERT INTO core_datastore VALUES ('theme.globalThemeCode', 'lutece');
 INSERT INTO core_datastore VALUES ('theme.globalThemeVersion', '1.0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.accessibilityLabel', 'Acccesibilité partiellement conforme');
@@ -301,7 +303,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerForm.showFo
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerForm.showFormTitle.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.CloseButton.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Duration', '0');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Position', 'top:1rem;right:1rem;');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Position', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Title', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Type', 'info');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.htmlblock', '');
@@ -329,7 +331,6 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.skipLinkMenu
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.userthemeswitch.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.robotIndex.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssChars', '<>#"&');
-
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
