@@ -6,6 +6,7 @@ export default class LuteceTree {
 	 * Creates a new instance of LuteceSearchList.
 	 * @param {HTMLElement} treeRoot - The root element.
 	 * @param {Object} [options] - Optional parameters for customizing search behavior.
+	 * @param {boolean} [options.useLocalStorage=false] - Whether to save selected node to local storage.
 	 */
 		  constructor( treeRoot, options ) {
 			this.treeRoot = treeRoot;
@@ -15,7 +16,9 @@ export default class LuteceTree {
 				treeOpenNode: 'lutece-tree-node-open',
 				treeNodeItem: 'lutece-tree-item',
 				debounceTime: 100,
+				useLocalStorage: false,
 			}, options );
+			this.localStorageKey = `treeNode_${this.options.treeWrapper}`;
 			this.init();
 		  }
 	
@@ -33,6 +36,11 @@ export default class LuteceTree {
 					}
 					toggler.addEventListener( 'click', ( event ) => {
 						event.currentTarget.classList.toggle( this.options.treeOpenNode );
+						event.currentTarget.dataset.treeIcon ==='folder' ? event.currentTarget.dataset.treeIcon = 'folder-open' : '';
+						// Save to local storage if enabled
+						if( this.options.useLocalStorage ){
+							this.setLocalStorageValue( event.currentTarget.id );
+						}
 						event.stopPropagation();
 					});
 				});
@@ -66,13 +74,26 @@ export default class LuteceTree {
 					});
 				});
 			}
+
+			// Restore selected node from local storage if enabled
+			if( this.options.useLocalStorage ){
+				const storedNode = this.getLocalStorageValue();
+				if(  storedNode && storedNode != 'node-0' ){
+					this.selectTreeNode( storedNode );
+				}
+			}
 		}
 	
 		  selectTreeNode( element ) {
 			const currentNode = this.treeRoot.querySelector( element );
-			if( currentNode != null){ 
+			if( currentNode != null && currentNode.id != 'node-0' ){ 
 				currentNode.classList.add('active') 
 				let el = currentNode.closest( `.${this.options.treeNode}` );
+				if( currentNode.dataset.treeIcon.startsWith('folder') ){
+					 currentNode.children[0].classList.remove('ti-folder');
+					 currentNode.children[0].classList.add('ti-folder-open');
+				}
+				
 				if( el === null ){
 					return 
 				}
@@ -83,6 +104,61 @@ export default class LuteceTree {
 						break 
 					}
 				} while ( !el.parentNode.classList.contains( this.options.treeWrapper ) );
+
+				// Save to local storage if enabled
+				if( this.options.useLocalStorage ){
+					this.setLocalStorageValue( element );
+				}
+			}
+		}
+
+		/**
+		 * Saves the selected node to local storage.
+		 * @param {string} value - The selector of the selected node.
+		 */
+		setLocalStorageValue( value ) {
+			try {
+				localStorage.setItem( this.localStorageKey, value );
+			} catch ( e ) {
+				console.warn( 'LuteceTree: Unable to save to local storage', e );
+			}
+		}
+
+		/**
+		 * Retrieves the selected node value from local storage.
+		 * @returns {string|null} The stored node selector or null if not found.
+		 */
+		getLocalStorageValue() {
+			try {
+				return localStorage.getItem( this.localStorageKey );
+			} catch ( e ) {
+				console.warn( 'LuteceTree: Unable to read from local storage', e );
+				return null;
+			}
+		}
+
+		/**
+		 * Retrieves a value from local storage with the treeNode prefix.
+		 * @param {string} key - The key suffix to retrieve (will be prefixed with 'treeNode_').
+		 * @returns {string|null} The stored value or null if not found.
+		 */
+		static getTreeNodeStorageValue( key ) {
+			try {
+				return localStorage.getItem( `treeNode_${key}` );
+			} catch ( e ) {
+				console.warn( 'LuteceTree: Unable to read from local storage', e );
+				return null;
+			}
+		}
+
+		/**
+		 * Clears the selected node from local storage.
+		 */
+		clearLocalStorageValue() {
+			try {
+				localStorage.removeItem( this.localStorageKey );
+			} catch ( e ) {
+				console.warn( 'LuteceTree: Unable to clear local storage', e );
 			}
 		}
 	
