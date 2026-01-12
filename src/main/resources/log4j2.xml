@@ -164,7 +164,22 @@
                 <SizeBasedTriggeringPolicy size="10MB"/>
             </Policies>
             <DefaultRolloverStrategy max="10"/>
-        </RollingFile>       
+        </RollingFile>
+        
+        <!--File "liquibase.log"-->
+	    <RollingFile name="Liquibase"
+                     fileName="${luteceLogDirectory}/liquibase.log"
+                     filePattern="${luteceLogDirectory}/liquibase-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
+            <PatternLayout>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            </PatternLayout>
+            <!-- # To change log file after 10MB size -->
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
     </Appenders>
     
     <!-- ################################################################################
@@ -216,6 +231,9 @@
         </Logger>
         <Logger name="lutece.accessLogger.fo" level="info" additivity="false">
             <AppenderRef ref="AccessLogger"/>
+        </Logger>
+        <Logger name="liquibase" level="info" additivity="false">
+            <AppenderRef ref="Liquibase"/>
         </Logger>  
             
     <!-- 
