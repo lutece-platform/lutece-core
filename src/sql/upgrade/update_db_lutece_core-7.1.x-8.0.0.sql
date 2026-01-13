@@ -290,6 +290,7 @@ DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.layout.t
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.layout.footerSocial.checkbox'; 
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.layout.type.checkbox';
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.forms.showResponseFormWarning.checkbox'; 
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.forms.labelInfoResponse'; 
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.link.showTargetIcon.checkbox';
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.fixedMenu.checkbox';
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.gototop.checkbox';
