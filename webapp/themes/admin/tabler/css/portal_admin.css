@@ -32,6 +32,7 @@ body #lutece-layout-wrapper {
 
 body.loaded #lutece-layout-wrapper {
   display: block !important;
+  overflow-x: hidden;
 }
 
 /* Dark theme */
