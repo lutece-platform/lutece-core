@@ -9,7 +9,8 @@ Parameters:
 - attribute: the name of the attribute to sort by
 - id (optional): a unique identifier for the sort button group
 -->
-<#macro sort jsp_url attribute id="" >
+<#macro sort jsp_url attribute id='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if jsp_url?contains("?")>
 <#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 <#else>

@@ -9,7 +9,8 @@ Parameters:
 - inputId (string, optional): the ID of the input field to use for the progress bar update.
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro passwordComplexity id description='' params='' inputId='password' value='0' >
+<#macro passwordComplexity id description='' params='' inputId='password' value='0' deprecated...>
+<@deprecatedWarning args=deprecated />
 <div class="progress"<#if params!=''> ${params}</#if>>
 	<div id="${id}" class="progress-bar progress-bar-striped" role="progressbar" style="width:0%">
 		<div id="complexity">0%</div>

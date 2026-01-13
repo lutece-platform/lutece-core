@@ -17,7 +17,8 @@ Parameters:
 - intervalTime (number, optional): the interval time in milliseconds to check for progress updates (default: 2000).
 
 -->
-<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 >
+<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if label!='' >
 <div id="${progressId}-label" >${label}</div>
 </#if>

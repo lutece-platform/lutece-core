@@ -8,7 +8,8 @@ Parameters:
 - id (string, optional): the ID of the progress bar.
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro progressBar description='' id='' params=''>
+<#macro progressBar description='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div id="progressbar" class="progress-bar progress-bar-striped" role="progressbar">
 		<div id="complexity">0%</div>

@@ -14,7 +14,8 @@ Parameters:
 - params (string, optional): additional HTML attributes to include in the widget element.
 - fontSize (string, optional): the font size of the widget icon.
 -->
-<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px'>
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px' deprecated...>
+<@deprecatedWarning args=deprecated />
 <div class="card card-sm mb-3 box-widget" draggable='true' <#if id!=''> id="${id}" data-id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div class="card-body">
 		<div class="row align-items-center">

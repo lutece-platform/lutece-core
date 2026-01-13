@@ -9,7 +9,8 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 
 -->
-<#macro tableHead id='' class='' params=''>
+<#macro tableHead id='' class='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <thead<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </thead>

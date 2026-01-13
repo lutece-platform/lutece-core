@@ -11,7 +11,8 @@ Parameters:
 - collapsed (boolean, optional): whether the unordered list should be initially collapsed (hidden).
 - params (string, optional): additional attributes to add to the unordered list, in the form of a string of HTML attributes.
 -->
-<#macro ul id='' class='' align='' hide=[] collapsed=false params=''>
+<#macro ul id='' class='' align='' hide=[] collapsed=false params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <ul<#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> id="${id}"</#if>>

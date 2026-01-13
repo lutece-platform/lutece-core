@@ -10,7 +10,8 @@ Parameters:
 - showall (boolean, optional): whether to display a link to show all items on a single page (default is 0).
 
 -->
-<#macro paginationItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
+<#macro paginationItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=1 showall=0 deprecated...>
+<@deprecatedWarning args=deprecated />
 <#-- Display item count -->
 <#if showcount == 1 >
 <@p class='text-start mb-0'>

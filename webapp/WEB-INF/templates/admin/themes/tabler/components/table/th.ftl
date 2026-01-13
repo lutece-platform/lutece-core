@@ -23,7 +23,8 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 
 -->
-<#macro th id='' title='' scope='' class='' align='' valign='' hide=[] cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params=''>
+<#macro th id='' title='' scope='' class='' align='' valign='' hide=[] cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'text') />
 <#if cols!=0>
 	<#local class += ' col-${cols}' />

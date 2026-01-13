@@ -9,7 +9,8 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 
 -->
-<#macro tableBody id='' class='' params=''>
+<#macro tableBody id='' class='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <tbody<#if id!=''> id="${id}"</#if><#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </tbody>

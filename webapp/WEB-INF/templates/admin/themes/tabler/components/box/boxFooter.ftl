@@ -7,7 +7,8 @@ Parameters:
 - id (string, optional): the ID of the box footer element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the box footer element.
 -->
-<#macro boxFooter class='' align='' id='' params=''>
+<#macro boxFooter class='' align='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 <div class="card-footer<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>

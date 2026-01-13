@@ -8,7 +8,8 @@ Parameters:
 - fullScreen (boolean, optional): whether the modal should be displayed in full screen (default is false).
 - vCentered (boolean, optional): whether the modal should be vertically centered (default is true
 -->
-<#macro modal id params='' bgColor='' size='' fullScreen=false vCentered=true>
+<#macro modal id params='' bgColor='' size='' fullScreen=false vCentered=true deprecated...>
+<@deprecatedWarning args=deprecated />
 <div class="modal ${bgColor} fade" id="${id}" <#if params!=''> ${params}</#if>>
 	<div class="modal-dialog<#if size!=''> modal-${size}</#if><#if fullScreen> modal-fullscreen</#if><#if vCentered> modal-dialog-centered</#if>">
 		<div class="modal-content">

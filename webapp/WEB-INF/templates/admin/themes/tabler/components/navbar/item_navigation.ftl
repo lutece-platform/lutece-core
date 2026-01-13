@@ -10,7 +10,8 @@ Parameters:
 - buttonColor (string, optional): the color of the navigation buttons, using a Bootstrap color class (e.g. "primary").
 - buttonSize (string, optional): the size of the navigation buttons, using a Bootstrap size class (e.g. "lg").
 -->
-<#macro item_navigation item_navigator id='item-navigator' display='' align='' hideButtonTitle=[] buttonColor='info' buttonSize=''>
+<#macro item_navigation item_navigator id='item-navigator' display='' align='' hideButtonTitle=[] buttonColor='info' buttonSize='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#local class = alignmentSettings(align,'') />
 <nav id="${id}" class="${class} <#if display!=''>d-inline</#if>">
 <#if (item_navigator.currentItemId > 0)>

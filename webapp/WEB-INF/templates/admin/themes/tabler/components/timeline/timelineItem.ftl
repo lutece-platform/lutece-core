@@ -13,7 +13,8 @@ Parameters:
 - id (string, optional): the ID for the list item.
 - params (string, optional): additional parameters to add to the HTML code.
 -->
-<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params=''>
+<#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <li<#if class !=''> class="${class}"</#if><#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
 	<#if iconFace !=''><div class="list-timeline-icon ${iconBg}"><@icon style=iconFace /></div></#if>
 	<div class="list-timeline-content">

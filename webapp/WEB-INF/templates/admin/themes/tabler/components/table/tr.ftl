@@ -11,7 +11,8 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 
 -->
-<#macro tr id='' class='' hide=[] params=''>
+<#macro tr id='' class='' hide=[] params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align) />
 <tr<#if id!=''> id="${id}"</#if><#if class?trim!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>

@@ -11,7 +11,8 @@ Parameters:
 - id (string, optional): the ID of the callout element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the callout element.
 -->
-<#macro callOut color='' titleLevel='h3' title='' callOutIcon='' id='' params=''>
+<#macro callOut color='' titleLevel='h3' title='' callOutIcon='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <div class="alert alert-important alert-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if title!=''><${titleLevel}><@icon style=callOutIcon /> ${title}</${titleLevel}></#if>
 	<#nested>

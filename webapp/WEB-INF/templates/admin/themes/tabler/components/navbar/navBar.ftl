@@ -6,7 +6,8 @@ Parameters:
 - id (string, optional): the ID to use for the navigation bar.
 - params (string, optional): additional parameters to include in the navigation bar.
 -->
-<#macro navBar tag='nav' class='' id='' params=''>
+<#macro navBar tag='nav' class='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <${tag} class="navbar<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </${tag}>

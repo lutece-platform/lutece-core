@@ -6,7 +6,8 @@ Parameters:
 - title (string, optional): the title to display in the email masthead.
 - footer_link (string, optional): the link URL to display in the email footer.
 -->
-<#macro emailTemplate title='Lutece' footer_link='https://fr.lutece.paris.fr'> 
+<#macro emailTemplate title='Lutece' footer_link='https://fr.lutece.paris.fr' deprecated...>
+<@deprecatedWarning args=deprecated />
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

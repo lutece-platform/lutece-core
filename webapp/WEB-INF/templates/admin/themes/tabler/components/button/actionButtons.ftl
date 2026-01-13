@@ -13,7 +13,8 @@ Parameters:
 - icon2 (string, optional): the name of the icon for the second button.
 - offset (int, optional): the number of columns to offset the form group.
 -->
-<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='device-floppy' icon2='x' offset=3>
+<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='device-floppy' icon2='x' offset=3 deprecated...>
+<@deprecatedWarning args=deprecated />
 <@formGroup rows=2>
 	<#if url1 != ''>
 		<@aButton href='${url1}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' size='' hideTitle=['xs','sm'] />

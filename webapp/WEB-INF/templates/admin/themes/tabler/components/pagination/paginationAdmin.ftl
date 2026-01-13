@@ -11,7 +11,8 @@ Parameters:
 - showall (boolean, optional): whether to display a link to show all items on a single page (default is 0).
 
 -->
-<#macro paginationAdmin paginator class='' combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
+<#macro paginationAdmin paginator class='' combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0 deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if paginator??>
 <@div class='d-flex ${class}'>
 <#if (paginator.pagesCount > 1) >

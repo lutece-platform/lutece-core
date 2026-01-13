@@ -7,7 +7,8 @@ Parameters:
 - nb_items_per_page (number, optional): the number of items to display per page (default is the value of the "nb_items_per_page" variable).
 - showall (boolean, optional): whether to display an option to show all items on a single page (default is 0).
 -->
-<#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0>
+<#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0 deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if paginator??>
 <@formGroup labelFor='${paginator.itemsPerPageParameterName}' labelKey='#i18n{portal.util.labelItemCountPerPage}' formStyle='inline' class='ms-auto'>
 <@inputGroup size='sm'>

@@ -11,7 +11,8 @@ Parameters:
 - infos_class (string, optional): the CSS class of the alert element for info messages.
 - warnings_class (string, optional): the CSS class of the alert element for warning messages.
 -->
-<#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
+<#macro messages errors=[] infos=[] warnings=[] errors_class='alert alert-danger' infos_class='alert alert-info' warnings_class='alert alert-warning' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#if errors??>
 	<#if errors?size gt 0 >
 		<@alert color='danger' title='#i18n{portal.util.message.titleError}' iconTitle='exclamation-circle' dismissible=true id='messages_errors_div'>

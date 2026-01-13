@@ -5,7 +5,8 @@ Description: Generates a pagination bar for navigating through pages of a list.
 Parameters:
 - paginator (object): an object that contains information about the current and next/previous pages in a list.
 -->
-<#macro pagination paginator>
+<#macro pagination paginator deprecated...>
+<@deprecatedWarning args=deprecated />
 <#assign nbLinkPagesToDisplay = 10 />
 <#assign offsetPrev = nbLinkPagesToDisplay / 2 />
 <#assign offsetNext = nbLinkPagesToDisplay / 2 />

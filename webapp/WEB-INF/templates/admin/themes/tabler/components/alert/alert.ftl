@@ -14,7 +14,8 @@ Parameters:
 - id (string, optional): the ID of the alert element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the alert element.
 -->
-<#macro alert class='' color='info' titleLevel='h4' title='' titleClass='' iconTitle='' dismissible=false id='' params=''>
+<#macro alert class='' color='info' titleLevel='h4' title='' titleClass='' iconTitle='' dismissible=false id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <div class="alert<#if color!=''> alert-${color}</#if><#if class!=''> ${class}</#if><#if dismissible> alert-dismissible</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="alert">
 <#if iconTitle!=''> <div class="alert-icon"><@icon style=iconTitle /></div></#if>
 <div>

@@ -6,7 +6,8 @@ Parameters:
 - id (string, optional): the ID of the modal header.
 - params (string, optional): additional attributes to add to the modal header, in the form of a string of HTML attributes.
 -->
-<#macro modalHeader titleLevel='h4' modalTitle='' id='' params=''>
+<#macro modalHeader titleLevel='h4' modalTitle='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <div class="modal-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<${titleLevel} class="modal-title fs-2">${modalTitle}</${titleLevel}>
 	<#nested>

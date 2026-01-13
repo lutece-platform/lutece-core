@@ -7,7 +7,8 @@ Parameters:
 - id (string, optional): the ID of the navigation element.
 - params (string, optional): additional attributes to add to the navigation element, in the form of a string of HTML attributes.
 -->
-<#macro nav tag='nav' type='tab' class='' id='' params=''>
+<#macro nav tag='nav' type='tab' class='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <${tag} class="nav nav-${type!}<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </${tag}>
