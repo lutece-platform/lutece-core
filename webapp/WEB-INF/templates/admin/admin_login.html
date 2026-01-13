@@ -10,7 +10,7 @@
 <@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' helpKey='${i18n("portal.admin.admin_login.helpText")}' mandatory=true rows=2 >
     <@div class='input-icon'>
         <@span class='input-icon-addon'><@icon style='lock' /></@span>
-        <@input type='password' name='password' id='password' size='' autoComplete='current-password' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
+        <@input type='password' name='password' id='password' helpKey='${i18n("portal.admin.admin_login.helpText")}' size='' autoComplete='current-password' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
         <@span class='input-icon-addon'>
             <@link href='' class='input-group-link' title='${i18n("portal.admin.admin_login.passwordShow")}' id='lutece-password-toggler' >
                 <@icon style='eye' />
