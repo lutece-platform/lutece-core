@@ -35,3 +35,15 @@
 </#if> 
 </ul>
 </#macro>
+<#macro cListItem url='' label='' title='' target='' class='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
+<li class="custom-list-item<#if class !=''> ${class}</#if>">
+<#if url !=''>
+<a class="list-info" href="${url!}" title="${title!}"<#if target !=''> target="${target}"</#if>>
+    <span>${label}</span>
+</a>
+<#else>
+<#nested>
+</#if>    
+</li>
+</#macro>
