@@ -2,21 +2,21 @@
 <@tform class='box' name='login' id='login' action='${do_admin_login_url}' >
 <@input type='hidden' name='token' value='${token}' />
 <@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' labelKeyDesc=labelDescAccess mandatory=true rows=2>
-    <@inputGroup class='input-icon input-group-flat'>
-        <@inputGroupItem type='icon'><@icon style='user' /></@inputGroupItem>
+    <@div class='input-icon'>
+        <@span class='input-icon-addon'><@icon style='user' /></@span>
         <@input name='access_code' id='access_code' autoComplete='username' placeHolder='${i18n("portal.admin.admin_login.loginLabel")}' size='' params=' autofocus' />
-    </@inputGroup>
+    </@div>
 </@formGroup>
 <@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' helpKey='${i18n("portal.admin.admin_login.helpText")}' mandatory=true rows=2 >
-    <@inputGroup class='input-icon input-group-flat'>
-        <@inputGroupItem type='icon'><@icon style='lock ' /></@inputGroupItem>
+    <@div class='input-icon'>
+        <@span class='input-icon-addon'><@icon style='lock' /></@span>
         <@input type='password' name='password' id='password' size='' autoComplete='current-password' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
-        <@inputGroupItem type='text'>
+        <@span class='input-icon-addon'>
             <@link href='' class='input-group-link' title='${i18n("portal.admin.admin_login.passwordShow")}' id='lutece-password-toggler' >
                 <@icon style='eye' />
             </@link>
-        </@inputGroupItem>
-    </@inputGroup>
+        </@span>
+    </@div>
 </@formGroup>
 <@formField class='has-text-centered text-center'>
     <@button type='submit' class='btn-block' size='' buttonIcon='check' title='#i18n{portal.admin.admin_login.buttonConnect}' />
