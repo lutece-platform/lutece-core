@@ -22,7 +22,7 @@ Parameters:
 <@deprecatedWarning args=deprecated />	
 <#if groupStyle = 'success'><#local validation = 'is-valid'><#elseif groupStyle='error'><#local validation = 'is-invalid'></#if>
 <#if collapsed><#local class += ' collapse' /></#if>
-<div class="<#if formStyle='col'>row</#if><#if formStyle='horizontal' || formStyle='col' || formStyle='fullwidth'> mb-3<#elseif formStyle='inline' > g-3</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="<#if formStyle='col'>row</#if><#if formStyle='horizontal' || formStyle='col' || formStyle='fullwidth'> mb-3<#elseif formStyle='inline' > g-3</#if><#if class!=''> ${class?trim}</#if><#if validation?? && validation!=''> ${validation}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
 <#local labelClass = labelClass >
 <#if rows=1>
@@ -31,9 +31,9 @@ Parameters:
 		<#if displayLabelClass?contains('d-none')>
 			<#local divClass='col'>
 		<#else>
-			<#local divClass = 'col'>
+			<#local divClass='col'>
 		</#if>
-	<#elseif formStyle = 'inline'>
+	<#elseif formStyle='inline'>
 		<#local labelClass = 'col-auto' />
 		<#local divClass = 'col-auto' />
 	<#elseif formStyle = 'fullwidth'>
@@ -42,7 +42,6 @@ Parameters:
 	<#else>
 		<#local divClass = ''>
 	</#if>
-	
 <#else>
 	<#local labelClass += ' form-label'>
 	<#local divClass = 'col-12'>
@@ -54,7 +53,7 @@ Parameters:
 <div class="${divClass}">
 <#nested>
 <#assign propagateMandatory = false>
-<#if helpKey!=''><#if formStyle!='inline'><p></#if><small class="text-muted form-text"<#if labelFor!=''> aria-describedby="${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
+<#if helpKey!=''><#if formStyle!='inline'><p></#if><small class="text-muted form-text"<#if labelFor!=''> id="help_${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
 </div>
 </div>
 </#macro>
