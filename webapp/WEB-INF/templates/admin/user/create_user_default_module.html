@@ -73,7 +73,7 @@
 									</@inputGroupItem>
 								</@inputGroup>
 							</@formGroup>
-							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 helpKey='#i18n{portal.users.create_user.passwordComplexity}' mandatory=true>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 mandatory=true>
 								<@inputGroup>
 									<@inputGroupItem type='text'>
 										<@icon style='lock' />
@@ -81,7 +81,7 @@
 									<@input type='password' id='second_password' name='second_password' maxlength=100 value='' size='' />
 								</@inputGroup>
 							</@formGroup>
-							<@formGroup rows=2>
+							<@formGroup labelKey='#i18n{portal.users.create_user.passwordComplexity}' labelFor='progress_bar_first_password' rows=2>
 								<@passwordComplexity id="progress_bar_first_password" inputId="first_password" />
 							</@formGroup>
 							<@div class='clearfix'></@div>

@@ -12,9 +12,7 @@ Parameters:
 <#macro passwordComplexity id description='' params='' inputId='password' value='0' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="progress"<#if params!=''> ${params}</#if>>
-	<div id="${id}" class="progress-bar progress-bar-striped" role="progressbar" style="width:0%">
-		<div id="complexity">0%</div>
-	</div>
+    <progress id="${id}" value="0" max="100" style="width: 0%" class="progress-bar progress-bar-striped">0%</div>
 </div>
 <#if description!=''>
 	<span class="progress-description">${description}</span>
