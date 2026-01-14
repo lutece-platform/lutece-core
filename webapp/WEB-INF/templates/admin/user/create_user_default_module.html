@@ -85,7 +85,7 @@
 								<@passwordComplexity id="progress_bar_first_password" inputId="first_password" />
 							</@formGroup>
 							<@div class='clearfix'></@div>
-							<@formGroup labelKey='#i18n{portal.users.create_user.labelNotify}' rows=2>
+							<@fieldSet legend='#i18n{portal.users.create_user.labelNotify}' legendClass='form-label' >
 								<#if default_user_notification = 1>
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value='1' checked=true />
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value='0' />
@@ -93,7 +93,7 @@
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value='1' />
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value='0' checked=true />
 								 </#if>								
-							</@formGroup>
+							</@fieldSet>
 							</@fieldSet>
 						</@columns>
 						<@columns md=4 lg=3>
