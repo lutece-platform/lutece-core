@@ -8,15 +8,19 @@
     </@div>
 </@formGroup>
 <@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' helpKey='${i18n("portal.admin.admin_login.helpText")}' mandatory=true rows=2 >
-    <@div class='input-icon'>
-        <@span class='input-icon-addon'><@icon style='lock' /></@span>
-        <@input type='password' name='password' id='password' helpKey='${i18n("portal.admin.admin_login.helpText")}' size='' autoComplete='current-password' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
-        <@span class='input-icon-addon'>
-            <@link href='' class='input-group-link' title='${i18n("portal.admin.admin_login.passwordShow")}' id='lutece-password-toggler' >
-                <@icon style='eye' />
-            </@link>
-        </@span>
+<@row>
+    <@div class='col pe-0'>     
+        <@div class='input-icon'>
+            <@span class='input-icon-addon'><@icon style='lock' /></@span>
+            <@input type='password' name='password' id='password' helpKey='${i18n("portal.admin.admin_login.helpText")}' size='' autoComplete='current-password' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
+        </@div>
     </@div>
+    <@div class='col-auto ps-1'>    
+         <@button color='secondary' class='btn btn-2 btn-icon' title='${i18n("portal.admin.admin_login.passwordShow")}' id='lutece-password-toggler' >
+              <@icon style='eye' />
+         </@button>
+    </@div>
+</@row>
 </@formGroup>
 <@formField class='has-text-centered text-center'>
     <@button type='submit' class='btn-block' size='' buttonIcon='check' title='#i18n{portal.admin.admin_login.buttonConnect}' />
