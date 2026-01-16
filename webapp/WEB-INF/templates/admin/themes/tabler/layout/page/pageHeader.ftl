@@ -8,7 +8,7 @@ Parameters:
 - title (string, optional): the title of the page header.
 - description (string, optional): the description of the page header.
 -->
-<#macro pageHeader id='' title='' titleClass='' description='' class='col-md-4 col-lg-4' toolsClass='' responsiveHeader=false params='' deprecated...>
+<#macro pageHeader id='' title='' titleClass='' description='' class='col-md-4 col-lg-6' toolsClass='' responsiveHeader=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div id="page-header" class="row g-2 justify-content-between align-items-center<#if responsiveHeader>flex-column flex-md-row</#if><#if titleClass !=''> ${titleClass!}</#if>">
 	<div class="col<#if class !=''> ${class}</#if>">
