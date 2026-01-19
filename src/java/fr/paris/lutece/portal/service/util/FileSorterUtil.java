@@ -8,6 +8,7 @@ public class FileSorterUtil {
 	  // Constants representing the paths to different configuration directories.
     public static final String PATH_CONF = "/WEB-INF/conf/";
     public static final String PATH_PLUGINS = PATH_CONF + "plugins/";
+    public static final String PATH_THEMES = PATH_CONF + "themes/";
     public static final String PATH_OVERRIDE_CORE = PATH_CONF + "override/";
     public static final String PATH_OVERRIDE_PLUGINS = PATH_CONF + "override/plugins";
     

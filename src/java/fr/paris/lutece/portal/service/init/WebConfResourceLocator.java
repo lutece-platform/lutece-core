@@ -27,12 +27,12 @@ public class WebConfResourceLocator {
     private static final String pattern = ".*/log4j2[^/]*\\.(xml|json|jsn|yaml|yml|properties)$";
 
     /**
-     * Scans the /WEB-INF/conf/ directories (including plugins and overrides) to collect resources.
+     * Scans the /WEB-INF/conf/ directories (including plugins, themes and overrides) to collect resources.
      * This method is invoked automatically when resources are needed.
      */
     private static void scanWebInfConfDirectory() {
         try (ScanResult scanResult = new ClassGraph()
-                .acceptPathsNonRecursive(FileSorterUtil.PATH_PLUGINS, FileSorterUtil.PATH_OVERRIDE_CORE, FileSorterUtil.PATH_OVERRIDE_PLUGINS)
+                .acceptPathsNonRecursive(FileSorterUtil.PATH_PLUGINS,FileSorterUtil.PATH_THEMES, FileSorterUtil.PATH_OVERRIDE_CORE, FileSorterUtil.PATH_OVERRIDE_PLUGINS)
                 .disableNestedJarScanning().scan()) {
             resources.addAll(scanResult.getAllResources());
         }
