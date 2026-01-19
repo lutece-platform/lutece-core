@@ -120,7 +120,18 @@
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 
-	<filter-mapping>
+    <filter-mapping>
+        <filter-name>safeRequestFilterSite</filter-name>
+        <url-pattern>/jsp/site/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>safeRequestFilterAdmin</filter-name>
+        <url-pattern>/jsp/admin/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
         <filter-name>multipartFilterAdmin</filter-name>
         <url-pattern>/jsp/admin/*</url-pattern>
         <dispatcher>REQUEST</dispatcher>
@@ -128,18 +139,6 @@
     <filter-mapping>
         <filter-name>multipartCleanFilter</filter-name>
         <url-pattern>/jsp/*</url-pattern>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>safeRequestFilterSite</filter-name>
-        <url-pattern>/jsp/site/*</url-pattern>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>safeRequestFilterAdmin</filter-name>
-        <url-pattern>/jsp/admin/*</url-pattern>
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
