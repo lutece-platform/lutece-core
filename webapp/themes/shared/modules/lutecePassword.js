@@ -99,17 +99,22 @@ export class LutecePassword {
     getComplexity( ) {
         const input = document.querySelector( this.passwordInput )
         const progressBar = document.querySelector( this.progressBar )
+        const progressBarText = document.querySelector( this.progressBar + "-text" )
+        const progressBarStatus =  document.querySelector( this.progressBar + "-status" )
+        const label = progressBar.labels?.[0] || null;
+
         input.addEventListener('input', () => {
           const complexityScore = this.calcComplexity(input.value);
-          progressBar.style.width = complexityScore + '%';
-          progressBar.textContent = Math.round(complexityScore) + "%";
-          progressBar.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+          progressBarText.textContent = Math.round(complexityScore) + "%";
+          progressBarStatus.textContent = (label?.textContent ?? '') + ' ' + Math.round(complexityScore) + "%";
+          progressBar.value = complexityScore;
+          progressBar.classList.remove('lutece-progress-danger', 'lutece-progress-warning', 'lutece-progress-success');
           if( complexityScore < 50 ) {
-            progressBar.classList.add('bg-danger')
+            progressBar.classList.add('lutece-progress-danger')
           } else if ( complexityScore >= 50 && complexityScore < 100 ) {
-            progressBar.classList.add('bg-warning')
+            progressBar.classList.add('lutece-progress-warning')
           } else {
-            progressBar.classList.add('bg-success')
+            progressBar.classList.add('lutece-progress-success')
           }
         });
     }
