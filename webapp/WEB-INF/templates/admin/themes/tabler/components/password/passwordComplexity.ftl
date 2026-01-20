@@ -20,14 +20,16 @@ Snippet:
     <@passwordComplexity id='pwdComplexity' inputId='new_password' description='Password must contain at least 8 characters' />
 
 -->
-<#macro passwordComplexity id description='' params='' inputId='password' value='0' deprecated...>
+<#macro passwordComplexity id description='' params='' inputId='password' value='0' >
 <@deprecatedWarning args=deprecated />
-<div class="progress"<#if params!=''> ${params}</#if>>
-    <progress id="${id}" value="0" max="100" style="width: 0%" class="progress-bar progress-bar-striped">0%</div>
+<div class="lutece-progress-wrapper "<#if params!=''> ${params}</#if>>
+    <progress id="${id}" value="0" max="100" class="lutece-progress lutece-progress-danger"></progress>
+    <span id="${id}-text" class="lutece-progress-text">0%</span>
+    <div aria-live="polite" class="visually-hidden" id="${id}-status"></div>
+    <#if description!=''>
+        <span class="lutece-progress-description">${description}</span>
+    </#if>
 </div>
-<#if description!=''>
-	<span class="progress-description">${description}</span>
-</#if>
 <#if inputId!=''>
 <script type="module">
 import { LutecePassword } from './themes/shared/modules/lutecePassword.js';
