@@ -24,7 +24,8 @@
                     <@td>${stylesheet.description}</@td>
                     <@td>${stylesheet.file}</@td>
                     <@td>
-                        <@offcanvas targetUrl='jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}' targetElement='#modify-stylesheet-form' redirectForm=false id='stylesheet-${stylesheet.id}' title='#i18n{portal.util.labelModify} ${stylesheet.description}' btnIcon='edit' btnSize='sm' position='end' />
+                        <@offcanvas targetUrl='jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}' targetElement='#modify-stylesheet-form' redirectForm=false id='stylesheet-${stylesheet.id}'
+                            hideTitle=['all'] btnTitle='#i18n{portal.util.labelModify} ${stylesheet.description}' title='#i18n{portal.util.labelModify} ${stylesheet.description}' btnIcon='edit' btnSize='sm' position='end' />
                     </@td>
                 </@tr>
                 </#list>
