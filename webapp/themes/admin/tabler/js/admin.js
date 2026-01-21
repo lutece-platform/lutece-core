@@ -70,20 +70,12 @@ function themeMenu( ){
 	const menuHeader = document.querySelector( '#lutece-layout-wrapper' );
 	const defaultMenu = menuHeader.classList[0];
 	let localMenu =  localStorage.getItem( 'lutece-tabler-theme-menu' );
-	let localMenuState =  localStorage.getItem( 'lutece-tabler-theme-menu-state' );
 	
 	if( localMenu === null ){ 
 		localMenu = defaultMenu 
 	} else if ( localMenu != defaultMenu ) {
 		menuHeader.classList.remove( defaultMenu )
 		menuHeader.classList.add( localMenu )
-		if( localMenu === 'aside'){
-			if( localMenuState != null && localMenuState != '' ){
-				menuHeader.classList.add( localMenuState )
-			} else {
-				localStorage.setItem('lutece-tabler-theme-menu-state', '');
-			}
-		}
 	}
 	if( switchMode != null ){
 		switchMode.addEventListener( 'click', (e) => {	
@@ -99,18 +91,6 @@ function themeMenu( ){
 			}
 		});
 	}
-
-	const btnAsideCollapse = document.querySelector('#aside-header-collapse');
-	btnAsideCollapse.addEventListener( 'click', (e) => {	
-		//menuHeader.classList.toggle('collapsed')
-			if ( !menuHeader.classList.contains('collapsed') ) {
-				menuHeader.classList.add( 'collapsed' )
-				localStorage.setItem('lutece-tabler-theme-menu-state', 'collapsed');
-			} else {
-				localStorage.setItem('lutece-tabler-theme-menu-state', '');
-				menuHeader.classList.remove( 'collapsed') 
-			}
-	});
 
 	document.querySelector('body').classList.remove( 'loading' )
 	document.querySelector('body').classList.add( 'loaded' )
