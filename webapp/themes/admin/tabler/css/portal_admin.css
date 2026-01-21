@@ -898,13 +898,6 @@ mark {
   #lutece-layout-wrapper.aside.collapsed>.lutece-main-footer {
       margin-left: 5rem;
   }
-  #lutece-layout-wrapper #aside-header-collapse{
-      display: none;
-  }
-
-  #lutece-layout-wrapper.aside #aside-header-collapse{
-      display: block;
-  }
 
   #lutece-layout-wrapper.aside.collapsed .lutece-header .lutece-nav .lutece-collapse>.navbar-nav {
       margin-left: 0;

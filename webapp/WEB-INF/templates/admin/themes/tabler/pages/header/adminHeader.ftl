@@ -208,10 +208,6 @@ Parameters:
 					</li>	
 					</#if>
 				</ul>
-				<button id="aside-header-collapse" class="btn btn-dark btn-sm mt-5" type="button" title="#i18n{portal.util.labelToggleSize}">
-					<@icon style="switch-horizontal"/>
-					<span class="visually-hidden">#i18n{portal.util.labelToggleSize}</span>
-				</button>
 			</div>
 		</div>
 	</nav>
