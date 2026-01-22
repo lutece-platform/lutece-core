@@ -347,6 +347,12 @@ public class PortalJspBean
      */
     public String getError500Page( HttpServletRequest request, Throwable exception )
     {
+        if ( exception == null )
+        {
+            AppLogService.error( "Error 500 : No exception provided" );
+            return getError500Page( request, (String) null );
+        }
+
         if ( exception instanceof AppException )
         {
             // AppException calls AppLogService.error( message, this ) in the
