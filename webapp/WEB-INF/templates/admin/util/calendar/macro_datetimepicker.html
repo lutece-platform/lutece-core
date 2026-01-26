@@ -2,7 +2,6 @@
  # This macro template can be used to output white-space-sensitive formats (like RSS files).
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
-<#assign styleUrl='css/bootstrap-flatpickr.min.css' />
 <#macro getDate idField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' dateOptions={} >
 <#local dtOptions=dateOptions />
 <@initScriptFlatPicker language=language />
@@ -160,12 +159,13 @@ function updateInputDate(input,dateValue) {
 	input.setDate(dateValue,false,'d/m/Y');
 }
 </script>
+<#assign libUrl='themes/admin/shared/js/lib/flatpickr/' />
 <#assign isEn=language?starts_with("en")?c />
-<#if !isEn?boolean ><script src="themes/admin/shared/js/lib/flatpickr/locales/bootstrap-flatpickr.<@getLanguageInLocale language=language />.js"></script></#if>
+<#if !isEn?boolean ><script src="${libUrl}locales/bootstrap-flatpickr.<@getLanguageInLocale language=language />.js"></script></#if>
 <script>
 // Get list of browser locale and filter to current locale
 const browserCurrentLocale = getBrowserLocales( ).filter( lang => lang.startsWith( '<@getLanguageInLocale language=language />' ))[0];
-loadStyle( '${styleUrl}' );
+loadStyle( '${libUrl}bootstrap-flatpickr.min.css' );
 <#assign datePickerIsLoaded = true />
 </script>
 </#if>
