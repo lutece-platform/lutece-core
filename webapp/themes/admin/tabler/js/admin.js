@@ -71,45 +71,49 @@ function getUserInitials(fullName) {
 
 function themeMenu( ){
     const mainMenu = document.getElementById('main-menu');
-    const mainNav = document.getElementById('main-nav');
-    const userMenu = mainNav.querySelector('.user-initials');
-    const userName = userMenu != null ? userMenu.dataset.username : '';
+	if( mainMenu != null ){
+		const mainNav = document.getElementById('main-nav');
+		const userMenu = mainNav.querySelector('.user-initials');
+		const userName = userMenu != null ? userMenu.dataset.username : '';
 
-	// Set the main menu as active
-	const mainMenus = mainMenu.querySelectorAll('.dropdown-item, .nav-item .nav-link');
-	mainMenus.forEach((link) => {
-		const activeMenu = sessionStorage.getItem( 'lutece-admin-active-menu' );
-		if( activeMenu !== null && activeMenu !== '' ){
-			const parentMenu = link.closest('.nav-item');
-			if (link.id === activeMenu) {
-				parentMenu.classList.add('active');
-				link.classList.add('active');
+		// Set the main menu as active
+		const mainMenus = mainMenu.querySelectorAll('.dropdown-item, .nav-item .nav-link');
+		mainMenus.forEach((link) => {
+			const activeMenu = sessionStorage.getItem( 'lutece-admin-active-menu' );
+			if( activeMenu !== null && activeMenu !== '' ){
+				const parentMenu = link.closest('.nav-item');
+				if (link.id === activeMenu) {
+					parentMenu.classList.add('active');
+					link.classList.add('active');
+				}
 			}
-		}
-		link.addEventListener('click', (e) => {
-			sessionStorage.setItem( 'lutece-admin-active-menu', link.id )
+			link.addEventListener('click', (e) => {
+				sessionStorage.setItem( 'lutece-admin-active-menu', link.id )
+			});
 		});
-	});
 
-    // Extract user initials from userName
-    if (userName && userMenu) {
-        const initials = getUserInitials(userName);
-        userMenu.textContent = initials;
-    }
+		// Extract user initials from userName
+		if (userName && userMenu) {
+			const initials = getUserInitials(userName);
+			userMenu.textContent = initials;
+		}
 
-	themeRoot.classList.remove( 'loading' )
-	themeRoot.classList.add( 'loaded' )
+		themeRoot.classList.remove( 'loading' )
+		themeRoot.classList.add( 'loaded' )
+	}
 }
 
 function readMode( ){
 	let defaultReadMode = themeRoot.getAttribute('dir')
-	const localReadMode =  localStorage.getItem( 'lutece-bo-readmode' );
-	if( localReadMode != null ){ 
-		themeRoot.setAttribute('dir', localReadMode )
-	} else if( defaultReadMode != null ) {
-		themeRoot.setAttribute('dir',defaultReadMode)
-	} else {
-		themeRoot.removeAttribute('dir')
+	if( defaultReadMode != null ){ 
+		const localReadMode =  localStorage.getItem( 'lutece-bo-readmode' );
+		if( localReadMode != null ){ 
+			themeRoot.setAttribute('dir', localReadMode )
+		} else if( defaultReadMode != null ) {
+			themeRoot.setAttribute('dir',defaultReadMode)
+		} else {
+			themeRoot.removeAttribute('dir')
+		}
 	}
 }
 
@@ -148,7 +152,9 @@ document.addEventListener( "DOMContentLoaded", function(){
 	tgCheck.forEach( (tg) => {
     	tg.addEventListener( 'click', ( el ) => {
 			const isChecked = el.getAttribute( 'data-check' ) === 'check' ? true : false;
-			$("input:checkbox").prop('checked', isChecked );
+			document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+				checkbox.checked = isChecked;
+			});
 		});
 	});
 
