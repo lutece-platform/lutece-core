@@ -196,6 +196,8 @@ DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.email';
 INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaster email>');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.home_url';
 INSERT INTO core_datastore VALUES ('portal.site.site_property.home_url', 'jsp/site/Portal.jsp');
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.back_images';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', '');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.darkmode.checkbox';
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.darkmode.checkbox', '0');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.fluid.checkbox';
