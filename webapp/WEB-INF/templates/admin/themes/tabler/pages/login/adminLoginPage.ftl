@@ -8,8 +8,8 @@ Parameters:
 <#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
-<#local logoSvg = (dskey('portal.site.site_property.logo_svg.textblock')!)?has_content?then(dskey('portal.site.site_property.logo_svg.textblock'), '')>
-<#local logoUrl = ( dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url')!=''?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.png'), '')>
+<#local logoSvg><#attempt>${dskey('portal.site.site_property.logo_svg.textblock')}<#recover>${dskey('portal.site.site_property.logo_svg.textblock')}!=''?then(${dskey('portal.site.site_property.logo_svg.textblock')}, '')></#attempt></#local>
+<#local logoUrl><#attempt>${dskey('portal.site.site_property.logo_url')}<#recover>${dskey('portal.site.site_property.logo_url')}!=''?then(${dskey('portal.site.site_property.logo_url')},'themes/admin/shared/images/logo-header-icon.png')</#attempt></#local>
 <#local loginIsCover><#attempt>${dskey('portal.site.site_property.layout.login.cover.checkbox')?number}<#recover>0</#attempt></#local>
 <#local loginIsCoverContain><#attempt>${dskey('portal.site.site_property.layout.login.cover.contain.checkbox')?number}<#recover>0</#attempt></#local>
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
