@@ -9,7 +9,7 @@ Parameters:
 <@deprecatedWarning args=deprecated />
 <#local readMode><#if dskey('portal.site.site_property.layout.readmode.checkbox')?trim?starts_with('DS')><#else><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if></#if></#local>
 <#local logoSvg><#attempt>${dskey('portal.site.site_property.logo_svg.textblock')}<#recover>${dskey('portal.site.site_property.logo_svg.textblock')}!=''?then(${dskey('portal.site.site_property.logo_svg.textblock')}, '')></#attempt></#local>
-<#local logoUrl><#attempt>${dskey('portal.site.site_property.logo_url')}<#recover>${dskey('portal.site.site_property.logo_url')}!=''?then(${dskey('portal.site.site_property.logo_url')},'themes/admin/shared/images/logo-header-icon.png')</#attempt></#local>
+<#local logoUrl><#attempt>${dskey('portal.site.site_property.logo_url')}<#recover>${dskey('portal.site.site_property.logo_url')}!=''?then(${dskey('portal.site.site_property.logo_url')},'themes/admin/shared/images/logo-header-icon.min.svg')</#attempt></#local>
 <#local loginIsCover><#attempt>${dskey('portal.site.site_property.layout.login.cover.checkbox')?number}<#recover>0</#attempt></#local>
 <#local loginIsCoverContain><#attempt>${dskey('portal.site.site_property.layout.login.cover.contain.checkbox')?number}<#recover>0</#attempt></#local>
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
@@ -34,6 +34,7 @@ Parameters:
 						<a href="." aria-label="#i18n{portal.admin.admin_login.gotoFO} ${site_name!}" target="_blank" class="navbar-brand navbar-brand-autodark">
 							<#if logoUrl !=''>
 							<@img url='${logoUrl}' alt='${site_name!}' class='logo' params='aria-hidden="true" height="24" width="24"' />
+							<span class="ms-1 fs-2 d-inline-block">${site_name!''}</span>
 							<#else>
 							${logoSvg!}
 							</#if>
