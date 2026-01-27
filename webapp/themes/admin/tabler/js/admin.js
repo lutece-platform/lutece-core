@@ -103,6 +103,16 @@ function themeMenu( ){
 	}
 }
 
+function setSkipLinks( ){
+	const skipLinks = document.querySelectorAll('nav > .skip-links > a');
+	if( skipLinks != null ){ 
+		const mainUrl = window.location.href.split('#')[0];
+		skipLinks.forEach( ( link ) => {
+			link.href = mainUrl + link.getAttribute( 'href' ).substring( link.getAttribute( 'href' ).indexOf( '#' ) );
+		})
+	}
+}
+
 function readMode( ){
 	let defaultReadMode = themeRoot.getAttribute('dir')
 	if( defaultReadMode != null ){ 
@@ -139,7 +149,8 @@ document.addEventListener( "DOMContentLoaded", function(){
     themeMenu();
     themeMode();
     readMode();
-	
+	setSkipLinks( )
+
 	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 		var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 		return new bootstrap.Popover(popoverTriggerEl, {container: 'body', sanitize : false, placement: 'left'})

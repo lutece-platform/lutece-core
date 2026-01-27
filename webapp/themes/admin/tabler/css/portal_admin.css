@@ -46,7 +46,7 @@ body.loaded #lutece-layout-wrapper {
 }
 
 .skip-links,
-.skip-links > li {
+.skip-links>li {
     position: absolute;
     width: 100%;
 }
@@ -61,14 +61,20 @@ body.loaded #lutece-layout-wrapper {
 }
 
 .skip-links a {
-    background-color: var(--main-info-color);
-    color: var(--white-color);
-    font-size: var(--font-m);
+    background-color: var(--primary);
+    color: var(--white);
+    font-size: var(--tblr-body-font-size);
     font-weight: 600;
     left: -999rem;
     padding: .5rem 1rem;
     position: absolute;
     text-decoration: none;
+}
+
+.skip-links a:hover {
+    color: var(--primary);
+    background-color: var(--white);
+    text-decoration: underline;
 }
 
 .skip-links a:focus {
@@ -167,7 +173,9 @@ form .btn,
   margin-inline-end:.5rem;
 }
 
-.btn .ti{margin-inline-end:.25rem;}
+.btn .ti{
+    margin-inline-end:.25rem;
+}
 
 .ti {
     line-height: normal;
