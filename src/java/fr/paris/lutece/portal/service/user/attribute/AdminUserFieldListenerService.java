@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -49,6 +50,7 @@ import jakarta.servlet.http.HttpServletRequest;
  * AdminUserFieldListenerService
  *
  */
+@ApplicationScoped
 public class AdminUserFieldListenerService
 {
     private List<AdminUserFieldListener> _listRegisteredListeners = new ArrayList<>( );
