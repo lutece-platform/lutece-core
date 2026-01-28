@@ -16,12 +16,12 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 
 -->
-<#macro tabLink class='' hide=[] id='' active=false href='' title=''tabLabel=''  tabIcon='' tabClass='' params='' deprecated...>
+<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabLabel='' tabIcon='' tabClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <li class="nav-item<#if tabClass!=''> ${tabClass}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
-<#local tabLinkSettings = 'role="tab" aria-expanded="${active?c}" aria-controls="${href?remove_beginning("#")}"' />
+<#local tabLinkSettings = 'role="tab" aria-selected="${active?c}" aria-controls="${href?remove_beginning("#")}"' />
 <#if href?contains('#') && href?contains('.jsp') == false>
 	<#local tabLinkSettings += ' data-bs-toggle="tab"' />
 	<#local tabLinkId = '${href?remove_beginning("#")}-tab' />
