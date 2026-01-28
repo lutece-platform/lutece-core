@@ -9,11 +9,11 @@ Parameters:
 - collapsed (boolean, optional): whether the accordion should be collapsed by default.
 - params (string, optional): additional HTML attributes to include in the container element.
 -->
-<#macro accordion id title class='' icon='' collapsed=false params='' deprecated...>
+<#macro accordion id title class='' headerClass='' icon='' collapsed=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@accordionContainer id=id class=class params=params>
    <@accordionPanel collapsed=collapsed childId='${id}Child'>
-      <@accordionHeader title=title headerIcon=icon />
+      <@accordionHeader title=title class=headerClass headerIcon=icon />
       <@accordionBody>
       <#nested>
       </@accordionBody>
