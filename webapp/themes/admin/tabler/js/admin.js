@@ -96,6 +96,16 @@ function themeMenu( ){
 	document.querySelector('body').classList.add( 'loaded' )
 }
 
+function setSkipLinks( ){
+	const skipLinks = document.querySelectorAll('nav > .lutece-skip-links > li > a');
+	if( skipLinks != null ){
+		const mainUrl = window.location.href.split('#')[0];
+		skipLinks.forEach( ( link ) => {
+			link.href = mainUrl + link.getAttribute( 'href' ).substring( link.getAttribute( 'href' ).indexOf( '#' ) );
+		})
+	}
+}
+
 function readMode( ){
 	let defaultReadMode = document.querySelector('body').getAttribute('dir')
 	const switchReadMode =  document.querySelector( '#lutece-layout-wrapper .lutece-header #lutece-rtl');
@@ -150,6 +160,8 @@ document.addEventListener( "DOMContentLoaded", function(){
 		themeMenu();
 		themeMode();
 		readMode();
+
+		setSkipLinks( )
 	}
 	
 	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
