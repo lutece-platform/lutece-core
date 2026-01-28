@@ -28,7 +28,7 @@ Parameters:
 				<span class="visually-hidden">#i18n{portal.util.labelShow} / #i18n{portal.util.labelHide}</span>
 			</button>
 			<div class="lutece-collapse collapse navbar-collapse" id="navbar-menu">
-				<ul class="navbar-nav">
+				<ul id="main-menu" class="navbar-nav">
 					<#list feature_group_list as feature_group>
 						<#if feature_group.icon?length < 1>
 							<#assign icon_class = "ti ti-mood-empty">

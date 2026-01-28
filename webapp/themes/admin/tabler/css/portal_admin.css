@@ -134,44 +134,40 @@ body[data-bs-theme="dark"] .text-muted {
 }
 
 
+.lutece-skip-links,
+.lutece-skip-links>li {
+    position: absolute;
+    width: 100%;
+}
+
 .lutece-skip-links {
-  clip: rect(0 0 0 0);
-  -webkit-clip-path: inset(50%);
-  clip-path: inset(50%);
-  display: block;
-  font-size: 1.1rem;
-  font-weight: 700;
-  height: 1px;
-  margin: 0;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  white-space: nowrap;
-  width: 1px
+    left: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    z-index: 9999;
 }
 
-.lutece-skip-links:focus {
-  width: auto;
-  height: auto;
-  background: var(--dark-nav-bg);
-  -webkit-box-shadow: 0;
-  box-shadow: 0;
-  clip: auto;
-  -webkit-clip-path: none;
-  clip-path: none;
-  color: var(--light);
-  outline: 3px solid var(--dark);
-  outline-offset: -4px;
-  overflow: visible;
-  padding: 1rem;
-  position: static;
-  -webkit-text-decoration: underline solid var(--light) 2px;
-  text-decoration: underline solid var(--light) 2px;
-  white-space: inherit
+.lutece-skip-links a {
+    background-color: var(--primary);
+    color: var(--white);
+    font-size: var(--tblr-body-font-size);
+    font-weight: 600;
+    left: -999rem;
+    padding: .5rem 1rem;
+    position: absolute;
+    text-decoration: none;
 }
 
-.lutece-skip-links:focus:has(+ .aside) {
-  margin-left: 15rem
+.lutece-skip-links a:hover {
+    color: var(--primary);
+    background-color: var(--white);
+    text-decoration: underline;
+}
+
+.lutece-skip-links a:focus {
+    left: 0;
 }
 
 .lutece-nav.navbar .lutece-collapse .navbar-nav {
