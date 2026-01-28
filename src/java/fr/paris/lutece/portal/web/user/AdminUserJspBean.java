@@ -45,6 +45,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import fr.paris.lutece.portal.service.util.BeanUtils;
+import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -197,6 +199,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_ERROR_CSV_FILE_IMPORT = "portal.users.import_users_from_file.error_csv_file_import";
     private static final String FIELD_IMPORT_USERS_FILE = "portal.users.import_users_from_file.labelImportFile";
     private static final String FIELD_XSL_EXPORT = "portal.users.export_users.labelXslt";
+    private static final String MESSAGE_CANNOT_REMOVE_USER = "portal.users.message.cannotRemoveUser";
 
     // Parameters
     private static final String PARAMETER_ACCESS_CODE = "access_code";
@@ -389,7 +392,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private AccessLogService _accessLogService;
     @Inject
     private AttributeService _attributeService;
-    
+    @Inject
+    @Named( BeanUtils.BEAN_USER_REMOVAL_SERVICE )
+    private RemovalListenerService _removalListenerService;
+
     /**
      * Build the User list
      *
@@ -1465,6 +1471,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemoveAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {
+        List<String> listErrors = new ArrayList<>( );
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
@@ -1473,45 +1480,56 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, JSP_URL_MANAGE_USERS, AdminMessage.TYPE_ERROR );
         }
-        if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_USER ) )
+        if ( !_removalListenerService.checkForRemoval( strUserId, listErrors, getLocale( ) ) )
         {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
-        }
+            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
+            Object[] args = { strCause };
 
-        AdminUser currentUser = AdminUserService.getAdminUser( request );
-
-        if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
-        {
-            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
-        }
-
-        String strRemovedUserAccessCode = user.getAccessCode( );
-
-        // Only level 0 users can physically delete a user.
-        if( currentUser.isAdmin( ) )
-        {
-            AdminUserFieldService.doRemoveUserFields( user, request, getLocale( ) );
-            AdminUserHome.removeAllRightsForUser( nUserId );
-            AdminUserHome.removeAllRolesForUser( nUserId );
-            AdminUserHome.removeAllPasswordHistoryForUser( nUserId );
-            AdminUserHome.remove( nUserId );
-
-            _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADMINUSER, currentUser,
-                    strUserId + " : " + strRemovedUserAccessCode, CONSTANT_BO );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_USER, args, AdminMessage.TYPE_STOP );
         }
         else
         {
-            if (user.isStatusActive())
+            if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_USER ) )
             {
-                user.setStatus( AdminUser.NOT_ACTIVE_CODE );
-                AdminUserHome.update( user );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
+            }
 
-                _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser,
+            AdminUser currentUser = AdminUserService.getAdminUser( request );
+
+            if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
+            {
+                throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+            }
+
+            String strRemovedUserAccessCode = user.getAccessCode( );
+
+            // Only level 0 users can physically delete a user.
+            if( currentUser.isAdmin( ) )
+            {
+                AdminUserFieldService.doRemoveUserFields( user, request, getLocale( ) );
+                AdminUserHome.removeAllRightsForUser( nUserId );
+                AdminUserHome.removeAllRolesForUser( nUserId );
+                AdminUserHome.removeAllPasswordHistoryForUser( nUserId );
+                AdminUserHome.remove( nUserId );
+
+                _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_REMOVE_ADMINUSER, currentUser,
                         strUserId + " : " + strRemovedUserAccessCode, CONSTANT_BO );
             }
+            else
+            {
+                if (user.isStatusActive())
+                {
+                    user.setStatus( AdminUser.NOT_ACTIVE_CODE );
+                    AdminUserHome.update( user );
+
+                    _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_RIGHTS, CONSTANT_MODIFY_ADMINUSER, currentUser,
+                            strUserId + " : " + strRemovedUserAccessCode, CONSTANT_BO );
+                }
+            }
+
+            return JSP_MANAGE_USER;
         }
 
-        return JSP_MANAGE_USER;
     }
 
     /**
