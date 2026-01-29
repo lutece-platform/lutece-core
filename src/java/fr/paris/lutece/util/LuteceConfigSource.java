@@ -14,7 +14,7 @@ public class LuteceConfigSource implements ConfigSource{
 	}
 	@Override
     public int getOrdinal() {
-        return 50;
+        return 150;
     }
 	
 	@Override
