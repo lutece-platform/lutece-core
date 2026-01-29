@@ -13,10 +13,12 @@ const KEYCODES = {
 }
 
 class LuteceAutoComplete extends EventTarget {
-  constructor(autocompleteElement, optionalVal) {
+  constructor(autocompleteElement, options = {}) {
     super();
+    this.source = options.source || null;
+    this.additionalParamElement = options.additionalParamElement || null;
     this.extractAttributes( autocompleteElement );
-    this.init( optionalVal );
+    this.init();
     this.isItemSelected = false;
     this.isItemSelectedId = '';
     this.originalValue = '';
@@ -24,7 +26,7 @@ class LuteceAutoComplete extends EventTarget {
     this.listSize = 0;
   }
 
-  async updateAutocomplete( event, optionalVal ) {
+  async updateAutocomplete( event ) {
     const input = event.target;
     if (input.value.length < this.minimumInputLength ) {
       if (input.value.length > 0) {
@@ -32,26 +34,34 @@ class LuteceAutoComplete extends EventTarget {
       }
       return;
     }
-    
-    if ( optionalVal != null ) {
-    	this.loader.setTargetUrl(`${this.suggestionsUrl}` + input.value + "&additionalParam" + "=" + optionalVal.value);
-    } else {
-    	this.loader.setTargetUrl(`${this.suggestionsUrl}` + input.value);
-    }
-    
-    this.loader.setDataStoreItem('inputValue', input.value);
+
     this.dispatchEvent( new Event(LOADING_START) );
-    await this.loader.load();
-    this.dispatchEvent( new Event(LOADING_END));
+
+    if (this.source) {
+      this.source(input.value, (suggestions) => {
+        this.renderSuggestions(suggestions || []);
+        this.dispatchEvent( new Event(LOADING_END) );
+      });
+    } else {
+      const url = this.suggestionsUrl + input.value;
+      if ( this.additionalParamElement != null ) {
+        this.loader.setTargetUrl(url + "&additionalParam" + "=" + this.additionalParamElement.value);
+      } else {
+        this.loader.setTargetUrl(url);
+      }
+      this.loader.setDataStoreItem('inputValue', input.value);
+      await this.loader.load();
+      this.dispatchEvent( new Event(LOADING_END));
+    }
   }
 
-  init( optionalVal ){
+  init(){
     this.searchInput.addEventListener( 'focus', this.onSearchInputFocus.bind(this));
     this.searchInput.addEventListener( 'keydown', this.onSearchInputKeyDown.bind(this));
     this.searchInput.addEventListener( 'blur', this.onSearchInputBlur.bind(this));
-    
+
     this.searchInput.addEventListener( 'keyup', this.debounce((event) => {
-      this.updateAutocomplete(event, optionalVal);
+      this.updateAutocomplete(event);
     }, 300));
     
     this.loader.addEventListener('success', this.onLoaderSuccess.bind(this));
@@ -110,7 +120,9 @@ class LuteceAutoComplete extends EventTarget {
   onSearchInputBlur() {
     setTimeout(() => {
       if (!this.isItemSelected ) {
-        this.searchInput.value = this.originalValue;
+        if (!this.allowFreeText) {
+          this.searchInput.value = this.originalValue;
+        }
         this.dropdown.style.display = 'none';
         this.isItemSelected = false;
         this.searchInput.setAttribute( 'aria-expanded', 'false' );
@@ -190,9 +202,12 @@ class LuteceAutoComplete extends EventTarget {
   }
 
   onLoaderSuccess(event) {
-    this.ariaLive.textContent = ''
-    const suggestions = event.detail.targetElement;
-    this.listSize = event.detail.targetElement.length;
+    this.renderSuggestions(event.detail.targetElement);
+  }
+
+  renderSuggestions(suggestions) {
+    this.ariaLive.textContent = '';
+    this.listSize = suggestions.length;
     this.resultList.innerHTML = '';
     suggestions.forEach( (suggestion, index ) => {
       this.resultList.appendChild( this.itemTemplate( suggestion, index ) );
@@ -271,6 +286,10 @@ class LuteceAutoComplete extends EventTarget {
       });
       this.removeBtn.classList.remove('d-none');
       this.onItemSelected();
+      this.autocompleteElement.dispatchEvent(new CustomEvent('autocomplete:select', {
+        bubbles: true,
+        detail: { suggestion: suggestion, element: currentTarget }
+      }));
     });
     item.addEventListener('keydown', this.onResultKeyDown.bind(this) );
     
@@ -338,6 +357,7 @@ class LuteceAutoComplete extends EventTarget {
       error: [],
       search: []
     };
+    this.allowFreeText = element.getAttribute('data-allowFreeText') === 'true';
   }
 }
 
