@@ -88,7 +88,7 @@ public class DaemonThread implements Runnable
             currentThread.setName( "Lutece-Daemon-" + _entry.getId( ) );
 
             Daemon daemon = _entry.getDaemon( );
-            AppLogService.info( "{} - starts processing.", _strDaemonName );
+            AppLogService.debug( "{} - starts processing.", _strDaemonName );
 
             try
             {
@@ -114,7 +114,7 @@ public class DaemonThread implements Runnable
                 AppLogService.error( "Could not process Daemon: {}", _entry.getId( ), t );
             }
 
-            AppLogService.info( "{} - end of process.", _strDaemonName );
+            AppLogService.debug( "{} - end of process.", _strDaemonName );
             currentThread.setName( strPooledThreadName );
         }
         else
