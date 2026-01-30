@@ -2,7 +2,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>7.0.5-SNAPSHOT</version>
+        <version>7.0.5-beta-01</version>
         <relativePath />
     </parent>
 
