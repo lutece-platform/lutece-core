@@ -4,12 +4,11 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
                
-    <listener>
-	  <description>Handles Log4j Core lifecycle</description>
-	  <listener-class>
-	    org.apache.logging.log4j.web.Log4jServletContextListener
-	  </listener-class>
-	</listener>
+      <!-- Properly shut down Log4j2 during application shutdown in AppInitListener -->         
+	 <context-param>
+	    <param-name>isLog4jAutoShutdownDisabled</param-name>
+	    <param-value>true</param-value>
+	</context-param>
     <listener>
         <display-name>Lutece Main Listener</display-name>
         <listener-class>fr.paris.lutece.portal.service.sessionlistener.MainHttpSessionListener</listener-class>
