@@ -59,4 +59,12 @@ public class RemovalListenerServiceProducer {
         return new RemovalListenerService( );
     }
 
+    @Produces
+    @Named( BeanUtils.BEAN_USER_REMOVAL_SERVICE )
+    @ApplicationScoped
+    public RemovalListenerService userRemovalServiceProducer( )
+    {
+        return new RemovalListenerService( );
+    }
+
 }
