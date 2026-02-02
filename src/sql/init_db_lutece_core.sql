@@ -46,7 +46,7 @@ INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permi
 INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager', 'ADMIN_USER', '*', '*');
 INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager', 'SEARCH_SERVICE', '*', '*');
 INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('all_site_manager', 'XSL_EXPORT', '*', '*');
-INSERT INTO core_admin_role_resource (rbac_id,role_key,resource_type,resource_id,permission) VALUES (155,'theme_manager','THEME','*','*');
+INSERT INTO core_admin_role_resource(role_key, resource_type, resource_id, permission) VALUES ('theme_manager','THEME','*','*');
 
 -- default accounts; password storage will be upgraded on first login
 INSERT INTO core_admin_user (access_code,last_name,first_name,email,status,password,locale,level_user,reset_password,accessibility_mode,password_max_valid_date,account_max_valid_date,nb_alerts_sent,last_login,workgroup_key) VALUES ('admin','Admin','admin','admin@lutece.fr',0,'PLAINTEXT:adminadmin','fr',0,0,0,'1980-01-01 00:00:00',null,0,'1980-01-01 00:00:00','all');
