@@ -13,7 +13,7 @@ Parameters:
 <@deprecatedWarning args=deprecated />
 <@accordionContainer id=id class=class params=params>
    <@accordionPanel collapsed=collapsed childId='${id}Child'>
-      <@accordionHeader title=title headerIcon=icon />
+      <@accordionHeader class=headerClass title=title headerIcon=icon />
       <@accordionBody>
       <#nested>
       </@accordionBody>
