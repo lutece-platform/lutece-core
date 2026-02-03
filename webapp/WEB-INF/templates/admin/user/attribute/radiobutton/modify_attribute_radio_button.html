@@ -54,29 +54,28 @@
 			</@boxHeader>
 			<@boxBody>
 				<@table id='list'>
-					<tr>
-						<th>#i18n{portal.users.modify_attribute.columnLabelTitle}</th>
-						<th>#i18n{portal.users.modify_attribute.columnLabelValue}</th>
-						<th>#i18n{portal.users.modify_attribute.columnLabelDefaultValue}</th>
-						<th>#i18n{portal.users.modify_attribute.columnLabelId}</th>
-						<th>#i18n{portal.users.modify_attribute.columnLabelActions}</th>
-					</tr>
+					<@tr>
+						<@th>#i18n{portal.users.modify_attribute.columnLabelTitle}</@th>
+						<@th>#i18n{portal.users.modify_attribute.columnLabelValue}</@th>
+						<@th>#i18n{portal.users.modify_attribute.columnLabelDefaultValue}</@th>
+						<@th>#i18n{portal.users.modify_attribute.columnLabelId}</@th>
+						<@th>#i18n{portal.users.modify_attribute.columnLabelActions}</@th>
+					</@tr>
 					<#assign cpt = 0>
 					<#list attribute_fields_list as attribute_field>
 					<#if attribute_field.title?exists>
 					<#assign cpt = cpt + 1>
-					<tr>
-						<td>${attribute_field.title}</td>
-						<td>${attribute_field.value}</td>
-						<td>
+					<@tr>
+						<@td>${attribute_field.title}</@td>
+						<@td>${attribute_field.value}</@td>
+						<@td>
 							<#if attribute_field.defaultValue>
 								<@tag color='success'>#i18n{portal.users.modify_attribute.defaultValue}</@tag>
 							</#if>
-						</td>
-						<td>${attribute_field.idField}</td>
-						<td>
+						</@td>
+						<@td>${attribute_field.idField}</@td>
+						<@td>
 							<@aButton href='jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='edit' title='#i18n{portal.users.modify_attribute.buttonLabelModify}' hideTitle=['all'] class='pull-left spaced' />
-							
 							<#if cpt != 1>
 								<@tform method='post' action='jsp/admin/user/attribute/DoMoveUpAttributeField.jsp#list' class='pull-left spaced'>
 									<@input type='hidden' name='id_attribute' value='${attribute.idAttribute?html}' />
@@ -85,7 +84,6 @@
 									<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' buttonIcon='chevron-up' hideTitle=['all'] />
 								</@tform>
 							</#if>
-								
 							<#if attribute_field_has_next>
 								<@tform method='post' action='jsp/admin/user/attribute/DoMoveDownAttributeField.jsp#list' class='pull-left spaced'>
 									<@input type='hidden' name='id_attribute' value='${attribute.idAttribute?html}' />
@@ -94,10 +92,9 @@
 									<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' buttonIcon='chevron-down' hideTitle=['all'] />
 								</@tform>
 							</#if>
-								
 							<@aButton href='jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='trash' title='#i18n{portal.users.modify_attribute.buttonLabelDelete}' hideTitle=['all'] color='danger' class='pull-left spaced' />
-						</td>
-					</tr>
+						</@td>
+					</@tr>
 					</#if>
 					</#list>
 				</@table>

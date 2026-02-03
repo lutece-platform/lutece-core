@@ -55,7 +55,6 @@
 					<@radioButton name='accept_alias' id='accept_alias_no' value='0' orientation='h' checked=checked labelKey='#i18n{portal.util.labelNo}' labelFor='accept_alias_no' />
 				</@formGroup>
 			</@columns>
-
 			<@columns sm=4 md=2 params='hidden'>
 				<@formGroup labelKey='#i18n{portal.site.create_portlet.labelDisplayOnDevice}' rows=2>
 					<#if small_checked = 'checked="checked"'><#assign checked = true><#else><#assign checked = false></#if>
@@ -68,7 +67,6 @@
 					<@checkBox orientation='switch' name='display_on_xlarge_device' id='display_on_xlarge_device'value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxXLargeDevice}' />
 				</@formGroup>
 			</@columns>
-			
 			<@columns sm=4 md=1>
 				<@formGroup labelFor='role' labelKey='#i18n{portal.site.create_portlet.labelRole}' rows=2>
 					<@select name='role' default_value='${portlet.role}' items=portlet_role_combo />
@@ -113,5 +111,4 @@ btnProp.addEventListener( 'click',  (e) => {
         btn.setAttribute("aria-expanded", "true");
       }
   })
-  
 </script>

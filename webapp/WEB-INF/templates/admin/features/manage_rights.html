@@ -5,7 +5,7 @@
             <#list rights_list?sort_by('name') as right >
             <@manageFeatureItem>            
                 <@manageFeatureItemColumn>
-                    <h3>${right.name}</h3>
+                    <@h level=3>${right.name}</@h>
                 </@manageFeatureItemColumn> 
                 <@manageFeatureItemColumn auto=true>
                     <@p>#i18n{portal.features.manage_rights.columnTitleLevel} : <strong>${right.level}</strong></@p>

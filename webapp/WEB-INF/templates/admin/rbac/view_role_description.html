@@ -1,6 +1,6 @@
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title='${role.description} [${role.key}]'>
+		<@pageHeader title='${role.description} [${role.key}]' class='col-md-3'>
 			<@tform type='inline' align="middle" method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
 				<@input type='hidden' name='role_key' value='${role.key}' />
 				<@formGroup groupStyle='inline' formStyle='inline'>
@@ -49,11 +49,11 @@
 		<#list controled_resource_list as controled_resource>
 		<@manageFeatureItem>
 			<@manageFeatureItemColumn>
-				<p>#i18n{portal.rbac.view_role_description.columnTitleResourceType} <strong> ${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</strong></p>
+				<@p class='me-2'>#i18n{portal.rbac.view_role_description.columnTitleResourceType} <strong> ${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</strong></@p>
 				</@manageFeatureItemColumn>
 				<@manageFeatureItemColumn>
-				<p>#i18n{portal.rbac.view_role_description.columnTitleResourceId} : <#if controled_resource.resourceId??><strong>${controled_resource.resourceIdLabel}  (${controled_resource.resourceId})</strong></#if></p>
-				<p>#i18n{portal.rbac.view_role_description.columnTitlePermission} : <#if controled_resource.permissionKey??><strong>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</strong></#if></p>
+				<@p class='me-2'>#i18n{portal.rbac.view_role_description.columnTitleResourceId} : <#if controled_resource.resourceId??><strong>${controled_resource.resourceIdLabel}  (${controled_resource.resourceId})</strong></#if></@p>
+				<@p>#i18n{portal.rbac.view_role_description.columnTitlePermission} : <#if controled_resource.permissionKey??><strong>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</strong></#if></@p>
 			</@manageFeatureItemColumn>
 			<@manageFeatureItemColumn auto=true>
 				<@tform method='post' action='jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp'>

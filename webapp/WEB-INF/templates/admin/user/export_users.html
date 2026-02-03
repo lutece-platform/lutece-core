@@ -11,9 +11,7 @@
                     <@tabPanel active=true id='export'>
                         <@formGroup labelKey='#i18n{portal.users.export_users.labelXslt}' labelFor='xsl_export_id'>
                             <@select id='xsl_export_id' name='xsl_export_id'>
-                                <#list refListXsl as xsl>
-                                    <option value="${xsl.code}" >${xsl.name}</option>
-                                </#list>
+                            <#list refListXsl as xsl><@option value=xsl.code! label=xsl.name! /></#list>
                             </@select>
                         </@formGroup>
                         <@formGroup labelKey='#i18n{portal.users.export_users.labelExportAttributes}' labelFor='export_attributes' helpKey='#i18n{portal.users.export_users.labelHelpExportAttributes}' hideLabel=['all']>

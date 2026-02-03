@@ -27,18 +27,15 @@
 	</#if>
 	<#return false>
 </#function>
-	
 <#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
 	<#assign helpKey = attribute.helpMessage>
 </#if>
-
 <@formGroup labelKey='${attribute.title?html}' rows=2 helpKey=helpKey mandatory=attribute.mandatory>
 	<#if attribute.fieldInLine>
 		<#assign orientation = 'horizontal'>
 	<#else>
 		<#assign orientation = 'vertical'>
 	</#if>
-
     <#--
       first pass to see if a value has been stored.
       Used to choose between the stored value and
@@ -47,16 +44,15 @@
     <#assign hasStoredValue = false>
     <#list attribute.listAttributeFields as attributeField>
         <#if attributeField.title?exists && attributeField.value != "">
-                <#if default_values_list?has_content && isSelected(attributeField.idField default_values_list)>
+            <#if default_values_list?has_content && isSelected(attributeField.idField default_values_list)>
                 <#assign hasStoredValue = true>
-                </#if>
+            </#if>
         </#if>
     </#list>
     <#if default_values_list?has_content && isSelected(0 default_values_list)>
         <#--! if the user has selected the "labelNone" value, do not use the default value-->
         <#assign hasStoredValue = true>
     </#if>
-	
 	<#if !attribute.mandatory>
         <#--
           second pass to see if any attribute is the default value.
@@ -68,7 +64,6 @@
                 <#assign hasDefaultField = true>
             </#if>
         </#list>
-
         <#if (default_values_list?has_content && isSelected( 0 default_values_list ) ) || (!hasStoredValue && !hasDefaultField) >
 			<#assign checked = true>
 		<#else>
@@ -76,7 +71,6 @@
 		</#if>
 		<@radioButton name='attribute_${attribute.idAttribute}' value='' checked=checked labelKey='#i18n{portal.users.attribute.labelNone}' orientation=orientation />
 	</#if>
-	
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">
             <#assign checkedStoredAttribute = hasStoredValue && default_values_list?has_content && isSelected(attributeField.idField default_values_list)>

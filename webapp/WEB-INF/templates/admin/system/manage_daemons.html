@@ -18,7 +18,7 @@
 				<@manageFeatureItemColumn>
 					<@row>
 						<@columns>
-							<h3>${daemon.id} (${daemon.pluginName})</h3>
+							<@h level=3>${daemon.id} (${daemon.pluginName})</@h>
 							<@p class='mb-0'>#i18n{${daemon.nameKey}} <br> #i18n{${daemon.descriptionKey}}</@p>
 						</@columns>
 						<@columns>
@@ -26,7 +26,7 @@
 								<@li>
 									<#if daemon.running>
 									   <#if !daemon.cron?has_content>
-										#i18n{portal.system.manage_daemons.columnTitleInterval} <span class="fw-bold">${daemon.interval} #i18n{portal.system.manage_daemons.unit.sec} </span>
+										#i18n{portal.system.manage_daemons.columnTitleInterval} <@span class="fw-bold">${daemon.interval} #i18n{portal.system.manage_daemons.unit.sec} </span>
 											<small class="d-inline-block mb-2">
 												<#if daemon.interval gte 3600>
 													<#assign hour=daemon.interval / 3600 />
@@ -87,10 +87,9 @@
 										
 										<@offcanvas id="${daemon.id}" title="#i18n{${daemon.nameKey}}" btnColor="light" btnTitle="${daemon.lastRunDate} - ${(daemon.lastRunEndDate?has_content)?string(daemon.lastRunEndDate, '...')}" position="end">
 +									${daemon.lastRunDate} - <#if daemon.lastRunEndDate?has_content>${daemon.lastRunEndDate}</#if>
-												<h4>#i18n{portal.system.manage_daemons.columnTitleLogs}</h4>
-												<h5>#i18n{portal.system.manage_daemons.columnTitleLastRun} ${daemon.lastRunDate}</h5>
-												
-												<@pre><#if daemon.lastRunLogs?length &lt; log_max_size>${daemon.lastRunLogs}<#else>${daemon.lastRunLogs?substring(0,log_max_size -1)} <#if daemon.lastRunLogs?length &gt; log_max_size + 200><br>(...)<br>${daemon.lastRunLogs?substring(daemon.lastRunLogs?length -200,daemon.lastRunLogs?length)}</#if></#if> </@pre>
+												<@h level=4>#i18n{portal.system.manage_daemons.columnTitleLogs}</@h>
+												<@h level=5>#i18n{portal.system.manage_daemons.columnTitleLastRun} ${daemon.lastRunDate}</@h>
+												<@pre><#if daemon.lastRunLogs?length &lt log_max_size>${daemon.lastRunLogs}<#else>${daemon.lastRunLogs?substring(0,log_max_size -1)} <#if daemon.lastRunLogs?length &gt log_max_size + 200><br>(...)<br>${daemon.lastRunLogs?substring(daemon.lastRunLogs?length -200,daemon.lastRunLogs?length)}</#if></#if> </@pre>
 											</@offcanvas>
 										<#else>
 											#i18n{portal.system.manage_daemons.columnTitleLastRun}  <strong>${daemon.lastRunDate} - ${(daemon.lastRunEndDate?has_content)?string(daemon.lastRunEndDate, '...')}</strong>

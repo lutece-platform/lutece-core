@@ -11,7 +11,6 @@
 	  {"name": "#i18n{portal.style.manage_styles.labelComponentType}", "property": "portalComponentName", "sortable": false},
 	  {"name": "#i18n{portal.style.manage_styles.labelPortletType}", "property": "portletTypeName", "sortable": false}
 	]>
-	           
 	<#-- Définition des actions -->
 	  <#assign styleActions = {
 	    "edit": {
@@ -34,7 +33,7 @@
 	  }>
 	
 	<#-- Page complète avec navigation -->
-	  <#-- Table avec pagination AJAX -->
+	<#-- Table avec pagination AJAX -->
 	  <@paginationAjax 
 	    paginator=paginator 
 	    columns=styleColumns 

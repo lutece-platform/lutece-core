@@ -6,7 +6,6 @@
 	</#list>
 	<#return false>
 </#function>
-
 <@formGroup labelKey='${attribute.title?html}' rows=2>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">

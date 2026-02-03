@@ -114,13 +114,13 @@
 						<#list assigned_users_list as assigned_user>
 							<#if assigned_user_has_next><#assign anchor=assigned_user_index><#else><#assign anchor=assigned_user_index - 1></#if>
 								<@manageFeatureItem id='anchor-${assigned_user_index}'>
-									<@manageFeatureItemColumn>
+									<@manageFeatureItemColumn auto=true>
 										<@p>#i18n{portal.users.manage_users.columnTitleLastName} : ${assigned_user.lastName}</@p>
 										<@p>#i18n{portal.users.manage_users.columnTitleFirstName} : ${assigned_user.firstName}</@p>
 										<@p>#i18n{portal.users.manage_users.columnTitleAccessCode} : <em>${assigned_user.accessCode}</em></@p>
 										<@p>#i18n{portal.users.manage_users.columnTitleEmail} : <@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'> ${assigned_user.email}</@link></@p>
 									</@manageFeatureItemColumn>
-									<@manageFeatureItemColumn auto=true>
+									<@manageFeatureItemColumn align='end'>
 										<@tform method='post' action='jsp/admin/features/DoUnassignUserRight.jsp'>
 											<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
 											<@input type='hidden' name='id_right' value='${right.id?html}' />

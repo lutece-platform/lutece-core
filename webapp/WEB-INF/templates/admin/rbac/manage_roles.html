@@ -1,18 +1,25 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title='#i18n{portal.rbac.manage_roles.pageTitle}'>
+            <@tform method='post' type='inline'>
+				<@formGroup labelFor='search_role' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
+					<@inputGroup>
+						<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
+					</@inputGroup>
+				</@formGroup>
+			</@tform>
             <@offcanvas targetUrl="jsp/admin/rbac/CreateRole.jsp" targetElement="#create-role-form" redirectForm=false id="template-create-role" title="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}" btnTitle="#i18n{portal.rbac.manage_roles.buttonLabelNewRole}" btnIcon="plus me-1" position="end" />
         </@pageHeader>
-        <#if role_list?size gt 5><@paginationAdmin paginator=paginator /></#if>
         <#if role_list?size gt 1>
             <@manageFeature>
                 <#list role_list as role>
-                    <@manageFeatureItem>
-                        <@manageFeatureItemColumn>
+                    <@manageFeatureItem class='item-labels' auto=true>
+                        <@manageFeatureItemColumn class='searchable'>
                             <@p>#i18n{portal.rbac.manage_roles.columnTitleKey}: <strong>${role.key}</strong></@p>
-                            <@p>#i18n{portal.rbac.manage_roles.columnTitleDescription}: <strong>${role.description}</strong></@p>
+                            <@p class='ms-2'>#i18n{portal.rbac.manage_roles.columnTitleDescription}: <strong>${role.description}</strong></@p>
                         </@manageFeatureItemColumn>
-                        <@manageFeatureItemColumn auto=true>
+                        <@manageFeatureItemColumn align='end'>
                             <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.rbac.view_role_description.labelDescription}'  buttonIcon='edit' color='primary' />
                             <@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} ' buttonIcon='user' color='primary' />
                             <#if exist_front_role_map?has_content && exist_front_role_map[role.key]>
@@ -28,6 +35,15 @@
                 <@empty />
             </@box>
         </#if>
-        <#if role_list?size gt 5><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if>
+        <#if role_list?size gt 5><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if> 
     </@pageColumn>
 </@pageContainer>
+<script type="module">
+import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
+const searchInput = document.querySelector("#search_role");
+const searchElementList = document.querySelectorAll(".item-labels");
+new LuteceSearchList( searchInput, searchElementList, {
+	searchableChild: [".searchable"],
+	highlight: true,
+});
+</script>

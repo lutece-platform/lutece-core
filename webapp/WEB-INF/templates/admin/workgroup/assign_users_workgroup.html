@@ -125,11 +125,12 @@
 							<#list assigned_users_list as assigned_user>
 							<@manageFeatureItem>
 								<#if assigned_user_has_next><#assign anchor=assigned_user_index><#else><#assign anchor=assigned_user_index - 1></#if>
-								<@manageFeatureItemColumn id='anchor-${assigned_user_index}'>
+								<@manageFeatureItemColumn id='anchor-${assigned_user_index}' flex=false>
 									<@p>#i18n{portal.users.manage_users.columnTitleLastName}  #i18n{portal.users.manage_users.columnTitleFirstName} : ${assigned_user.lastName} ${assigned_user.firstName}</@p>
-									<@p>#i18n{portal.users.manage_users.columnTitleAccessCode} : ${assigned_user.accessCode} - #i18n{portal.users.manage_users.columnTitleEmail} : ${assigned_user.email}</@p>
+									<@p>#i18n{portal.users.manage_users.columnTitleAccessCode} : ${assigned_user.accessCode} </@p>
+									<@p>#i18n{portal.users.manage_users.columnTitleEmail} : ${assigned_user.email}</@p>
 								</@manageFeatureItemColumn>
-								<@manageFeatureItemColumn auto=true >
+								<@manageFeatureItemColumn auto=true align='end'>
 									<@tform method='post' action='jsp/admin/workgroup/DoUnassignUser.jsp'>
 										<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
 										<@input type='hidden' name='workgroup_key' value='${workgroup.key?html}' />

@@ -3,13 +3,13 @@
 	<#list services_list as service>
 		<@pageHeader title='${service.name}' />
 		<@div id="cache-infos">
-			<h2 class="h4">Configuration</h2>
+			<@h level=3 class='h4'>Configuration</@h>
 			<@pre>${service.infos}</@pre>
 			<#if service.cacheEnable && service.statistics??>
-			<h3>Statistics</h3>
+			<@h level=3>Statistics</@h>
 			<@pre>${service.statistics?html}</@pre>
 			</#if>
-			<h3>Keys</h3>
+			<@h level=3>Keys</@h>
 			<@ul><#list service.keys?sort as key ><@li>${key?html}</@li></#list></@ul>
 		</@div>
 	</#list>

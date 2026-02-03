@@ -1,8 +1,15 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title='#i18n{portal.workgroup.manage_workgroups.pageTitle}'>
-            <@offcanvas targetUrl='jsp/admin/workgroup/CreateWorkgroup.jsp' targetElement='#create-workgroup-form' redirectForm=false id='template-create-role' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' btnTitle='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' btnIcon='plus' position='end' />
             <#if workgroups_list?size gt 0>
+             <@tform method='post' type='inline'>
+				<@formGroup labelFor='search_workgroup' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
+					<@inputGroup>
+						<@input type='text' name='search_workgroup' id='search_workgroup' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
+					</@inputGroup>
+				</@formGroup>
+			</@tform>
             <@offcanvas id='search-workgroups' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' position='end' btnTitle='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' btnIcon='search'>
                 <@tform method='post' name='search_workgroups' action='jsp/admin/workgroup/ManageWorkgroups.jsp' id='workgroupSearch'>
                     <@formGroup title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}' labelFor='key' rows=2>
@@ -24,29 +31,33 @@
                 </@tform>
             </@offcanvas>
             </#if>
+            <@offcanvas targetUrl='jsp/admin/workgroup/CreateWorkgroup.jsp' targetElement='#create-workgroup-form' redirectForm=false id='template-create-role' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' btnTitle='#i18n{portal.workgroup.manage_workgroups.buttonLabelNewGroup}' btnIcon='plus' position='end' />
         </@pageHeader>
-        <#if workgroups_list?size gt 5><@paginationAdmin paginator=paginator showcount=1 combo=0 /></#if>	
         <#if workgroups_list?size gt 0>
             <@manageFeature>
 				<#list workgroups_list as workgroup >
-                <@manageFeatureItem>
-				    <@manageFeatureItemColumn>
-						${workgroup.key}
-						${workgroup.description}
-					</@manageFeatureItemColumn>
-				    <@manageFeatureItemColumn auto=true>
+                <@manageFeatureItem class='item-labels'>
+				    <@manageFeatureItemColumn class='searchable' auto=true ><strong>${workgroup.key}</strong> - ${workgroup.description}</@manageFeatureItemColumn>
+				    <@manageFeatureItemColumn align='end'>
                         <@offcanvas targetUrl='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' targetElement='#modify_workgroup_form' redirectForm=false id='template-modify-workgroup_${workgroup.key}' title='#i18n{portal.util.modify_workgroup.titleModificationForm}' btnTitle='#i18n{portal.workgroup.modify_workgroup.titleModificationForm}' btnTitle='#i18n{portal.util.labelModify}' btnIcon='edit me-1' position='end' />
                         <@aButton href='jsp/admin/workgroup/AssignUsersWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelAssignUsers} ' buttonIcon='user'   />
-                        <@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete} ' buttonIcon='trash' color='danger'  />
+                        <@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete} ' buttonIcon='trash' color='danger' class='ms-1'  />
                     </@manageFeatureItemColumn>
 				</@manageFeatureItem>
 			    </#list>
             </@manageFeature>
         <#else>
-            <@box class='mt-3'>
-                <@empty />
-            </@box>    
+            <@empty />
         </#if>
-		<#if workgroups_list?size gt 5><@paginationAdmin paginator=paginator combo=1 showcount=0 /></#if>	
+	    <#if workgroups_list?size gt 5><@paginationAdmin paginator=paginator showcount=1 combo=0 /></#if>	
 	</@pageColumn>
 </@pageContainer>
+<script type="module">
+import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
+const searchInput = document.querySelector("#search_workgroup");
+const searchElementList = document.querySelectorAll(".item-labels");
+new LuteceSearchList( searchInput, searchElementList, {
+	searchableChild: [".searchable"],
+	highlight: true,
+});
+</script>

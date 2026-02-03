@@ -5,32 +5,26 @@
 			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelName}' labelFor='name' mandatory=true>
 				<@input type='text' name='name' id='name' value='' maxlength=60 />
 			</@formGroup>
-			
 			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelValue}' labelFor='value' mandatory=true>
 				<@input type='text' name='value' id='value' value='' maxlength=1024 />
 			</@formGroup>
-			
 			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelDescription}' labelFor='description'>
 				<@input type='textarea' name='description' id='description' maxlength=1024 cols=80 rows=5 />
 			</@formGroup>
-			
 			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelType}' labelFor='type' mandatory=true>
 				<@select id='type' name='type' default_value='page' sort=true>
 					<#list types_list as type>
-						<option value="${type.code}">#i18n{${"portal.securityheader.type.label."+type.code}}</option>
+						<@option value=type.code label='#i18n{${"portal.securityheader.type.label."+type.code}}' />
                     </#list>			
 				</@select>
 			</@formGroup>
-
-			
 			<@formGroup id='pageCategory_formGroup' labelKey='#i18n{portal.securityheader.create_securityheader.labelPageCategory}' labelFor='pageCategory' mandatory=true>
 				<@select id='pageCategory' name='pageCategory' default_value='all' sort=true>
 				    <#list page_category_list as category>
-						<option value="${category.code}">#i18n{${"portal.securityheader.category.label."+category.code}}</option>                   
+						<@option value=category.code label='#i18n{${"portal.securityheader.category.label."+category.code}}' />
                     </#list>			
 				</@select>
 			</@formGroup>
-			
 			<@formGroup>
 				<@button type='submit' name='action_createSecurityHeader' buttonIcon='device-floppy' title='#i18n{portal.securityheader.create_securityheader.buttonCreate}' color='primary' />
 				<@button type='submit' name='view_manageSecurityHeaders' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' cancel=true />
@@ -40,19 +34,15 @@
 </@pageContainer>
 <script>
 const selectType = document.getElementById('type');
-
 selectType.addEventListener( 'change',  (e) => {
-	    const pageCategory = document.getElementById('pageCategory');
-		const pageCategoryFormGroup = document.getElementById('pageCategory_formGroup');
-		if(selectType.value == "page")
-		{
-		  pageCategory.style.visibility = 'visible';
-		  pageCategoryFormGroup.style.visibility = 'visible';
-		}
-		else
-		{
-		  pageCategory.style.visibility = 'hidden';
-		  pageCategoryFormGroup.style.visibility = 'hidden';
-		}
-	});
+	const pageCategory = document.getElementById('pageCategory');
+	const pageCategoryFormGroup = document.getElementById('pageCategory_formGroup');
+	if(selectType.value == "page")	{
+		pageCategory.style.visibility = 'visible';
+		pageCategoryFormGroup.style.visibility = 'visible';
+	} else {
+		pageCategory.style.visibility = 'hidden';
+		pageCategoryFormGroup.style.visibility = 'hidden';
+	}
+});
 </script>

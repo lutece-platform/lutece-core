@@ -30,12 +30,12 @@
 							<@alert title='#i18n{portal.users.accountLifeTime.labelParameters}' class='alert-minor mt-5' iconTitle='info-circle' >
 							<@ul>
 								<#if email_type != "reactivated" && email_type != "expired" && email_type != "password_expired" >
-									<@li><span class="copy-content fw-bold">${r"${url}"} : </span> #i18n{portal.users.accountLifeTime.labelUrl}</@li>
+									<@li><@span class="copy-content fw-bold">${r"${url}"} : </@span> #i18n{portal.users.accountLifeTime.labelUrl}</@li>
 								</#if>
-								<@li><span class="copy-content fw-bold">${r"${first_name}"} : </span> #i18n{portal.users.accountLifeTime.labelFirstName}</@li>
-								<@li><span class="copy-content fw-bold">${r"${last_name}"} : </span> #i18n{portal.users.accountLifeTime.labelLastName}</@li>
+								<@li><@span class="copy-content fw-bold">${r"${first_name}"} : </@span> #i18n{portal.users.accountLifeTime.labelFirstName}</@li>
+								<@li><@span class="copy-content fw-bold">${r"${last_name}"} : </@span> #i18n{portal.users.accountLifeTime.labelLastName}</@li>
 								<#if email_type != "password_expired" >
-									<@li><span class="copy-content fw-bold">${r"${date_valid}"} : </span> #i18n{portal.users.accountLifeTime.labelDateValid}</@li>
+									<@li><@span class="copy-content fw-bold">${r"${date_valid}"} : </@span> #i18n{portal.users.accountLifeTime.labelDateValid}</@li>
 								</#if>
 							</@ul>
 							</@alert>
