@@ -67,11 +67,10 @@ localStorage.setItem( 'lutece-tabler-theme',localTheme );
             	<a href="jsp/admin/AdminMenu.jsp" aria-label="${site_name}"> 
 					<#if logoSvg?trim !=''>
 						${logoSvg!} 
-					<#elseif logoUrl?trim!=''>
-            			<img src="${logoUrl}" class="me-1" height="32" width="80" alt="Logo ${site_name}" aria-hidden="true">
 					<#else>
-						<#if showSiteName?number == 1><span class="fs-4 me-2">${site_name}</span></#if>
+            			<img src="${logoUrl}" class="me-1" height="32" width="80" alt="Logo ${site_name}" aria-hidden="true">
 					</#if>
+					<#if showSiteName?number == 1><span class="fs-4 me-2">${site_name}</span></#if>
 				</a>
           	</div>
           	<!-- END NAVBAR LOGO -->
