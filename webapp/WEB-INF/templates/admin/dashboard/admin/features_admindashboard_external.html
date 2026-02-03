@@ -6,13 +6,13 @@
         <#list external_features_list as external_feature>
             <@manageFeatureItem>
                 <@manageFeatureItemColumn>
-                    #i18n{portal.features.external_features.manage_external_features.name} : ${external_feature.name}<br>
-                    #i18n{portal.features.external_features.manage_external_features.url} : ${external_feature.url}
+                    #i18n{portal.features.external_features.manage_external_features.name} : ${external_feature.name!}<br>
+                    #i18n{portal.features.external_features.manage_external_features.url} : ${external_feature.url!}
                 </@manageFeatureItemColumn>
-                <@manageFeatureItemColumn>#i18n{portal.features.external_features.manage_external_features.feature_group} : ${external_feature.featureGroup}</@manageFeatureItemColumn>
+                <@manageFeatureItemColumn>#i18n{portal.features.external_features.manage_external_features.feature_group} : ${external_feature.featureGroup!}</@manageFeatureItemColumn>
                 <@manageFeatureItemColumn auto=true>
-                    <@offcanvas targetUrl='jsp/admin/features/ModifyExternalFeature.jsp?external_feature_id=${external_feature.id}' targetElement='#modify_external_form' id='external-${external_feature.id}' title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' btnTitle='#i18n{portal.util.labelModify}' btnIcon='edit' btnColor='primary' position='end' />
-                    <@aButton href='jsp/admin/features/RemoveExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelDelete}'  buttonIcon='trash' color='danger' />
+                    <@offcanvas targetUrl='jsp/admin/features/ModifyExternalFeature.jsp?external_feature_id=${external_feature.id!}' targetElement='#modify_external_form' id='external-${external_feature.id!}' title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' btnTitle='#i18n{portal.util.labelModify}' btnIcon='edit' btnColor='primary' position='end' />
+                    <@aButton href='jsp/admin/features/RemoveExternalFeature.jsp?external_feature_id=${external_feature.id!}' title='#i18n{portal.util.labelDelete}'  buttonIcon='trash' color='danger' />
                 </@manageFeatureItemColumn>
             </@manageFeatureItem>
         </#list>
