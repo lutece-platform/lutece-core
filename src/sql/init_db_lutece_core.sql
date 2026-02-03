@@ -267,6 +267,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.p
 INSERT INTO core_datastore VALUES ('portal.site.site_property.portlet.title.maxlength', '75');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.menu.boxed.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', '');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.show_site_name.checkbox', '1');
 
 INSERT INTO core_datastore VALUES ('theme.globalThemeCode', 'lutece');
 INSERT INTO core_datastore VALUES ('theme.globalThemeVersion', '1.0');

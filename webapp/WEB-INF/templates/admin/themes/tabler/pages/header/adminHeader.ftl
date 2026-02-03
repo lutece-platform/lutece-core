@@ -19,6 +19,7 @@ Parameters:
 <#local menuVertical><#attempt><#if dskey('portal.site.site_property.layout.menu.vertical.checkbox')?number==1>vertical</#if><#recover></#attempt></#local>
 <#local menuTransparent><#attempt><#if dskey('portal.site.site_property.layout.menu.transparent.checkbox')?number==1> navbar-transparent</#if><#recover></#attempt></#local>
 <#local menuHome><#attempt>${dskey('portal.site.site_property.layout.menu.home.checkbox')?number}<#recover>0</#attempt></#local>
+<#local showSiteName><#attempt>${dskey('portal.site.site_property.show_site_name.checkbox')?number}<#recover>1</#attempt></#local>
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url')?trim, '')>
 <#local logoSvg = (dskey('portal.site.site_property.logo_svg.textblock')!)?has_content?then(dskey('portal.site.site_property.logo_svg.textblock'), '')>
 <script>
@@ -62,13 +63,14 @@ localStorage.setItem( 'lutece-tabler-theme',localTheme );
           	</button>
           	<!-- END NAVBAR TOGGLER -->
           	<!-- BEGIN NAVBAR LOGO -->
-          	<div class="navbar-brand navbar-brand-autodark<#if menuVertical != 'vertical'> d-none-navbar-horizontal pe-0 pe-md-3</#if>">
+          	<div class="navbar-brand navbar-brand-autodark<#if menuVertical != 'vertical'> navbar-horizontal pe-0 pe-md-3</#if>">
             	<a href="jsp/admin/AdminMenu.jsp" aria-label="${site_name}"> 
-					<#if logoUrl==''>
-						${logoSvg!}
+					<#if logoSvg?trim !=''>
+						${logoSvg!} 
+					<#elseif logoUrl?trim!=''>
+            			<img src="${logoUrl}" class="me-1" height="32" width="80" alt="Logo ${site_name}" aria-hidden="true">
 					<#else>
-            			<img src="${logoUrl}" class="me-1" width="24" height="24" alt="Logo ${site_name}" aria-hidden="true">
-						<span class="fs-4 me-2">${site_name}</span>
+						<#if showSiteName?number == 1><span class="fs-4 me-2">${site_name}</span></#if>
 					</#if>
 				</a>
           	</div>
@@ -98,16 +100,13 @@ localStorage.setItem( 'lutece-tabler-theme',localTheme );
 						</a>
 					</div>
 					</#if>
-					<#if userReadMode?number = 1>
-						<#--  <@adminReadMode />  -->
-					</#if>
+					<#if userReadMode?number = 1><@adminReadMode /></#if>
 					<#if user.userLevel == 0>
 					<#if listLoggersInfo??>
 					<#assign listLogDebug = listLoggersInfo?filter( logInfo -> ( logInfo.level = 'DEBUG' || logInfo.level = 'TRACE' ) ) />
 					<#if listLogDebug?has_content>
 					<div class="nav-item dropdown d-none d-md-flex">
 						<a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="#i18n{portal.admin.notification.labelShow}" data-bs-auto-close="outside" aria-expanded="false">
-							<!-- Download SVG icon from http://tabler.io/icons/icon/bell -->
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
 								<path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path>
 								<path d="M9 17v1a3 3 0 0 0 6 0v-1"></path>

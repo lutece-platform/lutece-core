@@ -228,6 +228,8 @@ DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.us
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.darkmode.show.checkbox', '0');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.layout.user.readmode.show.checkbox';
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.user.readmode.show.checkbox', '1');
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.show_site_name.checkbox';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.show_site_name.checkbox', '1');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.locale.default';
 INSERT INTO core_datastore VALUES ('portal.site.site_property.locale.default', 'fr');
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.logo_svg.textblock';
