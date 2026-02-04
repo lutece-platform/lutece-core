@@ -68,7 +68,7 @@ localStorage.setItem( 'lutece-tabler-theme',localTheme );
 					<#if logoSvg?trim !=''>
 						${logoSvg!} 
 					<#else>
-            			<img src="${logoUrl}" class="me-1" height="32" width="80" alt="Logo ${site_name}" aria-hidden="true">
+            			<img src="${logoUrl}" class="me-1" height="24" width="24" alt="Logo ${site_name}" aria-hidden="true">
 					</#if>
 					<#if showSiteName?number == 1><span class="fs-4 me-2">${site_name}</span></#if>
 				</a>
