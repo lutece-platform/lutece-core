@@ -310,6 +310,10 @@ DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.xss.xssM
 DELETE FROM core_datastore WHERE entity_key='theme.globalThemeCode';
 DELETE FROM core_datastore WHERE entity_key='theme.globalThemeVersion';
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', '');
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.logo.width';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.logo.width', '24');
+DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.logo.height';
+INSERT INTO core_datastore VALUES ('portal.site.site_property.logo.height', '24');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.author', '<author>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.copyright', '<copyright>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.description', '<description>');

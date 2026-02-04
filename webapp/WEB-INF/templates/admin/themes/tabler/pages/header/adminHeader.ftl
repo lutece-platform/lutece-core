@@ -22,6 +22,8 @@ Parameters:
 <#local showSiteName><#attempt>${dskey('portal.site.site_property.show_site_name.checkbox')?number}<#recover>1</#attempt></#local>
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url')?trim, '')>
 <#local logoSvg = (dskey('portal.site.site_property.logo_svg.textblock')!)?has_content?then(dskey('portal.site.site_property.logo_svg.textblock'), '')>
+<#local logoWidth><#attempt>${dskey('portal.site.site_property.logo.width')}<#recover>24</#attempt></#local>
+<#local logoHeight><#attempt>${dskey('portal.site.site_property.logo.height')}<#recover>24</#attempt></#local>
 <script>
 document.documentElement.classList.add('loading');
 document.documentElement.classList.add('loaded');
@@ -68,7 +70,7 @@ localStorage.setItem( 'lutece-tabler-theme',localTheme );
 					<#if logoSvg?trim !=''>
 						${logoSvg!} 
 					<#else>
-            			<img src="${logoUrl}" class="me-1" height="24" width="24" alt="Logo ${site_name}" aria-hidden="true">
+            			<img src="${logoUrl}" class="me-1" height="${logoHeight}" width="${logoWidth}" alt="Logo ${site_name}" aria-hidden="true">
 					</#if>
 					<#if showSiteName?number == 1><span class="fs-4 me-2">${site_name}</span></#if>
 				</a>
