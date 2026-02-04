@@ -5,5 +5,3 @@
 
 ${ aliasPortletJspBean.init( pageContext.request, AliasPortletJspBean.RIGHT_MANAGE_ADMIN_SITE ) }
 ${ aliasPortletJspBean.getCreate( pageContext.request ) }
-
-<%@ include file="../../AdminFooter.jsp" %>
