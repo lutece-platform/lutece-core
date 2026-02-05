@@ -2,46 +2,35 @@
     <@pageColumn>
         <@pageHeader title='#i18n{portal.style.manage_styles.title}'>
             <@offcanvas targetUrl="jsp/admin/style/ManageStyles.jsp?view=getCreateStyle" targetElement="#create-style-form" redirectForm=false id="style-create" title="#i18n{portal.style.manage_styles.buttonCreate}" btnTitle="#i18n{portal.style.manage_styles.buttonCreate}" btnIcon="plus" position="end" hideTitle=['xs'] />
-        </@pageHeader>        
-    <#-- Exemple avec personnalisation supplémentaire -->
-    <#-- Définition des colonnes de la table -->
-	<#assign styleColumns = [
-	  {"name": "#i18n{portal.style.manage_styles.labelId}", "property": "id", "sortable": false},
-	  {"name": "#i18n{portal.style.manage_styles.labelName}", "property": "description", "sortable": true},
-	  {"name": "#i18n{portal.style.manage_styles.labelComponentType}", "property": "portalComponentName", "sortable": false},
-	  {"name": "#i18n{portal.style.manage_styles.labelPortletType}", "property": "portletTypeName", "sortable": false}
-	]>
-	<#-- Définition des actions -->
-	  <#assign styleActions = {
-	    "edit": {
-	      "url": "jsp/admin/style/ManageStyles.jsp?view=getModifyStyle&id={id}",
-	      "icon": "edit",
-	      "title": "#i18n{portal.util.labelModify}",
-	      "btnClass": "btn-primary btn-sm",
-	      "offcanvas": {
-	        "targetElement": "#modify-style-form",
-	        "position": "end"
-	      }
-	    },
-	    "delete": {
-	      "url": "jsp/admin/style/ManageStyles.jsp?view=getConfirmRemoveStyle&id={id}",
-	      "icon": "trash",
-	      "title": "#i18n{portal.util.labelDelete}",
-	      "btnClass": "btn-danger btn-sm",
-	      "confirm": "false"
-	    }
-	  }>
-	
-	<#-- Page complète avec navigation -->
-	<#-- Table avec pagination AJAX -->
-	  <@paginationAjax 
-	    paginator=paginator 
-	    columns=styleColumns 
-	    ajaxUrl="jsp/admin/style/ManageStyles.jsp?action=getStyleItems"
-	    tableId="stylesTable"
-	    combo=1
-	    showcount=1
-	    actions=styleActions
-	  />
- </@pageColumn>  
+        </@pageHeader>
+        <#if style_list?size gt 1> 
+            <@manageFeature>
+            <#list style_list as style>
+                <@manageFeatureItem>
+                    <@manageFeatureItemColumn auto=true>
+                        <@p>#i18n{portal.style.manage_styles.labelId}: <strong>${style.id}</strong></@p>
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn>
+                        <@p>#i18n{portal.style.manage_styles.labelName}: <strong>${style.description}</strong></@p>
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn>
+						<@p>#i18n{portal.style.manage_styles.labelComponentType}: <strong>${style.portalComponentName}</strong></@p>
+					</@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn>
+                        <#if style.portletTypeName !=''><@p>#i18n{portal.style.manage_styles.labelPortletType}: <strong>#i18n{${style.portletTypeName}}</strong></@p></#if>
+                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn align='end'>
+                        <@offcanvas targetUrl="jsp/admin/style/ManageStyles.jsp?view=getModifyStyle&id=${style.id}" targetElement="#modify-style-form" redirectForm=false id="style-modify-${style.id}" title="#i18n{portal.util.labelModify} ${style.description}" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit" position="end" />
+                        <@aButton href='jsp/admin/style/ManageStyles.jsp?view=getConfirmRemoveStyle&id=${style.id}' buttonIcon='trash' title='#i18n{portal.util.labelDelete}' color='danger' />
+                    </@manageFeatureItemColumn>
+                </@manageFeatureItem>
+            </#list>
+            </@manageFeature>
+            <#if style_list?size gt 9><@paginationAdmin paginator=paginator combo=1 showcount=1 /></#if>
+        <#else>
+            <@box class='mt-3'>
+                <@empty />
+            </@box>
+        </#if>
+    </@pageColumn>
 </@pageContainer>
