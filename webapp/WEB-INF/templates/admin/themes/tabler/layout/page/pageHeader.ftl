@@ -14,7 +14,7 @@ Parameters:
 	<div class="col<#if class !=''> ${class}</#if>">
 		<div class="page-pretitle"></div>
 		<h2 class="page-title mt-2">${title}</h2>
-		<#if description !=''><p class="">${description}</p></#if>
+		<#if description !=''><p>${description}</p></#if>
 	</div>
 	<!-- Page title actions -->
 	<div id="page-header-tools" class="col d-flex justify-content-end align-items-center d-print-none<#if toolsClass !=''> ${toolsClass}</#if>">
