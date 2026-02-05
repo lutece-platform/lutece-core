@@ -14,7 +14,7 @@ Parameters:
 <#macro callOut color='' titleLevel='h3' title='' callOutIcon='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="alert alert-important alert-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#if title!=''><${titleLevel}><@icon style=callOutIcon /> ${title}</${titleLevel}></#if>
+	<#if title!=''><${titleLevel} class='mb-0'><@icon style=callOutIcon /> ${title}</${titleLevel}></#if>
 	<#nested>
 </div>
 </#macro>
