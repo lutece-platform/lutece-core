@@ -1,10 +1,10 @@
 <#assign containerClass><#if commonsThemeCode = 'tabler'>container</#if></#assign>
-<@pageContainer id="adminTechnical" height="full" class="${containerClass!''}">
+<@pageContainer id='adminTechnical' class=containerClass!'' >
     <@pageColumn id="adminTechnicalMenu" class="bg-light border-end p-4" width="28rem" height="full" responsiveMenuSize="xl" responsiveMenuPlacement="start" title="#i18n{portal.admindashboard.view_dashboards.title}">
         <@tabList id="adminTechnicalList" style='pills' vertical=true>
-		<h3 class="fw-bolder mb-2 mt-2">#i18n{portal.templates.manage_autoincludes.menuTitle}</h3>
+		<@li><@h level=3 class='fw-bolder my-2'>#i18n{portal.templates.manage_autoincludes.menuTitle}</@h></@li>
 		<@tabLink href='#autoincludes' title='#i18n{portal.templates.manage_autoincludes.tabTitle}' tabIcon='code' />
-            <h3 class="fw-bolder mb-2 mt-4">#i18n{portal.users.adminDashboard.menuTitle}</h3>
+            <@li><@h level=3 class='fw-bolder my-2'>#i18n{portal.users.adminDashboard.menuTitle}</@h></@li>
             <@tabLink href='#defaultUserParameterValues' title='#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}' tabIcon='user' />
             <@tabLink href='#modifyEmailPattern' title='#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}' tabIcon='at' />
             <@tabLink href='#advancedSecurityParameters' title='#i18n{portal.users.manage_advanced_parameters.securityParameters}' tabIcon='shield-alt' />
@@ -12,15 +12,15 @@
             <@tabLink href='#attributes_management' title='#i18n{portal.users.manage_attributes.pageTitle}' tabIcon='id-card' />
             <@tabLink href='#anonymizeUsers' title='#i18n{portal.users.anonymize_user.titleAnonymizeUser}' tabIcon='user-secret' />
             <@tabLink href='#right_levels' title='#i18n{portal.users.adminFeature.level_right_management.name}' tabIcon='users' />
-			<h3 class="fw-bolder mb-2 mt-4">#i18n{portal.search.manage_advanced_parameters.menuTitle}</h3>
+			<@li><@h level=3 class='fw-bolder my-2'>#i18n{portal.search.manage_advanced_parameters.menuTitle}</@h></@li>
             <@tabLink href='#search' title='#i18n{portal.search.manage_advanced_parameters.pageTitle}' tabIcon='search' />
-			<h3 class="fw-bolder mb-2 mt-4">#i18n{portal.admindashboard.editorChoice.menuTitle}</h3>
+			<@li><@h level=3 class='fw-bolder my-2'>#i18n{portal.admindashboard.editorChoice.menuTitle}</@h></@li>
             <@tabLink href='#editors' title='#i18n{portal.admindashboard.editorChoice.title}' tabIcon='edit' />
-			<h3 class="fw-bolder mb-2 mt-4">#i18n{portal.admin.adminFeature.features_management.menuTitle}</h3>
+			<@li><@h level=3 class='fw-bolder my-2'>#i18n{portal.admin.adminFeature.features_management.menuTitle}</@h></@li>
             <@tabLink href='#features_management' title='#i18n{portal.features.manage_groups.title}' tabIcon='folder' />
             <@tabLink href='#assign_features_groups' title='#i18n{portal.features.dispatch_features.title}' tabIcon='list' />
             <@tabLink href='#external_features' title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' tabIcon='users' />
-			<h3 class="fw-bolder mb-2 mt-4">#i18n{portal.xsl.adminFeature.xsl_export_management.name}</h3>
+			<@li><@h level=3 class='fw-bolder my-2'>#i18n{portal.xsl.adminFeature.xsl_export_management.name}</@h></@li>
             <@tabLink href='#xslexportManagement' title='#i18n{portal.xsl.manage_xsl_export.page_title}' tabIcon='file-code' />
         </@tabList>
     </@pageColumn>
@@ -53,10 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     
         if (!isMatchFound) {
-            const tablink = `<h3 class="fw-bolder mb-2 mt-4">${contentNav}</h3>
-            <a href="#${contentId}" class="nav-link" id="${contentId}-tab" title="${contentTitle}" role="tab" aria-expanded="false" aria-controls="search" data-bs-toggle="tab" aria-selected="false" tabindex="-1">	
+            const tablink = `<li><h3 class="fw-bolder my-2">${contentNav}</h3></li>
+            <li class="nav-item" role="presentation"><a href="#${contentId}" class="nav-link" id="${contentId}-tab" title="${contentTitle}" role="tab" aria-expanded="false" aria-controls="search" data-bs-toggle="tab" aria-selected="false" tabindex="-1">	
                 <i class="ti ti-${contentIcon} me-1"></i> ${contentTitle}
-            </a>`
+            </a></li>`
             tabListParent.insertAdjacentHTML('beforeend', tablink);
         }
     });
