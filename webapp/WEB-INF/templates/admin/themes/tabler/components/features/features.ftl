@@ -8,9 +8,9 @@
     </div>
 </div>
 </#macro>
-<#macro manageFeatureItem class='' align='start' valign='center' bodyClass='' id='' params='' deprecated...>
+<#macro manageFeatureItem class='' align='start' valign='center' liClass='' bodyClass='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<li>
+<li class="<#if liClass !=''> ${liClass}</#if>">
     <div class="card<#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
         <div class="card-body<#if bodyClass !=''> ${bodyClass}</#if>">
             <div class="row g-3 justify-content-${align} align-items-${valign}">
