@@ -1,69 +1,53 @@
 <@pageContainer>
 	<@pageColumn class='overflow-hidden'>
-		<@row>
-			<@columns>
+		<@row class='row-cards'>
 			<#list themes_list?filter( theme -> theme_default.codeTheme == theme.codeTheme) as theme>
-			<div class="card">
-				<div class="row row-0">
-                    <div class="col-3 order-md-last">
-					  <!-- <span class="status status-green my-2"><span class="status-dot status-dot-animated"></span> #i18n{portal.theme.manage_themes.themeRunning}</span> -->
-                      <!-- Photo -->
-                      <img src="themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png" class="w-100 h-100 object-cover card-img-end" alt="${theme.themeDescription!}">
-                    </div>
-                    <div class="col">
-                      <div class="card-body">
-                        <h3 class="card-title d-flex">
-							#i18n{portal.theme.manage_themes.globalTheme} "${theme.themeDescription!}"
-							<span class="ms-auto status status-green my-2"><span class="status-dot status-dot-animated"></span> #i18n{portal.theme.manage_themes.themeSelectedRunning}</span>
-						</h3>
-						<p><strong>#i18n{portal.theme.manage_themes.author}</strong> : <a class="link-info link-offset-2" href="${theme.themeAuthorUrl}" target="_author_url">${theme.themeAuthor}</a></p>
-						<p><strong>#i18n{portal.theme.manage_themes.version}</strong> : ${theme.themeVersion}</p>
-						<p><strong>#i18n{portal.theme.manage_themes.licence}</strong> : ${theme.themeLicence}</p>
-                      </div>
-                    </div>
-				</div>
-			</div>
-			</#list>
-		</@columns>
-		</@row>
-		<#if themes_list?filter( theme -> theme_default.codeTheme != theme.codeTheme)?size gt 0>
-		<@row class='row-cols-1 row-cols-md-4 g-3 mt-1'>
-		<#list themes_list?filter( theme -> theme_default.codeTheme != theme.codeTheme) as theme>
-			<@columns>
-				<@box> 
-					<@boxHeader title=theme.themeDescription />
-					<@boxBody class='p-0' params='style="position:relative;background-position:center;background-size:contain;background-repeat:no-repeat;width:100%;height:210px;top:0;left:0; background-image: url(\'themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png\');"' />
-					<@boxFooter class='bg-light'>
-						<p class="text-center my-3">
-							<a class="btn btn-outline-primary" href="jsp/admin/theme/ManageThemes.jsp?action=modifyGlobalTheme&theme=${theme.codeTheme}&theme_version=${theme.themeVersion}" title="#i18n{portal.theme.manage_themes.buttonChangeChoose}">
-								#i18n{portal.theme.manage_themes.themeSelection} <i class="ti ti-click ms-2"></i> 
-							</a>
-						</p>
-						<@row>
-							<@columns>
-								<p class="text-center mb-0"><strong>#i18n{portal.theme.manage_themes.author}</strong> </p>
-								<p class="text-center mb-0"><a class="link-info link-offset-2" href="${theme.themeAuthorUrl}" target="_author_url">${theme.themeAuthor}</a></p>
-							</@columns>
-							<@columns>
-								<p class="text-center mb-0"><strong>#i18n{portal.theme.manage_themes.version}</strong></p> 
-								<p class="text-center mb-0">${theme.themeVersion}</p>
-							</@columns>
-							<@columns>
-								<p class="text-center mb-0"><strong>#i18n{portal.theme.manage_themes.licence}</strong> </p>
-								<p class="text-center mb-0">${theme.themeLicence}</p>
-							</@columns>
-						</@row>
-					</@boxFooter>
+			<@columns sm=6 lg=3>
+				<@box class='card-md'>
+					<@div class='ribbon ribbon-top ribbon-bookmark bg-green'>
+                    	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-star"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873l-6.158 -3.245" /></svg>
+                  	</@div>
+					<@boxBody class='p-2 text-center'>
+						<@p class='display-5 fw-bold my-3'>${theme.codeTheme!?capitalize}</@p>
+						<@p class='my-2'>${theme.themeDescription!}</@p>
+						<@ul class='list-unstyled lh-lg'>
+							<@li><strong>#i18n{portal.theme.manage_themes.author}</strong> : <@link class='link-info link-offset-2' href=theme.themeAuthorUrl! target='_author_url' label='${theme.themeAuthor}' /></@li>
+							<@li><strong>#i18n{portal.theme.manage_themes.version}</strong> : ${theme.themeVersion}</@li>
+							<@li><strong>#i18n{portal.theme.manage_themes.licence}</strong> : ${theme.themeLicence}</@li>
+						</@ul>
+						<@p class='text-center mt-4'>
+						 	<@span class="ms-auto status status-green my-2"><@span class="status-dot status-dot-animated"></@span> #i18n{portal.theme.manage_themes.themeSelectedRunning}</@span>
+						</@p>
+					</@boxBody>
+					<@div class='p-3 bg-light'>
+						<@div class='img-responsive img-responsive-21x9 card-img-bottom' params='style="background-image: url(./themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png);background-size:contain"'></@div>
+					</@div>
 				</@box>
 			</@columns>
-		</#list>
+			</#list>
+			<#if themes_list?filter( theme -> theme_default.codeTheme != theme.codeTheme)?size gt 0>
+			<#list themes_list?filter( theme -> theme_default.codeTheme != theme.codeTheme) as theme>
+			<@columns sm=6 lg=3>
+				<@box class='card-md'>
+					<@boxBody class='p-2 text-center'>
+						<@p class='display-5 fw-bold my-3'>${theme.codeTheme!?capitalize}</@p>
+						<@p class='my-2'>${theme.themeDescription!}</@p>
+                    	<@ul class='list-unstyled lh-lg'>
+							<@li><strong>#i18n{portal.theme.manage_themes.author}</strong> : <@link class='link-info link-offset-2' href=theme.themeAuthorUrl! target='_author_url' label='${theme.themeAuthor}' /></@li>
+							<@li><strong>#i18n{portal.theme.manage_themes.version}</strong> : ${theme.themeVersion}</@li>
+							<@li><strong>#i18n{portal.theme.manage_themes.licence}</strong> : ${theme.themeLicence}</@li>
+						</@ul>
+						<@p class='text-center mt-4'>
+                     	 	<@aButton href='jsp/admin/theme/ManageThemes.jsp?action=modifyGlobalTheme&theme=${theme.codeTheme}&theme_version=${theme.themeVersion}' title='#i18n{portal.theme.manage_themes.buttonChangeChoose}' buttonIcon='click' iconPosition='right' />
+                    	</@p>
+					</@boxBody>
+					<@div class='p-3 bg-light'>
+						<@div class='img-responsive img-responsive-21x9 card-img-bottom' params='style="background-image: url(./themes/skin/${theme.codeTheme}/${theme.pathImages}thumbnail.png);background-size:contain"'></@div>
+					</@div>
+				</@box>
+			</@columns>
+			</#list>
+			</#if>
 		</@row>
-		<#else>
-			<@row>			
-				<@columns>	
-					<@empty title='Aucun autre thème disponible' subtitle='Pour en créer un consulter la documentation' iconName='palette-off' iconClass='' />
-				</@columns>
-			</@row>				
-		</#if>
 	</@pageColumn>
 </@pageContainer>
