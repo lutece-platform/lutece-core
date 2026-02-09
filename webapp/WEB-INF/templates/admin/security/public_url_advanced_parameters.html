@@ -1,46 +1,40 @@
 <#assign boxtitle><@icon style="cog" /> #i18n{portal.security.public_url_advanced_parameters.tableLabel}</#assign>
-<@row>
-    <@columns>
-        <@box color='success'>
-            <@boxHeader title=boxtitle>
-                <@item_navigation item_navigator=item_navigator />
-            </@boxHeader>
-            <@boxBody>
-              <#if public_list_url?exists>
-                <#list public_list_url as public_url>
-                  <@tform action='jsp/admin/security/DoModifyPublicUrl.jsp' >
-                    <@formGroup formStyle='inline' labelFor='public_url_code' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlCode")}' mandatory=true rows=2>
-                        <@input type='hidden' name='public_url_code' value='${public_url.code}' />
-                        <@input type='text' name='public_url_code' id='public_url_code' value='${public_url.name!}' disabled/>
-                    </@formGroup>  
-                    <@formGroup formStyle='inline' labelFor='public_url_value' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlValue")}' mandatory=true rows=2>
-                        <@input type='text' name='public_url_value' id='public_url_value' value='${public_url.name!}' />
-                    </@formGroup>  
-                    <@row>
-                      <@columns md=4 offsetMd=4>
-                          <@button type='submit' name='submit' buttonIcon='check' title='#i18n{portal.security.public_url_advanced_parameters.buttonValidate}' /> 
-                          <@aButton color='danger' title='Supprimer' href='jsp/admin/security/ConfirmRemovePublicUrl.jsp?public_url_code=${public_url.code}' buttonIcon='trash' />
-                      </@columns>    
-                    </@row> 
-                  </@tform>
-                </#list>
-              </#if>
-              <@tform type='inline' action='jsp/admin/security/DoCreatePublicUrl.jsp' >
-                <@formGroup formStyle='inline' labelFor='public_url_code' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlCode")}' mandatory=true rows=2>
-                  <@input type='text' name='public_url_code' id='public_url_code' />
-                </@formGroup>  
-                <@formGroup formStyle='inline' labelFor='new_public_url_value' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlValue")}' mandatory=true rows=2>
-                    <@input type='text' name='new_public_url_value' id='new_public_url_value'  />
-                </@formGroup>
-                <@row>
-                  <@columns md=4 offsetMd=4>
-                      <@button type='submit' buttonIcon='plus' title='#i18n{portal.security.public_url_advanced_parameters.buttonAddUrl}' /> 
-                      <@p>#i18n{portal.security.public_url_advanced_parameters.publicListUrlLabelComment}</@p>
-                      <@button color="btn-default" params=' onclick="javascript:window.history.back();" ' buttonIcon='times' title='#i18n{portal.security.public_url_advanced_parameters.buttonCancel}' /> 
-                  </@columns>    
-                </@row> 
-              </@tform>
-          </@boxBody>
-        </@box>
-    </@columns>
-</@row>
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title='${boxTitle}'><@item_navigation item_navigator=item_navigator /></@pageHeader>
+     <#if public_list_url?exists>
+        <#list public_list_url as public_url>
+          <@tform action='jsp/admin/security/DoModifyPublicUrl.jsp' >
+            <@formGroup formStyle='inline' labelFor='public_url_code' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlCode")}' mandatory=true rows=2>
+                <@input type='hidden' name='public_url_code' value='${public_url.code}' />
+                <@input type='text' name='public_url_code' id='public_url_code' value='${public_url.name!}' disabled/>
+            </@formGroup>  
+            <@formGroup formStyle='inline' labelFor='public_url_value' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlValue")}' mandatory=true rows=2>
+                <@input type='text' name='public_url_value' id='public_url_value' value='${public_url.name!}' />
+            </@formGroup>  
+            <@row>
+              <@columns md=4 offsetMd=4>
+                  <@button type='submit' name='submit' buttonIcon='check' title='#i18n{portal.security.public_url_advanced_parameters.buttonValidate}' /> 
+                  <@aButton color='danger' title='Supprimer' href='jsp/admin/security/ConfirmRemovePublicUrl.jsp?public_url_code=${public_url.code}' buttonIcon='trash' />
+              </@columns>    
+            </@row> 
+          </@tform>
+        </#list>
+      </#if>
+      <@tform type='inline' action='jsp/admin/security/DoCreatePublicUrl.jsp' >
+        <@formGroup formStyle='inline' labelFor='public_url_code' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlCode")}' mandatory=true rows=2>
+          <@input type='text' name='public_url_code' id='public_url_code' />
+        </@formGroup>  
+        <@formGroup formStyle='inline' labelFor='new_public_url_value' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlValue")}' mandatory=true rows=2>
+            <@input type='text' name='new_public_url_value' id='new_public_url_value'  />
+        </@formGroup>
+        <@row>
+          <@columns md=4 offsetMd=4>
+              <@button type='submit' buttonIcon='plus' title='#i18n{portal.security.public_url_advanced_parameters.buttonAddUrl}' /> 
+              <@p>#i18n{portal.security.public_url_advanced_parameters.publicListUrlLabelComment}</@p>
+              <@button color="btn-default" params=' onclick="javascript:window.history.back();" ' buttonIcon='times' title='#i18n{portal.security.public_url_advanced_parameters.buttonCancel}' /> 
+          </@columns>    
+        </@row> 
+      </@tform>
+  </@pageColumn>
+</@pageContainer>

@@ -134,11 +134,11 @@
 	<@tform method='post' action='jsp/admin/user/ModifyAccountLifeTimeEmails.jsp' boxed=true>
 	<@formGroup labelKey='#i18n{portal.users.accountLifeTime.labelSelectEmail}' labelFor='email_type'>
 		<@select name='email_type' id='email_type'>
-			<option value="first" selected="selected">#i18n{portal.users.accountLifeTime.labelFirstEmail}</option>
-			<option value="other">#i18n{portal.users.accountLifeTime.labelOtherEmail}</option>
-			<option value="expired">#i18n{portal.users.accountLifeTime.labelAccountDeactivatedEmail}</option>
-			<option value="reactivated">#i18n{portal.users.accountLifeTime.labelAccountUpdatedEmail}</option>
-			<option value="password_expired">#i18n{portal.users.accountLifeTime.labelPasswordExpired}</option>
+			<@option value='first' selected=true label='#i18n{portal.users.accountLifeTime.labelFirstEmail}' />
+			<@option value='other' label='#i18n{portal.users.accountLifeTime.labelOtherEmail}' />
+			<@option value='expired' label='#i18n{portal.users.accountLifeTime.labelAccountDeactivatedEmail}' />
+			<@option value='reactivated' label='#i18n{portal.users.accountLifeTime.labelAccountUpdatedEmail}' />
+			<@option value='password_expired' label='#i18n{portal.users.accountLifeTime.labelPasswordExpired}' />
 		</@select>
 	</@formGroup>
 	<@formGroup>

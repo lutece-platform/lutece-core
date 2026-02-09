@@ -1,31 +1,27 @@
-<@row>
-	<@columns>
-		<@box color='success'>
-			<@boxHeader title='#i18n{portal.features.modify_group.title}' />
-			<@boxBody>
-				<@tform method='post' id="modify-group-form" action='jsp/admin/features/DoModifyGroup.jsp'>
-				<@input type='hidden' name='token' value='${token}' />
-				<@formGroup labelFor='group_id' labelKey='#i18n{portal.features.modify_group.labelId}' mandatory=true>
-					<@input type='text' id='group_id' name='group_id' value='${feature_group.id?html}' />
-				</@formGroup>	
-				<@formGroup labelFor='group_name' labelKey='#i18n{portal.features.modify_group.labelName}' mandatory=true>
-					<@input type='text' id='group_name' name='group_name' value='${feature_group.labelKey?html}' />
-				</@formGroup>
-				<@formGroup labelFor='group_description' labelKey='#i18n{portal.features.modify_group.labelDescription}' mandatory=true>
-					<@input type='text' id='group_description' name='group_description' value='${feature_group.descriptionKey?html}' />
-				</@formGroup>
-				<@formGroup labelFor='group_order' labelKey='#i18n{portal.features.modify_group.labelOrder}'>
-					<@select name='group_order' default_value='feature_group.order' items=order_list sort=true />
-				</@formGroup>
-				<@formGroup labelFor='group_icon' labelKey='#i18n{portal.features.modify_group.labelIcon}'>
-					<@input type='text' id='group_icon' name='group_icon' value='${feature_group.icon?html}' />
-				</@formGroup>
-				<@formGroup>
-					<@button type='submit' buttonIcon='check' title='#i18n{portal.features.modify_group.buttonModify}' color='primary' />
-					<@aButton href='jsp/admin/AdminTechnicalMenu.jsp?#feature_groups' buttonIcon='close' title='#i18n{portal.util.labelCancel}' color='secondary' />
-				</@formGroup>
-				</@tform>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title='#i18n{portal.features.modify_group.title}' />
+		<@tform method='post' id="modify-group-form" action='jsp/admin/features/DoModifyGroup.jsp'>
+		<@input type='hidden' name='token' value='${token}' />
+		<@formGroup labelFor='group_id' labelKey='#i18n{portal.features.modify_group.labelId}' mandatory=true>
+			<@input type='text' id='group_id' name='group_id' value='${feature_group.id?html}' />
+		</@formGroup>	
+		<@formGroup labelFor='group_name' labelKey='#i18n{portal.features.modify_group.labelName}' mandatory=true>
+			<@input type='text' id='group_name' name='group_name' value='${feature_group.labelKey?html}' />
+		</@formGroup>
+		<@formGroup labelFor='group_description' labelKey='#i18n{portal.features.modify_group.labelDescription}' mandatory=true>
+			<@input type='text' id='group_description' name='group_description' value='${feature_group.descriptionKey?html}' />
+		</@formGroup>
+		<@formGroup labelFor='group_order' labelKey='#i18n{portal.features.modify_group.labelOrder}'>
+			<@select name='group_order' default_value='feature_group.order' items=order_list sort=true />
+		</@formGroup>
+		<@formGroup labelFor='group_icon' labelKey='#i18n{portal.features.modify_group.labelIcon}'>
+			<@input type='text' id='group_icon' name='group_icon' value='${feature_group.icon?html}' />
+		</@formGroup>
+		<@formGroup>
+			<@button type='submit' buttonIcon='check' title='#i18n{portal.features.modify_group.buttonModify}' color='primary' />
+			<@aButton href='jsp/admin/AdminTechnicalMenu.jsp?#feature_groups' buttonIcon='close' title='#i18n{portal.util.labelCancel}' color='secondary' />
+		</@formGroup>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>

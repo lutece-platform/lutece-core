@@ -1,20 +1,16 @@
-<@row>
-	<@columns>
-		<@box color='success'>
-			<#assign title><@span class='mr-1'>#i18n{portal.features.modify_level.boxTitle}</@span> <@tag>${level.id}</@tag></#assign>
-			<@boxHeader title=title />
-			<@boxBody>
-			<@tform method='post' action='jsp/admin/features/DoModifyLevel.jsp' id="right-level-form" name='modify_level'>
-			<@input type='hidden' name='level_id' value='${level.id}' />	
-			<@input type='hidden' name='token' value='${token}' />
-			<@formGroup labelKey='${level.name?html}' labelFor='level_name' mandatory=true>
-				<@input type='text' name='level_name' id='level_name' value='${level.name?html}' maxlength=80 />
-			</@formGroup>
-			<@formGroup>
-				<@button type='submit' buttonIcon='check' title='#i18n{portal.features.modify_level.buttonLabelModify}' color='primary' />
-			</@formGroup>
-			</@tform>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+<#assign title><@span class='mr-1'>#i18n{portal.features.modify_level.boxTitle}</@span> <@tag>${level.id}</@tag></#assign>
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title='${title}'>
+		<@tform method='post' action='jsp/admin/features/DoModifyLevel.jsp' id="right-level-form" name='modify_level'>
+		<@input type='hidden' name='level_id' value='${level.id}' />	
+		<@input type='hidden' name='token' value='${token}' />
+		<@formGroup labelKey='${level.name?html}' labelFor='level_name' mandatory=true>
+			<@input type='text' name='level_name' id='level_name' value='${level.name?html}' maxlength=80 />
+		</@formGroup>
+		<@formGroup>
+			<@button type='submit' buttonIcon='check' title='#i18n{portal.features.modify_level.buttonLabelModify}' color='primary' />
+		</@formGroup>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>

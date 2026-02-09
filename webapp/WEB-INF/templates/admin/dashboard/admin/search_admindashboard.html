@@ -7,7 +7,7 @@
                 <@formGroup labelFor='type_filter' labelKey='${i18n("portal.search.advanced_parameters.typeFilter.label")}' rows=2>
                     <@select name="type_filter">
                         <#list [ "none", "option", "radio", "checkbox"] as display_option>
-                            <option value="${display_option}" <#if type_filter=display_option>selected="selected"</#if>>#i18n{portal.search.advanced_parameters.typeFilter.${display_option}}</option>
+                            <@option value=display_option selected=(display_option==type_filter) label='#i18n{portal.search.advanced_parameters.typeFilter.${display_option}}' />
                         </#list>
                     </@select>
                 </@formGroup> 
@@ -17,7 +17,7 @@
                 <@formGroup labelFor='date_filter' labelKey='${i18n("portal.search.advanced_parameters.dateFilter.label")}' rows=2>
                     <@select name="date_filter">
                         <#list [ "0", "1"] as b_active>
-                            <option value="${b_active}" <#if date_filter=b_active>selected="selected"</#if>>#i18n{portal.search.advanced_parameters.activeLabel.${b_active}}</option>
+                            <@option value=b_active selected=(b_active==date_filter) label='#i18n{portal.search.advanced_parameters.activeLabel.${b_active}}' />
                         </#list>
                     </@select>
                 </@formGroup> 
@@ -27,7 +27,7 @@
                 <@formGroup labelFor='tag_filter' labelKey='${i18n("portal.search.advanced_parameters.tagFilter.label")}' rows=2>
                     <@select name="tag_filter">
                         <#list [ "0", "1"] as b_active>
-                            <option value="${b_active}" <#if tag_filter=b_active>selected="selected"</#if>>#i18n{portal.search.advanced_parameters.activeLabel.${b_active}}</option>
+                            <@option value=b_active selected=(b_active==tag_filter) label='#i18n{portal.search.advanced_parameters.activeLabel.${b_active}}' />
                         </#list>
                     </@select>
                 </@formGroup> 
@@ -37,7 +37,7 @@
                 <@formGroup labelFor='default_operator' labelKey='${i18n("portal.search.advanced_parameters.defaultOperator.label")}' rows=2>
                     <@select name="default_operator">
                         <#list [ "OR", "AND"] as operator>
-                            <option value="${operator}" <#if default_operator=operator>selected="selected"</#if>>#i18n{portal.search.advanced_parameters.defaultOperator.${operator}}</option>
+                            <@option value=operator selected=(operator==default_operator) label='#i18n{portal.search.advanced_parameters.defaultOperator.${operator}}' />
                         </#list>
                     </@select>
                 </@formGroup> 
@@ -48,7 +48,7 @@
             <@input type='textarea' name='help_message' id='help_message' value=help_message!'' />
         </@formGroup>   
         <@formGroup hideLabel=['all']>
-					<@button name='submit' type='submit' title='${i18n("portal.util.labelModify")}' buttonIcon='check' color='primary'/>
+            <@button name='submit' type='submit' title='${i18n("portal.util.labelModify")}' buttonIcon='check' color='primary'/>
         </@formGroup>   
     </@tform>
 </@tabPanel>

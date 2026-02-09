@@ -1,44 +1,40 @@
-<@row>
-        <@columns>
-                <@box color='danger'>
-                <@boxHeader title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' />
-                <@boxBody>
-                <@tform method='post' id="modify_external_form" name='modify_external_feature' action='jsp/admin/features/DoModifyExternalFeature.jsp'>
-                        <@input type='hidden' name='token' value='${token}' />
-                        <@input type='hidden' name='external_feature_id' value=external_feature.id />
-                        <@input type='hidden' name='external_feature_order' value=external_feature.order />
-                        <@messages errors=errors />
-                        <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.name_key}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.name_key.help}'>
-                        <@input type='text' name='name_key' value=external_feature.nameKey />
-                        </@formGroup>
-                        <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.url}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.url.help}'>
-                        <@input type='text' name='url' value=external_feature.url />
-                        </@formGroup>
-                        <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.description_key}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.description_key.help}'>
-                        <@input type='text' name='description_key' value=external_feature.descriptionKey />
-                        </@formGroup>
-                        <#if right_levels_labels_list?has_content>
-                        <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.level}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.level.help}'>
-                        <@select name='level_id' items=right_levels_labels_list default_value=external_feature.level?string />
-                        </@formGroup>
-                        </#if>
-                        <#if features_groups_labels_list?has_content>
-                        <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.feature_group}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.feature_group.help}'>
-                        <@select name='feature_group_id' items=right_levels_labels_list default_value=external_feature.featureGroup items=features_groups_labels_list />
-                        </@formGroup>
-                        </#if>
-                        <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.icon_url}' helpKey='#i18n{portal.features.external_features.create_external_features.icon_url.help}'>
-                        <@input type='text' name='icon_url' value=external_feature.iconUrl />
-                        </@formGroup>
-                        <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.documentation_url}' helpKey='#i18n{portal.features.external_features.create_external_features.documentation_url.help}'>
-                        <@input type='text' name='documentation_url' value=external_feature.documentationUrl />
-                        </@formGroup>
-                        <@formGroup>
-                        <@button type='submit' title='OK' name='modifyExternalFeature' buttonIcon='check' color='primary'  />
-                        <@aButton href='jsp/admin/AdminTechnicalMenu.jsp?#features_management' title='Cancel' name='cancelModifyExternalFeature' buttonIcon='close' color='secondary' />
-                        </@formGroup>
-                </@tform>
-                </@boxBody>
-                </@box>
-    </@columns>
-</@row>
+<@pageContainer>
+   <@pageColumn>
+      <@pageHeader title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' />
+      <@tform method='post' id="modify_external_form" name='modify_external_feature' action='jsp/admin/features/DoModifyExternalFeature.jsp'>
+      <@input type='hidden' name='token' value='${token}' />
+      <@input type='hidden' name='external_feature_id' value=external_feature.id />
+      <@input type='hidden' name='external_feature_order' value=external_feature.order />
+      <@messages errors=errors />
+      <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.name_key}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.name_key.help}'>
+         <@input type='text' name='name_key' value=external_feature.nameKey />
+      </@formGroup>
+      <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.url}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.url.help}'>
+         <@input type='text' name='url' value=external_feature.url />
+      </@formGroup>
+      <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.description_key}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.description_key.help}'>
+         <@input type='text' name='description_key' value=external_feature.descriptionKey />
+       </@formGroup>
+       <#if right_levels_labels_list?has_content>
+          <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.level}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.level.help}'>
+             <@select name='level_id' items=right_levels_labels_list default_value=external_feature.level?string />
+          </@formGroup>
+        </#if>
+        <#if features_groups_labels_list?has_content>
+           <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.feature_group}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.feature_group.help}'>
+              <@select name='feature_group_id' items=right_levels_labels_list default_value=external_feature.featureGroup items=features_groups_labels_list />
+            </@formGroup>
+        </#if>
+        <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.icon_url}' helpKey='#i18n{portal.features.external_features.create_external_features.icon_url.help}'>
+            <@input type='text' name='icon_url' value=external_feature.iconUrl />
+        </@formGroup>
+        <@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.documentation_url}' helpKey='#i18n{portal.features.external_features.create_external_features.documentation_url.help}'>
+            <@input type='text' name='documentation_url' value=external_feature.documentationUrl />
+        </@formGroup>
+        <@formGroup>
+            <@button type='submit' title='OK' name='modifyExternalFeature' buttonIcon='check' color='primary'  />
+            <@aButton href='jsp/admin/AdminTechnicalMenu.jsp?#features_management' title='Cancel' name='cancelModifyExternalFeature' buttonIcon='close' color='secondary' />
+         </@formGroup>
+      </@tform>
+    </@pageColumn>  
+</@pageContainer>        

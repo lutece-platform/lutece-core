@@ -2,13 +2,13 @@
 <#function displayFieldset user_levels attributes_list>
 <#assign var = false>
 <#list attributes_list as attribute>
-	<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
-		<#assign var = true>
-		<#break>
-	</#if>
+<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
+<#assign var = true>
+<#break>
+</#if>
 </#list>
 <#if user_levels?has_content || var = true>
-	<#return true>
+<#return true>
 </#if>
 <#return false>
 </#function>

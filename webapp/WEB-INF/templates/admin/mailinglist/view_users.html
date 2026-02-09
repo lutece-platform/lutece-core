@@ -4,7 +4,7 @@
 			<@button type='submit' buttonIcon='times' title='#i18n{portal.util.labelBack}' class='card-header-icon' size='' params='onclick="javascript:window.history.back();"' />
 		</@pageHeader>
 		<#if recipients_list?size gt 0>
-		<@table id="mailinglist-users-table">
+		<@table id='mailinglist-users-table'>
 			<@tr>
 				<@th>#i18n{portal.mailinglist.view_users.columnTitleName}</@th>
 				<@th>#i18n{portal.mailinglist.view_users.columnTitleEmail}</@th>
@@ -18,7 +18,7 @@
 			</#list>
 		</@table>
 		<#else>
-			<@empty id='mailinglist-users-table'  />
+			<@empty />
 		</#if>
 	</@pageColumn>
 </@pageContainer>

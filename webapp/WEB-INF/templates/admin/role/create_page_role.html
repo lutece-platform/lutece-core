@@ -1,25 +1,21 @@
-<@row>
-  <@columns>
-		<@box color='success'>
-			<@boxHeader title='#i18n{portal.role.create_role.boxTitle}' skipHeader=true />
-			<@boxBody>
-				<@tform action='jsp/admin/role/DoCreatePageRole.jsp' id='create_page_role_form' name='create_page_role'>
-					<@input type='hidden' name='token' value='${token}' />
-					<@formGroup labelKey='#i18n{portal.role.create_role.labelName}' mandatory=true rows=2>
-						<@input type='text' name='role' maxlength=50 />
-					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.role.create_role.labelDescription}' mandatory=true rows=2>
-						<@input type='text' name='role_description' maxlength=50 />
-					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' mandatory=true rows=2>
-						<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list sort=true />
-					</@formGroup>
-					<@formGroup rows=2>
-						<@button type='submit' title='#i18n{portal.role.modify_role.buttonLabelValidate}' hideTitle=['xs'] buttonIcon='check' size='' />
-						<@aButton href='jsp/admin/role/ManagePageRole.jsp' title='#i18n{portal.admin.message.buttonCancel}' hideTitle=['xs'] buttonIcon='times' color='secondary' cancel=true size='' />
-					</@formGroup>
-				</@tform>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title='#i18n{portal.role.create_role.boxTitle}' skipHeader=true />
+		<@tform action='jsp/admin/role/DoCreatePageRole.jsp' id='create_page_role_form' name='create_page_role'>
+			<@input type='hidden' name='token' value='${token}' />
+			<@formGroup labelKey='#i18n{portal.role.create_role.labelName}' mandatory=true rows=2>
+				<@input type='text' name='role' maxlength=50 />
+			</@formGroup>
+			<@formGroup labelKey='#i18n{portal.role.create_role.labelDescription}' mandatory=true rows=2>
+				<@input type='text' name='role_description' maxlength=50 />
+			</@formGroup>
+			<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' mandatory=true rows=2>
+				<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list sort=true />
+			</@formGroup>
+			<@formGroup rows=2>
+				<@button type='submit' title='#i18n{portal.role.modify_role.buttonLabelValidate}' hideTitle=['xs'] buttonIcon='check' size='' />
+				<@aButton href='jsp/admin/role/ManagePageRole.jsp' title='#i18n{portal.admin.message.buttonCancel}' hideTitle=['xs'] buttonIcon='times' color='secondary' cancel=true size='' />
+			</@formGroup>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>

@@ -1,9 +1,7 @@
-<@row>
-	<@columns>
-		<@box color='success'>
-			<@boxHeader title='#i18n{portal.features.create_level.boxTitle}' />
-			<@boxBody>
-			<@tform id="create-level-form" method='post' id="create-level-form" name='create_mode' action='jsp/admin/features/DoCreateLevel.jsp'>
+<@pageContainer>
+	<@pageColumn>
+		<@pageHeader title='#i18n{portal.features.create_level.boxTitle}' />
+		<@tform id="create-level-form" method='post' id="create-level-form" name='create_mode' action='jsp/admin/features/DoCreateLevel.jsp'>
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.features.create_level.labelId}' labelFor='level_id' mandatory=true>
 				<@input type='text' name='level_id' id='level_id' value='${level_id}' maxlength=3 />
@@ -14,8 +12,6 @@
 			<@formGroup>
 				<@button type='submit' buttonIcon='edit' title='#i18n{portal.features.create_level.buttonLabelValidate}'color='primary' />
 			</@formGroup>
-			</@tform>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>

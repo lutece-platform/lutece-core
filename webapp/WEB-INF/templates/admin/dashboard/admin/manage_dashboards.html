@@ -4,7 +4,7 @@
 <@tr>
 	<@th>#i18n{portal.admindashboard.table.title.name}</@th>
 	<@th>#i18n{portal.admindashboard.table.title.column}</@th>
-	<#if order><th>#i18n{portal.admindashboard.table.title.order}</th></#if>
+	<#if order><@th>#i18n{portal.admindashboard.table.title.order}</@th></#if>
 </@tr>
 <@tableHeadBodySeparator />
 <#list items as dashboard>
@@ -68,7 +68,7 @@
 				<#list list_available_columns as column_refItem>
 				<#if column_refItem.code !=''>
 					<#assign column_key=column_refItem.code />
-					<h3>#i18n{portal.admindashboard.title.column} ${column_key}
+					<@h level=3>#i18n{portal.admindashboard.title.column} ${column_key}
 					<#if map_column_order_status[column_key]?exists && !map_column_order_status[column_key]>
 						<@tform action='jsp/admin/admindashboard/DoReorderColumn.jsp' method='post' class='pull-right'>
 							<@input type='hidden' name='column' value='${column_key?html}' />
@@ -76,13 +76,13 @@
 							<@button type='submit' title='#i18n{portal.dashboard.action.reorder}' buttonIcon='arrows' color='warning' />
 						</@tform>
 					</#if>
-					</h3>
+					</@h>
 					<@dashboardTable items=map_dashboards[column_key] list_available_orders_column=map_available_orders[column_key] />
 					<#-- suggest reorder if the column is not well ordered -->
 				</#if>
 				</#list>
 				<#-- not set list -->
-				<h3>#i18n{portal.admindashboard.title.notSetDashboard}</h3>
+				<@h level=3>#i18n{portal.admindashboard.title.notSetDashboard}</@h>
 				<@dashboardTable items=not_set_dashboards order=false/>
 			</@boxBody>
 		</@box>

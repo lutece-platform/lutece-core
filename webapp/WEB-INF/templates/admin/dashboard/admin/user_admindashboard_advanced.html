@@ -10,11 +10,7 @@
 		<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.userLevelLabel}' labelFor='user_level' rows=2>
 			<@select id='user_level' name='user_level'>
 				<#list user_levels as user_level>
-					<#if user_level.id = default_user_level.id>
-						<option value="${user_level.id}" selected="selected">${user_level.name}</option>
-					<#else>
-						<option value="${user_level.id}">${user_level.name}</option>
-					</#if>
+					<@option value=user_level.id selected=(user_level.id = default_user_level.id) label=user_level.name />
 				</#list>
 			</@select>
 		</@formGroup>
@@ -30,11 +26,11 @@
 		<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelStatus}' labelFor='status' rows=2>
 			<@select id='status' name='status'>
 				<#if default_user_status = 1>
-					<option value="0">#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
-					<option value="1" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
+					<@option value='0' label="#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}" />
+					<@option value='1' label="#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}" selected=true />
 				<#else>
-					<option value="0" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
-					<option value="1">#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
+					<@option value='0' label="#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}" selected=true />
+					<@option value='1' label="#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}" />
 				</#if>
 			</@select>
 		</@formGroup>
@@ -67,18 +63,17 @@
 	<@input type='hidden' name='token' value='${token!""}' />
 	<#if plugin_regularexpression>
 		<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManually}' labelFor='is_email_pattern_set_manually'>
-		<#if is_email_pattern_set_manually><#assign checked = true></#if>
-		<@checkBox name='is_email_pattern_set_manually' id='is_email_pattern_set_manually' labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManuallyComment}' checked=checked />
+			<@checkBox name='is_email_pattern_set_manually' id='is_email_pattern_set_manually' labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManuallyComment}' checked= is_email_pattern_set_manually />
 		</@formGroup>
 	<#else>
 		<@input type='hidden' name='is_email_pattern_set_manually' value='1' />
 	</#if>
 	<#if is_email_pattern_set_manually>
 		<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelEmailPattern}' labelFor='email_pattern' class='has-addons'>
-		<@inputGroup class=''>
-			<@input type='text' id='email_pattern' name='email_pattern' value='${email_pattern?html}' />
+			<@inputGroup class=''>
+				<@input type='text' id='email_pattern' name='email_pattern' value='${email_pattern?html}' />
 				<@button type="submit" name="reset" value="reset" buttonIcon='refresh' title='#i18n{portal.users.manage_advanced_parameters.buttonResetEmailPattern}' />
-		</@inputGroup>
+			</@inputGroup>
 		</@formGroup>
 	<#else>
 		<@input type='hidden' name='email_pattern' value='${email_pattern}' />
@@ -87,7 +82,6 @@
 		<@button type='submit' buttonIcon='check' title='#i18n{portal.users.manage_advanced_parameters.buttonModify}' color='primary' />
 	</@formGroup>
 	</@tform>
-	
 	<#if plugin_regularexpression && !is_email_pattern_set_manually>
 	<@tform method='post' action='jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions'>
 		<@input type='hidden' name='token' value='${token!""}' />
