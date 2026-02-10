@@ -25,7 +25,7 @@
     --white: #ffffff;
 }
 
-:root:has( body.layout-fluid ) {
+:root:has(body.layout-fluid) {
     margin-inline-start: 0;
 }
 
@@ -45,7 +45,7 @@ body.loaded #lutece-layout-wrapper {
     display: block !important;
 }
 
-#page-header-tools > * {
+#page-header-tools>* {
     margin-block-end: .25rem;
 }
 
@@ -164,17 +164,16 @@ body.loaded #lutece-layout-wrapper {
     filter: invert(1) hue-rotate(180deg);
 }
 
-:not(.btn-group, .input-group, .btn-toolbar) > :is( 
-.btn:first-child, 
-form:first-child, 
-.offcanvas:first-child, 
-.btn + .btn,
-.btn + form,
-form + .btn,
-form .btn,
-.offcanvas + .btn,  
-.btn + .offcanvas){
-  margin-inline-end:.5rem;
+:not(.btn-group, .input-group, .btn-toolbar)> :is(.btn:first-child,
+    form:first-child,
+    .offcanvas:first-child,
+    .btn + .btn,
+    .btn + form,
+    form + .btn,
+    form .btn,
+    .offcanvas + .btn,
+    .btn + .offcanvas) {
+    margin-inline-end: .5rem;
 }
 
 .ti {
@@ -183,4 +182,15 @@ form .btn,
 
 .form-actions .dropdown-toggle:after {
     margin-left: 0;
+}
+
+.w-half{
+	width: 50% !important;
+}
+
+@media (max-width: 767.98px) {
+	.w-half{
+		width: 100% !important;
+	}
+	
 }
