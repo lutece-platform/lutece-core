@@ -77,7 +77,9 @@ ${rss?default("<!-- no RSS feed -->")}
 <!-- Accessibility Skip Nav Menu-->
 <@skipNav skipMenu=skipLinkMenu?boolean target=skipLinkMainId!'main' />
 <!-- Page Header -->
-${page_header}
+<#-- Add your own Nav Menu Content here with @mainNavItem macro  -->
+<#assign optMainNav=.get_optional_template('theme_frameset_main_nav.html')>
+<#if optMainNav.exists><@optMainNav.include /></#if>
 <#if page_id &gt; 1>
 <!-- breadcrumb -->
 ${page_path}
