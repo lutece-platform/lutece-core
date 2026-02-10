@@ -2,7 +2,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>8.0.0-SNAPSHOT</version>
+        <version>8.0.0</version>
         <relativePath/>
     </parent>
 
@@ -194,13 +194,13 @@
         <dependency>
 		    <groupId>fr.paris.lutece.plugins</groupId>
 		    <artifactId>library-lutece-unit-testing-common</artifactId>
-		    <version>1.0.0-SNAPSHOT</version>
+		    <version>1.0.0</version>
 		</dependency>
         <!-- Lutece search indexing -->
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-lucene</artifactId>
-            <version>6.0.0-SNAPSHOT</version>
+            <version>6.0.0</version>
             <type>lutece-plugin</type>
         </dependency>
         
@@ -224,7 +224,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workflow-core</artifactId>
-            <version>4.0.0-SNAPSHOT</version>
+            <version>4.0.0</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -244,13 +244,13 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-freemarker</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>2.0.0</version>
             <type>jar</type>            
         </dependency>
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-lutece-resources</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
             <type>jar</type>
         </dependency>
            
@@ -263,7 +263,7 @@
 		<dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-priority-extension</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
             <type>jar</type> 
         </dependency>
 
@@ -271,7 +271,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-core-utils</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.0.0</version>
             <type>jar</type> 
         </dependency>
         
