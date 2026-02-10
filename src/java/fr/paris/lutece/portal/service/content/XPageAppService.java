@@ -247,6 +247,7 @@ public class XPageAppService extends ContentService
 
         data.setContent( page.getContent( ) );
         data.setName( page.getTitle( ) );
+        data.setHomePage( page.isHomePage( ) );
 
         // set the page path. Done by adding the extra-path information to the
         // pathLabel.

@@ -53,6 +53,7 @@ public class XPage
     private String _strXmlExtendedPathLabel;
     private boolean _bStandalone;
     private boolean _bSendRedirect;
+    private boolean _bIsHomePage;
 
     /**
      *
@@ -211,4 +212,27 @@ public class XPage
 	public void setSendRedirect(boolean bSendRedirect) {
 		this._bSendRedirect = bSendRedirect;
 	}
+
+    /**
+     * Returns weither the current page is an homepage or not.
+     *
+     * @return true if the page is an homepage, otherwise false.
+     * @since 7.1.5
+     */
+    public boolean isHomePage( )
+    {
+        return _bIsHomePage;
+    }
+
+    /**
+     * Sets the homepage indicator.
+     *
+     * @param bHomePage
+     *            Should be true if the page is an homepage, otherwise false.
+     * @since 7.1.5
+     */
+    public void setHomePage( boolean bHomePage )
+    {
+        _bIsHomePage = bHomePage;
+    }
 }
