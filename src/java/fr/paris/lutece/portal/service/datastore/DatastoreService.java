@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
 import fr.paris.lutece.portal.service.cache.ILuteceCacheManager;
 import fr.paris.lutece.portal.service.cache.Lutece107Cache;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.FreeMarkerTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -62,6 +63,7 @@ public final class DatastoreService
     public static final String VALUE_FALSE = "false";
     private static final String DATASTORE_KEY = "dskey";
     private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#" + DATASTORE_KEY + "\\{(.*?)\\}" );
+    private static final String PREFIX_PLUGIN = "plugin:";
     static final String VALUE_MISSING = "DS Value Missing";
     public static Lutece107Cache<String,DataEntity> _cache;
     private static boolean _bDatabase = true;
@@ -340,15 +342,36 @@ public final class DatastoreService
 
                 do
                 {
-                    String strKey = matcher.group( 1 );
+                    String strContent = matcher.group( 1 );
+                    int nIndexSeparator = strContent.indexOf( ',' );
+                    String strKey = strContent;
+
+                    if ( nIndexSeparator >= 0 )
+                    {
+                        String strArg = strContent.substring( nIndexSeparator + 1 ).trim( );
+
+                        if ( strArg.startsWith( PREFIX_PLUGIN ) )
+                        {
+                            String strPluginName = strArg.substring( PREFIX_PLUGIN.length( ) );
+
+                            if ( !PluginService.isPluginEnable( strPluginName ) )
+                            {
+                                matcher.appendReplacement( sb, "" );
+                                continue;
+                            }
+                        }
+
+                        strKey = strContent.substring( 0, nIndexSeparator ).trim( );
+                    }
+
                     String strValue = DatastoreService.getDataValue( strKey, VALUE_MISSING );
 
                     if ( VALUE_MISSING.equals( strValue ) )
                     {
-                        AppLogService.getLogger().warn( "Datastore Key missing : {} - Please fix to avoid performance issues.", strKey );
+                        AppLogService.getLogger( ).warn( "Datastore Key missing : {} - Please fix to avoid performance issues.", strKey );
                     }
 
-                    matcher.appendReplacement( sb, strValue );
+                    matcher.appendReplacement( sb, Matcher.quoteReplacement( strValue ) );
                 }
                 while ( matcher.find( ) );
 
