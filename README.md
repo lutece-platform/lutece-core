@@ -5,7 +5,7 @@
 
 # What is Lutece?
 
-![Lutece logo](https://github.com/lutece-platform/lutece-core/blob/develop/webapp/images/Lutece-logo.png?raw=true)
+![Lutece logo](https://github.com/lutece-platform/lutece-core/blob/develop7.x/webapp/images/Lutece-logo.png?raw=true)
 
 Lutece is an open platform that enables city governments to share, re-use and adapt digital services created by other cities. Lutece is free, modular and secure.
 
