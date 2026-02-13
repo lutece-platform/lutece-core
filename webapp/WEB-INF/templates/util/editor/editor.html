@@ -3,7 +3,7 @@
 	<#assign importUrl = "/util/editor/editor_" + textEditorName + ".html">
 	<#include importUrl />
 <#else>
-	<#macro initEditor>
+	<#macro initEditor editorWidth=0 cssFiles=[] type='' insert=[] selector='.richtext' config={}>
 		<#-- rich text editor disabled -->
 	</#macro>
 </#if>
