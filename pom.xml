@@ -208,7 +208,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-user-api</artifactId>
-            <version>1.0.1</version>
+            <version>2.0.0-SNAPSHOT</version>
             <type>jar</type> 
         </dependency>
 
@@ -216,7 +216,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-rbac-api</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0-SNAPSHOT</version>
             <type>jar</type> 
         </dependency>
         
@@ -224,13 +224,13 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workflow-core</artifactId>
-            <version>4.0.0</version>
+            <version>4.0.1-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workgroup-api</artifactId>
-            <version>1.0.0</version>
+            <version>2.0.0-SNAPSHOT</version>
             <type>jar</type> 
         </dependency>        
         <!-- Owasp XSS sanitizer -->
@@ -253,13 +253,7 @@
             <version>1.0.0</version>
             <type>jar</type>
         </dependency>
-           
-        <!-- Lutece JMX API Library -->                                              
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-jmx-api</artifactId>
-            <version>1.0.0</version>
-        </dependency>              	
+
 		<dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-priority-extension</artifactId>
