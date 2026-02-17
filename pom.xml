@@ -17,7 +17,7 @@
     <properties>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
-        <springVersion>5.3.30</springVersion>
+        <springVersion>6.0.15</springVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.project>lutece-platform/lutece-core</github.project>
         <twitter.account>LuteceFoundry</twitter.account>
