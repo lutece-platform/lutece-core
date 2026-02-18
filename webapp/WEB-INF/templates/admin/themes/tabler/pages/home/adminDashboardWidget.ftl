@@ -9,7 +9,7 @@ Parameters:
 - bodyClass (string, optional): the class to apply to the widget body element.
 - params (string, optional): additional parameters to add to the widget element.
 -->
-<#macro adminDashboardWidget id title hasHeader=false sm=12 md=4 color='primary' url='' class='' bodyClass='no-padding' actions=true actionMenu='' params='' deprecated...>
+<#macro adminDashboardWidget id title hasHeader=true sm=12 md=4 color='primary' url='' class='' bodyClass='overflow-auto mh-widget' actions=true actionMenu='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@columns sm=sm! md=md! class='widget-col' id='zone-${id!}'>
 <@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
