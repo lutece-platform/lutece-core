@@ -46,7 +46,9 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.util.CdiHelper;
 import fr.paris.lutece.util.url.UrlItem;
+import jakarta.enterprise.inject.ResolutionException;
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -62,6 +64,7 @@ public final class SecurityService
     private static final String ATTRIBUTE_LUTECE_USER = "lutece_user";
 
     private static final String PROPERTY_AUTHENTICATION_CLASS = "mylutece.authentication.class";
+    private static final String PROPERTY_AUTHENTICATION_BEAN_NAME = "mylutece.authentication.beanName";
     private static final String PROPERTY_AUTHENTICATION_ENABLE = "mylutece.authentication.enable";
     private static final String PROPERTY_PORTAL_AUTHENTICATION_REQUIRED = "mylutece.portal.authentication.required";
 
@@ -324,10 +327,23 @@ public final class SecurityService
      */
     private static LuteceAuthentication getPortalAuthentication( ) throws LuteceInitException
     {
+        String strAuthenticationBeanName = AppPropertiesService.getProperty( PROPERTY_AUTHENTICATION_BEAN_NAME );
         String strAuthenticationClass = AppPropertiesService.getProperty( PROPERTY_AUTHENTICATION_CLASS );
         LuteceAuthentication authentication = null;
 
-        if ( ( strAuthenticationClass != null ) && !strAuthenticationClass.equals( "" ) )
+        if ( ( strAuthenticationBeanName != null ) && !strAuthenticationBeanName.equals( "" ) )
+        {
+            {
+                if ( CDI.current().getBeanManager().getBeans(strAuthenticationBeanName).isEmpty() )
+                {
+                    throw new LuteceInitException( "Error instantiating Authentication Class - Could not find bean named " + strAuthenticationBeanName,
+                            new ResolutionException( strAuthenticationBeanName ) );
+                }
+                authentication = CdiHelper.getReference( LuteceAuthentication.class, strAuthenticationBeanName );
+                AppLogService.info( "Authentication service loaded : {}", authentication.getAuthServiceName( ) );
+            }
+        }
+        else if ( ( strAuthenticationClass != null ) && !strAuthenticationClass.equals( "" ) )
         {
             try
             {
