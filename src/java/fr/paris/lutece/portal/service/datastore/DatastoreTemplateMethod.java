@@ -33,12 +33,46 @@
  */
 package fr.paris.lutece.portal.service.datastore;
 
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AbstractMessageFormatTemplateMethod;
+import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateScalarModel;
 
+import java.util.List;
 import java.util.Locale;
 
 public class DatastoreTemplateMethod extends AbstractMessageFormatTemplateMethod
 {
+    private static final String PREFIX_PLUGIN = "plugin:";
+    @Override
+    public Object exec( List arguments ) throws TemplateModelException
+    {
+        int argsSize = arguments.size( );
+
+        if ( argsSize == 2 )
+        {
+            Object arg2 = arguments.get( 1 );
+
+            if ( arg2 instanceof TemplateScalarModel )
+            {
+                String strArg = ( (TemplateScalarModel) arg2 ).getAsString( );
+
+                if ( strArg.startsWith( PREFIX_PLUGIN ) )
+                {
+                    String strPluginName = strArg.substring( PREFIX_PLUGIN.length( ) );
+
+                    if ( PluginService.isPluginEnable( strPluginName ) )
+                    {
+                        String key = ( (TemplateScalarModel) arguments.get( 0 ) ).getAsString( );
+                        return DatastoreService.getDataValue( key, DatastoreService.VALUE_MISSING );
+                    }
+
+                    return "";
+                }
+            }
+        }
+        return super.exec( arguments );
+    }
     @Override
     protected String getPattern( String key, Locale locale )
     {
