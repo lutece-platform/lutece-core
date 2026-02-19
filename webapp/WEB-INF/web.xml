@@ -31,6 +31,7 @@
     <filter>
         <filter-name>restApiSecurityHeaderFilter</filter-name>
         <filter-class>fr.paris.lutece.portal.service.filter.RestApiSecurityHeaderFilter</filter-class>
+        <async-supported>true</async-supported>
     </filter>
     <filter>
         <filter-name>encodingFilter</filter-name>
@@ -47,6 +48,7 @@
     <filter>
         <filter-name>pluginsFilters</filter-name>
         <filter-class>fr.paris.lutece.portal.service.filter.MainFilter</filter-class>
+        <async-supported>true</async-supported>
     </filter>
 
     <!-- This filter display error message in case of request parameters contains 
