@@ -98,7 +98,7 @@
                             </@manageFeatureItemColumn>
                             </#if>
                         </#list>
-                        <#if user.dateLastLogin?? && user.dateLastLogin!=''>
+                        <#if user.dateLastLogin?? && user.dateLastLogin?string!=''>
                         <@manageFeatureItemColumn>
                             <@p>#i18n{portal.users.manage_users.columnTitleDateLastLogin} : <strong>${user.dateLastLogin!}</strong></@p>
                         </@manageFeatureItemColumn>

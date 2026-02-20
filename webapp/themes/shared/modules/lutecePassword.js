@@ -16,6 +16,11 @@ export class LutecePassword {
       this.passTogglerBtn = '#lutece-password-toggler';
       this.passTogglerIconOn = "ti-eye";
       this.passTogglerIconOff = "ti-eye-off";
+      this.weakPasswords = ["123456", "123456789", "12345", "12345678", "1234", "111111", "1234567", "password"
+      , "123123", "qwerty", "abc123", "password1", "000000", "iloveyou", "123321", "qwertyuiop", "monkey", "dragon"
+      , "letmein", "football", "admin", "adminadmin", "welcome", "login", "princess", "solo", "passw0rd", "master"
+      , "sunshine", "shadow", "superman", "azerty", "azertyuiop", "qwerty123", "1q2w3e4r", "654321", "pokemon"
+      , "starwars", "batman", "trustno1", "hello", "freedom", "whatever", "baseball"];
     }
     /**
      * Generates a new password that meets the following criteria:
@@ -62,6 +67,12 @@ export class LutecePassword {
      * @returns {number} The complexity value of the password, as a percentage of the maximum score (100).
      */
     calcComplexity(password) {
+
+      if (this.weakPasswords.includes(password))
+      {
+        return 5;
+      }
+
       let hasLowercase = /[a-z]/.test(password);
       let hasUppercase = /[A-Z]/.test(password);
       let hasNumber = /\d/.test(password);
@@ -82,24 +93,28 @@ export class LutecePassword {
       return Math.round(lengthScore + complexityScore);
     }
     /**
-     * Set the complexity bar 
+     * Set the complexity bar
      * Show the complexity result in progress bar.
      */
     getComplexity( ) {
         const input = document.querySelector( this.passwordInput )
         const progressBar = document.querySelector( this.progressBar )
+        const progressBarText = document.querySelector( this.progressBar + "-text" )
+        const progressBarStatus =  document.querySelector( this.progressBar + "-status" )
+        const label = progressBar.labels?.[0] || null;
+
         input.addEventListener('input', () => {
           const complexityScore = this.calcComplexity(input.value);
-          progressBar.style.width = complexityScore + '%';
-          progressBar.innerHTML = Math.round(complexityScore) + '%';
-          progressBar.setAttribute( 'aria-valuenow', Math.round( complexityScore ));
-          progressBar.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+          progressBarText.textContent = Math.round(complexityScore) + "%";
+          progressBarStatus.textContent = (label?.textContent ?? '') + ' ' + Math.round(complexityScore) + "%";
+          progressBar.value = complexityScore;
+          progressBar.classList.remove('lutece-progress-danger', 'lutece-progress-warning', 'lutece-progress-success');
           if( complexityScore < 50 ) {
-            progressBar.classList.add('bg-danger')
+            progressBar.classList.add('lutece-progress-danger')
           } else if ( complexityScore >= 50 && complexityScore < 100 ) {
-            progressBar.classList.add('bg-warning')
+            progressBar.classList.add('lutece-progress-warning')
           } else {
-            progressBar.classList.add('bg-success')
+            progressBar.classList.add('lutece-progress-success')
           }
         });
     }

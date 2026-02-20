@@ -63,17 +63,15 @@
 										<@icon style='lock' />
 									</@inputGroupItem>
 									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' size='' />
-									<@inputGroupItem type='text'>
-										<@link href='' class='input-group-link' title='#i18n{portal.admin.admin_login.forgotLogin}' id='lutece-password-toggler' >
-											<@icon style='eye' />
-										</@link>
+									<@inputGroupItem type='btn' pos='is-expanded'>
+										<@button type='button' title='#i18n{portal.admin.admin_login.passwordShow}' hideTitle=['all'] id='lutece-password-toggler' buttonIcon='eye' color='secondary' />
 									</@inputGroupItem>
 									<@inputGroupItem type='btn' pos='is-expanded'>
 										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='' color='secondary' />
 									</@inputGroupItem>
 								</@inputGroup>
 							</@formGroup>
-							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 helpKey='#i18n{portal.users.create_user.passwordComplexity}' mandatory=true>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 mandatory=true>
 								<@inputGroup>
 									<@inputGroupItem type='text'>
 										<@icon style='lock' />
@@ -81,11 +79,11 @@
 									<@input type='password' id='second_password' name='second_password' maxlength=100 value='' size='' />
 								</@inputGroup>
 							</@formGroup>
-							<@formGroup rows=2>
+							<@formGroup labelKey='#i18n{portal.users.create_user.passwordComplexity}' labelFor='progress_bar_first_password' rows=2>
 								<@passwordComplexity id="progress_bar_first_password" inputId="first_password" />
 							</@formGroup>
 							<@div class='clearfix'></@div>
-							<@formGroup labelKey='#i18n{portal.users.create_user.labelNotify}' rows=2>
+							<@fieldSet legend='#i18n{portal.users.create_user.labelNotify}' legendClass='form-label' >
 								<#if default_user_notification = 1>
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value='1' checked=true />
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value='0' />
@@ -93,7 +91,7 @@
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value='1' />
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value='0' checked=true />
 								 </#if>								
-							</@formGroup>
+							</@fieldSet>
 							</@fieldSet>
 						</@columns>
 						<@columns md=4 lg=3>
