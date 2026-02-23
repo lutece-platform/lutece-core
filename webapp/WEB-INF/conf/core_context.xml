@@ -97,6 +97,7 @@
 
     <!-- package security header -->
     <bean id="securityHeaderDAO" class="fr.paris.lutece.portal.business.securityheader.SecurityHeaderDAO" />
+    <bean id="securityHeaderConfigItemDAO" class="fr.paris.lutece.portal.business.securityheader.SecurityHeaderConfigItemDAO" />
 
     <!-- package page -->
     <bean id="pageDAO" class="fr.paris.lutece.portal.business.page.PageDAO" />
@@ -216,7 +217,8 @@
     <bean id="RSAKeyProvider" class="fr.paris.lutece.util.rsa.RSAKeyDatastoreProvider" />
         
     <!-- Security header service --> 
-    <bean id="securityHeaderService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderService" />    
+    <bean id="securityHeaderService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderService" />
+    <bean id="securityHeaderConfigService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderConfigService" /> 
         
     <!-- HTML Cleaners-->
     <!-- Jsoup HTML Cleaner-->

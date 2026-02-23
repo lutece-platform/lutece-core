@@ -51,6 +51,7 @@ import fr.paris.lutece.portal.business.securityheader.SecurityHeader;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderType;
 import fr.paris.lutece.portal.service.securityheader.SecurityHeaderService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.util.securityheader.SecurityHeaderUtil;
 
 /**
  * Rest api security header filter
@@ -115,8 +116,8 @@ public class RestApiSecurityHeaderFilter implements javax.servlet.Filter
     	if( securityHeadersToAddList != null )
     	{
         	for( SecurityHeader securityHeader : securityHeadersToAddList )
-        	{
-        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        	{       		
+        		response.setHeader( securityHeader.getName( ), SecurityHeaderUtil.getSecurityHeaderValue( request, securityHeader ) );
         		_logger.debug( "Security header added to endpoint {} - name : {}, value : {} ", request.getServletPath(), securityHeader.getName( ), securityHeader.getValue( ) );
         	}
     	}

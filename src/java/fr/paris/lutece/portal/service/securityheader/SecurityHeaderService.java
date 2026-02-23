@@ -67,6 +67,9 @@ public class SecurityHeaderService
 	@Inject
 	private SecurityHeaderCacheService _securityHeaderCacheService;
 	
+	@Inject
+	private SecurityHeaderConfigService _securityHeaderConfigService;
+	
 	/**
 	 * Returns all the security headers that match specified name, type and page category (if not null for the latter).
 	 * If page category is null (REST api case), this criterion is ignored.
@@ -319,6 +322,7 @@ public class SecurityHeaderService
 	{
 		for( SecurityHeader securityHeader : securityHeadersList )
 		{
+			securityHeader.setSecurityHeaderConfigItemList( _securityHeaderConfigService.findBySecurityHeaderId( securityHeader.getId( ) ) );
 			_securityHeaderCacheService.putInCache( String.valueOf( securityHeader.getId( ) ), securityHeader );				
 		}
 		_logger.debug( "Security header cache refreshed" );

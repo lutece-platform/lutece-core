@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.securityheader;
 
+import java.util.List;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -66,6 +68,8 @@ public class SecurityHeader
 	private String _strPageCategory;	
 	
 	private boolean _bIsActive;
+	
+	private List<SecurityHeaderConfigItem> _securityHeaderConfigItemList;
 
 	/**
      * Returns the Id
@@ -212,5 +216,27 @@ public class SecurityHeader
 	public void setActive( boolean isActive )
 	{
 		this._bIsActive = isActive;
+	}
+	
+	/**
+	 * 
+	 * List of config items of security header
+	 * 
+	 * @return List of config items of security header
+	 */
+	public List<SecurityHeaderConfigItem> getSecurityHeaderConfigItemList( )
+	{
+		return _securityHeaderConfigItemList;
+	}
+	
+	/**
+	 * Sets the list of config items of security header
+	 * 
+	 * @param securityHeaderConfigItemList
+	 *           The list of config items of security header
+	 */
+	public void setSecurityHeaderConfigItemList( List<SecurityHeaderConfigItem> securityHeaderConfigItemList )
+	{
+		_securityHeaderConfigItemList = securityHeaderConfigItemList;
 	}
 }

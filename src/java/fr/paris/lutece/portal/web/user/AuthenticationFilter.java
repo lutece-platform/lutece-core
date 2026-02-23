@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.web.user;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -60,7 +59,6 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.securityheader.SecurityHeaderService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -68,7 +66,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
-import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.util.securityheader.SecurityHeaderUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.logging.log4j.LogManager;
@@ -195,7 +193,7 @@ public class AuthenticationFilter implements Filter
     	{
     		for( SecurityHeader securityHeader : securityHeadersToAddList )
         	{
-        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        		response.setHeader( securityHeader.getName( ), SecurityHeaderUtil.getSecurityHeaderValue( request, securityHeader ) );
         		_logger.debug( "Security header added to admin authenticated BO page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
         	}
     	}   	
@@ -216,8 +214,8 @@ public class AuthenticationFilter implements Filter
     	if( securityHeadersList != null )
     	{
     		for( SecurityHeader securityHeader : securityHeadersList )
-        	{
-        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        	{    			
+        		response.setHeader( securityHeader.getName( ), SecurityHeaderUtil.getSecurityHeaderValue( request, securityHeader ) );
         		_logger.debug( "Security header added to logout page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
         	}
     	}   	
