@@ -49,6 +49,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.service.securityheader.SecurityHeaderConfigService;
 import fr.paris.lutece.portal.service.securityheader.SecurityHeaderService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -72,6 +73,8 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private static final String TEMPLATE_CREATE_SECURITYHEADER = "admin/system/create_securityheader.html";
     private static final String TEMPLATE_MODIFY_SECURITYHEADER = "admin/system/modify_securityheader.html";
     
+    private static final String TEMPLATE_MODIFY_SECURITYHEADER_CONFIG = "admin/system/modify_securityheader_config.html";    
+    
     // Markers
     private static final String MARK_SECURITY_HEADERS_LIST = "security_headers_list";
     private static final String MARK_SECURITY_HEADER = "securityheader";
@@ -80,6 +83,8 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private static final String MARK_PAGE_CATEGORY_LIST = "page_category_list";
     private static final String MARK_PAGE_CATEGORY_SELECTED = "selected_pageCategory";
     private static final String MARK_ERRORS = "errors";
+    
+    private static final String MARK_SECURITY_HEADER_CONFIG_ITEM_LIST = "security_header_config_item_list";
     
     // Properties
     private static final String PROPERTY_CREATE_SECURITYHEADER_PAGETITLE = "portal.securityheader.create_securityheader.pageTitle";
@@ -90,12 +95,14 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private static final String MESSAGE_PAGE_CATEGORY_REQUIRED_WHEN_PAGE_IS_TYPE = "portal.securityheader.message.pageCategoryRequiredTypePage";
     private static final String MESSAGE_TYPE_UNKNOWN = "portal.securityheader.message.typeUnknown";
     private static final String MESSAGE_PAGE_CATEGORY_UNKNOWN = "portal.securityheader.message.pageCategoryUnknown";
+    
+    private static final String PROPERTY_MODIFY_SECURITYHEADER_CONFIG_PAGETITLE = "portal.securityheader.modify_securityheader_config.pageTitle";
 
- // Validations
+    // Validations
     private static final String VALIDATION_ATTRIBUTES_PREFIX = "portal.securityheader.model.entity.securityheader.attribute.";
     
     // Template Files path
-    private static final String TEMPLATE_MANAGE_SECURITY_HEADERS = "admin/system/manage_security_headers.html";
+    public static final String TEMPLATE_MANAGE_SECURITY_HEADERS = "admin/system/manage_security_headers.html";
     
     // Parameters
     private static final String PARAMETER_SECURITY_HEADER_ID = "id_securityheader";
@@ -109,12 +116,17 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     // Jsp definition
     public static final String JSP_MANAGE_SECURITY_HEADERS = "ManageSecurityHeaders.jsp";
     public static final String JSP_REMOVE_SECURITY_HEADERS = "jsp/admin/system/DoRemoveSecurityHeader.jsp";
+    public static final String JSP_MODIFY_SECURITY_HEADER_CONFIG = "ModifySecurityHeaderConfig.jsp";
     
     // Actions
     private static final String ACTION_ENABLE = "ENABLE";
     private static final String ACTION_DISABLE = "DISABLE";
   
     private static final long serialVersionUID = 7010476999488231065L;
+    
+    // Constants
+    private static final String CONSTANT_QUESTION_MARK = "?";
+    private static final String CONSTANT_EQUALS = "=";    
     
     /**
      * Returns the page to manage security headers.
@@ -343,6 +355,62 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     }
     
     /**
+     * Returns the security header config modification page.
+     * 
+     * @param request
+     *            the http request
+     * @return the html code for the securityheader config modification page
+     */
+    public String getModifySecurityHeaderConfig( HttpServletRequest request )
+    {
+        setPageTitleProperty( PROPERTY_MODIFY_SECURITYHEADER_CONFIG_PAGETITLE );
+
+        String strSecurityHeaderId = request.getParameter( PARAMETER_SECURITY_HEADER_ID );
+
+        if ( !StringUtils.isNumeric( strSecurityHeaderId ) )
+        {
+            AppLogService.error( " {} is not a valid security header id.", ( ) -> SecurityUtil.logForgingProtect( strSecurityHeaderId ) );
+
+            return getManageSecurityHeaders( request );
+        }
+        
+        SecurityHeader securityHeader = getSecurityHeaderToConfigure( strSecurityHeaderId );
+        if ( securityHeader == null )
+        {
+            AppLogService.error( "{} is not a valid security header id.", ( ) -> SecurityUtil.logForgingProtect( strSecurityHeaderId ) );
+
+            return getManageSecurityHeaders( request );
+        }
+
+        Map<String, Object> model = getModel( );
+        model.put( MARK_SECURITY_HEADER_CONFIG_ITEM_LIST, getSecurityHeaderConfigService( ).findBySecurityHeaderId( securityHeader.getId( ) ) );
+        model.put( MARK_SECURITY_HEADER, securityHeader );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_SECURITYHEADER_CONFIG ) );
+        
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_SECURITYHEADER_CONFIG, getLocale( ), model );
+
+        return getAdminPage( template.getHtml( ) );
+    }
+    
+    /**
+     * This method returns the security header to configure. 
+     * 
+     * @param strSecurityHeaderId
+     *          The security header id
+     * @return security header to modify
+     */
+    private SecurityHeader getSecurityHeaderToConfigure( String strSecurityHeaderId )
+    {
+    	SecurityHeader securityHeader = SecurityHeaderHome.findByPrimaryKey( Integer.parseInt( strSecurityHeaderId ) );
+    	if( securityHeader != null )
+    	{
+            securityHeader.setValue( StringEscapeUtils.escapeHtml4( securityHeader.getValue( ) ) );
+    	}
+        
+        return securityHeader;
+    }
+    
+    /**
      * Returns the security header modification page.
      * 
      * @param request
@@ -466,8 +534,20 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
 
         getSecurityHeaderService( ).update( securityHeader );
 
-        return getHomeUrl( request );
+        return getModifySecurityHeaderConfigPage( request );
     }
+    
+    /**
+	 * Returns security header config jsp path
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private String getModifySecurityHeaderConfigPage( HttpServletRequest request )
+	{
+	    return JSP_MODIFY_SECURITY_HEADER_CONFIG+CONSTANT_QUESTION_MARK+PARAMETER_SECURITY_HEADER_ID+
+  	           CONSTANT_EQUALS+request.getParameter( PARAMETER_SECURITY_HEADER_ID );
+	}
     
     /**
      * Processes Modify Form Data.
@@ -623,5 +703,15 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private SecurityHeaderService getSecurityHeaderService( )
     {
     	return SpringContextService.getBean( "securityHeaderService" );
+    }
+    
+    /**
+     * Returns the security header config service.
+     * 
+     * @return the security header config service
+     */
+    private SecurityHeaderConfigService getSecurityHeaderConfigService( )
+    {
+    	return SpringContextService.getBean( "securityHeaderConfigService" );
     }
 }
