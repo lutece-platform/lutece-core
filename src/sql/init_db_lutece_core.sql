@@ -333,6 +333,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.siteMapMenu.
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.skipLinkMainId', 'main');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.skipLinkMenu.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.userthemeswitch.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.logo.alt', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.robotIndex.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssChars', '<>#"&');
 
