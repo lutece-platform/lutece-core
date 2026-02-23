@@ -7,20 +7,23 @@ Parameters:
 @param - class - string - optional - classe(s) css de la barre de navigation
 @param - title - string - required - Titre du site. Par défaut récupère le nom de la variable "favorite".
 @param - logoImg - string - required - url de l'image utilisée comme logo pour le titre du site
+@param - logoAlt - string - required - texte alternatif pour l'image du logo
 @param - href - string - required - url de redirection sur le logo du titre du site
 @param - hasMenu - boolean - required -  si true, le site possède un menu
-@param - hasNestedMenu - boolean - optionnal -  si true, le site possède un menu
+@param - hasNestedMenu - boolean - optionnal -  si true, affiche les entrées de menu incluses dans le contenu de la macro <#nested>
 @param - isSidebar - boolean - required -  si true, le menu sera vertical calé à gauche
+@param - isFluid - string  - optionnal -  par défaut 'fluid', sinon  le menu sera contenu dans un conteneur
+@param - cols - string  - optionnal -  par défaut [2,9], sinon  le menu vertical prendra la largeur cols[0] et le contenu cols[1] (bootstrap grid)
 @param - isOnlyHome - boolean - required -  si true, le menu ne sera affiché que sur la page d'accueil
-@param - isSibebarCollapsible - boolean - required -  si true, le menu pourra être masqué
+@param - isSidebarCollapsible - boolean - required -  si true, le menu pourra être masqué
 @param - sidebarMenuClass - string - optionnal -  Ajoute une classe au menu vertical. Par défaut vide.
-@param - showDefaultMenu - boolean - required -  si true, affiche le menu
 @param - hasSearchMenu - boolean - required -  si true, ajoute la rercherche au menu
 @param - typeSearch - string - required -  Si Field, ajoute le champs de rercherche sinon un lien paramètre sur l'url de recherche précisée dans les paramètres les propriétés du site. Si la valeur est button une icone de recherche sera positionnée après le menu.
 @param - searchUrl - string - required -  Url pour l'icone de recherche. Par défaut récupère la valeur de l'url de recherche précisée dans les paramètres les propriétés du site.
 @param - searchAction - string - required -  Url d'action pour le formulaire nécessite typeSearch='field'
 @param - searchSolr - boolean - required - si "true" fait la recherche sur Solr et non sur le moteur de recherche par défaut.
 @param - searchParams - string - optional - tous champs à ajouter au formulaire nécessitent typeSearch='field'
+@param - isFixed - boolean - required - si true, le menu est "fixe" en haut de page. Valeur par défaut "isFixedMenu?boolean" en base (clé dans la table core_datastore "portal.theme.site_property.menu.fixedMenu.checkbox" )
 @param - hasLogin - boolean - required - si true, le site est authentifié et propose un bouton de login (connexion Mon Paris)
 @param - loginClass - string - optional - classe CSS pour le bouton de login
 @param - mainClass - string - optional - classe CSS pour la balise main
@@ -35,18 +38,20 @@ Parameters:
 <#else>
 <header class="sticky-top navigation<#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if>" id="main-banner-${page_id!'theme'}" role="banner">
 </#if>
+<#local logoAltDS=dskey('portal.theme.site_property.menu.logo.alt')! />
+<#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /></#if>
 <div class="container main-header<#if class !=''> ${class!}</#if><#if isSidebar> is-sidebar<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if><#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if></#if>"<#if role !=''> role='${role!}'</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if>>
 <nav class="navbar navbar-expand-lg navbar-light " aria-labelledby="main-nav-title">
     <a class="navbar-brand" href="${href!'.'}">
-        <#if logoImg !=''><img src="${logoImg}" class="img-fluid main-logo" alt="${title}" aria-hidden="true"></#if> 
-        <span id="main-nav-title" class="visually-hidden-focusable">
-            ${title} 
-        </span>
+       <#if logoHeader !=''>
+            <img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true">
+        </#if>
+        <span class="main-service-title visually-hidden">${title}</span>
     </a>
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarMainMenu" aria-label="#i18n{portal.theme.showmenu}" aria-controls="navbarMainMenu">
         <span class="navbar-toggler-icon"><span class="visually-hidden-focusable">#i18n{portal.theme.showmenu}</span></span>
     </button>
-    <div class="collapse navbar-collapse text-center" aria-label="#i18n{portal.theme.mainMenu} #i18n{portal.theme.showmenu}" role="navigation">
+    <div class="collapse navbar-collapse text-center" aria-label="#i18n{portal.theme.mainMenu} #i18n{portal.theme.showmenu}" role="navigation" id="navbarMainMenu">
         <ul class="navbar-nav w-100 align-items-center" aria-label="#i18n{portal.theme.mainMenu}">
             <li class="nav-item<#if pageId = '1'> active</#if>">
                 <a class="nav-link text-capitalize" title="${title}" href="." target="_top" aria-current="<#if pageId = '1'>page<#else>false</#if>">#i18n{portal.site.page_home.label}</a>
@@ -94,7 +99,7 @@ Parameters:
                 </li>
             </#if>
             <#if hasUserThemeSwitch>
-            <li id="bs-theme-switcher" class="nav-item dropdown ms-auto" > 
+            <li id="bs-theme-switcher" class="nav-item dropdown ms-lg-auto d-block d-lg-flex" > 
                 <button class="btn btn-link nav-link px-0 px-lg-2 py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)"> 
                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-sun"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" /></svg>
                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-moon"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg>
@@ -117,11 +122,12 @@ Parameters:
                         <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false"> 
                             <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-sun-moon"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9.173 14.83a4 4 0 1 1 5.657 -5.657" /><path d="M11.294 12.707l.174 .247a7.5 7.5 0 0 0 8.845 2.492a9 9 0 0 1 -14.671 2.914" /><path d="M3 12h1" /><path d="M12 3v1" /><path d="M5.6 5.6l.7 .7" /><path d="M3 21l18 -18" /></svg>
                             Auto
+                        </button>
                     </li>
                 </ul> 
             </li>
         </#if>            
-        <li class="nav-item dropdown" >   
+        <li class="nav-item dropdown mt-3 mt-lg-0" >   
         <#if pageId = '1'>
             <a href="${footerLinkContact!}" class="btn btn-sm btn-primary ms-lg-4">${footerLinkContactLabel!}</a>
         <#else>
@@ -191,11 +197,11 @@ Parameters:
             <#if optMainBanner.exists><@optMainBanner.include /></#if>
         </#if>
     <#else>
+        <main id="main"<#if mainClass !=''> class="${mainClass!}"</#if> role="main">
         <#if hasBanner?boolean>
             <#assign optMainBanner=.get_optional_template('../../../../site/theme_frameset_main_banner.html')>
             <#if optMainBanner.exists><@optMainBanner.include /></#if>
         </#if>
         </header>
-        <main id="main"<#if mainClass !=''> class="${mainClass!}"</#if> role="main">
     </#if>
 </#macro>
