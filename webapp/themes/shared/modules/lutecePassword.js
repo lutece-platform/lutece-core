@@ -128,6 +128,7 @@ export class LutecePassword {
       const inputToggler = document.querySelector( this.passwordInput )
       btnToggler.firstElementChild.classList.remove( _passDefaultTogglerIcon );
       btnToggler.firstElementChild.classList.add( this.passTogglerIconOn );
+      btnToggler.setAttribute('aria-pressed', 'false');
       btnToggler.addEventListener(
         "click", ( event) => {
           event.preventDefault();
@@ -145,10 +146,12 @@ export class LutecePassword {
         field.setAttribute( 'type', 'text' );
         btn.firstElementChild.classList.add( this.passTogglerIconOff  );
         btn.firstElementChild.classList.remove( this.passTogglerIconOn  );
+        btn.setAttribute('aria-pressed', 'true');
       } else {
         btn.firstElementChild.classList.remove( this.passTogglerIconOff  );
         btn.firstElementChild.classList.add( this.passTogglerIconOn  );
         field.setAttribute('type', 'password');
+        btn.setAttribute('aria-pressed', 'false');
       }
     };
 }
