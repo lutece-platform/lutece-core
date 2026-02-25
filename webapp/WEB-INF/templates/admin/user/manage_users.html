@@ -118,7 +118,10 @@
                         <em><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em>
                     </@td>
                     <@td>
-                        <@span class='copy-content'><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.email}</#if></@span>
+                        <#assign displayEmail><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.email}</#if></#assign>
+                        <@span class='copy-content' params='role="button" tabindex="0" aria-label="#i18n{portal.users.actions.labelCopyEmail} : ${displayEmail?trim}"'>
+                            ${displayEmail?trim}
+                        </@span>
                     </@td>
                     <@td hide=['xs']>${user.dateLastLogin!}</@td>
                     <@td hide=['xs']>
