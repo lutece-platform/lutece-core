@@ -1,30 +1,30 @@
 <@adminLoginPage title='#i18n{portal.admin.admin_login.boxTitle}' site_name=site_name >
-<@tform class='box' name='login' id='login' action='${do_admin_login_url}' >
-<@input type='hidden' name='token' value='${token}' />
-<@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' labelKeyDesc=labelDescAccess mandatory=true rows=2>
-    <@div class='input-icon'>
-        <@span class='input-icon-addon'><@icon style='user' /></@span>
-        <@input name='access_code' id='access_code' autoComplete='username' placeHolder='${i18n("portal.admin.admin_login.loginLabel")}' size='' params=' autofocus' />
-    </@div>
-</@formGroup>
-<@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' helpKey='${i18n("portal.admin.admin_login.helpText")}' mandatory=true rows=2 >
-<@row>
-    <@div class='col pe-0'>     
-        <@div class='input-icon'>
-            <@span class='input-icon-addon'><@icon style='lock' /></@span>
-            <@input type='password' name='password' id='password' helpKey='${i18n("portal.admin.admin_login.helpText")}' size='' autoComplete='current-password' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
-        </@div>
-    </@div>
-    <@div class='col-auto ps-1'>    
-         <@button color='secondary' class='btn btn-2 btn-icon' title='${i18n("portal.admin.admin_login.passwordShow")}' id='lutece-password-toggler' >
-              <@icon style='eye' />
-         </@button>
-    </@div>
-</@row>
-</@formGroup>
-<@formField class='has-text-centered text-center'>
-    <@button type='submit' class='btn-block' size='' buttonIcon='check' title='#i18n{portal.admin.admin_login.buttonConnect}' />
-</@formField>
-<@p class='text-center'><@link href='${forgot_password_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotPassword}'>#i18n{portal.admin.admin_login.forgotPassword} ?</@link> - <@link href='${forgot_login_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotLogin}'>#i18n{portal.admin.admin_login.forgotLogin} ?</@link></@p>
-</@tform>
+    <@tform class='box' name='login' id='login' action='${do_admin_login_url}' >
+        <@input type='hidden' name='token' value='${token}' />
+        <@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' helpKey='${i18n("portal.admin.admin_login.loginHelpText")}' labelKeyDesc=labelDescAccess mandatory=true rows=2>
+            <@div class='input-icon'>
+                <@span class='input-icon-addon'><@icon style='user' /></@span>
+                <@input name='access_code' id='access_code' helpKey='${i18n("portal.admin.admin_login.loginHelpText")}' autoComplete='username' placeHolder='${i18n("portal.admin.admin_login.loginLabel")}' size='' params=' autofocus' />
+            </@div>
+        </@formGroup>
+        <@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' helpKey='${i18n("portal.admin.admin_login.passwordHelpText")}' mandatory=true rows=2 >
+            <@row>
+                <@div class='col pe-0'>
+                    <@div class='input-icon'>
+                        <@span class='input-icon-addon'><@icon style='lock' /></@span>
+                        <@input type='password' name='password' id='password' helpKey='${i18n("portal.admin.admin_login.passwordHelpText")}' size='' autoComplete='current-password' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
+                    </@div>
+                </@div>
+                <@div class='col-auto ps-1'>
+                    <@button color='secondary' class='btn btn-2 btn-icon' title='${i18n("portal.admin.admin_login.passwordShow")}' id='lutece-password-toggler' >
+                        <@icon style='eye' />
+                    </@button>
+                </@div>
+            </@row>
+        </@formGroup>
+        <@formField class='has-text-centered text-center'>
+            <@button type='submit' class='btn-block' size='' buttonIcon='check' title='#i18n{portal.admin.admin_login.buttonConnect}' />
+        </@formField>
+        <@p class='text-center'><@link href='${forgot_password_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotPassword}'>#i18n{portal.admin.admin_login.forgotPassword} ?</@link> - <@link href='${forgot_login_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotLogin}'>#i18n{portal.admin.admin_login.forgotLogin} ?</@link></@p>
+    </@tform>
 </@adminLoginPage>
