@@ -110,13 +110,15 @@ export class LutecePassword {
     initPassToggler( ) {
       const _passDefaultTogglerIcon = "ti-eye";
       const btnToggler = document.querySelector( this.passTogglerBtn )
-      const inputToggler = document.querySelector( this.passwordInput )
+      const inputToggler = document.querySelectorAll( this.passwordInput )
       btnToggler.firstElementChild.classList.remove( _passDefaultTogglerIcon );
       btnToggler.firstElementChild.classList.add( this.passTogglerIconOn );
       btnToggler.addEventListener(
         "click", ( event) => {
           event.preventDefault();
-          this.showHidePassword( btnToggler, inputToggler );
+          inputToggler.forEach( input => {
+            this.showHidePassword( btnToggler, input );
+          });
       });
     }
     
