@@ -10,20 +10,20 @@ Parameters:
 @param - class - string - optional - the CSS class of the element, default '' 
 @param - id - string - optional - the ID of the element, default ''
 @param - actionName - string - optional - Action name for submit step button, default 'action_doGoToStep'
-@param - actionLabel - string - optional - Label for action step button, default '#i18n{themeparisfr.labelUpdate}'
-@param - actionAriaLabelKey - string - optional - Aria label for action step button, default '#i18n{themeparisfr.ariaLabelUpdate}'
-@param - actionHref - string - optional - Url for action step button, default '#i18n{themeparisfr.ariaLabelUpdate}'
-@param - actionClass - string - optional - Class for action step button, default '#i18n{themeparisfr.ariaLabelUpdate}'
-@param - actionParams - string - optional - additional HTML attributes for action step button, default '#i18n{themeparisfr.ariaLabelUpdate}'
+@param - actionLabel - string - optional - Label for action step button, default '#i18n{portal.theme.labelUpdate}'
+@param - actionAriaLabelKey - string - optional - Aria label for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
+@param - actionHref - string - optional - Url for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
+@param - actionClass - string - optional - Class for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
+@param - actionParams - string - optional - additional HTML attributes for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
 -->
-<#macro stepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{themeparisfr.labelUpdate}' actionAriaLabelKey='themeparisfr.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
+<#macro stepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='portal.theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@div class='step step-done ${class!}' id=id params=params>
 	<@div class='step-title'>
         <@div class='d-flex justify-content-between align-items-baseline w-100'>
             <@h class='title' level=titleLevel params='title="${title}"' >
-                <@span class='step-number'><svg width="32" height="32" role="img" aria-label="${i18n('themeparisfr.labelStepDone', title)?html}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></@span>
+                <@span class='step-number'><svg width="32" height="32" role="img" aria-label="${i18n('portal.theme.labelStepDone', title)?html}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></@span>
                 <@span>${title?replace('- hidden','')}</@span>
             </@h>
             <@span class='d-none d-sm-block pl-2'>
