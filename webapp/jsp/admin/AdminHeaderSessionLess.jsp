@@ -20,13 +20,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le styles -->
 <%= PortalService.getAdminCssLinks() %>
-<style>
-#login-box{-webkit-box-shadow: 0px 1px 5px 1px rgba(50, 50, 50, 0.75);-moz-box-shadow:0px 1px 5px 1px rgba(50, 50, 50, 0.75);box-shadow:0px 1px 5px 1px rgba(50, 50, 50, 0.75);}
-</style>
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
-	<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon" href="<%= strBase %>favicon.ico">
