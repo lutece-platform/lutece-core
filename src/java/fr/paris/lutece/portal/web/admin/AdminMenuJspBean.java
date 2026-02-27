@@ -116,6 +116,11 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_ADMIN_AVATAR = "adminAvatar";
     private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
     private static final String MARK_USER_MENU_ITEMS = "userMenuItems";
+    private static final String MARK_USE_ADVANCED_SECURITY_PARAMETERS = "use_advanced_security_parameters";
+    private static final String MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE = "password_format_upper_lower_case";
+    private static final String MARK_PASSWORD_FORMAT_NUMERO = "password_format_numero";
+    private static final String MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS = "password_format_special_characters";
+
 
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
@@ -426,12 +431,23 @@ public class AdminMenuJspBean implements Serializable
      *            the http request
      * @return the form allowing the modification of the user's password
      */
-    public String getModifyDefaultAdminUserPassword( HttpServletRequest request )
+   public String getModifyDefaultAdminUserPassword( HttpServletRequest request )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
         Locale locale = user.getLocale( );
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
+
+        boolean bUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+        model.put( MARK_USE_ADVANCED_SECURITY_PARAMETERS, bUseAdvancedSecurityParameters );
+
+        if ( bUseAdvancedSecurityParameters )
+        {
+            model.put( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
+            model.put( MARK_PASSWORD_FORMAT_NUMERO, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_PASSWORD_FORMAT_NUMERO ) );
+            model.put( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
+        }
+
         model.put( SecurityTokenService.MARK_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE, locale, model );
 

@@ -158,12 +158,16 @@ import { LutecePassword	} from './themes/shared/modules/lutecePassword.js';
 
 const password = new LutecePassword();
 const generator = document.getElementById('generate_password');
-const input = document.getElementById('first_password');
+const newPassword = document.getElementById('first_password');
+const newConfirmPassword = document.getElementById('second_password');
 
 generator.addEventListener('click', () => {
-	input.value = password.generatePassword();
-	input.dispatchEvent(new Event('input'));
+ 	const newPassValue = password.generatePassword();
+    newPassword.value = newPassValue
+    newConfirmPassword.value = newPassValue
+    newPassword.dispatchEvent(new Event('input'));
+    newConfirmPassword.dispatchEvent(new Event('input'));
 });
-password.passwordInput = '#first_password'
+password.passwordInput = '#first_password,#second_password'
 password.initPassToggler( );
 </script>
