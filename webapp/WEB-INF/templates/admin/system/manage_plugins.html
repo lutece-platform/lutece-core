@@ -43,7 +43,7 @@
 				<#list plugins_list as plugin>
 					<@columns xs=12 sm=6 lg=4 id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"'>
 						<@box>
-							<#assign logo><@img url='${plugin.iconUrl}' alt='logo' class='thumbnail thumbnail-sm' title='${plugin.name}' params=' onerror="this.onerror=null;this.src=\'themes/admin/shared/images/apps.svg\'"' /></#assign>
+							<#assign logo><@img url='${plugin.iconUrl}' alt='logo' class='thumbnail thumbnail-sm img-invert' title='${plugin.name}' params=' onerror="this.onerror=null;this.src=\'themes/admin/shared/images/apps.svg\'"' /></#assign>
 							<@boxHeader title='${logo} ${plugin.name}' class='searchable' titleAuto=false boxTools=true>
 								<small>#i18n{portal.system.manage_plugins.labelVersion}: <strong>${plugin.version}</strong></small>
 								<@p class='my-1'>

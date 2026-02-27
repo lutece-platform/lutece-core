@@ -15,7 +15,7 @@
             <@manageFeature>
                 <#list role_list as role>
                     <@manageFeatureItem class='item-labels' auto=true>
-                        <@manageFeatureItemColumn class='searchable'>
+                        <@manageFeatureItemColumn class='searchable' >
                             <@p>#i18n{portal.rbac.manage_roles.columnTitleKey}: <strong>${role.key}</strong></@p>
                             <@p class='ms-2'>#i18n{portal.rbac.manage_roles.columnTitleDescription}: <strong>${role.description}</strong></@p>
                         </@manageFeatureItemColumn>

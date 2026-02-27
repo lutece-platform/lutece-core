@@ -1,7 +1,15 @@
 <@pageContainer>
 <@pageColumn>
 	<@pageHeader title='#i18n{portal.system.manage_caches.titleCacheList}'>
-			<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' type='inline'>
+		<@tform method='post' type='inline'>
+			<@formGroup labelFor='search_cache' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
+				<@inputGroup>
+					<@input type='text' name='search_cache' id='search_cache' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+					<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
+				</@inputGroup>
+			</@formGroup>
+		</@tform>
+		<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' type='inline'>
 			<@input type='hidden' name='token' value='${token}' />
 			<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' color='danger'	hideTitle=['xs','sm'] />
 		</@tform>
@@ -13,19 +21,16 @@
 	<@manageFeature>
 	<#assign id=0>
 		<#list services_list as service>
-		<@manageFeatureItem>
-			<@manageFeatureItemColumn auto=true>
+		<@manageFeatureItem liClass='item-labels'>
+			<@manageFeatureItemColumn auto=true class='searchable'>
 			<#if service.cacheEnable>
 				<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'><@icon style='check' /></@tag>
 			<#else>
 				<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'><@icon style='times' /></@tag>
 			</#if>
 			</@manageFeatureItemColumn>
-			<@manageFeatureItemColumn cols='12 col-md-3'>
-				<strong>${service.name}</strong>
-				<br>
-			</@manageFeatureItemColumn>
-			<@manageFeatureItemColumn cols='12 col-md-3'>
+			<@manageFeatureItemColumn cols='12 col-md-3' class='searchable'><strong>${service.name}</strong></@manageFeatureItemColumn>
+			<@manageFeatureItemColumn cols='12 col-md-3' class='searchable'>
 			<@p>#i18n{portal.system.manage_caches.columnTitleCacheSize} : ${service.cacheSize!}</@p>
 			</@manageFeatureItemColumn>
 			<@manageFeatureItemColumn cols='12 col-md-5' class='ms-auto' >
@@ -52,3 +57,12 @@
 	</@manageFeature>
 </@pageColumn>
 </@pageContainer>
+<script type="module">
+import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
+const searchInput = document.querySelector("#search_cache");
+const searchElementList = document.querySelectorAll(".item-labels");
+new LuteceSearchList( searchInput, searchElementList, {
+	searchableChild: [".searchable"],
+	highlight: true,
+});
+</script>
