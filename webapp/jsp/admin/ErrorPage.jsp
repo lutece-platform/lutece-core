@@ -56,9 +56,8 @@ if( document.getElementById('navbar-menu') != null ){
 	document.getElementById('navbar-menu').remove()
 	document.getElementById('main-nav').remove()
 	document.documentElement.classList.remove('loading');
-} else {
-	document.body.classList.add('loaded');
 }
+document.documentElement.classList.add('loaded');
 </script>
 <div class="container">
 <!-- container -->

@@ -41,7 +41,7 @@ Parameters:
 </div>
 <script>
 document.documentElement.classList.remove('loading');
-document.documentElement.classList.add('loaded');
+document.body.classList.add('loaded');
 </script>
 </@pageColumn>
 </@pageContainer>

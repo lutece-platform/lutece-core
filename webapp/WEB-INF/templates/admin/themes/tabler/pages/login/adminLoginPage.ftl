@@ -14,7 +14,7 @@ Parameters:
 <#local loginIsCoverContain><#attempt>${dskey('portal.site.site_property.layout.login.cover.contain.checkbox')?number}<#recover>0</#attempt></#local>
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
 </head>
-<body class="loaded<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<#if params!=''> ${params}</#if>>
+<body class="<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<#if params!=''> ${params}</#if>>
 <main class="<#if loginIsCover?number == 1>row g-0 flex-fill<#else>page page-center"</#if>">
 <#if loginIsCover?number == 0 && loginLayoutImg==''><div class="container container-tight py-4"> </#if>
 <#if loginIsCover?number == 1>
@@ -90,9 +90,7 @@ document.addEventListener( "DOMContentLoaded", function(){
 	const backImages = '#dskey{portal.site.site_property.back_images}'.split(',');
 	login.randomImages = aImages;
 	login.randomBgImages = backImages;
-	<#if loginLayoutImg != '' >
-	login.element = '.bg-cover';
-	</#if>	
+	<#if loginLayoutImg != '' >login.element = '.bg-cover';</#if>	
 	login.init( )
 	/* Password Toggler */
 	password.initPassToggler( );
