@@ -23,7 +23,7 @@ Parameters:
 	<@cSection class='step-title'>
         <@cContainer class='d-flex justify-content-between align-items-baseline'>
             <@cTitle class='title' level=titleLevel params='title="${title}"' >
-                <@cText type='span' class='step-number'><svg width="32" height="32" role="img" aria-label="${i18n('theme.labelStepDone', title)?html}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></@cText>
+                <@cText type='span' class='step-number'><svg width="32" height="32" role="img" aria-label="${i18n('portal.theme.labelStepDone', title)?html}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></@cText>
                 <@cText type='span'>${title}</@cText>
             </@cTitle>
             <@cSection type='span' class='d-none d-sm-block pl-2'>

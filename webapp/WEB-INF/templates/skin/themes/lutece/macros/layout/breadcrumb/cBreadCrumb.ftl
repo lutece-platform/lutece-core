@@ -12,30 +12,30 @@ Parameters:
 <#macro cBreadCrumb home='#i18n{portal.theme.home}' items='' class='' type='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <nav aria-label="#i18n{portal.theme.breadcrumb}" class="breadcrumb-nav<#if class!=''> ${class!}</#if>"<#if params!=''> ${params!}</#if>>
-	<div class="container<#if type='fluid'>-fluid</#if>">
-		<ol class="breadcrumb">
-            <#if home!=''>
-                <li class="breadcrumb-item">
-                    <a target="_top" href=".">${home!}</a>
+	<div class="container<#if type='fluid'>-fluid</#if> bg-light rounded">
+		<ol class="breadcrumb bg-light py-2 px-4 ">
+        <#if home!=''>
+            <li class="breadcrumb-item">
+                <a target="_top" href=".">${home!}</a>
+            </li>
+        </#if>
+        <#if items?has_content>
+            <#assign iMax=items?size>
+            <#assign idx=1>
+            <#list items as i>
+                <li class="breadcrumb-item <#if iMax==idx>active</#if>"<#if iMax==idx> aria-current="page"</#if>>
+                    <#if idx lt iMax>
+                    <a href="${i.url!}" title="${i.title!}" target="_top">
+                    </#if>
+                    ${i.title!}
+                    <#if idx lt iMax>
+                    </a>
+                    </#if>
                 </li>
-            </#if>
-            <#if items?has_content>
-                <#assign iMax=items?size>
-                <#assign idx=1>
-                <#list items as i>
-                    <li class="breadcrumb-item <#if iMax==idx>active</#if>"<#if iMax==idx> aria-current="page"</#if>>
-                        <#if idx lt iMax>
-                        <a href="${i.url!}" title="${i.title!}" target="_top">
-                        </#if>
-                        ${i.title!}
-                        <#if idx lt iMax>
-                        </a>
-                        </#if>
-                    </li>
-                    <#assign idx+=1>
-                </#list>
-            </#if>
-           <#nested> 
+                <#assign idx+=1>
+            </#list>
+        </#if>
+        <#nested> 
         </ol>
 	</div>
 </nav>
