@@ -16,49 +16,58 @@
   - btnSize (string, optional): the size of the toggle button.
   - targetUrl (string, optional): the URL to load content from when the off-canvas component is opened.
   - targetElement (string, optional): the ID of the element to load content into.
+  - useIframe (boolean, optional, default=false): whether to load content via iframe instead of AJAX.
   - redirectForm (boolean, optional): whether to redirect the form when submitted.
   - badgeContent (string, optional): the content of the badge on the toggle button.
   - badgeColor (string, optional): the color of the badge.
   -->
-<#macro offcanvas id position='end' title='' btnColor='primary' btnTitle='' hideTitle=[] btnIcon='' btnClass='' bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' redirectForm=true badgeContent='' badgeColor='' deprecated...>
+<#macro offcanvas id position='end' class='' title='' btnColor='primary' btnTitle='' hideTitle=[] btnIcon='' btnClass='' btnDisabled=false bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true badgeContent='' badgeColor='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass!=''> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>" onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if> title="${btnTitle}">
+<a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass!=''> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>"<#if btnDisabled> disabled</#if> onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if><#if params!=''> ${params}</#if>>
     <#if btnIcon!=''>
         <@icon style='${btnIcon} me-1' />
     </#if>
     <#-- Visibility of button title -->
     <#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
-    <span class="${displayTitleClass}">${btnTitle}</span>
-    <#if badgeContent?has_content>
-        <#if badgeColor?has_content>
-            <#assign bgColor="bg-" + badgeColor>
-        <#else>
-            <#assign bgColor=" text-dark">
-        </#if>
+    <#if displayTitleClass != ''><span class="${displayTitleClass}"></#if>${btnTitle}<#if displayTitleClass != ''></span></#if>
+    <#if badgeContent?has_content><#if badgeColor?has_content><#assign bgColor="bg-" + badgeColor><#else><#assign bgColor=" text-dark"></#if>
         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill shadow border ${bgColor}" style="transform: translate(-50%, -50%) !important;">
             ${badgeContent}
         </span>
     </#if>
 </a>
-<div class="offcanvas offcanvas-${position} <#if size !=''>w-${size}</#if>" data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
+<#if useIframe>
+<script>
+(function() {
+    const btn = document.getElementById('btn-${id}');
+    if ( btn ) {
+        btn.setAttribute('data-lutece-offcanvas-id', '${id}'); 
+        btn.setAttribute('data-lutece-offcanvas-title', '#i18n{portal.util.labelModify}'); 
+        btn.setAttribute('data-lutece-offcanvas-classes', 'offcanvas-${position}<#if size !=''> w-${size}</#if><#if class!=''> ${class}</#if>');
+        btn.setAttribute('data-lutece-use-iframe', 'true');
+        btn.setAttribute('data-lutece-load-content-url', '${targetUrl}');
+        btn.setAttribute('data-lutece-load-content-target', '${targetElement}');
+        btn.setAttribute('data-lutece-redirect-form', '<#if redirectForm>true<#else>false</#if>');
+    }
+})();
+</script>
+<#else>
+<div class="offcanvas offcanvas-${position} <#if size !=''>w-${size}</#if><#if class!=''> ${class}</#if>" data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-use-iframe=<#if useIframe>true<#else>false</#if> data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
     <div class="offcanvas-header border-bottom text-break <#if title=''>position-absolute end-0 px-2 pt-2 border-0<#else>px-4</#if>">
         <button type="button" class="border btn btn-light btn-rounded btn-icon position-absolute end-0 me-4" data-bs-dismiss="offcanvas" aria-label="Fermer">
             <i class="ti ti-x fs-5"></i>
         </button>
-        <#if title!=''>
-            <h2 class="offcanvas-title fw-bolder me-5 text-start" id="${id}Label">
-                ${title}
-            </h2>
-        </#if>
+        <#if title!=''><h2 class="offcanvas-title fw-bolder me-5 text-start" id="${id}Label">${title}</h2></#if>
     </div>
     <div id="offcanvas-body-${id}" class="offcanvas-body <#if bodyClass?has_content>${bodyClass}</#if> text-break">
         <#nested>
     </div>
 </div>
+</#if>
 <#if targetUrl?has_content>
-    <script type="module">
-        import LuteceBSOffCanvas from "./themes/shared/modules/bootstrap/luteceBSOffCanvas.js";
-        new LuteceBSOffCanvas(`${id}`);
-    </script>
+<script type="module">
+import LuteceBSOffCanvas from "./themes/shared/modules/bootstrap/luteceBSOffCanvas.js";
+new LuteceBSOffCanvas(`${id}`);
+</script>
 </#if>
 </#macro>

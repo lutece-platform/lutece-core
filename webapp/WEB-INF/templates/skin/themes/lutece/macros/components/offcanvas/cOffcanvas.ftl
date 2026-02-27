@@ -4,6 +4,7 @@
   Parameters:
   - id (string, required): the ID of the off-canvas component.
   - position (string, optional): the position of the off-canvas component ("start", "end", "top", or "bottom").
+  - class (string, optional): additional CSS classes for the offcanvas element.
   - title (string, optional): the title of the off-canvas component.
   - btnTitle (string, optional): the text on the toggle button.
   - btnColor (string, optional): the color of the toggle button.
@@ -15,11 +16,12 @@
   - btnSize (string, optional): the size of the toggle button.
   - targetUrl (string, optional): the URL to load content from when the off-canvas component is opened.
   - targetElement (string, optional): the ID of the element to load content into.
+  - useIframe (boolean, optional, default=false): whether to load content via iframe instead of AJAX.
   - redirectForm (boolean, optional): whether to redirect the form when submitted.
-  - badgeContent (string, optional): the content of the badge on the toggle button.
+  - badgeContent (string, optional): the content of the badge on     the toggle button.
   - badgeColor (string, optional): the color of the badge.
   -->
-<#macro cOffcanvas id position='end' title='' btnTitle='' btnColor='primary' btnTitleShow=true btnIcon='' btnClass='' bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' redirectForm=true badgeContent='' badgeColor=''>
+<#macro cOffcanvas id position='end' class='' title='' btnTitle='' btnColor='primary' btnTitleShow=true btnIcon='' btnClass='' bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true badgeContent='' badgeColor='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if btnTitle !=''>
 <a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor} </#if><#if btnSize?has_content> btn-${btnSize}</#if> ${btnClass}<#if badgeContent?has_content> position-relative</#if>" onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if> title="${btnTitle}">
@@ -33,7 +35,7 @@
     </#if>
 </a>
 </#if>
-<div class="offcanvas offcanvas-${position} <#if size !=''>w-${size}</#if>" data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
+<div class="offcanvas offcanvas-${position} <#if size !=''>w-${size}</#if><#if class!=''> ${class}</#if>" data-lutece-load-content-url="${targetUrl}" data-lutece-load-content-target="${targetElement}" data-lutece-use-iframe=<#if useIframe>true<#else>false</#if> data-lutece-redirectForm=<#if redirectForm>true<#else>false</#if> tabindex="-1" id="${id}" aria-labelledby="${id}Label">
     <div class="offcanvas-header border-bottom d-flex justify-content-between align-items-center">
         <#if title!=''><h2 class="h4 offcanvas-title p-0 pe-xl m-0 me-xl" id="${id}Label">${title}</h2></#if>
         <button type="button" class="border btn btn-light btn-rounded btn-icon end-0 mx-sm p-0" data-bs-dismiss="offcanvas" aria-label="Fermer">
