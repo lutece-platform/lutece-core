@@ -1,18 +1,13 @@
-<@tabPanel id='xslexportManagement'>
-    <#assign tabTitle>#i18n{portal.xsl.manage_xsl_export.page_title}</#assign>
-    <@pageHeader title="${tabTitle}">
+<@tabPanel id='xslexportManagement' class='admin-xsl-export-management'>
+    <@pageHeader title='#i18n{portal.xsl.manage_xsl_export.page_title}'>
         <@tform type='inline' method='post' action='jsp/admin/xsl/CreateXslExport.jsp'>
             <@btnGroup align='right'>
                 <@button type='submit' title='#i18n{portal.xsl.manage_xsl_export.button_create}' buttonIcon='plus'  />
             </@btnGroup>
         </@tform>
     </@pageHeader>
-    <!-- 
-    
-    
-    
-    -->
-    <@manageFeature params='aria-describedby="manage_xsl_export"'>
+    <#if xsl_export_list?size != 0>
+        <@manageFeature params='aria-describedby="manage_xsl_export"'>
         <#list xsl_export_list as xsl_export>
             <@manageFeatureItem>
                 <@manageFeatureItemColumn auto=true><@span class="badge bg-blue text-blue-fg">#i18n{portal.xsl.manage_xsl_export.row_extension}  ${xsl_export.extension?trim}</@span> </@manageFeatureItemColumn>
@@ -27,5 +22,8 @@
                 </@manageFeatureItemColumn>
             </@manageFeatureItem>
         </#list>
-    </@manageFeature>
+        </@manageFeature>
+    <#else>
+        <@empty /> 
+    </#if>
 </@tabPanel>

@@ -1,7 +1,7 @@
 <#assign containerClass><#if commonsThemeCode = 'tabler'>container</#if></#assign>
 <@pageContainer id='adminTechnical' class=containerClass!'' >
-    <@pageColumn id="adminTechnicalMenu" class="bg-light border-end p-4" width="28rem" height="full" responsiveMenuSize="xl" responsiveMenuPlacement="start" title="#i18n{portal.admindashboard.view_dashboards.title}">
-        <@tabList id="adminTechnicalList" style='pills' vertical=true>
+    <@pageColumn id="adminTechnicalMenu" class="border-end p-4" width="28rem" height="full" responsiveMenuSize="xl" responsiveMenuPlacement="start" title="#i18n{portal.admindashboard.view_dashboards.title}">
+        <@tabList id="adminTechnicalList" style='pills' class='px-3 rounded' vertical=true>
 		<@li><@h level=3 class='fw-bolder my-2'>#i18n{portal.templates.manage_autoincludes.menuTitle}</@h></@li>
 		<@tabLink href='#autoincludes' title='#i18n{portal.templates.manage_autoincludes.tabTitle}' tabIcon='code' />
             <@li><@h level=3 class='fw-bolder my-2'>#i18n{portal.users.adminDashboard.menuTitle}</@h></@li>

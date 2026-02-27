@@ -8,6 +8,7 @@ Parameters:
 - user.accessibilityMode (boolean, required): a boolean value indicating whether accessibility mode is currently active.
 -->
 <#macro adminAccessibilityMode>
+<#--
 <div class="nav-item">
 <@tform method='post' action='jsp/admin/DoModifyAccessibilityMode.jsp' >
 	<@input type='hidden' name='token' value='${token}' />
@@ -21,4 +22,5 @@ Parameters:
 	<@button color='dropdown dropdown-item mb-0 ms-0' type='submit' buttonIcon=btnIcon><span>${btnTitle}</span></@button>
 </@tform>
 </div>
+-->
 </#macro>
