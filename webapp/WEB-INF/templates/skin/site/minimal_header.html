@@ -1,6 +1,13 @@
 <#include "../themes/global_theme_commons.ftl"/>
+<#assign thetheme=theme />
 <#if lutece_name??><#assign favourite=lutece_name!'LUTECE' /><#else><#assign favourite='LUTECE'></#if>
 <#if plugin_theme?? ><#assign thetheme=plugin_theme /><#else><#assign thetheme=theme /></#if>
+<#assign commonsGlobalThemeCode=thetheme.codeTheme! >
+<#assign commonsGlobalThemeVersion=thetheme.themeVersion!>
+<#assign minimalHeader=.get_optional_template('../themes/${commonsGlobalThemeCode}/tpl/site/minimal_header.html')>
+<#if minimalHeader.exists>
+<@minimalHeader.include />
+<#else>
 <#assign commonsGlobalThemeCode=thetheme.codeTheme!>
 <#assign commonsGlobalThemeVersion=thetheme.themeVersion!>  
 <!DOCTYPE html>
@@ -34,7 +41,8 @@
 <script src="themes/skin/parisfr/js/vendor/jquery/jquery-1.11.3.min.js"></script>
 -->
 </head>
-<body data-bs-theme="light">
+<body class="loaded" data-bs-theme="light">
 <!-- Accessibility Skip Nav Menu-->
 <@skipNav skipMenu=false target='main'  />
 <@cMainNav title=lutece_name!'LUTECE' logoImg=logoHeader />
+</#if>
