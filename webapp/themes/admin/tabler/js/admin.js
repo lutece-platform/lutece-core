@@ -98,8 +98,6 @@ function themeMenu( ){
 			userMenu.textContent = initials;
 		}
 
-		themeRoot.classList.remove( 'loading' )
-		themeRoot.classList.add( 'loaded' )
 	}
 }
 
@@ -183,4 +181,8 @@ document.addEventListener( "DOMContentLoaded", function(){
 		el.setAttribute( 'data-bs-toggle', 'collapse' );
 		el.setAttribute( 'data-bs-target', el.getAttribute('data-target') );
 	});
+
+	
+		themeRoot.classList.remove( 'loading' )
+		themeRoot.classList.add( 'loaded' )
 })
