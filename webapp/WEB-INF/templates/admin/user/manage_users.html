@@ -78,7 +78,8 @@
                             <@p class='mb-0'>#i18n{portal.users.manage_users.columnTitleAccessCode} : <strong><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></strong></@p>
                         </@manageFeatureItemColumn> 
                         <@manageFeatureItemColumn class='align-self-baseline'>
-                            <@p>#i18n{portal.users.manage_users.columnTitleEmail} : <strong class="copy-content"><#if user.status=10>#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.email}</#if></strong></@p>
+                            
+                            <@p>#i18n{portal.users.manage_users.columnTitleEmail} : <#if user.status=10><em>#i18n{portal.users.anonymize_user.statusLabelAnonymize}</em><#else><strong class="copy-content" data-title="#i18n{portal.util.labelCopy} #i18n{portal.users.manage_users.columnTitleEmail} ${user.email}">${user.email}</strong></#if></@p>
                         </@manageFeatureItemColumn>
                         <#assign list_user_fields=map_id_user_list_user_fields["" + user.userId]>
                         <#list attributes_list as attribute>
