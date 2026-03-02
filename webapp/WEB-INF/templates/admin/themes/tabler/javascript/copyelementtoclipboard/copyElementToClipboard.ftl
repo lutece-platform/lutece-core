@@ -18,8 +18,8 @@ Parameters:
 <script>
 document.querySelectorAll('${selector!}').forEach(elem => {
 	<#if class != ''>elem.classList.add(...'${class!}'.split(' '));</#if>
-	elem.setAttribute('title', '#i18n{portal.util.labelCopy}');
-
+	const btnTitle = elem.dataset.title;
+	
 	const copyContent = async () => {
 		try {
 			await navigator.clipboard.writeText(elem.textContent.trim());
@@ -34,9 +34,11 @@ document.querySelectorAll('${selector!}').forEach(elem => {
 	<#if copyBtn>
 	const btn = document.createElement('button');
 	btn.type = 'button';
-	btn.className = 'btn btn-sm btn-icon btn-link-primary ms-2';
-	btn.title = '#i18n{portal.util.labelCopy}';
-	btn.innerHTML = '<i class="ti ti-copy"></i>';
+	btn.className = 'btn btn-sm btn-link-primary ms-2';
+	const label = btnTitle !='' ? btnTitle : '#i18n{portal.util.labelCopy}';
+	btn.title = label;
+	btn.setAttribute('aria-label', label);
+	btn.innerHTML = '<i class="ti ti-copy" aria-hidden="true"></i>';
 	btn.addEventListener('click', (e) => {
 		e.stopPropagation();
 		copyContent();
@@ -52,16 +54,18 @@ function showCopyToast(message, type) {
 		container = document.createElement('div');
 		container.id = 'copy-toast-container';
 		container.className = 'toast-container position-fixed top-0 end-0 p-3';
+		container.setAttribute('aria-live', 'polite');
+		container.setAttribute('aria-atomic', 'true');
 		container.style.zIndex = '1090';
 		document.body.appendChild(container);
 	}
 	const toastEl = document.createElement('div');
 	toastEl.className = 'toast align-items-center text-bg-' + type + ' border-0';
-	toastEl.setAttribute('role', 'alert');
+	toastEl.setAttribute('role', 'status');
 	toastEl.innerHTML = '<div class="d-flex align-items-center"><div class="toast-body">' + message + '</div>'
 		+ '<button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="#i18n{portal.util.labelClose}"></button></div>';
 	container.appendChild(toastEl);
-	const toast = new bootstrap.Toast(toastEl, { delay: 2000, autohide: true });
+	const toast = new bootstrap.Toast(toastEl, { delay: 5000, autohide: true });
 	toast.show();
 	toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
 }
