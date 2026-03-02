@@ -26,3 +26,21 @@ Parameters:
 <#if helpPos == 'after' && helpMsg !=''><@cFormHelp cId helpMsg /></#if>
 </fieldset>
 </#macro>
+<#-- Macro: cLegend
+
+Description: permet de définir la légende d'un fieldset.
+
+Parameters:
+
+@param - label - string - optional - permet de définir le label de la légende, défaut '' 
+@param - showLabel - string - optional - permet de définir si la legend est affichée ou pas
+@param - class - string - optional - ajoute une classe CSS  à la légende
+@param - id - string - optional - l'ID du formulaire
+@param - params - string - optional - permet d'ajouter des parametres HTML au formulaire
+-->
+<#macro cLegend label='' showLabel=true class='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
+<legend <#if class!=''>class="${class!}<#if !showLabel> visually-hidden</#if>"</#if> <#if id!=''>id="${id}"</#if>>
+<#if label!=''>${label!} </#if><#nested>
+</legend>
+</#macro>
