@@ -13,7 +13,7 @@ Parameters:
 - msgError (string, optional): the error message to display.
 
 -->
-<#macro copyElementToClipboard selector='.copy-content' class='' copyBtn=true showMsg=true msgDone='#i18n{portal.util.copy.done}' msgError='#i18n{portal.util.copy.error}' deprecated...>
+<#macro copyElementToClipboard selector='.copy-content' class='' copyBtn=true btnAbsolute=false btnTop='0' btnEnd='0' showMsg=true msgDone='#i18n{portal.util.copy.done}' msgError='#i18n{portal.util.copy.error}' deprecated...>
 <@deprecatedWarning args=deprecated />
 <script>
 document.querySelectorAll('${selector!}').forEach(elem => {
@@ -39,11 +39,17 @@ document.querySelectorAll('${selector!}').forEach(elem => {
 	btn.title = label;
 	btn.setAttribute('aria-label', label);
 	btn.innerHTML = '<i class="ti ti-copy" aria-hidden="true"></i>';
+	<#if btnAbsolute>
+	btn.style.position = 'absolute';
+	btn.style.top = '${btnTop}';
+	btn.style.right = '${btnEnd}';
+	</#if>
 	btn.addEventListener('click', (e) => {
 		e.stopPropagation();
 		copyContent();
 	});
 	elem.after(btn);
+	<#if btnAbsolute>btn.parentElement.style.position = 'relative';</#if>
 	</#if>
 });
 
