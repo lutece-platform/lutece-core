@@ -1,28 +1,61 @@
 <#include "minimal_header.html" />
 <@cTpl>
-<div class="row">
-	<div class="col-sm-12 col-md-3"> 
-        <img src="images/cactus.png" alt="erreur 500" class="img-fluid">
-    </div>    
-	<div class="col-sm-12 col-md-6 pt-5">
-        <div class="card border-danger">
-            <div class="card-header d-flex justify-content-between">
-                <h2 class="card-title text-danger">#i18n{portal.util.error500.title}</h2>
-                <h3 class="text-danger fw-900">Error 500</h3>
-            </div>
-            <div class="card-body">
-                <p class="mt-3 fs-4">#i18n{portal.util.error500.text}</p>
-                <#if error_cause??>
-                <div class="alert alert-danger">${error_cause}</div>
-                </#if>
-                <p class="text-center mt-3">
-                    <a href="./" class="btn btn-outline-primary btn-lg">
-                        <i class="ti ti-home"></i> #i18n{portal.util.labelBackHome}
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
+<@cContainer class='vh-80 pt-5'>
+    <@cRow class='pt-5 mt-5'>
+        <@cCol cols='12 col-md-3'  class='pt-5 mt-5'>
+            <@cImg src='themes/skin/shared/images/500.png' alt='#i18n{portal.util.error500.title}' id='error500-img' />
+        </@cCol>
+        <@cCol cols='12 col-md-6' class='pt-5 mt-5'>
+            <@cCard class='border border-danger mt-5' titleLevel=1 header='Error 500' headerLevel=1 headerLabelClass='text-danger fw-bold h2' title='#i18n{portal.util.error500.title}' titleClass='h2' titleLevel=2>
+                <@cText class='my-5 fs-2 '>#i18n{portal.util.error500.text}</@cText>
+                <#if error_cause??><@cAlert type='danger' class='fs-3'>${error_cause}</@cAlert></#if>
+                <@cText class='text-center mt-5'>
+                     <@cBtn href='./' label='#i18n{portal.util.labelBackHome}'>
+                        <@cInline type='i' class='ti ti-home' />
+                    </@cBtn>
+                </@cText>
+            </@cCard>
+        </@cCol>
+    </@cRow>
+</@cContainer>
 </@cTpl>
 <#include "minimal_footer.html" />
+<style>
+@keyframes slideInShakeOut {
+    0% {
+        transform: translateX(-100vw) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    30% {
+        transform: translateX(0) rotate(0deg);
+    }
+    35% {
+        transform: translateX(-10px) rotate(0deg);
+    }
+    40% {
+        transform: translateX(10px) rotate(0deg);
+    }
+    45% {
+        transform: translateX(-10px) rotate(0deg);
+    }
+    50% {
+        transform: translateX(10px) rotate(0deg);
+    }
+    55% {
+        transform: translateX(-10px) rotate(0deg);
+    }
+    60% {
+        transform: translateX(0) rotate(0deg);
+    }
+    100% {
+        transform: translateX(40vw) rotate(360deg);
+    }
+}
+
+#error500-img {
+    animation: slideInShakeOut 4s ease-in-out forwards;
+}
+</style>
