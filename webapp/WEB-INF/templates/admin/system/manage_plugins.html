@@ -84,12 +84,12 @@
 								</#if>
 								<@offcanvas targetUrl="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" targetElement="#plugin-content" id="plugin-${plugin?index}" btnIcon="info-circle" btnColor="info me-1" position="end" title="#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${plugin.name}" />
 								<#if plugin.installed>
-									<@aButton href='jsp/admin/system/ConfirmUninstallPlugin.jsp?plugin_name=${plugin.name}' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' hideTitle=['all'] color='danger' />
+									<@aButton href='jsp/admin/system/ConfirmUninstallPlugin.jsp?plugin_name=${plugin.name}' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='player-stop me-1' hideTitle=['xs','sm'] color='danger' />
 								<#else>
 									<@tform method='post' type='inline' align='middle' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
 										<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 										<@input type='hidden' name='token' value='${token}' />
-										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' hideTitle=['all'] color='success' />
+										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='player-play me-1' hideTitle=['xs','sm'] color='success' />
 									</@tform>
 								</#if>
 							</@boxFooter>

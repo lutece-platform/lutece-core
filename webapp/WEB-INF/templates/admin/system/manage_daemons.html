@@ -94,10 +94,10 @@
 						<@input type='hidden' name='daemon' value='${daemon.id}' />
 						<@input type='hidden' name='token' value='${token}' />
 						<#if daemon.running>
-							<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ' name='action' value='STOP' buttonIcon='stop' color='danger'  />
-							<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ' name='action' value='RUN' buttonIcon='sync' color='info' />
+							<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ' name='action' value='STOP' buttonIcon='player-stop me-1' color='danger'  />
+							<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ' name='action' value='RUN' buttonIcon='sync me-1' color='info' />
 						<#else>
-							<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ' name='action' value='START' buttonIcon='play' color='success'  />
+							<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ' name='action' value='START' buttonIcon='player-play me-1' color='success'  />
 						</#if>
 					</@tform>
 				</@manageFeatureItemColumn>

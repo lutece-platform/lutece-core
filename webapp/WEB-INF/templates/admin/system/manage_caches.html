@@ -40,9 +40,9 @@
 					<@input type='hidden' name='id_cache' value='${id}' />
 					<@input type='hidden' name='token' value='${token}' />
 					<#if service.cacheEnable>
-						<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' color='danger' />
+						<@button type='submit' buttonIcon='player-stop me-1' title='#i18n{portal.system.manage_caches.actionDisable}' color='danger' />
 					<#else>
-						<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' color='success' />
+						<@button type='submit' buttonIcon='player-play me-1' title='#i18n{portal.system.manage_caches.actionEnable}' color='success' />
 					</#if>
 				</@tform>
 				<@tform method='post' type='inline' align="middle" action='jsp/admin/system/DoResetCaches.jsp'>
