@@ -8,7 +8,7 @@
         <@cCol cols='12 col-md-6' class='pt-5 mt-5'>
             <@cCard class='border border-warning mt-5' titleLevel=1 header='Error 404' headerLevel=1 headerLabelClass='text-warning fw-bold h2' title='#i18n{portal.util.error404.title}' titleClass='h2' titleLevel=2>
                 <@cText class='my-5 fs-2 '>#i18n{portal.util.error404.text}</@cText>
-                <#if error_cause??><@cAlert type='warning' class='fs-3'>${error_cause}</@cAlert></#if>
+                <#if error_cause??><@cAlert type='warning' class='fs-3' title='${error_cause}' /></#if>
                 <@cText class='text-center mt-5'>
                      <@cBtn href='./' label='#i18n{portal.util.labelBackHome}'>
                         <@cInline type='i' class='ti ti-home' />

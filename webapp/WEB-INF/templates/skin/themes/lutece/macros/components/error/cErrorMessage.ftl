@@ -18,7 +18,7 @@ Parameters:
 <@cContainer class='d-flex align-items-center justify-content-center vh-50'>
   <@cRow>
     <@cCol class=class! id=id params=params >
-      <@cAlert title=title class='danger'>
+      <@cAlert title=title type='danger'>
         <#if title?trim != text?trim><@cText>${text}</@cText></#if>
         <#nested>
       </@cAlert>
