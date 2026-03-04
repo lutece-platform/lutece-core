@@ -32,11 +32,15 @@ Parameters:
 @param - hoverEffect - boolean - optional - permet d'ajouter un effet d'hover à l'image de la carte (par défaut: true)
 @param - params - string - optional - permet d'ajouter des parametres HTML à la carte
  -->
-<#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params='' deprecated...>
+<#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerLevel=0 headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if orientation='v'>
 <div class="card ${class!}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params!}</#if>>
-    <#if header!=''><div class="card-header<#if headerClass !=''> ${headerClass}</#if><#if headerImg!=''> card-header-img</#if>"<#if headerImg!=''>style="background-image:url(${headerImg});"</#if>><#if headerLabelClass!=''><span class="${headerLabelClass!}">${header!}</span><#else>${header!}</#if></div></#if>
+    <#if header!=''>
+    <div class="card-header<#if headerClass !=''> ${headerClass}</#if><#if headerImg!=''> card-header-img</#if>"<#if headerImg!=''>style="background-image:url(${headerImg});"</#if>>
+    <#if headerLabelClass!=''><#if headerLevel gt 0><@cTitle level=headerLevel class="${headerLabelClass!}">${header!}</@cTitle><#else><span class="${headerLabelClass!}">${header!}</span></#if></#if>
+    </div>
+    </#if>
     <#if subHeader!=''><div class="card-sub-header<#if subHeaderClass !=''> ${subHeaderClass}</#if>">${subHeader!}</div>
     </#if>
     <#if img!=''>
