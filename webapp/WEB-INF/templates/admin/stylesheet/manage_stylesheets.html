@@ -1,6 +1,16 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title='#i18n{portal.style.manage_stylesheets.title}' >
+            <#if stylesheet_list?size gt 9>
+             <@tform method='post' type='inline'>
+				<@formGroup labelFor='search_stylesheet' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
+					<@inputGroup>
+						<@input type='text' name='search_stylesheet' id='search_stylesheet' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='search' hideTitle=['all'] />
+					</@inputGroup>
+				</@formGroup>
+			</@tform>
+            </#if>
             <@tform method='post' type='inline' align='middle'>
                 <@formGroup formStyle='inline' labelKey='#i18n{portal.style.manage_stylesheets.labelSortByMode}' labelFor='mode_id' hideLabel=['all'] groupStyle='addons'> 
                     <@inputGroup >
@@ -15,11 +25,11 @@
         <#if stylesheet_list?size gte 1>
             <@manageFeature>
             <#list stylesheet_list as stylesheet>
-                <@manageFeatureItem >
-                    <@manageFeatureItemColumn>
+                <@manageFeatureItem liClass='item-labels'>
+                    <@manageFeatureItemColumn class='searchable'>
                         #i18n{portal.style.manage_stylesheets.columnName} ${stylesheet.description}
                     </@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn class='searchable'>
                         #i18n{portal.style.manage_stylesheets.columnFilename} ${stylesheet.file}
                     </@manageFeatureItemColumn>
                     <@manageFeatureItemColumn auto=true>
@@ -36,3 +46,12 @@
         <#if stylesheet_list?size gt 5><@paginationAdmin paginator=paginator showcount=0 combo=1 /></#if>
     </@pageColumn>
 </@pageContainer>
+<script type="module">
+import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
+const searchInput = document.querySelector("#search_stylesheet");
+const searchElementList = document.querySelectorAll(".item-labels");
+new LuteceSearchList( searchInput, searchElementList, {
+	searchableChild: [".searchable"],
+	highlight: true,
+});
+</script>
