@@ -55,7 +55,6 @@ ${rss?default("<!-- no RSS feed -->")}
 <body id="body-page"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if>>
 <!-- Accessibility Skip Nav Menu-->
 <@skipNav />
-
 <!-- main container -->
 <#assign optMainContentHeader=.get_optional_template('theme_frameset_content_header.html')>
 <#if optMainContentHeader.exists><@optMainContentHeader.include /></#if>
@@ -63,9 +62,7 @@ ${page_content}
 <#if display_last_modified?? && display_last_modified><@cText class='text-right pt-3 pe-5'><@parisIcon name='clock' title='' class='main-danger-color' /> #i18n{portal.site.site_property.page.lastModified} ${last_modified!}</@cText></#if>
 <#assign optMainContentFooter=.get_optional_template('theme_frameset_content_footer.html')>
 <#if optMainContentFooter.exists><@optMainContentFooter.include /></#if>
-</main>
 <!-- Footer -->
-
 <!-- Le javascript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
