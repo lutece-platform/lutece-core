@@ -99,7 +99,7 @@ Parameters:
                 </li>
             </#if>
             <#if hasUserThemeSwitch>
-            <li id="bs-theme-switcher" class="nav-item dropdown ms-lg-auto d-block d-lg-flex" > 
+            <li id="bs-theme-switcher" class="nav-item dropdown d-block d-lg-flex<#if !hasLogin> ms-lg-auto</#if>" > 
                 <button class="btn btn-link nav-link px-0 px-lg-2 py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)"> 
                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-sun"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" /></svg>
                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-moon"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg>
@@ -197,11 +197,11 @@ Parameters:
             <#if optMainBanner.exists><@optMainBanner.include /></#if>
         </#if>
     <#else>
+        </header>
         <main id="main"<#if mainClass !=''> class="${mainClass!}"</#if> role="main">
         <#if hasBanner?boolean>
             <#assign optMainBanner=.get_optional_template('../../../../site/theme_frameset_main_banner.html')>
             <#if optMainBanner.exists><@optMainBanner.include /></#if>
         </#if>
-        </header>
     </#if>
 </#macro>
