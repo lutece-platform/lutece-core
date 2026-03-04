@@ -26,9 +26,9 @@
                         <#else>
                             <#list list_type_and_link as map>
                                 <#if type_filter != "checkbox" || map_index != 0>
-                                    <input type=${type_filter} name="type_filter" value="${map.type}" />
+                                    <@cInput type=type_filter name="type_filter" value=map.type />
                                     <#if map.link?exists && map.link != "">
-                                        <a href="${map.link!}"  ><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></a>
+                                        <@cLink href=map.link!><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></@cLink>
                                     <#else>
                                         <#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if>
                                     </#if>
@@ -67,12 +67,12 @@
         <@cCol class='p-sm-4'>
             <@cTitle level=2 class='h3'>#i18n{portal.search.search_results.title}</@cTitle>
             <@cCard>
-                <#if error?has_content><@cAlert title=error class='danger' /></#if>
+                <#if error?has_content><@cAlert title=error type='danger' /></#if>
                 <#-- included sponsored links if available - might be null -->
                 ${sponsoredlinks_set!}
                 <#if results_list??>
                     <#if results_list?size gt 0>
-                        <ul class="list-group list-group-flush">
+                        <@chList class='list-group list-group-flush'>
                         <#list results_list as result>
                             <#assign imgUrl='' >
                             <#assign resultHeader='<small>[ ${result.type} ]</small> - ${result.title}' >
@@ -80,13 +80,13 @@
                             <#assign resultUrl = result.url! />
                             <#assign resultTitle = '[ ${result.type!} ] ${result.title!}' />
                             <#assign resultDate = '<small class="mx-3">${result.date?date?string.short!}</small>' />
-                            <li class="list-group-item d-flex justify-content-between">
+                            <@chItem class='list-group-item d-flex justify-content-between'>
                                 <@cLink href=resultUrl label='${resultTitle} ${resultDate}' title='${resultTitle}' />
-                            </li>
+                            </@chItem>
                         </#list>
-                        </ul>
+                        </@chList>
                     <#else>
-                        <@cAlert title='#i18n{portal.util.labelNoItem}' dismissible=false class='warning' classText='' outline=true />
+                        <@cAlert title='#i18n{portal.util.labelNoItem}' dismissible=false type='warning' outline=true />
                     </#if>
                 </#if>
             </@cCard>

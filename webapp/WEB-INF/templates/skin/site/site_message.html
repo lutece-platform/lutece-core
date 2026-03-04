@@ -1,7 +1,7 @@
 <@cTpl>
 <#switch message.type>
 <#case 1>
-<#assign messageClass = 'primary' /> 
+<#assign messageClass = 'info' /> 
 <#assign messageTitle='#i18n{portal.util.message.titleQuestion}' />
 <#case 2> 
 <#assign messageClass = 'danger' />
@@ -16,13 +16,13 @@
 <#assign messageClass = 'danger' />
 <#assign messageTitle='#i18n{portal.util.message.titleStop} ' />	
 <#default> 
-<#assign messageClass = 'primary' />
+<#assign messageClass = 'info' />
 <#assign messageTitle='' />
 </#switch>
 <@cContainer>
 	<@cRow>
 		<@cCol class='d-flex flex-column justify-content-center align-items-center vh-50'>
-			<@cAlert title='${messageTitle!}${title!}' class=messageClass>${text}</@cAlert>
+			<@cAlert title='${messageTitle!}${title!}' type=messageClass>${text}</@cAlert>
 			<@cSection class='w-50 d-flex mt-l justify-content-evenly'>
 			<#if url?has_content>
 				<@cForm action='${url!}' params=' target="${target!}" '>
