@@ -14,7 +14,7 @@ Parameters:
 @param - required - boolean - optional - permet d'indiquer si le champs est obligatoire, ajoute le libellé '(facultatif)' si false (par défaut: false)
 @param - params - string - optional - permet d'ajouter des parametres HTML au champs de formulaire
 -->
-<#macro cField label='' labelClass='' labelData='' for='' showLabel=true required=false class='mb-xs' id='' params='' >
+<#macro cField label='' labelClass='' labelData='' for='' showLabel=true required=false class='mb-3' id='' params='' >
 <@cBlock class='${class}' id=id params=params>
 <#if label!=''>
 <#assign fieldLabel>${label!} ${labelData!}</#assign>
