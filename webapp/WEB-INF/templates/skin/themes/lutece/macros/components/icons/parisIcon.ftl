@@ -1,14 +1,30 @@
-<#-- Macro: parisIcon
+<#--
+Macro: parisIcon
 
-Description: affiche une icône.
+Description: Generates an SVG icon from the Paris icon sprite set with accessibility support.
 
 Parameters:
-@param - id - string - optional - identifiant unique de l'icône
-@param - class - string - optional - classe(s) css de l'icône
-@param - name - string - required - nom de l'icône, title
-@param - type - string - optional - type de l'icon pour l'accessibilité (défaut: "decorative", valeurs possibles: "decorative", "informative")
-@param - title - string - optional - titre de l'icon
-@param - params - string - optional - permet d'ajouter des paramètres HTML à l'icône
+- name (string, required): Name of the icon from the Paris icon pack.
+- type (string, optional): Accessibility type, either 'decorative' (hidden from screen readers) or 'informative' (announced by screen readers). Default: 'decorative'.
+- id (string, optional): HTML id attribute. Default: ''.
+- class (string, optional): Additional CSS classes for the icon. Default: ''.
+- title (string, optional): Accessible title for informative icons. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Decorative icon (default):
+
+    <@parisIcon name='arrow-right' />
+
+    Informative icon with title:
+
+    <@parisIcon name='check' type='informative' title='Validated' class='text-success' />
+
+    Icon with custom class and attributes:
+
+    <@parisIcon name='close' class='ms-2 main-color' params='aria-label="Close"' />
+
 -->
 <#macro parisIcon name type='decorative' id='' class='' title='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

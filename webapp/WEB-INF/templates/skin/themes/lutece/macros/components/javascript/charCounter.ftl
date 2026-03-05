@@ -1,14 +1,28 @@
-<#-- 
-Macro: copyElementToClipboard
+<#--
+Macro: charcounter
 
-Description: Attaches a click event listener to the specified element(s) that copies its contents to the clipboard when clicked. The macro also adds a tooltip to the element(s) that indicates it can be clicked to copy, and optionally displays a success or error message after the copy operation.
+Description: Generates a JavaScript character counter that limits and tracks text input length for content-editable elements on the page.
 
 Parameters:
-- selector (string, required): the CSS selector for the element(s) to attach the click event listener to.
-- class (string, optional): the CSS class to add to the element(s).
-- showMsg (boolean, optional): whether to display a success or error message after the copy operation.
-- msgDone (string, optional): the success message to display.
-- msgError (string, optional): the error message to display.
+- maxChars (number, optional): Maximum number of characters allowed. Default: 0.
+- selector (string, optional): CSS selector for the element(s) to attach the counter to. Default: '.lutece-charcounter'.
+- title (string, optional): Label text displayed before the counter. Default: '#i18n{portal.util.labelCharCount}'.
+- defaultClass (string, optional): CSS class when character count is normal. Default: 'text-normal'.
+- warningClass (string, optional): CSS class when character count reaches warning threshold. Default: 'text-warning'.
+- dangerClass (string, optional): CSS class when character count exceeds the limit. Default: 'text-danger'.
+- id (string, optional): HTML id attribute. Default: ''.
+- class (string, optional): Additional CSS classes. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic usage with a max character limit:
+
+    <@charcounter maxChars=250 selector='.my-textarea' />
+
+    With a custom title:
+
+    <@charcounter maxChars=500 selector='.description-field' title='Characters used' />
 
 -->
 <#macro charcounter maxChars=0 selector='.lutece-charcounter' title='' defaultClass='text-normal' warningClass='text-warning' dangerClass='text-danger' id='' class=''  params='' deprecated...>

@@ -1,17 +1,29 @@
-<#-- Macro: cPasswordMeter                               
+<#--
+Macro: cPasswordMeter
+
+Description: Generates a password strength meter with a generate-password button and a visual indicator showing password quality (weak, medium, excellent).
+
 Parameters:
-@param - name - string - required - Nom du champ
-@param - label - string - Default '#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' Label asssocié ua message sur la force du mot de passe
-@param - labelRefresh - string - Default '#i18n{portal.theme.labelPasswordRandomize}' label associé au bouton de rafraichir le mot de passe
-@param - labelSecurity - string - Default '#i18n{portal.theme.labelPasswordSecurity}' label sur les conditions de sécurité du mot de passe
-@param - url - string - Default '' Url to generate password
-@param - indicator - string - Default '', Id de l'input                           
-@param - class - string -  Default 'custom-checkbox', classe css à ajouter à l'input
-@param - params - string - Default '', Tous autres paramètres à ajouter à l'input                   
+- id (string, required): the ID of the associated password input.
+- label (string, optional): label for the password strength message. Default: '#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}'.
+- labelRefresh (string, optional): label for the generate password button. Default: '#i18n{portal.theme.labelPasswordRandomize}'.
+- labelSecurity (string, optional): label for the security conditions. Default: '#i18n{portal.theme.labelPasswordSecurity} :'.
+- url (string, optional): URL to generate a password via AJAX. Default: ''.
+- indicator (string, optional): custom indicator HTML content. Default: ''.
+- class (string, optional): CSS class for the meter container. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
 
-@sample : 
+Snippet:
 
- -->
+    Password meter for a password field:
+
+    <@cPasswordMeter id='new_password' />
+
+    Password meter with custom labels:
+
+    <@cPasswordMeter id='user_password' labelRefresh='Generate a new password' labelSecurity='Security requirements:' />
+
+-->
 <#macro cPasswordMeter id label='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' labelRefresh='#i18n{portal.theme.labelPasswordRandomize}' labelSecurity='#i18n{portal.theme.labelPasswordSecurity} :' url='' indicator='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cRow id='password-${id}-wrapper' params=params>

@@ -1,24 +1,40 @@
-<#-- Macro: cAccordion
+<#--
+Macro: cAccordion
 
-Description: affiche une liste de titres empilés verticalement. Lorsqu’un titre est cliqué (ou activé par une interaction au clavier ou un lecteur d’écran), il révèle ou masque le contenu associé.
+Description: Generates a collapsible accordion panel that reveals or hides associated content when a stacked title is clicked or activated via keyboard or screen reader.
 
 Parameters:
-@param - id - string - required - l'ID de l'accordion
-@param - title - string - required - le titre de l'accordion
-@param - btnTitle - string - optional - (NEW) le titre du bouton de l'accordion
-@param - class - string - optional - permet d'ajouter une classe CSS à l'accordion
-@param - titleLevel - string - optional - définit le niveau de titre de l'accordion
-@param - titleClass - string - optional - l'ajout de classe CSS au titre de l'accordion
-@param - subTitle - string - optional - sous titre de l'accordion
-@param - subTitleClass - string - optional - nom de classe pour le sous titre de l'accordion.
-@param - btnClass - string - optional - nom de classe pour l'icon du bouton "collapse"
-@param - btnShowLabel - string - optional - (NEW) gérer le texte du parametre "data-show-label" de l'accordion (par défaut: '#i18n{portal.theme.labelShowDetail}')
-@param - btnHideLabel - string - optional - (NEW) gérer le texte du parametre "data-hide-label" de l'accordion (par défaut: '#i18n{portal.theme.labelHideDetail}')
-@param - header - string - optional - contenu HTML ajouté au niveau du titre de l'accordion
-@param - border - boolean - optional - si true une bordure est ajoutée (par défaut: false)
-@param - state - boolean - optional - si true l'accordéon est déplié par défaut (par défaut: true)
-@param - hasCollapse - boolean - optional - si true affiche l'icône pour le collapse (par défaut: true)
-@param - params - string - optional - permet d'ajouter des parametres HTML à l'accordion
+- id (string, required): The unique identifier for the accordion.
+- title (string, required): The title text displayed in the accordion header.
+- btnTitle (string, optional): The label for the accordion toggle button. Default: ‘’.
+- class (string, optional): Additional CSS class(es) for the accordion container. Default: ‘’.
+- titleClass (string, optional): CSS class(es) applied to the accordion title. Default: ‘’.
+- titleLevel (number, optional): The heading level for the accordion title. Default: 3.
+- subTitle (string, optional): Subtitle text displayed below the title. Default: ‘’.
+- subTitleClass (string, optional): CSS class(es) for the subtitle. Default: ‘’.
+- btnClass (string, optional): CSS class(es) for the collapse toggle icon. Default: ‘’.
+- btnShowLabel (string, optional): Text for the data-show-label attribute. Default: ‘#i18n{portal.theme.labelShowDetail}’.
+- btnHideLabel (string, optional): Text for the data-hide-label attribute. Default: ‘#i18n{portal.theme.labelHideDetail}’.
+- header (string, optional): HTML content added alongside the title. Default: ‘’.
+- border (boolean, optional): If true, a border is added to the accordion. Default: false.
+- state (boolean, optional): If true, the accordion is expanded by default. Default: true.
+- hasCollapse (boolean, optional): If true, shows the collapse toggle icon. Default: true.
+- params (string, optional): Additional HTML attributes for the accordion. Default: ‘’.
+
+Snippet:
+
+    Basic usage:
+
+    <@cAccordion id=’faq-1’ title=’How to create an account?’>
+        <p>Follow the registration steps on the portal homepage.</p>
+    </@cAccordion>
+
+    Collapsed by default with border:
+
+    <@cAccordion id=’faq-2’ title=’Terms of service’ state=false border=true>
+        <p>Please read the terms carefully before proceeding.</p>
+    </@cAccordion>
+
 -->
 <#macro cAccordion id title btnTitle='' class='' titleClass='' titleLevel=3 subTitle='' subTitleClass='' btnClass='' btnShowLabel='#i18n{portal.theme.labelShowDetail}' btnHideLabel='#i18n{portal.theme.labelHideDetail}' header='' border=false state=true hasCollapse=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />

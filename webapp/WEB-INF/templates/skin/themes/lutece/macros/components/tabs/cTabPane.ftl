@@ -1,17 +1,32 @@
-<#-- Macro: cTabPane
+<#--
+Macro: cTabPane
 
-Description: permet de gérer le panneau d'un onglet.
+Description: Generates a single tab pane panel for use inside a cTabContent container, displaying content associated with a cTab.
 
 Parameters:
+- id (string, required): Unique identifier matching the corresponding cTab url (without '#').
+- active (boolean, optional): Whether this pane is visible on page load. Default: false.
+- disabled (boolean, optional): Whether this pane is disabled. Default: false.
+- class (string, optional): Additional CSS classes for the pane. Default: ''.
+- bodyClass (string, optional): Additional CSS classes for the card body. Default: ''.
+- title (string, optional): Title displayed in mobile view. Default: ''.
+- titleLevel (number, optional): Heading level for the mobile title. Default: 3.
+- params (string, optional): Additional HTML attributes. Default: ''.
 
-@param - id - string - required - l'ID du panneau (doit etre similaire à celui de l'onglet referent) 
-@param - class - string - optional - ajoute une classe CSS au panneau
-@param - bodyClass - string - optional - ajoute une classe CSS au body
-@param - title - string - optional - permet de définir le titre du panneau affiché en mobile
-@param - titleLevel - number - optional - permet de définir le niveau de titre du panneau (par défaut: 3)
-@param - active - boolean - optional - permet de définir si le panneau est actif au chargement de la page (par défaut: false)
-@param - disabled - boolean - optional - permet de définir si le panneau est désactivé (par défaut: false)
-@param - params - string - optional - permet d'ajouter des parametres HTML à l'onglet
+Snippet:
+
+    Active tab pane:
+
+    <@cTabPane id='overview' active=true>
+        <p>This is the overview content.</p>
+    </@cTabPane>
+
+    Tab pane with custom body class:
+
+    <@cTabPane id='details' bodyClass='p-4'>
+        <p>Detailed information here.</p>
+    </@cTabPane>
+
 -->
 <#macro cTabPane id active=false disabled=false class='' bodyClass='' title='' titleLevel=3 params='' deprecated...>
 <@deprecatedWarning args=deprecated />

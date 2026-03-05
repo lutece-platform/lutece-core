@@ -1,17 +1,57 @@
-<#-- Macro: cInfoStep
+<#--
+Macro: cInfoStepOld
 
-Description: permet d'afficher les différentes étapes d'une procédure à suivre.
+Description: Generates a legacy horizontal info stepper showing numbered procedural steps with optional pictograms and expandable content. Deprecated: use cInfoStep instead.
 
 Parameters:
+- steps (object, required): Collection of step objects with properties: url, title, content, status, class.
+- haspicto (boolean, optional): Whether to display step pictogram images. Default: false.
+- hasidx (boolean, optional): Whether to display index numbers as bullets. Default: false.
+- title (boolean, optional): Whether to display step titles with heading style. Default: false.
+- showMore (number, optional): Character threshold for truncating step content (0 for no truncation). Default: 0.
+- labelMore (string, optional): Label for the "show more" button. Default: i18n("theme.labelShowMore").
+- a11StatusMsg (string, optional): Accessible status message for screen readers. Default: ''.
+- class (string, optional): Additional CSS classes. Default: ''.
+- imgClass (string, optional): CSS class for step pictogram images. Default: ''.
+- id (string, optional): HTML id attribute. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
 
-@param - id - string - optional - l'ID du stepper
-@param - class - string - optional - ajoute une classe CSS au stepper
-@param - steps - object - required - définit l'objet comprenant les informations pour chaque étape du stepper
-@param - haspicto - string - optional - permet de définir si le stepper doit afficher les images comprises dans l'objet 'steps' (par défaut: false)
-@param - title - string - optional - affiche le contenu de 'title' de l'objet 'steps' avec un style de titre (par défaut: false)
-@param - verticalStepper - boolean - optional - permet d'afficher le stepper à la verticale (par défaut: false)
-@param - imgClass - string - optional - permet d'ajouter une classe css pour les icones du stepper 
-@param - params - string - optional - permet d'ajouter des parametres HTML au stepper
+Snippet:
+
+    Basic usage (deprecated, prefer cInfoStep):
+
+    <@cInfoStepOld steps=mySteps haspicto=true title=true />
+
+-->
+<#--
+Macro: cInfoStep
+
+Description: Generates a responsive info stepper displaying numbered procedural steps with optional pictograms, supporting both horizontal and vertical layouts.
+
+Parameters:
+- steps (object, required): Collection of step objects with properties: url, title, content.
+- haspicto (boolean, optional): Whether to display step pictogram images. Default: false.
+- verticalStepper (boolean, optional): Whether to display the stepper vertically. Default: false.
+- title (boolean, optional): Whether to display step titles with heading style. Default: false.
+- class (string, optional): Additional CSS classes. Default: ''.
+- id (string, optional): HTML id attribute. Default: ''.
+- imgClass (string, optional): CSS class for pictogram images. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic horizontal stepper:
+
+    <@cInfoStep steps=procedureSteps />
+
+    Stepper with pictograms and titles:
+
+    <@cInfoStep steps=procedureSteps haspicto=true title=true />
+
+    Vertical stepper:
+
+    <@cInfoStep steps=procedureSteps verticalStepper=true title=true />
+
 -->
 
 <#macro cInfoStepOld steps haspicto=false hasidx=false title=false showMore=0 labelMore=i18n("theme.labelShowMore") a11StatusMsg='' class='' imgClass='' id='' params='' deprecated...>

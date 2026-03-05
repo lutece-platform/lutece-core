@@ -1,4 +1,15 @@
-<#-- PARIS ICON PACK   -->
+<#--
+Macro: parisIconPack
+
+Description: Generates the full Paris SVG icon sprite containing all available icon symbols for use with the parisIcon macro.
+
+Snippet:
+
+    Basic usage (include once in the page layout):
+
+    <@parisIconPack />
+
+-->
 <#macro parisIconPack>
 <!-- SVG paris icon-set     -->
 <svg class="paris-icon-sprite">

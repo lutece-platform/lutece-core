@@ -1,11 +1,30 @@
-<#-- Macro: cRow
+<#--
+Macro: cRow
 
-Description: affiche une ligne.
+Description: Generates a Bootstrap grid row element to contain columns.
 
 Parameters:
-@param - id - string - required - identifiant unique de la ligne
-@param - class - string - optional - classe(s) css de la ligne
-@param - params - string - optional - permet d'ajouter des paramètres HTML à la ligne
+- class (string, optional): Additional CSS class(es) for the row. Default: ''.
+- id (string, optional): Unique identifier for the row element. Default: ''.
+- params (string, optional): Additional HTML attributes for the row element. Default: ''.
+
+Snippet:
+
+    Basic row with columns:
+
+    <@cRow>
+        <@cCol cols='md-6'>Left column</@cCol>
+        <@cCol cols='md-6'>Right column</@cCol>
+    </@cRow>
+
+    Row with alignment and spacing:
+
+    <@cRow class='justify-content-center g-3' id='content-row'>
+        <@cCol cols='lg-4'>Card 1</@cCol>
+        <@cCol cols='lg-4'>Card 2</@cCol>
+        <@cCol cols='lg-4'>Card 3</@cCol>
+    </@cRow>
+
 -->
 <#macro cRow class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

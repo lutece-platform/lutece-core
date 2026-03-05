@@ -1,26 +1,43 @@
-<#-- Macro: cInputTimeSlot                               
-Parameters:
-@param - name - string - required - Nom du champ
-@param - legend - string - Default '', Titre/légende du fieldset                   
-@param - id - string - Default '', Id de l'input                           
-@param - class - string - Default '', classe css à ajouter à l'input
-@param - legendClass - string - Default '', classe css à ajouter à la légende du fieldset
-@param - beginHour - string - Default '00:00', Heure minimum de début par défaut                        
-@param - endHour - string - Default '23:59', Heure de maximum fin par défaut       
-@param - inputParams - string - Default '', Paramètres supplémentaires pour les inputs                 
-@param - step - number - Default 0, Le pas est la valeur d'incrémentation ou de décrémentation de la valeur du champ. Seules les valeurs qui sont des incréments en multiple de step depuis la valeur de base (min si cet attribut est défini, value sinon, et si aucun n'est fourni, une valeur par défaut appropriée) sont valides. Pour les champs de type time, la valeur de l'attribut step est exprimée en secondes (avec un facteur de multiplication de 1000 puisque la valeur numérique sous-jacente est exprimée en millisecondes). Par défaut, la valeur de l'incrément est 60, ce qui correspond à 1 minute.  https://developer.mozilla.org/fr/docs/Web/HTML/Reference/Elements/input/time#step
-@param - btnAction - string - Default '[name="action_doSaveStep"]', si non vide ajoute un trigger sur le bouton de validation du formulaire pour traitement par le polyfill.       
-@param - autocomplete - string - Default '', autocomplete pour l'input https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/autocomplete       
-@param - html5Required - boolean - Default true, attribut required HTML5                 
-@param - required - boolean - Default false, champ obligatoire ou non                 
-@param - disabled - boolean - Default false, champ désactivé ou non
-@param - readonly - boolean - Default false, champ en lecture seule ou non                
-@param - helpMsg - string  - Default '', Message d'aide pour l'input                                   
-@param - errorMsg - string - Default '', Message d'erreur pour l'input                      
-@param - params - string - Default '', Tous autres paramètres à ajouter au fieldset
+<#--
+Macro: cInputTimeSlot
 
-@sample : 
- -->
+Description: Generates a time slot picker with two time inputs (begin and end) wrapped in a fieldset, including browser polyfill support.
+
+Parameters:
+- name (string, required): the name attribute prefix for the time inputs (generates {name}_begin and {name}_end).
+- legend (string, optional): the legend/title of the fieldset. Default: ''.
+- legendClass (string, optional): CSS class for the fieldset legend. Default: ''.
+- beginHour (string, optional): default start time value. Default: '00:00'.
+- endHour (string, optional): default end time value. Default: '23:59'.
+- step (number, optional): step increment in seconds for the time input (e.g., 900 for 15-minute intervals). Default: 0.
+- btnAction (string, optional): CSS selector for the form submit button, used by the polyfill. Default: '[name="action_doSaveStep"]'.
+- autocomplete (string, optional): the autocomplete attribute value. Default: ''.
+- html5Required (boolean, optional): uses the HTML5 required attribute. Default: false.
+- required (boolean, optional): marks the fields as required. Default: false.
+- disabled (boolean, optional): disables the inputs. Default: false.
+- readonly (boolean, optional): sets the inputs as readonly. Default: false.
+- helpMsg (string, optional): help message for the fieldset. Default: ''.
+- errorMsg (string, optional): error message on validation failure. Default: ''.
+- hideErrorMsg (boolean, optional): hides the error message display. Default: true.
+- id (string, optional): the ID of the fieldset. Default: ''.
+- class (string, optional): CSS class for the time inputs. Default: 'form-control'.
+- params (string, optional): additional HTML attributes for the fieldset. Default: ''.
+
+Snippet:
+
+    Basic time slot:
+
+    <@cInputTimeSlot name='appointment' legend='Appointment time' />
+
+    Time slot with custom range and 15-minute steps:
+
+    <@cInputTimeSlot name='meeting' legend='Meeting time' beginHour='08:00' endHour='18:00' step=900 required=true />
+
+    Time slot without legend:
+
+    <@cInputTimeSlot name='slot' beginHour='09:00' endHour='17:00' />
+
+-->
 <#macro cInputTimeSlot name legend='' legendClass='' beginHour='00:00' endHour='23:59' step=0 btnAction='[name="action_doSaveStep"]' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' hideErrorMsg=true id='' class='form-control' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>

@@ -1,22 +1,50 @@
-<#-- Macro: cSelect
+<#--
+Macro: cSelect
 
-Description: Defines a macro that show a select tag
+Description: Generates a select dropdown element with support for validation, help/error messages, multiple selection, and accessibility attributes.
 
 Parameters:
-@param - name - string - optional - required - the name of of the element
-@param - class - string - optional - the CSS class of the element, default 'custom-select' 
-@param - size - string - optional - permet d'ajouter un suffixe à la classe CSS 'form-control', valeur possible 'lg' ou 'sm'
-@param - id - string - optional - the ID of the element, default ''
-@param - helpMsg - string - optional - Content of the help message for radio, default ''
-@param - errorMsg - string - optional - Content of the error message for radio, default ''
-@param - params - optional - additional HTML attributes to include in the ckeckbox element default ''
-@param - multiple - boolean - optional - Set multiple attribute to select default false
-@param - disabled - boolean - optional - Disable element, default false
-@param - readonly - boolean - optional - Set element readonly, default false
-@param - checked - boolean - optional - Check the element, default false
-@param - required - boolean - optional - Set element as required, default false
-@param - autocomplete- string - Default '' , autocomplete pour l'input https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/autocomplete 
-@param - html5Required - boolean - optional - permet d'indiquer si le champs doit utliser l'attribut html5 required (par défaut: true)
+- name (string, required): the name attribute of the select.
+- class (string, optional): CSS class for the select. Default: 'form-select'.
+- size (string, optional): adds a size suffix to form-select class, 'lg' or 'sm'. Default: ''.
+- id (string, optional): the ID of the element. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+- multiple (boolean, optional): enables multiple selection. Default: false.
+- disabled (boolean, optional): disables the select. Default: false.
+- autocomplete (string, optional): the autocomplete attribute value. Default: ''.
+- readonly (boolean, optional): sets the select as readonly. Default: false.
+- required (boolean, optional): marks the field as required. Default: false.
+- html5Required (boolean, optional): uses the HTML5 required attribute. Default: true.
+- helpMsg (string, optional): help message displayed below the select. Default: ''.
+- errorMsg (string, optional): error message displayed on validation failure. Default: ''.
+
+Snippet:
+
+    Basic select:
+
+    <@cSelect name='country' id='country'>
+        <@cOption label='-- Select a country --' value='' />
+        <@cOption label='France' value='FR' />
+        <@cOption label='Germany' value='DE' />
+        <@cOption label='Spain' value='ES' />
+    </@cSelect>
+
+    Required select with error message:
+
+    <@cSelect name='category' id='category' required=true errorMsg='Please select a category.'>
+        <@cOption label='-- Choose --' value='' />
+        <@cOption label='Culture' value='culture' />
+        <@cOption label='Sport' value='sport' />
+    </@cSelect>
+
+    Multiple select:
+
+    <@cSelect name='languages' id='languages' multiple=true>
+        <@cOption label='French' value='fr' />
+        <@cOption label='English' value='en' />
+        <@cOption label='Spanish' value='es' />
+    </@cSelect>
+
 -->
 <#macro cSelect name class='form-select' size='' id='' params='' multiple=false disabled=false autocomplete='' readonly=false required=false html5Required=true helpMsg='' errorMsg='' deprecated...>
 <@deprecatedWarning args=deprecated />

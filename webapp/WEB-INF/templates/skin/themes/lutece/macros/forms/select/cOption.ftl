@@ -1,22 +1,36 @@
-<#-- cOption SELECT                          -->
-<#-- --------------------------------------  -->
-<#-- Attributes                              -->
-<#-- --------------------------------------  -->
-<#-- class                                   -->
-<#-- id                                      -->
-<#-- params                                  -->
-<#-- Macro: cOption
+<#--
+Macro: cOption
 
-Description: Defines a macro that show an option tag for a select
+Description: Generates an option element for use inside a cSelect or cOptgroup dropdown.
 
 Parameters:
-@param - label - string - required - Label of the option, default ''
-@param - value - string - required - Value of the option, default ''
-@param - selected - boolean - optional - Selected attribute on the option element, default false
-@param - disabled - boolean - optional - Disable element, default false
-@param - class - string - optional - the CSS class of the element, default '' 
-@param - id - string - optional - the ID of the element, default ''
-@param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+- label (string, required): the display text of the option.
+- value (string, required): the value of the option.
+- id (string, optional): the ID of the option. Default: ''.
+- class (string, optional): CSS class for the option. Default: ''.
+- selected (boolean, optional): marks the option as selected. Default: false.
+- disabled (boolean, optional): disables the option. Default: false.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic options in a select:
+
+    <@cSelect name='country'>
+        <@cOption label='-- Select a country --' value='' />
+        <@cOption label='France' value='FR' />
+        <@cOption label='Germany' value='DE' />
+        <@cOption label='Spain' value='ES' />
+    </@cSelect>
+
+    Pre-selected option:
+
+    <@cOption label='France' value='FR' selected=true />
+
+    Disabled option:
+
+    <@cOption label='Not available' value='NA' disabled=true />
+
 -->
 <#macro cOption label value id='' class='' selected=false disabled=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />

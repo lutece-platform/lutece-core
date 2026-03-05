@@ -1,16 +1,37 @@
-<#-- Macro: cTab
+<#--
+Macro: cTab
 
-Description: permet de gérer les onglets individuellement.
+Description: Generates a single Bootstrap tab navigation item, either as a button or a list-item link, for use inside a cTabs container.
 
 Parameters:
+- url (string, required): Hash reference to the target tab pane (e.g., '#myPane'), also used to derive the tab id.
+- id (string, optional): Custom HTML id for the tab. Default: '' (auto-generated from url).
+- active (boolean, optional): Whether this tab is active on page load. Default: false.
+- navigation (boolean, optional): Whether to render as a list item (li > a) instead of a button. Default: false.
+- disabled (boolean, optional): Whether the tab is disabled. Default: false.
+- class (string, optional): Additional CSS classes. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
 
-@param - id - string - optional - l'ID de l'onglet
-@param - class - string - optional - ajoute une classe CSS à l'onglet
-@param - url - string - required - utilisé pour définir l'id de l'onglet, et permet de définir le lien de l'onglet dans le cas où le parametre 'navigation' est true
-@param - navigation - boolean - optional - permet d'intégrer l'onglet dans une balise HTML 'li'
-@param - active - boolean - optional - permet de définir si l'onglet est actif au chargement de la page (par défaut: false)
-@param - disabled - boolean - optional - permet de définir si l'onglet est désactivé (par défaut: false)
-@param - params - string - optional - permet d'ajouter des parametres HTML à l'onglet
+Snippet:
+
+    Button tab (default):
+
+    <@cTab url='#overview' active=true>
+        Overview
+    </@cTab>
+
+    Navigation tab as list item:
+
+    <@cTab url='#details' navigation=true>
+        Details
+    </@cTab>
+
+    Disabled tab:
+
+    <@cTab url='#settings' disabled=true>
+        Settings
+    </@cTab>
+
 -->
 <#macro cTab url id='' active=false navigation=false disabled=false class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

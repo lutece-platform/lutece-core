@@ -1,12 +1,28 @@
-<#-- Macro: cSetPageTitle
+<#--
+Macro: cSetPageTitle
 
-Description: Modifie le titre de la page .
+Description: Generates a JavaScript snippet that sets or appends to the browser page title, optionally reading content from a DOM element.
 
 Parameters:
-@param - title - string - mandatory - Titre de la page
-@param - init - boolean - mandatory - Indique si c'est une initialisation on efface totalement le titre (true) ou une modification (false) on ajoute à la fin du titre
-@param - srcElement - string - optional - default '' Element source pour le titre complémentaire
-@param - type - string - optional -  default 'text' Type de l'élément source, texte ou input
+- title (string, required): Title text to set or append.
+- srcElement (string, optional): CSS selector for a DOM element whose text/value will be appended to the title. Default: ''.
+- init (boolean, optional): Whether to replace the entire title (true) or append to it (false). Default: false.
+- type (string, optional): Type of source element content to read ('text' or 'input'). Default: 'text'.
+
+Snippet:
+
+    Initialize page title:
+
+    <@cSetPageTitle title='My Service - Paris.fr' init=true />
+
+    Append to existing title:
+
+    <@cSetPageTitle title='Search results' />
+
+    Append title from a DOM element:
+
+    <@cSetPageTitle title='' srcElement='.page-heading' type='text' />
+
 -->  
 <#macro cSetPageTitle title srcElement='' init=false type='text' deprecated...>
 <@deprecatedWarning args=deprecated />

@@ -1,15 +1,27 @@
-<#-- Macro: cImg
+<#--
+Macro: cImg
 
-Description: affiche une image.
+Description: Generates an HTML img element with responsive styling and optional accessible description. Supports aria-describedby for enhanced accessibility on skin pages.
 
 Parameters:
-@param - id - string - optional - identifiant unique de l'image
-@param - class - string - optional - classe(s) css de l'image
-@param - src - string - required - source du fichier image
-@param - alt - string - optional - texte alternatif de l'image
-@param - labelDescribedBy - string - optional - aria label de l'image
-@param - showLabelDescribedBy - boolean - required - si true, affiche le label saisi dans le paramètre "labelDescribedBy"
-@param - params - string - optional - permet d'ajouter des paramètres HTML à l'image
+- src (string, required): Source URL of the image file.
+- alt (string, optional): Alternative text for the image. Default: ''.
+- id (string, optional): Unique identifier for the image element. Default: ''.
+- class (string, optional): CSS class(es) applied to the image element. Default: 'img-fluid'.
+- labelDescribedBy (string, optional): Descriptive text added via aria-describedby for accessibility. Default: ''.
+- showLabelDescribedBy (boolean, optional): If true, displays the labelDescribedBy text visually; otherwise it is hidden. Default: false.
+- params (string, optional): Additional HTML attributes for the image element. Default: ''.
+
+Snippet:
+
+    Basic usage:
+
+    <@cImg src='images/photo.jpg' alt='A beautiful landscape' />
+
+    With accessible description:
+
+    <@cImg src='images/chart.png' alt='Annual statistics chart' labelDescribedBy='This chart shows the yearly growth in public services usage.' showLabelDescribedBy=true />
+
 -->
 <#macro cImg src alt='' id='' class='img-fluid' labelDescribedBy='' showLabelDescribedBy=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />

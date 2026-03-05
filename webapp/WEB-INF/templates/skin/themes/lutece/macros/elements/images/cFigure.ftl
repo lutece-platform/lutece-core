@@ -1,12 +1,28 @@
-<#-- Macro: cFigure
+<#--
+Macro: cFigure
 
-Description: affiche une figure.
+Description: Generates an HTML figure element with an optional caption. Wraps images or illustrations with a semantic container on skin pages.
 
 Parameters:
-@param - id - string - optional - identifiant unique de la figure
-@param - class - string - optional - classe(s) css de la figure
-@param - caption - string - optional - description de la figure
-@param - params - string - optional - permet d'ajouter des paramètres HTML à la figure
+- caption (string, optional): Caption text displayed below the figure via a figcaption element. Default: ''.
+- id (string, optional): Unique identifier for the figure element. Default: ''.
+- class (string, optional): CSS class(es) applied to the figure element. Default: 'figure'.
+- params (string, optional): Additional HTML attributes for the figure element. Default: ''.
+
+Snippet:
+
+    Basic usage:
+
+    <@cFigure caption='City hall at sunset'>
+        <@cImg src='images/city-hall.jpg' alt='City hall' />
+    </@cFigure>
+
+    Without caption:
+
+    <@cFigure class='figure text-center'>
+        <@cImg src='images/banner.jpg' alt='Welcome banner' />
+    </@cFigure>
+
 -->
 <#macro cFigure caption='' id='' class='figure' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

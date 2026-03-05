@@ -1,15 +1,31 @@
-<#-- Macro: cAlert
+<#--
+Macro: cAlert
 
-Description: affiche une bannière d'alerte.
+Description: Generates an alert banner with icon, optional title, and dismissible close button.
 
 Parameters:
-@param - id - string - optional - l'ID de l'alert
-@param - title - string - optional - le titre de l'alert (par défaut : '#i18n{portal.theme.labelWarning}')
-@param - type - string - optional - le type de l'alert (par défaut : 'primary')
-@param - class - string - optional - permet d'ajouter une classe CSS prefixée 'alert-' à l'alert (par défaut : 'primary')
-@param - classText - string - optional - permet d'ajouter une classe CSS au texte de l'alert (par défaut : 'primary')
-@param - dismissible - boolean - optional - permet d'activer la fermeture de l'alert (par défaut: false)
-@param - params - string - optional - permet d'ajouter des parametres HTML à l'alert
+- id (string, optional): The unique identifier for the alert. Default: ''.
+- title (string, optional): The title text for the alert. Default: ''.
+- type (string, optional): The alert type controlling color and icon ('primary', 'warning', 'danger', 'success'). Default: 'primary'.
+- class (string, optional): Additional CSS class(es) for the alert container. Default: ''.
+- classText (string, optional): CSS class(es) applied to the alert text. Default: ''.
+- dismissible (boolean, optional): If true, a close button is displayed. Default: false.
+- params (string, optional): Additional HTML attributes for the alert. Default: ''.
+
+Snippet:
+
+    Basic info alert:
+
+    <@cAlert type='primary' title='Information'>
+        <p>Your request has been submitted successfully.</p>
+    </@cAlert>
+
+    Dismissible danger alert:
+
+    <@cAlert type='danger' title='Error' dismissible=true>
+        <p>An error occurred while processing your form.</p>
+    </@cAlert>
+
 -->
 <#macro cAlert id='' title='' type='primary' class='' classText='' dismissible=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />

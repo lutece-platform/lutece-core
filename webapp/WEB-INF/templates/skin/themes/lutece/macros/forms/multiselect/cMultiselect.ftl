@@ -1,16 +1,37 @@
-<#-- Macro: cMultiselect
+<#--
+Macro: cMultiselect
 
-Description: Defines a macro that show a multiselect tag
+Description: Generates a multiselect dropdown component with tag-based selection, supporting a maximum number of options and custom labels.
 
 Parameters:
-@param - class - string - optional - the CSS class of the element, default 'custom-select' 
-@param - labelOptionSelection - string - optional - Label for the selection button 
-@param - maxSelectedOptions - number - optional - Number of items that can be selected, default 0 (unlimited)
-@param - id - string - optional - the ID of the element, default ''
-@param - helpMsg - string - optional - Content of the help message for radio, default ''
-@param - errorMsg - string - optional - Content of the error message for radio, default ''
-@param - params - optional - additional HTML attributes to include in the ckeckbox element default ''
-@param - disabled - boolean - optional - Disable element, default false
+- class (string, optional): CSS class for the multiselect container. Default: ''.
+- labelOptionSelection (string, optional): label for the dropdown toggle button. Default: '#i18n{portal.theme.labelOptionSelection}'.
+- maxSelectedOptions (number, optional): maximum number of items that can be selected, 0 for unlimited. Default: 0.
+- id (string, optional): the ID of the element. Default: ''.
+- helpMsg (string, optional): content of the help message. Default: ''.
+- errorMsg (string, optional): content of the error message. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+- disabled (boolean, optional): disables the multiselect. Default: false.
+
+Snippet:
+
+    Basic multiselect:
+
+    <@cMultiselect>
+        <@cMultiselectOption name='categories' label='Sport' value='sport' />
+        <@cMultiselectOption name='categories' label='Culture' value='culture' />
+        <@cMultiselectOption name='categories' label='Education' value='education' />
+    </@cMultiselect>
+
+    Multiselect with max 3 selections:
+
+    <@cMultiselect id='interests' maxSelectedOptions=3>
+        <@cMultiselectOption name='interests' label='Music' value='music' />
+        <@cMultiselectOption name='interests' label='Travel' value='travel' />
+        <@cMultiselectOption name='interests' label='Food' value='food' />
+        <@cMultiselectOption name='interests' label='Art' value='art' />
+    </@cMultiselect>
+
 -->
 <#macro cMultiselect class='' labelOptionSelection='#i18n{portal.theme.labelOptionSelection}' maxSelectedOptions=0 id='' helpMsg='' errorMsg='' params='' disabled=false deprecated...>
 <@deprecatedWarning args=deprecated />

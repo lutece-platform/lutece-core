@@ -1,12 +1,24 @@
-<#-- Macro: cThemeSwitcher
+<#--
+Macro: cThemeSwitcher
 
-Description: Permet de changer le thème - Dark / Light - pour l'utilisateur FO.
+Description: Generates a Bootstrap dark/light theme switcher dropdown button with Light, Dark, and Auto options for front-office users.
 
 Parameters:
-@param - theme - string - optional - default 'light' Theme par défaut
-@param - class - string - optional - classe(s) css pour positionner le bouton
-@param - id - string - required - Identifiant unique du bouton
-@param - params - string - optional - permet d'ajouter des style au bouton
+- theme (string, optional): Default theme on initialization ('light' or 'dark'). Default: 'light'.
+- class (string, optional): CSS classes for positioning the switcher. Default: 'start-0 mb-3 me-3'.
+- id (string, optional): HTML id attribute for the dropdown button. Default: ''.
+- params (string, optional): Additional HTML attributes/styles. Default: ''.
+
+Snippet:
+
+    Basic theme switcher:
+
+    <@cThemeSwitcher />
+
+    Theme switcher with dark default:
+
+    <@cThemeSwitcher theme='dark' class='end-0 mb-3 me-3' />
+
 -->
 <#macro cThemeSwitcher theme='light' class='start-0 mb-3 me-3' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

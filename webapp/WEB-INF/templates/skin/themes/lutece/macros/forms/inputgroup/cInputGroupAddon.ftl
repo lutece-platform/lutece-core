@@ -1,14 +1,33 @@
-<#-- Macro: cInputGroupAddon
+<#--
+Macro: cInputGroupAddon
 
-Description: permet de définir un Addon au groupe d'inputs.
+Description: Generates an addon element for an input group, optionally displaying text content via cInputGroupAddonText.
 
 Parameters:
+- append (boolean, optional): if true, appends the addon; if false, prepends it. Default: true.
+- addonText (string, optional): text content for the addon. Default: ''.
+- class (string, optional): adds a CSS class to the addon. Default: ''.
+- id (string, optional): the ID of the addon. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
 
-@param - id - string - optional - l'ID de l'addon
-@param - class - string - optional - ajoute une classe CSS à l'addon
-@param - append - string - optional - si true, ajoute un suffixe 'append' à la classe CSS du groupe. Si false, ajoute le suffixe prepend (par défaut: true)
-@param - addonText - string - optional - ajoute un texte à l'addon
-@param - params - string - optional - permet d'ajouter des parametres HTML à l'addon
+Snippet:
+
+    Addon with text:
+
+    <@cInputGroup>
+        <@cInput name='amount' type='number' placeholder='0.00' />
+        <@cInputGroupAddon addonText='EUR' />
+    </@cInputGroup>
+
+    Addon with nested content (icon):
+
+    <@cInputGroup>
+        <@cInput name='search' placeholder='Search...' />
+        <@cInputGroupAddon>
+            <button class="btn btn-primary" type="button">Search</button>
+        </@cInputGroupAddon>
+    </@cInputGroup>
+
 -->
 <#macro cInputGroupAddon append=true addonText='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

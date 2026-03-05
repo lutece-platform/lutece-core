@@ -1,14 +1,30 @@
-<#-- Macro: cStatus
+<#--
+Macro: cStatus
 
-Description: affiche un tag de status.
+Description: Generates a status tag badge indicating the current state of a process or event on skin pages.
 
 Parameters:
-@param - level - string - optional - permet de définir le niveau de status du tag (par défaut: 'forthcoming'). Liste des Statuts : forthcoming = A venir / tobecompleted = A compléter / inprogress = En cours / over = Terminé / bygone = Passé
-@param - class - string - optional - permet d'ajouter une classe CSS au tag
-@param - id - string - optional - l'ID du tag
-@param - label - string - optional - permet de définir le libellé du tag
-@param - labelClass - string - optional - permet d'ajouter une classe CSS au libellé du tag
-@param - params - string - optional - permet d'ajouter des parametres HTML au tag
+- level (string, optional): Status level key ('forthcoming', 'tobecompleted', 'inprogress', 'over', 'bygone'). Default: 'forthcoming'.
+- class (string, optional): Additional CSS classes. Default: ''.
+- id (string, optional): HTML id attribute. Default: ''.
+- label (string, optional): Custom label text (overrides i18n default). Default: ''.
+- labelClass (string, optional): CSS class for the label span. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic forthcoming status:
+
+    <@cStatus level='forthcoming' />
+
+    In-progress status with custom label:
+
+    <@cStatus level='inprogress' label='In progress' class='mt-2' />
+
+    Completed status:
+
+    <@cStatus level='over' label='Completed' labelClass='text-success' />
+
 -->  
 <#macro cStatus level='forthcoming' class='' id='' label='' labelClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

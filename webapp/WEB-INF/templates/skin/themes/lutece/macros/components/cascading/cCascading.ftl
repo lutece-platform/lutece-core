@@ -1,15 +1,30 @@
-<#-- Macro: cCascading
+<#--
+Macro: cCascading
 
-Description: affiche une liste d'élements empilés verticalement. Au clic révèle ou masque le contenu associé.
+Description: Generates a collapsible details/summary element that reveals or hides content on click.
 
 Parameters:
+- title (string, required): The label displayed in the summary toggle.
+- id (string, optional): The unique identifier for the cascading element. Default: ''.
+- class (string, optional): Additional CSS class(es) for the cascading container. Default: ''.
+- params (string, optional): Additional HTML attributes for the cascading element. Default: ''.
+- state (boolean, optional): If true, the element is open on page load. Default: false.
 
-@param - title - string - required - permet de définir le titre de la cascade
-@param - id - string - optional - l'ID de la cascade
-@param - class - string - optional - permet d'ajouter une classe CSS à la cascade
-@param - state - boolean - optional - permet de définir si la cascade est ouverte au chargement de la page (par défaut: false)
-@param - params - string - optional - permet d'ajouter des parametres HTML à la cascade
- -->
+Snippet:
+
+    Basic collapsible section:
+
+    <@cCascading title='More information'>
+        <p>Here is additional content that can be expanded or collapsed.</p>
+    </@cCascading>
+
+    Open by default:
+
+    <@cCascading title='Frequently asked questions' state=true>
+        <p>Find answers to common questions below.</p>
+    </@cCascading>
+
+-->
 <#macro cCascading title id='' class='' params='' state=false >
 <details<#if id !=''> id='${id}'</#if> class="cascading ${class!}" <#if state> open</#if> aria-expanded="<#if state>true<#else>false</#if>" ${params}>
   <summary><span class="cascading-label">${title}</span></summary>

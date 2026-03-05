@@ -1,34 +1,52 @@
-<#-- Macro: cMainNav
+<#--
+Macro: cMainNav
 
-Description: affiche une barre de navigation.
+Description: Generates the main site navigation bar with logo, menu items, optional search field, login button, and sidebar mode support.
 
 Parameters:
-@param - id - string - optional - identifiant unique de la barre de navigation
-@param - class - string - optional - classe(s) css de la barre de navigation
-@param - title - string - required - Titre du site. Par défaut récupère le nom de la variable "favorite".
-@param - logoImg - string - required - url de l'image utilisée comme logo pour le titre du site
-@param - logoAlt - string - required - texte alternatif pour l'image du logo
-@param - href - string - required - url de redirection sur le logo du titre du site
-@param - hasMenu - boolean - required -  si true, le site possède un menu
-@param - hasNestedMenu - boolean - optionnal -  si true, affiche les entrées de menu incluses dans le contenu de la macro <#nested>
-@param - isSidebar - boolean - required -  si true, le menu sera vertical calé à gauche
-@param - isFluid - string  - optionnal -  par défaut 'fluid', sinon  le menu sera contenu dans un conteneur
-@param - cols - string  - optionnal -  par défaut [2,9], sinon  le menu vertical prendra la largeur cols[0] et le contenu cols[1] (bootstrap grid)
-@param - isOnlyHome - boolean - required -  si true, le menu ne sera affiché que sur la page d'accueil
-@param - isSidebarCollapsible - boolean - required -  si true, le menu pourra être masqué
-@param - sidebarMenuClass - string - optionnal -  Ajoute une classe au menu vertical. Par défaut vide.
-@param - hasSearchMenu - boolean - required -  si true, ajoute la rercherche au menu
-@param - typeSearch - string - required -  Si Field, ajoute le champs de rercherche sinon un lien paramètre sur l'url de recherche précisée dans les paramètres les propriétés du site. Si la valeur est button une icone de recherche sera positionnée après le menu.
-@param - searchUrl - string - required -  Url pour l'icone de recherche. Par défaut récupère la valeur de l'url de recherche précisée dans les paramètres les propriétés du site.
-@param - searchAction - string - required -  Url d'action pour le formulaire nécessite typeSearch='field'
-@param - searchSolr - boolean - required - si "true" fait la recherche sur Solr et non sur le moteur de recherche par défaut.
-@param - searchParams - string - optional - tous champs à ajouter au formulaire nécessitent typeSearch='field'
-@param - isFixed - boolean - required - si true, le menu est "fixe" en haut de page. Valeur par défaut "isFixedMenu?boolean" en base (clé dans la table core_datastore "portal.theme.site_property.menu.fixedMenu.checkbox" )
-@param - hasLogin - boolean - required - si true, le site est authentifié et propose un bouton de login (connexion Mon Paris)
-@param - loginClass - string - optional - classe CSS pour le bouton de login
-@param - mainClass - string - optional - classe CSS pour la balise main
-@param - role - string - required - role aria par défaut
-@param - params - string - optional - permet d'ajouter des paramètres HTML à la barre de navigation
+- title (string, required): Site title displayed in the navbar. Default: favourite.
+- logoImg (string, optional): URL of the logo image. Default: ''.
+- href (string, optional): URL linked to the logo/title. Default: '.'.
+- hasMenu (boolean, optional): If true, displays the site menu. Default: hasDefaultMenu?boolean.
+- hasUserThemeSwitch (boolean, optional): If true, displays a light/dark theme toggle. Default: hasUserThemeSwitch?boolean.
+- hasNestedMenu (boolean, optional): If true, renders nested content as additional menu items. Default: true.
+- isSidebar (boolean, optional): If true, renders a vertical sidebar navigation. Default: isMainSidebarMenu?boolean.
+- isSibebarCollapsible (boolean, optional): If true, the sidebar menu can be collapsed. Default: isMainSidebarMenuCollapse?boolean.
+- sidebarMenuClass (string, optional): Additional CSS class for the sidebar menu. Default: ''.
+- isOnlyHome (boolean, optional): If true, banner is only shown on the home page. Default: isBannerOnlyHome.
+- showDefaultMenu (boolean, optional): If true, renders the default page menu. Default: true.
+- hasSearchMenu (boolean, optional): If true, adds a search feature to the menu. Default: false.
+- typeSearch (string, optional): Search display type: 'field' for an input form, 'icon' for a search link. Default: 'field'.
+- searchUrl (string, optional): URL for the search icon link. Default: urlDefaultSearch.
+- searchAction (string, optional): Form action URL when typeSearch is 'field'. Default: 'jsp/site/Portal.jsp'.
+- searchSolr (boolean, optional): If true, searches via Solr instead of the default engine. Default: false.
+- searchParams (string, optional): Additional hidden fields for the search form. Default: ''.
+- isFixed (boolean, optional): If true, the navbar is fixed at the top of the page. Default: isFixedMenu?boolean.
+- hasLogin (boolean, optional): If true, displays a login button. Default: false.
+- loginClass (string, optional): CSS class for the login button. Default: ''.
+- mainClass (string, optional): CSS class for the main element. Default: ''.
+- id (string, optional): Unique identifier for the navbar. Default: ''.
+- class (string, optional): Additional CSS class(es) for the navbar. Default: ''.
+- role (string, optional): ARIA role attribute for the navbar. Default: ''.
+- params (string, optional): Additional HTML attributes for the navbar. Default: ''.
+
+Snippet:
+
+    Basic navigation bar:
+
+    <@cMainNav title='My Portal' />
+
+    Navigation with search and login:
+
+    <@cMainNav title='City Services' hasSearchMenu=true typeSearch='field' hasLogin=true>
+        <@cMainNavItem title='About' url='jsp/site/Portal.jsp?page=about' />
+        <@cMainNavItem title='Contact' url='jsp/site/Portal.jsp?page=contact' />
+    </@cMainNav>
+
+    Fixed sidebar navigation:
+
+    <@cMainNav title='Admin Portal' isSidebar=true isSibebarCollapsible=true isFixed=true hasSearchMenu=true />
+
 -->
 <#macro cMainNav title=favourite logoImg='' href='.' hasMenu=hasDefaultMenu?boolean hasUserThemeSwitch=hasUserThemeSwitch?boolean hasNestedMenu=true isSidebar=isMainSidebarMenu?boolean isSibebarCollapsible=isMainSidebarMenuCollapse?boolean sidebarMenuClass='' isOnlyHome=isBannerOnlyHome showDefaultMenu=true hasSearchMenu=false typeSearch='field' searchUrl=urlDefaultSearch searchAction='jsp/site/Portal.jsp' searchSolr=false searchParams='' isFixed=isFixedMenu?boolean hasLogin=false loginClass='' mainClass='' id='' class='' role='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

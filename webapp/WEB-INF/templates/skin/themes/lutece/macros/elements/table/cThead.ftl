@@ -1,11 +1,34 @@
-<#-- Macro: cThead
+<#--
+Macro: cThead
 
-Description: définit le header du tableau.
+Description: Generates an HTML thead element to define the header section of a table. Used inside a cTable to wrap header rows containing cTh cells.
 
 Parameters:
-@param - id - string - optional - l'ID du header du tableau
-@param - class - string - optional - permet d'ajouter une classe CSS au header du tableau
-@param - params - string - optional - permet d'ajouter des parametres HTML au header du tableau
+- class (string, optional): CSS class(es) applied to the thead element. Default: ''.
+- id (string, optional): Unique identifier for the thead element. Default: ''.
+- params (string, optional): Additional HTML attributes for the thead element. Default: ''.
+
+Snippet:
+
+    Basic usage inside a cTable:
+
+    <@cTable caption='Appointments' id='appointments-table'>
+        <@cThead>
+            <@cTr>
+                <@cTh>Date</@cTh>
+                <@cTh>Time</@cTh>
+                <@cTh>Service</@cTh>
+            </@cTr>
+        </@cThead>
+        <@cTbody>
+            <@cTr>
+                <@cTd>2026-03-10</@cTd>
+                <@cTd>14:00</@cTd>
+                <@cTd>Civil Status</@cTd>
+            </@cTr>
+        </@cTbody>
+    </@cTable>
+
 -->  
 <#macro cThead class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

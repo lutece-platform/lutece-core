@@ -1,16 +1,34 @@
-<#-- Macro: cLabel
+<#--
+Macro: cLabel
 
-Description: permet de définir le label d'un champs de formulaire.
+Description: Generates a form label element with optional required asterisk indicator and visibility control.
 
 Parameters:
+- label (string, required): the label text.
+- class (string, optional): CSS class for the label. Default: ''.
+- id (string, optional): the ID of the label. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+- for (string, optional): the ID of the associated form element. Default: ''.
+- showLabel (boolean, optional): displays or hides the label (uses visually-hidden class). Default: true.
+- required (boolean, optional): displays a required asterisk (*) after the label. Default: false.
 
-@param - id - string - optional - l'ID du label
-@param - class - string - optional - ajoute une classe CSS au label
-@param - label - string - required - définit le libellé du label
-@param - for - string - optional - permet de définir le lien entre le label et le champ, à répéter dans la macro @cInput
-@param - showLabel - boolean - optional - permet d'afficher le label (par défaut: true)
-@param - required - boolean - optional - permet d'indiquer si le champs est obligatoire, ajoute le libellé '(facultatif)' si false (par défaut: false)
-@param - params - string - optional - permet d'ajouter des parametres HTML au label
+Snippet:
+
+    Basic label:
+
+    <@cLabel label='Email address' for='email' />
+    <@cInput name='email' id='email' type='email' />
+
+    Required label:
+
+    <@cLabel label='Last name' for='lastname' required=true />
+    <@cInput name='lastname' id='lastname' required=true />
+
+    Hidden label for accessibility:
+
+    <@cLabel label='Search' for='search' showLabel=false />
+    <@cInput name='search' id='search' placeholder='Search...' />
+
 -->
 <#macro cLabel label class='' id='' params='' for='' showLabel=true required=false deprecated...>
 <@deprecatedWarning args=deprecated />

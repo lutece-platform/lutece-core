@@ -1,13 +1,28 @@
-<#-- Macro: cBreadCrumb
+<#--
+Macro: cBreadCrumb
 
-Description: affiche un fil d'ariane.
+Description: Generates a breadcrumb navigation trail for the current page, helping users navigate the site hierarchy.
 
 Parameters:
-@param - home - string - required - Titre de la page Home. Par défaut clé Fil d'ariane disponible dans le fichier "theme_messages_fr.properties"
-@param - items - list - required - Objet JSON list avec liste d'item de page. L'objet contient un attribut 'titre' et un attribut 'url'.
-@param - class - string - optional - classe(s) css de la bannière
-@param - type - string - optional - Si fluid ajoute une classe pour un affichage en largeur 100%    
-@param - params - string - optional - permet d'ajouter des paramètres HTML au fil d'ariane
+- home (string, required): Label for the home page link. Default: '#i18n{portal.theme.home}'.
+- items (list, required): List of breadcrumb items, each with 'title' and 'url' attributes. Default: ''.
+- class (string, optional): Additional CSS class(es) for the breadcrumb nav. Default: ''.
+- type (string, optional): If 'fluid', the breadcrumb spans the full page width. Default: ''.
+- params (string, optional): Additional HTML attributes for the breadcrumb nav element. Default: ''.
+
+Snippet:
+
+    Basic usage with a list of items:
+
+    <@cBreadCrumb items=breadcrumbItems />
+
+    Custom home label and fluid layout:
+
+    <@cBreadCrumb home='Home' type='fluid' items=[
+        { 'title': 'Services', 'url': 'jsp/site/Portal.jsp?page=services' },
+        { 'title': 'Contact', 'url': '' }
+    ] />
+
 -->
 <#macro cBreadCrumb home='#i18n{portal.theme.home}' items='' class='' type='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

@@ -1,23 +1,39 @@
-<#-- THEME DATE PICKER COMPONENT                                  -->
-<#-- getThemeDatePicker                                           -->
-<#-- ------------------------------------------------------------ -->
-<#-- @tag     | date, datepicker, flatpikr                        -->
-<#-- ------------------------------------------------------------ -->
-<#-- @summary | Add datepicker with flatpickr lib                 -->
-<#-- ------------------------------------------------------------ -->
-<#-- @param idField       | mandatory |                           -->
-<#-- @param showFormat    | ''        |                           -->
-<#-- @param minDate       | ''        |                           -->
-<#-- @param maxDate       | ''        |                           -->
-<#-- @param defaultDate   | ''        |                           -->
-<#-- @param mode          | 'single'  |                           -->
-<#-- @param time          | false     |                           --> 
-<#-- @param range         | false     |                           --> 
-<#-- @param rangeIdField  | ''        |                           -->
-<#-- @param customArrows  | ['<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><polyline points="15 6 9 12 15 18"></polyline></svg>','<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><polyline points="9 6 15 12 9 18"></polyline></svg>'] |  -->
-<#-- ------------------------------------------------------------ -->
-<#-- @nested              | true      | Shows default page menu, but can other item can be add using @mainNavItem macro. -->
-<#-- ------------------------------------------------------------ -->
+<#--
+Macro: getThemeDatePicker
+
+Description: Generates a datepicker instance using the theme datepicker library, with support for single date or date range selection.
+
+Parameters:
+- idField (string, required): The ID of the input field to attach the datepicker to.
+- format (string, optional): The server-side date format for form submission. Default: ''.
+- showFormat (string, optional): The display format shown to the user. Default: ''.
+- minDate (string, optional): The minimum selectable date. Default: ''.
+- maxDate (string, optional): The maximum selectable date. Default: ''.
+- defaultDate (string, optional): The pre-selected default date. Default: ''.
+- title (string, optional): Title for the datepicker. Default: ''.
+- time (boolean, optional): If true, enables time selection. Default: false.
+- range (boolean, optional): If true, enables date range mode. Default: false.
+- rangeIdWrapper (string, optional): The ID of the wrapper element for range mode. Default: 'dtRange'.
+- customArrows (object, optional): Custom SVG markup for prev/next arrows. Default: [prevSvg, nextSvg].
+- options (object, optional): Additional datepicker configuration options. Default: {}.
+
+Snippet:
+
+    Basic single datepicker:
+
+    <@initThemeDatePicker />
+    <@getThemeDatePicker idField='birthdate' />
+
+    Date range picker:
+
+    <@initThemeDatePicker />
+    <div id='dtRange'>
+        <input type='text' id='startDate' name='startDate' />
+        <input type='text' id='endDate' name='endDate' />
+    </div>
+    <@getThemeDatePicker idField='startDate' range=true rangeIdWrapper='dtRange' />
+
+-->
 <#macro getThemeDatePicker idField format='' showFormat='' minDate='' maxDate='' defaultDate='' title='' time=false range=false rangeIdWrapper='dtRange' customArrows=['<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6399_4241)"><path d="M12.4849 14.5271L17.8516 19.8938L15.6907 22.0547L8.16309 14.5271L15.6907 6.99955L17.8516 9.16045L12.4849 14.5271Z" fill="#071F32"/></g><defs><clipPath id="clip0_6399_4241"><rect width="28" height="28" fill="white"/></clipPath></defs></svg>','<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6399_3183)"><path d="M15.5151 13.4729L10.1484 8.10621L12.3093 5.94531L19.8369 13.4729L12.3093 21.0004L10.1484 18.8395L15.5151 13.4729Z" fill="#071F32"/></g><defs><clipPath id="clip0_6399_3183"><rect width="28" height="28" fill="white" transform="translate(28 28) rotate(180)"/></clipPath></defs></svg>'] options={} deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local dtThemeOptions>${dskey('theme.site_property.config.datepicker.textblock')!}</#local>
