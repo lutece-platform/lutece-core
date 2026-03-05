@@ -28,7 +28,7 @@
                                 <#if type_filter != "checkbox" || map_index != 0>
                                     <@cInput type=type_filter name="type_filter" value=map.type />
                                     <#if map.link?exists && map.link != "">
-                                        <@cLink href=map.link!><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></@cLink>
+                                        <@cLink label='${map.type}' href=map.link!><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></@cLink>
                                     <#else>
                                         <#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if>
                                     </#if>
