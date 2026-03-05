@@ -1,21 +1,38 @@
-<#-- Macro: cSlider
+<#--
+Macro: cSlider
 
-Description: affiche un carousel d'images.
+Description: Generates a horizontal card slider/carousel with navigation buttons and optional "view all" link for browsing content on skin pages.
 
 Parameters:
-@param - id - string - required - l'ID du carousel
-@param - sliderLabel - string - required - Aria label du carousel
-@param - class - string - optional - permet d'ajouter une classe CSS au slider (par défaut: 'row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4')
-@param - slides - string - optional - Objet contenant les  slides ( voir les attributs ci-dessous )
-@param - slideLabel - string - optional - Label pour le label slide (par défaut: 'slide')
-@param - buttonNext - string - optional - Label pour le bouton 'next' (par défaut: 'i18n{portal.util.labelNext}')
-@param - buttonPrev - string - optional - Label pour le bouton 'prev' (par défaut: '#i18n{portal.util.labelPrevious}')
-@param - buttonClass - string - optional - permet d'ajouter une classe CSS aux boutons (par défaut: 'light rounded-circle main-info-color')
-@param - buttonClass - string - optional - permet d'ajouter une classe CSS aux boutons (par défaut: 'light rounded-circle main-info-color')
-@param - linkAll - string - optional - permet d'ajouter un lien de redirection vers une autre page
-@param - linkAllLabel - string - optional - permet de définir le label du lien de redirection
-@param - linkAllClass - string - optional - permet d'ajouter une classe CSS au lien
-@param - params - string - optional - permet d'ajouter des parametres HTML au carousel
+- id (string, required): Unique identifier for the slider.
+- sliderLabel (string, required): Accessible ARIA label for the slider.
+- class (string, optional): CSS grid classes for slide layout. Default: 'row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4'.
+- slides (object, optional): Collection of slide objects with properties: index, id, class, img, imgAlt, link, linkLabel, url, content. Default: {}.
+- slideLabel (string, optional): Accessible label prefix for individual slides. Default: 'slide'.
+- buttonNext (string, optional): Label for the next button. Default: '#i18n{portal.util.labelNext}'.
+- buttonPrev (string, optional): Label for the previous button. Default: '#i18n{portal.util.labelPrevious}'.
+- buttonClass (string, optional): CSS classes for navigation buttons. Default: 'light rounded-circle'.
+- linkAll (string, optional): URL for a "view all" link. Default: ''.
+- linkAllLabel (string, optional): Label for the "view all" link. Default: '#i18n{portal.util.labelMore}'.
+- linkAllClass (string, optional): CSS classes for the "view all" link. Default: 'btn btn-link-primary me-sm'.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic slider with slides:
+
+    <@cSlider id='newsSlider' sliderLabel='Latest news' slides=newsSlides />
+
+    Slider with "view all" link:
+
+    <@cSlider id='eventSlider' sliderLabel='Upcoming events' slides=eventSlides linkAll='jsp/site/Portal.jsp?page=events' linkAllLabel='View all events' />
+
+    Slider with custom grid and nested content:
+
+    <@cSlider id='serviceSlider' sliderLabel='Our services' slides=serviceSlides class='row-cols-1 row-cols-md-2 row-cols-lg-3'>
+        <p class="text-muted mt-3">Swipe or use arrows to browse.</p>
+    </@cSlider>
+
 -->    
 <#macro cSlider id sliderLabel class='row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4'  slides={} slideLabel='slide' buttonNext='#i18n{portal.util.labelNext}' buttonPrev='#i18n{portal.util.labelPrevious}' buttonClass='light rounded-circle' linkAll='' linkAllLabel='#i18n{portal.util.labelMore}' linkAllClass='btn btn-link-primary me-sm' params=''>
 <@cSection id=id class='theme-slider-wrapper' params='aria-roledescription="slide" aria-label="${sliderLabel!}" ${params}'>
@@ -109,8 +126,22 @@ document.addEventListener('DOMContentLoaded', function (){
 });
 </script>
 </#macro>
-<#-- 
-Macro cSlide
+<#--
+Macro: cSlide
+
+Description: Generates a single slide card element for use inside a cSlider component.
+
+Parameters:
+- slide (object, optional): Slide data object with properties: index, id, class, img, imgAlt, link, linkLabel, url, content. Default: {}.
+- currentIndex (number, optional): Current slide index for accessibility labeling. Default: 1.
+- lastIndex (number, optional): Total number of slides for accessibility labeling. Default: 1.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic usage (typically called internally by cSlider):
+
+    <@cSlide slide=mySlideData currentIndex=1 lastIndex=5 />
 
 -->
 <#macro cSlide slide={} currentIndex=1 lastIndex=1 params=''>

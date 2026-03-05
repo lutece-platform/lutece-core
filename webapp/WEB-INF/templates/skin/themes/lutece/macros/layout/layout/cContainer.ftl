@@ -1,12 +1,28 @@
-<#-- Macro: cContainer
+<#--
+Macro: cContainer
 
-Description: affiche un container.
+Description: Generates a Bootstrap container element, with an optional fluid mode for full-width layout.
 
 Parameters:
-@param - id - string - optional - identifiant unique du container
-@param - class - string - optional - classe(s) css du container
-@param - type - string - optional - le type de container, en ajoutant la valeur '-fluid' il prend toute la largeur
-@param - params - string - optional - permet d'ajouter des paramètres HTML au container
+- type (string, optional): Container type; set to 'fluid' for a full-width container. Default: ''.
+- class (string, optional): Additional CSS class(es) for the container. Default: ''.
+- id (string, optional): Unique identifier for the container element. Default: ''.
+- params (string, optional): Additional HTML attributes for the container element. Default: ''.
+
+Snippet:
+
+    Basic container:
+
+    <@cContainer>
+        <p>Page content inside a centered container</p>
+    </@cContainer>
+
+    Full-width fluid container:
+
+    <@cContainer type='fluid' class='bg-light py-3'>
+        <p>Full-width section content</p>
+    </@cContainer>
+
 -->
 <#macro cContainer type='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

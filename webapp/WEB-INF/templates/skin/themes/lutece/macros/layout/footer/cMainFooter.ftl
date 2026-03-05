@@ -1,11 +1,25 @@
-<#-- Macro: cMainFooter
+<#--
+Macro: cMainFooter
 
-Description: affiche un pied de page.
+Description: Generates the main site footer with navigation links, social media icons, and copyright information.
 
 Parameters:
-@param - title - string - required - nom du service numérique
-@param - nested_pos - string - required - Position du contenu 'nested' passé dans la macro. Valeurs possible avant,'before' et aprés,'after'
-@param - params - string - optionnal - permet d'ajouter des parametres HTML au tag footer
+- title (string, required): Name of the digital service displayed in the footer. Default: mainSite.
+- nested_pos (string, required): Position of nested content relative to the footer menu: 'before' or 'after'. Default: 'after'.
+- params (string, optional): Additional HTML attributes for the footer element. Default: ''.
+
+Snippet:
+
+    Basic usage:
+
+    <@cMainFooter title='My City Portal' />
+
+    Footer with additional links before the default menu:
+
+    <@cMainFooter title='City Services' nested_pos='before'>
+        <li class="list-inline-item"><a href="/faq">FAQ</a></li>
+    </@cMainFooter>
+
 -->
 <#macro cMainFooter title=mainSite nested_pos='after'  params='' deprecated...>
 <@deprecatedWarning args=deprecated />

@@ -1,32 +1,55 @@
-<#-- Macro: cStepCurrent
+<#--
+Macro: cStepCurrent
 
-Description: Defines a macro that show the current step
+Description: Generates the current active step in a multi-step form, including title, navigation buttons (next, previous, save, backup), and mandatory field warnings.
 
 Parameters:
-@param - step - string - optional - required - Step number
-@param - title - string - optional - required - the title of the step
-@param - showTitle - boolean - optional - Show step title, default true 
-@param - titleLevel - number - optional - HTML level of the title tag, default 2
-@param - class - string - optional - the CSS class of the element, default '' 
-@param - actionNextStep - string - optional - If set add a next step button, default ''
-@param - titleNextStep - string - optional - If set add a title for next step button, default ''
-@param - labelNextStep - string - optional - Label of the next button '#i18n{portal.theme.labelNextStep}'
-@param - actionPrevStep - string - optional - If set add a previous step button, default ''
-@param - titlePrevStep - string - optional - If set add a title for prev step button, default ''
-@param - labelPrevStep - string - optional - Label of the previous step button, default '#i18n{portal.theme.labelPrevStep}'
-@param - actionSaveStep - string - optional - If set add a save step button, default ''
-@param - titleSaveStep - string - optional - If set add a title for save step button, default ''
-@param - labelSaveStep - string - optional - Label of the save step button , default '#i18n{portal.theme.labelSaveStep}'
-@param - actionSaveForBackUpStep - string - optional - If set add a save step for backup button, default ''
-@param - titleSaveForBackUpStep - string - optional - If set add a title for "SaveForBackUpStep" step button, default ''
-@param - labelSaveForBackUpStep - string - optional - Label of the save backup button, default '#i18n{forms.step.saveResponse}'
-@param - actionResetBackUpStep - string - optional - If set add a reset backup button, default ''
-@param - titleResetBackUpStep - string - optional - If set add a title for reset backup step button, default ''
-@param - labelResetBackUpStep - string - optional - Label of the reset backup button, default '#i18n{forms.step.resetResponse}'
-@param - showPrevStep - boolean - optional - Show previous step button, default true 
-@param - hasSteps - boolean - optional - Show step infos in header of step, default true 
-@param - hasMandatory - boolean - optional - Add mandatory warning, default true 
-@param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+- step (string, required): the step number.
+- title (string, required): the title of the step.
+- showTitle (boolean, optional): displays the step title header. Default: true.
+- titleLevel (number, optional): HTML heading level for the title tag. Default: 2.
+- actionNextStep (string, optional): action name for the next step button. Default: ''.
+- titleNextStep (string, optional): title attribute for the next step button. Default: ''.
+- labelNextStep (string, optional): label of the next step button. Default: '#i18n{portal.theme.labelNextStep}'.
+- actionPrevStep (string, optional): action name for the previous step button. Default: ''.
+- titlePrevStep (string, optional): title attribute for the previous step button. Default: ''.
+- labelPrevStep (string, optional): label of the previous step button. Default: '#i18n{portal.theme.labelPrevStep}'.
+- actionSaveStep (string, optional): action name for the save step button. Default: ''.
+- titleSaveStep (string, optional): title attribute for the save step button. Default: ''.
+- labelSaveStep (string, optional): label of the save step button. Default: '#i18n{portal.theme.labelSaveStep}'.
+- actionSaveForBackUpStep (string, optional): action name for the save-for-backup button. Default: ''.
+- titleSaveForBackUpStep (string, optional): title attribute for the save-for-backup button. Default: ''.
+- labelForBackUpStep (string, optional): label of the save-for-backup button. Default: '#i18n{forms.step.saveResponse}'.
+- actionResetBackUpStep (string, optional): action name for the reset backup button. Default: ''.
+- titleResetBackUpStep (string, optional): title attribute for the reset backup button. Default: ''.
+- labelResetBackUpStep (string, optional): label of the reset backup button. Default: '#i18n{forms.step.resetResponse}'.
+- showPrevStep (boolean, optional): displays the previous step button. Default: true.
+- hasSteps (boolean, optional): displays step number in the header. Default: true.
+- hasMandatory (boolean, optional): adds mandatory field warnings. Default: true.
+- class (string, optional): CSS class for the step section. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Current step with next and previous navigation:
+
+    <@cStepCurrent step='2' title='Contact information' actionNextStep='action_doNextStep' actionPrevStep='action_doPrevStep'>
+        <@cField label='Email' for='email' required=true>
+            <@cInput name='email' id='email' type='email' />
+        </@cField>
+        <@cField label='Phone' for='phone'>
+            <@cInput name='phone' id='phone' type='tel' />
+        </@cField>
+    </@cStepCurrent>
+
+    First step (no previous button):
+
+    <@cStepCurrent step='1' title='Personal information' actionNextStep='action_doNextStep' showPrevStep=false>
+        <@cField label='Name' for='name' required=true>
+            <@cInput name='name' id='name' />
+        </@cField>
+    </@cStepCurrent>
+
 -->
 <#macro cStepCurrent step title showTitle=true titleLevel=2 actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{forms.step.saveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{forms.step.resetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

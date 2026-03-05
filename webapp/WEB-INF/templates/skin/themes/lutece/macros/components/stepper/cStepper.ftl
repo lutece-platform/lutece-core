@@ -1,19 +1,34 @@
-<#-- Macro: cStepper
+<#--
+Macro: cStepper
 
-Description: permet d'afficher les différentes étapes d'une procédure à suivre.
+Description: Generates a multi-step progress stepper displaying sequential steps with status indicators, pictograms, and expandable content.
 
 Parameters:
+- steps (object, required): Collection of step objects with properties: title, content, status ('done', 'in-progress', ''), url.
+- haspicto (boolean, optional): Whether to display step pictogram images. Default: false.
+- hasidx (boolean, optional): Whether to display numbered index bullets. Default: false.
+- title (boolean, optional): Whether to display step titles with heading style. Default: false.
+- showMore (boolean, optional): Whether to display a "show more" button for step content. Default: false.
+- labelMore (string, optional): Label for the expand button. Default: i18n("theme.labelShowMore").
+- a11StatusMsg (string, optional): Accessible status message for the active step. Default: ''.
+- class (string, optional): Additional CSS classes (use 'pie' for pie-chart style). Default: ''.
+- id (string, optional): HTML id attribute. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
 
-@param - id - string - optional - l'ID du stepper
-@param - class - string - optional - ajoute une classe CSS au stepper
-@param - steps - object - required - définit l'objet comprenant les informations pour chaque étape
-@param - haspicto - boolean - optional - permet de définir si le stepper doit afficher les images comprises dans l'objet 'steps' (par défaut: false)
-@param - hasidx - boolean - optional - affiche un index sous forme de puce sur une étape (par défaut: false)
-@param - title - boolean - optional - affiche le contenu de 'title' de l'objet 'steps' avec un style de titre (par défaut: false)
-@param - showMore - boolean - optional - permet d'afficher un bouton pour afficher le contenu de steps (par defaut: false)
-@param - labelMore - string - optional - Libellé du bouton pour afficher le contenu (par défaut: i18n("theme.labelShowMore"))
-@param - a11StatusMsg - string - optional - Libellé pour accessibilité inclu un texte de statut masqué
-@param - params - string - optional - permet d'ajouter des parametres HTML au stepper
+Snippet:
+
+    Basic stepper:
+
+    <@cStepper steps=mySteps />
+
+    Stepper with titles and expandable content:
+
+    <@cStepper steps=mySteps title=true showMore=true hasidx=true />
+
+    Stepper with pictograms:
+
+    <@cStepper steps=mySteps haspicto=true title=true />
+
 -->
 
 <#macro cStepper steps=steps haspicto=false hasidx=false title=false showMore=false labelMore=i18n("theme.labelShowMore") a11StatusMsg='' class='' id='' params='' deprecated...>

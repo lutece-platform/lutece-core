@@ -1,10 +1,22 @@
-<#-- Macro: skipNav
+<#--
+Macro: skipNav
 
-Description: Menu de navigation pour sauter les liens de navigation
+Description: Generates an accessible skip navigation menu, allowing keyboard users to jump directly to the main content or the site menu.
 
 Parameters:
-@param - target - string - optional - Default: "main", target du contenu principal 
-@param - skipMenu - string - optional - Default: true, si true affiche le lien vers le menu; 
+- target (string, optional): ID of the main content element to skip to. Default: 'main'.
+- skipMenu (boolean, optional): If true, displays an additional link to skip to the site menu. Default: true.
+
+Snippet:
+
+    Basic usage at the top of the page layout:
+
+    <@skipNav />
+
+    Skip navigation targeting a custom content area without menu link:
+
+    <@skipNav target='page-content' skipMenu=false />
+
 -->
 <#macro skipNav target='main' skipMenu=true deprecated...>
 <@deprecatedWarning args=deprecated />

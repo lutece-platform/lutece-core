@@ -1,16 +1,33 @@
-<#-- Macro: cBtnGroup
+<#--
+Macro: cBtnGroup
 
-Description: affiche un groupe de bouton.
+Description: Generates a group of buttons, either from a list of button objects or from nested content.
 
 Parameters:
+- label (string, required): The aria-label for the button group.
+- buttonList (object, optional): List of button items, each with 'label', 'class', and optional 'disabled' attributes. Default: {}.
+- class (string, optional): Additional CSS class(es) for the button group. Default: ''.
+- id (string, optional): The unique identifier for the button group. Default: ''.
+- type (string, optional): Layout type for the group ('vertical' for stacked). Default: ''.
+- params (string, optional): Additional HTML attributes for the button group. Default: ''.
 
-@param - id - string - optional - l'ID du groupe de bouton
-@param - label - string - required - définit l'aria-label du groupe de bouton
-@param - buttonList - object - optionnel - Objet list avec items de bouton. L'objet doit contenir un attribut 'label', un attribut 'class' et un attribut optionnel 'disabled'
-@param - class - string - optional - permet d'ajouter une classe CSS au groupe de bouton
-@param - type - string - optional - permet de modifier le type de groupe de bouton (valeur possible: 'vertical')
-@param - params - string - optional - permet d'ajouter des parametres HTML au groupe de bouton
- -->
+Snippet:
+
+    Button group with nested buttons:
+
+    <@cBtnGroup label='Actions'>
+        <@cBtn label='Edit' class='secondary' />
+        <@cBtn label='Delete' class='danger' />
+    </@cBtnGroup>
+
+    Button group from a list:
+
+    <@cBtnGroup label='Options' buttonList=[
+        {'label': 'Option A', 'class': 'primary', 'disabled': false},
+        {'label': 'Option B', 'class': 'secondary', 'disabled': false}
+    ] />
+
+-->
 <#macro cBtnGroup label buttonList={} class='' id='' type='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local btnClass>btn-group<#if type='vertical'> btn-group-vertical</#if><#if class!=''> ${class}</#if></#local>

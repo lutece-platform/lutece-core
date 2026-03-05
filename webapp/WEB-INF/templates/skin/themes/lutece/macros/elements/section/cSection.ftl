@@ -1,12 +1,28 @@
-<#-- Macro: cSection
+<#--
+Macro: cSection
 
-Description: affiche une section.
+Description: Generates a semantic HTML section container using a configurable block-level tag. Structures page content into logical sections on skin pages.
 
 Parameters:
-@param - id - string - optional - identifiant unique de la section
-@param - class - string - optional - classe(s) css de la section
-@param - type - string - required - élément HTML de niveau block de structure section.
-@param - params - string - optional - permet d'ajouter des paramètres HTML à la section
+- type (string, required): HTML tag used for the section element ('section', 'div', 'aside', etc.). Default: 'section'.
+- class (string, optional): CSS class(es) applied to the section element. Default: ''.
+- id (string, optional): Unique identifier for the section element. Default: ''.
+- params (string, optional): Additional HTML attributes for the section element. Default: ''.
+
+Snippet:
+
+    Basic usage:
+
+    <@cSection>
+        <p>Welcome to our services section.</p>
+    </@cSection>
+
+    As a div with custom class:
+
+    <@cSection type='div' class='container py-4' id='services'>
+        <p>Our services are listed below.</p>
+    </@cSection>
+
 -->
 <#macro cSection type='section' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

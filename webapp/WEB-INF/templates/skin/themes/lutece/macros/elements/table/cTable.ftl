@@ -1,17 +1,38 @@
-<#-- Macro: cTable
+<#--
+Macro: cTable
 
-Description: affiche un tableau de contenu.
+Description: Generates a responsive HTML table with theme styling, collapsible rows for small screens, and an accessible caption. Automatically creates an accordion view for mobile devices.
 
 Parameters:
-@param - id - string - optional - Défaut "changeme", l'ID du table, ATTENTION changer l'identifiant par défaut si vous utilisez le macro cTableResponsive
-@param - class - string - optional - permet d'ajouter une classe CSS au tableau
-@param - caption - string - optional - permet de définir le titre "Caption" du tableau
-@param - captionClass - string - optional - Défaut "visually-hidden" class du caption du tableau. Accessibilité: permet de masquer le titre du tableau pour les lecteurs d'écran si ele titre précédent le tableau est suffisant.
-@param - summary - string - optional - permet de définir l'attribut "summary" du tableau
-@param - breakpoint - string - optional - permet de définir le breakpoint du tableau (valeurs possibles: '-sm','-md','-lg','-xl','-xxl')
-@param - themed - boolean - optional - permet d'ajouter les style du thème par défaut sinon ce sont les styles de table de BS4 qui seront appliqués (par défaut: true)
-@param - collapsible - boolean - optional - par défaut pour les petits écran, seule la prmière cellule de la ligne est affichée -en colonne- et les autres sont masquée. Si false tout est en colonne sauf si le paramètre themed est false les styles BS4 seront alors appliqués par défauts (par défaut: true)
-@param - params - string - optional - permet d'ajouter des parametres HTML au tableau
+- caption (string, optional): Caption text for the table, used for accessibility. Default: ''.
+- captionClass (string, optional): CSS class for the caption element. Default: 'visually-hidden'.
+- summary (string, optional): Summary attribute for the table. Default: ''.
+- breakpoint (string, optional): Responsive breakpoint suffix ('-sm', '-md', '-lg', '-xl', '-xxl'). Default: ''.
+- themed (boolean, optional): If true, applies the theme default table styles; otherwise Bootstrap styles apply. Default: true.
+- collapsible (boolean, optional): If true, collapses rows on small screens showing only the first cell. Default: true.
+- class (string, optional): CSS class(es) applied to the table element. Default: ''.
+- id (string, optional): Unique identifier for the table; must be changed from default to avoid conflicts. Default: 'changeme'.
+- params (string, optional): Additional HTML attributes for the table element. Default: ''.
+
+Snippet:
+
+    Basic usage:
+
+    <@cTable caption='List of services' id='services-table'>
+        <@cThead>
+            <@cTr>
+                <@cTh>Name</@cTh>
+                <@cTh>Description</@cTh>
+            </@cTr>
+        </@cThead>
+        <@cTbody>
+            <@cTr>
+                <@cTd>Civil Status</@cTd>
+                <@cTd>Request birth or marriage certificates</@cTd>
+            </@cTr>
+        </@cTbody>
+    </@cTable>
+
 -->  
 <#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsible=true class='' id='changeme' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

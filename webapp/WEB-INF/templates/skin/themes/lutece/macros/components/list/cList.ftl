@@ -1,11 +1,67 @@
-<#-- cList                          -->
-<#-- items: Mandatory               -->
-<#-- type: default / more / files   -->
-<#-- itemsShown: 0                  -->
-<#-- labelMore: 'VOIR PLUS'         -->
-<#-- class:                         -->
-<#-- id:                            -->
-<#-- params:                        -->
+<#--
+Macro: cList
+
+Description: Generates a customizable list component with support for default, expandable ('more'), and file download list styles.
+
+Parameters:
+- items (list, required): List of item objects with properties: url, title, target, class, size (for files).
+- type (string, optional): List display type ('default', 'more', 'files'). Default: 'default'.
+- itemsShown (number, optional): Number of items visible before requiring 'show more' (used with type='more'). Default: 0.
+- indexShown (boolean, optional): Whether to display the item index. Default: false.
+- labelMore (string, optional): Label for the 'show more' button. Default: i18n("theme.labelShowMore").
+- labelClose (string, optional): Label for the 'close' button. Default: i18n("theme.labelClose").
+- class (string, optional): Additional CSS classes. Default: ''.
+- id (string, optional): HTML id attribute. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic default list:
+
+    <@cList items=myItems />
+
+    Expandable list showing first 3 items:
+
+    <@cList items=myItems type='more' itemsShown=3 />
+
+    File download list:
+
+    <@cList items=fileItems type='files' />
+
+    List with additional nested content:
+
+    <@cList items=myItems type='default' class='my-custom-list'>
+        <@cListItem url='#' label='Extra item' title='Extra item title' />
+    </@cList>
+
+-->
+<#--
+Macro: cListItem
+
+Description: Generates a single list item for use inside a cList component, either as a link or with nested content.
+
+Parameters:
+- url (string, optional): URL for the list item link. Default: ''.
+- label (string, optional): Text label displayed in the list item. Default: ''.
+- title (string, optional): Title attribute for the link. Default: ''.
+- target (string, optional): Link target attribute. Default: ''.
+- class (string, optional): Additional CSS classes. Default: ''.
+- id (string, optional): HTML id attribute. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Link list item:
+
+    <@cListItem url='/my-page' label='My page' title='Go to my page' />
+
+    List item with nested content:
+
+    <@cListItem class='custom-item'>
+        <span>Custom content inside the list item</span>
+    </@cListItem>
+
+-->
 <#macro cList items type='default' itemsShown=0 indexShown=false labelMore=i18n("theme.labelShowMore") labelClose=i18n("theme.labelClose") class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />        
 <ul class="custom-list list-${type!}<#if class!=''> ${class}</#if><#if type='more'> more-list</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >

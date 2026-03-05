@@ -1,14 +1,26 @@
-<#-- Macro: cBadge
+<#--
+Macro: cBadge
 
-Description: affiche un badge ou tag.
+Description: Generates a badge or tag element with an optional dismissible close button.
 
 Parameters:
-@param - id - string - optional - l'ID du badge
-@param - label - string - optional - le titre du badge
-@param - class - string - optional - permet d'ajouter une classe CSS au badge
-@param - hasp - boolean - optional - permet de retirer le paragraphe qui entoure le label (par défaut: true)
-@param - dismissible - boolean - optional - permet d'activer la fermeture du badge avec l'affichage d'une croix (par défaut: false)
-@param - params - string - optional - permet d'ajouter des parametres HTML au badge
+- label (string, optional): The text displayed in the badge. Default: ''.
+- class (string, optional): Additional CSS class(es) for the badge. Default: ''.
+- hasp (boolean, optional): If true, wraps the label in a paragraph element. Default: true.
+- dismissible (boolean, optional): If true, displays a close button to dismiss the badge. Default: false.
+- id (string, optional): The unique identifier for the badge. Default: ''.
+- params (string, optional): Additional HTML attributes for the badge. Default: ''.
+
+Snippet:
+
+    Basic badge:
+
+    <@cBadge label='New' class='primary' />
+
+    Dismissible badge:
+
+    <@cBadge label='Filter: Paris' class='secondary' dismissible=true />
+
 -->
 <#macro cBadge label='' class='' hasp=true dismissible=false id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

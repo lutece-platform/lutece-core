@@ -1,24 +1,45 @@
-<#-- Macro: cTextArea
+<#--
+Macro: cTextArea
 
-Description: permet de définir un champs de formulaire textarea.
+Description: Generates a textarea form field with support for validation, help/error messages, and character limits.
 
 Parameters:
+- name (string, required): the name attribute of the textarea.
+- class (string, optional): CSS class for the textarea. Default: 'form-control'.
+- id (string, optional): the ID of the textarea. Default: ''.
+- placeholder (string, optional): the placeholder text. Default: ''.
+- required (boolean, optional): marks the field as required. Default: false.
+- html5Required (boolean, optional): uses the HTML5 required attribute. Default: true.
+- disabled (boolean, optional): disables the textarea. Default: false.
+- readonly (boolean, optional): sets the textarea as readonly. Default: false.
+- title (string, optional): the title attribute. Default: ''.
+- autocomplete (string, optional): the autocomplete attribute value (on/off). Default: ''.
+- maxlength (number, optional): maximum character length. Default: 0.
+- helpMsg (string, optional): help message displayed below the textarea. Default: ''.
+- rows (number, optional): number of visible text lines. Default: 0.
+- errorMsg (string, optional): error message displayed on validation failure. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
 
-@param - name - string - required - permet de définir la valeur de l'attribut 'name' du champs du formulaire
-@param - class - string - optional - ajoute une classe CSS au champs de formulaire (par défaut: 'form-control')
-@param - id - string - optional - l'ID du champs de formulaire
-@param - rows - number - optional - permet de modifier le nombre ligne du champs de formulaire, par défaut 0
-@param - placeholder - string - optional - permet de définir la valeur de l'attribut 'placeholder' du champs du formulaire
-@param - autocomplete- string - Default '' , autocomplete pour le textarea peut être on/off https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/autocomplete  
-@param - required - boolean - optional - permet d'indiquer si le champs est obligatoire (par défaut: false)
-@param - html5Required - boolean - optional - permet d'indiquer si le champs doit utliser l'attribut html5 required (par défaut: true)
-@param - disabled - boolean - optional - permet d'indiquer si le champs est desactivé (par défaut: false)
-@param - readonly - boolean - optional - permet d'indiquer si le champs est lecture seule (par défaut: false)
-@param - title - string - optional - permet de définir l'attribut 'title' du champs
-@param - maxlength - number - optional - permet de saisir une limitation de taille de valeur saisie (par défaut: 0)
-@param - helpMsg - string - optional - permet de définir le message d'aide du champs
-@param - errorMsg - string - optional - permet de définir le message d'erreur du champs
-@param - params - string - optional - permet d'ajouter des parametres HTML au champs de formulaire
+Snippet:
+
+    Basic textarea:
+
+    <@cTextArea name='message' placeholder='Enter your message...' rows=5 />
+
+    Required textarea with character limit:
+
+    <@cTextArea name='comment' required=true maxlength=500 helpMsg='Maximum 500 characters.' rows=4 />
+
+    Textarea with error message:
+
+    <@cTextArea name='description' rows=3 errorMsg='This field is required.' />
+
+    Textarea with default content:
+
+    <@cTextArea name='notes' rows=6>
+        Default content goes here.
+    </@cTextArea>
+
 -->
 <#macro cTextArea name class='form-control' id='' placeholder='' required=false html5Required=true disabled=false readonly=false title='' autocomplete='' maxlength=0 helpMsg='' rows=0 errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

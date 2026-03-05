@@ -1,26 +1,50 @@
 <#--
-  Macro: cOffcanvas
-  Description: Generates an off-canvas component for a sliding panel overlay.
-  Parameters:
-  - id (string, required): the ID of the off-canvas component.
-  - position (string, optional): the position of the off-canvas component ("start", "end", "top", or "bottom").
-  - class (string, optional): additional CSS classes for the offcanvas element.
-  - title (string, optional): the title of the off-canvas component.
-  - btnTitle (string, optional): the text on the toggle button.
-  - btnColor (string, optional): the color of the toggle button.
-  - btnIcon (string, optional): the icon for the toggle button.
-  - btnClass (string, optional): additional classes for the toggle button.
-  - bodyClass (string, optional): additional classes for the off-canvas body.
-  - backdrop (string, optional, default="true"): whether to show a backdrop when the off-canvas component is open.
-  - size (string, optional): the size of the off-canvas component ("full", "half", "auto", or "sm").
-  - btnSize (string, optional): the size of the toggle button.
-  - targetUrl (string, optional): the URL to load content from when the off-canvas component is opened.
-  - targetElement (string, optional): the ID of the element to load content into.
-  - useIframe (boolean, optional, default=false): whether to load content via iframe instead of AJAX.
-  - redirectForm (boolean, optional): whether to redirect the form when submitted.
-  - badgeContent (string, optional): the content of the badge on     the toggle button.
-  - badgeColor (string, optional): the color of the badge.
-  -->
+Macro: cOffcanvas
+
+Description: Generates a Bootstrap offcanvas sliding panel with an optional toggle button, supporting AJAX and iframe content loading.
+
+Parameters:
+- id (string, required): Unique identifier for the offcanvas component.
+- position (string, optional): Slide-in direction ('start', 'end', 'top', 'bottom'). Default: 'end'.
+- class (string, optional): Additional CSS classes for the offcanvas element. Default: ''.
+- title (string, optional): Title displayed in the offcanvas header. Default: ''.
+- btnTitle (string, optional): Text on the toggle button (button is only rendered if set). Default: ''.
+- btnColor (string, optional): Bootstrap color variant for the toggle button. Default: 'primary'.
+- btnTitleShow (boolean, optional): Whether to display the button title text visually. Default: true.
+- btnIcon (string, optional): Paris icon name for the toggle button. Default: ''.
+- btnClass (string, optional): Additional CSS classes for the toggle button. Default: ''.
+- bodyClass (string, optional): Additional CSS classes for the offcanvas body. Default: ''.
+- backdrop (string, optional): Whether to show a backdrop ('true' or 'false'). Default: 'true'.
+- size (string, optional): Width class suffix ('full', 'half', 'auto', 'sm'). Default: 'auto'.
+- btnSize (string, optional): Bootstrap button size class suffix. Default: ''.
+- targetUrl (string, optional): URL to load content from via AJAX when opened. Default: ''.
+- targetElement (string, optional): ID of the element to load AJAX content into. Default: ''.
+- useIframe (boolean, optional): Whether to load content via iframe instead of AJAX. Default: false.
+- redirectForm (boolean, optional): Whether to redirect form submissions. Default: true.
+- badgeContent (string, optional): Text content for a badge on the toggle button. Default: ''.
+- badgeColor (string, optional): Bootstrap color for the badge. Default: ''.
+
+Snippet:
+
+    Basic offcanvas with toggle button:
+
+    <@cOffcanvas id='sidePanel' btnTitle='Open panel' title='Side Panel'>
+        <p>Panel content goes here.</p>
+    </@cOffcanvas>
+
+    Offcanvas with icon button and badge:
+
+    <@cOffcanvas id='notifications' btnTitle='Notifications' btnIcon='bell' btnColor='outline-primary' badgeContent='3' badgeColor='danger' title='Your notifications'>
+        <p>You have 3 new notifications.</p>
+    </@cOffcanvas>
+
+    Offcanvas loading content via AJAX:
+
+    <@cOffcanvas id='detailPanel' btnTitle='View details' position='end' size='half' targetUrl='jsp/site/Portal.jsp?page=detail' targetElement='detailContent' title='Details'>
+        <div id="detailContent">Loading...</div>
+    </@cOffcanvas>
+
+-->
 <#macro cOffcanvas id position='end' class='' title='' btnTitle='' btnColor='primary' btnTitleShow=true btnIcon='' btnClass='' bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true badgeContent='' badgeColor='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if btnTitle !=''>

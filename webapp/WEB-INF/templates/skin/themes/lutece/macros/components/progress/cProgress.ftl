@@ -1,22 +1,39 @@
-<#-- Macro: cProgress
+<#--
+Macro: cProgress
 
-Description: affiche un tag de status.
+Description: Generates a Bootstrap progress bar with optional Lutece progress manager integration for tracking long-running operations.
 
 Parameters:
-@param - label - string - optional - permet de définir le libellé du tag
-@param - labelClass - string - optional - permet d'ajouter une classe CSS au libellé du tag
-@param - color - string - optional - Couleur par défaut de la barre (par défaut: 'primary')
-@param - value - number - optional - Valeur d'initialisation (par défaut: 0)
-@param - min - number - optional - valeur min (par défaut: 0)
-@param - max - number - optional - valeur max (par défaut: 100)
-@param - token - string - optional - the progress manager Feed Token (par défaut: '')
-@param - text - string - optional - Texte à ajouter à la barre de progression (par défaut: '')
-@param - role - string - optional - role accessibilité (par défaut: 'progressbar')
-@param - showReport - boolean - optional - display the messages report (if the feed token is provided), par defaut "false"
-@param - intervalTime - number - optional - refresh period in milli seconds (if the feed token is provided) 
-@param - id - string - optional - l'ID du tag
-@param - class - string - optional - permet d'ajouter une classe CSS au tag
-@param - params - string - optional - permet d'ajouter des parametres HTML au tag
+- label (string, required): Accessible label displayed above the progress bar.
+- labelClass (string, optional): CSS class for the label element. Default: ''.
+- class (string, optional): Additional CSS classes for the progress container. Default: ''.
+- color (string, optional): Bootstrap color for the progress bar. Default: 'primary'.
+- id (string, optional): HTML id attribute for the container. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+- value (number, optional): Current progress value. Default: 0.
+- min (number, optional): Minimum value. Default: 0.
+- max (number, optional): Maximum value. Default: 100.
+- text (string, optional): Custom text displayed inside the progress bar. Default: ''.
+- progressId (string, optional): HTML id for the progress bar element. Default: 'progressbar'.
+- token (string, optional): Lutece progress manager feed token for live updates. Default: ''.
+- role (string, optional): ARIA role attribute. Default: 'progressbar'.
+- showReport (boolean, optional): Whether to display a progress report below the bar (requires token). Default: false.
+- intervalTime (number, optional): Refresh interval in milliseconds for progress updates (requires token). Default: 2000.
+
+Snippet:
+
+    Basic progress bar:
+
+    <@cProgress label='Upload progress' value=45 />
+
+    Progress bar with custom max and color:
+
+    <@cProgress label='Steps completed' value=3 max=10 color='success' />
+
+    Progress bar with Lutece progress manager:
+
+    <@cProgress label='Import in progress' token=progressToken showReport=true intervalTime=3000 />
+
 -->  
 <#macro cProgress label labelClass='' class='' color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' role='progressbar' showReport=false intervalTime=2000  deprecated...>
 <@deprecatedWarning args=deprecated />

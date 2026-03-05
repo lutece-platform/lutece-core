@@ -1,16 +1,27 @@
-<#-- Macro: cFilter
+<#--
+Macro: cFilter
 
-Description: permet de créer filtre avec bouton pour cacher le filtre, des boutons de gestion, et un resultat.
+Description: Generates a toggleable filter panel with checkbox filters, search and clear buttons, and a result count display.
 
 Parameters:
+- checkboxes (object, required): List of filter items, each with 'title' and 'id' attributes.
+- id (string, optional): The unique identifier for the filter container. Default: ''.
+- result (string, optional): Text displaying the filter result count. Default: ''.
+- fieldSetLabel (string, optional): The legend text for the filter fieldset. Default: 'Liste de filtres'.
+- showLegend (boolean, optional): If true, the fieldset legend is visible. Default: false.
+- class (string, optional): Additional CSS class(es) for the filter container. Default: ''.
+- params (string, optional): Additional HTML attributes for the filter container. Default: ''.
 
-@param - id - string - optional - l'ID du filtre
-@param - class - string - optional - ajoute une classe CSS au filtre
-@param - checkboxes - object - required - Objet list avec items de filtre. L'objet contient un attribut 'title' et un attribut 'id'
-@param - result - string - optional - permet d'afficher le resultat du filtre avec une variable dynamique
-@param - fieldSetLabel - string - optional - permet de définir le libellé du fieldset des filtres (par défaut: 'Liste de filtres')
-@param - showLegend - booelan - optional - permet si la légende est affichée, par défaut false
-@param - params - string - optional - permet d'ajouter des parametres HTML au filtre
+Snippet:
+
+    Filter panel with checkboxes:
+
+    <@cFilter checkboxes=[
+        {'id': 'filter-parks', 'title': 'Parks'},
+        {'id': 'filter-libraries', 'title': 'Libraries'},
+        {'id': 'filter-pools', 'title': 'Swimming pools'}
+    ] result='12 results found' />
+
 -->
 <#macro cFilter checkboxes id='' result='' fieldSetLabel='Liste de filtres' showLegend=false class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

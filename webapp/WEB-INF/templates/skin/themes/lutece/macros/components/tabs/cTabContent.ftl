@@ -1,12 +1,26 @@
-<#-- Macro: cTab
+<#--
+Macro: cTabContent
 
-Description: permet de gérer le container du contenu des onglets.
+Description: Generates the tab content container that wraps all tab panes and includes the required tabs JavaScript.
 
 Parameters:
+- id (string, required): HTML id attribute for the tab content container.
+- class (string, optional): Additional CSS classes. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
 
-@param - id - required - optional - l'ID du container
-@param - class - string - optional - ajoute une classe CSS au container
-@param - params - string - optional - permet d'ajouter des parametres HTML au container
+Snippet:
+
+    Basic tab content container:
+
+    <@cTabContent id='myTabContent'>
+        <@cTabPane id='overview' active=true>
+            <p>Overview content here.</p>
+        </@cTabPane>
+        <@cTabPane id='details'>
+            <p>Details content here.</p>
+        </@cTabPane>
+    </@cTabContent>
+
 -->
 <#macro cTabContent id class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

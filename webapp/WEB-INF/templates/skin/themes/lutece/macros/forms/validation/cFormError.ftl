@@ -1,13 +1,24 @@
-<#-- Macro: cFormError
+<#--
+Macro: cFormError
 
-Description: permet de définir le message d'erreur d'un champs.
+Description: Generates an error message element for a form field, displayed with an alert icon and linked via aria-describedby for accessibility.
 
 Parameters:
+- id (string, required): the ID of the related field, used to generate the error element ID (error_{id}).
+- label (string, required): the error message content.
+- class (string, optional): adds a CSS class to the error message. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
 
-@param - id - string - required - l'ID du message d'erreur correspondant au champs afférent
-@param - class - string - optional - ajoute une classe CSS au message d'erreur
-@param - label - string - required - définit le libellé du message d'erreur
-@param - params - string - optional - permet d'ajouter des parametres HTML au message d'erreur
+Snippet:
+
+    Error message for an input field:
+
+    <@cInput name='email' id='email' type='email' errorMsg='Please enter a valid email address.' />
+
+    Standalone error message:
+
+    <@cFormError id='email' label='Please enter a valid email address.' />
+
 -->
 <#macro cFormError id label class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

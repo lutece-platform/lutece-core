@@ -1,28 +1,53 @@
-<#-- Macro: cFormCheck
+<#--
+Macro: cFormCheck
 
-Description: Defines a macro that show a checkbox or a radio button
+Description: Generates a form check element (checkbox, radio, or toggle button) with label, validation, and optional selection box styling.
 
 Parameters:
-@param - name - string - required - the name of of the element
-@param - label - string - required - the label associated to the input
-@param - type - string - the type of check, can be 'checkbox', 'radio' or 'button'
-@param - helpMsg - string - optional - Content of the help message for checkbox, default ''
-@param - errorMsg - string - optional - Content of the error message for checkbox, default ''
-@param - class - string - optional - the CSS class of the element, default 'custom-checkbox' 
-@param - btnClass - string - optional - Only use if type is 'button' - default ''
-@param - id - string - optional - the ID of the element, default ''
-@param - value - string - optional - the value of the element, default ''
-@param - selectionButton - boolean - optional - Add box to the checkbox, default false 
-@param - selectionLabel - string - optional - Add label to the "selection" box default ''
-@param - textCenter - boolean - optional - Center text on all select default false
-@param - params - optional - additional HTML attributes to include in the ckeckbox element default ''
-@param - inline - boolean - optional - Set inline checkbox default false
-@param - disabled - boolean - optional - Disable element, default false
-@param - readonly - boolean - optional - Set element readonly, default false
-@param - checked - boolean - optional - Check the element, default false
-@param - required - boolean - optional - Set element as required, default false
-@param - html5Required - boolean - optional - permet d'indiquer si le champs doit utliser l'attribut html5 required (par défaut: true)
-@param - showRequiredLabel - boolean - optional - indique si l'affichage de l'étoile pour "required" s'affiche sur le label (false)  ou le label englobant les input (true) (par défaut: true)@param - #nested - String - Any text to add un label
+- name (string, required): the name of the element.
+- label (string, required): the label associated to the input.
+- type (string, required): the type of check, can be 'checkbox', 'radio' or 'button'.
+- class (string, optional): the CSS class of the element. Default: 'form-check'.
+- id (string, optional): the ID of the element. Default: ''.
+- value (string, optional): the value of the element. Default: ''.
+- btnClass (string, optional): CSS class for the button label, only used if type is 'button'. Default: ''.
+- labelClass (string, optional): the CSS class of the label. Default: ''.
+- selectionButton (boolean, optional): adds a selection box around the checkbox. Default: false.
+- selectionLabel (string, optional): label for the selection box. Default: ''.
+- nestedContent (string, optional): additional content to display inside the selection box. Default: ''.
+- textCenter (boolean, optional): centers text on all selections. Default: false.
+- errorMsg (string, optional): content of the error message. Default: ''.
+- helpMsg (string, optional): content of the help message. Default: ''.
+- inline (boolean, optional): sets inline display. Default: false.
+- disabled (boolean, optional): disables the element. Default: false.
+- readonly (boolean, optional): sets the element as readonly. Default: false.
+- checked (boolean, optional): checks the element. Default: false.
+- required (boolean, optional): sets element as required. Default: false.
+- html5Required (boolean, optional): uses the HTML5 required attribute. Default: true.
+- showRequiredLabel (boolean, optional): shows the required asterisk on the wrapping label (true) or on the input label (false). Default: true.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic checkbox usage:
+
+    <@cFormCheck name='accept_terms' label='I accept the terms and conditions' type='checkbox' />
+
+    Radio button usage:
+
+    <@cFormCheck name='gender' label='Male' type='radio' value='male' />
+    <@cFormCheck name='gender' label='Female' type='radio' value='female' />
+
+    Toggle button style:
+
+    <@cFormCheck name='newsletter' label='Subscribe to newsletter' type='button' btnClass='btn btn-outline-primary' />
+
+    With selection box:
+
+    <@cFormCheck name='plan' label='Premium plan' type='checkbox' selectionButton=true selectionLabel='Recommended'>
+        <p>Includes all features</p>
+    </@cFormCheck>
+
 -->
 <#macro cFormCheck name label type class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' nestedContent='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />

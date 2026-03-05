@@ -1,16 +1,35 @@
-<#-- Macro: cTd
+<#--
+Macro: cTd
 
-Description: définit une cellule du tableau.
+Description: Generates an HTML td (table data cell) element with optional scope, role, and colspan attributes. Wraps cell content in a span by default for styling purposes.
 
 Parameters:
-@param - id - string - optional - l'ID de la cellule du tableau
-@param - class - string - optional - permet d'ajouter une classe CSS à la cellule du tableau
-@param - scope - string - optional - permet de définir le scope de la cellule (valeurs possibles: 'col', 'row') 
-@param - role - string - optional - permet de définir le role de la cellule du tableau
-@param - headers - string - optional - permet de spécifier la liste des identifiants des cellules d'en-tête, th, qui fournissent des informations d'en-tête pour la cellule de données actuelles
-@param - colspan - string - optional - permet de définir l'attribut 'colspan'
-@param - nospan - boolean - optional - permet d'ajouter un tag 'span' dans le 'td' (par défaut: false)
-@param - params - string - optional - permet d'ajouter des parametres HTML à la cellule du tableau
+- id (string, optional): Unique identifier for the table cell. Default: ''.
+- class (string, optional): CSS class(es) applied to the table cell. Default: ''.
+- scope (string, optional): Scope of the cell ('col' or 'row'). Default: ''.
+- headers (string, optional): Space-separated list of header cell IDs that provide context for this data cell. Default: ''.
+- role (string, optional): ARIA role for the table cell. Default: ''.
+- colspan (string, optional): Number of columns the cell should span. Default: ''.
+- nospan (boolean, optional): If true, omits the inner span wrapper around the cell content. Default: false.
+- params (string, optional): Additional HTML attributes for the table cell. Default: ''.
+
+Snippet:
+
+    Basic usage:
+
+    <@cTr>
+        <@cTd>John Doe</@cTd>
+        <@cTd>john@example.com</@cTd>
+    </@cTr>
+
+    With colspan and no inner span:
+
+    <@cTr>
+        <@cTd colspan='2' nospan=true>
+            <p>This cell spans two columns without an inner span.</p>
+        </@cTd>
+    </@cTr>
+
 -->
 <#macro cTd id='' class='' scope='' headers='' role='' colspan='' nospan=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />

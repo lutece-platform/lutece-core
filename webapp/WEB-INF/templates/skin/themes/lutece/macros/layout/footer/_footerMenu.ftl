@@ -1,8 +1,17 @@
-<#-- Macro: _footerMenu
+<#--
+Macro: _footerMenu
 
-Description: Private only used in cMainFooter and cMainFooterSocial macros
+Description: Generates the default footer menu links (legal, CGU, accessibility, sitemap, wiki). This is a private macro used internally by cMainFooter and cMainFooterSocial.
 
 Parameters:
+- None.
+
+Snippet:
+
+    Internal usage within a footer macro:
+
+    <@_footerMenu />
+
 -->
 <#macro _footerMenu>
 <#if footerLinkLegal !=''>
@@ -40,20 +49,34 @@ Parameters:
 <@_footerLinkItem title=title url=footerLinkCookies role='' target='_blank' />
 -->
 </#macro>
-<#-- Macro: _footerLinkItem
+<#--
+Macro: _footerLinkItem
 
-Description: affiche un élément de navigation.
+Description: Generates a single footer navigation link item as a list element. This is a private macro used internally by _footerMenu.
 
 Parameters:
-@param - id - string - optional - identifiant unique de l'élément de navigation
-@param - class - string - optional - classe(s) css de l'élément de navigation
-@param - title - string - required - titre de l'élément de navigation
-@param - url - string - required - url de redirection de l'élément de navigation, si vide n'ajoute pas la balise a autour du contenu #nested
-@param - urlClass - string - optional - classe(s) css de l'élément lien de navigation
-@param - target - string - optional - les valeurs possibles sont '', _top, _blank, _parent
-@param - role - string - optional - les valeurs possibles sont '', navitem
-@param - showTitle - boolean - required -  ajoute l'attribute title avec le libellé du paramètre "title"
-@param - params - string - optional - permet d'ajouter des paramètres HTML à l'élément de navigation
+- title (string, required): Label text for the footer link.
+- url (string, required): Destination URL for the link. If empty, only nested content is rendered without a link wrapper.
+- urlClass (string, optional): CSS class(es) for the anchor element. Default: ''.
+- target (string, optional): Link target attribute ('_top', '_blank', '_parent'). Default: ''.
+- role (string, optional): ARIA role for the link. Default: 'navitem'.
+- showTitle (boolean, optional): If true, adds a title attribute with the label text. Default: false.
+- id (string, optional): Unique identifier for the list item. Default: ''.
+- class (string, optional): Additional CSS class(es) for the list item. Default: ''.
+- params (string, optional): Additional HTML attributes for the list item. Default: ''.
+
+Snippet:
+
+    Basic footer link:
+
+    <@_footerLinkItem title='Legal Notice' url='jsp/site/Portal.jsp?page=legal' target='_blank' />
+
+    Footer link with nested icon:
+
+    <@_footerLinkItem title='Site Map' url='jsp/site/Portal.jsp?page=map'>
+        <i class="ti ti-map"></i>
+    </@_footerLinkItem>
+
 -->
 <#macro _footerLinkItem title url urlClass='' target='' role='navitem' showTitle=false id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

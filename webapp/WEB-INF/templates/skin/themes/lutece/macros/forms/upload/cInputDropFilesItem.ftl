@@ -1,19 +1,30 @@
-<#-- Macro: cInputDropFilesItem
+<#--
+Macro: cInputDropFilesItem
 
-Description: Defines a macro that show a checkbox
+Description: Generates a single file item in the uploaded files list, with download link, file size display, and a delete button.
 
 Parameters:
-@param - name - string - required - the name of of the element
-@param - label - string - required - the label associated to the input
-@param - idx - string - required - the index of the file 
-@param - handler - object - required - Handler used to manage files
-@param - fileSize - number - optional - File size in octet, default 0
-@param - ext - string - optional - the extension of the file, default ''
-@param - unit - string - optional - the unit used to show the file size, default ''
-@param - urlDl - string - optional - The url to download the file - default ''
-@param - maxChars - string - optional - the max numbers of chars to show in the file name, default 24
-@param - urlRm - string - optional - Url to remove the file default ''
-@param - class - string - optional - the CSS class of the element, default '' 
+- name (string, required): the name of the file input element.
+- label (string, required): the file name to display.
+- idx (string, required): the index of the file in the upload list.
+- handler (object, required): handler object used to manage file operations.
+- fileSize (number, optional): file size in bytes. Default: 0.
+- ext (string, optional): the file extension. Default: ''.
+- unit (string, optional): the unit used to display file size ('o', 'Ko', 'Mo'). Default: ''.
+- urlDl (string, optional): URL to download the file. Default: ''.
+- maxChars (number, optional): maximum characters shown in the file name before truncation. Default: 60.
+- urlRm (string, optional): URL to remove the file. Default: ''.
+- class (string, optional): CSS class for the file item. Default: ''.
+
+Snippet:
+
+    File item in upload list:
+
+    <@cInputDropFiles name='documents' handler=handler hasFiles=true>
+        <@cInputDropFilesItem name='documents' label='report-2026.pdf' idx='0' handler=handler fileSize=245760 />
+        <@cInputDropFilesItem name='documents' label='photo.jpg' idx='1' handler=handler fileSize=1048576 />
+    </@cInputDropFiles>
+
 -->
 <#macro cInputDropFilesItem name label idx handler fileSize=0 ext='' unit='' maxChars=60 urlDl='' urlRm='' class='' deprecated...>
 <@deprecatedWarning args=deprecated />

@@ -1,7 +1,14 @@
-<#-- 
+<#--
 Macro: scrollTopBtn
 
-Description: Generates a button that appears when the user scrolls down the page, allowing them to easily scroll back to the top of the page when clicked.
+Description: Generates a scroll-to-top button that appears when the user scrolls down the page, enabling smooth scrolling back to the top on click.
+
+Snippet:
+
+    Basic usage (include once at the bottom of the page layout):
+
+    <@scrollTopBtn />
+
 -->
 <#macro scrollTopBtn>
 <a href="#" id="scroll" style="display: none;"><span></span></a>

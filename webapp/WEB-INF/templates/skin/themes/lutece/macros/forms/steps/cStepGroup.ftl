@@ -1,23 +1,48 @@
-<#-- Macro: cStepGroup
+<#--
+Macro: cStepGroup
 
-Description: Defines a macro that show a step group
+Description: Generates a group of fields within a step, optionally iterable with add/remove controls, using either a fieldset or a div container.
 
 Parameters:
-@param - title - string - optional - required - the title of the group. If empty , the "fieldest" is replaced with a div and not title is shown. 
-@param - help - string - optional - 
-@param - class - string - optional - the CSS class of the element, default '' 
-@param - id - string - optional - the ID of the element, default ''
-@param - value - string - optional - the value of the element, default ''
-@param - iterable - boolean - optional - Add box to the checkbox, default false 
-@param - iteration - number - optional - Number of iteration default 0
-@param - iterationMax - number - optional - Number of max iteration possible default 10
-@param - labelAddIteration - string - optional - Label to add an iteration, default '#i18n{portal.theme.labelAdd}'
-@param - labelDelIteration - string - optional - Label to remove an iteration, default '#i18n{portal.theme.labelDelete}'
-@param - headerParams - string - optional - additional HTML attributes to include in the header of step group element default ''
-@param - isFieldset - boolean - optional - whether to use a fieldset or a div as parent element, default true
-@param - noFieldsetTitleLevel - number - optional - the level of the title when not using a fieldset, default 3	
-@param - titleClass - string - optional - the CSS class of the title element, default 'h3'
-@param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+- title (string, required): the title of the group. If empty, a div is used instead of a fieldset.
+- iterable (boolean, optional): enables add/remove iteration controls. Default: false.
+- iteration (number, optional): the current iteration number. Default: 0.
+- iterationMax (number, optional): maximum number of iterations allowed. Default: 10.
+- labelAddIteration (string, optional): label for the add iteration button. Default: '#i18n{portal.theme.labelAdd}'.
+- labelDelIteration (string, optional): label for the delete iteration button. Default: '#i18n{portal.theme.labelDelete}'.
+- headerParams (string, optional): additional HTML attributes for the group header. Default: ''.
+- isFieldset (boolean, optional): uses a fieldset element as parent. Default: false.
+- noFieldsetTitleLevel (number, optional): heading level when not using a fieldset. Default: 3.
+- titleClass (string, optional): CSS class for the title element. Default: 'h3'.
+- help (string, optional): help content displayed in an accordion. Default: ''.
+- class (string, optional): CSS class for the group container. Default: ''.
+- id (string, optional): the ID of the element. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic step group:
+
+    <@cStepGroup title='Address'>
+        <@cField label='Street' for='street' required=true>
+            <@cInput name='street' id='street' />
+        </@cField>
+        <@cField label='City' for='city' required=true>
+            <@cInput name='city' id='city' />
+        </@cField>
+    </@cStepGroup>
+
+    Iterable step group (repeatable section):
+
+    <@cStepGroup title='Child' iterable=true iteration=0 iterationMax=5>
+        <@cField label='First name' for='child_firstname' required=true>
+            <@cInput name='child_firstname' id='child_firstname' />
+        </@cField>
+        <@cField label='Date of birth' for='child_dob'>
+            <@cInputDate name='child_dob' label='' id='child_dob' />
+        </@cField>
+    </@cStepGroup>
+
 -->
 <#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.theme.labelAdd}' labelDelIteration='#i18n{portal.theme.labelDelete}' headerParams='' isFieldset=false noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

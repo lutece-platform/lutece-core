@@ -1,18 +1,39 @@
-<#-- Macro: cLink
+<#--
+Macro: cLink
 
-Description: permet de créer un lien.
+Description: Generates an HTML anchor element with label, optional title, target behavior, and nested content positioning. Supports styling as a button via CSS classes.
 
 Parameters:
+- href (string, required): URL the link points to.
+- label (string, required): Text label displayed inside the link.
+- title (string, optional): Value of the title attribute for the link. Default: ''.
+- nestedPos (string, optional): Position of nested content relative to the label ('before' or 'after'). Default: 'after'.
+- target (string, optional): Target attribute for link opening behavior ('_blank', '_top', '_parent', or a frame id). Default: ''.
+- showTarget (boolean, optional): If true, displays an icon when target is '_blank'. Default: false.
+- class (string, optional): CSS class(es) applied to the link element. Use 'btn btn-primary' to style as a button. Default: ''.
+- id (string, optional): Unique identifier for the link element. Default: ''.
+- params (string, optional): Additional HTML attributes for the link element. Default: ''.
 
-@param - id - string - optional - l'ID du lien
-@param - class - string - optional - ajoute une classe CSS au lien. Afin de donner l'illusion d'un bouton, il est possible d'utiliser la classe 'btn' suivi de la classe du bouton souhaité (par exemple: 'btn btn-primary'). Ne pas hésiter à consulter les exemples dans la macro cButton.
-@param - href - string - required - permet définir l'url de redirection du lien
-@param - label - string - required - permet définir le libellé du lien
-@param - title - string - optional - permet définir l'attribut 'title' du lien
-@param - nestedPos - string - optional - permet de définir la position du contenu "#nested"(par défaut: 'after')
-@param - target - string - optional - permet de définir le type d'ouverture du lien via l'attribut 'target' (valeurs possibles: '_blank', '_top', '_parent' ou 'id')
-@param - showTarget - boolean - optional - permet d'afficher un icon si target='_blank' (par défaut: false)
-@param - params - string - optional - permet d'ajouter des parametres HTML au lien
+Snippet:
+
+    Basic usage:
+
+    <@cLink href='/jsp/site/Portal.jsp?page=contact' label='Contact Us' title='Go to contact page' />
+
+    Link styled as a button:
+
+    <@cLink href='/jsp/site/Portal.jsp?page=register' label='Sign Up' class='btn btn-primary' />
+
+    Link opening in a new window:
+
+    <@cLink href='https://www.example.com' label='Visit Example' target='_blank' title='External site' />
+
+    With nested content (icon after label):
+
+    <@cLink href='/jsp/site/Portal.jsp?page=search' label='Search'>
+        <i class='ti ti-search'></i>
+    </@cLink>
+
 -->
 <#macro cLink href label title='' nestedPos='after' target='' showTarget=false class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
