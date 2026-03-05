@@ -10,6 +10,16 @@ Parameters:
 - msgDone (string, optional): the success message to display.
 - msgError (string, optional): the error message to display.
 
+Snippet:
+
+    Add a character counter to elements with the default selector:
+
+    <@charcounter maxChars=255 />
+
+    Add a character counter with a custom selector and warning classes:
+
+    <@charcounter maxChars=100 selector='.title-input' warningClass='text-orange' dangerClass='text-red' />
+
 -->
 <#macro charcounter maxChars=0 selector='.lutece-charcounter' title='' defaultClass='text-normal' warningClass='text-warning' dangerClass='text-danger' id='' class=''  params='' deprecated...>
 <@deprecatedWarning args=deprecated />

@@ -7,6 +7,21 @@ Parameters:
 - type (string, optional): the type of the element to use (e.g. "div", "p", "span", etc.).
 - id (string, optional): the ID of the element.
 - params (string, optional): additional parameters to add to the element.
+
+Snippet:
+
+    Paragraph with a primary background color:
+
+    <@coloredBg color='primary'>
+        <span class="text-white">Highlighted text on primary background</span>
+    </@coloredBg>
+
+    Div with a warning background and custom ID:
+
+    <@coloredBg color='warning' type='div' id='alert-box'>
+        <p>Warning: This action cannot be undone.</p>
+    </@coloredBg>
+
 -->
 <#macro coloredBg color='' type='p' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

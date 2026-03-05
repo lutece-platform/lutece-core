@@ -10,6 +10,24 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 - color (string, optional): the color of the tab list.
 
+Snippet:
+
+    Basic horizontal tab list:
+
+    <@tabList>
+        <@tabLink href='#tab1' title='Overview' active=true />
+        <@tabLink href='#tab2' title='Details' />
+        <@tabLink href='#tab3' title='History' />
+    </@tabList>
+
+    Vertical tab list with pills style:
+
+    <@tabList style='pills' vertical=true id='verticalTabs'>
+        <@tabLink href='#profile' title='Profile' active=true />
+        <@tabLink href='#account' title='Account' />
+        <@tabLink href='#notifications' title='Notifications' />
+    </@tabList>
+
 -->
 <#macro tabList style='tabs' vertical=false id='' class='' params='' color='' deprecated...>
 <@deprecatedWarning args=deprecated />

@@ -1,5 +1,12 @@
 <#-- Macro: adminSiteToolbar
 Description: Generates a toolbar for use in the site admin panel. It generates a Bootstrap toolbar that includes buttons for various site management tasks, such as searching for a page, changing the display size, deleting a page, adding a child page, and viewing the site map.
+
+Snippet:
+
+    Display the site admin toolbar:
+
+    <@adminSiteToolbar />
+
 -->
 <#macro adminSiteToolbar >
 <@columns>

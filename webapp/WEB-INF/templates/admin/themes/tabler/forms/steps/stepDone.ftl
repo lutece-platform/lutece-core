@@ -16,6 +16,28 @@ Parameters:
 @param - actionClass - string - optional - Class for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
 @param - actionParams - string - optional - additional HTML attributes for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+
+Snippet:
+
+    Completed step with default edit button:
+
+    <@stepDone step='1' title='Personal Information' idx=0>
+        <li>First Name: John</li>
+        <li>Last Name: Doe</li>
+    </@stepDone>
+
+    Completed step with a link-based action button:
+
+    <@stepDone step='2' title='Contact Details' idx=1 actionHref='jsp/admin/EditContact.jsp?id=1' actionLabel='Modify' actionClass='btn-sm'>
+        <li>Email: john.doe@example.com</li>
+    </@stepDone>
+
+    Completed step with custom action name and label:
+
+    <@stepDone step='1' title='Address' idx=0 actionName='action_doEditStep' actionLabel='Edit this step'>
+        <li>123 Main Street, Paris</li>
+    </@stepDone>
+
 -->
 <#macro stepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='portal.theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

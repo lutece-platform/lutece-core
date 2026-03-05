@@ -8,6 +8,20 @@ Parameters:
 - id (string, optional): the ID of the static text element.
 - params (string, optional): additional parameters to add to the static text element.
 
+Snippet:
+
+    Static text inside a form:
+
+    <@staticText>
+        This value cannot be modified.
+    </@staticText>
+
+    Colored static text outside a form:
+
+    <@staticText inForm=false color='danger'>
+        This record has been deleted.
+    </@staticText>
+
 -->
 <#macro staticText inForm=true color='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

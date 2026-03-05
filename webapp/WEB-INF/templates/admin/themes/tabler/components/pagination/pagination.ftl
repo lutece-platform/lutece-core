@@ -4,6 +4,13 @@ Description: Generates a pagination bar for navigating through pages of a list.
 
 Parameters:
 - paginator (object): an object that contains information about the current and next/previous pages in a list.
+
+Snippet:
+
+    Basic pagination bar:
+
+    <@pagination paginator=paginator />
+
 -->
 <#macro pagination paginator deprecated...>
 <@deprecatedWarning args=deprecated />

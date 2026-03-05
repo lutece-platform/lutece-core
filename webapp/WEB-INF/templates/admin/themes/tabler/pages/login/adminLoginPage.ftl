@@ -4,6 +4,31 @@ Parameters:
 - title (string, optional): the title to display on the login page.
 - site_name (string, optional): the name of the site to display on the login page.
 - layout (string, optional): the name of the site to display on the login page.
+
+Snippet:
+
+    Render the login page with default settings:
+
+    <@adminLoginPage>
+        <h2 class="card-title text-center mb-4">Sign In</h2>
+        <@tform action='jsp/admin/AdminLogin.jsp' method='post'>
+            <@formGroup labelKey='Username' labelFor='username'>
+                <@input type='text' name='username' id='username' />
+            </@formGroup>
+            <@formGroup labelKey='Password' labelFor='password'>
+                <@input type='password' name='password' id='password' />
+            </@formGroup>
+            <@button type='submit' color='primary' class='w-100' title='Login' />
+        </@tform>
+    </@adminLoginPage>
+
+    Render the login page with a custom site name:
+
+    <@adminLoginPage title='Admin Login' site_name='My Application'>
+        <h2 class="card-title text-center mb-4">Welcome Back</h2>
+        <#nested>
+    </@adminLoginPage>
+
 -->
 <#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

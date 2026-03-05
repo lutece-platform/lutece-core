@@ -5,6 +5,24 @@ Description: Generates an email template using HTML and inline CSS styling.
 Parameters:
 - title (string, optional): the title to display in the email masthead.
 - footer_link (string, optional): the link URL to display in the email footer.
+
+Snippet:
+
+    Basic email template with default settings:
+
+    <@emailTemplate>
+        <h2>Welcome</h2>
+        <p>Your account has been created successfully.</p>
+        <p><a href="https://example.com/login" class="button">Sign In</a></p>
+    </@emailTemplate>
+
+    Email template with custom title and footer link:
+
+    <@emailTemplate title='My Application' footer_link='https://example.com'>
+        <p>Hello, your request has been processed.</p>
+        <p>Thank you for using our service.</p>
+    </@emailTemplate>
+
 -->
 <#macro emailTemplate title='Lutece' footer_link='https://fr.lutece.paris.fr' deprecated...>
 <@deprecatedWarning args=deprecated />

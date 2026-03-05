@@ -19,6 +19,24 @@ Parameters:
 - disabled (boolean, optional): whether or not the button is disabled.
 - iconPosition (string, optional): the position of the icon inside the button, such as "left" or "right".
 - dropdownMenu (boolean, optional): whether or not to include a dropdown menu inside the button.
+
+Snippet:
+
+    Primary link button with icon:
+
+    <@aButton href='jsp/admin/ManageUsers.jsp' buttonIcon='users' title='Manage Users' color='primary' />
+
+    Secondary small button opening in a new tab:
+
+    <@aButton href='https://lutece.paris.fr' buttonIcon='external-link' title='Documentation' color='secondary' size='sm' target='_blank' />
+
+    Link button with dropdown menu:
+
+    <@aButton href='#' title='Export' buttonIcon='download' color='primary' id='export-menu' dropdownMenu=true>
+        <a class="dropdown-item" href="export.jsp?format=csv">CSV</a>
+        <a class="dropdown-item" href="export.jsp?format=pdf">PDF</a>
+    </@aButton>
+
 -->
 <#macro aButton name='' id='' href='' target='' size='' color='primary' style='btn' align='' class='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  params='' deprecated...>
 <@deprecatedWarning args=deprecated />

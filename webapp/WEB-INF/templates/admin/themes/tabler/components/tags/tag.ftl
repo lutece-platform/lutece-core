@@ -13,6 +13,20 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 - deprecated (string, optional): an optional message indicating that this macro is deprecated.
 
+Snippet:
+
+    Basic primary tag:
+
+    <@tag>Published</@tag>
+
+    Tag with color and icon:
+
+    <@tag color='success' tagIcon='check'>Approved</@tag>
+
+    Tag with custom title and warning color:
+
+    <@tag color='warning' title='Pending review' tagIcon='clock'>Pending</@tag>
+
 -->
 <#macro tag color='primary' class='' size='' title='' tagIcon='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />	

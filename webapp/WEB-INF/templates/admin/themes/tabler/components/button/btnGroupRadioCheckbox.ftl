@@ -16,6 +16,23 @@ Parameters:
 - tabIndex (string, optional): the tab index of the input.
 - value (string, optional): the value attribute of the input.
 - checked (boolean, optional): whether the input is checked by default.
+
+Snippet:
+
+    Radio button group for selecting a status:
+
+    <@btnGroup ariaLabel='Status selection'>
+        <@btnGroupRadioCheckbox type='radio' name='status' id='status_active' labelFor='status_active' labelKey='Active' color='success' value='1' checked=true />
+        <@btnGroupRadioCheckbox type='radio' name='status' id='status_inactive' labelFor='status_inactive' labelKey='Inactive' color='danger' value='0' />
+    </@btnGroup>
+
+    Checkbox button group for selecting options:
+
+    <@btnGroup ariaLabel='Options'>
+        <@btnGroupRadioCheckbox type='checkbox' name='option_email' id='opt_email' labelFor='opt_email' labelKey='Email' color='primary' value='email' />
+        <@btnGroupRadioCheckbox type='checkbox' name='option_sms' id='opt_sms' labelFor='opt_sms' labelKey='SMS' color='primary' value='sms' />
+    </@btnGroup>
+
 -->
 <#macro btnGroupRadioCheckbox type='checkbox' color='primary' size='' name='' id='' params='' ariaLabel='' labelFor='' labelKey='' labelParams='' tabIndex='' value='' checked=false deprecated...>
 <@deprecatedWarning args=deprecated />

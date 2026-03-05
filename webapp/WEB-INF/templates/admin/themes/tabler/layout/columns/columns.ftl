@@ -31,7 +31,34 @@ Parameters:
 - class (string, optional): the CSS class of the column element.
 - align (string, optional): the text alignment of the column element (left, right, center, justify).
 - collapsed (boolean, optional): whether to add the "collapse" class to the column element (useful for hiding/showing columns).
-- params (string, optional): any additional attributes to include in the column elemen
+- params (string, optional): any additional attributes to include in the column element.
+
+Snippet:
+
+    Simple responsive column spanning 6 of 12 on medium screens:
+
+    <@columns md=6>
+        <p>Half-width column on medium screens and above</p>
+    </@columns>
+
+    Multi-breakpoint column with offset:
+
+    <@columns sm=12 md=8 lg=6 offsetMd=2 offsetLg=3>
+        <p>Centered responsive content</p>
+    </@columns>
+
+    Column with custom order and alignment:
+
+    <@columns md=4 order={'sm': 2, 'md': 1} align='center'>
+        <p>Reordered and centered column</p>
+    </@columns>
+
+    Column using offset map and collapse:
+
+    <@columns xs=12 md=6 offset={'md': 3} collapsed=true id='collapsible-col'>
+        <p>This column is initially collapsed</p>
+    </@columns>
+
 -->
 <#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 offset={} pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=0 sm=0 md=0 lg=0 xl=0 order={} id='' class='' align='' collapsed=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />

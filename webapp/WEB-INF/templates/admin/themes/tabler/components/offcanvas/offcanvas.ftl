@@ -20,6 +20,31 @@
   - redirectForm (boolean, optional): whether to redirect the form when submitted.
   - badgeContent (string, optional): the content of the badge on the toggle button.
   - badgeColor (string, optional): the color of the badge.
+
+  Snippet:
+
+    Basic offcanvas panel with nested content:
+
+    <@offcanvas id='detailsPanel' title='Details' btnTitle='Open Details' btnIcon='info-circle'>
+        <p>Here is the content of the offcanvas panel.</p>
+    </@offcanvas>
+
+    Offcanvas loading content from a URL:
+
+    <@offcanvas id='editPanel' position='end' title='Edit Record' btnTitle='Edit' btnIcon='pencil' btnColor='primary' size='half' targetUrl='jsp/admin/EditRecord.jsp?id=1' targetElement='#edit-form' />
+
+    Offcanvas with badge and custom backdrop:
+
+    <@offcanvas id='notifications' position='start' title='Notifications' btnTitle='Alerts' btnIcon='bell' btnColor='warning' backdrop='true' badgeContent='3' badgeColor='danger'>
+        <p>You have 3 unread notifications.</p>
+    </@offcanvas>
+
+    Full-width bottom offcanvas:
+
+    <@offcanvas id='filterPanel' position='bottom' title='Filters' btnTitle='Show Filters' btnIcon='filter' size='full' btnSize='sm'>
+        <p>Filter options go here.</p>
+    </@offcanvas>
+
   -->
 <#macro offcanvas id position='end' class='' title='' btnColor='primary' btnTitle='' hideTitle=[] btnIcon='' btnClass='' btnDisabled=false bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true badgeContent='' badgeColor='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

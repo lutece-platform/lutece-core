@@ -8,6 +8,17 @@ Parameters:
 - errorType (string, required): the type of error, such as "404" or "500".
 - id (string, optional): the ID of the error page container.
 - params (string, optional): additional parameters to be added to the error page container.
+
+Snippet:
+
+    Display a 404 error page:
+
+    <@errorPage color='warning' errorType='404' />
+
+    Display a 500 error page with a custom ID:
+
+    <@errorPage color='danger' errorType='500' id='server-error' />
+
 -->
 <#macro errorPage color='' errorType='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

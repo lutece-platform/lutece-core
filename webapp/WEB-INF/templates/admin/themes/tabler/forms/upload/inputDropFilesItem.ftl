@@ -13,7 +13,18 @@ Parameters:
 @param - urlDl - string - optional - The url to download the file - default ''
 @param - maxChars - string - optional - the max numbers of chars to show in the file name, default 24
 @param - urlRm - string - optional - Url to remove the file default ''
-@param - class - string - optional - the CSS class of the element, default '' 
+@param - class - string - optional - the CSS class of the element, default ''
+
+Snippet:
+
+    Display an uploaded file item:
+
+    <@inputDropFilesItem name='attachment' label='report.pdf' idx=0 handler=uploadHandler fileSize=524288 />
+
+    File item with explicit extension and unit:
+
+    <@inputDropFilesItem name='photo' label='profile-picture.jpg' idx=0 handler=uploadHandler fileSize=2048 ext='jpg' unit='Ko' />
+
 -->
 <#macro inputDropFilesItem name label idx handler image=false fileSize=0 ext='' unit='' maxChars=60 urlDl='' urlRm='' class='' deprecated...>
 <@deprecatedWarning args=deprecated />

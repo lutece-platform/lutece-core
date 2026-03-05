@@ -16,6 +16,20 @@ Parameters:
 - showReport (boolean, optional): whether to display a report for progress updates.
 - intervalTime (number, optional): the interval time in milliseconds to check for progress updates (default: 2000).
 
+Snippet:
+
+    Basic progress bar at 50%:
+
+    <@progress value=50 />
+
+    Progress bar with label and custom color:
+
+    <@progress value=75 color='success' label='Upload progress' text='75% complete' />
+
+    Progress bar with token for automatic updates:
+
+    <@progress value=0 color='info' progressId='importProgress' token='import-task-123' label='Importing data...' showReport=true intervalTime=3000 />
+
 -->
 <#macro progress color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 deprecated...>
 <@deprecatedWarning args=deprecated />

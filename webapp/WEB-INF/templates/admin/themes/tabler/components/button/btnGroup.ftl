@@ -11,6 +11,24 @@ Parameters:
 - ariaLabel (string, optional): the ARIA label of the container.
 - hide (array, optional): an array of breakpoints to hide the container.
 - deprecated (string, optional): a message indicating that the macro is deprecated.
+
+Snippet:
+
+    Basic button group with multiple buttons:
+
+    <@btnGroup ariaLabel='User actions'>
+        <@button title='Edit' buttonIcon='edit' color='primary' />
+        <@button title='Copy' buttonIcon='copy' color='primary' />
+        <@button title='Delete' buttonIcon='trash' color='danger' />
+    </@btnGroup>
+
+    Small right-aligned button group:
+
+    <@btnGroup size='sm' align='right' ariaLabel='Pagination'>
+        <@button title='Previous' buttonIcon='chevron-left' color='secondary' />
+        <@button title='Next' buttonIcon='chevron-right' color='secondary' />
+    </@btnGroup>
+
 -->
 <#macro btnGroup id='' class='' align='' size='' params='' ariaLabel='' hide=[]   deprecated...>
 <@deprecatedWarning args=deprecated />	

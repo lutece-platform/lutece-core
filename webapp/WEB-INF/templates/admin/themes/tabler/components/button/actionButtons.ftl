@@ -12,6 +12,17 @@ Parameters:
 - icon1 (string, optional): the name of the icon for the first button.
 - icon2 (string, optional): the name of the icon for the second button.
 - offset (int, optional): the number of columns to offset the form group.
+
+Snippet:
+
+    Default validate and cancel buttons using form submission:
+
+    <@actionButtons button1Name='action_create' button2Name='action_cancel' />
+
+    Validate and cancel buttons with custom labels and URL-based navigation:
+
+    <@actionButtons url1='jsp/admin/ManageItems.jsp?action=save' url2='jsp/admin/ManageItems.jsp' i18nValue1Key='module.mymodule.buttonSave' i18nValue2Key='module.mymodule.buttonBack' icon1='check' icon2='arrow-left' />
+
 -->
 <#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='device-floppy' icon2='x' offset=3 deprecated...>
 <@deprecatedWarning args=deprecated />

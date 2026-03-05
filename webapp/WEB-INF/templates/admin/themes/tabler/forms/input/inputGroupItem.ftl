@@ -8,6 +8,21 @@ Parameters:
 - pos (string, optional): the position of the input group item relative to the input field. Can be 'append' or 'prepend'. Default is 'append'.
 - type (string, optional): the type of the input group item. Can be 'btn', 'icon' or 'text'. Default is 'text'.
 - params (string, optional): additional parameters for the input group item.
+
+Snippet:
+
+    Icon addon prepended to an input:
+
+    <@inputGroupItem type='icon'>
+        <@icon style='user' />
+    </@inputGroupItem>
+
+    Text addon appended to an input:
+
+    <@inputGroupItem type='text'>
+        @example.com
+    </@inputGroupItem>
+
 -->
 <#macro inputGroupItem id='' class='' pos='append' type='text'  params='' deprecated...>
 <@deprecatedWarning args=deprecated />

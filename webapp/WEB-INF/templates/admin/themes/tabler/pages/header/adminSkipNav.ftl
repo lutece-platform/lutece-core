@@ -4,6 +4,17 @@
     - logoImg : Default: Empty string, show logo instead of text title, title is set as title html attribute for the logo image.
     - hasMenu : Default: true; 
     Nested content : Shows default page menu, but can other item can be add using @mainNavItem macro.
+
+Snippet:
+
+    Display skip navigation links with default settings:
+
+    <@adminSkipNav />
+
+    Display only the skip-to-content link:
+
+    <@adminSkipNav skipNav=false skipContent=true />
+
 -->
 <#macro adminSkipNav skipNav=true skipContent=true deprecated...>
 <@deprecatedWarning args=deprecated />

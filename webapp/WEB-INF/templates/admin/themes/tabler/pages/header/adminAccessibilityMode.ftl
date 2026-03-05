@@ -6,6 +6,13 @@ Description: Generates a form to activate or deactivate accessibility mode for a
 Parameters:
 - token (string, required): the security token used to prevent cross-site request forgery (CSRF) attacks.
 - user.accessibilityMode (boolean, required): a boolean value indicating whether accessibility mode is currently active.
+
+Snippet:
+
+    Display the accessibility mode toggle:
+
+    <@adminAccessibilityMode />
+
 -->
 <#macro adminAccessibilityMode>
 <#--

@@ -7,6 +7,22 @@ Parameters:
 - title (string, optional): the title of the page.
 - message (object): an object containing information about the message to be displayed, including its type and text.
 - text (string): the text of the message.
+
+Snippet:
+
+    Display an informational message page:
+
+    <@adminMessagePage title='Operation Complete'>
+        <@aButton href='jsp/admin/AdminMenu.jsp' color='primary' title='Back to Dashboard' />
+    </@adminMessagePage>
+
+    Display an error message page:
+
+    <@adminMessagePage title='Error'>
+        <p>An unexpected error occurred. Please try again later.</p>
+        <@aButton href='jsp/admin/AdminMenu.jsp' color='danger' title='Return Home' />
+    </@adminMessagePage>
+
 -->
 <#macro adminMessagePage title='' deprecated...>
 <@deprecatedWarning args=deprecated />

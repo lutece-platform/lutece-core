@@ -12,6 +12,27 @@ Parameters:
 - class (string, optional): additional classes to add to the list item.
 - id (string, optional): the ID for the list item.
 - params (string, optional): additional parameters to add to the HTML code.
+
+Snippet:
+
+    Basic timeline item:
+
+    <@timelineItem label='Document uploaded' time='3:45 PM'>
+        The annual report has been uploaded.
+    </@timelineItem>
+
+    Timeline item with custom icon and color:
+
+    <@timelineItem label='Error detected' time='11:20 AM' iconFace='alert-triangle' iconBg='bg-danger' footer='Reported by system'>
+        An error was detected in the processing pipeline.
+    </@timelineItem>
+
+    Timeline item with custom class and ID:
+
+    <@timelineItem label='Status changed' time='5:00 PM' iconFace='refresh' iconBg='bg-warning' id='item-status' class='highlighted'>
+        Status changed from pending to approved.
+    </@timelineItem>
+
 -->
 <#macro timelineItem iconFace='check' iconBg='bg-primary' time='' label='' footer='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

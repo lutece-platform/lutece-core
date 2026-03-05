@@ -10,6 +10,17 @@ Parameters:
 - errors_class (string, optional): the CSS class of the alert element for error messages.
 - infos_class (string, optional): the CSS class of the alert element for info messages.
 - warnings_class (string, optional): the CSS class of the alert element for warning messages.
+
+Snippet:
+
+    Display error messages from a list:
+
+    <@messages errors=error_list />
+
+    Display info and warning messages together:
+
+    <@messages infos=info_list warnings=warning_list />
+
 -->
 <#macro messages errors=[] infos=[] warnings=[] errors_class='alert alert-danger' infos_class='alert alert-info' warnings_class='alert alert-warning' deprecated...>
 <@deprecatedWarning args=deprecated />

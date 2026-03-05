@@ -5,6 +5,13 @@ Description: Generates the footer section, including documentation and source co
 
 Parameters:
 - version : The version number
+
+Snippet:
+
+    Render the admin footer:
+
+    <@adminFooter />
+
 -->
 <#macro adminFooter closeMain=true deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -76,6 +83,13 @@ Macro: adminSiteFooter
 
 Description: Footer for site Admin
 Parameters:
+
+Snippet:
+
+    Render the site admin footer:
+
+    <@adminSiteFooter />
+
 -->
 <#macro adminSiteFooter >
 <#assign siteFooter = .get_optional_template('../../../../../skin/site/portal_footer.html')>

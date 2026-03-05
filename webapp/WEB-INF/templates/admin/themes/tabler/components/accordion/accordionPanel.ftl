@@ -9,6 +9,27 @@ Parameters:
 - childId (string, required): the ID of the child element.
 - id (string, optional): the ID of the panel element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the panel element.
+
+Snippet:
+
+    Expanded accordion panel:
+
+    <@accordionPanel childId='detailsPanel' collapsed=false>
+        <@accordionHeader title='Details' />
+        <@accordionBody>
+            <p>This panel is expanded by default.</p>
+        </@accordionBody>
+    </@accordionPanel>
+
+    Collapsed accordion panel with color:
+
+    <@accordionPanel childId='settingsPanel' collapsed=true color='light'>
+        <@accordionHeader title='Settings' />
+        <@accordionBody>
+            <p>This panel is initially collapsed.</p>
+        </@accordionBody>
+    </@accordionPanel>
+
 -->
 <#macro accordionPanel color='' collapsed=true childId='' id='' params=''>
 <div class="card<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>

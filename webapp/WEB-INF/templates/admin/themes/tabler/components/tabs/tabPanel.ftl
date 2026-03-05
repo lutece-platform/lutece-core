@@ -8,6 +8,20 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 - active (boolean, optional): whether or not the tab panel is active.
 
+Snippet:
+
+    Active tab panel:
+
+    <@tabPanel id='overview' active=true>
+        <p>This panel is visible by default.</p>
+    </@tabPanel>
+
+    Hidden tab panel with custom class:
+
+    <@tabPanel id='details' class='p-4'>
+        <p>This panel is hidden until its tab is clicked.</p>
+    </@tabPanel>
+
 -->
 <#macro tabPanel id class='' params='' active=false deprecated...>
 <@deprecatedWarning args=deprecated />

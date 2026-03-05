@@ -7,6 +7,17 @@ Parameters:
 - description (string, optional): a description of the progress bar.
 - id (string, optional): the ID of the progress bar.
 - params (string, optional): additional parameters to add to the HTML code.
+
+Snippet:
+
+    Basic progress bar:
+
+    <@progressBar />
+
+    Progress bar with description:
+
+    <@progressBar description='Password strength' id='passwordStrength' />
+
 -->
 <#macro progressBar description='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

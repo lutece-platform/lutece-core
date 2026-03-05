@@ -15,6 +15,29 @@ Parameters:
 @param - labelDelIteration - string - optional - Label to remove an iteration, default '#i18n{themeparisfr.labelDelete}'
 @param - headerParams - string - optional - additional HTML attributes to include in the header of step group element default ''
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+
+Snippet:
+
+    Basic step group with a title:
+
+    <@cStepGroup title='Personal Information'>
+        <@cInput name='firstName' label='First Name' />
+        <@cInput name='lastName' label='Last Name' />
+    </@cStepGroup>
+
+    Iterable step group allowing multiple entries:
+
+    <@cStepGroup title='Address' iterable=true iteration=0 iterationMax=5>
+        <@cInput name='street' label='Street' />
+        <@cInput name='city' label='City' />
+    </@cStepGroup>
+
+    Step group with help text and custom ID:
+
+    <@cStepGroup title='Documents' help='Please upload all required documents.' id='documents-group'>
+        <@inputDropFiles name='document' handler=uploadHandler />
+    </@cStepGroup>
+
 -->
 <#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{themeparisfr.labelAdd}' labelDelIteration='#i18n{themeparisfr.labelDelete}' headerParams='' help='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

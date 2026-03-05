@@ -1,5 +1,12 @@
 <#-- Macro: adminHome
 Description: Generates the home page for the admin dashboard. It generates a container for three columns of widgets, which are defined in separate macro calls. The macro also includes a script that enables dragging and dropping of the widgets to rearrange their positions.
+
+Snippet:
+
+    Render the admin home page:
+
+    <@adminHome />
+
 -->
 <#macro adminHome>
 <#assign head = .get_optional_template('../../../../../admin/user/adminHeader.html')>

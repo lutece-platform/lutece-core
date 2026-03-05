@@ -46,6 +46,25 @@ Parameters:
 - patternValidationRules (json, optional) : json with id, regex and message to associated with each help controller spans. 
   	example : [{'name':'idSpan1','regex':'regexSpan1','message':'messageSpan1'},{'name':'idSpan2',...}]
         you can use the string "url" instead of a traditionnal regex if you want to validate an URL. example : [{'name':'idSpan1','regex':'url','message':'messageSpan1'}]
+
+Snippet:
+
+    Simple text input:
+
+    <@input type='text' name='username' id='username' placeHolder='Enter username' mandatory=true />
+
+    Textarea input:
+
+    <@input type='textarea' name='description' id='description' rows=6 maxlength=500 placeHolder='Enter a description...' />
+
+    Date picker input:
+
+    <@input type='date' name='birthDate' id='birthDate' language='en' format='Y-m-d' showFormat='d/m/Y' />
+
+    Password input with size and max length:
+
+    <@input type='password' name='password' id='password' size='lg' maxlength=64 mandatory=true />
+
 -->
 <#macro input name id='' type='text' value='' class='' size='' helpKey=helpKey!'' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 step=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist='' accept='' params='' patternValidationRules=[] deprecated...>
 <@deprecatedWarning args=deprecated />

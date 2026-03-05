@@ -8,6 +8,30 @@ Parameters:
 - class (string, optional): the class to apply to the widget element.
 - bodyClass (string, optional): the class to apply to the widget body element.
 - params (string, optional): additional parameters to add to the widget element.
+
+Snippet:
+
+    Basic dashboard widget with title and content:
+
+    <@adminDashboardWidget id='widget-users' title='Active Users' color='primary'>
+        <p>There are currently <strong>42</strong> active users.</p>
+    </@adminDashboardWidget>
+
+    Dashboard widget with a settings URL and custom body class:
+
+    <@adminDashboardWidget id='widget-stats' title='Statistics' color='success' url='jsp/admin/plugins/stats/ManageStats.jsp' bodyClass='p-0'>
+        <table class="table table-striped mb-0">
+            <tr><td>Visits</td><td>1,234</td></tr>
+            <tr><td>Page Views</td><td>5,678</td></tr>
+        </table>
+    </@adminDashboardWidget>
+
+    Dashboard widget without header:
+
+    <@adminDashboardWidget id='widget-quick' title='Quick Actions' hasHeader=false>
+        <@aButton href='jsp/admin/ManageUsers.jsp' color='primary' title='Manage Users' />
+    </@adminDashboardWidget>
+
 -->
 <#macro adminDashboardWidget id title hasHeader=true sm=12 md=4 color='primary' url='' class='' bodyClass='' actions=true actionMenu='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

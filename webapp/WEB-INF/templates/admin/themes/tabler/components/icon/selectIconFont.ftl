@@ -18,6 +18,17 @@ Parameters:
 - iconsUrl (string, optional): the URL of the JSON file containing icon data.
 - resources (boolean, optional): not used, kept for backward compatibility.
 - defaultValue (string, optional): the default selected icon name.
+
+Snippet:
+
+    Default icon picker with search:
+
+    <@selectIconFont id='iconPicker' name='entity_icon' />
+
+    Icon picker with a pre-selected icon and no search bar:
+
+    <@selectIconFont id='categoryIcon' name='category_icon' defaultValue='folder' searchShow=false />
+
 -->
 <#macro selectIconFont id='selectIcon' class='' name='resource-icon' showListLabel=true showListIcon=true searchShow=true searchFocus=false searchHighlight=true type='json' prefix='ti' iconsUrl='themes/admin/shared/css/vendor/tabler/tabler-icons.json' resources=true defaultValue='' deprecated...>
 <@deprecatedWarning args=deprecated />

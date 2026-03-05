@@ -19,6 +19,28 @@ Parameters:
 - maxLength (integer, optional): the maximum length of each option name.
 - mandatory (boolean, optional): whether the select field is mandatory.
 
+Snippet:
+
+    Select field populated from a list of items:
+
+    <@select name='category' id='category' items=categoryList default_value='${currentCategory}' />
+
+    Sorted select with mandatory flag:
+
+    <@select name='country' id='country' items=countryList sort=true mandatory=true />
+
+    Multiple select with a visible size:
+
+    <@select name='roles' id='roles' items=roleList multiple=5 class='form-select' />
+
+    Select with nested option elements:
+
+    <@select name='priority' id='priority'>
+        <@option label='Low' value='1' />
+        <@option label='Medium' value='2' selected=true />
+        <@option label='High' value='3' />
+    </@select>
+
 -->
 <#macro select name id=name class='' items='' default_value='' size='' sort=false multiple=0 params='' title='' disabled=false tabIndex=0 maxLength=0 mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />
