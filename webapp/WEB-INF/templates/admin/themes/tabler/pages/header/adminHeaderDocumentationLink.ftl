@@ -3,6 +3,13 @@ Macro: adminHeaderDocumentationLink
 Description: Generates a link to the documentation for a specific administrative feature.
 Parameters:
 - feature_documentation (string, optional): the URL of the feature's documentation.
+
+Snippet:
+
+    Display the documentation link for the current feature:
+
+    <@adminHeaderDocumentationLink />
+
 -->
 <#macro adminHeaderDocumentationLink >
 <#if feature_documentation?has_content >

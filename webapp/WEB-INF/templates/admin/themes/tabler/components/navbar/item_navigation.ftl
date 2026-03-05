@@ -9,6 +9,21 @@ Parameters:
 - hideButtonTitle (list, optional): a list of button titles to hide (e.g. "title", "i18nTitle").
 - buttonColor (string, optional): the color of the navigation buttons, using a Bootstrap color class (e.g. "primary").
 - buttonSize (string, optional): the size of the navigation buttons, using a Bootstrap size class (e.g. "lg").
+
+Snippet:
+
+    Basic item navigation:
+
+    <@item_navigation item_navigator=item_navigator />
+
+    Item navigation with custom button style:
+
+    <@item_navigation item_navigator=item_navigator buttonColor='primary' buttonSize='sm' hideButtonTitle=['xs','sm'] />
+
+    Inline item navigation with custom ID:
+
+    <@item_navigation item_navigator=item_navigator id='record-nav' display='inline' />
+
 -->
 <#macro item_navigation item_navigator id='item-navigator' display='' align='' hideButtonTitle=[] buttonColor='info' buttonSize='' deprecated...>
 <@deprecatedWarning args=deprecated />

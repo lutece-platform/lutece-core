@@ -11,6 +11,19 @@ Parameters:
 - selected (boolean, optional): whether the option should be selected by default. Default is false.
 - disabled (boolean, optional): whether the option should be disabled. Default is false.
 - params (string, optional): additional parameters for the option element.
+
+Snippet:
+
+    Basic option element:
+
+    <@option label='France' value='FR' />
+
+    Selected and disabled options:
+
+    <@option label='-- Select a country --' value='' disabled=true />
+    <@option label='France' value='FR' selected=true />
+    <@option label='Germany' value='DE' />
+
 -->
 <#macro option label value help='' id='' class='' selected=false disabled=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />

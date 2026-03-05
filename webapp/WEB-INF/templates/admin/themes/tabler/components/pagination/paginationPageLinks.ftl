@@ -5,6 +5,12 @@ Description: Generates the page links for a pagination bar.
 Parameters:
 - paginator (object): an object that contains information about the current and next/previous pages in a list.
 
+Snippet:
+
+    Basic page links:
+
+    <@paginationPageLinks paginator=paginator />
+
 -->
 <#macro paginationPageLinks paginator  deprecated...>
 <@deprecatedWarning args=deprecated />

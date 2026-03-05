@@ -3,6 +3,17 @@ Macro: adminHeader
 Description: Generates a header section for an administrative page, including a navigation menu and user account menu.
 Parameters:
 - site_name (string, required): the name of the website or application.
+
+Snippet:
+
+    Render the admin header with default site name:
+
+    <@adminHeader />
+
+    Render the admin header with a custom site name:
+
+    <@adminHeader site_name='My Admin Portal' />
+
 -->
 <#macro adminHeader site_name=site_name!'Lutece' admin_url=admin_url deprecated...>
 <@deprecatedWarning args=deprecated />

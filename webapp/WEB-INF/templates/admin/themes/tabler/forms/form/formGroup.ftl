@@ -17,6 +17,27 @@ Parameters:
 - hideLabel (list, optional): a list of label properties to hide (e.g. "label", "i18nLabel").
 - collapsed (boolean, optional): whether to collapse the form group.
 - params (string, optional): additional parameters to add to the form group element.
+
+Snippet:
+
+    Horizontal form group with label and text input:
+
+    <@formGroup labelKey='#i18n{portal.users.label.email}' labelFor='email' formStyle='horizontal'>
+        <@input type='email' name='email' id='email' placeHolder='user@example.com' />
+    </@formGroup>
+
+    Mandatory form group with help text:
+
+    <@formGroup labelKey='#i18n{portal.users.label.login}' labelFor='login' formStyle='horizontal' mandatory=true helpKey='Enter a unique login identifier.'>
+        <@input type='text' name='login' id='login' mandatory=true />
+    </@formGroup>
+
+    Inline form group:
+
+    <@formGroup labelKey='#i18n{portal.search.label.query}' labelFor='query' formStyle='inline'>
+        <@input type='text' name='query' id='query' />
+    </@formGroup>
+
 -->
 <#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelKeyDesc='' labelFor='' labelId='' labelClass='' helpKey='' mandatory=false hideLabel=[] collapsed=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />	

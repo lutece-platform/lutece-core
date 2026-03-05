@@ -17,6 +17,21 @@ Parameters:
 - checked (boolean, optional): whether the checkbox element is checked.
 - params (string, optional): additional parameters to add to the HTML code.
 - mandatory (boolean, optional): whether the checkbox element is mandatory.
+
+Snippet:
+
+    Basic checkbox:
+
+    <@checkBox name='agree' id='agree' labelKey='I agree to the terms and conditions' value='true' />
+
+    Checked and disabled checkbox:
+
+    <@checkBox name='newsletter' id='newsletter' labelKey='Receive newsletter' value='yes' checked=true disabled=true />
+
+    Switch-style checkbox:
+
+    <@checkBox name='darkMode' id='darkMode' labelKey='Enable dark mode' orientation='switch' value='1' />
+
 -->
 <#macro checkBox name id='' class='' labelKey='' labelClass='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	

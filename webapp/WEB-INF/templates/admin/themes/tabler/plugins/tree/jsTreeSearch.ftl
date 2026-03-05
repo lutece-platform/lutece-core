@@ -2,6 +2,12 @@
 
 Description: Generates a form group with a search input and a button to search the jstree.
 
+Snippet:
+
+    Display the jstree search input:
+
+    <@jsTreeSearch />
+
 -->
 <#macro jsTreeSearch >
 <@formGroup formStyle='inline' labelKey='#i18n{portal.site.admin_page.buttonSearchPage}' hideLabel=['all']>

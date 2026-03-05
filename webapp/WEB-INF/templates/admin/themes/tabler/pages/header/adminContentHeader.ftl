@@ -5,6 +5,13 @@ Parameters:
 - feature_title (string, required): the title of the feature or section of the application.
 - feature_url (string, optional): the URL of the feature or section of the application.
 - page_title (string, optional): the title of the current page.
+
+Snippet:
+
+    Display a content header for the current admin page:
+
+    <@adminContentHeader />
+
 -->
 <#macro adminContentHeader>
 <div class="page-header d-print-none d-none" id="admin-content-header" aria-label="Page header">

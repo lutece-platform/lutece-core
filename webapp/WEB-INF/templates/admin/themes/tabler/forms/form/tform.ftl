@@ -16,6 +16,33 @@ Parameters:
 - enctype (string, optional): the encoding type for the form element.
 - params (string, optional): additional parameters to add to the form element.
 
+Snippet:
+
+    Basic form with POST method:
+
+    <@tform action='jsp/admin/DoAction.jsp' method='post' name='myForm' id='myForm'>
+        <@formGroup labelKey='#i18n{portal.users.label.name}' labelFor='name' formStyle='horizontal'>
+            <@input type='text' name='name' id='name' />
+        </@formGroup>
+        <@button type='submit' buttonIcon='check' color='primary'>Save</@button>
+    </@tform>
+
+    Inline form with alignment:
+
+    <@tform type='inline' action='jsp/admin/DoSearch.jsp' method='post' id='searchForm'>
+        <@input type='text' name='query' id='query' placeHolder='Search...' />
+        <@button type='submit' color='primary' buttonIcon='search' />
+    </@tform>
+
+    Form with file upload and required fields indicator:
+
+    <@tform action='jsp/admin/DoUpload.jsp' method='post' enctype='multipart/form-data' required=true id='uploadForm'>
+        <@formGroup labelKey='#i18n{portal.upload.label.file}' labelFor='file' formStyle='horizontal'>
+            <@input type='file' name='file' id='file' mandatory=true />
+        </@formGroup>
+        <@button type='submit' color='primary'>Upload</@button>
+    </@tform>
+
 -->
 <#macro tform type='' class='' align='' hide=[] required=false action='' method='post' name='' id='' role='' collapsed=false enctype='' boxed=false boxClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />	

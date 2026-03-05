@@ -17,6 +17,17 @@ selector	string, false	false	If a selector is provided, tooltip objects will be 
 template	string	'<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'	Base HTML to use when creating the tooltip. The tooltip’s title will be injected into the .tooltip-inner. .tooltip-arrow will become the tooltip’s arrow. The outermost wrapper element should have the .tooltip class and role="tooltip".
 title	string, element, function	''	The tooltip title. If a function is given, it will be called with its this reference set to the element that the popover is attached to.
 trigger	string	'hover focus'	How tooltip is triggered: click, hover, focus, manual. You may pass multiple triggers; separate them with a space. 'manual' indicates that the tooltip will be triggered programmatically via the .tooltip('show'), .tooltip('hide') and .tooltip('toggle') methods; this value cannot be combined with any other trigger. 'hover' on its own will result in tooltips that cannot be triggered via the keyboard, and should only be used if alternative methods for conveying the same information for keyboard users is present.
+
+Snippet:
+
+    Initialize tooltips with default settings:
+
+    <@initToolTip />
+
+    Initialize tooltips with custom placement and HTML support:
+
+    <@initToolTip options='placement: "bottom", html: true' />
+
 -->
 <#macro initToolTip class='' id='' options='' autohide=false animation=true duration=2000 params='' deprecated...>
 <script>

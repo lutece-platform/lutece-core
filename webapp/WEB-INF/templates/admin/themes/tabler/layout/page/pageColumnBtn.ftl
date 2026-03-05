@@ -7,6 +7,17 @@ Parameters:
 - hideSize (string, optional): The breakpoint at which the button should be hidden. Default is 'xl'. Accepts standard breakpoints (xs, sm, md, lg, xl, xxl).
 - title (string, optional): The title attribute for the button element.
 - btnColor (string, optional): The color variant of the button. Default is 'primary'.
+
+Snippet:
+
+    Toggle button for an offcanvas page column:
+
+    <@pageColumnBtn idPageColumn='filters-panel' title='Show Filters' />
+
+    Toggle button hidden on extra-large screens with custom color:
+
+    <@pageColumnBtn idPageColumn='sidebar' hideSize='xl' title='Toggle Sidebar' btnColor='secondary' />
+
 -->
 <#macro pageColumnBtn idPageColumn class='' hideSize='' title='' btnColor='primary' deprecated...>
 <@deprecatedWarning args=deprecated />

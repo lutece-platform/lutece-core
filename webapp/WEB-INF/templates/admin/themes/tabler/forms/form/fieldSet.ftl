@@ -14,6 +14,28 @@ Parameters:
 - legendParams (string, optional): additional parameters to add to the legend.
 - hideLegend (list, optional): list of strings that, if non-empty, hide the legend.
 - disabled (boolean, optional): specifies whether the fieldset is disabled.
+
+Snippet:
+
+    Fieldset with a legend and form groups:
+
+    <@fieldSet legend='Personal Information'>
+        <@formGroup labelKey='#i18n{portal.users.label.name}' labelFor='name' formStyle='horizontal'>
+            <@input type='text' name='name' id='name' />
+        </@formGroup>
+        <@formGroup labelKey='#i18n{portal.users.label.email}' labelFor='email' formStyle='horizontal'>
+            <@input type='email' name='email' id='email' />
+        </@formGroup>
+    </@fieldSet>
+
+    Disabled fieldset with legend icon:
+
+    <@fieldSet legend='Locked Settings' legendIcon='lock' disabled=true>
+        <@formGroup labelKey='#i18n{portal.settings.label.option}' labelFor='option' formStyle='horizontal'>
+            <@input type='text' name='option' id='option' />
+        </@formGroup>
+    </@fieldSet>
+
 -->
 <#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendIcon='' legendParams='' hideLegend=[] disabled=false deprecated...>
 <@deprecatedWarning args=deprecated />

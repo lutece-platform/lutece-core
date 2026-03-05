@@ -16,6 +16,25 @@ Parameters:
 - params (string, optional): additional HTML attributes to include in the box header element.
 - boxTools (boolean, optional): whether to display box tools in the header.
 - skipHeader (boolean, optional): whether to skip the box header element entirely.
+
+Snippet:
+
+    Simple box header with title:
+
+    <@boxHeader title='Dashboard' />
+
+    Box header with i18n title key and action buttons:
+
+    <@boxHeader i18nTitleKey='portal.users.pageTitle' titleActions=true>
+        <@aButton href='jsp/admin/user/CreateUser.jsp' title='Add User' buttonIcon='plus' />
+    </@boxHeader>
+
+    Box header with custom heading level and box tools:
+
+    <@boxHeader title='Recent Activity' titleLevel='h2' titleClass='fw-bold' boxTools=true>
+        <@aButton href='#' buttonIcon='refresh-cw' size='sm' />
+    </@boxHeader>
+
 -->
 <#macro boxHeader title='' i18nTitleKey='' titleClass='' titleLevel='h3' titleParams='' titleActions=false titleAuto=true hideTitle=[] showTitle=true collapsed=false id='' class='' params='' boxTools=false skipHeader=false deprecated...>
 <@deprecatedWarning args=deprecated />

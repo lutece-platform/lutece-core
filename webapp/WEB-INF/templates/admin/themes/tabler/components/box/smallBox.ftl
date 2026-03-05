@@ -13,6 +13,21 @@ Parameters:
 - id (string, optional): the ID of the widget element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the widget element.
 - fontSize (string, optional): the font size of the widget icon.
+
+Snippet:
+
+    Simple stat widget with icon and color:
+
+    <@smallBox title='150' text='Total Users' boxIcon='users' color='primary' />
+
+    Stat widget with unit and link:
+
+    <@smallBox title='85' unit='%' text='Server Uptime' boxIcon='server' color='success' url='jsp/admin/system/ServerStatus.jsp' />
+
+    Stat widget with custom ID:
+
+    <@smallBox title='42' text='Pending Tasks' boxIcon='clipboard' color='warning' id='pending-tasks-widget' />
+
 -->
 <#macro smallBox color='' title='' text='' boxIcon='' titleLevel='div' unit='' url='' urlText='' id='' params='' fontSize='40px' deprecated...>
 <@deprecatedWarning args=deprecated />

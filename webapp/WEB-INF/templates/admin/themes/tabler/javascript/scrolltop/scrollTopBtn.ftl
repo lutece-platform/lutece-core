@@ -2,6 +2,13 @@
 Macro: scrollTopBtn
 
 Description: Generates a button that appears when the user scrolls down the page, allowing them to easily scroll back to the top of the page when clicked.
+
+Snippet:
+
+    Add a scroll-to-top button to the page:
+
+    <@scrollTopBtn />
+
 -->
 <#macro scrollTopBtn>
 <button type="button" class="btn btn-primary btn-icon btn-square-chevron-up" id="scroll" title="#i18n(portal.util.labelScrollTop}" aria-label="#i18n(portal.util.labelScrollTop}">

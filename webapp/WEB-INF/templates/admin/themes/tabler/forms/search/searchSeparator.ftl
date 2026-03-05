@@ -1,3 +1,24 @@
+<#--
+Macro: searchSeparator
+
+Description: Generates a vertical separator with a centered label badge, used between search input groups inside a searchBox to indicate logical operators (e.g., OR, AND).
+
+Parameters:
+- type (string, optional): the separator style. Use 'or' for a rounded badge, any other value for a rectangular badge. Default 'or'.
+- color (string, optional): the Bootstrap color variant for the badge. Default 'primary'.
+- content (string, optional): the text displayed inside the badge.
+
+Snippet:
+
+    OR separator between search fields:
+
+    <@searchSeparator type='or' content='OR' />
+
+    AND separator with secondary color:
+
+    <@searchSeparator type='and' color='secondary' content='AND' />
+
+-->
 <#macro searchSeparator type='or' color='primary' content='' deprecated...>
 <@deprecatedWarning args=deprecated />
   <div class="col-md-auto d-flex align-items-center justify-content-center position-relative align-self-stretch">

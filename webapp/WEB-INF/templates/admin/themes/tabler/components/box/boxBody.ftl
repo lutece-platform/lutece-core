@@ -7,6 +7,21 @@ Parameters:
 - align (string, optional): the horizontal alignment of the box body element.
 - id (string, optional): the ID of the box body element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the box body element.
+
+Snippet:
+
+    Basic box body with content:
+
+    <@boxBody>
+        <p>This is the main content area of the card.</p>
+    </@boxBody>
+
+    Box body with center alignment and custom class:
+
+    <@boxBody align='center' class='p-4'>
+        <p>Centered content with extra padding.</p>
+    </@boxBody>
+
 -->
 <#macro boxBody class='' collapsed=false align='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

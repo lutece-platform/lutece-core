@@ -5,6 +5,19 @@ Description: Returns a string of CSS classes to align content based on the speci
 Parameters:
 - align (string, optional): the alignment of the content (left, right, or center).
 - style (string, optional): the style of the content (text or blank).
+
+Snippet:
+
+    Get flexbox alignment class for centering:
+
+    ${alignmentSettings('center', '')}
+    => Returns: "d-flex justify-content-center" 
+
+    Get text alignment class:
+
+    ${alignmentSettings('right', 'text')}
+    => Returns: "text-right" 
+
 -->
 <#function alignmentSettings align='' style=''>
 <#local x = ''>

@@ -12,6 +12,20 @@ Parameters:
 - msgDone (string, optional): the success message to display.
 - msgError (string, optional): the error message to display.
 
+Snippet:
+
+    Enable copy-to-clipboard on elements with the default selector:
+
+    <@copyElementToClipboard />
+
+    Enable copy-to-clipboard on custom elements with an absolute button:
+
+    <@copyElementToClipboard selector='.code-block' copyBtn=true btnAbsolute=true btnTop='5px' btnEnd='5px' />
+
+    Enable copy-to-clipboard without a visible button or toast message:
+
+    <@copyElementToClipboard selector='.secret-field' copyBtn=false showMsg=false />
+
 -->
 <#macro copyElementToClipboard selector='.copy-content' class='' copyBtn=true btnAbsolute=false btnTop='0' btnEnd='0' showMsg=true msgDone='#i18n{portal.util.copy.done}' msgError='#i18n{portal.util.copy.error}' deprecated...>
 <@deprecatedWarning args=deprecated />

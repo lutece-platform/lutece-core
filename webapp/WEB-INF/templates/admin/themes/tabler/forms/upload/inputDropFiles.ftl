@@ -28,6 +28,26 @@ Parameters:
 @param - id - string - optional - the ID of the element, default ''
 @param - class - string - optional - the CSS class of the element, default '' 
 @param - params - optional - additional HTML attributes to include in the ckeckbox element default ''
+
+Snippet:
+
+    Basic dropzone file upload:
+
+    <@inputDropFiles name='attachment' handler=uploadHandler label='Upload your files' nbFiles=3 maxFileSize=5242880 accept='.pdf,.jpg,.png'>
+    </@inputDropFiles>
+
+    Single file upload with button style:
+
+    <@inputDropFiles name='avatar' handler=uploadHandler type='button' multiple=false nbFiles=1 label='Upload avatar' accept='.jpg,.png'>
+    </@inputDropFiles>
+
+    File upload with pre-existing files displayed:
+
+    <@inputDropFiles name='documents' handler=uploadHandler nbFiles=5 nbUplodadedFiles=2 hasFiles=true accept='.pdf'>
+        <@inputDropFilesItem name='documents' label='contract.pdf' idx=0 handler=uploadHandler fileSize=102400 />
+        <@inputDropFilesItem name='documents' label='invoice.pdf' idx=1 handler=uploadHandler fileSize=204800 />
+    </@inputDropFiles>
+
 -->
 <#macro inputDropFiles name handler={} type='dropzone' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{themeparisfr.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{themeparisfr.labelSelect}' labelSubmit='#i18n{themeparisfr.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{themeparisfr.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

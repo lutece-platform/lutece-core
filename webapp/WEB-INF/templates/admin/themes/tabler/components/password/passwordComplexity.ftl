@@ -8,6 +8,17 @@ Parameters:
 - description (string, optional): a description of the progress bar.
 - inputId (string, optional): the ID of the input field to use for the progress bar update.
 - params (string, optional): additional parameters to add to the HTML code.
+
+Snippet:
+
+    Basic password complexity indicator:
+
+    <@passwordComplexity id='pwdStrength' />
+
+    Password complexity with custom input and description:
+
+    <@passwordComplexity id='pwdComplexity' inputId='new_password' description='Password must contain at least 8 characters' />
+
 -->
 <#macro passwordComplexity id description='' params='' inputId='password' value='0' deprecated...>
 <@deprecatedWarning args=deprecated />

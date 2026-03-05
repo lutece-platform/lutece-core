@@ -9,6 +9,20 @@ Parameters:
 - class (string, optional): the CSS class to add to the element(s), default : 'position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center'.
 - params (string, optional): any attributes to add to the element(s) default 'style="background-color: rgba(255, 255, 255, 0.9); z-index: 9999;"'.
 
+Snippet:
+
+    Display a loading overlay with default settings:
+
+    <@overlay>
+        <p>Please wait while data is being loaded...</p>
+    </@overlay>
+
+    Display a custom overlay with a specific ID and label:
+
+    <@overlay id='save-overlay' label='Saving...'>
+        <p>Your changes are being saved.</p>
+    </@overlay>
+
 -->
 <#macro overlay label='#i18n{portal.util.labelLoading}' id='loading-overlay' class='position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center ' params='style="background-color: rgba(255, 255, 255, 0.9); z-index: 9999;"' deprecated...>
 <@deprecatedWarning args=deprecated />

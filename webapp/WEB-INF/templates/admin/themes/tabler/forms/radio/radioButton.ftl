@@ -18,6 +18,20 @@ Parameters:
 - params (string, optional): additional parameters to add to the HTML code.
 - mandatory (boolean, optional): whether the radio button element is mandatory.
 - propagateMandatory (boolean, optional): whether to propagate the mandatory flag to the radio button element.
+
+Snippet:
+
+    Vertical radio button group:
+
+    <@radioButton name='gender' id='gender_male' labelKey='Male' value='male' />
+    <@radioButton name='gender' id='gender_female' labelKey='Female' value='female' />
+    <@radioButton name='gender' id='gender_other' labelKey='Other' value='other' />
+
+    Inline radio buttons with a pre-selected value:
+
+    <@radioButton name='status' id='status_active' labelKey='Active' value='active' orientation='inline' checked=true />
+    <@radioButton name='status' id='status_inactive' labelKey='Inactive' value='inactive' orientation='inline' />
+
 -->
 <#macro radioButton name id='' class='form-check-input' labelKey='' labelClass='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false  deprecated...>
 <@deprecatedWarning args=deprecated />

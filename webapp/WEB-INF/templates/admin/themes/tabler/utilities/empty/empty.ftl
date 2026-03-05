@@ -11,6 +11,34 @@ Parameters:
 - actionBtn (string, optional): the color of the action button, using a Bootstrap color class (e.g. "primary", "secondary", "success", "info", "warning", "danger", "light", or "dark").
 - actionIcon (string, optional): the name of the icon to use for the action button, using the Themify Icon font.
 - actionUrl (string, optional): the URL to link to when the action button is clicked.
+- id (string, optional): the ID of the empty state container.
+- class (string, optional): additional CSS classes for the empty state container.
+- iconClass (string, optional): additional CSS classes for the icon container.
+- imgClass (string, optional): additional CSS classes for the image container.
+- actionClass (string, optional): additional CSS classes for the action button container.
+
+Snippet:
+
+    Basic empty state with default icon and messages:
+
+    <@empty />
+
+    Empty state with custom title, subtitle, and action button:
+
+    <@empty title='No users found' subtitle='Get started by creating your first user' actionTitle='Create User' actionUrl='/admin/users/create' actionIcon='user-plus' />
+
+    Empty state with a custom image instead of an icon:
+
+    <@empty title='No results' subtitle='Try different search terms' img='images/empty-search.svg' />
+
+    Empty state with nested custom content:
+
+    <@empty title='Your inbox is empty' iconName='mail'>
+        <div class="empty-action">
+            <a class="btn btn-outline-primary" href="/admin/mail/compose">Compose Message</a>
+        </div>
+    </@empty>
+
 -->
 <#macro empty title='' subtitle='' id='' class='' iconName='mood-empty' iconClass='' img='' imgClass='' actionTitle='' actionBtn='primary' actionIcon='plus' actionClass='' actionUrl='#' deprecated...>
 <@deprecatedWarning args=deprecated />

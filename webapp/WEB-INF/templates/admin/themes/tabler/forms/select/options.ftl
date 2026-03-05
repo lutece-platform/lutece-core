@@ -9,6 +9,17 @@ Parameters:
 - id (boolean, optional): whether to add an ID to each option element. Default is false.
 - class (string, optional): the CSS class of each option element.
 - params (string, optional): additional parameters for each option element.
+
+Snippet:
+
+    Generate options from a list with a pre-selected value:
+
+    <@options items=statusList selected='active' />
+
+    Generate options with IDs on each element:
+
+    <@options items=categoryList id=true selected='${currentCategoryCode}' />
+
 -->
 
 <#macro options items selected='' id=false class='' params='' deprecated...>

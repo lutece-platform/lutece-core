@@ -7,6 +7,20 @@ Parameters:
 - class (string, optional): additional CSS classes to add to the help text element.
 - labelFor (string, optional): the ID of the input field that the help text is associated with.
 
+Snippet:
+
+    Inline help text below an input:
+
+    <@formHelp labelFor='username'>
+        Your username must be between 3 and 20 characters.
+    </@formHelp>
+
+    Popover help text:
+
+    <@formHelp style='popover'>
+        This field accepts only alphanumeric characters and must be unique across the system.
+    </@formHelp>
+
 -->
 <#macro formHelp style='inline' class='' labelFor='' deprecated...>
 <@deprecatedWarning args=deprecated />

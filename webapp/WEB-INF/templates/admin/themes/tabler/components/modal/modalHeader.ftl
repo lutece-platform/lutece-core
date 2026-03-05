@@ -5,6 +5,19 @@ Parameters:
 - modalTitle (string, optional): the text content of the modal title.
 - id (string, optional): the ID of the modal header.
 - params (string, optional): additional attributes to add to the modal header, in the form of a string of HTML attributes.
+
+Snippet:
+
+    Simple modal header with title:
+
+    <@modalHeader modalTitle='Edit User' />
+
+    Modal header with custom heading level and extra content:
+
+    <@modalHeader modalTitle='User Details' titleLevel='h3' id='user-header'>
+        <span class='badge bg-success'>Active</span>
+    </@modalHeader>
+
 -->
 <#macro modalHeader titleLevel='h4' modalTitle='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

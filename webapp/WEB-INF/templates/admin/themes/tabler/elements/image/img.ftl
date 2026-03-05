@@ -10,6 +10,17 @@ Parameters:
 - class (string, optional): additional classes to add to the image element.
 - id (string, optional): the ID for the image element.
 - params (string, optional): additional parameters to add to the HTML code.
+
+Snippet:
+
+    Basic image with URL and alt text:
+
+    <@img url='images/photo.jpg' alt='A landscape photo' />
+
+    Image with custom class, title, and ID:
+
+    <@img url='images/avatar.png' alt='User avatar' title='Profile picture' class='img-thumbnail rounded-circle' id='user-avatar' />
+
 -->
 <#macro img url='' alt='' title='' class='img-fluid' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated /> 

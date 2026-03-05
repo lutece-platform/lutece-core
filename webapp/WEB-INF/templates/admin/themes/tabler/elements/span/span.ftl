@@ -10,6 +10,21 @@ Parameters:
 - collapsed (boolean, optional): whether to collapse the span element.
 - align (string, optional): the alignment setting for the span element, e.g., "center" or "right".
 - params (string, optional): additional parameters to add to the HTML code.
+
+Snippet:
+
+    Simple span with a class:
+
+    <@span class='badge bg-primary'>
+        Active
+    </@span>
+
+    Span hidden on small screens with custom ID:
+
+    <@span class='text-muted' hide=['sm'] id='status-label'>
+        Status: Online
+    </@span>
+
 -->
 <#macro span id='' class='' hide=[] collapsed=false align='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

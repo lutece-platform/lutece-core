@@ -21,6 +21,21 @@ Parameters:
 - searchLabel (string, optional): the label displayed on the dropdown button.
 - emptyLabel (string, optional): the label displayed when there are no suggestions.
 - additionnalRequestParamInputId (string, optional): Id of a second input for the search.
+
+Snippet:
+
+    Basic autocomplete for user search:
+
+    <@autocomplete id='user-search' name='selectedUserId' suggestionsUrl='jsp/admin/user/ajax/SearchUsers.jsp' suggestionsPath='items' itemValueFieldName='id' itemLabelFieldNames='["lastName", "firstName"]' searchLabel='Search a user' />
+
+    Autocomplete with description and tags:
+
+    <@autocomplete id='city-search' name='cityCode' suggestionsUrl='jsp/admin/ajax/SearchCities.jsp' suggestionsPath='results' itemValueFieldName='code' itemLabelFieldNames='["name"]' itemDescriptionFieldNames='["postalCode", "department"]' itemTagsFieldNames='["region"]' minimumInputLength=3 minimumInputLenghtLabel='Type at least 3 characters' emptyLabel='No city found' />
+
+    Autocomplete with a pre-selected value:
+
+    <@autocomplete id='category-search' name='categoryId' suggestionsUrl='jsp/admin/ajax/SearchCategories.jsp' itemValueFieldName='id' itemLabelFieldNames='["label"]' currentValue='42' currentLabel='Technology' required=true />
+
 -->
 <#macro autocomplete id name suggestionsUrl suggestionsPath="" itemValueFieldName="value" btnColor="light" btnSize="" itemLabelFieldNames="[]" itemTitleFieldNames=itemLabelFieldNames itemDescriptionFieldNames="[]" itemTagsFieldNames="[]" copyFields="[]" currentValue="" currentLabel="" required=false minimumInputLength=1 minimumInputLenghtLabel="#i18n{portal.util.labelMinimumSearchLenght}" searchLabel="#i18n{portal.util.labelSearch}" emptyLabel="#i18n{portal.util.labelNoItem}" additionnalRequestParamInputId="" allowFreeText=false deprecated...>
 <@deprecatedWarning args=deprecated />

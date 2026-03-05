@@ -11,6 +11,19 @@ Parameters:
 - boxTools (boolean, optional): whether to include box tools for the header element.
 - params (string, optional): additional HTML attributes to include in the header element.
 - headerIcon (string, optional): the name of the icon to include in the header element.
+
+Snippet:
+
+    Simple accordion header with title:
+
+    <@accordionHeader title='General Information' />
+
+    Accordion header with icon and box tools:
+
+    <@accordionHeader title='Configuration' headerIcon='settings' boxTools=true>
+        <@aButton href='#' buttonIcon='edit' size='sm' />
+    </@accordionHeader>
+
 -->
 <#macro accordionHeader id='' title='' class='' parentId=parentId childId=childId boxTools=false params='' headerIcon='' >
 <div class="accordion-item">
