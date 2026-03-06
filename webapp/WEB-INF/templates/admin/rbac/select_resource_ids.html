@@ -1,10 +1,6 @@
 <@pageContainer>
 	<@pageColumn>
-		<@pageHeader title=i18n('portal.rbac.select_resource_ids.titleSelectIds', role_key?html)>
-		<@ul class="steps steps-counter">
-			<@li class="step-item active">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}</@li>
-			<@li class="step-item">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)}</@li>
-		</@ul>
+		<@pageHeader title=i18n('portal.rbac.select_resource_ids.titleSelectIds', role_key?html) class='col-md-6'>
 		<@tform method='post' type='inline'>
 			<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 				<@inputGroup>
@@ -14,11 +10,15 @@
 			</@formGroup>
 		</@tform>
 		</@pageHeader>
-		<h2 class="mb-3">${i18n('portal.rbac.select_resource_ids.labelSelectIdsFromList', resource_label?html)}</h2>
-		<@tform method='post' action='jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp' name='ids'>
+			<@ul class='steps steps-counter mt-4'>
+				<@li class="step-item active">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources}</@li>
+				<@li class="step-item">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key?html)}</@li>
+			</@ul>
+			<@tform method='post' action='jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp' name='ids' boxed=true>
 			<@input type='hidden' name='role_key' value='${role_key}' />
 			<@input type='hidden' name='resource_type' value='${resource_type}' />
 			<@input type='hidden' name='select_resources' value='${select_resources}' />
+			<@h level=2 class='mb-3'>${i18n('portal.rbac.select_resource_ids.labelSelectIdsFromList', resource_label?html)}</@h>
 			<@formGroup labelKey='#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}' id='resourceList'>
 				<#list resource_id_list?sort_by('name') as item>
 					<@checkBox orientation='switch' name='resource_id' id=item.name?replace('\\s+','','r')+item.code value='${item.code}' labelKey='${item.name} [ ${item.code} ]' labelClass='searchable' params=' aria-labelledby="resourceList" data-role="${item.name}" ' />
@@ -28,7 +28,7 @@
 				<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' color='secondary' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' />
 				<@button type='submit' buttonIcon='arrow-right' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' iconPosition='right' color='primary' />
 			</@formGroup>
-		</@tform>
+			</@tform>
 	</@pageColumn>
 </@pageContainer>
 <script type="module">
