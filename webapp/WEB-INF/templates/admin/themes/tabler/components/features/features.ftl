@@ -101,6 +101,7 @@ Description: Generates a column within a manageFeatureItem row. Supports flexibl
 Parameters:
 - auto (boolean, optional): whether the column should auto-size to its content. Default: false.
 - flex (boolean, optional): whether to apply flexbox layout to the column. Default: true.
+- bp (string, optional): the breakpoint for responsive column sizing when using auto or fixed spans. Default: 'md'.
 - dir (string, optional): the flex direction of the column content. Default: 'row'.
 - cols (string, optional): the column span size (e.g. '3', '6', '12').
 - valign (string, optional): vertical alignment of the column content. Default: 'center'.
@@ -138,9 +139,9 @@ Snippet:
     </@manageFeatureItemColumn>
 
 -->
-<#macro manageFeatureItemColumn auto=false flex=true dir='row' cols='' valign='center' align='start' class='' id='' params='' deprecated...>
+<#macro manageFeatureItemColumn bp='md' auto=false flex=true dir='row' cols='' valign='center' align='start' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="col-md<#if flex> d-md-flex align-self-${valign} justify-content-${align} flex-${dir}</#if><#if cols !=''> col-${cols}<#elseif auto> col-md-auto</#if><#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
+<div class="col-${bp}<#if flex> d-${bp}-flex align-self-${valign} justify-content-${align} flex-${dir}</#if><#if cols !=''> col-${cols}</#if><#if auto> col-${bp}-auto</#if><#if class !=''> ${class}</#if>"<#if id !=''> id="${id}"</#if><#if params !=''> ${params}</#if>>
 <#nested>
 </div>
 </#macro>
