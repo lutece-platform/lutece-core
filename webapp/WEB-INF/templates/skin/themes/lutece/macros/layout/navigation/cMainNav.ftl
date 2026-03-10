@@ -30,6 +30,11 @@ Parameters:
 - role (string, optional): ARIA role attribute for the navbar. Default: ''.
 - params (string, optional): Additional HTML attributes for the navbar. Default: ''.
 
+Showcase:
+- desc: "Navigation principale - @cMainNav"
+- guide: navigation
+- newFeature: false
+
 Snippet:
 
     Basic navigation bar:
@@ -112,7 +117,7 @@ Snippet:
                 </@cMainNavItem>
             </#if>
             <#if hasLogin>
-                <li class="nav-item navbar-user<#if loginClass !='' > ${loginClass!}</#if> ms-auto" aria-label="#i18n{portal.theme.labelMyAcount}">
+                <li class="nav-item navbar-user<#if loginClass !='' > ${loginClass!}</#if> ms-auto" aria-label="#i18n{portal.theme.labelAccount}">
                     ${pageinclude_userlogin?default("")}
                 </li>
             </#if>
