@@ -12,6 +12,10 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the filter container. Default: ''.
 - params (string, optional): Additional HTML attributes for the filter container. Default: ''.
 
+Showcase:
+- desc: Filtre - @cFilter
+- newFeature: false
+
 Snippet:
 
     Filter panel with checkboxes:

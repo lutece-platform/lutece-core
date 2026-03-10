@@ -20,6 +20,11 @@ Parameters:
 - showReport (boolean, optional): Whether to display a progress report below the bar (requires token). Default: false.
 - intervalTime (number, optional): Refresh interval in milliseconds for progress updates (requires token). Default: 2000.
 
+Showcase:
+- desc: Barre de progression - @cProgress
+- bs: components/progress
+- newFeature: false
+
 Snippet:
 
     Basic progress bar:

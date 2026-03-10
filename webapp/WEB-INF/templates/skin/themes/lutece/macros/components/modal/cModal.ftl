@@ -18,6 +18,11 @@ Parameters:
 - class (string, optional): Additional CSS classes for the modal. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Fenêtre modale - @cModal
+- bs: components/modal
+- newFeature: false
+
 Snippet:
 
     Basic modal:

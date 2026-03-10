@@ -9,6 +9,10 @@ Parameters:
 - scrollBtnClass (string, optional): CSS class for the button element. Default: 'btn-gototop'.
 - scrollTop (number, optional): Scroll offset in pixels before the button becomes visible. Default: 100.
 
+Showcase:
+- desc: "Retour en haut - @goToTop"
+- newFeature: false
+
 Snippet:
 
     Basic usage:

@@ -24,6 +24,12 @@ Parameters:
 - badgeContent (string, optional): Text content for a badge on the toggle button. Default: ''.
 - badgeColor (string, optional): Bootstrap color for the badge. Default: ''.
 
+Showcase:
+- desc: Panneau coulissant - @cOffcanvas
+- guide: navigation
+- bs: components/offcanvas
+- newFeature: true
+
 Snippet:
 
     Basic offcanvas with toggle button:

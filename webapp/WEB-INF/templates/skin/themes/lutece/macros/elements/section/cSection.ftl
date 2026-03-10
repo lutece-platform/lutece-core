@@ -9,6 +9,10 @@ Parameters:
 - id (string, optional): Unique identifier for the section element. Default: ''.
 - params (string, optional): Additional HTML attributes for the section element. Default: ''.
 
+Showcase:
+- desc: Section - @cSection
+- newFeature: false
+
 Snippet:
 
     Basic usage:

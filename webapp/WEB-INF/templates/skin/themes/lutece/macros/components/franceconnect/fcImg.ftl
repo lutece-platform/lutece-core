@@ -6,6 +6,10 @@ Description: Generates the official FranceConnect SVG logo image with an optiona
 Parameters:
 - label (string, optional): Text displayed above the FranceConnect brand name inside the SVG. Default: ''.
 
+Showcase:
+- desc: Image France Connect - @fcImg
+- newFeature: false
+
 Snippet:
 
     Basic usage:

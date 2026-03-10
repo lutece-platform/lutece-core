@@ -10,6 +10,10 @@ Parameters:
 - btnClass (string, optional): CSS class applied to the button element. Default: 'fr-connect m-0'.
 - url (string, optional): URL for the link when type is 'link'. Default: ''.
 
+Showcase:
+- desc: Bouton France Connect - @fcBtnImg
+- newFeature: false
+
 Snippet:
 
     Basic button usage:

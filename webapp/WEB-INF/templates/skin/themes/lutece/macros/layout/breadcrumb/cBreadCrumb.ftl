@@ -10,6 +10,11 @@ Parameters:
 - type (string, optional): If 'fluid', the breadcrumb spans the full page width. Default: ''.
 - params (string, optional): Additional HTML attributes for the breadcrumb nav element. Default: ''.
 
+Showcase:
+- desc: "Fil d'ariane - @cBreadCrumb"
+- bs: components/breadcrumb
+- newFeature: false
+
 Snippet:
 
     Basic usage with a list of items:

@@ -7,6 +7,11 @@ Parameters:
 - target (string, optional): ID of the main content element to skip to. Default: 'main'.
 - skipMenu (boolean, optional): If true, displays an additional link to skip to the site menu. Default: true.
 
+Showcase:
+- desc: "Navigation rapide - @skipNav"
+- guide: navigation
+- newFeature: false
+
 Snippet:
 
     Basic usage at the top of the page layout:

@@ -10,6 +10,10 @@ Parameters:
 - params (string, optional): Additional HTML attributes for the cascading element. Default: ''.
 - state (boolean, optional): If true, the element is open on page load. Default: false.
 
+Showcase:
+- desc: Cascading - @cCascading
+- newFeature: false
+
 Snippet:
 
     Basic collapsible section:

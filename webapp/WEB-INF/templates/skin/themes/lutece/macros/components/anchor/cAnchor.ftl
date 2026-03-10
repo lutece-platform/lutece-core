@@ -12,6 +12,10 @@ Parameters:
 - anchorsClass (string, optional): CSS class(es) for each anchor link. Default: ''.
 - params (string, optional): Additional HTML attributes for the anchor container. Default: ''.
 
+Showcase:
+- desc: Ancre - @cAnchor
+- newFeature: false
+
 Snippet:
 
     Basic anchor navigation:

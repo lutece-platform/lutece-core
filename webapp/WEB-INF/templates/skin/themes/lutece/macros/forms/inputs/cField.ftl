@@ -14,6 +14,10 @@ Parameters:
 - id (string, optional): the ID of the field container. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Champ de formulaire - @cField"
+- newFeature: false
+
 Snippet:
 
     Basic text field with label:

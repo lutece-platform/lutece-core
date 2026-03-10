@@ -8,6 +8,11 @@ Parameters:
 - id (string, optional): Unique identifier for the row element. Default: ''.
 - params (string, optional): Additional HTML attributes for the row element. Default: ''.
 
+Showcase:
+- desc: "Ligne de grille - @cRow"
+- bs: layout/grid
+- newFeature: false
+
 Snippet:
 
     Basic row with columns:

@@ -12,6 +12,11 @@ Parameters:
 - classColSocial (string, optional): Bootstrap column class for the social zone. Default: 'col-md-5'.
 - params (string, optional): Additional HTML attributes for the footer element. Default: ''.
 
+Showcase:
+- desc: "Footer réseaux sociaux - @cMainFooterSocial"
+- guide: navigation
+- newFeature: false
+
 Snippet:
 
     Basic usage:

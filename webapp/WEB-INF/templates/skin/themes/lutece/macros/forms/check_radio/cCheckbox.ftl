@@ -26,6 +26,11 @@ Parameters:
 - showRequiredLabel (boolean, optional): shows the required asterisk on the wrapping label (true) or on the checkbox label (false). Default: true.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Case à cocher - @cCheckbox"
+- bs: "forms/checks-radios"
+- newFeature: false
+
 Snippet:
 
     Basic checkbox:

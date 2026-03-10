@@ -10,6 +10,11 @@ Parameters:
 - id (string, optional): The unique identifier for the toolbar. Default: ''.
 - params (string, optional): Additional HTML attributes for the toolbar. Default: ''.
 
+Showcase:
+- desc: Barre d'outils - @cBtnToolbar
+- bs: components/button-group
+- newFeature: false
+
 Snippet:
 
     Toolbar with button groups:

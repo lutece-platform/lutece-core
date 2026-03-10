@@ -9,6 +9,11 @@ Parameters:
 - class (string, optional): adds a CSS class to the error message. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Erreur de formulaire - @cFormError"
+- bs: "forms/validation"
+- newFeature: false
+
 Snippet:
 
     Error message for an input field:

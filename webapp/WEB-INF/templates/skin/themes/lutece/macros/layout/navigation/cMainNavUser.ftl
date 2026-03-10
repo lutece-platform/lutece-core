@@ -17,6 +17,11 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the menu item. Default: ''.
 - params (string, optional): Additional HTML attributes for the menu item. Default: ''.
 
+Showcase:
+- desc: "Menu utilisateur - @cMainNavUser"
+- guide: navigation
+- newFeature: false
+
 Snippet:
 
     User menu for anonymous visitors:

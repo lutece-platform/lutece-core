@@ -8,6 +8,10 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the picture element. Default: ''.
 - params (string, optional): Additional HTML attributes for the picture element. Default: ''.
 
+Showcase:
+- desc: Picture responsive - @cPicture
+- newFeature: false
+
 Snippet:
 
     Basic usage:

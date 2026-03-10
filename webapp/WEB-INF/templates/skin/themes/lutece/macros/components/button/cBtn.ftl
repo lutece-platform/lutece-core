@@ -16,6 +16,11 @@ Parameters:
 - disabled (boolean, optional): If true, disables the button. Default: false.
 - size (string, optional): Button size ('mini' for smaller). Default: ''.
 
+Showcase:
+- desc: Bouton - @cBtn
+- bs: components/buttons
+- newFeature: false
+
 Snippet:
 
     Basic submit button:

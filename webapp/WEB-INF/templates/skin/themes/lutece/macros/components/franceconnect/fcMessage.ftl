@@ -10,6 +10,10 @@ Parameters:
 - pclass (string, optional): CSS class for the paragraph wrapper. Default: ''.
 - brlink (boolean, optional): Whether to wrap nested content in a block-level span for line break. Default: true.
 
+Showcase:
+- desc: Message France Connect - @fcMessage
+- newFeature: false
+
 Snippet:
 
     Basic usage with nested text:

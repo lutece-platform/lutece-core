@@ -14,6 +14,11 @@ Parameters:
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Liste - @cList
+- bs: components/list-group
+- newFeature: false
+
 Snippet:
 
     Basic default list:

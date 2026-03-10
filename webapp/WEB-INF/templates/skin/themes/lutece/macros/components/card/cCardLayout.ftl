@@ -10,6 +10,11 @@ Parameters:
 - id (string, optional): The unique identifier for the card layout. Default: ''.
 - params (string, optional): Additional HTML attributes for the card layout. Default: ''.
 
+Showcase:
+- desc: Layout carte - @cCardLayout
+- bs: components/card
+- newFeature: false
+
 Snippet:
 
     Card deck with 3 columns:

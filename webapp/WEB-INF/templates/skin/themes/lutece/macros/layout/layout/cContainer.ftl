@@ -9,6 +9,11 @@ Parameters:
 - id (string, optional): Unique identifier for the container element. Default: ''.
 - params (string, optional): Additional HTML attributes for the container element. Default: ''.
 
+Showcase:
+- desc: "Conteneur - @cContainer"
+- bs: layout/containers
+- newFeature: false
+
 Snippet:
 
     Basic container:

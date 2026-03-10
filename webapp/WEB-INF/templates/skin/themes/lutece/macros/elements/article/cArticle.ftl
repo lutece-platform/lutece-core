@@ -11,6 +11,10 @@ Parameters:
 - id (string, optional): Unique identifier for the article element. Default: ''.
 - params (string, optional): Additional HTML attributes for the article element. Default: ''.
 
+Showcase:
+- desc: Article - @cArticle
+- newFeature: false
+
 Snippet:
 
     Basic usage:

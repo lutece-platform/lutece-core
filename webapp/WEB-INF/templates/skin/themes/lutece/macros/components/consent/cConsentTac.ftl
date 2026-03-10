@@ -13,6 +13,10 @@ Parameters:
 - cookiename (string, optional): Name of the consent cookie. Default: 'cookiepageId'.
 - nocredit (boolean, optional): If true, hides the TarteAuCitron credits. Default: false.
 
+Showcase:
+- desc: Consentement TAC - @cConsentTac
+- newFeature: false
+
 Snippet:
 
     Basic cookie consent with privacy link:

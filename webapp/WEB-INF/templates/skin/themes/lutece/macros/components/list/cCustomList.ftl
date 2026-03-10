@@ -10,6 +10,10 @@ Parameters:
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Liste personnalisée - @cCustomList
+- newFeature: false
+
 Snippet:
 
     Basic usage (deprecated, prefer cList):

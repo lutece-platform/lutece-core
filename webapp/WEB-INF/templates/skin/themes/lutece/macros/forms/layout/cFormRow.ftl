@@ -8,6 +8,10 @@ Parameters:
 - id (string, optional): the ID of the row. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Ligne de formulaire - @cFormRow"
+- newFeature: false
+
 Snippet:
 
     Form row with two fields side by side:

@@ -17,6 +17,11 @@ Parameters:
 - linkAllClass (string, optional): CSS classes for the "view all" link. Default: 'btn btn-link-primary me-sm'.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Slider - @cSlider
+- bs: forms/range
+- newFeature: false
+
 Snippet:
 
     Basic slider with slides:

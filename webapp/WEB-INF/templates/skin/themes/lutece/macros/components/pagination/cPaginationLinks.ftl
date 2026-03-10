@@ -8,6 +8,10 @@ Parameters:
 - fragment (string, optional): URL fragment appended to each pagination link. Default: ''.
 - class (string, optional): Additional CSS classes for the pagination list. Default: ''.
 
+Showcase:
+- desc: Liens de pagination - @cPaginationLinks
+- newFeature: false
+
 Snippet:
 
     Basic usage (typically called internally by cPagination):

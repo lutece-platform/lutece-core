@@ -9,6 +9,10 @@ Parameters:
 - id (string, optional): Unique identifier for the block element. Default: ''.
 - params (string, optional): Additional HTML attributes for the block element. Default: ''.
 
+Showcase:
+- desc: Bloc div - @cBlock
+- newFeature: false
+
 Snippet:
 
     Basic usage:

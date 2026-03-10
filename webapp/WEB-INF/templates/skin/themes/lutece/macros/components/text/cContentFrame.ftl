@@ -12,6 +12,10 @@ Parameters:
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Mise en avant - @cContentFrame
+- newFeature: false
+
 Snippet:
 
     Basic content frame:

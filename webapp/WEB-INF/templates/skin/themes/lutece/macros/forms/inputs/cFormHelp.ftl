@@ -9,6 +9,10 @@ Parameters:
 - class (string, optional): adds a CSS class to the help text. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Aide de formulaire - @cFormHelp"
+- newFeature: false
+
 Snippet:
 
     Help text for an email field:

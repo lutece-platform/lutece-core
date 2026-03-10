@@ -29,6 +29,10 @@ Parameters:
 - class (string, optional): CSS class for the step section. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Étape courante - @cStepCurrent"
+- newFeature: false
+
 Snippet:
 
     Current step with next and previous navigation:

@@ -9,6 +9,11 @@ Parameters:
 - class (string, optional): Additional CSS classes. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Onglets - @cTabs
+- bs: components/navs-tabs
+- newFeature: false
+
 Snippet:
 
     Basic tabs with button style:

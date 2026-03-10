@@ -23,6 +23,10 @@ Parameters:
 - class (string, optional): CSS class for the time inputs. Default: 'form-control'.
 - params (string, optional): additional HTML attributes for the fieldset. Default: ''.
 
+Showcase:
+- desc: "Créneau horaire - @cInputTimeSlot"
+- newFeature: false
+
 Snippet:
 
     Basic time slot:

@@ -12,6 +12,11 @@ Parameters:
 - role (string, optional): ARIA label for the form. Default: ''.
 - action (string, optional): the form action URL. Default: 'jsp/site/Portal.jsp'.
 
+Showcase:
+- desc: "Formulaire - @cForm"
+- bs: "forms/overview"
+- newFeature: false
+
 Snippet:
 
     Basic form:

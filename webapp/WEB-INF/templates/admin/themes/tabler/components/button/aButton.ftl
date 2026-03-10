@@ -70,12 +70,12 @@ Snippet:
 </#if>
 <a class="${style}<#if buttonSize!=''> btn-${buttonSize}</#if><#if color!=''> ${buttonColor}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 	<#if buttonIcon!='' && iconPosition='left'>
-		<#local buttonIcon = buttonIcon + ' me-1' />
+		<#local buttonIcon = buttonIcon  />
 		<@icon style=buttonIcon />
 	</#if>
 	<span class="${displayTitleClass}">${title}</span>
 	<#if buttonIcon!='' && iconPosition='right'>
-		<#local buttonIcon = buttonIcon + ' ms-1' />
+		<#local buttonIcon = buttonIcon  />
 		<@icon style=buttonIcon />
 	</#if>
 	<#if !dropdownMenu>

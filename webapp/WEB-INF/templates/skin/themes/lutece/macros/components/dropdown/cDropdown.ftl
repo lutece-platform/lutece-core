@@ -22,6 +22,11 @@ Parameters:
 - disabled (boolean, optional): If true, disables the dropdown button. Default: false.
 - params (string, optional): Additional HTML attributes for the dropdown. Default: ''.
 
+Showcase:
+- desc: Menu déroulant - @cDropdown
+- bs: components/dropdowns
+- newFeature: false
+
 Snippet:
 
     Dropdown with items list:

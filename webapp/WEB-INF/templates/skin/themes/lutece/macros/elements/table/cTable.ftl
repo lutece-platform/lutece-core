@@ -14,6 +14,11 @@ Parameters:
 - id (string, optional): Unique identifier for the table; must be changed from default to avoid conflicts. Default: 'changeme'.
 - params (string, optional): Additional HTML attributes for the table element. Default: ''.
 
+Showcase:
+- desc: Tableau - @cTable
+- bs: content/tables
+- newFeature: false
+
 Snippet:
 
     Basic usage:

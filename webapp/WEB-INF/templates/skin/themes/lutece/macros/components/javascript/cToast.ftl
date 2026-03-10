@@ -85,6 +85,11 @@ Parameters:
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Notification toast - @cToast
+- bs: components/toasts
+- newFeature: false
+
 Snippet:
 
     Simple toast without header:

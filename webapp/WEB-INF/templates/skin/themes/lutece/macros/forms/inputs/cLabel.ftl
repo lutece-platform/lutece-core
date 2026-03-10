@@ -12,6 +12,11 @@ Parameters:
 - showLabel (boolean, optional): displays or hides the label (uses visually-hidden class). Default: true.
 - required (boolean, optional): displays a required asterisk (*) after the label. Default: false.
 
+Showcase:
+- desc: "Label - @cLabel"
+- bs: "forms/form-control"
+- newFeature: false
+
 Snippet:
 
     Basic label:

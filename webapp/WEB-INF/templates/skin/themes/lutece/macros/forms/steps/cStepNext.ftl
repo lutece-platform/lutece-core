@@ -11,6 +11,10 @@ Parameters:
 - id (string, optional): the ID of the element. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Étape suivante - @cStepNext"
+- newFeature: false
+
 Snippet:
 
     Next step banner:
