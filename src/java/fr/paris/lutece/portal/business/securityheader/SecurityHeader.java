@@ -1,5 +1,7 @@
 package fr.paris.lutece.portal.business.securityheader;
 
+import java.io.Serializable;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
@@ -9,7 +11,7 @@ import jakarta.validation.constraints.Size;
  * the header must be applied. The different categories are all pages, Back Office admin authenticated pages, Back Office logout page, Front 
  * Office admin authenticated pages and Front Office logout page 
  */
-public class SecurityHeader 
+public class SecurityHeader implements Serializable
 {
 	// Variables declarations
 	private int _nId;
