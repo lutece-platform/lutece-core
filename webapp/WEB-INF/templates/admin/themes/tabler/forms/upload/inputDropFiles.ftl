@@ -59,33 +59,30 @@ Snippet:
 <#local deleteBtnName='_form_upload_delete_${cId}' >
 <@cInput type='hidden' name='asynchronousupload.handler' value=handler.handlerName />
 <div class="row group-files ${type} <#if image> image-file</#if><#if !multiple> one-file</#if><#if nbUplodadedFiles?number=nbFiles?number> no-file</#if><#if errorMsg!=''> is-invalid</#if>">
-	<div class="col px-0">
-        <#if labelPos == 1>
-        <label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable</#if><#if errorMsg !=''> main-danger-color</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{themeparisfr.labelMandatory}">*</span></#if></label>
-        </#if>
+	<div class="col">
+        <#if labelPos == 1 && label !=''><label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable</#if><#if errorMsg !=''> main-danger-color</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{themeparisfr.labelMandatory}">*</span></#if></label></#if>
         <#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>	
         <#if type="dropzone">
-            <div id="group-${cId!}" class="d-flex align-items-center file-input<#if errorMsg!=''> is-invalid</#if>">
-                <input type="file" class="form-control my-xs ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if required>aria-required="true"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if>>
-                <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 9l5 -5l5 5" /><path d="M12 4l0 12" />
-                </svg>
-                <p class="flex-1 text-left ms-sm mb-0">#i18n{themeparisfr.labelDropFiles} <span class="main-info-color text-underline">#i18n{asynchronousupload.action.browse.name}</span></p>
+            <div id="group-${cId!}" class="input-group file-input<#if errorMsg!=''> is-invalid</#if>">
+                <input type="file" class="form-control ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if required>aria-required="true"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if>>
+                <span class="input-group-text">
+                    <svg  xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" /><path d="M7 9l5 -5l5 5" /><path d="M12 4l0 12" /></svg> #i18n{asynchronousupload.action.browse.name}
+                </span> 
             </div>
             <#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
         <#elseif type="button">
-            <div id="group-${cId!}" class="">
+            <div id="group-${cId!}" class="input-group">
                 <input type="file" <#if required>aria-required="true"</#if><#if helpMsg!=''> aria-labelledby="${cId}Help"</#if> name="${name}" id="${cId}" class="form-control<#if isDisabled?boolean> disabled</#if><#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if multiple> multiple</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if>>
-                <button hidden class="btn btn-link-primary" name="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" id="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" value="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" type="submit" >
-                    <span class="file-input-text-noscript">#i18n{asynchronousupload.action.send.name}</span>
-                    <span class="file-input-text-js" style="display:none;">#i18n{asynchronousupload.action.browse.name}</span>
-                </button>
+                <span class="input-group-text">
+                    <button hidden class="btn btn-link-primary" name="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" id="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" value="<#if handler.uploadSubmitPrefix?has_content>${handler.uploadSubmitPrefix}<#else>handler_</#if>${cId}" type="submit" >
+                        <span class="file-input-text-noscript">#i18n{asynchronousupload.action.send.name}</span>
+                        <span class="file-input-text-js" style="display:none;">#i18n{asynchronousupload.action.browse.name}</span>
+                    </button>
+                </span>	
             </div>	
             <#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
         </#if>	
-        <#if labelPos != 1>
-        <label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable<#else>mt-m</#if><#if errorMsg !=''> main-danger-color</#if>" for="${cId!}">${label}</label>
-        </#if>
+        <#if labelPos != 1 && label !=''><label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable<#else>mt-m</#if><#if errorMsg !=''> main-danger-color</#if>" for="${cId!}">${label}</label></#if>
     <#if !multiple>
     </div>
     <div class="col">
