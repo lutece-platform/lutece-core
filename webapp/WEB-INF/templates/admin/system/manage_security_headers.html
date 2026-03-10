@@ -40,13 +40,9 @@
 						<#else>
 							<@button type='submit' title='#i18n{portal.system.manage_security_headers.actionEnable}' name='action' value='enableSecurityHeader' buttonIcon='player-play me-1' color='success' />
 						</#if>
-					</@tform> 
-					<#if security_header.active>
-						<@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp?view=messageNotEditableSecurityHeader' buttonIcon='edit' title='#i18n{portal.securityheader.modify_securityheader.buttonModify}'/>
-					<#else>
-						<@offcanvas targetUrl="jsp/admin/system/ManageSecurityHeaders.jsp?view=modifySecurityHeader&id_securityheader=${security_header.id}" targetElement="#modify-securityheader-form" redirectForm=false id="edit-securityheader-${security_header.id}" title="#i18n{portal.securityheader.modify_securityheader.buttonModify}" btnTitle="#i18n{portal.securityheader.modify_securityheader.buttonModify}" btnIcon="pencil" position="end" />
-					 </#if>				 				 				
-					 <@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp?view=confirmRemoveSecurityHeader&id_securityheader=${security_header.id}' buttonIcon='trash' title='#i18n{portal.securityheader.modify_securityheader.linkLabelRemove}' color='danger' />
+					</@tform>
+					<@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp?view=modifySecurityHeaderConfig&id_securityheader=${security_header.id}' buttonIcon='eye' title='#i18n{portal.util.labelMore}' />									 				 				
+					<@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp?view=confirmRemoveSecurityHeader&id_securityheader=${security_header.id}' buttonIcon='trash' title='#i18n{portal.securityheader.remove_securityheader.linkLabelRemove}' color='danger' />
 				</@manageFeatureItemColumn>
 			</@manageFeatureItem>
 			<#assign id=id + 1>
