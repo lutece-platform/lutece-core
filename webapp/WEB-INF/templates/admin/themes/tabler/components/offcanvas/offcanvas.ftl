@@ -7,6 +7,8 @@
   - title (string, optional): the title of the off-canvas component.
   - btnColor (string, optional): the color of the toggle button.
   - btnTitle (string, optional): the text on the toggle button.
+  - btnDropdown (boolean, optional, default=false): whether to add adropdown menu set in btnDropdownContent
+  - btnDropdownContent (string, optional): Dropdonw menu content added if btnDropdown is true.
   - hideTitle (array, optional): an array of breakpoints to hide the button title.
   - btnIcon (string, optional): the icon for the toggle button.
   - btnClass (string, optional): additional classes for the toggle button.
@@ -46,21 +48,22 @@
     </@offcanvas>
 
   -->
-<#macro offcanvas id position='end' class='' title='' btnColor='primary' btnTitle='' hideTitle=[] btnIcon='' btnClass='' btnDisabled=false bodyClass='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true badgeContent='' badgeColor='' params='' deprecated...>
+<#macro offcanvas id position='end' class='' title='' btnColor='primary' btnTitle='' btnDropdown=false btnDropdownContent='' hideTitle=[] btnIcon='' btnClass='' btnDisabled=false bodyClass='' badgeContent='' badgeColor='' backdrop='true' size='auto' btnSize='' targetUrl='' targetElement='' useIframe=false redirectForm=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
+<#if btnDropdown><div class="btn-group"></#if>
 <a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor}</#if><#if btnSize?has_content> btn-${btnSize}</#if><#if btnClass!=''> ${btnClass}</#if><#if badgeContent?has_content> position-relative</#if>"<#if btnDisabled> disabled</#if> onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if><#if params!=''> ${params}</#if>>
-    <#if btnIcon!=''>
-        <@icon style='${btnIcon} me-1' />
-    </#if>
+    <#if btnIcon!=''><@icon style='${btnIcon}' /></#if>
     <#-- Visibility of button title -->
     <#local displayTitleClass = displaySettings( hideTitle,'inline-flex') />
     <#if displayTitleClass != ''><span class="${displayTitleClass}"></#if>${btnTitle}<#if displayTitleClass != ''></span></#if>
     <#if badgeContent?has_content><#if badgeColor?has_content><#assign bgColor="bg-" + badgeColor><#else><#assign bgColor=" text-dark"></#if>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill shadow border ${bgColor}" style="transform: translate(-50%, -50%) !important;">
-            ${badgeContent}
-        </span>
+        <@tag color=badgeColor class='position-absolute top-0 start-100 translate-middle z-2'>${badgeContent}</@tag>
     </#if>
 </a>
+<#if btnDropdown>
+${btnDropdownContent!}
+</div>
+</#if>
 <#if useIframe>
 <script>
 (function() {
