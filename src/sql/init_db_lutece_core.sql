@@ -240,7 +240,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXsWarning.c
 INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaster email>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.home_url', 'jsp/site/Portal.jsp');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.darkmode.checkbox', '0');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.fluid.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.fluid.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.login.cover.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.login.cover.contain.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.login.image', '');
@@ -336,6 +336,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.userthemeswi
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.logo.alt', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.robotIndex.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssChars', '<>#"&');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssMsg', 'Les caract\\u00e8res &#60; &#62; &#35; et &#34;  &amp; sont interdits dans le contenu de votre message.');
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');
