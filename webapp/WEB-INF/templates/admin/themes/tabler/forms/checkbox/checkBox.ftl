@@ -8,6 +8,8 @@ Parameters:
 - id (string, optional): the ID for the checkbox element.
 - class (string, optional): additional classes to add to the checkbox element.
 - labelKey (string, optional): the label for the checkbox element.
+- labelClass (string, optional): additional classes to add to the checkbox label.
+- wrapperClass (string, optional): additional classes to add to the checkbox wrapper element.
 - orientation (string, optional): the orientation for the checkbox element, either "vertical" (default) or "switch".
 - value (string, optional): the value for the checkbox element.
 - tabIndex (string, optional): the tabindex for the checkbox element.
@@ -33,18 +35,18 @@ Snippet:
     <@checkBox name='darkMode' id='darkMode' labelKey='Enable dark mode' orientation='switch' value='1' />
 
 -->
-<#macro checkBox name id='' class='' labelKey='' labelClass='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
+<#macro checkBox name id='' class='' labelKey='' labelClass='' wrapperClass='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	
 <#if id = ''><#local id = name /></#if>
 <#if orientation!='switch'>
-	<#if orientation='vertical'><div class="custom-control custom-checkbox"<#if params!=''> ${params}</#if>></#if>
+	<#if orientation='vertical'><div class="custom-control custom-checkbox<#if wrapperClass!=''> ${wrapperClass!}</#if>"<#if params!=''> ${params}</#if>></#if>
 	<input type="checkbox" class="custom-control-input<#if class!=''> ${class}</#if>" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if> />
 	<label class="custom-control-label<#if orientation!='vertical'> checkbox-inline</#if><#if labelClass!=''> ${labelClass!}</#if>" for="${id}" <#if title!=''> title="${title}"</#if>>
 	<#if labelKey!=''>${labelKey}<#else><#nested></#if>
 	</label>
 	<#if orientation='vertical'></div></#if>
 <#else>
-	<label class="form-check form-switch" for="${id}" <#if title!=''> title="${title}"</#if><#if params!=''> ${params}</#if>>
+	<label class="form-check form-switch<#if wrapperClass!=''> ${wrapperClass!}</#if>" for="${id}" <#if title!=''> title="${title}"</#if><#if params!=''> ${params}</#if>>
     	<input class="form-check-input<#if class!=''> ${class}</#if>" type="checkbox"  id="${id}" name="${name}" value="<#if value!=''>${value}</#if>"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if>>
    		<span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
   </label>
