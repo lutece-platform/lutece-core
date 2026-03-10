@@ -28,14 +28,9 @@ label {
 	border: 0;
 	border-bottom: 1px solid #E2E2E2;
 	border-radius: 0;
-	padding: 10px 0;
+	padding: 20px 10px;
 }
   
-.form-control::-moz-placeholder {
-	font-size: 13px;
-	color: #999;
-}
-
 .form-control::placeholder {
 	font-size: 13px;
 	color: #999;
