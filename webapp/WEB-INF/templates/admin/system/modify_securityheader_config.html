@@ -1,0 +1,59 @@
+<@row>
+	<@columns>
+    <@box color='success'>
+        <@boxHeader title='${securityheader.name?html}' boxTools=true/>
+		<@boxBody>
+		<@tform method='post' id='modify-securityheader-form' action='jsp/admin/system/ModifySecurityHeaderConfig.jsp'>
+			<strong>#i18n{portal.securityheader.modify_securityheader.labelValue}</strong><br/>
+			${securityheader.value}<br/><br/>		
+			
+			<strong>#i18n{portal.securityheader.modify_securityheader.labelType}</strong><br/>
+			${securityheader.type}<br/><br/>	
+			
+			<#if (securityheader.pageCategory??) >
+				<strong>#i18n{portal.securityheader.modify_securityheader.labelPageCategory}</strong><br/>
+			    ${securityheader.pageCategory}<br/><br/>	
+			</#if>
+
+			<@formGroup>
+				<@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp' buttonIcon='times' title='#i18n{portal.securityheader.manage_securityheaders_config.buttonBack}' />
+			    <#if securityheader.active>
+					<@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp?view=messageNotEditableSecurityHeader&id_securityheader=${securityheader.id}' buttonIcon='edit' title='#i18n{portal.securityheader.modify_securityheader.buttonModify}' />
+				<#else>
+					<@offcanvas targetUrl="jsp/admin/system/ManageSecurityHeaders.jsp?view=modifySecurityHeader&id_securityheader=${securityheader.id}" targetElement="#modify-securityheader-form" redirectForm=false id="edit-securityheader-${securityheader.id}" title="#i18n{portal.securityheader.modify_securityheader.buttonModify}" btnTitle="#i18n{portal.securityheader.modify_securityheader.buttonModify}" btnIcon="pencil" position="end" />
+				</#if>
+            </@formGroup>
+		</@tform>
+        </@boxBody>
+	</@box>
+    </@columns>
+</@row>
+
+<@row>
+	<@columns>
+    <@box color='success'>
+		<@boxHeader title='#i18n{portal.securityheader.modify_securityheader_config.pageExceptionsList}' boxTools=true>
+		    <@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/system/ModifySecurityHeaderConfig.jsp?view=createSecurityHeaderConfigItem&id_securityheader=${securityheader.id}' title='#i18n{portal.securityheader.create_securityheader_config_item.pageTitle}' buttonIcon='plus' hideTitle=['xs','sm'] />	
+		</@boxHeader>
+		<@boxBody>
+			<@table headBody=true>
+			<tr>
+			    <th>#i18n{portal.securityheader.modify_security_header_config.columnTitleHeaderCustomValue}</th>
+				<th>#i18n{portal.securityheader.modify_security_header_config.columnTitleUrlPattern}</th>				
+				<th>#i18n{portal.securityheader.modify_security_header_config.columnLabelActions}</th>
+			</tr>
+			<#list security_header_config_item_list as security_header_config_item>
+			<tr>
+				<td params='title="${security_header_config_item.headerCustomValue}"'>${security_header_config_item.headerCustomValue}</td>
+				<td params='title="${security_header_config_item.urlPattern}"'>${security_header_config_item.urlPattern}</td>					
+				<td>
+				<@aButton href='jsp/admin/system/ModifySecurityHeaderConfig.jsp?view=modifySecurityHeaderConfigItem&id_config_item=${security_header_config_item.idConfigItem}&id_securityheader=${securityheader.id}' buttonIcon='edit' title='#i18n{portal.securityheader.modify_securityheader_config_item.pageTitle}' hideTitle=['all'] class='pull-left spaced' />
+				<@aButton href='jsp/admin/system/ModifySecurityHeaderConfig.jsp?view=confirmRemoveSecurityHeaderConfigItem&id_config_item=${security_header_config_item.idConfigItem}&id_securityheader=${securityheader.id}' buttonIcon='trash' title='#i18n{portal.securityheader.remove_securityheader_config_item.linkLabelRemove}' hideTitle=['all'] color='danger' />					
+			    </td>
+			</tr>
+			</#list>
+		    </@table>
+		</@boxBody>
+    </@box>
+    </@columns>
+</@row>

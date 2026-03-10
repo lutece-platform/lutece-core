@@ -56,6 +56,7 @@ import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.securityheader.SecurityHeaderService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.securityheader.SecurityHeaderUtil;
 
 /**
  * Page security header filter
@@ -178,7 +179,7 @@ public class PageSecurityHeaderFilter implements Filter
     	{
     		for( SecurityHeader securityHeader : securityHeadersToAddList )
         	{
-        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        		response.setHeader( securityHeader.getName( ), SecurityHeaderUtil.getSecurityHeaderValue( request, securityHeader ) );
         		_logger.debug( "Security header added to page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
         	}
     	}   	
