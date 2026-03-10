@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.paris.lutece.portal.business.securityheader.SecurityHeader;
+import fr.paris.lutece.portal.business.securityheader.SecurityHeaderConfigHome;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderHome;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderPageCategory;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderType;
@@ -294,6 +295,7 @@ public class SecurityHeaderService
 	{
 		for( SecurityHeader securityHeader : securityHeadersList )
 		{
+			securityHeader.setSecurityHeaderConfigItemList( SecurityHeaderConfigHome.findBySecurityHeaderId( securityHeader.getId( ) ) );
 			_securityHeaderCache.put( String.valueOf( securityHeader.getId( ) ), securityHeader );				
 		}
 		_logger.debug( "Security header cache refreshed" );
@@ -377,6 +379,16 @@ public class SecurityHeaderService
 			securityHeader = SecurityHeaderHome.findByPrimaryKey( nSecurityHeaderId );
 		}
 		return securityHeader;
+	}
+	
+	/**
+	 * Get security header cache
+	 * 
+	 * @return security header cache
+	 */
+	public Lutece107Cache<String, SecurityHeader> getSecurityHeaderCache( )
+	{
+		return _securityHeaderCache;
 	}
 	
 	/**

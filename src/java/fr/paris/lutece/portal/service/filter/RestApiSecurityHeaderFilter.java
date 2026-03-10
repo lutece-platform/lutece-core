@@ -52,6 +52,7 @@ import org.apache.logging.log4j.Logger;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeader;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderType;
 import fr.paris.lutece.portal.service.securityheader.SecurityHeaderService;
+import fr.paris.lutece.util.securityheader.SecurityHeaderUtil;
 
 /**
  * Rest api security header filter
@@ -60,7 +61,6 @@ import fr.paris.lutece.portal.service.securityheader.SecurityHeaderService;
  */
 public class RestApiSecurityHeaderFilter implements Filter
 {
-	private static final String BEAN_SECURITY_HEADER_SERVICE = "securityHeaderService";
 	private static final String LOGGER_LUTECE_SECURITY_HEADER = "lutece.securityHeader";
     private Logger _logger = LogManager.getLogger( LOGGER_LUTECE_SECURITY_HEADER );
 	
@@ -118,7 +118,7 @@ public class RestApiSecurityHeaderFilter implements Filter
     	{
         	for( SecurityHeader securityHeader : securityHeadersToAddList )
         	{
-        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        		response.setHeader( securityHeader.getName( ), SecurityHeaderUtil.getSecurityHeaderValue( request, securityHeader ) );
         		_logger.debug( "Security header added to endpoint {} - name : {}, value : {} ", request.getServletPath(), securityHeader.getName( ), securityHeader.getValue( ) );
         	}
     	}
