@@ -14,6 +14,10 @@ Parameters:
 - id (string, optional): Unique identifier for the link element. Default: ''.
 - params (string, optional): Additional HTML attributes for the link element. Default: ''.
 
+Showcase:
+- desc: Lien - @cLink
+- newFeature: false
+
 Snippet:
 
     Basic usage:

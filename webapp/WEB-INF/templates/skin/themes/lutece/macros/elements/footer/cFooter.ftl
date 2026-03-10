@@ -10,6 +10,10 @@ Parameters:
 - id (string, optional): Unique identifier for the footer element. Default: ''.
 - params (string, optional): Additional HTML attributes for the footer element. Default: ''.
 
+Showcase:
+- desc: Pied de page - @cFooter
+- newFeature: false
+
 Snippet:
 
     Basic usage:

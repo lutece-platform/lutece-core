@@ -38,6 +38,10 @@ Parameters:
 - imgClass (string, optional): CSS class for pictogram images. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Info étape - @cInfoStep
+- newFeature: false
+
 Snippet:
 
     Basic horizontal stepper:

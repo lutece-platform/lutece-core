@@ -21,6 +21,11 @@ Parameters:
 - hasCollapse (boolean, optional): If true, shows the collapse toggle icon. Default: true.
 - params (string, optional): Additional HTML attributes for the accordion. Default: ‘’.
 
+Showcase:
+- desc: Accordéon - @cAccordion
+- bs: components/accordion
+- newFeature: false
+
 Snippet:
 
     Basic usage:

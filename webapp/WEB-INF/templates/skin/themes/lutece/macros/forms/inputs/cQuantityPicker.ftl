@@ -18,6 +18,10 @@ Parameters:
 - helpMsg (string, optional): help message displayed below the picker. Default: ''.
 - errorMsg (string, optional): error message displayed on validation failure. Default: ''.
 
+Showcase:
+- desc: "Sélecteur de quantité - @cQuantityPicker"
+- newFeature: false
+
 Snippet:
 
     Basic quantity picker:

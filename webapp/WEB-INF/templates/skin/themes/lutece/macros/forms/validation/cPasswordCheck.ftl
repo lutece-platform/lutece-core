@@ -6,6 +6,10 @@ Description: Generates a password requirements checklist (character length, uppe
 Parameters:
 - id (string, required): the ID of the associated password input field.
 
+Showcase:
+- desc: "Validation mot de passe - @cPasswordCheck"
+- newFeature: false
+
 Snippet:
 
     Password check below a password input:

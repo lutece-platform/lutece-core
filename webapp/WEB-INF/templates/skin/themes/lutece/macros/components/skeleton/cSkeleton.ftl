@@ -9,6 +9,10 @@ Parameters:
 - class (string, optional): Additional CSS classes. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Skeleton loader - @cSkeleton
+- newFeature: false
+
 Snippet:
 
     Default skeleton (single text line):

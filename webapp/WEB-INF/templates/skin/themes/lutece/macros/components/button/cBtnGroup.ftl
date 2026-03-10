@@ -11,6 +11,11 @@ Parameters:
 - type (string, optional): Layout type for the group ('vertical' for stacked). Default: ''.
 - params (string, optional): Additional HTML attributes for the button group. Default: ''.
 
+Showcase:
+- desc: Groupe de boutons - @cBtnGroup
+- bs: components/button-group
+- newFeature: false
+
 Snippet:
 
     Button group with nested buttons:

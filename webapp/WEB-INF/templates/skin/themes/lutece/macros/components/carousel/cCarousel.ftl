@@ -16,6 +16,11 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the carousel. Default: ''.
 - params (string, optional): Additional HTML attributes for the carousel. Default: ''.
 
+Showcase:
+- desc: Carrousel - @cCarousel
+- bs: components/carousel
+- newFeature: false
+
 Snippet:
 
     Carousel with controls and pagination:

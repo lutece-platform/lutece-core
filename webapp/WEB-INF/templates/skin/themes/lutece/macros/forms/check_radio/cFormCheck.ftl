@@ -27,6 +27,11 @@ Parameters:
 - showRequiredLabel (boolean, optional): shows the required asterisk on the wrapping label (true) or on the input label (false). Default: true.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Champ check - @cFormCheck"
+- bs: "forms/checks-radios"
+- newFeature: false
+
 Snippet:
 
     Basic checkbox usage:

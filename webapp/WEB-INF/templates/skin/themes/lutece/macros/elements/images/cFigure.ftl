@@ -9,6 +9,11 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the figure element. Default: 'figure'.
 - params (string, optional): Additional HTML attributes for the figure element. Default: ''.
 
+Showcase:
+- desc: Figure - @cFigure
+- bs: content/figures
+- newFeature: false
+
 Snippet:
 
     Basic usage:

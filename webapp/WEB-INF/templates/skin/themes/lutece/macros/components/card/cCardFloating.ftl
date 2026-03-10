@@ -11,6 +11,11 @@ Parameters:
 - dismissible (boolean, optional): If true, displays a close button. Default: true.
 - params (string, optional): Additional HTML attributes for the floating card. Default: ''.
 
+Showcase:
+- desc: Carte flottante - @cCardFloating
+- bs: components/card
+- newFeature: false
+
 Snippet:
 
     Dismissible floating card:

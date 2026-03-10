@@ -8,6 +8,10 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the list item element. Default: ''.
 - params (string, optional): Additional HTML attributes for the list item element. Default: ''.
 
+Showcase:
+- desc: Élément de liste - @chItem
+- newFeature: false
+
 Snippet:
 
     Basic usage inside a list:

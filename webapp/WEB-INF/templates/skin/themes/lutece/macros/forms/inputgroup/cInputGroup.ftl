@@ -9,6 +9,11 @@ Parameters:
 - id (string, optional): the ID of the group. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Groupe de champs - @cInputGroup"
+- bs: "forms/input-group"
+- newFeature: false
+
 Snippet:
 
     Basic input group with text addon:

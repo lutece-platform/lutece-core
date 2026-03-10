@@ -13,6 +13,10 @@ Parameters:
 - id (string, optional): Unique identifier for the header element. Default: ''.
 - params (string, optional): Additional HTML attributes for the header element. Default: ''.
 
+Showcase:
+- desc: En-tête - @cHeader
+- newFeature: false
+
 Snippet:
 
     Basic usage:

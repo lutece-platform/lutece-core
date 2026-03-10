@@ -13,6 +13,10 @@ Parameters:
 - class (string, optional): CSS class for the meter container. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Jauge mot de passe - @cPasswordMeter"
+- newFeature: false
+
 Snippet:
 
     Password meter for a password field:

@@ -26,6 +26,11 @@ Parameters:
 - html5Required (boolean, optional): uses the HTML5 required attribute. Default: true.
 - showRequiredLabel (boolean, optional): shows the required asterisk on the wrapping label (true) or on the radio label (false). Default: true.
 
+Showcase:
+- desc: "Bouton radio - @cRadio"
+- bs: "forms/checks-radios"
+- newFeature: false
+
 Snippet:
 
     Basic radio group:

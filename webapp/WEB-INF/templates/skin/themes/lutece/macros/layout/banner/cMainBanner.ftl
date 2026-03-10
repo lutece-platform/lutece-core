@@ -12,6 +12,11 @@ Parameters:
 - id (string, optional): Unique identifier for the banner element. Default: 'main-banner'.
 - params (string, optional): Additional HTML attributes for the banner element. Default: ''.
 
+Showcase:
+- desc: "Bandeau principal - @cMainBanner"
+- guide: page-accueil
+- newFeature: false
+
 Snippet:
 
     Basic usage:

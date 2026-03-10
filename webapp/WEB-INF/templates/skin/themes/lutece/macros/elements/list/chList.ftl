@@ -9,6 +9,10 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the list element. Default: ''.
 - params (string, optional): Additional HTML attributes for the list element. Default: ''.
 
+Showcase:
+- desc: Liste HTML - @chList
+- newFeature: false
+
 Snippet:
 
     Unordered list:

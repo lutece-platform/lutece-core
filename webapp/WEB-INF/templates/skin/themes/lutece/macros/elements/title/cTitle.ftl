@@ -9,6 +9,10 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the heading element. Default: ''.
 - params (string, optional): Additional HTML attributes for the heading element. Default: ''.
 
+Showcase:
+- desc: Titre - @cTitle
+- newFeature: false
+
 Snippet:
 
     Basic usage:

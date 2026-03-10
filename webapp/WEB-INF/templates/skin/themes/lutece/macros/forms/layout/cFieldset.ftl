@@ -16,6 +16,11 @@ Parameters:
 - showLabel (boolean, optional): displays or hides the legend. Default: true.
 - required (boolean, optional): displays a required asterisk (*) after the legend. Default: false.
 
+Showcase:
+- desc: "Fieldset - @cFieldset"
+- bs: "forms/overview"
+- newFeature: false
+
 Snippet:
 
     Basic fieldset with legend:

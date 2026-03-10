@@ -18,6 +18,11 @@ Parameters:
 - helpMsg (string, optional): help message displayed below the select. Default: ''.
 - errorMsg (string, optional): error message displayed on validation failure. Default: ''.
 
+Showcase:
+- desc: "Liste déroulante - @cSelect"
+- bs: "forms/select"
+- newFeature: false
+
 Snippet:
 
     Basic select:

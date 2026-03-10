@@ -11,6 +11,10 @@ Parameters:
 - labelClass (string, optional): CSS class for the label span. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Statut - @cStatus
+- newFeature: false
+
 Snippet:
 
     Basic forthcoming status:

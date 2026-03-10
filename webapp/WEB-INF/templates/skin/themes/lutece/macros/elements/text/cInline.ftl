@@ -9,6 +9,10 @@ Parameters:
 - id (string, optional): Unique identifier for the inline element. Default: ''.
 - params (string, optional): Additional HTML attributes for the inline element. Default: ''.
 
+Showcase:
+- desc: Span inline - @cInline
+- newFeature: false
+
 Snippet:
 
     Basic usage:

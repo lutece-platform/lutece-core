@@ -27,6 +27,10 @@ Parameters:
 - id (string, optional): the ID of the element. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Upload glisser-déposer - @cInputDropFiles"
+- newFeature: false
+
 Snippet:
 
     Basic file upload with dropzone:

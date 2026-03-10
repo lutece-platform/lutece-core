@@ -33,6 +33,11 @@ Parameters:
 - hoverEffect (boolean, optional): If true, adds a hover effect on the card image. Default: true.
 - params (string, optional): Additional HTML attributes for the card. Default: ''.
 
+Showcase:
+- desc: Carte - @cCard
+- bs: components/card
+- newFeature: false
+
 Snippet:
 
     Basic vertical card with image:

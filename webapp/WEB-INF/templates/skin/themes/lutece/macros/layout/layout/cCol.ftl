@@ -10,6 +10,11 @@ Parameters:
 - id (string, optional): Unique identifier for the column element. Default: ''.
 - params (string, optional): Additional HTML attributes for the column element. Default: ''.
 
+Showcase:
+- desc: "Colonne - @cCol"
+- bs: layout/columns
+- newFeature: false
+
 Snippet:
 
     Basic auto-width column:

@@ -12,6 +12,11 @@ Parameters:
 - dismissible (boolean, optional): If true, a close button is displayed. Default: false.
 - params (string, optional): Additional HTML attributes for the alert. Default: ''.
 
+Showcase:
+- desc: Alerte - @cAlert
+- bs: components/alerts
+- newFeature: false
+
 Snippet:
 
     Basic info alert:

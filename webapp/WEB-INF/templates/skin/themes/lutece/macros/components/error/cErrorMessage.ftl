@@ -12,6 +12,10 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the error container. Default: ''.
 - params (string, optional): Additional HTML attributes for the error container. Default: ''.
 
+Showcase:
+- desc: Message d'erreur - @cErrorMessage
+- newFeature: false
+
 Snippet:
 
     Basic error page:

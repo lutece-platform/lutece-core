@@ -8,6 +8,11 @@ Parameters:
 - nested_pos (string, required): Position of nested content relative to the footer menu: 'before' or 'after'. Default: 'after'.
 - params (string, optional): Additional HTML attributes for the footer element. Default: ''.
 
+Showcase:
+- desc: "Pied de page principal - @cMainFooter"
+- guide: navigation
+- newFeature: false
+
 Snippet:
 
     Basic usage:

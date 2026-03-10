@@ -9,6 +9,10 @@ Parameters:
 - class (string, optional): CSS class(es) applied to the text element. Default: ''.
 - params (string, optional): Additional HTML attributes for the text element. Default: ''.
 
+Showcase:
+- desc: Paragraphe - @cText
+- newFeature: false
+
 Snippet:
 
     Basic usage:

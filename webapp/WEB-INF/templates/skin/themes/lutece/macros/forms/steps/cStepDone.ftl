@@ -18,6 +18,10 @@ Parameters:
 - id (string, optional): the ID of the element. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Étape terminée - @cStepDone"
+- newFeature: false
+
 Snippet:
 
     Completed step with summary:

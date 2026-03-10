@@ -19,6 +19,10 @@ Parameters:
 - id (string, optional): the ID of the element. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Groupe d'étapes - @cStepGroup"
+- newFeature: false
+
 Snippet:
 
     Basic step group:

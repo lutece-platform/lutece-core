@@ -14,6 +14,11 @@ Parameters:
 - class (string, optional): Additional CSS class(es) for the list item. Default: ''.
 - params (string, optional): Additional HTML attributes for the list item. Default: ''.
 
+Showcase:
+- desc: "Entrée de menu - @cMainNavItem"
+- guide: navigation
+- newFeature: false
+
 Snippet:
 
     Basic navigation item:

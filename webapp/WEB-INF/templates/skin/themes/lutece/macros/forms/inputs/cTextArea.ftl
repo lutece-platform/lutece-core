@@ -20,6 +20,11 @@ Parameters:
 - errorMsg (string, optional): error message displayed on validation failure. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Zone de texte - @cTextArea"
+- bs: "forms/form-control"
+- newFeature: false
+
 Snippet:
 
     Basic textarea:

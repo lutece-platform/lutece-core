@@ -13,6 +13,10 @@ Parameters:
 - params (string, optional): additional HTML attributes. Default: ''.
 - disabled (boolean, optional): disables the multiselect. Default: false.
 
+Showcase:
+- desc: "Sélection multiple - @cMultiselect"
+- newFeature: false
+
 Snippet:
 
     Basic multiselect:

@@ -24,6 +24,11 @@ Parameters:
 - errorMsg (string, optional): error message displayed on validation failure. Default: ''.
 - params (string, optional): additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: "Champ mot de passe - @cInputPassword"
+- bs: "forms/form-control"
+- newFeature: false
+
 Snippet:
 
     Basic password input:

@@ -11,6 +11,11 @@ Parameters:
 - id (string, optional): The unique identifier for the badge. Default: ''.
 - params (string, optional): Additional HTML attributes for the badge. Default: ''.
 
+Showcase:
+- desc: Badge - @cBadge
+- bs: components/badge
+- newFeature: false
+
 Snippet:
 
     Basic badge:

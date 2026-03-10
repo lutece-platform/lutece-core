@@ -11,6 +11,10 @@ Parameters:
 - prefix (string, optional): CSS class prefix for the icon font. Default: 'ti ti-'.
 - type (string, optional): HTML element type to render. Default: 'span'.
 
+Showcase:
+- desc: Icône - @cIcon
+- newFeature: false
+
 Snippet:
 
     Basic usage:

@@ -12,6 +12,11 @@ Parameters:
 - showLabelDescribedBy (boolean, optional): If true, displays the labelDescribedBy text visually; otherwise it is hidden. Default: false.
 - params (string, optional): Additional HTML attributes for the image element. Default: ''.
 
+Showcase:
+- desc: Image - @cImg
+- bs: content/images
+- newFeature: false
+
 Snippet:
 
     Basic usage:

@@ -12,6 +12,10 @@ Parameters:
 - imgPos (string, optional): Position of the image relative to the label ('before', 'after'). Default: 'before'.
 - disabled (boolean, optional): If true, disables the button. Default: false.
 
+Showcase:
+- desc: Bouton image - @cBtnImg
+- newFeature: false
+
 Snippet:
 
     Button with image before label:

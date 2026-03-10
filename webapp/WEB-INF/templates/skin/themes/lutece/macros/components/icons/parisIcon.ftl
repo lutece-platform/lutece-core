@@ -11,6 +11,10 @@ Parameters:
 - title (string, optional): Accessible title for informative icons. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
 
+Showcase:
+- desc: Icône Paris SVG - @parisIcon
+- newFeature: false
+
 Snippet:
 
     Decorative icon (default):
