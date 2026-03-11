@@ -25,7 +25,7 @@ Snippet:
 <#-- Display item count -->
 <#if showcount == 1 >
 <@p class='text-start mb-0'>
-<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&#160;${paginator.labelItemCount} : <#else>#i18n{portal.util.labelItemCount} : </#if> ${paginator.itemsCount}
+<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content> ${paginator.labelItemCount} : <#else>#i18n{portal.util.labelItemCount} : </#if> <@span class='paginator-item-count'>${paginator.itemsCount}</@span>
 </@p>
 </#if>
 <#-- Display combo -->
