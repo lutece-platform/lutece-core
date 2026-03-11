@@ -145,6 +145,7 @@ export default class LuteceBSOffCanvas {
         offcanvasDiv.setAttribute('data-lutece-load-content-url', offcanvas.dataset.luteceLoadContentUrl);
         offcanvasDiv.setAttribute('data-lutece-load-content-target', offcanvas.dataset.luteceLoadContentTarget);
         offcanvasDiv.setAttribute('data-lutece-redirect-form', offcanvas.dataset.luteceRedirectForm);
+        offcanvasDiv.setAttribute('data-lutece-reload-on-close', offcanvas.dataset.luteceReloadOnClose || 'false');
         
         // Create header
         const header = document.createElement('div');
@@ -410,11 +411,15 @@ export default class LuteceBSOffCanvas {
         offcanvasElement.addEventListener('hidden.bs.offcanvas', () => {
             this.loader.cancel();
             if (!offcanvasElement.classList.contains('show')) {
+                const reloadOnClose = offcanvasElement.getAttribute('data-lutece-reload-on-close') === 'true';
                 offcanvasElement.querySelector('.offcanvas-body')
                     .innerHTML = '';
                 this.manageOffcanvasStateInUrl(offcanvasElement, false);
                 offcanvasElement.replaceWith(offcanvasElement.cloneNode(true));
                 window.dispatchEvent(new CustomEvent('offcanvasClosed', { detail: { id: offcanvasElement.id } }));
+                if (reloadOnClose) {
+                    window.location.reload();
+                }
             }
         });
         offcanvasElement.addEventListener('shown.bs.offcanvas', () => {
