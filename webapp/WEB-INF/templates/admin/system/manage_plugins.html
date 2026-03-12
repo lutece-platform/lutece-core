@@ -40,7 +40,7 @@
 						</@boxFooter>
 					</@box>
 				</@columns>
-				<#list plugins_list as plugin>
+				<#list plugins_list?sort_by('name') as plugin>
 					<@columns xs=12 sm=6 lg=4 id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"'>
 						<@box>
 							<#assign logo><@img url='${plugin.iconUrl}' alt='logo' class='thumbnail thumbnail-sm img-invert' title='${plugin.name}' params=' onerror="this.onerror=null;this.src=\'themes/admin/shared/images/apps.svg\'"' /></#assign>
