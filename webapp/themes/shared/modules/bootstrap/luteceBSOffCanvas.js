@@ -110,7 +110,8 @@ export default class LuteceBSOffCanvas {
         // Handle iframe load event
         iframe.addEventListener('load', () => {
             // Inject cleanup script into iframe
-            this.injectIframeCleanupScript(iframe, bodyElement);
+            const keepPageHeader = offCanvasElement.getAttribute('data-lutece-keep-page-header') === 'true';
+            this.injectIframeCleanupScript(iframe, bodyElement, keepPageHeader);
 
             window.dispatchEvent(new CustomEvent('offcanvasLoaded', { detail: { id: offCanvasElement.id, method: 'iframe' } }));
            
@@ -146,6 +147,7 @@ export default class LuteceBSOffCanvas {
         offcanvasDiv.setAttribute('data-lutece-load-content-target', offcanvas.dataset.luteceLoadContentTarget);
         offcanvasDiv.setAttribute('data-lutece-redirect-form', offcanvas.dataset.luteceRedirectForm);
         offcanvasDiv.setAttribute('data-lutece-reload-on-close', offcanvas.dataset.luteceReloadOnClose || 'false');
+        offcanvasDiv.setAttribute('data-lutece-keep-page-header', offcanvas.dataset.luteceKeepPageHeader || 'false');
         
         // Create header
         const header = document.createElement('div');
@@ -182,7 +184,7 @@ export default class LuteceBSOffCanvas {
      * @param {HTMLIFrameElement} iframe - The iframe element.
      * @param {HTMLElement} bodyElement - The offcanvas body element containing the loader.
      */
-    injectIframeCleanupScript = (iframe, bodyElement) => {
+    injectIframeCleanupScript = (iframe, bodyElement, keepPageHeader = false) => {
         try {
             const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
             
@@ -191,29 +193,32 @@ export default class LuteceBSOffCanvas {
             // Create and inject the cleanup script
             const script = iframeDoc.createElement('script');
             script.textContent = `
+                const keepPageHeader = ${keepPageHeader};
                 function performCleanup() {
                     // Remove header element
                     const header = document.querySelector('header');
                     if (header) header.remove();
-                    
+
                     // Remove footer element
                     const footer = document.querySelector('footer');
                     if (footer) footer.remove();
-                    
+
                     // Remove top nav
                     const pageNav = document.querySelector('header.navbar-expand-md');
                     if (pageNav) pageNav.remove();
-                    
-                    // Remove page header elements
-                    const pageHeader = document.querySelector('.page-header');
-                    if (pageHeader) pageHeader.remove();
-                    
-                    const pageHeaderById = document.querySelector('#page-header');
-                    if (pageHeaderById) pageHeaderById.remove();
-                    
-                    // Remove breadcrumb
-                    const breadcrumb = document.querySelector('.breadcrumb');
-                    if (breadcrumb) breadcrumb.remove();
+
+                    if (!keepPageHeader) {
+                        // Remove page header elements
+                        const pageHeader = document.querySelector('.page-header');
+                        if (pageHeader) pageHeader.remove();
+
+                        const pageHeaderById = document.querySelector('#page-header');
+                        if (pageHeaderById) pageHeaderById.remove();
+
+                        // Remove breadcrumb
+                        const breadcrumb = document.querySelector('.breadcrumb');
+                        if (breadcrumb) breadcrumb.remove();
+                    }
                    
                     // Remove page_body class
                     const pageBody = document.querySelector('.page-body');
