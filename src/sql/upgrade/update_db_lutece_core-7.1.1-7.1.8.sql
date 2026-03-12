@@ -1,5 +1,5 @@
 -- liquibase formatted sql
--- changeset core:upgrade_db_lutece_core-7.1.1-7.1.8.sql
+-- changeset core:update_db_lutece_core-7.1.1-7.1.8.sql
 -- preconditions onFail:MARK_RAN onError:WARN
 DROP TABLE IF EXISTS core_admin_security_header_config_item;
 CREATE TABLE core_admin_security_header_config_item (
