@@ -1,33 +1,53 @@
-<#-- Macro: cInputDropFiles
+<#--
+Macro: cInputDropFiles
 
-Description: Defines a macro that show a checkbox
+Description: Generates a file upload component with drag-and-drop support, progress bar, file list management, and asynchronous upload handler integration.
 
 Parameters:
-@param - name - string - required - the name of of the element
-@param - handler - object - optional - Handler used to manage files, default {}
-@param - type - string - optional - the type default "dropzone" can be "file" or button. Change the look of the input.
-@param - nbFiles - number - optional - Number of files, default 0
-@param - nbUplodadedFiles - number - optional - Number of files uploaded by the user, default 0
-@param - maxFileSize - number - optional - Max file size that can be uploaded, default 0
-@param - unit - string - optional - the unit used to show the file size, default ''
-@param - accept - string - optional - Mimit the extensions the user can upload, default ''
-@param - label - string - optional - label associated to the upload input default '#i18n{portal.theme.labelUploadFiles}' 
-@param - showLabel - number - optional - Show label if equal to one, otherwise hide it , default 1
-@param - labelPos - number - optional - Set label before input if equal to one, otherwise set after input , default 1
-@param - labelSelect - string - optional - label associated to the upload input default '#i18n{portal.theme.labelSelect}' - deprecated
-@param - labelSubmit - string - optional - label associated to the upload input default '#i18n{portal.theme.labelSubmit}' - deprecated
-@param - formSubmitButtonName - string - optional - name of the submit "button" of the parent form, used in js to prevent validation of mandatory fields, default 'action_doSaveStep' 
-@param - labelDelete - string - optional - label of the label button default '#i18n{portal.theme.labelDelete}' - deprecated
-@param - required - boolean - optional - Set element as required, default false
-@param - disabled - boolean - optional - Disable element, default false
-@param - multiple - boolean - optional - Set multiple attribute to select default false
-@param - noJs - boolean - optional - Add nojs class to remove all button, default false
-@param - hasFiles - boolean - optional - If true show the files, default false
-@param - helpMsg - string - optional - Content of the help message for upload, default ''
-@param - errorMsg - string - optional - Content of the error message for upload, default ''
-@param - id - string - optional - the ID of the element, default ''
-@param - class - string - optional - the CSS class of the element, default '' 
-@param - params - optional - additional HTML attributes to include in the ckeckbox element default ''
+- name (string, required): the name of the file input element.
+- handler (object, optional): handler object used to manage asynchronous file uploads. Default: {}.
+- type (string, optional): the upload style, 'dropzone' or 'button'. Default: 'dropzone'.
+- nbFiles (number, optional): maximum number of files allowed. Default: 0.
+- nbUplodadedFiles (number, optional): number of files already uploaded. Default: 0.
+- maxFileSize (number, optional): maximum file size in bytes. Default: 0.
+- unit (string, optional): the unit used to display file size. Default: ''.
+- accept (string, optional): accepted file extensions (e.g., '.pdf,.jpg'). Default: ''.
+- label (string, optional): label for the upload input. Default: '#i18n{portal.theme.labelUploadFiles}'.
+- showLabel (number, optional): shows the label if 1, hides it if 0. Default: 1.
+- labelPos (number, optional): places label before input if 1, after if 0. Default: 1.
+- formSubmitButtonName (string, optional): name of the parent form submit button for JS validation. Default: 'action_doSaveStep'.
+- required (boolean, optional): marks the field as required. Default: false.
+- disabled (boolean, optional): disables the input. Default: false.
+- multiple (boolean, optional): allows multiple file selection. Default: true.
+- noJs (boolean, optional): adds nojs class to hide JS-dependent buttons. Default: false.
+- hasFiles (boolean, optional): shows the file list area. Default: false.
+- helpMsg (string, optional): help message for the upload field. Default: ''.
+- errorMsg (string, optional): error message on validation failure. Default: ''.
+- class (string, optional): CSS class for the input. Default: ''.
+- id (string, optional): the ID of the element. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Showcase:
+- desc: "Upload glisser-déposer - @cInputDropFiles"
+- newFeature: false
+
+Snippet:
+
+    Basic file upload with dropzone:
+
+    <@cInputDropFiles name='documents' handler=handler label='Upload your documents' required=true>
+    </@cInputDropFiles>
+
+    File upload limited to 3 PDF files:
+
+    <@cInputDropFiles name='attachments' handler=handler nbFiles=3 accept='.pdf' label='Attach PDF files (max 3)'>
+    </@cInputDropFiles>
+
+    Single file upload (button style):
+
+    <@cInputDropFiles name='avatar' handler=handler type='button' multiple=false nbFiles=1 accept='.jpg,.png' label='Upload profile picture'>
+    </@cInputDropFiles>
+
 -->
 <#macro cInputDropFiles name handler={} type='dropzone' nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{portal.theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{portal.theme.labelSelect}' labelSubmit='#i18n{portal.theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

@@ -8,6 +8,20 @@ Parameters:
 
 Returns: 
 - A string of Bootstrap display classes based on the provided breakpoints and display setting.
+
+Snippet:
+
+    Hide element on all screen sizes:
+
+    ${displaySettings(['all'], 'block')}
+    => Returns: "d-none" 
+	Hide element on small screens, show as block on medium and above:
+	${displaySettings(['xs'], 'block')}
+    => Returns: "d-none d-sm-block" 
+	Hide element on medium and large screens only:
+	${displaySettings(['md', 'lg'], 'block')}
+    => Returns: "d-md-none d-lg-block" 
+
 -->
 <#function displaySettings breakPoints=[] display=''>
 <#local breakPointsOrdered = [] />

@@ -18,6 +18,34 @@ Parameters:
 - stamp_color: Stamp's color default "primary"
 - params : Any other attribute
 - #nested : Conrenu du body
+
+Snippet:
+
+    Simple card with a header title:
+
+    <@card headerTitle='User Information'>
+        <p>Name: John Doe</p>
+        <p>Email: john.doe@example.com</p>
+    </@card>
+
+    Card with header icon, status bar, and custom class:
+
+    <@card headerTitle='Notifications' headerIcon='ti ti-bell' status='warning' class='mb-3 shadow'>
+        <p>You have 3 unread notifications.</p>
+    </@card>
+
+    Card with ribbon and stamp:
+
+    <@card headerTitle='Premium Plan' ribbon='NEW' ribbonColor='success' stamp='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5 2 7L12 16l-6.5 4.5 2-7L2 9h7z"/></svg>' stampColor='yellow'>
+        <p>Unlock all features with the premium plan.</p>
+    </@card>
+
+    Card with header actions:
+
+    <@card headerTitle='Tasks' headerActions='<a href="#" class="btn btn-sm btn-primary">Add Task</a>'>
+        <p>No tasks yet.</p>
+    </@card>
+
 -->
 <#macro card class='mb-3' id='' headerTitle='' headerClass='bg-info' headerIcon='' headerActions='' status='' statusPos='start' ribbon='' ribbonColor='primary' ribbonPos='top' stamp='' stampColor='primary' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

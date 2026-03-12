@@ -1,16 +1,42 @@
-<#-- Macro: cForm
+<#--
+Macro: cForm
 
-Description: permet de définir le container d'un formulaire.
+Description: Generates an HTML form container with configurable action, method, and ARIA attributes for front-office pages.
 
 Parameters:
+- class (string, optional): CSS class for the form. Default: ''.
+- id (string, optional): the ID of the form. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+- name (string, optional): the name attribute of the form. Default: ''.
+- method (string, optional): the HTTP method. Default: 'post'.
+- role (string, optional): ARIA label for the form. Default: ''.
+- action (string, optional): the form action URL. Default: 'jsp/site/Portal.jsp'.
 
-@param - id - string - optional - l'ID du formulaire
-@param - class - string - optional - ajoute une classe CSS au formulaire
-@param - method - string - optional - permet de définir la valeur de l'attribut 'method' du formulaire (par défaut: 'post')
-@param - name - string - optional - permet de définir la valeur de l'attribut 'name' du formulaire
-@param - role - string - optional - permet de définir la valeur de l'attribut 'aria-label' du formulaire
-@param - action - string - optional - permet de définir l'url de l'action du formulaire
-@param - params - string - optional - permet d'ajouter des parametres HTML au formulaire
+Showcase:
+- desc: "Formulaire - @cForm"
+- bs: "forms/overview"
+- newFeature: false
+
+Snippet:
+
+    Basic form:
+
+    <@cForm action='jsp/site/Portal.jsp'>
+        <@cField label='Email' for='email' required=true>
+            <@cInput name='email' id='email' type='email' />
+        </@cField>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </@cForm>
+
+    Named form with ARIA label:
+
+    <@cForm name='contact_form' role='Contact form' action='jsp/site/Portal.jsp' params='enctype="multipart/form-data"'>
+        <@cField label='Message' for='message'>
+            <@cTextArea name='message' id='message' rows=4 />
+        </@cField>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </@cForm>
+
 -->
 <#macro cForm class='' id='' params='' name='' method='post' role='' action='jsp/site/Portal.jsp' deprecated...>
 <@deprecatedWarning args=deprecated />

@@ -23,6 +23,24 @@ Parameters:
 Deprecation:
 - args (string[]): the list of deprecated arguments.
 
+Snippet:
+
+    Basic table cell:
+
+    <@td>${user.name}</@td>
+
+    Table cell with alignment and vertical alignment:
+
+    <@td align='center' valign='middle'>
+        ${item.price}
+    </@td>
+
+    Table cell spanning columns with responsive visibility:
+
+    <@td colspan=2 hide=['xs', 'sm'] class='text-muted'>
+        ${item.description}
+    </@td>
+
 -->
 <#macro td id='' class='' hide=[] align='' valign='' cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />	

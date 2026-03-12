@@ -22,6 +22,24 @@ Parameters:
 - flex (boolean, optional): whether to use flexbox for layout.
 - params (string, optional): additional parameters to add to the HTML code.
 
+Snippet:
+
+    Basic table header cell:
+
+    <@th>#i18n{portal.users.columnName}</@th>
+
+    Header cell with column scope and alignment:
+
+    <@th scope='col' align='center'>
+        #i18n{portal.users.columnStatus}
+    </@th>
+
+    Header cell spanning multiple columns with responsive sizing:
+
+    <@th colspan=2 md=4 lg=6 hide=['xs']>
+        #i18n{portal.users.columnDetails}
+    </@th>
+
 -->
 <#macro th id='' title='' scope='' class='' align='' valign='' hide=[] cols=0 xs=0 sm=0 md=0 lg=0 xl=0 colspan=0 rowspan=0 flex=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />

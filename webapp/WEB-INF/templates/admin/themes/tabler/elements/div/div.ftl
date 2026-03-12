@@ -11,6 +11,26 @@ Parameters:
 - align (string): alignment of the content within the div element (default: '')
 - params (string): additional parameters to include in the div element (default: '')
 
+Snippet:
+
+    Simple div with a class:
+
+    <@div class='card-body'>
+        Card content goes here.
+    </@div>
+
+    Div hidden on small screens with centered alignment:
+
+    <@div class='mt-3' hide=['sm'] align='center'>
+        This content is hidden on small screens and centered.
+    </@div>
+
+    Collapsible div with an ID:
+
+    <@div id='details-section' class='p-3' collapsed=true>
+        Additional details that can be toggled.
+    </@div>
+
 -->
 <#macro div id='' class='' hide=[] collapsed=false align='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

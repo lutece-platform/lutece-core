@@ -1,34 +1,57 @@
-<#-- Macro: cInput
+<#--
+Macro: cInput
 
-Description: permet de définir un champs de formulaire.
+Description: Generates a form input field with support for various types, validation, help/error messages, datalist, and phone number formatting.
 
 Parameters:
+- name (string, required): the name attribute of the input.
+- class (string, optional): CSS class for the input. Default: 'form-control'.
+- id (string, optional): the ID of the input. Default: ''.
+- type (string, optional): the input type (text, email, tel, number, etc.). Default: 'text'.
+- size (string, optional): adds a size suffix to form-control class, 'lg' or 'sm'. Default: ''.
+- value (string, optional): the default value. Default: ''.
+- placeholder (string, optional): the placeholder text. Default: ''.
+- phoneCountry (string, optional): formats phone number for the given country when type is 'tel'. Default: 'FR'.
+- required (boolean, optional): marks the field as required. Default: false.
+- html5Required (boolean, optional): uses the HTML5 required attribute. Default: true.
+- disabled (boolean, optional): disables the input. Default: false.
+- readonly (boolean, optional): sets the input as readonly. Default: false.
+- pattern (string, optional): a regular expression for input validation. Default: ''.
+- autocomplete (string, optional): the autocomplete attribute value. Default: ''.
+- accept (string, optional): accepted file types for file inputs. Default: ''.
+- title (string, optional): the title attribute. Default: ''.
+- maxlength (number, optional): maximum character length. Default: 0.
+- min (number, optional): minimum value for number inputs. Default: 0.
+- max (number, optional): maximum value for number inputs. Default: 0.
+- datalistId (string, optional): ID for the associated datalist element. Default: ''.
+- datalist (string, optional): list of objects with id and label for datalist options. Default: ''.
+- helpMsg (string, optional): help message displayed below the input. Default: ''.
+- errorMsg (string, optional): error message displayed on validation failure. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
 
-@param - id - string - optional - l'ID du champs de formulaire
-@param - class - string - optional - ajoute une classe CSS au champs de formulaire (par défaut: 'form-control')
-@param - name - string - required - permet de définir la valeur de l'attribut 'name' du champs du formulaire
-@param - type - string - optional - permet de définir la valeur de l'attribut 'type' du champs du formulaire
-@param - size - string - optional - permet d'ajouter un suffixe à la classe CSS 'form-control', valeur possible 'lg' ou 'sm'
-@param - value - string - optional - permet de définir la valeur par défaut du champs du formulaire
-@param - placeholder - string - optional - permet de définir la valeur de l'attribut 'placeholder' du champs du formulaire
-@param - phoneCountry - string - optional - En complément de l'attribut type à la valeur 'tel', permet de formatter le numéro de téléphone entré au format du pays. Actuellement, seul le format français est pris en charge (+33 X XX XX XX XX). (par défaut: 'FR')
-@param - required - boolean - optional - permet d'indiquer si le champs est obligatoire (par défaut: false)
-@param - html5Required - boolean - optional - permet d'indiquer si le champs doit utliser l'attribut html5 required (par défaut: true)
-@param - disabled - boolean - optional - permet d'indiquer si le champs est desactivé (par défaut: false)
-@param - readonly - boolean - optional - permet d'indiquer si le champs est lecture seule (par défaut: false)
-@param - pattern - string - optional - permet de saisir une expression réguliére pour contrôler le champs
-@param - accept - string - optional - permet de définir l'attribut 'accept' pour les types de fichiers du champs
-@param - autocomplete- string - Default '' , autocomplete pour l'input https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/autocomplete 
-@param - title - string - optional - permet de définir l'attribut 'title' du champs
-@param - maxlength - number - optional - permet de saisir une limitation de taille de valeur saisie (par défaut: 0)
-@param - min - number - optional - permet de saisir une valeur minimale pour les champs de type number (par défaut: 0)
-@param - max - number - optional - permet de saisir une valeur maximale pour les champs de type number (par défaut: 0)
-@param - title - string - optional - permet de définir l'attribut 'list' du champs
-@param - datalistId - string - optional - permet de définir l'attribut 'list' du champs
-@param - datalist - string - optional - permet de définir la balise 'datalist' du champs
-@param - helpMsg - string - optional - permet de définir le message d'aide du champs
-@param - errorMsg - string - optional - permet de définir le message d'erreur du champs
-@param - params - string - optional - permet d'ajouter des parametres HTML au champs de formulaire
+Showcase:
+- desc: "Champ texte - @cInput"
+- bs: "forms/form-control"
+- newFeature: false
+
+Snippet:
+
+    Basic text input:
+
+    <@cInput name='firstname' placeholder='Enter your first name' />
+
+    Email input with validation:
+
+    <@cInput name='email' type='email' required=true helpMsg='We will never share your email.' errorMsg='Please enter a valid email address.' />
+
+    Phone number input with French formatting:
+
+    <@cInput name='phone' type='tel' phoneCountry='FR' placeholder='06 12 34 56 78' />
+
+    Number input with min/max:
+
+    <@cInput name='quantity' type='number' min=1 max=100 value='1' />
+
 -->
 <#macro cInput name class='form-control' id='' type='text' size='' value='' placeholder='' phoneCountry='FR' required=false html5Required=true disabled=false readonly=false pattern='' autocomplete='' accept='' title='' maxlength=0 min=0 max=0 datalistId='' datalist='' helpMsg='' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

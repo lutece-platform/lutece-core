@@ -7,6 +7,20 @@ Parameters:
 - class (string, optional): the class attribute of the list item.
 - params (string, optional): additional attributes to add to the list item, in the form of a string of HTML attributes.
 
+Snippet:
+
+    Simple list group item:
+
+    <@listGroupItem>
+        User account settings
+    </@listGroupItem>
+
+    Active list group item with custom class:
+
+    <@listGroupItem active=true class='d-flex justify-content-between align-items-center'>
+        Inbox <span class='badge bg-primary rounded-pill'>14</span>
+    </@listGroupItem>
+
 -->
 <#macro listGroupItem id='' class='' active=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />

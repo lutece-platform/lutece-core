@@ -1,20 +1,39 @@
-<#-- Macro: cMainNavUser
+<#--
+Macro: cMainNavUser
 
-Description: affiche le menu utilisateur.
+Description: Generates the user authentication menu with login/register dropdown for anonymous users and account dashboard dropdown for connected users.
 
 Parameters:
-@param - id - string - optional - identifiant unique du menu
-@param - class - string - optional - classe(s) css du menu
-@param - connected - boolean - required - indique si une connexion utilisateur existe
-@param - userName - boolean - required - nom de l'utilisateur si connecté
-@param - urlConnect - string - required - url de connexion ou de déconnexion
-@param - btnToggle - boolean - required -  ouvre le menu dans un dropdown
-@param - userFullName - string - optional - nom de l'utilisateur à afficher
-@param - userEmail - string - optional - email de l'utilisateur à afficher
-@param - userInitials - string - optional - initiales de l'utilisateur à afficher
-@param - hasIcon - boolean - required - permet d'afficher ou non l'icone utilisateur
-@param - title - string - required - libellé pour les icônes
-@param - params - string - optional - permet d'ajouter des paramètres HTML au menu
+- connected (boolean, required): Indicates whether a user session exists.
+- userName (string, required): Display name of the connected user.
+- urlConnect (string, required): URL for the login or logout action.
+- btnToggle (boolean, optional): If true, opens the user menu in a dropdown. Default: true.
+- userFullName (string, optional): Full name of the connected user. Default: ''.
+- userEmail (string, optional): Email address of the connected user. Default: ''.
+- userInitials (string, optional): Initials of the connected user for avatar display. Default: ''.
+- hasIcon (boolean, optional): If true, displays a user icon. Default: false.
+- title (string, optional): Accessible label for the connection button/icon. Default: '#i18n{portal.theme.labelConnect}'.
+- id (string, optional): Unique identifier for the menu item. Default: ''.
+- class (string, optional): Additional CSS class(es) for the menu item. Default: ''.
+- params (string, optional): Additional HTML attributes for the menu item. Default: ''.
+
+Showcase:
+- desc: "Menu utilisateur - @cMainNavUser"
+- guide: navigation
+- newFeature: false
+
+Snippet:
+
+    User menu for anonymous visitors:
+
+    <@cMainNavUser connected=false userName='' urlConnect='jsp/site/Portal.jsp?page=mylutece&action=login' />
+
+    User menu for connected user:
+
+    <@cMainNavUser connected=true userName='John D.' urlConnect='jsp/site/Portal.jsp?page=mylutece&action=logout' userFullName='John Doe' userEmail='john.doe@example.com'>
+        <p><a href="jsp/site/Portal.jsp?page=myservices">My Services</a></p>
+    </@cMainNavUser>
+
 -->
 <#macro cMainNavUser connected userName urlConnect btnToggle=true userFullName='' userEmail='' userInitials='' hasIcon=false title='#i18n{portal.theme.labelConnect}' id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

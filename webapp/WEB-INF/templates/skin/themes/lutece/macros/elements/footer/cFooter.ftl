@@ -1,13 +1,33 @@
-<#-- Macro: cFooter
+<#--
+Macro: cFooter
 
-Description: affiche un footer.
+Description: Generates an HTML footer element with an optional title. Suitable for page footers or section footers on skin pages.
 
 Parameters:
-@param - id - string - optional - identifiant unique du footer
-@param - class - string - optional - classe(s) css du footer
-@param - title - string - optional - titre compris dans le footer
-@param - titleLevel - number - optional - niveau de titre (par défaut: 2)
-@param - params - string - optional - permet d'ajouter des paramètres HTML au footer
+- title (string, optional): Title displayed inside the footer. Default: ''.
+- titleLevel (number, optional): Heading level for the footer title (1-6). Default: 2.
+- class (string, optional): CSS class(es) applied to the footer element. Default: ''.
+- id (string, optional): Unique identifier for the footer element. Default: ''.
+- params (string, optional): Additional HTML attributes for the footer element. Default: ''.
+
+Showcase:
+- desc: Pied de page - @cFooter
+- newFeature: false
+
+Snippet:
+
+    Basic usage:
+
+    <@cFooter>
+        <p>Copyright 2026 - All rights reserved.</p>
+    </@cFooter>
+
+    With a title:
+
+    <@cFooter title='Site Information' titleLevel=3 class='site-footer'>
+        <p>Contact us at info@example.com</p>
+    </@cFooter>
+
 -->
 <#macro cFooter title='' titleLevel=2 class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

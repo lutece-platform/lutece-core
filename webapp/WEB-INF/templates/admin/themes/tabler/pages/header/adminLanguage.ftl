@@ -4,6 +4,17 @@ Parameters:
 - languages (object): an object that contains information about the supported languages. It should be an array of objects, where each object represents a language and contains a `code` and a `name` property.
 - lang (string): the code of the currently selected language.
 - action (string, optional): the URL of the form submission handler.
+
+Snippet:
+
+    Display a language selection dropdown with default action:
+
+    <@adminLanguage languages=languages lang='en' />
+
+    Display a language selection dropdown with a custom action URL:
+
+    <@adminLanguage languages=languages lang='fr' action='jsp/admin/DoSwitchLanguage.jsp' />
+
 -->
 <#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -26,6 +37,13 @@ Parameters:
 <#-- Macro: adminReadMode
 Description: Show read direction button
 Parameters:
+
+Snippet:
+
+    Display the read direction toggle button:
+
+    <@adminReadMode />
+
 -->
 <#macro adminReadMode>
 <div class="nav-item dropdown me-2" id="lutece-rtl">

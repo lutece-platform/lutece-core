@@ -1,13 +1,32 @@
-<#-- Macro: cInputGroupAddonText
+<#--
+Macro: cInputGroupAddonText
 
-Description: permet de définir un Addon de texte au groupe d'inputs.
+Description: Generates a text addon element (input-group-text) for an input group, using a configurable HTML tag.
 
 Parameters:
+- tag (string, optional): the HTML tag used for the text addon. Default: 'span'.
+- class (string, optional): adds a CSS class to the addon. Default: ''.
+- id (string, optional): the ID of the addon. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
 
-@param - id - string - optional - l'ID de l'addon
-@param - class - string - optional - ajoute une classe CSS à l'addon
-@param - tag - string - optional - définit la balise du texte ajouté au groupe (par défaut: 'span')
-@param - params - string - optional - permet d'ajouter des parametres HTML l'addon
+Snippet:
+
+    Text addon with default span tag:
+
+    <@cInputGroup>
+        <@cInputGroupAddonText>$</@cInputGroupAddonText>
+        <@cInput name='price' type='number' placeholder='0.00' />
+    </@cInputGroup>
+
+    Text addon with custom div tag:
+
+    <@cInputGroup>
+        <@cInput name='date' placeholder='Pick a date' />
+        <@cInputGroupAddonText tag='div'>
+            <i class="ti ti-calendar"></i>
+        </@cInputGroupAddonText>
+    </@cInputGroup>
+
 -->
 <#macro cInputGroupAddonText tag='span' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

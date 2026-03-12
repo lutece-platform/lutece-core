@@ -1,21 +1,37 @@
-<#-- Macro: cCarousel
+<#--
+Macro: cCarousel
 
-Description: affiche un carousel d'image ou de vidéo.
+Description: Generates an image or video carousel with optional navigation controls, pagination, and play/pause buttons.
 
 Parameters:
+- id (string, optional): The unique identifier for the carousel. Default: 'manege'.
+- items (object, optional): List of carousel item objects (with 'img', 'alt', 'title', 'subTitle', 'class'). If empty, nested content is used. Default: ''.
+- indicatorSize (number, optional): Number of pagination indicators (auto-calculated from items if provided). Default: 1.
+- controls (boolean, optional): If true, shows previous/next navigation arrows. Default: false.
+- slideControls (boolean, optional): If true, shows play/pause/stop buttons. Default: false.
+- pagination (boolean, optional): If true, shows numbered pagination indicators. Default: false.
+- label (string, optional): The aria-label for the carousel. Default: 'Carousel'.
+- labelPrev (string, optional): Label for the previous button. Default: ''.
+- labelNext (string, optional): Label for the next button. Default: ''.
+- class (string, optional): Additional CSS class(es) for the carousel. Default: ''.
+- params (string, optional): Additional HTML attributes for the carousel. Default: ''.
 
-@param - id - string - optional - l'ID du carousel (par défaut: 'manege')
-@param - class - string - optional - permet d'ajouter une classe CSS au carousel
-@param - items - string - optional - définit la liste des images du carousel. Si vide le contenu "#nested" sera utilisé.
-@param - indicatorSize - number - optional -  Si supérieur à 1 affiche des puces égales au nombre d'image -il sera toujours égal au nombre d'image !- Si items n'est pas vide le calcul se fera sur la longueur de la séquence (par défaut: 1)
-@param - controls - boolean - optional -  permet d'afficher les boutons 'Previous' et 'Next' pour naviguer dans le carousel (par défaut: false)
-@param - slideControls - boolean - optional -  permet d'afficher les boutons 'pause', 'play' et 'stop' dans le carousel (par défaut: false)
-@param - pagination - boolean - optional -  permet d'afficher la pagination pour naviguer dans le carousel (par défaut: false)
-@param - label - string - optional -  permet de définir l'aria-label du carousel (par défaut: 'Carousel')
-@param - labelPrev - string - optional -  permet de définir le titre du bouton 'Previous'
-@param - labelNext - string - optional -  permet de définir le titre du bouton 'Next'
-@param - params - string - optional - permet d'ajouter des parametres HTML au carousel
- -->
+Showcase:
+- desc: Carrousel - @cCarousel
+- bs: components/carousel
+- newFeature: false
+
+Snippet:
+
+    Carousel with controls and pagination:
+
+    <@cCarousel id='hero-carousel' controls=true pagination=true>
+        <@cCarouselItem img='images/slide1.jpg' active=true idx=1 max=3 alt='Slide 1' title='Welcome' />
+        <@cCarouselItem img='images/slide2.jpg' idx=2 max=3 alt='Slide 2' title='Services' />
+        <@cCarouselItem img='images/slide3.jpg' idx=3 max=3 alt='Slide 3' title='Contact' />
+    </@cCarousel>
+
+-->
 <#macro cCarousel id='manege' items='' indicatorSize=1 controls=false slideControls=false pagination=false label='Carousel' labelPrev='' labelNext='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local itemSize = indicatorSize />

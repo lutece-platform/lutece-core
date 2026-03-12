@@ -11,6 +11,19 @@ Parameters:
 - class (string, optional): the class to use for the navigation item.
 - id (string, optional): the ID to use for the navigation item.
 - params (string, optional): additional parameters to include in the navigation item.
+
+Snippet:
+
+    Active navigation item with link:
+
+    <@navItem href='jsp/admin/Dashboard.jsp' name='Dashboard' active=true title='Go to dashboard' />
+
+    Navigation item with custom content:
+
+    <@navItem class='dropdown'>
+        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#">Settings</a>
+    </@navItem>
+
 -->
 <#macro navItem href='' name='' active=false title='' alt='' target='' tag='li' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

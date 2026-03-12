@@ -10,6 +10,21 @@ Parameters:
 - collapsed (boolean, optional): whether to collapse the paragraph element.
 - align (string, optional): the alignment setting for the paragraph element, e.g., "center" or "right".
 - params (string, optional): additional parameters to add to the HTML code.
+
+Snippet:
+
+    Simple paragraph with a class:
+
+    <@p class='text-muted'>
+        This is a descriptive paragraph.
+    </@p>
+
+    Right-aligned paragraph hidden on mobile:
+
+    <@p align='right' hide=['sm'] class='fw-bold'>
+        Important notice visible on larger screens.
+    </@p>
+
 -->
 <#macro p id='' params='' class='' hide=[] collapsed=false align='' deprecated...>
 <@deprecatedWarning args=deprecated />

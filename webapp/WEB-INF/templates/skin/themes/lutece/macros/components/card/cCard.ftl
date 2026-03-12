@@ -1,42 +1,67 @@
-<#-- Macro: cCard
+<#--
+Macro: cCard
 
-Description: affiche une carte pouvant comprendre une image et du texte.
+Description: Generates a card component with optional image, title, subtitle, header, footer, and support for vertical or horizontal orientation.
 
 Parameters:
+- title (string, optional): The card title text. Default: ''.
+- titleClass (string, optional): CSS class(es) for the card title. Default: ''.
+- titleLevel (number, optional): Heading level for the title. Default: 3.
+- titleUrl (string, optional): URL to make the title a link. Default: ''.
+- titleUrlTitle (string, optional): Title attribute for the title link. Default: ''.
+- subtitle (string, optional): Subtitle text for the card. Default: ''.
+- subtitleClass (string, optional): CSS class(es) for the subtitle. Default: ''.
+- subtitleLevel (number, optional): Heading level for the subtitle. Default: 4.
+- class (string, optional): Additional CSS class(es) for the card container. Default: ''.
+- id (string, optional): The unique identifier for the card. Default: ''.
+- img (string, optional): Image source URL for the card. Default: ''.
+- imgType (string, optional): Image type ('svg' for inline SVG). Default: ''.
+- imgClass (string, optional): CSS class(es) for the image container. Default: ''.
+- imgAlt (string, optional): Alt text for the card image. Default: ''.
+- header (string, optional): Header text displayed above the image. Default: ''.
+- headerLevel (number, optional): Heading level for the header. Default: 0.
+- headerClass (string, optional): CSS class(es) for the header container. Default: ''.
+- headerLabelClass (string, optional): CSS class(es) for the header text. Default: ''.
+- headerImg (string, optional): Background image URL for the header. Default: ''.
+- subHeader (string, optional): Sub-header text for the card. Default: ''.
+- subHeaderClass (string, optional): CSS class(es) for the sub-header. Default: ''.
+- footer (string, optional): Footer text for the card. Default: ''.
+- footerClass (string, optional): CSS class(es) for the footer. Default: ''.
+- orientation (string, optional): Card layout orientation ('v' for vertical, other for horizontal). Default: 'v'.
+- vcolsInit (number, optional): Initial column size for smallest screens (0 disables responsive). Default: 12.
+- vcols (object, optional): Column ratio between image and content for horizontal layout. Default: [4,8].
+- hoverEffect (boolean, optional): If true, adds a hover effect on the card image. Default: true.
+- params (string, optional): Additional HTML attributes for the card. Default: ''.
 
-@param - id - string - optional - l'ID de la carte
-@param - title - string - optional - définit le titre de la carte
-@param - titleClass - string - optional - permet d'ajouter une classe CSS au titre de la carte
-@param - titleLevel - string - optional - défaut 3, permet de modifier le niveau du titre de la carte si besoin, pour respecter les normes accessibliité
-@param - titleUrl - string - optional - permet d'ajouter un lien au titre de la carte
-@param - titleUrlTitle - string - optional - permet d'ajouter un lien un attribut "title" au lien sur le titre de la carte
-@param - subtitle - string - optional - permet d'ajouter un sous-titre à la carte
-@param - subtitleClass - string - optional - permet d'ajouter une classe CSS au sous-titre à la carte
-@param - subtitleLevel - string - optional - défaut 4, permet de modifier le niveau du sous titre de la carte si besoin, pour respecter les normes accessibliité
-@param - class - string - optional - permet d'ajouter une classe CSS à la carte
-@param - img - string - optional - permet de définir la source de l'image de la carte
-@param - imgType - string - optional - permet de définir le type de l'image de la carte (valeur possible: 'svg')
-@param - imgClass - string - optional - permet d'ajouter une classe CSS à la source de l'image de la carte
-@param - imgClass - string - optional - permet de définir la valeur de l'attribut alt de la carte
-@param - header - string - optional - permet de définir un text au dessus de l'image de la carte
-@param - headerClass - string - optional - permet d'ajouter une classe CSS au container du header de la carte
-@param - headerLabelClass - string - optional - permet d'ajouter une classe CSS au texte du header de la carte
-@param - headerImg - string - optional - permet d'ajouter une image au header de la carte
-@param - subHeader - string - optional - permet d'ajouter un sous header à la carte
-@param - subHeaderClass - string - optional - permet d'ajouter une classe CSS au sous header de la carte
-@param - footer - string - optional - permet d'ajouter un footer à la carte
-@param - footerClass - string - optional - permet d'ajouter une classe CSS au footer de la carte
-@param - orientation - string - optional - permet de gérer l'orientation de la carte (valeur possible: 'v')
-@param - vcolsInit - number - optional - Par défault égal à 12, taille par défaut pour l'écran le plus petit de l'image et du contenu de la carte (12 = toute la largeur). Si la valeur est 0, la taille de l'image et du contenu de la carte ne seront pas modifié selon la media query -taille de l'écran- mais conservea les même largeurs définies par le paramètre vcols.
-@param - vcols - objet - optional - permet de gérer le ration de largeur entre l'image et le texte dans une orientation horizontale (par défaut: [4,8])
-@param - hoverEffect - boolean - optional - permet d'ajouter un effet d'hover à l'image de la carte (par défaut: true)
-@param - params - string - optional - permet d'ajouter des parametres HTML à la carte
- -->
-<#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params='' deprecated...>
+Showcase:
+- desc: Carte - @cCard
+- bs: components/card
+- newFeature: false
+
+Snippet:
+
+    Basic vertical card with image:
+
+    <@cCard title='City services' img='images/services.jpg' imgAlt='City services illustration'>
+        <p>Discover all public services available in your neighborhood.</p>
+    </@cCard>
+
+    Horizontal card with linked title:
+
+    <@cCard title='Latest news' titleUrl='jsp/site/Portal.jsp?page=news&id=42' img='images/news.jpg' imgAlt='News' orientation='h' vcols=[3,9]>
+        <p>Read about recent updates to the portal.</p>
+    </@cCard>
+
+-->
+<#macro cCard title='' titleClass='' titleLevel=3 titleUrl='' titleUrlTitle='' subtitle='' subtitleClass='' subtitleLevel=4 class='' id='' img='' imgType='' imgClass='' imgAlt='' header='' headerLevel=0 headerClass='' headerLabelClass='' headerImg='' subHeader='' subHeaderClass='' footer='' footerClass='' orientation='v' vcolsInit=12 vcols=[4,8] hoverEffect=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if orientation='v'>
 <div class="card ${class!}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params!}</#if>>
-    <#if header!=''><div class="card-header<#if headerClass !=''> ${headerClass}</#if><#if headerImg!=''> card-header-img</#if>"<#if headerImg!=''>style="background-image:url(${headerImg});"</#if>><#if headerLabelClass!=''><span class="${headerLabelClass!}">${header!}</span><#else>${header!}</#if></div></#if>
+    <#if header!=''>
+    <div class="card-header<#if headerClass !=''> ${headerClass}</#if><#if headerImg!=''> card-header-img</#if>"<#if headerImg!=''>style="background-image:url(${headerImg});"</#if>>
+    <#if headerLabelClass!=''><#if headerLevel gt 0><@cTitle level=headerLevel class="${headerLabelClass!}">${header!}</@cTitle><#else><span class="${headerLabelClass!}">${header!}</span></#if></#if>
+    </div>
+    </#if>
     <#if subHeader!=''><div class="card-sub-header<#if subHeaderClass !=''> ${subHeaderClass}</#if>">${subHeader!}</div>
     </#if>
     <#if img!=''>

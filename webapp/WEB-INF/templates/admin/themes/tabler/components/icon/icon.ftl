@@ -7,6 +7,21 @@ Parameters:
 - title (string, optional): the title attribute of the icon.
 - id (string, optional): the ID attribute of the icon.
 - params (string, optional): additional parameters to add to the icon.
+
+Snippet:
+
+    Basic Tabler icon:
+
+    <@icon style='home' />
+
+    Icon with a title and additional CSS class:
+
+    <@icon style='settings' title='Settings' class='text-muted' />
+
+    Icon using legacy Font Awesome name (auto-converted):
+
+    <@icon style='envelope' />
+
 -->
 <#macro icon prefix='ti ti-' style='' class='' title='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

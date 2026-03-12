@@ -1,14 +1,26 @@
-<#-- Macro: cPictureSrc
+<#--
+Macro: cPictureSrc
 
-Description: affiche la source d'une picture.
+Description: Generates an HTML source element for use inside a picture element. Defines an image source with optional media query and MIME type for responsive image delivery.
 
 Parameters:
-@param - id - string - optional - identifiant unique de la source
-@param - class - string - optional - classe(s) css de la source
-@param - srcset - string - required - source de l'image
-@param - media - string - optional - Media Query
-@param - type - string - optional - type de ressource
-@param - params - string - optional - permet d'ajouter des paramètres HTML à la source
+- srcset (string, required): Source URL or set of image sources.
+- media (string, optional): Media query condition for when this source applies. Default: ''.
+- type (string, optional): MIME type of the image resource (e.g., 'image/webp'). Default: ''.
+- class (string, optional): CSS class(es) applied to the source element. Default: ''.
+- id (string, optional): Unique identifier for the source element. Default: ''.
+- params (string, optional): Additional HTML attributes for the source element. Default: ''.
+
+Snippet:
+
+    Basic usage inside a cPicture:
+
+    <@cPicture>
+        <@cPictureSrc srcset='images/hero-desktop.webp' media='(min-width: 1024px)' type='image/webp' />
+        <@cPictureSrc srcset='images/hero-mobile.jpg' />
+        <@cImg src='images/hero-fallback.jpg' alt='Hero image' />
+    </@cPicture>
+
 -->
 <#macro cPictureSrc srcset media='' type='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

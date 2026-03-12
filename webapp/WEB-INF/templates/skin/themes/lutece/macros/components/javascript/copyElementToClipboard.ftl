@@ -1,14 +1,28 @@
-<#-- 
+<#--
 Macro: copyElementToClipboard
 
-Description: Attaches a click event listener to the specified element(s) that copies its contents to the clipboard when clicked. The macro also adds a tooltip to the element(s) that indicates it can be clicked to copy, and optionally displays a success or error message after the copy operation.
+Description: Generates a JavaScript snippet that attaches click-to-copy behavior to matching elements, with optional success and error feedback messages.
 
 Parameters:
-- selector (string, required): the CSS selector for the element(s) to attach the click event listener to.
-- class (string, optional): the CSS class to add to the element(s).
-- showMsg (boolean, optional): whether to display a success or error message after the copy operation.
-- msgDone (string, optional): the success message to display.
-- msgError (string, optional): the error message to display.
+- selector (string, optional): CSS selector for the element(s) to make copyable. Default: '.copy-content'.
+- class (string, optional): CSS class to add to the target element(s). Default: 'copy-icon'.
+- showMsg (boolean, optional): Whether to display success/error messages after the copy operation. Default: true.
+- msgDone (string, optional): Success message shown after copying. Default: '#i18n{portal.util.copy.done}'.
+- msgError (string, optional): Error message shown if copy fails. Default: '#i18n{portal.util.copy.error}'.
+
+Snippet:
+
+    Basic usage with default selector:
+
+    <@copyElementToClipboard />
+
+    Custom selector with feedback disabled:
+
+    <@copyElementToClipboard selector='.code-block' showMsg=false />
+
+    Custom messages:
+
+    <@copyElementToClipboard selector='.reference-number' msgDone='Copied!' msgError='Copy failed' />
 
 -->
 <#macro copyElementToClipboard selector='.copy-content' class='copy-icon' showMsg=true msgDone='#i18n{portal.util.copy.done}' msgError='#i18n{portal.util.copy.error}'>

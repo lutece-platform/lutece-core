@@ -7,6 +7,21 @@ Parameters:
 - id (string, optional): the ID of the tab content container.
 - params (string, optional): additional parameters to add to the HTML code.
 
+Snippet:
+
+    Basic tab content container:
+
+    <@tabContent>
+        <@tabPanel id='panel1' active=true>First panel content</@tabPanel>
+        <@tabPanel id='panel2'>Second panel content</@tabPanel>
+    </@tabContent>
+
+    Tab content with custom ID:
+
+    <@tabContent id='myTabContent' class='p-3'>
+        <@tabPanel id='settings' active=true>Settings panel</@tabPanel>
+    </@tabContent>
+
 -->
 <#macro tabContent class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

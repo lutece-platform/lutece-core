@@ -10,6 +10,23 @@ Parameters:
 - collapsed (boolean, optional): whether to collapse the preformatted text element.
 - align (string, optional): the alignment setting for the preformatted text element, e.g., "center" or "right".
 - params (string, optional): additional parameters to add to the HTML code.
+
+Snippet:
+
+    Simple preformatted text block:
+
+    <@pre>
+        Line 1: Hello
+        Line 2: World
+    </@pre>
+
+    Preformatted block with custom class and ID:
+
+    <@pre class='bg-light p-3 rounded' id='log-output'>
+        [INFO] Application started successfully.
+        [INFO] Listening on port 8080.
+    </@pre>
+
 -->
 <#macro pre id='' class='' hide=[] collapsed=false align='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

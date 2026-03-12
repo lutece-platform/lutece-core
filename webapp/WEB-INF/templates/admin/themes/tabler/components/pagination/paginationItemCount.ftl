@@ -9,13 +9,23 @@ Parameters:
 - showcount (boolean, optional): whether to display the item count (default is 1).
 - showall (boolean, optional): whether to display a link to show all items on a single page (default is 0).
 
+Snippet:
+
+    Item count with combo box:
+
+    <@paginationItemCount paginator=paginator combo=1 />
+
+    Item count only, without combo:
+
+    <@paginationItemCount paginator=paginator showcount=1 combo=0 />
+
 -->
 <#macro paginationItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=1 showall=0 deprecated...>
 <@deprecatedWarning args=deprecated />
 <#-- Display item count -->
 <#if showcount == 1 >
 <@p class='text-start mb-0'>
-<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&#160;${paginator.labelItemCount} : <#else>#i18n{portal.util.labelItemCount} : </#if> ${paginator.itemsCount}
+<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content> ${paginator.labelItemCount} : <#else>#i18n{portal.util.labelItemCount} : </#if> <@span class='paginator-item-count'>${paginator.itemsCount}</@span>
 </@p>
 </#if>
 <#-- Display combo -->

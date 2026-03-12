@@ -1,18 +1,32 @@
-<#-- Macro: cConsentTac
+<#--
+Macro: cConsentTac
 
-Description: gère des Cookies CNIL ave cla librairie TarteAuCitron - https://tarteaucitron.io/fr /
+Description: Generates a CNIL-compliant cookie consent banner using the TarteAuCitron library (https://tarteaucitron.io).
 
 Parameters:
+- title (string, optional): The consent banner title. Default: 'Ce site'.
+- privacyLink (string, optional): URL to the privacy policy page. Default: ''.
+- denyAll (boolean, optional): If true, shows a "Deny all" button. Default: false.
+- cookieMenu (string, optional): Label for the cookie management footer link. Default: 'Gestion des cookies'.
+- cookiePolicyLink (string, optional): URL to the cookie policy page. Default: ''.
+- hashtag (string, optional): Hashtag identifier for the consent management modal. Default: 'cookiepolicy'.
+- cookiename (string, optional): Name of the consent cookie. Default: 'cookiepageId'.
+- nocredit (boolean, optional): If true, hides the TarteAuCitron credits. Default: false.
 
-@param - title - string - optional - le titre du consentement (par défaut: 'Ce site')
-@param - privacyLink - string - optional - Lien vers la page de protection des données personnelles (par défaut: '')
-@param - denyAll - boolean - optional - Option permettant d'afficher le bouton "Tout refuser" (par défaut: false)
-@param - cookieMenu - string - optional - Libellé du ien footer pour gérer les cookies (par défaut: 'Gestion des cookies')
-@param - cookiePolicyLink - string - optional - Lien vers la page Gestion des cookies de Paris.fr. (par défaut: '')
-@param - hashtag - string - optional - Identifiant pour modal de gestion du consentement (par défaut: 'cookiepolicypageId')
-@param - cookiename - string - optional - Nom du cookie posé pour le consentement (par défaut: 'cookiepageId')
-@param - nocredit - boolean - optional - Option permettant d'afficher les crédit du projet TarteAuCitron (par défaut: false)
- -->
+Showcase:
+- desc: Consentement TAC - @cConsentTac
+- newFeature: false
+
+Snippet:
+
+    Basic cookie consent with privacy link:
+
+    <@cConsentTac privacyLink='jsp/site/Portal.jsp?page=privacy' cookiePolicyLink='jsp/site/Portal.jsp?page=cookies'>
+        <@cConsentTacService code='youtube' />
+        <@cConsentTacService code='matomo' />
+    </@cConsentTac>
+
+-->
 <#macro cConsentTac title='Ce site'  privacyLink='' denyAll=false cookieMenu='Gestion des cookies' cookiePolicyLink='' hashtag='cookiepolicy' cookiename='cookiepageId' nocredit=false  deprecated...>
 <@deprecatedWarning args=deprecated />
 

@@ -5,6 +5,21 @@ Parameters:
 - class (string, optional): the CSS class of the breadcrumb item.
 - id (string, optional): the ID of the breadcrumb item element.
 - params (string, optional): additional HTML attributes to include in the breadcrumb item element.
+
+Snippet:
+
+    Breadcrumb item with a link:
+
+    <@breadcrumbItem>
+        <a href='/dashboard'>Dashboard</a>
+    </@breadcrumbItem>
+
+    Active breadcrumb item (current page):
+
+    <@breadcrumbItem class='active' params='aria-current="page"'>
+        User Profile
+    </@breadcrumbItem>
+
 -->
 <#macro breadcrumbItem class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

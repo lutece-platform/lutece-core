@@ -27,6 +27,29 @@ Parameters:
 @param - hasSteps - boolean - optional - Show step infos in header of step, default true 
 @param - hasMandatory - boolean - optional - Add mandatory warning, default true 
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+
+Snippet:
+
+    Basic current step with next and previous navigation:
+
+    <@stepCurrent step='2' title='Contact Information' actionNextStep='action_doNextStep' actionPrevStep='action_doPrevStep'>
+        <@cInput name='email' label='Email' />
+        <@cInput name='phone' label='Phone' />
+    </@stepCurrent>
+
+    Current step with save and backup actions:
+
+    <@stepCurrent step='1' title='Identity' actionNextStep='action_doNextStep' actionSaveStep='action_doSaveStep' actionSaveForBackUpStep='action_doSaveBackUp' actionResetBackUpStep='action_doResetBackUp' showPrevStep=false>
+        <@cInput name='firstName' label='First Name' mandatory=true />
+        <@cInput name='lastName' label='Last Name' mandatory=true />
+    </@stepCurrent>
+
+    Single step form without step numbers:
+
+    <@stepCurrent step='1' title='Submit your request' hasSteps=false hasMandatory=false actionSaveStep='action_doSaveStep'>
+        <@cTextarea name='message' label='Message' />
+    </@stepCurrent>
+
 -->
 <#macro stepCurrent step title showTitle=true titleLevel=3 actionNextStep='' titleNextStep='' labelNextStep='#i18n{forms.step.next}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{forms.step.previous}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{forms.step.save}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{forms.step.saveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{forms.step.resetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

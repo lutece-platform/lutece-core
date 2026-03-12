@@ -10,11 +10,25 @@ Parameters:
 - showcount (boolean, optional): whether to display the item count (default is 1).
 - showall (boolean, optional): whether to display a link to show all items on a single page (default is 0).
 
+Snippet:
+
+    Basic admin pagination with item count:
+
+    <@paginationAdmin paginator=paginator />
+
+    Admin pagination with combo box and show all option:
+
+    <@paginationAdmin paginator=paginator combo=1 showall=1 />
+
+    Admin pagination without form wrapper and without item count:
+
+    <@paginationAdmin paginator=paginator form=0 showcount=0 />
+
 -->
 <#macro paginationAdmin paginator class='' combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0 deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if paginator??>
-<@div class='d-flex ${class}'>
+<@div class='paginator-admin d-flex ${class}'>
 <#if (paginator.pagesCount > 1) >
 <@paginationPageLinks paginator=paginator />
 </#if>

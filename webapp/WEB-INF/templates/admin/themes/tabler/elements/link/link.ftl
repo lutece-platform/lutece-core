@@ -10,6 +10,25 @@ Parameters:
 - alt (string, optional): the alternative text for the link element.
 - target (string, optional): the target for the link element, e.g., "_blank".
 - params (string, optional): additional parameters to add to the HTML code.
+
+Snippet:
+
+    Simple link with nested content:
+
+    <@link href='jsp/admin/ManageUsers.jsp'>
+        Manage users
+    </@link>
+
+    Link with label, opening in a new tab:
+
+    <@link href='https://lutece.paris.fr' label='Visit Lutece website' target='_blank' title='Opens in a new window' />
+
+    Styled button link with custom class and ID:
+
+    <@link href='jsp/admin/CreateUser.jsp' class='btn btn-primary' id='btn-create-user'>
+        <i class="ti ti-plus"></i> Create User
+    </@link>
+
 -->
 <#macro link href='' class='' id='' name='' label='' title='' alt='' target='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

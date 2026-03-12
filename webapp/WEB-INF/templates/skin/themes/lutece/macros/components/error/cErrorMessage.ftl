@@ -1,16 +1,31 @@
-<#-- Macro: cErrorMessage
+<#--
+Macro: cErrorMessage
 
-Description: permet de créer un message d'erreur.
+Description: Generates a full-page error message with a danger alert, optional navigation links, and a home button.
 
 Parameters:
+- title (string, required): The error title displayed in the alert.
+- text (string, required): The error description text.
+- linkUrl (string, optional): URL for an additional navigation link. Default: ''.
+- linkLabelUrl (string, optional): Label text for the navigation link. Default: ''.
+- id (string, optional): The unique identifier for the error container. Default: ''.
+- class (string, optional): Additional CSS class(es) for the error container. Default: ''.
+- params (string, optional): Additional HTML attributes for the error container. Default: ''.
 
-@param - id - string - optional - l'ID du message d'erreur
-@param - class - string - optional - ajoute une classe CSS au message d'erreur
-@param - title - string - required - permet de définir le titre du message d'erreur
-@param - text - string - required - permet de définir le texte du message d'erreur
-@param - linkUrl - string - optional - permet d'ajouter un lien après le texte du message d'erreur
-@param - linkLabelUrl - string - optional - permet de définir le label du lien du message d'erreur
-@param - params - string - optional - permet d'ajouter des parametres HTML au message d'erreur
+Showcase:
+- desc: Message d'erreur - @cErrorMessage
+- newFeature: false
+
+Snippet:
+
+    Basic error page:
+
+    <@cErrorMessage title='Page not found' text='The page you are looking for does not exist.' />
+
+    Error page with redirect link:
+
+    <@cErrorMessage title='Access denied' text='You do not have permission to view this page.' linkUrl='jsp/site/Portal.jsp?page=login' linkLabelUrl='Sign in' />
+
 -->
 <#macro cErrorMessage title text linkUrl='' linkLabelUrl='' id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -18,7 +33,7 @@ Parameters:
 <@cContainer class='d-flex align-items-center justify-content-center vh-50'>
   <@cRow>
     <@cCol class=class! id=id params=params >
-      <@cAlert title=title class='danger'>
+      <@cAlert title=title type='danger'>
         <#if title?trim != text?trim><@cText>${text}</@cText></#if>
         <#nested>
       </@cAlert>

@@ -1,25 +1,50 @@
-<#-- Macro: cDropdown
+<#--
+Macro: cDropdown
 
-Description: Affiche un bouton avec menu "dropdown".
+Description: Generates a dropdown button with a toggleable menu, populated from an items list or nested content.
 
 Parameters:
-@param - label - string - required - le titre du bouton
-@param - items - json - optional - si valeur, permet d'ajouter la liste d'item dans le bouton. La forme doit être {"label": "Item 1","action": "#","active": "false"}, {"label": "Item 2","action": "#","active": "false"}
-@param - itemType - string - optional - si la valeur est link, permet d'ajouter la liste d'item spus forme de lien, sinon ce seront des boutons dans ce cas il faut préciser le paramètre "action" a "button" ou "submit".
-@param - type - string - optional - 
-@param - direction - string - optional - valeur par défaut '', les valeurs possibles sont : 'inside'
-@param - autoclose - string - optional - valeur par défaut '' ( = 'false' ), les valeurs possibles sont : 'inside', 'outside', 'true' ou 'false' 
-@param - dark - boolean - optional - par défaut false, si true passe le menu en mode "dark"
-@param - nobutton - boolean - optional - permet de supprimer le bouton . A utiliser si le contenu n'est pas une liste par exemple.
-@param - header - string - optional - 
-@param - dropDownMenuType - string - optional - 
-@param - class - string - optional - permet d'ajouter une classe CSS au bouton (valeur existantes dans le CSS: 'primary', 'secondary', 'tertiary', 'danger', 'expand')
-@param - btnClass - string - optional - permet d'ajouter une classe CSS au label du bouton
-@param - id - string - optional - l'ID du bouton
-@param - disabled - boolean - optional - permet de désactiver le bouton (par défaut: false)
-@param - params - string - optional - permet d'ajouter des parametres HTML au bouton
-#nested : optionnal - permet d'ajouter des éléments dans le menu déroulant
- -->
+- label (string, required): The button label text.
+- items (object, optional): List of menu items with 'label', 'action', 'active', and 'disabled' attributes. Default: [].
+- itemType (string, optional): Item rendering type ('link' for anchors, other for buttons). Default: 'link'.
+- type (string, optional): Dropdown type ('split' for split button). Default: ''.
+- centered (boolean, optional): If true, centers the dropdown in a button group. Default: false.
+- dropup (boolean, optional): If true, opens the menu upward. Default: false.
+- autoclose (string, optional): Auto-close behavior ('inside', 'outside', 'true', 'false'). Default: ''.
+- nobutton (boolean, optional): If true, hides the toggle button. Default: false.
+- header (string, optional): Header text for the dropdown menu. Default: ''.
+- dark (boolean, optional): If true, uses a dark-themed menu. Default: false.
+- dropDownMenuType (string, optional): HTML element type for the menu ('ul' or 'div'). Default: 'ul'.
+- class (string, optional): Additional CSS class(es) for the dropdown container. Default: ''.
+- btnClass (string, optional): CSS class for the button style ('primary', 'secondary', 'tertiary', 'danger'). Default: 'secondary'.
+- noclass (boolean, optional): If true, removes default button classes. Default: false.
+- id (string, optional): The unique identifier for the dropdown. Default: ''.
+- disabled (boolean, optional): If true, disables the dropdown button. Default: false.
+- params (string, optional): Additional HTML attributes for the dropdown. Default: ''.
+
+Showcase:
+- desc: Menu déroulant - @cDropdown
+- bs: components/dropdowns
+- newFeature: false
+
+Snippet:
+
+    Dropdown with items list:
+
+    <@cDropdown label='Actions' items=[
+        {'label': 'Edit', 'action': 'jsp/site/Portal.jsp?page=edit', 'active': 'false', 'disabled': 'false'},
+        {'label': 'Archive', 'action': 'jsp/site/Portal.jsp?page=archive', 'active': 'false', 'disabled': 'false'}
+    ] />
+
+    Dropdown with nested content:
+
+    <@cDropdown label='More options' btnClass='primary'>
+        <@cDropdownItem label='Profile' action='jsp/site/Portal.jsp?page=profile' />
+        <@cDropdownItemDivider />
+        <@cDropdownItem label='Logout' action='jsp/site/Portal.jsp?page=logout' />
+    </@cDropdown>
+
+-->
 <#macro cDropdown label items=[] itemType='link' type='' centered=false dropup=false autoclose='' nobutton=false header='' dark=false dropDownMenuType='ul' class='' btnClass='secondary' noclass=false id='' disabled=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if centered>
@@ -52,23 +77,34 @@ Parameters:
 </div>
 </#if>
 </#macro>
-<#-- Macro: cDropdownItem
+<#--
+Macro: cDropdownItem
 
-Description: Affiche un item de menu "dropdown".
+Description: Generates a single item within a dropdown menu, rendered as a link or button.
 
 Parameters:
-@param - label - string - required - le titre du bouton
-@param - action - string - optional - Url du lien pour l'item de menu pour le type 'link' sinon 'button' ou 'submit' pour le type 'button'
-@param - type - string - optional - 'link' par défaut  sinon 'button'.
-@param - active - boolean - optional - False par défaut, si true ajoute la classe "active" sur l'item.
-@param - disabled - boolean - optional - False par défaut, si true ajoute la classe "active" sur l'item.
-@param - header - boolean - optional - False par défaut, si true ajoute la classe "disabled" sur l'item.
-@param - nestedPos - string - optional - permet de gérer la position du contenu "nested" avant ou après le label (par défaut: 'before', valeurs possibles: 'before', 'after')
-@param - id - string - optional - l'ID du bouton
-@param - class - string - optional - permet d'ajouter une classe CSS au bouton (valeur existantes dans le CSS: 'primary', 'secondary', 'tertiary', 'danger', 'expand')
-@param - params - string - optional - permet d'ajouter des parametres HTML au bouton
-#nested : optionnal - permet d'ajouter des éléments après le label de l'item
- -->
+- label (string, required): The menu item text.
+- action (string, optional): URL for link items or button type ('button', 'submit') for button items. Default: ''.
+- type (string, optional): Item type ('link' for anchor, other for button). Default: 'link'.
+- active (boolean, optional): If true, marks the item as active. Default: false.
+- disabled (boolean, optional): If true, disables the item. Default: false.
+- header (boolean, optional): If true, renders the item as a dropdown header. Default: false.
+- class (string, optional): Additional CSS class(es) for the item. Default: ''.
+- nestedPos (string, optional): Position of nested content ('before', 'after'). Default: 'before'.
+- id (string, optional): The unique identifier for the item. Default: ''.
+- params (string, optional): Additional HTML attributes for the item. Default: ''.
+
+Snippet:
+
+    Link item:
+
+    <@cDropdownItem label='My account' action='jsp/site/Portal.jsp?page=account' />
+
+    Active button item:
+
+    <@cDropdownItem label='Current page' type='button' action='button' active=true />
+
+-->
 <#macro cDropdownItem label action='' type='link' active=false disabled=false header=false class='' nestedPos='before' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <li>
@@ -83,12 +119,23 @@ Parameters:
 </#if>
 </li>
 </#macro>
-<#-- Macro: cDropdownItemDivider
+<#--
+Macro: cDropdownItemDivider
 
-Description: Affiche une séparation entre deux items.
+Description: Generates a horizontal divider line between dropdown menu items.
 
 Parameters:
- -->
+None.
+
+Snippet:
+
+    Divider between dropdown items:
+
+    <@cDropdownItem label='Edit' action='#' />
+    <@cDropdownItemDivider />
+    <@cDropdownItem label='Delete' action='#' />
+
+-->
 <#macro cDropdownItemDivider>
 <li><hr class="dropdown-divider"></li>
 </#macro>

@@ -10,6 +10,21 @@ Parameters:
 - theme (string, optional): the theme of the notifications (a string corresponding to a Bootstrap color class).
 - duration (integer, optional): the duration in milliseconds that the notifications should be displayed before disappearing.
 - pool (integer, optional): the maximum number of notifications that can be displayed at the same time.
+
+Snippet:
+
+    Initialize a toast container with default settings:
+
+    <@initToast>
+        <@addToast title='Notification' content='Operation completed successfully.' />
+    </@initToast>
+
+    Initialize a toast container with auto-hide and custom position:
+
+    <@initToast position='bottom-0 end-0' autohide=true duration=3000>
+        <@addToast title='Info' content='Your changes have been saved.' />
+    </@initToast>
+
 -->
 <#macro initToast class='' id='' position='top-0 end-0' showAll=true autohide=false animation=true duration=2000 params='' deprecated...>
 <@deprecatedWarning args=deprecated />

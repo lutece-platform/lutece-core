@@ -1,38 +1,57 @@
-<#-- Macro: cInputDate                                
-Parameters:
-@param - name - string - required - Nom du champ
-@param - label - string - required - Label asssocié au champs                   
-@param - id - string - Default '', Id de l'input                           
-@param - class - string -  Default 'custom-checkbox', classe css à ajouter à l'input
-@param - type - string - Default '', type de l'input par default 'datepicker', sinon cela peut être un champ de type date HTML5.
-@param - icon - boolean - Default true, affiche l'icone "agenda" à droite de l'input
-@param - options - object - Default {} Voir les paramètres possibles disponible pour Vanilla JS Datepicker -https://mymth.github.io/vanillajs-datepicker/#/ - 
-@param - value : - string - Default '', Valeur par défaut de l'input         
-@param - placeholder- string - Default '' , placeholder de l'input                        
-@param - autocomplete- string - Default '' , autocomplete pour l'input https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/autocomplete       
-@param - required - boolean - Default false, champ obligatoire ou non                 
-@param - disabled - boolean - Default false, champ désactivé ou non
-@param - readonly - boolean - Default false, champ en lecture seule ou non                
-@param - helpMsg - string - Default '', Message d'aide pour l'input                                   
-@param - errorMsg - string - Default '', Message d'erreur pour l'input                      
-@param - params - string - Default '', Tous autres paramètres à ajouter à l'input                   
-@param - #nested - string - Default '', Contenu textuel a ajouter après l'input
+<#--
+Macro: cInputDate
 
-@sample : <@cFormRow>
-    <@cCol cols='3'>
-        <@cLabel label='Date picker' for='datepicker' />
-        <@cInputDate id='datepicker_1' label='' name='date1' value=.now?date?iso_utc />
-    </@cCol>
-    <@cCol cols='4'>
-        <@cLabel label='Date picker sans icone' for='datepicker' />
-        <@cInputDate id='datepicker_2' label='' name='date2' icon=false />
-    </@cCol>
-    <@cCol cols='3'>
-        <@cLabel label='Date picker HTML' for='datepicker' />
-        <@cInputDate id='datepicker_3' label='' name='date3' type='date' />
-    </@cCol>
-</@cFormRow>
- -->
+Description: Generates a date input field with optional Vanilla JS Datepicker integration, calendar icon, and HTML5 date fallback.
+
+Parameters:
+- name (string, required): the name attribute of the input.
+- label (string, required): the label associated to the input.
+- id (string, optional): the ID of the input. Default: ''.
+- class (string, optional): CSS class for the input. Default: ''.
+- type (string, optional): the input type, 'datepicker' for JS datepicker or 'date' for HTML5 date. Default: 'datepicker'.
+- icon (boolean, optional): displays a calendar icon to the right of the input. Default: true.
+- options (object, optional): Vanilla JS Datepicker options (see https://mymth.github.io/vanillajs-datepicker/#/). Default: {}.
+- value (string, optional): the default value. Default: ''.
+- placeholder (string, optional): the placeholder text. Default: ''.
+- autocomplete (string, optional): the autocomplete attribute value. Default: ''.
+- required (boolean, optional): marks the field as required. Default: false.
+- disabled (boolean, optional): disables the input. Default: false.
+- readonly (boolean, optional): sets the input as readonly. Default: false.
+- helpMsg (string, optional): help message displayed below the input. Default: ''.
+- errorMsg (string, optional): error message displayed on validation failure. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Showcase:
+- desc: "Champ date - @cInputDate"
+- bs: "forms/form-control"
+- newFeature: false
+
+Snippet:
+
+    Basic datepicker:
+
+    <@cInputDate name='birthdate' label='Date of birth' id='birthdate' />
+
+    Datepicker with default value and no icon:
+
+    <@cInputDate name='event_date' label='Event date' id='event_date' value='2026-01-15' icon=false />
+
+    HTML5 date input:
+
+    <@cInputDate name='start_date' label='Start date' id='start_date' type='date' />
+
+    Datepicker in a form row:
+
+    <@cFormRow>
+        <@cCol cols='4'>
+            <@cInputDate id='date_start' label='From' name='date_start' />
+        </@cCol>
+        <@cCol cols='4'>
+            <@cInputDate id='date_end' label='To' name='date_end' />
+        </@cCol>
+    </@cFormRow>
+
+-->
 <#macro cInputDate name label id='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' required=false disabled=false readonly=false helpMsg='' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
@@ -53,24 +72,38 @@ Parameters:
 </@cInputGroup>
 <#if type='datepicker'><@getThemeDatePicker idField=idLocal options=options /></#if>
 </#macro>
-<#-- Macro: cInputDateRange                                
+<#--
+Macro: cInputDateRange
+
+Description: Generates a date range picker with two date inputs (start and end) inside an input group, with optional datepicker integration.
+
 Parameters:
-@param name  : required                                
-@param label : required                                
-@param id : default 'dtRange'                           
-@param class : default ''                
-@param type  : default 'datepicker' : datepicker / date 
-@param icon : boolean default true                      
-@param options : object default {}                      
-@param value : default ''                               
-@param placeholder : Array default ['','']              
-@param required : Array default [false,false]           
-@param disabled : Array default [false,false]           
-@param readonly : Array default [false,false]           
-@param helpMsg : default ''                             
-@param errorMsg : default ''                            
-@param params : default ''                              
-@param #nested                                          
+- name (string, required): the name attribute prefix for the date inputs.
+- label (string, required): the label associated to the date range.
+- id (string, optional): the ID of the date range container. Default: 'dtRange'.
+- class (string, optional): CSS class for the container. Default: ''.
+- type (string, optional): the input type, 'datepicker' for JS datepicker or 'date' for HTML5 date. Default: 'datepicker'.
+- icon (boolean, optional): displays a calendar icon. Default: true.
+- options (object, optional): Vanilla JS Datepicker options. Default: {}.
+- value (string, optional): the default value. Default: ''.
+- placeholder (array, optional): placeholder texts for start and end inputs. Default: ['',''].
+- required (array, optional): required flags for start and end inputs. Default: [false,false].
+- disabled (array, optional): disabled flags for start and end inputs. Default: [false,false].
+- readonly (array, optional): readonly flags for start and end inputs. Default: [false,false].
+- helpMsg (string, optional): help message displayed below the inputs. Default: ''.
+- errorMsg (string, optional): error message displayed on validation failure. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic date range picker:
+
+    <@cInputDateRange name='period' label='Select a period' />
+
+    Date range with placeholders and required start date:
+
+    <@cInputDateRange name='stay' label='Stay dates' placeholder=['Check-in','Check-out'] required=[true,true] />
+
 -->  
 <#macro cInputDateRange name label id='dtRange' class='' type='datepicker' icon=true options={} value='' placeholder=['',''] required=[false,false] disabled=[false,false] readonly=[false,false] helpMsg='' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

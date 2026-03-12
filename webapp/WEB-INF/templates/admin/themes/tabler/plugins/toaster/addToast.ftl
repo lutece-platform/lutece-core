@@ -4,6 +4,21 @@ Parameters:
 - title (string): the title of the notification.
 - content (string): the content of the notification.
 - type (string, optional): the type of the notification
+
+Snippet:
+
+    Add a toast with a title and content:
+
+    <@addToast title='Success' content='The record has been saved.' />
+
+    Add a toast with a custom class and no dismiss button:
+
+    <@addToast title='' content='Auto-saving in progress...' class='text-bg-info' dismiss=false />
+
+    Add a toast with a title image and additional info:
+
+    <@addToast title='New Message' content='You have a new notification.' titleImg='themes/admin/shared/images/avatar.png' titleInfo='2 min ago' />
+
 -->
 <#macro addToast title='' content='' titleImg='' titleInfo='' dismiss=true class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

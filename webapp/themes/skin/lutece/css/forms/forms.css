@@ -1,6 +1,9 @@
 /*** 										***/
-/*** Forms Elemnts							***/
+/*** Forms Elements							***/
 /***  										***/
+.form-control {
+    line-height: 3 !important;
+}
 
 /* Autocomplete */
 .autocomplete-suggestions {

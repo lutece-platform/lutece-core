@@ -6,14 +6,8 @@
 		<!DOCTYPE html>
         <html>
             <head>
-                <title>
-                    Fiche du plugin
-                    <xsl:value-of select="name" />
-                </title>
-                <link rel="stylesheet" type="text/css" href="../../css/portal_admin.css" title="lutece_admin" />
+                <title>Fiche du plugin <xsl:value-of select="name" /></title>
             </head>
-
-
             <center>
                 <table cellpadding="0" cellspacing="0" width="80%" border="0">
                     <tr>

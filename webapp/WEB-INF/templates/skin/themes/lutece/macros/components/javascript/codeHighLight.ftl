@@ -1,7 +1,14 @@
 <#--
 Macro: codeHighLight
 
-Description: Adds syntax highlighting to code blocks using the Prism.js library.
+Description: Generates the CSS and JavaScript includes for Prism.js syntax highlighting on code blocks.
+
+Snippet:
+
+    Basic usage (include once in the page):
+
+    <@codeHighLight />
+
 -->
 <#macro codeHighLight >
 <link rel="stylesheet" href="js/admin/lib/prism/prism.css">

@@ -4,6 +4,31 @@ Parameters:
 - title (string, optional): the title to display on the login page.
 - site_name (string, optional): the name of the site to display on the login page.
 - layout (string, optional): the name of the site to display on the login page.
+
+Snippet:
+
+    Render the login page with default settings:
+
+    <@adminLoginPage>
+        <h2 class="card-title text-center mb-4">Sign In</h2>
+        <@tform action='jsp/admin/AdminLogin.jsp' method='post'>
+            <@formGroup labelKey='Username' labelFor='username'>
+                <@input type='text' name='username' id='username' />
+            </@formGroup>
+            <@formGroup labelKey='Password' labelFor='password'>
+                <@input type='password' name='password' id='password' />
+            </@formGroup>
+            <@button type='submit' color='primary' class='w-100' title='Login' />
+        </@tform>
+    </@adminLoginPage>
+
+    Render the login page with a custom site name:
+
+    <@adminLoginPage title='Admin Login' site_name='My Application'>
+        <h2 class="card-title text-center mb-4">Welcome Back</h2>
+        <#nested>
+    </@adminLoginPage>
+
 -->
 <#macro adminLoginPage title='' site_name='LUTECE' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -14,7 +39,7 @@ Parameters:
 <#local loginIsCoverContain><#attempt>${dskey('portal.site.site_property.layout.login.cover.contain.checkbox')?number}<#recover>0</#attempt></#local>
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
 </head>
-<body class="loaded<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<#if params!=''> ${params}</#if>>
+<body class="<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<#if params!=''> ${params}</#if>>
 <main class="<#if loginIsCover?number == 1>row g-0 flex-fill<#else>page page-center"</#if>">
 <#if loginIsCover?number == 0 && loginLayoutImg==''><div class="container container-tight py-4"> </#if>
 <#if loginIsCover?number == 1>
@@ -90,9 +115,7 @@ document.addEventListener( "DOMContentLoaded", function(){
 	const backImages = '#dskey{portal.site.site_property.back_images}'.split(',');
 	login.randomImages = aImages;
 	login.randomBgImages = backImages;
-	<#if loginLayoutImg != '' >
-	login.element = '.bg-cover';
-	</#if>	
+	<#if loginLayoutImg != '' >login.element = '.bg-cover';</#if>	
 	login.init( )
 	/* Password Toggler */
 	password.initPassToggler( );

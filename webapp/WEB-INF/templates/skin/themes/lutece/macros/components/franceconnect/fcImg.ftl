@@ -1,9 +1,25 @@
-<#-- Macro fcImg 
+<#--
+Macro: fcImg
 
-Description: Image SVG Franceconnect avec texte
+Description: Generates the official FranceConnect SVG logo image with an optional text label.
 
 Parameters:
-@param - label - string - optionnal - Texte par défaut '' 
+- label (string, optional): Text displayed above the FranceConnect brand name inside the SVG. Default: ''.
+
+Showcase:
+- desc: Image France Connect - @fcImg
+- newFeature: false
+
+Snippet:
+
+    Basic usage:
+
+    <@fcImg />
+
+    With a custom label:
+
+    <@fcImg label='Se connecter avec' />
+
 -->
 <#macro fcImg label='' deprecated...>
 <@deprecatedWarning args=deprecated />

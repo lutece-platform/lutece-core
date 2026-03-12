@@ -1,13 +1,29 @@
-<#-- Macro fcBtnImg 
+<#--
+Macro: fcBtnImg
 
-Description: Bouton franceconnect avec image
+Description: Generates a FranceConnect authentication button with the official branded image, either as a button or a link.
 
 Parameters:
-@param - label - string - optionnal - Texte par défaut 'Créer mon compte avec' 
-@param - linkClass - string - optional - Classe CSS pour les liens
-@param - type - string - optional - 'button' par défaut peut être 'link'
-@param - btnClass - string - optional - 'fr-connect m-0' classe CSS pour le bouton
-@param - url - string - optional - Url pour le type 'link'
+- label (string, optional): Text displayed above the FranceConnect brand name. Default: 'Créer mon compte avec'.
+- linkClass (string, optional): CSS class applied to the link when type is 'link'. Default: ''.
+- type (string, optional): Render mode, either 'button' or 'link'. Default: 'button'.
+- btnClass (string, optional): CSS class applied to the button element. Default: 'fr-connect m-0'.
+- url (string, optional): URL for the link when type is 'link'. Default: ''.
+
+Showcase:
+- desc: Bouton France Connect - @fcBtnImg
+- newFeature: false
+
+Snippet:
+
+    Basic button usage:
+
+    <@fcBtnImg />
+
+    As a link with custom label:
+
+    <@fcBtnImg type='link' label='Se connecter avec' url='jsp/site/Portal.jsp?page=mylutece&action=doLogin' linkClass='fc-link' />
+
 -->
 <#macro fcBtnImg label='Créer mon compte avec' linkClass='' type='button' btnClass='fr-connect m-0' url='' deprecated...>
 <@deprecatedWarning args=deprecated />

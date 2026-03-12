@@ -29,13 +29,13 @@
 		<@tform action='jsp/admin/site/ModifyPortletStatus.jsp' type=''>
 			<@input type='hidden' name='portlet_id' value=portletId />
 			<@input type='hidden' name='status' value='${portlet_status_unpublished}' />
-			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonSuspend}' buttonIcon='stop  text-danger' size='' hideTitle=['all'] />
+			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonSuspend}' buttonIcon='player-pause text-warning' size='' hideTitle=['all'] />
 		</@tform>
 	<#else>
 		<@tform action='jsp/admin/site/ModifyPortletStatus.jsp' type=''>
 			<@input type='hidden' name='portlet_id' value=portletId />
 			<@input type='hidden' name='status' value='${portlet_status_published}' />
-			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonActivate}' buttonIcon='play  text-success' size='' hideTitle=['all'] />
+			<@button type='submit' color='default' title='#i18n{portal.site.portletPreview.buttonActivate}' buttonIcon='player-play text-success' size='' hideTitle=['all'] />
 		</@tform>
 	</#if>
 	<#if custom_action_list?has_content>

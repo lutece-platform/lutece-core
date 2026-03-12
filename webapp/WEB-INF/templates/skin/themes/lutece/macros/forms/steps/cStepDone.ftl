@@ -1,21 +1,41 @@
-<#-- Macro: cStepDone
+<#--
+Macro: cStepDone
 
-Description: Defines a macro that show a step that has been done
+Description: Generates a completed step in a multi-step form, displaying a check mark, summary content, and an edit button to navigate back to the step.
 
 Parameters:
-@param - step - string - optional - required - Step number
-@param - title - string - optional - required - the title of the step
-@param - idx - boolean - optional - Index of the step
-@param - titleLevel - number - optional - HTML level of the title tag, default 2
-@param - class - string - optional - the CSS class of the element, default '' 
-@param - id - string - optional - the ID of the element, default ''
-@param - actionName - string - optional - Action name for submit step button, default 'action_doGoToStep'
-@param - actionLabel - string - optional - Label for action step button, default '#i18n{portal.theme.labelUpdate}'
-@param - actionAriaLabelKey - string - optional - Aria label for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
-@param - actionHref - string - optional - Url for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
-@param - actionClass - string - optional - Class for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
-@param - actionParams - string - optional - additional HTML attributes for action step button, default '#i18n{portal.theme.ariaLabelUpdate}'
-@param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+- step (string, required): the step number.
+- title (string, required): the title of the step.
+- idx (number, required): the index of the step used for the edit action value.
+- titleLevel (number, optional): HTML heading level for the title tag. Default: 2.
+- actionName (string, optional): action name for the edit/go-to-step button. Default: 'action_doGoToStep'.
+- actionLabel (string, optional): label for the edit button. Default: '#i18n{portal.theme.labelUpdate}'.
+- actionAriaLabelKey (string, optional): i18n key for the ARIA label of the edit button. Default: 'theme.ariaLabelUpdate'.
+- actionHref (string, optional): URL for the edit link (used instead of submit button). Default: ''.
+- actionClass (string, optional): CSS class for the edit button/link. Default: ''.
+- actionParams (string, optional): additional HTML attributes for the edit button. Default: ''.
+- class (string, optional): CSS class for the step section. Default: ''.
+- id (string, optional): the ID of the element. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Showcase:
+- desc: "Étape terminée - @cStepDone"
+- newFeature: false
+
+Snippet:
+
+    Completed step with summary:
+
+    <@cStepDone step='1' title='Personal information' idx=0>
+        <p>John Doe - john.doe@email.com</p>
+    </@cStepDone>
+
+    Completed step with link-based edit action:
+
+    <@cStepDone step='1' title='Account details' idx=0 actionHref='jsp/site/Portal.jsp?page=form&step=1' actionLabel='Edit'>
+        <p>Username: johndoe</p>
+    </@cStepDone>
+
 -->
 <#macro cStepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -23,7 +43,7 @@ Parameters:
 	<@cSection class='step-title'>
         <@cContainer class='d-flex justify-content-between align-items-baseline'>
             <@cTitle class='title' level=titleLevel params='title="${title}"' >
-                <@cText type='span' class='step-number'><svg width="32" height="32" role="img" aria-label="${i18n('theme.labelStepDone', title)?html}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></@cText>
+                <@cText type='span' class='step-number'><svg width="32" height="32" role="img" aria-label="${i18n('portal.theme.labelStepDone', title)?html}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></@cText>
                 <@cText type='span'>${title}</@cText>
             </@cTitle>
             <@cSection type='span' class='d-none d-sm-block pl-2'>

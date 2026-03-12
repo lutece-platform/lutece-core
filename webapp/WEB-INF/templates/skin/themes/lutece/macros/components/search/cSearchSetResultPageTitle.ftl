@@ -1,6 +1,13 @@
-<#-- Macro: cSearchSetResultPageTitle
+<#--
+Macro: cSearchSetResultPageTitle
 
-Description: Modifie le titre de la page en fonction de la query de recherche.
+Description: Generates a JavaScript snippet that appends the search query to the page title for search result pages.
+
+Snippet:
+
+    Basic usage (place on search result page):
+
+    <@cSearchSetResultPageTitle />
 
 -->  
 <#macro cSearchSetResultPageTitle >

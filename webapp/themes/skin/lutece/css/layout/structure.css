@@ -31,6 +31,11 @@ img {
 	height: auto;
 }
 
+.main-content {
+   padding: 30px 0;
+    min-height: 80vh;
+}
+
 .section {
 	padding-top: 40px;
 	padding-bottom: 40px;

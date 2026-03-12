@@ -1,20 +1,43 @@
-<#-- Macro: cBtn
+<#--
+Macro: cBtn
 
-Description: affiche un bouton interactif.
+Description: Generates an interactive button element, rendered as a link when an href is provided.
 
 Parameters:
-@param - id - string - optional - l'ID du bouton
-@param - label - string - required - le titre du bouton
-@param - class - string - optional - permet d'ajouter une classe CSS au bouton (valeur existantes dans le CSS: 'primary', 'secondary', 'tertiary', 'danger', 'expand')
-@param - btnClass - string - optional - permet d'ajouter une classe CSS au label du bouton
-@param - noclass - boolean - optional - permet de supprimer les classes CSS 'btn-' du bouton si pas de href (par défaut: false)
-@param - href - string - optional - si valeur, permet de transformer le bouton en lien avec un attribut href
-@param - type - string - optional - permet de modifier le type de bouton (par défaut: 'submit')
-@param - nestedPos - string - optional - permet de gérer la position du contenu de la macro (par défaut: 'before', valeurs possibles: 'before', 'after')
-@param - disabled - boolean - optional - permet de désactiver le bouton (par défaut: false)
-@param - size - string - optional - permet de choisir la taille du bouton (choix possible: 'mini')
-@param - params - string - optional - permet d'ajouter des parametres HTML au bouton
- -->
+- label (string, required): The button text.
+- class (string, optional): CSS class(es) for the button ('primary', 'secondary', 'tertiary', 'danger', 'expand'). Default: 'primary'.
+- btnClass (string, optional): CSS class(es) applied to the label span. Default: ''.
+- noclass (boolean, optional): If true, removes the 'btn-' prefix classes when no href. Default: false.
+- href (string, optional): If set, renders the button as an anchor link. Default: ''.
+- id (string, optional): The unique identifier for the button. Default: ''.
+- params (string, optional): Additional HTML attributes for the button. Default: ''.
+- type (string, optional): The button type attribute. Default: 'submit'.
+- nestedPos (string, optional): Position of nested content relative to the label ('before', 'after'). Default: 'before'.
+- disabled (boolean, optional): If true, disables the button. Default: false.
+- size (string, optional): Button size ('mini' for smaller). Default: ''.
+
+Showcase:
+- desc: Bouton - @cBtn
+- bs: components/buttons
+- newFeature: false
+
+Snippet:
+
+    Basic submit button:
+
+    <@cBtn label='Submit' class='primary' />
+
+    Link-style button:
+
+    <@cBtn label='View details' class='secondary' href='jsp/site/Portal.jsp?page=details&id=1' />
+
+    Button with icon (nested content):
+
+    <@cBtn label='Download' class='tertiary'>
+        <@cIcon name='download' />
+    </@cBtn>
+
+-->
 <#macro cBtn label class='primary' btnClass='' noclass=false href='' id='' params='' type='submit' nestedPos='before' disabled=false size='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if href=''>

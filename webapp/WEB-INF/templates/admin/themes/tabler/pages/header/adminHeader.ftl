@@ -3,6 +3,17 @@ Macro: adminHeader
 Description: Generates a header section for an administrative page, including a navigation menu and user account menu.
 Parameters:
 - site_name (string, required): the name of the website or application.
+
+Snippet:
+
+    Render the admin header with default site name:
+
+    <@adminHeader />
+
+    Render the admin header with a custom site name:
+
+    <@adminHeader site_name='My Admin Portal' />
+
 -->
 <#macro adminHeader site_name=site_name!'Lutece' admin_url=admin_url deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -25,8 +36,6 @@ Parameters:
 <#local logoWidth><#attempt>${dskey('portal.site.site_property.logo.width')}<#recover>24</#attempt></#local>
 <#local logoHeight><#attempt>${dskey('portal.site.site_property.logo.height')}<#recover>24</#attempt></#local>
 <script>
-document.documentElement.classList.add('loading');
-document.documentElement.classList.add('loaded');
 let localTheme=localStorage.getItem('lutece-tabler-theme')
 <#if adminDarkMode?number==1>
 <#if userDarkMode?number!=1>
@@ -88,12 +97,12 @@ localStorage.setItem( 'lutece-tabler-theme',localTheme );
 					</#if>
 					<#if userDarkMode?number = 1>
 					<div class="nav-item">
-						<a href="?theme=dark" class="nav-link px-0 hide-theme-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Enable dark mode" data-bs-original-title="Enable dark mode">
+						<a href="?theme=dark" class="nav-link px-0 hide-theme-dark" aria-label="#i18n{portal.users.admin_header.labelEnableDarkMode}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelEnableDarkMode}">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
 								<path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
 							</svg>
 						</a>
-						<a href="?theme=light" class="nav-link px-0 hide-theme-light" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Enable light mode" data-bs-original-title="Enable light mode">
+						<a href="?theme=light" class="nav-link px-0 hide-theme-light" aria-label="#i18n{portal.users.admin_header.labelEnableLightMode}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.users.admin_header.labelEnableLightMode}">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-1">
 								<path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
 								<path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7"></path>
@@ -143,14 +152,16 @@ localStorage.setItem( 'lutece-tabler-theme',localTheme );
 									</div>
 								</div>
 								<div class="card-body">
-									<#--  <div class="row">
+									<#--  
+									<div class="row">
 										<div class="col">
 											<a href="#" class="btn btn-2 w-100"> Archive all </a>
 										</div>
 										<div class="col">
 											<a href="#" class="btn btn-2 w-100"> Mark all as read </a>
 										</div>
-									</div>  -->
+									</div>  
+									-->
 								</div>
 							</div>
 						</div>
@@ -158,20 +169,20 @@ localStorage.setItem( 'lutece-tabler-theme',localTheme );
 					</#if>
 					</#if>
 					<div class="nav-item">
-						<a class="nav-link" href="jsp/admin/ManageProperties.jsp" title="#i18n{portal.site.adminFeature.properties_management.name}" >
+						<a class="nav-link" href="jsp/admin/ManageProperties.jsp" title="#i18n{portal.site.adminFeature.properties_management.name}" aria-label="#i18n{portal.site.adminFeature.properties_management.name}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.site.adminFeature.properties_management.name}">
 							<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-home-cog"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 21v-6a2 2 0 0 1 2 -2h1.6" /><path d="M20 11l-8 -8l-9 9h2v7a2 2 0 0 0 2 2h4.159" /><path d="M18 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M18 14.5v1.5" /><path d="M18 20v1.5" /><path d="M21.032 16.25l-1.299 .75" /><path d="M16.27 19l-1.3 .75" /><path d="M14.97 16.25l1.3 .75" /><path d="M19.733 19l1.3 .75" /></svg>
 							<span class="visually-hidden">#i18n{portal.site.adminFeature.properties_management.name}</span>
 						</a>
 					</div>
 					<div class="nav-item">
-						<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
+						<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}" aria-label="#i18n{portal.admindashboard.view_dashboards.title}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="#i18n{portal.admindashboard.view_dashboards.title}">
 							<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-adjustments-horizontal"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M14 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 6l8 0" /><path d="M16 6l4 0" /><path d="M8 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 12l2 0" /><path d="M10 12l10 0" /><path d="M17 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" /><path d="M4 18l11 0" /><path d="M19 18l1 0" /></svg>
 							<span class="visually-hidden">#i18n{portal.admindashboard.view_dashboards.title}</span>
 						</a>
 					</div>
 					</#if>
 				</div>
-				<div class="nav-item dropdown<#if menuVertical == 'vertical'> d-block position-relative</#if>"<#if menuVertical == 'vertical'> style="left:-100px;"</#if>>
+				<div class="nav-item dropdown<#if menuVertical == 'vertical'> d-block position-relative</#if>"<#if menuVertical == 'vertical'> style="left:-100px;"</#if> data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="#i18n{portal.users.admin_header.labelUserMenu}">
 					<a href="#" class="nav-link d-flex lh-1 p-0 px-2<#if menuVertical == 'vertical'> d-none</#if>" data-bs-toggle="dropdown" aria-label="Open user menu">
 						<#local hasAdminAvatar=false />
 						<#if hasAdminAvatar>

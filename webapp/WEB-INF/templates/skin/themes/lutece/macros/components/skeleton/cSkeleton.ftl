@@ -1,9 +1,32 @@
-<#-- Macro: cSkeleton
+<#--
+Macro: cSkeleton
 
-Description: affiche un "squelette" lors qu chargement de données.
+Description: Generates a skeleton loading placeholder to display while content is being fetched, with configurable bone types.
 
 Parameters:
-@param - bones - json - optional - permet de définir la liste des items du skeleton, si non défini affiche un squelette par défaut
+- bones (sequence, optional): List of bone type strings defining the skeleton layout ('text', 'short', 'image', 'button'). Default: {} (displays a single text bone).
+- id (string, optional): HTML id attribute. Default: ''.
+- class (string, optional): Additional CSS classes. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Showcase:
+- desc: Skeleton loader - @cSkeleton
+- newFeature: false
+
+Snippet:
+
+    Default skeleton (single text line):
+
+    <@cSkeleton />
+
+    Custom skeleton with multiple bone types:
+
+    <@cSkeleton bones=['image', 'text', 'short', 'button'] />
+
+    Skeleton with custom class:
+
+    <@cSkeleton bones=['text', 'text', 'short'] class='my-4' id='loading-placeholder' />
+
 -->  
 <#macro cSkeleton bones={} id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated /> 

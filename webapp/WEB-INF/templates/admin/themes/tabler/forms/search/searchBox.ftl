@@ -1,3 +1,28 @@
+<#--
+Macro: searchBox
+
+Description: Generates a pill-shaped search box container with a built-in submit button. Wraps searchInput and searchSeparator elements. Includes JavaScript to handle enter key submission and a loading spinner animation on the search button.
+
+Parameters:
+- id (string, required): the ID for the search box container element.
+
+Snippet:
+
+    Simple search box with one input:
+
+    <@searchBox id='simpleSearch'>
+        <@searchInput name='keyword' label='Search' />
+    </@searchBox>
+
+    Search box with multiple inputs and a separator:
+
+    <@searchBox id='advancedSearch'>
+        <@searchInput name='firstName' label='First name' />
+        <@searchSeparator type='and' content='AND' />
+        <@searchInput name='lastName' label='Last name' />
+    </@searchBox>
+
+-->
 <#macro searchBox id deprecated...>
 <@deprecatedWarning args=deprecated />
   <div id="${id}" class="card rounded-pill px-4 py-0 pe-2 bg-form mb-0">

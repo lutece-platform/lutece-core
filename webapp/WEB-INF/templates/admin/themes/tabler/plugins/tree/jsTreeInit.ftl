@@ -10,6 +10,17 @@ Parameters:
 - multiple (boolean, optional): whether multiple nodes can be selected.
 - plugins (list, optional): a list of jstree plugins to use.
 - style (string, optional): the name of the jstree theme to use.
+
+Snippet:
+
+    Initialize a jstree with default settings (deprecated):
+
+    <@jsTreeInit id='my-tree' />
+
+    Initialize a jstree with search and multiple selection (deprecated):
+
+    <@jsTreeInit id='page-tree' btntreeSearch='tree_search' multiple=true plugins=['search', 'checkbox'] />
+
 -->
 <#macro jsTreeInit id='tree' btntreeSearch='treesearch' multiple=false plugins=[] style='proton/style.min.css' deprecated...>
 <@deprecatedWarning args=deprecated />>

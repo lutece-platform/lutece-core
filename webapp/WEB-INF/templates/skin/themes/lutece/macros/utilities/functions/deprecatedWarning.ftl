@@ -1,8 +1,18 @@
 <#-- INTERNAL FUNCTIONS -->
-<#-- Macro: deprecatedWarning
-Description: Generates a warning message for deprecated or incorrect arguments.
+<#--
+Macro: deprecatedWarning
+
+Description: Generates an HTML comment warning when deprecated or unrecognized arguments are passed to a macro.
+
 Parameters:
-- args (map, optional): a map of arguments and their values.
+- args (map, optional): A map of deprecated argument names and their values. Default: [].
+
+Snippet:
+
+    Usage inside a macro that captures deprecated arguments:
+
+    <@deprecatedWarning args=deprecated />
+
 -->
 <#macro deprecatedWarning args=[] >
 <#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>

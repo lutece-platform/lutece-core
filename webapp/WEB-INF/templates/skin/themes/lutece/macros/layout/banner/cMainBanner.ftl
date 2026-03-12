@@ -1,15 +1,36 @@
-<#-- Macro: cMainBanner
+<#--
+Macro: cMainBanner
 
-Description: affiche une bannière.
+Description: Generates a main banner section for the site, with optional background image, title, and home-only display mode.
 
 Parameters:
-@param - id - string - required - identifiant unique de la bannière - par défaut 'main-banner'
-@param - class - string - optional - classe(s) css de la bannière  - par défaut vide
-@param - title - string - required - titre de la bannière - par défaut variable 'favourite', nom du site
-@param - title Class- string - required - Classe CSS à ajouter au titre de la bannière - par défaut vide
-@param - onlyHome - boolean - required - si true, le site affiche la bannière que sur la première page - par défaut false défnie par la variable 'isBannerOnlyHome'
-@param - imageSrc - string - required - Chemin vers une image. Attention cette image sera placée en fond et couvrira la totalité de taille de la bannière  - par défaut vide, définie par la variable 'urlDefaultBannerImage'
-@param - params - string - optional - permet d'ajouter des paramètres HTML à la bannière
+- title (string, required): Banner title text. Default: '${favourite!}'.
+- titleClass (string, optional): CSS class added to the banner title. Default: ''.
+- onlyHome (boolean, required): If true, the banner is only displayed on the home page. Default: isBannerOnlyHome.
+- imageSrc (string, required): Path to a background image covering the full banner area. Default: urlDefaultBannerImage.
+- class (string, optional): Additional CSS class(es) for the banner. Default: ''.
+- id (string, optional): Unique identifier for the banner element. Default: 'main-banner'.
+- params (string, optional): Additional HTML attributes for the banner element. Default: ''.
+
+Showcase:
+- desc: "Bandeau principal - @cMainBanner"
+- guide: page-accueil
+- newFeature: false
+
+Snippet:
+
+    Basic usage:
+
+    <@cMainBanner title='My Portal'>
+        <p>Welcome to our portal</p>
+    </@cMainBanner>
+
+    Banner with background image, displayed only on home page:
+
+    <@cMainBanner title='City Services' titleClass='text-white' onlyHome=true imageSrc='images/banner.jpg' class='banner-lg'>
+        <p>Discover our digital services</p>
+    </@cMainBanner>
+
 -->
 <#macro cMainBanner title='${favourite!}' titleClass='' onlyHome=isBannerOnlyHome imageSrc=urlDefaultBannerImage class='' id='main-banner' params=''  >
 <#local onlyHome=isBannerOnlyHome!onlyHome />

@@ -1,11 +1,23 @@
 <#-- INTERNAL FUNCTIONS -->
 <#--
-* Generates a "random" integer between min and max (inclusive)
-*
-* Note the values this function returns are based on the current
-* second the function is called and thus are highly deterministic
-* and SHOULD NOT be used for anything other than inconsequential
-* purposes, such as picking a random image to display.
+Function: random
+
+Description: Generates a pseudo-random number based on the current timestamp. This function is deterministic and should only be used for inconsequential purposes such as picking a random image or generating unique IDs.
+
+Parameters:
+- None.
+
+Snippet:
+
+    Generate a random-based ID:
+
+    <#assign uniqueId = 'element-' + random() />
+
+    Pick a random CSS class:
+
+    <#assign classes = ['bg-primary', 'bg-secondary', 'bg-info'] />
+    <div class="${classes[random()?floor % classes?size]}">Random background</div>
+
 -->
 <#assign rnd=turnoverstr(.now?long?string)?number />
 <#function random >

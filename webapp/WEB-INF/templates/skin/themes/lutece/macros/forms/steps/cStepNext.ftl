@@ -1,14 +1,30 @@
-<#-- Macro: cStepNext
+<#--
+Macro: cStepNext
 
-Description: Defines a macro that show a next step banner
+Description: Generates a banner for a future (upcoming) step in a multi-step form, displaying the step number and title in a dimmed state.
 
 Parameters:
-@param - step - string - optional - required - Step number
-@param - title - string - optional - required - the title of the step
-@param - titleLevel - number - optional - HTML level of the title tag, default 2
-@param - class - string - optional - the CSS class of the element, default '' 
-@param - id - string - optional - the ID of the element, default ''
-@param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+- step (string, required): the step number.
+- title (string, required): the title of the step.
+- titleLevel (number, optional): HTML heading level for the title tag. Default: 2.
+- class (string, optional): CSS class for the step section. Default: ''.
+- id (string, optional): the ID of the element. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Showcase:
+- desc: "Étape suivante - @cStepNext"
+- newFeature: false
+
+Snippet:
+
+    Next step banner:
+
+    <@cStepNext step='3' title='Payment details' />
+
+    Next step with custom heading level:
+
+    <@cStepNext step='4' title='Confirmation' titleLevel=3 />
+
 -->
 <#macro cStepNext step title titleLevel=2 class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

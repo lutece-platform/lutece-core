@@ -19,6 +19,24 @@ Parameters:
 - disabled (boolean, optional): whether or not the button is disabled.
 - iconPosition (string, optional): the position of the icon inside the button, such as "left" or "right".
 - dropdownMenu (boolean, optional): whether or not to include a dropdown menu inside the button.
+
+Snippet:
+
+    Primary link button with icon:
+
+    <@aButton href='jsp/admin/ManageUsers.jsp' buttonIcon='users' title='Manage Users' color='primary' />
+
+    Secondary small button opening in a new tab:
+
+    <@aButton href='https://lutece.paris.fr' buttonIcon='external-link' title='Documentation' color='secondary' size='sm' target='_blank' />
+
+    Link button with dropdown menu:
+
+    <@aButton href='#' title='Export' buttonIcon='download' color='primary' id='export-menu' dropdownMenu=true>
+        <a class="dropdown-item" href="export.jsp?format=csv">CSV</a>
+        <a class="dropdown-item" href="export.jsp?format=pdf">PDF</a>
+    </@aButton>
+
 -->
 <#macro aButton name='' id='' href='' target='' size='' color='primary' style='btn' align='' class='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -52,12 +70,12 @@ Parameters:
 </#if>
 <a class="${style}<#if buttonSize!=''> btn-${buttonSize}</#if><#if color!=''> ${buttonColor}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 	<#if buttonIcon!='' && iconPosition='left'>
-		<#local buttonIcon = buttonIcon + ' me-1' />
+		<#local buttonIcon = buttonIcon  />
 		<@icon style=buttonIcon />
 	</#if>
 	<span class="${displayTitleClass}">${title}</span>
 	<#if buttonIcon!='' && iconPosition='right'>
-		<#local buttonIcon = buttonIcon + ' ms-1' />
+		<#local buttonIcon = buttonIcon  />
 		<@icon style=buttonIcon />
 	</#if>
 	<#if !dropdownMenu>

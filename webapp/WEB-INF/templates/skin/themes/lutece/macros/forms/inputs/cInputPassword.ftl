@@ -1,29 +1,50 @@
-<#-- Macro: cInputPassword                               
+<#--
+Macro: cInputPassword
+
+Description: Generates a password input field with optional show/hide toggle button, password strength meter, and password generation support.
+
 Parameters:
-@param - name - string - required - Nom du champ
-@param - name - string - optionnal - Libellé du champ
-@param - btnShowPassword - boolean - Default true, affiche le bouton pour afficher le mot de passe
-@param - passwordMeter - boolean - Default false, affiche les informations de force du mot de passe
-@param - pmLabel - string - Default '#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' Label asssocié ua message sur la force du mot de passe
-@param - pmUrl - string - Default '' Url to generate password
-@param - pmConfirmFieldId - string - Default '' If not empty, the field will be used to link the confirm field by id
-@param - id - string - Default '', Id de l'input                           
-@param - class - string -  Default 'custom-checkbox', classe css à ajouter à l'input
-@param - size - string - Default '', Size of input (sm, lg)
-@param - maxlength - number - Maximum length of the input
-@param - value : - string - Default '', Valeur par défaut de l'input         
-@param - placeholder- string - Default '' , placeholder de l'input
-@param - autocomplete- string - Default '' , autocomplete pour l'input https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/autocomplete                         
-@param - required - boolean - Default true, champ obligatoire ou non                 
-@param - disabled - boolean - Default false, champ désactivé ou non
-@param - readonly - boolean - Default false, champ en lecture seule ou non                
-@param - helpMsg - string - Default '#i18n{portal.theme.labelPasswordHelp}', Message d'aide pour l'input                                   
-@param - errorMsg - string - Default '', Message d'erreur pour l'input                      
-@param - params - string - Default '', Tous autres paramètres à ajouter à l'input                   
+- name (string, required): the name attribute of the input.
+- label (string, optional): the label text. Default: '#i18n{portal.theme.labelPassword}'.
+- btnShowPassword (boolean, optional): displays a button to toggle password visibility. Default: true.
+- passwordMeter (boolean, optional): displays password strength indicator. Default: false.
+- pmLabel (string, optional): label for the password strength message. Default: '#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}'.
+- pmUrl (string, optional): URL to generate a password via AJAX. Default: ''.
+- pmConfirmFieldId (string, optional): ID of the confirmation password field to sync generated passwords. Default: ''.
+- placeholder (string, optional): the placeholder text. Default: ''.
+- autocomplete (string, optional): the autocomplete attribute value. Default: ''.
+- class (string, optional): CSS class for the input. Default: ''.
+- id (string, optional): the ID of the input. Default: ''.
+- size (string, optional): size suffix for form-control class, 'sm' or 'lg'. Default: ''.
+- value (string, optional): the default value. Default: ''.
+- required (boolean, optional): marks the field as required. Default: true.
+- disabled (boolean, optional): disables the input. Default: false.
+- maxlength (number, optional): maximum character length. Default: 100.
+- helpMsg (string, optional): help message displayed below the input. Default: '#i18n{portal.theme.labelPasswordHelp}'.
+- errorMsg (string, optional): error message displayed on validation failure. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
 
-@sample : 
+Showcase:
+- desc: "Champ mot de passe - @cInputPassword"
+- bs: "forms/form-control"
+- newFeature: false
 
- -->
+Snippet:
+
+    Basic password input:
+
+    <@cInputPassword name='password' />
+
+    Password with strength meter and generator:
+
+    <@cInputPassword name='new_password' id='new_password' passwordMeter=true />
+
+    Password with confirmation field sync:
+
+    <@cInputPassword name='password' id='password' passwordMeter=true pmConfirmFieldId='confirm_password' />
+    <@cInputPassword name='confirm_password' id='confirm_password' label='Confirm password' passwordMeter=false />
+
+-->
 <#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='#i18n{portal.theme.labelPasswordHelp}' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local passId><#if id !=''>${id!}<#else>${name!}</#if></#local>

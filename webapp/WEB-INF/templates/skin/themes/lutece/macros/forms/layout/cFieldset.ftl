@@ -1,20 +1,55 @@
-<#-- Macro: cFieldset
+<#--
+Macro: cFieldset
 
-Description: permet de définir le container d'un formulaire.
+Description: Generates a fieldset container with an optional legend, help message, required indicator, and ARIA attributes for accessibility.
 
 Parameters:
+- legend (string, optional): the legend text. Default: ''.
+- legendClass (string, optional): CSS class for the legend. Default: ''.
+- role (string, optional): ARIA role attribute for the fieldset. Default: 'group'.
+- class (string, optional): CSS class for the fieldset. Default: ''.
+- id (string, optional): the ID of the fieldset. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+- for (string, optional): links an ID with the fieldset. Default: ''.
+- helpMsg (string, optional): help message for the fieldset. Default: ''.
+- helpPos (string, optional): position of the help message, 'top' (after legend) or 'after' (after content). Default: 'top'.
+- showLabel (boolean, optional): displays or hides the legend. Default: true.
+- required (boolean, optional): displays a required asterisk (*) after the legend. Default: false.
 
-@param - legend - string - optional - permet de définir la légende du fieldset, défaut '' 
-@param - legendClass - string - optional - ajoute une classe CSS à la légende du fieldset
-@param - role - string - optional - permet de définir la valeur de l'attribut 'aria-label' du formulaire
-@param - class - string - optional - ajoute une classe CSS au formulaire
-@param - id - string - optional - l'ID du formulaire
-@param - params - string - optional - permet d'ajouter des parametres HTML au formulaire
-@param - for - string - optional - permet de lier un id avec le fieldset
-@param - helpMsg - string - optional - permet de définir le message d'aide sur le fieldset
-@param - helpPos - string - optional - par défaut "top" sinon "after" permet de définir la position le message d'aide sur le fieldset, par défaut au dessus du contenu après la légende
-@param - showLabel - string - optional - permet de définir si la legend est affichée ou pas
-@param - required - string - optional - permet d'afficher le signe * indiquant que le champs est obligatoire
+Showcase:
+- desc: "Fieldset - @cFieldset"
+- bs: "forms/overview"
+- newFeature: false
+
+Snippet:
+
+    Basic fieldset with legend:
+
+    <@cFieldset legend='Personal information'>
+        <@cField label='First name' for='firstname' required=true>
+            <@cInput name='firstname' id='firstname' />
+        </@cField>
+        <@cField label='Last name' for='lastname' required=true>
+            <@cInput name='lastname' id='lastname' />
+        </@cField>
+    </@cFieldset>
+
+    Required fieldset with help message:
+
+    <@cFieldset legend='Contact details' required=true helpMsg='Please fill in all required fields.'>
+        <@cField label='Email' for='email'>
+            <@cInput name='email' id='email' type='email' />
+        </@cField>
+    </@cFieldset>
+
+    Fieldset with hidden legend:
+
+    <@cFieldset legend='Address section' showLabel=false>
+        <@cField label='Address' for='address'>
+            <@cInput name='address' id='address' />
+        </@cField>
+    </@cFieldset>
+
 -->
 <#macro cFieldset legend='' legendClass='' role='group' class='' id='' params='' for='' helpMsg='' helpPos='top' showLabel=true required=false deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -25,4 +60,33 @@ Parameters:
 <#nested>
 <#if helpPos == 'after' && helpMsg !=''><@cFormHelp cId helpMsg /></#if>
 </fieldset>
+</#macro>
+<#--
+Macro: cLegend
+
+Description: Generates a standalone legend element for a fieldset with optional visibility control.
+
+Parameters:
+- label (string, optional): the legend text. Default: ''.
+- showLabel (boolean, optional): displays or hides the legend. Default: true.
+- class (string, optional): CSS class for the legend. Default: ''.
+- id (string, optional): the ID of the legend. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Snippet:
+
+    Basic legend:
+
+    <@cLegend label='Billing address' />
+
+    Hidden legend for accessibility:
+
+    <@cLegend label='Filter options' showLabel=false />
+
+-->
+<#macro cLegend label='' showLabel=true class='' id='' params='' deprecated...>
+<@deprecatedWarning args=deprecated />
+<legend <#if class!=''>class="${class!}<#if !showLabel> visually-hidden</#if>"</#if> <#if id!=''>id="${id}"</#if>>
+<#if label!=''>${label!} </#if><#nested>
+</legend>
 </#macro>

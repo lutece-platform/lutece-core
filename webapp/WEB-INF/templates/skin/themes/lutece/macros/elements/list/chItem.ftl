@@ -1,11 +1,27 @@
-<#-- Macro: chItem
+<#--
+Macro: chItem
 
-Description: affiche un élément liste li.
+Description: Generates an HTML list item (li) element for use inside a chList. Wraps individual entries in ordered or unordered lists.
 
 Parameters:
-@param - id - string - optional - identifiant unique de l'élément de liste
-@param - class - string - optional - classe(s) css de l'élément de liste
-@param - params - string - optional - permet d'ajouter des paramètres HTML à l'élément de liste
+- id (string, optional): Unique identifier for the list item element. Default: ''.
+- class (string, optional): CSS class(es) applied to the list item element. Default: ''.
+- params (string, optional): Additional HTML attributes for the list item element. Default: ''.
+
+Showcase:
+- desc: Élément de liste - @chItem
+- newFeature: false
+
+Snippet:
+
+    Basic usage inside a list:
+
+    <@chList type='u'>
+        <@chItem>First item</@chItem>
+        <@chItem>Second item</@chItem>
+        <@chItem class='active'>Third item (active)</@chItem>
+    </@chList>
+
 -->
 <#macro chItem id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

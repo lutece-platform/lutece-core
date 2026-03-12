@@ -1,5 +1,12 @@
 <#-- Macro: adminHome
 Description: Generates the home page for the admin dashboard. It generates a container for three columns of widgets, which are defined in separate macro calls. The macro also includes a script that enables dragging and dropping of the widgets to rearrange their positions.
+
+Snippet:
+
+    Render the admin home page:
+
+    <@adminHome />
+
 -->
 <#macro adminHome>
 <#assign head = .get_optional_template('../../../../../admin/user/adminHeader.html')>
@@ -20,7 +27,7 @@ Description: Generates the home page for the admin dashboard. It generates a con
 </div>
 <!-- END PAGE HEADER -->
 <@pageWrapper>
-<@div id="dashboard-widgets" class="row row-cols-3 dashboard-widgets">
+<@div id="dashboard-widgets" class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-xl-3 dashboard-widgets">
 <#--  <div id="dashboard-widgets" class="row dashboard-widgets" data-masonry='{"percentPosition": true }'>  -->
 <@columns sm=4 class='widget-col' id='zone-1'>
 ${dashboard_zone_1!}

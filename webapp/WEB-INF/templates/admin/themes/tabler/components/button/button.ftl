@@ -28,6 +28,28 @@ Parameters:
 - formId (string, optional): the ID of the form the button belongs to.
 - buttonTargetId (string, optional): the ID of the target element the button controls.
 - deprecated (string, optional): a message indicating that the macro is deprecated.
+
+Snippet:
+
+    Basic submit button with icon:
+
+    <@button type='submit' name='action_create' buttonIcon='device-floppy' title='Save' color='primary' />
+
+    Secondary cancel button with right-aligned icon:
+
+    <@button type='button' name='action_cancel' buttonIcon='x' title='Cancel' color='secondary' iconPosition='right' cancel=true />
+
+    Button with dropdown menu:
+
+    <@button title='Actions' buttonIcon='settings' color='primary' id='dropdown-actions' dropdownMenu=true>
+        <li><a class="dropdown-item" href="action1.jsp">Action 1</a></li>
+        <li><a class="dropdown-item" href="action2.jsp">Action 2</a></li>
+    </@button>
+
+    Disabled button with hidden title on small screens:
+
+    <@button type='submit' buttonIcon='send' title='Submit form' color='primary' disabled=true hideTitle=['xs','sm'] />
+
 -->
 <#macro button name='' id='' type='button' size='' color='' style='' class='' value='' title='' tooltip='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -86,6 +108,7 @@ Parameters:
 		<#local nestedContent = nestedContent?trim />
 		<#if nestedContent=''><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if></#if>
 		<#if nestedContent!='' && !dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
+		<#if title!='' && dropdownMenu><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'>
 			<#local buttonIcon = buttonIcon />
 			<@icon style=buttonIcon />

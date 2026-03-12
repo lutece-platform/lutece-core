@@ -1,16 +1,31 @@
-<#-- Macro: cAnchor
+<#--
+Macro: cAnchor
 
-Description: permet de créer une liste d'ancres sur une page.
+Description: Generates an anchor navigation list for in-page linking, built from a list of anchor objects.
 
 Parameters:
+- anchors (object, required): List of anchor items, each containing 'href' and 'label' attributes.
+- id (string, optional): The unique identifier for the anchor container. Default: ''.
+- class (string, optional): CSS class(es) for the outer container. Default: ''.
+- listClass (string, optional): CSS class(es) for the list element. Default: ''.
+- listItemClass (string, optional): CSS class(es) for each list item. Default: ''.
+- anchorsClass (string, optional): CSS class(es) for each anchor link. Default: ''.
+- params (string, optional): Additional HTML attributes for the anchor container. Default: ''.
 
-@param - id - string - optional - l'ID de la liste d'ancres
-@param - class - string - optional - ajoute une classe CSS au container de la liste d'ancre
-@param - listClass - string - optional - ajoute une classe CSS au à la liste
-@param - listItemClass - string - optional - ajoute une classe CSS au éléments de la liste
-@param - anchorsClass - string - optional - ajoute une classe CSS aux ancres
-@param - anchors - object - required - Objet list avec items d'ancres. L'objet contient un attribut 'href' et un attribut 'label'
-@param - params - string - optional - permet d'ajouter des parametres HTML à l'ancre
+Showcase:
+- desc: Ancre - @cAnchor
+- newFeature: false
+
+Snippet:
+
+    Basic anchor navigation:
+
+    <@cAnchor anchors=[
+        {'href': '#section-about', 'label': 'About us'},
+        {'href': '#section-services', 'label': 'Our services'},
+        {'href': '#section-contact', 'label': 'Contact'}
+    ] />
+
 -->
 <#macro cAnchor anchors id='' class='' listClass='' listItemClass='' anchorsClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

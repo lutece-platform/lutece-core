@@ -1,19 +1,31 @@
 <@pageContainer>
     <@pageColumn> 
         <@pageHeader title='#i18n{portal.role.manage_roles.boxTitle}'>
-            <@offcanvas targetUrl="jsp/admin/role/CreatePageRole.jsp" targetElement="#create_page_role_form" redirectForm=false id="template-create-page-role" title="#i18n{portal.role.create_role.boxTitle}" btnTitle="#i18n{portal.role.manage_roles.buttonLabelCreate}" btnIcon="plus" position="end" />
+            <@tform method='post' type='inline'>
+				<@formGroup labelFor='search_role' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
+					<@inputGroup>
+						<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+						<@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
+					</@inputGroup>
+				</@formGroup>
+			</@tform>
+            <@offcanvas targetUrl="jsp/admin/role/CreatePageRole.jsp" targetElement="#create_page_role_form" redirectForm=false id="template-create-page-role" title="#i18n{portal.role.create_role.boxTitle}" btnTitle="#i18n{portal.role.manage_roles.buttonLabelCreate}" btnIcon="plus" btnClass="ms-2" position="end" />
         </@pageHeader>
         <#if roles_list?size gt 1>
             <@manageFeature>
             <#list roles_list as role>
                 <#if role.role !="none">
                     <@manageFeatureItem>
-                        <@manageFeatureItemColumn>
-                            <@p>#i18n{portal.role.manage_roles.columnTitleId} : <strong>${role.role}</strong></@p>
-                            <@p>#i18n{portal.role.manage_roles.columnTitleDescription} : <strong>${role.roleDescription}</strong></@p>
-                            <@p>#i18n{portal.role.manage_roles.columnTitleWorkgroup} : <strong>${role.workgroup}</strong></@p>
+                        <@manageFeatureItemColumn auto=true class='searchable' >
+                            <@p class='mb-0'>#i18n{portal.role.manage_roles.columnTitleId} : <strong>${role.role}</strong></@p>
                         </@manageFeatureItemColumn>
-                        <@manageFeatureItemColumn auto=true>
+                         <@manageFeatureItemColumn auto=true class='searchable' >
+                            <@p class='mb-0'>#i18n{portal.role.manage_roles.columnTitleDescription} : <strong>${role.roleDescription}</strong></@p>
+                        </@manageFeatureItemColumn>
+                        <@manageFeatureItemColumn auto=true class='searchable' >
+                            <@p class='mb-0'>#i18n{portal.role.manage_roles.columnTitleWorkgroup} : <strong>${role.workgroup}</strong></@p>
+                        </@manageFeatureItemColumn>
+                        <@manageFeatureItemColumn align='end'>
                             <@offcanvas targetUrl="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}" targetElement="#modify_page_role_form" redirectForm=false id="template-modify-page-role" title="#i18n{portal.util.labelModify} (${role.role})" btnTitle="#i18n{portal.util.labelModify}" btnIcon="edit" btnClass=" me-1" position="end"  />
                             <#if exist_rbac_map?has_content && exist_rbac_map[role.role]>
                                <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.role}' title='#i18n{portal.role.manage_roles.labelViewRbacRole}' buttonIcon='link' color='primary me-1' />
@@ -25,9 +37,18 @@
             </#list>
             </@manageFeature>
         <#else>
-            <@box>
+            <@card>
                 <@empty />
-            </@box>
+            </@card>
         </#if>
     </@pageColumn>
 </@pageContainer>
+<script type="module">
+import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
+const searchInput = document.querySelector("#search_role");
+const searchElementList = document.querySelectorAll(".item-labels");
+new LuteceSearchList( searchInput, searchElementList, {
+	searchableChild: [".searchable"],
+	highlight: true,
+});
+</script>

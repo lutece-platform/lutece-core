@@ -11,6 +11,16 @@ Parameters:
 - mandatory (boolean, optional): whether the input field is mandatory.
 - deprecated: whether the macro is deprecated.
 
+Snippet:
+
+    Standard form label associated with an input:
+
+    <@formLabel labelFor='email' labelKey='#i18n{portal.users.label.email}' />
+
+    Mandatory label with custom class:
+
+    <@formLabel labelFor='password' labelKey='#i18n{portal.users.label.password}' mandatory=true class='form-label fw-bold' />
+
 -->
 <#macro formLabel class='form-label' labelFor='' labelId='' labelKey='' labelKeyDesc='' hideLabel=[] mandatory=false deprecated...>
 <@deprecatedWarning args=deprecated />	

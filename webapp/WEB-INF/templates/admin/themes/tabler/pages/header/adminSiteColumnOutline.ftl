@@ -2,6 +2,21 @@
 Description: Wraps a column's content in an outline that includes the column's ID. It generates a Bootstrap column outline with the given column ID.
 Parameters:
 - columnid (string, optional): the ID of the column to be displayed in the outline.
+
+Snippet:
+
+    Wrap column content with an outline displaying the column ID:
+
+    <@adminSiteColumnOutline columnid='1'>
+        <p>Column 1 content goes here.</p>
+    </@adminSiteColumnOutline>
+
+    Display multiple column outlines side by side:
+
+    <@adminSiteColumnOutline columnid='2'>
+        ${portlet_list_2!}
+    </@adminSiteColumnOutline>
+
 -->
 <#macro adminSiteColumnOutline columnid='' deprecated...>
 <@deprecatedWarning args=deprecated />

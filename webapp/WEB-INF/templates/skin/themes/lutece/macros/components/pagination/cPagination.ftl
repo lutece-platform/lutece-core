@@ -1,15 +1,31 @@
-<#-- Macro: cPagination
+<#--
+Macro: cPagination
 
-Description: permet de créer une pagination pour une liste d'éléments.
+Description: Generates a navigation pagination component from a Lutece Paginator object for browsing paged content on skin pages.
 
 Parameters:
+- paginator (object, required): Lutece Paginator object containing page links, current page, and page count.
+- label (string, optional): Accessible label for the nav element. Default: 'Pagination'.
+- fragment (string, optional): URL fragment appended to pagination links (e.g., anchor id). Default: ''.
+- class (string, optional): Additional CSS classes. Default: ''.
+- id (string, optional): HTML id attribute. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
 
-@param - id - string - optional - l'ID de la pagination  
-@param - class - string - optional - ajoute une classe CSS à la pagination
-@param - paginator - list - required - Objet Paginator du core LUTECE ou liste avec comme attributs les url et index de pagination.
-@param - label - string - optional - permet de définir un libellé à la pagination (par défaut: 'Pagination')
-@param - fragment - string - optional - permet d'ajouter un suffixe à l'url de la page
-@param - params - string - optional - permet d'ajouter des parametres HTML à la pagination
+Showcase:
+- desc: Pagination - @cPagination
+- bs: components/pagination
+- newFeature: false
+
+Snippet:
+
+    Basic pagination:
+
+    <@cPagination paginator=paginator />
+
+    Pagination with anchor fragment:
+
+    <@cPagination paginator=paginator fragment='results' label='Search results pagination' />
+
 -->
 <#macro cPagination paginator label='Pagination' fragment='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

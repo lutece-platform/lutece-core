@@ -1,16 +1,36 @@
-<#-- Macro: cCardFloating
+<#--
+Macro: cCardFloating
 
-Description: affiche une carte flottante au dessus d'un contenu.
+Description: Generates a floating card overlay with an optional close button, suitable for contextual information panels.
 
 Parameters:
+- id (string, required): The unique identifier for the floating card.
+- title (string, optional): The card title text. Default: ''.
+- titleLevel (number, optional): Heading level for the title. Default: 3.
+- class (string, optional): Additional CSS class(es) for the floating card. Default: ''.
+- dismissible (boolean, optional): If true, displays a close button. Default: true.
+- params (string, optional): Additional HTML attributes for the floating card. Default: ''.
 
-@param - id - string - required - l'ID de la carte
-@param - title - string - optional - définit le titre de la carte
-@param - titleLevel - number - optional - défaut 3 - définit le niveau de titre de la carte, pour compatibilité d'accessibilité
-@param - class - string - optional - permet d'ajouter une classe CSS à la carte
-@param - dismissible - boolean - optional - permet d'activer la fermeture de la carte (par défaut: true)
-@param - params - string - optional - permet d'ajouter des parametres HTML à la carte
- -->
+Showcase:
+- desc: Carte flottante - @cCardFloating
+- bs: components/card
+- newFeature: false
+
+Snippet:
+
+    Dismissible floating card:
+
+    <@cCardFloating id='welcome-notice' title='Welcome'>
+        <p>This is your first visit. Discover our new features!</p>
+    </@cCardFloating>
+
+    Non-dismissible floating card:
+
+    <@cCardFloating id='info-panel' title='Important notice' dismissible=false>
+        <p>Scheduled maintenance on Saturday from 2am to 6am.</p>
+    </@cCardFloating>
+
+-->
 <#macro cCardFloating id title='' titleLevel=3 class='' dismissible=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="card card-floating<#if class!=''> ${class!}</#if>" id="${id!}-card" <#if params!=''> ${params!}</#if>>

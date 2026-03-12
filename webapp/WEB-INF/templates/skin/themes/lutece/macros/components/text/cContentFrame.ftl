@@ -1,13 +1,35 @@
-<#-- Macro: cContentFrame
+<#--
+Macro: cContentFrame
 
-Description: affiche une mise en avant de texte.
+Description: Generates a highlighted content frame block with a title and styled wrapper for emphasizing text content on skin pages.
 
 Parameters:
-@param - id - string - optional - identifiant unique de la mise en avant
-@param - class - string - optional - classe(s) css de la mise en avant
-@param - title - string - required - titre de la mise en avant
-@param - titleLevel - number - optional - niveau de titre (par défaut: 2)
-@param - params - string - optional - permet d'ajouter des paramètres HTML à la mise en avant
+- title (string, required): Title displayed in the content frame header.
+- class (string, optional): CSS classes for the frame container. Default: 'content-frame-primary'.
+- titleLevel (number, optional): Heading level for the title. Default: 2.
+- titleClass (string, optional): Additional CSS classes for the title element. Default: ''.
+- contentClass (string, optional): Additional CSS classes for the content wrapper. Default: ''.
+- id (string, optional): HTML id attribute. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Showcase:
+- desc: Mise en avant - @cContentFrame
+- newFeature: false
+
+Snippet:
+
+    Basic content frame:
+
+    <@cContentFrame title='Important information'>
+        <p>Please read the following instructions carefully.</p>
+    </@cContentFrame>
+
+    Content frame with custom style:
+
+    <@cContentFrame title='Note' class='content-frame-warning' titleLevel=3 contentClass='p-3'>
+        <p>This action cannot be undone.</p>
+    </@cContentFrame>
+
 -->
 <#macro cContentFrame title class='content-frame-primary' titleLevel=2 titleClass='' contentClass='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

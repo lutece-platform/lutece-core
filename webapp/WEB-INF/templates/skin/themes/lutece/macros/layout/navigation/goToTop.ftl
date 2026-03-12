@@ -1,12 +1,28 @@
-<#-- Macro: cGoToTop
+<#--
+Macro: cGoToTop
 
-Description: Affiche le bouton retour en haut.
+Description: Generates a "back to top" button that appears after scrolling down and smoothly scrolls the page back to the top when clicked.
 
 Parameters:
-@param - scrollLabel - string - optional -  Nom du menu par défaut - #i18n{portal.theme.gohome} / Haut de page - 
-@param - scrollClass - string - optional - Classe CSS de l'effet de scroll sur le bouton. Par défaut "primary fadein"
-@param - scrollBtnClass - string - optional - Classe CSS du bouton. Par défaut "btn-gototop"
-@param - scrollTop - number - optional - Offset top par défaut pour apparition du bouton. Par défaut 100
+- scrollLabel (string, optional): Accessible label text for the button. Default: '#i18n{portal.theme.gohome}'.
+- scrollClass (string, optional): CSS class(es) for the scroll animation effect. Default: 'primary fadein'.
+- scrollBtnClass (string, optional): CSS class for the button element. Default: 'btn-gototop'.
+- scrollTop (number, optional): Scroll offset in pixels before the button becomes visible. Default: 100.
+
+Showcase:
+- desc: "Retour en haut - @goToTop"
+- newFeature: false
+
+Snippet:
+
+    Basic usage:
+
+    <@cGoToTop />
+
+    Custom scroll offset and styling:
+
+    <@cGoToTop scrollLabel='Back to top' scrollClass='secondary fadein' scrollTop=200 />
+
 -->
 <#macro cGoToTop scrollLabel='#i18n{portal.theme.gohome}' scrollClass='primary fadein' scrollBtnClass='btn-gototop' scrollTop=100 deprecated...>
 <@deprecatedWarning args=deprecated />

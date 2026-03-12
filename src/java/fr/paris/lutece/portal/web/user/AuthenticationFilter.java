@@ -66,6 +66,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.util.securityheader.SecurityHeaderUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.logging.log4j.LogManager;
@@ -192,7 +193,7 @@ public class AuthenticationFilter implements Filter
     	{
     		for( SecurityHeader securityHeader : securityHeadersToAddList )
         	{
-        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        		response.setHeader( securityHeader.getName( ), SecurityHeaderUtil.getSecurityHeaderValue( request, securityHeader ) );
         		_logger.debug( "Security header added to admin authenticated BO page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
         	}
     	}   	
@@ -214,7 +215,7 @@ public class AuthenticationFilter implements Filter
     	{
     		for( SecurityHeader securityHeader : securityHeadersList )
         	{
-        		response.setHeader( securityHeader.getName( ), securityHeader.getValue( ) );
+        		response.setHeader( securityHeader.getName( ), SecurityHeaderUtil.getSecurityHeaderValue( request, securityHeader ) );
         		_logger.debug( "Security header added to logout page {} - name : {}, value : {} ", request.getServletPath( ), securityHeader.getName( ), securityHeader.getValue( ) );
         	}
     	}   	

@@ -14,6 +14,33 @@ Parameters:
 - responsiveMenuPlacement (string, optional): The placement of the responsiveMenu offcanvas container. Can be 'start' or 'end'. Default is 'end'.
 - responsiveMenuBodyClass (string, optional): Additional CSS classes to be applied to the offcanvas-body in responsiveMenu mode.
 - responsiveMenuClose (boolean, optional) : If true, close by default the offcanvas menu. Default is false.
+
+Snippet:
+
+    Simple full-width column with a title:
+
+    <@pageColumn title='Settings'>
+        <p>Column content here</p>
+    </@pageColumn>
+
+    Fixed-width sidebar column with full height:
+
+    <@pageColumn id='sidebar' width='300px' height='full' class='p-3'>
+        <nav>Sidebar navigation</nav>
+    </@pageColumn>
+
+    Responsive offcanvas column hidden below large breakpoint:
+
+    <@pageColumn id='filters-panel' title='Filters' responsiveMenuSize='lg' responsiveMenuPlacement='start' width='320px'>
+        <form>Filter form content</form>
+    </@pageColumn>
+
+    Centered content column with container class:
+
+    <@pageColumn center=true containerClass='p-4'>
+        <@empty title='No results found' subtitle='Try adjusting your search criteria' />
+    </@pageColumn>
+
 -->
 <#macro pageColumn id='' width='' class='' containerClass='' height='' title='' flush=false center=false responsiveMenuSize='' responsiveMenuTitle=title responsiveMenuPlacement='end' responsiveMenuBodyClass='' responsiveMenuClose=false deprecated...>
 <@deprecatedWarning args=deprecated />

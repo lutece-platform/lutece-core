@@ -65,6 +65,10 @@ border-color: #E2E2E2 !important;
 	height:50vh; 
 }
 
+.vh-80{ 
+	height:80vh; 
+}
+
 
 @media (prefers-reduced-motion) {
 	*, *::before, *::after {

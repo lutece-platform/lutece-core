@@ -8,6 +8,29 @@ Parameters:
 - errors_class (string, optional): the CSS class of the alert element for error messages.
 - infos_class (string, optional): the CSS class of the alert element for info messages.
 - warnings_class (string, optional): the CSS class of the alert element for warning messages.
+
+Snippet:
+
+    Simple box with nested content:
+
+    <@box>
+        <@boxBody>
+            <p>This is the content of the box.</p>
+        </@boxBody>
+    </@box>
+
+    Box with title and color:
+
+    <@box title='User List' color='primary'>
+        <p>Content is automatically wrapped in a box body when a title is provided.</p>
+    </@box>
+
+    Collapsible box with custom class:
+
+    <@box title='Advanced Settings' color='info' collapsed=true class='my-custom-class' id='settings-box'>
+        <p>This content is initially collapsed.</p>
+    </@box>
+
 -->
 <#macro box color='' id='' style='' class='' title=''  collapsed=false  params='' deprecated...>
 <@deprecatedWarning args=deprecated />

@@ -15,13 +15,10 @@
         </@pageHeader>
         <#if style_list?size gt 1> 
             <@manageFeature>
-            <#list style_list as style>
-                <@manageFeatureItem class='item-labels'>
+            <#list style_list?sort_by('id') as style>
+                <@manageFeatureItem liClass='item-labels'>
                     <@manageFeatureItemColumn class='searchable'>
-                        <@p>#i18n{portal.style.manage_styles.labelId}: <strong>${style.id}</strong></@p>
-                    </@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn class='searchable'>
-                        <@p>#i18n{portal.style.manage_styles.labelName}: <strong>${style.description}</strong></@p>
+                        <@p>#i18n{portal.style.manage_styles.labelId}: <strong>${style.id}</strong> - #i18n{portal.style.manage_styles.labelName}: <strong>${style.description}</strong></@p>
                     </@manageFeatureItemColumn>
                     <@manageFeatureItemColumn class='searchable'>
 						<@p>#i18n{portal.style.manage_styles.labelComponentType}: <strong>${style.portalComponentName}</strong></@p>

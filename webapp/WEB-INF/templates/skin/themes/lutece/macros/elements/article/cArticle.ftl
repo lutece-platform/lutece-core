@@ -1,14 +1,34 @@
-<#-- Macro: cArticle
+<#--
+Macro: cArticle
 
-Description: affiche un article.
+Description: Generates an HTML article element with an optional title and content section. Useful for structuring portlet content on skin pages.
 
 Parameters:
-@param - id - string - optional - identifiant unique de la section
-@param - class - string - optional - classe(s) css de la section
-@param - title - string - optional - titre de l'article
-@param - titleLevel - number - <b>required</b> - taille du titre de l'article
-@param - titleClass - string - optional - classe(s) css sur le titre de l'article
-@param - params - string - optional - permet d'ajouter des paramètres HTML à l'article
+- title (string, optional): Title displayed in the article header. Default: '#i18n{portal.theme.defaultArticleTitle}'.
+- titleLevel (number, required): Heading level for the article title (1-6). Default: 2.
+- titleClass (string, optional): CSS class(es) applied to the article title. Default: ''.
+- class (string, optional): CSS class(es) applied to the article element. Default: 'portlet'.
+- id (string, optional): Unique identifier for the article element. Default: ''.
+- params (string, optional): Additional HTML attributes for the article element. Default: ''.
+
+Showcase:
+- desc: Article - @cArticle
+- newFeature: false
+
+Snippet:
+
+    Basic usage:
+
+    <@cArticle title='Latest News' titleLevel=2>
+        <p>Here is the content of the article displayed on the page.</p>
+    </@cArticle>
+
+    With custom classes:
+
+    <@cArticle title='Featured Event' titleLevel=3 titleClass='text-primary' class='portlet featured'>
+        <p>Details about the featured event.</p>
+    </@cArticle>
+
 -->
 <#macro cArticle title='#i18n{portal.theme.defaultArticleTitle}' titleLevel=2 titleClass='' class='portlet' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

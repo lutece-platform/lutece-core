@@ -10,6 +10,21 @@ Parameters:
 - callOutIcon (string, optional): the name of the icon to include in the callout element.
 - id (string, optional): the ID of the callout element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the callout element.
+
+Snippet:
+
+    Info callout with icon and title:
+
+    <@callOut color='info' title='Information' callOutIcon='info-circle'>
+        This section provides additional context about the current page.
+    </@callOut>
+
+    Warning callout with custom heading level:
+
+    <@callOut color='warning' title='Attention' callOutIcon='exclamation-triangle' titleLevel='h4'>
+        Please review the following items before proceeding.
+    </@callOut>
+
 -->
 <#macro callOut color='' titleLevel='h3' title='' callOutIcon='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

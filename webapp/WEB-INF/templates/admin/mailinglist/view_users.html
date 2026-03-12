@@ -18,7 +18,9 @@
 			</#list>
 		</@table>
 		<#else>
-			<@empty />
+			<@card id='mailinglist-users-table'>
+				<@empty title='#i18n{portal.mailinglist.view_users.message.noUsers}' />
+			</@card>
 		</#if>
 	</@pageColumn>
 </@pageContainer>

@@ -1,17 +1,32 @@
-<#-- Macro: initToast
+<#--
+Macro: cInitToast
 
-Description: Initializes a Polipop instance for displaying Bootstrap toast notifications.
+Description: Generates a Bootstrap toast container with initialization script for displaying toast notifications on skin pages.
 
 Parameters:
-@param - class - string - optionnel : Permet d'ajouter des classes CSS supplémentaires au conteneur de toasts.
-@param - id - string - optionnel : Identifiant unique du conteneur de toasts.
-@param - position - string - optionnel (par défaut : 'position-fixed') : Position CSS du conteneur de toasts. Valeurs possibles : 'position-fixed', 'position-static', etc.
-@param - showAll - boolean - optionnel (par défaut : true) : Indique si tous les toasts doivent être affichés au chargement de la page.
-@param - animation - boolean - optionnel (par défaut : true) : Active les animations des toasts si true.
-@param - duration - number - optionnel (par défaut : 2000) : Durée d'affichage des toasts en millisecondes.
-@param - triggerId - string - optionnel : Identifiant de l'élément déclencheur (par exemple un bouton) pour afficher les toasts.
-@param - params - string - optionnel : Paramètres supplémentaires à ajouter au conteneur de toasts.
-@param - deprecated - string - optionnel : Paramètres deprecated.
+- class (string, optional): Additional CSS classes for the toast container. Default: ''.
+- id (string, optional): Unique identifier for the toast container. Default: ''.
+- position (string, optional): CSS position class for the container. Default: 'position-fixed'.
+- showAll (boolean, optional): Whether to show all toasts on page load. Default: true.
+- animation (boolean, optional): Whether toast animations are enabled. Default: true.
+- duration (number, optional): Display duration of toasts in milliseconds (0 for persistent). Default: 2000.
+- triggerId (string, optional): ID of the trigger element (e.g., a button) to show toasts on click. Default: ''.
+- params (string, optional): Additional HTML attributes for the container. Default: ''.
+
+Snippet:
+
+    Basic toast container with auto-show:
+
+    <@cInitToast id='myToastContainer' showAll=true duration=3000>
+        <@cToast title='Notification' content='Your request has been submitted.' />
+    </@cInitToast>
+
+    Toast container with a trigger button:
+
+    <@cInitToast id='alertToasts' showAll=false triggerId='showToastsBtn' duration=5000>
+        <@cToast title='Success' content='Operation completed successfully.' type='success' />
+    </@cInitToast>
+
 -->
 <#macro cInitToast class='' id='' position='position-fixed' showAll=true animation=true duration=2000 triggerId='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -54,20 +69,41 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 </#macro>
-<#-- Macro: addToast
+<#--
+Macro: cToast
 
-Description: Adds a Bootstrap toast notification to the page.
+Description: Generates a single Bootstrap toast notification element to be placed inside a cInitToast container.
 
 Parameters:
-@param - title - string - optional : titre de la notification toast.
-@param - content - string - optional : contenu de la notification toast.
-@param - imgUrl - string - optional : url de l'image à afficher dans le head de la notification toast.
-@param - type - string - optional : type de notification toast. Peut être "info", "success", "warning" ou "error".
-@param - delay - number - required : durée de l'apparition de la notification toast.
-@param - dismiss - boolean - required : affichage de l'icone de fermeture, à true par défaut.
-@param - id - string - optional - l'ID de la notification toast
-@param - class - string - optional - permet d'ajouter une classe CSS au tableau
-@param - deprecated - string - optionnel : paramètres deprecated.
+- title (string, optional): Title displayed in the toast header. Default: ''.
+- content (string, optional): Text content displayed in the toast body. Default: ''.
+- imgUrl (string, optional): URL of an image to display in the toast header. Default: ''.
+- type (string, optional): Toast type for styling ('info', 'success', 'warning', 'error'). Default: ''.
+- delay (number, optional): Auto-hide delay in milliseconds (0 for persistent). Default: 2000.
+- dismiss (boolean, optional): Whether to display a close button. Default: true.
+- class (string, optional): Additional CSS classes for the toast. Default: ''.
+- id (string, optional): HTML id attribute. Default: ''.
+- params (string, optional): Additional HTML attributes. Default: ''.
+
+Showcase:
+- desc: Notification toast - @cToast
+- bs: components/toasts
+- newFeature: false
+
+Snippet:
+
+    Simple toast without header:
+
+    <@cToast content='Your changes have been saved.' />
+
+    Toast with title and type:
+
+    <@cToast title='Success' content='Your account has been created.' type='success' delay=5000 />
+
+    Persistent toast with image:
+
+    <@cToast title='New message' content='You have a new notification.' imgUrl='images/avatar.png' delay=0 />
+
 -->
 <#macro cToast title='' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

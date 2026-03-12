@@ -6,6 +6,17 @@ Parameters:
 - paginator (object): an object that contains information about the current and next/previous pages in a list.
 - nb_items_per_page (number, optional): the number of items to display per page (default is the value of the "nb_items_per_page" variable).
 - showall (boolean, optional): whether to display an option to show all items on a single page (default is 0).
+
+Snippet:
+
+    Basic items per page combo:
+
+    <@paginationCombo paginator=paginator />
+
+    Combo with show all option:
+
+    <@paginationCombo paginator=paginator showall=1 />
+
 -->
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0 deprecated...>
 <@deprecatedWarning args=deprecated />

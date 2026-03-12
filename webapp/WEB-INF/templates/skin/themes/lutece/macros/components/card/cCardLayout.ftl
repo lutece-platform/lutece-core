@@ -1,14 +1,36 @@
-<#-- Macro: cCardLayout
+<#--
+Macro: cCardLayout
 
-Description: affiche une grille de cartes.
+Description: Generates a grid layout container for organizing multiple cards in group, deck, or masonry column modes.
 
 Parameters:
+- type (string, optional): Layout type ('group', 'deck', 'columns'). Default: 'group'.
+- rowCols (string, optional): Number of columns per row for deck layout. Default: ''.
+- class (string, optional): Additional CSS class(es) for the grid container. Default: ''.
+- id (string, optional): The unique identifier for the card layout. Default: ''.
+- params (string, optional): Additional HTML attributes for the card layout. Default: ''.
 
-@param - id - string - optional - l'ID de la grille de cartes
-@param - class - string - optional - permet d'ajouter une classe CSS à la grille de cartes
-@param - rowCols - string - optional - permet de spécifier le nombre de colonnes par ligne dans la grille de cartes
-@param - type - string - optional - permet de définir le type de la grille de carte (par défaut: 'group', valeurs possibles: 'groupe', 'deck', 'columns')
-@param - params - string - optional - permet d'ajouter des parametres HTML à la grille de cartes
+Showcase:
+- desc: Layout carte - @cCardLayout
+- bs: components/card
+- newFeature: false
+
+Snippet:
+
+    Card deck with 3 columns:
+
+    <@cCardLayout type='deck' rowCols='3'>
+        <@cCard title='Service 1'>
+            <p>Description of service 1.</p>
+        </@cCard>
+        <@cCard title='Service 2'>
+            <p>Description of service 2.</p>
+        </@cCard>
+        <@cCard title='Service 3'>
+            <p>Description of service 3.</p>
+        </@cCard>
+    </@cCardLayout>
+
 -->
 <#macro cCardLayout type='group' rowCols='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

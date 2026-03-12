@@ -14,11 +14,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import fr.paris.lutece.portal.business.securityheader.SecurityHeader;
+import fr.paris.lutece.portal.business.securityheader.SecurityHeaderConfigHome;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderHome;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderPageCategory;
 import fr.paris.lutece.portal.business.securityheader.SecurityHeaderType;
+import fr.paris.lutece.portal.service.cache.Lutece107Cache;
+import fr.paris.lutece.portal.service.cache.LuteceCache;
 import fr.paris.lutece.util.ReferenceList;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
+import jakarta.servlet.ServletContext;
 
 /**
  * This class provides a service that offers methods to manage security headers. 
@@ -26,17 +33,13 @@ import jakarta.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class SecurityHeaderService 
 {
+	Map<String, Map<String, List<SecurityHeader>>> _mapActiveSecurityHeadersByType = new HashMap<String, Map<String, List<SecurityHeader>>>( );
 	
-	//This map contains the security headers loaded from the database. It prevents to make database calls when data are up to date.
-	//It must be refreshed each time that an action is performed. Currently, These actions are creating a new header, modifying an 
-	//existing header, removing a header and enabling or disabling a header
-	private Map<String, SecurityHeader> _mapSecurityHeaders = new HashMap<String, SecurityHeader>( );
+	private static final String CACHE_SERVICE_NAME = "SecurityHeaderCacheService";
 	
-	Map<String, Map<String, List<SecurityHeader>>> _mapActiveSecurityHeadersForFilters = new HashMap<String, Map<String, List<SecurityHeader>>>( );
-	
-	//This boolean indicates if a refresh has been done on the security headers map. In other words, it tells if the map is up to date
-	//with data from database
-	private boolean _bMapRefreshDone = false;
+	@Inject
+	@LuteceCache( cacheName = CACHE_SERVICE_NAME, keyType = String.class, valueType = SecurityHeader.class, enable = true )
+	private Lutece107Cache<String, SecurityHeader> _securityHeaderCache;
 	
 	private Logger _logger = LogManager.getLogger( "lutece.securityHeader" );
 	
@@ -50,7 +53,7 @@ public class SecurityHeaderService
 	 *           The type of the security header
 	 * @param pageCategory
 	 *           The page category of the security header
-	 * @return list od security headers matching the criteria
+	 * @return list of security headers matching the criteria
 	 */
 	public List<SecurityHeader> find( String strName, String strType, String pageCategory )
 	{
@@ -80,13 +83,20 @@ public class SecurityHeaderService
 	 */
 	public Collection<SecurityHeader> findActive( String strType, String strPageCategory )
 	{
-		if( !_bMapRefreshDone )
+		if( !_securityHeaderCache.isCacheEnable( ) )
+		{		
+			refreshActiveSecurityHeadersMapByType( SecurityHeaderHome.findAll( ) );
+		} 
+		else if( _securityHeaderCache.getKeys( ).isEmpty( ) )
 		{
-			refreshSecurityHeadersMap( SecurityHeaderHome.findAll() );
+			Collection<SecurityHeader> securityHeadersList = SecurityHeaderHome.findAll( );
+			refreshCache( securityHeadersList );
+			refreshActiveSecurityHeadersMapByType( securityHeadersList );
 		}
-		if( _mapActiveSecurityHeadersForFilters.get(strType) != null )
+		
+		if( _mapActiveSecurityHeadersByType.get( strType ) != null )
 		{
-			return _mapActiveSecurityHeadersForFilters.get( strType ).get( strPageCategory );
+			return _mapActiveSecurityHeadersByType.get( strType ).get( strPageCategory );
 		}
 		return null;
 	}
@@ -97,18 +107,25 @@ public class SecurityHeaderService
 	 * 
 	 * @return collection of security headers
 	 */
-	public Collection<SecurityHeader> findAll( )
+	private Collection<SecurityHeader> findAll( )
     {
 		Collection<SecurityHeader> securityHeadersList = null;
 		
-		if( _bMapRefreshDone )
+		if( _securityHeaderCache.isCacheEnable( ) )
 		{
-			securityHeadersList = _mapSecurityHeaders.values( );
+			securityHeadersList = new ArrayList<SecurityHeader>( );
+			for( String key : _securityHeaderCache.getKeys( ) )
+			{
+				SecurityHeader securityHeader = _securityHeaderCache.get( key );
+				if( securityHeader != null )
+				{
+					securityHeadersList.add( securityHeader );
+				}				
+			}
 		} 
 		else
 		{			
 			securityHeadersList = SecurityHeaderHome.findAll( );
-			refreshSecurityHeadersMap( securityHeadersList );	
 		}
 		
 		return securityHeadersList;
@@ -123,7 +140,7 @@ public class SecurityHeaderService
 	 */
 	public List<SecurityHeader> findAllSorted( Locale locale )
     {
-		List<SecurityHeader> securityHeadersList = findAll( ).stream().collect( Collectors.toList( ) );   	
+		List<SecurityHeader> securityHeadersList = findAll( ).stream( ).collect( Collectors.toList( ) );   	
 		Collections.sort( securityHeadersList, Comparator.comparing( SecurityHeader::getType )
 				                                         .thenComparing( SecurityHeader::getPageCategory, Comparator.nullsLast( Comparator.naturalOrder( ) ) )
 				                                         .thenComparing( SecurityHeader::getName ) );
@@ -140,8 +157,9 @@ public class SecurityHeaderService
 	{
 		ReferenceList listTypes = new ReferenceList( );
 		
-		for (SecurityHeaderType type : SecurityHeaderType.values()) { 
-			listTypes.addItem( type.getCode(), type.getCode() );
+		for ( SecurityHeaderType type : SecurityHeaderType.values( ) ) 
+		{ 
+			listTypes.addItem( type.getCode( ), type.getCode( ) );
 		}
 		
 		return listTypes;
@@ -156,8 +174,9 @@ public class SecurityHeaderService
 	{
 		ReferenceList listPageCategory = new ReferenceList( );
 		
-		for (SecurityHeaderPageCategory pageCategory : SecurityHeaderPageCategory.values()) { 
-			listPageCategory.addItem( pageCategory.getCode(), pageCategory.getCode() );
+		for (SecurityHeaderPageCategory pageCategory : SecurityHeaderPageCategory.values( ) ) 
+		{ 
+			listPageCategory.addItem( pageCategory.getCode( ), pageCategory.getCode( ) );
 		}
 		
 		return listPageCategory;
@@ -172,9 +191,15 @@ public class SecurityHeaderService
 	public void create( SecurityHeader securityHeader )
 	{
 		_logger.debug( "Security header to create : name : {}, value : {}, type : {}, page category : {}", securityHeader.getName( ), securityHeader.getValue( ), securityHeader.getType( ), securityHeader.getPageCategory( ) );
+		
 		SecurityHeaderHome.create( securityHeader );
-		clearMapSecurityHeaders( );
 		_logger.debug( "Security header created" );
+		
+		if( _securityHeaderCache.isCacheEnable( ) )
+		{		
+			_securityHeaderCache.resetCache( );
+			_logger.debug( "Security header cache cleared" );
+		}	
 	}
 
 	/**
@@ -186,9 +211,15 @@ public class SecurityHeaderService
 	public void update( SecurityHeader securityHeader )
 	{
 		_logger.debug( "Security header to update : id : {}, name : {}, value : {}, type : {}, page category : {}", securityHeader.getId( ), securityHeader.getName( ), securityHeader.getValue( ), securityHeader.getType( ), securityHeader.getPageCategory( ) );
+		
 		SecurityHeaderHome.update( securityHeader );
-		clearMapSecurityHeaders( );
 		_logger.debug( "Security header updated" );
+		
+		if( _securityHeaderCache.isCacheEnable( ) )
+		{		
+			_securityHeaderCache.resetCache( );
+			_logger.debug( "Security header cache cleared" );
+		}
 	}
 	
 	/**
@@ -199,11 +230,17 @@ public class SecurityHeaderService
 	 */
 	public void remove( int nSecurityHeaderId )
 	{
-		SecurityHeader securityHeader = _mapSecurityHeaders.get( String.valueOf( nSecurityHeaderId ) );
+		SecurityHeader securityHeader = getSecurityHeader( nSecurityHeaderId );
 		_logger.debug( "Security header to delete : id : {}, name : {}, value : {}, type : {}, page category : {}", securityHeader.getId( ), securityHeader.getName( ), securityHeader.getValue( ), securityHeader.getType( ), securityHeader.getPageCategory( ) );
+		
 		SecurityHeaderHome.remove( nSecurityHeaderId );
-		clearMapSecurityHeaders( );
 		_logger.debug( "Security header deleted" );
+		
+		if( _securityHeaderCache.isCacheEnable( ) )
+		{		
+			_securityHeaderCache.resetCache( );
+			_logger.debug( "Security header cache cleared" );
+		}
 	}
 	
 	/**
@@ -214,11 +251,17 @@ public class SecurityHeaderService
 	 */
 	public void enable( int nSecurityHeaderId )
 	{
-		SecurityHeader securityHeader = _mapSecurityHeaders.get( String.valueOf( nSecurityHeaderId ) );
+		SecurityHeader securityHeader = getSecurityHeader( nSecurityHeaderId );
 		_logger.debug( "Security header to enable : id : {}, name : {}, value : {}, type : {}, page category : {}", securityHeader.getId( ), securityHeader.getName( ), securityHeader.getValue( ), securityHeader.getType( ), securityHeader.getPageCategory( ) );
+		
 		SecurityHeaderHome.updateIsActive( nSecurityHeaderId, true );
-		clearMapSecurityHeaders( );
 		_logger.debug( "Security header enabled" );
+		
+		if( _securityHeaderCache.isCacheEnable( ) )
+		{		
+			_securityHeaderCache.resetCache( );
+			_logger.debug( "Security header cache cleared" );
+		}
 	}
 	
 	/**
@@ -229,23 +272,33 @@ public class SecurityHeaderService
 	 */
 	public void disable( int nSecurityHeaderId )
 	{
-		SecurityHeader securityHeader = _mapSecurityHeaders.get( String.valueOf( nSecurityHeaderId ) );
+		SecurityHeader securityHeader = getSecurityHeader( nSecurityHeaderId );
 		_logger.debug( "Security header to disable : id : {}, name : {}, value : {}, type : {}, page category : {}", securityHeader.getId( ), securityHeader.getName( ), securityHeader.getValue( ), securityHeader.getType( ), securityHeader.getPageCategory( ) );
+		
 		SecurityHeaderHome.updateIsActive( nSecurityHeaderId, false );
-		clearMapSecurityHeaders( );
 		_logger.debug( "Security header disabled" );
+		
+		if( _securityHeaderCache.isCacheEnable( ) )
+		{		
+			_securityHeaderCache.resetCache( );
+			_logger.debug( "Security header cache cleared" );
+		}
 	}
 	
 	/**
-	 * Clears the map containing the security headers
+	 * Refreshes the security headers cache with the list given in parameter. After a call to this method, data of the cache are up to date with database data.
 	 * 
+	 * @param securityHeadersList
+	 *                 The security headers collection
 	 */
-	private void clearMapSecurityHeaders( )
+	private void refreshCache( Collection<SecurityHeader> securityHeadersList )
 	{
-		_mapSecurityHeaders.clear( );
-		_mapActiveSecurityHeadersForFilters.clear( );
-		_bMapRefreshDone = false;
-		_logger.debug( "Security header maps cleared" );
+		for( SecurityHeader securityHeader : securityHeadersList )
+		{
+			securityHeader.setSecurityHeaderConfigItemList( SecurityHeaderConfigHome.findBySecurityHeaderId( securityHeader.getId( ) ) );
+			_securityHeaderCache.put( String.valueOf( securityHeader.getId( ) ), securityHeader );				
+		}
+		_logger.debug( "Security header cache refreshed" );
 	}
 	
 	/**
@@ -254,18 +307,16 @@ public class SecurityHeaderService
 	 * @param securityHeadersList
 	 *                 The security headers collection
 	 */
-	private void refreshSecurityHeadersMap( Collection<SecurityHeader> securityHeadersList )
+	private void refreshActiveSecurityHeadersMapByType( Collection<SecurityHeader> securityHeadersList )
 	{
+		_mapActiveSecurityHeadersByType.clear( );
 		for( SecurityHeader securityHeader : securityHeadersList )
-		{
-			_mapSecurityHeaders.put( String.valueOf( securityHeader.getId( ) ), securityHeader );
-			
-			if( securityHeader.isActive() )
+		{			
+			if( securityHeader.isActive( ) )
 			{
-				_mapActiveSecurityHeadersForFilters.put( securityHeader.getType( ), addHeaderToTypeMap( securityHeader ) );
+				_mapActiveSecurityHeadersByType.put( securityHeader.getType( ), addHeaderToTypeMap( securityHeader ) );
 			}					
 		}
-		_bMapRefreshDone = true;
 		_logger.debug( "Security header map refreshed" );
 	}
 	
@@ -277,12 +328,12 @@ public class SecurityHeaderService
 	 */
 	private Map<String, List<SecurityHeader>> addHeaderToTypeMap( SecurityHeader securityHeader )
 	{
-		//In _mapActiveSecurityHeadersForFilters, 2 keys are necessary to retrieve a list of security headers.
+		//In _mapActiveSecurityHeadersByType, 2 keys are necessary to retrieve a list of security headers.
 		//For Page headers, those keys are respectively type and page category
 		//For Rest api headers, those keys are respectively type and null value. 
-		//As page category is not relevant for rest api headers, they are grouped using the null key. 
+		//As page category is irrelevant for rest api headers, they are grouped using the null key. 
 		String firstKey = securityHeader.getType( );
-		Map<String, List<SecurityHeader>> mapHeadersForType = _mapActiveSecurityHeadersForFilters.get( firstKey );
+		Map<String, List<SecurityHeader>> mapHeadersForType = _mapActiveSecurityHeadersByType.get( firstKey );
 		List<SecurityHeader> headersListToUpdate = null;
 		
 		String secondKey = null;					
@@ -309,4 +360,48 @@ public class SecurityHeaderService
 		
 		return mapHeadersForType;
 	}
+	
+	/**
+	 * Get security header from cache if cache is enabled, from database otherwise
+	 * 
+	 * @param nSecurityHeaderId
+	 * @return securityHeader
+	 */
+	private SecurityHeader getSecurityHeader( int nSecurityHeaderId )
+	{
+		SecurityHeader securityHeader = null;
+		if( _securityHeaderCache.isCacheEnable( ) )
+		{
+			securityHeader = (SecurityHeader) _securityHeaderCache.get( String.valueOf( nSecurityHeaderId ) );
+		}
+		else
+		{
+			securityHeader = SecurityHeaderHome.findByPrimaryKey( nSecurityHeaderId );
+		}
+		return securityHeader;
+	}
+	
+	/**
+	 * Get security header cache
+	 * 
+	 * @return security header cache
+	 */
+	public Lutece107Cache<String, SecurityHeader> getSecurityHeaderCache( )
+	{
+		return _securityHeaderCache;
+	}
+	
+	/**
+     * This method observes the initialization of the {@link ApplicationScoped} context.
+     * It ensures that this CDI beans are instantiated at the application startup.
+     *
+     * <p>This method is triggered automatically by CDI when the {@link ApplicationScoped} context is initialized,
+     * which typically occurs during the startup of the application server.</p>
+     *
+     * @param context the {@link ServletContext} that is initialized. This parameter is observed
+     *                and injected automatically by CDI when the {@link ApplicationScoped} context is initialized.
+     */
+    public void initializedService(@Observes @Initialized(ApplicationScoped.class) ServletContext context) {
+        // This method is intentionally left empty to trigger CDI bean instantiation
+    }
 }

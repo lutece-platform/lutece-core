@@ -1,8 +1,21 @@
-<#-- MACRO cConsentTacServiceMatomo :                                               -->
-<#-- Attributes                                                                     -->
-<#-- id: 0                                                                          -->
-<#-- host: https://yoururl/matomo/                                                  -->
-<#-- matomo: 0=use nested to get Matomo params  / 1  use id and host macro params   -->
+<#--
+Macro: cConsentTacServiceMatomo
+
+Description: Generates a TarteAuCitron Matomo analytics service registration with site ID and host configuration.
+
+Parameters:
+- id (number, optional): The Matomo site ID. Default: 0.
+- host (string, optional): The Matomo server URL. Default: ''.
+
+Snippet:
+
+    Register Matomo analytics inside cConsentTac:
+
+    <@cConsentTac privacyLink='jsp/site/Portal.jsp?page=privacy'>
+        <@cConsentTacServiceMatomo id=5 host='https://analytics.example.com/matomo/' />
+    </@cConsentTac>
+
+-->
 <#macro cConsentTacServiceMatomo id=0 host=''>
 <@cConsentTacService code='matomo'>
 tarteaucitron.user.matomoId = ${id};

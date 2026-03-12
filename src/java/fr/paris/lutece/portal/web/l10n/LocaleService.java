@@ -164,13 +164,13 @@ public final class LocaleService
                     }
                 }
             }
-        }
 
-        // consider the browser language
-        Locale locale = new Locale( request.getLocale( ).getLanguage( ).substring( 0, 2 ) );
-        if ( isSupported( locale ) )
-        {
-            return locale;
+            // consider the browser language
+            Locale locale = new Locale( request.getLocale( ).getLanguage( ).substring( 0, 2 ) );
+            if ( isSupported( locale ) )
+            {
+                return locale;
+            }
         }
 
         // otherwise consider the server default

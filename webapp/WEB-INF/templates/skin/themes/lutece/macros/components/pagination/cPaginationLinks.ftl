@@ -1,12 +1,27 @@
-<#-- Macro: cPaginationLinks
+<#--
+Macro: cPaginationLinks
 
-Description: permet de définir un élément de la pagination.
+Description: Generates the internal page link list for a pagination component, including previous/next arrows and page number links.
 
 Parameters:
+- paginator (object, required): Lutece Paginator object containing page links, current page, and page count.
+- fragment (string, optional): URL fragment appended to each pagination link. Default: ''.
+- class (string, optional): Additional CSS classes for the pagination list. Default: ''.
 
-@param - class - string - optional - ajoute une classe CSS à la pagination
-@param - paginator - list - required - Objet Paginator du core LUTECE ou liste avec comme attributs les url et index de pagination.
-@param - fragment - string - optional - permet d'ajouter un suffixe à l'url de la page
+Showcase:
+- desc: Liens de pagination - @cPaginationLinks
+- newFeature: false
+
+Snippet:
+
+    Basic usage (typically called internally by cPagination):
+
+    <@cPaginationLinks paginator=paginator />
+
+    With fragment and custom class:
+
+    <@cPaginationLinks paginator=paginator fragment='listing' class='justify-content-center' />
+
 -->
 <#macro cPaginationLinks paginator fragment='' class=''>
 <#local nbLinkPagesToDisplay = 10 />

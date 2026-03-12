@@ -1,21 +1,41 @@
-<#-- Macro: cQuantityPicker
+<#--
+Macro: cQuantityPicker
 
-Description: permet de définir un champs de sélection de quantité.
+Description: Generates a quantity picker with increment/decrement buttons and a number input, supporting min/max constraints.
 
 Parameters:
+- name (string, required): the name attribute of the input.
+- label (string, optional): the label text for the picker. Default: 'Choisir une quantite'.
+- showLabel (boolean, optional): displays or hides the label. Default: false.
+- labelDecrease (string, optional): accessible label for the decrease button. Default: 'Retirer une unite'.
+- labelIncrease (string, optional): accessible label for the increase button. Default: 'Ajouter une unite'.
+- minQty (string, optional): minimum selectable value. Default: '0'.
+- maxQty (string, optional): maximum selectable value. Default: '10'.
+- id (string, optional): the ID of the input. Default: ''.
+- class (string, optional): CSS class for the picker container. Default: ''.
+- required (boolean, optional): marks the field as required. Default: false.
+- disabled (boolean, optional): disables the input and buttons. Default: false.
+- helpMsg (string, optional): help message displayed below the picker. Default: ''.
+- errorMsg (string, optional): error message displayed on validation failure. Default: ''.
 
-@param - name - string - required - permet de définir la valeur de l'attribut 'name' du champs
-@param - label - string - optional - permet de définir le libellé du champs (par défaut: 'Choisir une quantité')
-@param - labelDecrease - string - optional - permet de définir le libellé du bouton de diminution (par défaut: 'Retirer une unité')
-@param - labelIncrease - string - optional - permet de définir le libellé du bouton d'augmentation (par défaut: 'Ajouter une unité')
-@param - minQty - number - optional - permet de définir la valeur minimal selectionnable par l'utilisateur (par défaut: 0)
-@param - maxQty - number - optional - permet de définir la valeur maximale selectionnable par l'utilisateur (par défaut: 10)
-@param - id - string - optional - permet de définir la valeur de l'attribut 'id' du champs
-@param - class - string - optional - permet de définir la classe CSS du champs
-@param - required - boolean - optional - permet d'indiquer si le champs est obligatoire (par défaut: false)
-@param - disabled - boolean - optional - permet d'indiquer si le champs est desactivé (par défaut: false)
-@param - helpMsg - string - optional - permet de définir le message d'aide du champs
-@param - errorMsg - string - optional - permet de définir le message d'erreur du champs
+Showcase:
+- desc: "Sélecteur de quantité - @cQuantityPicker"
+- newFeature: false
+
+Snippet:
+
+    Basic quantity picker:
+
+    <@cQuantityPicker name='quantity' />
+
+    Quantity picker with custom range:
+
+    <@cQuantityPicker name='tickets' label='Number of tickets' showLabel=true minQty='1' maxQty='5' />
+
+    Required quantity picker:
+
+    <@cQuantityPicker name='seats' label='Number of seats' showLabel=true minQty='1' maxQty='20' required=true />
+
 -->
 <#macro cQuantityPicker name label='Choisir une quantité' showLabel=false labelDecrease='Retirer une unité' labelIncrease='Ajouter une unité'  minQty='0' maxQty='10' id='' class='' required=false disabled=false helpMsg='' errorMsg=''>
 <#local isInvalid='' />

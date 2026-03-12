@@ -15,6 +15,20 @@ Parameters:
 - tabClass (string, optional): the class of the tab content.
 - params (string, optional): additional parameters to add to the HTML code.
 
+Snippet:
+
+    Basic active tab link:
+
+    <@tabLink href='#overview' title='Overview' active=true />
+
+    Tab link with icon and label:
+
+    <@tabLink href='#users' title='Users' tabIcon='users' tabLabel='User List' />
+
+    Tab link with custom class and external URL:
+
+    <@tabLink href='jsp/admin/ManageUsers.jsp' title='Manage Users' tabIcon='settings' tabClass='ms-auto' />
+
 -->
 <#macro tabLink class='' hide=[] id='' active=false href='' title='' tabLabel='' tabIcon='' tabClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

@@ -1,15 +1,34 @@
-<#-- Macro: cMainFooterSocial
+<#--
+Macro: cMainFooterSocial
 
-Description: affiche un pied de page principal avec les boutons réseaux sociaux de Paris.fr.
+Description: Generates the main site footer with social media buttons (Facebook, X, Instagram, LinkedIn) and navigation links, following the Paris.fr layout.
 
 Parameters:
-@param - title - string - required - nom du service numérique
-@param - nested_pos - string - required - position du contenu 'nested' passé dans la macro. Valeurs possible avant,'before' et aprés,'after'
-@param - socialNested - string - optional - position du contenu 'nested' passé dans la macro. Valeurs possible avant,'before' et après,'after'
-@param - align - string - required - alignement de la partie "menu" dans le pied de page. Valeurs possibles : 'arround' | 'between' | 'start' | 'end' | 'evenly'
-@param - classColMain - string - required - taille de la zone "menu"
-@param - classColSocial - string - required - taille de la zone "social"
-@param - params - string - optionnal - permet d'ajouter des parametres HTML au tag footer
+- title (string, required): Name of the digital service displayed in the footer.
+- nested_pos (string, optional): Position of nested content relative to the footer menu: 'before' or 'after'. Default: 'after'.
+- socialNested (string, optional): Additional HTML content displayed above the social links section. Default: ''.
+- align (string, optional): Flex alignment for the menu area ('around', 'between', 'start', 'end', 'evenly'). Default: 'around'.
+- classColMain (string, optional): Bootstrap column class for the menu zone. Default: 'col-md-7'.
+- classColSocial (string, optional): Bootstrap column class for the social zone. Default: 'col-md-5'.
+- params (string, optional): Additional HTML attributes for the footer element. Default: ''.
+
+Showcase:
+- desc: "Footer réseaux sociaux - @cMainFooterSocial"
+- guide: navigation
+- newFeature: false
+
+Snippet:
+
+    Basic usage:
+
+    <@cMainFooterSocial title='City Portal' />
+
+    Footer with custom layout and extra links:
+
+    <@cMainFooterSocial title='My Service' align='between' classColMain='col-md-8' classColSocial='col-md-4' nested_pos='before'>
+        <li class="nav-item"><a class="nav-link" href="/faq">FAQ</a></li>
+    </@cMainFooterSocial>
+
 -->
 <#macro cMainFooterSocial title nested_pos='after' socialNested='' align='around' classColMain='col-md-7' classColSocial='col-md-5' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

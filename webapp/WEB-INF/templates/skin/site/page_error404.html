@@ -1,28 +1,58 @@
 <#include "minimal_header.html" />
-<div class="row">
-	<div class="col-sm-12 col-md-3"> 
-        <img src="images/candle.png" alt="erreur 404" class="img-fluid">
-    </div>    
-	<div class="col-sm-12 col-md-6 pt-5">
-        <div class="card border-warning">
-            <div class="card-header d-flex justify-content-between">
-                <h2 class="card-title text-warning">#i18n{portal.util.error404.title}</h2>
-                <h3 class="text-warning fw-900">Error 404</h3>
-            </div>
-            <div class="card-body">
-                <p class="mt-3 fs-4">#i18n{portal.util.error404.text}</p>
-                <#if error_cause??>
-                <div class="alert alert-warning">${error_cause}</div>
-                </#if>
-                <p class="text-center mt-3">
-                    <a href="./" class="btn btn-outline-primary btn-lg">
-                        <i class="ti ti-home"></i> #i18n{portal.util.labelBackHome}
-                    </a>
-                </p>
-            </div>
-        </div>
-    </div>
-</div>
-
+<@cTpl>
+<@cContainer class='vh-80 pt-5'>
+    <@cRow class='pt-5 mt-5'>
+        <@cCol cols='12 col-md-3'  class='pt-5 mt-5'>
+            <@cImg src='themes/skin/shared/images/404.png' alt='#i18n{portal.util.error404.title}' id='error404-img' />
+        </@cCol>
+        <@cCol cols='12 col-md-6' class='pt-5 mt-5'>
+            <@cCard class='border border-warning mt-5' titleLevel=1 header='Error 404' headerLevel=1 headerLabelClass='text-warning fw-bold h2' title='#i18n{portal.util.error404.title}' titleClass='h2' titleLevel=2>
+                <@cText class='my-5 fs-2 '>#i18n{portal.util.error404.text}</@cText>
+                <#if error_cause??><@cAlert type='warning' class='fs-3' title='${error_cause}' /></#if>
+                <@cText class='text-center mt-5'>
+                     <@cBtn href='./' label='#i18n{portal.util.labelBackHome}'>
+                        <@cInline type='i' class='ti ti-home' />
+                    </@cBtn>
+                </@cText>
+            </@cCard>
+        </@cCol>
+    </@cRow>
+</@cContainer>
+</@cTpl>
 <#include "minimal_footer.html" />
+<style>
+@keyframes slideTop {
+    0% {
+        transform: translateY(-100vh);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    30% {
+        transform: translateY(0);
+    }
+    35% {
+        transform: translateY(-10px);
+    }
+    40% {
+        transform: translateY(10px);
+    }
+    45% {
+        transform: translateY(-10px);
+    }
+    50% {
+        transform: translateY(10px);
+    }
+    55% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
 
+#error404-img {
+    animation: slideTop 4s ease-in-out forwards;
+}
+</style>

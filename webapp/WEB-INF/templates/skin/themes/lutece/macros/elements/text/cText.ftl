@@ -1,12 +1,32 @@
-<#-- Macro: cText
+<#--
+Macro: cText
 
-Description: affiche un texte.
+Description: Generates an HTML block-level text element (paragraph by default). Wraps textual content on skin pages with a configurable tag.
 
 Parameters:
-@param - id - string - optional - identifiant unique du texte
-@param - class - string - optional - classe(s) css du texte
-@param - type - string - required - type de texte, par défaut un paragraphe
-@param - params - string - optional - permet d'ajouter des paramètres HTML au texte
+- type (string, required): HTML tag for the text element ('p', 'blockquote', 'pre', etc.). Default: 'p'.
+- id (string, optional): Unique identifier for the text element. Default: ''.
+- class (string, optional): CSS class(es) applied to the text element. Default: ''.
+- params (string, optional): Additional HTML attributes for the text element. Default: ''.
+
+Showcase:
+- desc: Paragraphe - @cText
+- newFeature: false
+
+Snippet:
+
+    Basic usage:
+
+    <@cText>
+        This is a paragraph of text on the page.
+    </@cText>
+
+    As a blockquote:
+
+    <@cText type='blockquote' class='blockquote'>
+        Public services should be accessible to all citizens.
+    </@cText>
+
 -->
 <#macro cText type='p' id='' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

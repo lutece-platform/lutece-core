@@ -9,6 +9,17 @@ Parameters:
 @param - class - string - optional - the CSS class of the element, default '' 
 @param - id - string - optional - the ID of the element, default ''
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
+
+Snippet:
+
+    Display the next step banner:
+
+    <@stepNext step='3' title='Review and Submit' />
+
+    Next step with custom title level and CSS class:
+
+    <@stepNext step='4' title='Confirmation' titleLevel=3 class=' mt-3' id='step-confirmation' />
+
 -->
 <#macro stepNext step title titleLevel=2 class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

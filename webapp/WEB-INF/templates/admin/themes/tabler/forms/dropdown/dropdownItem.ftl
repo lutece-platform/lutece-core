@@ -10,6 +10,17 @@ Parameters:
 - title (string, optional): the title for the dropdown menu item.
 - id (string, optional): the ID for the list item.
 - params (string, optional): additional parameters to add to the HTML code.
+
+Snippet:
+
+    Simple dropdown item:
+
+    <@dropdownItem href='jsp/admin/ManageUsers.jsp' title='Manage Users' />
+
+    Dropdown item opening in a new tab with custom class:
+
+    <@dropdownItem href='https://lutece.com/docs' title='Documentation' target='_blank' class='text-primary' />
+
 -->
 <#macro dropdownItem class='' href='' target='' title='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />

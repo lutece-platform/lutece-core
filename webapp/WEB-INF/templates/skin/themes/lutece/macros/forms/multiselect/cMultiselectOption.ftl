@@ -1,16 +1,28 @@
-<#-- Macro: cMultiselectOption
+<#--
+Macro: cMultiselectOption
 
-Description: Defines a macro that show an option for multiselect tag
+Description: Generates an individual option item for the cMultiselect component, rendered as a checkbox inside a dropdown list item.
 
 Parameters:
-@param - class - string - optional - the CSS class of the option
-@param - classCheckbox - string - optional - the CSS class of the checkbox in the option
-@param - name - string  - required - the name of of the option
-@param - label - string - required - the label associated to the option
-@param - value - string - optional - the value associated to the checkbox of the option
-@param - id - string - optional - the ID of the element, default ''
-@param - params - optional - additional HTML attributes to include in the option element default ''
-@param - disabled - boolean - optional - Disable element, default false
+- name (string, required): the name of the option input.
+- label (string, required): the label associated to the option.
+- class (string, optional): CSS class for the option list item. Default: ''.
+- classCheckbox (string, optional): CSS class for the checkbox inside the option. Default: ''.
+- value (string, optional): the value associated to the option. Default: ''.
+- id (string, optional): the ID of the element. Default: ''.
+- params (string, optional): additional HTML attributes. Default: ''.
+- disabled (boolean, optional): disables the option. Default: false.
+
+Snippet:
+
+    Basic multiselect option:
+
+    <@cMultiselectOption name='tags' label='Technology' value='tech' />
+
+    Disabled option:
+
+    <@cMultiselectOption name='tags' label='Archived' value='archived' disabled=true />
+
 -->
 <#macro cMultiselectOption name label class='' classCheckbox='' value='' id='' params='' disabled=false deprecated...>
 <@deprecatedWarning args=deprecated />
