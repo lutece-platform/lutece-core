@@ -10,6 +10,7 @@ Parameters:
 - title (string, optional): the title of the alert element.
 - titleClass (string, optional): the CSS class of the title element.
 - iconTitle (string, optional): the name of the icon to include in the alert element.
+- iconClass (string, optional): the CSS class of the icon element.
 - dismissible (boolean, optional): whether the alert should be dismissible.
 - id (string, optional): the ID of the alert element. If not provided, a default ID will be generated.
 - params (string, optional): additional HTML attributes to include in the alert element.
@@ -24,7 +25,7 @@ Snippet:
 
     Warning alert with title, icon, and dismiss button:
 
-    <@alert color='warning' title='Warning' iconTitle='exclamation-triangle' dismissible=true>
+    <@alert color='warning' title='Warning' iconTitle='exclamation-triangle' iconClass='icon icon-2' dismissible=true>
         Some fields are missing. Please review your form before submitting.
     </@alert>
 
@@ -35,10 +36,10 @@ Snippet:
     </@alert>
 
 -->
-<#macro alert class='' color='info' titleLevel='h4' title='' titleClass='' iconTitle='' dismissible=false id='' params='' deprecated...>
+<#macro alert class='' color='info' titleLevel='h4' title='' titleClass='' iconTitle='' iconClass='' dismissible=false id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="alert<#if color!=''> alert-${color}</#if><#if class!=''> ${class}</#if><#if dismissible> alert-dismissible</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="alert">
-<#if iconTitle!=''> <div class="alert-icon"><@icon style=iconTitle /></div></#if>
+<#if iconTitle!=''> <div class="alert-icon"><@icon style=iconTitle class=iconClass /></div></#if>
 <div>
 <#if title!=''><${titleLevel} class="alert-heading ${titleClass}">${title}</${titleLevel}></#if>
 <#nested>
