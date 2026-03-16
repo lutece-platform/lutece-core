@@ -1,0 +1,812 @@
+/**
+ * Form Validation Module
+ * Vanilla JS module for Bootstrap 5 style form validation
+ * Validates inputs on blur and removes errors when fixed
+ */
+const FormValidation = (function() {
+    'use strict';
+
+    // Default configuration (fallback values)
+    const defaults = {
+        errorClass: 'is-invalid',
+        validClass: 'is-valid',
+        errorFeedbackClass: 'invalid-feedback',
+        helpClass: 'form-text',
+        errorIconSvg: '<svg class="paris-icon paris-icon-alert-error main-danger-color me-xxs" aria-hidden="true" focusable="false" role="img"><use href="#paris-icon-alert-error"></use></svg>',
+        messages: {
+            required: 'Ce champ est obligatoire.',
+            email: 'Veuillez saisir une adresse email valide.',
+            url: 'Veuillez saisir une URL valide.',
+            number: 'Veuillez saisir un nombre valide.',
+            min: 'La valeur doit être supérieure ou égale à {min}.',
+            max: 'La valeur doit être inférieure ou égale à {max}.',
+            minlength: 'Ce champ doit contenir au moins {minlength} caractères.',
+            maxlength: 'Ce champ ne doit pas dépasser {maxlength} caractères.',
+            pattern: 'Le format saisi est invalide.',
+            step: 'La valeur doit être un multiple de {step}.',
+            tel: 'Veuillez saisir un numéro de téléphone valide.',
+            date: 'Veuillez saisir une date valide.',
+            time: 'Veuillez saisir une heure valide.',
+            file: 'Veuillez sélectionner un fichier valide.',
+            filetype: 'Type de fichier non autorisé. Types acceptés : {accept}.',
+            filesize: 'Le fichier est trop volumineux. Taille maximale : {maxsize}.',
+            mismatch: 'Les valeurs ne correspondent pas.',
+            custom: 'Ce champ contient une erreur.'
+        }
+    };
+
+    // Merge with datastore config set in window.__formValidationConfig (injected by FreeMarker before this script loads)
+    const serverConfig = window.__formValidationConfig || {};
+    const config = {
+        errorClass: serverConfig.errorClass || defaults.errorClass,
+        validClass: serverConfig.validClass || defaults.validClass,
+        errorFeedbackClass: serverConfig.errorFeedbackClass || defaults.errorFeedbackClass,
+        helpClass: serverConfig.helpClass || defaults.helpClass,
+        errorIconSvg: serverConfig.errorIconSvg || defaults.errorIconSvg,
+        messages: {}
+    };
+
+    // Merge messages: use server value if non-empty, otherwise default
+    Object.keys(defaults.messages).forEach(function(key) {
+        config.messages[key] = (serverConfig.messages && serverConfig.messages[key]) || defaults.messages[key];
+    });
+
+    // Store for custom validators
+    const customValidators = new Map();
+
+    /**
+     * Initialize validation on a form or container
+     * @param {string|HTMLElement} selector - Form selector or element
+     * @param {Object} options - Configuration options
+     */
+    function init(selector, options = {}) {
+        const containers = typeof selector === 'string' 
+            ? document.querySelectorAll(selector) 
+            : [selector];
+
+        // Merge options with config
+        Object.assign(config.messages, options.messages || {});
+
+        containers.forEach(container => {
+            if (!container) return;
+            
+            // Get all validatable inputs
+            const inputs = getValidatableInputs(container);
+            
+            inputs.forEach(input => {
+                // Add blur event listener for validation
+                input.addEventListener('blur', handleBlur);
+                
+                // Add input event listener for clearing errors while typing
+                input.addEventListener('input', handleInput);
+                
+                // Add change event for select, checkbox, radio, file
+                if (['select-one', 'select-multiple', 'checkbox', 'radio', 'file'].includes(input.type)) {
+                    input.addEventListener('change', handleChange);
+                }
+            });
+
+            // Handle form submission
+            if (container.tagName === 'FORM') {
+                container.addEventListener('submit', handleSubmit);
+                // Disable browser default validation UI
+                container.setAttribute('novalidate', 'true');
+            }
+        });
+    }
+
+    /**
+     * Get all validatable inputs from a container
+     * @param {HTMLElement} container 
+     * @returns {NodeList}
+     */
+    function getValidatableInputs(container) {
+        return container.querySelectorAll(
+            'input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]):not([disabled]), ' +
+            'textarea:not([disabled]), ' +
+            'select:not([disabled])'
+        );
+    }
+
+    /**
+     * Handle blur event
+     * @param {Event} event 
+     */
+    function handleBlur(event) {
+        const input = event.target;
+        validateField(input);
+    }
+
+    /**
+     * Handle input event - clear error if field becomes valid
+     * @param {Event} event 
+     */
+    function handleInput(event) {
+        const input = event.target;
+        
+        // Only clear error if field was previously invalid
+        if (input.classList.contains(config.errorClass)) {
+            const validation = getValidationState(input);
+            if (validation.isValid) {
+                clearError(input);
+                setValid(input);
+            }
+        }
+    }
+
+    /**
+     * Handle change event for select, checkbox, radio, file
+     * @param {Event} event 
+     */
+    function handleChange(event) {
+        const input = event.target;
+        validateField(input);
+    }
+
+    /**
+     * Handle form submission
+     * @param {Event} event 
+     */
+    function handleSubmit(event) {
+        const form = event.target;
+        const inputs = getValidatableInputs(form);
+        let isFormValid = true;
+        let firstInvalidField = null;
+
+        inputs.forEach(input => {
+            const isValid = validateField(input);
+            if (!isValid && isFormValid) {
+                isFormValid = false;
+                firstInvalidField = input;
+            }
+        });
+
+        if (!isFormValid) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            // Focus first invalid field
+            if (firstInvalidField) {
+                firstInvalidField.focus();
+                // Scroll to field if needed
+                firstInvalidField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } 
+        } else {
+            form.classList.add('was-validated');
+        }
+    }
+
+    /**
+     * Validate a single field
+     * @param {HTMLElement} input 
+     * @returns {boolean}
+     */
+    function validateField(input) {
+        const validation = getValidationState(input);
+
+        if (!validation.isValid) {
+            showError(input, validation.message);
+            return false;
+        } else {
+            clearError(input);
+            // Only set valid class if field has a value or is not required
+            if (input.value || !isRequired(input)) {
+                setValid(input);
+            }
+            return true;
+        }
+    }
+
+    /**
+     * Get validation state for an input
+     * @param {HTMLElement} input 
+     * @returns {Object} { isValid: boolean, message: string }
+     */
+    function getValidationState(input) {
+        const value = getInputValue(input);
+        const type = input.type;
+        const tagName = input.tagName.toLowerCase();
+
+        // Check required
+        if (isRequired(input) && isEmpty(value, input)) {
+            return { isValid: false, message: config.messages.required };
+        }
+
+        // If not required and empty, it's valid
+        if (isEmpty(value, input)) {
+            return { isValid: true, message: '' };
+        }
+
+        // Type-specific validation
+        switch (type) {
+            case 'email':
+                if (!isValidEmail(value)) {
+                    return { isValid: false, message: config.messages.email };
+                }
+                break;
+
+            case 'url':
+                if (!isValidUrl(value)) {
+                    return { isValid: false, message: config.messages.url };
+                }
+                break;
+
+            case 'number':
+            case 'range':
+                if (!isValidNumber(value)) {
+                    return { isValid: false, message: config.messages.number };
+                }
+                // Min validation
+                if (input.hasAttribute('min')) {
+                    const min = parseFloat(input.getAttribute('min'));
+                    if (parseFloat(value) < min) {
+                        return { isValid: false, message: config.messages.min.replace('{min}', min) };
+                    }
+                }
+                // Max validation
+                if (input.hasAttribute('max')) {
+                    const max = parseFloat(input.getAttribute('max'));
+                    if (parseFloat(value) > max) {
+                        return { isValid: false, message: config.messages.max.replace('{max}', max) };
+                    }
+                }
+                // Step validation
+                if (input.hasAttribute('step') && input.getAttribute('step') !== 'any') {
+                    const step = parseFloat(input.getAttribute('step'));
+                    const min = parseFloat(input.getAttribute('min')) || 0;
+                    if (!isValidStep(parseFloat(value), step, min)) {
+                        return { isValid: false, message: config.messages.step.replace('{step}', step) };
+                    }
+                }
+                break;
+
+            case 'tel':
+                if (input.hasAttribute('pattern')) {
+                    const pattern = new RegExp(input.getAttribute('pattern'));
+                    if (!pattern.test(value)) {
+                        return { isValid: false, message: config.messages.tel };
+                    }
+                }
+                break;
+
+            case 'date':
+                if (!isValidDate(value)) {
+                    return { isValid: false, message: config.messages.date };
+                }
+                break;
+
+            case 'time':
+                if (!isValidTime(value)) {
+                    return { isValid: false, message: config.messages.time };
+                }
+                break;
+
+            case 'file':
+                const fileValidation = validateFile(input);
+                if (!fileValidation.isValid) {
+                    return fileValidation;
+                }
+                break;
+        }
+
+        // Pattern validation
+        if (input.hasAttribute('pattern')) {
+            const pattern = new RegExp('^' + input.getAttribute('pattern') + '$');
+            if (!pattern.test(value)) {
+                const customMessage = input.getAttribute('title') || config.messages.pattern;
+                return { isValid: false, message: customMessage };
+            }
+        }
+
+        // Minlength validation
+        if (input.hasAttribute('minlength')) {
+            const minlength = parseInt(input.getAttribute('minlength'), 10);
+            if (value.length < minlength) {
+                return { isValid: false, message: config.messages.minlength.replace('{minlength}', minlength) };
+            }
+        }
+
+        // Maxlength validation
+        if (input.hasAttribute('maxlength')) {
+            const maxlength = parseInt(input.getAttribute('maxlength'), 10);
+            if (value.length > maxlength) {
+                return { isValid: false, message: config.messages.maxlength.replace('{maxlength}', maxlength) };
+            }
+        }
+
+        // Confirm field validation (for password/email confirmation)
+        if (input.name && input.name.endsWith('_confirm_field')) {
+            const originalFieldName = input.name.replace('_confirm_field', '');
+            const originalField = input.form ? input.form.querySelector(`[name="${originalFieldName}"]`) : null;
+            if (originalField && originalField.value !== value) {
+                return { isValid: false, message: config.messages.mismatch };
+            }
+        }
+
+        // Custom validators
+        if (customValidators.has(input.name) || customValidators.has(input.id)) {
+            const validator = customValidators.get(input.name) || customValidators.get(input.id);
+            const customResult = validator(value, input);
+            if (customResult !== true) {
+                return { isValid: false, message: customResult || config.messages.custom };
+            }
+        }
+
+        return { isValid: true, message: '' };
+    }
+
+    /**
+     * Get input value (handles different input types)
+     * @param {HTMLElement} input 
+     * @returns {string|Array}
+     */
+    function getInputValue(input) {
+        const type = input.type;
+        
+        if (type === 'checkbox') {
+            return input.checked ? input.value : '';
+        }
+        
+        if (type === 'radio') {
+            const form = input.form || document;
+            const checked = form.querySelector(`input[name="${input.name}"]:checked`);
+            return checked ? checked.value : '';
+        }
+        
+        if (type === 'select-multiple') {
+            return Array.from(input.selectedOptions).map(opt => opt.value);
+        }
+        
+        if (type === 'file') {
+            return input.files;
+        }
+        
+        return input.value.trim();
+    }
+
+    /**
+     * Check if a value is empty
+     * @param {*} value 
+     * @param {HTMLElement} input 
+     * @returns {boolean}
+     */
+    function isEmpty(value, input) {
+        if (value === null || value === undefined) return true;
+        if (typeof value === 'string') return value.trim() === '';
+        if (Array.isArray(value)) return value.length === 0;
+        if (value instanceof FileList) return value.length === 0;
+        if (input.type === 'checkbox') return !input.checked;
+        return false;
+    }
+
+    /**
+     * Check if input is required
+     * @param {HTMLElement} input 
+     * @returns {boolean}
+     */
+    function isRequired(input) {
+        // Check for required attribute
+        if (input.hasAttribute('required') || input.hasAttribute('aria-required')) {
+            return true;
+        }
+        // Check for is-required class (used in some Lutece forms)
+        if (input.classList.contains('is-required')) {
+            return true;
+        }
+        // Check for checkbox/radio groups
+        if (input.type === 'checkbox' || input.type === 'radio') {
+            const fieldset = input.closest('fieldset');
+            if (fieldset && fieldset.classList.contains('required')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Validation helper functions
+    function isValidEmail(value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(value);
+    }
+
+    function isValidUrl(value) {
+        try {
+            new URL(value);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    function isValidNumber(value) {
+        return !isNaN(parseFloat(value)) && isFinite(value);
+    }
+
+    function isValidStep(value, step, min) {
+        const decimals = (step.toString().split('.')[1] || '').length;
+        const diff = (value - min) / step;
+        return Math.abs(diff - Math.round(diff)) < Math.pow(10, -decimals - 1);
+    }
+
+    function isValidDate(value) {
+        const date = new Date(value);
+        return !isNaN(date.getTime());
+    }
+
+    function isValidTime(value) {
+        const timeRegex = /^([01]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/;
+        return timeRegex.test(value);
+    }
+
+    /**
+     * Validate file input
+     * @param {HTMLElement} input 
+     * @returns {Object}
+     */
+    function validateFile(input) {
+        const files = input.files;
+        
+        if (!files || files.length === 0) {
+            return { isValid: true, message: '' };
+        }
+
+        // Check accept attribute
+        if (input.hasAttribute('accept')) {
+            const accept = input.getAttribute('accept').split(',').map(t => t.trim().toLowerCase());
+            
+            for (const file of files) {
+                const fileType = file.type.toLowerCase();
+                const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+                
+                const isAccepted = accept.some(accepted => {
+                    if (accepted.startsWith('.')) {
+                        return fileExt === accepted;
+                    }
+                    if (accepted.endsWith('/*')) {
+                        return fileType.startsWith(accepted.replace('/*', '/'));
+                    }
+                    return fileType === accepted;
+                });
+                
+                if (!isAccepted) {
+                    return { 
+                        isValid: false, 
+                        message: config.messages.filetype.replace('{accept}', input.getAttribute('accept')) 
+                    };
+                }
+            }
+        }
+
+        // Check max file size (data-mfs attribute used in Lutece)
+        const maxSize = input.dataset.mfs ? parseInt(input.dataset.mfs, 10) : null;
+        if (maxSize) {
+            for (const file of files) {
+                if (file.size > maxSize) {
+                    const maxSizeFormatted = formatFileSize(maxSize);
+                    return { 
+                        isValid: false, 
+                        message: config.messages.filesize.replace('{maxsize}', maxSizeFormatted) 
+                    };
+                }
+            }
+        }
+
+        return { isValid: true, message: '' };
+    }
+
+    /**
+     * Format file size for display
+     * @param {number} bytes 
+     * @returns {string}
+     */
+    function formatFileSize(bytes) {
+        if (bytes < 1024) return bytes + ' o';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' Ko';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' Mo';
+    }
+
+    /**
+     * Show error message for an input
+     * @param {HTMLElement} input 
+     * @param {string} message 
+     */
+    function showError(input, message) {
+        // Clear any existing error first
+        clearError(input);
+
+        // Add error class to input
+        input.classList.add(config.errorClass);
+        input.classList.remove(config.validClass);
+        input.setAttribute('aria-invalid', 'true');
+
+        // Create error message element
+        const errorId = 'error_' + (input.id || input.name);
+        const errorElement = document.createElement('p');
+        errorElement.className = config.errorFeedbackClass;
+        errorElement.id = errorId;
+        errorElement.setAttribute('role', 'alert');
+        errorElement.innerHTML = config.errorIconSvg + message;
+
+        // Set aria-describedby
+        input.setAttribute('aria-describedby', errorId);
+
+        // Find the right place to insert the error message
+        const container = findErrorContainer(input);
+        
+        if (container) {
+            // Insert after the input or its container
+            container.insertAdjacentElement('afterend', errorElement);
+            if (container.classList.contains('was-validated')) {
+                container.classList.remove('was-validated');
+            }
+        }
+
+        // Also add error class to label if exists
+        const label = findLabel(input);
+        if (label) {
+            label.classList.add('main-danger-color');
+        }
+
+        // Add error class to fieldset legend if in a fieldset (for checkbox/radio groups)
+        if (input.type === 'checkbox' || input.type === 'radio') {
+            const fieldset = input.closest('fieldset');
+            if (fieldset) {
+                const legend = fieldset.querySelector('legend');
+                if (legend) {
+                    legend.classList.add(config.errorClass);
+                }
+            }
+        }
+    }
+
+    /**
+     * Clear error message for an input
+     * @param {HTMLElement} input 
+     */
+    function clearError(input) {
+        // Remove error class
+        input.classList.remove(config.errorClass);
+        input.removeAttribute('aria-invalid');
+        
+        // Find the right place to insert the error message
+        const container = findErrorContainer(input);
+        
+        if (container) {
+            // Add class "was-validated"
+            container.classList.add('was-validated')
+        }
+        // Remove error message element
+        const errorId = 'error_' + (input.id || input.name);
+        const errorElement = document.getElementById(errorId);
+        if (errorElement) {
+            errorElement.remove();
+        }
+
+        // Remove aria-describedby if it points to error
+        const describedBy = input.getAttribute('aria-describedby');
+        if (describedBy === errorId) {
+            // Check if there's a help message
+            const helpId = 'help_' + (input.id || input.name);
+            if (document.getElementById(helpId)) {
+                input.setAttribute('aria-describedby', helpId);
+            } else {
+                input.removeAttribute('aria-describedby');
+            }
+        }
+
+        // Remove error class from label
+        const label = findLabel(input);
+        if (label) {
+            label.classList.remove('main-danger-color');
+        }
+
+        // Remove error class from fieldset legend
+        if (input.type === 'checkbox' || input.type === 'radio') {
+            const fieldset = input.closest('fieldset');
+            if (fieldset) {
+                const legend = fieldset.querySelector('legend');
+                if (legend) {
+                    legend.classList.remove(config.errorClass);
+                }
+            }
+        }
+    }
+
+    /**
+     * Set valid state for an input
+     * @param {HTMLElement} input 
+     */
+    function setValid(input) {
+        input.classList.add(config.validClass);
+        input.classList.remove(config.errorClass);
+        input.removeAttribute('aria-invalid');
+    }
+
+    /**
+     * Find the container element for error message insertion
+     * Places error after label/help text, or after legend/help text for grouped fields
+     * @param {HTMLElement} input
+     * @returns {HTMLElement}
+     */
+    function findErrorContainer(input) {
+        const type = input.type;
+        const isGroupedField = ['checkbox', 'radio', 'date', 'time', 'datetime-local'].includes(type);
+
+        // For grouped fields (radio, checkbox, date, time, datetime), use fieldset > legend
+        if (isGroupedField) {
+            const fieldset = input.closest('fieldset');
+            if (fieldset) {
+                const legend = fieldset.querySelector('legend');
+                if (legend) {
+                    // Check for help text after legend
+                    const helpText = legend.nextElementSibling;
+                    if (helpText && helpText.classList.contains(config.helpClass)) {
+                        return helpText;
+                    }
+                    return legend;
+                }
+            }
+        }
+
+        // For standard inputs, find the label or help text
+        const formGroup = input.closest('.form-group, .mb-3, .mb-s, .mb-m, fieldset');
+        if (formGroup) {
+            const label = findLabel(input);
+            if (label) {
+                // Check for help text after label
+                const helpText = label.nextElementSibling;
+                if (helpText && helpText.classList.contains(config.helpClass)) {
+                    return helpText;
+                }
+                return label;
+            }
+        }
+
+        // Check for input-group wrapper
+        const inputGroup = input.closest('.input-group');
+        if (inputGroup) {
+            return inputGroup;
+        }
+
+        // Check for file input wrapper
+        const fileGroup = input.closest('.group-files');
+        if (fileGroup) {
+            const fileInput = fileGroup.querySelector('.file-input');
+            return fileInput || input;
+        }
+
+        return input;
+    }
+
+    /**
+     * Find label for an input
+     * @param {HTMLElement} input 
+     * @returns {HTMLElement|null}
+     */
+    function findLabel(input) {
+        // Try to find by for attribute
+        if (input.id) {
+            const label = document.querySelector(`label[for="${input.id}"]`);
+            if (label) return label;
+        }
+
+        // Try to find parent label
+        const parentLabel = input.closest('label');
+        if (parentLabel) return parentLabel;
+
+        // Try to find label in same form-group
+        const formGroup = input.closest('.form-group, .mb-3');
+        if (formGroup) {
+            return formGroup.querySelector('label');
+        }
+
+        return null;
+    }
+
+    /**
+     * Add a custom validator for a field
+     * @param {string} fieldNameOrId - Field name or ID
+     * @param {Function} validator - Validation function: (value, input) => true | errorMessage
+     */
+    function addValidator(fieldNameOrId, validator) {
+        customValidators.set(fieldNameOrId, validator);
+    }
+
+    /**
+     * Remove a custom validator
+     * @param {string} fieldNameOrId 
+     */
+    function removeValidator(fieldNameOrId) {
+        customValidators.delete(fieldNameOrId);
+    }
+
+    /**
+     * Manually validate a form
+     * @param {string|HTMLElement} formSelector 
+     * @returns {boolean}
+     */
+    function validate(formSelector) {
+        const form = typeof formSelector === 'string' 
+            ? document.querySelector(formSelector) 
+            : formSelector;
+
+        if (!form) return false;
+
+        const inputs = getValidatableInputs(form);
+        let isValid = true;
+        let firstInvalidField = null;
+
+        inputs.forEach(input => {
+            const fieldValid = validateField(input);
+            if (!fieldValid && isValid) {
+                isValid = false;
+                firstInvalidField = input;
+            }
+        });
+
+        if (firstInvalidField) {
+            firstInvalidField.focus();
+        }
+
+        return isValid;
+    }
+
+    /**
+     * Reset validation state for a form
+     * @param {string|HTMLElement} formSelector 
+     */
+    function reset(formSelector) {
+        const form = typeof formSelector === 'string' 
+            ? document.querySelector(formSelector) 
+            : formSelector;
+
+        if (!form) return;
+
+        const inputs = getValidatableInputs(form);
+        inputs.forEach(input => {
+            clearError(input);
+            input.classList.remove(config.validClass);
+        });
+
+        form.classList.remove('was-validated');
+    }
+
+    /**
+     * Set custom error message for a field
+     * @param {string|HTMLElement} input - Input selector or element
+     * @param {string} message - Error message
+     */
+    function setError(input, message) {
+        const element = typeof input === 'string' 
+            ? document.querySelector(input) 
+            : input;
+
+        if (element) {
+            showError(element, message);
+        }
+    }
+
+    // Public API
+    return {
+        init,
+        validate,
+        validateField,
+        reset,
+        setError,
+        clearError,
+        addValidator,
+        removeValidator,
+        config
+    };
+})();
+
+// Auto-initialize on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize on all forms with data-form-theme-validation attribute 
+    FormValidation.init('form[data-form-theme-validation="true"]');
+});
+
+// Export for module systems
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = FormValidation;
+}

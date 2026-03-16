@@ -70,6 +70,31 @@
 <#assign urlAccount>${dskey('portal.theme.site_property.Url.account')}</#assign>
 <#assign urlAuth>${dskey('portal.theme.site_property.Url.auth')}</#assign>
 <#-- END AUTH MANAGEMENT                -->
+<#-- FORM VALIDATION MESSAGES           -->
+<#assign formValidationMsgRequired>${dskey('portal.theme.site_property.formvalidation.msg.required')}</#assign>
+<#assign formValidationMsgEmail>${dskey('portal.theme.site_property.formvalidation.msg.email')}</#assign>
+<#assign formValidationMsgUrl>${dskey('portal.theme.site_property.formvalidation.msg.url')}</#assign>
+<#assign formValidationMsgNumber>${dskey('portal.theme.site_property.formvalidation.msg.number')}</#assign>
+<#assign formValidationMsgMin>${dskey('portal.theme.site_property.formvalidation.msg.min')}</#assign>
+<#assign formValidationMsgMax>${dskey('portal.theme.site_property.formvalidation.msg.max')}</#assign>
+<#assign formValidationMsgMinlength>${dskey('portal.theme.site_property.formvalidation.msg.minlength')}</#assign>
+<#assign formValidationMsgMaxlength>${dskey('portal.theme.site_property.formvalidation.msg.maxlength')}</#assign>
+<#assign formValidationMsgPattern>${dskey('portal.theme.site_property.formvalidation.msg.pattern')}</#assign>
+<#assign formValidationMsgStep>${dskey('portal.theme.site_property.formvalidation.msg.step')}</#assign>
+<#assign formValidationMsgTel>${dskey('portal.theme.site_property.formvalidation.msg.tel')}</#assign>
+<#assign formValidationMsgDate>${dskey('portal.theme.site_property.formvalidation.msg.date')}</#assign>
+<#assign formValidationMsgTime>${dskey('portal.theme.site_property.formvalidation.msg.time')}</#assign>
+<#assign formValidationMsgFile>${dskey('portal.theme.site_property.formvalidation.msg.file')}</#assign>
+<#assign formValidationMsgFiletype>${dskey('portal.theme.site_property.formvalidation.msg.filetype')}</#assign>
+<#assign formValidationMsgFilesize>${dskey('portal.theme.site_property.formvalidation.msg.filesize')}</#assign>
+<#assign formValidationMsgMismatch>${dskey('portal.theme.site_property.formvalidation.msg.mismatch')}</#assign>
+<#assign formValidationMsgCustom>${dskey('portal.theme.site_property.formvalidation.msg.custom')}</#assign>
+<#assign formValidationErrorClass>${dskey('portal.theme.site_property.formvalidation.errorClass')}</#assign>
+<#assign formValidationValidClass>${dskey('portal.theme.site_property.formvalidation.validClass')}</#assign>
+<#assign formValidationErrorFeedbackClass>${dskey('portal.theme.site_property.formvalidation.errorFeedbackClass')}</#assign>
+<#assign formValidationHelpClass>${dskey('portal.theme.site_property.formvalidation.helpClass')}</#assign>
+<#assign formValidationErrorIconSvg>${dskey('portal.theme.site_property.formvalidation.errorIconSvg')}</#assign>
+<#-- END FORM VALIDATION MESSAGES       -->
 <#-- ---------------------------------- -->
 <#-- Theme Specific Macros              -->
 <#-- Sample : <#include "macros/components/feature/feature.ftl" /> -->
