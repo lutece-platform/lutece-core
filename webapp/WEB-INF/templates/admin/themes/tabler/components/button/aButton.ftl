@@ -48,11 +48,7 @@ Snippet:
 <#elseif color=''>
 	<#local buttonColor = 'btn-primary' />
 <#else>
-	<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
-		<#local buttonColor = 'btn-' + color />
-	<#else>
-		<#local buttonColor = 'bg-' + color />
-	</#if>
+	<#local buttonColor = 'btn-' + color />
 </#if>
 <#if style='card-control'>
 	<#assign style='text-right btn-link' />
