@@ -10,13 +10,13 @@ Parameters:
 @param - class - string - optional - the CSS class of the element, default '' 
 @param - actionNextStep - string - optional - If set add a next step button, default ''
 @param - titleNextStep - string - optional - If set add a title for next step button, default ''
-@param - labelNextStep - string - optional - Label of the next button '#i18n{themeparisfr.labelNextStep}'
+@param - labelNextStep - string - optional - Label of the next button '#i18n{theme.labelNextStep}'
 @param - actionPrevStep - string - optional - If set add a previous step button, default ''
 @param - titlePrevStep - string - optional - If set add a title for prev step button, default ''
-@param - labelPrevStep - string - optional - Label of the previous step button, default '#i18n{themeparisfr.labelPrevStep}'
+@param - labelPrevStep - string - optional - Label of the previous step button, default '#i18n{theme.labelPrevStep}'
 @param - actionSaveStep - string - optional - If set add a save step button, default ''
 @param - titleSaveStep - string - optional - If set add a title for save step button, default ''
-@param - labelSaveStep - string - optional - Label of the save step button , default '#i18n{themeparisfr.labelSaveStep}'
+@param - labelSaveStep - string - optional - Label of the save step button , default '#i18n{theme.labelSaveStep}'
 @param - actionSaveForBackUpStep - string - optional - If set add a save step for backup button, default ''
 @param - titleSaveForBackUpStep - string - optional - If set add a title for "SaveForBackUpStep" step button, default ''
 @param - labelSaveForBackUpStep - string - optional - Label of the save backup button, default '#i18n{forms.step.saveResponse}'
@@ -56,12 +56,12 @@ Snippet:
 <@div id='current_step' class='step step-current ${class!}' params=params >
 	<@div class='step-title d-flex justify-content-between'>
 		<#if hasSteps>
-			<@h class='title' level=titleLevel params='data-step="${step}" title="${title} - #i18n{themeparisfr.labelCurrentStep}" aria-current="step"'>
+			<@h class='title' level=titleLevel params='data-step="${step}" title="${title} - #i18n{theme.labelCurrentStep}" aria-current="step"'>
 				<@span class='step-number'>${step}</@span>
 				<@span>${title}</@span>
 			</@h>
 		<#else>
-			<@h level=titleLevel class='title no-step' params='title="${title} - #i18n{themeparisfr.labelCurrentStep}"'>${title}</@h>
+			<@h level=titleLevel class='title no-step' params='title="${title} - #i18n{theme.labelCurrentStep}"'>${title}</@h>
 		</#if>
 		<#if hasMandatory><@p class='text-end mandatory-warning mb-0 ms-auto'>#i18n{forms.message.mandatory.fields}</@p></#if>
 	</@div>
@@ -123,7 +123,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 				let pInvalid = document.createElement("p");
 				pInvalid.classList.add( 'invalid-feedback' );
 				pInvalid.setAttribute( 'role', 'alert' );
-				<#assign invalidLabel>#i18n{themeparisfr.msgMandatory}</#assign>
+				<#assign invalidLabel>#i18n{theme.msgMandatory}</#assign>
 				pInvalid.innerHTML = `${invalidLabel}`;
 				if (invalid.closest('.input-group') != null) {
 					invalid.closest('.input-group').after(pInvalid);

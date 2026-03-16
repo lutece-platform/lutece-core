@@ -11,13 +11,13 @@ Parameters:
 @param - maxFileSize - number - optional - Max file size that can be uploaded, default 0
 @param - unit - string - optional - the unit used to show the file size, default ''
 @param - accept - string - optional - Mimit the extensions the user can upload, default ''
-@param - label - string - optional - label associated to the upload input default '#i18n{themeparisfr.labelUploadFiles}' 
+@param - label - string - optional - label associated to the upload input default '#i18n{theme.labelUploadFiles}' 
 @param - showLabel - number - optional - Show label if equal to one, otherwise hide it , default 1
 @param - labelPos - number - optional - Set label before input if equal to one, otherwise set after input , default 1
-@param - labelSelect - string - optional - label associated to the upload input default '#i18n{themeparisfr.labelSelect}' - deprecated
-@param - labelSubmit - string - optional - label associated to the upload input default '#i18n{themeparisfr.labelSubmit}' - deprecated
+@param - labelSelect - string - optional - label associated to the upload input default '#i18n{theme.labelSelect}' - deprecated
+@param - labelSubmit - string - optional - label associated to the upload input default '#i18n{theme.labelSubmit}' - deprecated
 @param - formSubmitButtonName - string - optional - name of the submit "button" of the parent form, used in js to prevent validation of mandatory fields, default 'action_doSaveStep' 
-@param - labelDelete - string - optional - label of the label button default '#i18n{themeparisfr.labelDelete}' - deprecated
+@param - labelDelete - string - optional - label of the label button default '#i18n{theme.labelDelete}' - deprecated
 @param - required - boolean - optional - Set element as required, default false
 @param - disabled - boolean - optional - Disable element, default false
 @param - multiple - boolean - optional - Set multiple attribute to select default false
@@ -49,7 +49,7 @@ Snippet:
     </@inputDropFiles>
 
 -->
-<#macro inputDropFiles name handler={} type='dropzone' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{themeparisfr.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{themeparisfr.labelSelect}' labelSubmit='#i18n{themeparisfr.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{themeparisfr.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
+<#macro inputDropFiles name handler={} type='dropzone' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{theme.labelSelect}' labelSubmit='#i18n{theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id!=''>${id!}<#else>${name!}</#if></#local>
 <#local nbFiles = nbFiles?number >
@@ -60,7 +60,7 @@ Snippet:
 <@cInput type='hidden' name='asynchronousupload.handler' value=handler.handlerName />
 <div class="row group-files ${type} <#if image> image-file</#if><#if !multiple> one-file</#if><#if nbUplodadedFiles?number=nbFiles?number> no-file</#if><#if errorMsg!=''> is-invalid</#if>">
 	<div class="col">
-        <#if labelPos == 1 && label !=''><label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable</#if><#if errorMsg !=''> main-danger-color</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{themeparisfr.labelMandatory}">*</span></#if></label></#if>
+        <#if labelPos == 1 && label !=''><label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable</#if><#if errorMsg !=''> main-danger-color</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{theme.labelMandatory}">*</span></#if></label></#if>
         <#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>	
         <#if type="dropzone">
             <div id="group-${cId!}" class="input-group file-input<#if errorMsg!=''> is-invalid</#if>">
