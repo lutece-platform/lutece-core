@@ -11,8 +11,8 @@ Parameters:
 @param - iterable - boolean - optional - Add box to the checkbox, default false 
 @param - iteration - number - optional - Number of iteration default 0
 @param - iterationMax - number - optional - Number of max iteration possible default 10
-@param - labelAddIteration - string - optional - Label to add an iteration, default '#i18n{themeparisfr.labelAdd}'
-@param - labelDelIteration - string - optional - Label to remove an iteration, default '#i18n{themeparisfr.labelDelete}'
+@param - labelAddIteration - string - optional - Label to add an iteration, default '#i18n{theme.labelAdd}'
+@param - labelDelIteration - string - optional - Label to remove an iteration, default '#i18n{theme.labelDelete}'
 @param - headerParams - string - optional - additional HTML attributes to include in the header of step group element default ''
 @param - params - string - optional - additional HTML attributes to include in the parent block element default ''
 
@@ -39,7 +39,7 @@ Snippet:
     </@cStepGroup>
 
 -->
-<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{themeparisfr.labelAdd}' labelDelIteration='#i18n{themeparisfr.labelDelete}' headerParams='' help='' class='' id='' params='' deprecated...>
+<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{theme.labelAdd}' labelDelIteration='#i18n{theme.labelDelete}' headerParams='' help='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@row>
 	<@columns>

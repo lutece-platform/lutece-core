@@ -59,7 +59,7 @@ Snippet:
     <#else>
     <button type="button" class="btn btn-${btnClass!}">${label!}</button>
     <button type="button" class="btn btn-${btnClass!} dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-        <span class="visually-hidden">#i18n{themeparisfr.labelDropdownToggle}</span>
+        <span class="visually-hidden">#i18n{theme.labelDropdownToggle}</span>
     </button>
     </#if>
 </#if>
