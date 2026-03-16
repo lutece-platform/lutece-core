@@ -31,7 +31,7 @@ Snippet:
     <@copyElementToClipboard selector='.secret-field' btn=false showMsg=false />
 
 -->
-<#macro copyElementToClipboard selector='.copy-content' class='' btn=true btnClass='link-primary' btnAbsolute=false btnTop='0' btnEnd='0' showMsg=true msgDone='#i18n{portal.util.copy.done}' msgError='#i18n{portal.util.copy.error}' deprecated...>
+<#macro copyElementToClipboard selector='.copy-content' class='' btn=true btnClass='link text-bg-light' btnAbsolute=false btnTop='0' btnEnd='0' showMsg=true msgDone='#i18n{portal.util.copy.done}' msgError='#i18n{portal.util.copy.error}' deprecated...>
 <@deprecatedWarning args=deprecated />
 <script>
 document.querySelectorAll('${selector!}').forEach(elem => {
@@ -52,7 +52,7 @@ document.querySelectorAll('${selector!}').forEach(elem => {
 	<#if btn>
 	const btn = document.createElement('button');
 	btn.type = 'button';
-	btn.className = 'btn btn-sm btn-${btnClass} ms-2';
+	btn.className = 'btn btn-sm btn-${btnClass} ms-2 px-1';
 	btn.title = btnLabel;
 	btn.setAttribute('aria-label', btnLabel);
 	btn.innerHTML = '<i class="ti ti-copy" aria-hidden="true"></i>';
