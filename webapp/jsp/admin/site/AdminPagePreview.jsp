@@ -5,6 +5,8 @@
 <%@ page import="fr.paris.lutece.portal.web.LocalVariables" %>
 <%@page import="fr.paris.lutece.portal.web.admin.AdminPageJspBean"%>
 <%@ page import="fr.paris.lutece.portal.service.i18n.I18nService" %>
+<%@ page import="fr.paris.lutece.portal.service.portal.ThemesService" %>
+<%@ page import="fr.paris.lutece.portal.business.style.Theme" %>
 
 <%@ page buffer="1024kb"%>
 <%@ page autoFlush="false"%>
@@ -46,6 +48,13 @@ ${ adminPageJspBean.getAdminPagePreview( pageContext.request ) }
     </div>
 </div>
 </dialog>
+<!-- Add CSS theme selected theme default file -->
+<%
+    Theme globalTheme = ThemesService.getGlobalThemeObject( );
+    String strThemeCode = globalTheme.getCodeTheme( );
+    String strThemeVersion = globalTheme.getThemeVersion( );
+%>
+<link rel="stylesheet" href="themes/skin/<%= strThemeCode %>/css/theme.min.css?version=<%= strThemeVersion %>" type="text/css" />
 <script type="module">
 document.addEventListener( "DOMContentLoaded", function(){
     const parentPortletTypeNodes = window.parent.document.querySelectorAll( '#offcanvas-body-portlet-type-wrapper ul li' );
