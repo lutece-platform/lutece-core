@@ -52,7 +52,9 @@ import java.util.Map;
 public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
 {
     private static final String PROPERTY_TEMPLATE_UPDATE_DELAY = "service.freemarker.templateUpdateDelay";
+    private static final String PROPERTY_TEMPLATE_AUTO_ESCAPE = "service.freemarker.templateAutoEscape";
     private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY, 5 );
+    private static final boolean TEMPLATE_AUTO_ESCAPE = AppPropertiesService.getPropertyBoolean( PROPERTY_TEMPLATE_AUTO_ESCAPE, false );
     private static FreeMarkerTemplateService _singleton;
 
     /**
@@ -66,6 +68,7 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
         {
             FreeMarkerTemplateService service = new FreeMarkerTemplateService( );
             service.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
+            service.setTemplateAutoEscape( TEMPLATE_AUTO_ESCAPE );
             _singleton = service;
         }
 
