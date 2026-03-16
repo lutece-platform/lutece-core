@@ -29,7 +29,7 @@
 <#else>
     <#if url?has_content>
 	    <#if url != "javascript:history.go(-1)">
-           <#assign params>target="${target}"</#assign>
+           <#assign params = 'target="${target}"'>
            <@tform action=url params=params>
                <#if list_parameters?exists>
                    <#assign keys = list_parameters?keys>

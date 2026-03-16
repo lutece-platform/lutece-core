@@ -14,10 +14,10 @@ Parameters:
 <#local class = alignmentSettings(align,'') />
 <nav id="${id}" class="${class} <#if display!=''>d-inline</#if>">
 <#if (item_navigator.currentItemId > 0)>
-	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
+	<@aButton href='${item_navigator.previousPageLink}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-	<@aButton href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
+	<@aButton href='${item_navigator.nextPageLink}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
 </#if>
 </nav>
 </#macro>

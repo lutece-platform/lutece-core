@@ -80,7 +80,7 @@ Parameters:
 			<@icon style=buttonIcon />
 		</#if>
 		<#local nestedContent><#nested /></#local>
-		<#local nestedContent = nestedContent?trim />
+		<#local nestedContent = nestedContent?markup_string?trim />
 		<#if nestedContent=''>
 			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
 				${title}
