@@ -7,7 +7,7 @@ Parameters:
 - id (string, optional): the ID of the header element.
 - title (string, optional): the title of the page header.
 - description (string, optional): the description of the page header.
-- titleClass (string, optional): additional CSS classes for the header wrapper.
+- titleClass (string, optional): additional CSS classes for the header wrapper. Default is 'mb-1'.
 - class (string, optional): CSS classes for the title column. Default is 'col-md-4 col-lg-5'.
 - toolsClass (string, optional): additional CSS classes for the tools container.
 - responsiveHeader (boolean, optional): if true, the header layout switches to column direction on small screens. Default is false.
@@ -33,7 +33,7 @@ Snippet:
     </@pageHeader>
 
 -->
-<#macro pageHeader id='' title='' titleClass='' description='' class='col-md-4 col-lg-5' toolsClass='' responsiveHeader=false params='' deprecated...>
+<#macro pageHeader id='' title='' titleClass='mb-1' description='' class='col-md-4 col-lg-5' toolsClass='' responsiveHeader=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div id="page-header" class="row g-2 justify-content-between align-items-center<#if responsiveHeader>flex-column flex-md-row</#if><#if titleClass !=''> ${titleClass!}</#if>">
 	<div class="col-12<#if class !=''> ${class}</#if>">
