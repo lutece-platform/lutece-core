@@ -16,20 +16,20 @@ Snippet:
 -->
 <#macro initThemeDatePicker>
 <!-- DatePicker css -->
-<link rel="stylesheet" href="${commonsSiteThemePath}${commonsSiteJsPath}vendor/datepicker/datepicker-bs5.min.css">
+<link rel="stylesheet" href="${commonsSharedThemePath}${commonsSiteJsPath}vendor/datepicker/datepicker-bs5.min.css">
 <link rel="stylesheet" href="${commonsSiteThemePath}${commonsSiteJsPath}vendor/datepicker/style/theme-datepicker.css">
 <!-- DatePicker js -->
-<script src="${commonsSiteThemePath}${commonsSiteJsPath}util/lutece.js" charset="utf-8"></script>
-<script src="${commonsSiteThemePath}${commonsSiteJsPath}vendor/datepicker/datepicker-full.min.js" charset="utf-8"></script>
-<script src="${commonsSiteThemePath}${commonsSiteJsPath}vendor/datepicker/datepicker-theme.js" charset="utf-8"></script>
-<script src="${commonsSiteThemePath}${commonsSiteJsPath}vendor/datepicker/locales/fr.js" charset="utf-8"></script>
+<script src="${commonsSharedThemePath}${commonsSiteJsPath}util/lutece.js" charset="utf-8"></script>
+<script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/datepicker/datepicker-full.min.js" charset="utf-8"></script>
+<script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/datepicker/datepicker-theme.js" charset="utf-8"></script>
+<script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/datepicker/locales/fr.js" charset="utf-8"></script>
 <script type="module">
-import { themeUtils } from './${commonsSiteThemePath}${commonsSiteJsPath}/modules/theme-utils.js';
+import { themeUtils } from './${commonsSiteSharedPath}${commonsSiteJsModulesPath}theme-utils.min.js';
 const uploadUtils = new themeUtils;
 // Get current browser lang
 window.addEventListener('DOMContentLoaded', (event) => {
   if( !navigator.language.startsWith('fr') ){
-      uploadUtils.addResourceLinksFromArray( [{"name": <#noparse>`${navigator.language.split('-')[0]}.js`</#noparse>, "pathtoadd" : "${commonsSiteThemePath}${commonsSiteJsPath}vendor/datepicker/"}] )
+      uploadUtils.addResourceLinksFromArray( [{"name": <#noparse>`${navigator.language.split('-')[0]}.js`</#noparse>, "pathtoadd" : "${commonsSharedThemePath}${commonsSiteJsPath}vendor/datepicker/"}] )
   }
 });
 </script>

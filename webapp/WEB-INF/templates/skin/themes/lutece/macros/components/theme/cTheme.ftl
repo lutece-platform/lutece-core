@@ -68,7 +68,7 @@ Snippet:
   </symbol>
 </svg>
 <script type="module">
-import {	themeSwitcher} from './themes/skin/parisfr/js/modules/theme-switcher.js';
+import {	themeSwitcher} from './${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-switcher.js';
 const cSwitcher = new themeSwitcher('${theme!"light"}');
 document.addEventListener( "DOMContentLoaded", function(){
 	/* Theme Switcher */

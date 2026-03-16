@@ -15,6 +15,7 @@
 <#assign commonsMacrosPath='${commonsGlobalThemeCode}/macros/' />
 <#assign commonsTplPath='${commonsGlobalThemeCode}/tpl/' />
 <#assign commonsSiteJsPath='js/' /> 
+<#assign commonsSiteJsModulesPath='js/modules/' /> 
 <#assign commonsSiteCssPath='css/' /> 
 <#assign commonsSiteImagesPath='images/' /> 
 <#-- Doc Generator Path -->

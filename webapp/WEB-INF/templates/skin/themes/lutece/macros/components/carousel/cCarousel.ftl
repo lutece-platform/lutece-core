@@ -89,7 +89,7 @@ Snippet:
     </#if>
 </div>
 
-<script type="module" src="${commonsSiteThemePath}${commonsSiteJsPath}/modules/theme-carousel.js"></script>
+<script type="module" src="${commonsSharedThemePath}${commonsSiteJsModulePath}theme-carousel.js"></script>
 <#if slideControls>
     <script>
         document.addEventListener("DOMContentLoaded", function (event) {

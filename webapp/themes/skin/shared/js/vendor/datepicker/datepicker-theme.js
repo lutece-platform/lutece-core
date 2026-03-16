@@ -14,7 +14,7 @@ function setDatePickerOptions( themeOption, customOptions, defaultOptions ) {
 }
 
 // Extend DatePicker Format management
-class themeParisFrDatepicker extends Datepicker {
+class themeDatepicker extends Datepicker {
     constructor(element, options = {}) {
       const originalType = element.type;
       const dateInput = element.cloneNode(true);

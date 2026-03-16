@@ -4,7 +4,7 @@
 <script src="themes/skin/shared/vendor/clipboard/clipboard.min.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <#if dskey('portal.theme.site_property.bannerBrowserWarning.checkbox')?number = 1>
 <!-- Browser detection and warning old browser -->
-<script src="${thetheme.pathJs}/vendor/es5.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
+<script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/es5.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <script>
 var xssChars='${dskey("portal.site.site_property.xss.xssChars")!}';
 var xssMsg='${dskey("portal.site.site_property.xss.xssMsg")!}';

@@ -46,6 +46,6 @@ Snippet:
 <#nested>
 </@cBlock>
 <#if type == 'columns'>
-    <script src="${commonsSiteThemePath}${commonsSiteJsPath}vendor/masonry/masonry.pkgd.min.js" charset="utf-8"></script>
+    <script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/masonry/masonry.pkgd.min.js" charset="utf-8"></script>
 </#if>
 </#macro>

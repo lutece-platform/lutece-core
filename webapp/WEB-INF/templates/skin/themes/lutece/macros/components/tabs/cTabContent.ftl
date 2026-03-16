@@ -27,9 +27,4 @@ Snippet:
 <@cBlock class='tab-content ${class!}' id=id params=params>
 <#nested>
 </@cBlock>
-<#if themeTabsIsLoaded?? && themeTabsIsLoaded>
-<#else>
-<script src="${commonsSiteThemePath}${commonsSiteJsPath}theme-tabs.min.js"></script>
-<#assign themeTabsIsLoaded = true />
-</#if>
 </#macro>

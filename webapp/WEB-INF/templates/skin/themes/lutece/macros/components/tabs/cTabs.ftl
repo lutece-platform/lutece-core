@@ -63,4 +63,9 @@ Snippet:
 		</div>
 	</div>
 </#if>
+<#if themeTabsIsLoaded?? && themeTabsIsLoaded>
+<#else>
+<script src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-tabs.min.js"></script>
+<#assign themeTabsIsLoaded = true />
+</#if>
 </#macro>
