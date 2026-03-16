@@ -1,7 +1,7 @@
 /*
  *   This content is inspired by the W3C Software  - License at   https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document
  *
- *   File:   themeparisfr-tabs.js.js
+ *   File:   theme-tabs.js.js
  *
  *   Desc:   Tab list widget that implements ARIA Authoring Practices
  */

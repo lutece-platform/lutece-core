@@ -49,19 +49,19 @@ Snippet:
 <@cFieldset legend=legend! legendClass=legendClass id=idLocal! required=required helpMsg=helpMsg params=params >
 	<@cRow>
 		<@cCol cols='6 col-md-4 col-lg-2 ps-0 ms-xs'>
-			<@cField label='#i18n{themeparisfr.labelFrom}' id='label_${name}_begin!' for='${name}_begin!' required=required showLabel=false > 
+			<@cField label='#i18n{theme.labelFrom}' id='label_${name}_begin!' for='${name}_begin!' required=required showLabel=false > 
 				<@cInput type='time' class=class!'' id='${idLocal}_begin' name='${name}_begin' autocomplete=autocomplete required=required html5Required=html5Required value=beginHour! disabled=disabled! readonly=readonly! errorMsg=errorMsg! hideErrorMsg=hideErrorMsg step=step?number params=inputParams />
 			</@cField>	
 		</@cCol>
 		<@cCol cols='6 col-md-4 col-lg-2'>
-			<@cField label='#i18n{themeparisfr.labelTo}' id='label_${name}_end!' for='${name}_end!' required=required showLabel=false > 
+			<@cField label='#i18n{theme.labelTo}' id='label_${name}_end!' for='${name}_end!' required=required showLabel=false > 
 				<@cInput type='time' class=class!'' id='${idLocal}_end' name='${name}_end' autocomplete=autocomplete required=required html5Required=html5Required value=endHour! disabled=disabled! readonly=readonly! errorMsg=errorMsg! hideErrorMsg=hideErrorMsg step=step?number params=inputParams />
 			</@cField>	
 		</@cCol>
 	</@cRow>
 </@cFieldset>
-<script src="themes/skin/parisfr/js/themeparisfr.util.min.js"></script>
-<script src="themes/skin/parisfr/js/plugins/forms/input-time-polyfill.y11.js"></script>
+<script src="${commonsSiteSharedPath}${commonsSiteJsModulesPath}theme-utils.min.js"></script>
+<script src="${commonsSiteSharedPath}${commonsSiteJsPath}input-time-polyfill.y11.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	const browserInfo = getBrowserInfo();
