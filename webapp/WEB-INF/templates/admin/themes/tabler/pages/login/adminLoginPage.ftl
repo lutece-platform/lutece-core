@@ -42,8 +42,8 @@ Parameters:
 			<div class="col-lg">
 </#if>
 <#--  Content  -->
-<#assign containerClass><#if loginLayoutImg?trim =''> container-tight py-4</#if></#assign>
-<@div class="container${containerClass}!''">
+<#assign containerClass = (loginLayoutImg?trim == '')?then(' container-tight py-4', '') />
+<@div class='container' + containerClass>
 	<@div class="text-center mb-4">
 		<@link href='.' target='_blank' class='admin-logo' >
 			<@span class="visually-hidden">#i18n{portal.admin.admin_login.gotoFO} ${site_name!} </@span>

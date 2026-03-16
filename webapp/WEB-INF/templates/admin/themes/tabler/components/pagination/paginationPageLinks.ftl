@@ -20,59 +20,59 @@ Parameters:
 <@ul class='pagination'>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<@li class='page-item'>
-		<@link href='${paginator.firstPageLink?xhtml}' class='page-link'>
+		<@link href='${paginator.firstPageLink}' class='page-link'>
 			${paginator.labelFirst}
 		</@link>
 	</@li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
 	<@li class='page-item'>
-		<@link href='${paginator.previousPageLink?xhtml}' class='page-link'>
+		<@link href='${paginator.previousPageLink}' class='page-link'>
 			${paginator.labelPrevious}
 		</@link>
 	</@li>
 <#else>
 	<@li class='page-item disabled'>
-		<@link href='${paginator.firstPageLink?xhtml}' class='page-link'>${paginator.labelPrevious}</@link>
+		<@link href='${paginator.firstPageLink}' class='page-link'>${paginator.labelPrevious}</@link>
 	</@li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<@li class='page-item'>
-		<@link href='${(paginator.pagesLinks?first).url?xhtml}' class='page-link'><strong>...</strong></@link>
+		<@link href='${(paginator.pagesLinks?first).url}' class='page-link'><strong>...</strong></@link>
 	</@li>
 </#if>
 <#list paginator.pagesLinks as pageLink>
 	<#if ( pageLink.index == paginator.pageCurrent )>
 		<@li class='page-item active'>
-			<@link href='${pageLink.url?xhtml}' class='page-link'>${pageLink.name}</@link>
+			<@link href='${pageLink.url}' class='page-link'>${pageLink.name}</@link>
 		</@li>
 	<#else>
 		<@li class='page-item'>
-			<@link href='${pageLink.url?xhtml}' class='page-link'>${pageLink.name}</@link>
+			<@link href='${pageLink.url}' class='page-link'>${pageLink.name}</@link>
 		</@li>
 	</#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 	<@li class='page-item'>
-		<@link href='${(paginator.pagesLinks?last).url?xhtml}' class='page-link'><strong>...</strong></@link>
+		<@link href='${(paginator.pagesLinks?last).url}' class='page-link'><strong>...</strong></@link>
 	</@li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
 	<@li class='page-item next'>
-		<@link href="${paginator.nextPageLink?xhtml}" class='page-link'>
+		<@link href="${paginator.nextPageLink}" class='page-link'>
 			${paginator.labelNext}
 		</@link>
 	</@li>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 		<@li class='page-item next'>
-			<@link href='${paginator.lastPageLink?xhtml}' class='page-link'>
+			<@link href='${paginator.lastPageLink}' class='page-link'>
 				${paginator.labelLast}
 			</@link>
 		</@li>
 	</#if>
 <#else>
 	<@li class='page-item disabled'>
-		<@link href='${paginator.lastPageLink?xhtml}' class='page-link'>${paginator.labelNext}</@link>
+		<@link href='${paginator.lastPageLink}' class='page-link'>${paginator.labelNext}</@link>
 	</@li>
 </#if>
 </@ul>

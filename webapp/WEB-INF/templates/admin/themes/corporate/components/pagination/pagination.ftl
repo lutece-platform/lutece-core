@@ -18,12 +18,12 @@ Parameters:
 </#if>
 <#if ( paginator.pagesCount > 1 )>
 	<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-		<@link href='${paginator.firstPageLink?xhtml}'>
+		<@link href='${paginator.firstPageLink}'>
 			<@icon style='double-left' /> #i18n{portal.util.labelFirst}
 		</@link>
 	</#if>
 	<#if ( paginator.pageCurrent > 1 )>
-		<@link href='${paginator.previousPageLink?xhtml}'>
+		<@link href='${paginator.previousPageLink}'>
 			<@icon style='angle-left' /> #i18n{portal.util.labelPrevious}
 		</@link>
 	<#else>
@@ -35,18 +35,18 @@ Parameters:
 		<#if link.index == paginator.pageCurrent>
 			<strong>${link.name}</strong>
 		<#else>
-			<@link href='${link.url?xhtml}'>${link.name}</@link>
+			<@link href='${link.url}'>${link.name}</@link>
 		</#if>
 	</#list>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 		<strong>...</strong>
 	</#if>
 	<#if ( paginator.pageCurrent < paginator.pagesCount )>
-		<@link href='${paginator.nextPageLink?xhtml}'>
+		<@link href='${paginator.nextPageLink}'>
 			<@icon style='angle-right' /> #i18n{portal.util.labelNext}
 		</@link>
 		<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-			<@link href='${paginator.lastPageLink?xhtml}'>
+			<@link href='${paginator.lastPageLink}'>
 				<@icon style='angle-double-right' /> #i18n{portal.util.labelLast}
 			</@link>
 		</#if>

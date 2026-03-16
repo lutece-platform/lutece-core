@@ -5,12 +5,36 @@ Parameters:
 - site_name (string, required): the name of the website or application.
 -->
 <#macro adminHeader site_name=site_name!'Lutece' admin_url=admin_url >
-<#local userReadMode><#attempt>${dskey('portal.site.site_property.layout.user.readmode.show.checkbox')?number}<#recover>0</#attempt></#local>
-<#local userDarkMode><#attempt>${dskey('portal.site.site_property.layout.user.darkmode.show.checkbox')?number}<#recover>0</#attempt></#local>
-<#local userMenuMode><#attempt>${dskey('portal.site.site_property.layout.user.menumode.show.checkbox')?number}<#recover>0</#attempt></#local>
-<#local readMode><#attempt><#if dskey('portal.site.site_property.layout.readmode.checkbox')?number = 1> dir="rtl"</#if><#recover></#attempt></#local>
-<#local darkMode><#attempt><#if dskey('portal.site.site_property.layout.darkmode.checkbox')?number==1> theme-dark</#if><#recover></#attempt></#local>
-<#local layout><#attempt><#if dskey('portal.site.site_property.layout.menu.checkbox')?number==1>aside<#else>header</#if><#recover>header</#attempt></#local>
+<#attempt>
+  <#local userReadMode = dskey('portal.site.site_property.layout.user.readmode.show.checkbox')?number />
+<#recover>
+  <#local userReadMode = 0 />
+</#attempt>
+<#attempt>
+  <#local userDarkMode = dskey('portal.site.site_property.layout.user.darkmode.show.checkbox')?number />
+<#recover>
+  <#local userDarkMode = 0 />
+</#attempt>
+<#attempt>
+  <#local userMenuMode = dskey('portal.site.site_property.layout.user.menumode.show.checkbox')?number />
+<#recover>
+  <#local userMenuMode = 0 />
+</#attempt>
+<#attempt>
+  <#local readMode = (dskey('portal.site.site_property.layout.readmode.checkbox')?number == 1)?then(' dir="rtl"', '') />
+<#recover>
+  <#local readMode = '' />
+</#attempt>
+<#attempt>
+  <#local darkMode = (dskey('portal.site.site_property.layout.darkmode.checkbox')?number == 1)?then(' theme-dark', '') />
+<#recover>
+  <#local darkMode = '' />
+</#attempt>
+<#attempt>
+  <#local layout = (dskey('portal.site.site_property.layout.menu.checkbox')?number == 1)?then('aside', 'header') />
+<#recover>
+  <#local layout = 'header' />
+</#attempt>
 <#local logoUrl = (dskey('portal.site.site_property.logo_url')!)?has_content?then(dskey('portal.site.site_property.logo_url'), 'themes/admin/shared/images/logo-header-icon.svg')>
 </head>
 <body class="antialiased"${readMode}>
