@@ -17,7 +17,7 @@ Snippet:
 <#macro initThemeDatePicker>
 <!-- DatePicker css -->
 <link rel="stylesheet" href="${commonsSharedThemePath}${commonsSiteJsPath}vendor/datepicker/datepicker-bs5.min.css">
-<link rel="stylesheet" href="${commonsSiteThemePath}${commonsSiteJsPath}vendor/datepicker/style/theme-datepicker.css">
+<link rel="stylesheet" href="${commonsSharedThemePath}${commonsSiteJsPath}vendor/datepicker/style/theme-datepicker.css">
 <!-- DatePicker js -->
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}util/lutece.js" charset="utf-8"></script>
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/datepicker/datepicker-full.min.js" charset="utf-8"></script>
