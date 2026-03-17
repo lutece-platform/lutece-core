@@ -15,7 +15,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.fluid.check
 
 -- changeset core:update_db_lutece_core-8.0.0-8.0.1-rev3.sql
 -- preconditions onFail:MARK_RAN onError:WARN
--- precondition-sql-check expectedResult:0 SELECT COUNT(1) from INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME='core_admin_security_header_config_item';
+-- precondition-sql-check expectedResult:0 SELECT COUNT(1) from INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=database() AND TABLE_NAME='core_admin_security_header_config_item';
 CREATE TABLE core_admin_security_header_config_item (
   id_config_item SMALLINT AUTO_INCREMENT NOT NULL,
   id_security_header SMALLINT NOT NULL,
