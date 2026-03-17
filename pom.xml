@@ -101,12 +101,12 @@
 		  <artifactId>log4j-jakarta-web</artifactId>
 		  <scope>runtime</scope>
 		</dependency>
-	   <!--   The Log4j 2 SLF4J Binding allows applications coded to the SLF4J API to use Log4j 2 as the implementation 
+	   <!--   The Log4j 2 SLF4J 2.x Binding allows applications coded to the SLF4J API to use Log4j 2 as the implementation
          Lutece-core ehcache-jakarta that use SLF4J.
           -->
        <dependency>
 	    	<groupId>org.apache.logging.log4j</groupId>
-	    	<artifactId>log4j-slf4j-impl</artifactId>
+	    	<artifactId>log4j-slf4j2-impl</artifactId>
 	    	<scope>runtime</scope>
         </dependency>
       
@@ -133,7 +133,7 @@
 		    <scope>runtime</scope>
 		</dependency>
 		-->
-		<!-- To redirect and manage logs using JUL (Java's native logging API), exclude the dependencies log4j-core, log4j-slf4j-impl and log4j-jakarta-web, 
+		<!-- To redirect and manage logs using JUL (Java's native logging API), exclude the dependencies log4j-core, log4j-slf4j2-impl and log4j-jakarta-web,
 		     then add the following dependencies instead: log4j-to-jul and slf4j-jdk14.
 		-->
 		<!-- Log4j-to-JUL bridge  
