@@ -11,6 +11,7 @@ Parameters:
 - method (string, optional): the HTTP method. Default: 'post'.
 - role (string, optional): ARIA label for the form. Default: ''.
 - action (string, optional): the form action URL. Default: 'jsp/site/Portal.jsp'.
+- foValidation (boolean, optional): whether to enable front-office form validation. Default: true.
 
 Showcase:
 - desc: "Formulaire - @cForm"
@@ -38,11 +39,12 @@ Snippet:
     </@cForm>
 
 -->
-<#macro cForm class='' id='' params='' name='' method='post' role='' action='jsp/site/Portal.jsp' deprecated...>
+<#macro cForm class='' id='' params='' name='' method='post' role='' action='jsp/site/Portal.jsp' foValidation=true deprecated...>
 <@deprecatedWarning args=deprecated />
-<form <#if class!=''>class="${class}"</#if> <#if id!=''> id="${id!name}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> aria-label="${role}"</#if><#if params!=''> ${params}</#if>>
+<form <#if class!=''>class="${class}"</#if> <#if id!=''> id="${id!name}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> aria-label="${role}"</#if> data-form-theme-validation="${foValidation?c}"<#if params!=''> ${params}</#if>>
 <#nested>
 </form>
+<#if foValidation>
 <!-- Form validation config from datastore (loaded before modules) -->
 <script>
 window.__formValidationConfig = {
@@ -76,4 +78,5 @@ window.__formValidationConfig = {
 <#-- Form validation messages from datastore -->
 <script type="module" src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-form-validation.js"></script>
 <script type="module" src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-form-observer.js"></script>
+</#if>
 </#macro>
