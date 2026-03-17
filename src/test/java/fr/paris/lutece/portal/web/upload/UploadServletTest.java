@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,11 +42,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.ByteArrayPartSource;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -230,21 +225,15 @@ public class UploadServletTest extends LuteceTestCase
     private MockHttpServletRequest getMultipartRequest( ) throws Exception
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        byte [ ] fileContent = new byte [ ] {
-                1, 2, 3
-        };
-        Part [ ] parts = new Part [ ] {
-                new FilePart( "file1", new ByteArrayPartSource( "file1", fileContent ) )
-        };
-        MultipartRequestEntity multipartRequestEntity = new MultipartRequestEntity( parts, new PostMethod( ).getParams( ) );
-        // Serialize request body
-        ByteArrayOutputStream requestContent = new ByteArrayOutputStream( );
-        multipartRequestEntity.writeRequest( requestContent );
-        // Set request body to HTTP servlet request
-        request.setContent( requestContent.toByteArray( ) );
-        // Set content type to HTTP servlet request (important, includes Mime boundary string)
-        request.setContentType( multipartRequestEntity.getContentType( ) );
+        String boundary = "----TestBoundary";
+        String body = "--" + boundary + "\r\n"
+                + "Content-Disposition: form-data; name=\"file1\"; filename=\"file1\"\r\n"
+                + "Content-Type: text/plain\r\n\r\n"
+                + "123\r\n"
+                + "--" + boundary + "--\r\n";
         request.setMethod( "POST" );
+        request.setContentType( "multipart/form-data; boundary=" + boundary );
+        request.setContent( body.getBytes( StandardCharsets.UTF_8 ) );
         return request;
     }
 }
