@@ -79,7 +79,7 @@ public class EditorBbcodeService implements IEditorBbcodeService
     private static List<ParserElement> _listParserElement;
     private static List<ParserComplexElement> _listParserComplexElement;
 
-    private EditorBbcodeService( )
+    protected EditorBbcodeService( )
     {
         // Ctor
     }
