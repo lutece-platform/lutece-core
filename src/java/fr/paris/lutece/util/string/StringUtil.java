@@ -41,11 +41,14 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
+import java.util.Base64;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * This class provides String utils.
@@ -412,5 +415,39 @@ public final class StringUtil
         }
 
         return out.toString(encoding);
+    }
+
+    /**
+     * Decodes a Base64-encoded string that was encoded client-side by the bypassXssFilter mechanism
+     * of the input macro. This allows form fields to bypass the global XSS sanitizer filter
+     * without disabling it entirely.
+     *
+     * @param strBase64Value
+     *            the Base64-encoded string received from the form field
+     * @return the decoded original string, or null if the input is null
+     * @throws IllegalArgumentException
+     *             if the input is not valid Base64
+     */
+    public static String decodeXssBypass( String strBase64Value )
+    {
+        if ( strBase64Value == null )
+        {
+            return null;
+        }
+        if ( strBase64Value.isEmpty( ) )
+        {
+            return strBase64Value;
+        }
+        try
+        {
+            byte [ ] decodedBytes = Base64.getDecoder( ).decode( StringEscapeUtils.unescapeHtml4( strBase64Value ) );
+            return new String( decodedBytes, StandardCharsets.UTF_8 );
+        }
+        catch( IllegalArgumentException e )
+        {
+            AppLogService.error( "decodeXssBypass: failed to decode Base64 value — the submitted data may have been tampered with or corrupted. Value: '{}'",
+                    strBase64Value, e );
+            return null;
+        }
     }
 }

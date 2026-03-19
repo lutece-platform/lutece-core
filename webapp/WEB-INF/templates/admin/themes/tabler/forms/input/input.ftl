@@ -44,17 +44,18 @@ Parameters:
 - fileName (string, optional): the name of the uploaded file for file inputs.
 - datalist (string, optional): the comma-separated list of options for a datalist input.
 - accept (string, optional): the comma-separated list of options for a datalist input.
-- patternValidationRules (json, optional) : json with id, regex and message to associated with each help controller spans. 
+- patternValidationRules (json, optional) : json with id, regex and message to associated with each help controller spans.
   	example : [{'name':'idSpan1','regex':'regexSpan1','message':'messageSpan1'},{'name':'idSpan2',...}]
         you can use the string "url" instead of a traditionnal regex if you want to validate an URL. example : [{'name':'idSpan1','regex':'url','message':'messageSpan1'}]
+- bypassXssFilter (boolean, optional): if true, the field value will be Base64-encoded before form submission to bypass the global XSS sanitizer filter. The server-side code must decode the value using StringUtil.decodeXssBypass().
 -->
-<#macro input name id='' type='text' value='' class='' size='' helpKey=helpKey!'' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 step=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist='' accept='' params='' patternValidationRules=[] deprecated...>
+<#macro input name id='' type='text' value='' class='' size='' helpKey=helpKey!'' inputSize=0 maxlength=0 placeHolder='' autoComplete='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 step=0 mandatory=false language=.locale minDate='' maxDate='' defaultDate='' defaultTime='' time_24hr=true minTime='' maxTime='' format='' showFormat='' dateRangeEndId='' dateParams=[] showFileUrl=false fileURL='' fileName='' datalist='' accept='' params='' patternValidationRules=[] bypassXssFilter=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if propagateMandatory?? && propagateMandatory ><#local mandatory = true /></#if>
 <#if type='textarea'>
-	<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if> <#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if helpKey !='' && id !=''> aria-describedby="help_${id}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
+	<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if> <#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if helpKey !='' && id !=''> aria-describedby="help_${id}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if><#if bypassXssFilter> data-xss-bypass="true"</#if>><#if value!='' >${value}<#else><#nested></#if></textarea>
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='color' || type='url'  || type='range' || type='tel' || type='datalist'>
-	<input class="form-control<#if size!=''> form-control-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if> <#if patternValidationRules?? && patternValidationRules?size!=0>input-validation</#if>"<#if helpKey !='' && id !=''> aria-describedby="help_${id}"</#if> type="${type}" name="${name}" value="${value}"<#if autoComplete !=''> autocomplete="${autoComplete}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if accept!='' && type='file'>accept=${accept}</#if><#if min?number!=max?number> min="${min}"</#if><#if max?number!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if><#if type='datalist'> list="${name}_list"</#if>>
+	<input class="form-control<#if size!=''> form-control-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if> <#if patternValidationRules?? && patternValidationRules?size!=0>input-validation</#if>"<#if helpKey !='' && id !=''> aria-describedby="help_${id}"</#if> type="${type}" name="${name}" value="${value}"<#if autoComplete !=''> autocomplete="${autoComplete}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if accept!='' && type='file'>accept=${accept}</#if><#if min?number!=max?number> min="${min}"</#if><#if max?number!=0> max="${max}"</#if><#if step!=0> step="${step}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if><#if type='datalist'> list="${name}_list"</#if><#if bypassXssFilter> data-xss-bypass="true"</#if>>
 	<#if type='file'>
 		<input type="hidden" id=${id}Key name="${name}Key" value="${value}" />
 		<#if showFileUrl && fileURL?? && fileName??><@link href="${fileURL}">${fileName}</@link></#if>
@@ -117,6 +118,9 @@ Parameters:
 	<input type="hidden" name="${name}" <#if id!=''>id="${id}"</#if> value="${value}" />
 <#else><@alert class='danger'>${i18n("portal.util.message.unsupportedType")}</@alert>
 </#if>
+<#if bypassXssFilter>
+	<@initXssBypass />
+</#if>
 </#macro>
 <#macro dynamicColorizedSpansForInputFeedback id patternValidationRules>
 <@initValidationInput id/>
@@ -145,5 +149,12 @@ Parameters:
     });
 </script>
 <#assign validationInputIsLoaded = true />
-</#if> 
+</#if>
+</#macro>
+<#macro initXssBypass>
+<#if xssBypassIsLoaded?? && xssBypassIsLoaded>
+<#else>
+<script src='./themes/shared/modules/luteceXssBypass.js'></script>
+<#assign xssBypassIsLoaded = true />
+</#if>
 </#macro>
