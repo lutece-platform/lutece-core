@@ -36,6 +36,7 @@ package fr.paris.lutece.util.xml;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import java.util.ArrayList;
@@ -46,6 +47,7 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.xml.XMLConstants;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Templates;
@@ -55,6 +57,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 /**
  * This class provides methods to transform XML documents using XSLT with cache
@@ -72,6 +75,107 @@ public final class XmlTransformer
         for ( int i = 0; i < TRANSFORMER_POOL_SIZE; i++ )
         {
             transformersPoolList.add( new ConcurrentHashMap<String, Templates>( MAX_TRANSFORMER_SIZE ) );
+        }
+    }
+
+    private static final String ORACLE_ENABLE_EXTENSION_FUNCTIONS = "http://www.oracle.com/xml/jaxp/properties/enableExtensionFunctions";
+    private static final String SAXON_ALLOW_EXTERNAL_FUNCTIONS = "http://saxon.sf.net/feature/allow-external-functions";
+
+    /**
+     * Creates a TransformerFactory hardened against XSLT-based RCE, XXE and SSRF attacks.
+     *
+     * The following security locks are applied:
+     * <ul>
+     *   <li>FEATURE_SECURE_PROCESSING — enables the JDK secure-processing mode</li>
+     *   <li>enableExtensionFunctions=false — blocks calls to Java classes from XSLT</li>
+     *   <li>ACCESS_EXTERNAL_DTD="" — prevents loading of external DTDs (JDK Xalan only)</li>
+     *   <li>ACCESS_EXTERNAL_STYLESHEET="" — blocks document(), xsl:include, xsl:import to external URIs (JDK Xalan only)</li>
+     * </ul>
+     * A restrictive URIResolver is set as an additional defense-in-depth layer.
+     * The method adapts to the underlying XSLT processor (JDK Xalan or Saxon) automatically.
+     *
+     * @return a security-hardened TransformerFactory
+     * @throws TransformerConfigurationException if a critical security feature is not supported
+     */
+    private TransformerFactory createSecureTransformerFactory( ) throws TransformerConfigurationException
+    {
+        TransformerFactory tf = TransformerFactory.newInstance( );
+        tf.setFeature( XMLConstants.FEATURE_SECURE_PROCESSING, true );
+        disableExtensionFunctions( tf );
+        setExternalAccessRestrictions( tf );
+        tf.setURIResolver( ( href, base ) -> {
+            throw new TransformerException( "External URI resolution blocked: " + href );
+        } );
+        return tf;
+    }
+
+    /**
+     * Disables XSLT extension functions on the given TransformerFactory.
+     * Tries the Oracle/JDK property name first (for the built-in Xalan XSLTC processor),
+     * then the Saxon-specific property. At least one must succeed.
+     *
+     * @param tf the TransformerFactory to configure
+     * @throws TransformerConfigurationException if extension functions could not be disabled
+     */
+    private void disableExtensionFunctions( TransformerFactory tf ) throws TransformerConfigurationException
+    {
+        boolean bDisabled = false;
+
+        try
+        {
+            tf.setFeature( ORACLE_ENABLE_EXTENSION_FUNCTIONS, false );
+            bDisabled = true;
+        }
+        catch( TransformerConfigurationException e )
+        {
+            AppLogService.debug( "Oracle enableExtensionFunctions not supported, trying Saxon property" );
+        }
+
+        if ( !bDisabled )
+        {
+            try
+            {
+                tf.setFeature( SAXON_ALLOW_EXTERNAL_FUNCTIONS, false );
+                bDisabled = true;
+            }
+            catch( TransformerConfigurationException e )
+            {
+                AppLogService.debug( "Saxon allow-external-functions not supported either" );
+            }
+        }
+
+        if ( !bDisabled )
+        {
+            throw new TransformerConfigurationException(
+                    "Failed to disable XSLT extension functions: neither Oracle/JDK nor Saxon property is supported by " + tf.getClass( ).getName( ) );
+        }
+    }
+
+    /**
+     * Restricts external DTD and stylesheet access on the given TransformerFactory.
+     * These JAXP attributes are supported by the JDK built-in Xalan processor but not by Saxon,
+     * which relies on FEATURE_SECURE_PROCESSING instead. Failures are logged but not fatal.
+     *
+     * @param tf the TransformerFactory to configure
+     */
+    private void setExternalAccessRestrictions( TransformerFactory tf )
+    {
+        try
+        {
+            tf.setAttribute( XMLConstants.ACCESS_EXTERNAL_DTD, "" );
+        }
+        catch( IllegalArgumentException e )
+        {
+            AppLogService.debug( "ACCESS_EXTERNAL_DTD not supported by {}", tf.getClass( ).getName( ) );
+        }
+
+        try
+        {
+            tf.setAttribute( XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "" );
+        }
+        catch( IllegalArgumentException e )
+        {
+            AppLogService.debug( "ACCESS_EXTERNAL_STYLESHEET not supported by {}", tf.getClass( ).getName( ) );
         }
     }
 
@@ -108,7 +212,7 @@ public final class XmlTransformer
             // only one thread can use transformer
             try
             {
-                result = TransformerFactory.newInstance( ).newTemplates( stylesheet );
+                result = createSecureTransformerFactory( ).newTemplates( stylesheet );
                 AppLogService.debug( " --  XML Templates instantiation : strStyleSheetId= {}", strStyleSheetId );
             }
             catch( TransformerConfigurationException e )
@@ -219,6 +323,12 @@ public final class XmlTransformer
     {
         Templates templates = this.getTemplates( stylesheet, strStyleSheetId );
         Transformer transformer = templates.newTransformer( );
+        // SECURITY: must return a non-null Source, not throw. XSLTC's LoadDocument silently catches
+        // TransformerException and falls back to direct URL loading when source is null.
+        transformer.setURIResolver( ( href, base ) -> {
+            AppLogService.error( "XSLT security: blocked document() call to external URI: {}", href );
+            return new StreamSource( new StringReader( "<blocked/>" ) );
+        } );
 
         if ( outputProperties != null )
         {
