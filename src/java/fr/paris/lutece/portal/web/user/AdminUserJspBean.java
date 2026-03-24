@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import fr.paris.lutece.portal.business.user.AdminUserWrapper;
 import fr.paris.lutece.portal.service.security.AccessLogService;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -69,8 +70,6 @@ import fr.paris.lutece.portal.business.user.attribute.ISimpleValuesAttributes;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
-import fr.paris.lutece.portal.business.xsl.XslExport;
-import fr.paris.lutece.portal.business.xsl.XslExportHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -95,7 +94,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
-import fr.paris.lutece.portal.service.xsl.XslExportService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
@@ -113,9 +111,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
-import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-import fr.paris.lutece.util.xml.XmlUtil;
 
 /**
  * This class provides the user interface to manage app user features ( manage, create, modify, remove, ... )
@@ -154,6 +150,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER = "admin/user/field_anonymize_admin_user.html";
     private static final String TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL = "admin/user/account_life_time_email.html";
     private static final String TEMPLATE_EXPORT_USERS_FROM_FILE = "admin/user/export_users.html";
+
+    private static final String TEMPLATE_EXPORT_USERS = "admin/user/export/export_csv.ftl";
 
     // Messages
     private static final String PROPERTY_MANAGE_USERS_PAGETITLE = "portal.users.manage_users.pageTitle";
@@ -196,7 +194,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryField";
     private static final String MESSAGE_ERROR_CSV_FILE_IMPORT = "portal.users.import_users_from_file.error_csv_file_import";
     private static final String FIELD_IMPORT_USERS_FILE = "portal.users.import_users_from_file.labelImportFile";
-    private static final String FIELD_XSL_EXPORT = "portal.users.export_users.labelXslt";
 
     // Parameters
     private static final String PARAMETER_ACCESS_CODE = "access_code";
@@ -256,7 +253,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_IMPORT_USERS_FILE = "import_file";
     private static final String PARAMETER_SKIP_FIRST_LINE = "ignore_first_line";
     private static final String PARAMETER_UPDATE_USERS = "update_existing_users";
-    private static final String PARAMETER_XSL_EXPORT_ID = "xsl_export_id";
     private static final String PARAMETER_EXPORT_ROLES = "export_roles";
     private static final String PARAMETER_EXPORT_ATTRIBUTES = "export_attributes";
     private static final String PARAMETER_EXPORT_RIGHTS = "export_rights";
@@ -331,13 +327,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_CSV_SEPARATOR = "csv_separator";
     private static final String MARK_CSV_ESCAPE = "csv_escape";
     private static final String MARK_ATTRIBUTES_SEPARATOR = "attributes_separator";
-    private static final String MARK_LIST_XSL_EXPORT = "refListXsl";
     private static final String MARK_DEFAULT_VALUE_WORKGROUP_KEY = "workgroup_key_default_value";
     private static final String MARK_WORKGROUP_KEY_LIST = "workgroup_key_list";
     private static final String MARK_ADMIN_AVATAR = "adminAvatar";
     private static final String MARK_RANDOM_PASSWORD_SIZE = "randomPasswordSize";
     private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
     private static final String MARK_DEFAULT_MODE_USED = "defaultModeUsed";
+    private static final String MARK_EXPORT_USERS = "users";
 
     private static final String CONSTANT_EMAIL_TYPE_FIRST = "first";
     private static final String CONSTANT_EMAIL_TYPE_OTHER = "other";
@@ -345,17 +341,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String CONSTANT_EMAIL_TYPE_REACTIVATED = "reactivated";
     private static final String CONSTANT_EMAIL_PASSWORD_EXPIRED = "password_expired";
     private static final String CONSTANT_EXTENSION_CSV_FILE = ".csv";
-    private static final String CONSTANT_EXTENSION_XML_FILE = ".xml";
     private static final String CONSTANT_MIME_TYPE_CSV = "application/csv";
-    private static final String CONSTANT_MIME_TYPE_XML = "application/xml";
     private static final String CONSTANT_MIME_TYPE_TEXT_CSV = "text/csv";
     private static final String CONSTANT_MIME_TYPE_OCTETSTREAM = "application/octet-stream";
     private static final String CONSTANT_EXPORT_USERS_FILE_NAME = "users";
-    private static final String CONSTANT_POINT = ".";
     private static final String CONSTANT_QUOTE = "\"";
     private static final String CONSTANT_ATTACHEMENT_FILE_NAME = "attachement; filename=\"";
     private static final String CONSTANT_ATTACHEMENT_DISPOSITION = "Content-Disposition";
-    private static final String CONSTANT_XML_USERS = "users";
     private static final String CONSTANT_CREATE_ADMINUSER = "lutece.admin.createAdminUser";
     private static final String CONSTANT_REMOVE_ADMINUSER = "lutece.admin.removeAdminUser";
     private static final String CONSTANT_ANONYMIZE_ADMINUSER = "lutece.admin.anonymizeAdminUser";
@@ -1306,10 +1298,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<>( );
 
-        ReferenceList refListXsl = XslExportHome.getRefListByPlugin( PluginService.getCore( ) );
-
-        model.put( MARK_LIST_XSL_EXPORT, refListXsl );
-
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EXPORT_USERS_FROM_FILE, AdminUserService.getLocale( request ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -1339,7 +1327,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return result;
         }
 
-        String strXslExportId = request.getParameter( PARAMETER_XSL_EXPORT_ID );
         String strExportAttributes = request.getParameter( PARAMETER_EXPORT_ATTRIBUTES );
         String strExportRoles = request.getParameter( PARAMETER_EXPORT_ROLES );
         String strExportRights = request.getParameter( PARAMETER_EXPORT_RIGHTS );
@@ -1348,20 +1335,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         boolean bExportRoles = StringUtils.isNotEmpty( strExportRoles );
         boolean bExportRights = StringUtils.isNotEmpty( strExportRights );
         boolean bExportWorkgroups = StringUtils.isNotEmpty( strExportWorkgroups );
-
-        if ( StringUtils.isBlank( strXslExportId ) )
-        {
-            Object [ ] tabRequiredFields = {
-                    I18nService.getLocalizedString( FIELD_XSL_EXPORT, getLocale( ) )
-            };
-            result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields, AdminMessage.TYPE_STOP ) );
-
-            return result;
-        }
-
-        int nIdXslExport = Integer.parseInt( strXslExportId );
-
-        XslExport xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
 
         Collection<AdminUser> listUsers = AdminUserHome.findUserList( );
 
@@ -1376,41 +1349,27 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        StringBuffer sbXml = new StringBuffer( XmlUtil.getXmlHeader( ) );
-        XmlUtil.beginElement( sbXml, CONSTANT_XML_USERS );
-
+        List<AdminUserWrapper> listUserWrapper = new ArrayList<>();
         for ( AdminUser user : listUsers )
         {
             if ( !user.isStatusAnonymized( ) )
             {
-                sbXml.append(
-                        AdminUserService.getXmlFromUser( user, bExportRoles, bExportRights, bExportWorkgroups, bExportAttributes, listAttributesFiltered ) );
+                listUserWrapper.add(AdminUserService.getExportUser( user, bExportRoles, bExportRights, bExportWorkgroups, bExportAttributes, listAttributesFiltered ));
             }
         }
 
-        XmlUtil.endElement( sbXml, CONSTANT_XML_USERS );
+        Map<String, Object> model = new HashMap<>( );
+        model.put(MARK_EXPORT_USERS, listUserWrapper);
 
-        String strXml = StringUtil.replaceAccent( sbXml.toString( ) );
-        String strExportedUsers = XslExportService.exportXMLWithXSL( nIdXslExport, strXml );
+        HtmlTemplate template = AppTemplateService.getTemplate(TEMPLATE_EXPORT_USERS ,getLocale(), model);
+        String strExportedUsers = template.getHtml();
+        response.setContentType( CONSTANT_MIME_TYPE_CSV );
 
-        if ( CONSTANT_MIME_TYPE_CSV.contains( xslExport.getExtension( ) ) )
-        {
-            response.setContentType( CONSTANT_MIME_TYPE_CSV );
-        }
-        else if ( CONSTANT_EXTENSION_XML_FILE.contains( xslExport.getExtension( ) ) )
-        {
-            response.setContentType( CONSTANT_MIME_TYPE_XML );
-        }
-        else
-        {
-            response.setContentType( CONSTANT_MIME_TYPE_OCTETSTREAM );
-        }
-
-        String strFileName = CONSTANT_EXPORT_USERS_FILE_NAME + CONSTANT_POINT + xslExport.getExtension( );
+        String strFileName = CONSTANT_EXPORT_USERS_FILE_NAME + CONSTANT_EXTENSION_CSV_FILE;
         response.setHeader( CONSTANT_ATTACHEMENT_DISPOSITION, CONSTANT_ATTACHEMENT_FILE_NAME + strFileName + CONSTANT_QUOTE );
 
         PrintWriter out = response.getWriter( );
-        out.write( strExportedUsers );
+        out.write( StringUtils.trim(strExportedUsers) );
         out.flush( );
         out.close( );
 

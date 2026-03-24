@@ -9,13 +9,8 @@
                 </@tabList>
                 <@tabContent>
                     <@tabPanel active=true id='export'>
-                        <@formGroup labelKey='#i18n{portal.users.export_users.labelXslt}' labelFor='xsl_export_id'>
-                            <@select id='xsl_export_id' name='xsl_export_id'>
-                            <#list refListXsl as xsl><@option value=xsl.code! label=xsl.name! /></#list>
-                            </@select>
-                        </@formGroup>
-                        <@formGroup labelKey='#i18n{portal.users.export_users.labelExportAttributes}' labelFor='export_attributes' helpKey='#i18n{portal.users.export_users.labelHelpExportAttributes}' hideLabel=['all']>
-                            <@checkBox orientation='switch' id='export_attributes' name='export_attributes' checked=true labelKey='#i18n{portal.users.export_users.labelExportAttributes}' labelClass='fw-bold' value='on' /> 
+                        <@formGroup labelKey='#i18n{portal.users.export_users.labelExportAttributes}' labelFor='export_attributes' helpKey='#i18n{portal.users.export_users.labelHelpExportAttributes}'>
+                            <@checkBox orientation='switch' id='export_attributes' name='export_attributes' checked=true labelKey='#i18n{portal.users.export_users.labelExportAttributes}' labelClass='fw-bold' value='on' />
                         </@formGroup>
                         <@formGroup labelKey='#i18n{portal.users.export_users.labelExportRoles}' labelFor='export_roles' helpKey='#i18n{portal.users.export_users.labelHelpExportRoles}' hideLabel=['all']>
                             <@checkBox orientation='switch' id='export_roles' name='export_roles' checked=true labelKey='#i18n{portal.users.export_users.labelExportRoles}' labelClass='fw-bold' value='on' />
