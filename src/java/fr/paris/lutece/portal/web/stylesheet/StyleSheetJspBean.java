@@ -67,6 +67,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.xsl.XslSecurityService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -122,6 +123,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_STYLESHEETS_PER_PAGE = "paginator.stylesheet.itemsPerPage";
     private static final String MESSAGE_STYLESHEET_ALREADY_EXISTS = "portal.style.message.stylesheetAlreadyExists";
     private static final String MESSAGE_STYLESHEET_NOT_VALID = "portal.style.message.stylesheetNotValid";
+    private static final String MESSAGE_STYLESHEET_SECURITY_VIOLATION = "portal.style.message.stylesheetSecurityViolation";
     private static final String MESSAGE_CONFIRM_DELETE_STYLESHEET = "portal.style.message.stylesheetConfirmDelete";
     private static final String LABEL_ALL = "portal.util.labelAll";
     private static final String JSP_DO_REMOVE_STYLESHEET = "jsp/admin/style/DoRemoveStyleSheet.jsp";
@@ -290,6 +292,14 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         if ( isValid( baXslSource ) != null )
         {
             return AdminMessageService.getMessageUrl( multipartRequest, MESSAGE_STYLESHEET_NOT_VALID, AdminMessage.TYPE_STOP );
+        }
+
+        // Check the XSL stylesheet for security threats
+        List<String> listSecurityViolations = XslSecurityService.validateXslSecurity( baXslSource );
+
+        if ( !listSecurityViolations.isEmpty( ) )
+        {
+            return AdminMessageService.getMessageUrl( multipartRequest, MESSAGE_STYLESHEET_SECURITY_VIOLATION, AdminMessage.TYPE_STOP );
         }
 
         stylesheet.setDescription( strDescription );
