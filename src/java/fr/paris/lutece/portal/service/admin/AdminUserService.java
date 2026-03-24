@@ -53,6 +53,9 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.portal.business.user.AdminUserAttributeExport;
+import fr.paris.lutece.portal.business.user.AdminUserExport;
+import fr.paris.lutece.util.string.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -96,7 +99,6 @@ import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.url.UrlItem;
-import fr.paris.lutece.util.xml.XmlUtil;
 
 /**
  * This service provides features concerning the administration users
@@ -213,30 +215,6 @@ public final class AdminUserService
     private static final String ZERO = "0";
     private static final String CONSTANT_AT = "@";
     private static final String CONSTANT_UNDERSCORE = "_";
-    private static final String CONSTANT_XML_USER = "user";
-    private static final String CONSTANT_XML_ACCESS_CODE = "access_code";
-    private static final String CONSTANT_XML_LAST_NAME = "last_name";
-    private static final String CONSTANT_XML_FIRST_NAME = "first_name";
-    private static final String CONSTANT_XML_EMAIL = "email";
-    private static final String CONSTANT_XML_STATUS = "status";
-    private static final String CONSTANT_XML_LOCALE = "locale";
-    private static final String CONSTANT_XML_LEVEL = "level";
-    private static final String CONSTANT_XML_MUST_CHANGE_PASSWORD = "must_change_password";
-    private static final String CONSTANT_XML_ACCESSIBILITY_MODE = "accessibility_mode";
-    private static final String CONSTANT_XML_PASSWORD_MAX_VALID_DATE = "password_max_valid_date";
-    private static final String CONSTANT_XML_ACCOUNT_MAX_VALID_DATE = "account_max_valid_date";
-    private static final String CONSTANT_XML_DATE_LAST_LOGIN = "date_last_login";
-    private static final String CONSTANT_XML_ROLES = "roles";
-    private static final String CONSTANT_XML_RIGHTS = "rights";
-    private static final String CONSTANT_XML_WORKGROUPS = "workgroups";
-    private static final String CONSTANT_XML_ROLE = "role";
-    private static final String CONSTANT_XML_RIGHT = "right";
-    private static final String CONSTANT_XML_WORKGROUP = "workgroup";
-    private static final String CONSTANT_XML_ATTRIBUTES = "attributes";
-    private static final String CONSTANT_XML_ATTRIBUTE = "attribute";
-    private static final String CONSTANT_XML_ATTRIBUTE_ID = "attribute-id";
-    private static final String CONSTANT_XML_ATTRIBUTE_FIELD_ID = "attribute-field-id";
-    private static final String CONSTANT_XML_ATTRIBUTE_VALUE = "attribute-value";
 
     /** Private constructor */
     private AdminUserService( )
@@ -1368,113 +1346,71 @@ public final class AdminUserService
     }
 
     /**
-     * Get a XML string describing a user.<br>
-     * The XML is constructed as follow :<br>
-     * <b>&lt;user&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;access_code&gt;</b>value<b>&lt;/value&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;last_name&gt;</b>value<b>&gt;/user&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;first_name&gt;</b>value<b>&lt;/value&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;email&gt;</b>value<b>&lt;/email&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;status&gt;</b>value<b>&lt;/status&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;locale&gt;</b>value<b>&lt;/locale&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;level&gt;</b>value<b>&lt;/level&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;must_change_password&gt;</b>value<b>&lt; must_change_password&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;accessibility_mode&gt;</b>value<b>&lt; accessibility_mode&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;password_max_valid_date&gt;</b>value<b>&lt; password_max_valid_date&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;account_max_valid_date&gt;</b>value<b>&lt; account_max_valid_date&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;date_last_login&gt;</b>value<b>&lt;/date_last_login&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;roles&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;role&gt;</b>value<b>&lt;/role&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;...<br>
-     * &nbsp;&nbsp;<b>&lt;/roles&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;rights&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;right&gt;</b>value<b>&lt;/right&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;...<br>
-     * &nbsp;&nbsp;<b>&lt;/rights&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;workspaces&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;workspace&gt;</b>value<b>&lt;/workspace&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;...<br>
-     * &nbsp;&nbsp;<b>&lt;/workspaces&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;attributes&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-id&gt;</b>value<b>&lt;/attribute-id&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-field-id&gt;</b> value<b>&lt;/attribute-id&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-value&gt;</b>value<b >&lt;/attribute-value&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;/attribute&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;...<br>
-     * &nbsp;&nbsp;<b>&lt;/attributes&gt;</b><br>
-     * <b>&lt;/user&gt;</b><br>
-     * <br>
-     * Sections <b>roles</b>, <b>rights</b>, <b>workspaces</b> and <b>attributes</b> are not included if data are not imported
-     * 
      * @param user
-     *            The user to get the XML description of.
+     *            The use
      * @param bIncludeRoles
-     *            True to include roles of the user in the XML, false otherwise.
+     *            True to include roles of the user
      * @param bIncludeRights
-     *            True to include rights of the user in the XML, false otherwise.
+     *            True to include rights of the user
      * @param bIncludeWorkgroups
-     *            True to include workgroups of the user in the XML, false otherwise.
+     *            True to include workgroups of the user
      * @param bIncludeAttributes
-     *            True to include attributes of the user in the XML, false otherwise.
+     *            True to include attributes of the user
      * @param listAttributes
-     *            The list of attributes to include in the XML if attributes are included.
-     * @return A string of XML describing the user.
+     *            The list of attributes to include in the user
+     * @return A AdminUserExport
      */
-    public static String getXmlFromUser( AdminUser user, boolean bIncludeRoles, boolean bIncludeRights, boolean bIncludeWorkgroups, boolean bIncludeAttributes,
+    public static AdminUserExport getExportUser( AdminUser user, boolean bIncludeRoles, boolean bIncludeRights, boolean bIncludeWorkgroups, boolean bIncludeAttributes,
             List<IAttribute> listAttributes )
     {
-        StringBuffer sbXml = new StringBuffer( );
+        AdminUserExport adminUserExport = new AdminUserExport();
+        adminUserExport.setAccessCode( StringUtil.replaceAccent( user.getAccessCode( ) ) );
+        adminUserExport.setLastName( StringUtil.replaceAccent( user.getLastName( ) ) );
+        adminUserExport.setFirstName( StringUtil.replaceAccent( user.getFirstName( ) ) );
+        adminUserExport.setEmail( StringUtil.replaceAccent( user.getEmail( ) ) );
+        adminUserExport.setStatus( Integer.toString( user.getRealStatus( ) ) );
+        adminUserExport.setLocale( user.getLocale( ).toString( ) );
+        adminUserExport.setLevel( Integer.toString( user.getUserLevel( ) ) );
+        adminUserExport.setPasswordReset( Boolean.toString( user.isPasswordReset( ) ) );
+        adminUserExport.setAccessibilityMode( Boolean.toString( user.getAccessibilityMode( ) ) );
+
+
         DateFormat dateFormat = new SimpleDateFormat( );
 
-        XmlUtil.beginElement( sbXml, CONSTANT_XML_USER );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESS_CODE, user.getAccessCode( ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_LAST_NAME, user.getLastName( ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_FIRST_NAME, user.getFirstName( ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_EMAIL, user.getEmail( ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_STATUS, Integer.toString( user.getRealStatus( ) ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_LOCALE, user.getLocale( ).toString( ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_LEVEL, Integer.toString( user.getUserLevel( ) ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_MUST_CHANGE_PASSWORD, Boolean.toString( user.isPasswordReset( ) ) );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESSIBILITY_MODE, Boolean.toString( user.getAccessibilityMode( ) ) );
-
         String strPasswordMaxValidDate = Optional.ofNullable( user.getPasswordMaxValidDate( ) ).map( dateFormat::format ).orElse( StringUtils.EMPTY );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_PASSWORD_MAX_VALID_DATE, strPasswordMaxValidDate );
+        adminUserExport.setPasswordMaxValidDate( strPasswordMaxValidDate );
 
         String strAccountMaxValidDate = Optional.ofNullable( user.getAccountMaxValidDate( ) ).map( dateFormat::format ).orElse( StringUtils.EMPTY );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_ACCOUNT_MAX_VALID_DATE, strAccountMaxValidDate );
+        adminUserExport.setAccountMaxValidDate( strAccountMaxValidDate );
 
         String strDateLastLogin = Optional.ofNullable( user.getDateLastLogin( ) ).map( dateFormat::format ).orElse( StringUtils.EMPTY );
-        XmlUtil.addElement( sbXml, CONSTANT_XML_DATE_LAST_LOGIN, strDateLastLogin );
+        adminUserExport.setDateLastLogin( strDateLastLogin );
 
         if ( bIncludeRoles )
         {
             Map<String, RBACRole> mapRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
-            XmlUtil.beginElement( sbXml, CONSTANT_XML_ROLES );
-            mapRoles.keySet( ).forEach( s -> XmlUtil.addElement( sbXml, CONSTANT_XML_ROLE, s ) );
-            XmlUtil.endElement( sbXml, CONSTANT_XML_ROLES );
+            adminUserExport.setRoles(new ArrayList<>(mapRoles.keySet()));
         }
 
         if ( bIncludeRights )
         {
             Map<String, Right> mapRights = AdminUserHome.getRightsListForUser( user.getUserId( ) );
-            XmlUtil.beginElement( sbXml, CONSTANT_XML_RIGHTS );
-            mapRights.keySet( ).forEach( s -> XmlUtil.addElement( sbXml, CONSTANT_XML_RIGHT, s ) );
-            XmlUtil.endElement( sbXml, CONSTANT_XML_RIGHTS );
+            adminUserExport.setRights(new ArrayList<>(mapRights.keySet()));
         }
 
         if ( bIncludeWorkgroups )
         {
+            List<String> workgroups = new ArrayList<>();
             ReferenceList refListWorkgroups = AdminWorkgroupHome.getUserWorkgroups( user );
-            XmlUtil.beginElement( sbXml, CONSTANT_XML_WORKGROUPS );
-            refListWorkgroups.forEach( ri -> XmlUtil.addElement( sbXml, CONSTANT_XML_WORKGROUP, ri.getCode( ) ) );
-            XmlUtil.endElement( sbXml, CONSTANT_XML_WORKGROUPS );
+            refListWorkgroups.forEach( ri -> workgroups.add(ri.getCode()) );
+            adminUserExport.setWorkgroups( workgroups );
         }
 
         if ( bIncludeAttributes )
         {
+            List<AdminUserAttributeExport> attributes = new ArrayList<>();
+
             Map<String, Object> mapAttributes = AdminUserFieldService.getAdminUserFields( listAttributes, user.getUserId( ), LocaleService.getDefault( ) );
-            XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTES );
 
             for ( Entry<String, Object> entry : mapAttributes.entrySet( ) )
             {
@@ -1488,21 +1424,19 @@ public final class AdminUserService
 
                     for ( AdminUserField adminUserFields : listFields )
                     {
-                        XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTE );
-                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_ID, strAttributeKey );
-                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_FIELD_ID, adminUserFields.getAttributeField( ).getIdField( ) );
-                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_VALUE, adminUserFields.getValue( ) );
-                        XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTE );
+                        AdminUserAttributeExport adminUserAttributeExport = new AdminUserAttributeExport();
+                        adminUserAttributeExport.setId( StringUtil.replaceAccent( strAttributeKey ) );
+                        adminUserAttributeExport.setFieldId( adminUserFields.getAttributeField( ).getIdField( ) );
+                        adminUserAttributeExport.setValue( StringUtil.replaceAccent( adminUserFields.getValue( ) ) );
+                        attributes.add(adminUserAttributeExport);
                     }
                 }
             }
 
-            XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTES );
+            adminUserExport.setAttributes(attributes);
         }
 
-        XmlUtil.endElement( sbXml, CONSTANT_XML_USER );
-
-        return sbXml.toString( );
+        return adminUserExport;
     }
 
     /**
