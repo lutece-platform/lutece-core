@@ -289,11 +289,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         // Check the XML validity of the XSL stylesheet
         if ( isValid( baXslSource ) != null )
         {
-            Object [ ] args = {
-                    isValid( baXslSource )
-            };
-
-            return AdminMessageService.getMessageUrl( multipartRequest, MESSAGE_STYLESHEET_NOT_VALID, args, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( multipartRequest, MESSAGE_STYLESHEET_NOT_VALID, AdminMessage.TYPE_STOP );
         }
 
         stylesheet.setDescription( strDescription );
@@ -466,15 +462,17 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         try
         {
             SAXParserFactory factory = SAXParserFactory.newInstance( );
-            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
-            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            factory.setFeature( "http://apache.org/xml/features/disallow-doctype-decl", true );
+            factory.setFeature( "http://xml.org/sax/features/external-general-entities", false );
+            factory.setFeature( "http://xml.org/sax/features/external-parameter-entities", false );
             SAXParser analyzer = factory.newSAXParser( );
             InputSource is = new InputSource( new ByteArrayInputStream( baXslSource ) );
             analyzer.getXMLReader( ).parse( is );
         }
         catch( Exception e )
         {
-            strError = e.getMessage( );
+            strError = "invalid XSL stylesheet";
+            AppLogService.error( "XSL validation error: {}", e.getMessage( ), e );
         }
 
         return strError;
