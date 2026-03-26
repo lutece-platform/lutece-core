@@ -190,7 +190,7 @@ public class LocalDatabaseFileService implements IFileStoreServiceProvider
             	return null;
             }
             
-            if ( withPhysicalFile )
+            if ( withPhysicalFile && file.getPhysicalFile( ) != null )
             {
                 // get file content
                 file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) ) );
