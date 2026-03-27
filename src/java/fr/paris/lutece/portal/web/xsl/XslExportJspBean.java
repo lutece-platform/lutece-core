@@ -443,6 +443,12 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public void doDownloadXslExport( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
+        if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, getUser( ) ) )
+        {
+            response.sendError( HttpServletResponse.SC_FORBIDDEN );
+            return;
+        }
+
         String strXslExportId = request.getParameter( PARAMETER_ID_XSL_EXPORT );
 
         if ( strXslExportId != null )
