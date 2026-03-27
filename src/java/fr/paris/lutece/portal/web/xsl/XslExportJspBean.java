@@ -523,11 +523,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
             if ( strError != null )
             {
-                Object [ ] args = {
-                        strError
-                };
-
-                return AdminMessageService.getMessageUrl( request, MESSAGE_XML_NOT_VALID, args, JSP_XSL_EXPORT_LIST, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_XML_NOT_VALID, JSP_XSL_EXPORT_LIST, AdminMessage.TYPE_STOP );
             }
         }
 
@@ -555,16 +551,17 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         try
         {
             SAXParserFactory factory = SAXParserFactory.newInstance( );
-            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
-            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            factory.setFeature( "http://apache.org/xml/features/disallow-doctype-decl", true );
+            factory.setFeature( "http://xml.org/sax/features/external-general-entities", false );
+            factory.setFeature( "http://xml.org/sax/features/external-parameter-entities", false );
             SAXParser analyzer = factory.newSAXParser( );
             InputSource is = new InputSource( new ByteArrayInputStream( baXslSource ) );
             analyzer.getXMLReader( ).parse( is );
         }
         catch( Exception e )
         {
-            strError = e.getMessage( );
-            AppLogService.debug( e.getMessage( ), e );
+            strError = "invalid XSL stylesheet";
+            AppLogService.error( "XSL validation error: {}", e.getMessage( ), e );
         }
 
         return strError;
