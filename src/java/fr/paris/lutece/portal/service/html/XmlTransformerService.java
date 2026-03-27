@@ -56,6 +56,7 @@ public final class XmlTransformerService
 {
     private static final String XSLSOURCE_STYLE_PREFIX_ID = UniqueIDGenerator.getNewId( );
     private static final String LOGGER_XML_CONTENT = "lutece.debug.xmlContent";
+    private static final String ERROR_MESSAGE_XSL_TRANSFORMATION = "An error occurred during XSL transformation. The requested operation was blocked for security reasons.";
     private static final Logger _log = LogManager.getLogger( LOGGER_XML_CONTENT );
 
     /**
@@ -163,8 +164,8 @@ public final class XmlTransformerService
         }
         catch( Exception e )
         {
-            strContent = e.getMessage( );
-            AppLogService.error( e.getMessage( ), e );
+            strContent = ERROR_MESSAGE_XSL_TRANSFORMATION;
+            AppLogService.error( "XSL transformation error for stylesheet {}", strStyleSheetId, e );
         }
 
         return strContent;
@@ -197,8 +198,8 @@ public final class XmlTransformerService
         }
         catch( Exception e )
         {
-            strContent = e.getMessage( );
-            AppLogService.error( e.getMessage( ), e );
+            strContent = ERROR_MESSAGE_XSL_TRANSFORMATION;
+            AppLogService.error( "XSL transformation error for stylesheet {}", strStyleSheetId, e );
         }
 
         return strContent;
