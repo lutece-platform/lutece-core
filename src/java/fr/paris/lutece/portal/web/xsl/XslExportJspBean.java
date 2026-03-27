@@ -58,6 +58,7 @@ import fr.paris.lutece.portal.service.util.AppException;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.xsl.XslExportResourceIdService;
+import fr.paris.lutece.portal.service.xsl.XslSecurityService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.ReferenceItem;
@@ -74,6 +75,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,6 +136,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
     private static final String FIELD_FILE = "portal.xsl.create_xsl_export.label_file";
     private static final String MESSAGE_XML_NOT_VALID = "portal.xsl.message.xml_not_valid";
+    private static final String MESSAGE_XSL_SECURITY_VIOLATION = "portal.xsl.message.xsl_security_violation";
     private static final String MESSAGE_PERMISSION_DENIED = "portal.xsl.message.permission_denied";
 
     // properties
@@ -516,14 +519,23 @@ public class XslExportJspBean extends PluginAdminPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields, JSP_XSL_EXPORT_LIST, AdminMessage.TYPE_STOP );
         }
 
-        // Check the XML validity of the XSL stylesheet
+        // Check the XML validity and security of the XSL stylesheet
         if ( fileSource != null )
         {
-            strError = isValid( fileSource.getPhysicalFile( ).getValue( ) );
+            byte [ ] baXslSource = fileSource.getPhysicalFile( ).getValue( );
+
+            strError = isValid( baXslSource );
 
             if ( strError != null )
             {
                 return AdminMessageService.getMessageUrl( request, MESSAGE_XML_NOT_VALID, JSP_XSL_EXPORT_LIST, AdminMessage.TYPE_STOP );
+            }
+
+            List<String> listSecurityViolations = XslSecurityService.validateXslSecurity( baXslSource );
+
+            if ( !listSecurityViolations.isEmpty( ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_XSL_SECURITY_VIOLATION, JSP_XSL_EXPORT_LIST, AdminMessage.TYPE_STOP );
             }
         }
 
