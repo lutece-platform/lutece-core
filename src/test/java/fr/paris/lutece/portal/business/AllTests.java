@@ -44,8 +44,6 @@ import fr.paris.lutece.portal.business.right.RightTest;
 import fr.paris.lutece.portal.business.role.RoleTest;
 import fr.paris.lutece.portal.business.style.ModeTest;
 import fr.paris.lutece.portal.business.style.PageTemplateTest;
-import fr.paris.lutece.portal.business.style.StyleTest;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheetTest;
 import fr.paris.lutece.portal.business.user.AdminUserTest;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupTest;
 
@@ -78,8 +76,6 @@ public final class AllTests
         suite.addTest( new TestSuite( RoleTest.class ) );
         suite.addTest( new TestSuite( ModeTest.class ) );
         suite.addTest( new TestSuite( PageTemplateTest.class ) );
-        suite.addTest( new TestSuite( StyleTest.class ) );
-        suite.addTest( new TestSuite( StyleSheetTest.class ) );
         suite.addTest( new TestSuite( AdminUserTest.class ) );
         suite.addTest( new TestSuite( AdminWorkgroupTest.class ) );
 

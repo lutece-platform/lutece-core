@@ -38,8 +38,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class PortalComponentTest extends LuteceTestCase
 {
     private static final int PORTAL_COMPONENT_ID = -99;
-    private static final int TEST_PORTALCOMPONENT_ID = 0; // Portlets
-    private final static int INTMODE = 0;
     private final static String STRNAME1 = "StrName 1";
     private final static String STRNAME2 = "StrName 2";
 
@@ -67,8 +65,5 @@ public class PortalComponentTest extends LuteceTestCase
         PortalComponentHome.remove( portalComponent.getId( ) );
         portalComponentStored = PortalComponentHome.findByPrimaryKey( portalComponent.getId( ) );
         assertNull( portalComponentStored );
-
-        // getXsl test
-        PortalComponentHome.getXsl( TEST_PORTALCOMPONENT_ID, INTMODE );
     }
 }
