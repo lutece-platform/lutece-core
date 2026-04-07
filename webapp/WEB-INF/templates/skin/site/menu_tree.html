@@ -1,0 +1,39 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#tree").treeview({
+            animated: "fast",
+            collapsed: false,
+            unique: true,
+            persist: "cookie"
+        });
+    });
+</script>
+
+<#if menuItems?has_content>
+    <div class="tree4">
+        <h2>&#160;</h2>
+        <ul id="tree" class="tree4">
+            <#list menuItems as menu>
+                <li>
+                    <a href="${site_path}?page_id=${menu.pageId}" target="_top">
+                        ${menu.pageName}
+                    </a>
+                    <br />
+                    ${(menu.pageDescription)!}
+                    <#if menu.children??>
+                        <ul>
+                            <#list menu.children as child>
+                                <li>
+                                    <a href="${site_path}?page_id=${child.pageId}" target="_top">
+                                        ${child.pageName}
+                                    </a>
+                                </li>
+                            </#list>
+                        </ul>
+                    </#if>
+                </li>
+            </#list>
+        </ul>
+    </div>
+    <br />
+</#if>
