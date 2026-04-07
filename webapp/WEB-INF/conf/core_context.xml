@@ -48,10 +48,11 @@
 
 	<bean id="securityHeaderCacheService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderCacheService" />
 
+	<bean id="portletContentService" class="fr.paris.lutece.portal.service.portlet.PortletContentService" autowire="constructor" />
+
     <!-- since the PageService constructor initializes the two above caches, we choose to inject them through the constructor -->
     <bean id="pageService" class="fr.paris.lutece.portal.service.page.PageService" autowire="constructor">
         <property name="pageCacheKeyService" ref="pageCacheKeyService" />
-        <property name="portletCacheKeyService" ref="portletCacheKeyService" />
         <property name="roleRemovalService" ref="roleRemovalService" />
     </bean>
 
@@ -108,6 +109,7 @@
     <bean id="aliasPortletDAO" class="fr.paris.lutece.portal.business.portlet.AliasPortletDAO" />
     <bean id="portletDAO" class="fr.paris.lutece.portal.business.portlet.PortletDAO" />
     <bean id="portletTypeDAO" class="fr.paris.lutece.portal.business.portlet.PortletTypeDAO" />
+    <bean id="portletStyleDAO" class="fr.paris.lutece.portal.business.portlet.PortletStyleDAO" />
 
     <!-- package rbac -->
     <bean id="rbacRoleDAO" class="fr.paris.lutece.portal.business.rbac.RBACRoleDAO" />
@@ -126,10 +128,6 @@
     <!-- package style -->
     <bean id="modeDAO" class="fr.paris.lutece.portal.business.style.ModeDAO" />
     <bean id="pageTemplateDAO" class="fr.paris.lutece.portal.business.style.PageTemplateDAO" />
-    <bean id="styleDAO" class="fr.paris.lutece.portal.business.style.StyleDAO" />
-
-    <!-- package stylesheet -->
-    <bean id="styleSheetDAO" class="fr.paris.lutece.portal.business.stylesheet.StyleSheetDAO" />
 
     <!-- package template -->
     <bean id="databaseTemplateDAO" class="fr.paris.lutece.portal.business.template.DatabaseTemplateDAO" />
@@ -174,9 +172,6 @@
 
     <!-- dashboards -->
     <bean id="dashboardDAO" class="fr.paris.lutece.portal.business.dashboard.DashboardDAO" />
-
-    <!-- xsl exports -->
-    <bean id="xslExportDAO" class="fr.paris.lutece.portal.business.xsl.XslExportDAO" />
 
     <bean id="richTextEditorDAO" class="fr.paris.lutece.portal.business.editor.RichTextEditorDAO" />
 

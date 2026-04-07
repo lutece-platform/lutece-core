@@ -31,48 +31,30 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.xsl;
+package fr.paris.lutece.portal.business.portlet;
 
-import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
-import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
-import fr.paris.lutece.portal.business.xsl.XslExport;
-import fr.paris.lutece.portal.business.xsl.XslExportHome;
-import fr.paris.lutece.portal.service.html.XmlTransformerService;
-import fr.paris.lutece.util.UniqueIDGenerator;
+import fr.paris.lutece.util.ReferenceList;
 
 /**
- *
- * Class to export XML datas with a Xsl file.
- *
+ * This implementation is a default implementation, the XSL implementation is available in the xmltransformer plugin.
  */
-public final class XslExportService
+public class PortletStyleDAO implements IPortletStyleDAO
 {
-    private static final String XSL_UNIQUE_PREFIX_ID = UniqueIDGenerator.getNewId( ) + "core-";
-
-    /**
-     * Instantiates a new xsl export service.
-     */
-    private XslExportService( )
+    @Override
+    public String selectXslFile( int nIdPortlet, int nIdMode )
     {
+        return null;
     }
 
-    /**
-     * Transform an XML with an XSL
-     * 
-     * @param nIdXslExport
-     *            Id of the Xsl export to use for the XML transformation.
-     * @param strXml
-     *            XML to transform
-     * @return The given XML transformed with the given XSL
-     */
-    public static String exportXMLWithXSL( int nIdXslExport, String strXml )
+    @Override
+    public byte [ ] selectXslSource( int nIdPortlet, int nIdMode )
     {
-        XslExport xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
-        PhysicalFile xslPhysicalFile = PhysicalFileHome.findByPrimaryKey( xslExport.getFile( ).getPhysicalFile( ).getIdPhysicalFile( ) );
-        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
+        return null;
+    }
 
-        String strXslId = XSL_UNIQUE_PREFIX_ID + xslPhysicalFile.getIdPhysicalFile( );
-
-        return xmlTransformerService.transformBySourceWithXslCache( strXml, xslPhysicalFile.getValue( ), strXslId, null );
+    @Override
+    public ReferenceList selectStylesList( String strIdPortletType )
+    {
+        return new ReferenceList( );
     }
 }

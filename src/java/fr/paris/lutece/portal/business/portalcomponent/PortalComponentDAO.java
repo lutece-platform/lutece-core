@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portalcomponent;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 /**
@@ -46,10 +45,6 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_portal_component ( id_portal_component, name ) VALUES ( ?, ? )";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_portal_component WHERE id_portal_component = ?";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_portal_component SET id_portal_component = ?, name = ? " + " WHERE id_portal_component = ?";
-    private static final String SQL_QUERY_SELECTXSL = " SELECT a.id_stylesheet , a.description , a.file_name, a.source "
-            + " FROM core_stylesheet a, core_portal_component b, core_style_mode_stylesheet c, core_style d "
-            + " WHERE a.id_stylesheet = c.id_stylesheet AND d.id_style = c.id_style "
-            + " AND b.id_portal_component = d.id_portal_component AND d.id_portal_component = ? " + " AND c.id_mode = ? ";
 
     // /////////////////////////////////////////////////////////////////////////////////////
     // Access methods to data
@@ -121,32 +116,5 @@ public final class PortalComponentDAO implements IPortalComponentDAO
 
             daoUtil.executeUpdate( );
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public StyleSheet selectXslFile( int nPortalComponentId, int nIdMode )
-    {
-        StyleSheet stylesheet = new StyleSheet( );
-        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTXSL ) )
-        {
-
-            daoUtil.setInt( 1, nPortalComponentId );
-            daoUtil.setInt( 2, nIdMode );
-
-            daoUtil.executeQuery( );
-
-            if ( daoUtil.next( ) )
-            {
-                stylesheet.setId( daoUtil.getInt( 1 ) );
-                stylesheet.setDescription( daoUtil.getString( 2 ) );
-                stylesheet.setFile( daoUtil.getString( 3 ) );
-                stylesheet.setSource( daoUtil.getBytes( 4 ) );
-            }
-
-        }
-
-        return stylesheet;
     }
 }

@@ -44,8 +44,6 @@ import fr.paris.lutece.portal.web.rbac.RoleManagementJspBeanTest;
 import fr.paris.lutece.portal.web.search.SearchAppTest;
 import fr.paris.lutece.portal.web.search.SearchIndexationJspBeanTest;
 import fr.paris.lutece.portal.web.style.PageTemplatesJspBeanTest;
-import fr.paris.lutece.portal.web.style.StylesJspBeanTest;
-import fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBeanTest;
 import fr.paris.lutece.portal.web.system.PluginJspBeanTest;
 import fr.paris.lutece.portal.web.system.SystemJspBeanTest;
 import fr.paris.lutece.portal.web.xpages.SiteMapAppTest;
@@ -80,8 +78,6 @@ public final class AllTests
         suite.addTest( new TestSuite( SearchAppTest.class ) );
         suite.addTest( new TestSuite( SearchIndexationJspBeanTest.class ) );
         suite.addTest( new TestSuite( PageTemplatesJspBeanTest.class ) );
-        suite.addTest( new TestSuite( StylesJspBeanTest.class ) );
-        suite.addTest( new TestSuite( StyleSheetJspBeanTest.class ) );
         suite.addTest( new TestSuite( PluginJspBeanTest.class ) );
         suite.addTest( new TestSuite( SystemJspBeanTest.class ) );
         suite.addTest( new TestSuite( SiteMapAppTest.class ) );

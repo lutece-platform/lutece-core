@@ -565,18 +565,6 @@ CREATE TABLE core_template (
   PRIMARY KEY (template_name)
   );
   
-  
-DROP TABLE IF EXISTS core_xsl_export;
-CREATE TABLE core_xsl_export (
-  id_xsl_export INT AUTO_INCREMENT NOT NULL,
-  title VARCHAR(255) DEFAULT NULL,
-  description VARCHAR(255) DEFAULT NULL ,
-  extension VARCHAR(255) DEFAULT NULL,
-  id_file INT DEFAULT NULL,
-  plugin VARCHAR(255) DEFAULT '',
-  PRIMARY KEY  (id_xsl_export)
-);
-
 DROP TABLE IF EXISTS core_text_editor;
 CREATE TABLE core_text_editor (
   editor_name VARCHAR(255) NOT NULL,

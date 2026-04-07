@@ -33,9 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.util.ReferenceList;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -101,17 +98,6 @@ public interface IPortletDAO
     void updatePosition( Portlet portlet, int nColumn, int nOrder );
 
     /**
-     * Returns the stylesheet of the portlet according to the mode
-     *
-     * @param nPortletId
-     *            the identifier of the portlet
-     * @param nIdMode
-     *            the selected mode
-     * @return the stylesheet
-     */
-    StyleSheet selectXslFile( int nPortletId, int nIdMode );
-
-    /**
      * Returns the list of portlets in a distinct name
      *
      * @param strPortletName
@@ -128,15 +114,6 @@ public interface IPortletDAO
      * @return the portlets in form of Collection
      */
     List<Portlet> selectPortletsByType( String strPortletTypeId );
-
-    /**
-     * Returns all the styles corresponding to a portlet type
-     *
-     * @param strPortletTypeId
-     *            the identifier of the portlet type
-     * @return the list of styles in form of ReferenceList
-     */
-    ReferenceList selectStylesList( String strPortletTypeId );
 
     /**
      * Indicates if the portlet has alias in the database or not.
