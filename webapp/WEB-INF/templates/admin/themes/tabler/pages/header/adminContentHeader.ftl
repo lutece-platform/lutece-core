@@ -24,9 +24,6 @@ Parameters:
                 </span>
             </@div>
         </@div>
-        <@div id="page-header-buttons" class="col-auto ms-auto d-print-none">
-            <@adminHeaderDocumentationLink />
-        </@div>
     </@div>
 </header>
 </#macro>
