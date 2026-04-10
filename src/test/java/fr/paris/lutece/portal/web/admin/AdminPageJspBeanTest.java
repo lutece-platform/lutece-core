@@ -73,10 +73,10 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockMultipartItem;
+import fr.paris.lutece.test.mocks.TemporaryMultipartItemFactory;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.http.MockMultipartItem;
-import fr.paris.lutece.util.http.TemporaryMultipartItemFactory;
 import jakarta.inject.Inject;
 
 public class AdminPageJspBeanTest extends LuteceTestCase
