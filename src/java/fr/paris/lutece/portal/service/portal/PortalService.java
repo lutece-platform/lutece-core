@@ -39,26 +39,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Properties;
 
 import jakarta.enterprise.inject.spi.CDI;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
-import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
-import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
-import fr.paris.lutece.portal.business.style.ModeHome;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.PathCacheService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
@@ -75,7 +69,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.xml.XmlUtil;
 
 /**
  * This class provides methods to build the pages of the portal and manage the cache
@@ -83,9 +76,6 @@ import fr.paris.lutece.util.xml.XmlUtil;
 public final class PortalService
 {
     // //////////////////////////////////////////////////////////////////////////
-    // Constants
-    private static final int PORTAL_COMPONENT_PAGE_PATH_ID = 5;
-
     // Properties
     private static final String PROPERTY_HOME_PAGE_HEADER = "home.page.header.mode";
     private static final String PROPERTY_INTERNAL_PAGE_HEADER = "internal.page.header.mode";
@@ -107,24 +97,23 @@ public final class PortalService
     private static final String TEMPLATE_PAGE_PATH = "skin/site/page_path.html";
     private static final String TEMPLATE_PORTAL_FOOTER = "skin/site/portal_footer.html";
     private static final String TEMPLATE_ADMIN_CSS_LINKS = "admin/stylesheet_link.html";
+    private static final String TEMPLATE_PAGE_BREADCRUMB = "skin/site/page_breadcrumb.html";
 
     // Markers
-    private static final String MARKER_TARGET = "target";
     private static final String MARKER_PAGE_DATA = "data";
     private static final String PLUGIN_EXTEND_NAME = "extend";
     private static final String PLUGIN_CONTACT_NAME = "contact";
     private static final String MARK_IS_EXTEND_INSTALLED = "isExtendInstalled";
     private static final String MARK_IS_CONTACT_INSTALLED = "isContactInstalled";
     private static final String MARK_LUTECE_USER = "lutece_user";
-    private static final String TARGET_TOP = "target='_top'";
     private static final String BOOKMARK_BASE_URL = "@base_url@";
     private static final String MARK_LAST_MODIFIED = "last_modified";
     private static final String MARK_DISPLAY_LAST_MODIFIED = "display_last_modified";
+    private static final String MARK_SITE_PAGES = "list_pages";
+    private static final String MARK_SITE_PATH = "site_path";
 
     // Added in v1.3
-    private static final int MODE_NORMAL = 0;
     private static final int MODE_ADMIN = 1;
-    private static final String PARAMETER_SITE_PATH = "site-path";
 
     // Content Service registry
     private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<>( );
@@ -205,32 +194,6 @@ public final class PortalService
     public static String getDefaultPage( HttpServletRequest request, int nMode ) throws SiteMessageException
     {
         return _pageService.getPage( String.valueOf( getRootPageId( ) ), nMode, request );
-    }
-
-    /**
-     * Return the xml content of the pages contained in the list specified in parameter
-     *
-     * @param listPages
-     *            The pages list
-     * @return the xml code for the content page
-     */
-    public static String getXmlPagesList( Collection<Page> listPages )
-    {
-        StringBuffer strXml = new StringBuffer( );
-        strXml.append( XmlUtil.getXmlHeader( ) );
-        XmlUtil.beginElement( strXml, XmlContent.TAG_CHILD_PAGES_LIST );
-
-        for ( Page page : listPages )
-        {
-            XmlUtil.beginElement( strXml, XmlContent.TAG_PAGE );
-            XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, page.getId( ) );
-            XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, page.getName( ) );
-            XmlUtil.endElement( strXml, XmlContent.TAG_PAGE );
-        }
-
-        XmlUtil.endElement( strXml, XmlContent.TAG_CHILD_PAGES_LIST );
-
-        return strXml.toString( );
     }
 
     // //////////////////////////////////////////////////////////////////////////
@@ -382,36 +345,13 @@ public final class PortalService
             return "";
         }
 
-        // Selection of the XSL stylesheet
-        // Added in v1.3
-        // Use the same stylesheet for normal or admin mode
-        StyleSheet xslSource;
-
-        switch( nMode )
-        {
-            case MODE_NORMAL:
-            case MODE_ADMIN:
-                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
-
-                break;
-
-            default:
-                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
-
-                break;
-        }
-
-        String strXml = getXmlPagesList( getPagePath( nPageId ) );
-
-        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
-
-        // Added in v1.3
-        // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<>( );
-        setXslPortalPath( mapParamRequest, nMode );
-
-        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapParamRequest, outputProperties );
+        Locale locale = LocaleService.getContextUserLocale( request );
+        HashMap<String, Object> model = new HashMap<>( );
+        Collection<Page> breadcrumbPages = getPagePath( nPageId );
+        model.put( MARK_SITE_PAGES, breadcrumbPages );
+        model.put( MARK_SITE_PATH, nMode != MODE_ADMIN ? AppPathService.getPortalUrl( ) : AppPathService.getAdminPortalUrl( ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_BREADCRUMB, locale, model );
+        String strPath = template.getHtml( );
 
         return formatPath( strPath, nMode, request );
     }
@@ -440,31 +380,14 @@ public final class PortalService
 	            return strRes ;
 	        }
         }
-        // Added in v1.3
-        StyleSheet xslSource;
 
-        // Selection of the XSL stylesheet
-        switch( nMode )
-        {
-            case MODE_NORMAL:
-            case MODE_ADMIN:
-                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
-
-                break;
-
-            default:
-                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
-
-                break;
-        }
-
-        String strXml = StringUtils.EMPTY;
+        Collection<Page> breadcrumbPages = new ArrayList<Page>( );
         String strPageId = request.getParameter( Parameters.PAGE_ID );
 
         if ( StringUtils.isNotBlank( strPageId ) && StringUtils.isNumeric( strPageId ) )
         {
             int nPageId = Integer.parseInt( strPageId );
-            strXml = getXmlPagesList( getXPagePath( strXPageName, nPageId ) );
+            breadcrumbPages = getXPagePath( strXPageName, nPageId );
         }
         else
         {
@@ -478,29 +401,26 @@ public final class PortalService
                 if ( portlet != null )
                 {
                     int nPageId = portlet.getPageId( );
-                    strXml = getXmlPagesList( getXPagePath( strXPageName, nPageId ) );
+                    breadcrumbPages = getXPagePath( strXPageName, nPageId );
                 }
             }
         }
 
-        if ( StringUtils.isBlank( strXml ) )
+        if ( breadcrumbPages.isEmpty( ) )
         {
-            strXml = getXmlPagesList( getXPagePath( strXPageName ) );
+            breadcrumbPages = getXPagePath( strXPageName );
         }
 
-        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
-
-        // Added in v1.3
-        // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapXslParams = new HashMap<>( );
-        setXslPortalPath( mapXslParams, nMode );
-
-        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams, outputProperties );
+        Locale locale = LocaleService.getContextUserLocale( request );
+        HashMap<String, Object> model = new HashMap<>( );
+        model.put( MARK_SITE_PAGES, breadcrumbPages );
+        model.put( MARK_SITE_PATH, nMode != MODE_ADMIN ? AppPathService.getPortalUrl( ) : AppPathService.getAdminPortalUrl( ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_BREADCRUMB, locale, model );
+        String strPath = template.getHtml( );
 
         strRes = formatPath( strPath, nMode, request );
-        if( _pathCacheService.getCache()!= null && !_pathCacheService.isClosed() ) {
-        	
+        if ( _pathCacheService.getCache( ) != null && !_pathCacheService.isClosed( ) )
+        {
         	_pathCacheService.put( strKey, strRes );
         }
 
@@ -631,120 +551,6 @@ public final class PortalService
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_PATH, ( request == null ) ? null : request.getLocale( ), model );
 
         return template.getHtml( );
-    }
-
-    /**
-     * Return the xml content of the pages specified by the xml code. This is called when using the Extended Xml path Label.
-     *
-     * @param strXmlExtend
-     *            The xml code to append to the path
-     * @return the xml code for the content page
-     */
-    private static String getXmlPagesListExtended( String strXmlExtend )
-    {
-        StringBuffer strXml = new StringBuffer( );
-        strXml.append( XmlUtil.getXmlHeader( ) );
-        XmlUtil.beginElement( strXml, XmlContent.TAG_CHILD_PAGES_LIST );
-
-        Page homePage = PageHome.getPage( getRootPageId( ) );
-
-        XmlUtil.beginElement( strXml, XmlContent.TAG_PAGE );
-        XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, homePage.getId( ) );
-        XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, homePage.getName( ) );
-        XmlUtil.endElement( strXml, XmlContent.TAG_PAGE );
-
-        strXml.append( strXmlExtend );
-
-        XmlUtil.endElement( strXml, XmlContent.TAG_CHILD_PAGES_LIST );
-
-        return strXml.toString( );
-    }
-
-    /**
-     * Returns the formated extended path of an xpage. This method is used when giving the list of elements in the path as a Xml code. This is called when using
-     * the Extended Xml path Label.
-     *
-     * @param strXPageName
-     *            The xpage name
-     * @param nMode
-     *            The mode to use for the formatting
-     * @param strTitlesUrls
-     *            list of links (url and titles)
-     * @param request
-     *            The HTTP request
-     * @return the formatted path
-     */
-    public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls, HttpServletRequest request )
-    {
-
-        final String strKey = _pathCacheService.getKey( strXPageName, nMode, strTitlesUrls, request );
-        String strRes = null;
-        if( _pathCacheService.getCache()!= null && !_pathCacheService.isClosed() ) {
-        	
-        	strRes = _pathCacheService.get( strKey );
-	
-	        if ( strRes != null )
-	        {
-	            return strRes;
-	        }
-        }
-
-        // Selection of the XSL stylesheet
-        StyleSheet xslSource;
-
-        // Selection of the XSL stylesheet
-        switch( nMode )
-        {
-            case MODE_NORMAL:
-            case MODE_ADMIN:
-                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
-
-                break;
-
-            default:
-                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
-
-                break;
-        }
-
-        String strXml = getXmlPagesListExtended( strTitlesUrls );
-
-        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
-
-        // Added in v1.3
-        // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapXslParams = new HashMap<>( );
-        setXslPortalPath( mapXslParams, nMode );
-
-        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams, outputProperties );
-
-        strRes = formatPath( strPath, nMode, request );
-        if( _pathCacheService.getCache()!= null && !_pathCacheService.isClosed() ) {
-        	_pathCacheService.put( strKey, strRes );
-        }
-        return strRes;
-    }
-
-    /**
-     * Sets XSL portal path
-     * 
-     * @param mapParameters
-     *            Parameters as a map
-     * @param nMode
-     *            The mode
-     */
-    public static void setXslPortalPath( Map<String, String> mapParameters, int nMode )
-    {
-        if ( nMode != MODE_ADMIN )
-        {
-            mapParameters.put( PARAMETER_SITE_PATH, AppPathService.getPortalUrl( ) );
-        }
-        else
-        {
-            mapParameters.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl( ) );
-            mapParameters.put( MARKER_TARGET, TARGET_TOP );
-        }
     }
 
     /**

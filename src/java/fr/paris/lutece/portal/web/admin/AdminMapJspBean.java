@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2026, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,14 +34,9 @@
 package fr.paris.lutece.portal.web.admin;
 
 import fr.paris.lutece.api.user.User;
-import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
-import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
-import fr.paris.lutece.portal.business.style.ModeHome;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
-import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
@@ -50,18 +45,13 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.menu.MenuItem;
 import fr.paris.lutece.portal.web.menu.MenuItem.MenuTreeBuilder;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.xml.XmlUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -86,34 +76,15 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MAP_TREE = "admin/site/admin_site_map_admin.html";
 
     // Parameters
-    private static final String PARAMETER_SITE_PATH = "site-path";
     private static final String PARAMETER_PAGE_ID = "page_id";
 
     // Properties
     private static final String PROPERTY_ADMIN_PATH = "lutece.admin.path";
 
-    // Xml Tags
-    private static final String TAG_CSS_ID = "css-id";
-    private static final String TAG_PAGE_ROLE = "page-role";
-    private static final int PORTAL_COMPONENT_SITE_MAP_ID = 8;
-    private static final int MODE_ADMIN = 1;
-
-    @Inject
-    @ConfigProperty( name = "lutece.style.sitemap.xsl", defaultValue = "false" )
-    private boolean _bUseXslStylesheet;
-    
     public String getMap( HttpServletRequest request )
     {
-        String map;
-        if ( _bUseXslStylesheet )
-        {
-            map = getMapXsl( request );
-        }
-        else
-        {
-            map = getMapTemplate( request );
-        }
-        
+        String map = getMapTemplate( request );
+
         String strPageId = request.getParameter( PARAMETER_PAGE_ID );
         int nPageId = ( strPageId != null ) ? Integer.parseInt( strPageId ) : 1;
         Page page = PageHome.getPage( nPageId );
@@ -125,135 +96,6 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MAP_SITE, getLocale( ), model );
 
         return t.getHtml();
-    }
-    
-    /**
-     * Build or get in the cache the page which contains the site map depending on the mode
-     *
-     * @param request
-     *            The Http request
-     * @return The content of the site map
-     */
-    public String getMapXsl( HttpServletRequest request )
-    {
-        StringBuffer strArborescenceXml = new StringBuffer( );
-
-        StringBuilder strCssId = new StringBuilder( );
-        int nLevel = 0;
-
-        String strCurrentPageId = request.getParameter( PARAMETER_PAGE_ID );
-
-        findPages( request, strArborescenceXml, PortalService.getRootPageId( ), nLevel, strCurrentPageId, strCssId );
-
-        StyleSheet xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_SITE_MAP_ID, MODE_ADMIN );
-
-        // Added in v1.3
-        // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<>( );
-        mapParamRequest.put( PARAMETER_SITE_PATH, AppPropertiesService.getProperty( PROPERTY_ADMIN_PATH ) );
-
-        Properties outputProperties = ModeHome.getOuputXslProperties( MODE_ADMIN );
-
-        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-        return xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString( ), xslSource, mapParamRequest, outputProperties );
-    }
-
-    /**
-     * Build recursively the XML document containing the arborescence of the site pages
-     * 
-     * @param request
-     *            The HttpServletRequest
-     * @param strXmlArborescence
-     *            The buffer in which adding the current page of the arborescence
-     * @param nPageId
-     *            The current page of the recursive course
-     * @param nLevel
-     *            The depth level of the page in the arborescence
-     * @param strCurrentPageId
-     *            the id of the current page
-     * @param strCssId
-     *            The id Css for menu tree
-     */
-    private void findPages( HttpServletRequest request, StringBuffer strXmlArborescence, int nPageId, int nLevel, String strCurrentPageId,
-            StringBuilder strCssId )
-    {
-        Page page = PageHome.getPage( nPageId );
-
-        User user = AdminUserService.getAdminUser( request );
-        String strPageId = Integer.toString( nPageId );
-
-        boolean bAuthorizationPage;
-
-        if ( nPageId == PortalService.getRootPageId( ) )
-        {
-            bAuthorizationPage = true;
-        }
-        else
-        {
-            // Control the node_status
-            if ( page.getNodeStatus( ) != 0 )
-            {
-                Page parentPage = PageHome.getPage( page.getParentPageId( ) );
-                int nParentPageNodeStatus = parentPage.getNodeStatus( );
-                int nParentPageId = parentPage.getId( );
-
-                // If 0 the page have a node authorization, else
-                // the parent page node_status must be controlled
-                // until it is equal to 0
-                while ( nParentPageNodeStatus != 0 )
-                {
-                    parentPage = PageHome.getPage( nParentPageId );
-                    nParentPageNodeStatus = parentPage.getNodeStatus( );
-                    nParentPageId = parentPage.getParentPageId( );
-                }
-
-                strPageId = Integer.toString( parentPage.getId( ) );
-            }
-
-            bAuthorizationPage = RBACService.isAuthorized( Page.RESOURCE_TYPE, strPageId, PageResourceIdService.PERMISSION_VIEW, user );
-        }
-
-        XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_PAGE );
-
-        if ( bAuthorizationPage )
-        {
-            XmlUtil.addElementHtml( strXmlArborescence, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
-            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_ID, page.getId( ) );
-            XmlUtil.addElementHtml( strXmlArborescence, XmlContent.TAG_PAGE_NAME, page.getName( ) );
-            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_DESCRIPTION, page.getDescription( ) );
-            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_LEVEL, nLevel );
-            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PARENT_PAGE_ID, page.getParentPageId( ) );
-            XmlUtil.addElement( strXmlArborescence, TAG_PAGE_ROLE, page.getRole( ) );
-
-            AdminPageJspBean adminPage = new AdminPageJspBean( );
-
-            if ( page.getImageContent( ) != null )
-            {
-                int nImageLength = page.getImageContent( ).length;
-
-                if ( nImageLength >= 1 )
-                {
-                    XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_IMAGE, adminPage.getResourceImagePage( page, strPageId ) );
-                }
-            }
-        }
-
-        XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );
-
-        for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
-        {
-            findPages( request, strXmlArborescence, pageChild.getId( ), nLevel + 1, strCurrentPageId, strCssId );
-            strCssId.append( "initializeMenu('menu" + pageChild.getId( ) + "' , 'actuator" + pageChild.getId( ) + "');\n" );
-        }
-
-        XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );
-
-        if ( bAuthorizationPage )
-        {
-            XmlUtil.addElementHtml( strXmlArborescence, TAG_CSS_ID, strCssId.toString( ) );
-        }
-
-        XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_PAGE );
     }
 
     /**
