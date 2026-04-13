@@ -237,19 +237,7 @@ public class XPageAppService extends ContentService
 
         data.setContent( page.getContent( ) );
         data.setName( page.getTitle( ) );
-
-        // set the page path. Done by adding the extra-path information to the
-        // pathLabel.
-        String strXml = page.getXmlExtendedPathLabel( );
-
-        if ( strXml == null )
-        {
-            data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel( ), 0, request ) );
-        }
-        else
-        {
-            data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel( ), 0, strXml, request ) );
-        }
+        data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel( ), 0, request ) );
 
         return PortalService.buildPageContent( data, nMode, request );
     }

@@ -125,32 +125,6 @@ public class PortalServiceTest extends LuteceTestCase
         }
     }
 
-    @Test
-    public void testGetXPagePathContentWithTitleUrls( ) throws IOException
-    {
-        try
-        {
-            String strTitleUrls = "<page><page-id>junit</page-id><page-name>junit</page-name></page>";
-            MockHttpServletRequest request = new MockHttpServletRequest( );
-            String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request );
-            String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request );
-            if(!pathCacheService.getConfiguration(Configuration.class).isStoreByValue())
-        	{
-                assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
-                assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
-                assertNotSame( strPath_admin, strPath_normal );
-        	}else
-        	{
-                assertEquals( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
-                assertEquals( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
-        	}
-        }
-        catch( IllegalStateException e )
-        {
-            fail("Cache exception, check cache implementation" , e);
-        }
-    }
-
     private void removePage( int nPageId )
     {
         pageService.removePage( nPageId );

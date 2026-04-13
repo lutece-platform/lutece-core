@@ -27,5 +27,4 @@ Snippet:
     </div>
 </div>
 <!-- END PAGE HEADER -->
- <@adminHeaderDocumentationLink />
 </#macro>
