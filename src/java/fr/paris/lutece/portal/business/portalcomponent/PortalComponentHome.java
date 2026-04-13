@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portalcomponent;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import jakarta.enterprise.inject.spi.CDI;
 
 /**
@@ -94,19 +93,5 @@ public final class PortalComponentHome
     public static void update( PortalComponent portalComponent )
     {
         _dao.store( portalComponent );
-    }
-
-    /**
-     * Returns the stylesheet of the portal component according to the mode
-     *
-     * @param nPortalComponentId
-     *            the identifier of the portal component
-     * @param nModeId
-     *            the selected mode
-     * @return the stylesheet
-     */
-    public static StyleSheet getXsl( int nPortalComponentId, int nModeId )
-    {
-        return _dao.selectXslFile( nPortalComponentId, nModeId );
     }
 }

@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.portlet;
 
 import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.xml.XmlUtil;
 
@@ -556,7 +555,7 @@ public abstract class Portlet implements XmlContent
      */
     public String getXslFile( int nMode )
     {
-        StyleSheet xsl;
+        String xsl;
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
@@ -564,17 +563,17 @@ public abstract class Portlet implements XmlContent
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
-                xsl = PortletHome.getXsl( getId( ), MODE_NORMAL );
+                xsl = PortletHome.getXslFile( getId( ), MODE_NORMAL );
 
                 break;
 
             default:
-                xsl = PortletHome.getXsl( getId( ), nMode );
+                xsl = PortletHome.getXslFile( getId( ), nMode );
 
                 break;
         }
 
-        return xsl.getFile( );
+        return xsl;
     }
 
     /**
@@ -586,7 +585,7 @@ public abstract class Portlet implements XmlContent
      */
     public byte [ ] getXslSource( int nMode )
     {
-        StyleSheet xsl;
+        byte [ ] xsl;
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
@@ -594,17 +593,17 @@ public abstract class Portlet implements XmlContent
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
-                xsl = PortletHome.getXsl( getId( ), MODE_NORMAL );
+                xsl = PortletHome.getXslSource( getId( ), MODE_NORMAL );
 
                 break;
 
             default:
-                xsl = PortletHome.getXsl( getId( ), nMode );
+                xsl = PortletHome.getXslSource( getId( ), nMode );
 
                 break;
         }
 
-        return xsl.getSource( );
+        return xsl;
     }
 
     /**

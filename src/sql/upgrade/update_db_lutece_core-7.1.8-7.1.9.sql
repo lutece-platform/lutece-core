@@ -1,10 +1,10 @@
 -- liquibase formatted sql
--- changeset core:update_db_lutece_core-8.0.1-8.0.2.sql
+-- changeset core:upgrade_db_lutece_core-7.1.8-7.1.9.sql
 -- preconditions onFail:MARK_RAN onError:WARN
--- LUT-32220 : Restrict XSL Export management to admin level 0 (system admin only)
+-- LUT-32202 : Restrict XSL Export management to admin level 0 (system admin only)
 UPDATE core_admin_right SET level_right = 0 WHERE id_right = 'CORE_XSL_EXPORT_MANAGEMENT';
 
--- changeset core:update_db_lutece_core-8.0.1-8.0.2.sql-rev1.sql
+-- changeset core:upgrade_db_lutece_core-7.1.8-7.1.9-rev1.sql
 DELETE FROM core_style_mode_stylesheet WHERE id_style = 3 AND id_mode = 0 and id_stylesheet = 211;
 DELETE FROM core_style_mode_stylesheet WHERE id_style = 4 AND id_mode = 0 and id_stylesheet = 213;
 DELETE FROM core_style_mode_stylesheet WHERE id_style = 5 AND id_mode = 0 and id_stylesheet = 215;

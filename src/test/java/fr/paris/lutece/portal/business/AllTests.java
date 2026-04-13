@@ -46,8 +46,6 @@ import fr.paris.lutece.portal.business.right.LevelTest;
 import fr.paris.lutece.portal.business.right.RightTest;
 import fr.paris.lutece.portal.business.role.RoleTest;
 import fr.paris.lutece.portal.business.style.PageTemplateTest;
-import fr.paris.lutece.portal.business.style.StyleTest;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheetTest;
 import fr.paris.lutece.portal.business.user.AdminUserTest;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupTest;
 
@@ -56,7 +54,7 @@ import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupTest;
  */
 @Suite
 @SelectClasses({ LevelTest.class, PortalComponentTest.class, AliasPortletTest.class, PortletTypeTest.class, AdminRoleTest.class, RBACTest.class,
-        FeatureGroupTest.class, RightTest.class, RoleTest.class, PageTemplateTest.class, StyleTest.class, StyleSheetTest.class,
+        FeatureGroupTest.class, RightTest.class, RoleTest.class, PageTemplateTest.class,
         AdminUserTest.class, AdminWorkgroupTest.class })
 public final class AllTests
 {

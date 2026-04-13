@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -69,12 +67,6 @@ public final class PortletDAO implements IPortletDAO
             + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?)";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_STYLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE id_style=?";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_ROLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE role=?";
-    private static final String SQL_QUERY_SELECT_XSL_FILE = " SELECT a.id_stylesheet , a.description , a.file_name, a.source "
-            + " FROM core_stylesheet a, core_portlet b, core_style_mode_stylesheet c " + " WHERE a.id_stylesheet = c.id_stylesheet "
-            + " AND b.id_style = c.id_style AND b.id_portlet = ? AND c.id_mode = ? ";
-    private static final String SQL_QUERY_SELECT_STYLE_LIST = " SELECT distinct a.id_style , a.description_style "
-            + " FROM core_style a , core_style_mode_stylesheet b " + " WHERE  a.id_style = b.id_style "
-            + " AND a.id_portlet_type = ? ORDER BY a.description_style";
     private static final String SQL_QUERY_SELECT_PORTLET_TYPE = " SELECT id_portlet_type , name , url_creation, url_update, plugin_name "
             + " FROM core_portlet_type WHERE id_portlet_type = ? ORDER BY id_portlet_type ";
     private static final String SQL_QUERY_SELECT_PORTLET_ALIAS = " SELECT a.id_portlet FROM core_portlet a , core_portlet_alias b"
@@ -248,31 +240,6 @@ public final class PortletDAO implements IPortletDAO
     /**
      * {@inheritDoc}
      */
-    public StyleSheet selectXslFile( int nPortletId, int nIdMode )
-    {
-        StyleSheet stylesheet = new StyleSheet( );
-        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_XSL_FILE ) )
-        {
-            daoUtil.setInt( 1, nPortletId );
-            daoUtil.setInt( 2, nIdMode );
-            daoUtil.executeQuery( );
-
-            if ( daoUtil.next( ) )
-            {
-                stylesheet.setId( daoUtil.getInt( 1 ) );
-                stylesheet.setDescription( daoUtil.getString( 2 ) );
-                stylesheet.setFile( daoUtil.getString( 3 ) );
-                stylesheet.setSource( daoUtil.getBytes( 4 ) );
-            }
-
-        }
-
-        return stylesheet;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public Collection<PortletImpl> selectPortletsListbyName( String strPortletName )
     {
         List<PortletImpl> list = new ArrayList<>( );
@@ -352,27 +319,6 @@ public final class PortletDAO implements IPortletDAO
                 portlet.setDeviceDisplayFlags( daoUtil.getInt( 14 ) );
 
                 list.add( portlet );
-            }
-
-        }
-
-        return list;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ReferenceList selectStylesList( String strPortletTypeId )
-    {
-        ReferenceList list = new ReferenceList( );
-        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_STYLE_LIST ) )
-        {
-            daoUtil.setString( 1, strPortletTypeId );
-            daoUtil.executeQuery( );
-
-            while ( daoUtil.next( ) )
-            {
-                list.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
             }
 
         }
