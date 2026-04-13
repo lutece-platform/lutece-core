@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portalcomponent;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-
 /**
  * IPortalComponentDAO Interface
  */
@@ -72,15 +70,4 @@ public interface IPortalComponentDAO
      *            The instance of the PortalComponent to update
      */
     void store( PortalComponent portalComponent );
-
-    /**
-     * Returns the stylesheet of the portlet according to the mode
-     *
-     * @param nPortalComponentId
-     *            the identifier of the portlet
-     * @param nIdMode
-     *            the selected mode
-     * @return the stylesheet
-     */
-    StyleSheet selectXslFile( int nPortalComponentId, int nIdMode );
 }

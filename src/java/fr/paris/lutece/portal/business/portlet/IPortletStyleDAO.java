@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,66 +31,40 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.xsl;
+package fr.paris.lutece.portal.business.portlet;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.util.ReferenceList;
 
-import java.util.List;
-
-/**
- *
- * IXslExportDAO
- *
- */
-public interface IXslExportDAO
+public interface IPortletStyleDAO
 {
-
     /**
-     * Insert a new record in the table.
+     * Returns the stylesheet content of the portlet according to the mode
      *
-     * @param xslExport
-     *            instance of the XslExport object to insert
+     * @param nIdPortlet
+     *            the identifier of the portlet
+     * @param nIdMode
+     *            the selected mode
+     * @return the stylesheet content
      */
-    void insert( XslExport xslExport );
+    String selectXslFile( int nIdPortlet, int nIdMode );
 
     /**
-     * Load the data of the XslExport from the table
+     * Returns the stylesheet binary content of the portlet according to the mode
      *
-     * @param nId
-     *            The identifier of the xsl
-     * @return the instance of the XslExport
+     * @param nIdPortlet
+     *            the identifier of the portlet
+     * @param nIdMode
+     *            the selected mode
+     * @return the stylesheet binary content
      */
-    XslExport load( int nId );
+    byte [ ] selectXslSource( int nIdPortlet, int nIdMode );
 
     /**
-     * Delete a record from the table
+     * Returns all the styles corresponding to a portlet type
      *
-     * @param nIdXslExport
-     *            The identifier of the directory xsl
+     * @param strPortletTypeId
+     *            the identifier of the portlet type
+     * @return the list of styles in form of ReferenceList
      */
-    void delete( int nIdXslExport );
-
-    /**
-     * Update the xslExport in the table
-     *
-     * @param xslExport
-     *            instance of the XslExport object to update
-     */
-    void store( XslExport xslExport );
-
-    /**
-     * Get the list of Xsl Export.
-     * 
-     * @return The list of all Xsl Export.
-     */
-    List<XslExport> selectList( );
-
-    /**
-     * Get the list of Xsl Export associated to a specified plugin.
-     * 
-     * @param plugin
-     *            The plugin
-     * @return The list of Xsl Export associated with the given plugin.
-     */
-    List<XslExport> selectListByPlugin( Plugin plugin );
+    ReferenceList selectStylesList( String strIdPortletType );
 }

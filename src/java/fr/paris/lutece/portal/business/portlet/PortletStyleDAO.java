@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2022, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,42 +31,32 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.portalcomponent;
+package fr.paris.lutece.portal.business.portlet;
 
-import org.junit.jupiter.api.Test;
+import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.context.ApplicationScoped;
 
-import fr.paris.lutece.test.LuteceTestCase;
-
-public class PortalComponentTest extends LuteceTestCase
+/**
+ * This implementation is a default implementation, the XSL implementation is available in the xmltransformer plugin.
+ */
+@ApplicationScoped
+public class PortletStyleDAO implements IPortletStyleDAO
 {
-    private static final int PORTAL_COMPONENT_ID = -99;
-    private final static String STRNAME1 = "StrName 1";
-    private final static String STRNAME2 = "StrName 2";
-
-    @Test
-    public void testBusinessPortalComponent( )
+    @Override
+    public String selectXslFile( int nIdPortlet, int nIdMode )
     {
-        // Initialize an object
-        PortalComponent portalComponent = new PortalComponent( );
-        portalComponent.setId( PORTAL_COMPONENT_ID );
-        portalComponent.setName( STRNAME1 );
+        return null;
+    }
 
-        // Create test
-        PortalComponentHome.create( portalComponent );
+    @Override
+    public byte [ ] selectXslSource( int nIdPortlet, int nIdMode )
+    {
+        return null;
+    }
 
-        PortalComponent portalComponentStored = PortalComponentHome.findByPrimaryKey( portalComponent.getId( ) );
-        assertEquals( portalComponentStored.getName( ), portalComponent.getName( ) );
-
-        // Update test
-        portalComponent.setName( STRNAME2 );
-
-        PortalComponentHome.update( portalComponent );
-        portalComponentStored = PortalComponentHome.findByPrimaryKey( portalComponent.getId( ) );
-        assertEquals( portalComponentStored.getName( ), portalComponent.getName( ) );
-
-        // Delete test
-        PortalComponentHome.remove( portalComponent.getId( ) );
-        portalComponentStored = PortalComponentHome.findByPrimaryKey( portalComponent.getId( ) );
-        assertNull( portalComponentStored );
+    @Override
+    public ReferenceList selectStylesList( String strIdPortletType )
+    {
+        return new ReferenceList( );
     }
 }

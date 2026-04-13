@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.portlet.PortletEvent;
 import fr.paris.lutece.portal.service.portlet.PortletEventListener;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -55,6 +54,7 @@ public abstract class PortletHome implements PortletHomeInterface
 
     // Static variable pointed at the DAO instance
     private static IPortletDAO _dao = CDI.current( ).select( IPortletDAO.class ).get( );
+    private static IPortletStyleDAO _styleDAO = CDI.current( ).select( IPortletStyleDAO.class ).get( );
 
     // /////////////////////////////////////////////////////////////////////////
     // Finders
@@ -111,17 +111,31 @@ public abstract class PortletHome implements PortletHomeInterface
     }
 
     /**
-     * Returns the stylesheet of the portlet according to the mode
+     * Returns the stylesheet content of the portlet according to the mode
      *
      * @param nIdPortlet
      *            the identifier of the portlet
      * @param nIdMode
      *            the selected mode
-     * @return the stylesheet
+     * @return the stylesheet content
      */
-    static StyleSheet getXsl( int nIdPortlet, int nIdMode )
+    public static String getXslFile( int nIdPortlet, int nIdMode )
     {
-        return _dao.selectXslFile( nIdPortlet, nIdMode );
+       return _styleDAO.selectXslFile( nIdPortlet, nIdMode );
+    }
+
+    /**
+     * Returns the stylesheet binary content of the portlet according to the mode
+     *
+     * @param nIdPortlet
+     *            the identifier of the portlet
+     * @param nIdMode
+     *            the selected mode
+     * @return the stylesheet binary content
+     */
+    public static byte [ ] getXslSource( int nIdPortlet, int nIdMode )
+    {
+       return _styleDAO.selectXslSource( nIdPortlet, nIdMode );
     }
 
     /**
@@ -133,7 +147,7 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public static ReferenceList getStylesList( String strIdPortletType )
     {
-        return _dao.selectStylesList( strIdPortletType );
+        return _styleDAO.selectStylesList( strIdPortletType );
     }
 
     /**

@@ -135,10 +135,6 @@
             <rbac-resource-type-class>fr.paris.lutece.portal.service.search.SearchResourceIdService
             </rbac-resource-type-class>
         </rbac-resource-type>
-        <rbac-resource-type>
-            <rbac-resource-type-class>fr.paris.lutece.portal.service.xsl.XslExportResourceIdService
-            </rbac-resource-type-class>
-        </rbac-resource-type>
     </rbac-resource-types>
 
     <!-- Dashboard components -->
@@ -183,11 +179,6 @@
         <admindashboard-component>
             <dashboard-component-name>editorAdminDashboardComponent</dashboard-component-name>
             <dashboard-component-class>fr.paris.lutece.portal.web.editor.EditorAdminDashboardComponent
-            </dashboard-component-class>
-        </admindashboard-component>
-        <admindashboard-component>
-            <dashboard-component-name>xslExportAdminDashboardComponent</dashboard-component-name>
-            <dashboard-component-class>fr.paris.lutece.portal.web.xsl.XslExportAdminDashboardComponent
             </dashboard-component-class>
         </admindashboard-component>
         <admindashboard-component>

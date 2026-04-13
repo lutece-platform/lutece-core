@@ -14,8 +14,6 @@ import fr.paris.lutece.portal.web.rbac.RoleManagementJspBeanTest;
 import fr.paris.lutece.portal.web.search.SearchAppTest;
 import fr.paris.lutece.portal.web.search.SearchIndexationJspBeanTest;
 import fr.paris.lutece.portal.web.style.PageTemplatesJspBeanTest;
-import fr.paris.lutece.portal.web.style.StylesJspBeanTest;
-import fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBeanTest;
 import fr.paris.lutece.portal.web.system.PluginJspBeanTest;
 import fr.paris.lutece.portal.web.system.SystemJspBeanTest;
 import fr.paris.lutece.portal.web.xpages.SiteMapAppTest;
@@ -23,7 +21,7 @@ import fr.paris.lutece.portal.web.xpages.SiteMapAppTest;
 @Suite
 @SelectClasses({ AdminMapJspBeanTest.class, AdminMenuJspBeanTest.class, AdminMessageJspBeanTest.class, FeaturesGroupJspBeanTest.class, LevelsJspBeanTest.class,
         InsertServiceJspBeanTest.class, InsertServiceSelectorJspBeanTest.class, RoleManagementJspBeanTest.class, SearchAppTest.class,
-        SearchIndexationJspBeanTest.class, PageTemplatesJspBeanTest.class, StylesJspBeanTest.class, StyleSheetJspBeanTest.class, PluginJspBeanTest.class,
+        SearchIndexationJspBeanTest.class, PageTemplatesJspBeanTest.class, PluginJspBeanTest.class,
         SystemJspBeanTest.class, SiteMapAppTest.class, PortalJspBeanTest.class })
 public final class AllTests
 {
