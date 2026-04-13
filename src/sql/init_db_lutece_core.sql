@@ -163,17 +163,17 @@ INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'sceeditor'
 INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
 
 INSERT INTO core_datastore VALUES ('portal.site.site_property.name', 'LUTECE');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.author', '<author>');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.copyright', '<copyright>');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.description', '<description>');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.keywords', '<keywords>');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaster email>');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.author', 'author');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.copyright', 'copyright');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.description', 'description');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.keywords', 'keywords');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.email', 'webmaster@mydomain.com');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.noreply_email', 'no-reply@mydomain.com');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.home_url', 'jsp/site/Portal.jsp');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.admin_home_url', 'jsp/admin/AdminMenu.jsp');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_credits.textblock', '&lt;credits text&gt;');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.copyright.textblock', '&lt;copyright text&gt;');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '&lt;privacy text&gt;');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_credits.textblock', 'credits text');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.copyright.textblock', 'copyright text');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', 'privacy text');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', 'themes/admin/shared/images/logo-header-icon.svg');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.locale.default', 'fr');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'themes/admin/shared/images/unknown.svg');

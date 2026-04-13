@@ -1,5 +1,5 @@
 <@pageContainer>
-    <@pageColumn> 
+    <@pageColumn>
         <@pageHeader title='#i18n{portal.system.modify_properties.boxTitle}'>
         <@tform>
             <@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
@@ -49,10 +49,11 @@
                             <@box>
                                 <@boxBody class='searchable'>
                                 <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
+                                    <#assign needsBypass = bypass_xss_keys?seq_contains( groupItem.key ) />
                                     <#if groupItem.key?ends_with( ".textblock" )>
-                                        <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
+                                        <@input type='textarea' name=groupItem.key id=groupItem.key bypassXssFilter=needsBypass>${groupItem.value?html}</@input>
                                     <#elseif groupItem.key?ends_with( ".htmlblock" )>
-                                        <@input type='textarea' name=groupItem.key id=groupItem.key class='richtext'>${groupItem.value?html}</@input>
+                                        <@input type='textarea' name=groupItem.key id=groupItem.key class='richtext' bypassXssFilter=needsBypass>${groupItem.value?html}</@input>
                                     <#elseif groupItem.key?ends_with( ".checkbox" )>
                                         <#if groupItem.value == "1">
                                             <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=true />
@@ -62,14 +63,14 @@
                                         <@input type='hidden' name='${groupItem.key}' value='0' />
                                     <#elseif groupItem.key?contains( "color" )>
                                         <@inputGroup class='color-wrapper-input'>
-                                            <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
+                                            <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html bypassXssFilter=needsBypass />
                                             <@inputGroupItem>
                                                 <!-- <@input type='color' class='color-input' name='color-input' value=groupItem.value?html /> -->
                                                <input type="color" class="color-input" name="color-input" value="${groupItem.value?html}" colorspace="display-p3" alpha>
                                             </@inputGroupItem>
                                         </@inputGroup>
                                     <#else>
-                                        <@input type='text' name=groupItem.key id=groupItem.key value=groupItem.value?html />
+                                        <@input type='text' name=groupItem.key id=groupItem.key value=groupItem.value?html bypassXssFilter=needsBypass />
                                     </#if>
                                 </@formGroup>
                                 </@boxBody>
