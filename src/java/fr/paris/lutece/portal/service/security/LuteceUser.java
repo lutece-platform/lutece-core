@@ -151,8 +151,18 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     /** Authentication Service */
     private String _strAuthenticationService;
 
-    /** Authentication Service impl */
-    private LuteceAuthentication _luteceAuthenticationService;
+    /**
+     * Authentication Service impl.
+     * <p>
+     * Marked {@code transient} because {@link LuteceAuthentication} is not
+     * {@link Serializable}. Required for HTTP session replication
+     * (e.g. OpenLiberty sessionCache backed by JCache implémentation in a multi-instance
+     * deployment). The reference is lazily re-resolved after deserialization
+     * from the {@link SecurityService} singleton, using
+     * {@link #_strAuthenticationService} as a consistency check.
+     * </p>
+     */
+    private transient LuteceAuthentication _luteceAuthenticationService;
 
     /** Authentication Service */
     private String _strAuthenticationType;
@@ -453,12 +463,27 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     }
 
     /**
-     * "Getter method" for {@link #_luteceAuthenticationService}
-     * 
+     * "Getter method" for {@link #_luteceAuthenticationService}.
+     * <p>
+     * Since the field is {@code transient} (not replicated across instances),
+     * it is lazily reloaded from {@link SecurityService} after session
+     * deserialization. The name stored in {@link #_strAuthenticationService}
+     * is used as a consistency check to ensure the resolved service matches
+     * the one originally used to authenticate this user.
+     * </p>
+     *
      * @return value of {@link #_luteceAuthenticationService}
      */
     public LuteceAuthentication getLuteceAuthenticationService( )
     {
+        if ( _luteceAuthenticationService == null && _strAuthenticationService != null )
+        {
+            LuteceAuthentication resolved = SecurityService.getInstance( ).getAuthenticationService( );
+            if ( resolved != null && _strAuthenticationService.equals( resolved.getAuthServiceName( ) ) )
+            {
+                _luteceAuthenticationService = resolved;
+            }
+        }
         return _luteceAuthenticationService;
     }
 
