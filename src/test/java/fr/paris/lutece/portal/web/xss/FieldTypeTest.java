@@ -31,34 +31,24 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.html;
+package fr.paris.lutece.portal.web.xss;
+
+import fr.paris.lutece.test.LuteceTestCase;
 
 /**
- * Exception thrown by the util class HtmlCleanerService
+ * FieldType Test Class
  */
-public class XSSSanitizerException extends Exception
+public class FieldTypeTest extends LuteceTestCase
 {
     /**
-     *
+     * Test that only URL, COLOR and HTML types require the XSS bypass.
      */
-    private static final long serialVersionUID = 6580975969201313830L;
-
-    /**
-     * Default constructor.
-     */
-    public XSSSanitizerException( )
+    public void testRequiresXssBypass( )
     {
-        super( );
-    }
-
-    /**
-     * Constructor with a detail message.
-     *
-     * @param strMessage
-     *            the detail message
-     */
-    public XSSSanitizerException( String strMessage )
-    {
-        super( strMessage );
+        assertTrue( FieldType.URL.requiresXssBypass( ) );
+        assertTrue( FieldType.COLOR.requiresXssBypass( ) );
+        assertTrue( FieldType.HTML.requiresXssBypass( ) );
+        assertFalse( FieldType.TEXT.requiresXssBypass( ) );
+        assertFalse( FieldType.EMAIL.requiresXssBypass( ) );
     }
 }

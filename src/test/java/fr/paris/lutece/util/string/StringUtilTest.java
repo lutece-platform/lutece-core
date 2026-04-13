@@ -114,7 +114,21 @@ public class StringUtilTest extends LuteceTestCase
     }
 
     /**
-     * Test of compress & decompress method, of class fr.paris.lutece.util.string.StringUtil.
+     * Test of checkEmail method, of class fr.paris.lutece.util.string.StringUtil.
+     */
+    public void testCheckEmail( )
+    {
+        System.out.println( "checkEmail" );
+
+        assertTrue( fr.paris.lutece.util.string.StringUtil.checkEmail( "webmaster@mydomain.com" ) );
+        assertTrue( fr.paris.lutece.util.string.StringUtil.checkEmail( "first.last@sub.domain.com" ) );
+        assertTrue( fr.paris.lutece.util.string.StringUtil.checkEmail( "user+tag@domain.com" ) );
+        assertFalse( fr.paris.lutece.util.string.StringUtil.checkEmail( "not-an-email" ) );
+        assertFalse( fr.paris.lutece.util.string.StringUtil.checkEmail( "missing@domain" ) );
+    }
+
+    /**
+     * Test of compress method, of class fr.paris.lutece.util.string.StringUtil.
      */
     public void testCompress( )
     {
