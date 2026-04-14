@@ -35,12 +35,13 @@ package fr.paris.lutece.portal.util.mvc.utils;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
+import java.io.Serializable;
 import java.util.Locale;
 
 /**
  * MVCMessageBox
  */
-public class MVCMessageBox
+public class MVCMessageBox implements Serializable
 {
     public static final int INFO = 0;
     public static final int QUESTION = 1;

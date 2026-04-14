@@ -108,13 +108,13 @@ public abstract class MVCApplication implements XPageApplication
     private MVCMessageBox _messageBox;
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
     @Inject
-    private transient SecurityTokenHandler _securityTokenHandler;
+    private  SecurityTokenHandler _securityTokenHandler;
     @Inject 
-    private transient EventDispatcher _eventDispatcher;
+    private  EventDispatcher _eventDispatcher;
     @Inject
-    private transient ServletParameterBinder _servletParameterBinder;
+    private  ServletParameterBinder _servletParameterBinder;
     @Inject
-    private transient ValidationService _validationService;
+    private  ValidationService _validationService;
     @Inject 
     private Models models;
     
