@@ -50,12 +50,12 @@ Snippet:
 <#if infos??>
 	<#if infos?size gt 0 >
 	<#assign first = infos[0] />
-		<@alert color='info' title='#i18n{portal.util.labelWarning}' iconTitle='info-circle' dismissible=true id='messages_infos_div'>
+		<@alert color='info' title='#i18n{portal.util.message.titleInfo}' iconTitle='info-circle' dismissible=true id='messages_infos_div'>
 			<@unstyledList>
 			 <#if first?is_string>
-				<#list infos as info ><@li>${info!' #i18n{portal.util.labelWarning} '}</@li></#list>
+				<#list infos as info ><@li>${info!' #i18n{portal.util.message.titleInfo} '}</@li></#list>
 	        <#else>
-				<#list infos as info ><#if info.message??><@li>${info.message!' #i18n{portal.util.labelWarning} '}</@li></#if></#list>
+				<#list infos as info ><#if info.message??><@li>${info.message!' #i18n{portal.util.message.titleInfo} '}</@li></#if></#list>
 	        </#if>
 			</@unstyledList>
 		</@alert>
