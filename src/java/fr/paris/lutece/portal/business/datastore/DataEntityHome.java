@@ -52,7 +52,7 @@ public final class DataEntityHome
 
     /**
      * Create an instance of the entity class
-     * 
+     *
      * @param entity
      *            The instance of the Entity which contains the informations to store
      * @return The instance of entity which has been created with its primary key.
@@ -62,6 +62,21 @@ public final class DataEntityHome
         _dao.insert( entity );
 
         return entity;
+    }
+
+    /**
+     * Atomically creates an entity only if no entity with the same key already
+     * exists. Safe under concurrent calls from multiple application instances.
+     *
+     * @param entity
+     *            The instance of the Entity to create
+     * @return {@code true} if the entity was created, {@code false} if an
+     *         entity with the same key already existed
+     * @since 8.0
+     */
+    public static boolean createIfAbsent( DataEntity entity )
+    {
+        return _dao.insertIfAbsent( entity );
     }
 
     /**

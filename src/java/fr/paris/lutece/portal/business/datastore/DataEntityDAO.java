@@ -33,8 +33,11 @@
  */
 package fr.paris.lutece.portal.business.datastore;
 
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +56,7 @@ public final class DataEntityDAO implements IDataEntityDAO
 
     /**
      * Insert a new record in the table.
-     * 
+     *
      * @param entity
      *            instance of the Entity object to insert
      */
@@ -68,6 +71,68 @@ public final class DataEntityDAO implements IDataEntityDAO
 
             daoUtil.executeUpdate( );
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean insertIfAbsent( DataEntity entity )
+    {
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
+            daoUtil.setString( 1, entity.getKey( ) );
+            daoUtil.setString( 2, entity.getValue( ) );
+
+            daoUtil.executeUpdate( );
+            return true;
+        }
+        catch ( AppException e )
+        {
+            if ( isDuplicateKey( e ) )
+            {
+                // Another instance inserted the same key concurrently.
+                // Expected under multi-instance deployment — not an error.
+                return false;
+            }
+            throw e;
+        }
+    }
+
+    /**
+     * Detects a primary key / unique constraint violation in a portable way.
+     * <p>
+     * Uses the JDBC 4+ {@link SQLIntegrityConstraintViolationException} when
+     * available, and falls back to the SQL-92 standard SQLState class
+     * {@code "23"} (integrity constraint violation) — covers MariaDB
+     * ({@code 23000}), PostgreSQL ({@code 23505}), Oracle, H2, etc.
+     * </p>
+     *
+     * @param ae
+     *            the {@link AppException} wrapping the underlying
+     *            {@link SQLException} thrown by {@link DAOUtil}
+     * @return {@code true} if the cause is an integrity constraint violation
+     */
+    private static boolean isDuplicateKey( AppException ae )
+    {
+        Throwable cause = ae.getCause( );
+        while ( cause != null )
+        {
+            if ( cause instanceof SQLIntegrityConstraintViolationException )
+            {
+                return true;
+            }
+            if ( cause instanceof SQLException )
+            {
+                String sqlState = ( (SQLException) cause ).getSQLState( );
+                if ( sqlState != null && sqlState.startsWith( "23" ) )
+                {
+                    return true;
+                }
+            }
+            cause = cause.getCause( );
+        }
+        return false;
     }
 
     /**

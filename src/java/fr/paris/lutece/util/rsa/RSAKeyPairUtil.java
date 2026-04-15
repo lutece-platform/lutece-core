@@ -37,26 +37,60 @@ import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 
+/**
+ * Application-scoped holder for the RSA key pair used across the portal.
+ * <p>
+ * Managed as a CDI {@link ApplicationScoped} bean so that initialization is
+ * thread-safe (guaranteed by the container) and the keys are resolved via an
+ * {@link IRSAKeyProvider} that can be swapped with a CDI {@code @Alternative}
+ * (e.g. {@link RSAKeyEnvironmentProvider}).
+ * </p>
+ * <p>
+ * In a multi-instance deployment, all instances resolve the same keys provided
+ * that the selected {@link IRSAKeyProvider} is cluster-aware (shared datastore
+ * or identical environment variables).
+ * </p>
+ */
+@ApplicationScoped
 public class RSAKeyPairUtil
 {
-    private static RSAKeyPairUtil _instance;
+    @Inject
+    private IRSAKeyProvider _rsaKeyProvider;
+
     private PrivateKey _privateKey;
     private PublicKey _publicKey;
 
-    private RSAKeyPairUtil( ) throws GeneralSecurityException
+    /**
+     * CDI no-arg constructor.
+     */
+    public RSAKeyPairUtil( )
     {
-        readKeys( );
+        // Managed by CDI — keys are loaded in {@link #init()}.
     }
 
-    public static RSAKeyPairUtil getInstance( ) throws GeneralSecurityException
+    /**
+     * Loads the RSA key pair from the configured provider.
+     *
+     * @throws IllegalStateException
+     *             if the key provider fails to deliver the keys
+     */
+    @PostConstruct
+    void init( )
     {
-        if ( _instance == null )
+        try
         {
-            _instance = new RSAKeyPairUtil( );
+            _publicKey = _rsaKeyProvider.getPublicKey( );
+            _privateKey = _rsaKeyProvider.getPrivateKey( );
         }
-        return _instance;
+        catch ( GeneralSecurityException e )
+        {
+            throw new IllegalStateException( "Failed to load RSA keys from provider", e );
+        }
     }
 
     /**
@@ -76,22 +110,21 @@ public class RSAKeyPairUtil
     }
 
     /**
-     * get the public and private key
-     * s
+     * Backward-compatible accessor for legacy static callers.
+     * <p>
+     * New code must use CDI injection (e.g. {@code @Inject RSAKeyPairUtil}).
+     * This method will be removed in a future version.
+     * </p>
+     *
+     * @return the CDI-managed instance
      * @throws GeneralSecurityException
+     *             kept on the signature for backward compatibility; never thrown
+     *             by this implementation
+     * @deprecated use CDI injection instead
      */
-    private void readKeys( ) throws GeneralSecurityException
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static RSAKeyPairUtil getInstance( ) throws GeneralSecurityException
     {
-        IRSAKeyProvider rsaKeyProvider = CDI.current().select( IRSAKeyProvider.class ).get( );
-        
-        if ( rsaKeyProvider == null )
-        {
-        	throw new GeneralSecurityException( "RSA Key Provider not found.");
-        }
-        else
-        {
-        	_publicKey = rsaKeyProvider.getPublicKey( );
-        	_privateKey = rsaKeyProvider.getPrivateKey( );
-        }
+        return CDI.current( ).select( RSAKeyPairUtil.class ).get( );
     }
 }

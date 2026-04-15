@@ -42,11 +42,30 @@ public interface IDataEntityDAO
 {
     /**
      * Insert a new record in the table.
-     * 
+     *
      * @param entity
      *            instance of the Entity object to insert
      */
     void insert( DataEntity entity );
+
+    /**
+     * Atomically inserts a new record only if no record with the same primary
+     * key already exists. Relies on the database-level primary key uniqueness
+     * constraint, which makes the operation safe under concurrent calls from
+     * multiple application instances (multi-instance deployment).
+     * <p>
+     * Portable across SQL databases (MariaDB, PostgreSQL, Oracle, H2...) — does
+     * not use vendor-specific syntax like {@code ON CONFLICT} or
+     * {@code INSERT IGNORE}.
+     * </p>
+     *
+     * @param entity
+     *            instance of the Entity object to insert
+     * @return {@code true} if the row was inserted, {@code false} if a row with
+     *         the same key already existed
+     * @since 8.0
+     */
+    boolean insertIfAbsent( DataEntity entity );
 
     /**
      * Update the record in the table

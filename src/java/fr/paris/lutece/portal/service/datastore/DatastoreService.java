@@ -199,6 +199,43 @@ public final class DatastoreService
     }
 
     /**
+     * Atomically sets a value only if the key does not already exist in the
+     * datastore. Safe under concurrent calls from multiple application
+     * instances (multi-instance deployment) — relies on the database-level
+     * primary key uniqueness of {@code core_datastore.entity_key}.
+     * <p>
+     * Unlike {@link #setDataValue(String, String)} which performs an upsert
+     * (and therefore overwrites the existing value), this method never
+     * overwrites. Use it for one-shot initialization of cluster-shared values
+     * (RSA keys, cluster tokens, ...).
+     * </p>
+     *
+     * @param strKey
+     *            The entity's key
+     * @param strValue
+     *            The value to insert if the key is absent
+     * @return {@code true} if the value was stored, {@code false} if the key
+     *         already existed (in which case the stored value is left
+     *         untouched)
+     * @since 8.0
+     */
+    public static boolean insertDataValueIfAbsent( String strKey, String strValue )
+    {
+        try
+        {
+            if ( _bDatabase )
+            {
+                return DataEntityHome.createIfAbsent( new DataEntity( strKey, strValue ) );
+            }
+        }
+        catch ( NoDatabaseException e )
+        {
+            disableDatastore( e );
+        }
+        return false;
+    }
+
+    /**
      * Remove a give key
      *
      * @param strKey

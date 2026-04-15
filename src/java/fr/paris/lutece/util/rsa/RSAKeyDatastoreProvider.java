@@ -44,6 +44,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -87,21 +88,39 @@ public class RSAKeyDatastoreProvider implements IRSAKeyProvider
 	}
 
 	/**
-	 * init keys if missing
-	 * @throws GeneralSecurityException 
+	 * Initializes the RSA key pair in the datastore if missing.
+	 * <p>
+	 * Uses {@link DatastoreService#insertDataValueIfAbsent(String, String)} so
+	 * that concurrent initialization from multiple application instances is
+	 * safe: only the first instance wins, the others see their generated pair
+	 * silently discarded and will read the stored pair on the next call.
+	 * </p>
+	 *
+	 * @throws GeneralSecurityException
+	 *             if RSA key generation fails
 	 */
 	private void initKeys( ) throws GeneralSecurityException
 	{
-		// generate new keys
+		// Generate a candidate key pair (will be discarded if another instance wins the race)
 	    KeyPairGenerator keyGen = KeyPairGenerator.getInstance( "RSA" );
 	    keyGen.initialize( 2048 );
 	    KeyPair pair = keyGen.generateKeyPair( );
 	    PrivateKey privateKey = pair.getPrivate( );
 	    PublicKey publicKey = pair.getPublic( );
-	    
-	    // store in DataStore
-	    DatastoreService.setDataValue( DATASTORE_PUBLIC_KEY, Base64.getEncoder( ).encodeToString( publicKey.getEncoded( ) ) );
-	    DatastoreService.setDataValue( DATASTORE_PRIVATE_KEY, Base64.getEncoder( ).encodeToString( privateKey.getEncoded( ) ) );
+
+	    String strPublic  = Base64.getEncoder( ).encodeToString( publicKey.getEncoded( ) );
+	    String strPrivate = Base64.getEncoder( ).encodeToString( privateKey.getEncoded( ) );
+
+	    // Atomic conditional insert — relies on the primary key uniqueness
+	    // constraint of core_datastore.entity_key. Portable across MariaDB,
+	    // PostgreSQL, Oracle, H2, etc.
+	    boolean bPublicInserted  = DatastoreService.insertDataValueIfAbsent( DATASTORE_PUBLIC_KEY,  strPublic  );
+	    boolean bPrivateInserted = DatastoreService.insertDataValueIfAbsent( DATASTORE_PRIVATE_KEY, strPrivate );
+
+	    if ( !bPublicInserted || !bPrivateInserted )
+	    {
+	        AppLogService.info( "RSA keys already initialized by another instance — using stored pair" );
+	    }
 	}
 
 }
