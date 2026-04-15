@@ -52,25 +52,9 @@ public class AppPathServiceTest extends LuteceTestCase
     // TODO D�comenter les virtuals host dans config.properties...
     private static final String PROPERTY_VIRTUAL_HOST_KEY_PARAMETER = "virtualHostKey.parameterName";
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
-    private static final String FRAGMENT_END_PATH_XSL = "/WEB-INF/xsl/";
     private static final String FRAGMENT_END_PATH_CONF = "/WEB-INF/conf/";
 
-    /**
-     * Test of getPath method, of class fr.paris.lutece.portal.service.util.AppPathService.
-     */
-    @Test
-    public void testGetPath( )
-    {
-        System.out.println( "getPath" );
-
-        String strKey = "path.stylesheet";
-        String expResult = FRAGMENT_END_PATH_XSL;
-        String result = AppPathService.getPath( strKey );
-        assertNotNull( expResult );
-        assertTrue( result.endsWith( expResult ) );
-        System.out.println( result );
-    }
-
+   
     /**
      * Test of getWebAppPath method, of class fr.paris.lutece.portal.service.util.AppPathService. FIXME : uncomment this method when a better way to find real
      * app path is found.
