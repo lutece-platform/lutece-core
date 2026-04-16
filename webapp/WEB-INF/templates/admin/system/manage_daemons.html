@@ -10,95 +10,73 @@
 				</@formGroup>
 			</@tform>
         </@pageHeader>
-		<@manageFeature>
+		<@manageFeature class=''>
 			<#list daemons_list as daemon>
 			<@manageFeatureItem liClass='item-labels'>
-				<@manageFeatureItemColumn class='searchable align-self-baseline' auto=true>
+				<@manageFeatureItemColumn class='searchable align-self-baseline' flex=false >
+					<@h level=3><#if daemon.running><@tag color='success' title='#i18n{portal.util.labelEnabled}'><@icon style='check' /></@tag><#else><@tag color='danger' title='#i18n{portal.util.labelDisabled}'><@icon style='times' /></@tag></#if> <@span class='ms-2'>${daemon.id} (${daemon.pluginName})</@span></span></@h>
+					<@p class='mb-0'><em>#i18n{portal.system.manage_daemons.columnTitleName} :</em><strong class="ms-1">#i18n{${daemon.nameKey}}</strong><br>#i18n{${daemon.descriptionKey}}</@p>
+					<@div class='d-flex align-items-center mt-2'>
 					<#if daemon.running>
-						<@tag color='success' title='#i18n{portal.util.labelEnabled}'>
-							<@icon style='check' />
-						</@tag>
+						<@p class='mb-0'>
+						<#if !daemon.cron?has_content>
+							#i18n{portal.system.manage_daemons.columnTitleInterval} 
+							<@span class='fw-bold ms-2'>${daemon.interval} #i18n{portal.system.manage_daemons.unit.sec} </@span>
+							<small class="d-inline-block"><#if daemon.interval gte 3600><#assign hour=daemon.interval / 3600 /> ( ${hour} #i18n{portal.system.manage_daemons.unit.hour} )<#else><#if daemon.interval gte 60><#assign mn=daemon.interval / 60 /> ( ${mn} #i18n{portal.system.manage_daemons.unit.mn} )</#if></#if></small>
+						<#else>
+							<@span class='ms-2'>#i18n{portal.system.manage_daemons.columnTitleCron}</@span>
+						</#if>
+						<#if daemon.inProgress><@span class='ms-2'><@tag color='info' title='#i18n{portal.system.manage_daemons.labelInProgress}'><@icon style='clock' /></@tag></@span></#if>
+						</@p>
 					<#else>
-						<@tag color='danger' title='#i18n{portal.util.labelDisabled}'>
-							<@icon style='times' />
-						</@tag>
-					</#if>
-				</@manageFeatureItemColumn>
-				<@manageFeatureItemColumn class='searchable align-self-baseline' auto=true flex=false>
-					<@h level=3>${daemon.id} (${daemon.pluginName})</@h>
-					<@p class='mb-0'>#i18n{${daemon.nameKey}} <br> #i18n{${daemon.descriptionKey}}</@p>
-				</@manageFeatureItemColumn>
-				<@manageFeatureItemColumn auto=true flex=false class='searchable align-self-baseline'>									
-				<#if daemon.running>
-					<#if !daemon.cron?has_content>
-						#i18n{portal.system.manage_daemons.columnTitleInterval} <@span class="fw-bold">${daemon.interval} #i18n{portal.system.manage_daemons.unit.sec} </@span>
-							<small class="d-inline-block mb-2">
-								<#if daemon.interval gte 3600>
-									<#assign hour=daemon.interval / 3600 />
-									( ${hour} #i18n{portal.system.manage_daemons.unit.hour} )
-								<#else>
-									<#if daemon.interval gte 60>
-										<#assign mn=daemon.interval / 60 />
-										( ${mn} #i18n{portal.system.manage_daemons.unit.mn} )
-									</#if>
-								</#if>
-							</small>
+						<@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='' class='d-inline-flex align-items-center' >
+							<@input type='hidden' name='daemon' value='${daemon.id}' />
+							<@input type='hidden' name='token' value='${token}' />
+							<@formGroup labelFor='interval' labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' class='d-inline-flex align-items-center' labelClass='me-2 mb-0'>
+								<@inputGroup>
+									<@input type='text' name='interval' id='interval' value='${daemon.interval}' size='sm' params='addons' />
+									<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateInterval}' name='action' value='UPDATE_INTERVAL' buttonIcon='check' color='primary' hideTitle=['all'] size='sm' />
+								</@inputGroup> 
+							</@formGroup>
+						</@tform>
+						</#if>
+						<#if daemon.running && daemon.cron??><#if daemon.cron?has_content><@p class='mb-0'>${(daemon.cron)!}</@p></#if>
 					<#else>
-						#i18n{portal.system.manage_daemons.columnTitleCron}
-					</#if>
-					<#if daemon.inProgress>
-					<@tag color='info' title='#i18n{portal.system.manage_daemons.labelInProgress}'>
-						<@icon style='clock' />
-					</@tag>								
-					</#if>
-				<#else>
-					<@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='inline' >
-						<@input type='hidden' name='daemon' value='${daemon.id}' />
-						<@input type='hidden' name='token' value='${token}' />
-						<@formGroup labelFor='interval' labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' rows=2 >
-							<@inputGroup>
-								<@input type='text' name='interval' id='interval' value='${daemon.interval}' size='sm' params='addons' />
-								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateInterval}' name='action' value='UPDATE_INTERVAL' buttonIcon='check' color='primary' hideTitle=['all'] size='sm' />
-							</@inputGroup> 
-						</@formGroup>
-					</@tform>
-					</#if>
-					<#if daemon.running && daemon.cron??><#if daemon.cron?has_content>${(daemon.cron)!}</#if>
-				<#else>
-					<@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='inline'>
-						<@input type='hidden' name='daemon' value='${daemon.id}' />
-						<@input type='hidden' name='token' value='${token}' />
-						<@formGroup labelFor='cron'  labelKey='#i18n{portal.system.manage_daemons.columnTitleCron}' rows=2>								
-							<@inputGroup>
-								<@input type='text' name='cron' id='cron' value='${(daemon.cron)!}' size='sm' params='addons' />
+						<@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='' class='d-inline-flex align-items-center' >
+							<@input type='hidden' name='daemon' value='${daemon.id}' />
+							<@input type='hidden' name='token' value='${token}' />
+							<@formGroup labelFor='cron'  labelKey='#i18n{portal.system.manage_daemons.columnTitleCron}' class='d-inline-flex align-items-center' labelClass='me-2 mb-0'>								
+								<@inputGroup>
+									<@input type='text' name='cron' id='cron' value='${(daemon.cron)!}' size='sm' params='addons' />
 									<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateCron}' name='action' value='UPDATE_CRON' buttonIcon='check' color='primary' hideTitle=['all'] size='sm' />
-							</@inputGroup>
-						</@formGroup>
-					</@tform>
-				</#if>
-				<#if daemon.lastRunDate?has_content>
-					<#if daemon.lastRunLogs?has_content>
-						<@offcanvas id="${daemon.id}" title="#i18n{${daemon.nameKey}}" btnColor="light" btnTitle="${daemon.lastRunDate} - ${(daemon.lastRunEndDate?has_content)?string(daemon.lastRunEndDate, '...')}" position="end">
-+									${daemon.lastRunDate} - <#if daemon.lastRunEndDate?has_content>${daemon.lastRunEndDate}</#if>
+								</@inputGroup>
+							</@formGroup>
+						</@tform>
+					</#if>
+					<#if daemon.lastRunDate?has_content>
+						<#if daemon.lastRunLogs?has_content>
+							<@offcanvas id="${daemon.id}" title="#i18n{${daemon.nameKey}}" btnColor="light ms-2" btnTitle="${daemon.lastRunDate} - ${(daemon.lastRunEndDate?has_content)?string(daemon.lastRunEndDate, '...')}" position="end">
+							${daemon.lastRunDate} - <#if daemon.lastRunEndDate?has_content>${daemon.lastRunEndDate}</#if>
 							<@h level=4>#i18n{portal.system.manage_daemons.columnTitleLogs}</@h>
 							<@h level=5>#i18n{portal.system.manage_daemons.columnTitleLastRun} ${daemon.lastRunDate}</@h>
-							<@pre><#if daemon.lastRunLogs?length &lt; log_max_size>${daemon.lastRunLogs}<#else>${daemon.lastRunLogs?substring(0,log_max_size -1)} <#if daemon.lastRunLogs?length &gt; log_max_size + 200><br>(...)<br>${daemon.lastRunLogs?substring(daemon.lastRunLogs?length -200,daemon.lastRunLogs?length)}</#if></#if> </@pre>
-						</@offcanvas>
-					<#else>
-						#i18n{portal.system.manage_daemons.columnTitleLastRun}  <strong>${daemon.lastRunDate} - ${(daemon.lastRunEndDate?has_content)?string(daemon.lastRunEndDate, '...')}</strong>
-					</#if>
-				</#if>
-				</@manageFeatureItemColumn>
-				<@manageFeatureItemColumn align='end'>
-					<@tform method="post" action="jsp/admin/system/DoDaemonAction.jsp" type=''>
-						<@input type='hidden' name='daemon' value='${daemon.id}' />
-						<@input type='hidden' name='token' value='${token}' />
-						<#if daemon.running>
-							<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ' name='action' value='STOP' buttonIcon='player-stop me-1' color='danger'  />
-							<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ' name='action' value='RUN' buttonIcon='sync me-1' color='info' />
+							<@pre><#if daemon.lastRunLogs?length lt log_max_size>${daemon.lastRunLogs}<#else>${daemon.lastRunLogs?substring(0,log_max_size -1)} <#if daemon.lastRunLogs?length &gt; log_max_size + 200><br>(...)<br>${daemon.lastRunLogs?substring(daemon.lastRunLogs?length -200,daemon.lastRunLogs?length)}</#if></#if> </@pre>
+							</@offcanvas>
 						<#else>
-							<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ' name='action' value='START' buttonIcon='player-play me-1' color='success'  />
+							<@p class='mb-0 ms-2'>#i18n{portal.system.manage_daemons.columnTitleLastRun} <strong>${daemon.lastRunDate} - ${(daemon.lastRunEndDate?has_content)?string(daemon.lastRunEndDate, '...')}</strong></@p>
 						</#if>
+					</#if>
+					</@div>
+				</@manageFeatureItemColumn>
+				<@manageFeatureItemColumn align='end' class='align-self-baseline'>
+					<@tform method="post" action="jsp/admin/system/DoDaemonAction.jsp" type=''>
+					<@input type='hidden' name='daemon' value='${daemon.id}' />
+					<@input type='hidden' name='token' value='${token}' />
+					<#if daemon.running>
+						<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ' name='action' value='STOP' buttonIcon='player-stop me-1' color='danger'  />
+						<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ' name='action' value='RUN' buttonIcon='sync me-1' color='info' />
+					<#else>
+						<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ' name='action' value='START' buttonIcon='player-play me-1' color='success'  />
+					</#if>
 					</@tform>
 				</@manageFeatureItemColumn>
 			</@manageFeatureItem>
