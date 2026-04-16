@@ -1,14 +1,14 @@
 <#if !webapp_url?has_content><#assign webapp_url = '' /></#if>
 <script src="themes/admin/shared/js/editors/tinymce6/tinymce.min.js"></script>
 <#macro initEditor editorWidth=0 cssFiles='' type='' insert='"library","pagelinkservice"' selector='.richtext' config={}>
-<#assign editorLocale='' />
+<#assign editorLocale='fr_FR' />
 <#assign themeEditorConfig={}>
 <#assign themeEditorExtraConfig=''>
 <#local toolbar='' />
 <#-- We only have the language pack for French (France) installed in webapp/js/editors/tinymce/langs -->
 <#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->
 <#-- Force it here because if it is a wrong value, tinyMCE does not load -->
-<#if locale?? && (2 <= locale?string?length) && (locale?string?substring(0,2) == "fr")>	<#assign editorLocale="fr_FR" /></#if>
+<#if locale?? && (2 <= locale?string?length) && (locale?string?substring(0,2) == "fr")><#assign editorLocale='fr_FR' /></#if>
 <#if cssFiles==""><#local cssFiles="editor.css, page_template_styles.css" /></#if>
 <#local optEditorConfig=.get_optional_template('editor_tinymce_theme.html')>
 <#if optEditorConfig.exists><@optEditorConfig.include /></#if>
@@ -103,7 +103,7 @@ let editorConfig = {
   toolbar: tinyToolbar,
   quickbars_insert_toolbar: tinyQuickbarMenu,
   quickbars_selection_toolbar: selectionToolbar,
-   block_formats: 'Paragraphe=p; Titre 2=h2; Titre 3=h3; Titre 4=h4; Titre 5=h5',
+  block_formats: 'Paragraphe=p; Titre 2=h2; Titre 3=h3; Titre 4=h4; Titre 5=h5',
   language: '${editorLocale}',
   document_base_url : '${webapp_url}',
   color_map: colorMap,
@@ -111,7 +111,6 @@ let editorConfig = {
   image_advtab: true,
   content_css: '${cssFiles!}',
   importcss_append: false,
-  valid_elements : "*[*]",
   target_list: [
     {title: 'None', value: ''},
     {title: '_self', value: '_self'},
