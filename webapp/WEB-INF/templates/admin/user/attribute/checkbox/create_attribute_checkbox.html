@@ -26,11 +26,10 @@
 			<@formGroup helpKey='#i18n{portal.users.create_attribute.labelIsFieldInLineComment}'>
 				<@checkBox orientation='switch' name='is_field_in_line' id='is_field_in_line' value='1' labelKey='#i18n{portal.users.create_attribute.labelIsFieldInLine}' />
 			</@formGroup>
-
 			<@formGroup>
 				<@input name='attribute_type_class_name' value='${attribute_type.className}' type='hidden' /> 
 				<@button type='submit' name='validate' value='validate' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonValidate}' color='primary'  />
-				<@button type='submit' name='apply' value='apply' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonApply}' color='primary'  />
+				<@button type='submit' name='apply' value='apply' buttonIcon='device-floppy' title='#i18n{portal.users.create_attribute.buttonApply}' color='primary'  />
 				<@button type='submit' name='cancel' value='cancel' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' cancel=true color='secondary'  />
 			</@formGroup>
 		</@tform>

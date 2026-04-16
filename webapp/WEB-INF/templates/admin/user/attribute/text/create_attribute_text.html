@@ -10,7 +10,7 @@
 			<@input type='hidden' name='token' value='${token}' />
 			<@input type='hidden' name='attribute_type_class_name' value='${attribute_type.className}' />
 			<@formGroup labelKey='#i18n{portal.users.create_attribute.labelTitle}' labelFor='attr_title' helpKey='#i18n{portal.users.create_attribute.labelTitleComment}' mandatory=true>
-				<@input type='text' name='title' id='attr_title' inputSize=80 value='' maxlength=255 />
+				<@input type='text' name='title' id='attr_title' value='' maxlength=255 />
 			</@formGroup>
 			<@formGroup labelKey='#i18n{portal.users.create_attribute.labelHelpMessage}' labelFor='help_message' helpKey='#i18n{portal.users.create_attribute.labelHelpMessageComment}'>
 				<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5 />
@@ -35,7 +35,7 @@
 			</@formGroup>
 			<@formGroup>
 				<@button type='submit' name='validate' value='validate' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonValidate}' color='primary' />
-				<@button type='submit' name='apply' value='apply' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonApply}' color='primary' />
+				<@button type='submit' name='apply' value='apply' buttonIcon='device-floppy' title='#i18n{portal.users.create_attribute.buttonApply}' color='primary' />
 				<@button type='submit' name='cancel' value='cancel' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' cancel=true color='secondary'  />
 			</@formGroup>
 		</@tform>

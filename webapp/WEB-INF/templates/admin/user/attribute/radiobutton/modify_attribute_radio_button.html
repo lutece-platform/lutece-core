@@ -10,6 +10,7 @@
 			<@columns md=4>
 				<@tform action='jsp/admin/user/attribute/DoModifyAttribute.jsp' method='post' boxed=true>
 					<@input type='hidden' name='token' value='${token}' />
+					<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelTitle} *' labelFor='attr_title' helpKey='#i18n{portal.users.modify_attribute.labelTitleComment}' mandatory=true>
 						<@input type='text' name='title' id='attr_title' value='${attribute.title?html}' maxlength=255 inputSize=80 />
 					</@formGroup>
@@ -31,12 +32,9 @@
 					<@formGroup helpKey='#i18n{portal.users.create_attribute.labelIsFieldInLineComment}'>
 						<@checkBox orientation='switch' name='is_field_in_line' id='is_field_in_line' value='1' checked=attribute.fieldInLine labelKey='#i18n{portal.users.create_attribute.labelIsFieldInLine}' />
 					</@formGroup>
-					<@formGroup>
-						<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
-						<@button type='submit' name='validate' value='#i18n{portal.users.modify_attribute.buttonValidate}' buttonIcon='check' title='#i18n{portal.users.modify_attribute.buttonValidate}' color='primary' hideTitle=['xs'] />
-						<@button type='submit' name='apply' value='#i18n{portal.users.modify_attribute.buttonApply}' buttonIcon='circle-check' title='#i18n{portal.users.modify_attribute.buttonApply}' color='primary' hideTitle=['xs'] />
-						<@button type='submit' name='cancel' value='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' color='secondary' cancel=true hideTitle=['xs'] />
-					</@formGroup>
+					<@button type='submit' name='validate' value='#i18n{portal.users.modify_attribute.buttonValidate}' buttonIcon='check' title='#i18n{portal.users.modify_attribute.buttonValidate}' color='primary' class='form-validation' />
+					<@button type='submit' name='apply' value='#i18n{portal.users.modify_attribute.buttonApply}' buttonIcon='device-floppy' title='#i18n{portal.users.modify_attribute.buttonApply}' color='primary' />
+					<@button type='submit' name='cancel' value='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' color='secondary' cancel=true class='form-validation' />
 				</@tform>
     	</@columns>
 		<@columns md=8>
@@ -59,7 +57,6 @@
 							<#if attribute_field.defaultValue><@tag color='success'>#i18n{portal.users.modify_attribute.defaultValue}</@tag></#if>
 						</@manageFeatureItemColumn>
 						<@manageFeatureItemColumn align='end'>
-							<@offcanvas targetUrl="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" targetElement="#modify-attr-field" redirectForm=false id="modify-attr-${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}" btnTitle="#i18n{portal.users.modify_attribute.buttonLabelModify}" btnIcon="edit" position="end" hideTitle=['xs'] />
 							<#if cpt != 1>
 								<@tform method='post' action='jsp/admin/user/attribute/DoMoveUpAttributeField.jsp#list'>
 									<@input type='hidden' name='id_attribute' value='${attribute.idAttribute?html}' />
@@ -76,7 +73,8 @@
 									<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' buttonIcon='chevron-down' hideTitle=['all'] />
 								</@tform>
 							</#if>
-							<@aButton href='jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='trash' title='#i18n{portal.users.modify_attribute.buttonLabelDelete}' hideTitle=['all'] color='danger' class='pull-left spaced' />
+							<@offcanvas targetUrl="jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}" targetElement="#modify-attr-field" redirectForm=false id="modify-attr-${attribute_field.idField}" title="#i18n{portal.users.modify_attribute.buttonLabelModify}" btnTitle="#i18n{portal.users.modify_attribute.buttonLabelModify}" btnIcon="edit" position="end" hideTitle=['all'] />
+							<@aButton href='jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='trash' title='#i18n{portal.users.modify_attribute.buttonLabelDelete}' hideTitle=['all'] color='danger' class='pull-left spaced' hideTitle=['all'] />
 						</@manageFeatureItemColumn>
 					</@manageFeatureItem>
 					</#if>
