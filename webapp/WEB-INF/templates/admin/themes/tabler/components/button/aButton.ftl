@@ -56,32 +56,18 @@ Snippet:
 <#local class += alignmentSettings(align,'') />
 <#-- Size class -->
 <#local buttonSize = '' />
-	<#if size?starts_with('style') == true >
-		<#local params = params + ' ' + size />
-	<#else>
-		<#local buttonSize = size />
-	</#if>	
-<#if dropdownMenu>
-<div class="btn-group">
-</#if>
+<#if size?starts_with('style') == true ><#local params = params + ' ' + size /><#else><#local buttonSize = size /></#if>	
 <a class="${style}<#if buttonSize!=''> btn-${buttonSize}</#if><#if color!=''> ${buttonColor}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if target!=''> target="${target}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
-	<#if buttonIcon!='' && iconPosition='left'>
-		<#local buttonIcon = buttonIcon  />
-		<@icon style=buttonIcon />
-	</#if>
+	<#if buttonIcon!='' && iconPosition='left'><#local buttonIcon = buttonIcon  /><@icon style=buttonIcon /></#if>
 	<span class="${displayTitleClass}">${title}</span>
-	<#if buttonIcon!='' && iconPosition='right'>
-		<#local buttonIcon = buttonIcon  />
-		<@icon style=buttonIcon />
-	</#if>
+	<#if buttonIcon!='' && iconPosition='right'><#local buttonIcon = buttonIcon  /><@icon style=buttonIcon /></#if>
 	<#if !dropdownMenu>
 	<#nested>
 	</#if>
 </a>
 <#if dropdownMenu>
 <div class="dropdown-menu"<#if id!=''> id="${id}" aria-labelledby="${id}"</#if>>
-	<#nested>
-</div>
+<#nested>
 </div>
 </#if>
 </#macro>
