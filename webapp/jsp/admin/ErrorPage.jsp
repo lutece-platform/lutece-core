@@ -172,23 +172,25 @@ out.println(cw.toString());
 <!-- Placed at the end of the document so the pages load faster -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-	
 	const stackMsg = document.getElementById('stackMsg');
-	const btnStack = document.getElementById('btnStack');
 	
-	// Initially hide the stack trace
-	stackMsg.style.display = 'none';
-	
-	// Toggle stack trace visibility on button click
-	btnStack.addEventListener('click', function(e) {
-		e.preventDefault();
-		if (stackMsg.style.display === 'none') {
-			stackMsg.style.display = 'block';
-		} else {
-			stackMsg.style.display = 'none';
-		}
-	});
-	
+	if ( stackMsg  != null ) { 
+		// Initially hide the stack trace
+		stackMsg.style.display = 'none';
+
+		const btnStack = document.getElementById('btnStack');
+		if ( btnStack == null ) { return; }
+		
+		// Toggle stack trace visibility on button click
+		btnStack.addEventListener( 'click', function(e) {
+			e.preventDefault();
+			if ( stackMsg.style.display === 'none' ) {
+				stackMsg.style.display = 'block';
+			} else {
+				stackMsg.style.display = 'none';
+			}
+		});
+	}
 });
 </script>
 </body>
