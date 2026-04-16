@@ -33,12 +33,13 @@ Snippet:
     </@pageHeader>
 
 -->
-<#macro pageHeader id='' title='' titleClass='mb-1' description='' class='col-md-4 col-lg-5' toolsClass='' responsiveHeader=false params='' deprecated...>
+<#macro pageHeader id='' title='' titleClass='mb-1' description='' breadcrumb='' class='col-md-4 col-lg-5' toolsClass='' responsiveHeader=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div id="page-header" class="row g-2 justify-content-between align-items-center<#if responsiveHeader>flex-column flex-md-row</#if><#if titleClass !=''> ${titleClass!}</#if>">
 	<div class="col-12<#if class !=''> ${class}</#if>">
 		<div class="page-pretitle"></div>
-		<h2 class="page-title mt-2">${title}</h2>
+		<#if breadcrumb?exists>${breadcrumb}</#if>
+		<h2 class="page-title ${titleClass}">${title}</h2>
 		<#if description !=''><p>${description}</p></#if>
 	</div>
 	<!-- Page title actions -->
