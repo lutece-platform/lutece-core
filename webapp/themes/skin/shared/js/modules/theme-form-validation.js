@@ -6,7 +6,7 @@
 const FormValidation = (function() {
     'use strict';
 
-    // Default configuration (fallback values)
+    // Default configuration (fallback values — messages should come from server via window.__formValidationConfig)
     const defaults = {
         errorClass: 'is-invalid',
         validClass: 'is-valid',
@@ -14,24 +14,24 @@ const FormValidation = (function() {
         helpClass: 'form-text',
         errorIconSvg: '<svg class="paris-icon paris-icon-alert-error main-danger-color me-xxs" aria-hidden="true" focusable="false" role="img"><use href="#paris-icon-alert-error"></use></svg>',
         messages: {
-            required: 'Ce champ est obligatoire.',
-            email: 'Veuillez saisir une adresse email valide.',
-            url: 'Veuillez saisir une URL valide.',
-            number: 'Veuillez saisir un nombre valide.',
-            min: 'La valeur doit être supérieure ou égale à {min}.',
-            max: 'La valeur doit être inférieure ou égale à {max}.',
-            minlength: 'Ce champ doit contenir au moins {minlength} caractères.',
-            maxlength: 'Ce champ ne doit pas dépasser {maxlength} caractères.',
-            pattern: 'Le format saisi est invalide.',
-            step: 'La valeur doit être un multiple de {step}.',
-            tel: 'Veuillez saisir un numéro de téléphone valide.',
-            date: 'Veuillez saisir une date valide.',
-            time: 'Veuillez saisir une heure valide.',
-            file: 'Veuillez sélectionner un fichier valide.',
-            filetype: 'Type de fichier non autorisé. Types acceptés : {accept}.',
-            filesize: 'Le fichier est trop volumineux. Taille maximale : {maxsize}.',
-            mismatch: 'Les valeurs ne correspondent pas.',
-            custom: 'Ce champ contient une erreur.'
+            required: 'This field is required.',
+            email: 'Please enter a valid email address.',
+            url: 'Please enter a valid URL.',
+            number: 'Please enter a valid number.',
+            min: 'Value must be greater than or equal to {min}.',
+            max: 'Value must be less than or equal to {max}.',
+            minlength: 'This field must contain at least {minlength} characters.',
+            maxlength: 'This field must not exceed {maxlength} characters.',
+            pattern: 'The format entered is invalid.',
+            step: 'Value must be a multiple of {step}.',
+            tel: 'Please enter a valid phone number.',
+            date: 'Please enter a valid date.',
+            time: 'Please enter a valid time.',
+            file: 'Please select a valid file.',
+            filetype: 'File type not allowed. Accepted types: {accept}.',
+            filesize: 'File is too large. Maximum size: {maxsize}.',
+            mismatch: 'Values do not match.',
+            custom: 'This field contains an error.'
         }
     };
 
