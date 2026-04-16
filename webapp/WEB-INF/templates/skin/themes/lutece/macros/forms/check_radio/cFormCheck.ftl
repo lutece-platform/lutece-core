@@ -83,3 +83,38 @@ Snippet:
 </#if>  
 <#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
 </#macro>
+<#--
+Macro: cFormCheckGroup
+
+Description: Defines a group for checkbox or radio button -> Same as use fieldset with ".form-check-group" class
+
+Parameters:
+- legend (string, required): the legend of the fieldset.
+- legendClass (string, optional): CSS class for the legend. Default: ''.
+- class (string, optional): adds a CSS class to the fieldset. Default: ''.
+- required (boolean, optional): indicates if the fields contained in the fieldset are required. Default: false.
+- params (string, optional): additional HTML attributes. Default: ''.
+
+Showcase:
+- desc: "Regroupement check - @cFormCheck"
+- bs: "forms/checks-radios-group"
+- newFeature: false
+
+Snippet:
+
+    Basic checkbox usage:
+
+    <@cFormCheckGroup legend='Schedule' >
+        <@cFormHelp id='formcheck1' label='Choose a schedule' />
+        <@cFormCheck type='checkbox' name='sport' id='football31' label='Football' value='foot' />
+        <@cFormCheck type='checkbox' name='sport' id='natation31' label='Swimming' value='swim' />
+    </@cFormCheckGroup>
+
+-->
+<#macro cFormCheckGroup legend id='' class='' legendClass='' helpMsg='' required=false params='' deprecated...>
+<@deprecatedWarning args=deprecated />
+<#local cId><#if id=''>form-check-group-${random()}<#else>${id}</#if></#local>
+<@cFieldset legend=legend legendClass=legendClass class='form-check-group ${class}' id=cId params=params helpMsg=helpMsg required=required >
+<#nested>
+</@cFieldset>
+</#macro>
