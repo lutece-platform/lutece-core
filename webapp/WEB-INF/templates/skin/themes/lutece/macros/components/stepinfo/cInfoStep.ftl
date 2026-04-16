@@ -9,7 +9,7 @@ Parameters:
 - hasidx (boolean, optional): Whether to display index numbers as bullets. Default: false.
 - title (boolean, optional): Whether to display step titles with heading style. Default: false.
 - showMore (number, optional): Character threshold for truncating step content (0 for no truncation). Default: 0.
-- labelMore (string, optional): Label for the "show more" button. Default: i18n("theme.labelShowMore").
+- labelMore (string, optional): Label for the "show more" button. Default: i18n("portal.theme.labelShowMore").
 - a11StatusMsg (string, optional): Accessible status message for screen readers. Default: ''.
 - class (string, optional): Additional CSS classes. Default: ''.
 - imgClass (string, optional): CSS class for step pictogram images. Default: ''.
@@ -58,7 +58,7 @@ Snippet:
 
 -->
 
-<#macro cInfoStepOld steps haspicto=false hasidx=false title=false showMore=0 labelMore=i18n("theme.labelShowMore") a11StatusMsg='' class='' imgClass='' id='' params='' deprecated...>
+<#macro cInfoStepOld steps haspicto=false hasidx=false title=false showMore=0 labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' imgClass='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="info-step">
     <#if steps?has_content>
@@ -90,7 +90,7 @@ Snippet:
                             <span class="extra visually-hidden">${step.content?remove_beginning(truncated)}</span>
                             <span class="d-block text-center mt-2">
                                 <@cLink href='#' nestedPos='before' class='btn-infostep-more main-color text-decoration-none h6' label=labelMore title=labelMore >
-                                    <@cIcon label=i18n("portal.util.labelBack") class='angle-up hidden' />
+                                    <@cIcon name=i18n("portal.util.labelBack") class='angle-up hidden' />
                                 </@cLink>
                             </span>
                         <#else>

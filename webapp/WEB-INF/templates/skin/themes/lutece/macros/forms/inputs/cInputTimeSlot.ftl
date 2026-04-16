@@ -49,12 +49,12 @@ Snippet:
 <@cFieldset legend=legend! legendClass=legendClass id=idLocal! required=required helpMsg=helpMsg params=params >
 	<@cRow>
 		<@cCol cols='6 col-md-4 col-lg-2 ps-0 ms-xs'>
-			<@cField label='#i18n{theme.labelFrom}' id='label_${name}_begin!' for='${name}_begin!' required=required showLabel=false > 
+			<@cField label='#i18n{portal.theme.labelFrom}' id='label_${name}_begin!' for='${name}_begin!' required=required showLabel=false > 
 				<@cInput type='time' class=class!'' id='${idLocal}_begin' name='${name}_begin' autocomplete=autocomplete required=required html5Required=html5Required value=beginHour! disabled=disabled! readonly=readonly! errorMsg=errorMsg! hideErrorMsg=hideErrorMsg step=step?number params=inputParams />
 			</@cField>	
 		</@cCol>
 		<@cCol cols='6 col-md-4 col-lg-2'>
-			<@cField label='#i18n{theme.labelTo}' id='label_${name}_end!' for='${name}_end!' required=required showLabel=false > 
+			<@cField label='#i18n{portal.theme.labelTo}' id='label_${name}_end!' for='${name}_end!' required=required showLabel=false > 
 				<@cInput type='time' class=class!'' id='${idLocal}_end' name='${name}_end' autocomplete=autocomplete required=required html5Required=html5Required value=endHour! disabled=disabled! readonly=readonly! errorMsg=errorMsg! hideErrorMsg=hideErrorMsg step=step?number params=inputParams />
 			</@cField>	
 		</@cCol>

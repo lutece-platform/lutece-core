@@ -8,8 +8,8 @@ Parameters:
 - type (string, optional): List display type ('default', 'more', 'files'). Default: 'default'.
 - itemsShown (number, optional): Number of items visible before requiring 'show more' (used with type='more'). Default: 0.
 - indexShown (boolean, optional): Whether to display the item index. Default: false.
-- labelMore (string, optional): Label for the 'show more' button. Default: i18n("theme.labelShowMore").
-- labelClose (string, optional): Label for the 'close' button. Default: i18n("theme.labelClose").
+- labelMore (string, optional): Label for the 'show more' button. Default: i18n("portal.theme.labelShowMore").
+- labelClose (string, optional): Label for the 'close' button. Default: i18n("portal.theme.labelClose").
 - class (string, optional): Additional CSS classes. Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
 - params (string, optional): Additional HTML attributes. Default: ''.
@@ -67,7 +67,7 @@ Snippet:
     </@cListItem>
 
 -->
-<#macro cList items type='default' itemsShown=0 indexShown=false labelMore=i18n("theme.labelShowMore") labelClose=i18n("theme.labelClose") class='' id='' params='' deprecated...>
+<#macro cList items={} type='default' itemsShown=0 indexShown=false labelMore=i18n("portal.theme.labelShowMore") labelClose=i18n("portal.theme.labelClose") class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />        
 <ul class="custom-list list-${type!}<#if class!=''> ${class}</#if><#if type='more'> more-list</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
 <#if items?has_content>

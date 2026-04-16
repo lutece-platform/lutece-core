@@ -9,7 +9,7 @@ Parameters:
 - hasidx (boolean, optional): Whether to display numbered index bullets. Default: false.
 - title (boolean, optional): Whether to display step titles with heading style. Default: false.
 - showMore (boolean, optional): Whether to display a "show more" button for step content. Default: false.
-- labelMore (string, optional): Label for the expand button. Default: i18n("theme.labelShowMore").
+- labelMore (string, optional): Label for the expand button. Default: i18n("portal.theme.labelShowMore").
 - a11StatusMsg (string, optional): Accessible status message for the active step. Default: ''.
 - class (string, optional): Additional CSS classes (use 'pie' for pie-chart style). Default: ''.
 - id (string, optional): HTML id attribute. Default: ''.
@@ -35,7 +35,7 @@ Snippet:
 
 -->
 
-<#macro cStepper steps=steps haspicto=false hasidx=false title=false showMore=false labelMore=i18n("theme.labelShowMore") a11StatusMsg='' class='' id='' params='' deprecated...>
+<#macro cStepper steps=steps haspicto=false hasidx=false title=false showMore=false labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="stepper">
     <ol class="stepper-list <#if hasidx> list-idx</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
