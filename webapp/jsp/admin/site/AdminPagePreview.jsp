@@ -55,6 +55,34 @@ ${ adminPageJspBean.getAdminPagePreview( pageContext.request ) }
     String strThemeVersion = globalTheme.getThemeVersion( );
 %>
 <link rel="stylesheet" href="themes/skin/<%= strThemeCode %>/css/theme.min.css?version=<%= strThemeVersion %>" type="text/css" />
+<style>
+/* In Iframe Preview scrollbar styles */
+html {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f0f0f0;
+}
+
+/* Chromium */
+html::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+html::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}   
+</style>
 <script type="module">
 document.addEventListener( "DOMContentLoaded", function(){
     const parentPortletTypeNodes = window.parent.document.querySelectorAll( '#offcanvas-body-portlet-type-wrapper ul li' );
