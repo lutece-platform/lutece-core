@@ -5,7 +5,6 @@ Description: Generates a date input field with optional Vanilla JS Datepicker in
 
 Parameters:
 - name (string, required): the name attribute of the input.
-- label (string, required): the label associated to the input.
 - id (string, optional): the ID of the input. Default: ''.
 - class (string, optional): CSS class for the input. Default: ''.
 - type (string, optional): the input type, 'datepicker' for JS datepicker or 'date' for HTML5 date. Default: 'datepicker'.
@@ -14,6 +13,7 @@ Parameters:
 - value (string, optional): the default value. Default: ''.
 - placeholder (string, optional): the placeholder text. Default: ''.
 - autocomplete (string, optional): the autocomplete attribute value. Default: ''.
+- html5Required (boolean, optional): whether to add the HTML5 required attribute. Default: true.
 - required (boolean, optional): marks the field as required. Default: false.
 - disabled (boolean, optional): disables the input. Default: false.
 - readonly (boolean, optional): sets the input as readonly. Default: false.
@@ -52,23 +52,23 @@ Snippet:
     </@cFormRow>
 
 -->
-<#macro cInputDate name label id='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' required=false disabled=false readonly=false helpMsg='' errorMsg='' params='' deprecated...>
+<#macro cInputDate name id='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=true required=false disabled=false readonly=false helpMsg='' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#local typeLocal><#if type='date'>date<#else>text</#if></#local>
 <#local valLocal><#if value !=''>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
 <#local errorInput><#if errorMsg !=''>_error</#if></#local>
-<@cLabel label=label for='${idLocal}' required=required />
+<#local inputClass><#if errorMsg !=''>is-invalid</#if></#local>
 <#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
+<#if errorMsg !='' && errorMsg !='_error'><@cFormError idLocal errorMsg /></#if>
 <@cInputGroup>
-  <@cInput id=idLocal type=typeLocal name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=required disabled=disabled readonly=readonly errorMsg=errorInput params=params />
+  <@cInput id=idLocal type=typeLocal name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=required html5Required=html5Required disabled=disabled readonly=readonly errorMsg=errorInput params=params />
   <#if icon && type='datepicker'>
-  <@cInputGroupAddon>
-      <@parisIcon 'agenda' idLocal />
-  </@cInputGroupAddon>
+  <@cInputGroupAddonText>
+      <@cIcon name='agenda' id=idLocal />
+  </@cInputGroupAddonText>
   </#if>
   <#nested>
-  <#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
 </@cInputGroup>
 <#if type='datepicker'><@getThemeDatePicker idField=idLocal options=options /></#if>
 </#macro>
@@ -79,7 +79,8 @@ Description: Generates a date range picker with two date inputs (start and end) 
 
 Parameters:
 - name (string, required): the name attribute prefix for the date inputs.
-- label (string, required): the label associated to the date range.
+- label (array, required): the labels associated to the start and end date inputs. Default: ['#i8n{theme.labelDateStart}','#i8n{theme.labelDateEnd}'].
+- showLabel (array, optional): flags to show or hide labels for start and end date inputs. Default: [false,false].
 - id (string, optional): the ID of the date range container. Default: 'dtRange'.
 - class (string, optional): CSS class for the container. Default: ''.
 - type (string, optional): the input type, 'datepicker' for JS datepicker or 'date' for HTML5 date. Default: 'datepicker'.
@@ -105,27 +106,27 @@ Snippet:
     <@cInputDateRange name='stay' label='Stay dates' placeholder=['Check-in','Check-out'] required=[true,true] />
 
 -->  
-<#macro cInputDateRange name label id='dtRange' class='' type='datepicker' icon=true options={} value='' placeholder=['',''] required=[false,false] disabled=[false,false] readonly=[false,false] helpMsg='' errorMsg='' params='' deprecated...>
+<#macro cInputDateRange name label=['#i8n{theme.labelDateStart}','#i8n{theme.labelDateEnd}'] showLabel=[false,false] id='dtRange' class='' type='datepicker' icon=true options={} value='' placeholder=['',''] required=[false,false] disabled=[false,false] readonly=[false,false] helpMsg='' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#local typeLocal><#if type='date'>date<#else>text</#if></#local>
 <#local valLocal><#if value !=''>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
 <@cBlock class='daterange ${class!}' id='${idLocal}' params=params >
-  <@cLabel label=label for='${idLocal}_range_start' />
+  <#if showLabel[0]><@cLabel label=label[0] for='${idLocal}_range_start' /><#else><@cLabel label=label[0] for='${idLocal}_range_start' class='visually-hidden' /></#if>
+  <#if showLabel[1]><@cLabel label=label[1] for='${idLocal}_range_end' class='ms-xl ps-xxs'/><#else><@cLabel label=label[1] for='${idLocal}_range_end' class='visually-hidden' /></#if>
   <#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
+  <#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
   <@cInputGroup>
     <@cInput id='${idLocal}_range_start' type=typeLocal name=name value=valLocal placeholder=placeholder[0] required=required[0] disabled=disabled[0] readonly=readonly[0]  />
-    <@cLabel label=label for='${idLocal}_range_end' class='visually-hidden' />
     <@cInput id='${idLocal}_range_end'type=typeLocal name='${name}_range_end' placeholder=placeholder[1] required=required[1] disabled=disabled[1] readonly=readonly[1] />
     <#if icon>
     <@cInputGroupAddon>
         <@cInputGroupAddonText tag='div'>
-            <@parisIcon 'agenda' '${idLocal}' />
+            <@cIcon name='agenda' id=idLocal />
         </@cInputGroupAddonText>   
     </@cInputGroupAddon> 
     </#if>
     <#nested>
-    <#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
   </@cInputGroup>
 </@cBlock>
 <#local optionsLocal><#if options?size = 0>{inputs:["${idLocal}_range_start","${idLocal}_range_start"]}</#if></#local>
