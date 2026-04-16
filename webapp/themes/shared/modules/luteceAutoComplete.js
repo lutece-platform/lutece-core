@@ -4,14 +4,6 @@ const LOADING_START = 'loading-start';
 const LOADING_END = 'loading-end';
 const LOADING_ERROR = 'loading-error';
 
-const KEYCODES = {
-  13: 'enter',
-  27: 'escape',
-  32: 'space',
-  38: 'up',
-  40: 'down'
-}
-
 class LuteceAutoComplete extends EventTarget {
   constructor(autocompleteElement, options = {}) {
     super();
@@ -20,7 +12,7 @@ class LuteceAutoComplete extends EventTarget {
     this.extractAttributes( autocompleteElement );
     this.init();
     this.isItemSelected = false;
-    this.isItemSelectedId = '';
+    this.activeDescendantId = '';
     this.originalValue = '';
     this.open = false;
     this.listSize = 0;
@@ -63,7 +55,10 @@ class LuteceAutoComplete extends EventTarget {
     this.searchInput.addEventListener( 'keyup', this.debounce((event) => {
       this.updateAutocomplete(event);
     }, 300));
-    
+
+    // Prevent mousedown on dropdown from stealing DOM focus from input
+    this.dropdown.addEventListener('mousedown', (e) => e.preventDefault());
+
     this.loader.addEventListener('success', this.onLoaderSuccess.bind(this));
     this.loader.addEventListener('error', this.onLoaderError.bind(this));
     this.removeBtn.addEventListener('click', this.onRemoveBtnClick.bind(this));
@@ -71,133 +66,160 @@ class LuteceAutoComplete extends EventTarget {
     this.addEventListener(LOADING_ERROR, this.onLoadingError.bind(this));
     this.addEventListener(LOADING_START, this.onLoadingStart.bind(this));
     this.addEventListener(LOADING_END, this.onLoadingEnd.bind(this));
-    
+
     window.addEventListener('resize', this.adjustWidths.bind(this));
-    
+
     this.adjustWidths();
   }
   
-  /* Search Key Events */
-  handleSearchDownArrow(event) {
-    event.preventDefault()
-    if ( this.open && this.listSize > 0 ){
-       this.resultList.firstElementChild.setAttribute('aria-selected','true')
-       this.resultList.firstElementChild.classList.add('active')
-       this.resultList.firstElementChild.focus()
-       const activeItemId = this.resultList.firstElementChild.getAttribute('id')
-       this.searchInput.setAttribute('aria-activedescendant', activeItemId );
-       this.isItemSelected = true;
-       this.isItemSelectedId = activeItemId;
+  /* --- ARIA Combobox: virtual focus helpers --- */
+
+  setActiveDescendant( item ) {
+    this.clearSelected();
+    if ( item ) {
+      item.classList.add('active');
+      item.setAttribute('aria-selected', 'true');
+      this.activeDescendantId = item.getAttribute('id');
+      this.searchInput.setAttribute('aria-activedescendant', this.activeDescendantId);
+      item.scrollIntoView({ block: 'nearest' });
     }
   }
-  
-  /* Result List Key Events */
-  handleListArrows( key ) {
-    let activeItem = this.resultList.querySelector('[aria-selected="true"]'), nextMenuItem;
-    if (this.resultList.childElementCount === 0) { return; }
-    if( key === 'up' ){
-      nextMenuItem = ( activeItem.previousSibling != null ) ? activeItem.previousSibling : this.resultList.lastElementChild; //last item in list
-    } else {
-      nextMenuItem = ( activeItem.nextSibling  != null ) ? activeItem.nextSibling : this.resultList.firstElementChild; //first item in list
+
+  clearActiveDescendant() {
+    this.clearSelected();
+    this.activeDescendantId = '';
+    this.searchInput.setAttribute('aria-activedescendant', '');
+  }
+
+  showDropdown() {
+    this.dropdown.style.display = 'block';
+    this.dropdown.classList.remove('d-none');
+    if ( this.listSize > 0 ) {
+      this.searchInput.setAttribute('aria-expanded', 'true');
+      this.open = true;
     }
-    activeItem.setAttribute('aria-selected', 'false')
-    this.clearSelected( )
-    nextMenuItem.classList.add('active');
-    nextMenuItem.setAttribute('aria-selected', 'true')
-    const activeItemId = nextMenuItem.getAttribute('id')
-    this.isItemSelectedId = activeItemId;
-    this.searchInput.setAttribute('aria-activedescendant', activeItemId );
+  }
+
+  closeDropdown() {
+    this.dropdown.style.display = 'none';
+    this.dropdown.classList.add('d-none');
+    this.searchInput.setAttribute('aria-expanded', 'false');
+    this.clearActiveDescendant();
+    this.open = false;
+  }
+
+  /* Navigate to next/previous option with wrapping */
+  moveActiveDescendant( direction ) {
+    if ( this.listSize === 0 ) { return; }
+    const current = this.activeDescendantId ? document.getElementById( this.activeDescendantId ) : null;
+    let next;
+    if ( direction === 'down' ) {
+      next = current && current.nextElementSibling ? current.nextElementSibling : this.resultList.firstElementChild;
+    } else {
+      next = current && current.previousElementSibling ? current.previousElementSibling : this.resultList.lastElementChild;
+    }
+    // Skip the empty message item (no role="option")
+    if ( next && next.getAttribute('role') !== 'option' ) { return; }
+    this.setActiveDescendant( next );
   }
 
   onSearchInputFocus() {
-    this.searchInput.setAttribute('aria-activedescendant','');
-    this.searchInput.setAttribute('aria-expanded','true');
-    this.dropdown.style.display = 'block'; 
-    this.inputWasEmpty = this.searchInput.value === '';
+    this.clearActiveDescendant();
     this.originalValue = this.searchInput.value;
+    // Show dropdown only if there are already results to display
+    if ( this.listSize > 0 ) {
+      this.showDropdown();
+    }
   }
 
   onSearchInputBlur() {
     setTimeout(() => {
-      if (!this.isItemSelected ) {
-        if (!this.allowFreeText) {
-          this.searchInput.value = this.originalValue;
-        }
-        this.dropdown.style.display = 'none';
-        this.isItemSelected = false;
-        this.searchInput.setAttribute( 'aria-expanded', 'false' );
-      } else {
-        this.searchInput.setAttribute( 'aria-expanded', 'false' );
-        this.searchInput.removeAttribute( 'aria-activedescendant' );
-        this.open = false
+      if ( !this.isItemSelected && !this.allowFreeText ) {
+        this.searchInput.value = this.originalValue;
       }
+      this.closeDropdown();
+      this.isItemSelected = false;
     }, 200);
   }
 
-  onResultKeyDown(event) {
-    switch (KEYCODES[event.keyCode]) {
-      case 'up':
-        event.preventDefault();
-        this.handleListArrows('up')
-        break
-      case 'down':
-        event.preventDefault();
-        this.handleListArrows('down')
-        break
-      case 'space':
-        event.preventDefault();
-        break
-      case 'enter':
-        event.preventDefault();
-        document.getElementById(this.isItemSelectedId).click();
-        break
-      case 'escape':
-        event.preventDefault();
-        this.dropdown.classList.add('d-none')
-        this.searchInput.setAttribute('aria-expanded','false');
-        this.searchInput.focus();
-        break
-      default:
-        break
-    }
-  }
-
+  /**
+   * W3C ARIA Combobox keyboard interaction.
+   * DOM focus always stays on the textbox; visual focus is managed via aria-activedescendant.
+   */
   onSearchInputKeyDown(event) {
-    switch (KEYCODES[event.keyCode]) {
-      case 'up':
+    const hasVisualFocus = this.activeDescendantId !== '';
+
+    switch ( event.key ) {
+      case 'ArrowDown':
         event.preventDefault();
-        break
-      case 'down':
-        this.handleSearchDownArrow(event)
-        break
-      case 'enter':
-        if ( this.resultList.childElementCount > 0 ){
-          this.dropdown.classList.remove('d-none')
+        if ( !this.open && this.listSize > 0 ) {
+          this.showDropdown();
         }
-        this.searchInput.setAttribute('aria-expanded','true');
+        if ( event.altKey ) {
+          // Alt+Down: open without moving visual focus
+          break;
+        }
+        this.moveActiveDescendant('down');
+        break;
+
+      case 'ArrowUp':
         event.preventDefault();
-        break
-      case 'escape':
-        this.dropdown.classList.add('d-none')
-        this.searchInput.setAttribute('aria-expanded','false');
+        if ( !this.open && this.listSize > 0 ) {
+          this.showDropdown();
+        }
+        this.moveActiveDescendant('up');
+        break;
+
+      case 'Enter':
         event.preventDefault();
-        break
+        if ( hasVisualFocus ) {
+          document.getElementById( this.activeDescendantId ).click();
+        }
+        if ( this.open ) {
+          this.closeDropdown();
+        }
+        break;
+
+      case 'Escape':
+        event.preventDefault();
+        if ( this.open ) {
+          this.closeDropdown();
+        } else {
+          this.searchInput.value = '';
+        }
+        break;
+
+      case 'ArrowRight':
+      case 'ArrowLeft':
+      case 'Home':
+      case 'End':
+        // Return visual focus to textbox, let default cursor behaviour happen
+        this.clearActiveDescendant();
+        break;
+
       default:
-        if ( this.resultList.childElementCount > 0 && this.searchInput.value !='' ){
-          this.dropdown.classList.remove('d-none')
+        // Printable characters: clear visual focus and let the character be typed
+        if ( event.key.length === 1 && !event.ctrlKey && !event.metaKey ) {
+          this.clearActiveDescendant();
         }
-        break
+        // Ensure dropdown is visible when there are results
+        if ( this.listSize > 0 && this.searchInput.value !== '' ) {
+          this.showDropdown();
+        }
+        break;
     }
   }
 
   clearSelected( ){
-    this.dropdown.querySelectorAll( `.list-group-item.active` ).forEach( el => el.classList.remove('active') );
+    this.dropdown.querySelectorAll( `.list-group-item.active` ).forEach( el => {
+      el.classList.remove('active');
+      el.setAttribute('aria-selected', 'false');
+    });
   }
 
   onItemSelected() {
     this.isItemSelected = true;
-    this.dropdown.classList.add('d-none')
-    this.clearSelected()
+    this.closeDropdown();
     this.removeBtn.classList.remove('d-none');
   }
 
@@ -209,6 +231,7 @@ class LuteceAutoComplete extends EventTarget {
     this.ariaLive.textContent = '';
     this.listSize = suggestions.length;
     this.resultList.innerHTML = '';
+    this.clearActiveDescendant();
     suggestions.forEach( (suggestion, index ) => {
       this.resultList.appendChild( this.itemTemplate( suggestion, index ) );
     });
@@ -219,9 +242,8 @@ class LuteceAutoComplete extends EventTarget {
     this.dispatchEvent(new Event(LOADING_ERROR));
   }
 
-  onRemoveBtnClick() {    
-    this.clearSelected()
-    this.dropdown.classList.add('d-none');
+  onRemoveBtnClick() {
+    this.closeDropdown();
     this.searchInput.value = '';
     this.copyFields.forEach(item => {
       const copyField = document.querySelector('input[name=' + item.inputName + ']');
@@ -231,6 +253,7 @@ class LuteceAutoComplete extends EventTarget {
       }
     });
     this.removeBtn.classList.add('d-none');
+    this.searchInput.focus();
   }
 
   onBtnClick() {
@@ -245,37 +268,35 @@ class LuteceAutoComplete extends EventTarget {
     this.updateLoader( this.loaderIconClasses.loading, [...this.loaderIconClasses.search, ...this.loaderIconClasses.error]);
   }
 
-   onLoadingEnd(){
-      this.updateLoader(this.loaderIconClasses.search, this.loaderIconClasses.loading);
-      if (this.resultList.childElementCount === 0) {
-        const emptyItem = this.createEl('li', this.emptyClass, this.emptyLabel);
-        this.resultList.appendChild(emptyItem);
-        this.searchInput.setAttribute('aria-expanded','true');
-      } else {
-        this.open=true;
-        this.searchInput.setAttribute('aria-expanded','true');
-        this.ariaLive.textContent = `${this.resultList.childElementCount} éléments trouvés`
-        
-      }
+  onLoadingEnd(){
+    this.updateLoader(this.loaderIconClasses.search, this.loaderIconClasses.loading);
+    if (this.resultList.childElementCount === 0) {
+      const emptyItem = this.createEl('li', this.emptyClass, this.emptyLabel);
+      this.resultList.appendChild(emptyItem);
+      this.ariaLive.textContent = this.emptyLabel;
+      // Show dropdown with empty message but do not set aria-expanded (no options)
+      this.dropdown.style.display = 'block';
+      this.dropdown.classList.remove('d-none');
+    } else {
+      this.ariaLive.textContent = `${this.resultList.childElementCount} résultats disponibles`;
+      this.showDropdown();
+    }
   }
   
   itemTemplate( suggestion, index ) {
-    const idx = index + 1
+    const idx = index + 1;
     const item = this.createEl( 'li', this.suggestionItemClass);
     item.setAttribute( 'id', 'lutece-autocomplete-option-' + idx );
     item.setAttribute( 'aria-posinset', idx );
     item.setAttribute( 'aria-setsize', this.listSize );
     item.setAttribute( 'aria-selected', 'false');
     item.setAttribute( 'role', 'option');
-    item.setAttribute( 'tabindex', '-1');
     item.setAttribute( 'data-value', suggestion[this.itemValueFieldName]);
     this.copyFields.forEach( copyField => {
       item.setAttribute( 'data-' + copyField.inputName, suggestion[copyField.resultFieldName]);
     });
     item.setAttribute( 'data-label', this.itemTitleFieldNames.map( field => suggestion[field]).join(" ") );
     item.addEventListener('click', ({ currentTarget }) => {
-      currentTarget.classList.add( 'active' );
-      this.isItemSelectedId = currentTarget.getAttribute('id');
       this.searchInput.value = currentTarget.getAttribute( 'data-value' );
       this.copyFields.forEach(item => {
         const copyField = document.querySelector('input[name=' + item.inputName + ']');
@@ -291,8 +312,7 @@ class LuteceAutoComplete extends EventTarget {
         detail: { suggestion: suggestion, element: currentTarget }
       }));
     });
-    item.addEventListener('keydown', this.onResultKeyDown.bind(this) );
-    
+
     item.append(
       this.createEl('p', this.titleClass, this.itemTitleFieldNames.map(field => suggestion[field]).join(" ")),
       this.createEl('p', this.descriptionClass, this.itemDescriptionFieldNames.map(field => suggestion[field]).join(" ")),
