@@ -74,5 +74,6 @@ window.addEventListener( "load", function() {
     <@cToast title=dskey('portal.theme.site_property.bannerMessage.Title') content=dskey('portal.theme.site_property.bannerMessage.htmlblock') delay=bannerMessageDuration?number class='bg-${dskey(\'theme.site_property.bannerMessage.Type\')}' />
 </@cInitToast>
 </#if>
+<#if addGoToTop?? && addGoToTop?boolean><@cGoToTop /></#if>
 <#-- End Update ME -->
 </@cTpl>

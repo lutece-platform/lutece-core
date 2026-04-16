@@ -126,7 +126,6 @@ ${plugins_javascript_links!}
 <#assign optUserFooter=.get_optional_template('theme_frameset_footer_user.html')>
 <#if optUserFooter.exists><@optUserFooter.include /></#if>
 </#if>
-<#if addGoToTop?? && addGoToTop?boolean><@cGoToTop /></#if>
 </body>
 </html>
 </#if>
