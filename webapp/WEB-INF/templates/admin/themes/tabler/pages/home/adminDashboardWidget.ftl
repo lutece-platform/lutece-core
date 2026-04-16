@@ -33,9 +33,8 @@ Snippet:
     </@adminDashboardWidget>
 
 -->
-<#macro adminDashboardWidget id title hasHeader=true sm=12 md=4 color='primary' url='' class='' bodyClass='' actions=true actionMenu='' params='' deprecated...>
+<#macro adminDashboardWidget id title hasHeader=true sm=12 md=4 color='primary' url='' class='' bodyClass='vmax-dvh-50 overflow-y-auto ' boxContentFooter='' actions=true actionMenu='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-
 <@box style='solid' color='${color}' id='${id}_dashboard_card' class='box-widget' params=' data-id="${id}" draggable="true"'>
 <#if hasHeader>
 <@boxHeader titleLevel='h3' title=title! titleActions=actions>
@@ -56,7 +55,7 @@ Snippet:
 </div>
 </@boxHeader>
 </#if>
-<@boxBody class=bodyClass id='${id}_dashboard_card_body'>
+<@boxBody class='${bodyClass}' id='${id}_dashboard_card_body'>
 <#if !hasHeader><h3 class="card-title">${title}</h3></#if>
 <@row>
 <@columns>
@@ -80,5 +79,10 @@ Snippet:
 </#if>
 </@row>
 </@boxBody>
+<#if boxContentFooter != ''>
+<@boxFooter>
+${boxContentFooter!}
+</@boxFooter>
+</#if>
 </@box>
 </#macro>
