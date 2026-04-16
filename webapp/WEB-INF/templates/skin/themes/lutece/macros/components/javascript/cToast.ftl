@@ -105,13 +105,13 @@ Snippet:
     <@cToast title='New message' content='You have a new notification.' imgUrl='images/avatar.png' delay=0 />
 
 -->
-<#macro cToast title='' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params='' deprecated...>
+<#macro cToast title='' titleLevel=4 titleClass='h6' content='' imgUrl='' type='' delay=2000 dismiss=true class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div<#if id !=''> id="${id}"</#if> class="toast<#if class !=''> ${class}</#if><#if type !=''> ${type}</#if>" role="alert" data-autohide="${(delay gt 0)?string('true','false')}"<#if delay gt 0> data-delay="${delay}"</#if> aria-live="assertive" aria-atomic="true"<#if params !=''> ${params}"</#if>>
   <#if title !=''>
     <div class="toast-header">
       <#if imgUrl !=''><img src="${imgUrl}" class="rounded me-2"></#if>
-      <strong class="me-auto">${title}</strong>
+      <@cTitle level=titleLevel class='me-auto my-0 ${titleClass}'>${title}</@cTitle>
       <#if delay = 0><button type="button" class="ms-auto btn-close" data-bs-dismiss="toast" aria-label="#i18n{portal.util.labelClose}">&times;</button></#if>
     </div>
     <div class="toast-body">
