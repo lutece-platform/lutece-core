@@ -3,8 +3,8 @@
 Description: Defines a macro that show the current step
 
 Parameters:
-@param - step - string - optional - required - Step number
-@param - title - string - optional - required - the title of the step
+@param - title - string - required - the title of the step
+@param - step - string - optional - Step number, default 1
 @param - showTitle - boolean - optional - Show step title, default true 
 @param - titleLevel - number - optional - HTML level of the title tag, default 2
 @param - class - string - optional - the CSS class of the element, default '' 
@@ -51,7 +51,7 @@ Snippet:
     </@stepCurrent>
 
 -->
-<#macro stepCurrent step title showTitle=true titleLevel=3 actionNextStep='' titleNextStep='' labelNextStep='#i18n{forms.step.next}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{forms.step.previous}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{forms.step.save}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{forms.step.saveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{forms.step.resetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params='' deprecated...>
+<#macro stepCurrent title step=1 showTitle=true titleLevel=3 actionNextStep='' titleNextStep='' labelNextStep='#i18n{forms.step.next}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{forms.step.previous}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{forms.step.save}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{forms.step.saveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{forms.step.resetResponse}' showPrevStep=true hasSteps=true hasMandatory=true class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@div id='current_step' class='step step-current ${class!}' params=params >
 	<@div class='step-title d-flex justify-content-between'>

@@ -3,8 +3,8 @@
 Description: Defines a macro that show a step that has been done
 
 Parameters:
-@param - step - string - optional - required - Step number
 @param - title - string - optional - required - the title of the step
+@param - step - string - optional - Step number, default ''
 @param - idx - boolean - optional - Index of the step
 @param - titleLevel - number - optional - HTML level of the title tag, default 2
 @param - class - string - optional - the CSS class of the element, default '' 
@@ -39,13 +39,14 @@ Snippet:
     </@stepDone>
 
 -->
-<#macro stepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='portal.theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
+<#macro stepDone title idx step='' titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='portal.theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
+<#local stepNumber><#if step!=''>${step}<#else><svg width="32" height="32" role="img" aria-label="${i18n('portal.theme.labelStepDone', title)?html}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></#if></#local>
 <@div class='step step-done ${class!}' id=id params=params>
 	<@div class='step-title'>
         <@div class='d-flex justify-content-between align-items-baseline w-100'>
             <@h class='title' level=titleLevel params='title="${title}"' >
-                <@span class='step-number'><svg width="32" height="32" role="img" aria-label="${i18n('portal.theme.labelStepDone', title)?html}" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.9607 23.9932L5.33203 16.3882L7.67726 14.0502L12.9607 19.3173L24.3201 7.99316L26.6654 10.3311L12.9607 23.9932Z" fill="white"/></svg></@span>
+                <@span class='step-number'>${stepNumber}</@span>
                 <@span>${title?replace('- hidden','')}</@span>
             </@h>
             <@span class='d-none d-sm-block pl-2'>

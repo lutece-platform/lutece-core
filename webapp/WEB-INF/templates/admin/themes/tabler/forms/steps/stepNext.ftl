@@ -3,8 +3,8 @@
 Description: Defines a macro that show a next step banner
 
 Parameters:
-@param - step - string - optional - required - Step number
-@param - title - string - optional - required - the title of the step
+@param - step - string - required - Step number
+@param - title - string - required - the title of the step
 @param - titleLevel - number - optional - HTML level of the title tag, default 2
 @param - class - string - optional - the CSS class of the element, default '' 
 @param - id - string - optional - the ID of the element, default ''
