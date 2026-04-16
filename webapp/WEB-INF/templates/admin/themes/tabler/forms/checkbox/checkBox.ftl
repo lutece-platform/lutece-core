@@ -48,7 +48,8 @@ Snippet:
 <#else>
 	<label class="form-check form-switch<#if wrapperClass!=''> ${wrapperClass!}</#if>" for="${id}" <#if title!=''> title="${title}"</#if><#if params!=''> ${params}</#if>>
     	<input class="form-check-input<#if class!=''> ${class}</#if>" type="checkbox"  id="${id}" name="${name}" value="<#if value!=''>${value}</#if>"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if>>
-   		<span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>"><#if labelKey!=''>${labelKey}<#else><#nested></#if></span>
+   		<#assign nestedLabel><#nested></#assign>
+		<#if labelKey!=''><span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>">${labelKey}</span><#elseif nestedLabel?has_content><span class="form-check-label<#if labelClass!=''> ${labelClass!}</#if>">${nestedLabel}</span></#if>
   </label>
 </#if>
 </#macro>
