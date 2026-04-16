@@ -19,8 +19,10 @@
 <#assign commonsSiteCssPath='css/' /> 
 <#assign commonsSiteImagesPath='images/' /> 
 <#-- Doc Generator Path -->
+<#assign defaultFtlPath='lutece/macros/' />
 <#assign commonsFtlPath='${commonsGlobalThemeCode}/macros/' />
 <#-- Theme Macros             -->
+<#-- MACRO cTpl : If find theme template then use it else use current template -->
 <#macro cTpl tpl=''>
 <#local tplName><#if tpl=''>${.caller_template_name?keep_after("skin/")}<#else>${tpl}</#if></#local>
 <#local tplPath='../themes/${commonsGlobalThemeCode}/tpl/${tplName}' >
@@ -30,6 +32,12 @@
 <#else>
 <#nested> 
 </#if>
+</#macro>
+<#-- MACRO cMacro : If find theme macro then use it else use current one -->
+<#macro cMacro name='' group='' >
+<#local macroPath='../themes/${commonsGlobalThemeCode}/macros/${group}/${name}.ftl' >
+<#assign macroTemp = .get_optional_template( macroPath )>
+<#if macroTemp.exists><@macroTemp.include /><#else><#include "${defaultFtlPath}${group}/${name}.ftl" /></#if>
 </#macro>
 <#-- THEME SPEC                            -->
 <#include "${commonsGlobalThemeCode}/_theme.ftl" />

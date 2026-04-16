@@ -325,6 +325,12 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.va
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorFeedbackClass', 'invalid-feedback');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.helpClass', 'form-text');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorIconSvg', '<svg class="paris-icon paris-icon-alert-error main-danger-color me-xxs" aria-hidden="true" focusable="false" role="img"><use href="#paris-icon-alert-error"></use></svg>');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.enabled.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.duration', '1800');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.warningDelay', '120');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.keepAliveUrl', '');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.maxExtensions', '10');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.position', 'top-0 end-0');
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');

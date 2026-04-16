@@ -24,15 +24,6 @@
 <#include "${commonsFtlPath}components/icons/cIcon.ftl" />
 <#include "${commonsFtlPath}components/icons/parisIcon.ftl" />
 <#include "${commonsFtlPath}components/icons/parisIconPack.ftl" />
-<#include "${commonsFtlPath}components/icons/logoParisService.ftl" />
-<#include "${commonsFtlPath}components/javascript/charCounter.ftl" />
-<#include "${commonsFtlPath}components/javascript/codeHighLight.ftl" />
-<#include "${commonsFtlPath}components/javascript/copyElementToClipboard.ftl" />
-<#include "${commonsFtlPath}components/javascript/scrollTopBtn.ftl" />
-<#include "${commonsFtlPath}components/javascript/cToast.ftl" />
-<#include "${commonsFtlPath}components/franceconnect/fcBtnImg.ftl" />
-<#include "${commonsFtlPath}components/franceconnect/fcImg.ftl" />
-<#include "${commonsFtlPath}components/franceconnect/fcMessage.ftl" />
 <#include "${commonsFtlPath}components/list/cList.ftl" />
 <#include "${commonsFtlPath}components/modal/cModal.ftl" />
 <#include "${commonsFtlPath}components/offcanvas/cOffcanvas.ftl" />
@@ -40,6 +31,7 @@
 <#include "${commonsFtlPath}components/pagination/cPaginationLinks.ftl" />
 <#include "${commonsFtlPath}components/progress/cProgress.ftl" />
 <#include "${commonsFtlPath}components/search/cSearchSetResultPageTitle.ftl" />
+<#include "${commonsFtlPath}components/scrollspy/cScrollSpy.ftl" />
 <#include "${commonsFtlPath}components/skeleton/cSkeleton.ftl" />
 <#include "${commonsFtlPath}components/stepinfo/cInfoStep.ftl" />
 <#include "${commonsFtlPath}components/slider/cSlider.ftl" />
@@ -123,5 +115,12 @@
 <#include "${commonsFtlPath}layout/layout/cCol.ftl" />
 <#include "${commonsFtlPath}layout/layout/cContainer.ftl" />
 <#include "${commonsFtlPath}layout/layout/cRow.ftl" />
-<#include "${commonsFtlPath}utilities/functions/deprecatedWarning.ftl" />
-<#include "${commonsFtlPath}utilities/functions/rand.ftl" />
+<#-- OPTIONAL SKIN OVERRIDE NEEDED can be skippe for new theme creation -->
+<@cMacro name='charCounter' group='components/javascript' />
+<@cMacro name='codeHighLight' group='components/javascript' />
+<@cMacro name='copyElementToClipboard' group='components/javascript' />
+<@cMacro name='cSessionTimeout' group='components/javascript' />
+<@cMacro name='scrollTopBtn' group='components/javascript' />
+<@cMacro name='cToast' group='components/javascript' />
+<@cMacro name='deprecatedWarning' group='utilities/functions'  />
+<@cMacro name='rand' group='utilities/functions'  />
