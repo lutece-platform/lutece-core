@@ -14,40 +14,38 @@
 		<@row>
 			<@columns sm=12 md=4>
 				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.minimumPasswordLength.label}' labelFor='password_minimum_length' mandatory=true helpKey='#i18n{portal.users.manage_advanced_parameters.minimumPasswordLength.help}'>
-				<@row>
-					<@columns sm=12 md=4>
-						<@input type='number' name='password_minimum_length' id='password_minimum_length' value='${password_minimum_length!}' min=password_minimum_length! max=99  />
-					</@columns>
-				</@row>
+					<@row>
+						<@columns sm=12 md=4>
+							<@input type='number' name='password_minimum_length' id='password_minimum_length' value='${password_minimum_length!}' min=password_minimum_length! max=99  />
+						</@columns>
+					</@row>
 				</@formGroup>
 				<#if use_advanced_security_parameters>
-				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordDuration.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.passwordDuration.help}' labelFor='password_duration'>
-				<@row>
-					<@columns sm=12 md=6>
-						<@input type='number' name='password_duration' id='password_duration' value='${password_duration}' min=password_duration max=730 />
-					</@columns>
-				</@row>
-				</@formGroup>
-				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.notifyUserPasswordExpired.label}' >
-					<#if notify_user_password_expired?? && notify_user_password_expired><#assign checked=true><#else><#assign checked=false></#if>
-					<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.notifyUserPasswordExpired.help}' labelFor='notify_user_password_expired' name='notify_user_password_expired' id='notify_user_password_expired' value='true' checked=checked />
-				</@formGroup>
-			</#if>
+					<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordDuration.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.passwordDuration.help}' labelFor='password_duration'>
+						<@row>
+							<@columns sm=12 md=6>
+								<@input type='number' name='password_duration' id='password_duration' value='${password_duration}' min=password_duration max=730 />
+							</@columns>
+						</@row>
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.notifyUserPasswordExpired.label}' >
+						<#if notify_user_password_expired?? && notify_user_password_expired><#assign checked=true><#else><#assign checked=false></#if>
+						<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.notifyUserPasswordExpired.help}' labelFor='notify_user_password_expired' name='notify_user_password_expired' id='notify_user_password_expired' value='true' checked=checked />
+					</@formGroup>
+				</#if>
 			</@columns>
 			<@columns sm=12 md=4>
-			<#if use_advanced_security_parameters>
-				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormat.label}'>
-					<#if password_format_upper_lower_case?? && password_format_upper_lower_case><#assign checked=true><#else><#assign checked=false></#if>
-					<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatUpperLowerCase.label}' labelFor='password_format_upper_lower_case' name='password_format_upper_lower_case' id='password_format_upper_lower_case' value='true' checked=checked />
-					<#if password_format_numero?? && password_format_numero><#assign checked=true><#else><#assign checked=false></#if>
-					<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatNumero.label}' labelFor='password_format_numero' name='password_format_numero' id='password_format_numero' value='true' checked=checked />
-					<#if password_format_special_characters?? && password_format_special_characters><#assign checked=true><#else><#assign checked=false></#if>
-					<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatSpecialCharacters.label}' labelFor='password_format_special_characters' name='password_format_special_characters' id='password_format_special_characters' value='true' checked=checked />
-				</@formGroup>
-			</#if>
+				<#if use_advanced_security_parameters>
+					<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormat.label}'>
+						<#if password_format_upper_lower_case?? && password_format_upper_lower_case><#assign checked=true><#else><#assign checked=false></#if>
+							<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatNumero.label}' labelFor='password_format_numero' name='password_format_numero' id='password_format_numero' value='true' checked=checked />
+						<#if password_format_special_characters?? && password_format_special_characters><#assign checked=true><#else><#assign checked=false></#if>
+						<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatSpecialCharacters.label}' labelFor='password_format_special_characters' name='password_format_special_characters' id='password_format_special_characters' value='true' checked=checked />
+					</@formGroup>
+				</#if>
 				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.bannedDomainNames.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.bannedDomainNames.help}' labelFor='banned_domain_names'>
 					<@input type='textarea' name='banned_domain_names' id='banned_domain_names'>${banned_domain_names?html}</@input>
-				</@formGroup>	
+				</@formGroup>
 			</@columns>
 			<@columns sm=12 md=4>
 				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.resetTokenValidity.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.resetTokenValidity.help}' labelFor='reset_token_validity'>
@@ -57,15 +55,21 @@
 						</@columns>
 					</@row>
 				</@formGroup>
+			</@columns>
+		</@row>	
+		<@row>
+			<@columns sm=12 md=6>
 				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.lockResetTokenToSession.label}' labelFor='lock_reset_token_to_session'>
 					<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.lockResetTokenToSession.help}' name='lock_reset_token_to_session' id='lock_reset_token_to_session' value='true' checked=lock_reset_token_to_session/>
 				</@formGroup>
+			</@columns>
+			<@columns sm=12 md=6>
 				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.forcePasswordAfterReset.label}' labelFor='force_change_password_reinit'>
 					<#if force_change_password_reinit><#assign checked=true><#else><#assign checked=false></#if>
 					<@checkBox orientation='switch' labelKey='#i18n{portal.users.manage_advanced_parameters.forcePasswordAfterReset.help}' name='force_change_password_reinit' id='force_change_password_reinit' value='true' checked=checked />
-				</@formGroup>
+				</@formGroup>	
 			</@columns>
-		</@row>	
+		</@row>
 		<#if use_advanced_security_parameters>
 		<@row>
 			<@columns sm=12 md=3>
@@ -74,14 +78,14 @@
 				</@formGroup>
 			</@columns>
 			<@columns sm=12 md=3>
-			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.maxNumberPasswordChange.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.maxNumberPasswordChange.help}' labelFor='maximum_number_password_change'>
-				<@input type='number' name='maximum_number_password_change' id='maximum_number_password_change' value='${maximum_number_password_change!}' />
-			</@formGroup>
+				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.maxNumberPasswordChange.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.maxNumberPasswordChange.help}' labelFor='maximum_number_password_change'>
+					<@input type='number' name='maximum_number_password_change' id='maximum_number_password_change' value='${maximum_number_password_change!}' />
+				</@formGroup>
 			</@columns>
 			<@columns sm=12 md=3>
-			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordChangeTSWSize.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.passwordChangeTSWSize.help}' labelFor='tsw_size_password_change'>
-				<@input type='number' name='tsw_size_password_change' id='tsw_size_password_change' value='${tsw_size_password_change!}' />
-			</@formGroup>
+				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordChangeTSWSize.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.passwordChangeTSWSize.help}' labelFor='tsw_size_password_change'>
+					<@input type='number' name='tsw_size_password_change' id='tsw_size_password_change' value='${tsw_size_password_change!}' />
+				</@formGroup>
 			</@columns>
 		</@row>
 		</#if>		

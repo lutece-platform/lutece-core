@@ -42,8 +42,9 @@
 			<#list groupDisplay.feature_list?sort_by('order') as right>
 			<#if right.url?has_content>
 				<@manageFeatureItem>
-					<@manageFeatureItemColumn flex=false >
-						<strong>${right.name}</strong><br><small>${right.description}</small>
+					<@manageFeatureItemColumn flex=false cols='12 col-md-6'>
+						<@p class='mb-1 text-truncate mw-xl'><strong title="${right.name}">${right.name}</strong></@p>
+						<@p class='mb-0 text-truncate mw-xl'><small data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="${right.description}">${right.description}</small></@p>
 					</@manageFeatureItemColumn>
 					<@manageFeatureItemColumn align='end'>
 						<@tform method='post' type='inline' action='jsp/admin/features/DoDispatchFeature.jsp?tab=assign_features_groups'>
@@ -69,6 +70,8 @@
 							</@inputGroup>
 							</@formGroup>
 						</@tform>
+					</@manageFeatureItemColumn>
+					<@manageFeatureItemColumn align='end'>
 						<#if groupDisplay.order_list_state==true>
 							<@tform method='post' type='inline' action='jsp/admin/features/DoDispatchFeature.jsp?tab=assign_features_groups'>
 							<@input type='hidden' name='right_id' value='${right.id}' />

@@ -63,7 +63,7 @@
 	<@input type='hidden' name='token' value='${token!""}' />
 	<#if plugin_regularexpression>
 		<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManually}' labelFor='is_email_pattern_set_manually'>
-			<@checkBox name='is_email_pattern_set_manually' id='is_email_pattern_set_manually' labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManuallyComment}' checked= is_email_pattern_set_manually />
+			<@checkBox orientation='switch' name='is_email_pattern_set_manually' id='is_email_pattern_set_manually' labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManuallyComment}' checked= is_email_pattern_set_manually />
 		</@formGroup>
 	<#else>
 		<@input type='hidden' name='is_email_pattern_set_manually' value='1' />
@@ -95,29 +95,34 @@
 		</@fieldSet>
 	</@tform>
 	<@link name='list-regularexpressions' id='list-regularexpressions' />
-	<@table class='striped'>
-	<@tr>
-		<@th>#i18n{portal.users.manage_advanced_parameters.rowTitle}</@th>
-		<@th>#i18n{portal.users.manage_advanced_parameters.rowInformationMessage}</@th>
-		<@th>#i18n{portal.users.manage_advanced_parameters.rowValidExample}</@th>
-		<@th>#i18n{portal.users.manage_advanced_parameters.rowActions}</@th>
-	</@tr>
-	<@tableHeadBodySeparator />
-	<#list selected_regularexpressions as expression>
-	<@tr>
-		<@td>${expression.title}</@td>
-		<@td>${expression.informationMessage}</@td>
-		<@td>${expression.validExemple}</@td>
-		<@td>
-			<@tform method='post' action='jsp/admin/user/DoRemoveRegularExpression.jsp#list-regularexpressions'>
-			<@input type='hidden' name='token' value='${token!""}' />
-			<@input type='hidden' name='id_expression' value='${expression.idExpression}' />
-			<@button type='submit' title='#i18n{portal.users.manage_advanced_parameters.buttonDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' />
-			</@tform>
-		</@td>
-	</@tr>
-	</#list>
-	</@table>
+	<#if selected_regularexpressions?has_content>
+	<@manageFeature>
+		<#list selected_regularexpressions as expression>
+		<@manageFeatureItem>
+			<@manageFeatureItemColumn auto=true flex=false>
+				<strong>${expression.title}</strong>
+			</@manageFeatureItemColumn>
+			<@manageFeatureItemColumn auto=true flex=false valign='top'>
+				<@p class='fw-bold fs-3'>#i18n{portal.users.manage_advanced_parameters.rowInformationMessage}</@p>
+				${expression.informationMessage}
+			</@manageFeatureItemColumn>
+			<@manageFeatureItemColumn auto=true flex=false valign='top'>
+				<@p class='fw-bold fs-3'>#i18n{portal.users.manage_advanced_parameters.rowValidExample}</@p>
+				${expression.validExemple}
+			</@manageFeatureItemColumn>
+			<@manageFeatureItemColumn align='end'>
+				<@tform method='post' action='jsp/admin/user/DoRemoveRegularExpression.jsp#list-regularexpressions'>
+					<@input type='hidden' name='token' value='${token!""}' />
+					<@input type='hidden' name='id_expression' value='${expression.idExpression}' />
+					<@button type='submit' title='#i18n{portal.users.manage_advanced_parameters.buttonDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='' />
+				</@tform>
+			</@manageFeatureItemColumn>
+		</@manageFeatureItem>
+		</#list>
+	</@manageFeature>
+	<#else>
+		<@empty title='#i18n{portal.users.manage_advanced_parameters.rowTitle}' iconName='regex-off' />
+	</#if>
 	</#if>
 </@tabPanel>
 </#if>

@@ -20,9 +20,11 @@
             <@tabLink href='#features_management' title='#i18n{portal.features.manage_groups.title}' tabIcon='folder' />
             <@tabLink href='#assign_features_groups' title='#i18n{portal.features.dispatch_features.title}' tabIcon='list' />
             <@tabLink href='#external_features' title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' tabIcon='users' />
+			<@li><@h level=3 class='fw-bolder my-2'>#i18n{portal.xsl.adminFeature.xsl_export_management.name}</@h></@li>
+            <@tabLink href='#xslexportManagement' title='#i18n{portal.xsl.manage_xsl_export.page_title}' tabIcon='file-code' />
         </@tabList>
     </@pageColumn>
-    <@pageColumn class="p-4" height="full">
+    <@pageColumn class="p-4 overflow-auto" height="full">
     <@pageColumnBtn class="mb-3" hideSize="xl" title="#i18n{portal.admindashboard.view_dashboards.title}" idPageColumn="adminTechnicalMenu" />
         <@tabContent id="admin-tab-content">
             <#if column_content_1?has_content>
@@ -40,6 +42,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabListParent = document.getElementById('adminTechnicalList');
     const tabList = tabListParent.querySelectorAll('.nav-link');
     const tabListContent = document.getElementById('admin-tab-content').querySelectorAll('.tab-pane');
+
+	const urlHash = document.location.hash; 
+	if( urlHash != undefined && urlHash != '' ) {
+		const idHash = document.querySelector( urlHash ) ;
+		if ( urlHash != undefined && idHash != undefined) {
+			idHash.classList.add('show')
+		}
+	}
+
 
     tabListContent.forEach((content) => {
         const contentId = content.getAttribute('id');
@@ -68,12 +79,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
         tab.addEventListener('shown.bs.tab', event => {
             document.body.classList.add('loaded');
+            const activeRight = sessionStorage.getItem('activeFeatureRight');
             const activeGroup = sessionStorage.getItem('activeFeatureGroup');
-            if (activeGroup != null && activeGroup != '') {
-                const activeGroupElement = document.querySelector(`#${activeGroup}`);
-                activeGroupElement.scrollIntoView({ behavior: 'instant', block: 'end' });
-                sessionStorage.removeItem('activeFeatureGroup');
-            }
+            if (!activeRight && !activeGroup) return;
+            setTimeout(() => {
+                let target = null;
+                if (activeRight) {
+                    const rightElement = document.getElementById(`group_name-${activeRight}`) || document.getElementById(`order_id-${activeRight}`);
+                    target = rightElement?.closest('.card');
+                    sessionStorage.removeItem('activeFeatureRight');
+                    sessionStorage.removeItem('activeFeatureGroup');
+                } else if (activeGroup) {
+                    target = document.getElementById(activeGroup);
+                    sessionStorage.removeItem('activeFeatureGroup');
+                }
+                if (!target) return;
+                let scrollable = target.parentElement;
+                while (scrollable && scrollable !== document.body) {
+                    const { overflowY } = getComputedStyle(scrollable);
+                    if (overflowY === 'auto' || overflowY === 'scroll') break;
+                    scrollable = scrollable.parentElement;
+                }
+                if (scrollable && scrollable !== document.body) {
+                    const containerRect = scrollable.getBoundingClientRect();
+                    const targetRect = target.getBoundingClientRect();
+                    scrollable.scrollTop += targetRect.top - containerRect.top;
+                } else {
+                    target.scrollIntoView({ behavior: 'instant', block: 'start' });
+                }
+            }, 150);
         });
     }
 
@@ -92,7 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
         select.addEventListener('change', (event) => {
             const formEl = event.target.closest('form');
             if (formEl) {
+                const rightId = formEl.querySelector('input[name="right_id"]');
                 sessionStorage.setItem('activeFeatureGroup', event.currentTarget.value);
+                if (rightId) sessionStorage.setItem('activeFeatureRight', rightId.value);
                 formEl.submit();
             }
         });
@@ -103,7 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
         select.addEventListener('change', (event) => {
             const formEl = event.target.closest('form');
             if (formEl) {
-                sessionStorage.setItem('activeFeatureGroup', event.currentTarget.dataset.group );
+                const rightId = formEl.querySelector('input[name="right_id"]');
+                sessionStorage.setItem('activeFeatureGroup', event.currentTarget.dataset.group);
+                if (rightId) sessionStorage.setItem('activeFeatureRight', rightId.value);
                 formEl.submit();
             }
         });
