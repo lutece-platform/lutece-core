@@ -10,7 +10,7 @@ Parameters:
 - titleLevel (number, optional): HTML heading level for the title tag. Default: 2.
 - actionName (string, optional): action name for the edit/go-to-step button. Default: 'action_doGoToStep'.
 - actionLabel (string, optional): label for the edit button. Default: '#i18n{portal.theme.labelUpdate}'.
-- actionAriaLabelKey (string, optional): i18n key for the ARIA label of the edit button. Default: 'theme.ariaLabelUpdate'.
+- actionAriaLabelKey (string, optional): i18n key for the ARIA label of the edit button. Default: 'portal.theme.ariaLabelUpdate'.
 - actionHref (string, optional): URL for the edit link (used instead of submit button). Default: ''.
 - actionClass (string, optional): CSS class for the edit button/link. Default: ''.
 - actionParams (string, optional): additional HTML attributes for the edit button. Default: ''.
@@ -37,7 +37,7 @@ Snippet:
     </@cStepDone>
 
 -->
-<#macro cStepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
+<#macro cStepDone step title idx titleLevel=2 actionName='action_doGoToStep' actionLabel='#i18n{portal.theme.labelUpdate}' actionAriaLabelKey='portal.theme.ariaLabelUpdate' actionHref='' actionClass='' actionParams='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <@cSection class='step step-done ${class!}' id=id params=params>
 	<@cSection class='step-title'>
