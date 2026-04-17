@@ -39,6 +39,7 @@ import java.util.List;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.page.Page;
+import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.cache.IPathCacheService;
@@ -131,6 +132,7 @@ public class PortalServiceTest extends LuteceTestCase
         page.setName( "junit2" );
         page.setDescription( "junit2" );
         page.setParentPageId( PortalService.getRootPageId( ) );
+        page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
         pageService.createPage( page );
         return page.getId( );
     }
