@@ -491,6 +491,11 @@ final class MailUtil
             msg.setRecipients( Message.RecipientType.BCC, getAllAdressOfRecipients( mail.getRecipientsBcc( ) ) );
         }
 
+        if ( mail.getReplyTo( ) != null )
+        {
+            msg.setReplyTo( new InternetAddress [ ] { new InternetAddress( mail.getReplyTo( ) ) } );
+        }
+
         return msg;
     }
 

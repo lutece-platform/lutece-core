@@ -66,6 +66,7 @@ public class MailItem implements Serializable
     private List<UrlAttachment> _listUrlsAttachement;
     private List<FileAttachment> _listFilesAttachement;
     private boolean _bUniqueRecipientTo;
+    private String _strReplyTo;
 
     /**
      * Returns the Recipient
@@ -337,5 +338,26 @@ public class MailItem implements Serializable
     public boolean isUniqueRecipientTo( )
     {
         return _bUniqueRecipientTo;
+    }
+
+    /**
+     * Returns the Reply-To email address
+     *
+     * @return The Reply-To email address
+     */
+    public String getReplyTo( )
+    {
+        return _strReplyTo;
+    }
+
+    /**
+     * Sets the Reply-To email address
+     *
+     * @param strReplyTo
+     *            The Reply-To email address
+     */
+    public void setReplyTo( String strReplyTo )
+    {
+        _strReplyTo = strReplyTo;
     }
 }

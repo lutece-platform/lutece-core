@@ -93,6 +93,28 @@ public final class MailService
     }
 
     /**
+     * Send a HTML message asynchronously with a Reply-To address. The message is queued until a daemon thread send all awaiting messages
+     *
+     * @param strRecipientsTo
+     *            The list of the main recipients email.Every recipient must be separated by the mail separator define in config.properties
+     * @param strSenderName
+     *            The sender name.
+     * @param strSenderEmail
+     *            The sender email address.
+     * @param strSubject
+     *            The message subject.
+     * @param strMessage
+     *            The message.
+     * @param strReplyTo
+     *            The Reply-To email address.
+     */
+    public static void sendMailHtml( String strRecipientsTo, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
+            String strReplyTo )
+    {
+        sendMailHtml( strRecipientsTo, null, null, strSenderName, strSenderEmail, strSubject, strMessage, strReplyTo );
+    }
+
+    /**
      * Send a HTML message asynchronously. The message is queued until a daemon thread send all awaiting messages
      *
      * @param strRecipientsTo
@@ -114,6 +136,43 @@ public final class MailService
             String strSubject, String strMessage )
     {
         sendMailHtml( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, strMessage, false );
+    }
+
+    /**
+     * Send a HTML message asynchronously with a Reply-To address. The message is queued until a daemon thread send all awaiting messages
+     *
+     * @param strRecipientsTo
+     *            The list of the main recipients email.Every recipient must be separated by the mail separator defined in config.properties
+     * @param strRecipientsCc
+     *            The recipients list of the carbon copies .
+     * @param strRecipientsBcc
+     *            The recipients list of the blind carbon copies .
+     * @param strSenderName
+     *            The sender name.
+     * @param strSenderEmail
+     *            The sender email address.
+     * @param strSubject
+     *            The message subject.
+     * @param strMessage
+     *            The message.
+     * @param strReplyTo
+     *            The Reply-To email address.
+     */
+    public static void sendMailHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName, String strSenderEmail,
+            String strSubject, String strMessage, String strReplyTo )
+    {
+        MailItem item = new MailItem( );
+        item.setRecipientsTo( strRecipientsTo );
+        item.setRecipientsCc( strRecipientsCc );
+        item.setRecipientsBcc( strRecipientsBcc );
+        item.setSenderName( strSenderName );
+        item.setSenderEmail( strSenderEmail );
+        item.setSubject( strSubject );
+        item.setMessage( strMessage );
+        item.setReplyTo( strReplyTo );
+        item.setFormat( MailItem.FORMAT_HTML );
+
+        enqueue( item );
     }
 
     /**
