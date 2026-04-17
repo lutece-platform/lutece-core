@@ -43,19 +43,31 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.spi.CDI;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * Service for tracking progress of long-running operations (imports, bulk
+ * processing, etc.) via an in-memory feed registry.
+ * <p>
+ * <b>Multi-instance deployment note:</b> Progress feeds are stored in JVM-local
+ * memory and are <b>not</b> shared across application instances. In a clustered
+ * deployment behind a load balancer, the polling requests (via
+ * {@code ProgressManagerServlet}) must be routed to the same instance that
+ * registered the feed. Configure <b>sticky sessions</b> (session affinity) on
+ * the load balancer to ensure this. Without sticky sessions, progress polling
+ * requests may land on an instance that has no knowledge of the feed, resulting
+ * in "not found" responses and a broken progress bar in the UI.
+ * </p>
  *
  * @author sleridon
  */
 @ApplicationScoped
 public class ProgressManagerService
 {
-    private static Map<String, ProgressFeed> _progressFeeds = new HashMap<>( );
+    private static Map<String, ProgressFeed> _progressFeeds = new ConcurrentHashMap<>( );
 
     ProgressManagerService( )
     {
@@ -141,7 +153,7 @@ public class ProgressManagerService
      * @param strFeedToken
      * @param nSuccessItems
      */
-    public synchronized void incrementSuccess( String strFeedToken, int nSuccessItems )
+    public void incrementSuccess( String strFeedToken, int nSuccessItems )
     {
         if ( _progressFeeds.get( strFeedToken ) != null )
         {
@@ -155,7 +167,7 @@ public class ProgressManagerService
      * @param strFeedToken
      * @param nFailureItems
      */
-    public synchronized void incrementFailure( String strFeedToken, int nFailureItems )
+    public void incrementFailure( String strFeedToken, int nFailureItems )
     {
         if ( _progressFeeds.get( strFeedToken ) != null )
         {
