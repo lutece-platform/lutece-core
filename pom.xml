@@ -2,7 +2,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>7.0.6-beta-01</version>
+        <version>7.0.6-SNAPSHOT</version>
         <relativePath />
     </parent>
 
@@ -17,7 +17,6 @@
     <properties>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
-        <springVersion>5.3.30</springVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.project>lutece-platform/lutece-core</github.project>
         <twitter.account>LuteceFoundry</twitter.account>
@@ -61,7 +60,6 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.4</version>
         </dependency>
         <!-- commons-digester deprecated, use commons-digester3 instead. To be removed in the future -->
         <!-- Not upgrading to 2.1 because for new projects we should use digester3, and for old projects -->
@@ -80,20 +78,7 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.5</version>
         </dependency>
-       <dependency>
-            <groupId>commons-httpclient</groupId>
-            <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>junit</groupId>
-                    <artifactId>junit</artifactId>
-                </exclusion>
-	    </exclusions>
-            <scope>test</scope>
-         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -102,7 +87,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.18.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -127,58 +111,51 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>           
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.17.1</version>
         </dependency>
 	    <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.17.1</version>
         </dependency>
         <!-- To avoid problems the Log4j shutdown hook will automatically be disabled when the log4j-web jar is included. -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-web</artifactId>
-            <version>2.17.1</version>
         </dependency>
 	    <!--The Log4j 2 SLF4J Binding allows applications coded to the SLF4J API to use Log4j 2 as the implementation -->
         <dependency>
-	    <groupId>org.apache.logging.log4j</groupId>
-	    <artifactId>log4j-slf4j-impl</artifactId>
-	    <version>2.17.1</version>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-slf4j-impl</artifactId>
         </dependency>
         <!-- he Log4j 1.2 Bridge allows applications coded to use Log4j 1.2 API to use Log4j 2 instead 
 	see requirements https://logging.apache.org/log4j/2.x/log4j-1.2-api -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-1.2-api</artifactId>
-            <version>2.17.1</version>
         </dependency>        
         <!-- The Commons Logging Bridge allows applications coded to the Commons Logging API to use Log4j 2 as the implementation. -->
-	<dependency>
+		<dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-jcl</artifactId>
-            <version>2.17.1</version>
         </dependency>
         <!--
           commons-logging is a transitive dependency of many libraries with different versions.
           Specify the latest version here to not depend on the order of declaration.
           When we manage to get rid of commons-logging, we can safely remove this dependency.
          -->
-	 <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
-	</dependency>
-	<dependency>
-            <groupId>jtidy</groupId>
-            <artifactId>jtidy</artifactId>
-            <version>8.0</version>
-	</dependency>
+		 <dependency>
+		        <groupId>commons-logging</groupId>
+		        <artifactId>commons-logging</artifactId>
+		        <version>1.2</version>
+		</dependency>
+		<dependency>
+		        <groupId>jtidy</groupId>
+		        <artifactId>jtidy</artifactId>
+		        <version>8.0</version>
+		</dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -197,42 +174,34 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>${springVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${springVersion}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -273,7 +242,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.15.3</version>
         </dependency>
         
         <!-- @Inject API -->
@@ -281,7 +249,7 @@
 	      <groupId>jakarta.inject</groupId>
 	      <artifactId>jakarta.inject-api</artifactId>
 	      <version>1.0.5</version>	
-	</dependency>
+		</dependency>
 	    <!-- @Annotation API -->
         <dependency>
 	      <groupId>jakarta.annotation</groupId>
@@ -368,7 +336,7 @@
 		<dependency>
 		    <groupId>com.googlecode.owasp-java-html-sanitizer</groupId>
 		    <artifactId>owasp-java-html-sanitizer</artifactId>
-		    <version>20240325.1</version>
+		    <version>20260101.1</version>
 		</dependency>
 
         <!-- Lutece Freemarker -->       
@@ -397,7 +365,7 @@
 		    <artifactId>smallrye-config-core</artifactId>
 		    <version>2.13.3</version>
 		    <scope>runtime</scope>
-	</dependency>
+		</dependency>
 		
 				
     </dependencies>
