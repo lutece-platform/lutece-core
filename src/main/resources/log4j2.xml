@@ -16,7 +16,7 @@
                      filePattern="${luteceLogDirectory}/error-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <LevelRangeFilter minLevel="FATAL" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>                            
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -30,7 +30,7 @@
                      fileName="${luteceLogDirectory}/application.log"
                      filePattern="${luteceLogDirectory}/application-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -44,7 +44,7 @@
                      fileName="${luteceLogDirectory}/pool.log"
                      filePattern="${luteceLogDirectory}/pool-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -58,7 +58,7 @@
                      fileName="${luteceLogDirectory}/mail.log"
                      filePattern="${luteceLogDirectory}/mail-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -72,7 +72,7 @@
                      fileName="${luteceLogDirectory}/pdf.log"
                      filePattern="${luteceLogDirectory}/pdf-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -86,7 +86,7 @@
                      fileName="${luteceLogDirectory}/security.log"
                      filePattern="${luteceLogDirectory}/security-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -100,7 +100,7 @@
                      fileName="${luteceLogDirectory}/jpa.log"
                      filePattern="${luteceLogDirectory}/jpa-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -114,7 +114,7 @@
                      fileName="${luteceLogDirectory}/indexer.log"
                      filePattern="${luteceLogDirectory}/indexer-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -143,7 +143,7 @@
                      fileName="${luteceLogDirectory}/adminAccess.log"
                      filePattern="${luteceLogDirectory}/adminAccess-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -157,7 +157,7 @@
                      fileName="${luteceLogDirectory}/accessLogger.log"
                      filePattern="${luteceLogDirectory}/accessLogger-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -171,7 +171,7 @@
                      fileName="${luteceLogDirectory}/liquibase.log"
                      filePattern="${luteceLogDirectory}/liquibase-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
             <PatternLayout>
-            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %m%n</Pattern>
+            	<Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p [%t]  %c{2} - %enc{%m}{CRLF}%n</Pattern>
             </PatternLayout>
             <!-- # To change log file after 10MB size -->
             <Policies>
@@ -188,8 +188,15 @@
 
          ########                         L O G G E R S                         ######### -->
     <Loggers>
+        <!--
+            SECURITY NOTE — Root log level is overridable via the LOG4J_LEVEL environment variable.
+            Allowed values: ERROR (default, production), WARN, INFO, DEBUG, TRACE.
+            DEBUG/TRACE must NEVER be enabled in production: they may expose secrets, tokens,
+            session identifiers or PII in log files. Ops: alert if LOG4J_LEVEL=DEBUG or TRACE
+            is observed outside staging/dev environments.
+        -->
         <Root level="${env:LOG4J_LEVEL:-ERROR}">
-            <AppenderRef ref="STDOUT"/>        
+            <AppenderRef ref="STDOUT"/>
         </Root>
          <Logger name="lutece" level="${env:LUTECE_LOG4J_LEVEL:-INFO}">
             <AppenderRef ref="Application"/>

@@ -41,6 +41,7 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
+import java.util.Set;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import java.security.SecureRandom;
@@ -59,6 +60,8 @@ public final class CryptoService
     static final String PROPERTY_CRYPTO_KEY = "crypto.key";
     static final String DSKEY_CRYPTO_KEY = "core." + PROPERTY_CRYPTO_KEY;
 
+    private static final Set<String> ALLOWED_DIGESTS = Set.of( "SHA-256", "SHA-384", "SHA-512", "SHA3-256", "SHA3-512" );
+
     /**
      * Private constructor
      */
@@ -76,6 +79,39 @@ public final class CryptoService
      * @return The encrypted string
      */
     public static String encrypt( String strDataToEncrypt, String strAlgorithm )
+    {
+        if ( !ALLOWED_DIGESTS.contains( strAlgorithm ) )
+        {
+            AppLogService.error( "Rejected weak/unknown digest algorithm: {}", strAlgorithm );
+            throw new IllegalArgumentException( "Digest algorithm not allowed: " + strAlgorithm );
+        }
+        return digestInternal( strDataToEncrypt, strAlgorithm );
+    }
+
+    /**
+     * Computes a digest WITHOUT checking the algorithm against the whitelist enforced by
+     * {@link #encrypt(String, String)}. Intended ONLY to verify legacy stored password
+     * hashes (MD5, SHA-1, SHA-256 without salt) so that the automatic rehash-to-PBKDF2
+     * path in {@code LuteceDefaultAdminAuthentication} can still trigger on login.
+     * <p>
+     * Do NOT use for any new functionality — use {@link #encrypt(String, String)} instead.
+     *
+     * @param strDataToEncrypt
+     *            The data to digest
+     * @param strAlgorithm
+     *            the digest algorithm (MUST already have been validated by the caller as
+     *            supported by {@link MessageDigest#getInstance(String)})
+     * @return The hex-encoded digest, or {@code null} on failure
+     * @deprecated since 8.0 — will be removed once no legacy password hashes remain in any
+     *             supported deployment.
+     */
+    @Deprecated( since = "8.0", forRemoval = true )
+    public static String encryptLegacy( String strDataToEncrypt, String strAlgorithm )
+    {
+        return digestInternal( strDataToEncrypt, strAlgorithm );
+    }
+
+    private static String digestInternal( String strDataToEncrypt, String strAlgorithm )
     {
         String hash = null;
         MessageDigest md = null;

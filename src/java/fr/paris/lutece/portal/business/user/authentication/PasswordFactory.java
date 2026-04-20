@@ -479,9 +479,10 @@ class PasswordFactory implements IPasswordFactory
         }
 
         @Override
+        @SuppressWarnings( "deprecation" )
         public boolean check( String strCleartextPassword )
         {
-            return _strPassword != null && _strPassword.equals( CryptoService.encrypt( strCleartextPassword, _strAlgorithm ) );
+            return _strPassword != null && _strPassword.equals( CryptoService.encryptLegacy( strCleartextPassword, _strAlgorithm ) );
         }
     }
 }

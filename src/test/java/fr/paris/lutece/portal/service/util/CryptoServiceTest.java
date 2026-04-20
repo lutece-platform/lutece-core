@@ -97,6 +97,24 @@ public class CryptoServiceTest extends LuteceTestCase
         assertNotNull( CryptoService.hmacSHA256( "message" ) );
     }
 
+    @Test
+    public void testEncryptAcceptsSha256( )
+    {
+        assertNotNull( CryptoService.encrypt( "secret", "SHA-256" ) );
+    }
+
+    @Test
+    public void testEncryptRejectsWeakAlgorithm( )
+    {
+        assertThrows( IllegalArgumentException.class, ( ) -> CryptoService.encrypt( "secret", "MD5" ) );
+    }
+
+    @Test
+    public void testEncryptRejectsUnknownAlgorithm( )
+    {
+        assertThrows( IllegalArgumentException.class, ( ) -> CryptoService.encrypt( "secret", "FOO-1" ) );
+    }
+
     @AfterEach
     protected void tearDown( ) throws Exception
     {

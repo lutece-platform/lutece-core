@@ -493,7 +493,16 @@ final class MailUtil
 
         if ( mail.getReplyTo( ) != null )
         {
-            msg.setReplyTo( new InternetAddress [ ] { new InternetAddress( mail.getReplyTo( ) ) } );
+            try
+            {
+                InternetAddress replyTo = new InternetAddress( mail.getReplyTo( ) );
+                replyTo.validate( );
+                msg.setReplyTo( new InternetAddress [ ] { replyTo } );
+            }
+            catch( AddressException e )
+            {
+                AppLogService.error( "Invalid Reply-To address rejected: {}", mail.getReplyTo( ), e );
+            }
         }
 
         return msg;
