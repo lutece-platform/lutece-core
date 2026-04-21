@@ -45,3 +45,16 @@ DELETE FROM core_admin_right WHERE id_right = 'CORE_XSL_EXPORT_MANAGEMENT';
 DELETE FROM core_admin_role_resource where resource_type = 'XSL_EXPORT';
 DELETE FROM core_admin_dashboard WHERE dashboard_name = 'xslExportAdminDashboardComponent';
 
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev2.sql
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.enabled.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.duration', '1800');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.warningDelay', '120');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.keepAliveUrl', '');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.maxExtensions', '10');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.position', 'top-0 end-0');
+
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooter', '');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooterAlt', '');
+
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.platform.select', 'tarte_au_citron');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.select.options', 'tarte_au_citron|orejime');
