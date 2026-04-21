@@ -38,7 +38,7 @@
                         <#list groupList?chunk(5) as groupListCol>
                         <@columns class='col pt-3'>
                         <#list groupListCol?sort as groupCol>
-                           <#if groupCol?trim =''><#continue></#if>
+                           <#-- <#if groupCol?trim =''><#continue></#if> -->
                            <@box params='data-prop="${groupCol}"'>
                               <@boxBody>
                                 <#assign groupName=''>
