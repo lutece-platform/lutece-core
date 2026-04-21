@@ -53,13 +53,9 @@ window.addEventListener( "load", function() {
 });   
 </script>
 </#if> 
-<!-- CNIL Consent TarteAuCitron / Needs Matomo plugin -->
-<@cConsentTac title=favourite>
-<#-- Tarte au Citron Service : - default- -->
-<@cConsentTacService  />
-<#-- Tarte au Citron Service : Matomo  -->
-<@cConsentTacService code='matomohightrack'>${matomo!}</@cConsentTacService>
-</@cConsentTac>
+<!-- CNIL Consent -->
+<@cConsent title=favourite />
+<!-- End CNIL Consent TarteAuCitron -->
 <#if urlAccount !=''>
 <!-- MyLutece User Connexion -->
 </#if>
