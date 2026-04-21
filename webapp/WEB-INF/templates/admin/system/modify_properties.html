@@ -5,7 +5,7 @@
         <@tform>
             <@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
                 <@inputGroup>
-                    <@input name='search_prop' id='search_prop' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
+                    <@input name='search_prop' type='search' id='search_prop' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off" addons' />
                     <@button color='primary' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
                 </@inputGroup>
             </@formGroup>
@@ -38,10 +38,12 @@
                         <#list groupList?chunk(5) as groupListCol>
                         <@columns class='col pt-3'>
                         <#list groupListCol?sort as groupCol>
+                           <#if groupCol?trim =''><#continue></#if>
                            <@box params='data-prop="${groupCol}"'>
                               <@boxBody>
                                 <#assign groupName=''>
                                 <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
+                                    <#assign boxClass='' />
                                     <#if groupName=''>
                                         <#assign prefix=groupItem.key?keep_before(".site_property")  >
                                         <#if groupCol?trim !=''>
@@ -52,62 +54,60 @@
                                     <#if groupItem.key?ends_with( ".select.options" ) || groupItem.key?ends_with( ".radio.options" )>
                                         <@input type='hidden' name=groupItem.key value=groupItem.value?html />
                                     <#else>
-                                    <#assign labelText=groupItem.label>
-                                    <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
-                                    <#assign helpText=groupItem.help!''>
-                                    <@box id='box_${groupItem.key}'>
-                                        <@boxBody class='searchable'>
-                                        <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
-                                            <#if groupItem.key?ends_with( ".textblock" )>
-                                                <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
-                                            <#elseif groupItem.key?ends_with( ".htmlblock" )>
-                                                <@input type='textarea' name=groupItem.key id=groupItem.key class='richtext'>${groupItem.value?html}</@input>
-                                            <#elseif groupItem.key?ends_with( ".checkbox" )>
-                                                <#if groupItem.value == "1">
-                                                    <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=true />
+                                        <#assign labelText=groupItem.label>
+                                        <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>
+                                        <#assign helpText=groupItem.help!''>
+                                        <@box id='box_${groupItem.key}' class=boxClass>
+                                            <@boxBody class='searchable'>
+                                            <@formGroup class='property' labelKey=labelText labelFor=groupItem.key helpKey=helpText params=' data-property="${groupItem.key}"' rows=2>
+                                                <#if groupItem.key?ends_with( ".textblock" )>
+                                                    <@input type='textarea' name=groupItem.key id=groupItem.key>${groupItem.value?html}</@input>
+                                                <#elseif groupItem.key?ends_with( ".htmlblock" )>
+                                                    <@input type='textarea' name=groupItem.key id=groupItem.key class='richtext'>${groupItem.value?html}</@input>
+                                                <#elseif groupItem.key?ends_with( ".checkbox" )>
+                                                    <#if groupItem.value == "1">
+                                                        <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=true />
+                                                    <#else>
+                                                        <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=false />
+                                                    </#if>
+                                                    <@input type='hidden' name='${groupItem.key}' value='0' />
+                                                <#elseif groupItem.key?ends_with( ".select" )>
+                                                    <#assign optionsKey = groupItem.key + ".options">
+                                                    <#assign optionsRaw = dskey(optionsKey)!''>
+                                                    <#if optionsRaw?starts_with('DS')><#assign optionsRaw = ''></#if>
+                                                    <@input type='hidden' name='${groupItem.key}' value=groupItem.value?html id='${groupItem.key}_value' />
+                                                    <select class="form-select property-select" id="${groupItem.key}" data-target="${groupItem.key}_value">
+                                                    <#list optionsRaw?split('|') as opt>
+                                                        <#assign optValue = opt?trim>
+                                                        <#if optValue != ''><option value="${optValue}"<#if optValue == groupItem.value> selected</#if>>${optValue?replace('_', ' ')}</option></#if>
+                                                    </#list>
+                                                    </select>
+                                                <#elseif groupItem.key?ends_with( ".radio" )>
+                                                    <#assign optionsKey = groupItem.key + ".options">
+                                                    <#assign optionsRaw = dskey(optionsKey)!''>
+                                                    <#if optionsRaw?starts_with('DS')><#assign optionsRaw = ''></#if>
+                                                    <@input type='hidden' name='${groupItem.key}' value=groupItem.value?html id='${groupItem.key}_value' />
+                                                    <div class="property-radio" data-target="${groupItem.key}_value">
+                                                        <#list optionsRaw?split('|') as opt>
+                                                            <#assign optValue = opt?trim>
+                                                            <#if optValue != ''>
+                                                                <@radioButton name='${groupItem.key}_radio' id='${groupItem.key}_${optValue}' labelKey=optValue?replace('_', ' ') value=optValue checked=(optValue == groupItem.value) orientation='inline' />
+                                                            </#if>
+                                                        </#list>
+                                                    </div>
+                                                <#elseif groupItem.key?contains( "color" )>
+                                                    <@inputGroup class='color-wrapper-input'>
+                                                        <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
+                                                        <@inputGroupItem>
+                                                            <input type="color" class="color-input" name="color-input" value="${groupItem.value?html}" colorspace="display-p3" alpha>
+                                                        </@inputGroupItem>
+                                                    </@inputGroup>
                                                 <#else>
-                                                    <@checkBox orientation='switch' name=groupItem.key id=groupItem.key labelKey=groupItem.label  value='1' checked=false />
+                                                    <@input type='text' name=groupItem.key id=groupItem.key value=groupItem.value?html />
                                                 </#if>
-                                                <@input type='hidden' name='${groupItem.key}' value='0' />
-                                            <#elseif groupItem.key?ends_with( ".select" )>
-                                                <#assign optionsKey = groupItem.key + ".options">
-                                                <#assign optionsRaw = dskey(optionsKey)!''>
-                                                <#if optionsRaw?starts_with('DS')><#assign optionsRaw = ''></#if>
-                                                <@input type='hidden' name='${groupItem.key}' value=groupItem.value?html id='${groupItem.key}_value' />
-                                                <select class="form-select property-select" id="${groupItem.key}" data-target="${groupItem.key}_value">
-                                                    <#list optionsRaw?split('|') as opt>
-                                                        <#assign optValue = opt?trim>
-                                                        <#if optValue != ''>
-                                                            <option value="${optValue}"<#if optValue == groupItem.value> selected</#if>>${optValue?replace('_', ' ')}</option>
-                                                        </#if>
-                                                    </#list>
-                                                </select>
-                                            <#elseif groupItem.key?ends_with( ".radio" )>
-                                                <#assign optionsKey = groupItem.key + ".options">
-                                                <#assign optionsRaw = dskey(optionsKey)!''>
-                                                <#if optionsRaw?starts_with('DS')><#assign optionsRaw = ''></#if>
-                                                <@input type='hidden' name='${groupItem.key}' value=groupItem.value?html id='${groupItem.key}_value' />
-                                                <div class="property-radio" data-target="${groupItem.key}_value">
-                                                    <#list optionsRaw?split('|') as opt>
-                                                        <#assign optValue = opt?trim>
-                                                        <#if optValue != ''>
-                                                            <@radioButton name='${groupItem.key}_radio' id='${groupItem.key}_${optValue}' labelKey=optValue?replace('_', ' ') value=optValue checked=(optValue == groupItem.value) orientation='inline' />
-                                                        </#if>
-                                                    </#list>
-                                                </div>
-                                            <#elseif groupItem.key?contains( "color" )>
-                                                <@inputGroup class='color-wrapper-input'>
-                                                    <@input type='text' class='color-input' name=groupItem.key id=groupItem.key value=groupItem.value?html />
-                                                    <@inputGroupItem>
-                                                        <input type="color" class="color-input" name="color-input" value="${groupItem.value?html}" colorspace="display-p3" alpha>
-                                                    </@inputGroupItem>
-                                                </@inputGroup>
-                                            <#else>
-                                                <@input type='text' name=groupItem.key id=groupItem.key value=groupItem.value?html />
-                                            </#if>
-                                        </@formGroup>
-                                        </@boxBody>
-                                    </@box>
+                                            </@formGroup>
+                                            </@boxBody>
+                                        </@box>
                                     </#if>
                                 </#list>
                                 </@boxBody>
