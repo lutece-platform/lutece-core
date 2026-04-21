@@ -46,15 +46,25 @@ DELETE FROM core_admin_role_resource where resource_type = 'XSL_EXPORT';
 DELETE FROM core_admin_dashboard WHERE dashboard_name = 'xslExportAdminDashboardComponent';
 
 -- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev2.sql
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.sessiontimeout.enabled.checkbox';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.enabled.checkbox', '1');
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.sessiontimeout.duration';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.duration', '1800');
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.sessiontimeout.warningDelay';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.warningDelay', '120');
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.sessiontimeout.keepAliveUrl';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.keepAliveUrl', '');
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.sessiontimeout.maxExtensions';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.maxExtensions', '10');
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.sessiontimeout.position';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.position', 'top-0 end-0');
 
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.layout.footer.logoFooter';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooter', '');
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.layout.footer.logoFooterAlt';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooterAlt', '');
 
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.consent.platform.select';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.platform.select', 'tarte_au_citron');
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.consent.select.options';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.select.options', 'tarte_au_citron|orejime');
