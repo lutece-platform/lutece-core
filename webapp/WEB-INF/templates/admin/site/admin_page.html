@@ -69,13 +69,14 @@ document.addEventListener("DOMContentLoaded", function() {
         previewFrame.style.height = ( window.innerHeight - 30 ) + "px";
         previewFrame.style.width = "100%";
         previewIframe.style.height = ( window.innerHeight - 30 ) + "px";
-        previewIframe.style.width = "100%";
+        previewIframe.style.width = "105%";
+        previewIframe.style.paddingInlineEnd = "15px";
     }
 
     function _setBtnPreview( el, w ) {
         btnPreview.forEach( btn => { btn.classList.remove('active') } );
         previewFrame.style.width = w;
-        previewIframe.style.width = w - 50;
+        previewIframe.style.width = w - 45;
         el.classList.add('active');
         if ( w != defaultIframeWidth ) {
             previewFrame.classList.add( 'responsive-admin-preview' );
