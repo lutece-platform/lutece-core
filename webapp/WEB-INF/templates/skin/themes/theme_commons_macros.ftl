@@ -1,121 +1,118 @@
 <#ftl strip_whitespace=true strip_text=true />
-<#include "${commonsFtlPath}components/accordion/cAccordion.ftl" />
-<#include "${commonsFtlPath}components/alert/cAlert.ftl" />
-<#include "${commonsFtlPath}components/anchor/cAnchor.ftl" />
-<#include "${commonsFtlPath}components/badge/cBadge.ftl" />
-<#include "${commonsFtlPath}components/button/cBtn.ftl" />
-<#include "${commonsFtlPath}components/button/cBtnGroup.ftl" />
-<#include "${commonsFtlPath}components/button/cBtnImg.ftl" />
-<#include "${commonsFtlPath}components/button/cBtnToolbar.ftl" />
-<#include "${commonsFtlPath}components/card/cCard.ftl" />
-<#include "${commonsFtlPath}components/card/cCardFloating.ftl" />
-<#include "${commonsFtlPath}components/card/cCardLayout.ftl" />
-<#include "${commonsFtlPath}components/carousel/cCarousel.ftl" />
-<#include "${commonsFtlPath}components/carousel/cCarouselItem.ftl" />
-<#include "${commonsFtlPath}components/cascading/cCascading.ftl" />
-<#include "${commonsFtlPath}components/consent/cConsentTac.ftl" />
-<#include "${commonsFtlPath}components/consent/cConsentTacService.ftl" />
-<#include "${commonsFtlPath}components/consent/cConsentTacServiceMatomo.ftl" />
-<#include "${commonsFtlPath}components/datepicker/getThemeDatePicker.ftl" />
-<#include "${commonsFtlPath}components/datepicker/initThemeDatePicker.ftl" />
-<#include "${commonsFtlPath}components/dropdown/cDropdown.ftl" />
-<#include "${commonsFtlPath}components/error/cErrorMessage.ftl" />
-<#include "${commonsFtlPath}components/filter/cFilter.ftl" />
-<#include "${commonsFtlPath}components/icons/cIcon.ftl" />
-<#include "${commonsFtlPath}components/icons/parisIcon.ftl" />
-<#include "${commonsFtlPath}components/icons/parisIconPack.ftl" />
-<#include "${commonsFtlPath}components/list/cList.ftl" />
-<#include "${commonsFtlPath}components/modal/cModal.ftl" />
-<#include "${commonsFtlPath}components/offcanvas/cOffcanvas.ftl" />
-<#include "${commonsFtlPath}components/pagination/cPagination.ftl" />
-<#include "${commonsFtlPath}components/pagination/cPaginationLinks.ftl" />
-<#include "${commonsFtlPath}components/progress/cProgress.ftl" />
-<#include "${commonsFtlPath}components/search/cSearchSetResultPageTitle.ftl" />
-<#include "${commonsFtlPath}components/scrollspy/cScrollSpy.ftl" />
-<#include "${commonsFtlPath}components/skeleton/cSkeleton.ftl" />
-<#include "${commonsFtlPath}components/stepinfo/cInfoStep.ftl" />
-<#include "${commonsFtlPath}components/slider/cSlider.ftl" />
-<#include "${commonsFtlPath}components/stepper/cStepper.ftl" />
-<#include "${commonsFtlPath}components/status/cStatus.ftl" />
-<#include "${commonsFtlPath}components/tabs/cTab.ftl" />
-<#include "${commonsFtlPath}components/tabs/cTabContent.ftl" />
-<#include "${commonsFtlPath}components/tabs/cTabPane.ftl" />
-<#include "${commonsFtlPath}components/tabs/cTabs.ftl" />
-<#include "${commonsFtlPath}components/theme/cTheme.ftl" />
-<#include "${commonsFtlPath}components/text/cContentFrame.ftl" />
-<#include "${commonsFtlPath}components/text/cDivider.ftl" />
-<#include "${commonsFtlPath}components/title/cSetPageTitle.ftl" />
-<#include "${commonsFtlPath}elements/article/cArticle.ftl" />
-<#include "${commonsFtlPath}elements/footer/cFooter.ftl" />
-<#include "${commonsFtlPath}elements/header/cHeader.ftl" />
-<#include "${commonsFtlPath}elements/images/cFigCaption.ftl" />
-<#include "${commonsFtlPath}elements/images/cFigure.ftl" />
-<#include "${commonsFtlPath}elements/images/cImg.ftl" />
-<#include "${commonsFtlPath}elements/images/cPicture.ftl" />
-<#include "${commonsFtlPath}elements/images/cPictureSrc.ftl" />
-<#include "${commonsFtlPath}elements/link/cLink.ftl" />
-<#include "${commonsFtlPath}elements/list/chItem.ftl" />
-<#include "${commonsFtlPath}elements/list/chList.ftl" />
-<#include "${commonsFtlPath}elements/section/cBlock.ftl" />
-<#include "${commonsFtlPath}elements/section/cSection.ftl" />
-<#include "${commonsFtlPath}elements/table/cTable.ftl" />
-<#include "${commonsFtlPath}elements/table/cTbody.ftl" />
-<#include "${commonsFtlPath}elements/table/cTd.ftl" />
-<#include "${commonsFtlPath}elements/table/cTfoot.ftl" />
-<#include "${commonsFtlPath}elements/table/cTh.ftl" />
-<#include "${commonsFtlPath}elements/table/cThead.ftl" />
-<#include "${commonsFtlPath}elements/table/cTr.ftl" />
-<#include "${commonsFtlPath}elements/text/cInline.ftl" />
-<#include "${commonsFtlPath}elements/text/cText.ftl" />
-<#include "${commonsFtlPath}elements/title/cTitle.ftl" />
-<#include "${commonsFtlPath}forms/check_radio/cFormCheck.ftl" />
-<#include "${commonsFtlPath}forms/check_radio/cCheckbox.ftl" />
-<#include "${commonsFtlPath}forms/check_radio/cRadio.ftl" />
-<#include "${commonsFtlPath}forms/inputgroup/cInputGroup.ftl" />
-<#include "${commonsFtlPath}forms/inputgroup/cInputGroupAddon.ftl" />
-<#include "${commonsFtlPath}forms/inputgroup/cInputGroupAddonText.ftl" />
-<#include "${commonsFtlPath}forms/inputs/cField.ftl" />
-<#include "${commonsFtlPath}forms/inputs/cFormHelp.ftl" />
-<#include "${commonsFtlPath}forms/inputs/cInput.ftl" />
-<#include "${commonsFtlPath}forms/inputs/cInputDate.ftl" />
-<#include "${commonsFtlPath}forms/inputs/cInputPassword.ftl" />
-<#include "${commonsFtlPath}forms/inputs/cInputTimeSlot.ftl" />
-<#include "${commonsFtlPath}forms/inputs/cPasswordMeter.ftl" />
-<#include "${commonsFtlPath}forms/inputs/cQuantityPicker.ftl" />
-<#include "${commonsFtlPath}forms/inputs/cLabel.ftl" />
-<#include "${commonsFtlPath}forms/inputs/cTextArea.ftl" />
-<#include "${commonsFtlPath}forms/layout/cFieldset.ftl" />
-<#include "${commonsFtlPath}forms/layout/cForm.ftl" />
-<#include "${commonsFtlPath}forms/layout/cFormRow.ftl" />
-<#include "${commonsFtlPath}forms/multiselect/cMultiselect.ftl" />
-<#include "${commonsFtlPath}forms/multiselect/cMultiselectOption.ftl" />
-<#include "${commonsFtlPath}forms/select/cOptgroup.ftl" />
-<#include "${commonsFtlPath}forms/select/cOption.ftl" />
-<#include "${commonsFtlPath}forms/select/cSelect.ftl" />
-<#include "${commonsFtlPath}forms/steps/cStepContent.ftl" />
-<#include "${commonsFtlPath}forms/steps/cStepCurrent.ftl" />
-<#include "${commonsFtlPath}forms/steps/cStepDone.ftl" />
-<#include "${commonsFtlPath}forms/steps/cStepGroup.ftl" />
-<#include "${commonsFtlPath}forms/steps/cStepNext.ftl" />
-<#include "${commonsFtlPath}forms/upload/cInputDropFiles.ftl" />
-<#include "${commonsFtlPath}forms/upload/cInputDropFilesItem.ftl" />
-<#include "${commonsFtlPath}forms/validation/cFormError.ftl" />
-<#include "${commonsFtlPath}forms/validation/cPasswordCheck.ftl/" />
-<#include "${commonsFtlPath}layout/banner/cMainBanner.ftl" />
-<#include "${commonsFtlPath}layout/breadcrumb/cBreadCrumb.ftl" />
-<#include "${commonsFtlPath}layout/navigation/cDropNav.ftl" />
-<#include "${commonsFtlPath}layout/navigation/cMainNav.ftl" />
-<#include "${commonsFtlPath}layout/navigation/cMainNavItem.ftl" />
-<#include "${commonsFtlPath}layout/navigation/cMainNavUser.ftl" />
-<#include "${commonsFtlPath}layout/navigation/skipNav.ftl" />
-<#include "${commonsFtlPath}layout/navigation/goToTop.ftl" />
-<#include "${commonsFtlPath}layout/footer/cMainFooter.ftl" />
-<#include "${commonsFtlPath}layout/footer/cMainFooterSocial.ftl" />
-<#include "${commonsFtlPath}layout/footer/_footerMenu.ftl" />
-<#include "${commonsFtlPath}layout/layout/cCol.ftl" />
-<#include "${commonsFtlPath}layout/layout/cContainer.ftl" />
-<#include "${commonsFtlPath}layout/layout/cRow.ftl" />
-<#-- OPTIONAL SKIN OVERRIDE NEEDED can be skippe for new theme creation -->
+<@cMacro name='cAccordion' group='components/accordion' />
+<@cMacro name='cAlert' group='components/alert' />
+<@cMacro name='cAnchor' group='components/anchor' />
+<@cMacro name='cBadge' group='components/badge' />
+<@cMacro name='cBtn' group='components/button' />
+<@cMacro name='cBtnGroup' group='components/button' />
+<@cMacro name='cBtnImg' group='components/button' />
+<@cMacro name='cBtnToolbar' group='components/button' />
+<@cMacro name='cCard' group='components/card' />
+<@cMacro name='cCardFloating' group='components/card' />
+<@cMacro name='cCardLayout' group='components/card' />
+<@cMacro name='cCarousel' group='components/carousel' />
+<@cMacro name='cCarouselItem' group='components/carousel' />
+<@cMacro name='cCascading' group='components/cascading' />
+<@cMacro name='cConsent' group='components/consent' />
+<@cMacro name='getThemeDatePicker' group='components/datepicker' />
+<@cMacro name='initThemeDatePicker' group='components/datepicker' />
+<@cMacro name='cDropdown' group='components/dropdown' />
+<@cMacro name='cErrorMessage' group='components/error' />
+<@cMacro name='cFilter' group='components/filter' />
+<@cMacro name='cIcon' group='components/icons' />
+<@cMacro name='parisIcon' group='components/icons' />
+<@cMacro name='parisIconPack' group='components/icons' />
+<@cMacro name='cList' group='components/list' />
+<@cMacro name='cModal' group='components/modal' />
+<@cMacro name='cOffcanvas' group='components/offcanvas' />
+<@cMacro name='cPagination' group='components/pagination' />
+<@cMacro name='cPaginationLinks' group='components/pagination' />
+<@cMacro name='cProgress' group='components/progress' />
+<@cMacro name='cSearchSetResultPageTitle' group='components/search' />
+<@cMacro name='cScrollSpy' group='components/scrollspy' />
+<@cMacro name='cSkeleton' group='components/skeleton' />
+<@cMacro name='cInfoStep' group='components/stepinfo' />
+<@cMacro name='cSlider' group='components/slider' />
+<@cMacro name='cStepper' group='components/stepper' />
+<@cMacro name='cStatus' group='components/status' />
+<@cMacro name='cTab' group='components/tabs' />
+<@cMacro name='cTabContent' group='components/tabs' />
+<@cMacro name='cTabPane' group='components/tabs' />
+<@cMacro name='cTabs' group='components/tabs' />
+<@cMacro name='cTheme' group='components/theme' />
+<@cMacro name='cContentFrame' group='components/text' />
+<@cMacro name='cDivider' group='components/text' />
+<@cMacro name='cSetPageTitle' group='components/title' />
+<@cMacro name='cArticle' group='elements/article' />
+<@cMacro name='cFooter' group='elements/footer' />
+<@cMacro name='cHeader' group='elements/header' />
+<@cMacro name='cFigCaption' group='elements/images' />
+<@cMacro name='cFigure' group='elements/images' />
+<@cMacro name='cImg' group='elements/images' />
+<@cMacro name='cPicture' group='elements/images' />
+<@cMacro name='cPictureSrc' group='elements/images' />
+<@cMacro name='cLink' group='elements/link' />
+<@cMacro name='chItem' group='elements/list' />
+<@cMacro name='chList' group='elements/list' />
+<@cMacro name='cBlock' group='elements/section' />
+<@cMacro name='cSection' group='elements/section' />
+<@cMacro name='cTable' group='elements/table' />
+<@cMacro name='cTbody' group='elements/table' />
+<@cMacro name='cTd' group='elements/table' />
+<@cMacro name='cTfoot' group='elements/table' />
+<@cMacro name='cTh' group='elements/table' />
+<@cMacro name='cThead' group='elements/table' />
+<@cMacro name='cTr' group='elements/table' />
+<@cMacro name='cInline' group='elements/text' />
+<@cMacro name='cText' group='elements/text' />
+<@cMacro name='cTitle' group='elements/title' />
+<@cMacro name='cFormCheck' group='forms/check_radio' />
+<@cMacro name='cCheckbox' group='forms/check_radio' />
+<@cMacro name='cRadio' group='forms/check_radio' />
+<@cMacro name='cInputGroup' group='forms/inputgroup' />
+<@cMacro name='cInputGroupAddon' group='forms/inputgroup' />
+<@cMacro name='cInputGroupAddonText' group='forms/inputgroup' />
+<@cMacro name='cField' group='forms/inputs' />
+<@cMacro name='cFormHelp' group='forms/inputs' />
+<@cMacro name='cInput' group='forms/inputs' />
+<@cMacro name='cInputDate' group='forms/inputs' />
+<@cMacro name='cInputPassword' group='forms/inputs' />
+<@cMacro name='cInputTimeSlot' group='forms/inputs' />
+<@cMacro name='cPasswordMeter' group='forms/inputs' />
+<@cMacro name='cQuantityPicker' group='forms/inputs' />
+<@cMacro name='cLabel' group='forms/inputs' />
+<@cMacro name='cTextArea' group='forms/inputs' />
+<@cMacro name='cFieldset' group='forms/layout' />
+<@cMacro name='cForm' group='forms/layout' />
+<@cMacro name='cFormRow' group='forms/layout' />
+<@cMacro name='cMultiselect' group='forms/multiselect' />
+<@cMacro name='cMultiselectOption' group='forms/multiselect' />
+<@cMacro name='cOptgroup' group='forms/select' />
+<@cMacro name='cOption' group='forms/select' />
+<@cMacro name='cSelect' group='forms/select' />
+<@cMacro name='cStepContent' group='forms/steps' />
+<@cMacro name='cStepCurrent' group='forms/steps' />
+<@cMacro name='cStepDone' group='forms/steps' />
+<@cMacro name='cStepGroup' group='forms/steps' />
+<@cMacro name='cStepNext' group='forms/steps' />
+<@cMacro name='cInputDropFiles' group='forms/upload' />
+<@cMacro name='cInputDropFilesItem' group='forms/upload' />
+<@cMacro name='cFormError' group='forms/validation' />
+<@cMacro name='cPasswordCheck' group='forms/validation' />
+<@cMacro name='cMainBanner' group='layout/banner' />
+<@cMacro name='cBreadCrumb' group='layout/breadcrumb' />
+<@cMacro name='cDropNav' group='layout/navigation' />
+<@cMacro name='cMainNav' group='layout/navigation' />
+<@cMacro name='cMainNavItem' group='layout/navigation' />
+<@cMacro name='cMainNavUser' group='layout/navigation' />
+<@cMacro name='skipNav' group='layout/navigation' />
+<@cMacro name='goToTop' group='layout/navigation' />
+<@cMacro name='cMainFooter' group='layout/footer' />
+<@cMacro name='cMainFooterSocial' group='layout/footer' />
+<@cMacro name='_footerMenu' group='layout/footer' />
+<@cMacro name='cCol' group='layout/layout' />
+<@cMacro name='cContainer' group='layout/layout' />
+<@cMacro name='cRow' group='layout/layout' />
 <@cMacro name='charCounter' group='components/javascript' />
 <@cMacro name='codeHighLight' group='components/javascript' />
 <@cMacro name='copyElementToClipboard' group='components/javascript' />
@@ -123,4 +120,4 @@
 <@cMacro name='scrollTopBtn' group='components/javascript' />
 <@cMacro name='cToast' group='components/javascript' />
 <@cMacro name='deprecatedWarning' group='utilities/functions'  />
-<@cMacro name='rand' group='utilities/functions'  />
+<@cMacro name='rand' group='utilities/functions'  />    

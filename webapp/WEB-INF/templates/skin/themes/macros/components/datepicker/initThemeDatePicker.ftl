@@ -24,7 +24,7 @@ Snippet:
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/datepicker/datepicker-theme.js" charset="utf-8"></script>
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/datepicker/locales/fr.js" charset="utf-8"></script>
 <script type="module">
-import { themeUtils } from './${commonsSiteSharedPath}${commonsSiteJsModulesPath}theme-utils.min.js';
+import { themeUtils } from './${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-utils.min.js';
 const uploadUtils = new themeUtils;
 // Get current browser lang
 window.addEventListener('DOMContentLoaded', (event) => {
