@@ -59,7 +59,6 @@ ${rss?default("<!-- no RSS feed -->")}
 <!-- Included JS Files -->
 <#assign optHeaderJs=.get_optional_template('theme_frameset_header_js.html')>
 <#if optHeaderJs.exists><@optHeaderJs.include /></#if>
-<@initThemeDatePicker />
 <#assign optThemeColors=.get_optional_template('../themes/${commonsGlobalThemeCode}/_theme_colors.ftl')>
 <#if optThemeColors.exists>
 <!-- Theme Color Palette -->
@@ -112,6 +111,10 @@ ${contextinclude_2!}
 <!-- Placed at the end of the document so the pages load faster -->
 <!-- Theme JS includes -->
 <#-- Template to add js to footer in page_frameset.html theme template -->
+<script>
+var xssChars='${dskey("portal.theme.site_property.xss.xssChars")!}';
+var xssMsg='${dskey("portal.theme.site_property.xss.xssMsg")!}';
+</script>
 <#if themeJSLinks?? >
 <@themeJSLinks />
 <#else>
