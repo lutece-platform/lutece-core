@@ -1,0 +1,353 @@
+document.addEventListener("DOMContentLoaded", function () {
+  /* Set skip links url */
+  var loc = window.location.href;
+  document.querySelectorAll(".skip-links li a").forEach(function (link) {
+    const currentHref = loc + link.getAttribute("href");
+    link.setAttribute("href", currentHref);
+  });
+
+  /* Set backUrl if nor defined */
+  const userLink = document.querySelector(".navbar-nav.mylutece .btn-user.btn-default-user");
+  if (userLink) {
+    const url = new URL(userLink.href);
+    const backUrl = url.searchParams.get('back_url');
+
+    if (backUrl === '') {
+      // Get current location without search parameters
+      const currentLocation = window.location.protocol + '//' + window.location.host + window.location.pathname;
+      // URL encode the current location
+      const encodedLocation = encodeURIComponent(currentLocation);
+      // Replace the backUrl parameter
+      url.searchParams.set('back_url', encodedLocation);
+      userLink.href = url.toString();
+    }
+  }
+  
+  /* Active menu */
+  let currentUrl = '';
+  if(  window.location.search != '' || window.location.hash != '' ){
+    currentUrl = window.location.pathname + window.location.search + window.location.hash;
+  }
+	const menu = document.getElementById('main-site-menu');
+	if ( menu ) {
+    const navItems = menu.querySelectorAll(".nav-item, .dropdown-navitem");
+    navItems.forEach( function(item) {
+      const link = item.querySelector(".nav-link");
+      if (link && link.href) {
+        const linkUrl = link.pathname + link.search + link.hash;
+        if (linkUrl === currentUrl && !item.classList.contains("active")) {
+          item.classList.add("active");
+        }
+      }
+    });
+  }
+
+  /* Collapse menu */
+  const btnCollapse = document.getElementById('main-sidebar-collapse');
+	if ( btnCollapse ) {
+     btnCollapse.addEventListener("click", function (e) {
+      const menuAside = document.querySelector('#main-sidebar'), mainContent = document.querySelector('#main'), banner = mainContent.querySelector('.banner-wrapper');
+      if (menuAside) {
+        const isExpanded = btnCollapse.getAttribute("aria-expanded") === "true";
+        btnCollapse.setAttribute("aria-expanded", isExpanded ? "false" : "true");
+        btnCollapse.style.left = !isExpanded ? 'calc(var(--spacing-5xl) * 1.6)' : '0';
+        menuAside.classList.toggle("d-none");
+        mainContent.classList.toggle("col-md-8");
+        mainContent.classList.toggle("col-lg-9");
+        if (banner) {
+          banner.classList.toggle("is-fixed");
+        }
+      }
+    });
+  }
+  
+  /* Tooltip init */
+  initAccessibleTooltips();
+  
+  // Popover init
+  initAccessiblePopovers();
+  // const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+  // const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+  
+  /* Prevent Click on disabled features */
+  document.querySelectorAll(".disabled").forEach(function (element) {
+    element.addEventListener("click", function (e) {
+      e.preventDefault();
+    });
+  });
+
+  /* Theme FORM controls */
+  /* Form Label color change on focus / focusout */
+  document.querySelectorAll("label + .form-control").forEach(function (element) {
+    element.addEventListener("focus", function () {
+      element.previousElementSibling.classList.add("main-info-color");
+    });
+    element.addEventListener("focusout", function () {
+      element.previousElementSibling.classList.remove("main-info-color");
+    });
+  });
+
+  /* En Form validation */
+  // Check XSS chars on submit
+  if (xssChars != "") {
+    // Convert HTML entities in xssChars to UTF-8 plaintext characters
+    if (typeof xssChars === 'string' && xssChars.length > 0) {
+      const tempElement = document.createElement('div');
+      tempElement.style.display = 'none';
+      tempElement.innerHTML = xssChars;
+      xssChars = tempElement.textContent || tempElement.innerText || "";
+      tempElement.remove();
+    }
+    const re = new RegExp(`[${xssChars}]`, "igm");
+    const formList = document.querySelectorAll("form");
+    formList.forEach((formXss) =>
+      formXss.addEventListener("submit", (e) => {
+        const inputs = formXss.querySelectorAll("input:not([type='hidden']), textarea");
+        const iL = inputs.length;
+        let isXss = iL;
+        inputs.forEach((input) => {
+          if (input.value.match(re)) {
+            isXss--;
+            if (!input.classList.contains("is-invalid")) {
+              input.classList.add("is-invalid");
+              input.setAttribute("aria-invalid", "true");
+              input.setAttribute("aria-describedby", `error_${input.id}`);
+              const invalidEl = document.createElement("div");
+              invalidEl.setAttribute("class", "invalid-feedback");
+              invalidEl.setAttribute("role", "alert");
+              invalidEl.setAttribute("id", `error_${input.id}`);
+              invalidEl.innerHTML = xssMsg;
+              input.insertAdjacentElement("afterend", invalidEl);
+              input.scrollIntoView({ behavior: "smooth", block: "center" });
+              input.focus();
+            
+            }
+          }
+        });
+        if (isXss != iL) {
+          e.preventDefault();
+        }
+      })
+    );
+  }
+  /* End validity check */
+
+  /* Details Summary Toggle */
+  document.querySelectorAll('.cascading').forEach( function( cascading ) {
+    cascading.addEventListener( 'click', function(e) {
+      e.currentTarget.getAttribute('open') == null ? e.currentTarget.setAttribute('aria-expanded','true') : e.currentTarget.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* Responsive Table class xs-collapsed Toggle Datas */
+  const tableItem = document.querySelectorAll(".xs-collapsed");
+  if( tableItem.length > 0 ) {
+    tableXsCollapse();
+    window.addEventListener("resize", tableXsCollapse);
+  } 
+
+  // Accordion responsive scroll management
+  const accordion = document.querySelectorAll('.accordion');
+  if( accordion.length > 0 ) {
+    accordion.forEach( acc => {
+      acc._originalTop = acc.getBoundingClientRect().top + window.scrollY - 50;
+      acc.addEventListener('show.bs.collapse', function (event) {
+        const target = event.target;
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY, behavior: 'instant' });
+        if (window.matchMedia("(max-width: 767.98px)").matches) {
+          // Record the top position when the accordion is shown
+          target._originalTop = target.getBoundingClientRect().top + window.scrollY;
+        }
+      });
+      acc.addEventListener('hide.bs.collapse', function (event) {
+        const target = event.target;
+        if (window.matchMedia("(max-width: 767.98px)").matches) {
+          // Scroll to the exact top position recorded when shown
+          if (target._originalTop !== undefined) {
+            window.scrollTo({ top: target._originalTop, behavior: 'instant' });
+          } else if ( this._originalTop !== undefined) {
+            window.scrollTo({ top: this._originalTop, behavior: 'instant' });
+            accordion.forEach( acc => { acc.removeAttribute('_originalTop') });
+          }
+        }
+      });
+    });
+  }
+
+  // Accordion button toggler with message
+  function setTogglerLabel(toggler, comparator='true') {
+    if (toggler.getAttribute('aria-expanded').toLowerCase() === comparator) {
+      if( toggler.querySelector('.btn-label-accordion') != null ) {
+        toggler.querySelector('.btn-label-accordion').textContent = toggler.dataset.showLabel;
+      } 
+    } else {
+      if( toggler.querySelector('.btn-label-accordion') != null ) {
+        toggler.querySelector('.btn-label-accordion').textContent = toggler.dataset.hideLabel;
+      }
+    }
+  }
+
+  const cardAlerts = document.querySelectorAll('.card.alert .card-header .btn-header-accordion');
+  if (cardAlerts.length > 0) {
+    const accordionHeadersToggler = Array.from(cardAlerts);
+    accordionHeadersToggler.forEach( acc => {
+      setTogglerLabel( acc, 'false');
+      acc.addEventListener('click', (e) => {
+        setTogglerLabel( acc, 'false');
+      });
+    });
+  }
+
+  /* List with More */
+  document.querySelectorAll(".more-list .btn-more").forEach(function (element) {
+    element.addEventListener("click", function (e) {
+      e.preventDefault();
+      document.querySelector(".more-list > .extra").classList.toggle("hidden");
+      element.classList.toggle("btn-less");
+      const labelShow = element.getAttribute("data-plus");
+      const labelClose = element.getAttribute("data-minus");
+      const btnLabel = element.querySelector(".link-label");
+      if (btnLabel.textContent === labelShow) {
+        btnLabel.textContent = labelClose;
+      } else {
+        btnLabel.textContent = labelShow;
+      }
+    });
+  });
+
+  /* Stepper with More */
+  document.querySelectorAll('.stepper .stepper-footer .btn-stepper-more').forEach(function (element) {
+    element.addEventListener('click', function(e) {
+      e.preventDefault();
+      const stepContent = element.parentNode.previousElementSibling;
+      stepContent.classList.toggle('truncate');
+    });
+  });
+  
+  document.querySelectorAll('.stepper .stepper-content.truncate').forEach(function (element) {
+    element.addEventListener('click', function(e) {
+      e.preventDefault();
+      element.classList.toggle('truncate');
+    });
+  });
+
+ 
+  document.querySelectorAll('.stepper .stepper-footer .btn-stepper-less').forEach(function (element) {
+    element.addEventListener('click', function(e) {
+      e.preventDefault();
+      const stepContent = element.parentNode.previousElementSibling;
+      stepContent.classList.toggle('truncate');
+    });
+  });
+
+  // Prevent Double Submits
+  const form = document.querySelector("form");
+  if (form != null) {
+    form.addEventListener("submit", function () {
+      document.querySelectorAll('.form-control:user-invalid').forEach(function (element) {
+        element.classList.add('is-invalid');
+      });
+      document.querySelectorAll('.form-control:invalid').forEach(function (element) {
+        element.classList.add('is-invalid');
+      });
+      const buttons = form.querySelectorAll('input[type="submit"]');
+      buttons.forEach(function (button) {
+        button.setAttribute("disabled", "disabled");
+      });
+    }, false);
+    document.querySelectorAll('textarea.counter').forEach(function (counter) {
+        setCharCounter(counter);
+    });
+  }
+  
+  // Manage maxlength for tabs title
+  const buttons = document.querySelectorAll('.nav-tabs-container .nav-tabs .nav-link');
+  const maxLength = 20;
+
+  buttons.forEach(button => {
+    if (button.textContent.length > maxLength) {
+      button.textContent = button.textContent.slice(0, maxLength) + '...';
+    }
+  });
+
+  // Manage multiselect 
+  document.querySelectorAll('.multiselect').forEach( function( multiItem ){
+    const maxOpt = parseInt( multiItem.dataset.maxoptions );
+    const multiCheckbox = multiItem.querySelectorAll( '.dropdown-menu input[type="checkbox"]' );
+    multiCheckbox.forEach( function( itemCheckbox ) {
+      itemCheckbox.addEventListener( 'change', function () {
+        updateTags( itemCheckbox );
+        updateSelected( itemCheckbox );
+        const multiCheckboxChecked = multiItem.querySelectorAll( '.dropdown-menu input[type="checkbox"]:checked' ).length;
+        if( maxOpt > 0 && multiCheckboxChecked >= maxOpt ) {
+          setErrorMsg( itemCheckbox  )
+        }
+      });
+  });
+  });
+
+  function updateTags( checkedBox ){
+    const tagsContainer = checkedBox.closest('.multiselect').querySelector('.tags-container');
+    const tag = document.createElement('button');
+    tag.classList.add('btn', 'tag');
+    tag.textContent = checkedBox.nextElementSibling.textContent;
+    const removeTag = document.createElement('span');
+    removeTag.className = 'btn-close btn-close-white';
+    tag.onclick = function(){
+        const errorElem = checkedBox.closest('.multiselect').querySelector('.tags-container + .is-invalid' );
+        if( errorElem ) {
+          resetErrorMsg( checkedBox )
+        }
+        this.remove();
+        updateSelected( checkedBox );
+    };
+    tag.appendChild( removeTag );
+    tagsContainer.appendChild(tag);
+  }
+
+  function updateSelected( checkedBox ){
+    const li = checkedBox.closest('li');
+    if( !li.classList.contains('selected') ) {
+      li.classList.add('selected');
+      checkedBox.disabled = true;
+      checkedBox.checked = true;
+    } else {
+      li.classList.remove('selected');
+      checkedBox.disabled = false;
+      checkedBox.checked = false;
+    }
+  }
+
+  function setErrorMsg( checkedBox ){
+    const dropdownMenu = checkedBox.closest( '.dropdown' );
+    const dropdownMenuBtn = dropdownMenu.querySelector( '.form-select' );
+    dropdownMenuBtn.classList.add( 'disabled' );
+    dropdownMenuBtn.setAttribute( 'disabled', 'disabled' );
+    dropdownMenuBtn.setAttribute( 'aria-disabled', 'true' );
+    dropdownMenu.classList.add( 'is-invalid' );
+    const errorElem = document.createElement( 'p' );
+    errorElem.className = 'invalid-feedback';  
+    errorElem.textContent = 'Vous avez atteint le nombre maximum de choix';
+    dropdownMenu.insertAdjacentElement( 'afterend', errorElem );
+  }
+
+  function resetErrorMsg( checkedBox ){
+    const dropdownMenu = checkedBox.closest( '.dropdown' );
+    const dropdownMenuBtn = dropdownMenu.querySelector( '.form-select' );
+    dropdownMenuBtn.classList.remove( 'disabled' );
+    dropdownMenuBtn.removeAttribute( 'disabled'  );
+    dropdownMenuBtn.removeAttribute( 'aria-disabled'  );
+    dropdownMenu.classList.remove( 'is-invalid' );
+    const errorElem = checkedBox.closest('.multiselect').querySelector('.invalid-feedback' );
+    errorElem.remove();
+  }
+
+  if ( navigator.userAgent.includes("Firefox/91") ) {
+      document.querySelectorAll('.active').forEach( parent => {
+        // Check if current element or any parent has .anchors class
+        if (parent.closest('.anchors')) {
+            parent.parentElement.classList.add('main-info-bg-color');
+        }
+      });
+  }
+});
