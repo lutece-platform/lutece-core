@@ -38,21 +38,19 @@
                         <#list groupList?chunk(5) as groupListCol>
                         <@columns class='col pt-3'>
                         <#list groupListCol?sort as groupCol>
-                           <#-- <#if groupCol?trim =''><#continue></#if> -->
-                           <@box params='data-prop="${groupCol}"'>
+                           <@box class='properties-group' params='data-prop="${groupCol}"'>
                               <@boxBody>
                                 <#assign groupName=''>
                                 <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
-                                    <#assign boxClass='' />
                                     <#if groupName=''>
                                         <#assign prefix=groupItem.key?keep_before(".site_property")  >
                                         <#if groupCol?trim !=''>
                                         <#assign groupName>#i18n{${prefix}.site_property.${groupCol}.group.title}</#assign>
-                                        <@h level=3>${groupName!}</@h>
+                                        <#if groupName?trim !=''><@h level=3>${groupName!}</@h></#if>
                                         </#if>
                                     </#if>
                                     <#if groupItem.key?ends_with( ".select.options" ) || groupItem.key?ends_with( ".radio.options" )>
-                                        <@input type='hidden' name=groupItem.key value=groupItem.value?html />
+                                        <@input type='hidden' class='hidden-options' name=groupItem.key value=groupItem.value?html />
                                     <#else>
                                         <#assign labelText=groupItem.label>
                                         <#if groupItem.key?ends_with( ".checkbox" )><#assign labelText=''></#if>

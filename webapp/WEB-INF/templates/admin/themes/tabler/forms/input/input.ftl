@@ -133,7 +133,7 @@ Snippet:
 <#elseif type='html5date' || type='html5datetime' || type='html5time' || type='html5month'>
 	<input class="form-control<#if size!=''> form-control-${size}</#if><#if type='color'> input-color</#if><#if class!=''> ${class}</#if>"<#if helpKey !='' && id !=''> aria-describedby="help_${id}"</#if> type="<#if type='html5date'>date<#elseif type='html5datetime'>datetime-local<#elseif type='html5time'>time<#elseif type='html5month'>month<#else>unsupported date type</#if>" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if min!=max> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>>
 <#elseif type='hidden'>
-	<input type="hidden" name="${name}" <#if id!=''>id="${id}"</#if> value="${value}" />
+	<input type="hidden"<#if class!=''> class="${class}"</#if> name="${name}" <#if id!=''>id="${id}"</#if> value="${value}" />
 <#else><@alert class='danger'>${i18n("portal.util.message.unsupportedType")}</@alert>
 </#if>
 </#macro>
