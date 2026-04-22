@@ -90,7 +90,7 @@ Snippet:
             </#if>
             <#if hasMenu && hasSearchMenu && typeSearch='icon'>
                 <@cMainNavItem title='' class='ms-auto' url=searchUrl >
-                    <@parisIcon name='search' class='main-color' />
+                    <@cIcon name='search' class='main-color' />
                     <@cInline class='visually-hidden'>#i18n{portal.util.labelSearch}</@cInline>
                 </@cMainNavItem>
             </#if>
@@ -105,14 +105,14 @@ Snippet:
                             <@cInput name='query' id='header-query-top' placeholder='#i18n{portal.site.page_menu_tools.labelSearch}' autocomplete='on' />
                             <@cInputGroupAddon>
                                 <@cBtn label='' id='button-main-search' class='secondary' params='aria-label="#i18n{portal.site.page_menu_tools.labelSearch}"'>
-                                <@parisIcon name='search' title='#i18n{portal.site.page_menu_tools.labelSearch}' />
+                                <@cIcon name='search' title='#i18n{portal.site.page_menu_tools.labelSearch}' />
                                 </@cBtn >
                             </@cInputGroupAddon>
                         </@cInputGroup>
                     </@cForm>
                 </@cMainNavItem>
                 <@cMainNavItem title='' class='ms-auto d-none d-md-flex d-lg-none ' urlClass='border-0' url=searchUrl>
-                    <@parisIcon name='search' class='main-color' />
+                    <@cIcon name='search' class='main-color' />
                     <@cInline class='visually-hidden'>#i18n{portal.util.labelSearch}</@cInline>
                 </@cMainNavItem>
             </#if>
@@ -173,7 +173,7 @@ Snippet:
         <div id="sidebar-main-menu">
              <#if isSibebarCollapsible>
             <button id="main-sidebar-collapse" type="button" class="btn btn-outline-primary btn-mini" aria-label="#i18n{portal.util.labelShow} / #i18n{portal.util.labelHide} #i18n{portal.theme.mainMenu}" aria-expanded="true" aria-controls="main-menu-sidebar">
-                <@parisIcon name='burger' />
+                <@cIcon name='burger' />
             </button>
             </#if>
             <nav class="navbar-main sidebar-nav " id="main-menu-sidebar" aria-label="#i18n{portal.theme.mainMenu}" role="navigation">
@@ -204,7 +204,7 @@ Snippet:
                             <@cInput name='query' id='header-query' placeholder='#i18n{portal.site.page_menu_tools.labelSearch}' />
                             <@cInputGroupAddon>
                                 <@cBtn label='' id='button-main-search-top' class='secondary' params='aria-label="#i18n{portal.site.page_menu_tools.labelSearch}"'>
-                                    <@parisIcon name='search' title='#i18n{portal.site.page_menu_tools.labelSearch}' />
+                                    <@cIcon name='search' title='#i18n{portal.site.page_menu_tools.labelSearch}' />
                                 </@cBtn >
                             </@cInputGroupAddon>
                         </@cInputGroup>

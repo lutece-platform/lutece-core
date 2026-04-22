@@ -56,7 +56,7 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#if btnTitle !=''>
 <a id="btn-${id}" class="btn<#if btnColor !=''> btn-${btnColor} </#if><#if btnSize?has_content> btn-${btnSize}</#if> ${btnClass}<#if badgeContent?has_content> position-relative</#if>" onclick="event.preventDefault();" data-bs-toggle="offcanvas" data-bs-scroll=false data-bs-backdrop="${backdrop}" href="#${id}" role="button" aria-controls="${id}" <#if badgeContent?has_content>style="overflow:inherit"</#if> title="${btnTitle}">
-    <#if btnIcon!=''><@parisIcon name=btnIcon /></#if>
+    <#if btnIcon!=''><@cIcon name=btnIcon /></#if>
     <#if btnIcon!='' && btnTitle!='' && btnTitleShow><span class="ms-xs"></#if>
     <#if btnTitleShow>${btnTitle}</#if>
     <span class="visually-hidden">${btnTitle}</span>
@@ -70,7 +70,7 @@ Snippet:
     <div class="offcanvas-header border-bottom d-flex justify-content-between align-items-center">
         <#if title!=''><h2 class="h4 offcanvas-title p-0 pe-xl m-0 me-xl" id="${id}Label">${title}</h2></#if>
         <button type="button" class="border btn btn-light btn-rounded btn-icon end-0 mx-sm p-0" data-bs-dismiss="offcanvas" aria-label="Fermer">
-            <@parisIcon name='close' class='mt-xs' />
+            <@cIcon name='close' class='mt-xs' />
         </button>
     </div>
     <div id="offcanvas-body-${id}" class="offcanvas-body<#if bodyClass?has_content> ${bodyClass}</#if> text-break ps-xl">

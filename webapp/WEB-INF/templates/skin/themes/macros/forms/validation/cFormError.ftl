@@ -29,5 +29,5 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local cClass>invalid-feedback<#if class!=''> ${class!}</#if></#local>
 <#local cParam><#if params!=''> ${params!}  role="status"</#if></#local>
-<@cText class=cClass id="error_${id!}" params=cParam><@parisIcon name='alert-error' class='main-danger-color' />${label!}</@cText>
+<@cText class=cClass id="error_${id!}" params=cParam><@cIcon name='alert-error' class='main-danger-color' />${label!}</@cText>
 </#macro>

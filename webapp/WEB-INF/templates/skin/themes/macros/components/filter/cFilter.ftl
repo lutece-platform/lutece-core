@@ -33,7 +33,7 @@ Snippet:
 	<@cRow class='justify-content-between align-items-center'>
 		<@cText type='span' class='filter-result'>${result!}</@cText>
 		<@cBtn label='Masquer les filtres' id='filter-toggle-button' class='secondary m-1 d-flex align-items-center w-auto' >
-			<@parisIcon name='filter' title='Filter' class='main-info-color me-3' />
+			<@cIcon name='filter' title='Filter' class='main-info-color me-3' />
 		</@cBtn>
 	</@cRow>
 	<@cRow id='filters-container' class=class! params=params!>

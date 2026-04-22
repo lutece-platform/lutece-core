@@ -63,12 +63,12 @@ Snippet:
 				<@cBlock class="d-flex align-items-center justify-content-end gap-1 test">
 				<#if buttonPrev !='' >
 					<@cBtn label='' class='${buttonClass} disabled prev-slide' type='button' disabled=true params='tabindex="0" aria-controls="${id}-theme-slider" aria-label="${buttonPrev!} ${slideLabel}"'> 
-						<@parisIcon name='arrow-left' />
+						<@cIcon name='arrow-left' />
 					</@cBtn> 
 				</#if>
 				<#if buttonNext !=''>
 					<@cBtn label='' class='${buttonClass} ms-sm next-slide' type='button' params='tabindex="0" aria-controls="${id}-theme-slider" aria-label="${buttonNext!} ${slideLabel}"'> 
-						<@parisIcon name='arrow-right' />
+						<@cIcon name='arrow-right' />
 					</@cBtn>
 				</#if>
 				</@cBlock>

@@ -78,7 +78,7 @@ Snippet:
                 <#if type='files'>
                 <div class="files-info">
                     <small class='fw-bold'>${i.size!}</small>
-                    <@parisIcon name='file-text' class='ms-m main-color' />
+                    <@cIcon name='file-text' class='ms-m main-color' />
                 </div>    
                 </#if>
             </a>

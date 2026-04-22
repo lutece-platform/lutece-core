@@ -54,7 +54,7 @@ Snippet:
             <span class="d-flex<#if !class?contains('outline') && header =''> flex-column<#else> align-items-center</#if> flex-1">
             <#if class?contains('outline')>
                 <span class="card-header-prepend">
-                <@parisIcon name='alert-${iconType}' />
+                <@cIcon name='alert-${iconType}' />
                 </span>
                 <span<#if titleClass !=''>class="d-block ${titleClass}"</#if> id="headingAcc${id}">${title}</span>
                 <#if header !=''>${header}</#if>
@@ -71,7 +71,7 @@ Snippet:
                 <#if btnTitle !=''><span class="btn-label-accordion d-none d-md-inline-block<#if iconType != 'info'> main-${iconType}-color-text</#if>">${btnTitle}</span></#if>
                 <span class="btn-accordion<#if btnClass !=''> ${btnClass}</#if>">
                     <#local btnClass>${btnClass}<#if iconType != 'info'> main-${iconType}-color-text</#if></#local>
-                    <@parisIcon name='arrow-bottom' class=btnClass title='' />
+                    <@cIcon name='arrow-bottom' class=btnClass title='' />
                 </span>
             </span>
             </#if>

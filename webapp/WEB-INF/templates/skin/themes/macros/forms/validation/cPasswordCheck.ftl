@@ -19,6 +19,6 @@ Snippet:
 
 -->
 <#macro cPasswordCheck id >
-<#local checkMsg><@cInline class='charlength'><@parisIcon name='check' /> #i18n{portal.theme.labelNbChars}</@cInline> <@cInline class='uppercase'><@parisIcon name='check' /> #i18n{portal.theme.labelNbUppercase} </@cInline> <@cInline class='digit'><@parisIcon name='check' /> #i18n{portal.theme.labelNbDigit}</@cInline></#local>
+<#local checkMsg><@cInline class='charlength'><@cIcon name='check' /> #i18n{portal.theme.labelNbChars}</@cInline> <@cInline class='uppercase'><@cIcon name='check' /> #i18n{portal.theme.labelNbUppercase} </@cInline> <@cInline class='digit'><@cIcon name='check' /> #i18n{portal.theme.labelNbDigit}</@cInline></#local>
 <@cFormHelp id checkMsg />
 </#macro>

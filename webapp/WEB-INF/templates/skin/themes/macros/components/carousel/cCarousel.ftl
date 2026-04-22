@@ -39,13 +39,13 @@ Snippet:
 <#if slideControls>
 <div id="carouselButtons-${id}" class="d-flex justify-content-center py-2">
     <button id="playButton-${id}" type="button" class="btn btn-tertiary" size="mini" aria-label="Démarrer la lecture du carrousel">
-        <@parisIcon name='play' />
+        <@cIcon name='play' />
         </button>
     <button id="pauseButton-${id}" type="button" class="btn btn-tertiary" size="mini" aria-label="Mettre le carrousel en pause">
-        <@parisIcon name='refresh' />
+        <@cIcon name='refresh' />
     </button>
     <button id="stopButton-${id}" type="button" class="btn btn-tertiary" size="mini" aria-label="Arrêter le carrousel et revenir à la première diapositive">
-        <@parisIcon name='close' />
+        <@cIcon name='close' />
     </button>
 </div>
 </#if>
@@ -75,13 +75,13 @@ Snippet:
     <#if controls>
     <button class="carousel-control-prev" data-bs-target="#${id!}" data-bs-slide="prev" aria-label="élément précédent">
         <span class="carousel-bg-control">
-            <@parisIcon name='arrow-left' />
+            <@cIcon name='arrow-left' />
             <span class="visually-hidden">${labelPrev}</span>
         </span>
     </button>
     <button class="carousel-control-next" data-bs-target="#${id!}" data-bs-slide="next" aria-label="élément suivant">
         <span class="carousel-bg-control">
-            <@parisIcon name='arrow-right' />
+            <@cIcon name='arrow-right' />
             <span class="visually-hidden">${labelNext}</span>
         </span>
     </button>

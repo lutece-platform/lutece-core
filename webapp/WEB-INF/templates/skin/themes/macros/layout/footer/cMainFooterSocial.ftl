@@ -100,5 +100,4 @@ Snippet:
         </div>
     </div>
 </footer>
-<@parisIconPack />
 </#macro>
