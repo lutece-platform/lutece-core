@@ -24,6 +24,10 @@
 	position: relative;
 }
 
+.navigation .navbar .navbar-brand .logo {
+	max-width: 12rem;
+}
+
 .navigation .navbar-nav .nav-link{
 	background: transparent;
 	color: var(--main-color);
