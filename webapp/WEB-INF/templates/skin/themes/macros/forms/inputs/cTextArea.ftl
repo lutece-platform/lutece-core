@@ -50,8 +50,8 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#assign idMsg><#if id!=''>${id}<#else>${name!}</#if></#assign>
 <#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>
+<#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
 <textarea class="<#if class!=''> ${class!}</#if><#if errorMsg!=''> is-invalid</#if>" name="${name!}" id="<#if id!=''>${id}<#else>${name!}</#if>" <#if placeholder!=''> placeholder="${placeholder!}"</#if><#if autocomplete!=''> autocomplete="${autocomplete!}"</#if><#if title!=''> title="${title}"</#if><#if maxlength?number gt 0> maxlength="${maxlength!}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if rows?number!=0>rows="${rows}"</#if><#if required> <#if html5Required>required</#if> aria-required="true"</#if><#if errorMsg!=''> is-invalid aria-invalid="true" aria-describedby="error_<#if id!=''>${id!}<#else>${name}</#if>"<#elseif helpMsg!=''> aria-describedby="help_<#if id!=''>${id!}<#else>${name}</#if>"</#if>>
 <#nested>
 </textarea>
-<#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
 </#macro>

@@ -26,7 +26,7 @@ Snippet:
     </@cInputDropFiles>
 
 -->
-<#macro cInputDropFilesItem name label idx handler fileSize=0 ext='' unit='' maxChars=60 urlDl='' urlRm='' class='' deprecated...>
+<#macro cInputDropFilesItem name label idx handler image=false fileSize=0 ext='' unit='' maxChars=60 urlDl='' urlRm='' class='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local fileLabel><#if label?length gt maxChars>${label[0..maxChars]}...<#else>${label}</#if></#local>
 <#if handler?has_content>
@@ -70,8 +70,8 @@ Snippet:
 </#if>
 <#if ext = ''><#local ext=name?keep_after_last('.') /></#if>
 <li class="files-item<#if class!=''> ${class}</#if>" id="_file_uploaded_${name}${idx}">
-    <label class="files-item-label" for="${cId}">
-        <input type="checkbox" name="${cName}" id="${cId}" tabindex="-1" aria-hidden="true">
+    <label class="files-item-label<#if image=true> image</#if>" for="${cId}">
+        <#if image=true><img src="themes/shared/images/none.svg" alt="" width="80" height="80"></#if>
         <a href="${cUrlDl}" class="files-item-link" title="#i18n{portal.util.labelDownload} ${label}" data-type="${ext!}" data-img="">
             <span class="file-item-label">${fileLabel}</span>
             <span class="file-item-info"><#if fileSize?has_content>${octetNumber?string["0"]} ${octetUnit}</#if></span>

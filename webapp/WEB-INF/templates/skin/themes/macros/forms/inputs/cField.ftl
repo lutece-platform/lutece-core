@@ -39,14 +39,10 @@ Snippet:
     </@cField>
 
 -->
-<#macro cField label='' labelClass='' labelData='' for='' showLabel=true required=false class='mb-3' id='' params='' >
-<@cBlock class='${class}' id=id params=params>
-<#if label!=''>
-<#assign fieldLabel>${label!} ${labelData!}</#assign>
-<@cLabel label=fieldLabel class=labelClass for=for showLabel=showLabel required=required />
-</#if>
-<#assign propagateRequired = required>
-<#nested>
-<#assign propagateRequired = false>
-</@cBlock>
+<#macro cField label='' labelClass='' labelData='' for='' showLabel=true required=false class='' id='' params='' >
+<#local hasWrapper=(class!='' || id!='' || params!='')>
+<#if hasWrapper><div <#if class!=''>class="${class}" </#if><#if id!=''>id="${id}" </#if>${params}></#if>
+<#if label!=''><#local fieldLabel>${label!} ${labelData!}</#local><@cLabel label=fieldLabel class=labelClass for=for showLabel=showLabel required=required /></#if>
+<#assign propagateRequired = required><#nested><#assign propagateRequired = false>
+<#if hasWrapper></div></#if>
 </#macro>

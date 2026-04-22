@@ -50,24 +50,24 @@ Snippet:
 <#local passId><#if id !=''>${id!}<#else>${name!}</#if></#local>
 <#local passLabel><#if pmLabel !=''>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
 <#local passClass>form-control pwd<#if class!=''> ${class!}</#if><#if size!=''> form-control-${size!}</#if><#if errorMsg!=''> is-invalid</#if></#local>
-<@cLabel label=label for=passId required=required />
+<#if label !=''><@cLabel label=label for=passId required=required /></#if>
 <#if helpMsg !=''><@cFormHelp passId helpMsg /></#if>
+<#if errorMsg !=''><@cFormError passId errorMsg /></#if>
 <@cInputGroup class='password'>
     <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=autocomplete params='autocomplete="off" ${params!}'>
     <#if btnShowPassword>
     <@cBtn class='secondary toggle-password' type='button' label='' params='data-bs-toggle="#${passId}" aria-pressed="false" title="#i18n{portal.theme.labelPasswordShow}" tabindex="0"'>
-         <@parisIcon name='eye-off' class='main-info-color' />
+         <@cIcon name='eye-off' class='main-info-color' />
     </@cBtn>
     </#if>
     </@cInput>
 </@cInputGroup>
 <#nested>
-<#if errorMsg !=''><@cFormError passId errorMsg /></#if>
-<#if passwordMeter>
-<@cPasswordMeter id=passId label=passLabel url=pmUrl />
 <#if isScriptPasswordLoaded?? && isScriptPasswordLoaded>
 <#else>
+<#if passwordMeter><@cPasswordMeter id=passId label=passLabel url=pmUrl /></#if>
 <script>
+<#if passwordMeter>
 /* PASSWORD */
 function passwordStrength(field, defaultLabel, labelStrength) {
   const password = document.getElementById(field);
@@ -174,10 +174,10 @@ function getPasswordStrength(v) {
   }
   const regex = /[!#$%()*+,\-./:;=?@[\]^_{|}]/u;
   if (regex.test(v)) {
-    $(".special_char").addClass("text-success");
+    document.querySelectorAll(".special_char").forEach(el => el.classList.add("text-success"));
     hasSpecialChar = true;
   } else {
-    $(".special_char").removeClass("text-success");
+    document.querySelectorAll(".special_char").forEach(el => el.classList.remove("text-success"));
     hasSpecialChar = false;
   }
   if (
@@ -237,7 +237,7 @@ function generateLocalPassword() {
   }
   return password;
 }
-
+</#if>
 /* PASSWORD */
 <#if !isTogglePasswordLoaded?? || !isTogglePasswordLoaded>
 function togglePasswordIcon( field, show=false ){
@@ -268,59 +268,97 @@ function togglePasswordIcon( field, show=false ){
         btnToggle.attr('title','#i18n{portal.theme.labelPasswordShow}');
     }
   }
+
+}
+
+function togglePasswordIcon(field, show = false) {
+  const input = document.querySelector(field);
+  const btnToggle = input.parentElement.querySelector('.toggle-password');
+  const icon = btnToggle ? btnToggle.querySelector('.paris-icon use') : null;
+  
+  if (!input || !icon) return;
+  
+  if (show && show !== undefined) {
+    icon.setAttribute('href', '#paris-icon-eye');
+    if (input.getAttribute("type") === "password") {
+      input.setAttribute("type", "text");
+      btnToggle.setAttribute('aria-pressed', 'true');
+      btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordHide}');
+    }
+  } else {
+    if (icon.getAttribute('href') === '#paris-icon-eye') {
+      icon.setAttribute('href', '#paris-icon-eye-off');
+    } else {
+      icon.setAttribute('href', '#paris-icon-eye');
+    }
+    
+    if (input.getAttribute("type") === "password") {
+      input.setAttribute("type", "text");
+      btnToggle.setAttribute('aria-pressed', 'true');
+      btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordHide}');
+    } else {
+      input.setAttribute("type", "password");
+      btnToggle.setAttribute('aria-pressed', 'false');
+      btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordShow}');
+    }
+  }
 }
 </#if>
 document.addEventListener( "DOMContentLoaded", function(e){
+<#if passwordMeter>
     const btnGenerate = document.getElementById('password-${passId!}-generator');
     const fieldDest = document.getElementById('${passId!}');
     <#if pmConfirmFieldId !=''>const fieldConfirmDest = document.getElementById('${pmConfirmFieldId!}');</#if>
     btnGenerate.addEventListener( "click", (e) => {
       <#if pmUrl !=''>
-        $.ajax({
-            url: "${pmUrl!}",
-            type: "GET",
-            dataType: "json",
-            success: function ( data) {
-                fieldDest.value = data.password;
-                togglePasswordIcon( '#${passId}', true ) 	
-                <#if pmConfirmFieldId !=''>
-                fieldConfirmDest.value = data.password;
-                togglePasswordIcon( '#${pmConfirmFieldId}', true )
-                </#if>
-                showIndicator( '${passId}', '${pmLabel}', '#i18n{portal.theme.labelPasswordStrength}'  )
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-            }
+        fetch("${pmUrl!}", {
+        method: "GET",
+        headers: {
+            "Accept": "application/json"
+        }
+        })
+        .then(response => response.json())
+        .then(data => {
+        fieldDest.value = data.password;
+        togglePasswordIcon('#${passId}', true);
+        <#if pmConfirmFieldId !=''>
+        fieldConfirmDest.value = data.password;
+        togglePasswordIcon('#${pmConfirmFieldId}', true);
+        </#if>
+        showIndicator('${passId}', '${pmLabel}', '#i18n{portal.theme.labelPasswordStrength}');
+        })
+        .catch(error => {
+        console.error('Error fetching password:', error);
         });
       <#else>
         fieldDest.value = generateLocalPassword()
         togglePasswordIcon( '#${passId}', true ) 	
         <#if pmConfirmFieldId !=''>
-        fieldConfirmDest.value = generateLocalPassword()
+        fieldConfirmDest.value = fieldDest.value
         togglePasswordIcon( '#${pmConfirmFieldId}', true )
         </#if>
         showIndicator('${passId}', '${pmLabel}', '#i18n{portal.theme.labelPasswordStrength}')
       </#if>  
     });
     passwordStrength( '${passId}', '${pmLabel}', '#i18n{portal.theme.labelPasswordStrength}' )
+</#if>
 <#if !isTogglePasswordLoaded?? || !isTogglePasswordLoaded>
-    $(".toggle-password").each( function(){ 
-        $(this).on('click', function(e){
-            const fieldId = $(this).attr('data-bs-toggle')
-            togglePasswordIcon( fieldId )
-        })
-        $(this).bind("keydown keypress",  function(e) {
-            if(  e.which === 32 ){
-                e.preventDefault();
-                const fieldId = $(this).attr('data-bs-toggle')
-                togglePasswordIcon( fieldId )
-            }
-        })
-    })
+  document.querySelectorAll(".toggle-password").forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      const fieldId = this.getAttribute('data-bs-toggle');
+      togglePasswordIcon(fieldId);
+    });
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === ' ' || e.keyCode === 32) {
+        e.preventDefault();
+        const fieldId = this.getAttribute('data-bs-toggle');
+        togglePasswordIcon(fieldId);
+      }
+    });
+  });
 </#if>
 });
 </script>
 <#assign isScriptPasswordLoaded = true />
-</#if>
 </#if>
 </#macro>

@@ -60,6 +60,7 @@ Snippet:
 <#local cId><#if id=''>${name}-${random()}<#else>${id}</#if></#local>
 <#local idMsg><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>
+<#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
 <#if type !='button'>
 <div class="<#if class='form-check'>form-check<#else> ${class}</#if><#if selectionButton> btn-selection</#if><#if inline> form-check-inline</#if><#if errorMsg!=''> is-invalid</#if><#if labelClass?contains('visually-hidden')> hidden-label</#if>">
 <#if selectionButton><div class="selection-check"></#if>
@@ -81,7 +82,6 @@ Snippet:
     <#if !showRequiredLabel><#local cFCRequired=false /></#if>
     <@cLabel label=label! class=cFCClass for=cId required=cFCRequired  />
 </#if>  
-<#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
 </#macro>
 <#--
 Macro: cFormCheckGroup

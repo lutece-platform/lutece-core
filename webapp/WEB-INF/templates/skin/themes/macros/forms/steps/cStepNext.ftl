@@ -34,7 +34,7 @@ Snippet:
 		<@cContainer>
 			<@cTitle class='title' level=titleLevel params='title="${title}" data-step="${step}"'>
 				<@cText type='span' class='step-number'>${step}</@cText>
-				<@cText type='span'>${title}</@cText>
+				<#if !title?contains('hidden')><@cText type='span'>${title?replace(' - hidden','')}</@cText></#if>
 			</@cTitle>
 		</@cContainer>
 	</@cSection>

@@ -35,12 +35,12 @@ Snippet:
     <@cInput name='search' id='search' placeholder='Search...' />
 
 -->
-<#macro cLabel label class='' id='' params='' for='' showLabel=true required=false deprecated...>
+<#macro cLabel label class='' id='' params='' for='' showLabel=true required=false showRequiredLabel=true deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isrequired=required />
-<#if propagateRequired?? && propagateRequired ><#local isrequired=true /></#if>
-<label class="<#if class!=''>${class}</#if><#if !showLabel> visually-hidden</#if>"<#if for!=''> for="${for!}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-${label!}<#if isrequired>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{portal.theme.labelMandatory}">*</span></#if>
-<#nested>
+<label class="form-label<#if class!=''> ${class}</#if><#if !showLabel> visually-hidden</#if>"<#if for!=''> for="${for!}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+${label!}<#if isrequired && showRequiredLabel><span class="main-danger-color ms-xxs" title="#i18n{portal.theme.labelMandatory}">*</span></#if>
+<#nested> 
 </label>
+<#if propagateRequired?? && propagateRequired ><#local isrequired=true /></#if>
 </#macro>

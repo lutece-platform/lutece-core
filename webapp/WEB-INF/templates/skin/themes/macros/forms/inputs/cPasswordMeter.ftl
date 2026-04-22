@@ -33,7 +33,7 @@ Snippet:
 <@cRow id='password-${id}-wrapper' params=params>
     <@cCol cols='12 col-md-7'>
         <@cBtn id='password-${id}-generator' type='button' label='' class='pass font-xs text-underline p-0 mt-xs font-medium-bold cursor-pointer' >
-            <@parisIcon name='refresh' class='main-info-color password-refresh' /> ${labelRefresh!}
+            <@cIcon name='refresh' class='main-info-color password-refresh' /> ${labelRefresh!}
         </@cBtn>
     </@cCol>
     <@cCol cols='12 col-md-5'>

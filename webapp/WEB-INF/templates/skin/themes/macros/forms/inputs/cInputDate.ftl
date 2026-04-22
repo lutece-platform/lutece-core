@@ -52,7 +52,7 @@ Snippet:
     </@cFormRow>
 
 -->
-<#macro cInputDate name id='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=true required=false disabled=false readonly=false helpMsg='' errorMsg='' params='' deprecated...>
+<#macro cInputDate name id='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=true required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#local typeLocal><#if type='date'>date<#else>text</#if></#local>
@@ -62,7 +62,7 @@ Snippet:
 <#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
 <#if errorMsg !='' && errorMsg !='_error'><@cFormError idLocal errorMsg /></#if>
 <@cInputGroup>
-  <@cInput id=idLocal type=typeLocal name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=required html5Required=html5Required disabled=disabled readonly=readonly errorMsg=errorInput params=params />
+  <@cInput id=idLocal type=typeLocal class='form-control datepicker-input ${inputClass!}' name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=required html5Required=html5Required disabled=disabled readonly=readonly errorMsg=errorInput params=params />
   <#if icon && type='datepicker'>
   <@cInputGroupAddonText>
       <@cIcon name='agenda' id=idLocal />
@@ -71,6 +71,36 @@ Snippet:
   <#nested>
 </@cInputGroup>
 <#if type='datepicker'><@getThemeDatePicker idField=idLocal options=options /></#if>
+<#if separator>
+<script>
+(function() {
+	const el = document.getElementById('${idLocal}');
+	if (!el) return;
+	const yr = new Date().getFullYear();
+	const localeSample = new Date(yr, 11, 31).toLocaleDateString(document.documentElement.lang || navigator.language);
+	const sep = localeSample.replace(/[0-9]/g, '').charAt(0) || '/';
+	const partLengths = localeSample.split(sep).map(function(p) { return p.length; });
+	if (el.placeholder === '') {
+		el.placeholder = localeSample.replace(/31/, 'jj').replace(/12/, 'mm').replace(String(yr), 'aaaa');
+	}
+	el.addEventListener('input', function(e) {
+		if (e.inputType === 'deleteContentBackward' || e.inputType === 'deleteContentForward') return;
+		const digits = el.value.replace(/[^0-9]/g, '');
+		let result = '', di = 0;
+		for (let i = 0; i < partLengths.length; i++) {
+			const chunk = digits.substring(di, di + partLengths[i]);
+			if (chunk.length === 0) break;
+			if (i > 0) result += sep;
+			result += chunk;
+			di += partLengths[i];
+		}
+		if (result !== el.value) {
+			el.value = result;
+		}
+	});
+})();
+</script>
+</#if>
 </#macro>
 <#--
 Macro: cInputDateRange
@@ -106,7 +136,7 @@ Snippet:
     <@cInputDateRange name='stay' label='Stay dates' placeholder=['Check-in','Check-out'] required=[true,true] />
 
 -->  
-<#macro cInputDateRange name label=['#i8n{theme.labelDateStart}','#i8n{theme.labelDateEnd}'] showLabel=[false,false] id='dtRange' class='' type='datepicker' icon=true options={} value='' placeholder=['',''] required=[false,false] disabled=[false,false] readonly=[false,false] helpMsg='' errorMsg='' params='' deprecated...>
+<#macro cInputDateRange name label=['#i8n{theme.labelDateStart}','#i8n{theme.labelDateEnd}'] showLabel=[false,false] id='dtRange' class='' type='datepicker' icon=true options={} value='' placeholder=['',''] required=[false,false] disabled=[false,false] readonly=[false,false] helpMsg='' errorMsg='' separator=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#local typeLocal><#if type='date'>date<#else>text</#if></#local>
@@ -117,18 +147,20 @@ Snippet:
   <#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
   <#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
   <@cInputGroup>
-    <@cInput id='${idLocal}_range_start' type=typeLocal name=name value=valLocal placeholder=placeholder[0] required=required[0] disabled=disabled[0] readonly=readonly[0]  />
-    <@cInput id='${idLocal}_range_end'type=typeLocal name='${name}_range_end' placeholder=placeholder[1] required=required[1] disabled=disabled[1] readonly=readonly[1] />
+    <@cInput id='${idLocal}_range_start' type=typeLocal class='form-control datepicker-input' name=name value=valLocal placeholder=placeholder[0] required=required[0] disabled=disabled[0] readonly=readonly[0] separator=separator />
+    <@cInput id='${idLocal}_range_end' type=typeLocal class='form-control datepicker-input' name='${name}_range_end' placeholder=placeholder[1] required=required[1] disabled=disabled[1] readonly=readonly[1] separator=separator />
     <#if icon>
     <@cInputGroupAddon>
         <@cInputGroupAddonText tag='div'>
-            <@cIcon name='agenda' id=idLocal />
-        </@cInputGroupAddonText>   
-    </@cInputGroupAddon> 
+            <@cIcon 'agenda' '${idLocal}' />
+        </@cInputGroupAddonText>
+    </@cInputGroupAddon>
     </#if>
     <#nested>
   </@cInputGroup>
 </@cBlock>
-<#local optionsLocal><#if options?size = 0>{inputs:["${idLocal}_range_start","${idLocal}_range_start"]}</#if></#local>
-<#if type='datepicker'><@getThemeDatePicker idField='' range=true rangeIdWrapper='${idLocal}' options=options /></#if>
+<#if type='datepicker'>
+<@getThemeDatePicker idField='${idLocal}_range_start' options=options />
+<@getThemeDatePicker idField='${idLocal}_range_end' options=options />
+</#if>
 </#macro>

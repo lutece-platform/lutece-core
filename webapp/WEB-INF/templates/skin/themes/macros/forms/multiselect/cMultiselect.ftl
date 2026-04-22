@@ -41,8 +41,9 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id!=''>${id}<#else>msg-${random()!}</#if></#local>
 <#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>
+<#if errorMsg!=''><@cFormError cId errorMsg /></#if>
 <div class="multiselect ${class}" id="${cId}" data-maxoptions="${maxSelectedOptions}"> 
-	<div class="tags-container mt-sm"></div>
+	<div class="tags-container mt-s"></div>
     <div class="dropdown">
         <button class="form-select multi-select <#if disabled>disabled</#if>" type="button" id='btn-${cId}' data-bs-toggle="dropdown" aria-expanded="false"<#if disabled> disabled</#if> params=${params}>
             ${labelOptionSelection!}
@@ -52,5 +53,4 @@ Snippet:
         </ul>
     </div>
 </div>
-<#if errorMsg!=''><@cFormError cId errorMsg /></#if>
 </#macro>

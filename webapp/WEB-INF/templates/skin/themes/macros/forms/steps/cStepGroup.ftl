@@ -48,86 +48,69 @@ Snippet:
     </@cStepGroup>
 
 -->
-<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.theme.labelAdd}' labelDelIteration='#i18n{portal.theme.labelDelete}' headerParams='' isFieldset=false noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params='' deprecated...>
+<#macro cStepGroup title iterable=false iteration=0 iterationMax=10 labelAddIteration='#i18n{portal.theme.labelAdd}' labelDelIteration='#i18n{portal.theme.labelDelete}' headerParams='' isFieldset=true noFieldsetTitleLevel=3 titleClass='h3' help='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if isFielset>
-	<@cFormRow>
-		<@cSection class='w-100 flex-fill step-group ${class!}' id=id params=params >
-			<@cContainer>
-				<@cRow>
-					<#local headerClass>col-12 px-3 <#if iterable && iteration gt 0>d-flex justify-content-between</#if></#local>
-					<#local legendTitle>${title!} <#if iteration gt 0>(${iteration+1})</#if></#local>
-					<@cFieldset legend=legendTitle class=headerClass params=headerParams >
-					<#if iterable && iteration gt 0>
-						<@cSection type='div' class='text-right'>
-							<@cBtn label='' class='danger btn-mini ms-m' params='name="action_removeIteration" value="rm_${iteration}"' >
-								<@parisIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline>
-							</@cBtn>
-						</@cSection>
-					</#if>
-					<#if help!=''>
-						<@cRow>
-							<@cCol>
-								<@cAccordion id=iteration title='${i18n( "theme.msgHelpAbout", title )}' class='outline my-l' >
-								${help}
-								</@cAccordion>
-							</@cCol>
-						</@cRow>
-					</#if>
-					<#nested>
-					<#if iterable && iteration lte iterationMax>
-						<@cRow>
-							<@cCol class='px-4 px-sm-5 d-flex justify-content-end'>
-								<@cBtn label='' class='mini ms-m' params='name="action_addIteration" value="add_${iteration}"'>
-									<@parisIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline>
-								</@cBtn>
-							</@cCol>
-						</@cRow>
-					</#if>
-				</@cFieldset>
-				</@cRow>
-			</@cContainer>
-		</@cSection>
-	</@cFormRow>
-<#else>
-	<@cFormRow>
-		<@cSection class='w-100 flex-fill step-group ${class!}' id=id params=params >
-			<@cContainer>
-				<@cRow>
-					<#local headerClass>col-12 px-3 <#if iterable && iteration gt 0>d-flex justify-content-between</#if></#local>
-					<@cSection type='div' class=headerClass params=headerParams >
-						
-						<@cTitle level=3 class='title main-color'>${title!} <#if iteration gt 0>(${iteration+1})</#if></@cTitle>
-						<#if iterable && iteration gt 0>
-							<@cSection type='div' class='text-right'>
-								<@cBtn label='' class='danger btn-mini ms-m' params='name="action_removeIteration" value="rm_${iteration}"' >
-									<@parisIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline>
-								</@cBtn>
-							</@cSection>
-						</#if>
-					</@cSection>
-				</@cRow>
-				<#if help!=''>
-					<@cFormRow>
-						<@cCol>
-							<@cAccordion id=iteration title='${i18n( "theme.msgHelpAbout", title )}' class='outline my-l' >
-							${help}
-							</@cAccordion>
-						</@cCol>
-					</@cFormRow>
+<#local cId><#if id=''>id-${random()}<#else>${id}</#if></#local>
+<@cBlock class='step-group'>
+<#if title != ''>
+	<#if isFieldset>
+		<@cFieldset class='w-100 flex-fill ${class!}' id=cId params=params >
+		<#local legendClass><#if iterable && iteration gt 0>d-flex justify-content-between align-items-center</#if></#local>
+		<@cLegend label='' id='legend-${cId}' class=legendClass params='tabindex="-1" ${headerParams}'>
+			<@cInline class='${titleClass} group-title'>	
+			${title!}<#if iteration gt 0> (${iteration+1})</#if>
+			<#if iterable && iteration gt 0>
+			<div class="btn btn-group ms-auto mt-0">
+			<@cBtn label='' class='danger me-sm ms-auto mt-0' params='name="action_removeIteration" value="rm_${iteration}"' >
+				<@cIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline>
+			</@cBtn>
+			</#if>
+			<#if iterable && iteration lte iterationMax>
+			<@cBtn label='' class='primary ms-auto' params='name="action_addIteration" value="add_${iteration}"'>
+				<@cIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline>
+			</@cBtn>
+			<#if iterable && iteration gt 0></div></#if>
+			</#if>
+			</@cInline>
+		</@cLegend>
+		<#if help!=''>
+			<@cRow>
+				<@cCol>${help}</@cCol>
+			</@cRow>
+		</#if>
+		<#nested>
+		</@cFieldset>
+	<#else>
+		<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params >
+			<#local localTitleClass><#if iterable && iteration gt 0>d-flex justify-content-between align-items-center</#if></#local>
+			<@cTitle level=noFieldsetTitleLevel class='${titleClass} ${localTitleClass} group-title' params='tabindex="-1" ${headerParams}'>
+				${title!}<#if iteration gt 0> (${iteration+1})</#if>
+				<#if iterable && iteration gt 0>
+				<div class="btn btn-group ms-auto mt-0">
+				<@cBtn label='' class='danger me-sm ms-auto mt-0' params='name="action_removeIteration" value="rm_${iteration}"' >
+					<@cIcon name='trash' /><@cInline class='btn-label'>${labelDelIteration}</@cInline>
+				</@cBtn>
 				</#if>
-				<#nested>
 				<#if iterable && iteration lte iterationMax>
-					<@cFormRow>
-						<@cCol class='px-4 px-sm-5 d-flex justify-content-end'>
-							<@cBtn label='' class='mini ms-m' params='name="action_addIteration" value="add_${iteration}"'>
-								<@parisIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline>
-							</@cBtn>
-						</@cCol>
-					</@cFormRow>
+				<@cBtn label='' class='primary ms-auto' params='name="action_addIteration" value="add_${iteration}"'>
+					<@cIcon name='plus' /><@cInline class='btn-label'>${labelAddIteration}</@cInline>
+				</@cBtn>
+				<#if iterable && iteration gt 0></div></#if>
 				</#if>
-			</@cContainer>
-		</@cSection>
-	</@cFormRow>
+			</@cTitle>
+			<#if help!=''>
+				<@cRow>
+					<@cCol>${help}</@cCol>
+				</@cRow>
+			</#if>
+			<#nested>
+		</@cBlock>
+	</#if>
+<#else>
+	<@cBlock class='w-100 flex-fill ${class!}' id=cId params=params >
+		<#if help!=''><@cRow><@cCol>${help}</@cCol></@cRow></#if>
+		<#nested>
+	</@cBlock>
 </#if>
+</@cBlock>
 </#macro>

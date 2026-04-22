@@ -42,13 +42,13 @@ Snippet:
     <@cInputTimeSlot name='slot' beginHour='09:00' endHour='17:00' />
 
 -->
-<#macro cInputTimeSlot name legend='' legendClass='' beginHour='00:00' endHour='23:59' step=0 btnAction='[name="action_doSaveStep"]' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' hideErrorMsg=true id='' class='form-control' params='' deprecated...>
+<#macro cInputTimeSlot name legend='' legendClass='' labelFrom='#i18n{themeparisfr.labelFrom}' labelTo='#i18n{themeparisfr.labelTo}' showLabel=false beginHour='00:00' endHour='23:59' step=0 btnAction='[name="action_doSaveStep"]' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' hideErrorMsg=true id='' class='form-control' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#local inputParams>min="${beginHour!}" max="${endHour!}"</#local>
 <@cFieldset legend=legend! legendClass=legendClass id=idLocal! required=required helpMsg=helpMsg params=params >
 	<@cRow>
-		<@cCol cols='6 col-md-4 col-lg-2 ps-0 ms-xs'>
+		<@cCol cols='6 col-md-4 col-lg-2'>
 			<@cField label='#i18n{portal.theme.labelFrom}' id='label_${name}_begin!' for='${name}_begin!' required=required showLabel=false > 
 				<@cInput type='time' class=class!'' id='${idLocal}_begin' name='${name}_begin' autocomplete=autocomplete required=required html5Required=html5Required value=beginHour! disabled=disabled! readonly=readonly! errorMsg=errorMsg! hideErrorMsg=hideErrorMsg step=step?number params=inputParams />
 			</@cField>	
@@ -61,7 +61,7 @@ Snippet:
 	</@cRow>
 </@cFieldset>
 <script src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-utils.min.js"></script>
-<script src="${commonsSiteSharedPath}${commonsSiteJsPath}input-time-polyfill.y11.js"></script>
+<script src="${commonsSiteThemePath}${commonsSiteJsPath}plugins/forms/input-time-polyfill.y11.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	const browserInfo = getBrowserInfo();

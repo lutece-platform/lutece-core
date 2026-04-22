@@ -37,23 +37,30 @@ Snippet:
     <@cQuantityPicker name='seats' label='Number of seats' showLabel=true minQty='1' maxQty='20' required=true />
 
 -->
-<#macro cQuantityPicker name label='Choisir une quantité' showLabel=false labelDecrease='Retirer une unité' labelIncrease='Ajouter une unité'  minQty='0' maxQty='10' id='' class='' required=false disabled=false helpMsg='' errorMsg=''>
+<#macro cQuantityPicker name label='Choisir une quantité' showLabel=false labelDecrease='Retirer une unité' labelIncrease='Ajouter une unité'  minQty='0' maxQty='10' id='' class='' required=false disabled=false helpMsg='' errorMsg='' hideErrorMsg=false params='' deprecated...>
+<@deprecatedWarning args=deprecated />
 <#local isInvalid='' />
 <#local cId><#if id!=''>${id!}<#else>${name!}</#if></#local>
+<#local params>data-min="${minQty}" data-max="${maxQty}" ${params}</#local>
 <#if errorMsg!=''><#assign isInvalid>is-invalid</#assign></#if>
 <#if helpMsg !=''><@cFormHelp idMsg helpMsg /></#if>
-<@cBlock class='quantity-picker d-flex ${isInvalid} ${class!}'>
+<#if errorMsg !=''>
+<#local errorClass>
+<#if hideErrorMsg>visually-hidden</#if></#local>
+<@cFormError idMsg errorMsg errorClass />
+</#if>
+<@cBlock class='quantity-picker ${isInvalid} ${class!}'>
     <@cLabel label=label for=cId showLabel=showLabel required=required />
     <@cInputGroup class='w-auto'>
         <@cBtn label='&#8722;' class='light quantity-btn decrement-quantity' params='aria-label="${labelDecrease}" data-direction="-1"' />
-        <@cInput type='number' name=name id=cId value=minQty class='form-control quantity-input' params="data-min='${minQty}' data-max='${maxQty}'" disabled=disabled required=required />
+        <@cInput type='number' name=name id=cId value=minQty class='form-control quantity-input' disabled=disabled required=required params=params />
         <@cBtn label='&#43;' class='light quantity-btn increment-quantity' params='aria-label="${labelIncrease}" data-direction="1"'  />
     </@cInputGroup>
 </@cBlock>
-<#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
 <script>
-document.addEventListener("click", function(ev) {
-  if ( ev.target.classList.contains('quantity-btn') ) {
+document.addEventListener( 'DOMContentLoaded', function() {
+  document.addEventListener( 'click', function(ev) {
+   if ( ev.target.classList.contains('quantity-btn') ) {
     const parentDiv = ev.target.closest('.quantity-picker');
     const input = parentDiv.querySelector('input[name="${name}"]');
     const currentQty = parseInt(input.value);
@@ -68,19 +75,20 @@ document.addEventListener("click", function(ev) {
     parentDiv.querySelector(".increment-quantity").disabled = (newQty === maxQty);
 
     input.value = newQty;
-  }
-});
-
-document.addEventListener("blur", function(ev) {
-  if (ev.target.matches('input[name="quantity"]')) {
-    const input = ev.target;
-    const parentDiv = input.closest('.quantity-picker');
-    let minQty = parseInt(input.getAttribute("data-min"));
-    if (input.value.trim() === "") {
-      input.value = minQty;
-      parentDiv.querySelector(".decrement-quantity").disabled = true;
     }
-  }
-}, true);
+  });
+
+  document.addEventListener("blur", function(ev) {
+    if ( ev.target.name ==='quantity') {
+      const input = ev.target;
+      const parentDiv = input.closest('.quantity-picker');
+      let minQty = parseInt(input.getAttribute("data-min"));
+      if (input.value.trim() === "") {
+        input.value = minQty;
+        parentDiv.querySelector(".decrement-quantity").disabled = true;
+      }
+    }
+  }, true);
+});
 </script>
 </#macro>
