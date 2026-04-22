@@ -165,9 +165,9 @@
 		    <version>1.19.0</version>
 		</dependency>
         <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
-            <version>${mysql.version}</version>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${mariadb.version}</version>
             <scope>runtime</scope>
         </dependency>
         
