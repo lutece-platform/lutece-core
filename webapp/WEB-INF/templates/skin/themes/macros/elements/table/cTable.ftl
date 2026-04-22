@@ -41,7 +41,7 @@ Snippet:
 -->  
 <#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsible=true class='' id='changeme' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<#if id='changeme'><!-- ATTENTION : Risque de duplication d'id ! --></#if>
+<#if id='changeme'><!-- #i18n{portal.theme.tableDuplicateidWarning} --></#if>
 <div class="<#if id!=''>d-none d-md-block </#if>table-responsive<#if breakpoint!=''>${breakpoint}</#if>">
 <table class="table<#if themed> ctable<#if collapsible> xs-collapsed</#if></#if><#if class !=''> ${class}</#if>"<#if summary !=''> summary="${summary!}"</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if> >
 <#if caption !=''> <caption class="visually-hidden">${caption!}</caption></#if>
@@ -54,12 +54,12 @@ Snippet:
 <#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" /></#if>
 <#if asc>
 <a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" class="text-decoration-none" role="button">
-	<@parisIcon name='arrow-up' class='main-color' />
+	<@cIcon name='arrow-up' class='main-color' />
 </a>
 </#if>
 <#if desc>
 <a href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}" class="text-decoration-none" role="button">
-	<@parisIcon name='arrow-down' class='main-color' />
+	<@cIcon name='arrow-down' class='main-color' />
 </a>
 </#if>
 </#macro>
