@@ -20,8 +20,9 @@ Parameters:
  -->
 <#macro cConsentTac title='Ce site' lang='"privacyUrl":"Politique de cookie","alertBigPrivacy": "Afin de rendre ses services plus performants, d’améliorer l’expérience utilisateur et la manière dont les contenus vous sont présentés, nous analysons la façon dont <a href=https://www.paris.fr/pages/cookies-234>le service numérique est utilisé grâce à des cookies</a>"' privacyLink='//www.paris.fr/pages/mentions-legales-235#confidentialite-et-protection-des-donnees' showIcon=true iconPosition='bottomRight' cookieMenu='Gestion des cookies' cookiePolicyLink='https://www.paris.fr/pages/cookies-234' alertConfidentialityLabel='Politique de confidentialité' alertConfidentialityLink='https://www.paris.fr/pages/mentions-legales-235#confidentialite-et-protection-des-donnees' hashtag='cookiepolicycitelibre' cookiename='cookieparisfr' nocredit=false  deprecated...>
 <@deprecatedWarning args=deprecated />
-<link rel="stylesheet" href="${commonsSiteThemePath}${commonsSiteJsPath}vendor/tarteaucitron/css/theme.css" >
-<script src="${commonsSiteThemePath}${commonsSiteJsPath}vendor/tarteaucitron/tarteaucitron.min.js"></script>
+<link rel="stylesheet" href="${commonsSharedThemePath}${commonsSiteJsPath}vendor/tarteaucitron/css/tarteaucitron.min.css" >
+<link rel="stylesheet" href="${commonsSharedThemePath}${commonsSiteJsPath}vendor/tarteaucitron/css/theme-tac.css" >
+<script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/tarteaucitron/tarteaucitron.min.js"></script>
 <!-- Service Mon Paris -->
 <script>
 <#if lang !=''>
