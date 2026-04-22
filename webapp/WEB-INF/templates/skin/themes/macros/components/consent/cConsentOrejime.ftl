@@ -18,7 +18,7 @@ Parameters:
 @param - cookiename - string - optional - Nom du cookie posé pour le consentement (par défaut: 'cookiecitelibre')
 @param - nocredit - boolean - optional - Option permettant d'afficher les crédit du projet TarteAuCitron (par défaut: false)
  -->
-<#macro cConsentOrejime title='Ce site' privacyLink='//www.paris.fr/pages/mentions-legales-235#confidentialite-et-protection-des-donnees' cookieMenu='Gestion des cookies' cookiePolicyLink='https://www.paris.fr/pages/cookies-234' alertConfidentialityLabel='Politique de confidentialité' alertConfidentialityLink='https://www.paris.fr/pages/mentions-legales-235#confidentialite-et-protection-des-donnees' cookiename='parisfr' nocredit=false  deprecated...>
+<#macro cConsentOrejime title='#i18n{portal.theme.consentTitle}' services=[] lang='"privacyUrl":"#i18n{portal.theme.consentPrivacyUrl}","alertBigPrivacy": "#i18n{portal.theme.consentAlertBigPrivacy}"' privacyLink='#i18n{portal.theme.consentPrivacyLink}' showIcon=true iconPosition='bottomRight' cookieMenu='#i18n{portal.theme.consentCookieMenu}' cookiePolicyLink='#i18n{portal.theme.consentCookiePolicyLink}' alertConfidentialityLabel='#i18n{portal.theme.consentAlertConfidentialityLabel}' alertConfidentialityLink='#i18n{portal.theme.consentAlertConfidentialityLink}' hashtag='cookiepolicycitelibre' cookiename='parisfr' nocredit=false deprecated...>
 <@deprecatedWarning args=deprecated />
 <link rel="stylesheet" href="${commonsSiteThemePath}${commonsSiteJsPath}vendor/orejime/orejime-standard.css" >
 <link rel="stylesheet" href="${commonsSiteThemePath}${commonsSiteJsPath}vendor/orejime/orejime-parisfr.css" >
