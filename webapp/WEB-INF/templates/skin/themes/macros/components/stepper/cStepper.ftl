@@ -34,12 +34,12 @@ Snippet:
     <@cStepper steps=mySteps haspicto=true title=true />
 
 -->
-
-<#macro cStepper steps=steps haspicto=false hasidx=false title=false showMore=false labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' params='' deprecated...>
+<#macro cStepper steps=steps haspicto=false hasidx=false title=false titleLevel=3 showMore=false labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="stepper">
     <ol class="stepper-list <#if hasidx> list-idx</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
     <#if steps?has_content>
+		<#assign nbSteps = steps?size >
         <#list steps as step>
 	        <#if class='pie'>
 	            <li class="step-${step?index + 1}<#if step.status!=''> ${step.status!}</#if>">
@@ -49,40 +49,41 @@ Snippet:
 	            <li class="bs-stepper-line"></li>
 	        <#else>
 	            <li<#if step.status??> class="${step.status}"</#if><#if step.status?? && (step.status == 'in-progress')>aria-current="step"</#if>>
-	                <#if haspicto>
-	                    <figure class="p-3" data-idx="${step?index + 1}" aria-hidden="true">
-	                        <img src="${step.url!}" class="img-fluid" title="" alt="${step.title!}" aria-hidden="true">
-	                    </figure>
-	                <#else>
-	                    <div class="idx" data-idx="${step?index + 1}" aria-hidden="true">
-	                    	<#if step.status?? && (step.status == 'done')>
-	                    		<@parisIcon name='check' title='' class='main-color' params='aria-label="Etape Validée"' />
-	                    	<#else>
-	                        	<span>${step?index + 1}</span>
-	                        </#if>
-	                    </div>
-	                </#if>
-	                <#if step.content??>
-	                    <#if showMore>
-	                        <#local content>
-	                        	<div class="infostep-more">
-		                            <span class="extra visually-hidden">${step.content}</span>
-		                         </div>
-		                        <button type='button' class='btn btn-infostep-more main-color' aria-label="Afficher le contenu">
-                                    <@parisIcon name='plus' />
-                                    <span class="button-label">${labelMore}</span>
-                                </button>
-	                        </#local>
-	                    </#if>
-	                </#if>
-	                <#if title>
-	                    <div class="stepper-title">
-	                        <h2 id="step-title-${step?index + 1}" class="h3 text-center font-weight-bold mt-2">${step.title!}</h2>
-	                        <#if step.content??><p class="infostep-more">${content!}</p></#if>
-	                    </div>
-	                <#else>
-	                    <p id="step-title-${step?index + 1}" class="mt-2">${step.title!}<#if step.content??> ${content!}</#if></p>
-	                </#if>
+				<#if haspicto>
+					<figure class="p-3 mb-0" data-idx="${step?index + 1}">
+						<img src="${step.url!}" class="img-fluid" alt="${step.title!}">
+					</figure>
+				<#else>
+					<div class="idx" data-idx="${step?index + 1}" aria-hidden="true">
+						<#if step.status?? && (step.status == 'done')>
+							<@cIcon name='check' title='' class='main-color' params='aria-label="#i18n{portal.theme.labelStepDone}"' />
+						<#else>
+							<span>${step?index + 1}</span>
+						</#if>
+					</div>
+				</#if>
+					<p class="d-block d-sm-none text-secondary fs-5">${i18n('portal.theme.labelStepOf', step?index+1, nbSteps)}</p>
+					<#local content>
+					<div class="stepper-footer">
+						<button type='button' class='btn btn-stepper-more main-color btn-mini'>
+							<@cIcon name='plus' />
+							<span class="button-label">${labelMore}</span>
+						</button>
+						<button type="button" class="btn btn-stepper-less main-color btn-mini">
+							<@cIcon name='minus' />
+							<span class="button-label">#i18n{portal.util.labelClose}</span>
+						</button>
+					</div>
+					</#local>
+				<#if title>
+					<h${titleLevel} id="step-title-${step?index + 1}" class="stepper-title text-center font-weight-bold mt-2">${step.title!}</h${titleLevel}>
+					<#if step.content??><div class="stepper-content<#if showMore> truncate</#if>">${step.content!}</div></#if>
+					<#if step.content?? && showMore>${content!}</#if>
+				<#else>
+					<p id="step-title-${step?index + 1}" class="stepper-title">${step.title!}</p>
+					<#if step.content??><div class="stepper-content<#if showMore> truncate</#if>">${step.content!}</div></#if>
+					<#if step.content?? && showMore>${content!}</#if>
+				</#if>
 	            </li>
 	            <li class="bs-stepper-container">
 		            <#if step.status?? && (step.status == 'in-progress')>
