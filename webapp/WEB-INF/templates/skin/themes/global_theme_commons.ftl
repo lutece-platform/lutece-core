@@ -12,7 +12,6 @@
 <#assign commonsSiteSharedPath='themes/shared/' /> 
 <#assign commonsSiteThemePath='themes/skin/${commonsGlobalThemeCode}/' /> 
 <#assign commonsSharedThemePath='themes/skin/shared/' />
-<#assign commonsMacrosPath='${commonsGlobalThemeCode}/macros/' />
 <#assign commonsTplPath='${commonsGlobalThemeCode}/tpl/' />
 <#assign commonsSiteJsPath='js/' /> 
 <#assign commonsSiteJsModulesPath='js/modules/' /> 
