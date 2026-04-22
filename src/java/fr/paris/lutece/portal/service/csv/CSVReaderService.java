@@ -47,7 +47,10 @@ import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
 
-import au.com.bytecode.opencsv.CSVReader;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.exceptions.CsvValidationException;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
@@ -177,7 +180,9 @@ public abstract class CSVReaderService
 
             if ( inputStreamReader != null )
             {
-                CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
+                CSVReader csvReader = new CSVReaderBuilder( inputStreamReader )
+                        .withCSVParser( new CSVParserBuilder( ).withSeparator( getCSVSeparator( ) ).withQuoteChar( getCSVEscapeCharacter( ) ).build( ) )
+                        .build( );
 
                 return readCSVFile( inputStreamReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine, locale, strBaseUrl );
             }
@@ -219,7 +224,9 @@ public abstract class CSVReaderService
 
         try ( FileReader fileReader = new FileReader( file ) )
         {
-            CSVReader csvReader = new CSVReader( fileReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
+            CSVReader csvReader = new CSVReaderBuilder( fileReader )
+                    .withCSVParser( new CSVParserBuilder( ).withSeparator( getCSVSeparator( ) ).withQuoteChar( getCSVEscapeCharacter( ) ).build( ) )
+                    .build( );
 
             return readCSVFile( fileReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine, locale, strBaseUrl );
         }
@@ -300,7 +307,9 @@ public abstract class CSVReaderService
             {
                 InputStream inputStream = new ByteArrayInputStream( importedPhysicalFile.getValue( ) );
                 InputStreamReader inputStreamReader = new InputStreamReader( inputStream );
-                CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
+                CSVReader csvReader = new CSVReaderBuilder( inputStreamReader )
+                        .withCSVParser( new CSVParserBuilder( ).withSeparator( getCSVSeparator( ) ).withQuoteChar( getCSVEscapeCharacter( ) ).build( ) )
+                        .build( );
 
                 return readCSVFile( inputStreamReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine, locale, strBaseUrl );
             }
@@ -350,7 +359,7 @@ public abstract class CSVReaderService
                 nLineNumber++;
                 csvReader.readNext( );
             }
-            catch( IOException e )
+            catch( IOException | CsvValidationException e )
             {
                 AppLogService.error( e.getMessage( ), e );
 
@@ -383,7 +392,7 @@ public abstract class CSVReaderService
                     nLineNumber++;
                     strLine = csvReader.readNext( );
                 }
-                catch( IOException e )
+                catch( IOException | CsvValidationException e )
                 {
                     AppLogService.error( e.getMessage( ), e );
 
@@ -457,7 +466,7 @@ public abstract class CSVReaderService
                 {
                     strLine = csvReader.readNext( );
                 }
-                catch( IOException e )
+                catch( IOException | CsvValidationException e )
                 {
                     strLine = null;
                     AppLogService.error( e.getMessage( ), e );
