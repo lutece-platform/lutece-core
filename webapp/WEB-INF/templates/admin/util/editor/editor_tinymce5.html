@@ -134,6 +134,17 @@ document.addEventListener( "DOMContentLoaded", function() {
       // TODO : Add a way to set the theme in the editor
       ti[0].contentDocument.body.dataset.bsTheme = 'light';
     });
-})
+});
+// Register save hook for luteceXssBypass
+window.luteceEditorSaveHooks = window.luteceEditorSaveHooks || [];
+window.luteceEditorSaveHooks.push( function( ) {
+    tinymce.triggerSave( );
+    // Trim %20 spaces around href values (TinyMCE quicklink artifact with Freemarker markers)
+    document.querySelectorAll( '[data-xss-bypass="true"]' ).forEach( function( field ) {
+        if ( field.value ) {
+            field.value = field.value.replace( /href="(%20)*(.*?)(%20)*"/g, 'href="$2"' );
+        }
+    });
+});
 </script>
 </#macro>
