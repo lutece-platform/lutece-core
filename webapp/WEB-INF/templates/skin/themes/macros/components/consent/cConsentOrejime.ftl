@@ -1,22 +1,30 @@
-<#-- Macro: cConsent
+<#-- 
+Macro: cConsentOrejime
 
-Description: Choose your Consent management platform. Default TarteAuCitron - https://tarteaucitron.io/fr /
+Description: Composant de gestion du consentement basé sur la librairie Orejime de Boscop
 
 Parameters:
 
-@param - title - string - optional - le titre du consentement (par défaut: 'Ce site')
-@param - messages - string - optional - Messages personnalisés pour le consentement (par défaut: messages Paris.fr)
-@param - lang - string - optional - Objet JSON des traductions personnalisées pour remplacer les textes par défaut (par défaut: '')
-@param - privacyLink - string - optional - Lien vers la page de protection des données personnelles de Paris.fr (par défaut: '//www.paris.fr/pages/mentions-legales-235#confidentialite-et-protection-des-donnees')
-@param - showIcon - boolean - optional - Option permettant d'afficher le bouton "Gestion des cookies" (par défaut: true)
-@param - iconPostion - string - optional - Option permettant d'afficher le bouton "Gestion des cookies" à gauche ou à droite, en haut ou en bas (par défaut: 'bottomRight')
-@param - cookieMenu - string - optional - Libellé du ien footer pour gérer les cookies (par défaut: 'Gestion des cookies')
-@param - cookiePolicyLink - string - optional - Lien vers la page Gestion des cookies de Paris.fr. (par défaut: 'https://www.paris.fr/pages/cookies-234')
-@param - alertConfidentialityLabel - string - optional - Libellé de l'alerte de confidentialité (par défaut: 'Politique de confidentialité')
-@param - alertConfidentialityLink - string - optional - Lien vers la politique de confidentialité (par défaut: 'https://www.paris.fr/pages/mentions-legales-235#confidentialite-et-protection-des-donnees')
-@param - hashtag - string - optional - Identifiant pour modal de gestion du consentement (par défaut: 'cookiepolicycitelibre')
-@param - cookiename - string - optional - Nom du cookie posé pour le consentement (par défaut: 'cookiecitelibre')
-@param - nocredit - boolean - optional - Option permettant d'afficher les crédit du projet TarteAuCitron (par défaut: false)
+- title - string - optional - le titre du consentement (par défaut: 'Ce site')
+- messages - string - optional - Messages personnalisés pour le consentement (par défaut: messages Paris.fr)
+- lang - string - optional - Objet JSON des traductions personnalisées pour remplacer les textes par défaut (par défaut: '')
+- privacyLink - string - optional - Lien vers la page de protection des données personnelles de Paris.fr (par défaut: '//www.paris.fr/pages/mentions-legales-235#confidentialite-et-protection-des-donnees')
+- showIcon - boolean - optional - Option permettant d'afficher le bouton "Gestion des cookies" (par défaut: true)
+- iconPostion - string - optional - Option permettant d'afficher le bouton "Gestion des cookies" à gauche ou à droite, en haut ou en bas (par défaut: 'bottomRight')
+- cookieMenu - string - optional - Libellé du ien footer pour gérer les cookies (par défaut: 'Gestion des cookies')
+- cookiePolicyLink - string - optional - Lien vers la page Gestion des cookies de Paris.fr. (par défaut: 'https://www.paris.fr/pages/cookies-234')
+- alertConfidentialityLabel - string - optional - Libellé de l'alerte de confidentialité (par défaut: 'Politique de confidentialité')
+- alertConfidentialityLink - string - optional - Lien vers la politique de confidentialité (par défaut: 'https://www.paris.fr/pages/mentions-legales-235#confidentialite-et-protection-des-donnees')
+- hashtag - string - optional - Identifiant pour modal de gestion du consentement (par défaut: 'cookiepolicycitelibre')
+- cookiename - string - optional - Nom du cookie posé pour le consentement (par défaut: 'cookiecitelibre')
+- nocredit - boolean - optional - Option permettant d'afficher les crédit du projet TarteAuCitron (par défaut: false)
+ 
+Showcase:
+- desc: Consentement avec la librairie Orejime - @cConsentOrejime
+- newFeature: true
+
+Snippet:
+ 
  -->
 <#macro cConsentOrejime title='#i18n{portal.theme.consentTitle}' services=[] lang='"privacyUrl":"#i18n{portal.theme.consentPrivacyUrl}","alertBigPrivacy": "#i18n{portal.theme.consentAlertBigPrivacy}"' privacyLink='#i18n{portal.theme.consentPrivacyLink}' showIcon=true iconPosition='bottomRight' cookieMenu='#i18n{portal.theme.consentCookieMenu}' cookiePolicyLink='#i18n{portal.theme.consentCookiePolicyLink}' alertConfidentialityLabel='#i18n{portal.theme.consentAlertConfidentialityLabel}' alertConfidentialityLink='#i18n{portal.theme.consentAlertConfidentialityLink}' hashtag='cookiepolicycitelibre' cookiename='parisfr' nocredit=false deprecated...>
 <@deprecatedWarning args=deprecated />
@@ -38,14 +46,15 @@ window.orejimeConfig = {
 		{
 			id: 'mandatory',
 			title: 'Mon Paris',
-			description: "Ceci ne peut pas être désactivé car c'est requis pour le bon fonctionnement du service.  ",
-			isMandatory: false
+			description: "Ceci ne peut pas être désactivé car c'est requis pour le bon fonctionnement du service. ",
+			isMandatory: true
 		},
 		{
 			id: 'matomo',
 			title: 'Matomo Analytics',
-			description: 'This can be disabled',
-      isMandatory: false
+			description: "Ceci ne peut pas être désactivé car c'est requis pour le bon fonctionnement du service. ",
+      isMandatory: true,
+      isExempt: true
 		}
 	],
 	privacyPolicyUrl: '${privacyLink}',

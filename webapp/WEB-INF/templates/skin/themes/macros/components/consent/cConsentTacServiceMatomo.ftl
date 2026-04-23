@@ -7,6 +7,9 @@ Parameters:
 - id (number, optional): The Matomo site ID. Default: 0.
 - host (string, optional): The Matomo server URL. Default: ''.
 
+showcase:
+- desc: Enregistrement de Matomo Analytics pour TarteAuCitron - @cConsentTacServiceMatomo
+
 Snippet:
 
     Register Matomo analytics inside cConsentTac:

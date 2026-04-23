@@ -6,6 +6,9 @@ Description: Generates a TarteAuCitron service registration entry to declare a t
 Parameters:
 - code (string, optional): The TarteAuCitron service code (e.g., 'youtube', 'matomo', 'twitter', 'dailymotion', 'googlefonts'). Default: 'monparis'.
 
+showcase:
+- desc: Enregistrement d'un service pour TarteAuCitron - @cConsentTacService
+
 Snippet:
 
     Register a YouTube service:

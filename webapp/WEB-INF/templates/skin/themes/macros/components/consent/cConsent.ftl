@@ -1,26 +1,33 @@
-<#-- Macro: cConsent
+<#-- 
+Macro: cConsent
 
-Description: Sélecteur de plateforme de gestion du consentement. Délègue à @cConsentTac (TarteAuCitron)
+Description: Sélecteur de plateforme de gestion du consentement. Délègue à @cConsentTac (TarteAuCitron) 
 ou @cConsentOrejime (Orejime) selon la propriété de thème configurable dans le Back-Office Lutèce
 (Menu "Propriétés du site" / clé de datastore 'theme.site_property.consent.platform').
-Valeurs attendues : 'tac' pour TarteAuCitron, 'orejime' pour Orejime. Valeur par défaut : 'orejime'.
+Valeurs attendues : 'tac' pour TarteAuCitron, 'orejime' pour Orejime. Valeur par défaut : 'tac'.
 
 Paramètres :
+- title - string - optional - le titre du consentement (par défaut: 'Ce site')
+- lang - string - optional - (TAC uniquement) Objet JSON des traductions personnalisées (par défaut: '')
+- privacyLink - string - optional - Lien vers la page de protection des données personnelles
+- showIcon - boolean - optional - (TAC uniquement) Affichage du bouton "Gestion des cookies" (par défaut: true)
+- iconPosition - string - optional - (TAC uniquement) Position du bouton (par défaut: 'bottomRight')
+- cookieMenu - string - optional - Libellé du lien footer pour gérer les cookies (par défaut: 'Gestion des cookies')
+- cookiePolicyLink - string - optional - Lien vers la page Gestion des cookies
+- alertConfidentialityLabel - string - optional - Libellé de l'alerte de confidentialité
+- alertConfidentialityLink - string - optional - Lien vers la politique de confidentialité
+- hashtag - string - optional - (TAC uniquement) Identifiant pour modal de consentement (par défaut: 'cookiepolicycitelibre')
+- cookiename - string - optional - Nom du cookie posé pour le consentement (par défaut: 'parisfr')
+- nocredit - boolean - optional - (TAC uniquement) Retrait du crédit TarteAuCitron (par défaut: false)
+- platform - string - optional - Force la plateforme ('tac' ou 'orejime'), outrepasse la valeur BO (par défaut: '')
 
-@param - title - string - optional - le titre du consentement (par défaut: 'Ce site')
-@param - lang - string - optional - (TAC uniquement) Objet JSON des traductions personnalisées (par défaut: '')
-@param - privacyLink - string - optional - Lien vers la page de protection des données personnelles
-@param - showIcon - boolean - optional - (TAC uniquement) Affichage du bouton "Gestion des cookies" (par défaut: true)
-@param - iconPosition - string - optional - (TAC uniquement) Position du bouton (par défaut: 'bottomRight')
-@param - cookieMenu - string - optional - Libellé du lien footer pour gérer les cookies (par défaut: 'Gestion des cookies')
-@param - cookiePolicyLink - string - optional - Lien vers la page Gestion des cookies
-@param - alertConfidentialityLabel - string - optional - Libellé de l'alerte de confidentialité
-@param - alertConfidentialityLink - string - optional - Lien vers la politique de confidentialité
-@param - hashtag - string - optional - (TAC uniquement) Identifiant pour modal de consentement (par défaut: 'cookiepolicycitelibre')
-@param - cookiename - string - optional - Nom du cookie posé pour le consentement (par défaut: 'parisfr')
-@param - nocredit - boolean - optional - (TAC uniquement) Retrait du crédit TarteAuCitron (par défaut: false)
-@param - platform - string - optional - Force la plateforme ('tac' ou 'orejime'), outrepasse la valeur BO (par défaut: '')
- -->
+Showcase:
+- desc: Consentement - @cConsent
+- newFeature: true
+
+Snippet:
+
+-->
 <#include "cConsentOrejime.ftl" />
 <#include "cConsentOrejimeService.ftl" />
 <#include "cConsentTac.ftl" />
@@ -32,7 +39,7 @@ Paramètres :
 <#if consentPlatform == ''>
 <#assign dsPlatform=dskey('portal.theme.site_property.consent.platform.select')!'' />
 <#if dsPlatform?starts_with('DS') || dsPlatform == ''>
-<#assign consentPlatform='orejime' />
+<#assign consentPlatform='tac' />
 <#else>
 <#assign consentPlatform=dsPlatform?lower_case />
 </#if>
