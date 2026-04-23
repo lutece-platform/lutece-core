@@ -33,6 +33,10 @@
  */
 package fr.paris.lutece.portal.web.xss;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
@@ -53,10 +57,10 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper
     {
 	try
 	{
-		if ( super.getParameter( name ) == null )
-		{
-			return null;
-		}
+	    if ( super.getParameter( name ) == null )
+	    {
+		return null;
+	    }
 
 	    return XSSSanitizerService.sanitize ( super.getParameter( name ) );
 	} 
@@ -79,10 +83,10 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper
 	{
 	    try
 	    {
-	    	if ( values[ i ] != null )
-	    	{
-	    		values[ i ] = XSSSanitizerService.sanitize ( ( values[ i ] ) );	
-	    	}
+		if ( values[ i ] != null )
+		{
+		    values[ i ] = XSSSanitizerService.sanitize ( ( values[ i ] ) );	
+		}
 	    } 
 	    catch ( XSSSanitizerException e )
 	    {
@@ -91,5 +95,44 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper
 	    }
 	}
 	return values;
+    }
+
+    @Override
+    public Map<String,String[ ]> getParameterMap(  )
+    {
+	Map<String,String[ ]> map = super.getParameterMap ( );
+	if ( map == null )
+	{
+	    return null;
+	}
+	
+	Map<String,String[ ]> sanitizedMap = new HashMap<>();
+	
+	for ( Map.Entry<String, String[]> entry : map.entrySet( ) )
+	{
+
+	    if ( entry.getValue( ) != null )
+	    {
+		sanitizedMap.put( entry.getKey( ), Arrays.stream( entry.getValue( ) )
+			.map( val -> {
+			    try
+			    {
+				return XSSSanitizerService.sanitize( val );
+			    } 
+			    catch ( XSSSanitizerException e )
+			    {
+				AppLogService.error ( "XSS Sanitizer error", e );
+				return null;
+			    }
+			} )
+			.toArray( String[ ] :: new ) );
+	    }
+	    else
+	    {
+		sanitizedMap.put( entry.getKey( ), null ); 
+	    }
+
+	}
+	return sanitizedMap;
     }
 }
