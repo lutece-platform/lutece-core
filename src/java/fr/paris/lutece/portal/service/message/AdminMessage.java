@@ -250,6 +250,17 @@ public class AdminMessage implements Serializable
     }
 
     /**
+     * Sets the Url of the message box Ok button
+     *
+     * @param strUrl
+     *            the new Url
+     */
+    public void setUrl( String strUrl )
+    {
+        _strUrl = strUrl;
+    }
+
+    /**
      * Returns the Url of the message box Ok button
      * 
      * @return the Url of the Ok button

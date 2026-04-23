@@ -146,6 +146,7 @@ public class AdminMenuJspBean implements Serializable
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
     private static final String MESSAGE_PASSWORD_REDIRECT = "portal.users.message.password.ok.redirect";
     private static final String LOGGER_ACCESS = "lutece.adminaccess";
+    private static final String JSP_URL_MODIFY_DEFAULT_USER_PASSWORD = "jsp/admin/user/ModifyDefaultUserPassword.jsp";
 
     private static String _strStylesheets;
     private static boolean _bResetAdminStylesheets;
@@ -478,32 +479,38 @@ public class AdminMenuJspBean implements Serializable
         // Mandatory Fields
         if ( StringUtils.isEmpty( strCurrentPassword ) || StringUtils.isEmpty( strNewPassword ) || StringUtils.isEmpty( strConfirmNewPassword ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_URL_MODIFY_DEFAULT_USER_PASSWORD, AdminMessage.TYPE_STOP );
         }
 
         // Test the difference between the two fields of new password
         if ( !strNewPassword.equals( strConfirmNewPassword ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING, JSP_URL_MODIFY_DEFAULT_USER_PASSWORD,
+                    AdminMessage.TYPE_STOP );
         }
 
         String strUrl = AdminUserService.checkPassword( request, strNewPassword, user.getUserId( ) );
 
         if ( StringUtils.isNotEmpty( strUrl ) )
         {
+            AdminMessage checkMessage = AdminMessageService.getMessage( request );
+            if ( checkMessage != null )
+            {
+                checkMessage.setUrl( JSP_URL_MODIFY_DEFAULT_USER_PASSWORD );
+            }
             return strUrl;
         }
 
         // Test of the value of the current password
         if ( !password.check( strCurrentPassword ) )
         {
-            return AdminMessageService.getMessageUrl( request, PASSWORD_ERROR, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PASSWORD_ERROR, JSP_URL_MODIFY_DEFAULT_USER_PASSWORD, AdminMessage.TYPE_STOP );
         }
 
         // Test of control of difference between the new password and the current one
         if ( strCurrentPassword.equals( strNewPassword ) )
         {
-            return AdminMessageService.getMessageUrl( request, PASSWORD_CURRENT_ERROR, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PASSWORD_CURRENT_ERROR, JSP_URL_MODIFY_DEFAULT_USER_PASSWORD, AdminMessage.TYPE_STOP );
         }
         if ( !_securityTokenService.validate( request, TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE ) )
         {
