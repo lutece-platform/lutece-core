@@ -100,10 +100,24 @@ public final class ProgressManagerService
      */
     public String registerFeed( String strProgressFeedName, int nTotalItems )
     {
+        return registerFeed( strProgressFeedName, nTotalItems, false );
+    }
+    
+    /**
+     * register new progress feed returns a generated token to identify the feed for rest webservice
+     * 
+     * @param strProgressFeedName
+     * @param nTotalItems
+     * @param isPublic
+     * @return the generated token
+     */
+    public String registerFeed( String strProgressFeedName, int nTotalItems, boolean isPublic )
+    {
         ProgressFeed feed = new ProgressFeed( );
         feed.setId( strProgressFeedName );
         feed.setNbItemTotal( nTotalItems );
-
+        feed.setPublic( isPublic );
+        
         String strToken = UUID.randomUUID( ).toString( );
         feed.setToken( strToken );
 
@@ -123,16 +137,28 @@ public final class ProgressManagerService
     }
 
     /**
-     * register new progress feed
+     * check if feed exists
      * 
      * @param strFeedToken
-     * @return
+     * @return true if exists
      */
     public boolean isRegistred( String strFeedToken )
     {
         return ( _progressFeeds.get( strFeedToken ) != null );
     }
 
+    /**
+     * chek if feed is public
+     * 
+     * @param strFeedToken
+     * @return
+     */
+    public boolean isPublic( String strFeedToken )
+    {
+        return ( _progressFeeds.get( strFeedToken ) != null && _progressFeeds.get( strFeedToken ).isPublic( ) );
+    }
+
+    
     /**
      * increment nb of success items
      * 
