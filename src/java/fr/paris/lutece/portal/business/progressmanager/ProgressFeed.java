@@ -53,6 +53,8 @@ public class ProgressFeed implements Serializable
     private int _nNbItemSuccess = 0;
 
     private int _nNbItemFailure = 0;
+    
+    private boolean _isPublic = false;
 
     private List<String> _report = new ArrayList<>( );
 
@@ -197,5 +199,24 @@ public class ProgressFeed implements Serializable
     public void addReport( List<String> strReportList )
     {
         _report.addAll( strReportList );
+    }
+
+    /**
+     * set public
+     * 
+     */
+    public void setPublic( boolean isPublic )
+    {
+	_isPublic = isPublic;
+    }
+    
+    /**
+     * check if feed is public
+     * 
+     * @return true if public
+     */
+    public boolean isPublic( )
+    {
+	return _isPublic;
     }
 }
