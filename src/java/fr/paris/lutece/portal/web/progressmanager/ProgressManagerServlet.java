@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.web.progressmanager;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.progressmanager.ProgressManagerService;
 import fr.paris.lutece.util.json.ErrorJsonResponse;
 import fr.paris.lutece.util.json.JsonResponse;
@@ -100,30 +102,38 @@ public class ProgressManagerServlet extends HttpServlet
     @Override
     public void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
-        response.setContentType( CONTENT_TYPE );
-        PrintWriter out = response.getWriter( );
+	
 
         // token
         String strToken = (String) request.getParameter( PARAMETER_TOKEN );
 
         if ( strToken == null || strToken.isEmpty( ) )
         {
-            out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
-            out.flush( );
-            out.close( );
-            return;
+            response.sendError( HttpServletResponse.SC_BAD_REQUEST );
+     	    return;
         }
 
         ProgressManagerService progressManagerService = CDI.current( ).select( ProgressManagerService.class ).get( );
 
+        // Authenticated Admin user only service
+        AdminUser adminUser = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
+     	
+        if ( adminUser == null && !progressManagerService.isPublic( strToken ) )
+        {
+     	    response.sendError( HttpServletResponse.SC_FORBIDDEN );
+     	    return;
+     	}
+     	
         if ( !progressManagerService.isRegistred( strToken ) )
         {
-            out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
-            out.flush( );
-            out.close( );
-            return;
+            response.sendError( HttpServletResponse.SC_NOT_FOUND );
+     	    return;
         }
 
+        // send infos
+        response.setContentType( CONTENT_TYPE );
+        PrintWriter out = response.getWriter( );
+        
         if ( request.getParameter( PARAMETER_PROGRESS ) != null )
         {
             out.println( JsonUtil.buildJsonResponse( new JsonResponse( progressManagerService.getProgressStatus( strToken ) ) ) );
