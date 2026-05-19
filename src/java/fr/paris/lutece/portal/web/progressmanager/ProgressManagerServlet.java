@@ -137,8 +137,6 @@ public class ProgressManagerServlet extends HttpServlet
         if ( request.getParameter( PARAMETER_PROGRESS ) != null )
         {
             out.println( JsonUtil.buildJsonResponse( new JsonResponse( progressManagerService.getProgressStatus( strToken ) ) ) );
-            out.flush( );
-            out.close( );
             return;
         }
         else
@@ -159,16 +157,11 @@ public class ProgressManagerServlet extends HttpServlet
                 mapResponse.put( ATTRIBUTE_NAME_LAST_LINE, iFromLine + reportLines.size( ) );
                 mapResponse.put( ATTRIBUTE_NAME_LINES, reportLines );
                 out.println( JsonUtil.buildJsonResponse( new JsonResponse( mapResponse ) ) );
-                out.flush( );
-                out.close( );
                 return;
             }
             else
             {
                 out.println( JsonUtil.buildJsonResponse( new ErrorJsonResponse( STATUS_NOT_FOUND ) ) );
             }
-
-        out.flush( );
-        out.close( );
     }
 }

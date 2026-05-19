@@ -1370,8 +1370,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         PrintWriter out = response.getWriter( );
         out.write( StringUtils.trim(strExportedUsers) );
-        out.flush( );
-        out.close( );
 
         return null;
     }

@@ -77,38 +77,48 @@ public class PortalServlet extends AbstractSiteMultipartServlet
         LocalVariables.setLocal( getServletConfig( ), request, response );
         try
         {
-            response.setHeader( "Cache-Control", "no-cache" ); // HTTP 1.1
-            response.setDateHeader( "Expires", 0 ); // prevents caching at the proxy server
-            response.setContentType( "text/html" );
-            
+            if ( !response.isCommitted( ) )
+            {
+                response.setHeader( "Cache-Control", "no-cache" ); // HTTP 1.1
+                response.setDateHeader( "Expires", 0 ); // prevents caching at the proxy server
+                response.setContentType( "text/html" );
+            }
+
             String strContent = _portalJspBean.getContent( httpRequest );
-            if ( strContent != null && strContent.length( ) > 0 )
+            if ( strContent != null && strContent.length( ) > 0 && !response.isCommitted( ) )
             {
                 response.getWriter( ).println( strContent );
-                response.flushBuffer( );
             }
-            
+
         }
         catch( UserNotSignedException e )
         {
             if ( SecurityService.getInstance( ).isExternalAuthentication( ) &&
                     !SecurityService.getInstance( ).isMultiAuthenticationSupported( ) )
             {
-                response.getWriter( ).println( EXTERNAL_AUTHENTICATION_ERROR_MESSAGE );
-                response.flushBuffer( );
+                if ( !response.isCommitted( ) )
+                {
+                    response.getWriter( ).println( EXTERNAL_AUTHENTICATION_ERROR_MESSAGE );
+                }
             }
-            else
+            else if ( !response.isCommitted( ) )
             {
                 response.sendRedirect( PortalJspBean.redirectLogin( httpRequest ) );
             }
         }
         catch( SiteMessageException e )
         {
-            response.sendRedirect( AppPathService.getSiteMessageUrl( httpRequest ) );
+            if ( !response.isCommitted( ) )
+            {
+                response.sendRedirect( AppPathService.getSiteMessageUrl( httpRequest ) );
+            }
         }
         catch( PageNotFoundException e )
         {
-            response.sendError( HttpServletResponse.SC_NOT_FOUND );
+            if ( !response.isCommitted( ) )
+            {
+                response.sendError( HttpServletResponse.SC_NOT_FOUND );
+            }
         }
         finally
         {

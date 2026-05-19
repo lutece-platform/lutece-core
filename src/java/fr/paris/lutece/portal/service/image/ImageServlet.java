@@ -94,13 +94,15 @@ public class ImageServlet extends HttpServlet
                 if ( getImageExist( image ) )
                 {
                     response.setContentType( image.getMimeType( ) );
-                    try ( OutputStream out = response.getOutputStream( ) )
+                    try
                     {
+                        OutputStream out = response.getOutputStream( );
                         out.write( image.getImage( ) );
                     }
                     catch( IOException ex )
                     {
                         AppLogService.error( ERROR_MSG, ex.getMessage( ), ex );
+                        throw new AppException( ERROR_MSG, ex );
                     }
                 }
                 else
@@ -119,8 +121,9 @@ public class ImageServlet extends HttpServlet
                     File file = new File( strImageUrl );
                     response.setContentLength( (int) file.length( ) );
 
-                    try ( FileInputStream in = new FileInputStream( file ) ; OutputStream out = response.getOutputStream( ) )
+                    try ( FileInputStream in = new FileInputStream( file ) )
                     {
+                        OutputStream out = response.getOutputStream( );
                         // Copy the contents of the file to the output stream
                         byte [ ] buf = new byte [ 1024];
                         int count;
@@ -133,6 +136,7 @@ public class ImageServlet extends HttpServlet
                     catch( IOException ex )
                     {
                         AppLogService.error( ERROR_MSG, ex.getMessage( ), ex );
+                        throw new AppException( ERROR_MSG, ex );
                     }
                 }
             }

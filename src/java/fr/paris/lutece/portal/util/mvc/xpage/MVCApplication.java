@@ -199,7 +199,9 @@ public abstract class MVCApplication implements XPageApplication
             	// Check for @ResponseBody annotation
                 if (m.isAnnotationPresent(ResponseBody.class)) {
                     processResponseBody(m, request);
-                    return new XPage( ); // No XPage needed
+                    XPage xPage = new XPage( );
+                    xPage.setStandalone( true );
+                    return xPage;
                 }
             	return processAction( m, request );
             }
@@ -337,10 +339,9 @@ public abstract class MVCApplication implements XPageApplication
                 }
             }
 
-            out.flush();
-            out.close( );
         } catch (IOException e) {
             AppLogService.error("Error writing @ResponseBody content to response", e);
+            throw new AppException( "Error writing @ResponseBody content to response", e );
         }
     }
     /**
@@ -980,13 +981,15 @@ public abstract class MVCApplication implements XPageApplication
         HttpServletResponse response = LocalVariables.getResponse( );
         MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
 
-        try ( OutputStream os = response.getOutputStream( ) )
+        try
         {
+            OutputStream os = response.getOutputStream( );
             os.write( data );
         }
         catch( IOException e )
         {
             AppLogService.error( "An error occured while writing the downloaded data", e );
+            throw new AppException( "An error occured while writing the downloaded data", e );
         }
 
         XPage xPage = new XPage( );
@@ -1010,15 +1013,16 @@ public abstract class MVCApplication implements XPageApplication
         {
             PrintWriter out = response.getWriter( );
             out.print( strJSON );
-            out.flush( );
-            out.close( );
         }
         catch( IOException e )
         {
-            AppLogService.error( e.getStackTrace( ), e );
+            AppLogService.error( "An error occured while writing the JSON response", e );
+            throw new AppException( "An error occured while writing the JSON response", e );
         }
 
-        return new XPage( );
+        XPage xPage = new XPage( );
+        xPage.setStandalone( true );
+        return xPage;
     }
 
     /**
@@ -1037,15 +1041,16 @@ public abstract class MVCApplication implements XPageApplication
         {
             PrintWriter out = response.getWriter( );
             out.print( strXML );
-            out.flush( );
-            out.close( );
         }
         catch( IOException e )
         {
-            AppLogService.error( e.getStackTrace( ), e );
+            AppLogService.error( "An error occured while writing the XML response", e );
+            throw new AppException( "An error occured while writing the XML response", e );
         }
 
-        return new XPage( );
+        XPage xPage = new XPage( );
+        xPage.setStandalone( true );
+        return xPage;
     }
 
     // //////////////////////////////////////////////////////////////////////////

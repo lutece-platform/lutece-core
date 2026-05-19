@@ -117,12 +117,10 @@ public abstract class AbstractDownloadServlet extends HttpServlet
         if ( file != null )
         {
             // send the file
-            try ( OutputStream outputStream = response.getOutputStream( ) )
-            {
-                response.setContentType( file.getMimeType( ) );
-                response.setHeader( "Content-Disposition", "attachment; filename=\"" + file.getTitle( ) + "\";" );
-                outputStream.write( file.getPhysicalFile( ).getValue( ) );
-            }
+            response.setContentType( file.getMimeType( ) );
+            response.setHeader( "Content-Disposition", "attachment; filename=\"" + file.getTitle( ) + "\";" );
+            OutputStream outputStream = response.getOutputStream( );
+            outputStream.write( file.getPhysicalFile( ).getValue( ) );
         }
     }
 

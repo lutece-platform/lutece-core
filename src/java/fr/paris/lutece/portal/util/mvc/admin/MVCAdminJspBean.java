@@ -291,10 +291,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
                  }
              }
 
-             out.flush();
-             out.close( );
          } catch (IOException e) {
              AppLogService.error("Error writing @ResponseBody content to response", e);
+             throw new AppException( "Error writing @ResponseBody content to response", e );
          }
      }
     // //////////////////////////////////////////////////////////////////////////
@@ -741,25 +740,18 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     protected void download( String strData, String strFilename, String strContentType )
     {
         HttpServletResponse response = _response;
-        PrintWriter out = null;
         response.setHeader( "Content-Disposition", "attachment; filename=\"" + strFilename + "\";" );
         MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
 
         try
         {
-            out = response.getWriter( );
+            PrintWriter out = response.getWriter( );
             out.print( strData );
         }
         catch( IOException e )
         {
-            AppLogService.error( e.getStackTrace( ), e );
-        }
-        finally
-        {
-            if ( out != null )
-            {
-                out.close( );
-            }
+            AppLogService.error( "An error occured while writing the downloaded data", e );
+            throw new AppException( "An error occured while writing the downloaded data", e );
         }
     }
 
@@ -776,18 +768,17 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     protected void download( byte [ ] data, String strFilename, String strContentType )
     {
         HttpServletResponse response = _response;
-        OutputStream os;
         MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
 
         try
         {
-            os = response.getOutputStream( );
+            OutputStream os = response.getOutputStream( );
             os.write( data );
-            os.close( );
         }
         catch( IOException e )
         {
-            AppLogService.error( e.getStackTrace( ), e );
+            AppLogService.error( "An error occured while writing the downloaded data", e );
+            throw new AppException( "An error occured while writing the downloaded data", e );
         }
     }
 

@@ -41,7 +41,12 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
-        <dependency>       
+        <!-- Apache Commons Digester 3: declarative XML-to-Java object mapping engine.
+             Used by fr.paris.lutece.portal.service.plugin.PluginFile to parse Lutece plugin
+             descriptors (WEB-INF/plugins/*.xml) driven by plugin-digester-rules.xml.
+             Note: upstream project has been dormant since 2013 (last release 3.2). Input is trusted
+             (plugin XMLs shipped with server-side WARs, no user input), so the version is intentionally pinned. -->
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-digester3</artifactId>
             <version>3.2</version>
