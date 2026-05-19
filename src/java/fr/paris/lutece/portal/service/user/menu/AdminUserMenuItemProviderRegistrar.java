@@ -57,6 +57,7 @@ public class AdminUserMenuItemProviderRegistrar
     private String _strAfterName;
     private String _strBeforeName;
     private String _strName;
+    private int _nPriority;
 
     
 
@@ -160,7 +161,7 @@ public class AdminUserMenuItemProviderRegistrar
 
     /**
      * Set the name under which to register the admin user menu item provider
-     * 
+     *
      * @param strName
      *            name of the admin user menu item provider
      */
@@ -168,5 +169,28 @@ public class AdminUserMenuItemProviderRegistrar
     {
         _strName = strName;
     }
-    
+
+    /**
+     * Set the registration priority. Registrars are registered in ascending order
+     * of this value so that {@code insertAfter} / {@code insertBefore} references
+     * always exist when used.
+     *
+     * @param nPriority
+     *            registration priority (lower runs first)
+     */
+    public void setPriority( int nPriority )
+    {
+        _nPriority = nPriority;
+    }
+
+    /**
+     * Returns the registration priority.
+     *
+     * @return registration priority (lower runs first)
+     */
+    public int getPriority( )
+    {
+        return _nPriority;
+    }
+
 }

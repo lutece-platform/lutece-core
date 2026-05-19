@@ -1,5 +1,7 @@
 package fr.paris.lutece.portal.service.user.menu;
 
+import java.util.Comparator;
+
 import org.eclipse.microprofile.config.Config;
 
 import fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider;
@@ -26,18 +28,29 @@ public class AdminUserMenuItemProviderRegistrarProducer {
 	private Config _config ;
 	
 	/**
-	  * The parameter `@Observes Startup` makes sure that the dependency injection framework
-	  * calls this method on system startup. And to do that, it needs to
-	  * call registerAdminUserMenuItemProvider()`.
-	*/
-	protected void adminUserMenuItemProviderRegistrar(@Observes Startup startup) {		
-		_userMenuItemProvider.handles().forEach(bean -> {
-			AdminUserMenuItemProviderRegistrar userMenu=bean.get();
-			userMenu.setBeanName(bean.getBean().getName());
-			userMenu.setService(_service);
-		}
-		);
-		_userMenuItemProvider.forEach(action -> action.registerAdminUserMenuItemProvider());
+	 * Registers every admin user menu item provider on application startup, in
+	 * ascending order of {@link AdminUserMenuItemProviderRegistrar#getPriority()}.
+	 * Because CDI does not guarantee any iteration order on {@link Instance}, the
+	 * priority drives the registration sequence so that {@code insertAfter} /
+	 * {@code insertBefore} references always exist when used. External plugins
+	 * contributing their own registrar producer just call
+	 * {@link AdminUserMenuItemProviderRegistrar#setPriority(int)} to position
+	 * their item in the registration stream.
+	 *
+	 * @param startup
+	 *            CDI Startup event
+	 */
+	protected void adminUserMenuItemProviderRegistrar( @Observes Startup startup )
+	{
+		_userMenuItemProvider.handlesStream( )
+			.map( handle -> {
+				AdminUserMenuItemProviderRegistrar registrar = handle.get( );
+				registrar.setBeanName( handle.getBean( ).getName( ) );
+				registrar.setService( _service );
+				return registrar;
+			} )
+			.sorted( Comparator.comparingInt( AdminUserMenuItemProviderRegistrar::getPriority ) )
+			.forEach( AdminUserMenuItemProviderRegistrar::registerAdminUserMenuItemProvider );
 	}
     
 	@Produces
@@ -47,8 +60,8 @@ public class AdminUserMenuItemProviderRegistrarProducer {
 	   	AdminUserMenuItemProviderRegistrar adminMenu= new AdminUserMenuItemProviderRegistrar( );
 	   	adminMenu.setProvider(CDI.current().select(ModifyPasswordAdminUserMenuItemProvider.class).get());
 		adminMenu.setInsertAfter(_config.getOptionalValue("modifyPasswordUserMenuItemProvider.insertAfter", String.class).orElse(null));
- 	    adminMenu.setInsertBefore(_config.getOptionalValue("modifyPasswordUserMenuItemProvider.insertBefore", String.class).orElse( "accessibilityModeUserMenuItemProvider" ));
- 	    
+ 	    adminMenu.setInsertBefore(_config.getOptionalValue("modifyPasswordUserMenuItemProvider.insertBefore", String.class).orElse( null ));
+ 	    adminMenu.setPriority( 100 );
 	   	return adminMenu ;
 	}
 	@Produces
@@ -59,7 +72,7 @@ public class AdminUserMenuItemProviderRegistrarProducer {
 	   	adminMenu.setProvider(CDI.current().select(AccessibilityModeAdminUserMenuItemProvider.class).get());
 	   	adminMenu.setInsertAfter(_config.getOptionalValue("accessibilityModeUserMenuItemProvider.insertAfter", String.class).orElse("modifyPasswordUserMenuItemProvider"));
  	    adminMenu.setInsertBefore(_config.getOptionalValue("accessibilityModeUserMenuItemProvider.insertBefore", String.class).orElse( null ));
-
+ 	    adminMenu.setPriority( 200 );
 	   	return adminMenu ;
 	}
     @Produces
@@ -70,7 +83,7 @@ public class AdminUserMenuItemProviderRegistrarProducer {
     	adminMenu.setProvider(CDI.current().select(LanguageAdminUserMenuItemProvider.class).get());
     	adminMenu.setInsertAfter(_config.getOptionalValue("languageUserMenuItemProvider.insertAfter", String.class).orElse("accessibilityModeUserMenuItemProvider"));
  	    adminMenu.setInsertBefore(_config.getOptionalValue("languageUserMenuItemProvider.insertBefore", String.class).orElse( null ));
-
+ 	    adminMenu.setPriority( 300 );
     	return adminMenu ;
     }
     @Produces
@@ -81,7 +94,7 @@ public class AdminUserMenuItemProviderRegistrarProducer {
 	   	adminMenu.setProvider(CDI.current().select(DividerAdminUserMenuItemProvider.class).get());
 	    adminMenu.setInsertAfter(_config.getOptionalValue("dividerUserMenuItemProvider.insertAfter", String.class).orElse("accessibilityModeUserMenuItemProvider"));
 	    adminMenu.setInsertBefore(_config.getOptionalValue("dividerUserMenuItemProvider.insertBefore", String.class).orElse( null ));
-
+	    adminMenu.setPriority( 400 );
 	    return adminMenu;
     }
 }
