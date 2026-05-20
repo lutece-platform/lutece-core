@@ -1,5 +1,6 @@
 <@pageContainer>
 	<@pageColumn class='overflow-hidden'>
+		<@pageHeader title='#i18n{portal.theme.manage_themes.page_title}' />
 		<@row class='row-cards'>
 			<#list themes_list?filter( theme -> theme_default.codeTheme == theme.codeTheme) as theme>
 			<@columns sm=6 lg=3>

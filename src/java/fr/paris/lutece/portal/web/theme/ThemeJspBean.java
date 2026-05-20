@@ -95,7 +95,7 @@ public class ThemeJspBean extends MVCAdminJspBean
     public static final String PARAMETER_URL = "url";
 
     // Properties
-    public static final String PROPERTY_MANAGE_THEMES_PAGE_TITLE = "theme.manage_themes.page_title";
+    public static final String PROPERTY_MANAGE_THEMES_PAGE_TITLE = "portal.theme.manage_themes.page_title";
 
     // Marks
     public static final String MARK_THEMES_LIST = "themes_list";
