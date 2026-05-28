@@ -125,7 +125,12 @@ public class AuthenticationFilter implements Filter
             }
             catch( UserNotSignedException e )
             {
-                AdminAuthenticationService.getInstance( ).setLoginNextUrl( req );
+                boolean bSessionExpired = isRequestedSessionExpired( req );
+
+                if ( !bSessionExpired )
+                {
+                    AdminAuthenticationService.getInstance( ).setLoginNextUrl( req );
+                }
 
                 String strRedirectUrl = null;
 
@@ -140,7 +145,9 @@ public class AuthenticationFilter implements Filter
                 {
                     AppLogService.debug( "Access NOT granted to url : {}", ( ) -> getResquestedUrl( req ) );
 
-                    strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NOT_AUTHENTICATED, getRedirectUrl( req ),
+                    String strMessage = bSessionExpired ? Messages.MESSAGE_USER_SESSION_EXPIRED : Messages.MESSAGE_USER_NOT_AUTHENTICATED;
+
+                    strRedirectUrl = AdminMessageService.getMessageUrl( req, strMessage, getRedirectUrl( req ),
                             AdminMessage.TYPE_WARNING );
                 }
 
@@ -175,6 +182,18 @@ public class AuthenticationFilter implements Filter
         }
 
         chain.doFilter( request, response );
+    }
+
+    /**
+     * Checks whether the browser sent a session id that is no longer valid on the server.
+     *
+     * @param request
+     *            the http request
+     * @return true if the requested session has expired or has been invalidated
+     */
+    private boolean isRequestedSessionExpired( HttpServletRequest request )
+    {
+        return request.getRequestedSessionId( ) != null && !request.isRequestedSessionIdValid( );
     }
 
     /**

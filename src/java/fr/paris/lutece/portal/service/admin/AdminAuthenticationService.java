@@ -318,7 +318,9 @@ public final class AdminAuthenticationService
      */
     public AdminUser getRegisteredUser( HttpServletRequest request )
     {
-        HttpSession session = request.getSession( );
+        // Parametre a false pour ne pas recrér de nouvelle session,
+        // le but ici est juste de récupérer la session en cours
+        HttpSession session = request.getSession(false);
 
         if ( session != null )
         {
