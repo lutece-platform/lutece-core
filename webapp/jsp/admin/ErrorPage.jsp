@@ -2,6 +2,7 @@
 <%@page import="fr.paris.lutece.portal.service.admin.PasswordResetException"%>
 <%@ page isErrorPage="true" %>
 <%@ page import="fr.paris.lutece.portal.web.constants.Messages" %>
+<%@ page import="fr.paris.lutece.portal.service.admin.AdminAuthenticationService" %>
 <%@ page import="fr.paris.lutece.portal.service.util.*" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessageService" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessage" %>
@@ -40,7 +41,15 @@
     	{
     		AppLogService.error( "AccessDeniedException : " + exception.getMessage() );
     	}
-        response.sendRedirect( AdminMessageService.getMessageUrl( request , Messages.USER_ACCESS_DENIED , AdminMessage.TYPE_STOP ) );
+        if ( AdminAuthenticationService.getInstance( ).getRegisteredUser( request ) == null )
+        {
+            response.sendRedirect( AdminMessageService.getMessageUrl( request, Messages.MESSAGE_USER_SESSION_EXPIRED,
+                    AdminAuthenticationService.getInstance( ).getLoginPageUrl( ), AdminMessage.TYPE_WARNING ) );
+        }
+        else
+        {
+            response.sendRedirect( AdminMessageService.getMessageUrl( request , Messages.USER_ACCESS_DENIED , AdminMessage.TYPE_STOP ) );
+        }
     }
     else if ( exception instanceof fr.paris.lutece.portal.service.admin.PasswordResetException )
     {
