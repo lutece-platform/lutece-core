@@ -48,10 +48,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xss.XSSRequestWrapper;
 import fr.paris.lutece.util.http.MultipartUtil;
+import fr.paris.lutece.util.http.SecurityUtil;
 
 /**
  * Upload filter
@@ -60,6 +63,11 @@ public abstract class UploadFilter implements Filter
 {
     private static final String PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED = "portal.util.message.titleDefault";
     private static final String PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED = "portal.util.message.fileSizeLimitExceeded";
+    private static final String PROPERTY_TITLE_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS = "portal.util.message.titleDefault";
+    private static final String PROPERTY_MESSAGE_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS = "portal.util.message.requestParametersContainsXssCharacters";
+    private static final String PROPERTY_SUFFIX_ACTIVATE_XSS_FILTER = ".activateXssFilter";
+    private static final String PROPERTY_SUFFIX_SANITIZE_FILTER_MODE = ".sanitizeFilterMode";
+    private static final String PROPERTY_SUFFIX_XSS_CHARACTERS = ".xssCharacters";
     private static final int KILO_BYTE = 1024;
     private static final String SIZE_THRESHOLD = "sizeThreshold";
     private static final String REQUEST_SIZE_MAX = "requestSizeMax";
@@ -67,6 +75,7 @@ public abstract class UploadFilter implements Filter
     private int _nSizeThreshold = -1;
     private long _nRequestSizeMax = -1;
     private boolean _bActivateNormalizeFileName;
+    private String _strXssCharactersToBlock;
 
     /**
      * Forward the error message url depends site or admin implementation.
@@ -82,6 +91,14 @@ public abstract class UploadFilter implements Filter
      * @return Message
      */
     protected abstract String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey );
+
+    /**
+     * Get the property prefix used to read the safe-request XSS configuration ({@code .activateXssFilter},
+     * {@code .sanitizeFilterMode}, {@code .xssCharacters}) for this filter context (site or admin).
+     *
+     * @return the property prefix, without trailing dot
+     */
+    protected abstract String getSafeRequestPropertyPrefix( );
 
     /**
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
@@ -121,6 +138,26 @@ public abstract class UploadFilter implements Filter
             AppLogService.error( ex.getMessage( ), ex );
             throw new ServletException( ex.getMessage( ), ex );
         }
+
+        initXssBlockingCharacters( );
+    }
+
+    /**
+     * Read the safe-request XSS configuration and keep the list of forbidden characters to block on multipart
+     * requests, but only when the XSS filter is active in blocking (non-sanitize) mode. In sanitize mode the
+     * multipart form fields are already sanitized by {@link MultipartUtil#convert}, so no blocking is performed.
+     */
+    private void initXssBlockingCharacters( )
+    {
+        String strPrefix = getSafeRequestPropertyPrefix( );
+        boolean bActivateXssFilter = Boolean.parseBoolean( AppPropertiesService.getProperty( strPrefix + PROPERTY_SUFFIX_ACTIVATE_XSS_FILTER ) );
+        boolean bSanitizeFilterMode = Boolean.parseBoolean( AppPropertiesService.getProperty( strPrefix + PROPERTY_SUFFIX_SANITIZE_FILTER_MODE ) );
+        String strXssCharacters = AppPropertiesService.getProperty( strPrefix + PROPERTY_SUFFIX_XSS_CHARACTERS );
+
+        if ( bActivateXssFilter && !bSanitizeFilterMode && StringUtils.isNotBlank( strXssCharacters ) )
+        {
+            _strXssCharactersToBlock = strXssCharacters;
+        }
     }
 
     /**
@@ -152,6 +189,15 @@ public abstract class UploadFilter implements Filter
         	
                 MultipartHttpServletRequest multiHtppRequest = MultipartUtil.convert( _nSizeThreshold, _nRequestSizeMax, _bActivateNormalizeFileName,
                         httpRequest , httpRequest instanceof XSSRequestWrapper );
+
+                if ( _strXssCharactersToBlock != null && !SecurityUtil.containsCleanParameters( multiHtppRequest, _strXssCharactersToBlock ) )
+                {
+                    ( (HttpServletResponse) response ).sendRedirect( getMessageRelativeUrl( httpRequest,
+                            PROPERTY_MESSAGE_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS, null, PROPERTY_TITLE_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS ) );
+
+                    return;
+                }
+
                 chain.doFilter( multiHtppRequest, response );
             }
             catch( SizeLimitExceededException e )

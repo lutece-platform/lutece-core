@@ -103,20 +103,22 @@ public final class SecurityUtil
      */
     public static boolean containsCleanParameters( HttpServletRequest request, String strXssCharacters )
     {
-        String key;
-        String [ ] values;
         Enumeration<String> e = request.getParameterNames( );
 
         while ( e.hasMoreElements( ) )
         {
-            key = e.nextElement( );
-            values = request.getParameterValues( key );
+            String key = e.nextElement( );
+            String [ ] values = request.getParameterValues( key );
 
-            int length = values.length;
-
-            for ( int i = 0; i < length; i++ )
+            if ( values == null )
             {
-                if ( SecurityUtil.containsXssCharacters( request, values [i], strXssCharacters ) || SecurityUtil.containsXssCharacters( request, key, strXssCharacters )  )
+                continue;
+            }
+
+            for ( String value : values )
+            {
+                if ( SecurityUtil.containsXssCharacters( request, value, strXssCharacters )
+                        || SecurityUtil.containsXssCharacters( request, key, strXssCharacters ) )
                 {
                     _log.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS {}", ( ) -> dumpRequest( request ) );
 
