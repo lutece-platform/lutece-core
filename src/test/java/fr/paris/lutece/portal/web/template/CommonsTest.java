@@ -58,9 +58,21 @@ public class CommonsTest extends LuteceTestCase
     private static final String MARK_TEMPLATE = "template";
     private static final String MARK_MOCK_OBJECT = "mockObject";
     private static final String MARK_FOREIGN_KEYS_LIST = "id_foreigns_list";
-    private static final String [ ] CHARTERS_FOLDERS = {
-            "css", "fonts", "js", "themes"
-    };
+    private static final String[] CHARTERS_FOLDERS = { "css", "fonts", "js", "themes" };
+
+    private CommonsInclude currentCommonsInclude;
+
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        currentCommonsInclude = CommonsService.getCurrentCommonsInclude( );
+    }
+
+    protected void tearDown( ) throws Exception
+    {
+        CommonsService.activateCommons( currentCommonsInclude.getKey( ) );
+        super.tearDown( );
+    }
 
     @Test
     public void testCommonsTemplates( ) throws IOException, TemplateException
@@ -198,5 +210,4 @@ public class CommonsTest extends LuteceTestCase
         }
 
     }
-
 }
