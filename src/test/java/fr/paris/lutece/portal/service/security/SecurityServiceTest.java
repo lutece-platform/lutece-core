@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ public class SecurityServiceTest extends LuteceTestCase
         try
         {
             SecurityService securityService = SecurityService.getInstance( );
-            MokeLuteceAuthentication mockLuteceAuthentication = new MokeLuteceAuthentication( );  
+            MokeLuteceAuthentication mockLuteceAuthentication = new MokeLuteceAuthentication( );
             ReflectionTestUtils.setField( securityService, "_authenticationService", mockLuteceAuthentication );
 
             securityService.loginUser( request, strUserName, strPassword );

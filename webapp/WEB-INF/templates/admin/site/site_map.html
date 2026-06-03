@@ -1,59 +1,15 @@
-<@row>
-  <@columns>
-    <@box>
-			<#assign title>
-				#i18n{portal.site.admin_page.tabAdminMapSite} :	<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag>&#160;${page.name}
-			</#assign>
-      <@boxHeader title=title boxTools=true>
-				<@tform method='post' action='jsp/admin/site/AdminSite.jsp' type='inline' align='right' role='search'>
-					<@formGroup formStyle='inline' labelKey='#i18n{portal.site.admin_page.buttonSearchPage}' hideLabel=['all']>
-						<@inputGroup>
-							<@input type='text' id='tree_search' name='' placeHolder='#i18n{portal.site.admin_page.buttonSearchPage}' />
-							<@inputGroupItem>
-								<@button id='btn-tree_search' type='submit' title='#i18n{portal.site.admin_page.buttonSearchPage}' buttonIcon='search' hideTitle=['all'] />
-							</@inputGroupItem>
-						</@inputGroup>
-					</@formGroup>
-				</@tform>
-			</@boxHeader>
-			<@boxBody class='sitemap'>
-				<@row>
-					<@columns offsetMd=1 md=10 offsetLg=1 lg=10>
-						<div id="map" class="clearfix">
-							<@link href='jsp/admin/site/AdminSite.jsp?page_id=1'>
-							<@icon style='map-marker' /> #i18n{portal.site.page_home.label}
-							</@link>
-							${map_site}
-						</div>
-					</@columns>
-				</@row>
-			</@boxBody>
-    </@box>
-	</@columns>
-</@row>
-
-<script src="js/admin/jquery/plugins/ui/jstree/jquery.cookie.js"></script>
-<script src="js/admin/jquery/plugins/ui/jstree/jquery.jstree.js"></script>
-<script>
-	$(function($) {
-		$("#btn-tree_search").click(function () {
-			$("#tree").jstree("search" ,	$("#tree_search").val()	);
-			return false;
-		});
-
-		$("#tree_search").keypress( function ( e ) {
-				$("#tree").jstree("search" ,	$(this).val()	);
-				var $container = $("html,body");
-				var $scrollTo = $('.jstree-search:first');
-				$container.animate({scrollTop: ( $scrollTo.offset().top - $container.offset().top ) - 100, scrollLeft: 0},300);
-		});
-
-		$.cookie("jstree_select", "#node-${page.id}" );
-
-		$("#tree").jstree({
-			"themes" : {	"theme" : "classic",},
-			"cookies" : {	"save_opened" : false, },
-		"plugins" : [ "themes", "html_data", "cookies","search","ui" ]
-	});
-});
+<div class="offcanvas offcanvas-start vh-100 mh-100" tabindex="-1" id="offcanvasSiteMap" aria-labelledby="offcanvasSiteMapLabel">
+<div class="offcanvas-header">
+	<h5 class="offcanvas-title" id="offcanvasSiteMapLabel">#i18n{portal.site.admin_page.tabAdminMapSite}</h5>
+	<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
+<div class="offcanvas-body">
+${map_site}
+</div>
+</div>
+<script type="module">
+import LuteceTree from './themes/shared/modules/luteceTree.js';
+const tree = document.querySelector("#lutece-map-tree");
+const mapTree = new LuteceTree( tree );
+mapTree.selectTreeNode( '#node-${page.id}' )
 </script>

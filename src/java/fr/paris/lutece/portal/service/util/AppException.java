@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -113,6 +113,13 @@ public class AppException extends RuntimeException
 
     private void writeToLogs( )
     {
+
+        AppLogService.error( "{}", ( ) -> buildLogs( ), ( ) -> this );
+    }
+
+    private String buildLogs( )
+    {
+
         StringBuilder sb = new StringBuilder( "Critical AppException" );
 
         Throwable strRootCause = ExceptionUtils.getRootCause( this );
@@ -131,7 +138,6 @@ public class AppException extends RuntimeException
             sb.append( strMessage );
         }
 
-        String strHeader = sb.toString( );
-        AppLogService.error( strHeader, this );
+        return sb.toString( );
     }
 }

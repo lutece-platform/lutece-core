@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -191,5 +191,35 @@ public final class ValidationErrorUtil
         }
 
         return (String) value;
+    }
+    
+    /**
+     * Return the attribute name as field identifier
+     * 
+     * @param constraintViolation
+     *            The Constraint violation
+     * @param config
+     *            The config
+     * @param locale
+     *            The locale
+     * @return The field name
+     */
+    public static String getFieldId( ConstraintViolation constraintViolation, ValidationErrorConfig config, Locale locale )
+    {
+        String strField = constraintViolation.getPropertyPath( ).toString( );
+
+        // remove the variable prefix
+        String [ ] prefix = config.getVariablesPrefix( );
+
+        for ( int i = 0; i < prefix.length; i++ )
+        {
+            strField = removePrefix( strField, prefix [i] );
+        }
+
+        // set first letter in lower case
+        strField = strField.substring( 0, 1 ).toLowerCase( ) + strField.substring( 1 );
+
+
+        return strField;
     }
 }

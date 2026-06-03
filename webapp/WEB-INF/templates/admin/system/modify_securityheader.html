@@ -1,0 +1,72 @@
+<@pageContainer>
+    <@pageColumn> 
+        <@pageHeader title='${securityheader.name?html}' />
+		<@tform method='post' id='modify-securityheader-form' action='jsp/admin/system/DoModifySecurityHeader.jsp'>
+			<@input type='hidden' id='id_securityheader' name='id_securityheader' value='${securityheader.id}' />
+			<@input type='hidden' id='name' name='name' value='${securityheader.name}' />
+			<@input type='hidden' name='token' value='${token}' />
+			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelValue}' labelFor='value' mandatory=true>
+				<@input type='text' name='value' id='value' value='${securityheader.value}' maxlength=1024 />
+			</@formGroup>
+			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelDescription}' labelFor='description'>
+				<@input type='textarea' name='description' id='description' value='${securityheader.description}' maxlength=1024 cols=80 rows=5 />
+			</@formGroup>
+			
+			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader.labelType}' labelFor='type' mandatory=true>
+				<@select name='type'>
+					<#list types_list as type>
+					    <#if (type.code==selected_type)>
+							<option value="${type.code}" selected>#i18n{${"portal.securityheader.type.label."+type.code}}</option>
+						<#else>
+							<option value="${type.code}">#i18n{${"portal.securityheader.type.label."+type.code}}</option>
+						</#if>                        
+                    </#list>			
+				</@select>
+			</@formGroup>
+			
+			<@formGroup id='pageCategory_formGroup' labelKey='#i18n{portal.securityheader.modify_securityheader.labelPageCategory}' labelFor='pageCategory' mandatory=true>
+				<@select name='pageCategory'>
+					<#list page_category_list as category>
+					    <#if (category.code=selected_pageCategory)>
+							<option value="${category.code}" selected>#i18n{${"portal.securityheader.category.label."+category.code}}</option>
+						<#else>
+							<option value="${category.code}">#i18n{${"portal.securityheader.category.label."+category.code}}</option>
+						</#if>                        
+                    </#list>			
+				</@select>
+			</@formGroup>
+			
+			<@formGroup>
+				<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.securityheader.modify_securityheader.buttonModify}' color='primary' />
+				<@aButton href='jsp/admin/system/ModifySecurityHeaderConfig.jsp?id_securityheader=${securityheader.id}' buttonIcon='times' color='default' title='#i18n{portal.admin.message.buttonCancel}' />
+			</@formGroup>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>
+<script>
+
+const selectType = document.getElementById('type');
+const pageCategory = document.getElementById('pageCategory');
+const pageCategoryFormGroup = document.getElementById('pageCategory_formGroup');
+
+document.addEventListener( "DOMContentLoaded", function(){
+	if(selectType.value != "page")
+	{	   
+	   pageCategory.style.visibility = 'hidden';
+	   pageCategoryFormGroup.style.visibility = 'hidden';
+	}
+});
+
+selectType.addEventListener( 'change',  (e) => {
+	if(selectType.value == "page")
+	{
+		pageCategory.style.visibility = 'visible';
+		pageCategoryFormGroup.style.visibility = 'visible';
+	}
+	else
+	{
+	    pageCategory.style.visibility = 'hidden';
+		pageCategoryFormGroup.style.visibility = 'hidden';
+	}
+});
+</script>

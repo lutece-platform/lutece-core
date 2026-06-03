@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
  */
 public final class DateUtil
 {
+    public static final String ISO_PATTERN_DATE = "yyyy-MM-dd HH:mm:ss";
     private static final String CONSTANTE_PATTERN_DATE = "dd/MM/yyyy";
     private static final long CONSTANT_NUMBER_MILISECONDS_IN_DAY = 86400000;
 
@@ -88,7 +89,7 @@ public final class DateUtil
 
         return date;
     }
-    
+
     /**
      * Get the date from String date
      * 
@@ -282,9 +283,10 @@ public final class DateUtil
     {
         return CONSTANT_NUMBER_MILISECONDS_IN_DAY * lDays;
     }
-    
+
     /**
      * Get the Date format for the locale
+     * 
      * @param locale
      * @return
      */
@@ -311,7 +313,50 @@ public final class DateUtil
         }
 
         dateFormat.setLenient( false );
-        
+
         return dateFormat;
+    }
+
+    /**
+     * Parse a date from ISO format ( yyyy-MM-dd HH:mm:ss )
+     * 
+     * @param strDate
+     * @since 7.0.1
+     * @return parsed {@link Date} or null if the string can't be parsed
+     */
+    public static Date parseIsoDate( String strDate )
+    {
+        Date date = null;
+        if ( StringUtils.isNotBlank( strDate ) )
+        {
+            SimpleDateFormat format = new SimpleDateFormat( ISO_PATTERN_DATE );
+            try
+            {
+                date = format.parse( strDate );
+            }
+            catch( ParseException e )
+            {
+                return null;
+            }
+        }
+        return date;
+    }
+
+    /**
+     * Get the ISO format ( yyyy-MM-dd HH:mm:ss ) of a date
+     * 
+     * @param date
+     * @since 7.0.1
+     * @return string of the date in iso format, or null if param is null
+     */
+    public static String getIsoDateString( Date date )
+    {
+        String strDate = null;
+        if ( date != null )
+        {
+            SimpleDateFormat format = new SimpleDateFormat( ISO_PATTERN_DATE );
+            strDate = format.format( date );
+        }
+        return strDate;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.portal.service.template;
 
+import fr.paris.lutece.portal.business.template.AutoImport;
 import fr.paris.lutece.portal.business.template.AutoInclude;
+import fr.paris.lutece.portal.business.template.CommonsImport;
 import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -42,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Template service based on the Freemarker template engine
@@ -50,8 +53,9 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
 {
     public static final String BEAN_SERVICE = "freeMarkerTemplateService";
     private static final String PROPERTY_TEMPLATE_UPDATE_DELAY = "service.freemarker.templateUpdateDelay";
-    private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService
-            .getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY, 5 );
+    private static final String PROPERTY_TEMPLATE_AUTO_ESCAPE = "service.freemarker.templateAutoEscape";
+    private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY, 5 );
+    private static final boolean TEMPLATE_AUTO_ESCAPE = AppPropertiesService.getPropertyBoolean( PROPERTY_TEMPLATE_AUTO_ESCAPE, false );
     private static FreeMarkerTemplateService _singleton;
 
     /**
@@ -65,6 +69,7 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
         {
             FreeMarkerTemplateService service = new FreeMarkerTemplateService( );
             service.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
+            service.setTemplateAutoEscape( TEMPLATE_AUTO_ESCAPE );
             _singleton = service;
         }
 
@@ -114,4 +119,31 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
         return list;
     }
 
+    /**
+     * Load the data of all the autoImport objects and returns them as a list
+     * 
+     * @return the list which contains the data of all the autoImport objects
+     */
+    public List<AutoImport> getAutoImportsMap( )
+    {
+        CommonsImport ciCurrent = CommonsService.getCurrentCommonsImport( );
+        List<AutoImport> list = new ArrayList<>( );
+        
+        Map<String,String> mapAutoImports = getAutoImports ( );
+        
+        for ( String autoImportkey : mapAutoImports.keySet ( ) )
+        {
+            AutoImport autoImport = new AutoImport( autoImportkey, mapAutoImports.get (  autoImportkey ) );
+            for ( String strFileKey : ciCurrent.getMapFiles( ).keySet ( ) )
+            {
+                if ( ciCurrent.getMapFiles( ).get ( strFileKey ).equals( autoImport.getFilePath( ) ) )
+                {
+                    autoImport.setOwner( ciCurrent.getName( ) );
+                }
+            }
+            list.add( autoImport );
+
+        }
+        return list;
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,14 +44,16 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-import fr.paris.lutece.portal.business.rbac.RBACRole;
-import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
+import fr.paris.lutece.portal.business.role.Role;
+import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -66,9 +68,11 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.role.RoleJspBean;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
@@ -112,6 +116,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_AVAILABLE_USER_LIST = "available_users_list";
     private static final String PARAMETER_ID_USER = "id_user";
     private static final String PARAMETER_ANCHOR = "anchor";
+    private static final String PARAMETER_CAN_BE_ASSIGNED_TO_USER_FRONT = "can_be_assigned_to_user_front";
 
     // markers
     private static final String MARK_PERMISSIONS_LIST = "permissions_list";
@@ -124,6 +129,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
     private static final String MARK_ROLE_KEY = "role_key";
     private static final String MARK_RESOURCE_TYPE = "resource_type";
+    private static final String MARK_RESOURCE_LABEL = "resource_label";
     private static final String MARK_SELECT_RESOURCES_METHOD = "select_resources";
     private static final String MARK_RESOURCE_LIST_AVAILABLE = "resource_list_available";
     private static final String MARK_ASSIGNED_USERS_LIST = "assigned_users_list";
@@ -131,6 +137,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_ASSIGNED_USERS_NUMBER = "assigned_users_number";
     private static final String MARK_ITEM_NAVIGATOR = "item_navigator";
     private static final String MARK_USER_LEVELS_LIST = "user_levels";
+    private static final String MARK_EXIST_FRONT_ROLE_MAP = "exist_front_role_map";
+    private static final String MARK_EXIST_FRONT_ROLE = "exist_front_role";
+    private static final String MARK_HAS_RIGHT_MANAGE_FRONT_ROLE = "has_right_manage_front_role";
 
     // properties
     private static final String PROPERTY_CONFIRM_DELETE_ROLE = "portal.rbac.message.confirmDeleteRole";
@@ -170,6 +179,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_CONTROL_FROM_ROLE = "jsp/admin/rbac/DoRemoveControlFromRole.jsp";
     private static final String JSP_ASSIGN_USERS_TO_ROLE = "AssignUsersRole.jsp";
     private static final String JSP_URL_ASSIGN_USERS_TO_ROLE = "jsp/admin/rbac/AssignUsersRole.jsp";
+    private static final String JSP_PATH = "jsp/admin/rbac/";
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -225,11 +235,14 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         LocalizedPaginator<RBACRole> paginator = new LocalizedPaginator<>( listRole, _nItemsPerPage, url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
+        Map<String, Boolean> mapExistRole = paginator.getPageItems( ).stream( )
+                .collect( Collectors.toMap( RBACRole::getKey, x -> RoleHome.findExistRole( x.getKey( ) ) ) );
+
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_ROLE_LIST, paginator.getPageItems( ) );
-
+        model.put( MARK_EXIST_FRONT_ROLE_MAP, mapExistRole );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ROLES, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -248,6 +261,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<>( 1 );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_ROLE ) );
+        model.put( MARK_HAS_RIGHT_MANAGE_FRONT_ROLE, getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ROLE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -266,6 +281,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strRoleDescription = request.getParameter( PARAMETER_ROLE_DESCRIPTION );
+        String strCanBeAssignedToUserFront = request.getParameter( PARAMETER_CAN_BE_ASSIGNED_TO_USER_FRONT );
 
         if ( StringUtils.isBlank( strRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
@@ -289,6 +305,17 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         role.setDescription( strRoleDescription );
         RBACRoleHome.create( role );
 
+        if ( getUser( ) != null && getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) && strCanBeAssignedToUserFront != null
+                && !RoleHome.findExistRole( role.getKey( ) ) )
+        {
+            Role roleFront = new Role( );
+            roleFront.setRole( strRoleKey );
+            roleFront.setRoleDescription( strRoleDescription );
+            roleFront.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+
+            RoleHome.create( roleFront );
+        }
+
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
     }
 
@@ -307,6 +334,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         String strOldRoleKey = request.getParameter( PARAMETER_ROLE_KEY_PREVIOUS );
         String strNewRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strRoleDescription = request.getParameter( PARAMETER_ROLE_DESCRIPTION );
+        String strCanBeAssignedToUserFront = request.getParameter( PARAMETER_CAN_BE_ASSIGNED_TO_USER_FRONT );
 
         // check that new role key is valid
         if ( StringUtils.isBlank( strNewRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
@@ -324,6 +352,17 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             RBACRole role = RBACRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
             role.setDescription( strRoleDescription );
+            if ( getUser( ) != null && getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) && strCanBeAssignedToUserFront != null
+                    && !RoleHome.findExistRole( role.getKey( ) ) )
+            {
+                Role roleFront = new Role( );
+                roleFront.setRole( role.getKey( ) );
+                roleFront.setRoleDescription( strRoleDescription );
+                roleFront.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+
+                RoleHome.create( roleFront );
+            }
+
             RBACRoleHome.update( strOldRoleKey, role );
         }
         else
@@ -347,6 +386,16 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
             // update the role key in the role-resource associations
             RBACHome.updateRoleKey( strOldRoleKey, strNewRoleKey );
+
+            if ( getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) && strCanBeAssignedToUserFront != null
+                    && !RoleHome.findExistRole( strNewRoleKey ) )
+            {
+                Role roleFront = new Role( );
+                roleFront.setRole( strNewRoleKey );
+                roleFront.setRoleDescription( strRoleDescription );
+                RoleHome.create( roleFront );
+            }
+
         }
 
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strNewRoleKey;
@@ -441,6 +490,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
 
         Map<String, Object> model = new HashMap<>( );
+
+        model.put( MARK_EXIST_FRONT_ROLE, RoleHome.findExistRole( adminRole.getKey( ) ) );
+        model.put( MARK_HAS_RIGHT_MANAGE_FRONT_ROLE, getUser( ).checkRight( RoleJspBean.RIGHT_ROLES_MANAGEMENT ) );
         model.put( MARK_ROLE, adminRole );
         model.put( MARK_CONTROLED_RESOURCE_LIST, listResources );
         model.put( MARK_RESOURCE_TYPE_LIST, listResourceTypes );
@@ -461,11 +513,17 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     public String doConfirmRemoveControlFromRole( HttpServletRequest request )
     {
         String strIdControl = request.getParameter( PARAMETER_RBAC_ID );
+        int nId = Integer.parseInt( strIdControl );
+
+        RBAC rbac = RBACHome.findByPrimaryKey( nId );
         String strDeleteUrl = JSP_URL_REMOVE_CONTROL_FROM_ROLE;
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_RBAC_ID, strIdControl );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) );
-        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL,
+                new Object[ ] { rbac.getRoleKey( ), rbac.getPermissionKey( ), rbac.getResourceIdLabel( ),
+                        rbac.getResourceTypeLabel( ) },
+                null, strDeleteUrl, "", AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -526,6 +584,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_ROLE_KEY, strRoleKey );
         model.put( MARK_RESOURCE_TYPE, strResourceType );
+        model.put( MARK_RESOURCE_LABEL, resourceType.getResourceTypeLabel( ) );
         model.put( MARK_RESOURCE_LIST_AVAILABLE, bResourceListAvailable );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADD_CONTROL_TO_ROLE, getLocale( ), model );
@@ -553,7 +612,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strSelectionMethod == null ) || ( strSelectionMethod.trim( ).equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, JSP_PATH+JSP_URL_ROLES_MANAGEMENT, AdminMessage.TYPE_STOP );
         }
         else
             if ( strSelectionMethod.equals( PARAMETER_SELECTION_METHOD_CHOOSE ) )
@@ -569,7 +628,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 }
                 else
                 {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, JSP_PATH+JSP_URL_ROLES_MANAGEMENT, AdminMessage.TYPE_STOP );
                 }
     }
 
@@ -596,6 +655,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_RESOURCE_ID_LIST, resourceType.getResourceIdService( ).getResourceIdList( getLocale( ) ) );
         model.put( MARK_ROLE_KEY, strRoleKey );
         model.put( MARK_RESOURCE_TYPE, strResourceType );
+        model.put( MARK_RESOURCE_LABEL, resourceType.getResourceTypeLabel( ) );
         model.put( MARK_SELECT_RESOURCES_METHOD, strSelectionMethod );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SELECT_RESOURCE_IDS, getLocale( ), model );
@@ -861,7 +921,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             final ReferenceItem itemUser = new ReferenceItem( );
             itemUser.setCode( Integer.toString( user.getUserId( ) ) );
-            itemUser.setName( user.getLastName( ) + " " + user.getFirstName( ) + " (" + user.getAccessCode( )  + ")" );
+            itemUser.setName( user.getLastName( ) + " " + user.getFirstName( ) + " (" + user.getAccessCode( ) + ")" );
 
             boolean bAssigned = listAssignedUsers.stream( )
                     .anyMatch( assignedUser -> Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) );

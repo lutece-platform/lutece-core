@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -154,7 +154,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_PAGE_ID_CHILDPAGE = "portal.site.message.pageIdChildPage";
     private static final String MESSAGE_SAME_PAGE_ID = "portal.site.message.pageSameId";
     private static final String MESSAGE_MISSING_MANUAL_UPDATE_DATE = "portal.site.message.missingManualUpdateDate";
+    private static final String MESSAGE_LENGTH_TITLE = "portal.site.message.pageLengthTitle";
     private static IPageService _pageService = SpringContextService.getBean( "pageService" );
+
+    // Constants
+    private static final int MAX_TITLE_LENGTH = 50;
 
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
@@ -357,13 +361,13 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strPageId = request.getParameter( Parameters.PAGE_ID );
         if ( !StringUtils.isNumeric( strPageId ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         int nPageId = Integer.parseInt( strPageId );
         Page page = PageHome.getPage( nPageId );
         if ( page == null || page.getId( ) == 0 || page.getId( ) != nPageId )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_ID, strPageId );
@@ -371,7 +375,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PAGE, new Object [ ] {
                 page.getName( )
-        }, null, JSP_REMOVE_PAGE, null, AdminMessage.TYPE_CONFIRMATION, parameters );
+        }, null, JSP_REMOVE_PAGE, null, AdminMessage.TYPE_CONFIRMATION, parameters, JSP_PATH+JSP_ADMIN_SITE );
     }
 
     /**
@@ -388,13 +392,13 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strPageId = request.getParameter( Parameters.PAGE_ID );
         if ( !StringUtils.isNumeric( strPageId ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         int nPageId = Integer.parseInt( strPageId );
         Page page = PageHome.getPage( nPageId );
         if ( page == null || page.getId( ) == 0 || page.getId( ) != nPageId )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_PATH+JSP_ADMIN_SITE, AdminMessage.TYPE_ERROR );
         }
         // Checks that the page has no child
         Collection<Page> list = PageHome.getChildPagesMinimalData( nPageId );
@@ -711,7 +715,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-
+        else if ( strName.trim( ).length( ) > MAX_TITLE_LENGTH )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_LENGTH_TITLE, new Object [ ] { MAX_TITLE_LENGTH }, AdminMessage.TYPE_STOP );
+        }
         // Checks if the page name contains HTML special characters
         else
             if ( StringUtil.containsHtmlSpecialCharacters( strName ) )

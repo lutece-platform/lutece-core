@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,22 +55,40 @@ public abstract class SafeRequestFilter implements Filter
     private static final String PROPERTY_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS = "portal.util.message.requestParametersContainsXssCharacters";
     private static final String PARAM_FILTER_XSS_CHARATERS = "xssCharacters";
     private static final String ACTIVATE_XSS_FILTER = "activateXssFilter";
+    private static final String SANITIZE_FILTER_MODE = "sanitizeFilterMode";
     private String _strXssCharacters;
     private boolean _bActivateXssFilter;
+    private boolean _bSanitizeFilterMode;
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public void init( FilterConfig config ) throws ServletException
+    public void initFilter( boolean activateXssFilter, boolean sanitizeFilterMode, String strXssCharacters )
+    {
+        _bActivateXssFilter = activateXssFilter;
+        _bSanitizeFilterMode = sanitizeFilterMode;
+        _strXssCharacters = strXssCharacters;
+    }
+
+    /**
+     * init the filter from xml configuration
+     *
+     * @param config The FilterConfig
+     */
+    public void initFromFilterConfig( FilterConfig config )
     {
         String strParamValue = config.getInitParameter( PARAM_FILTER_XSS_CHARATERS );
         _strXssCharacters = strParamValue;
-        strParamValue = config.getInitParameter( ACTIVATE_XSS_FILTER );
+        String strParamActivate = config.getInitParameter( ACTIVATE_XSS_FILTER );
+        String strParamModeSanitize = config.getInitParameter( SANITIZE_FILTER_MODE );
 
-        if ( strParamValue != null )
+        if ( strParamActivate != null )
         {
-            _bActivateXssFilter = Boolean.valueOf( strParamValue );
+            _bActivateXssFilter = Boolean.valueOf( strParamActivate );
+        }
+        if ( strParamModeSanitize != null )
+        {
+            _bSanitizeFilterMode = Boolean.valueOf( strParamModeSanitize );
         }
     }
 
@@ -91,16 +109,20 @@ public abstract class SafeRequestFilter implements Filter
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        if ( _bActivateXssFilter && ( _strXssCharacters != null ) && !_strXssCharacters.trim( ).equals( "" )
+    	if ( _bActivateXssFilter && _bSanitizeFilterMode && request instanceof HttpServletRequest)
+    	{
+    		chain.doFilter(new XSSRequestWrapper((HttpServletRequest) request), response);
+    	} 
+    	else if ( _bActivateXssFilter && _strXssCharacters != null && !_strXssCharacters.trim( ).equals( "" )
                 && !SecurityUtil.containsCleanParameters( httpRequest, _strXssCharacters ) )
         {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             httpServletResponse.sendRedirect( getMessageUrl( httpRequest, PROPERTY_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS, null,
                     PROPERTY_TITLE_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS ) );
-        }
-        else
-        {
-            chain.doFilter( request, response );
+        } 
+    	else
+    	{
+            chain.doFilter(request, response);
         }
     }
 

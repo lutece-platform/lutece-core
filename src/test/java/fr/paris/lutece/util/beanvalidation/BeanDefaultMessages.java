@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,8 +42,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
-
-import java.sql.Date;
+import java.util.Date;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -72,9 +71,9 @@ public class BeanDefaultMessages implements Bean
     private int _nAge;
     @Email( )
     private String _strEmail;
-    @Past( )
+    @Past
     private Date _dateBirth;
-    @Future( )
+    @Future
     private Date _dateEndOfWorld;
     @DecimalMin( value = "1500.0" )
     private BigDecimal _salary;

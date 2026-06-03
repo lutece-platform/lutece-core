@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,17 +33,18 @@
  */
 package fr.paris.lutece;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
-import org.apache.log4j.Logger;
 
 /**
  * This Class is the main Test Suite class to launch all the unit tests of Lutece
  */
 public final class AllTests
 {
-    private static Logger _logger = Logger.getLogger( AllTests.class );
+    private static Logger _logger = LogManager.getLogger( AllTests.class );
 
     /**
      * Constructor

@@ -1,0 +1,803 @@
+<#include "utils.html">
+<@header title='Form fields'/>
+
+<@row>
+    <@columns>
+        <@box>
+			<@boxHeader title='Form fields (macro input)' />
+            <@boxBody>
+				<@fieldSet legend='Text fields'>
+					<@formGroup labelKey='Text' helpKey='Name.help' mandatory=true>
+						<@input type='text' name='name' value='${mockObject.name!\'\'}' />
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Text' helpKey='Name.help' mandatory=true&gt;
+	&lt;@input type='text' name='name' value='${mockObject.name!""}' /&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>
+					<@formGroup labelKey='Textarea' helpKey='Text.help' mandatory=true>
+						<@input type='textarea' name='text' value='${mockObject.text!\'\'}' />
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Textarea' helpKey='Text.help' mandatory=true&gt;
+	&lt;@input type='textarea' name='text' value='${mockObject.text!""}' /&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			
+			<@boxBody>
+				<@fieldSet legend='Email field'>
+					<@formGroup labelKey='Email' helpKey='Email.help' mandatory=true>
+						<@input type='email' name='email' value='${mockObject.email!\'\'}' />
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Email' helpKey='Email.help' mandatory=true&gt;
+	&lt;@input type='email' name='email' value='${mockObject.email!""}' /&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<@boxBody>
+				<@fieldSet legend='Password field'>
+					<@formGroup labelKey='Password' helpKey='Password.help' mandatory=true>
+						<@input type='password' name='password' value='${mockObject.password!\'\'}' />
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Password' helpKey='Password.help' mandatory=true&gt;
+	&lt;@input type='password' name='password' value='${mockObject.password!""}' /&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<@boxBody>
+				<@fieldSet legend='Number field'>
+					<@formGroup labelKey='Number' helpKey='Number.help' mandatory=true>
+						<@input type='number' name='elapsed_time' value='${mockObject.elapsedTime!\'\'}' />
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Number' helpKey='Number.help' mandatory=true&gt;
+	&lt;@input type='number' name='elapsed_time' value='${mockObject.elapsedTime!""}' /&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>
+				</@fieldSet>
+			</@boxBody>
+			
+			<@boxBody>
+				<@fieldSet legend='Select field'>
+					<@formGroup labelKey='IdForeign' helpKey='Select.help' mandatory=true>
+						<@select name='id_foreign' items=id_foreigns_list default_value='${mockObject.idForeign}' />
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='IdForeign' helpKey='Select.help' mandatory=true&gt;
+	&lt;@select name='id_foreign' items=id_foreigns_list default_value='${mockObject.idForeign}' /&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>					
+				</@fieldSet>
+			</@boxBody>
+			
+			<@boxBody>
+				<@fieldSet legend='Simple text field'>
+					<@formGroup labelKey='Simple text' helpKey='RegisteredEmail.help'>
+						<@staticText>
+							example@example.com
+						</@staticText>
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Simple text' helpKey='RegisteredEmail.help'&gt;
+	&lt;@staticText&gt;
+		example@example.com
+	&lt;/@staticText&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>					
+				</@fieldSet>
+			</@boxBody>
+			
+			
+			<@boxBody>
+				<@fieldSet legend='Date fields'>
+
+					<@formGroup labelKey='Date' helpKey='DateCreated.help' mandatory=true>
+						<@inputGroup>
+							<@inputGroupItem type='text'>
+								<@icon style='calendar' />
+							</@inputGroupItem>
+							<@input type='date' name='date_created' id='date_created' value='${mockObject.dateCreated!\'\'}' />
+						</@inputGroup>
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Date' helpKey='DateCreated.help' mandatory=true&gt;
+	&lt;@inputGroup&gt;
+		&lt;@inputGroupItem type='text'&gt;
+			&lt;@icon style='calendar' /&gt;
+		&lt;/@inputGroupItem&gt;
+		&lt;@input type='date' name='date_created' id='date_created' value='${mockObject.dateCreated!""}' /&gt;
+	&lt;/@inputGroup&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>
+
+					<@formGroup labelKey='DateTime' helpKey='DateTime.help' mandatory=true>
+						<@inputGroup>
+							<@input type='datetime' name='datetime' id='datetime' value='${mockObject.dateTime!\'\'}' />
+							<@inputGroupItem type='text'>
+								<@icon style='calendar' />
+							</@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='DateTime' helpKey='DateTime.help' mandatory=true&gt;
+	&lt;@inputGroup&gt;
+		&lt;@input type='datetime' name='datetime' id='datetime' value='${mockObject.dateTime!""}' /&gt;
+		&lt;@inputGroupItem type='text'&gt;
+			&lt;@icon style='calendar' /&gt;
+		&lt;/@inputGroupItem&gt;
+	&lt;/@inputGroup&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>					
+					
+					<@formGroup labelKey='DateRange' helpKey='DateRange.help' mandatory=true>
+						<@row>
+							<@columns xs=12 sm=6>
+								<@inputGroup>
+									<@input type='daterange' name='date_range' id='date_range'  dateRangeEndId='date_range_end' value='${mockObject.dateRange!\'\'}' />
+									<@inputGroupItem type='text'>
+										<@icon style='calendar' />
+									</@inputGroupItem>
+								</@inputGroup>
+							</@columns>
+							<@columns xs=12 sm=6>
+								<@inputGroup>
+									<@input type='date' name='date_range_end' id='date_range_end' value='${mockObject.dateRange!\'\'}' />
+									<@inputGroupItem type='text'>
+										<@icon style='calendar' />
+									</@inputGroupItem>
+								</@inputGroup>
+							</@columns>
+						</@row>
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='DateRange' helpKey='DateRange.help' mandatory=true&gt;
+	&lt;@row&gt;
+		&lt;@columns xs=12 sm=6&gt;
+			&lt;@inputGroup&gt;
+				&lt;@input type='daterange' name='date_range' id='date_range'  dateRangeEndId='date_range_end' value='${mockObject.dateRange!""}' /&gt;
+				&lt;@inputGroupItem type='text'&gt;
+					&lt;@icon style='calendar' /&gt;
+				&lt;/@inputGroupItem&gt;
+			&lt;/@inputGroup&gt;
+		&lt;/@columns&gt;
+		&lt;@columns xs=12 sm=6&gt;
+			&lt;@inputGroup&gt;
+				&lt;@input type='date' name='date_range_end' id='date_range_end' value='${mockObject.dateRange!""}' /&gt;
+				&lt;@inputGroupItem type='text'&gt;
+					&lt;@icon style='calendar' /&gt;
+				&lt;/@inputGroupItem&gt;
+			&lt;/@inputGroup&gt;
+		&lt;/@columns&gt;
+	&lt;/@row&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>					
+					
+					<@formGroup labelKey='DateTimeRange' helpKey='DateTimeRange.help'>
+						<@inputGroup>
+							<@inputGroupItem type='text'>
+								<@icon style='calendar' />
+							</@inputGroupItem>
+							<@input type='datetimerange' name='datetime_range' id='datetime_range'  dateRangeEndId='datetime_range' value='${mockObject.dateTimeRange!\'\'}' />
+						</@inputGroup>
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='DateTimeRange' helpKey='DateTimeRange.help'&gt;
+	&lt;@inputGroup&gt;
+		&lt;@inputGroupItem type='text'&gt;
+			&lt;@icon style='calendar' /&gt;
+		&lt;/@inputGroupItem&gt;
+		&lt;@input type='datetimerange' name='datetime_range' id='datetime_range'  dateRangeEndId='datetime_range' value='${mockObject.dateTimeRange!""}' /&gt;
+	&lt;/@inputGroup&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>					
+					
+					<@formGroup labelKey='Time' helpKey='Time.help'>
+						<@inputGroup>
+							<@input type='time' name='time' id='time' value='${mockObject.time!\'\'}' />
+							<@inputGroupItem type='text'>
+								<@icon style='clock' />
+							</@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Time' helpKey='Time.help'&gt;
+	&lt;@inputGroup&gt;
+		&lt;@input type='time' name='time' id='time' value='${mockObject.time!""}' /&gt;
+		&lt;@inputGroupItem type='text'&gt;
+			&lt;@icon style='clock' /&gt;
+		&lt;/@inputGroupItem&gt;
+	&lt;/@inputGroup&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>							
+				</@fieldSet>
+			</@boxBody>
+		</@box>
+		
+		
+		<@box>
+			<@boxHeader title='Checkbox and radio fields (macros checkBox and radioButton)' />			
+			<@boxBody>
+				<@fieldSet legend='Checkbox fields'>
+					<@formGroup labelKey='Checkboxes (vertical)' helpKey='checkboxes1.help'>
+						<@checkBox labelKey='Checkbox 1' name='checkbox1' id='checkbox1' value='1' />
+						<@checkBox labelKey='Checkbox 2' name='checkbox2' id='checkbox2' value='2' />
+						<@checkBox labelKey='Checkbox 3' name='checkbox3' id='checkbox3' value='3' />
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Checkboxes (vertical)' helpKey='checkboxes1.help'&gt;
+	&lt;@checkBox labelKey='Checkbox 1' name='checkbox1' id='checkbox1' value='1' /&gt;
+	&lt;@checkBox labelKey='Checkbox 2' name='checkbox2' id='checkbox2' value='2' /&gt;
+	&lt;@checkBox labelKey='Checkbox 3' name='checkbox3' id='checkbox3' value='3' /&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>					
+
+					<@formGroup labelKey='Checkboxes (horizontal)' helpKey='checkboxes2.help'>
+						<@checkBox orientation='inline' labelKey='Checkbox 4' name='checkbox4' id='checkbox4' value='4' />
+						<@checkBox orientation='inline' labelKey='Checkbox 5' name='checkbox5' id='checkbox5' value='5' />
+						<@checkBox orientation='inline' labelKey='Checkbox 6' name='checkbox6' id='checkbox6' value='6' />
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Checkboxes (horizontal)' helpKey='checkboxes2.help'&gt;
+	&lt;@checkBox orientation='inline' labelKey='Checkbox 4' name='checkbox4' id='checkbox4' value='4' /&gt;
+	&lt;@checkBox orientation='inline' labelKey='Checkbox 5' name='checkbox5' id='checkbox5' value='5' /&gt;
+	&lt;@checkBox orientation='inline' labelKey='Checkbox 6' name='checkbox6' id='checkbox6' value='6' /&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>						
+				</@fieldSet>
+			</@boxBody>
+			
+			<@boxBody>
+				<@fieldSet legend='Radio button fields'>
+					<@formGroup labelKey='Radio (vertical)' helpKey='Radio1.help'>
+						<@radioButton labelFor='radio_0' labelKey='Radio 1' name='radio' id='radio_0' value='0' />
+						<@radioButton labelFor='radio_1' labelKey='Radio 2' name='radio' id='radio_1' value='1' />
+						<@radioButton labelFor='radio_2' labelKey='Radio 3' name='radio' id='radio_2' value='2' />
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Radio (vertical)'&gt;
+	&lt;@radioButton labelFor='radio_0' labelKey='Radio1.help' name='radio' id='radio_0' value='0' /&gt;
+	&lt;@radioButton labelFor='radio_1' labelKey='Radio2.help' name='radio' id='radio_1' value='1' /&gt;
+	&lt;@radioButton labelFor='radio_2' labelKey='Radio3.help' name='radio' id='radio_2' value='2' /&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>
+					<@formGroup labelKey='Radio (inline)' helpKey='Radio2.help'>
+						<@radioButton orientation='inline' labelFor='radio_3' labelKey='Radio 3' name='radio' id='radio_3' value='3' />
+						<@radioButton orientation='inline' labelFor='radio_4' labelKey='Radio 4' name='radio' id='radio_4' value='4' />
+						<@radioButton orientation='inline' labelFor='radio_5' labelKey='Radio 5' name='radio' id='radio_5' value='5' />
+					</@formGroup>
+					<@formGroup>				
+						<pre class="copy-content">
+&lt;@formGroup labelKey='Radio (inline)' helpKey='Radio2.help'&gt;
+	&lt;@radioButton orientation='inline' labelFor='radio_3' labelKey='Radio 3' name='radio' id='radio_3' value='3' /&gt;
+	&lt;@radioButton orientation='inline' labelFor='radio_4' labelKey='Radio 4' name='radio' id='radio_4' value='4' /&gt;
+	&lt;@radioButton orientation='inline' labelFor='radio_5' labelKey='Radio 5' name='radio' id='radio_5' value='5' /&gt;
+&lt;/@formGroup&gt;
+						</pre>
+					</@formGroup>					
+				</@fieldSet>
+			</@boxBody>
+        </@box>
+    </@columns>
+</@row>
+
+
+
+<@h2># Parameters documentation</@h2>
+
+<@h3># Macro input</@h3>
+
+<@table>
+	<@tr>
+		<@th>Parameter</@th>
+		<@th>Value</@th>
+		<@th>Default</@th>
+	</@tr>
+	<@tr>
+		<@th>name*</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>id</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>type</@th>
+		<@td>string: text, textarea, password, email, file, number, search, color, range, datalist, date, datetime, daterange, datetimerange, time, hidden, tel</@td>
+		<@td>text</@td>
+	</@tr>
+	<@tr>
+		<@th>value</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>class</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>size</@th>
+		<@td>string: sm, lg</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>inputSize</@th>
+		<@td>integer</@td>
+		<@td>0</@td>
+	</@tr>
+	<@tr>
+		<@th>maxlength</@th>
+		<@td>integer</@td>
+		<@td>0</@td>
+	</@tr>
+	<@tr>
+		<@th>placeHolder</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>rows</@th>
+		<@td>integer</@td>
+		<@td>4</@td>
+	</@tr>
+	<@tr>
+		<@th>cols</@th>
+		<@td>integer</@td>
+		<@td>40</@td>
+	</@tr>
+	<@tr>
+		<@th>richtext</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>tabIndex</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>disabled</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>readonly</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>pattern</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>title</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>min</@th>
+		<@td>integer</@td>
+		<@td>0</@td>
+	</@tr>
+	<@tr>
+		<@th>max</@th>
+		<@td>integer</@td>
+		<@td>0</@td>
+	</@tr>
+	<@tr>
+		<@th>params</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>mandatory</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>language</@th>
+		<@td>string</@td>
+		<@td>.locale</@td>
+	</@tr>
+	<@tr>
+		<@th>minDate</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>defaultDate</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>defaultTime</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>time_24hr</@th>
+		<@td>boolean</@td>
+		<@td>true</@td>
+	</@tr>
+	<@tr>
+		<@th>minTime</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>maxTime</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>format</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>showFormat</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>dateRangeEndId</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>dateParams</@th>
+		<@td>sequence</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>showFileUrl</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>fileURL</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>fileName</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>datalist</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+</@table>
+
+<@h3># Macro checkbox</@h3>
+
+<@table>
+	<@tr>
+		<@th>Parameter</@th>
+		<@th>Value</@th>
+		<@th>Default</@th>
+	</@tr>
+	<@tr>
+		<@th>name*</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>id</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>labelKey</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>labelFor</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>orientation</@th>
+		<@td>string: vertical, horizontal</@td>
+		<@td>vertical</@td>
+	</@tr>
+	<@tr>
+		<@th>value</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>title</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>disabled</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>readonly</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>checked</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+		<@tr>
+		<@th>mandatory</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+		<@tr>
+		<@th>params</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+</@table>
+
+<@h3># Macro radio button</@h3>
+
+<@table>
+	<@tr>
+		<@th>Parameter</@th>
+		<@th>Value</@th>
+		<@th>Default</@th>
+	</@tr>
+	<@tr>
+		<@th>name*</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>id</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>labelKey</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>labelFor</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>orientation</@th>
+		<@td>string: vertical, horizontal</@td>
+		<@td>vertical</@td>
+	</@tr>
+	<@tr>
+		<@th>value</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>title</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>disabled</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>readonly</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>checked</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>params</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+</@table>
+
+<@h3># Macro input group</@h3>
+
+<@table>
+	<@tr>
+		<@th>Parameter</@th>
+		<@th>Value</@th>
+		<@th>Default</@th>
+	</@tr>
+	<@tr>
+		<@th>id</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>class</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>size</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>params</@th>
+		<@td>string</@td>
+		<@td>vertical</@td>
+	</@tr>
+</@table>
+
+<@h3># Macro input group item</@h3>
+
+<@table>
+	<@tr>
+		<@th>Parameter</@th>
+		<@th>Value</@th>
+		<@th>Default</@th>
+	</@tr>
+	<@tr>
+		<@th>id</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>pos</@th>
+		<@td>string: prepend, append</@td>
+		<@td>append</@td>
+	</@tr>
+	<@tr>
+		<@th>type</@th>
+		<@td>string: btn/text</@td>
+		<@td>btn</@td>
+	</@tr>
+	<@tr>
+		<@th>params</@th>
+		<@td>string</@td>
+		<@td>vertical</@td>
+	</@tr>
+</@table>
+
+<@h3># Macro select</@h3>
+
+<@table>
+	<@tr>
+		<@th>Parameter</@th>
+		<@th>Value</@th>
+		<@th>Default</@th>
+	</@tr>
+	<@tr>
+		<@th>name*</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>id</@th>
+		<@td>string</@td>
+		<@td>name</@td>
+	</@tr>
+	<@tr>
+		<@th>class</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>items</@th>
+		<@td>hash</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>default_value</@th>
+		<@td>hash</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>size</@th>
+		<@td>string: sm, lg</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>sort</@th>
+		<@td>boolean</@td>
+		<@td>false</@td>
+	</@tr>
+	<@tr>
+		<@th>multiple</@th>
+		<@td>integer</@td>
+		<@td>0</@td>
+	</@tr>
+	<@tr>
+		<@th>params</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>title</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+</@table>
+
+<@h3># Macro staticText</@h3>
+
+<@table>
+	<@tr>
+		<@th>Parameter</@th>
+		<@th>Value</@th>
+		<@th>Default</@th>
+	</@tr>
+	<@tr>
+		<@th>inForm</@th>
+		<@td>boolean</@td>
+		<@td>true</@td>
+	</@tr>
+	<@tr>
+		<@th>color</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>id</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+	<@tr>
+		<@th>params</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+	</@tr>
+
+</@table>
+
+<@footer />
+<@copyElementToClipboard selector='.copy-content' class='"copy-icon"' />

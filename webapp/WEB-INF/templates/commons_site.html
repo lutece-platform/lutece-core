@@ -1,3 +1,5 @@
+<#assign optSiteCommons=.get_optional_template('commons_site.ftl')>
+<#if optSiteCommons.exists><@optSiteCommons.include /></#if>
 <#-- WARNING : be careful to white-space and lines break in FreeMarker macros.
  # This macro template can be used to output white-space-sensitive formats (like RSS files).
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
@@ -14,7 +16,6 @@
 		</#list>
 	</select>
 </#macro>
-
 <#macro comboSiteSortedWithParams name default_value additionalParameters items >
 	<select id="${name}" name="${name}" ${additionalParameters} >
 		<#list items?sort_by("name") as item>
@@ -26,7 +27,6 @@
 		</#list>
 	</select>
 </#macro>
-
 <#macro comboSiteWithParamsAndLength name default_value additionalParameters items max_length >
 	<select id="${name}" name="${name}" ${additionalParameters} >
 		<#list items as item>
@@ -43,15 +43,12 @@
     	</#list>
 	</select>
 </#macro>
-
 <#macro comboSite name default_value items >
 	<@comboSiteWithParams name="${name}" default_value="${default_value}" additionalParameters="" items=items />
 </#macro>
-
 <#macro comboSiteSorted name default_value items >
 	<@comboSite name="${name}" default_value="${default_value}" items=items?sort_by("name") />
 </#macro>
-
 <#macro sortSite jsp_url attribute id="" >
 	<#if jsp_url?contains("?")>
 		<#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
@@ -65,7 +62,6 @@
     	<i class="icon-chevron-down">&nbsp;</i>
     </a>
 </#macro>
-
 <#macro paginationSite paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=0>
 	<#if (paginator.pagesCount > 1) >
 		<@paginationSitePageLinks paginator=paginator />
@@ -85,7 +81,6 @@
 	</#if>
 	<div class="table"></div>
  </#macro>
-
  <#macro paginationSitePageLinks paginator >
 	<#assign nbLinkPagesToDisplay = 10 />
 	<#assign offsetPrev = nbLinkPagesToDisplay / 2 />
@@ -157,7 +152,6 @@
 			</#if>
 		</ul>
  </#macro>
-
 <#macro paginationSiteCombo paginator nb_items_per_page=nb_items_per_page>
 	<span class="add-on">${paginator.labelItemCountPerPage}</span>
 	<select class="input-mini" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
@@ -174,7 +168,6 @@
 	</button>
 	&nbsp;-&nbsp;
 </#macro>
-
 <#macro paginationSiteItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=0>
 	<#-- Display combo -->
 	<#if combo == 1 >
@@ -185,8 +178,6 @@
 	  <#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>${paginator.labelItemCount} : </#if>${paginator.itemsCount}
   </#if>
 </#macro>
-
-
 <#macro item_navigationSite item_navigator>
 	<div id="item-navigator">
 		<#if (item_navigator.currentItemId > 0)>
@@ -207,8 +198,6 @@
 		</#if>
 	</div>
 </#macro>
-
-
 <#macro dataTableSite dataTableManager actionMacro="" tableClass="table table-striped table-condensed" caption="&nbsp;" summary="data table" >
 	<#if 0 < dataTableManager.items?size >
 		<#if dataTableManager.enablePaginator>
@@ -224,14 +213,14 @@
 		<table class="${tableClass}" summary="${summary}">
 			<caption>${caption}</caption>
 			<tr>
-				<#list dataTableManager.listColumn as column>
-					<th scope="col">
-						#i18n{${column.titleKey}}
-						<#if !(column.typeColumn = "ACTION") && column.sortable>
-							<@sortSite jsp_url=dataTableManager.sortUrl attribute=column.parameterName />
-						</#if>
-					</th>
-				</#list>
+			<#list dataTableManager.listColumn as column>
+				<th scope="col">
+					#i18n{${column.titleKey}}
+					<#if !(column.typeColumn = "ACTION") && column.sortable>
+						<@sortSite jsp_url=dataTableManager.sortUrl attribute=column.parameterName />
+					</#if>
+				</th>
+			</#list>
 			</tr>
 			<#list dataTableManager.items as item>
 				<tr>
@@ -284,7 +273,6 @@
 		#i18n{portal.util.labelNoItem}
 	</#if>
 </#macro>
-
 <#macro filterPanelSite dataTableManager formClass="form-horizontal" >
 	<#if dataTableManager.filterPanel.listFilter?? && 0 < dataTableManager.filterPanel.listFilter?size>
 		<form class="${formClass}" method="post" action="${dataTableManager.filterPanel.formUrl}" >
@@ -328,7 +316,6 @@
 		</form>
 	</#if>
 </#macro>
-
 <#macro fieldInputTextSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
@@ -338,7 +325,6 @@
 		</div>
 	</div>
 </#macro>
-
 <#macro fieldInputCalendarSite i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='' language='fr'>
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
@@ -352,7 +338,6 @@
 	</div>
 	<@getDatePicker idField=inputName language=language />
 </#macro>
-
 <#macro fieldInputCheckBoxSite i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='' >
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} :</label>
@@ -362,7 +347,6 @@
 		</div>
 	</div>
 </#macro>
-
 <#macro fieldInputComboSite i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label>
@@ -373,8 +357,6 @@
 		</div>
 	</div>
 </#macro>
-
-
 <#macro fieldTextAreaSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 	<div class="control-group">
 		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
@@ -384,13 +366,34 @@
 		</div>
 	</div>
 </#macro>
-
-<#-- fieldSet  -->
-<#macro fieldSet legend='' class='' legendClass='' >
-<fieldset <#if class!=''> class="${class}"</#if>>
-	<#if legend!=''>
-		<legend <#if legendClass!=''> class="${legendClass}"</#if>>${legend}</legend>
-	</#if>
-	<#nested>
-</fieldset>
+<#macro autocompleteFO id name suggestionsUrl suggestionsPath="" itemValueFieldName="value" btnColor="light" btnSize="" itemLabelFieldNames="[]" itemTitleFieldNames=itemLabelFieldNames itemDescriptionFieldNames="[]" itemTagsFieldNames="[]" copyFields="[]" currentValue="" currentLabel="" required=false minimumInputLength=1 minimumInputLenghtLabel="#i18n{portal.util.labelMinimumSearchLenght}" searchLabel="#i18n{portal.util.labelSearch}" placeHolder="#i18n{portal.util.labelSearch}" emptyLabel="#i18n{portal.util.labelNoItem}" additionnalRequestParamInputId="" >
+<div id="${id}" class="lutece-autocomplete dropdown form-group form-floating" data-itemTitleFieldNames=${itemTitleFieldNames} data-suggestionsUrl="${suggestionsUrl}" data-suggestionsPath="${suggestionsPath}" data-itemValueFieldName=${itemValueFieldName} data-minimumInputLength=${minimumInputLength} data-itemDescriptionFieldNames=${itemDescriptionFieldNames} data-itemTagsFieldNames=${itemTagsFieldNames} data-copyFields=${copyFields} data-emptyLabel="${emptyLabel}" data-currentValue="${currentValue}" data-currentLabel="${currentLabel}" data-suggestionItemClass='["list-group-item", "p-3"]' data-titleClass='["mb-0", "fw-bolder"]' data-descriptionClass='["text-muted", "mb-0"]' data-tagClass='["badge", "bg-blue-lt", "me-1"]' data-loaderIconClasses='{"loading": ["ti-loader-2", "icon-rotate"], "error": ["ti-zoom-exclamation", "text-danger"], "search": ["ti-search"]}' data-emptyClass='["list-group-item", "p-3", "text-muted", "text-center"]' data-searchLabel="${searchLabel}">
+	<label for="${id}-input">${searchLabel}</label>
+	<div class="input-group">
+		<input class="form-control lutece-autocomplete-search-input w-75" type="text" name="${name}" role="combobox" autocomplete="off" value="<#if currentValue!=''>${currentValue!}</#if>" id="${id}-input" aria-expanded="false" aria-owns="${id}-list-container" aria-autocomplete="list" aria-describedby="${id}-lutece-autocomplete-default-assistive">
+		<span role="button" class="input-group-text lutece-autocomplete-remove <#if currentValue=''>d-none</#if> text-danger">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>
+		</span>
+		<span role="button" class="input-group-text lutece-autocomplete-search-icon">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg>
+		</span>
+	</div>
+	<div id="${id}-dropdown" class="lutece-autocomplete-dropdown dropdown-menu p-0" aria-labelledby="dropdownMenuButton">
+		<ul id="${id}-list-container" class="lutece-autocomplete-result-container list-group list-group-flush overflow-auto bg-white" role="listbox" id="suggestions-list" aria-labelledby="${id}-input" style="max-height:15rem;"></ul>
+		<span id="${id}-lutece-autocomplete-default-assistive" class="sr-only visually-hidden">#i18n{portal.util.message.autocomplete.avalailbleResults}</span>
+		<div class="sr-only lutece-autocomplete-status" role="status" aria-atomic="true" aria-live="polite"></div>
+	</div>
+</div>
+<script type="module">
+import LuteceAutoComplete from "./themes/shared/modules/luteceAutoComplete.js";
+new LuteceAutoComplete(document.getElementById(`${id}`), document.getElementById(`${additionnalRequestParamInputId}`));
+</script>
+</#macro>
+<#-- Macro: deprecatedWarningSite
+Description: Generates a warning message for deprecated or incorrect arguments.
+Parameters:
+- args (map, optional): a map of arguments and their values.
+-->
+<#macro deprecatedWarningSite args=[] >
+<#if args?size != 0 ><!-- Warning : wrong or deprecated argument(s) : <#list  args?keys as key >${key}, </#list> ... --></#if>
 </#macro>

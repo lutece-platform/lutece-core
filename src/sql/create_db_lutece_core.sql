@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+-- changeset core:create_db_lutece_core.sql
+-- preconditions onFail:MARK_RAN onError:WARN
 --
 -- Table structure for table core_admin_dashboard
 --
@@ -176,6 +179,7 @@ CREATE TABLE core_feature_group (
 	feature_group_description varchar(255) default NULL,
 	feature_group_label varchar(100) default NULL,
 	feature_group_order int default NULL,
+	feature_group_icon varchar(255) default NULL,
 	PRIMARY KEY (id_feature_group)
 );
 
@@ -190,6 +194,7 @@ CREATE TABLE core_file (
 	file_size  INT DEFAULT NULL,
 	mime_type VARCHAR(255) DEFAULT NULL,
 	date_creation timestamp default NULL NULL,
+	origin VARCHAR(255) DEFAULT NULL,
 	PRIMARY KEY (id_file)
 );
 
@@ -374,6 +379,7 @@ CREATE TABLE core_portlet_type (
 	modify_script varchar(255) default NULL,
 	modify_specific varchar(255) default NULL,
 	modify_specific_form varchar(255) default NULL,
+	icon_name varchar(50) default NULL,
 	PRIMARY KEY (id_portlet_type)
 );
 
@@ -387,46 +393,6 @@ CREATE TABLE core_role (
 	workgroup_key varchar(50) DEFAULT '' NOT NULL,
 	PRIMARY KEY (role)
 );
-
---
--- Table structure for table core_style
---
-DROP TABLE IF EXISTS core_style;
-CREATE TABLE core_style (
-	id_style int default 0 NOT NULL,
-	description_style varchar(100) default '' NOT NULL,
-	id_portlet_type varchar(50) default NULL,
-	id_portal_component int default 0 NOT NULL,
-	PRIMARY KEY (id_style)
-);
-
-CREATE INDEX index_style ON core_style (id_portlet_type);
-
---
--- Table structure for table core_style_mode_stylesheet
---
-DROP TABLE IF EXISTS core_style_mode_stylesheet;
-CREATE TABLE core_style_mode_stylesheet (
-	id_style int default 0 NOT NULL,
-	id_mode int default 0 NOT NULL,
-	id_stylesheet int default 0 NOT NULL,
-	PRIMARY KEY (id_style,id_mode,id_stylesheet)
-);
-
-CREATE INDEX index_style_mode_stylesheet ON core_style_mode_stylesheet (id_stylesheet,id_mode);
-
---
--- Table structure for table core_stylesheet
---
-DROP TABLE IF EXISTS core_stylesheet;
-CREATE TABLE core_stylesheet (
-	id_stylesheet int AUTO_INCREMENT NOT NULL,
-	description varchar(255),
-	file_name varchar(255),
-	source long varbinary,
-	PRIMARY KEY (id_stylesheet)
-);
-
 
 --
 -- Table structure for table core_user_preferences 
@@ -559,22 +525,37 @@ CREATE TABLE core_template (
   PRIMARY KEY (template_name)
   );
   
-  
-DROP TABLE IF EXISTS core_xsl_export;
-CREATE TABLE core_xsl_export (
-  id_xsl_export INT AUTO_INCREMENT NOT NULL,
-  title VARCHAR(255) DEFAULT NULL,
-  description VARCHAR(255) DEFAULT NULL ,
-  extension VARCHAR(255) DEFAULT NULL,
-  id_file INT DEFAULT NULL,
-  plugin VARCHAR(255) DEFAULT '',
-  PRIMARY KEY  (id_xsl_export)
-);
-
 DROP TABLE IF EXISTS core_text_editor;
 CREATE TABLE core_text_editor (
   editor_name VARCHAR(255) NOT NULL,
   editor_description VARCHAR(255) NOT NULL,
   backOffice SMALLINT NOT NULL ,
   PRIMARY KEY  (editor_name, backOffice)
+);
+
+--
+-- Table structure for table core_admin_security_header
+--
+DROP TABLE IF EXISTS core_admin_security_header;
+CREATE TABLE core_admin_security_header (
+  id_security_header SMALLINT AUTO_INCREMENT NOT NULL,
+  name VARCHAR(60) NOT NULL,
+  value VARCHAR(1024) NOT NULL,
+  description VARCHAR(1024) DEFAULT NULL,
+  type VARCHAR(10) NOT NULL,
+  page_category VARCHAR(25) DEFAULT NULL,
+  is_active SMALLINT DEFAULT 0,
+  PRIMARY KEY  (id_security_header)
+);
+
+--
+-- Table structure for table core_admin_security_header_config_item
+--
+DROP TABLE IF EXISTS core_admin_security_header_config_item;
+CREATE TABLE core_admin_security_header_config_item (
+  id_config_item SMALLINT AUTO_INCREMENT NOT NULL,
+  id_security_header SMALLINT NOT NULL,
+  header_custom_value VARCHAR(1024) NULL,
+  url_pattern VARCHAR(1024) NOT NULL,
+  PRIMARY KEY  (id_config_item)
 );

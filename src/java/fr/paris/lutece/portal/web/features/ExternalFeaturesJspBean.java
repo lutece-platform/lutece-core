@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,8 +64,8 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 {
     private static final long serialVersionUID = -5179996626579180810L;
     // Properties
-    private static final String PROPERTY_CREATE_EXTERNAL_FEATURE_PAGETITLE = "portal.features.create_external_feature.pageTitle";
-    private static final String PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE = "portal.features.modify_external_feature.pageTitle";
+    private static final String PROPERTY_CREATE_EXTERNAL_FEATURE_PAGETITLE = "portal.features.external_features.manage_external_features.pageTitle";
+    private static final String PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE = "portal.features.external_features.manage_external_features.pageTitle";
 
     // Templates
     private static final String TEMPLATE_CREATE_EXTERNAL_FEATURE = "admin/features/create_external_feature.html";
@@ -90,7 +90,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_FEATURES_GROUPS_REFERENCE_LIST = "features_groups_labels_list";
     private static final String MARK_RIGHT_LEVELS_REFERENCE_LIST = "right_levels_labels_list";
 
-    private static final String ANCHOR_ADMIN_DASHBOARDS = "features_management";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "external_features";
 
     private Right _externalFeature;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,14 +37,15 @@ package fr.paris.lutece.util.pool.service;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import fr.paris.lutece.util.env.EnvUtil;
 
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * C3P0 connection service
@@ -64,7 +65,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * Log4j logger
      */
-    private Logger _logger = Logger.getLogger( this.getClass( ) );
+    private Logger _logger = LogManager.getLogger( this.getClass( ) );
 
     /**
      * {@inheritDoc }
@@ -102,11 +103,11 @@ public class C3p0ConnectionService implements ConnectionService
         }
         catch( Exception e )
         {
-            _logger.error( "Error while initializing the pool " + getPoolName( ), e );
+            _logger.error( "Error while initializing the pool {}", getPoolName( ), e );
         }
 
-        _logger.info( "Initialization of the C3P0 pool named '" + getPoolName( ) + "', Min/Max pool size : " + _dataSource.getMinPoolSize( ) + "/"
-                + _dataSource.getMaxPoolSize( ) );
+        _logger.info( "Initialization of the C3P0 pool named '{}', Min/Max pool size : {} / {}", ( ) -> getPoolName( ), _dataSource::getMinPoolSize,
+                _dataSource::getMaxPoolSize );
     }
 
     /**
@@ -125,14 +126,17 @@ public class C3p0ConnectionService implements ConnectionService
 
                 if ( conn != null )
                 {
-                    _logger.debug(
-                            "The connexion is get, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers( ) + "/" + _dataSource.getMaxPoolSize( ) );
+                    if ( _logger.isDebugEnabled( ) )
+                    {
+                        _logger.debug( "The connexion is get, Current/Max pool : {}/{}", _dataSource.getNumConnectionsAllUsers( ),
+                                _dataSource.getMaxPoolSize( ) );
+                    }
                 }
             }
         }
         catch( Exception e )
         {
-            _logger.error( "Erreur when getting the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "Erreur when getting the connexion with the pool : {}", getPoolName( ), e );
         }
 
         return conn;
@@ -148,15 +152,20 @@ public class C3p0ConnectionService implements ConnectionService
         {
             conn.close( );
 
-            _logger.debug( "The connexion is released, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers( ) + "/" + _dataSource.getMaxPoolSize( ) );
+            if ( _logger.isDebugEnabled( ) )
+            {
+
+                _logger.debug( "The connexion is released, Current/Max pool : {}/{}", _dataSource.getNumConnectionsAllUsers( ), _dataSource.getMaxPoolSize( ) );
+
+            }
         }
         catch( SQLException e )
         {
-            _logger.error( "SQL error when releasing the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "SQL error when releasing the connexion with the pool : {}", getPoolName( ), e );
         }
         catch( Exception e )
         {
-            _logger.error( "Error while releasing the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "Error while releasing the connexion with the pool : {}", getPoolName( ), e );
         }
     }
 
@@ -219,7 +228,7 @@ public class C3p0ConnectionService implements ConnectionService
         }
         catch( SQLException ex )
         {
-            _logger.error( "GetCurrentConnections error : " + ex.getMessage( ), ex );
+            _logger.error( "GetCurrentConnections error : {}", ex.getMessage( ), ex );
         }
 
         return nCurrentConnections;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.sql.Statement;
@@ -61,17 +59,12 @@ public final class PortletDAO implements IPortletDAO
             + " WHERE a.id_portlet = b.id_portlet AND b.id_alias= ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_portlet WHERE id_portlet = ?";
     private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_portlet SET status = ?, date_update = ? WHERE id_portlet = ? ";
+    private static final String SQL_QUERY_UPDATE_POSITION = " UPDATE core_portlet SET column_no = ?, portlet_order = ? WHERE id_portlet = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_portlet ( id_portlet_type, id_page, id_style, name, "
             + " date_creation, date_update, status, column_no, portlet_order, accept_alias, display_portlet_title, role, device_display_flags ) "
             + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?)";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_STYLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE id_style=?";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_ROLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE role=?";
-    private static final String SQL_QUERY_SELECT_XSL_FILE = " SELECT a.id_stylesheet , a.description , a.file_name, a.source "
-            + " FROM core_stylesheet a, core_portlet b, core_style_mode_stylesheet c " + " WHERE a.id_stylesheet = c.id_stylesheet "
-            + " AND b.id_style = c.id_style AND b.id_portlet = ? AND c.id_mode = ? ";
-    private static final String SQL_QUERY_SELECT_STYLE_LIST = " SELECT distinct a.id_style , a.description_style "
-            + " FROM core_style a , core_style_mode_stylesheet b " + " WHERE  a.id_style = b.id_style "
-            + " AND a.id_portlet_type = ? ORDER BY a.description_style";
     private static final String SQL_QUERY_SELECT_PORTLET_TYPE = " SELECT id_portlet_type , name , url_creation, url_update, plugin_name "
             + " FROM core_portlet_type WHERE id_portlet_type = ? ORDER BY id_portlet_type ";
     private static final String SQL_QUERY_SELECT_PORTLET_ALIAS = " SELECT a.id_portlet FROM core_portlet a , core_portlet_alias b"
@@ -230,26 +223,16 @@ public final class PortletDAO implements IPortletDAO
     /**
      * {@inheritDoc}
      */
-    public StyleSheet selectXslFile( int nPortletId, int nIdMode )
+    public void updatePosition( Portlet portlet, int nColumn, int nOrder )
     {
-        StyleSheet stylesheet = new StyleSheet( );
-        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_XSL_FILE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_POSITION ) )
         {
-            daoUtil.setInt( 1, nPortletId );
-            daoUtil.setInt( 2, nIdMode );
-            daoUtil.executeQuery( );
+            daoUtil.setInt( 1, nColumn );
+            daoUtil.setInt( 2, nOrder );
+            daoUtil.setInt( 3, portlet.getId( ) );
 
-            if ( daoUtil.next( ) )
-            {
-                stylesheet.setId( daoUtil.getInt( 1 ) );
-                stylesheet.setDescription( daoUtil.getString( 2 ) );
-                stylesheet.setFile( daoUtil.getString( 3 ) );
-                stylesheet.setSource( daoUtil.getBytes( 4 ) );
-            }
-
+            daoUtil.executeUpdate( );
         }
-
-        return stylesheet;
     }
 
     /**
@@ -334,27 +317,6 @@ public final class PortletDAO implements IPortletDAO
                 portlet.setDeviceDisplayFlags( daoUtil.getInt( 14 ) );
 
                 list.add( portlet );
-            }
-
-        }
-
-        return list;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public ReferenceList selectStylesList( String strPortletTypeId )
-    {
-        ReferenceList list = new ReferenceList( );
-        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_STYLE_LIST ) )
-        {
-            daoUtil.setString( 1, strPortletTypeId );
-            daoUtil.executeQuery( );
-
-            while ( daoUtil.next( ) )
-            {
-                list.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
             }
 
         }

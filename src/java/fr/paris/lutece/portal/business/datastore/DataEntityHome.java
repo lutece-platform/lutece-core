@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -112,5 +112,19 @@ public final class DataEntityHome
     public static List<DataEntity> findAll( )
     {
         return _dao.selectEntitiesList( );
+    }
+
+    /**
+     * Load the data of all the entity objects whose key share a prefix
+     * 
+     * @param strPrefix
+     *            the prefix
+     * @return the list which contains the data of all the entity objects whose
+     *         key share a prefix
+     * @since 7.0.17
+     */
+    public static List<DataEntity> findByPrefix( String strPrefix )
+    {
+        return _dao.selectEntitiesByPrefix( strPrefix );
     }
 }

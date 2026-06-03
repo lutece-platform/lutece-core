@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -95,7 +96,7 @@ public final class I18nService
         catch( AppException e )
         {
             // the key is unknown. Message override will be deactivated
-            AppLogService.error( "property " + PROPERTY_PATH_OVERRIDE + " is undefined. Message overriding will be disabled." );
+            AppLogService.error( "property {} is undefined. Message overriding will be disabled.", PROPERTY_PATH_OVERRIDE );
         }
 
         URL [ ] overrideURL = null;
@@ -110,7 +111,7 @@ public final class I18nService
             }
             catch( MalformedURLException e )
             {
-                AppLogService.error( "Error initializing message overriding: " + e.getMessage( ), e );
+                AppLogService.error( "Error initializing message overriding: {}", e.getMessage( ), e );
             }
         }
 
@@ -444,15 +445,18 @@ public final class I18nService
     }
 
     /**
-     * Localize all items of a list
+     * Localize in place all items of a collection
+     * 
+     * @param <E>
+     *            the type of the elements of the collection
      * 
      * @param collection
-     *            The list to localize
+     *            The collection to localize
      * @param locale
      *            The locale
-     * @return The localized collection
+     * @return The localized collection passed as argument
      */
-    public static Collection localizeCollection( Collection<? extends Localizable> collection, Locale locale )
+    public static <E extends Localizable> Collection<E> localizeCollection( Collection<E> collection, Locale locale )
     {
         for ( Localizable object : collection )
         {
@@ -463,15 +467,18 @@ public final class I18nService
     }
 
     /**
-     * Localize all items of a list
+     * Localize in place all items of a list
+     * 
+     * @param <E>
+     *            the type of the elements of the list
      * 
      * @param list
      *            The list to localize
      * @param locale
      *            The locale
-     * @return The localized collection
+     * @return The localized collection passed as argument
      */
-    public static List localizeCollection( List<? extends Localizable> list, Locale locale )
+    public static <E extends Localizable> List<E> localizeCollection( List<E> list, Locale locale )
     {
         for ( Localizable object : list )
         {
@@ -535,4 +542,17 @@ public final class I18nService
 
         _resourceBundleCache.clear( );
     }
+    
+    /**
+     * returns the resource bundle keys of a plugin
+     * 
+     * @param strPluginName
+     * @return the enumeration
+     */
+    public static Enumeration<String> getPluginBundleKeys( String strPluginName )
+	{
+		ResourceBundle rb = getResourceBundle( getDefaultLocale(), getPluginBundleName( strPluginName ) );
+		
+		return rb.getKeys( );
+	}
 }

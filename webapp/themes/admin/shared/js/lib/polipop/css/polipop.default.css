@@ -1,0 +1,160 @@
+.polipop_theme_default {
+    font-size: 14px;
+}
+.polipop_theme_default .polipop__closer {
+    font-weight: 600;
+    color: #777777;
+}
+.polipop_theme_default .polipop__closer:hover {
+    color: #555555;
+}
+.polipop_theme_default .polipop__closer-count {
+    background: #0ec47d;
+    color: #ffffff;
+    border-radius: 3px;
+    font-weight: 600;
+}
+.polipop_theme_default .polipop__notification {
+    color: #555555;
+}
+.polipop_theme_default .polipop__notification-outer {
+    padding: 15px;
+}
+.polipop_theme_default .polipop__notification-icon {
+    margin: 0 12px 0 0;
+}
+.polipop_theme_default .polipop__notification-icon svg {
+    fill: #ffffff;
+}
+.polipop_theme_default .polipop__notification-close {
+    background-color: transparent;
+    color: inherit;
+    border-radius: 50%;
+}
+.polipop_theme_default .polipop__notification-close:hover {
+    outline: none;
+    text-decoration: none;
+    background: rgba(0, 0, 0, 0.05);
+}
+.polipop_theme_default .polipop__notification-content {
+    line-height: 24px;
+    font-weight: 400;
+}
+.polipop_theme_default .polipop__notification_type_success {
+    background-color: #0ec47d;
+    color: #ffffff;
+}
+.polipop_theme_default .polipop__notification_type_info,
+.polipop_theme_default .polipop__notification_type_notice {
+    background-color: #00b1fe;
+    color: #ffffff;
+}
+.polipop_theme_default .polipop__notification_type_warning {
+    background-color: #ffc107;
+    color: #555555;
+}
+.polipop_theme_default
+    .polipop__notification_type_warning
+    .polipop__notification-icon
+    svg {
+    fill: #555555;
+}
+.polipop_theme_default .polipop__notification_type_error {
+    background-color: #f76860;
+    color: #ffffff;
+}
+.polipop_theme_default
+    .polipop__notification_type_error
+    .polipop__notification-progress-inner {
+    background-color: rgba(0, 0, 0, 0.12);
+}
+.polipop_theme_default .polipop__notification_type_default {
+    background-color: #ffffff;
+    color: #555555;
+}
+.polipop_theme_default
+    .polipop__notification_type_default
+    .polipop__notification-icon
+    svg {
+    fill: #555555;
+}
+.polipop_layout_panel.polipop_theme_default {
+    background-color: #f2f7fa;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.polipop_layout_panel.polipop_theme_default .polipop__header {
+    background-color: #e8e8e8;
+}
+.polipop_layout_panel.polipop_theme_default .polipop__header-inner {
+    background-color: #edf4f9;
+}
+.polipop_layout_panel.polipop_theme_default
+    .polipop__header-inner:hover
+    .polipop__header-minimize {
+    color: #555555;
+}
+.polipop_layout_panel.polipop_theme_default .polipop__header-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #777777;
+}
+.polipop_layout_panel.polipop_theme_default .polipop__header-count {
+    background: #00b1fe;
+    color: #ffffff;
+    border-radius: 3px;
+    font-weight: 600;
+}
+.polipop_layout_panel.polipop_theme_default .polipop__header-minimize {
+    color: #999999;
+}
+.polipop_layout_panel.polipop_theme_default .polipop__notification {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+.polipop_layout_panel.polipop_theme_default
+    .polipop__notification_type_success {
+    border-color: #0daf71;
+}
+.polipop_layout_panel.polipop_theme_default .polipop__notification_type_info,
+.polipop_layout_panel.polipop_theme_default .polipop__notification_type_notice {
+    border-color: #009de0;
+}
+.polipop_layout_panel.polipop_theme_default
+    .polipop__notification_type_warning {
+    border-color: #e0aa07;
+}
+.polipop_layout_panel.polipop_theme_default .polipop__notification_type_error {
+    border-color: #d64f48;
+}
+.polipop_layout_panel.polipop_theme_default
+    .polipop__notification_type_default {
+    border-color: #e8e8e8;
+}
+.polipop_layout_panel.polipop_theme_default .polipop__notification-title {
+    line-height: 22px;
+}
+.polipop_layout_panel.polipop_theme_default .polipop__closer {
+    font-weight: 600;
+    color: #777777;
+}
+.polipop_layout_panel.polipop_theme_default .polipop__closer:hover {
+    color: #555555;
+}
+.polipop_layout_popups.polipop_theme_default .polipop__notification {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+.polipop_layout_popups.polipop_theme_default .polipop__notification-title {
+    line-height: 24px;
+}
+.polipop_layout_popups.polipop_theme_default .polipop__closer {
+    background-color: #333333;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    font-weight: 400;
+    color: #eeeeee;
+    border-color: #222222;
+}
+.polipop_layout_popups.polipop_theme_default .polipop__closer:hover {
+    color: #ffffff;
+}

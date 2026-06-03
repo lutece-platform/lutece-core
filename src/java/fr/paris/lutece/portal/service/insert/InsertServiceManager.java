@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,7 @@ public final class InsertServiceManager
     public static void registerInsertService( InsertService is )
     {
         _mapInsertServicesRegistry.put( is.getId( ), is );
-        AppLogService.info( "New Insert Service registered : " + is.getId( ) );
+        AppLogService.info( "New Insert Service registered : {}", is.getId( ) );
     }
 
     /**
@@ -83,7 +83,7 @@ public final class InsertServiceManager
     public static void unregisterInsertService( InsertService is )
     {
         _mapInsertServicesRegistry.remove( is.getId( ) );
-        AppLogService.info( "Service unregistered : " + is.getId( ) );
+        AppLogService.info( "Service unregistered : {}", is.getId( ) );
     }
 
     /**

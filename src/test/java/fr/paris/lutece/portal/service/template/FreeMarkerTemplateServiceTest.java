@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,7 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
         IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
         HtmlTemplate template = freeMarkerTemplateService.loadTemplate( strPath, strTemplate, LocaleService.getDefault( ), model );
         assertNotNull( template );
-        assertTrue( StringUtils.isNotEmpty( template.getHtml( ) ));
+        assertTrue( StringUtils.isNotEmpty( template.getHtml( ) ) );
     }
 
     /**

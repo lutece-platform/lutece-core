@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,7 +53,7 @@ public final class TestConcurrentDaemon extends Daemon
             // wait for other to start
             _other.go( );
         }
-        catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
+        catch( InterruptedException | BrokenBarrierException | TimeoutException e )
         {
             // TODO Auto-generated catch block
             e.printStackTrace( );

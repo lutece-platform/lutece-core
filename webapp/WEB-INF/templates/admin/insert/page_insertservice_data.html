@@ -1,0 +1,1 @@
+<#list insert_services_list as insertservice><#if insertservice.selectionActionBean.subCategories?size gt 0><#list insertservice.selectionActionBean.subCategories as cat>${cat.code}<#sep>,</#list><#else>${insertservice.pluginName}</#if><#sep>,</#list>

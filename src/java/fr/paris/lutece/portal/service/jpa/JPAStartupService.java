@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,10 +43,9 @@ import fr.paris.lutece.util.jpa.JPAConstants;
 import fr.paris.lutece.util.jpa.JPAPersistenceUnitPostProcessor;
 import fr.paris.lutece.util.jpa.transaction.ChainedTransactionManager;
 
-import org.apache.commons.lang.StringUtils;
-
-import org.apache.log4j.Logger;
-
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.orm.jpa.JpaDialect;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -72,7 +71,7 @@ public class JPAStartupService implements StartUpService
 {
     /** The name of the property used by the JPA provider to specify the dialect */
     private static final String JPA_DIALECT_PROPERTY = "jpa.dialect.property";
-    private static Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    private static Logger _log = LogManager.getLogger( JPAConstants.JPA_LOGGER );
 
     /**
      * Initialize JPA objects (Datasource, Persistence Unit Manager, Entity Manager Factory, Transaction Manager) for each pool.

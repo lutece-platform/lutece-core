@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,6 +49,7 @@ public class LocalizedDataGroup
 {
     private static final String SUFFIX_HELP = ".help";
     private static final String SUFFIX_ORDER = ".order";
+    private static final String SUFFIX_GROUP = ".group";
 
     // Variables declarations
     private String _strName;
@@ -78,6 +79,7 @@ public class LocalizedDataGroup
             property.setValue( item.getName( ) );
             property.setLabel( I18nService.getLocalizedString( item.getCode( ), locale ) );
             property.setHelp( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_HELP, locale ) );
+            property.setGroup( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_GROUP, locale ) );
             property.setOrder( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_ORDER, locale ) );
             _listLocalizedData.add( property );
         }

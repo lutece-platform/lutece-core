@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,26 +41,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class AppLogServiceTest extends LuteceTestCase
 {
     /**
-     * Test of init method, of class AppLogService.
-     */
-    public void testInit( )
-    {
-        try
-        {
-            System.out.println( "init" );
-
-            String strConfigPath = "/WEB-INF/conf/";
-            String strConfigFile = "config.properties";
-
-            AppLogService.init( strConfigPath, strConfigFile );
-        }
-        catch ( Exception e )
-        {
-            fail( );
-        }
-    }
-
-    /**
      * Test of debug method, of class AppLogService.
      */
     public void testDebug( )
@@ -73,7 +53,7 @@ public class AppLogServiceTest extends LuteceTestCase
 
             AppLogService.debug( objToLog );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( );
         }
@@ -92,7 +72,7 @@ public class AppLogServiceTest extends LuteceTestCase
 
             AppLogService.error( objToLog, new AppException( "JUnit test exception" ) );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( );
         }
@@ -111,7 +91,7 @@ public class AppLogServiceTest extends LuteceTestCase
 
             AppLogService.info( objToLog );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             fail( );
         }

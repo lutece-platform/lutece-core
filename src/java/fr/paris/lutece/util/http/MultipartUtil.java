@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,15 +34,20 @@
 package fr.paris.lutece.util.http;
 
 import fr.paris.lutece.portal.service.html.EncodingService;
+import fr.paris.lutece.portal.service.html.XSSSanitizerException;
+import fr.paris.lutece.portal.service.html.XSSSanitizerService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.upload.NormalizeFileItem;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 
@@ -70,7 +75,7 @@ public final class MultipartUtil
 
     /**
      * Check if the given HTTP request has multipart content
-     * 
+     *
      * @param request
      *            the HTTP request
      * @return true if it has multipart content, false otherwise
@@ -82,7 +87,7 @@ public final class MultipartUtil
 
     /**
      * Convert a HTTP request to a {@link MultipartHttpServletRequest}
-     * 
+     *
      * @param nSizeThreshold
      *            the size threshold
      * @param nRequestSizeMax
@@ -98,7 +103,7 @@ public final class MultipartUtil
      *             exception if an unknown error has occurred
      */
     public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax, boolean bActivateNormalizeFileName,
-            HttpServletRequest request ) throws FileUploadException
+            HttpServletRequest request, boolean isXssSanitize ) throws FileUploadException
     {
         if ( !isMultipart( request ) )
         {
@@ -123,19 +128,52 @@ public final class MultipartUtil
         Map<String, List<FileItem>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
 
-        List<FileItem> listItems = upload.parseRequest( request );
+        List<FileItem> listItems;
+
+        try {
+            listItems = upload.parseRequest(request);
+        }
+        catch( SizeLimitExceededException e )
+        {
+            closeInputStream( upload, request );
+            throw e;
+        }
 
         // Process the uploaded items
         for ( FileItem item : listItems )
         {
-            processItem( item, strEncoding, bActivateNormalizeFileName, mapFiles, mapParameters );
+            processItem( item, strEncoding, bActivateNormalizeFileName, mapFiles, mapParameters, isXssSanitize );
         }
 
         return new MultipartHttpServletRequest( request, mapFiles, mapParameters );
     }
 
+    /**
+     * Close the inputStream of the request
+     * @param upload
+     * @param request
+     */
+    private static void closeInputStream( ServletFileUpload upload, HttpServletRequest request)
+    {
+        try {
+            upload.setSizeMax(-1);
+            FileItemIterator fileiterator = upload.getItemIterator(request);
+
+            while (fileiterator.hasNext()) 
+            {
+                FileItemStream item = fileiterator.next();
+                item.openStream().close();
+            }
+        }
+        catch (Exception e)
+        {
+            AppLogService.error( "error occured during closing the stream" , e);
+        }
+
+    }
+
     private static void processItem( FileItem item, String strEncoding, boolean bActivateNormalizeFileName, Map<String, List<FileItem>> mapFiles,
-            Map<String, String [ ]> mapParameters )
+            Map<String, String [ ]> mapParameters, boolean isXssSanitize )
     {
         if ( item.isFormField( ) )
         {
@@ -154,6 +192,18 @@ public final class MultipartUtil
                 }
             }
 
+            if ( isXssSanitize ) 
+            {
+        	try
+		{
+		    strValue = XSSSanitizerService.sanitize( strValue );
+		} 
+        	catch ( XSSSanitizerException e )
+		{
+		    AppLogService.error( "XSS Sanitize Service Error", e );
+		} 
+            }
+            
             // check if item of same name already in map
             String [ ] curParam = mapParameters.get( item.getFieldName( ) );
 

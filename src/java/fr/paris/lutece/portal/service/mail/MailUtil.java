@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,7 +66,7 @@ import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -672,7 +672,7 @@ final class MailUtil
         catch( IOException e )
         {
             // Document is ignored
-            AppLogService.info( urlAttachement.getContentLocation( ) + MSG_ATTACHMENT_NOT_FOUND );
+            AppLogService.info( "{} {} ", urlAttachement.getContentLocation( ), MSG_ATTACHMENT_NOT_FOUND );
         }
         finally
         {
@@ -692,7 +692,7 @@ final class MailUtil
             }
             catch( IOException e )
             {
-                AppLogService.error( e );
+                AppLogService.error( e.getMessage( ), e );
             }
         }
 

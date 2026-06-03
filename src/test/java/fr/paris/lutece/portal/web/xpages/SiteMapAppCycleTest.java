@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
     protected void setUp( ) throws Exception
     {
         super.setUp( );
-        _pageService = ( IPageService ) SpringContextService.getBean( "pageService" );
+        _pageService = (IPageService) SpringContextService.getBean( "pageService" );
         // create pages
         _top = getPage( null );
         _middle = getPage( _top.getId( ) );
@@ -109,7 +109,7 @@ public class SiteMapAppCycleTest extends LuteceTestCase
 
     private void setRootPageId( int nRootPageId ) throws IOException
     {
-        AppLogService.info( "Setting root page id to " + nRootPageId );
+        AppLogService.info( "Setting root page id to {}", nRootPageId );
         File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
         Properties props = new Properties( );
         try ( InputStream is = new FileInputStream( luteceProperties ) )
@@ -132,9 +132,9 @@ public class SiteMapAppCycleTest extends LuteceTestCase
         {
             _pageService.removePage( nPageId );
         }
-        catch ( Throwable t )
+        catch( Throwable t )
         {
-            AppLogService.error( "Could not remove page " + nPageId, t );
+            AppLogService.error( "Could not remove page {}", nPageId, t );
         }
     }
 

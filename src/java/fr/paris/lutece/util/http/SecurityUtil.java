@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,20 +33,21 @@
  */
 package fr.paris.lutece.util.http;
 
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.util.AntPathMatcher;
+
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.string.StringUtil;
-
-import org.apache.log4j.Logger;
-
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.AntPathMatcher;
 
 /**
  * Security utils
@@ -66,6 +67,11 @@ public final class SecurityUtil
     };
 
     public static final String PROPERTY_REDIRECT_URL_SAFE_PATTERNS = "lutece.security.redirectUrlSafePatterns";
+    public static final String PROPERTY_REDIRECT_URL_BLOCKED_SCHEMES = "lutece.security.redirectUrlBlockedSchemes";
+    public static final String PROPERTY_REDIRECT_URL_BLOCKED_CHARACTERS_PATTERNS = "lutece.security.redirectUrlBlockedCharactersPatterns";
+    private static Pattern PATTERN_URL_SAFE ;
+
+    public static final Logger _log = LogManager.getLogger( LOGGER_NAME );
 
     /**
      * Private Constructor
@@ -99,7 +105,6 @@ public final class SecurityUtil
     {
         String key;
         String [ ] values;
-
         Enumeration<String> e = request.getParameterNames( );
 
         while ( e.hasMoreElements( ) )
@@ -111,10 +116,9 @@ public final class SecurityUtil
 
             for ( int i = 0; i < length; i++ )
             {
-                if ( SecurityUtil.containsXssCharacters( request, values [i], strXssCharacters ) )
+                if ( SecurityUtil.containsXssCharacters( request, values [i], strXssCharacters ) || SecurityUtil.containsXssCharacters( request, key, strXssCharacters )  )
                 {
-                    Logger logger = Logger.getLogger( LOGGER_NAME );
-                    logger.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS" + dumpRequest( request ) );
+                    _log.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS {}", ( ) -> dumpRequest( request ) );
 
                     return false;
                 }
@@ -156,8 +160,7 @@ public final class SecurityUtil
 
         if ( bContains )
         {
-            Logger logger = Logger.getLogger( LOGGER_NAME );
-            logger.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED" + dumpRequest( request ) );
+            _log.warn( "SECURITY WARNING : XSS CHARACTERS DETECTED {}", ( ) -> dumpRequest( request ) );
         }
 
         return bContains;
@@ -176,8 +179,7 @@ public final class SecurityUtil
         {
             if ( StringUtils.indexOfIgnoreCase( strValue, strTerm ) >= 0 )
             {
-                Logger logger = Logger.getLogger( LOGGER_NAME );
-                logger.warn( "SECURITY WARNING : XXE TERMS DETECTED : " + dumpRequest( LocalVariables.getRequest( ) ) );
+                _log.warn( "SECURITY WARNING : XXE TERMS DETECTED : {}", ( ) -> dumpRequest( LocalVariables.getRequest( ) ) );
                 return true;
             }
         }
@@ -199,8 +201,7 @@ public final class SecurityUtil
         {
             if ( strValue.contains( strTerm ) )
             {
-                Logger logger = Logger.getLogger( LOGGER_NAME );
-                logger.warn( "SECURITY WARNING : PATH_MANIPULATION DETECTED : " + dumpRequest( request ) );
+                _log.warn( "SECURITY WARNING : PATH_MANIPULATION DETECTED : {}", ( ) -> dumpRequest( request ) );
                 return true;
             }
         }
@@ -313,16 +314,20 @@ public final class SecurityUtil
         {
             return true; // this is not a valid redirect Url, but it is not unsafe
         }
-
         // filter schemes
-        boolean [ ] conditions = new boolean [ ] {
-                !strUrl.startsWith( "//" ), !strUrl.startsWith( "http:" ), !strUrl.startsWith( "https:" ), !strUrl.contains( "://" ),
-                !strUrl.startsWith( "javascript:" )
-        };
-
-        if ( BooleanUtils.and( conditions ) )
+        String strRedirecUrlBlockedSchemes=AppPropertiesService.getProperty(PROPERTY_REDIRECT_URL_BLOCKED_SCHEMES);
+        String strRedirecUrlBlockedCharactersPatterns=AppPropertiesService.getProperty(PROPERTY_REDIRECT_URL_BLOCKED_CHARACTERS_PATTERNS);
+        if( PATTERN_URL_SAFE == null && strRedirecUrlBlockedCharactersPatterns !=null )
         {
-            return true; // should be a relative path
+        	PATTERN_URL_SAFE = Pattern.compile( strRedirecUrlBlockedCharactersPatterns );
+        }
+        
+        
+        if( (strRedirecUrlBlockedCharactersPatterns == null|| !PATTERN_URL_SAFE.matcher( strUrl ).find( ))
+				&&  strRedirecUrlBlockedSchemes != null && !Arrays.stream(strRedirecUrlBlockedSchemes.split(CONSTANT_COMMA)).anyMatch(x->strUrl.startsWith(x)))
+        {
+        	return true; // should be a relative path
+        	
         }
 
         // compare with current baseUrl
@@ -347,8 +352,7 @@ public final class SecurityUtil
         }
 
         // the Url does not match the allowed patterns
-        Logger logger = Logger.getLogger( LOGGER_NAME );
-        logger.warn( "SECURITY WARNING : OPEN_REDIRECT DETECTED : " + dumpRequest( request ) );
+        _log.warn( "SECURITY WARNING : OPEN_REDIRECT DETECTED : {}", ( ) -> dumpRequest( request ) );
 
         return false;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.util.mvc.admin;
 
+import fr.paris.lutece.portal.service.security.AccessLogService;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -48,11 +49,14 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.springframework.util.ReflectionUtils;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -71,9 +75,16 @@ import fr.paris.lutece.util.url.UrlItem;
 public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 {
     private static final long serialVersionUID = 278165302545398831L;
+
+    // markers
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
+
+    // properties
+    private static final String PROPERTY_SITE_CODE = "lutece.code";
+
+    // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
     private List<ErrorMessage> _listErrors = new ArrayList<>( );
     private List<ErrorMessage> _listInfos = new ArrayList<>( );
@@ -104,8 +115,12 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
 
+            AdminUser adminUser = AdminAuthenticationService.getInstance( ).getRegisteredUser( request );
+
             if ( m != null )
             {
+                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
+                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
                 return (String) m.invoke( this, request );
             }
 
@@ -114,12 +129,16 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             if ( m != null )
             {
+                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), adminUser,
+                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
                 return (String) m.invoke( this, request );
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
 
+            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_VIEW, m.getName( ), adminUser,
+                    request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_BO );
             return (String) m.invoke( this, request );
         }
         catch( InvocationTargetException e )
@@ -316,6 +335,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
         {
             MVCMessage error = new MVCMessage( );
             error.setMessage( errorValidation.getMessage( ) );
+            error.setFieldName( errorValidation.getFieldName( ) );
             _listErrors.add( error );
         }
 
@@ -358,12 +378,12 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     {
         try
         {
-            _logger.debug( "Redirect :" + strTarget );
+            _logger.debug( "Redirect : {}", strTarget );
             _response.sendRedirect( strTarget );
         }
         catch( IOException e )
         {
-            _logger.error( "Unable to redirect : " + strTarget + " : " + e.getMessage( ), e );
+            _logger.error( "Unable to redirect : {} : {}", strTarget, e.getMessage( ), e );
         }
 
         return null;

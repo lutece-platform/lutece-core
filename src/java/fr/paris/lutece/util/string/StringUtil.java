@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,9 +36,19 @@ package fr.paris.lutece.util.string;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
+import java.util.Base64;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 
 /**
  * This class provides String utils.
@@ -46,10 +56,12 @@ import org.apache.commons.lang.StringUtils;
 public final class StringUtil
 {
     private static final String PROPERTY_XSS_CHARACTERS = "input.xss.characters";
-    private static final String EMAIL_PATTERN = "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$";
+    private static final String PROPERTY_MAIL_PATTERN = "mail.accepted.pattern";
     private static final String STRING_CODE_PATTERN = "^[\\w]+$";
     private static final String CONSTANT_AT = "@";
-
+    private static final String CONSTANT_UTF8 = "UTF-8";
+    private static final String EMAIL_PATTERN = "^[\\w_.\\-]+@[\\w_.\\-]+\\.[\\w]+$";
+    
     // The characters that are considered dangerous for XSS attacks
     private static char [ ] _aXssCharacters;
     private static String _xssCharactersAsString;
@@ -223,7 +235,7 @@ public final class StringUtil
      */
     public static synchronized boolean checkEmail( String strEmail )
     {
-        return strEmail.matches( EMAIL_PATTERN );
+        return strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN, EMAIL_PATTERN ) );
     }
 
     /**
@@ -237,7 +249,7 @@ public final class StringUtil
      */
     public static synchronized boolean checkEmailAndDomainName( String strEmail, String [ ] strBannedDomainNames )
     {
-        boolean bIsValid = strEmail.matches( EMAIL_PATTERN );
+        boolean bIsValid = strEmail.matches( AppPropertiesService.getProperty( PROPERTY_MAIL_PATTERN, EMAIL_PATTERN ) );
 
         return bIsValid && checkEmailDomainName( strEmail, strBannedDomainNames );
     }
@@ -343,5 +355,99 @@ public final class StringUtil
             }
         }
         return false;
+    }
+
+    /**
+     * compress (with default UTF-8 encoding)
+     * 
+     * @param the string to compress
+     * @return the compressed string
+     * @throws IOException
+     */
+    public static byte[] compress(String str) throws IOException {
+
+        if (str == null || str.length() == 0) {
+            return "".getBytes( CONSTANT_UTF8 );
+        }
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        GZIPOutputStream gzip = new GZIPOutputStream(out);
+        gzip.write( str.getBytes( CONSTANT_UTF8 ) );
+        gzip.close( );
+
+        return out.toByteArray();
+    }
+
+    /**
+     * uncompress (with default UTF-8 encoding)
+     * 
+     * @param the compressed string
+     * @return the uncompressed string
+     * @throws IOException
+     */
+    public static String decompress(byte[] bytes) throws IOException {
+    	return decompress( bytes, CONSTANT_UTF8);
+    }
+
+    /**
+     * uncompress
+     * 
+     * @param the compressed string
+     * @param the encoding
+     * @return the uncompressed string
+     * @throws IOException
+     */
+    public static String decompress(byte[] bytes, String encoding) throws IOException {
+
+        if (bytes == null || bytes.length == 0) {
+            return "";
+        }
+
+        GZIPInputStream gis = new GZIPInputStream(new ByteArrayInputStream(bytes));
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        byte[] b = new byte[4096];
+        int len;
+        while ( (len = gis.read( b ) ) >= 0 )
+        {
+            out.write(b, 0, len);
+        }
+
+        return out.toString(encoding);
+    }
+
+    /**
+     * Decodes a Base64-encoded string that was encoded client-side by the bypassXssFilter mechanism
+     * of the input macro. This allows form fields to bypass the global XSS sanitizer filter
+     * without disabling it entirely.
+     *
+     * @param strBase64Value
+     *            the Base64-encoded string received from the form field
+     * @return the decoded original string, or null if the input is null
+     * @throws IllegalArgumentException
+     *             if the input is not valid Base64
+     */
+    public static String decodeXssBypass( String strBase64Value )
+    {
+        if ( strBase64Value == null )
+        {
+            return null;
+        }
+        if ( strBase64Value.isEmpty( ) )
+        {
+            return strBase64Value;
+        }
+        try
+        {
+            byte [ ] decodedBytes = Base64.getDecoder( ).decode( StringEscapeUtils.unescapeHtml4( strBase64Value ) );
+            return new String( decodedBytes, StandardCharsets.UTF_8 );
+        }
+        catch( IllegalArgumentException e )
+        {
+            AppLogService.error( "decodeXssBypass: failed to decode Base64 value — the submitted data may have been tampered with or corrupted. Value: '{}'",
+                    strBase64Value, e );
+            return null;
+        }
     }
 }

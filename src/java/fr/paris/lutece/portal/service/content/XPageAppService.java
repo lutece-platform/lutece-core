@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -108,7 +108,7 @@ public class XPageAppService extends ContentService
             }
 
             _mapApplications.put( entry.getId( ), entry );
-            AppLogService.info( "New XPage application registered : " + entry.getId( ) + ( entry.isEnabled( ) ? "" : " (disabled)" ) );
+            AppLogService.info( "New XPage application registered : {} {}", entry::getId, ( ) -> ( entry.isEnabled( ) ? "" : " (disabled)" ) );
         }
         catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
         {
@@ -197,8 +197,8 @@ public class XPageAppService extends ContentService
         // TODO : Handle entry == null
         if ( ( entry == null ) || ( !entry.isEnable( ) ) )
         {
-            AppLogService.error( "The specified Xpage '" + SecurityUtil.logForgingProtect( strName )
-                    + "' cannot be retrieved. Check installation of your Xpage application." );
+            AppLogService.error( "The specified Xpage '{}' cannot be retrieved. Check installation of your Xpage application.",
+                    ( ) -> SecurityUtil.logForgingProtect( strName ) );
             SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
 
             return null; // unreachable because SiteMessageService.setMessage throws
@@ -238,7 +238,7 @@ public class XPageAppService extends ContentService
             page = application.getPage( request, nMode, entry.getPlugin( ) );
         }
 
-        if ( page.isStandalone( ) )
+        if ( page.isStandalone( ) || page.isSendRedirect() )
         {
             return page.getContent( );
         }
@@ -247,19 +247,7 @@ public class XPageAppService extends ContentService
 
         data.setContent( page.getContent( ) );
         data.setName( page.getTitle( ) );
-
-        // set the page path. Done by adding the extra-path information to the
-        // pathLabel.
-        String strXml = page.getXmlExtendedPathLabel( );
-
-        if ( strXml == null )
-        {
-            data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel( ), 0, request ) );
-        }
-        else
-        {
-            data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel( ), 0, strXml, request ) );
-        }
+        data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel( ), 0, request ) );
 
         return PortalService.buildPageContent( data, nMode, request );
     }
@@ -305,7 +293,7 @@ public class XPageAppService extends ContentService
         {
             application = getApplicationInstance( entry );
             session.setAttribute( strAttribute, application );
-            AppLogService.debug( "New XPage instance of " + entry.getClassName( ) + " created and attached to session " + session );
+            AppLogService.debug( "New XPage instance of {} created and attached to session {}", entry.getClassName( ), session );
         }
 
         return application;

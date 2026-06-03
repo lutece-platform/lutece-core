@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -97,6 +97,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_ATTRIBUTE_FIELD = "jsp/admin/user/attribute/DoRemoveAttributeField.jsp";
     private static final AttributeService _attributeService = AttributeService.getInstance( );
     private static final AttributeFieldService _attributeFieldService = AttributeFieldService.getInstance( );
+    private static final String JSP_ATTRIBUTES_LIST = "jsp/admin/AdminTechnicalMenu.jsp?tab=attributes_management#users_advanced_parameters";
 
     /**
      * Create attribute field
@@ -145,12 +146,12 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         {
             if ( StringUtils.isBlank( strTitle ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ATTRIBUTES_LIST, AdminMessage.TYPE_STOP );
             }
 
             if ( StringUtils.isBlank( strValue ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ATTRIBUTES_LIST, AdminMessage.TYPE_STOP );
             }
 
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) )

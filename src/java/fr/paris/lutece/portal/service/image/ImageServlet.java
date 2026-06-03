@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,9 +55,9 @@ import fr.paris.lutece.portal.web.LocalVariables;
 public class ImageServlet extends HttpServlet
 {
     private static final long serialVersionUID = -5713203328367191908L;
-    private static final String ERROR_MSG = "ImageServlet error : ";
-    private static final String PARAMETER_RESOURCE_TYPE = "resource_type";
-    private static final String PARAMETER_ID = "id";
+    private static final String ERROR_MSG = "ImageServlet error : {}";
+    public static final String PARAMETER_RESOURCE_TYPE = "resource_type";
+    public static final String PARAMETER_ID = "id";
     private static final String PROPERTY_PATH_IMAGES = "path.images.root";
     private static final String PROPERTY_IMAGE_PAGE_DEFAULT = "image.page.default";
 
@@ -99,7 +99,7 @@ public class ImageServlet extends HttpServlet
                     }
                     catch( IOException ex )
                     {
-                        AppLogService.error( ERROR_MSG + ex.getMessage( ), ex );
+                        AppLogService.error( ERROR_MSG, ex.getMessage( ), ex );
                     }
                 }
                 else
@@ -125,7 +125,7 @@ public class ImageServlet extends HttpServlet
                     }
                     catch( IOException ex )
                     {
-                        AppLogService.error( ERROR_MSG + ex.getMessage( ), ex );
+                        AppLogService.error( ERROR_MSG, ex.getMessage( ), ex );
                     }
                 }
             }

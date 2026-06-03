@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -222,7 +222,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, "DOES_NOT_EXIST" );
         String url = bean.doForgotPassword( request );
-        assertEquals( "AdminFormContact.jsp", url );
+        assertTrue( url != null && url.endsWith ( "AdminMessage.jsp" ) );
     }
 
     public void testDoForgotPasswordNoEmail( ) throws Exception
@@ -235,7 +235,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, user.getAccessCode( ) );
         String url = bean.doForgotPassword( request );
-        assertEquals( "AdminFormContact.jsp", url );
+        assertTrue( url != null && url.endsWith ( "AdminMessage.jsp" ) );
     }
 
     public void testDoForgotPassword( ) throws Exception
@@ -422,8 +422,8 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
-        Date timestamp = new Date( new Date( ).getTime( ) + 1
-                + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
+        Date timestamp = new Date(
+                new Date( ).getTime( ) + 1 + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
         String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
         request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
         request.setParameter( "token", token );

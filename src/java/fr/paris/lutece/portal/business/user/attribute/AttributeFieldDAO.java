@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -157,7 +157,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
                 }
                 catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
                 {
-                    AppLogService.error( e );
+                    AppLogService.error( e.getMessage( ), e );
                 }
                 if ( attribute != null )
                 {

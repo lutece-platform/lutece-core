@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -108,7 +108,7 @@ public class ScannotationDB implements IAnnotationDB
         }
         else
         {
-            AppLogService.info( "Using " + getFileFilter( ) + " as filename filter" );
+            AppLogService.info( "Using {} as filename filter", getFileFilter( ) );
         }
 
         Date start = new Date( );
@@ -144,7 +144,7 @@ public class ScannotationDB implements IAnnotationDB
             AppLogService.error( e.getMessage( ), e );
         }
 
-        AppLogService.info( "ScannotationDB Classpath scanned in " + ( new Date( ).getTime( ) - start.getTime( ) ) + "ms" );
+        AppLogService.info( "ScannotationDB Classpath scanned in {} ms", ( ) -> ( new Date( ).getTime( ) - start.getTime( ) ) );
     }
 
     /**

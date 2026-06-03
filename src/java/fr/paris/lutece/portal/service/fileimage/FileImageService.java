@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.fileimage;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.fileupload.FileItem;
+
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
@@ -42,17 +44,20 @@ import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.file.FileService;
+import fr.paris.lutece.portal.service.file.FileServiceException;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.file.FileUtil;
 
 /**
  * Service for AdminUser image attributes. Provide ImageResource management
  */
-public final class FileImageService implements ImageResourceProvider
+public class FileImageService implements ImageResourceProvider
 {
     private static FileImageService _singleton = new FileImageService( );
     private static final String IMAGE_RESOURCE_TYPE_ID = "core_attribute_img";
@@ -66,7 +71,7 @@ public final class FileImageService implements ImageResourceProvider
 
     /**
      * Init
-     * 
+     *
      * @throws LuteceInitException
      *             if an error occurs
      */
@@ -95,42 +100,71 @@ public final class FileImageService implements ImageResourceProvider
 
     /**
      * Return the Resource id
-     * 
+     *
      * @param nIdResource
      *            The resource identifier
      * @return The Resource Image
      */
     public ImageResource getImageResource( int nIdResource )
     {
-        HttpServletRequest request = LocalVariables.getRequest( );
-        AdminUser user = AdminUserService.getAdminUser( request );
+        
+        if ( !isAuthorized( nIdResource ) ) return null;
+        
+        File file = FileHome.findByPrimaryKey( nIdResource );
 
-        if ( user != null && AdminUserFieldHome.existsWithFile( nIdResource ) )
+        if ( ( file != null ) && ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
         {
+            PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) );
+            ImageResource imageResource = new ImageResource( );
+            imageResource.setImage( physicalFile.getValue( ) );
+            imageResource.setMimeType( file.getMimeType( ) );
 
-            File file = FileHome.findByPrimaryKey( nIdResource );
-
-            if ( ( file != null ) && ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
-            {
-                PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) );
-                ImageResource imageResource = new ImageResource( );
-                imageResource.setImage( physicalFile.getValue( ) );
-                imageResource.setMimeType( file.getMimeType( ) );
-
-                return imageResource;
-            }
+            return imageResource;
         }
+        
 
         return null;
     }
 
     /**
      * Return the Resource Type id
-     * 
+     *
      * @return The Resource Type Id
      */
     public String getResourceTypeId( )
     {
         return IMAGE_RESOURCE_TYPE_ID;
     }
+
+    /**
+     * check rights
+     *
+     * @param nIdResource
+     * @return true if authorized
+     */
+    private static boolean isAuthorized(  int nIdResource  )
+    {
+        HttpServletRequest request = LocalVariables.getRequest( );
+        AdminUser user = AdminUserService.getAdminUser( request );
+
+        return ( null != user && AdminUserFieldHome.existsWithFile( nIdResource ) );
+    }
+    
+    /**
+     * Add Image Resource
+     * @param fileItem
+     * @return the Image File Key
+     */
+    public String addImageResource( FileItem fileItem )
+	{
+    	try 
+    	{
+    		return FileService.getInstance( ).getFileStoreServiceProvider( ).storeFileItem( fileItem );
+    	}
+		catch (FileServiceException e )
+    	{
+			AppLogService.error(e);
+			return null;
+    	}
+	}
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,7 @@ public class MainFilter implements Filter
 
         for ( LuteceFilter filter : FilterService.getInstance( ).getFilters( ) )
         {
-            AppLogService.debug( "PluginFilter : " + filter.getName( ) + " - url pattern : " + filter.getMappingUrlPattern( ) );
+            AppLogService.debug( "PluginFilter : {} - url pattern : {}", filter.getName( ), filter.getMappingUrlPattern( ) );
 
             // Catch exception for each filter to execute all chain
             try
@@ -98,7 +98,7 @@ public class MainFilter implements Filter
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error execution doFilter method - Filter " + filter.getName( ), e );
+                AppLogService.error( "Error execution doFilter method - Filter {}", filter.getName( ), e );
             }
         }
 
@@ -126,7 +126,7 @@ public class MainFilter implements Filter
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error execution destroy() method - Filter " + filter.getName( ), e );
+                AppLogService.error( "Error execution destroy() method - Filter {} ", filter.getName( ), e );
             }
         }
     }

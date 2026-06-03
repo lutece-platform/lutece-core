@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,15 +50,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MainServlet implements Servlet
 {
-	private ServletConfig _config;
-	
+    private ServletConfig _config;
+
     /**
      * {@inheritDoc}
      */
     @Override
     public void init( ServletConfig config ) throws ServletException
     {
-    	_config = config;
+        _config = config;
     }
 
     /**
@@ -74,7 +74,7 @@ public class MainServlet implements Servlet
 
         for ( LuteceServlet servlet : ServletService.getInstance( ).getServlets( ) )
         {
-            AppLogService.debug( "PluginServlet : " + servlet.getName( ) + " - url pattern : " + servlet.getMappingUrlPattern( ) );
+            AppLogService.debug( "PluginServlet : {} - url pattern : {}", servlet.getName( ), servlet.getMappingUrlPattern( ) );
 
             try
             {
@@ -86,7 +86,7 @@ public class MainServlet implements Servlet
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error execution 'service' method - Servlet " + servlet.getName( ), e );
+                AppLogService.error( "Error execution 'service' method - Servlet {}", servlet.getName( ), e );
             }
         }
     }
@@ -110,7 +110,7 @@ public class MainServlet implements Servlet
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error execution destroy() method - Servlet " + servlet.getName( ), e );
+                AppLogService.error( "Error execution destroy() method - Servlet {}", servlet.getName( ), e );
             }
         }
     }
@@ -151,7 +151,7 @@ public class MainServlet implements Servlet
     @Override
     public ServletConfig getServletConfig( )
     {
-    	return _config;
+        return _config;
     }
 
     /**

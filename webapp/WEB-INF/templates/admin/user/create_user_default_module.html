@@ -11,21 +11,22 @@
 	</#if>
 	<#return false>
 </#function>
-<@row>
-	<@columns>
+<@pageContainer>
+<@pageColumn>
+	<@pageHeader title='#i18n{portal.users.create_user.pageTitle}' />
 		<@box color='success'>
 			<@boxBody>
 				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' params='enctype="multipart/form-data"'>
 					<@input type='hidden' name='token' value='${token}' />
 					<@row>
-						<@columns md=4 lg=4>
+						<@columns md=4 lg=3>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelIdentity}' >
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
 								<@inputGroup>
 									<@inputGroupItem type='text'>
 										<@icon style='user' />
 									</@inputGroupItem>
-									<@input type='text' id='last_name' name='last_name' value='' maxlength=100 />
+									<@input type='text' id='last_name' name='last_name' value='' maxlength=100 size='' />
 								</@inputGroup>
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name' rows=2 mandatory=true>
@@ -33,7 +34,7 @@
 									<@inputGroupItem type='text'>
 										<@icon style='user' />
 									</@inputGroupItem>
-									<@input type='text' id='first_name' name='first_name' value='' maxlength=100 />
+									<@input type='text' id='first_name' name='first_name' value='' maxlength=100 size=''  />
 								</@inputGroup>
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email' rows=2 mandatory=true>
@@ -41,45 +42,48 @@
 									<@inputGroupItem type='text'>
 										<@icon style='envelope' />
 									</@inputGroupItem>
-									<@input type='text' id='email' name='email' value='' maxlength=100 />
+									<@input type='text' id='email' name='email' value='' maxlength=100 size=''  />
 								</@inputGroup>
 							</@formGroup>
 							</@fieldSet>
 						</@columns>
-						<@columns md=4 lg=4>
+						<@columns md=4 lg=3>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelAccount}'>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='text'>
+									<@inputGroupItem type='text' >
 										<@icon style='star' />
 									</@inputGroupItem>
-									<@input type='text' id='access_code' name='access_code' value='' maxlength=100 />
+									<@input type='text' id='access_code' name='access_code' value='' maxlength=100 size='' />
 								</@inputGroup>
 							</@formGroup>
-							<@formGroup labelFor='first_password' labelKey='#i18n{portal.users.create_user.labelFirstPassword}' helpKey='${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}' mandatory=true rows=2>
-								<@inputGroup>
+							<@formGroup labelFor='first_password' labelKey='#i18n{portal.users.create_user.labelFirstPassword}' helpKey='${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}' mandatory=true groupStyle='addons' rows=2>
+								<@inputGroup class='control has-icons-left is-expanded is-flex'>
 									<@inputGroupItem type='text'>
 										<@icon style='lock' />
 									</@inputGroupItem>
-									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' />
-									<@inputGroupItem>
+									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' size='' helpKey='${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}' />
+									<@inputGroupItem type='btn' pos='is-expanded'>
+										<@button type='button' title='#i18n{portal.admin.admin_login.passwordShow}' hideTitle=['all'] id='lutece-password-toggler' buttonIcon='eye' color='secondary' />
+									</@inputGroupItem>
+									<@inputGroupItem type='btn' pos='is-expanded'>
 										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='' color='secondary' />
 									</@inputGroupItem>
 								</@inputGroup>
 							</@formGroup>
-							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 helpKey='#i18n{portal.users.create_user.passwordComplexity}' mandatory=true>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 mandatory=true>
 								<@inputGroup>
 									<@inputGroupItem type='text'>
 										<@icon style='lock' />
 									</@inputGroupItem>
-									<@input type='password' id='second_password' name='second_password' maxlength=100 value='' />
+									<@input type='password' id='second_password' name='second_password' maxlength=100 value='' size='' />
 								</@inputGroup>
 							</@formGroup>
-							<@formGroup rows=2>
-								<@progressBar />
+							<@formGroup labelKey='#i18n{portal.users.create_user.passwordComplexity}' labelFor='progress_bar_first_password' rows=2>
+								<@passwordComplexity id="progress_bar_first_password" inputId="first_password" />
 							</@formGroup>
-							<div class="clearfix">&nbsp;</div>
-							<@formGroup labelKey='#i18n{portal.users.create_user.labelNotify}' rows=2>
+							<@div class='clearfix'></@div>
+							<@fieldSet legend='#i18n{portal.users.create_user.labelNotify}' legendClass='form-label' >
 								<#if default_user_notification = 1>
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value='1' checked=true />
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value='0' />
@@ -87,91 +91,77 @@
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value='1' />
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value='0' checked=true />
 								 </#if>								
-							</@formGroup>
+							</@fieldSet>
 							</@fieldSet>
 						</@columns>
-						<@columns md=4 lg=4>
-						<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
-							<@formGroup labelKey='#i18n{portal.users.create_user.labelStatus}' labelFor='status' rows=2>
-								<@select id='status' name='status'>
-									<#if default_user_status = 1>
-									<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-									<option value="1" selected="selected">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-									<#else>
-									<option value="0" selected="selected">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-									<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-									</#if>
-								</@select>
-							</@formGroup>
-							<#if displayFieldset( user_levels attributes_list )>
-								<#if (user_levels?has_content)>
-									<@formGroup labelKey='#i18n{portal.users.create_user.userLevelLabel}' labelFor='user_level' rows=2>
-										<@select name='user_level'>
+						<@columns md=4 lg=3>
+							<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
+								<@formGroup labelKey='#i18n{portal.users.create_user.labelStatus}' labelFor='status' rows=2>
+									<@select id='status' name='status'>
+										<@option value="0" selected=default_user_status!=1 label='#i18n{portal.users.create_user.statusLabelEnabled}' />
+										<@option value="1" selected=default_user_status=1 label='#i18n{portal.users.create_user.statusLabelDisabled}' />
+									</@select>
+								</@formGroup>
+								<#if displayFieldset( user_levels attributes_list )>
+									<#if (user_levels?has_content)>
+										<@formGroup labelKey='#i18n{portal.users.create_user.userLevelLabel}' labelFor='user_level' rows=2>
+											<@select name='user_level'>
 											<#list user_levels as user_level>
-												<#if user_level.id = default_user_level.id>
-												<option value="${user_level.id}" selected="selected">${user_level.name}</option>
-												<#else>
-												<option value="${user_level.id}">${user_level.name}</option>
-												</#if>
+												<@option value=user_level.id selected=user_level.id = default_user_level.id label=user_level.name />
 											</#list>
-										</@select>
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' rows=2 mandatory=true>
-										<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list sort=true />
-									</@formGroup>
-									<@formGroup labelKey='#i18n{portal.users.create_user.labelLanguage}' labelFor='language' rows=2>
-										<@select name='language' default_value='${default_user_language}' items=languages_list sort=true />									
-									</@formGroup>
+											</@select>
+										</@formGroup>
+										<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' rows=2 >
+											<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list sort=true />
+										</@formGroup>
+										<@formGroup labelKey='#i18n{portal.users.create_user.labelLanguage}' labelFor='language' rows=2>
+											<@select name='language' default_value='${default_user_language}' items=languages_list sort=true />									
+										</@formGroup>
+									</#if>
+									<#list attributes_list as attribute>
+										<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
+											${attribute.getHtmlFormAttribute( locale )}
+											<#break>
+										</#if>
+									</#list>
 								</#if>
-								<#list attributes_list as attribute>
-									<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
-										${attribute.getHtmlFormAttribute( locale )}
-										<#break>
-									</#if>
-								</#list>
-							</#if>
-							<#if attributes_list?has_content>
-								<#list attributes_list as attribute>
-									<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name !="profiles" )>
-										${attribute.getHtmlFormAttribute( locale )}
-									</#if>
-								</#list>
-							</#if>
-							<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='accessibility_mode' rows=2>
-								<@checkBox name='accessibility_mode' id='accessibility_mode' orientation='horizontal' value='1' labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' />
-							</@formGroup>
-						</@fieldSet>
+								<#if attributes_list?has_content>
+									<#list attributes_list as attribute>
+										<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name !="profiles" )>
+											${attribute.getHtmlFormAttribute( locale )}
+										</#if>
+									</#list>
+								</#if>
+								<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='accessibility_mode' rows=2>
+									<@checkBox name='accessibility_mode' id='accessibility_mode' orientation='horizontal' value='1' labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' />
+								</@formGroup>
+							</@fieldSet>
 						</@columns>
 					</@row>
 					<@row>
 						<@columns md=4 lg=4>
 							<@formGroup rows=2>
-								<@button size='' type='submit' buttonIcon='check' title='#i18n{portal.users.manage_users.buttonLabelAddUser}'  />
-								<@aButton size='' href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
+								<@button  type='submit' buttonIcon='check' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' color='primary' size='' />
+								<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
 							</@formGroup>
 						</@columns>
 					</@row>
 				</@tform>	
 			</@boxBody>
 		</@box>
-	</@columns>
-</@row>
-<script src="js/admin/jquery/plugins/jquery.complexify.js"></script>
-<script src="js/admin/jquery/plugins/generatepassword/jquery.password.min.js"></script>
-<script>
-$(document).ready(function(){	
-	$("#generate_password").click(function(){
-		var pwd = $.password(${randomPasswordSize}, true);
-		$("#first_password").val(pwd);
-		$("#second_password").val(pwd);
-		$("#first_password").trigger("propertychange");
-    });
+	</@pageColumn>
+</@pageContainer>
+<script type="module">
+import { LutecePassword	} from './themes/shared/modules/lutecePassword.js';
 
-	$("#first_password").complexify({}, function (valid, complexity) {
-		var progressBar = $('#progressbar');
-		progressBar.toggleClass('progress-bar-success', valid);
-		progressBar.toggleClass('progress-bar-danger', !valid);
-		progressBar.css({'width': complexity + '%'});
-		$('#complexity').html(Math.round(complexity) + '%');
-	});
-})</script>
+const password = new LutecePassword();
+const generator = document.getElementById('generate_password');
+const input = document.getElementById('first_password');
+
+generator.addEventListener('click', () => {
+	input.value = password.generatePassword();
+	input.dispatchEvent(new Event('input'));
+});
+password.passwordInput = '#first_password'
+password.initPassToggler( );
+</script>

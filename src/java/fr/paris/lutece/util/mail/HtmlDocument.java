@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -164,7 +164,7 @@ public class HtmlDocument
                 catch( MalformedURLException e )
                 {
                     // ignored document
-                    AppLogService.info( strSrc + " not found, location ignored." );
+                    AppLogService.info( " {} not found, location ignored.", strSrc );
                 }
             }
         }
@@ -230,7 +230,7 @@ public class HtmlDocument
                 catch( MalformedURLException e )
                 {
                     // ignored document
-                    AppLogService.info( strSrc + " not found, location ignored." );
+                    AppLogService.info( " {} not found, location ignored.", strSrc );
                 }
             }
         }

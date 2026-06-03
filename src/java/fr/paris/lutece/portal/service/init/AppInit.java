@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,6 @@ import fr.paris.lutece.portal.service.datastore.CoreDataKeys;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.fileimage.FileImageService;
 import fr.paris.lutece.portal.service.filter.FilterService;
-import fr.paris.lutece.portal.service.html.XmlTransformerCacheService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -129,8 +128,6 @@ public final class AppInit
             long lStart = System.currentTimeMillis( );
 
             Thread.currentThread( ).setName( "Lutece-MainThread" );
-            // Initializes a very basic logging system (everything to stdout)
-            AppLogService.preinit( );
             // Initializes the properties download files containing the variables used by
             // the application
             AppPropertiesService.init( strConfPath );
@@ -148,9 +145,7 @@ public final class AppInit
                 initProperties( strRealPath );
             }
 
-            // Initializes the log service from the property files
-            AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
-            AppLogService.info( AppInfo.LUTECE_BANNER_VERSION + "  Starting  version " + AppInfo.getVersion( ) + "...\n" );
+            AppLogService.info( " {} {} {} ...\n", AppInfo.LUTECE_BANNER_VERSION, "Starting  version", AppInfo.getVersion( ) );
 
             // BeanUtil initialization, considering Lutèce availables locales and date
             // format properties
@@ -159,7 +154,9 @@ public final class AppInit
             // Initializes the connection pools
             AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
             AppLogService.info( "Creating connexions pool 'portal'." );
-
+           
+            //Initializes early initialization services.
+            StartUpServiceManager.initializeEarlyInitializationServices( );
             // Spring ApplicationContext initialization
             AppLogService.info( "Loading context files ..." );
             SpringContextService.init( context );
@@ -167,9 +164,6 @@ public final class AppInit
             // Initialize and run StartUp services
             AppLogService.info( "Running extra startup services ..." );
             StartUpServiceManager.init( );
-
-            // XmlTransformer service cache manager
-            XmlTransformerCacheService.init( );
 
             AdminMailingListService.init( );
 
@@ -192,9 +186,9 @@ public final class AppInit
             // Initializes the SecurityService
             SecurityService.init( );
 
-            // Initializes plugins autoincludes - needs to be launched before the daemons
+            // Initializes plugins auto-includes and auto-imports - needs to be launched before the daemons
             // (indexer could fail)
-            AppTemplateService.initAutoIncludes( );
+            AppTemplateService.initMacros( );
 
             // Initializes the daemons service
             AppDaemonService.init( );
@@ -300,7 +294,7 @@ public final class AppInit
     {
         for ( ContentService cs : PortalService.getContentServicesList( ) )
         {
-            AppLogService.info( "Content Service '" + cs.getName( ) + "' is loaded " + ( cs.isCacheEnable( ) ? " [ cache enable ] " : " [ cache disable ] " ) );
+            AppLogService.info( "Content Service '{}' is loaded {} ", cs.getName( ), ( cs.isCacheEnable( ) ? " [ cache enable ] " : " [ cache disable ] " ) );
         }
     }
 

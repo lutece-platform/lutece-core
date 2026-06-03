@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,14 +36,15 @@ package fr.paris.lutece.portal.util.mvc.utils;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 
-import org.apache.log4j.Logger;
-
 import java.lang.reflect.Method;
 
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Utils for MVC components
@@ -55,7 +56,7 @@ public final class MVCUtils
     public static final String PARAMETER_PAGE = "page";
     private static final String PREFIX_VIEW = "view_";
     private static final String PREFIX_ACTION = "action_";
-    private static Logger _logger = Logger.getLogger( "lutece.mvc" );
+    private static Logger _logger = LogManager.getLogger( "lutece.mvc" );
 
     /**
      * Private constructor
@@ -149,13 +150,13 @@ public final class MVCUtils
             {
                 if ( m.isAnnotationPresent( View.class ) && strView.equals( m.getAnnotation( View.class ).value( ) ) )
                 {
-                    _logger.debug( "MVC controller - process view : '" + strView + "'" );
+                    _logger.debug( "MVC controller - process view : '{}'", strView );
 
                     return m;
                 }
             }
 
-            _logger.warn( "MVC controller - No method found to process view : '" + strView + "'" );
+            _logger.warn( "MVC controller - No method found to process view : '{}'", strView );
         }
 
         return null;
@@ -180,13 +181,13 @@ public final class MVCUtils
             {
                 if ( m.isAnnotationPresent( Action.class ) && strAction.equals( m.getAnnotation( Action.class ).value( ) ) )
                 {
-                    _logger.debug( "MVC controller - process action : '" + strAction + "'" );
+                    _logger.debug( "MVC controller - process action : '{}'", strAction );
 
                     return m;
                 }
             }
 
-            _logger.warn( "MVC controller - No method found to process action : '" + strAction + "'" );
+            _logger.warn( "MVC controller - No method found to process action : '{}'", strAction );
         }
 
         return null;
@@ -231,7 +232,6 @@ public final class MVCUtils
         response.setHeader( "Content-Disposition", "attachment; filename=\"" + strFilename + "\";" );
         response.setHeader( "Content-type", strContentType );
         response.addHeader( "Content-Encoding", "UTF-8" );
-        response.addHeader( "Pragma", "public" );
         response.addHeader( "Expires", "0" );
         response.addHeader( "Cache-Control", "must-revalidate,post-check=0,pre-check=0" );
     }

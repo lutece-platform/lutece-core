@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,9 +32,6 @@
  * License 1.0
  */
 package fr.paris.lutece.portal.business.portlet;
-
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 import java.util.List;
@@ -89,15 +86,16 @@ public interface IPortletDAO
     void updateStatus( Portlet portlet, int nStatus );
 
     /**
-     * Returns the stylesheet of the portlet according to the mode
+     * Update the portlet status : 0 for activated - 1 for suspended
      *
-     * @param nPortletId
-     *            the identifier of the portlet
-     * @param nIdMode
-     *            the selected mode
-     * @return the stylesheet
+     * @param portlet
+     *            the portlet to upadte in the database
+     * @param nColumn
+     *            the column to update
+     * @param nOrder
+     *            the order to update
      */
-    StyleSheet selectXslFile( int nPortletId, int nIdMode );
+    void updatePosition( Portlet portlet, int nColumn, int nOrder );
 
     /**
      * Returns the list of portlets in a distinct name
@@ -116,15 +114,6 @@ public interface IPortletDAO
      * @return the portlets in form of Collection
      */
     List<Portlet> selectPortletsByType( String strPortletTypeId );
-
-    /**
-     * Returns all the styles corresponding to a portlet type
-     *
-     * @param strPortletTypeId
-     *            the identifier of the portlet type
-     * @return the list of styles in form of ReferenceList
-     */
-    ReferenceList selectStylesList( String strPortletTypeId );
 
     /**
      * Indicates if the portlet has alias in the database or not.

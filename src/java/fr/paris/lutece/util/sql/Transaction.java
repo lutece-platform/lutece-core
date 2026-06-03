@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,9 +38,9 @@ import fr.paris.lutece.portal.service.database.PluginConnectionService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppException;
 
-import org.apache.commons.lang.StringUtils;
-
-import org.apache.log4j.Logger;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -210,7 +210,7 @@ public class Transaction
      */
     public void executeStatement( ) throws SQLException
     {
-        _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - EXECUTE STATEMENT : " + _strSQL );
+        _logger.debug( "{} {}' - EXECUTE STATEMENT : {}", MESSAGE_PLUGIN, _strPluginName, _strSQL );
         _statement.executeUpdate( );
     }
 
@@ -227,7 +227,7 @@ public class Transaction
             }
 
             _connection.commit( );
-            _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - COMMIT TRANSACTION" );
+            _logger.debug( "{} {}' - COMMIT TRANSACTION", MESSAGE_PLUGIN, _strPluginName );
             closeTransaction( COMMITTED );
         }
         catch( SQLException e )
@@ -254,7 +254,7 @@ public class Transaction
     {
         if ( e != null )
         {
-            _logger.error( "Transaction Error - Rollback in progress " + e.getMessage( ), e.getCause( ) );
+            _logger.error( "Transaction Error - Rollback in progress {}", e.getMessage( ), e.getCause( ) );
         }
 
         try
@@ -262,16 +262,16 @@ public class Transaction
             if ( _connection != null )
             {
                 _connection.rollback( );
-                _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - ROLLBACK TRANSACTION" );
+                _logger.debug( "{} {}' - ROLLBACK TRANSACTION", MESSAGE_PLUGIN, _strPluginName );
             }
             else
             {
-                _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - TRANSACTION HAS ALREADY BEEN ROLLED BACK" );
+                _logger.debug( "{} {}' - TRANSACTION HAS ALREADY BEEN ROLLED BACK", MESSAGE_PLUGIN, _strPluginName );
             }
         }
         catch( SQLException ex )
         {
-            _logger.error( "Transaction Error - Rollback error : " + ex.getMessage( ), ex.getCause( ) );
+            _logger.error( "Transaction Error - Rollback error : {}", ex.getMessage( ), ex );
         }
         finally
         {
@@ -323,8 +323,8 @@ public class Transaction
             throw new AppException( "Database access error. Please check component installations and db.properties." );
         }
 
-        _logger = Logger.getLogger( LOGGER_DEBUG_SQL + _strPluginName );
-        _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - BEGIN TRANSACTION" );
+        _logger = LogManager.getLogger( LOGGER_DEBUG_SQL + _strPluginName );
+        _logger.debug( "{}{}' - BEGIN TRANSACTION", MESSAGE_PLUGIN, _strPluginName );
 
         try
         {
@@ -365,7 +365,7 @@ public class Transaction
         }
         catch( SQLException ex )
         {
-            _logger.error( "Transaction Error - Unable to close transaction " + ex.getMessage( ), ex.getCause( ) );
+            _logger.error( "Transaction Error - Unable to close transaction {}", ex.getMessage( ), ex );
         }
         finally
         {

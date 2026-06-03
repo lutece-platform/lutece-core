@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.portal.util.mvc.xpage;
 
+import fr.paris.lutece.portal.service.security.AccessLogService;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,12 +52,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.springframework.util.ReflectionUtils;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
@@ -81,15 +86,21 @@ import fr.paris.lutece.util.url.UrlItem;
 public abstract class MVCApplication implements XPageApplication
 {
     private static final long serialVersionUID = 6093635383465830355L;
+
+    // markers
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
     private static final String MARK_MESSAGE_BOX = "messageBox";
+
+    // constants
     private static final String URL_PORTAL = "Portal.jsp";
     private static final String PATH_PORTAL = "jsp/site/";
     private static final String VIEW_MESSAGEBOX = "messageBox";
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String CONTENT_TYPE_XML = "application/xml";
+
+    // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
     private List<ErrorMessage> _listErrors = new ArrayList<>( );
     private List<ErrorMessage> _listInfos = new ArrayList<>( );
@@ -143,11 +154,15 @@ public abstract class MVCApplication implements XPageApplication
                 return messageBox( request );
             }
 
+            LuteceUser registredUser = getRegistredUser( request );
+
             // Process views
             Method m = MVCUtils.findViewAnnotedMethod( request, methods );
 
             if ( m != null )
             {
+                AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_READ, m.getName( ), registredUser,
+                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
                 return (XPage) m.invoke( this, request );
             }
 
@@ -156,12 +171,16 @@ public abstract class MVCApplication implements XPageApplication
 
             if ( m != null )
             {
+                AccessLogService.getInstance( ).debug( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
+                        request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
                 return (XPage) m.invoke( this, request );
             }
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
 
+            AccessLogService.getInstance( ).trace( AccessLoggerConstants.EVENT_TYPE_ACTION, m.getName( ), registredUser,
+                    request.getRequestURL( ) + "?" + request.getQueryString( ), AccessLogService.ACCESS_LOG_FO );
             return (XPage) m.invoke( this, request );
         }
         catch( InvocationTargetException e )
@@ -432,6 +451,18 @@ public abstract class MVCApplication implements XPageApplication
     {
         _listErrors.add( new MVCMessage( strMessage ) );
     }
+    
+    /**
+     * Add an error message. The error message must NOT be an I18n key.
+     * 
+     * @param strMessage
+     *            The message
+     * @param  strFieldName the field name           
+     */
+    protected void addError( String strMessage, String strFieldName )
+    {
+        _listErrors.add( new MVCMessage( strMessage,strFieldName ) );
+    }
 
     /**
      * Add an error message. The error message must be an I18n key.
@@ -446,6 +477,7 @@ public abstract class MVCApplication implements XPageApplication
         _listErrors.add( new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ) );
     }
 
+    
     /**
      * Add an warning message. The warning message must NOT be an I18n key.
      * 
@@ -456,6 +488,22 @@ public abstract class MVCApplication implements XPageApplication
     {
         _listWarnings.add( new MVCMessage( strMessage ) );
     }
+    
+    /**
+     * Add an warning message. The warning message must NOT be an I18n key.
+     * 
+     * @param strMessage
+     *            The message
+     *            
+     * @param  strFieldName the field name            
+     *            
+     */
+    protected void addWarning( String strMessage, String strFieldName  )
+    {
+        _listWarnings.add( new MVCMessage( strMessage,strFieldName ) );
+    }
+    
+
 
     /**
      * Add an warning message. The warning message must be an I18n key.
@@ -479,6 +527,18 @@ public abstract class MVCApplication implements XPageApplication
     protected void addInfo( String strMessage )
     {
         _listInfos.add( new MVCMessage( strMessage ) );
+    }
+    
+    /**
+     * Add an info message. The info message must NOT be an I18n key.
+     * 
+     * @param strMessage
+     *            The message
+     * @param  strFieldName the field name             
+     */
+    protected void addInfo( String strMessage, String strFieldName )
+    {
+        _listInfos.add( new MVCMessage( strMessage,strFieldName )  );
     }
 
     /**
@@ -531,15 +591,16 @@ public abstract class MVCApplication implements XPageApplication
 
         try
         {
-            _logger.debug( "Redirect :" + strTarget );
+            _logger.debug( "Redirect :{}", strTarget );
             response.sendRedirect( strTarget );
         }
         catch( IOException e )
         {
-            _logger.error( "Unable to redirect : " + strTarget + " : " + e.getMessage( ), e );
+            _logger.error( "Unable to redirect : {} : {}", strTarget, e.getMessage( ), e );
         }
-
-        return new XPage( );
+        XPage xpage=new XPage();
+        xpage.setSendRedirect(true);
+        return xpage;
     }
 
     /**
@@ -698,29 +759,7 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected XPage download( String strData, String strFilename, String strContentType )
     {
-        HttpServletResponse response = LocalVariables.getResponse( );
-        PrintWriter out = null;
-        response.setHeader( "Content-Disposition", "attachment; filename=\"" + strFilename + "\";" );
-        MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
-
-        try
-        {
-            out = response.getWriter( );
-            out.print( strData );
-        }
-        catch( IOException e )
-        {
-            AppLogService.error( e.getStackTrace( ), e );
-        }
-        finally
-        {
-            if ( out != null )
-            {
-                out.close( );
-            }
-        }
-
-        return new XPage( );
+        return download( strData.getBytes( StandardCharsets.UTF_8 ), strFilename, strContentType );
     }
 
     /**
@@ -737,21 +776,20 @@ public abstract class MVCApplication implements XPageApplication
     protected XPage download( byte [ ] data, String strFilename, String strContentType )
     {
         HttpServletResponse response = LocalVariables.getResponse( );
-        OutputStream os;
         MVCUtils.addDownloadHeaderToResponse( response, strFilename, strContentType );
 
-        try
+        try ( OutputStream os = response.getOutputStream( ) )
         {
-            os = response.getOutputStream( );
             os.write( data );
-            os.close( );
         }
         catch( IOException e )
         {
-            AppLogService.error( e.getStackTrace( ), e );
+            AppLogService.error( "An error occured while writing the downloaded data", e );
         }
 
-        return new XPage( );
+        XPage xPage = new XPage( );
+        xPage.setStandalone( true );
+        return xPage;
     }
 
     /**
@@ -868,5 +906,26 @@ public abstract class MVCApplication implements XPageApplication
         model.put( MARK_MESSAGE_BOX, _messageBox );
 
         return getXPage( _messageBox.getTemplate( ), getLocale( request ), model );
+    }
+
+    /**
+     * get the registred User
+     * 
+     * @param request
+     * @return the lutece user if registred, null otherwise
+     */
+    protected LuteceUser getRegistredUser( HttpServletRequest request )
+    {
+        // get authenticated user if authentication is enable
+        if ( SecurityService.isAuthenticationEnable( ) )
+        {
+            LuteceUser luteceUser = SecurityService.getInstance( ).getRegisteredUser( request );
+            if ( luteceUser != null )
+            {
+                return luteceUser;
+            }
+        }
+
+        return null;
     }
 }

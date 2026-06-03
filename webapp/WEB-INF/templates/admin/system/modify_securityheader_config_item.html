@@ -1,0 +1,23 @@
+<@pageContainer>
+    <@pageColumn> 
+        <@pageHeader title='#i18n{portal.securityheader.modify_securityheader_config_item.pageTitle}' />
+		<@tform method='post' id='modify-securityheader-config-item-form' action='jsp/admin/system/DoModifySecurityHeaderConfigItem.jsp'>
+			<@input type='hidden' name='token' value='${token}' />
+			<@input type='hidden' name='id_config_item' value='${securityheaderConfigItem.idConfigItem}' />
+			<@input type='hidden' name='id_securityheader' value='${id_securityheader}' />
+			
+			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader_config_item.labelHeaderCustomValue}' labelFor='headerCustomValue' mandatory=true>
+				<@input type='text' name='headerCustomValue' id='headerCustomValue' value='${securityheaderConfigItem.headerCustomValue}' maxlength=1024 />
+			</@formGroup>
+			
+			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader_config_item.labelUrlPattern}' helpKey='#i18n{portal.securityheader.modify_securityheader_config_item.urlPattern.help}' labelFor='name' mandatory=true>
+				<@input type='text' name='urlPattern' id='urlPattern' value='${securityheaderConfigItem.urlPattern}' maxlength=1024 />
+			</@formGroup>			
+			
+			<@formGroup>
+				<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.securityheader.modify_securityheader_config_item.buttonModify}' color='primary' />
+				<@aButton href='jsp/admin/system/ModifySecurityHeaderConfig.jsp?id_securityheader=${id_securityheader}' buttonIcon='times' color='default' title='#i18n{portal.admin.message.buttonCancel}' />
+			</@formGroup>
+		</@tform>
+	</@pageColumn>
+</@pageContainer>

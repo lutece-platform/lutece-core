@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -61,6 +61,7 @@ public class AdminUserFilter implements Serializable
 
     // Parameteres
     private static final String PARAMETER_SEARCH_ACCESS_CODE = "search_access_code";
+    private static final String PARAMETER_SEARCH_FIRST_NAME = "search_first_name";
     private static final String PARAMETER_SEARCH_LAST_NAME = "search_last_name";
     private static final String PARAMETER_SEARCH_EMAIL = "search_email";
     private static final String PARAMETER_SEARCH_STATUS = "search_status";
@@ -70,6 +71,7 @@ public class AdminUserFilter implements Serializable
     // Properties
     private static final String PROPERTY_ENCODING_URL = "lutece.encoding.url";
     private String _strAccessCode;
+    private String _strFirstName;
     private String _strLastName;
     private String _strEmail;
     private int _nStatus;
@@ -89,6 +91,7 @@ public class AdminUserFilter implements Serializable
     public void init( )
     {
         _strAccessCode = StringUtils.EMPTY;
+        _strFirstName = StringUtils.EMPTY;
         _strLastName = StringUtils.EMPTY;
         _strEmail = StringUtils.EMPTY;
         _nStatus = -1;
@@ -114,6 +117,23 @@ public class AdminUserFilter implements Serializable
     public void setAccessCode( String strAccessCode )
     {
         _strAccessCode = strAccessCode;
+    }
+
+    /**
+     * @return the strFirstName
+     */
+    public String getFirstName( )
+    {
+        return _strFirstName;
+    }
+
+    /**
+     * @param strFirstName
+     *            the strFirstName to set
+     */
+    public void setFirstName( String strFirstName )
+    {
+        _strFirstName = strFirstName;
     }
 
     /**
@@ -216,6 +236,7 @@ public class AdminUserFilter implements Serializable
         {
             bIsSearch = true;
             _strAccessCode = request.getParameter( PARAMETER_SEARCH_ACCESS_CODE );
+            _strFirstName = request.getParameter( PARAMETER_SEARCH_FIRST_NAME );
             _strLastName = request.getParameter( PARAMETER_SEARCH_LAST_NAME );
             _strEmail = request.getParameter( PARAMETER_SEARCH_EMAIL );
 
@@ -263,6 +284,7 @@ public class AdminUserFilter implements Serializable
         try
         {
             url.addParameter( PARAMETER_SEARCH_ACCESS_CODE, URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            url.addParameter( PARAMETER_SEARCH_FIRST_NAME, URLEncoder.encode( _strFirstName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
             url.addParameter( PARAMETER_SEARCH_LAST_NAME, URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
             url.addParameter( PARAMETER_SEARCH_EMAIL, URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         }
@@ -291,7 +313,9 @@ public class AdminUserFilter implements Serializable
                     .append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL )
                     .append( URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) )
                     .append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL )
-                    .append( URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+                    .append( URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) )
+                    .append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_FIRST_NAME + CONSTANT_EQUAL )
+                    .append( URLEncoder.encode( _strFirstName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         }
         catch( UnsupportedEncodingException e )
         {

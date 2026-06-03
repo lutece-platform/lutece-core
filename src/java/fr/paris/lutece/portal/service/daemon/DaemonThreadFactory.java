@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ public final class DaemonThreadFactory implements ThreadFactory
         thread.setDaemon( RUN_THREAD_AS_DAEMON );
         thread.setPriority( Thread.MIN_PRIORITY );
         thread.setName( DAEMONS_NAME_PREFIX + _nIndex );
-        AppLogService.info( "New Scheduled Thread added to the pool for daemons. Index:" + _nIndex );
+        AppLogService.info( "New Scheduled Thread added to the pool for daemons. Index:{}", _nIndex );
         increaseIndex( );
 
         return thread;

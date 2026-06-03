@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -106,7 +106,7 @@ public class AttributeComparator implements Comparator<Object>, Serializable
         }
         catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e )
         {
-            AppLogService.error( e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         if ( !_bIsASC )
@@ -185,7 +185,7 @@ public class AttributeComparator implements Comparator<Object>, Serializable
         }
         catch( Exception e )
         {
-            AppLogService.error( e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         return method;

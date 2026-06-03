@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,12 +43,14 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-
+import java.io.File;
 import org.junit.Test;
 
 /**
@@ -58,54 +60,58 @@ import org.junit.Test;
 public class AppTemplateServiceTest extends LuteceTestCase
 {
 
-	private static final String REFERENCE_TEMPLATE = "reference.html";
-	private static final String HTML_EXTENSION = ".html";
-	final private static String TEST_TEMPLATES_PATH = "commons/templates/test/";
+    private static final String REFERENCE_TEMPLATE = "reference.html";
+    private static final String MARK_SITE_NAME = "site_name";
+    final private static String TEST_TEMPLATES_PATH = "commons" + File.separator + "templates" + File.separator + "test";
 
-	@Test
-	public void testCommonsTemplates( ) throws IOException, TemplateException 
-	{
+    @Test
+    public void testCommonsTemplates( ) throws IOException, TemplateException, URISyntaxException
+    {
 
-		String classPath = getClass( ).getProtectionDomain( ).getCodeSource( ).getLocation( ).getPath( );
+        URL resourceUrl = getClass( ).getClassLoader( ).getResource( TEST_TEMPLATES_PATH );
 
+        if ( resourceUrl == null ) {
+            fail( "Could not find the test templates path." );
+        }
 
-		for (CommonsInclude ci : CommonsService.getCommonsIncludes( ) ) 
-		{
-			try 
-			{
-				CommonsService.activateCommons( ci.getKey( ) );
-				String ciKey = ci.getKey( );
-				Map<String, Object> model = new HashMap<>( );
-				
-				AppTemplateService.resetCache( );
+        Path testTemplatesPath = Paths.get( resourceUrl.toURI( ) );
 
-				String strReferenceTemplate = readFile( classPath + TEST_TEMPLATES_PATH + REFERENCE_TEMPLATE, StandardCharsets.UTF_8 );
-				HtmlTemplate generated_template =  AppTemplateService.getTemplateFromStringFtl( strReferenceTemplate, LocaleService.getDefault( ), model );
-				
-				assertNotNull( "AppTemplateServiceTest freemarker lib :  "  + ciKey, generated_template.getHtml( ) );
-			}
-			catch ( IOException e )
-			{
-				fail( e.getMessage( ) );
-			}
-		}
+        for ( CommonsInclude ci : CommonsService.getCommonsIncludes( ) )
+        {
+            try
+            {
+                CommonsService.activateCommons( ci.getKey( ) );
+                String ciKey = ci.getKey( );
+                Map<String, Object> model = new HashMap<>( );
+                model.put( MARK_SITE_NAME, "test" );
 
-	}
+                AppTemplateService.resetCache( );
 
-	/**
-	 * read file
-	 *
-	 * @param path
-	 * @param encoding
-	 * @return the file as string
-	 * @throws IOException
-	 */
-	static String readFile( String path, Charset encoding )
-			throws IOException
-	{
-		byte[] encoded = Files.readAllBytes( Paths.get( path ) );
-		return new String( encoded, encoding );
-	}
+                String strReferenceTemplate = readFile( testTemplatesPath.resolve( REFERENCE_TEMPLATE ).toString( ), StandardCharsets.UTF_8 );
+                HtmlTemplate generated_template = AppTemplateService.getTemplateFromStringFtl( strReferenceTemplate, LocaleService.getDefault( ), model );
 
+                assertNotNull( "AppTemplateServiceTest freemarker lib :  " + ciKey, generated_template.getHtml( ) );
+            }
+            catch( IOException e )
+            {
+                fail( e.getMessage( ) );
+            }
+        }
+
+    }
+
+    /**
+     * read file
+     *
+     * @param path
+     * @param encoding
+     * @return the file as string
+     * @throws IOException
+     */
+    static String readFile( String path, Charset encoding ) throws IOException
+    {
+        byte [ ] encoded = Files.readAllBytes( Paths.get( path ) );
+        return new String( encoded, encoding );
+    }
 
 }

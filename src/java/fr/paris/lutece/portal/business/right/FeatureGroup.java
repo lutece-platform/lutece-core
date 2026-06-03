@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,6 +54,7 @@ public class FeatureGroup
     private String _strId;
     private String _strDescriptionKey;
     private String _strLabelKey;
+    private String _strIcon;
     private int _nOrder;
     private Collection<Right> _aFeaturesList = new ArrayList<>( );
     private Locale _locale;
@@ -234,4 +235,25 @@ public class FeatureGroup
         return item;
     }
 
+    /**
+     * Returns the icon of this feature group.
+     *
+     * @return the feature group icon
+     */
+    public String getIcon( )
+    {
+        return _strIcon;
+    }
+
+    /**
+     * Sets the icon of the feature group to the specified string.
+     *
+     * @param strIcon
+     *            the new icon
+     */
+    public void setIcon( String strIcon )
+    {
+        _strIcon = ( strIcon == null ) ? EMPTY_STRING : strIcon;
+    }
+    
 }

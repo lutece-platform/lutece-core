@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,15 +47,16 @@ public class InsertServiceManagerTest extends LuteceTestCase
     {
         MockInsertService is = new MockInsertService( );
         is.setId( "1" );
-        
+
         assertEquals( 0, InsertServiceManager.getInsertServicesList( ).size( ) );
         InsertServiceManager.registerInsertService( is );
         assertEquals( 1, InsertServiceManager.getInsertServicesList( ).size( ) );
         InsertServiceManager.unregisterInsertService( is );
         assertEquals( 0, InsertServiceManager.getInsertServicesList( ).size( ) );
     }
-    
-    private class MockInsertService extends InsertService {
+
+    private class MockInsertService extends InsertService
+    {
         @Override
         public boolean isEnabled( )
         {

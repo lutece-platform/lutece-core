@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,18 +35,19 @@ package fr.paris.lutece.portal.service.jpa;
 
 import fr.paris.lutece.util.jpa.JPAConstants;
 
-import org.apache.log4j.Logger;
-
 import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Class EntityManagerService
  */
 public class EntityManagerService
 {
-    private static Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    private static Logger _log = LogManager.getLogger( JPAConstants.JPA_LOGGER );
     private static Map<String, EntityManagerFactory> _mapFactories;
 
     /**
@@ -83,7 +84,7 @@ public class EntityManagerService
 
         if ( emf == null )
         {
-            _log.error( "EntityManagerService Error - No factory was found for pool : " + strPoolName );
+            _log.error( "EntityManagerService Error - No factory was found for pool : {}", strPoolName );
         }
 
         return emf;

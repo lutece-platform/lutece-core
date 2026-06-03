@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.web.dashboard;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.dashboard.DashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.DashboardHome;
@@ -101,7 +101,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         }
         catch( NumberFormatException nfe )
         {
-            AppLogService.error( "DashboardJspBean.doReorderColumn : " + nfe.getMessage( ), nfe );
+            AppLogService.error( "DashboardJspBean.doReorderColumn : {}", nfe.getMessage( ), nfe );
 
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }

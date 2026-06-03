@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,7 @@ import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.web.xss.XSSRequestWrapper;
 import fr.paris.lutece.util.http.MultipartUtil;
 
 /**
@@ -148,13 +149,14 @@ public abstract class UploadFilter implements Filter
         {
             try
             {
+        	
                 MultipartHttpServletRequest multiHtppRequest = MultipartUtil.convert( _nSizeThreshold, _nRequestSizeMax, _bActivateNormalizeFileName,
-                        httpRequest );
+                        httpRequest , httpRequest instanceof XSSRequestWrapper );
                 chain.doFilter( multiHtppRequest, response );
             }
             catch( SizeLimitExceededException e )
             {
-                AppLogService.error( e.getMessage( ), e );
+                AppLogService.error( "Size limit error for upload: {}", e.getMessage( ) );
 
                 Object [ ] args = {
                         getDisplaySize( )

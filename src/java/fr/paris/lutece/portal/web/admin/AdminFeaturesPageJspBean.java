@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -115,7 +115,13 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException
     {
         _user = AdminUserService.getAdminUser( request );
+        Right right = RightHome.findByPrimaryKey( strRight );
 
+        if ( right == null )
+        {
+            throw new AccessDeniedException( strRight + " right does not exist for user "+_user.getAccessCode( )+"." );
+        }
+        
         if ( !_user.checkRight( strRight ) )
         {
             throw new AccessDeniedException( "User " + _user.getAccessCode( ) + " does not have " + strRight + " right." );
@@ -129,7 +135,6 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         // get the locale
         _locale = _user.getLocale( );
 
-        Right right = RightHome.findByPrimaryKey( strRight );
         right.setLocale( _locale );
         _strFeatureLabel = right.getName( );
         _strFeatureUrl = right.getUrl( );
@@ -268,7 +273,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     protected void populate( Object bean, HttpServletRequest request )
     {
-        BeanUtil.populate( bean, request, null );
+        populate( bean, request, null );
     }
 
     /**
@@ -283,7 +288,14 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     protected void populate( Object bean, HttpServletRequest request, Locale locale )
     {
-        BeanUtil.populate( bean, request, locale );
+        if ( locale == null )
+        {
+            BeanUtil.populate( bean, request,  getLocale( ) );
+        }
+        else
+        {
+            BeanUtil.populate( bean, request, locale );
+        }
     }
 
     /**

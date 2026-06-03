@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,25 +33,18 @@
  */
 package fr.paris.lutece.portal.web.xpages;
 
-import fr.paris.lutece.util.ReferenceItem;
-import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.xml.XmlUtil;
-
 /**
  * This class represents XPage object
  *
  */
 public class XPage
 {
-    private static final String TAG_PAGE_LINK = "page_link";
-    private static final String TAG_PAGE_NAME = "page-name";
-    private static final String TAG_PAGE_URL = "page-url";
     private String _strContent;
     private String _strTitle;
     private String _strKeyword;
     private String _strPathLabel;
-    private String _strXmlExtendedPathLabel;
     private boolean _bStandalone;
+    private boolean _bSendRedirect;
 
     /**
      *
@@ -130,49 +123,6 @@ public class XPage
     }
 
     /**
-     * Get the extended path label, which is given as a Xml code
-     * 
-     * @return Returns the Extended Path Label
-     */
-    public String getXmlExtendedPathLabel( )
-    {
-        return _strXmlExtendedPathLabel;
-    }
-
-    /**
-     * Set the Extended Path Label from a xml string
-     * 
-     * @param strXmlExtendedPathLabel
-     *            the Extended Path Label to set
-     */
-    public void setXmlExtendedPathLabel( String strXmlExtendedPathLabel )
-    {
-        _strXmlExtendedPathLabel = strXmlExtendedPathLabel;
-    }
-
-    /**
-     * Build a path from a referencelist. Each item of the list is an element of the path The item's code is the label, the item's name is used for the URL of
-     * the link.
-     * 
-     * @param listPathItem
-     *            The items of the path.
-     */
-    public void setExtendedPathLabel( ReferenceList listPathItem )
-    {
-        StringBuffer sbXml = new StringBuffer( );
-
-        for ( ReferenceItem item : listPathItem )
-        {
-            XmlUtil.beginElement( sbXml, TAG_PAGE_LINK );
-            XmlUtil.addElement( sbXml, TAG_PAGE_NAME, item.getCode( ) );
-            XmlUtil.addElement( sbXml, TAG_PAGE_URL, item.getName( ) );
-            XmlUtil.endElement( sbXml, TAG_PAGE_LINK );
-        }
-
-        _strXmlExtendedPathLabel = sbXml.toString( );
-    }
-
-    /**
      * Indicates if the content is standalone and should not be encapsulated in other content, such as portal headers and footers
      * 
      * @return <code>true</code> is the content is standalone
@@ -194,4 +144,20 @@ public class XPage
     {
         _bStandalone = standalone;
     }
+
+    /**
+     * Indicate if a  response send Redirect have bean call during treatment
+     * @return true if a response send Redirect have bean call during treatment
+     */
+	public boolean isSendRedirect() {
+		return _bSendRedirect;
+	}
+
+	/**
+	 * Indicate if a  response send Redirect have bean call during treatment
+	 * @param  bSendRedirect true if a response send Redirect have bean call during treatment
+	 */
+	public void setSendRedirect(boolean bSendRedirect) {
+		this._bSendRedirect = bSendRedirect;
+	}
 }

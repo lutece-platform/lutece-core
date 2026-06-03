@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,8 +32,6 @@
  * License 1.0
  */
 package fr.paris.lutece.portal.business.portalcomponent;
-
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 
 /**
  * IPortalComponentDAO Interface
@@ -73,14 +71,4 @@ public interface IPortalComponentDAO
      */
     void store( PortalComponent portalComponent );
 
-    /**
-     * Returns the stylesheet of the portlet according to the mode
-     *
-     * @param nPortalComponentId
-     *            the identifier of the portlet
-     * @param nIdMode
-     *            the selected mode
-     * @return the stylesheet
-     */
-    StyleSheet selectXslFile( int nPortalComponentId, int nIdMode );
 }

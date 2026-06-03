@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -115,12 +115,17 @@ public class SecurityUtilTest extends LuteceTestCase
         strUrl = "opera-http://anothersite.com";
         request.setParameter( "url", strUrl );
         assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+        
+        strUrl = "/\\\\redirect.ywh.at";
+        request.setParameter( "url", strUrl );
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
 
         strUrl = "http://another.subdomain.mylutece.com";
         request.setParameter( "url", strUrl );
         String strUrlPatterns = "http://**.lutece.com,https://**.lutece.com";
         assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request, strUrlPatterns ) );
-
+        
+        
         // Assert True
         strUrl = null;
         assertTrue( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );

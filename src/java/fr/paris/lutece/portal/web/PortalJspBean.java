@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.BooleanUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -343,6 +343,12 @@ public class PortalJspBean
      */
     public String getError500Page( HttpServletRequest request, Throwable exception )
     {
+        if ( exception == null )
+        {
+            AppLogService.error( "Error 500 : No exception provided" );
+            return getError500Page( request, (String) null );
+        }
+
         if ( exception instanceof AppException )
         {
             // AppException calls AppLogService.error( message, this ) in the
@@ -353,7 +359,7 @@ public class PortalJspBean
         }
         else
         {
-            AppLogService.error( "Error 500 : " + exception.getMessage( ), exception );
+            AppLogService.error( "Error 500 : {}", exception.getMessage( ), exception );
         }
 
         String strCause = null;
@@ -431,7 +437,7 @@ public class PortalJspBean
             }
             catch( UnsupportedEncodingException ex )
             {
-                AppLogService.error( "Redirection error while encoding URL : " + ex.getMessage( ), ex );
+                AppLogService.error( "Redirection error while encoding URL : {}", ex.getMessage( ), ex );
             }
         }
 

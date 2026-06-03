@@ -7,7 +7,7 @@
 		<#assign file = default_values_list>
 		<img src="image?resource_type=core_attribute_img&id=${file.idFile}" height="40"> 
 	<#else>
-		<@input type='hidden' name='update_attribute_${attribute.idAttribute}' value='true'>
+		<@input type='hidden' name='update_attribute_${attribute.idAttribute}' value='true' />
 	</#if>
 	
 	<@input type='file' name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' />

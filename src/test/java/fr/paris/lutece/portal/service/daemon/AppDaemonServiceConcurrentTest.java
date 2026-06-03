@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,8 +43,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class AppDaemonServiceConcurrentTest extends LuteceTestCase
 {
     private static final String INTERVAL_VALUE = "10000";
-    private static final String JUNIT_DAEMON = "JUNIT";
-    private static final String JUNIT_OTHERDAEMON = "OTHERJUNIT";
+    private static final String JUNIT_DAEMON = "JUNITAppDaemonServiceConcurrentTest";
+    private static final String JUNIT_OTHERDAEMON = "OTHERJUNITAppDaemonServiceConcurrentTest";
     private static final String DAEMON_INTERVAL_DSKEY = "core.daemon." + JUNIT_DAEMON + ".interval";
     private static final String OTHERDAEMON_INTERVAL_DSKEY = "core.daemon." + JUNIT_OTHERDAEMON + ".interval";
 
@@ -82,17 +82,15 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
 
     private void log( String message )
     {
-        AppLogService.info( this.getClass( ).getName( ) + ": " + message );
+        AppLogService.info( "{} : {}", this.getClass( ).getName( ), message );
     }
 
     @Override
     protected void tearDown( ) throws Exception
     {
         DatastoreService.removeInstanceData( DAEMON_INTERVAL_DSKEY );
-        AppDaemonService.stopDaemon( JUNIT_DAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
         DatastoreService.removeInstanceData( OTHERDAEMON_INTERVAL_DSKEY );
-        AppDaemonService.stopDaemon( JUNIT_OTHERDAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_OTHERDAEMON );
         super.tearDown( );
     }
@@ -105,8 +103,8 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
         AppDaemonService.startDaemon( JUNIT_DAEMON );
         AppDaemonService.startDaemon( JUNIT_OTHERDAEMON );
 
-        final TestDaemon daemon = ( TestDaemon ) _entry.getDaemon( );
-        ( ( TestConcurrentDaemon ) _otherEntry.getDaemon( ) ).setOther( daemon );
+        final TestDaemon daemon = (TestDaemon) _entry.getDaemon( );
+        ( (TestConcurrentDaemon) _otherEntry.getDaemon( ) ).setOther( daemon );
 
         AppDaemonService.signalDaemon( JUNIT_DAEMON );
         AppDaemonService.signalDaemon( JUNIT_OTHERDAEMON );
@@ -115,7 +113,7 @@ public class AppDaemonServiceConcurrentTest extends LuteceTestCase
             // daemon only passes the "go" barrier if otherDeamon runs
             daemon.waitForCompletion( );
         }
-        catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
+        catch( InterruptedException | BrokenBarrierException | TimeoutException e )
         {
             fail( "The timeout indicates that the two daemons could not run simultaneously" );
         }

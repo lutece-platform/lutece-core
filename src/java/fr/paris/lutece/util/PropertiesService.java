@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,12 +36,14 @@ package fr.paris.lutece.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import fr.paris.lutece.portal.service.security.RsaService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
@@ -55,6 +57,9 @@ public class PropertiesService
     private Properties _properties = new Properties( );
     private Map<String, String> _mapPropertiesFiles = new LinkedHashMap<>( );
 
+    public final String RSA_KEY_PREFIX = "PROTECTED::RSA::";
+    private final String MESSAGE_CIPHERED_PROPERTY_SECURITY_EXCEPTION = "A ciphered property security exception occured." ;
+    
     /**
      * Constructor should define the base root path for properties files
      * 
@@ -139,7 +144,7 @@ public class PropertiesService
         }
         catch( IOException ex )
         {
-            AppLogService.error( "Error loading property file : " + ex, ex );
+            AppLogService.error( "Error loading property file : {}", ex.getMessage( ), ex );
         }
     }
 
@@ -180,7 +185,21 @@ public class PropertiesService
      */
     public String getProperty( String strProperty )
     {
-        return _properties.getProperty( strProperty );
+    	String strValue = _properties.getProperty( strProperty ) ;
+    	
+    	if ( strValue != null && strValue.startsWith( RSA_KEY_PREFIX ) )
+		{
+			try 
+			{
+				return RsaService.decryptRsa( strValue.substring( RSA_KEY_PREFIX.length( ) ) );
+			} 
+			catch ( GeneralSecurityException e ) 
+			{
+				AppLogService.error( MESSAGE_CIPHERED_PROPERTY_SECURITY_EXCEPTION, e );
+			}
+		}
+
+   		return strValue;
     }
 
     /**
@@ -220,7 +239,7 @@ public class PropertiesService
         }
         catch( NumberFormatException e )
         {
-            AppLogService.info( e );
+            AppLogService.info( e.getMessage( ), e );
         }
 
         return nValue;
@@ -249,7 +268,7 @@ public class PropertiesService
         }
         catch( NumberFormatException e )
         {
-            AppLogService.info( e );
+            AppLogService.info( e.getMessage( ), e );
         }
 
         return lValue;

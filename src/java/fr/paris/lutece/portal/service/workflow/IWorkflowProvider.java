@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -133,24 +133,6 @@ public interface IWorkflowProvider
 
     String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale,
             Map<String, Object> model, String strTemplate, User user );
-
-    /**
-     * returns a xml wich contains the actions history performed on a resource.
-     *
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param nIdWorkflow
-     *            the workflow id
-     * @param request
-     *            the request
-     * @param locale
-     *            the locale
-     * @param user
-     * @return a xml wich contains the history of actions performed on a resource
-     */
-    String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale, User user );
 
     /**
      * returns the tasks form.

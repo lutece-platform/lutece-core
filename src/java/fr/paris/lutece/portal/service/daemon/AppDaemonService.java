@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -131,7 +131,7 @@ public final class AppDaemonService
     {
         if ( _mapDaemonEntries.containsKey( entry.getId( ) ) )
         {
-            AppLogService.error( "Ignoring attempt to register already registered daemon " + entry.getId( ) );
+            AppLogService.error( "Ignoring attempt to register already registered daemon {}", entry.getId( ) );
             return;
         }
         String strIntervalKey = getIntervalKey( entry.getId( ) );
@@ -183,7 +183,7 @@ public final class AppDaemonService
 
         _mapDaemonEntries.put( entry.getId( ), entry );
 
-        AppLogService.info( "New Daemon registered : " + entry.getId( ) );
+        AppLogService.info( "New Daemon registered : {} ", entry.getId( ) );
     }
 
     /**
@@ -294,7 +294,7 @@ public final class AppDaemonService
      */
     private static void scheduleThread( DaemonEntry entry, int nInitialDelay )
     {
-        AppLogService.info( "Scheduling daemon " + entry.getId( ) + "; first run in " + nInitialDelay + " seconds" );
+        AppLogService.info( "Scheduling daemon {} ; first run in {} seconds", entry.getId( ), nInitialDelay );
         entry.setIsRunning( true );
         _executor.schedule( entry, nInitialDelay, TimeUnit.SECONDS );
         // update onStartup property
@@ -313,7 +313,7 @@ public final class AppDaemonService
         entry.setIsRunning( false );
         // update onStartup property
         DatastoreService.setInstanceDataValue( getOnStartupKey( entry.getId( ) ), DatastoreService.VALUE_FALSE );
-        AppLogService.info( "Stopping daemon '" + entry.getId( ) + "'" );
+        AppLogService.info( "Stopping daemon '{}'", entry.getId( ) );
     }
 
     /**

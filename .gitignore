@@ -6,3 +6,4 @@
 /nb-configuration.xml
 webapp/WEB-INF/conf/config.properties
 /bin/
+/target_test-classes/

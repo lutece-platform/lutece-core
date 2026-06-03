@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,10 @@ package fr.paris.lutece.portal.service.init;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.ServiceLoader;
 
 /**
  * StartUpServiceManager
@@ -49,7 +52,40 @@ public final class StartUpServiceManager
     private StartUpServiceManager( )
     {
     }
+    /**
+     * Initializes early initialization services.
+     * <p>
+     * This method loads and processes services implementing the {@link IEarlyInitializationService} interface
+     * before starting the Spring context.
+     * </p>
+     */
+    public static void initializeEarlyInitializationServices() {
+        List<IEarlyInitializationService> serviceList = new ArrayList<>();
 
+        // Load early initialization services using ServiceLoader
+        ServiceLoader<IEarlyInitializationService> providers = ServiceLoader.load(IEarlyInitializationService.class);
+        providers.forEach(serviceList::add);
+
+        // Sort services by order before processing
+        serviceList.stream()
+                .sorted(Comparator.comparingInt(IEarlyInitializationService::getOrder))
+                .forEach(service -> {
+                    String serviceName = service.getClass().getName();
+                    try {
+                        // Display an informational message before processing the service
+                        AppLogService.info("Processing StartUp service: {} before starting Spring Context", serviceName);
+                        // Call the service processing method
+                        service.process();
+                        // Display a success message after processing the service
+                        AppLogService.info("StartUp service processed successfully: {}", serviceName);
+                    } catch (Exception e) {
+
+                        // In case of error, display an error message and throw exception if the service is marked as critical
+                        AppLogService.error("Error while processing StartUp service: {}", serviceName, e);
+                        if(service.isCriticalService())throw e;
+                    }
+                });
+    }
     /**
      * Runs all StartUp Services
      */
@@ -63,12 +99,12 @@ public final class StartUpServiceManager
         {
             try
             {
-                AppLogService.info( "Processing StartUp service : " + service.getName( ) );
+                AppLogService.info( "Processing StartUp service : {}", service.getName( ) );
                 service.process( );
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error while processing StartUp service : " + service.getName( ), e );
+                AppLogService.error( "Error while processing StartUp service : {}", service.getName( ), e );
             }
         }
     }

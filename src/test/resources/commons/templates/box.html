@@ -3,7 +3,6 @@
 
 <@h2># Box</@h2>
 
-
 <@row>
   <@columns>
     <@box>
@@ -25,4 +24,75 @@
   </@columns>
 </@row>
 
+<pre>
+    &lt;@box&gt;
+        &lt;@boxHeader title='Title'&gt;
+			&lt;@button type='button' buttonIcon='plus' title='Action Button' size='sm' /&gt;
+		&lt;/@boxHeader&gt;
+        &lt;@boxBody&gt;
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+			Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, 
+			ultricies sed, dolor. Cras elementum ultrices diam. 
+			Maecenas ligula massa, varius a, semper congue, euismod non, mi. 
+			Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas adipiscing ante non diam sodales hendrerit. 
+        &lt;/@boxBody&gt;
+        &lt;@boxFooter&gt;
+            Footer
+        &lt;/@boxFooter&gt;
+        
+    &lt;/@box&gt;
+</pre>
+
+<@h2># Parameters documentation</@h2>
+
+<@table>
+  <@tr>
+      <@th>Parameter</@th>
+      <@th>Value</@th>
+      <@th>Default</@th>
+      <@th>Use</@th>
+  </@tr>
+  <@tr>
+      <@th>color</@th>
+      <@td>string</@td>
+      <@td>none</@td>
+      <@td>CSS class to apply to the card.</@td>
+  </@tr>
+  <@tr>
+      <@th>id</@th>
+      <@td>string</@td>
+      <@td>none</@td>
+      <@td>Unique identifier for the box.</@td>
+  </@tr>
+  <@tr>
+      <@th>style</@th>
+      <@td>string</@td>
+      <@td>none</@td>
+      <@td>CSS style to apply to the box.</@td>
+  </@tr>
+  <@tr>
+      <@th>class</@th>
+      <@td>string</@td>
+      <@td>none</@td>
+      <@td>CSS class to apply to the box.</@td>
+  </@tr>
+  <@tr>
+      <@th>title</@th>
+      <@td>string</@td>
+      <@td>none</@td>
+      <@td>Title of the box.</@td>
+  </@tr>
+  <@tr>
+      <@th>collapsed</@th>
+      <@td>boolean</@td>
+      <@td>false</@td>
+      <@td>Indicates whether the box is collapsed by default.</@td>
+  </@tr>
+  <@tr>
+      <@th>params</@th>
+      <@td>string</@td>
+      <@td>none</@td>
+      <@td>Additional parameters for the box.</@td>
+  </@tr>
+</@table>
 <@footer />

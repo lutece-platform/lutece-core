@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,12 +39,14 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheException;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
+import net.sf.ehcache.Statistics;
 import net.sf.ehcache.event.CacheEventListener;
-
-import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Base implementation for a cacheable service
@@ -53,7 +55,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
 {
     private Cache _cache;
     private boolean _bEnable;
-    private Logger _logger = Logger.getLogger( "lutece.cache" );
+    private Logger _logger = LogManager.getLogger( "lutece.cache" );
 
     /**
      * Init the cache. Should be called by the service at its initialization.
@@ -251,6 +253,35 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
         return CacheService.getInfos( _cache );
     }
 
+    /**
+     * Get cache statistics.
+     * 
+     * The string representation is susceptible to change
+     * 
+     * @return a string representation of cache statistics
+     * 
+     * @since 7.0.10
+     */
+    public String getStatistics( )
+    {
+        if ( !( isCacheEnable( ) && _cache.getCacheConfiguration( ).getStatistics( ) ) )
+        {
+            return null;
+        }
+        Statistics stats = _cache.getStatistics( );
+        StringBuilder buidler = new StringBuilder( );
+        buidler.append( "name = " ).append( stats.getAssociatedCacheName( ) ).append( "\ncacheHits = " )
+                .append( stats.getCacheHits( ) ).append( "\nonDiskHits = " ).append( stats.getOnDiskHits( ) )
+                .append( "\noffHeapHits = " ).append( stats.getOffHeapHits( ) ).append( "\ninMemoryHits = " )
+                .append( stats.getInMemoryHits( ) ).append( "\nmisses = " ).append( stats.getCacheMisses( ) )
+                .append( "\nonDiskMisses = " ).append( stats.getOnDiskMisses( ) ).append( "\noffHeapMisses = " )
+                .append( stats.getOffHeapMisses( ) ).append( "\ninMemoryMisses = " )
+                .append( stats.getInMemoryMisses( ) ).append( "\nsize = " ).append( stats.getObjectCount( ) )
+                .append( "\naverageGetTime = " ).append( stats.getAverageGetTime( ) ).append( "\nevictionCount = " )
+                .append( stats.getEvictionCount( ) );
+        return buidler.toString( );
+    }
+
     // CacheEventListener implementation
 
     /**
@@ -271,7 +302,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     {
         // Remove the element from the cache
         _cache.remove( element.getKey( ) );
-        _logger.debug( "Object removed from the cache : " + cache.getName( ) + " - key : " + element.getKey( ) );
+        _logger.debug( "Object removed from the cache : {}  - key : {}", cache.getName( ), element.getKey( ) );
     }
 
     /**

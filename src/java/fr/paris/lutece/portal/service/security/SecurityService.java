@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import fr.paris.lutece.portal.business.event.LuteceUserEvent;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.event.LuteceUserEventManager;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -51,8 +53,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * This class provides a security service to register and check user
- * authentication
+ * This class provides a security service to register and check user authentication
  */
 public final class SecurityService
 {
@@ -60,12 +61,19 @@ public final class SecurityService
      * Session attribute that stores the LuteceUser object attached to the session
      */
     private static final String ATTRIBUTE_LUTECE_USER = "lutece_user";
+
     private static final String PROPERTY_AUTHENTICATION_CLASS = "mylutece.authentication.class";
     private static final String PROPERTY_AUTHENTICATION_ENABLE = "mylutece.authentication.enable";
     private static final String PROPERTY_PORTAL_AUTHENTICATION_REQUIRED = "mylutece.portal.authentication.required";
+
     private static final String URL_INTERROGATIVE = "?";
     private static final String URL_AMPERSAND = "&";
     private static final String URL_EQUAL = "=";
+
+    private static final String CONSTANT_ACTION_LOGIN_USER = "user.loginUser";
+    private static final String CONSTANT_ACTION_LOGOUT_USER = "user.logoutUser";
+    private static final String CONSTANT_FO = "FO";
+
     private static SecurityService _singleton = new SecurityService( );
     private static LuteceAuthentication _authenticationService;
     private static boolean _bEnable;
@@ -80,7 +88,8 @@ public final class SecurityService
     /**
      * Initialize service
      * 
-     * @throws LuteceInitException if an error occurs
+     * @throws LuteceInitException
+     *             if an error occurs
      */
     public static synchronized void init( ) throws LuteceInitException
     {
@@ -127,9 +136,11 @@ public final class SecurityService
     /**
      * Gets the LuteceUser attached to the current Http session
      * 
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return A LuteceUser object if found
-     * @throws UserNotSignedException If there is no current user
+     * @throws UserNotSignedException
+     *             If there is no current user
      */
     public LuteceUser getRemoteUser( HttpServletRequest request ) throws UserNotSignedException
     {
@@ -139,8 +150,7 @@ public final class SecurityService
         {
             // User is not registered by Lutece, but it may be authenticated by another
             // system
-            if ( _authenticationService.isExternalAuthentication( )
-                    || _authenticationService.isMultiAuthenticationSupported( ) )
+            if ( _authenticationService.isExternalAuthentication( ) || _authenticationService.isMultiAuthenticationSupported( ) )
             {
                 user = _authenticationService.getHttpAuthenticatedUser( request );
 
@@ -163,9 +173,11 @@ public final class SecurityService
     /**
      * Returns the user's principal
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The user's principal
-     * @throws UserNotSignedException The UserNotSignedException
+     * @throws UserNotSignedException
+     *             The UserNotSignedException
      */
     public Principal getUserPrincipal( HttpServletRequest request ) throws UserNotSignedException
     {
@@ -175,36 +187,40 @@ public final class SecurityService
     /**
      * Checks if the user is associated to a given role
      * 
-     * @param request The Http request
-     * @param strRole The Role name
+     * @param request
+     *            The Http request
+     * @param strRole
+     *            The Role name
      * @return Returns true if the user is associated to the given role
      */
     public boolean isUserInRole( HttpServletRequest request, String strRole )
     {
         LuteceUser user;
-        
-        if( ! isAuthenticationEnable() )
+
+        if ( !isAuthenticationEnable( ) )
         {
             return true;
-        }   
+        }
 
         try
         {
             user = getRemoteUser( request );
         }
-        catch ( UserNotSignedException e )
+        catch( UserNotSignedException e )
         {
             return false;
         }
 
         return _authenticationService.isUserInRole( user, request, strRole );
     }
-    
+
     /**
      * Checks if the user is associated to a at least a role
      * 
-     * @param request The Http request
-     * @param listRoles The Role list
+     * @param request
+     *            The Http request
+     * @param listRoles
+     *            The Role list
      * @return Returns true if the user is associated to any role
      */
     public boolean isUserInAnyRole( HttpServletRequest request, List<String> listRoles )
@@ -224,10 +240,11 @@ public final class SecurityService
     /**
      * get all roles for this user : - user's roles - user's groups roles
      *
-     * @param user The user
+     * @param user
+     *            The user
      * @return Array of roles
      */
-    public String[] getRolesByUser( LuteceUser user )
+    public String [ ] getRolesByUser( LuteceUser user )
     {
         return _authenticationService.getRolesByUser( user );
     }
@@ -235,32 +252,43 @@ public final class SecurityService
     /**
      * Checks user's login with the Authentication service.
      * 
-     * @param request     The Http request
-     * @param strUserName The user's login
-     * @param strPassword The user's password
-     * @throws LoginException         The LoginException
-     * @throws LoginRedirectException if redirect exception
+     * @param request
+     *            The Http request
+     * @param strUserName
+     *            The user's login
+     * @param strPassword
+     *            The user's password
+     * @throws LoginException
+     *             The LoginException
+     * @throws LoginRedirectException
+     *             if redirect exception
      */
-    public void loginUser( HttpServletRequest request, final String strUserName, final String strPassword )
-            throws LoginException, LoginRedirectException
+    public void loginUser( HttpServletRequest request, final String strUserName, final String strPassword ) throws LoginException, LoginRedirectException
     {
         LuteceUser user = _authenticationService.login( strUserName, strPassword, request );
+
         _authenticationService.updateDateLastLogin( user, request );
 
         if ( _authenticationService.findResetPassword( request, strUserName ) )
         {
             String redirect = _authenticationService.getResetPasswordPageUrl( request );
             registerUser( request, user );
+            AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null, CONSTANT_FO );
+
             throw new LoginRedirectException( redirect );
         }
 
         registerUser( request, user );
+
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_USER, user, null, CONSTANT_FO );
+
     }
 
     /**
      * Logout the user
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      */
     public void logoutUser( HttpServletRequest request )
     {
@@ -270,21 +298,27 @@ public final class SecurityService
         {
             user = getRemoteUser( request );
         }
-        catch ( UserNotSignedException e )
+        catch( UserNotSignedException e )
         {
             return;
         }
 
         _authenticationService.logout( user );
-        unregisterUser( request );
+        HttpSession session = request.getSession( false );
+        if(session!=null)
+        {
+        	session.invalidate();
+        }
+        LuteceUserEventManager.getInstance().notifyListeners( new LuteceUserEvent( user,LuteceUserEvent.EventType.LOGOUT ) );
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_DISCONNECT, CONSTANT_ACTION_LOGOUT_USER, user, null, CONSTANT_FO );
     }
 
     /**
-     * Retrieves the portal authentication service configured in the
-     * config.properties
+     * Retrieves the portal authentication service configured in the config.properties
      * 
      * @return A PortalAuthentication object
-     * @throws LuteceInitException If an error occurred
+     * @throws LuteceInitException
+     *             If an error occurred
      */
     private static LuteceAuthentication getPortalAuthentication( ) throws LuteceInitException
     {
@@ -296,9 +330,9 @@ public final class SecurityService
             try
             {
                 authentication = (LuteceAuthentication) Class.forName( strAuthenticationClass ).newInstance( );
-                AppLogService.info( "Authentication service loaded : " + authentication.getAuthServiceName( ) );
+                AppLogService.info( "Authentication service loaded : {}", authentication.getAuthServiceName( ) );
             }
-            catch ( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+            catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
             {
                 throw new LuteceInitException( "Error instantiating Authentication Class", e );
             }
@@ -310,30 +344,44 @@ public final class SecurityService
     /**
      * Register the user in the Http session
      * 
-     * @param request The Http request
-     * @param user    The current user
+     * @param request
+     *            The Http request
+     * @param user
+     *            The current user
      */
     public void registerUser( HttpServletRequest request, LuteceUser user )
     {
         HttpSession session = request.getSession( true );
         session.setAttribute( ATTRIBUTE_LUTECE_USER, user );
+        
+        if ( user != null )
+        {
+        	LuteceUserEventManager.getInstance().notifyListeners( new LuteceUserEvent( user, LuteceUserEvent.EventType.LOGIN_SUCCESSFUL ) );
+        }
     }
 
     /**
      * Unregister the user in the Http session
      * 
-     * @param request The Http request
+     * @param request
+     *            The Http request     
      */
     public void unregisterUser( HttpServletRequest request )
     {
         HttpSession session = request.getSession( true );
-        session.removeAttribute( ATTRIBUTE_LUTECE_USER );
+        LuteceUser user = (LuteceUser)session.getAttribute( ATTRIBUTE_LUTECE_USER );
+        
+        if ( user != null )
+        {
+        	session.removeAttribute( ATTRIBUTE_LUTECE_USER );
+        }
     }
 
     /**
      * Gets the Lutece user registered in the Http session
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The User registered or null if the user has not been registered
      */
     public LuteceUser getRegisteredUser( HttpServletRequest request )
@@ -351,8 +399,7 @@ public final class SecurityService
     /**
      * Returns the authentication type : External or Lutece portal based
      * 
-     * @return true if the user is already authenticated or false if it needs to
-     *         login.
+     * @return true if the user is already authenticated or false if it needs to login.
      */
     public boolean isExternalAuthentication( )
     {
@@ -449,26 +496,29 @@ public final class SecurityService
      */
     public boolean isPortalAuthenticationRequired( )
     {
-        String strAuthenticationRequired = DatastoreService.getDataValue( PROPERTY_PORTAL_AUTHENTICATION_REQUIRED,
-                "false" );
+        String strAuthenticationRequired = DatastoreService.getDataValue( PROPERTY_PORTAL_AUTHENTICATION_REQUIRED, "false" );
 
         return strAuthenticationRequired.equals( "true" );
     }
 
     /**
-     * Checks user's login with the Authentication service. Used during remote
-     * authentication validation We don't have to put user informations in session,
+     * Checks user's login with the Authentication service. Used during remote authentication validation We don't have to put user informations in session,
      * since it is only used in external applications
      * 
-     * @param request     the request
-     * @param strUserName The user's login
-     * @param strPassword The user's password
+     * @param request
+     *            the request
+     * @param strUserName
+     *            The user's login
+     * @param strPassword
+     *            The user's password
      * @return user's informations
-     * @throws LoginException         The LoginException
-     * @throws LoginRedirectException The redirect exception
+     * @throws LoginException
+     *             The LoginException
+     * @throws LoginRedirectException
+     *             The redirect exception
      */
-    public LuteceUser remoteLoginUser( final HttpServletRequest request, final String strUserName,
-            final String strPassword ) throws LoginException, LoginRedirectException
+    public LuteceUser remoteLoginUser( final HttpServletRequest request, final String strUserName, final String strPassword )
+            throws LoginException, LoginRedirectException
     {
         return _authenticationService.login( strUserName, strPassword, request );
     }
@@ -476,7 +526,8 @@ public final class SecurityService
     /**
      * Return true if the requested url is equal to LoginUrl
      * 
-     * @param request The Http servlet request
+     * @param request
+     *            The Http servlet request
      * @return True if the requested url is equal to LoginUrl, false else.
      */
     public boolean isLoginUrl( HttpServletRequest request )
@@ -489,18 +540,17 @@ public final class SecurityService
         String strRequestUrl = request.getRequestURI( );
         UrlItem url = new UrlItem( strRequestUrl );
 
-        for ( String strParamValueLoginPageUrl : getLoginPageUrl( )
-                .substring( getLoginPageUrl( ).indexOf( URL_INTERROGATIVE ) + 1 ).split( URL_AMPERSAND ) )
+        for ( String strParamValueLoginPageUrl : getLoginPageUrl( ).substring( getLoginPageUrl( ).indexOf( URL_INTERROGATIVE ) + 1 ).split( URL_AMPERSAND ) )
         {
-            String[] arrayParamValueLoginPageUrl = strParamValueLoginPageUrl.split( URL_EQUAL );
+            String [ ] arrayParamValueLoginPageUrl = strParamValueLoginPageUrl.split( URL_EQUAL );
             Enumeration<String> enumParams = request.getParameterNames( );
 
             while ( enumParams.hasMoreElements( ) )
             {
                 String strRequestParameter = enumParams.nextElement( );
 
-                if ( arrayParamValueLoginPageUrl[0].equals( strRequestParameter )
-                        && arrayParamValueLoginPageUrl[1].equals( request.getParameter( strRequestParameter ) ) )
+                if ( arrayParamValueLoginPageUrl [0].equals( strRequestParameter )
+                        && arrayParamValueLoginPageUrl [1].equals( request.getParameter( strRequestParameter ) ) )
                 {
                     url.addParameter( strRequestParameter, request.getParameter( strRequestParameter ) );
                 }
@@ -511,8 +561,7 @@ public final class SecurityService
     }
 
     /**
-     * Tells whether or not the authentication service can provide a list of all its
-     * users
+     * Tells whether or not the authentication service can provide a list of all its users
      * 
      * @return true if the service can return a users list
      */
@@ -522,11 +571,9 @@ public final class SecurityService
     }
 
     /**
-     * Returns all users managed by the authentication service if this feature is
-     * available.
+     * Returns all users managed by the authentication service if this feature is available.
      * 
-     * @return A collection of Lutece users or null if the service doesn't provide a
-     *         users list
+     * @return A collection of Lutece users or null if the service doesn't provide a users list
      */
     public Collection<LuteceUser> getUsers( )
     {
@@ -534,10 +581,10 @@ public final class SecurityService
     }
 
     /**
-     * Returns user managed by the authentication service if this feature is
-     * available.
+     * Returns user managed by the authentication service if this feature is available.
      * 
-     * @param strUserLogin the user login
+     * @param strUserLogin
+     *            the user login
      * @return A Lutece user or null if the service doesn't provide LuteceUser
      */
     public LuteceUser getUser( String strUserLogin )
@@ -548,8 +595,7 @@ public final class SecurityService
     /**
      * <b>true</b> when the service provides multi authentication support
      * 
-     * @return <code>true</code> if multi authentication is supported,
-     *         <code>false</code> otherwise.
+     * @return <code>true</code> if multi authentication is supported, <code>false</code> otherwise.
      */
     public boolean isMultiAuthenticationSupported( )
     {

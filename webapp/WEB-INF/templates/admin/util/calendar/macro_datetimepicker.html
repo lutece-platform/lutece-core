@@ -1,45 +1,173 @@
-<#macro getDateTimePickerBootstrap idField language format='Y-m-d H:i:S' showFormat='d-m-Y H:i'>
-<script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
-<script charset="utf-8">
+<#-- WARNING : be careful to white-space and lines break in FreeMarker macros.
+ # This macro template can be used to output white-space-sensitive formats (like RSS files).
+ # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
+-->
+<#assign styleUrl='css/bootstrap-flatpickr.min.css' />
+<#macro getDate idField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' dateOptions={} >
+<#local dtOptions=dateOptions />
+<@initScriptFlatPicker language=language />
+<script>
+	var ${idField}_fp;
 $( function() {
-	$('#${idField}').flatpickr({enableTime: true, <#if showFormat !=''>altInput:true, altFormat:'${showFormat}'</#if>, dateFormat: '${format}', "locale": "<@getRegional language=language />"});
+	<@getDateFormat format=format showFormat=showFormat  />
+	${idField}_fp = $('#${idField}').flatpickr( {enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_date >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?date?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_date >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?date?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_date >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?date?iso_local_nz}"</#if></#if>, ${setFlatPickerOptions( dtOptions )} });
+
+	if ($('#${idField}').prop('required')) {
+		// Remove the readonly parameter on the date field, so the required attribute is taken into account when the form is submitted
+		$('#${idField} + input').on('focus', function () {
+			$(this).blur();
+		});
+		$('#${idField} + input').prop('readonly', false);
+	}
 });
 </script>
 </#macro>
-
-<#macro getDateFlatPicker idField language format='d/m/Y'>
-<script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
-<script charset="utf-8">
-$(  function() {
-	$('#${idField}').flatpickr({enableTime: false, dateFormat: '${format}', "locale": "<@getRegional language=language />"});
+<#macro getDateTime idField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' dateOptions={} >
+<@initScriptFlatPicker language=language />
+<script>
+$( function() {
+	<@getDateFormat format=format showFormat=showFormat time=true />
+	$('#${idField}').flatpickr({ enableTime: true,  altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?datetime.iso?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_datetime >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?datetime?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_datetime >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?datetime?iso_local_nz}"</#if></#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
 });
 </script>
 </#macro>
+<#macro getDateRange idField idEndField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' dateOptions={} formatSize=19 >
+<@initScriptFlatPicker language=language range=true/>
+<script>
+$( function() {
+	<@getDateFormat format=format showFormat=showFormat />
+	$('#${idField}').flatpickr( {"plugins": [new rangePlugin({ input: "#${idEndField}"})], enableTime: false, altInput: true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate?has_content><#if defaultDate?is_date >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?date?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_date >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?date?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_date >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?date?iso_local_nz}"</#if></#if>, ${setFlatPickerOptions( dateOptions )} });
+});
 
-<#macro getDateRangeFlatPicker idField language format='d/m/Y'>
-<script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
-<script charset="utf-8">
-$(  function() {
-	$('#${idField}').flatpickr({enableTime: false, dateFormat: '${format}', "locale": "<@getRegional language=language />", mode: "range"});
+// FIX ME : Flatpickr returns a range of dates instead of one date for the beggining date input
+// This fix keeps only the first date.
+// However the daterange feature should be provided by another library.
+document.addEventListener( 'DOMContentLoaded', () => {
+    const dateRangeHiddenInput = document.querySelector('#${idField}');
+	const dateRangeEndInput = document.querySelector('#${idEndField}');
+
+	if(dateRangeEndInput.value.length !== 0){
+		var dateParts = dateRangeEndInput.value.split("/");
+
+		if("${language}" === "fr") {
+			var dateISO = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
+		}
+		else {
+			var dateISO = new Date(Number(dateParts[2]), Number(dateParts[0]) - 1, Number(dateParts[1]));
+		}
+		
+		dateRangeEndInput.value = dateISO.toISOString();
+	}
+
+    dateRangeHiddenInput.addEventListener( 'change'  , () => {
+        // The default formatSize corresponds to the default flatpickr format.
+        // This value must be set if another format is specified.
+        dateRangeHiddenInput.value = dateRangeHiddenInput.value.substring(0,${formatSize});
+    })
 });
 </script>
 </#macro>
+<#macro getDateTimeRange idField idEndField language=.lang format='' showFormat='' minDate='' maxDate='' defaultDate='' minTime='' maxTime='' defaultTime='' dateOptions={} formatSize=19>
+<@initScriptFlatPicker language=language range=true />
+<script>
+$( function() {
+	<@getDateFormat format=format showFormat=showFormat time=true />
+	$('#${idField}').flatpickr(enableTime: true, altInput:true, altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />", mode: "range"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?datetime?iso_local_nz}"</#if></#if><#if minDate?has_content><#if minDate?is_datetime >, minDate : "${minDate?iso_local_nz}"<#else>, minDate : "${minDate?datetime?iso_local_nz}"</#if></#if><#if maxDate?has_content><#if maxDate?is_datetime >, maxDate : "${maxDate?iso_local_nz}"<#else>, maxDate : "${maxDate?datetime?iso_local_nz}"</#if></#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if>, ${setFlatPickerOptions( dateOptions )} });
+});
 
-<#macro getDateTimeRangeFlatPicker idField language format='d/m/Y H:i'>
-<script src="js/admin/bootstrap-flatpickr.min.js"></script>
-<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
-<script charset="utf-8">
-$(  function() {
-	$('#${idField}').flatpickr({enableTime: true, dateFormat: '${format}', "locale": "<@getRegional language=language />", mode: "range"});
+// FIX ME : Flatpickr returns a range of dates instead of one date for the beggining date input
+// This fix keeps only the first date.
+// Howe'ver the daterange feature should be provided by another library.
+document.addEventListener( 'DOMContentLoaded', () => {
+	const dateRangeHiddenInput = document.querySelector('#${idField}');
+
+	dateRangeHiddenInput.addEventListener( 'change'  , () => {
+		// The default formatSize corresponds to the default flatpickr format.
+		// This value must be set if another format is specified.
+		dateRangeHiddenInput.value = dateRangeHiddenInput.value.substring(0,${formatSize});
+	})
 });
 </script>
 </#macro>
-
-<#-- getRegional
+<#macro getTime idField language=.lang format='H:i' showFormat='H:i' defaultDate='' minTime='' maxTime='' time_24hr=true dateOptions={}>
+<@initScriptFlatPicker language=language range=true />
+<script>
+$( function() {
+	<@getDateFormat format=format showFormat=showFormat time=true />
+	$('#${idField}').flatpickr({enableTime: true, noCalendar:true, altInput:true, <#if time_24hr == true>time_24hfr:true,</#if> altFormat: showFormat, dateFormat: dtFormat, "locale": "<@getLanguageInLocale language=language />"<#if defaultDate?has_content><#if defaultDate?is_datetime >, defaultDate : "${defaultDate?iso_local_nz}"<#else>, defaultDate : "${defaultDate?date?iso_local_nz}"</#if></#if><#if minTime !=''>, minTime : "${minTime?time("hh:mm")}"</#if><#if maxTime !=''>, maxTime : "${maxTime?time("hh:mm")}"</#if><#if minTime !=''>, minTime : "${minTime}"</#if><#if maxTime !=''>, maxTime : "${maxTime}"</#if><#if dateOptions?size gt 0>, ${setFlatPickerOptions( dateOptions )}</#if> });
+});
+</script>
+</#macro>
+<#-- getLanguageInLocale
  # This macro should not be called directly
  #
 -->
-<#macro getRegional language><#if !('${language}'=='en')>${language}</#if></#macro>
+<#macro getLanguageInLocale language><#if language?index_of("_") gt 0>${language?keep_before("_")}<#else>${language}</#if></#macro>
+<#-- getDateFormat
+ # This macro should not be called directly
+ #
+-->
+<#macro getDateFormat format showFormat time=false>
+<#if showFormat == ''>
+const showFormat = getFlatPickerDateFormat( browserCurrentLocale )<#if time> + ' ' + getFlatPickerTimeFormat( browserCurrentLocale )</#if>;
+<#else>
+const showFormat = '${showFormat}';
+</#if>
+<#-- The server parses dates on a per locale basis. The formats here much match those specified by lutece.format.date.short -->
+<#if format == ''>
+const dtFormat='Y-m-d H:i:S'; // Default for most DB
+<#else>
+const dtFormat='${format}';
+</#if>
+<#if time>
+</#if>
+</#macro>
+<#-- initScriptFlatPicker
+ # This macro should not be called directly
+ #
+-->
+<#macro initScriptFlatPicker language range=false>
+<#if datePickerIsLoaded?? && datePickerIsLoaded>
+	<#if rangePluginIsLoaded?? && rangePluginIsLoaded>
+	<#else>
+		<#if range>
+			<script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script>
+			<#assign rangePluginIsLoaded = true />
+		<#else>
+			<#assign rangePluginIsLoaded = false />
+		</#if>
+	</#if>
+<#else>
+<link rel="stylesheet" href="css/bootstrap-flatpickr.min.css">
+<script src="js/util/lutece.js"></script>
+<script src="js/admin/bootstrap-flatpickr.min.js"></script>
+<#if rangePluginIsLoaded?? && rangePluginIsLoaded>
+<#else>
+	<#if range>
+		<script src="js/admin/bootstrap-flatpickr-rangePlugin.js"></script>
+		<#assign rangePluginIsLoaded = true />
+	<#else>
+		<#assign rangePluginIsLoaded = false />
+	</#if>
+</#if>
+<script>
+	// dateValue: string, expected format: DD/MM/YYYY
+	function updateInputDate(input,dateValue) {
+		input.setDate(dateValue,false,'d/m/Y');
+	}
+</script>
+<#assign isEn=language?starts_with("en")?c />
+<#if !isEn?boolean ><script src="js/admin/locales/bootstrap-flatpickr.<@getLanguageInLocale language=language />.js"></script></#if>
+<script>
+// Get list of browser locale and filter to current locale
+const browserCurrentLocale = getBrowserLocales( ).filter( lang => lang.startsWith( '<@getLanguageInLocale language=language />' ))[0];
+loadStyle( '${styleUrl}' );
+<#assign datePickerIsLoaded = true />
+</script>
+</#if>
+</#macro>
+<#function setFlatPickerOptions options>
+<#assign strOptions=''>
+<#if options?size gt 0><#assign strOptions><#list options as optionKey, optionVal>"${optionKey}" : <#if optionVal?is_boolean>${optionVal?c}<#elseif optionVal?is_number>${optionVal}<#else>"${optionVal}"</#if>,</#list> </#assign></#if>
+<#return strOptions>
+</#function>

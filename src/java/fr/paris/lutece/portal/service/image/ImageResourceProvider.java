@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,10 @@
  */
 package fr.paris.lutece.portal.service.image;
 
+import org.apache.commons.fileupload.FileItem;
+
+import fr.paris.lutece.portal.service.util.AppException;
+
 /**
  * This class provide ImageResourceProvider Interface
  *
@@ -54,4 +58,15 @@ public interface ImageResourceProvider
      * @return The Resource Image
      */
     ImageResource getImageResource( int nIdResource );
+    
+    /**
+     * add image resource
+     * 
+     * @param fileItem
+     * @return the id of the resource
+     */
+	default String addImageResource( FileItem fileItem ) 
+	{
+		throw new AppException( "not implemented yet" );
+	}
 }

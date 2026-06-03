@@ -1,13 +1,13 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-      		<@boxHeader title='#i18n{portal.users.modify_attribute.pageTitleAttributeCheckBox}' boxTools=true>
+      		<@boxHeader title='#i18n{portal.users.modify_attribute.pageTitleAttributeCheckBox}' boxTools=true skipHeader=true>
 				<@button style='card-control collapse' buttonIcon='minus' />
 			</@boxHeader>
 			<@boxBody>
 				<@tform action='jsp/admin/user/attribute/DoModifyAttribute.jsp' method='post'>
 					<@input type='hidden' name='token' value='${token}' />
-					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelTitle} *' labelFor='attr_title' helpKey='#i18n{portal.users.modify_attribute.labelTitleComment}' mandatory=true>
+					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelTitle}' labelFor='attr_title' helpKey='#i18n{portal.users.modify_attribute.labelTitleComment}' mandatory=true>
 						<@input type='text' name='title' id='attr_title' value='${attribute.title?html}' maxlength=255 />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelHelpMessage}' labelFor='help_message' helpKey='#i18n{portal.users.modify_attribute.labelHelpMessageComment}'>
@@ -28,9 +28,9 @@
 					<@formGroup>
 						<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
 						<@input type='hidden' name='position' value='${attribute.position}' />
-						<@button type='submit' name='validate' value='#i18n{portal.users.modify_attribute.buttonValidate}' buttonIcon='check' title='#i18n{portal.users.modify_attribute.buttonValidate}' size='' hideTitle=['xs'] />
-						<@button type='submit' name='apply' value='#i18n{portal.users.modify_attribute.buttonApply}' buttonIcon='check-circle-o' title='#i18n{portal.users.modify_attribute.buttonApply}' size='' hideTitle=['xs'] />
-						<@button type='submit' name='cancel' value='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' size='' hideTitle=['xs'] cancel=true />
+						<@button type='submit' name='validate' value='#i18n{portal.users.modify_attribute.buttonValidate}' buttonIcon='check' title='#i18n{portal.users.modify_attribute.buttonValidate}' color='primary' hideTitle=['xs'] />
+						<@button type='submit' name='apply' value='#i18n{portal.users.modify_attribute.buttonApply}' buttonIcon='check-circle' title='#i18n{portal.users.modify_attribute.buttonApply}'color='primary' hideTitle=['xs'] />
+						<@button type='submit' name='cancel' value='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}'color='secondary' hideTitle=['xs'] cancel=true />
 					</@formGroup>
 				</@tform>
 			</@boxBody>

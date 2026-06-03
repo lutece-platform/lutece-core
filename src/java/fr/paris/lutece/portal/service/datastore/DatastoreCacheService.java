@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.service.datastore;
 
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 
 /**
@@ -41,11 +44,13 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 public class DatastoreCacheService extends AbstractCacheableService
 {
     private static final String CACHE_SERVICE_NAME = "Datastore Cache Service";
+    private final Set<String> _prefixes;
 
     /** Constructor */
     public DatastoreCacheService( )
     {
         initCache( );
+        _prefixes = ConcurrentHashMap.newKeySet( );
     }
 
     /**
@@ -57,5 +62,39 @@ public class DatastoreCacheService extends AbstractCacheableService
     public String getName( )
     {
         return CACHE_SERVICE_NAME;
+    }
+
+    /**
+     * Get a cache key for an entity key
+     * 
+     * @param strKey
+     *            the entity key
+     * @return the cache key
+     */
+    String getEntityCacheKey( String strKey )
+    {
+        return "k:" + strKey;
+    }
+
+    /**
+     * Get a cache key for a prefix
+     * 
+     * @param strPrefix
+     *            the prefix
+     * @return the cache key
+     */
+    String getPrefixCacheKey( String strPrefix )
+    {
+        String strCacheKey = "p:" + strPrefix;
+        _prefixes.add( strCacheKey );
+        return strCacheKey;
+    }
+
+    /**
+     * Remove from the cache the values for all cached prefixes
+     */
+    void removeCachedPrefixes( )
+    {
+        _prefixes.forEach( ( String strPrefix ) -> removeKey( strPrefix ) );
     }
 }

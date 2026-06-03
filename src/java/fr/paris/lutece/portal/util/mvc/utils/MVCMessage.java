@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,7 @@ public class MVCMessage implements ErrorMessage, Serializable
 {
     private static final long serialVersionUID = 384192894626504435L;
     private String _strMessage;
+    private String _strFieldName;
 
     /**
      * Basic constructor
@@ -61,6 +62,19 @@ public class MVCMessage implements ErrorMessage, Serializable
     public MVCMessage( String strMessage )
     {
         _strMessage = strMessage;
+    }
+
+    /**
+     * Constructor
+     * 
+     * @param strMessage
+     *            The message
+     * @param  strFieldName the field name          
+     */
+    public MVCMessage( String strMessage, String strFieldName )
+    {
+        _strMessage = strMessage;
+        _strFieldName = strFieldName;
     }
 
     /**
@@ -82,4 +96,23 @@ public class MVCMessage implements ErrorMessage, Serializable
     {
         _strMessage = message;
     }
+
+    /**
+     * Set the FieldName
+     * 
+     * @param FieldName
+     *            the FieldName to set
+     */
+    public void setFieldName( String strFieldName )
+    {
+        _strFieldName = strFieldName;
+    }
+
+	@Override
+	public String getFieldName( ) 
+	{
+		return _strFieldName;
+	}
+    
+    
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -311,7 +311,8 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doModifyDefaultAdminUserPassword( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
-            assertEquals( I18nService.getLocalizedString( "portal.users.message.password.new.equals.current", Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+            assertEquals( I18nService.getLocalizedString( "portal.users.message.password.new.equals.current", Locale.FRENCH ),
+                    message.getText( Locale.FRENCH ) );
 
             request = new MockHttpServletRequest( );
             request.getSession( true ).setAttribute( "lutece_admin_user", user );

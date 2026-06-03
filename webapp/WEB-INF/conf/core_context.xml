@@ -4,13 +4,13 @@
        xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/tx
-       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/aop
-       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <bean id="appProperties" class="java.util.Properties">
         <constructor-arg
@@ -46,10 +46,13 @@
 
     <bean id="LinksIncludeCacheService" class="fr.paris.lutece.portal.web.includes.LinksIncludeCacheService" />
 
+	<bean id="securityHeaderCacheService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderCacheService" />
+
+	<bean id="portletContentService" class="fr.paris.lutece.portal.service.portlet.PortletContentService" autowire="constructor" />
+
     <!-- since the PageService constructor initializes the two above caches, we choose to inject them through the constructor -->
     <bean id="pageService" class="fr.paris.lutece.portal.service.page.PageService" autowire="constructor">
         <property name="pageCacheKeyService" ref="pageCacheKeyService" />
-        <property name="portletCacheKeyService" ref="portletCacheKeyService" />
         <property name="roleRemovalService" ref="roleRemovalService" />
     </bean>
 
@@ -93,6 +96,10 @@
     <!-- package mailinglist -->
     <bean id="mailingListDAO" class="fr.paris.lutece.portal.business.mailinglist.MailingListDAO" />
 
+    <!-- package security header -->
+    <bean id="securityHeaderDAO" class="fr.paris.lutece.portal.business.securityheader.SecurityHeaderDAO" />
+    <bean id="securityHeaderConfigItemDAO" class="fr.paris.lutece.portal.business.securityheader.SecurityHeaderConfigItemDAO" />
+
     <!-- package page -->
     <bean id="pageDAO" class="fr.paris.lutece.portal.business.page.PageDAO" />
     <!-- package portalcomponent -->
@@ -102,6 +109,7 @@
     <bean id="aliasPortletDAO" class="fr.paris.lutece.portal.business.portlet.AliasPortletDAO" />
     <bean id="portletDAO" class="fr.paris.lutece.portal.business.portlet.PortletDAO" />
     <bean id="portletTypeDAO" class="fr.paris.lutece.portal.business.portlet.PortletTypeDAO" />
+    <bean id="portletStyleDAO" class="fr.paris.lutece.portal.business.portlet.PortletStyleDAO" />
 
     <!-- package rbac -->
     <bean id="rbacRoleDAO" class="fr.paris.lutece.portal.business.rbac.RBACRoleDAO" />
@@ -120,10 +128,6 @@
     <!-- package style -->
     <bean id="modeDAO" class="fr.paris.lutece.portal.business.style.ModeDAO" />
     <bean id="pageTemplateDAO" class="fr.paris.lutece.portal.business.style.PageTemplateDAO" />
-    <bean id="styleDAO" class="fr.paris.lutece.portal.business.style.StyleDAO" />
-
-    <!-- package stylesheet -->
-    <bean id="styleSheetDAO" class="fr.paris.lutece.portal.business.stylesheet.StyleSheetDAO" />
 
     <!-- package template -->
     <bean id="databaseTemplateDAO" class="fr.paris.lutece.portal.business.template.DatabaseTemplateDAO" />
@@ -149,20 +153,25 @@
     <bean id="attributeCheckBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeCheckBox" />
     <bean id="attributeImage" class="fr.paris.lutece.portal.business.user.attribute.AttributeImage" />
 
-    <!-- package file -->
+    <!-- Files -->
     <bean id="fileDAO" class="fr.paris.lutece.portal.business.file.FileDAO" />
-
-    <!-- package physicalfile -->
     <bean id="physicalFileDAO" class="fr.paris.lutece.portal.business.physicalfile.PhysicalFileDAO" />
 
+    <bean id="defaultFileDownloadUrlService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileDownloadService" />
+    <bean id="defaultFileNoRBACService" class="fr.paris.lutece.portal.service.file.implementation.DefaultFileNoRBACService" />
+    
+    <bean id="localDatabaseFileService" class="fr.paris.lutece.portal.service.file.implementation.LocalDatabaseFileService" >
+            <constructor-arg ref="defaultFileDownloadUrlService" />
+            <constructor-arg ref="defaultFileNoRBACService" />
+            <property name="default" value="true" />
+            <property name="name" value="defaultDatabaseFileStoreProvider" />
+    </bean>
+    
     <!-- admin dashboards -->
     <bean id="adminDashboardDAO" class="fr.paris.lutece.portal.business.dashboard.AdminDashboardDAO" />
 
     <!-- dashboards -->
     <bean id="dashboardDAO" class="fr.paris.lutece.portal.business.dashboard.DashboardDAO" />
-
-    <!-- xsl exports -->
-    <bean id="xslExportDAO" class="fr.paris.lutece.portal.business.xsl.XslExportDAO" />
 
     <bean id="richTextEditorDAO" class="fr.paris.lutece.portal.business.editor.RichTextEditorDAO" />
 
@@ -195,12 +204,26 @@
           class="fr.paris.lutece.portal.service.prefs.BaseUserPreferencesServiceImpl">
         <property name="dao" ref="adminUserPreferencesDAO" />
     </bean>
+
     <!-- Security Token Service -->
     <bean id="securityTokenService" class="fr.paris.lutece.portal.service.security.SecurityTokenService" />
-    <!-- Cleaner HTML -->
-    <!-- Cleaner Jsoup HTML -->
+    
+    <!-- RSA Key service default provider (RSAKeyEnvironmentProvider is also available) -->
+    <bean id="RSAKeyProvider" class="fr.paris.lutece.util.rsa.RSAKeyDatastoreProvider" />
+        
+    <!-- Security header service --> 
+    <bean id="securityHeaderService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderService" />
+    <bean id="securityHeaderConfigService" class="fr.paris.lutece.portal.service.securityheader.SecurityHeaderConfigService" /> 
+        
+    <!-- HTML Cleaners-->
+    <!-- Jsoup HTML Cleaner-->
     <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JSoupHtmlCleaner" />
+	<!-- XSS Sanitizer -->
+    <bean id="XSSSanitizer" class="fr.paris.lutece.portal.service.html.OwaspXSSSanitizer" />
 
+    <!-- Accesslogger service -->
+    <bean id="accessLogger" class="fr.paris.lutece.portal.service.security.impl.DefaultAccessLogger" />
+    
     <!-- Site Properties Groups -->
     <bean id="sitePropertiesGroup"
           class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
@@ -255,54 +278,28 @@
 
     <!-- CSS frameworks management -->
     <!-- The default framework should have the its key value equals to 'default' -->
-    <bean id="commonsBoostrap3" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bootstrap3" />
-        <property name="name" value="Bootstap 3.3 + AdminLTE + Backport file (v6.x compatible)" />
+    <bean id="commonsBoostrap5Tabler" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="Bootstrap5Tabler" />
+         <property name="default" value="true" />
+        <property name="name" value="Tabler 1.0.0" />
         <property name="files">
             <list>
-                <value>commons.html</value>
-				<value>commons_bs4_backport.html</value>
-                <value>admin/util/calendar/macro_datepicker.html</value>
+                <value>commons_bs5_tabler.html</value>
+                <value>commons_backport.html</value>
+				<value>admin/util/calendar/macro_datetimepicker.html</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="commonsCorporate" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="Corporate" />
+         <property name="default" value="false" />
+        <property name="name" value="Corporate 0.0.1" />
+        <property name="files">
+            <list>
+                <value>commons_corporate.html</value>
+                <value>commons_backport.html</value>
                 <value>admin/util/calendar/macro_datetimepicker.html</value>
             </list>
         </property>
     </bean>
-    <bean id="commonsBootstrap4MaterialKit" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bootstrap4MaterialKit" />
-        <property name="default" value="true" />
-        <property name="name" value="Bootstrap 4.3 + Material Kit  + Backport file (v6.x compatible) (Default)" />
-        <property name="files">
-            <list>
-                <value>commons_bs4_materialkit.html</value>                
-				<value>commons_bs4_backport.html</value>
-                <!-- <value>admin/util/calendar/macro_datepicker_materialkit.html</value> -->
-				<value>admin/util/calendar/macro_datetimepicker.html</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bootstrap4AdminLTE" />
-        <property name="name" value="Bootstrap v4.3 + AdminLTE (Experimental) + Backport file (v6.x compatible)" />
-        <property name="files">
-            <list>
-                <value>commons_bs4_adminlte.html</value>                
-				<value>commons_bs4_backport.html</value>
-                <value>admin/util/calendar/macro_datepicker.html</value>
-				<value>admin/util/calendar/macro_datetimepicker.html</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="commonsBulma" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bulma" />
-        <property name="name" value="Bulma 0.7 (Experimental) + Backport file (v6.x compatible)" />
-        <property name="files">
-            <list>
-                <value>commons_bulma.html</value>             
-				<value>commons_bs4_backport.html</value>
-                <value>admin/util/calendar/macro_datepicker.html</value>
-				<value>admin/util/calendar/macro_datetimepicker.html</value>
-            </list>
-        </property>
-    </bean>
-    <bean id="basicFileDownloadProvider" class="fr.paris.lutece.portal.service.download.BasicFileDownloadProvider" />
 </beans>

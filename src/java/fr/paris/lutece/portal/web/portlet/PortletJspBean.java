@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,8 @@ import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -66,6 +68,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     // //////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
+    private static final String PLUGIN_XMLTRANSFORMER = "xmltransformer";
 
     // Parameters
     protected static final String PARAMETER_PAGE_ID = "page_id";
@@ -101,6 +104,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 
     // Jsp
     private static final String JSP_ADMIN_SITE = "../../site/AdminSite.jsp";
+    private static final String JSP_ADMIN_SITE_WITH_PATH = "jsp/admin/site/AdminSite.jsp";
 
     /**
      * Displays the portlet's creation form
@@ -210,13 +214,18 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         // Check Mandatory fields
         if ( StringUtil.isAnyEmpty( strName, strOrder, strColumn, strAcceptAlias, strAcceptPortletTitle ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
         }
 
         // style id is not mandatory if the content is not generated from XML and XSL
         if ( portlet.isContentGeneratedByXmlAndXsl( ) && ( strStyleId == null || strStyleId.trim( ).equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            Plugin xmltransformerPlugin = PluginService.getPlugin( PLUGIN_XMLTRANSFORMER ); 
+            if (null == xmltransformerPlugin || !xmltransformerPlugin.isInstalled( ))
+            {
+                AppLogService.info( "Warning: XSL rendering not available. Please consider installing the XML transformer plugin (xmltransformer)." );
+            }
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
         }
 
         String strPageId = request.getParameter( PARAMETER_PAGE_ID );
@@ -229,14 +238,14 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 
             if ( !PageHome.checkPageExist( nPageId ) )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
             }
         }
         catch( NumberFormatException e )
         {
             AppLogService.error( e.getMessage( ), e );
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, JSP_ADMIN_SITE_WITH_PATH, AdminMessage.TYPE_STOP );
         }
 
         int nOrder = Integer.parseInt( strOrder );

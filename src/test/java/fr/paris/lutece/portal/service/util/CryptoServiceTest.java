@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -86,12 +86,12 @@ public class CryptoServiceTest extends LuteceTestCase
     {
         File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
         Properties props = new Properties( );
-        try( InputStream is = new FileInputStream( luteceProperties ) )
+        try ( InputStream is = new FileInputStream( luteceProperties ) )
         {
             props.load( is );
         }
         props.remove( CryptoService.PROPERTY_CRYPTO_KEY );
-        try( OutputStream os = new FileOutputStream( luteceProperties ) )
+        try ( OutputStream os = new FileOutputStream( luteceProperties ) )
         {
             props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
         }
@@ -102,12 +102,12 @@ public class CryptoServiceTest extends LuteceTestCase
     {
         File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
         Properties props = new Properties( );
-        try( InputStream is = new FileInputStream( luteceProperties ) )
+        try ( InputStream is = new FileInputStream( luteceProperties ) )
         {
             props.load( is );
         }
         props.setProperty( CryptoService.PROPERTY_CRYPTO_KEY, strLegacyKey );
-        try( OutputStream os = new FileOutputStream( luteceProperties ) )
+        try ( OutputStream os = new FileOutputStream( luteceProperties ) )
         {
             props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
         }

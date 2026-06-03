@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -92,6 +92,17 @@ public interface IRBACDAO
     Collection<RBAC> selectRBACListByRoleKey( String strRoleKey );
 
     /**
+     * Find all entries for a given collection of permissions and roles
+     * 
+     * @param permissions
+     *            the permissions collection
+     * @param roles
+     *            the roles collection
+     * @return A collection of RBACs
+     */
+    Collection<RBAC> selectByPermissionsAndRoles( Collection<String> permissions, Collection<String> roles );
+
+    /**
      *
      *
      * @param strTypeCode
@@ -131,4 +142,5 @@ public interface IRBACDAO
      *            the resource id
      */
     public void deleteForResourceTypeAndId( String strResourceType, String strResourceId );
+
 }

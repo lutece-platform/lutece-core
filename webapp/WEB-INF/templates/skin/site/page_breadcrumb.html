@@ -1,0 +1,7 @@
+<#list list_pages as page>
+	<#if page?has_next>
+		<a href="${site_path}?page_id=${page.getId()}" target="_top">${page.getName()}</a> &gt;
+	<#else>
+		${page.getName()}
+	</#if>
+</#list>

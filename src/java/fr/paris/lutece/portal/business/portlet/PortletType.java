@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,6 +53,7 @@ public class PortletType implements RBACResource, Localizable
     private String _strUrlCreation;
     private String _strUrlUpdate;
     private String _strHomeClass;
+    private String _strIconName;
     private String _strPluginName;
     private String _strDoCreateUrl;
     private String _strCreateScriptTemplate;
@@ -199,6 +200,27 @@ public class PortletType implements RBACResource, Localizable
     {
         return _strPluginName;
     }
+    
+    /**
+     * Sets the icon name of the Portlet Type
+     *
+     * @param strIconName
+     *            the Portlet type Plugin Name
+     */
+    public void setIconName( String strIconName )
+    {
+        _strIconName = strIconName;
+    }
+        /**
+     * Returns the plugin name of the Portlet Type
+     *
+     * @return the Portlet type plugin name
+     */
+    public String getIconName( )
+    {
+        return _strIconName;
+    }
+
 
     // //////////////////////////////////////////////////////////////////////////
     // RBAC Resource implementation

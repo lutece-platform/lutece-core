@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.portal.service.user.menu;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.springframework.beans.factory.BeanNameAware;
 
 import fr.paris.lutece.portal.business.user.menu.IAdminUserMenuItemProvider;
+import javax.annotation.PostConstruct;
 
 /**
  * Admin user menu provider registrar.

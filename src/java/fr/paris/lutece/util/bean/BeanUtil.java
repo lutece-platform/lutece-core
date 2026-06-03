@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,7 @@ package fr.paris.lutece.util.bean;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.date.DateUtil;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -82,12 +83,12 @@ public final class BeanUtil
             beanUtilsBean.getPropertyUtils( ).addBeanIntrospector( SuppressPropertiesBeanIntrospector.SUPPRESS_CLASS );
 
             DateConverter dateConverter = new DateConverter( null );
-            dateConverter.setPattern( I18nService.getDateFormatShortPattern( locale ) );
+            dateConverter.setPatterns( new String[] { DateUtil.ISO_PATTERN_DATE, I18nService.getDateFormatShortPattern( locale ) } );
             beanUtilsBean.getConvertUtils( ).register( dateConverter, Date.class );
-            
+
             SqlTimeConverter sqlTimeConverter = new SqlTimeConverter( null );
             beanUtilsBean.getConvertUtils( ).register( sqlTimeConverter, Timestamp.class );
-            
+
             _mapBeanUtilsBeans.put( locale.getLanguage( ), beanUtilsBean );
         }
     }
@@ -124,7 +125,7 @@ public final class BeanUtil
             try
             {
                 // for all boolean field, init to false
-                if ( Boolean.class.isAssignableFrom( field.getType( ) ) || boolean.class.isAssignableFrom( field.getType( ) ) ) 
+                if ( Boolean.class.isAssignableFrom( field.getType( ) ) || boolean.class.isAssignableFrom( field.getType( ) ) )
                 {
                     field.setAccessible( true );
                     field.set( bean, false );
@@ -133,7 +134,7 @@ public final class BeanUtil
             catch( Exception e )
             {
                 String error = "La valeur du champ " + field.getName( ) + " de la classe " + bean.getClass( ).getName( ) + " n'a pas pu être récupéré ";
-                AppLogService.error( error );
+                AppLogService.error( error, e );
                 throw new AppException( error, e );
             }
         }

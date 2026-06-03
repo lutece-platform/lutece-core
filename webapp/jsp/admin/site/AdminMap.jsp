@@ -1,16 +1,10 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 <%@ page import="java.util.Enumeration" %>
-
-<jsp:include page="../AdminHeader.jsp" />
-
 <jsp:useBean id="adminMap" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMapJspBean" />
-
-
 <% adminMap.init( request , adminMap.RIGHT_MANAGE_ADMIN_SITE ); %>
  
 <%= adminMap.getMap( request ) %>
 
-  
 <%
 	String strParams = "";
 	String strSeparator = "?";
@@ -28,5 +22,3 @@
 
      }   
 %>
-
-<%@ include file="../AdminFooter.jsp"%>

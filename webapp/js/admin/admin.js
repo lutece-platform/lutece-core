@@ -2,17 +2,15 @@
  * BS3 + AdminLTE JS
  *
  */
-
 /* Specific script for back office */
 $( function(){
 	var nCounter = "";
-	var nMax = "";
 
 	// Count effect
-	$('.small-box .inner h3').each( function () {
+	$('.small-box .inner h3 span').each( function () {
 		nCounter = $(this).text();
 		var sVal = "";
-		var thisTXT = $(this).text().split("/");
+		var thisTXT = $(this).text().split(" ");
 		if ( thisTXT.length > 1 ){
 			nCounter = thisTXT[0];
 			sVal = " / " + thisTXT[1];
@@ -30,32 +28,16 @@ $( function(){
 		}
 	});
 
-	// Count effect dyn-info
-	$('.info-box .info-box-number').each( function () {
-		nCounter = $(this).text();
-		var sVal = "";
-		var thisTXT = $(this).text().split("/");
-
-		if ( thisTXT.length > 1 ){
-			nCounter = thisTXT[0];
-			nMax = thisTXT[1]
-			sVal = " / " + thisTXT[1];
-		}
-
-		if ( $.isNumeric( nCounter ) && $.isNumeric( nMax ) ) {
-			$(this).prop('Counter',0).animate({
-				Counter: nCounter
-			}, {
-				duration: 1000,
-				easing: 'swing',
-				step: function (now) {
-					$(this).text( Math.ceil(now) + sVal );
-					var pg = "width:" + ( Math.ceil(now) / nMax * 100 ) + "%" ;
-					$(this).next().children().attr("style",  pg );
-				}
-			});
-		}
-	});
+	// Disable Double Click on submit Buttons -> * NOT WORKING WITH IE *
+	// let numForms = document.forms.length;
+	// if( numForms > 0 ){
+	// 	let aForms = Array.from(document.forms);
+	// 	aForms.forEach( function(form){
+	// 		form.addEventListener( 'submit', function(e) {
+	// 			e.submitter.classList.add('submitted');
+	// 		}, false);
+	// 	});
+	// }
 
 	//Make the dashboard widgets sortable Using jquery UI
 	$(".lutece-dashboard").sortable({
@@ -118,13 +100,9 @@ $( function(){
 		$("#fullscreen").on('click', function(e) {
 			// Stop the link default behaviour.
 			e.preventDefault();
-			// Set the iframe src with the clicked link href.
-			$('body').toggleClass("bs-fixed-body");
-			$('.content-header').toggle();
-			$('.page-header').toggle();
-			$('header').toggle();
-			$(this).children().toggleClass('fa-arrows-alt').toggleClass('fa-remove');
-
+			// Set preview fulscreen
+			$('#preview').toggleClass('open');
+			$(this).toggleClass('open');
 		});
 	}
 
@@ -154,14 +132,54 @@ $( function(){
         });
     });
 
+	// Toggle collapse buttons
+	$('[data-toggle="collapse"]').click(function() {
+		if ($(this).find("i").hasClass("fa-minus")){
+		$(this).find("i").addClass("fa-plus").removeClass("fa-minus");
+		}
+		else if ($(this).find("i").hasClass("fa-plus")){
+		$(this).find("i").addClass("fa-minus").removeClass("fa-plus");
+		}
+	});
+
+	$('[data-toggle="popover"]').popover()
 });
 
-// Toggle collapse buttons
-$('[data-toggle="collapse"]').click(function() {
-	if ($(this).find("i").hasClass("fa-minus")){
-    $(this).find("i").addClass("fa-plus").removeClass("fa-minus");
-    }
-	else if ($(this).find("i").hasClass("fa-plus")){
-    $(this).find("i").addClass("fa-minus").removeClass("fa-plus");
-    }
-});
+/* Pretty print file size */
+function prettySize( bytes, separator=' ', postFix=''){
+if (bytes) {
+	const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To'];
+	const i = Math.min(parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10), sizes.length - 1);
+	return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
+}
+return 'n/a';
+}
+
+/* Manage progress bar  */
+function progress( bar, complexity, valid ){
+	bar.toggleClass('progress-bar-success', valid);
+	bar.toggleClass('progress-bar-danger', !valid);
+	bar.css({'width': complexity + '%'});
+	bar.html( Math.round( complexity ) + '%');
+}
+
+/* Tab management for advanced user parameters */
+function manageAdminFeatureTab( hc ){
+	if( hc != undefined ){
+		$(hc).parents('.collapse').addClass('in');
+		$('.nav li').removeClass('active');
+		var k='a[href="' + hc + '"]';
+		$(k).parent().addClass('active');
+		$('.tab-pane').removeClass('active').removeClass('in');
+		$(hc).addClass('active in');
+		$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
+	}
+	
+	$('[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+		Cookies.set('technnicaltab', e.target.hash, { sameSite: 'Strict' } )
+	});
+	
+	$('[data-toggle="collapse"]').on('click', function(e){
+		Cookies.remove('technnicaltab');
+	});
+}

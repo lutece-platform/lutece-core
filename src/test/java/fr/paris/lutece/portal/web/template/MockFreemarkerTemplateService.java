@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,9 @@
 package fr.paris.lutece.portal.web.template;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.datastore.DatastoreTemplateMethod;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.i18n.I18nTemplateMethod;
 import fr.paris.lutece.portal.service.template.AbstractFreeMarkerTemplateService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -53,11 +55,14 @@ public class MockFreemarkerTemplateService extends AbstractFreeMarkerTemplateSer
 
     /**
      * Constructor
-     * @param strAbsolutePath 
+     * 
+     * @param strAbsolutePath
      */
     public MockFreemarkerTemplateService( String strAbsolutePath )
     {
         _strAbsolutePath = strAbsolutePath;
+        setSharedVariable( "i18n", new I18nTemplateMethod( ) );
+        setSharedVariable("dskey", new DatastoreTemplateMethod( ) );
     }
 
     /**
@@ -78,37 +83,40 @@ public class MockFreemarkerTemplateService extends AbstractFreeMarkerTemplateSer
         return DateUtil.getDefaultPattern( locale );
     }
 
-
-
     /**
      * {@inheritDoc }
      */
     @Override
     public void init( String strTemplatePath )
     {
-        super.init( strTemplatePath ); 
+        super.init( strTemplatePath );
         getAutoIncludes( ); // force to initialize a cfg
     }
-    
+
     /**
-     * Write a file 
-     * @param strTemplateFilename The template filename
-     * @param strOutputFolder The output directory
-     * @param model The model
-     * @throws IOException if an error occurs
+     * Write a file
+     * 
+     * @param strTemplateFilename
+     *            The template filename
+     * @param strOutputFolder
+     *            The output directory
+     * @param model
+     *            The model
+     * @throws IOException
+     *             if an error occurs
      */
     void write( String strTemplateFilename, String strOutputFolder, Map<String, Object> model ) throws IOException
     {
-        Locale locale = Locale.getDefault();
+        Locale locale = Locale.getDefault( );
         HtmlTemplate template = loadTemplate( "/", strTemplateFilename, locale, model );
-        String strLocalized = I18nService.localize( template.getHtml(), locale );
+        String strLocalized = I18nService.localize( template.getHtml( ), locale );
         template = new HtmlTemplate( strLocalized );
-        template = new HtmlTemplate( DatastoreService.replaceKeys( template.getHtml() ) );
+        template = new HtmlTemplate( DatastoreService.replaceKeys( template.getHtml( ) ) );
 
         String strFileName = strOutputFolder + "/" + strTemplateFilename;
         FileWriter writer = new FileWriter( strFileName );
-        writer.write( template.getHtml() );
-        writer.close();
+        writer.write( template.getHtml( ) );
+        writer.close( );
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ public class AdminMessageJspBeanTest extends LuteceTestCase
         String strTitle = "WARNING_MESSAGE";
         boolean bCancelButton = false;
         Object [ ] messageArgs = {
-            "WARNING_MESSAGE"
+                "WARNING_MESSAGE"
         };
         AdminMessage message = new AdminMessage( "WARNING_MESSAGE", messageArgs, strTitle, "", "", AdminMessage.TYPE_WARNING, bCancelButton );
         HttpSession session = request.getSession( true );

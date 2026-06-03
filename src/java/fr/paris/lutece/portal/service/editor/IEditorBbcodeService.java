@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.editor;
 
+import org.jsoup.safety.Safelist;
+
 /**
  *
  * This Interface Provides a parser BBCODE
@@ -41,11 +43,22 @@ package fr.paris.lutece.portal.service.editor;
 public interface IEditorBbcodeService
 {
     /**
-     * Parse BBCODE text and return HTML text
-     * 
+     * Parse BBCODE text and return safe HTML
+     * This method clean a <code>body</code> fragment of HTML with {@link Safelist#basicWithImages()}
      * @param strValue
      *            the value of the text
      * @return HTML Text
+     * @See {@link Safelist#basicWithImages()}
      */
     String parse( String strValue );
+   
+    /**
+     * Parses the input string using BBCodeUtil.parse() and cleans the resulting HTML
+     * using Jsoup.clean() with the specified Safelist, and returns the cleaned string.
+     *
+     * @param strValue the input string to be parsed and cleaned
+     * @param safelist the Safelist to be used for cleaning the HTML
+     * @return the cleaned and sanitized string
+     */
+    public String parseAndClean(String strValue, Safelist safelist);
 }

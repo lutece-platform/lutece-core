@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -410,52 +410,6 @@ public final class WorkflowService
     }
 
     /**
-     * returns a xml wich contains the actions history performed on a resource
-     * 
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param request
-     *            the request
-     * @param nIdWorkflow
-     *            the workflow id
-     * @param locale
-     *            the locale
-     * @return a xml wich contains the history of actions performed on a resource
-     * @deprecated use getDocumentHistoryXml( int, String, int, HttpServletRequest, Locale, User )
-     */
-    @Deprecated
-    public String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale )
-    {
-
-        return getDocumentHistoryXml( nIdResource, strResourceType, nIdWorkflow, request, locale, null );
-    }
-
-    /**
-     * returns a xml wich contains the actions history performed on a resource
-     * 
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param request
-     *            the request
-     * @param nIdWorkflow
-     *            the workflow id
-     * @param locale
-     *            the locale
-     * @param user
-     *            the User
-     * 
-     * @return a xml wich contains the history of actions performed on a resource
-     */
-    public String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale, User user )
-    {
-        return isAvailable( ) ? _provider.getDocumentHistoryXml( nIdResource, strResourceType, nIdWorkflow, request, locale, user ) : null;
-    }
-
-    /**
      * Perform the information on the various tasks associated with the given action specified in parameter
      * 
      * @param nIdResource
@@ -537,6 +491,28 @@ public final class WorkflowService
         return null;
     }
 
+    /**
+     * Get the list of ids of resources of a given type that are in a given state 
+     * and have a specific external parent id
+     * 
+     * @param nIdState
+     *            The id of the state of resources to get
+     * @param strResourceType
+     *            The type of resources to get
+     * @return The list of resources matching both given state id and resource given. Return an empty list if no resource was found, or if the state does not
+     *         exist.
+     */
+    public List<Integer> getResourceIdListByIdState( int nIdState, String strResourceType, int nExternalParentId )
+    {
+        if ( isAvailable( ) )
+        {
+            return _service.getResourceIdListByIdState( nIdState, strResourceType, nExternalParentId );
+        }
+
+        return null;
+    }
+    
+    
     /**
      * Remove in every workflows the resource specified in parameter
      * 

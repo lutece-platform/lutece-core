@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,12 +63,12 @@ public final class ShutdownServiceManager
         {
             try
             {
-                AppLogService.info( "Processing shutdown service : " + service.getName( ) );
+                AppLogService.info( "Processing shutdown service : {}", service.getName( ) );
                 service.process( );
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error while processing shutdown service : " + service.getName( ), e );
+                AppLogService.error( "Error while processing shutdown service : {}", service.getName( ), e );
             }
         }
     }

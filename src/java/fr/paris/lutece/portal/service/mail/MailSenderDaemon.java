@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,8 +38,6 @@ import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-import org.apache.log4j.Logger;
-
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +48,9 @@ import javax.mail.SendFailedException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * MailSender Daemon
@@ -77,8 +78,7 @@ public class MailSenderDaemon extends Daemon
     @Override
     public synchronized void run( )
     {
-        Logger logger = Logger.getLogger( "lutece.mail" );
-        logger.setAdditivity( false );
+        Logger logger = LogManager.getLogger( "lutece.mail" );
 
         String strHost = AppPropertiesService.getProperty( PROPERTY_MAIL_HOST );
         String strUsername = AppPropertiesService.getProperty( PROPERTY_MAIL_USERNAME, null );
@@ -102,7 +102,7 @@ public class MailSenderDaemon extends Daemon
             }
             catch( NoSuchProviderException e )
             {
-                AppLogService.error( e );
+                AppLogService.error( e.getMessage( ), e );
             }
 
             if ( transportSmtp != null )
@@ -119,13 +119,13 @@ public class MailSenderDaemon extends Daemon
                 {
                     sbLogs.append( MESSAGE_ERROR_MAIL_MESSAGING );
                     sbLogs.append( e.getMessage( ) );
-                    AppLogService.error( MESSAGE_ERROR_MAIL_MESSAGING + e.getMessage( ), e );
+                    AppLogService.error( "{} {} ", MESSAGE_ERROR_MAIL_MESSAGING, e.getMessage( ), e );
                 }
                 catch( Exception e )
                 {
                     sbLogs.append( MESSAGE_ERROR_MAIL );
                     sbLogs.append( e.getMessage( ) );
-                    AppLogService.error( MESSAGE_ERROR_MAIL + e.getMessage( ), e );
+                    AppLogService.error( "{} {} ", MESSAGE_ERROR_MAIL, e.getMessage( ), e );
                 }
             }
 
@@ -257,7 +257,7 @@ public class MailSenderDaemon extends Daemon
             // a wrongly formatted address is encountered in the list of recipients
             sbLogsLine.append( MESSAGE_STATUS_FAILED );
             sbLogsLine.append( e.getMessage( ) );
-            AppLogService.error( MESSAGE_ERROR_MAIL + e.getMessage( ), e );
+            AppLogService.error( "{} {} ", MESSAGE_ERROR_MAIL, e.getMessage( ), e );
         }
         catch( MessagingException e )
         {
@@ -265,7 +265,7 @@ public class MailSenderDaemon extends Daemon
             // we put the mail in the queue before end process
             sbLogsLine.append( MESSAGE_STATUS_FAILED );
             sbLogsLine.append( e.getMessage( ) );
-            AppLogService.error( MESSAGE_ERROR_MAIL + e.getMessage( ), e );
+            AppLogService.error( "{} {} ", MESSAGE_ERROR_MAIL, e.getMessage( ), e );
             throw e;
         }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,6 +68,7 @@ public final class AdminMessageService
     private static final String MARK_MESSAGES_LIST = "messages_list";
     private static final String TEMPLATE_ERRORS_LIST = "admin/util/errors_list.html";
     private static final String MARK_ERRORS_LIST = "errors_list";
+    private static final String LOGOUT_PARAMETER = "logout";
 
     /**
      * Private constructor
@@ -527,5 +528,31 @@ public final class AdminMessageService
         return new String [ ] {
                 template.getHtml( )
         };
+    }
+
+    /**
+     * Build the logout message url
+     * 
+     * @param request
+     *            The HTTP request
+     * @return The Url
+     */
+    public static String getLogoutMessageUrl( HttpServletRequest request )
+    {
+        // Force session creation to prevent already commited response and session creation
+        HttpSession session = request.getSession( true );
+        return getUrl( request ) + "?" + LOGOUT_PARAMETER;
+    }
+
+    /**
+     * Checks if the message url is the logout message url
+     * 
+     * @param request
+     *            The HTTP request
+     * @return True if the url is the logout message url
+     */
+    public static boolean isLogoutMessageUrl( HttpServletRequest request )
+    {
+        return null != request.getParameter( LOGOUT_PARAMETER );
     }
 }

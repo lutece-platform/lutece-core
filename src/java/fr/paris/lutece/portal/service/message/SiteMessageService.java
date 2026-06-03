@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.message;
 
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.Map;
@@ -330,6 +331,68 @@ public final class SiteMessageService
         setMessage( request, message );
 
         throw new SiteMessageException( );
+    }
+
+    /**
+     * Set the custom message, store it in session and throw a LuteceSiteMessageException
+     * 
+     * @param request
+     *            The HttpRequest
+     * @param title
+     *            The title
+     * @param strUrl
+     *            The Url of the Ok button
+     * @param text
+     *            The message
+     * @param nMessageType
+     *            The message type
+     * @param strBackUrl
+     *            The Url of back button
+     * @throws SiteMessageException
+     */
+    public static void setCustomMessage( HttpServletRequest request, String title, String text, String strUrl, int nMessageType, String strBackUrl )
+            throws SiteMessageException
+    {
+        String strTitle = title != null ? title : I18nService.getLocalizedString( getDefaultTitle( nMessageType ), request.getLocale( ) );
+        SiteMessage message = new CustomSiteMessage( strTitle, text, strUrl, nMessageType, getTypeButton( nMessageType, strBackUrl ), strBackUrl );
+
+        setMessage( request, message );
+
+        throw new SiteMessageException( );
+    }
+
+    /**
+     * Set the custom message, store it in session and throw a LuteceSiteMessageException
+     * 
+     * @param request
+     *            The HttpRequest
+     * @param strText
+     *            The message
+     * @param nMessageType
+     *            The message type
+     * @throws SiteMessageException
+     */
+    public static void setCustomMessage( HttpServletRequest request, String strText, int nMessageType ) throws SiteMessageException
+    {
+        setCustomMessage( request, null, strText, null, nMessageType, null );
+    }
+
+    /**
+     * Set the custom message, store it in session and throw a LuteceSiteMessageException
+     * 
+     * @param request
+     *            The HttpRequest
+     * @param strText
+     *            The message
+     * @param strTitle
+     *            The title
+     * @param nMessageType
+     *            The message type
+     * @throws SiteMessageException
+     */
+    public static void setCustomMessage( HttpServletRequest request, String strTitle, String strText, int nMessageType ) throws SiteMessageException
+    {
+        setCustomMessage( request, strTitle, strText, null, nMessageType, null );
     }
 
     /**

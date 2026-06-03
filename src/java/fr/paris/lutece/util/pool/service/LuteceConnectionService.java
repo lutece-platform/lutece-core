@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,7 +34,6 @@
 package fr.paris.lutece.util.pool.service;
 
 import fr.paris.lutece.util.env.EnvUtil;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -44,6 +43,8 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import javax.sql.DataSource;
+
+import org.apache.logging.log4j.Logger;
 
 /**
  * Lutece Connection Service
@@ -113,7 +114,7 @@ public class LuteceConnectionService implements ConnectionService
 
         if ( url == null )
         {
-            _logger.error( "No URL specified for the pool " + getPoolName( ) );
+            _logger.error( "No URL specified for the pool {}", getPoolName( ) );
         }
         else
         {
@@ -124,7 +125,7 @@ public class LuteceConnectionService implements ConnectionService
 
         if ( user == null )
         {
-            _logger.error( "No user specified for the pool " + getPoolName( ) );
+            _logger.error( "No user specified for the pool {}", getPoolName( ) );
         }
         else
         {
@@ -149,15 +150,15 @@ public class LuteceConnectionService implements ConnectionService
         {
             Driver driver = (Driver) Class.forName( strDiverClassName ).newInstance( );
             DriverManager.registerDriver( driver );
-            _logger.info( "Registered JDBC driver " + strDiverClassName );
+            _logger.info( "Registered JDBC driver {}", strDiverClassName );
         }
         catch( NullPointerException e )
         {
-            _logger.error( "Can't register JDBC driver: " + strDiverClassName + " because the property driver is not defined", e );
+            _logger.error( "Can't register JDBC driver: {} because the property driver is not defined", strDiverClassName, e );
         }
         catch( Exception e )
         {
-            _logger.error( "Can't register JDBC driver: " + strDiverClassName, e );
+            _logger.error( "Can't register JDBC driver: {}", strDiverClassName, e );
         }
 
         int maxConns = ( htParamsConnectionPool.get( getPoolName( ) + ".maxconns" ) == null ) ? 0

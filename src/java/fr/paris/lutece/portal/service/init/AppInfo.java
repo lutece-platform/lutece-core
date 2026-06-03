@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@ package fr.paris.lutece.portal.service.init;
 public final class AppInfo
 {
     /** Defines the current version of the application */
-    private static final String APP_VERSION = "7.0.0-SNAPSHOT";
+    private static final String APP_VERSION = "7.1.10-SNAPSHOT";
     static final String LUTECE_BANNER_VERSION = "\n _      _   _   _____   ___    ___   ___      ____\n"
             + "| |    | | | | |_   _| | __|  / __| | __|    |__  |\n" + "| |__  | |_| |   | |   | _|  | (__  | _|       / / \n"
             + "|____|  \\___/    |_|   |___|  \\___| |___|     /_/  ";

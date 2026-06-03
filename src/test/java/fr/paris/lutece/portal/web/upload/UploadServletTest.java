@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -93,7 +93,7 @@ public class UploadServletTest extends LuteceTestCase
     {
         MockHttpServletRequest request = getMultipartRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
-        MultipartHttpServletRequest multipartRequest = MultipartUtil.convert( 10000, 10000, false, request );
+        MultipartHttpServletRequest multipartRequest = MultipartUtil.convert( 10000, 10000, false, request, false);
 
         new UploadServlet( ).doPost( multipartRequest, response );
 
@@ -116,7 +116,7 @@ public class UploadServletTest extends LuteceTestCase
         Map<String, List<FileItem>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
         mapParameters.put( "handler", new String [ ] {
-            BEAN_NAME
+                BEAN_NAME
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, mapFiles, mapParameters );
 
@@ -171,7 +171,7 @@ public class UploadServletTest extends LuteceTestCase
         Map<String, List<FileItem>> mapFiles = new HashMap<>( );
         Map<String, String [ ]> mapParameters = new HashMap<>( );
         mapParameters.put( "handler", new String [ ] {
-            BEAN_NAME
+                BEAN_NAME
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, mapFiles, mapParameters );
 
@@ -234,7 +234,7 @@ public class UploadServletTest extends LuteceTestCase
                 1, 2, 3
         };
         Part [ ] parts = new Part [ ] {
-            new FilePart( "file1", new ByteArrayPartSource( "file1", fileContent ) )
+                new FilePart( "file1", new ByteArrayPartSource( "file1", fileContent ) )
         };
         MultipartRequestEntity multipartRequestEntity = new MultipartRequestEntity( parts, new PostMethod( ).getParams( ) );
         // Serialize request body

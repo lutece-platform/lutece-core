@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -93,7 +93,7 @@ public class AdminUserMenuService
             {
                 _itemProviders.add( itemProvider );
             }
-        AppLogService.info( "New admin user menu item provider registered : " + itemProvider.getName( ) );
+        AppLogService.info( "New admin user menu item provider registered : {}", itemProvider.getName( ) );
     }
 
     private void addItemProviderInPosition( IAdminUserMenuItemProvider itemProvider, String strRefName,
@@ -113,7 +113,7 @@ public class AdminUserMenuService
         }
         if ( !bFound )
         {
-            AppLogService.error( "Did not find admin user menu item provider named <" + strRefName + "> when registering <" + itemProvider.getName( ) );
+            AppLogService.error( "Did not find admin user menu item provider named <{}> when registering <{}>", strRefName, itemProvider.getName( ) );
             _itemProviders.add( itemProvider );
         }
     }

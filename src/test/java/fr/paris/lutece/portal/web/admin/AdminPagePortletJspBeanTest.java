@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -816,8 +816,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "jsp/admin/site/DoRemovePortlet.jsp" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePortlet.jsp" ) );
         String url = bean.doRemovePortlet( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -835,8 +835,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "jsp/admin/site/DoRemovePortlet.jsp" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePortlet.jsp" ) );
         request.addParameter( Parameters.PORTLET_ID, "NOT_NUMERIC" );
         String url = bean.doRemovePortlet( request );
         assertNotNull( url );

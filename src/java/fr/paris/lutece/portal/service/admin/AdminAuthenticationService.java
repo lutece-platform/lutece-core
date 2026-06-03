@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
+import fr.paris.lutece.portal.service.security.AccessLogService;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.stream.Collectors;
@@ -41,13 +42,14 @@ import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
+import fr.paris.lutece.portal.service.security.AccessLoggerConstants;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -63,7 +65,13 @@ public final class AdminAuthenticationService
      */
     private static final String ATTRIBUTE_ADMIN_USER = "lutece_admin_user";
     private static final String ATTRIBUTE_ADMIN_LOGIN_NEXT_URL = "luteceAdminLoginNextUrl";
+
     private static final String BEAN_ADMIN_AUTHENTICATION_MODULE = "adminAuthenticationModule";
+
+    private static final String CONSTANT_ACTION_LOGIN_ADMINUSER = "user.loginAdminUser";
+    private static final String CONSTANT_ACTION_LOGOUT_ADMINUSER = "user.logoutAdminUser";
+    private static final String CONSTANT_BO = "BO";
+
     private static AdminAuthenticationService _singleton = new AdminAuthenticationService( );
     private static AdminAuthentication _authentication;
     private static boolean _bUseDefaultModule;
@@ -81,7 +89,7 @@ public final class AdminAuthenticationService
     public static synchronized void init( )
     {
         _authentication = SpringContextService.getBean( BEAN_ADMIN_AUTHENTICATION_MODULE );
-        AppLogService.info( "Authentication module loaded : " + _authentication.getAuthServiceName( ) );
+        AppLogService.info( "Authentication module loaded : {}", _authentication.getAuthServiceName( ) );
 
         if ( _authentication.getClass( ).equals( LuteceDefaultAdminAuthentication.class ) )
         {
@@ -186,6 +194,8 @@ public final class AdminAuthenticationService
     {
         AdminUser user = _authentication.login( strAccessCode, strPassword, request );
 
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_LOGIN_ADMINUSER, user, null, CONSTANT_BO );
+
         try
         {
             registerUser( request, user );
@@ -219,6 +229,9 @@ public final class AdminAuthenticationService
 
         _authentication.logout( user );
         unregisterUser( request );
+
+        AccessLogService.getInstance( ).info( AccessLoggerConstants.EVENT_TYPE_DISCONNECT, CONSTANT_ACTION_LOGOUT_ADMINUSER, user, null, CONSTANT_BO );
+
     }
 
     /**
@@ -232,7 +245,7 @@ public final class AdminAuthenticationService
      *             If the user is not signed
      * @return The AdminUser
      */
-    private AdminUser bindUser( AdminUser user ) throws AccessDeniedException, UserNotSignedException
+    private <T extends AdminUser> T bindUser(T user) throws AccessDeniedException, UserNotSignedException 
     {
         if ( user == null )
         {
@@ -240,7 +253,7 @@ public final class AdminAuthenticationService
         }
 
         // retrieve the user in local system from the access code
-        AdminUser bindUser = AdminUserHome.findUserByLogin( user.getAccessCode( ) );
+        T bindUser = AdminUserHome.findUserByLogin( user.getAccessCode( ),user );
 
         // only allow a user that is marked active
         if ( ( bindUser == null ) || ( !bindUser.isStatusActive( ) ) )
@@ -257,9 +270,12 @@ public final class AdminAuthenticationService
         // set the workgroups for this user
         bindUser.setUserWorkgroups( AdminWorkgroupHome.getUserWorkgroups( bindUser ).stream( ).map( x -> x.getCode( ) ).collect( Collectors.toList( ) ) );
 
-        return bindUser;
+        return user;
     }
 
+   
+    
+    
     /**
      * Register the user in the Http session
      *
@@ -272,11 +288,14 @@ public final class AdminAuthenticationService
      * @throws UserNotSignedException
      *             If the user is not signed
      */
-    public void registerUser( HttpServletRequest request, AdminUser user ) throws AccessDeniedException, UserNotSignedException
+    public <T extends AdminUser> void registerUser( HttpServletRequest request,  T user ) throws AccessDeniedException, UserNotSignedException
     {
         HttpSession session = request.getSession( true );
         session.setAttribute( ATTRIBUTE_ADMIN_USER, bindUser( user ) );
     }
+    
+    
+    
 
     /**
      * Unregister the user in the Http session
@@ -468,4 +487,14 @@ public final class AdminAuthenticationService
 
         return strNextUrl;
     }
+    
+    /**
+     * 
+     * @return the name of the authentication module load
+     */
+	public String getAuthServiceName() 
+	{
+		return _authentication.getAuthServiceName();
+	}
+    
 }

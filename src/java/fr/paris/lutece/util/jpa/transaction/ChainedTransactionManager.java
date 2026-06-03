@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,8 @@ package fr.paris.lutece.util.jpa.transaction;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -53,7 +54,7 @@ import fr.paris.lutece.util.jpa.JPAConstants;
  */
 public class ChainedTransactionManager implements PlatformTransactionManager
 {
-    private static final Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    private static final Logger _log = LogManager.getLogger( JPAConstants.JPA_LOGGER );
     private List<PlatformTransactionManager> _transactionManagers;
 
     /**

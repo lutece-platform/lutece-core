@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portalcomponent;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 /**
@@ -96,17 +95,4 @@ public final class PortalComponentHome
         _dao.store( portalComponent );
     }
 
-    /**
-     * Returns the stylesheet of the portal component according to the mode
-     *
-     * @param nPortalComponentId
-     *            the identifier of the portal component
-     * @param nModeId
-     *            the selected mode
-     * @return the stylesheet
-     */
-    public static StyleSheet getXsl( int nPortalComponentId, int nModeId )
-    {
-        return _dao.selectXslFile( nPortalComponentId, nModeId );
-    }
 }

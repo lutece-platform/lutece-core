@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,9 +45,11 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.pool.service.ConnectionService;
 import fr.paris.lutece.util.pool.service.LuteceConnectionService;
@@ -106,7 +108,7 @@ public final class PoolManager
      */
     private void init( InputStream is ) throws LuteceInitException
     {
-        _logger = Logger.getLogger( LOGGER_NAME );
+        _logger = LogManager.getLogger( LOGGER_NAME );
 
         Properties dbProps = new Properties( );
 
@@ -118,9 +120,25 @@ public final class PoolManager
         {
             throw new LuteceInitException( "Can't read the properties file. Make sure db.properties is in the CLASSPATH", e );
         }
-
+        
+        overrideProperties(dbProps);       
         createPools( dbProps );
     }
+
+    /**
+     * Override properties with the api config
+     * @param dbProps the database properties 
+     */
+	private void overrideProperties(Properties dbProps) {
+		Enumeration propertiesName=  dbProps.propertyNames();
+        while (propertiesName.hasMoreElements()) {
+        	 String key = (String) propertiesName.nextElement();
+        	 String value= AppPropertiesService.getProperty(key);
+        	 if( value != null ) {
+        		 dbProps.put(key, value);
+        	 }
+        }
+	}
 
     /**
      * Creates all pools defined in a properties file.
@@ -150,8 +168,8 @@ public final class PoolManager
                 htParamsPool.put( name, props.getProperty( name ) );
                 htPools.put( strPoolName, htParamsPool );
 
-                _logger.debug( "property " + name );
-                _logger.debug( "pool name " + strPoolName );
+                _logger.debug( "property {}", name );
+                _logger.debug( "pool name {}", strPoolName );
             }
             catch( Exception e )
             {

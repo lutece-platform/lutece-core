@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.portlet.PortletEvent;
 import fr.paris.lutece.portal.service.portlet.PortletEventListener;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -54,6 +53,7 @@ public abstract class PortletHome implements PortletHomeInterface
 
     // Static variable pointed at the DAO instance
     private static IPortletDAO _dao = SpringContextService.getBean( "portletDAO" );
+    private static IPortletStyleDAO _styleDAO = SpringContextService.getBean( "portletStyleDAO" );
 
     // /////////////////////////////////////////////////////////////////////////
     // Finders
@@ -110,19 +110,33 @@ public abstract class PortletHome implements PortletHomeInterface
     }
 
     /**
-     * Returns the stylesheet of the portlet according to the mode
+     * Returns the stylesheet content of the portlet according to the mode
      *
      * @param nIdPortlet
      *            the identifier of the portlet
      * @param nIdMode
      *            the selected mode
-     * @return the stylesheet
+     * @return the stylesheet content
      */
-    static StyleSheet getXsl( int nIdPortlet, int nIdMode )
+    public static String getXslFile( int nIdPortlet, int nIdMode )
     {
-        return _dao.selectXslFile( nIdPortlet, nIdMode );
+       return _styleDAO.selectXslFile( nIdPortlet, nIdMode );
     }
 
+    /**
+     * Returns the stylesheet binary content of the portlet according to the mode
+     *
+     * @param nIdPortlet
+     *            the identifier of the portlet
+     * @param nIdMode
+     *            the selected mode
+     * @return the stylesheet binary content
+     */
+    public static byte [ ] getXslSource( int nIdPortlet, int nIdMode )
+    {
+       return _styleDAO.selectXslSource( nIdPortlet, nIdMode );
+    }
+    
     /**
      * Returns all the styles corresponding to a portlet typeun type de portlet
      *
@@ -132,7 +146,7 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public static ReferenceList getStylesList( String strIdPortletType )
     {
-        return _dao.selectStylesList( strIdPortletType );
+        return _styleDAO.selectStylesList( strIdPortletType );
     }
 
     /**
@@ -263,6 +277,22 @@ public abstract class PortletHome implements PortletHomeInterface
     {
         // Deleting of the portlet child
         _dao.updateStatus( portlet, nStatus );
+
+        // Invalidate the portlet
+        invalidate( portlet );
+    }
+    /**
+     * Update the status of portlet
+     *
+     * @param portlet
+     *            the portlet to remove
+     * @param nStatus
+     *            The status to update
+     */
+    public static void updatePosition( Portlet portlet, int nColumn, int nOrder )
+    {
+        // Deleting of the portlet child
+        _dao.updatePosition( portlet, nColumn, nOrder );
 
         // Invalidate the portlet
         invalidate( portlet );

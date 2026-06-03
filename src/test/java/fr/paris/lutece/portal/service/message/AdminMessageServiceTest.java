@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,14 +65,14 @@ public class AdminMessageServiceTest extends LuteceTestCase
 
         AdminMessageService.getMessageUrl( request, strMessageKey );
         AdminMessage message = (AdminMessage) request.getSession( ).getAttribute( "LUTECE_ADMIN_MESSAGE" );
-        assertEquals( I18nService.getLocalizedString( strMessageKey, Locale.getDefault( ) ) , message.getText( Locale.getDefault( ) ) );
-        assertEquals( AdminMessage.TYPE_INFO , message.getType( ) );
-        
+        assertEquals( I18nService.getLocalizedString( strMessageKey, Locale.getDefault( ) ), message.getText( Locale.getDefault( ) ) );
+        assertEquals( AdminMessage.TYPE_INFO, message.getType( ) );
+
         AdminMessageService.getMessageUrl( request, strMessageKey, AdminMessage.TYPE_STOP );
         message = (AdminMessage) request.getSession( ).getAttribute( "LUTECE_ADMIN_MESSAGE" );
-        assertEquals( I18nService.getLocalizedString( strMessageKey, Locale.getDefault( ) ) , message.getText( Locale.getDefault( ) ) );
-        assertEquals( AdminMessage.TYPE_STOP , message.getType( ) );
-        
+        assertEquals( I18nService.getLocalizedString( strMessageKey, Locale.getDefault( ) ), message.getText( Locale.getDefault( ) ) );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+
         AdminMessageService.getMessageUrl( request, strMessageKey, strButtonUrl, AdminMessage.TYPE_STOP );
         AdminMessageService.getMessageUrl( request, strMessageKey, strButtonUrl, strTarget );
         AdminMessageService.getMessageUrl( request, strMessageKey, strButtonUrl, strTarget, AdminMessage.TYPE_STOP );

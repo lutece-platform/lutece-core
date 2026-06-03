@@ -1,30 +1,92 @@
-<nav class="nav navbar-inverse navbar-fixed-bottom">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#lutece-footer-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="http://fr.lutece.paris.fr" title="#i18n{portal.site.portal_footer.labelPortal}">
-            <img src="images/poweredby.png" height="20" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
-        </a>
+<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 ">
+				<form class="form-inline " action="jsp/site/Portal.jsp" method="get">
+					<input name="page" type="hidden" value="search" >
+					<div class="input-group">
+						<input id="query" class="form-control input-lg" name="query"  type="text" placeholder="Search" />
+						<button type="submit" class="btn btn-light btn-lg" title="#i18n{portal.site.page_menu_tools.labelSearch}">
+							<@icon style="search"/> <span class="visually-hidden">#i18n{portal.site.page_menu_tools.labelSearch}</span>
+						</button>
+					</div>
+				</form>
+				<p> <a href="jsp/site/Portal.jsp?page=map" data-bs-info="Plan du site" data-bs-toggle="modal" data-bs-target="#lutece-modal">Site map</a> </p>
+				<p> <a href="jsp/site/PopupCredits.jsp" data-bs-info="Crédits" data-bs-toggle="modal" data-bs-target="#lutece-modal" title="[New window] About" target="info_credit">About</a> - <a href="jsp/site/PopupLegalInfo.jsp" data-bs-info="Informations légales" data-bs-toggle="modal" data-bs-target="#lutece-modal" title="[New window] Terms of service" target="info_legal">Terms of service</a> 
+			</div>
+			
+			<div class="col-md-6  text-md-end">
+				<p>
+				Powered by : <a  href="http://lutece.paris.fr/" title="Lutece [Open in new window]" target="_blank">
+					     <img src="images/Lutece-logo.png" alt="Powered by Lutece" style="width:100px">
+					  </a>	
+				</p>
+				
+				<p>
+				Follow us : 
+				<a href="https://www.linkedin.com/groups/Lutece-3925974" target="_blank" title="Follow us on Linkedin [Open in new window]"><img src="images/site/linkedin.jpg" alt="Nous suivre sur Linkedin" class="social-pics"/></a>
+				<a href="https://x.com/lutecenews" target="_blank" title="Follow us on Twitter [Open in new window]"><img src="images/site/x.jpg" alt="Nous suivre sur X" class="social-pics"/></a>
+				<a href="https://www.openhub.net/p/lutece" target="_blank" title="Follow us on openHub [Open in new window]"><img src="images/site/openhub.png" alt="Nous suivre sur openHub" class="social-pics"/></a>
+				<a href="https://github.com/lutece-platform" target="_blank" title="Follow us on GitHub [Open in new window]"><img src="images/site/github.png" alt="Nous suivre sur GitHub" class="social-pics"/></a>
+				</p>
+				
+				<p>&copy; 2025 - Coded by : <a href="https://github.com/orgs/lutece-platform/people" title="Lutece Github [Open in new window]">Lutece Dev Team</a> on <a href="https://github.com/lutece-platform/lutece-core" title="Lutece Github [Open in new window]"> Lutece core 7 </a>
+				</p>
+				
+			</div>
+		</div>
+	</div>
+</footer>
+<div class="modal" tabindex="-1" id="lutece-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="lutece-mdoal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"  id="lutece-mdoal-label"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="#i18n{portal.util.labelClose}"></button>
+        </div>
+        <div class="modal-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn me-auto" data-bs-dismiss="modal">#i18n{portal.util.labelClose}</button>
+        </div>
+      </div>
     </div>
-    <div class="collapse navbar-collapse" id="lutece-footer-collapse">
-        <ul class="nav navbar-nav pull-left">
-            <li class="active">
-                <a href="jsp/site/Portal.jsp">#i18n{portal.site.page_home.label}</a></li>
-            <li><a href="jsp/site/Portal.jsp?page=map" accesskey="3" >#i18n{portal.site.site_map.pathLabel}</a></li>
-            <#if isContactInstalled?? && isContactInstalled>
-                <li><a href="jsp/site/Portal.jsp?page=contact" accesskey="7" >#i18n{portal.site.page_menu_tools.xpage.contact}</a></li>
-            </#if>
-            <li>
-                <a href="jsp/site/PopupCredits.jsp" title="[#i18n{portal.site.portal_footer.newWindow}] #i18n{portal.site.portal_footer.labelCredits}" target="info_comp">
-                    #i18n{portal.site.portal_footer.labelCredits}
-                </a>
-            </li>
-        </ul>
-       
-    </div><!-- /.nav navbar-navbar-collapse -->
-</nav>
+</div>
+<#noparse>
+<script>
+function loadModalContent( url, body, sel ) {
+    const xhr = new XMLHttpRequest();
+	xhr.open('GET', url, true);
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+			const response = xhr.responseText;
+			// Convert the response to a temporary div to manipulate as DOM
+			const qDiv = document.createElement('div');
+    		qDiv.innerHTML = response;
+		    // Use querySelector or getElementsByClassName to select elements
+    		body.innerHTML = qDiv.querySelector( sel ).innerHTML;
+		}
+	}
+    xhr.send();
+};
 
+// Load content in modal on activation
+document.addEventListener("DOMContentLoaded", function() {
+	const luteceModal = document.getElementById('lutece-modal')
+
+	luteceModal.addEventListener('show.bs.modal', event => {
+		// Button that triggered the modal
+		const button = event.relatedTarget
+		// Extract info from data-bs-* attributes
+		const title = button.getAttribute('data-bs-info')
+		const modalTitle = luteceModal.querySelector('.modal-title')
+		// Update the modal's content.
+		const url = button.getAttribute('href')
+		const modalBody = luteceModal.querySelector('.modal-body')
+		const content = loadModalContent( url, modalBody, '.main-content' );
+		modalTitle.textContent = `${title}`
+		modalBody.innerHTML = content;
+	}) 
+});
+</script>
+</#noparse>

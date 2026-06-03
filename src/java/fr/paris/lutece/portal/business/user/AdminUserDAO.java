@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right, a.documentation_url, a.id_order, a.is_external_feature "
             + " FROM core_admin_right a , core_user_right b " + " WHERE a.id_right = b.id_right " + " AND b.id_user = ? "
             + " ORDER BY a.id_order ASC, a.id_right ASC ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ? WHERE id_user = ?  ";
+    private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, level_user = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_admin_user WHERE id_user = ? ";
     private static final String SQL_QUERY_INSERT_USER_RIGHT = "INSERT INTO core_user_right ( id_right, id_user )  VALUES ( ? , ? ) ";
     private static final String SQL_QUERY_DELETE_ALL_USER_RIGHTS = "DELETE FROM core_user_right WHERE id_user = ? ";
@@ -83,8 +83,8 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_CHECK_ACCESS_CODE_IN_USE = " SELECT id_user FROM core_admin_user WHERE access_code = ?";
     private static final String SQL_CHECK_EMAIL_IN_USE = " SELECT id_user FROM core_admin_user WHERE email = ?";
     private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( access_code, last_name, first_name, email, status, password, locale, level_user, accessibility_mode, reset_password, password_max_valid_date, account_max_valid_date, last_login, workgroup_key )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
-    private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, password = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, workgroup_key = ? WHERE id_user = ?  ";
-    private static final String SQL_QUERY_UPDATE_DEFAULT_USER_IGNORE_PASSWORD = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, workgroup_key = ? WHERE id_user = ?  ";
+    private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, password = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, workgroup_key = ?, level_user = ? WHERE id_user = ?  ";
+    private static final String SQL_QUERY_UPDATE_DEFAULT_USER_IGNORE_PASSWORD = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, workgroup_key = ?, level_user = ?  WHERE id_user = ?  ";
     private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale, a.accessibility_mode, a.password_max_valid_date "
             + " FROM core_admin_user a, core_user_role b WHERE a.id_user = b.id_user AND b.role_key = ? ";
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_OWN = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right >= ?";
@@ -95,8 +95,8 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_UPDATE_USERS_ROLE = "UPDATE core_user_role SET role_key = ? WHERE role_key = ?";
     private static final String SQL_QUERY_SELECT_USER_ROLE = " SELECT id_user FROM core_user_role WHERE id_user = ? AND role_key = ? ";
     private static final String SQL_QUERY_DELETE_ROLE_FOR_USER = " DELETE FROM core_user_role WHERE id_user = ? AND role_key = ? ";
-    private static final String SQL_QUERY_SELECT_USER_FROM_SEARCH = " SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, accessibility_mode "
-            + " FROM core_admin_user WHERE access_code LIKE ? AND last_name LIKE ? AND email LIKE ? ";
+    private static final String SQL_QUERY_SELECT_USER_FROM_SEARCH = " SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, accessibility_mode, last_login "
+            + " FROM core_admin_user WHERE access_code LIKE ? AND last_name LIKE ? AND email LIKE ? AND first_name LIKE ? ";
     private static final String SQL_QUERY_SELECT_USERS_BY_RIGHT = " SELECT  u.id_user , u.access_code, u.last_name , u.first_name, u.email, u.status, u.locale, u.level_user, u.accessibility_mode "
             + " FROM core_admin_user u INNER JOIN core_user_right r ON u.id_user = r.id_user WHERE r.id_right = ? ";
     private static final String SQL_QUERY_SELECT_USER_RIGHT = " SELECT id_user FROM core_user_right WHERE id_user = ? AND id_right = ? ";
@@ -202,6 +202,53 @@ public class AdminUserDAO implements IAdminUserDAO
 
         return user;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+	public <T extends AdminUser> T selectUserByAccessCode(String strUserAccessCode, T user) {
+	
+    	if(user != null)
+    	{
+	    	 try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE ) )
+	         {
+	             daoUtil.setString( 1, strUserAccessCode );
+	             daoUtil.executeQuery( );
+	
+	             if ( daoUtil.next( ) )
+	             {
+	                 user.setUserId( daoUtil.getInt( 1 ) );
+	                 user.setAccessCode( daoUtil.getString( 2 ) );
+	                 user.setLastName( daoUtil.getString( 3 ) );
+	                 user.setFirstName( daoUtil.getString( 4 ) );
+	                 user.setEmail( daoUtil.getString( 5 ) );
+	                 user.setStatus( daoUtil.getInt( 6 ) );
+	                 user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+	                 user.setUserLevel( daoUtil.getInt( 8 ) );
+	                 user.setPasswordReset( daoUtil.getBoolean( 9 ) );
+	                 user.setAccessibilityMode( daoUtil.getBoolean( 10 ) );
+	                 user.setPasswordMaxValidDate( daoUtil.getTimestamp( 11 ) );
+	
+	                 Timestamp dateLastLogin = daoUtil.getTimestamp( 12 );
+	
+	                 if ( ( dateLastLogin != null ) && !dateLastLogin.equals( AdminUser.getDefaultDateLastLogin( ) ) )
+	                 {
+	                     user.setDateLastLogin( dateLastLogin );
+	                 }
+	             }
+	             else
+	             {
+	            	 //there is no user in database with  strUserAccessCode the user return must be null
+	            	  user= null;	 
+	             }
+	            
+	
+	         }
+    	}
+
+         return user;
+	}
 
     /**
      * {@inheritDoc}
@@ -329,8 +376,9 @@ public class AdminUserDAO implements IAdminUserDAO
             daoUtil.setBoolean( 7, user.isPasswordReset( ) );
             daoUtil.setBoolean( 8, user.getAccessibilityMode( ) );
             daoUtil.setTimestamp( 9, user.getPasswordMaxValidDate( ) );
+            daoUtil.setInt( 10, user.getUserLevel( ) );
 
-            daoUtil.setInt( 10, user.getUserId( ) );
+            daoUtil.setInt( 11, user.getUserId( ) );
 
             daoUtil.executeUpdate( );
         }
@@ -604,6 +652,7 @@ public class AdminUserDAO implements IAdminUserDAO
             daoUtil.setBoolean( nArgIndex++, user.getAccessibilityMode( ) );
             daoUtil.setTimestamp( nArgIndex++, user.getPasswordMaxValidDate( ) );
             daoUtil.setString( nArgIndex++, user.getWorkgroupKey( ) );
+            daoUtil.setInt( nArgIndex++, user.getUserLevel( ) );
 
             daoUtil.setInt( nArgIndex++, user.getUserId( ) );
 
@@ -858,25 +907,20 @@ public class AdminUserDAO implements IAdminUserDAO
 
         try ( DAOUtil daoUtil = new DAOUtil( query ) )
         {
-            daoUtil.setString( 1, CONSTANT_PERCENT + auFilter.getAccessCode( ) + CONSTANT_PERCENT );
-            daoUtil.setString( 2, CONSTANT_PERCENT + auFilter.getLastName( ) + CONSTANT_PERCENT );
-            daoUtil.setString( 3, CONSTANT_PERCENT + auFilter.getEmail( ) + CONSTANT_PERCENT );
+            int nIndex = 0;
+            daoUtil.setString( ++nIndex, CONSTANT_PERCENT + auFilter.getAccessCode( ) + CONSTANT_PERCENT );
+            daoUtil.setString( ++nIndex, CONSTANT_PERCENT + auFilter.getLastName( ) + CONSTANT_PERCENT );
+            daoUtil.setString( ++nIndex, CONSTANT_PERCENT + auFilter.getEmail( ) + CONSTANT_PERCENT );
+            daoUtil.setString( ++nIndex, CONSTANT_PERCENT + auFilter.getFirstName( ) + CONSTANT_PERCENT );
 
             if ( auFilter.getStatus( ) != -1 )
             {
-                daoUtil.setInt( 4, auFilter.getStatus( ) );
-
-                if ( auFilter.getUserLevel( ) != -1 )
-                {
-                    daoUtil.setInt( 5, auFilter.getUserLevel( ) );
-                }
+                daoUtil.setInt( ++nIndex, auFilter.getStatus( ) );
             }
-            else
+
+            if ( auFilter.getUserLevel( ) != -1 )
             {
-                if ( auFilter.getUserLevel( ) != -1 )
-                {
-                    daoUtil.setInt( 4, auFilter.getUserLevel( ) );
-                }
+                daoUtil.setInt( ++nIndex, auFilter.getUserLevel( ) );
             }
 
             daoUtil.executeQuery( );
@@ -893,6 +937,13 @@ public class AdminUserDAO implements IAdminUserDAO
                 user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
                 user.setUserLevel( daoUtil.getInt( 8 ) );
                 user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
+
+                Timestamp dateLastLogin = daoUtil.getTimestamp( 10 );
+                if ( ( dateLastLogin != null ) && !dateLastLogin.equals( AdminUser.getDefaultDateLastLogin( ) ) )
+                {
+                    user.setDateLastLogin( dateLastLogin );
+                }
+
                 userList.add( user );
             }
 
@@ -1328,4 +1379,6 @@ public class AdminUserDAO implements IAdminUserDAO
             daoUtil.executeUpdate( );
         }
     }
+
+	
 }

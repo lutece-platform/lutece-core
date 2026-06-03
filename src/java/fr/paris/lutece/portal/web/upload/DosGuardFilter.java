@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.upload;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.io.IOException;
 
@@ -48,7 +49,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * A rewrite of the multipart filter from the com.oreilly.servlet package. The rewrite allows us to use initialization parameters specified in the Lutece
@@ -56,8 +57,17 @@ import org.apache.commons.collections.CollectionUtils;
  */
 public class DosGuardFilter implements Filter
 {
+    // properties
+    private static String PROPERTY_DOSGUARDFILTER_MINCONTENTLENGTH = "lutece.upload.dosguard.minContentLength";
+    private static String PROPERTY_DOSGUARDFILTER_MININTERVAL    = "lutece.upload.dosguard.minInterval";
+
+    // constants
+    private static int CONSTANT_DEFAULT_DOSGUARDFILTER_MINCONTENTLENGTH = 10240 ;
+    private static int CONSTANT_DEFAULT_DOSGUARDFILTER_MININTERVAL = 2000 ;
+
     // Initial capacity of the HashMap
     private static final int INITIAL_CAPACITY = 100;
+    private FilterConfig _filterConfig;
 
     // The size under which requests are allowed systematically
     private int _nMinContentLength;
@@ -78,31 +88,13 @@ public class DosGuardFilter implements Filter
     @Override
     public void init( FilterConfig config ) throws ServletException
     {
-        _mapLastRequestTimes = new HashMap<>( INITIAL_CAPACITY );
-        _listOrderedRequests = new LinkedList<>( );
+        _filterConfig = config;
+        _mapLastRequestTimes = new HashMap<String, Long>( INITIAL_CAPACITY );
+        _listOrderedRequests = new LinkedList<Entry>( );
 
-        try
-        {
-            String paramValue = config.getInitParameter( "minContentLength" );
+        _nMinContentLength = AppPropertiesService.getPropertyInt( PROPERTY_DOSGUARDFILTER_MINCONTENTLENGTH, CONSTANT_DEFAULT_DOSGUARDFILTER_MINCONTENTLENGTH ) ;
+        _nMinInterval = AppPropertiesService.getPropertyInt( PROPERTY_DOSGUARDFILTER_MININTERVAL, CONSTANT_DEFAULT_DOSGUARDFILTER_MININTERVAL ) ;
 
-            if ( paramValue != null )
-            {
-                _nMinContentLength = Integer.parseInt( paramValue );
-            }
-
-            paramValue = config.getInitParameter( "minInterval" );
-
-            if ( paramValue != null )
-            {
-                _nMinInterval = Integer.parseInt( paramValue );
-            }
-        }
-        catch( NumberFormatException ex )
-        {
-            ServletException servletEx = new ServletException( ex.getMessage( ) );
-            servletEx.initCause( ex );
-            throw servletEx;
-        }
     }
 
     /**
@@ -142,7 +134,15 @@ public class DosGuardFilter implements Filter
      */
     public synchronized boolean isAllowed( String strRemoteAddr, int iContentLength )
     {
-        AppLogService.debug( "DosGuard : isAllowed(" + strRemoteAddr + ", " + iContentLength + ")" );
+        AppLogService.debug( "DosGuard : isAllowed({}, {})", strRemoteAddr, iContentLength );
+
+        // Ignore requests if minInterval is negative (e.g. -1)
+        if ( _nMinInterval < 0 )
+        {
+            AppLogService.debug( "minInterval is below minimum, ignored" );
+
+            return true;
+        }
 
         // Ignore the requests under the minimum size
         if ( iContentLength < _nMinContentLength )
@@ -154,11 +154,11 @@ public class DosGuardFilter implements Filter
 
         // Record the time of this request
         long lRequestTime = System.currentTimeMillis( );
-        AppLogService.debug( "Request time : " + lRequestTime );
+        AppLogService.debug( "Request time : {}", lRequestTime );
 
         // Test if IP was previously recorded
         Long previousRequestTime = _mapLastRequestTimes.get( strRemoteAddr );
-        AppLogService.debug( "Previous request time : " + previousRequestTime );
+        AppLogService.debug( "Previous request time : {}", previousRequestTime );
 
         if ( previousRequestTime != null )
         {
@@ -212,7 +212,7 @@ public class DosGuardFilter implements Filter
             // Expired entries are those where the IP can't be blocked anymore
             long lMinTime = System.currentTimeMillis( ) - _nMinInterval;
 
-            AppLogService.debug( "Min time : " + lMinTime );
+            AppLogService.debug( "Min time : {}", lMinTime );
 
             // Read entries from the list, remove them as long as they are expired
             boolean bDone = false;
@@ -229,7 +229,7 @@ public class DosGuardFilter implements Filter
                     _mapLastRequestTimes.remove( lastEntry.getRemoteAddr( ) );
                     _listOrderedRequests.removeLast( );
 
-                    AppLogService.debug( "Removing [" + lastEntry.getRemoteAddr( ) + ", " + lastEntry.getRequestTime( ) + "]" );
+                    AppLogService.debug( "Removing [{}, {}]", lastEntry.getRemoteAddr( ), lastEntry.getRequestTime( ) );
                 }
                 else
                 {

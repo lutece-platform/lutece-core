@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.util.pool.service;
 
-import org.apache.log4j.Logger;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -44,6 +42,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 import javax.sql.DataSource;
+
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class provides a ConnectionService based on Tomcat
@@ -67,16 +67,13 @@ public class TomcatConnectionService implements ConnectionService
             if ( _ds != null )
             {
                 conn = _ds.getConnection( );
+                _logger.debug( "The connexion is get" );
 
-                if ( conn != null )
-                {
-                    _logger.debug( "The connexion is get" );
-                }
             }
         }
         catch( Exception e )
         {
-            _logger.error( "Erreur when getting the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "Erreur when getting the connexion with the pool : {}", getPoolName( ), e );
         }
 
         return conn;
@@ -94,11 +91,11 @@ public class TomcatConnectionService implements ConnectionService
         }
         catch( SQLException e )
         {
-            _logger.error( "SQL error when releasing the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "SQL error when releasing the connexion with the pool : {}", getPoolName( ), e );
         }
         catch( Exception e )
         {
-            _logger.error( "Error while releasing the connexion with the pool : " + getPoolName( ), e );
+            _logger.error( "Error while releasing the connexion with the pool : {}", getPoolName( ), e );
         }
     }
 
@@ -117,10 +114,10 @@ public class TomcatConnectionService implements ConnectionService
         }
         catch( Exception e )
         {
-            _logger.error( "Error while initializing the pool " + getPoolName( ), e );
+            _logger.error( "Error while initializing the pool {}", getPoolName( ), e );
         }
 
-        _logger.info( "Initialization of the pool " + getPoolName( ) );
+        _logger.info( "Initialization of the pool {}", getPoolName( ) );
     }
 
     /**

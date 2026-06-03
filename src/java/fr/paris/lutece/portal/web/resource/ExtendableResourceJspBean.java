@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,7 +74,7 @@ public class ExtendableResourceJspBean extends AdminFeaturesPageJspBean
 
         if ( action != null )
         {
-            AppLogService.debug( "Processing resource action " + action.getName( ) );
+            AppLogService.debug( "Processing resource action {}", action.getName( ) );
 
             return action.process( request, response, getUser( ), null );
         }

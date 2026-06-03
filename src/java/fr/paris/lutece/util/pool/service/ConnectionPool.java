@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,7 @@ package fr.paris.lutece.util.pool.service;
 import fr.paris.lutece.portal.service.util.AppException;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.io.PrintWriter;
 
@@ -103,15 +103,15 @@ public class ConnectionPool implements DataSource
         _nTimeOut = ( nTimeOut > 0 ) ? nTimeOut : 5;
         _logger = logger;
         initPool( nInitConns );
-        _logger.info( "New pool created : " + strName );
+        _logger.info( "New pool created : {}", strName );
 
         _strCheckValidConnectionSql = ( ( strCheckValidConnectionSql != null ) && !strCheckValidConnectionSql.equals( "" ) ) ? strCheckValidConnectionSql
                 : DEFAULT_CHECK_VALID_CONNECTION_SQL;
 
         String lf = System.getProperty( "line.separator" );
-        _logger.debug( lf + " url=" + strUrl + lf + " user=" + _strUser + lf + " password=" + _strPassword + lf + " initconns=" + nInitConns + lf + " maxconns="
-                + _nMaxConns + lf + " logintimeout=" + _nTimeOut );
-        _logger.debug( getStats( ) );
+        _logger.debug( "{} url={}{} user= {}{} initconns= {}{} maxConns={}{} logintimeout={}", lf, strUrl, lf, _strUser, lf,
+                nInitConns, lf, _nMaxConns, lf, _nTimeOut );
+        _logger.debug( ( ) -> getStats( ) );
     }
 
     /**
@@ -181,13 +181,13 @@ public class ConnectionPool implements DataSource
         {
             try
             {
-                _logger.debug( "Waiting for connection. Timeout=" + remaining );
+                _logger.debug( "Waiting for connection. Timeout= {}", remaining );
 
                 wait( remaining );
             }
             catch( InterruptedException e )
             {
-                _logger.debug( "A connection has been released by another thread." );
+                _logger.debug( "A connection has been released by another thread.", e );
             }
 
             remaining = timeout - ( System.currentTimeMillis( ) - startTime );
@@ -313,9 +313,7 @@ public class ConnectionPool implements DataSource
 
         // wrap connection so this connection pool is used when conn.close() is called
         conn = LuteceConnectionFactory.newInstance( this, conn );
-
         _logger.info( "New connection created. Connections count is : " + ( getConnectionCount( ) + 1 ) );
-
         return conn;
     }
 
@@ -332,7 +330,7 @@ public class ConnectionPool implements DataSource
         _nCheckedOut--;
         notifyAll( );
         _logger.debug( "Returned connection to pool" );
-        _logger.debug( getStats( ) );
+        _logger.debug( ( ) -> getStats( ) );
     }
 
     /**

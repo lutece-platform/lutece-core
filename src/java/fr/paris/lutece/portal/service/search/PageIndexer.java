@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,8 +41,9 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.url.UrlItem;
+import org.apache.lucene.index.IndexOptions;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.Document;
@@ -194,8 +195,12 @@ public class PageIndexer implements SearchIndexer
      */
     protected Document getDocument( Page page, String strUrl ) throws IOException, InterruptedException, SiteMessageException
     {
-        FieldType ft = new FieldType( StringField.TYPE_STORED );
+        FieldType ft = new FieldType( StringField.TYPE_STORED );//Flags : Id-N
         ft.setOmitNorms( false );
+
+        FieldType ftdfp = new FieldType( StringField.TYPE_STORED ); //Flags : Idfp
+        ftdfp.setOmitNorms( false );
+        ftdfp.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS );
 
         FieldType ftNotStored = new FieldType( StringField.TYPE_NOT_STORED );
         ftNotStored.setOmitNorms( false );
@@ -206,7 +211,7 @@ public class PageIndexer implements SearchIndexer
 
         // Add the url as a field named "url". Use an UnIndexed field, so
         // that the url is just stored with the document, but is not searchable.
-        doc.add( new Field( SearchItem.FIELD_URL, strUrl, ft ) );
+        doc.add( new StoredField( SearchItem.FIELD_URL, strUrl ) );
 
         // Add the last modified date of the file a field named "modified".
         // Use a field that is indexed (i.e. searchable), but don't tokenize
@@ -277,7 +282,7 @@ public class PageIndexer implements SearchIndexer
 
         // Add the title as a separate Text field, so that it can be searched
         // separately.
-        doc.add( new Field( SearchItem.FIELD_TITLE, page.getName( ), ft ) );
+        doc.add( new Field( SearchItem.FIELD_TITLE, page.getName( ), ftdfp ) );
 
         if ( StringUtils.isNotBlank( page.getDescription( ) ) )
         {

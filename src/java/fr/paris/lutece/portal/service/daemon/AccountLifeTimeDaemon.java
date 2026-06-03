@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
@@ -62,6 +62,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 public class AccountLifeTimeDaemon extends Daemon
 {
     private static final String MESSAGE_DAEMON_NAME = "AccountLifeTimeDaemon - ";
+    private static final String MESSAGE_LOG_DAEMON_NAME = "AccountLifeTimeDaemon - {}";
     private static final String MESSAGE_NO_TEXT = "No next alert to send";
     private static final String MESSAGE_EXPIRED = "No expired passwords";
     private static final String MESSAGE_NO_NOTIF = "Expired passwords notification deactivated, skipping";
@@ -136,13 +137,13 @@ public class AccountLifeTimeDaemon extends Daemon
             sbLogs.append( MESSAGE_DAEMON_NAME );
             sbLogs.append( Integer.toString( nbAccountToExpire ) );
             sbLogs.append( " account(s) have expired" );
-            AppLogService.info( sbLogs.toString( ) );
+            AppLogService.info( "runSetExpiredUser: {}", sbLogs );
             sbResult.append( sbLogs.toString( ) );
             sbResult.append( "\n" );
         }
         else
         {
-            AppLogService.info( MESSAGE_DAEMON_NAME + MESSAGE_EXPIRED_USER );
+            AppLogService.info( MESSAGE_LOG_DAEMON_NAME, MESSAGE_EXPIRED_USER );
             sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_EXPIRED_USER );
         }
     }
@@ -153,7 +154,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
         if ( nbDaysBeforeFirstAlert <= 0 )
         {
-            AppLogService.info( MESSAGE_DAEMON_NAME + MESSAGE_NO_NOTIF );
+            AppLogService.info( MESSAGE_LOG_DAEMON_NAME, MESSAGE_NO_NOTIF );
             sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_NO_NOTIF );
         }
         else
@@ -181,7 +182,7 @@ public class AccountLifeTimeDaemon extends Daemon
                 sbLogs.append( MESSAGE_DAEMON_NAME );
                 sbLogs.append( Integer.toString( nbFirstAlertSent ) );
                 sbLogs.append( " first alert(s) have been sent" );
-                AppLogService.info( sbLogs.toString( ) );
+                AppLogService.info( sbLogs );
                 sbResult.append( sbLogs.toString( ) );
                 sbResult.append( "\n" );
             }
@@ -230,12 +231,12 @@ public class AccountLifeTimeDaemon extends Daemon
                 sbLogs.append( MESSAGE_DAEMON_NAME );
                 sbLogs.append( Integer.toString( nbOtherAlertSent ) );
                 sbLogs.append( " next alert(s) have been sent" );
-                AppLogService.info( sbLogs.toString( ) );
+                AppLogService.info( sbLogs );
                 sbResult.append( sbLogs.toString( ) );
             }
             else
             {
-                AppLogService.info( MESSAGE_DAEMON_NAME + MESSAGE_NO_TEXT );
+                AppLogService.info( MESSAGE_LOG_DAEMON_NAME, MESSAGE_NO_TEXT );
                 sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_NO_TEXT );
             }
         }
@@ -264,19 +265,19 @@ public class AccountLifeTimeDaemon extends Daemon
                 sbLogs.append( MESSAGE_DAEMON_NAME );
                 sbLogs.append( Integer.toString( accountsWithPasswordsExpired.size( ) ) );
                 sbLogs.append( " user(s) have been notified their password has expired" );
-                AppLogService.info( sbLogs.toString( ) );
+                AppLogService.info( sbLogs );
                 sbResult.append( sbLogs.toString( ) );
                 sbResult.append( "\n" );
             }
             else
             {
-                AppLogService.info( MESSAGE_DAEMON_NAME + MESSAGE_EXPIRED );
+                AppLogService.info( MESSAGE_LOG_DAEMON_NAME, MESSAGE_EXPIRED );
                 sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_EXPIRED );
             }
         }
         else
         {
-            AppLogService.info( MESSAGE_DAEMON_NAME + MESSAGE_NO_NOTIF );
+            AppLogService.info( MESSAGE_LOG_DAEMON_NAME, MESSAGE_NO_NOTIF );
             sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_NO_NOTIF );
         }
     }
@@ -301,7 +302,7 @@ public class AccountLifeTimeDaemon extends Daemon
             }
             catch( Exception e )
             {
-                AppLogService.error( "AccountLifeTimeDaemon - Error sending " + type + " alert to admin user : " + e.getMessage( ), e );
+                AppLogService.error( "AccountLifeTimeDaemon - Error sending {} alert to admin user : {}", type, e.getMessage( ), e );
             }
         }
     }

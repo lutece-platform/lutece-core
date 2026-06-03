@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,8 @@
  */
 package fr.paris.lutece.util.jpa;
 
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 import org.springframework.orm.jpa.EntityManagerFactoryUtils;
@@ -59,7 +59,7 @@ import javax.persistence.Query;
  */
 public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
 {
-    private static final Logger LOG = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    private static final Logger LOG = LogManager.getLogger( JPAConstants.JPA_LOGGER );
     private Class<E> _entityClass;
     private EntityManager _defaultEM;
 
@@ -120,7 +120,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
                 }
                 else
                 {
-                    LOG.debug( "EntityManager found for the current transaction : " + em.toString( ) + " - using Factory : " + emf.toString( ) );
+                    LOG.debug( "EntityManager found for the current transaction : {}  - using Factory :  {}", em::toString, emf::toString );
 
                     return em;
                 }
@@ -146,7 +146,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     @Override
     public void create( E entity )
     {
-        LOG.debug( "Creating entity : " + entity.toString( ) );
+        LOG.debug( "Creating entity : {}", entity::toString );
 
         EntityManager em = getEM( );
 
@@ -160,7 +160,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
             em.getTransaction( ).commit( );
         }
 
-        LOG.debug( "Entity created : " + entity.toString( ) );
+        LOG.debug( "Entity created : {}", entity::toString );
     }
 
     /**
@@ -173,10 +173,10 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
         E entity = em.find( _entityClass, key );
         if ( entity == null )
         {
-            LOG.debug( "Did not find entity to remove for key " + key.toString( ) );
+            LOG.debug( "Did not find entity to remove for key {} ", key::toString );
             return;
         }
-        LOG.debug( "Removing entity : " + entity.toString( ) );
+        LOG.debug( "Removing entity : {}", entity::toString );
         if ( em == _defaultEM )
         {
             em.getTransaction( ).begin( );
@@ -186,7 +186,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
         {
             em.getTransaction( ).commit( );
         }
-        LOG.debug( "Entity removed : " + entity.toString( ) );
+        LOG.debug( "Entity removed : {}", entity::toString );
     }
 
     /**
@@ -195,7 +195,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     @Override
     public void update( E entity )
     {
-        LOG.debug( "Updating entity : " + entity.toString( ) );
+        LOG.debug( "Updating entity : {}", entity::toString );
 
         EntityManager em = getEM( );
         if ( em == _defaultEM )
@@ -208,7 +208,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
             em.getTransaction( ).commit( );
         }
 
-        LOG.debug( "Entity Updated : " + entity.toString( ) );
+        LOG.debug( "Entity Updated : {}", entity::toString );
     }
 
     /**
@@ -217,7 +217,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     @Override
     public E findById( K key )
     {
-        LOG.debug( "Selecting entity " + getEntityClassName( ) + " by ID : " + key.toString( ) );
+        LOG.debug( "Selecting entity {} by Id ", ( ) -> getEntityClassName( ), key::toString );
 
         return getEM( ).find( _entityClass, key );
     }
@@ -228,7 +228,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     @Override
     public List<E> findAll( )
     {
-        LOG.debug( "Selecting all entities of type : " + getEntityClassName( ) );
+        LOG.debug( "Selecting all entities of type : {}", ( ) -> getEntityClassName( ) );
 
         Query query = getEM( ).createQuery( "SELECT e FROM " + getEntityClassName( ) + " e " );
 

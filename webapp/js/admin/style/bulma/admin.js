@@ -1,18 +1,58 @@
 /*
- * BULMA
+ * BULMA JS
  *
  */
-
-/* Specific script for back office */
-$( function(){
+document.addEventListener( 'DOMContentLoaded', () => {
+	// Functions to open and close a modal
+	function openModal($el) {
+	  $el.classList.add('is-active');
+	}
+  
+	function closeModal($el) {
+	  $el.classList.remove('is-active');
+	}
+  
+	function closeAllModals() {
+	  (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+		closeModal($modal);
+	  });
+	}
+  
+	// Add a click event on buttons to open a specific modal
+	(document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+	  const modal = $trigger.dataset.target;
+	  const $target = document.getElementById(modal);
+  
+	  $trigger.addEventListener('click', () => {
+		openModal($target);
+	  });
+	});
+  
+	// Add a click event on various child elements to close the parent modal
+	(document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+	  const $target = $close.closest('.modal');
+  
+	  $close.addEventListener('click', () => {
+		closeModal($target);
+	  });
+	});
+  
+	// Add a keyboard event to close all modals
+	document.addEventListener('keydown', (event) => {
+	  const e = event || window.event;
+  
+	  if (e.keyCode === 27) { // Escape key
+		closeAllModals();
+	  }
+	});
+	
+	/* Specific script for back office */
 	var nCounter = "";
-	var nMax = "";
-
 	// Count effect
-	$('.small-box .inner h3').each( function () {
+	$('.box .content h3 span').each( function () {
 		nCounter = $(this).text();
 		var sVal = "";
-		var thisTXT = $(this).text().split("/");
+		var thisTXT = $(this).text().split(" ");
 		if ( thisTXT.length > 1 ){
 			nCounter = thisTXT[0];
 			sVal = " / " + thisTXT[1];
@@ -30,49 +70,16 @@ $( function(){
 		}
 	});
 
-	// Count effect dyn-info
-	$('.info-box .info-box-number').each( function () {
-		nCounter = $(this).text();
-		var sVal = "";
-		var thisTXT = $(this).text().split("/");
-
-		if ( thisTXT.length > 1 ){
-			nCounter = thisTXT[0];
-			nMax = thisTXT[1]
-			sVal = " / " + thisTXT[1];
-		}
-
-		if ( $.isNumeric( nCounter ) && $.isNumeric( nMax ) ) {
-			$(this).prop('Counter',0).animate({
-				Counter: nCounter
-			}, {
-				duration: 1000,
-				easing: 'swing',
-				step: function (now) {
-					$(this).text( Math.ceil(now) + sVal );
-					var pg = "width:" + ( Math.ceil(now) / nMax * 100 ) + "%" ;
-					$(this).next().children().attr("style",  pg );
-				}
-			});
-		}
-	});
-
-	//Make the dashboard widgets sortable Using jquery UI
-	$(".lutece-dashboard").sortable({
-	    placeholder: "sort-highlight",
-	    connectWith: ".lutece-dashboard",
-	    handle: ".box-header, .info-box-icon",
-	    forcePlaceholderSize: true,
-	    zIndex: 999999
-	  });
-	$(".lutece-dashboard .box-header, .lutece-dashboard .info-box-icon").css("cursor", "move");
-
-	$(".portlet-type").on('click', function(e) {
-		// Stop the link default behaviour.
-		e.preventDefault();
-		// Set the iframe src with the clicked link href.
-		$('#preview').attr('src', $(this).children().attr('href') );
-	});
+	// Disable Double Click on submit Buttons -> * NOT WORKING WITH IE *
+	// let numForms = document.forms.length;
+	// if( numForms > 0 ){
+	// 	let aForms = Array.from(document.forms);
+	// 	aForms.forEach( function(form){
+	// 		form.addEventListener( 'submit', function(e) {
+	// 			e.submitter.setAttribute('disabled', 'disabled');
+	// 		}, false);
+	// 	});
+	// }
 
 	// Admin responsive preview
 	function _fix() {
@@ -112,13 +119,9 @@ $( function(){
 		$("#fullscreen").on('click', function(e) {
 			// Stop the link default behaviour.
 			e.preventDefault();
-			// Set the iframe src with the clicked link href.
-			$('body').toggleClass("bs-fixed-body");
-			$('.content-header').toggle();
-			$('.page-header').toggle();
-			$('header').toggle();
-			$(this).children().toggleClass('fa-arrows-alt').toggleClass('fa-remove');
-
+			// Set preview fulscreen
+			$('#preview').toggleClass('open');
+			$(this).toggleClass('open');
 		});
 	}
 
@@ -148,4 +151,145 @@ $( function(){
         });
     });
 
+	// Toggle collapse buttons
+	$('[data-toggle="collapse"]').click(function() {
+		if ($(this).find("i").hasClass("fa-minus")){
+			$(this).find("i").addClass("fa-plus").removeClass("fa-minus");
+			$(this).parents('.card').children('.card-content').toggleClass('is-hidden');
+		}
+		else if ($(this).find("i").hasClass("fa-plus")){
+			$(this).parents('.card').children('.card-content').toggleClass('is-hidden');
+			$(this).find("i").addClass("fa-minus").removeClass("fa-plus");
+		}
+	});
+
+	/* Card collapsible */
+	$('.card.collapsed-box .card-content').toggle();
+	$('.card.collapsed-box').click(function() {
+		$(this).children('.card-content').toggle();
+	});
+
+	// 
+	$('.file.has-name > .file-label > .file-input').change(function() {
+		console.log('Init');
+		var names='', oFiles = $(this)[0].files, nFiles = oFiles.length;
+  		for (var nFileId = 0; nFileId < nFiles; nFileId++) {
+    		names += oFiles[nFileId].name;
+			console.log( names );
+  		}
+		  $(this).parent().children('.file-name').html( names );
+	});
+
+	// Toggle Modal
+	$('[data-toggle="modal"]').click(function(e) {
+		e.preventDefault();
+		var $modal=$(this).data('target');
+		$($modal).toggleClass('is-active');
+		var modalSrc = $(this).data('url'),
+		modalTitle = $(this).data('modal-title');
+		$($modal).find('.modal-card-title').html( modalTitle );
+		if( $($modal).find('#modalIframe').length > 0 ){
+			$($modal).find('#modalIframe').attr('src', modalSrc ).css('margin-top','-60px').css('height','400px');
+		}
+	});
+
+	$('[data-dismiss="modal"]').click(function(e) {
+		e.preventDefault();
+		$(this).parents('.modal').toggleClass('is-active');
+	});
+
+	// Toggle dismiss alert
+	$('[data-dismiss="alert"]').click(function() {
+		$(this).parents('.notification').remove();
+	});
+
+	// Toggle dropdown alert
+	$('[data-toggle="dropdown"]').click( function(e) {
+		e.preventDefault();
+		$(this).parents('.dropdown').toggleClass('is-active');
+	});
+
+	/* Tabs Panel Default */
+	$('.tabs').each( function(index) {
+		var $tabParent = $(this);
+		var $tabs = $tabParent.find('li');
+		var $contents = $tabParent.next('.tab-content').find('.tab-pane');
+		$tabs.each( function(){
+			$(this).click(function(e) {
+				if(  $contents.length > 0 ){
+					e.preventDefault();
+					var curIndex = $(this).index();
+					// toggle tabs
+					$tabs.removeClass('is-active');
+					$tabs.eq(curIndex).addClass('is-active');
+					// toggle contents
+					$contents.removeClass('show').removeClass('active');
+					$contents.eq(curIndex).addClass('show');
+				}
+			});
+		});
+	});
+
+	/* Tabs Panel Vertical */
+	$('.menu-list').each( function(index) {
+		// var $tabParent = $('.tabs-parent');
+		var $tabs = $(this).find('li');
+		var $contents = $(this).parents('.tabs-parent').find('.tab-content > .tab-pane');
+		$tabs.click(function(e) {
+			e.preventDefault();
+		  	var curIndex = $(this).index();
+		  	// toggle tabs
+		  	$tabs.removeClass('is-active');
+		  	$tabs.eq(curIndex).addClass('is-active');
+		  	// toggle contents
+		  	$contents.removeClass('active').removeClass('show');
+		  	$contents.eq(curIndex).addClass('active').addClass('show');
+		});
+	});
+
+	// Admin Features
+	var admfeatlink = $('#admin_features .menu-list > li > a');
+	if ( admfeatlink.length > 0 ){
+		admfeatlink.each( function( ) {
+			$(this).on('click', function( e ) {
+			 	Cookies.set('technnicaltab',  e.target.hash , { sameSite: 'Strict' } );
+			});
+		})
+	} 
+	
+	$('#technical_settings .accordion .accordion-header').on('click', function(e){
+		Cookies.remove('technnicaltab');
+	});
+
 });
+
+/* Pretty print file size */
+function prettySize( bytes, separator=' ', postFix=''){
+if (bytes) {
+	const sizes = ['Octets', 'Ko', 'Mo', 'Go', 'To'];
+	const i = Math.min(parseInt(Math.floor(Math.log(bytes) / Math.log(1024)).toString(), 10), sizes.length - 1);
+	return `${(bytes / (1024 ** i)).toFixed(i ? 1 : 0)}${separator}${sizes[i]}${postFix}`;
+}
+return 'n/a';
+}
+
+/* Manage progress bar  */
+function progress( bar, complexity, valid ){
+bar.attr( 'aria-valuenow', Math.round( complexity ));
+bar.toggleClass('is-success', valid);
+bar.toggleClass('is-danger', !valid);
+bar.attr( 'value', Math.round( complexity ));
+}
+
+/* Tab management for advanced user parameters */
+function manageAdminFeatureTab( hc ){
+	if( hc != undefined ){
+		$(hc).parents('.accordion').addClass('is-active');
+		$('.menu-list li').removeClass('is-active');
+		var k='a[href="' + hc + '"]';
+		$(k).parent().addClass('is-active');
+		$('.tab-pane').removeClass('is-active show');
+		$(hc).addClass('show');
+		$('html, body').animate({scrollTop: $(hc).offset().top}, 800);	
+	}
+}	

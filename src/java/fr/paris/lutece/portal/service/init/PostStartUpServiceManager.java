@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,12 +63,12 @@ public final class PostStartUpServiceManager
         {
             try
             {
-                AppLogService.info( "Processing PostStartUp service : " + service.getName( ) );
+                AppLogService.info( "Processing PostStartUp service : {}", service.getName( ) );
                 service.process( );
             }
             catch( Exception e )
             {
-                AppLogService.error( "Error while processing PostStartUp service : " + service.getName( ), e );
+                AppLogService.error( "Error while processing PostStartUp service : {}", service.getName( ), e );
             }
         }
     }

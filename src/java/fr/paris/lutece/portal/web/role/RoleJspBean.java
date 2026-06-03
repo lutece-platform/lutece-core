@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.web.role;
 
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -51,10 +53,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.james.mime4j.io.LineReaderInputStreamAdaptor;
 
 /**
  * JspBean for Role management
@@ -77,6 +81,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
     // Markers
     private static final String MARK_ROLES_LIST = "roles_list";
+    private static final String MARK_EXIST_RBAC_MAP = "exist_rbac_map";
+
     private static final String MARK_ROLE = "role";
     private static final String MARK_DEFAULT_VALUE_WORKGROUP_KEY = "workgroup_key_default_value";
     private static final String MARK_WORKGROUP_KEY_LIST = "workgroup_key_list";
@@ -127,7 +133,10 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<>( );
         Collection<Role> listRoles = RoleHome.findAll( );
         listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, getUser( ) );
+        Map<String, Boolean> mapExistRbac = listRoles.stream( ).collect( Collectors.toMap( Role::getRole, x -> RBACRoleHome.checkExistRole( x.getRole( ) ) ) );
+
         model.put( MARK_ROLES_LIST, listRoles );
+        model.put( MARK_EXIST_RBAC_MAP, mapExistRbac );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ROLES, getLocale( ), model );
 

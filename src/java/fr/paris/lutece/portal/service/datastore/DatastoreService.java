@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.datastore;
 
 import fr.paris.lutece.portal.business.datastore.DataEntity;
 import fr.paris.lutece.portal.business.datastore.DataEntityHome;
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.template.FreeMarkerTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -56,7 +55,7 @@ public final class DatastoreService
     private static final String DATASTORE_KEY = "dskey";
     private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#" + DATASTORE_KEY + "\\{(.*?)\\}" );
     static final String VALUE_MISSING = "DS Value Missing";
-    private static AbstractCacheableService _cache;
+    private static DatastoreCacheService _cache;
     private static boolean _bDatabase = true;
 
     /**
@@ -93,7 +92,7 @@ public final class DatastoreService
 
                 if ( _cache != null )
                 {
-                    entity = (DataEntity) _cache.getFromCache( strKey );
+                    entity = (DataEntity) _cache.getFromCache( _cache.getEntityCacheKey( strKey ) );
                 }
 
                 if ( entity == null )
@@ -107,7 +106,7 @@ public final class DatastoreService
 
                     if ( _cache != null )
                     {
-                        _cache.putInCache( strKey, entity );
+                        _cache.putInCache( _cache.getEntityCacheKey( strKey ), entity );
                     }
                 }
 
@@ -161,12 +160,17 @@ public final class DatastoreService
 
                     if ( _cache != null )
                     {
-                        _cache.removeKey( strKey );
+                        _cache.removeKey( _cache.getEntityCacheKey( strKey ) );
+                        _cache.removeCachedPrefixes( );
                     }
                 }
                 else
                 {
                     DataEntityHome.create( p );
+                    if ( _cache != null )
+                    {
+                        _cache.removeCachedPrefixes( );
+                    }
                 }
             }
         }
@@ -206,7 +210,8 @@ public final class DatastoreService
 
                 if ( _cache != null )
                 {
-                    _cache.removeKey( strKey );
+                    _cache.removeKey( _cache.getEntityCacheKey( strKey ) );
+                    _cache.removeCachedPrefixes( );
                 }
             }
         }
@@ -278,29 +283,41 @@ public final class DatastoreService
      */
     public static ReferenceList getDataByPrefix( String strPrefix )
     {
-        ReferenceList list = new ReferenceList( );
-
+        if ( !_bDatabase )
+        {
+            return new ReferenceList( );
+        }
         try
         {
-            if ( _bDatabase )
-            {
-                List<DataEntity> listEntities = DataEntityHome.findAll( );
+            ReferenceList list = null;
 
-                for ( DataEntity entity : listEntities )
+            if ( _cache != null )
+            {
+                list = ( ReferenceList ) _cache.getFromCache( _cache.getPrefixCacheKey( strPrefix ) );
+            }
+
+            if ( list == null )
+            {
+                list = new ReferenceList( );
+                for ( DataEntity entity : DataEntityHome.findByPrefix( strPrefix ) )
                 {
-                    if ( entity.getKey( ).startsWith( strPrefix ) )
-                    {
-                        list.addItem( entity.getKey( ), entity.getValue( ) );
-                    }
+                    list.addItem( entity.getKey( ), entity.getValue( ) );
+                }
+
+                if ( _cache != null )
+                {
+                    _cache.putInCache( _cache.getPrefixCacheKey( strPrefix ), list );
                 }
             }
+
+            return list;
         }
-        catch( NoDatabaseException e )
+        catch ( NoDatabaseException e )
         {
             disableDatastore( e );
         }
 
-        return list;
+        return new ReferenceList( );
     }
 
     /**
@@ -343,7 +360,7 @@ public final class DatastoreService
 
                     if ( VALUE_MISSING.equals( strValue ) )
                     {
-                        AppLogService.error( "Datastore Key missing : " + strKey + " - Please fix to avoid performance issues." );
+                        AppLogService.error( "Datastore Key missing : {} - Please fix to avoid performance issues.", strKey );
                     }
 
                     matcher.appendReplacement( sb, strValue );
@@ -375,7 +392,7 @@ public final class DatastoreService
 
                 if ( _cache != null )
                 {
-                    entity = (DataEntity) _cache.getFromCache( strKey );
+                    entity = (DataEntity) _cache.getFromCache( _cache.getEntityCacheKey( strKey ) );
                 }
 
                 if ( entity == null )

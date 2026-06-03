@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,6 +34,9 @@
 package fr.paris.lutece.portal.service.template;
 
 import fr.paris.lutece.portal.business.template.DatabaseTemplateHome;
+import fr.paris.lutece.portal.service.editor.RichTextContentService;
+import fr.paris.lutece.portal.service.editor.RichTextParsingException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 
 /**
  * This class provides methods to access templates stored in the database.
@@ -56,7 +59,33 @@ public final class DatabaseTemplateService
      */
     public static String getTemplateFromKey( String strKey )
     {
-        return DatabaseTemplateHome.getTemplateFromKey( strKey );
+        return getTemplateFromKey( strKey, false );
+    }
+
+    /**
+     * Get a template in the database from its key
+     * 
+     * @param strKey
+     *            The key of the template to get
+     * @param bForEditor
+     *            True if the template is to be displayed in an editor
+     * @return The template loaded from the database
+     */
+    public static String getTemplateFromKey( String strKey, boolean bForEditor )
+    {
+        String strTemplate = DatabaseTemplateHome.getTemplateFromKey( strKey );
+        if ( !bForEditor )
+        {
+            try
+            {
+                strTemplate = RichTextContentService.getContent( strTemplate );
+            }
+            catch( RichTextParsingException e )
+            {
+                AppLogService.error( e.getMessage( ), e );
+            }
+        }
+        return strTemplate;
     }
 
     /**

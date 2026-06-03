@@ -4,7 +4,6 @@
 <%@ page import="fr.paris.lutece.portal.web.l10n.LocaleService" %>
 <%@ page pageEncoding="UTF-8" %>
 <%	response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
-	response.setHeader("Pragma","no-cache"); //HTTP 1.0
 	response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
 %>
 <%
@@ -16,8 +15,7 @@
 <head>
 <base href="<%= strBase %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="utf-8" />
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le styles -->

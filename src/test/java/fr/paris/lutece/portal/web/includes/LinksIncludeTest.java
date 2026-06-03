@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,7 +71,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         super.setUp( );
         File dirPlugin = new File( AppPathService.getPath( "path.plugins" ) );
         File testPluginFile = new File( dirPlugin, PLUGIN_NAME + ".xml" );
-        try( BufferedWriter writer = new BufferedWriter( new FileWriter( testPluginFile ) ) )
+        try ( BufferedWriter writer = new BufferedWriter( new FileWriter( testPluginFile ) ) )
         {
             writer.write( "<plug-in><name>" + PLUGIN_NAME + "</name><class>" + LinksIncludeTestPlugin.class.getName( ) + "</class>"
                     + "<icon-url>../../images/admin/skin/plugins/myplugin/myplugin.gif</icon-url></plug-in>" );
@@ -118,7 +118,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             include.fillTemplate( null, null, 0, null );
             // did not throw
         }
-        catch (Exception e) {
+        catch( Exception e )
+        {
             fail( );
         }
     }
@@ -137,7 +138,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_css_links" );
-        assertEquals( "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/style.css\" type=\"text/css\"  media=\"screen\" />", cssLinks.replace("\n", "").replace("\r", "") );
+        assertEquals( "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/style.css\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
+                cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
     }
 
     public void testGetURICssAbsoluteHttp( )
@@ -154,7 +156,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_css_links" );
-        assertEquals( "<link rel=\"stylesheet\"  href=\"http://example.com/style.css\" type=\"text/css\"  media=\"screen\" />", cssLinks.replace("\n", "").replace("\r", "") );
+        assertEquals( "<link rel=\"stylesheet\"  href=\"http://example.com/style.css\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
+                cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
     }
 
     public void testGetURICssAbsoluteHttps( )
@@ -171,7 +174,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_css_links" );
-        assertEquals( "<link rel=\"stylesheet\"  href=\"https://example.com/style.css\" type=\"text/css\"  media=\"screen\" />", cssLinks.replace("\n", "").replace("\r", "") );
+        assertEquals( "<link rel=\"stylesheet\"  href=\"https://example.com/style.css\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
+                cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
     }
 
     public void testGetURICssProtocolRelative( )
@@ -188,7 +192,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_css_links" );
-        assertEquals( "<link rel=\"stylesheet\"  href=\"//example.com/style.css\" type=\"text/css\"  media=\"screen\" />", cssLinks.replace("\n", "").replace("\r", "") );
+        assertEquals( "<link rel=\"stylesheet\"  href=\"//example.com/style.css\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
+                cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
     }
 
     public void testGetURICssHash( ) throws IOException
@@ -199,7 +204,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         File hashedFile = new File( getResourcesDir( ), "css/plugins/linksIncludeTestPlugin/junithashed.css" );
         System.out.println( hashedFile.toString( ) );
         hashedFile.getParentFile( ).mkdirs( );
-        try( FileWriter writer = new FileWriter( hashedFile ) )
+        try ( FileWriter writer = new FileWriter( hashedFile ) )
         {
             writer.write( "abcd" );
         }
@@ -237,9 +242,9 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks = (String) rootModel.get( "plugins_css_links" );
             assertEquals(
-                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\"  media=\"screen\" />",
-                    cssLinks.replace("\n", "").replace("\r", "") );
-            try( FileWriter writer = new FileWriter( hashedFile ) )
+                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
+                    cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
+            try ( FileWriter writer = new FileWriter( hashedFile ) )
             {
                 writer.write( "bbcd" );
             }
@@ -254,8 +259,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             {
                 assertFalse( cssLinks.equals( cssLinks2 ) );
                 assertEquals(
-                        "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=531ba794ef006cd3d69cf1acb33ddeccf8d6c655fb08f469335f8c2c32e2ab68\" type=\"text/css\"  media=\"screen\" />",
-                        cssLinks2.replace("\n", "").replace("\r", "") );
+                        "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=531ba794ef006cd3d69cf1acb33ddeccf8d6c655fb08f469335f8c2c32e2ab68\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
+                        cssLinks2.replace( "\n", "" ).replace( "\r", "" ) );
             }
         }
         finally
@@ -272,7 +277,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         File hashedFile = new File( getResourcesDir( ), "css/plugins/linksIncludeTestPlugin/junithashed.css" );
         System.out.println( hashedFile.toString( ) );
         hashedFile.getParentFile( ).mkdirs( );
-        try( FileWriter writer = new FileWriter( hashedFile ) )
+        try ( FileWriter writer = new FileWriter( hashedFile ) )
         {
             writer.write( "abcd" );
         }
@@ -310,8 +315,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks = (String) rootModel.get( "plugins_css_links" );
             assertEquals(
-                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?arg=value&lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\"  media=\"screen\" />",
-                    cssLinks.replace("\n", "").replace("\r", "") );
+                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?arg=value&lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
+                    cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
         finally
         {
@@ -327,7 +332,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         File hashedFile = new File( getResourcesDir( ), "css/plugins/linksIncludeTestPlugin/junithashed.css" );
         System.out.println( hashedFile.toString( ) );
         hashedFile.getParentFile( ).mkdirs( );
-        try( FileWriter writer = new FileWriter( hashedFile ) )
+        try ( FileWriter writer = new FileWriter( hashedFile ) )
         {
             writer.write( "abcd" );
         }
@@ -365,8 +370,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks = (String) rootModel.get( "plugins_css_links" );
-            assertEquals( "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css\" type=\"text/css\"  media=\"screen\" />",
-                    cssLinks.replace("\n", "").replace("\r", "") );
+            assertEquals( "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
+                    cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
         finally
         {
@@ -382,7 +387,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         File hashedFile = new File( getResourcesDir( ), "css/plugins/linksIncludeTestPlugin/junithashed.css" );
         System.out.println( hashedFile.toString( ) );
         hashedFile.getParentFile( ).mkdirs( );
-        try( FileWriter writer = new FileWriter( hashedFile ) )
+        try ( FileWriter writer = new FileWriter( hashedFile ) )
         {
             writer.write( "abcd" );
         }
@@ -429,8 +434,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks = (String) rootModel.get( "plugins_css_links" );
             assertEquals(
-                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\"  media=\"screen\" />",
-                    cssLinks.replace("\n", "").replace("\r", "") );
+                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\" crossorigin=\"anonymous\" media=\"screen\" />",
+                    cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
         finally
         {
@@ -471,7 +476,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
-        assertEquals( "<script src=\"js/plugins/linksIncludeTestPlugin/script.js\"></script>", cssLinks.replace("\n", "").replace("\r", "") );
+        assertEquals( "<script src=\"js/plugins/linksIncludeTestPlugin/script.js\"></script>", cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
     }
 
     public void testGetURIJavascriptAbsoluteHttp( )
@@ -488,7 +493,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
-        assertEquals( "<script src=\"http://example.com/script.js\"></script>", cssLinks.replace("\n", "").replace("\r", "") );
+        assertEquals( "<script src=\"http://example.com/script.js\"></script>", cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
     }
 
     public void testGetURIJavascriptAbsoluteHttps( )
@@ -505,7 +510,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
-        assertEquals( "<script src=\"https://example.com/script.js\"></script>", cssLinks.replace("\n", "").replace("\r", "") );
+        assertEquals( "<script src=\"https://example.com/script.js\"></script>", cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
     }
 
     public void testGetURIJavascriptProtocolRelative( )
@@ -522,7 +527,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
-        assertEquals( "<script src=\"//example.com/script.js\"></script>", cssLinks.replace("\n", "").replace("\r", "") );
+        assertEquals( "<script src=\"//example.com/script.js\"></script>", cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
     }
 
     public void testGetURIJavascriptHash( ) throws IOException
@@ -532,7 +537,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         javascripts.add( "linksIncludeTestPlugin/scripthashed.js" );
         File hashedFile = new File( getResourcesDir( ), "js/plugins/linksIncludeTestPlugin/scripthashed.js" );
         hashedFile.getParentFile( ).mkdirs( );
-        try( FileWriter writer = new FileWriter( hashedFile ) )
+        try ( FileWriter writer = new FileWriter( hashedFile ) )
         {
             writer.write( "abcd" );
         }
@@ -571,8 +576,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
             assertEquals(
                     "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\"></script>",
-                    cssLinks.replace("\n", "").replace("\r", "") );
-            try( FileWriter writer = new FileWriter( hashedFile ) )
+                    cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
+            try ( FileWriter writer = new FileWriter( hashedFile ) )
             {
                 writer.write( "bbcd" );
             }
@@ -588,7 +593,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
                 assertFalse( cssLinks.equals( cssLinks2 ) );
                 assertEquals(
                         "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?lutece_h=531ba794ef006cd3d69cf1acb33ddeccf8d6c655fb08f469335f8c2c32e2ab68\"></script>",
-                        cssLinks2.replace("\n", "").replace("\r", "") );
+                        cssLinks2.replace( "\n", "" ).replace( "\r", "" ) );
             }
         }
         finally
@@ -604,7 +609,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         javascripts.add( "linksIncludeTestPlugin/scripthashed.js?arg=value" );
         File hashedFile = new File( getResourcesDir( ), "js/plugins/linksIncludeTestPlugin/scripthashed.js" );
         hashedFile.getParentFile( ).mkdirs( );
-        try( FileWriter writer = new FileWriter( hashedFile ) )
+        try ( FileWriter writer = new FileWriter( hashedFile ) )
         {
             writer.write( "abcd" );
         }
@@ -643,7 +648,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
             assertEquals(
                     "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?arg=value&lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\"></script>",
-                    cssLinks.replace("\n", "").replace("\r", "") );
+                    cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
         finally
         {
@@ -658,7 +663,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         javascripts.add( "linksIncludeTestPlugin/scripthashed.js" );
         File hashedFile = new File( getResourcesDir( ), "js/plugins/linksIncludeTestPlugin/scripthashed.js" );
         hashedFile.getParentFile( ).mkdirs( );
-        try( FileWriter writer = new FileWriter( hashedFile ) )
+        try ( FileWriter writer = new FileWriter( hashedFile ) )
         {
             writer.write( "abcd" );
         }
@@ -696,7 +701,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
-            assertEquals( "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js\"></script>", cssLinks.replace("\n", "").replace("\r", "") );
+            assertEquals( "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js\"></script>", cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
         finally
         {
@@ -711,7 +716,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         javascripts.add( "linksIncludeTestPlugin/scripthashed.js" );
         File hashedFile = new File( getResourcesDir( ), "js/plugins/linksIncludeTestPlugin/scripthashed.js" );
         hashedFile.getParentFile( ).mkdirs( );
-        try( FileWriter writer = new FileWriter( hashedFile ) )
+        try ( FileWriter writer = new FileWriter( hashedFile ) )
         {
             writer.write( "abcd" );
         }
@@ -759,7 +764,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
             assertEquals(
                     "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\"></script>",
-                    cssLinks.replace("\n", "").replace("\r", "") );
+                    cssLinks.replace( "\n", "" ).replace( "\r", "" ) );
         }
         finally
         {

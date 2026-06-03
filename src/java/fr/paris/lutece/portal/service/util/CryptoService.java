@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -123,7 +123,7 @@ public final class CryptoService
         }
         catch( NoSuchAlgorithmException e )
         {
-            AppLogService.error( strAlgorithm + " not found", e );
+            AppLogService.error( "{} not found", strAlgorithm, e );
             return null;
         }
         byte [ ] buffer = new byte [ 1024];

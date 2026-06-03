@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,8 +38,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
-
-import java.sql.Date;
+import java.util.Date;
 
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;

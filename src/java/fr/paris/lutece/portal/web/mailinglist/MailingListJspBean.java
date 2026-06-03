@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import fr.paris.lutece.portal.business.mailinglist.MailingList;
 import fr.paris.lutece.portal.business.mailinglist.MailingListFilter;
@@ -174,7 +174,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         url.addParameter( PARAMETER_SESSION, PARAMETER_SESSION );
 
         LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<>( listMailinglists, _nItemsPerPage, url.getUrl( ),
-                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         model.put( MARK_MAILINGLISTS_LIST, paginator.getPageItems( ) );
         model.put( MARK_PAGINATOR, paginator );
@@ -263,7 +263,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( !StringUtils.isNumeric( strMailingListId ) )
         {
-            AppLogService.error( SecurityUtil.logForgingProtect( strMailingListId ) + " is not a valid mailing list id." );
+            AppLogService.error( " {} is not a valid mailing list id.", ( ) -> SecurityUtil.logForgingProtect( strMailingListId ) );
 
             return getManageMailinglists( request );
         }
@@ -273,7 +273,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( mailinglist == null )
         {
-            AppLogService.error( SecurityUtil.logForgingProtect( strMailingListId ) + " is not a valid mailing list id." );
+            AppLogService.error( "{} is not a valid mailing list id.", ( ) -> SecurityUtil.logForgingProtect( strMailingListId ) );
 
             return getManageMailinglists( request );
         }
@@ -338,13 +338,13 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             Object [ ] args = {
                     strCause
             };
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE, args, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE, args, JSP_URL_MANAGE_MAILINGLISTS, AdminMessage.TYPE_STOP );
         }
         String strUrlRemove = JSP_URL_REMOVE_MAILINGLIST;
-        Map<String, String> parameters = new HashMap<>( );
+        Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_MAILINGLIST_ID, strId );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_MAILINGLIST ) );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, null, null, strUrlRemove, null, AdminMessage.TYPE_CONFIRMATION, parameters, JSP_URL_MANAGE_MAILINGLISTS );
 
     }
 

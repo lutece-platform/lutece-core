@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,8 +70,8 @@ public final class AdminDashboardFactory
 
         if ( _mapAdminDashboardComponents.containsKey( strName ) )
         {
-            AppLogService.error( "Error while registering admin dashboard for " + strName + " class=" + adminDashboardComponent.getClass( )
-                    + ", factory already contains class=" + _mapAdminDashboardComponents.get( strName ) );
+            AppLogService.error( "Error while registering admin dashboard for {} class= {}, factory already contains class= {} ", strName,
+                    adminDashboardComponent.getClass( ), _mapAdminDashboardComponents.get( strName ) );
 
             return false;
         }

@@ -7,7 +7,6 @@
 <%@ page autoFlush="false" %>
 <%
 response.setHeader("Cache-Control","no-cache");
-response.setHeader("Pragma","no-cache");
 response.setDateHeader ("Expires", 0);
 %>
 <jsp:useBean id="adminMenu" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMenuJspBean" />
@@ -16,8 +15,7 @@ response.setDateHeader ("Expires", 0);
 <head>
 <base href="<%= AppPathService.getBaseUrl( request ) %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" >
-<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+<meta charset="utf-8" />
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 

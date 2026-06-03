@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2021, City of Paris
+ * Copyright (c) 2002-2025, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,33 +35,25 @@ package fr.paris.lutece.portal.service.page;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Properties;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.BooleanUtils;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.page.PageRoleRemovalListener;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletRoleRemovalListener;
-import fr.paris.lutece.portal.business.portlet.PortletType;
-import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.cache.ICacheKeyService;
 import fr.paris.lutece.portal.service.content.PageData;
-import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
@@ -71,9 +63,9 @@ import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.portal.ThemesService;
+import fr.paris.lutece.portal.service.portlet.PortletContentService;
 import fr.paris.lutece.portal.service.portlet.PortletEvent;
 import fr.paris.lutece.portal.service.portlet.PortletEventListener;
-import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
@@ -106,16 +98,11 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /** Access denied template */
     public static final String TEMPLATE_PAGE_ACCESS_DENIED = "/skin/site/page_access_denied.html";
 
-    /** Access Controled template */
+    /** Access Controlled template */
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
-    private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.html";
     private static final String TEMPLATE_COLUMN_OUTLINE = "/admin/column_outline.html";
 
     // Markers
-    private static final String MARK_PORTLET = "portlet";
-    private static final String MARK_STATUS_PUBLISHED = "portlet_status_published";
-    private static final String MARK_STATUS_UNPUBLISHED = "portlet_status_unpublished";
-    private static final String MARK_CUSTOM_ACTIONS = "custom_action_list";
     private static final String MARK_URL_LOGIN = "url_login";
     private static final String MARKER_TARGET = "target";
     private static final String MARKER_IS_USER_AUTHENTICATED = "is-user-authenticated";
@@ -125,8 +112,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     // Parameters
     private static final String PARAMETER_SITE_PATH = "site-path";
     private static final String PARAMETER_USER_SELECTED_LOCALE = "user-selected-language";
-    private static final String PARAMETER_PLUGIN_NAME = "plugin-name";
-    private static final String PARAMETER_PORTLET = "portlet";
 
     // Properties
     private static final String PROPERTY_MESSAGE_PAGE_ACCESS_DENIED = "portal.site.message.pageAccessDenied";
@@ -140,21 +125,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final int MODE_ADMIN = 1;
     private static final String VALUE_TRUE = "1";
     private static final String VALUE_FALSE = "0";
-    private static final String XSL_UNIQUE_PREFIX = "page-";
     private static final String ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED = "core.canPageBeCached";
 
-    // Specific for plugin-document
-    private static final String DOCUMENT_LIST_PORTLET = "DOCUMENT_LIST_PORTLET";
-    private static final String DOCUMENT_PORTLET = "DOCUMENT_PORTLET";
-    private static final String DOCUMENT_ACTION_URL = "jsp/admin/plugins/document/ManagePublishing.jsp";
-    private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
-    private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
     private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
     private static List<PageEventListener> _listEventListeners = new ArrayList<>( );
     private ICacheKeyService _cksPage;
-    private ICacheKeyService _cksPortlet;
     private PageCacheService _cachePages;
-    private PortletCacheService _cachePortlets;
+    private PortletContentService _portletContentService;
 
     /**
      * Creates a new PageService object.
@@ -165,10 +142,10 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *            the portlet cache service
      */
     @Inject
-    public PageService( PageCacheService pageCacheService, PortletCacheService portletCacheService )
+    public PageService( PageCacheService pageCacheService , /*PortletCacheService portletCacheService,*/ PortletContentService portletContentService )
     {
         _cachePages = pageCacheService;
-        _cachePortlets = portletCacheService;
+        _portletContentService = portletContentService;
         init( );
     }
 
@@ -178,7 +155,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private void init( )
     {
         _cachePages.initCache( );
-        _cachePortlets.initCache( );
         ImageResourceManager.registerProvider( this );
         addPageEventListener( this );
     }
@@ -249,7 +225,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
         catch( NumberFormatException nfe )
         {
-            AppLogService.error( "PageService.getPage() : " + nfe.getLocalizedMessage( ), nfe );
+            AppLogService.error( "PageService.getPage() : {}", nfe.getLocalizedMessage( ), nfe );
 
             throw new PageNotFoundException( );
         }
@@ -267,7 +243,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             }
             catch( IOException e )
             {
-                AppLogService.error( "Error on sendRedirect for " + strPage );
+                AppLogService.error( "Error on sendRedirect for {}", strPage );
             }
         }
 
@@ -303,7 +279,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 {
                     boolean bCanBeCached = true;
 
-                    AppLogService.debug( "Page generation " + strKey );
+                    AppLogService.debug( "Page generation {}", strKey );
 
                     RedirectionResponseWrapper response = new RedirectionResponseWrapper( LocalVariables.getResponse( ) );
 
@@ -321,7 +297,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
                     if ( response.getRedirectLocation( ) != null )
                     {
-                        AppLogService.debug( "Redirection found " + response.getRedirectLocation( ) );
+                        AppLogService.debug( "Redirection found {}", response.getRedirectLocation( ) );
                         strPage = REDIRECTION_KEY + response.getRedirectLocation( );
                     }
 
@@ -334,13 +310,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 }
                 else
                 {
-                    AppLogService.debug( "Page read from cache after synchronisation " + strKey );
+                    AppLogService.debug( "Page read from cache after synchronisation {}", strKey );
                 }
             }
         }
         else
         {
-            AppLogService.debug( "Page read from cache " + strKey );
+            AppLogService.debug( "Page read from cache {}", strKey );
         }
 
         return strPage;
@@ -602,118 +578,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      */
     private String getPortletContent( HttpServletRequest request, Portlet portlet, Map<String, String> mapRequestParams, int nMode ) throws SiteMessageException
     {
-        if ( ( request != null ) && !isPortletVisible( request, portlet, nMode ) )
-        {
-            return StringUtils.EMPTY;
-        }
-
-        if ( request != null )
-        {
-            String strPluginName = portlet.getPluginName( );
-            request.setAttribute( PARAMETER_PLUGIN_NAME, strPluginName );
-        }
-
-        String strPortletContent = StringUtils.EMPTY;
-
-        // Add the admin buttons for portlet management on admin mode
-        if ( nMode == MODE_ADMIN )
-        {
-            strPortletContent = addAdminButtons( request, portlet );
-        }
-
-        String strKey = StringUtils.EMPTY;
-
-        LuteceUser user = null;
-
-        if ( SecurityService.isAuthenticationEnable( ) )
-        {
-            user = SecurityService.getInstance( ).getRegisteredUser( request );
-        }
-
-        boolean isCacheEnabled = nMode != MODE_ADMIN && _cachePortlets.isCacheEnable( );
-        boolean bCanBeCached = user != null ? portlet.canBeCachedForConnectedUsers( ) : portlet.canBeCachedForAnonymousUsers( );
-
-        if ( portlet.isContentGeneratedByXmlAndXsl( ) )
-        {
-            Map<String, String> mapParams = mapRequestParams;
-            Map<String, String> mapXslParams = portlet.getXslParams( );
-
-            if ( mapParams != null )
-            {
-                if ( mapXslParams != null )
-                {
-                    mapParams.putAll( mapXslParams );
-                }
-            }
-            else
-            {
-                mapParams = mapXslParams;
-            }
-
-            if ( isCacheEnabled && bCanBeCached )
-            {
-                mapParams.put( PARAMETER_PORTLET, String.valueOf( portlet.getId( ) ) );
-                strKey = _cksPortlet.getKey( mapParams, nMode, user );
-
-                String strPortlet = (String) _cachePortlets.getFromCache( strKey );
-
-                if ( strPortlet != null )
-                {
-                    return strPortlet;
-                }
-            }
-
-            Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
-            String strXslUniqueId = XSL_UNIQUE_PREFIX + String.valueOf( portlet.getStyleId( ) );
-            XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-            String strPortletXmlContent = portlet.getXml( request );
-            strPortletContent += xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent, portlet.getXslSource( nMode ), strXslUniqueId,
-                    mapParams, outputProperties );
-        }
-        else
-        {
-            if ( isCacheEnabled && bCanBeCached )
-            {
-                mapRequestParams.put( PARAMETER_PORTLET, String.valueOf( portlet.getId( ) ) );
-                strKey = _cksPortlet.getKey( mapRequestParams, nMode, user );
-
-                String strPortlet = (String) _cachePortlets.getFromCache( strKey );
-
-                if ( strPortlet != null )
-                {
-                    return strPortlet;
-                }
-            }
-
-            strPortletContent += portlet.getHtmlContent( request );
-        }
-
-        if ( isCacheEnabled && StringUtils.isNotEmpty( strKey ) )
-        {
-            _cachePortlets.putInCache( strKey, strPortletContent );
-        }
-
-        return strPortletContent;
-    }
-
-    private boolean isPortletVisible( HttpServletRequest request, Portlet portlet, int nMode )
-    {
-        if ( ( nMode != MODE_ADMIN ) && ( portlet.getStatus( ) == Portlet.STATUS_UNPUBLISHED ) )
-        {
-            return false;
-        }
-
-        String strRole = portlet.getRole( );
-        boolean bUserInRole = SecurityService.isAuthenticationEnable( ) ? SecurityService.getInstance( ).isUserInRole( request, strRole ) : true;
-
-        boolean [ ] conditions = new boolean [ ] {
-                strRole.equals( Page.ROLE_NONE ), // No role is required so the portlet is visible for anyone
-                !SecurityService.isAuthenticationEnable( ), // No authentication
-                nMode == MODE_ADMIN, // We are in Admin mode, so all the portlet should be visible
-                bUserInRole // The authentication is ON and the user get the role
-        };
-
-        return BooleanUtils.or( conditions );
+        return _portletContentService.getPortletContent( request, portlet, mapRequestParams, nMode );
     }
 
     /**
@@ -754,15 +619,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     public void setPageCacheKeyService( ICacheKeyService cacheKeyService )
     {
         _cksPage = cacheKeyService;
-    }
-
-    /**
-     * @param cacheKeyService
-     *            the _cacheKeyService to set
-     */
-    public void setPortletCacheKeyService( ICacheKeyService cacheKeyService )
-    {
-        _cksPortlet = cacheKeyService;
     }
 
     /**
@@ -813,7 +669,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     public static void addPageEventListener( PageEventListener listener )
     {
         _listEventListeners.add( listener );
-        AppLogService.info( "New Page Event Listener registered : " + listener.getClass( ).getName( ) );
+        AppLogService.info( "New Page Event Listener registered : {}", listener.getClass( ).getName( ) );
     }
 
     /**
@@ -962,49 +818,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     }
 
     /**
-     * Add the HTML code to display admin buttons under each portlet
-     *
-     * @param request
-     *            The Http request
-     * @param portlet
-     *            The portlet
-     * @return The buttons code
-     */
-    private String addAdminButtons( HttpServletRequest request, Portlet portlet )
-    {
-        AdminUser user = AdminUserService.getAdminUser( request );
-
-        if ( RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
-        {
-            Locale locale = user.getLocale( );
-            Collection<PortletCustomAdminAction> listCustomActions = new ArrayList<>( );
-
-            // TODO : listCustomActions should be provided by PortletType
-            // FIXME : Delete plugin-document specifics
-            if ( portlet.getPortletTypeId( ).equals( DOCUMENT_LIST_PORTLET ) || portlet.getPortletTypeId( ).equals( DOCUMENT_PORTLET ) )
-            {
-                PortletCustomAdminAction customAction = new PortletCustomAdminAction( );
-                customAction.setActionUrl( DOCUMENT_ACTION_URL );
-                customAction.setImageUrl( DOCUMENT_IMAGE_URL );
-                customAction.setTitle( DOCUMENT_TITLE );
-                listCustomActions.add( customAction );
-            }
-
-            Map<String, Object> model = new HashMap<>( );
-            model.put( MARK_PORTLET, portlet );
-            model.put( MARK_STATUS_PUBLISHED, Portlet.STATUS_PUBLISHED );
-            model.put( MARK_STATUS_UNPUBLISHED, Portlet.STATUS_UNPUBLISHED );
-            model.put( MARK_CUSTOM_ACTIONS, listCustomActions );
-
-            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_BUTTONS, locale, model );
-
-            return template.getHtml( );
-        }
-
-        return StringUtils.EMPTY;
-    }
-
-    /**
      * Gets the params map
      *
      * @param request
@@ -1098,27 +911,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     }
 
     /**
-     * Gets the portlet cache service
-     * 
-     * @return the porlet cache service
-     */
-    public PortletCacheService getPortletCacheService( )
-    {
-        return _cachePortlets;
-    }
-
-    /**
-     * Gets the portlet cache service
-     * 
-     * @param portletCacheService
-     *            the portlet cache service
-     */
-    public void setPortletCacheService( PortletCacheService portletCacheService )
-    {
-        _cachePortlets = portletCacheService;
-    }
-
-    /**
      * update authorization node of children page
      * 
      * @param nIdParentPage
@@ -1139,4 +931,5 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             }
         }
     }
+
 }
