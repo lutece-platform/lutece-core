@@ -59,17 +59,17 @@ Snippet:
 <#local valLocal><#if value !=''>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
 <#local errorInput><#if errorMsg !=''>_error</#if></#local>
 <#local inputClass><#if errorMsg !=''>is-invalid</#if></#local>
-<#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
-<#if errorMsg !='' && errorMsg !='_error'><@cFormError idLocal errorMsg /></#if>
 <@cInputGroup>
   <@cInput id=idLocal type=typeLocal class='form-control datepicker-input ${inputClass!}' name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=required html5Required=html5Required disabled=disabled readonly=readonly errorMsg=errorInput params=params />
   <#if icon && type='datepicker'>
   <@cInputGroupAddonText>
-      <@cIcon name='agenda' id=idLocal />
+      <@cIcon name='calendar' id=idLocal />
   </@cInputGroupAddonText>
   </#if>
   <#nested>
 </@cInputGroup>
+<#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
+<#if errorMsg !='' && errorMsg !='_error'><@cFormError idLocal errorMsg /></#if>
 <#if type='datepicker'><@getThemeDatePicker idField=idLocal options=options /></#if>
 <#if separator>
 <script>
@@ -144,20 +144,20 @@ Snippet:
 <@cBlock class='daterange ${class!}' id='${idLocal}' params=params >
   <#if showLabel[0]><@cLabel label=label[0] for='${idLocal}_range_start' /><#else><@cLabel label=label[0] for='${idLocal}_range_start' class='visually-hidden' /></#if>
   <#if showLabel[1]><@cLabel label=label[1] for='${idLocal}_range_end' class='ms-xl ps-xxs'/><#else><@cLabel label=label[1] for='${idLocal}_range_end' class='visually-hidden' /></#if>
-  <#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
-  <#if errorMsg !=''><@cFormError idMsg errorMsg /></#if>
   <@cInputGroup>
     <@cInput id='${idLocal}_range_start' type=typeLocal class='form-control datepicker-input' name=name value=valLocal placeholder=placeholder[0] required=required[0] disabled=disabled[0] readonly=readonly[0] separator=separator />
     <@cInput id='${idLocal}_range_end' type=typeLocal class='form-control datepicker-input' name='${name}_range_end' placeholder=placeholder[1] required=required[1] disabled=disabled[1] readonly=readonly[1] separator=separator />
     <#if icon>
     <@cInputGroupAddon>
         <@cInputGroupAddonText tag='div'>
-            <@cIcon 'agenda' '${idLocal}' />
+            <@cIcon 'calendar' '${idLocal}' />
         </@cInputGroupAddonText>
     </@cInputGroupAddon>
     </#if>
     <#nested>
   </@cInputGroup>
+  <#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
+  <#if errorMsg !=''><@cFormError idLocal errorMsg /></#if>
 </@cBlock>
 <#if type='datepicker'>
 <@getThemeDatePicker idField='${idLocal}_range_start' options=options />

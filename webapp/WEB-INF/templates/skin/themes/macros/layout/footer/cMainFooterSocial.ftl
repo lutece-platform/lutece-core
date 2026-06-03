@@ -64,34 +64,22 @@ Snippet:
                 <ul class="list-inline text-center">
                     <li class="list-inline-item">
                         <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleFb}" href="${footerSocialLinkFb}">        
-                            <svg class="paris-icon paris-icon-facebook" role="img" aria-labelledby="paris-icon-title-fb" focusable="false">
-                                <title id="paris-icon-title-fb">${footerSocialTitleFb}</title>
-                                <use xlink:href="#paris-icon-facebook"></use>
-                            </svg>
+                            <@cIcon name='brand-facebook' params='aria-hidden="true"' />
                         </a>    
                     </li>
                     <li class="list-inline-item">
                         <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleTw}" href="${footerSocialLinkTw}">        
-                            <svg class="paris-icon paris-icon-x" role="img" aria-labelledby="paris-icon-title-tw" focusable="false">
-                                <title id="paris-icon-title-x">${footerSocialTitleTw}</title>
-                                <use xlink:href="#paris-icon-x"></use>
-                            </svg>
+                            <@cIcon name='brand-x' params='aria-hidden="true"' />
                         </a>    
                     </li>
                     <li class="list-inline-item">
                         <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleIn}" href="${footerSocialLinkIn}">        
-                            <svg class="paris-icon paris-icon-instagram" role="img" aria-labelledby="paris-icon-title-in" focusable="false">
-                                <title id="paris-icon-title-in">${footerSocialTitleIn}</title>
-                                <use xlink:href="#paris-icon-instagram"></use>
-                            </svg>
+                            <@cIcon name='brand-instagram' params='aria-hidden="true"' />
                         </a>    
                     </li>
                     <li class="list-inline-item">
                         <a class="social-link has-icon hide-icon-target" target="_blank" aria-label="Aller vers le site de ${footerSocialTitleLi}" href="${footerSocialLinkLi}">        
-                            <svg class="paris-icon paris-icon-linkedin" role="img" aria-labelledby="paris-icon-title-li" focusable="false">
-                                <title id="paris-icon-title-li">${footerSocialTitleLi}</title>
-                                <use xlink:href="#paris-icon-linkedin"></use>
-                            </svg>
+                            <@cIcon name='brand-linkedin' params='aria-hidden="true"' />
                         </a>    
                     </li>
                 </ul>

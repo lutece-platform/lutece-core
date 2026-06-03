@@ -54,7 +54,8 @@ Snippet:
             <span class="d-flex<#if !class?contains('outline') && header =''> flex-column<#else> align-items-center</#if> flex-1">
             <#if class?contains('outline')>
                 <span class="card-header-prepend">
-                <@cIcon name='alert-${iconType}' />
+<#local cardAlertIcon = {'danger':'alert-triangle','warning':'alert-triangle','success':'circle-check','info':'info-circle'}[iconType]!'info-circle' />
+                <@cIcon name=cardAlertIcon params='aria-hidden="true"' />
                 </span>
                 <span<#if titleClass !=''>class="d-block ${titleClass}"</#if> id="headingAcc${id}">${title}</span>
                 <#if header !=''>${header}</#if>
@@ -71,7 +72,7 @@ Snippet:
                 <#if btnTitle !=''><span class="btn-label-accordion d-none d-md-inline-block<#if iconType != 'info'> main-${iconType}-color-text</#if>">${btnTitle}</span></#if>
                 <span class="btn-accordion<#if btnClass !=''> ${btnClass}</#if>">
                     <#local btnClass>${btnClass}<#if iconType != 'info'> main-${iconType}-color-text</#if></#local>
-                    <@cIcon name='arrow-bottom' class=btnClass title='' />
+                    <@cIcon name='chevron-down' class=btnClass title='' />
                 </span>
             </span>
             </#if>
@@ -84,11 +85,9 @@ Snippet:
                 </div>
             </div>
             <div class="card-footer d-block d-sm-none text-center<#if class?contains('alert')> bg-transparent</#if>">
-                <button class="btn btn-link btn-accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAcc${id}" aria-expanded="<#if state>true<#else>false</#if>" aria-controls="collapseAcc${id}">
-                    <svg class="paris-icon paris-icon-arrow-bottom" aria-hidden="true" focusable="false">
-                        <use xlink:href="#paris-icon-arrow-bottom"></use>
-                    </svg>
-                </button>	
+                <button class="btn btn-link btn-accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAcc${id}" aria-expanded="<#if state>true<#else>false</#if>" aria-controls="collapseAcc${id}" aria-label="${btnShowLabel}">
+                    <@cIcon name='chevron-down' params='aria-hidden="true"' />
+                </button>
             </div>
         </#if>
     </div>

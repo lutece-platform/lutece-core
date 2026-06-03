@@ -55,10 +55,7 @@ function getTemplateUploadedFile( fieldName, index, checkboxPrefix, jsonData, im
 	   </a>
    </label>
    <button type="button" class="btn btn-link deleteSingleFile main-color p-0" data-item="#_file_uploaded_${fieldName}${index}" fieldname="${fieldName}" handlername="${handler}" index="${index}" title="${deleteLabel} ${fileDisplayName}" aria-label="${deleteLabel} ${fileDisplayName}"> 
-	   <svg class="paris-icon paris-icon-close" role="img" aria-labelledby="paris-icon-title-group" focusable="false">
-		   <title id="paris-icon-title-group"></title>
-		   <use xlink:href="#paris-icon-close"></use>
-	   </svg> 
+	   <i class="ti ti-x" aria-hidden="true"></i> 
    </button>
 </li>`
 

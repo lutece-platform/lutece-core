@@ -27,5 +27,5 @@ Snippet:
 -->
 <#macro cFormHelp id label class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cText id='help_${id!}' class='form-text ${class!}' params=params>${label!}</@cText>
+<@cText id='help_${id!}' class='helptext font-sm ${class!}' params=params>${label!}</@cText>
 </#macro>

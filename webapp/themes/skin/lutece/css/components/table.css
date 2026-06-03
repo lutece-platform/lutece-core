@@ -53,8 +53,8 @@
 	cursor: pointer;
 }
 
-.ctable td.button .paris-icon {
-	fill: var(--white-color);
+.ctable td.button .ti {
+	color: var(--white-color);
 	stroke: var(--white-color);
 	stroke-width: 0..5rem;
 	width: 2rem;

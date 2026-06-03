@@ -3,10 +3,16 @@
 /***  										***/
 option,
 input,
+select,
 textarea {
 	color: var(--main-color) !important;
 	font-size: var( --font-m ) !important;
 	font-weight: 500 !important;
+}
+
+/* Legend aligné sur la taille de texte des labels de champ */
+legend {
+	font-size: var( --font-m );
 }
 
 input:disabled + .btn,
@@ -14,41 +20,6 @@ input:disabled + .btn:hover {
 	color: var( --main-color);
     cursor: default;
     opacity: .5
-}
-
-/* BS Overrides */
-label {
-	font-size: 15px;
-	font-weight: 500;
-}
-
-.form-control{
-	height: 40px;
-	background: transparent;
-	border: 0;
-	border-bottom: 1px solid #E2E2E2;
-	border-radius: 0;
-	padding: 20px 10px;
-}
-  
-.form-control::placeholder {
-	font-size: 13px;
-	color: #999;
-}
-  
-.form-control:focus {
-	outline: 0;
-	border-color: #3C5BFE;
-	box-shadow: none;
-}
-
-.form-select {
-	font-size: 13px;
-	color: #999;
-	border: 0;
-	border-bottom: 1px solid #E2E2E2;
-	border-radius: 0;
-	padding: 10px 0;
 }
 
 textarea.form-control {
@@ -167,7 +138,7 @@ input[type="number"] + .input-group-append > .input-group-text {
 .quantity-btn:active,
 .quantity-btn:not(.disabled):active,
 .quantity-btn:active .btn-label,
-.quantity-btn:active .paris-icon
+.quantity-btn:active .ti
 .quantity-btn:hover .btn-label,
 .btn:hover.quantity-btn .btn-label,
 .quantity-btn:hover,

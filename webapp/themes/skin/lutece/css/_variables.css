@@ -6,7 +6,7 @@
 	--size-base: .4rem;
 
 	/* Font Family */
-	--font-family-pref: "Montserrat";
+	--font-family-pref: "Open Sans";
 	--font-family-basics: Arial, Helvetica, sans-serif;
 	--font-family-list: var( --font-family-pref), var(--font-family-basics );
 

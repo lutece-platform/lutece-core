@@ -4,12 +4,13 @@
 }
 
 .datepicker-dropdown .datepicker-picker {
-  border-radius: 0;
+  border-radius: 1rem;
   /* width: auto; */
   padding: var( --spacing-3 );
   border: 1px solid var(--blue-light, #CFD7E3);
   box-shadow: none;
   width: calc( ( var( --size-base ) * 9.5 ) * 8 );
+  overflow: hidden;
 }
 
 .datepicker-header .datepicker-controls{
@@ -46,14 +47,20 @@
 
 .datepicker-main .datepicker-view .days .days-of-week .dow {
   font-size: var(--font-m);
-  font-weight: 700; 
+  font-weight: 700;
   padding: var(--spacing-2);
   width: calc( var( --size-base ) * 9.5 );
-  height: calc( var( --size-base ) * 9.5 ); 
+  height: calc( var( --size-base ) * 9.5 );
+  border: 4px solid transparent;
 }
 
 .datepicker-main .datepicker-view.datepicker-grid{
   width: auto
+}
+
+.datepicker-main .datepicker-view{
+  width: calc( var( --size-base ) * 9.5 * 7 );
+  margin-inline: auto;
 }
 
 .datepicker-main .datepicker-grid .datepicker-cell{

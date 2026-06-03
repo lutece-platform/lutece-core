@@ -68,3 +68,8 @@ DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.consen
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.platform.select', 'tarte_au_citron');
 DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.consent.select.options';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.select.options', 'tarte_au_citron|orejime');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2.sql-rev2.sql
+-- Migrate the form validation error icon from the Paris.fr SVG sprite to a Tabler font icon
+DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.formvalidation.errorIconSvg';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorIconSvg', '<i class="ti ti-alert-triangle main-danger-color me-xs" aria-hidden="true"></i>');

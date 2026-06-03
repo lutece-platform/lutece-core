@@ -117,7 +117,7 @@
 
 .btn-secondary .btn-label,
 .btn-secondary .link-label,
-.btn-secondary .paris-icon{
+.btn-secondary .ti{
 	color: var( --main-info-color );
 }
 
@@ -135,17 +135,17 @@
 .btn-secondary.active:not(:disabled),
 .btn-secondary.active:not(:disabled) .btn-label,
 .btn-secondary.active:not(:disabled) .link-label,
-.btn-secondary:active:not(:disabled) .paris-icon,
+.btn-secondary:active:not(:disabled) .ti,
 .btn-secondary:hover:not(:disabled) ,
 .btn-secondary:hover:not(:disabled) .btn-label,
 .btn-secondary:hover:not(:disabled) .link-label,
 .btn-secondary:focus:not(:disabled),
 .btn-secondary:focus:not(:disabled) .btn-label,
 .btn-secondary:focus:not(:disabled) .link-label,
-.btn-secondary:focus:not(:disabled) .paris-icon,
-.btn-secondary:hover:not(:disabled) .paris-icon{
+.btn-secondary:focus:not(:disabled) .ti,
+.btn-secondary:hover:not(:disabled) .ti{
     color: var( --white-color ) !important;
-    fill: var( --white-color ) !important;
+    color: var( --white-color ) !important;
 }
 
 .btn-secondary:focus::before,

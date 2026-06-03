@@ -59,8 +59,8 @@
 	color: var(--white-color);
 }  
 
-.theme-slider-wrapper .prev-slide .paris-icon, 
-.theme-slider-wrapper .next-slide .paris-icon {
+.theme-slider-wrapper .prev-slide .ti, 
+.theme-slider-wrapper .next-slide .ti {
 	color: inherit !important;
 	background: none !important;
 }

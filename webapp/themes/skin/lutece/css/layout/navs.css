@@ -24,6 +24,19 @@
 	position: relative;
 }
 
+/* Main navbar: even spacing between items (menu + action buttons) so the
+   login / theme switcher / contact buttons are never glued together */
+.navigation .navbar-nav.w-100 {
+	gap: var(--spacing-xs);
+}
+
+/* Theme switcher toggle: scale the sun/moon icons to the button text size
+   so they don't increase the btn-sm height (the dropdown items keep their size) */
+#bd-theme svg {
+	width: 1.5em;
+	height: 1.5em;
+}
+
 .navigation .navbar .navbar-brand .logo {
 	max-width: 12rem;
 }

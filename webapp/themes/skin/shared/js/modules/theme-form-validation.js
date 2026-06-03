@@ -11,8 +11,8 @@ const FormValidation = (function() {
         errorClass: 'is-invalid',
         validClass: 'is-valid',
         errorFeedbackClass: 'invalid-feedback',
-        helpClass: 'form-text',
-        errorIconSvg: '<svg class="paris-icon paris-icon-alert-error main-danger-color me-xxs" aria-hidden="true" focusable="false" role="img"><use href="#paris-icon-alert-error"></use></svg>',
+        helpClass: 'helptext',
+        errorIconSvg: '<i class="ti ti-alert-triangle main-danger-color me-xs" aria-hidden="true"></i>',
         messages: {
             required: 'This field is required.',
             email: 'Please enter a valid email address.',
@@ -189,8 +189,9 @@ const FormValidation = (function() {
             return false;
         } else {
             clearError(input);
-            // Only set valid class if field has a value or is not required
-            if (input.value || !isRequired(input)) {
+            // Only set valid class if field has a non-empty value; otherwise stay neutral.
+            // (Required-but-empty is already caught above by getValidationState as invalid.)
+            if (!isEmpty(getInputValue(input), input)) {
                 setValid(input);
             }
             return true;
@@ -645,6 +646,18 @@ const FormValidation = (function() {
                     }
                     return legend;
                 }
+            }
+
+            // Standalone checkbox/radio (e.g. terms of service): no fieldset wrapper.
+            // Insert the error after the whole .form-check so it sits below the
+            // control instead of between the input and its label.
+            const formCheck = input.closest('.form-check');
+            if (formCheck) {
+                const helpText = formCheck.nextElementSibling;
+                if (helpText && helpText.classList.contains(config.helpClass)) {
+                    return helpText;
+                }
+                return formCheck;
             }
         }
 

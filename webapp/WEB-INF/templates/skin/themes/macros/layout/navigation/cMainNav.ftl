@@ -121,9 +121,20 @@ Snippet:
                     ${pageinclude_userlogin?default("")}
                 </li>
             </#if>
+        <li class="nav-item dropdown mt-3 mt-lg-0<#if !hasLogin> ms-lg-auto</#if>" >
+        <#if pageId = '1'>
+            <a href="${footerLinkContact!}" class="btn btn-sm btn-primary">${footerLinkContactLabel!}</a>
+        <#else>
+            <form class="form-inline search-wrapper d-none d-lg-block" action="jsp/site/Portal.jsp">
+            <input name="page" type="hidden" value="search">
+            <input id="search-by" name="query" type="search" class="form-control" placeholder="Search here ...">
+            <button class="border-0 bg-white" type="submit"><i class="ti ti-search"></i></button>
+            </form>
+        </#if>
+        </li>
             <#if hasUserThemeSwitch>
-            <li id="bs-theme-switcher" class="nav-item dropdown d-block d-lg-flex<#if !hasLogin> ms-lg-auto</#if>" > 
-                <button class="btn btn-link nav-link px-0 px-lg-2 py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)"> 
+            <li id="bs-theme-switcher" class="nav-item dropdown d-block d-lg-flex" >
+                <button class="btn btn-primary btn-sm dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-sun"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" /></svg>
                     <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-moon"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg>
                     <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span> 
@@ -150,17 +161,6 @@ Snippet:
                 </ul> 
             </li>
         </#if>            
-        <li class="nav-item dropdown mt-3 mt-lg-0" >   
-        <#if pageId = '1'>
-            <a href="${footerLinkContact!}" class="btn btn-sm btn-primary ms-lg-4">${footerLinkContactLabel!}</a>
-        <#else>
-            <form class="form-inline search-wrapper d-none d-lg-block" action="jsp/site/Portal.jsp">
-            <input name="page" type="hidden" value="search">
-            <input id="search-by" name="query" type="search" class="form-control" placeholder="Search here ...">
-            <button class="border-0 bg-white" type="submit"><i class="ti ti-search"></i></button>
-            </form>
-        </#if>
-        </li>
         </ul>
         
     </div>
@@ -184,9 +184,7 @@ Snippet:
                     </#if>
                     <#if hasSearchMenu && typeSearch='icon'>
                         <@cMainNavItem title='' url=searchUrl >
-                            <svg class="paris-icon paris-icon-search main-color" role="img" aria-hidden="true" focusable="false">
-                                <use xlink:href="#paris-icon-search"></use>
-                            </svg>
+                            <@cIcon name='search' class='main-color' params='aria-hidden="true"' />
                             <@cInline class='visually-hidden'>#i18n{portal.util.labelSearch}</@cInline>
                         </@cMainNavItem>
                     </#if>

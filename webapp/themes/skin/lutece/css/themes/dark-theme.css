@@ -5,26 +5,34 @@
 	/* Main colors are managed in BO or theme template named _theme_color.ftl */
 	/* Main Theme Colors */
 	/* Default styles init */
-    --theme-bg-default: #071F32 !important;
+    --theme-bg-default: #1f2125 !important;
+	--bs-body-bg: #17181c !important;
+	--bs-body-color: #b2b4b5 !important;
+	--bs-card-color: #fafcfe !important;
+	--bs-border-color: #2c2e2f !important;
 	
     --main-color: #fff;
 
-	--main-info-color: #F2F6FF;
-	--main-info-color-40: #F2F6FF;
-	--main-info-color-light: #F2F6FF;
+	--main-info-color: #3C5BFE;
+	--main-info-color-40: color-mix(in srgb, var(--main-info-color) 40%, var(--theme-bg-default));
+	--main-info-color-light: color-mix(in srgb, var(--main-info-color) 15%, var(--theme-bg-default));
 	--main-info-color-text: #17215F;
+	--main-info-color-hover: rgb(255, 68, 42);
 
 	--main-danger-color: #E22C3F;
+	--main-danger-color-lighter: color-mix(in srgb, var(--main-danger-color) 25%, var(--theme-bg-default));
 	--main-danger-color-lightest: #FFF2F2;
 	--main-danger-color-text: #86131E;
 
 	--main-footer-danger-color: #9c1621;
 
 	--main-success-color: #248619;
+	--main-success-color-lighter: color-mix(in srgb, var(--main-success-color) 25%, var(--theme-bg-default));
 	--main-success-color-lightest: #ECFAEA;
 	--main-success-color-text: #0F320B;
-	
+
 	--main-warning-color: #FFA13D;
+	--main-warning-color-lighter: color-mix(in srgb, var(--main-warning-color) 25%, var(--theme-bg-default));
 	--main-warning-color-lightest: #FFFAE6;
 	--main-warning-color-text: #844501;
 	
@@ -34,12 +42,13 @@
 	--dark-lighter-color: #6D6D6D;
 
 	--gray-dark-color: #A1A1A1;
+	--gray-darklight-color: #B3B3B3;
 	--gray-color: #C3C3C3;
 	--gray-light-color: #D5D9DD;
 
 	--white-lighter-color : #FCFAFA;
 	--white-light-color: #f0f0f0;
-	--white-color: #071F32;
+	--white-color: #fafcfe;
 
 	/* Blue */
 	--blue-darker-color: #495E7E;
@@ -59,6 +68,26 @@
 	--main-color-shadow: #071f321a;
 	--card-color-shadow: #00000029;
 	--switch-color-shadow: #0088dd40;
+
+	/* File dropzone */
+	--file-dropzone-color: transparent;
+	--file-dropzone-hover-color: rgba(255, 255, 255, .06);
+	--file-dropzone-border-color: var(--white-color);
+	--file-dropzone-border-disabled: var(--gray-dark-color);
+	--file-dropzone-text-disabled: var(--gray-dark-color);
+	--file-dropzone-icon-disabled: var(--gray-color);
+	--file-dropzone-border-hover-color: var(--main-info-color);
+
+	/* Borders & shadows */
+	--border-color: var(--blue-color);
+	--shadow-border-color: var(--blue-light);
+
+	/* Status */
+	--status-coming: var(--blue-turquoise-color);
+	--status-todo: var(--main-danger-color);
+	--status-doing: var(--main-warning-color);
+	--status-done: var(--main-success-color);
+	--status-passed: var(--blue-gray-color);
 }
 
 [data-bs-theme=dark] img.darkmode,
@@ -120,6 +149,10 @@
     background-color:  var(--theme-bg-default);
 }
 
+[data-bs-theme=dark] .card-body label {
+	color: var(--white-color) !important;
+}
+
 [data-bs-theme=dark] .card-footer {
     border-top: var( --border-normal) solid var(--bs-border-color-translucent)
 }
@@ -148,4 +181,164 @@
 
 [data-bs-theme=dark] .btn.btn-default {
     border-width: 1px !important
+}
+
+/** Forms steps : .step-title plus foncé que .step-current, texte/flèche adaptés **/
+[data-bs-theme=dark] .step-title {
+    border-top: 0;
+    border-bottom: 0;
+}
+
+[data-bs-theme=dark] .step-current .step-title {
+    background-color: color-mix(in srgb, var(--bs-tertiary-bg) 85%, black);
+}
+
+[data-bs-theme=dark] .step-current .step-title .title,
+[data-bs-theme=dark] .step-current .step-title .title .step-number {
+    color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+[data-bs-theme=dark] .step-current .step-title .title::after {
+    border-top-color: color-mix(in srgb, var(--bs-tertiary-bg) 85%, black);
+}
+
+[data-bs-theme=dark] .step-current .step-content .step-group {
+    background-color: transparent;
+}
+
+/** Checkbox / radio : fond foncé + aperçu de la coche au hover **/
+[data-bs-theme=dark] .form-check .form-check-input:not(:checked) {
+    background-color: var(--theme-bg-default);
+    border-color: color-mix(in srgb, var(--theme-bg-default) 80%, white);
+}
+
+[data-bs-theme=dark] .form-check .form-check-input:not(:checked):not(:disabled):hover[type=checkbox] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23ffffff80' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+[data-bs-theme=dark] .form-check .form-check-input:not(:checked):not(:disabled):hover[type=radio] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='1.5' fill='%23ffffff80'/%3e%3c/svg%3e");
+}
+
+/** Datepicker (vendor datepicker-bs5) **/
+[data-bs-theme=dark] .datepicker-picker {
+    background-color: var(--theme-bg-default);
+    color: var(--main-color);
+}
+
+[data-bs-theme=dark] .datepicker-title,
+[data-bs-theme=dark] .datepicker-footer {
+    background-color: color-mix(in srgb, var(--theme-bg-default) 80%, white);
+    color: var(--main-color);
+}
+
+[data-bs-theme=dark] .datepicker-controls .btn,
+[data-bs-theme=dark] .datepicker-controls .btn:disabled {
+    background-color: var(--theme-bg-default);
+    border-color: color-mix(in srgb, var(--theme-bg-default) 80%, white);
+    color: var(--main-color);
+}
+
+[data-bs-theme=dark] .datepicker-controls .btn:focus,
+[data-bs-theme=dark] .datepicker-controls .btn:hover,
+[data-bs-theme=dark] .datepicker-controls .btn:not(:disabled):active {
+    background-color: color-mix(in srgb, var(--theme-bg-default) 70%, white);
+    border-color: color-mix(in srgb, var(--theme-bg-default) 60%, white);
+    color: var(--main-color);
+}
+
+[data-bs-theme=dark] .datepicker-header .datepicker-controls .btn {
+    border-color: transparent;
+}
+
+[data-bs-theme=dark] .datepicker .dow {
+    color: var(--main-color);
+}
+
+[data-bs-theme=dark] .datepicker .week {
+    color: color-mix(in srgb, var(--main-color) 50%, transparent);
+}
+
+[data-bs-theme=dark] .datepicker-cell:not(.disabled):hover {
+    background-color: color-mix(in srgb, var(--theme-bg-default) 75%, white);
+}
+
+[data-bs-theme=dark] .datepicker-cell.focused:not(.selected) {
+    background-color: color-mix(in srgb, var(--theme-bg-default) 65%, white);
+}
+
+[data-bs-theme=dark] .datepicker-cell.selected,
+[data-bs-theme=dark] .datepicker-cell.selected:hover {
+    background-color: var(--main-info-color);
+    color: var(--main-info-color-text);
+}
+
+[data-bs-theme=dark] .datepicker-cell.disabled {
+    color: color-mix(in srgb, var(--main-color) 35%, transparent);
+}
+
+[data-bs-theme=dark] .datepicker-cell.next:not(.disabled),
+[data-bs-theme=dark] .datepicker-cell.prev:not(.disabled) {
+    color: color-mix(in srgb, var(--main-color) 55%, transparent);
+}
+
+[data-bs-theme=dark] .datepicker-cell.highlighted:not(.selected):not(.range):not(.today) {
+    background-color: color-mix(in srgb, var(--theme-bg-default) 85%, white);
+}
+
+[data-bs-theme=dark] .datepicker-cell.highlighted:not(.selected):not(.range):not(.today):not(.disabled):hover {
+    background-color: color-mix(in srgb, var(--theme-bg-default) 75%, white);
+}
+
+[data-bs-theme=dark] .datepicker-cell.today:not(.selected) {
+    background-color: var(--blue-turquoise-color);
+    color: var(--theme-bg-default);
+}
+
+[data-bs-theme=dark] .datepicker-cell.range-end:not(.selected),
+[data-bs-theme=dark] .datepicker-cell.range-start:not(.selected) {
+    background-color: var(--blue-darker-color);
+    color: var(--main-color);
+}
+
+[data-bs-theme=dark] .datepicker-cell.range {
+    background-color: color-mix(in srgb, var(--theme-bg-default) 70%, white);
+}
+
+[data-bs-theme=dark] .datepicker-cell.range:not(.disabled):not(.focused):not(.today):hover {
+    background-color: color-mix(in srgb, var(--theme-bg-default) 60%, white);
+}
+
+[data-bs-theme=dark] .datepicker-input.in-edit {
+    border-color: var(--main-info-color);
+}
+
+/* Le theme-datepicker.css emploie var(--white-color) qui en dark = --theme-bg-default :
+   les bordures 4px deviennent invisibles sur le fond du picker mais réapparaissent
+   en sombre sur les cellules éclaircies (hover/selected). On force transparent. */
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell,
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.selected.focused,
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.disabled:hover,
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range,
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range-start,
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range-end {
+    border-color: transparent;
+}
+
+[data-bs-theme=dark] .datepicker-footer .datepicker-controls .btn:hover {
+    color: var(--main-info-color-text);
+}
+
+/* Bordures claires (--blue-light, --white-light-color) à neutraliser en dark */
+[data-bs-theme=dark] .datepicker-dropdown .datepicker-picker {
+    border-color: color-mix(in srgb, var(--theme-bg-default) 70%, white);
+}
+
+[data-bs-theme=dark] .datepicker-header .datepicker-controls {
+    border-block-end-color: transparent;
+}
+
+[data-bs-theme=dark] .datepicker-footer .datepicker-controls:has( .btn:not([style]) ) {
+    border-block-start-color: transparent;
 }

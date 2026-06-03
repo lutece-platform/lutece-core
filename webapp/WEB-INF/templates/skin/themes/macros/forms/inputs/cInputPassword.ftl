@@ -51,8 +51,6 @@ Snippet:
 <#local passLabel><#if pmLabel !=''>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
 <#local passClass>form-control pwd<#if class!=''> ${class!}</#if><#if size!=''> form-control-${size!}</#if><#if errorMsg!=''> is-invalid</#if></#local>
 <#if label !=''><@cLabel label=label for=passId required=required /></#if>
-<#if helpMsg !=''><@cFormHelp passId helpMsg /></#if>
-<#if errorMsg !=''><@cFormError passId errorMsg /></#if>
 <@cInputGroup class='password'>
     <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=autocomplete params='autocomplete="off" ${params!}'>
     <#if btnShowPassword>
@@ -62,6 +60,8 @@ Snippet:
     </#if>
     </@cInput>
 </@cInputGroup>
+<#if helpMsg !=''><@cFormHelp passId helpMsg /></#if>
+<#if errorMsg !=''><@cFormError passId errorMsg /></#if>
 <#nested>
 <#if isScriptPasswordLoaded?? && isScriptPasswordLoaded>
 <#else>
@@ -240,67 +240,34 @@ function generateLocalPassword() {
 </#if>
 /* PASSWORD */
 <#if !isTogglePasswordLoaded?? || !isTogglePasswordLoaded>
-function togglePasswordIcon( field, show=false ){
-	<#noparse>const input = $(`${field}`), btnToggle = $(`${field} + .input-group-append .toggle-password`), icon=$(`${field} + .input-group-append .toggle-password .paris-icon use`)</#noparse>
-  if( show && show !=undefined ){
-      icon.attr('href','#paris-icon-eye')
-  } else {
-      if( icon.attr('href') == '#paris-icon-eye'  ){
-          icon.attr('href','#paris-icon-eye-off')
-      } else {
-          icon.attr('href','#paris-icon-eye')
-      }
-  }
-  if( show && show !=undefined ){
-      if( input.attr("type") == "password") {
-          input.attr("type", "text");
-          $(this).attr('aria-pressed','true');
-          $(this).attr('title','#i18n{portal.theme.labelPasswordHide}');
-      }
-  } else {
-    if( input.attr("type") == "password") {
-        input.attr("type", "text");
-        btnToggle.attr('aria-pressed','true');
-        btnToggle.attr('title','#i18n{portal.theme.labelPasswordHide}');
-    } else {
-        input.attr("type", "password");
-        btnToggle.attr('aria-pressed','false');
-        btnToggle.attr('title','#i18n{portal.theme.labelPasswordShow}');
-    }
-  }
-
-}
-
 function togglePasswordIcon(field, show = false) {
   const input = document.querySelector(field);
+  if (!input) return;
   const btnToggle = input.parentElement.querySelector('.toggle-password');
-  const icon = btnToggle ? btnToggle.querySelector('.paris-icon use') : null;
-  
-  if (!input || !icon) return;
-  
-  if (show && show !== undefined) {
-    icon.setAttribute('href', '#paris-icon-eye');
-    if (input.getAttribute("type") === "password") {
-      input.setAttribute("type", "text");
-      btnToggle.setAttribute('aria-pressed', 'true');
-      btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordHide}');
-    }
+  const icon = btnToggle ? btnToggle.querySelector('.ti') : null;
+  if (!icon) return;
+
+  const reveal = () => {
+    input.setAttribute('type', 'text');
+    icon.classList.remove('ti-eye-off');
+    icon.classList.add('ti-eye');
+    btnToggle.setAttribute('aria-pressed', 'true');
+    btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordHide}');
+  };
+  const hide = () => {
+    input.setAttribute('type', 'password');
+    icon.classList.remove('ti-eye');
+    icon.classList.add('ti-eye-off');
+    btnToggle.setAttribute('aria-pressed', 'false');
+    btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordShow}');
+  };
+
+  if (show) {
+    reveal();
+  } else if (input.getAttribute('type') === 'password') {
+    reveal();
   } else {
-    if (icon.getAttribute('href') === '#paris-icon-eye') {
-      icon.setAttribute('href', '#paris-icon-eye-off');
-    } else {
-      icon.setAttribute('href', '#paris-icon-eye');
-    }
-    
-    if (input.getAttribute("type") === "password") {
-      input.setAttribute("type", "text");
-      btnToggle.setAttribute('aria-pressed', 'true');
-      btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordHide}');
-    } else {
-      input.setAttribute("type", "password");
-      btnToggle.setAttribute('aria-pressed', 'false');
-      btnToggle.setAttribute('title', '#i18n{portal.theme.labelPasswordShow}');
-    }
+    hide();
   }
 }
 </#if>

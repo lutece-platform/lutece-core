@@ -63,14 +63,10 @@ Snippet:
         <#if labelPos == 1>
         <label id="lb${cId!}" class="form-label<#if showLabel=0> visually-hidden visually-hidden-focusable</#if><#if errorMsg !=''> is-invalid</#if>" for="${cId!}">${label}<#if required>&nbsp;<span class="main-danger-color" tabindex="0" title="#i18n{portal.theme.labelMandatory}">*</span></#if></label>
         </#if>
-        <#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>	
-        <#if errorMsg !=''><@cFormError cId errorMsg /></#if>
         <#if type="dropzone">
             <div id="group-${cId!}" class="d-flex align-items-center file-input">
                 <input type="file" class="form-control my-xs ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if required>aria-required="true"</#if><#if helpMsg!=''> aria-describedby="help_${cId}"</#if><#if errorMsg !=''> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if><#if params!=''> ${params}</#if>>
-                 <svg class="paris-icon paris-icon-upload white-color" role="img" aria-hidden="true" focusable="false">
-                    <use xlink:href="#paris-icon-upload"></use>
-                </svg>
+                 <@cIcon name='upload' class='white-color' params='aria-hidden="true"' />
                 <p class="flex-1 text-start ms-xs my-0">#i18n{portal.theme.labelDropFiles} <span class="main-info-color text-underline">#i18n{asynchronousupload.action.browse.name}</span></p>
             </div>
         <#elseif type="button">
@@ -85,6 +81,8 @@ Snippet:
         <#if labelPos != 1>
         <label id="lb${cId!}" class="<#if showLabel=0>visually-hidden visually-hidden-focusable<#else>mt-m</#if><#if errorMsg !=''> main-danger-color</#if>" for="${cId!}">${label}</label>
         </#if>
+        <#if helpMsg !=''><@cFormHelp cId helpMsg /></#if>
+        <#if errorMsg !=''><@cFormError cId errorMsg /></#if>
     <#if !multiple>
     </div>
     <div class="col">

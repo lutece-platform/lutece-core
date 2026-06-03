@@ -9,13 +9,15 @@
     border-radius: var(--spacing-ml);
 }
 
-.form-check-input:checked[type=radio] {
-    --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='1.5' fill='%23fff'/%3e%3c/svg%3e");
-}
-
 .form-check {
 	min-height: calc( var(--spacing-xxs) * 4);
 	touch-action: manipulation;
+}
+
+/* Neutralize form-label margin inside form-check (form-label is for stacked layouts) */
+.form-check .form-check-label.form-label,
+.form-check .form-label.form-check-label {
+	margin-bottom: 0;
 }
 
 .form-check .form-check-input ~ .form-check-label{
@@ -23,18 +25,59 @@
 }
 
 .form-check:not( .form-check-inline ){
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-xs);
 	padding-block: calc( var(--spacing-xxs) * 1.875 );
+	padding-inline-start: 0;
+}
+
+/* Variante inline : même alignement centré que le mode bloc, en inline-flex pour garder les options sur une ligne */
+.form-check.form-check-inline{
+	display: inline-flex;
+	align-items: center;
+	gap: var(--spacing-xs);
+	padding-inline-start: 0;
+}
+
+/* Neutralise le décalage Bootstrap (margin-left négatif + float) en mode flex : espacement géré par le gap */
+.form-check:not( .form-check-inline ) .form-check-input,
+.form-check.form-check-inline .form-check-input {
+	margin-inline-start: 0;
+	float: none;
 }
 
 .form-check .form-check-input {
     background-color: var( --white-color );
     border-color: var( --main-color );
-	padding-inline-start: var(--spacing-xs);
+	width: 1.2em;
+	height: 1.2em;
+	margin-top: 0;
+	transition: background-color .15s ease, border-color .15s ease;
 }
 
+/* État coché : fond gris plus clair, coche bleue + halo autour de la coche */
 .form-check .form-check-input:checked{
-    background-color: var( --main-info-color );
-    border-color: var( --main-info-color );
+    background-color: var( --bs-secondary-bg );
+    border-color: var( --bs-secondary-bg );
+}
+
+.form-check .form-check-input:checked[type=checkbox]{
+	background-image:
+		url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%233C5BFE' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e"),
+		radial-gradient( circle at center, color-mix( in srgb, var(--main-info-color) 45%, transparent ), transparent 60% );
+	background-size: 85%, 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.form-check .form-check-input:checked[type=radio]{
+	background-image:
+		url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2.2' fill='%233C5BFE'/%3e%3c/svg%3e"),
+		radial-gradient( circle at center, color-mix( in srgb, var(--main-info-color) 45%, transparent ), transparent 60% );
+	background-size: 65%, 100%;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .form-check .form-check-input:focus-within{
@@ -42,9 +85,16 @@
 }
 
 .form-check .form-check-input:not(:disabled):hover{
-	border-color: var( --dark-color );
-	border-width: .2rem;
 	cursor: pointer;
+}
+
+/* Aperçu de la coche/du point au survol d'une case/radio non cochée */
+.form-check .form-check-input:not(:disabled):not(:checked):hover[type=checkbox]{
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%2300000080' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+
+.form-check .form-check-input:not(:disabled):not(:checked):hover[type=radio]{
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='1.5' fill='%2300000080'/%3e%3c/svg%3e");
 }
 
 .form-check .form-check-input:not(:disabled):active,
@@ -62,17 +112,17 @@
 	font-family: var( --font-family-list );
 	font-weight: 400;
 	font-size: var( --font-m );
-	padding-block-start: calc( var(--spacing-xxs) / 1.15 );
 	width: 100%;
+	transition: filter .15s ease, color .15s ease;
 }
 
 .form-check .form-check-input:not(:disabled) ~ .form-check-label:hover{
-	color: var( --main-info-color );
+	filter: brightness(1.2);
 	cursor: pointer;
 }
 
 .form-check .form-check-input ~ .form-check-label > a {
-    display: flex;
+    display: inline-flex;
 	align-items: center;
 	font-weight: 500;
 	color: var( --main-color );
@@ -83,10 +133,6 @@
 .form-check:focus-within {
 	outline: .15rem solid var( --main-color ) !important;
 	outline-offset: .25rem !important;
-}
-
-.form-check:focus-within .form-check-label {
-	text-decoration: underline;
 }
 
 /* Invalid */
@@ -125,7 +171,7 @@
 }
 
 .form-check .form-check-input:checked ~ .form-check-label{
-	color: var( --main-info-color );
+	color: var( --main-color );
 }
 
 .form-check .form-check-input:checked ~ .selection-subtitle,
@@ -178,6 +224,7 @@
 /* TOS */
 .form-check.custom-tos .form-check-input ~ .form-check-label{
 	display: flex;
+	align-items: center;
 }
 
 /* Checkbox or radio as Buttons */

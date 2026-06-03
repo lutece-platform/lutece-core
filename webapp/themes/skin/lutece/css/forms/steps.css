@@ -165,7 +165,7 @@ header+main .breadcrumb-nav+form .step,
 
 /** 		Current Step 								**/
 .step-current {
-	background-color: var(--white-light-color);
+	background-color: var(--bs-tertiary-bg);
 }
 
 .step-current .step-title {
@@ -212,9 +212,9 @@ header+main .breadcrumb-nav+form .step,
 
 /* 	Current Step Group								*/
 .step-current .step-content .step-group {
-	background-color: var(--white-color);
+	background-color: transparent;
 	border-radius: 0;
-	padding: var(--spacing-l);
+	padding: 0;
 }
 
 .step-current .step-content .form-row.step-group header[class*=col-]{
@@ -337,7 +337,7 @@ a[name^="last_"]:before {
 	}
 
 	.step .step-content .step-group {
-		padding: var( --spacing-xs );
+		padding: 0;
 	}
 
 	.step-current .step-content .step-group.form-row >.col, 
@@ -358,5 +358,14 @@ a[name^="last_"]:before {
 
 	.step-current .step-content {
 		padding: 0;
+	}
+}
+
+/* Desktop : aligner le padding horizontal du step-title et du step-footer sur celui du step-content
+   (le .container de chacun part alors de la même largeur disponible) */
+@media (min-width: 992px) {
+	.step-current .step-title,
+	.step-current .step-footer {
+		padding-inline: var(--spacing-l);
 	}
 }

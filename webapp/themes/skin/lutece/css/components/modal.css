@@ -5,8 +5,8 @@
 	padding: 0 0 var(--spacing-m);
 }
 
-.cmodal .modal-header .close .paris-icon{
-	fill: var( --black-color );
+.cmodal .modal-header .close .ti{
+	color: var( --black-color );
 }
 
 .cmodal .modal-header .modal-title {

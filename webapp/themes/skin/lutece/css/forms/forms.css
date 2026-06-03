@@ -2,7 +2,7 @@
 /*** Forms Elements							***/
 /***  										***/
 .form-control {
-    line-height: 3 !important;
+    padding: 1.2rem;
 }
 
 /* Autocomplete */

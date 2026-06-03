@@ -1,6 +1,11 @@
 /*** 										***/
 /*** Icons								    ***/
 /***  										***/
+/*** Tabler font icons in input-group addons */
+.input-group-text .ti {
+	font-size: 2rem;
+}
+
 /***  Icons Size                            ***/
 .icon-sm {
 	height: var(--icon-sm) !important;
@@ -30,19 +35,6 @@
 .icon-xxl {
 	height: var(--icon-xxl) !important;
 	width: var(--icon-xxl) !important;
-}
-
-/*** Paris Icon								***/
-.paris-icon {
-    fill: var(--white-color);
-    transition: fill .3s ease;
-    height: calc(var(--size-base) * 6);
-    width: calc(var(--size-base) * 6);
-	transform: translateY(-2px);
-}
-
-.paris-icon-sprite {
-    display: none;
 }
 
 /* Icons Utils 						*/

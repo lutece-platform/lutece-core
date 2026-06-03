@@ -46,7 +46,7 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#local inputParams>min="${beginHour!}" max="${endHour!}"</#local>
-<@cFieldset legend=legend! legendClass=legendClass id=idLocal! required=required helpMsg=helpMsg params=params >
+<@cFieldset legend=legend! legendClass=legendClass id=idLocal! required=required helpMsg=helpMsg helpPos='after' params=params >
 	<@cRow>
 		<@cCol cols='6 col-md-4 col-lg-2'>
 			<@cField label='#i18n{portal.theme.labelFrom}' id='label_${name}_begin!' for='${name}_begin!' required=required showLabel=false > 

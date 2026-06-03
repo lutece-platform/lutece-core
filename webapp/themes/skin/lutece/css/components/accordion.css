@@ -91,23 +91,23 @@
 	
 }
 
-.accordion .card .btn-accordion .paris-icon {
-	fill: var( --main-color );
+.accordion .card .btn-accordion .ti {
+	color: var( --main-color );
 	margin-right: 0;
-	height: var(--spacing-ml);
+	font-size: var(--spacing-ml);
 }
 	
-.accordion .card:hover .btn-accordion .paris-icon {
-	fill: var( --main-color );
+.accordion .card:hover .btn-accordion .ti {
+	color: var( --main-color );
 }
 
-.accordion .card .card-header .btn-accordion .paris-icon{
+.accordion .card .card-header .btn-accordion .ti{
 	transform: rotate(180deg);
 	transition: transform .3s ease;
 	padding: 0;
 }
 
-.accordion .card .card-header.collapsed .btn-accordion .paris-icon{
+.accordion .card .card-header.collapsed .btn-accordion .ti{
 	transform: rotate(0);
 	transition: transform .3s ease;
 }
@@ -128,8 +128,8 @@
 	cursor: pointer;
 }
 
-.accordion .card.with-border.open .btn-accordion .paris-icon {
-	fill: var( --white-color );
+.accordion .card.with-border.open .btn-accordion .ti {
+	color: var( --white-color );
 }
 
 .accordion .card.with-border.open .card-body{
@@ -155,8 +155,8 @@
 	background-color: var( --white-light-color );
 }
 
-.accordion .primary:hover .btn-accordion .paris-icon {
-	fill: var( --main-danger-color );
+.accordion .primary:hover .btn-accordion .ti {
+	color: var( --main-danger-color );
 }
 
 .accordion .primary .collapse.show{
@@ -218,9 +218,9 @@
 
 .accordion .card.desc .card-header[aria-expanded="true"] .card-title,
 .accordion .card.desc .card-header[aria-expanded="true"] .card-subtitle,
-.accordion .card.desc .card-header[aria-expanded="true"] .btn-accordion .paris-icon{
+.accordion .card.desc .card-header[aria-expanded="true"] .btn-accordion .ti{
 	color: var( --white-color );
-	fill: var( --white-color );
+	color: var( --white-color );
 }
 
 /* Outline style 									*/
@@ -264,16 +264,16 @@
     padding-inline-end: var(--spacing-xs);
 }
 
-.accordion .card.outline .card-header .card-header-prepend .paris-icon{
-	fill: var( --main-info-color );
+.accordion .card.outline .card-header .card-header-prepend .ti{
+	color: var( --main-info-color );
 }
 
-.accordion .card.outline .btn .paris-icon{
-	fill: var( --main-info-color );
+.accordion .card.outline .btn .ti{
+	color: var( --main-info-color );
 }
 
-.accordion .card.outline:hover .btn .paris-icon{
-	fill:  var( --main-info-color );
+.accordion .card.outline:hover .btn .ti{
+	color:  var( --main-info-color );
 }
 
 .accordion .card.outline .card-header .card-header-prepend + h3 + .card-header-separator{
@@ -331,8 +331,8 @@
 	color: var(--main-info-color);
 }
 
-.accordion .card.unfold .card-header:hover .btn-accordion .paris-icon{
-    fill: var(--main-info-color);
+.accordion .card.unfold .card-header:hover .btn-accordion .ti{
+    color: var(--main-info-color);
 }
 
 .accordion .card.unfold .card-body{
@@ -403,9 +403,9 @@
 		background-color: var( --white-light-color );
 	}
 
-	.accordion .card .card-footer:hover .btn-accordion .paris-icon{
+	.accordion .card .card-footer:hover .btn-accordion .ti{
 		color: var( --main-color );
-		fill: var( --main-color );
+		color: var( --main-color );
 	}
 	
 }

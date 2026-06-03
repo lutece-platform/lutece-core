@@ -36,6 +36,10 @@ Snippet:
 -->
 <#macro getThemeDatePicker idField format='' showFormat='' minDate='' maxDate='' defaultDate='' title='' time=false range=false rangeIdWrapper='dtRange' customArrows=['<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6399_4241)"><path d="M12.4849 14.5271L17.8516 19.8938L15.6907 22.0547L8.16309 14.5271L15.6907 6.99955L17.8516 9.16045L12.4849 14.5271Z" fill="#071F32"/></g><defs><clipPath id="clip0_6399_4241"><rect width="28" height="28" fill="white"/></clipPath></defs></svg>','<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6399_3183)"><path d="M15.5151 13.4729L10.1484 8.10621L12.3093 5.94531L19.8369 13.4729L12.3093 21.0004L10.1484 18.8395L15.5151 13.4729Z" fill="#071F32"/></g><defs><clipPath id="clip0_6399_3183"><rect width="28" height="28" fill="white" transform="translate(28 28) rotate(180)"/></clipPath></defs></svg>'] options={} deprecated...>
 <@deprecatedWarning args=deprecated />
+<#-- Ensure the datepicker library is loaded once per page, even if the active theme's frameset doesn't include it. -->
+<#if !(themeDatepickerInitialized??)>
+<@initThemeDatePicker />
+<#global themeDatepickerInitialized = true /></#if>
 <#local dtThemeOptions>${dskey('theme.site_property.config.datepicker.textblock')!}</#local>
 <script>
 document.addEventListener('DOMContentLoaded', (e) => {

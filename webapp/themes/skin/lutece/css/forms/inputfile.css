@@ -8,6 +8,21 @@
 	opacity: 1 !important;
 }
 
+.group-files.dropzone .file-input {
+	position: relative;
+	cursor: pointer;
+}
+
+.group-files.dropzone .file-input > input[type="file"] {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
 .group-files.button .fileinput-button > input {
     opacity: 1 !important;
 	position: relative !important;
@@ -30,18 +45,17 @@
 	max-width: 100%;
 	padding: var( --spacing-m ) var( --spacing-l );
 	background-color: var(--file-dropzone-color);
-	border: 2.5px dashed var(--file-dropzone-border-color);
+	border: 1px dashed var(--file-dropzone-border-color);
 	border-radius: 8px;
 	text-align: center;
 }
 
 form .form-row.dropzone > .col > label{
 	margin-block-start: var(--spacing-sm);
-	margin-block-end: 0;
 }
 
 .dropzone .file-input {
-	margin-block-start: var(--spacing-m);
+	margin-block-start: 0;
 }
 
 .dropzone .file-input.is-invalid {
@@ -52,7 +66,7 @@ form .form-row.dropzone > .col > label{
 	border-color: var(--file-dropzone-border-disabled) !important;
 }
 
-.dropzone.inactive .file-input .paris-icon-upload {
+.dropzone.inactive .file-input .ti-upload {
 	background-color: var(--file-dropzone-icon-disabled) !important;
 }
 
@@ -61,8 +75,6 @@ form .form-row.dropzone > .col > label{
 .file-input:hover {
 	background-color: var(--file-dropzone-hover-color);
 	border-color: var(--file-dropzone-border-hover-color);
-    outline: var(--main-info-color) solid 2px;
-    outline-offset: var(--spacing-xxs);
 }
 
 .invalid-feedback+.invalid-feedback {
@@ -72,7 +84,6 @@ form .form-row.dropzone > .col > label{
 .file-input.fileinput-button .btn {
 	font-size: var(--font-m); 
 	font-weight: 600;
-	padding: 0 0 0.3rem;
 }
 
 .file-input.fileinput-button p {
@@ -85,12 +96,15 @@ form .form-row.dropzone > .col > label{
 	outline-offset: 4px !important;
 }
 
-.file-input .paris-icon-upload {
+.file-input .ti-upload {
 	background-color: var(--main-info-color);
 	border-radius: 50%;
 	width: 4rem;
 	height: 4rem;
-	padding: .75rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.75rem;
 	color: var( --white-color );
 }
 
@@ -122,7 +136,7 @@ form .form-row.dropzone > .col > label{
 	color: var(--file-dropzone-text-disabled) ;
 }
 
-.group-files.no-file .file-input .paris-icon-upload {
+.group-files.no-file .file-input .ti-upload {
 	background-color: var(--file-dropzone-icon-disabled) ;
 }
 
@@ -150,7 +164,7 @@ form .form-row.dropzone > .col > label{
 	align-self: baseline;
 }
 
-.files-item .deleteSingleFile .paris-icon{
+.files-item .deleteSingleFile .ti{
 	transform: translateY(0);
 }
 

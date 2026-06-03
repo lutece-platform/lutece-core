@@ -324,7 +324,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.er
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.validClass', 'is-valid');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorFeedbackClass', 'invalid-feedback');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.helpClass', 'form-text');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorIconSvg', '<svg class="paris-icon paris-icon-alert-error main-danger-color me-xxs" aria-hidden="true" focusable="false" role="img"><use href="#paris-icon-alert-error"></use></svg>');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorIconSvg', '<i class="ti ti-alert-triangle main-danger-color me-xs" aria-hidden="true"></i>');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.enabled.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.duration', '1800');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.warningDelay', '120');
