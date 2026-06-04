@@ -14,11 +14,11 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 		<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' size='' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] />
 		<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all']  />
 		</#if>
-		<#--  <@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench me-1' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['md']  />  -->
-		<@offcanvas id="page-properties" title="#i18n{portal.site.admin_page.titlePageProperties}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' targetElement='#properties' btnColor="portet" btnIcon="wrench mx-1" btnTitle="" size="" />
-		<#--  <@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus me-1' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['md'] />  -->
-		<@offcanvas id="childpage-properties" title="#i18n{portal.site.admin_page.titleAddChildPage}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5' targetElement='#childpage' btnColor="portet" btnIcon="file-plus me-1" btnTitle="" size=""  redirectForm=false/>
-		<@offcanvas id="portlet-type-wrapper" title="#i18n{portal.site.admin_page.labelPortletPage}" btnColor="portet" btnIcon="text-plus" btnTitle="" >
+		<#-- <@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench me-1' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['md']  />  -->
+		<@offcanvas id="page-properties" title="#i18n{portal.site.admin_page.titlePageProperties}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' targetElement='#properties' btnColor="portet" btnIcon="wrench mx-1" btnTitle="#i18n{portal.site.admin_page.titlePageProperties}" hideTitle=['all'] size="" />
+		<#-- <@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus me-1' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['md'] />  -->
+		<@offcanvas id="childpage-properties" title="#i18n{portal.site.admin_page.titleAddChildPage}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5' targetElement='#childpage' btnColor="portet" btnIcon="file-plus me-1" btnTitle="#i18n{portal.site.admin_page.titleAddChildPage}" size="" hideTitle=['all'] redirectForm=false/>
+		<@offcanvas id="portlet-type-wrapper" title="#i18n{portal.site.admin_page.labelPortletPage}" btnColor="portet" btnIcon="text-plus" btnTitle="#i18n{portal.site.admin_page.labelPortletPage}" hideTitle=['all'] >
 		<@listGroup>
 			<#list portlet_types_list?sort_by("name") as portlet_type>
 				<#if portlet_type.name !=''>
@@ -37,7 +37,7 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 	</@btnGroup>
 	<@btnGroup class='ms-1'>
 		<@aButton href='jsp/site/Portal.jsp?page_id=${page.id}' title='#i18n{portal.site.admin_page.labelShowPage}' buttonIcon='external-link' color='info' class='btn-preview' target='_blank' hideTitle=['all'] />
-		<@button id='iframe-fullscreen' color='info' buttonIcon='maximize' />
+		<@button id='iframe-fullscreen' color='info' buttonIcon='maximize' title='#i18n{portal.site.admin_page.labelFullScreen}' hideTitle=['all'] tooltip='#i18n{portal.site.admin_page.labelFullScreen}'/>
 	</@btnGroup>  
 </@btnToolbar>
 <@btnToolbar class='d-none d-md-block'>
