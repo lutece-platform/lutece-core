@@ -39,8 +39,8 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <#local isrequired=required />
 <label class="form-label<#if class!=''> ${class}</#if><#if !showLabel> visually-hidden</#if>"<#if for!=''> for="${for!}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-${label!}<#if isrequired && showRequiredLabel><span class="main-danger-color ms-xs" title="#i18n{portal.theme.labelMandatory}">*</span></#if>
 <#nested> 
+${label!}<#if isrequired && showRequiredLabel><span class="main-danger-color ms-xxs" title="#i18n{portal.theme.labelMandatory}">*</span></#if>
 </label>
 <#if propagateRequired?? && propagateRequired ><#local isrequired=true /></#if>
 </#macro>
