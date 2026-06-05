@@ -74,7 +74,7 @@ Snippet:
 <div class="${divClass}">
 <#nested>
 <#assign propagateMandatory = false>
-<#if helpKey!=''><#if formStyle!='inline'><p></#if><small class="text-muted form-text"<#if labelFor!=''> id="help_${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
+<#if helpKey!=''><#if formStyle!='inline'><p class="mb-0"></#if><small class="text-muted form-text"<#if labelFor!=''> id="help_${labelFor}"</#if>>${helpKey}</small><#if formStyle!='inline'></p></#if></#if>
 </div>
 </div>
 </#macro>
