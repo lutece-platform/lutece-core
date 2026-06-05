@@ -38,13 +38,13 @@ Snippet:
 <#local imageStyle='' />
 <#local params=params />
 <#local bannerClass=class />
-<#local isBannerImage><#if dskey('theme.site_property.bannerForm.showBannerImg.checkbox') == '1'>true<#else>false</#if></#local>
-<#local hasBannerTitle>${dskey('theme.site_property.bannerForm.showFormTitle.checkbox')}</#local>
-<#local bannerCredits=dskey('theme.site_property.banner.credits')>
-<#local bannerTitleColor=dskey('theme.site_property.banner.title.color')>
-<#local bannerTitleBGColor=dskey('theme.site_property.banner.title.bgcolor')>
-<#local bannerTitlePadding=dskey('theme.site_property.banner.title.padding')>
-<#local bannerBGImagePosY=dskey('theme.site_property.banner.image.positiony')>
+<#local isBannerImage><#if !dskey('portal.theme.site_property.bannerForm.showBannerImg.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.bannerForm.showBannerImg.checkbox') == '1'>true<#else>false</#if></#local>
+<#local hasBannerTitle><#if !dskey('portal.theme.site_property.bannerForm.showFormTitle.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.bannerForm.showFormTitle.checkbox') =='1'>true<#else>false</#if></#local>
+<#local bannerCredits=dskey('portal.theme.site_property.banner.credits')>
+<#local bannerTitleColor=dskey('portal.theme.site_property.banner.title.color')>
+<#local bannerTitleBGColor=dskey('portal.theme.site_property.banner.title.bgcolor')>
+<#local bannerTitlePadding=dskey('portal.theme.site_property.banner.title.padding')>
+<#local bannerBGImagePosY=dskey('portal.theme.site_property.banner.image.positiony')>
 <#if imageSrc !='' && isBannerImage?boolean><#local bannerClass+='bg-banner' /></#if>
 <#if imageSrc !='' && isBannerImage?boolean><#local imageStyle +='background-image:url(${imageSrc!});' /></#if>
 <#if imageSrc !='' && bannerBGImagePosY !=''><#local imageStyle +='background-position-y: ${bannerBGImagePosY!};' /></#if>
@@ -54,7 +54,7 @@ Snippet:
 <#if imageStyle !='' ><#local params +='style="${imageStyle!}"' /></#if>
 <#if page_id??><#if onlyHome><#if page_id = 1><#else><#return></#if><#else><#if page_id gt 1><#local bannerClass +=' internal' /> </#if></#if></#if>
 <div class="banner<#if bannerClass !='' > ${bannerClass!}</#if><#if bannerCredits !='' > credits</#if> page-${page_id!}"<#if id !='' > id="${id!}"</#if><#if bannerCredits !='' > data-credits="${bannerCredits!}"</#if><#if params!=''> ${params}</#if> >
-<#if hasBannerTitle?number=1 && title?trim !=''><h1<#if titleStyle!=''> style="${titleStyle}"</#if><#if titleClass!=''> class="${titleClass}"</#if>>${title}</h1></#if>
+<#if hasBannerTitle?boolean && title?trim !=''><h1<#if titleStyle!=''> style="${titleStyle}"</#if><#if titleClass!=''> class="${titleClass}"</#if>>${title}</h1></#if>
 <#nested>
 </div>
 </#macro>
