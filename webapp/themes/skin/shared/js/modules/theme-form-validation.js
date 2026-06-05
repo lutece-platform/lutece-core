@@ -11,8 +11,8 @@ const FormValidation = (function() {
         errorClass: 'is-invalid',
         validClass: 'is-valid',
         errorFeedbackClass: 'invalid-feedback',
-        helpClass: 'helptext',
-        errorIconSvg: '<i class="ti ti-alert-triangle main-danger-color me-xs" aria-hidden="true"></i>',
+        helpClass: 'form-text',
+        errorIconSvg: '',
         messages: {
             required: 'This field is required.',
             email: 'Please enter a valid email address.',
@@ -204,6 +204,10 @@ const FormValidation = (function() {
      * @returns {Object} { isValid: boolean, message: string }
      */
     function getValidationState(input) {
+        const dsControl = input.closest('[displaycontrol]');
+        if( dsControl && dsControl.style.display === 'none' ) {
+            return { isValid: true, message: '' };
+        }
         const value = getInputValue(input);
         const type = input.type;
         const tagName = input.tagName.toLowerCase();
@@ -609,6 +613,11 @@ const FormValidation = (function() {
                 if (legend) {
                     legend.classList.remove(config.errorClass);
                 }
+            } else {
+                const formCheck = input.closest('.form-check');
+                if (formCheck) {
+                   formCheck.classList.remove(config.errorClass);
+                }
             }
         }
     }
@@ -645,6 +654,11 @@ const FormValidation = (function() {
                         return helpText;
                     }
                     return legend;
+                }
+            } else if (input.type === 'checkbox' || input.type === 'radio') {
+                const formCheck = input.closest('.form-check');
+                if (formCheck) {
+                   return formCheck;
                 }
             }
 
