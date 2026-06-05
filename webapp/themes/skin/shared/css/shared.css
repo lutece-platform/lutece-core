@@ -12,5 +12,25 @@
 }
 
 [data-bs-theme="light"] #bs-theme-switcher .dropdown-menu .dropdown-item.active{
-    color: var(--main-info-color-40)
+    color: var(--lutece-ds-color-primary-soft)
+}
+
+/* Mylutece Include */
+#body-page-authentification .banner.credits{ 
+    display: none; 
+}
+
+/* Translation styles   */
+#google_translate_element,
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame,
+.skiptranslate iframe { display: none !important; }
+/* .goog-tooltip,
+.goog-tooltip:hover { display: none !important; }
+.goog-text-highlight { background: transparent !important; box-shadow: none !important; } */
+
+#lang-btn + .dropdown-menu .dropdown-item.active {
+    color: var( --lutece-ds-color-white ) !important;
+    background-color: var( --lutece-ds-color-primary ) !important;
+    font-weight: 500 !important;
 }

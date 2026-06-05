@@ -1,13 +1,14 @@
 <#-- Template to add js to footer in page_frameset.html theme template -->
 <@cTpl>
 <#-- Update ME -->
-<script src="themes/skin/shared/vendor/clipboard/clipboard.min.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
+<script src="themes/skin/shared/js/vendor/clipboard/clipboard.min.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <#if dskey('portal.theme.site_property.bannerBrowserWarning.checkbox')?number = 1>
 <!-- Browser detection and warning old browser -->
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/es5.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 <script>
 var xssChars='${dskey("portal.site.site_property.xss.xssChars")!}';
 var xssMsg='${dskey("portal.site.site_property.xss.xssMsg")!}';
+
 window.addEventListener( "load", function() {
 	const browser = bowser.getParser(window.navigator.userAgent);
 	const browserName=browser['parsedResult']['browser']['name'];
@@ -71,5 +72,6 @@ window.addEventListener( "load", function() {
 </@cInitToast>
 </#if>
 <#if addGoToTop?? && addGoToTop?boolean><@cGoToTop /></#if>
+<@translationInit />
 <#-- End Update ME -->
 </@cTpl>

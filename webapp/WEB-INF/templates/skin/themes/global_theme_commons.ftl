@@ -34,8 +34,8 @@
 <#-- MACRO cMacro : If find theme macro then use it else use current one -->
 <#macro cMacro name='' group='' >
 <#local macroPath='../themes/${commonsGlobalThemeCode}/macros/${group}/${name}.ftl' >
-<#assign macroTemp = .get_optional_template( macroPath )>
-<#if macroTemp.exists><@macroTemp.include /><#else><#include "${commonsMacrosPath}${group}/${name}.ftl" /></#if>
+<#assign macroTheme = .get_optional_template( macroPath )>
+<#if macroTheme.exists><@macroTheme.include /><#else><#include "${commonsMacrosPath}${group}/${name}.ftl" /></#if>
 </#macro>
 <#-- THEME SPEC                            -->
 <#include "${commonsGlobalThemeCode}/_theme.ftl" />
@@ -49,11 +49,15 @@
 <#-- END BANNER MANAGEMENT    -->
 <#-- MENU MANAGEMENT          -->
 <#assign isRtl><#if !dskey('portal.theme.site_property.layout.dir.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.layout.dir.checkbox') =='1'>true<#else>false</#if></#assign>
-<#assign hasUserThemeSwitch><#if !dskey('portal.theme.site_property.menu.userthemeswitch.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.userthemeswitch.checkbox') =='1'>true<#else>false</#if></#assign>
+<#assign hasUserThemeSwitch><#if !dskey('portal.theme.site_property.menu.user.themes.switch.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.user.themes.switch.checkbox') =='1'>true<#else>false</#if></#assign>
+<#assign hasUserThemeDensity><#if !dskey('portal.theme.site_property.menu.user.themes.density.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.user.themes.density.checkbox') =='1'>true<#else>false</#if></#assign>
+<#assign hasUserThemeColors><#if !dskey('portal.theme.site_property.menu.user.themes.colors.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.user.themes.colors.checkbox') =='1'>true<#else>false</#if></#assign>
 <#assign isDark><#if dskey('portal.theme.site_property.layout.theme.checkbox') == '1'>true<#else>false</#if></#assign>
 <#assign skipLinkMenu><#if !dskey('portal.theme.site_property.menu.skipLinkMenu.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.menu.skipLinkMenu.checkbox') == '1'>true<#else>false</#if></#assign>
 <#assign skipLinkMainId>${dskey('portal.theme.site_property.menu.skipLinkMainId')}</#assign>
-<#assign hasDefaultMenu><#if dskey('portal.theme.site_property.menu.hasDefaultMenu.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign hasDefaultMenu><#if !dskey('portal.theme.site_property.menu.hasDefaultMenu.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.hasDefaultMenu.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign hasSearchMenu><#if !dskey('portal.theme.site_property.menu.search.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.search.checkbox') == '1'>true<#else>false</#if></#assign>
+<#assign hasTranslateMenu><#if !dskey('portal.theme.site_property.menu.translate.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.translate.checkbox') == '1'>true<#else>false</#if></#assign>
 <#assign isFixedMenu><#if dskey('portal.theme.site_property.menu.fixedMenu.checkbox') == '1'>true<#else>false</#if></#assign>
 <#assign isMainSidebarMenu><#if dskey('portal.theme.site_property.menu.sidebarMenu.checkbox') == '1'>true<#else>false</#if></#assign>
 <#assign isMainSidebarMenuCollapse><#if dskey('portal.theme.site_property.menu.sidebarMenuCollapse.checkbox') == '1'>true<#else>false</#if></#assign>

@@ -1,5 +1,12 @@
 <#-- Template to add js to header in page_frameset.html theme template -->
 <@cTpl>
 <#-- Update ME -->
+<script>
+var hasUserThemeSwitch=${hasUserThemeSwitch?string};
+var hasUserThemeDensity=${hasUserThemeDensity?string};
+var hasUserThemeColors=${hasUserThemeColors?string};
+</script>
+<#-- Hide content before first paint to avoid the translation flash (FOUC) -->
+<@translationHead />
 <#-- End Update ME -->
 </@cTpl>

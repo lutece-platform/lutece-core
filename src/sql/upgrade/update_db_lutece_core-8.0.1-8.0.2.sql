@@ -63,6 +63,8 @@ DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.layout
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooter', '');
 DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.layout.footer.logoFooterAlt';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooterAlt', '');
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.layout.footer.logoFooterUrl';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooterUrl', '');
 
 DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.consent.platform.select';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.platform.select', 'tarte_au_citron');
@@ -73,3 +75,10 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.select.op
 -- Migrate the form validation error icon from the Paris.fr SVG sprite to a Tabler font icon
 DELETE FROM core_datastore WHERE entity_key = 'portal.theme.site_property.formvalidation.errorIconSvg';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorIconSvg', '<i class="ti ti-alert-triangle main-danger-color me-xs" aria-hidden="true"></i>');
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.userthemeswitch.checkbox';
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.user.themes.switch.checkbox';
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.user.themes.color.checkbox';
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.user.themes.density.checkbox';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.theme.switch.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.color.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.density.checkbox', '0');
