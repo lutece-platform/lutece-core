@@ -40,10 +40,8 @@ Snippet:
 <@deprecatedWarning args=deprecated />
 <div class="alert<#if color!=''> alert-${color}</#if><#if class!=''> ${class}</#if><#if dismissible> alert-dismissible</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="alert">
 <#if iconTitle!=''> <div class="alert-icon"><@icon style=iconTitle class=iconClass /></div></#if>
-<div>
 <#if title!=''><${titleLevel} class="alert-heading ${titleClass}">${title}</${titleLevel}></#if>
 <#nested>
-</div>
 <#if dismissible><a class="btn-close" data-bs-dismiss="alert" aria-label="#i18n{portal.util.labelClose}"></a></#if>
 </div>
 </#macro>
