@@ -61,7 +61,7 @@ Snippet:
 	</@cRow>
 </@cFieldset>
 <script src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-utils.min.js"></script>
-<script src="${commonsSiteThemePath}${commonsSiteJsPath}plugins/forms/input-time-polyfill.y11.js"></script>
+<script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/input-time-polyfill.y11.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	const browserInfo = getBrowserInfo();
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <#if btnAction !=''>
 		// Validate before submitting the form
 		if( btnSendStep != null ){
-			btnSendStep.on('click', function(e) {
+			btnSendStep.addEventListener('click', function(e) {
 				// Replace time inputs with text inputs with class "time-polyfill"
 				timeInputs.forEach( input => {
 					input.value = input.value === ('--:--') ? '' : input.value;
