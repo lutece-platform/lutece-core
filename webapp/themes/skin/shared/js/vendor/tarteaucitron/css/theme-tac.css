@@ -105,7 +105,7 @@
 }
 
 #tarteaucitronRoot a {
-    font-size: var(--font-sm);
+    font-size: var(--lutece-ds-font-size-sm);
     box-shadow: 0 1px 0 0 currentColor;
     color: inherit
 }

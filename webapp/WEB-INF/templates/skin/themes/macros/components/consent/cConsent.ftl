@@ -1,31 +1,47 @@
-<#-- 
+<#--
 Macro: cConsent
 
-Description: Sélecteur de plateforme de gestion du consentement. Délègue à @cConsentTac (TarteAuCitron) 
-ou @cConsentOrejime (Orejime) selon la propriété de thème configurable dans le Back-Office Lutèce
-(Menu "Propriétés du site" / clé de datastore 'theme.site_property.consent.platform').
-Valeurs attendues : 'tac' pour TarteAuCitron, 'orejime' pour Orejime. Valeur par défaut : 'tac'.
+Description: Generates a cookie consent component by delegating to either @cConsentTac (TarteAuCitron) or @cConsentOrejime (Orejime) based on the theme property configured in the Lutèce Back-Office (Menu "Propriétés du site" / datastore key 'theme.site_property.consent.platform'). The platform parameter can override the BO setting. Defaults to 'tac' when no platform is configured.
 
-Paramètres :
-- title - string - optional - le titre du consentement (par défaut: 'Ce site')
-- lang - string - optional - (TAC uniquement) Objet JSON des traductions personnalisées (par défaut: '')
-- privacyLink - string - optional - Lien vers la page de protection des données personnelles
-- showIcon - boolean - optional - (TAC uniquement) Affichage du bouton "Gestion des cookies" (par défaut: true)
-- iconPosition - string - optional - (TAC uniquement) Position du bouton (par défaut: 'bottomRight')
-- cookieMenu - string - optional - Libellé du lien footer pour gérer les cookies (par défaut: 'Gestion des cookies')
-- cookiePolicyLink - string - optional - Lien vers la page Gestion des cookies
-- alertConfidentialityLabel - string - optional - Libellé de l'alerte de confidentialité
-- alertConfidentialityLink - string - optional - Lien vers la politique de confidentialité
-- hashtag - string - optional - (TAC uniquement) Identifiant pour modal de consentement (par défaut: 'cookiepolicycitelibre')
-- cookiename - string - optional - Nom du cookie posé pour le consentement (par défaut: 'parisfr')
-- nocredit - boolean - optional - (TAC uniquement) Retrait du crédit TarteAuCitron (par défaut: false)
-- platform - string - optional - Force la plateforme ('tac' ou 'orejime'), outrepasse la valeur BO (par défaut: '')
+Parameters:
+- title (string, optional): main title of the consent banner. Default: '#i18n{portal.theme.consentTitle}'.
+- services (list, optional): list of services to configure for consent tracking. Default: [].
+- lang (string, optional): TAC-only. JSON object of custom translations. Default: '"privacyUrl":"#i18n{portal.theme.consentPrivacyUrl}","alertBigPrivacy": "#i18n{portal.theme.consentAlertBigPrivacy}"'.
+- privacyLink (string, optional): URL to the personal data protection page. Default: '#i18n{portal.theme.consentPrivacyLink}'.
+- showIcon (boolean, optional): TAC-only. Whether to display the "Cookie management" floating button. Default: true.
+- iconPosition (string, optional): TAC-only. Position of the floating cookie button. Accepted values: 'bottomRight', 'bottomLeft', 'topRight', 'topLeft'. Default: 'bottomRight'.
+- cookieMenu (string, optional): footer link label to reopen the cookie consent dialog. Default: '#i18n{portal.theme.consentCookieMenu}'.
+- cookiePolicyLink (string, optional): URL to the cookie management page. Default: '#i18n{portal.theme.consentCookiePolicyLink}'.
+- alertConfidentialityLabel (string, optional): label of the confidentiality alert message. Default: '#i18n{portal.theme.consentAlertConfidentialityLabel}'.
+- alertConfidentialityLink (string, optional): URL to the privacy policy. Default: '#i18n{portal.theme.consentAlertConfidentialityLink}'.
+- hashtag (string, optional): TAC-only. Identifier used to open the consent modal via URL fragment. Default: 'cookiepolicycitelibre'.
+- cookiename (string, optional): name of the cookie storing the consent state. Default: 'parisfr'.
+- nocredit (boolean, optional): TAC-only. Remove the TarteAuCitron credit notice. Default: false.
+- platform (string, optional): force the consent platform, overriding the BO setting. Accepted values: 'tac', 'orejime', ''. Default: ''.
 
 Showcase:
 - desc: Consentement - @cConsent
 - newFeature: true
+- updatedFeature: false
+- deprecated: false
 
 Snippet:
+
+    Basic usage (platform resolved from BO datastore):
+
+    <@cConsent />
+
+    Force TarteAuCitron platform with a custom title:
+
+    <@cConsent platform='tac' title='Mon Site' cookiename='mysite' />
+
+    Force Orejime platform with custom links:
+
+    <@cConsent platform='orejime' privacyLink='/privacy' cookiePolicyLink='/cookies' />
+
+    TAC with floating icon positioned at top-left and no credit notice:
+
+    <@cConsent platform='tac' iconPosition='topLeft' nocredit=true />
 
 -->
 <#include "cConsentOrejime.ftl" />
