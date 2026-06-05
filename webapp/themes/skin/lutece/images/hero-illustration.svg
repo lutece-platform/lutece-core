@@ -1,0 +1,52 @@
+<svg viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circles (brand pattern) -->
+  <circle cx="240" cy="180" r="160" fill="#EEF1FF" opacity="0.5"/>
+  <circle cx="240" cy="180" r="110" fill="#EEF1FF" opacity="0.6"/>
+
+  <!-- City skyline -->
+  <rect x="80" y="160" width="50" height="120" rx="6" fill="#3C67FF" opacity="0.15"/>
+  <rect x="90" y="130" width="30" height="150" rx="4" fill="#3C67FF" opacity="0.25"/>
+  <rect x="145" y="120" width="55" height="160" rx="6" fill="#3C67FF" opacity="0.2"/>
+  <rect x="155" y="90" width="35" height="190" rx="4" fill="#3C67FF" opacity="0.35"/>
+  <rect x="215" y="100" width="60" height="180" rx="6" fill="#2DA896" opacity="0.2"/>
+  <rect x="225" y="70" width="40" height="210" rx="4" fill="#2DA896" opacity="0.35"/>
+  <rect x="290" y="130" width="50" height="150" rx="6" fill="#3C67FF" opacity="0.2"/>
+  <rect x="300" y="105" width="30" height="175" rx="4" fill="#3C67FF" opacity="0.3"/>
+  <rect x="350" y="150" width="55" height="130" rx="6" fill="#3C67FF" opacity="0.15"/>
+  <rect x="360" y="125" width="35" height="155" rx="4" fill="#3C67FF" opacity="0.25"/>
+
+  <!-- Floating module block: Forms -->
+  <g transform="translate(100, 50)">
+    <rect width="64" height="48" rx="10" fill="#3C67FF" opacity="0.9"/>
+    <text x="32" y="28" text-anchor="middle" fill="#fff" font-size="10" font-weight="600" font-family="-apple-system, sans-serif">Forms</text>
+  </g>
+
+  <!-- Floating module block: Auth -->
+  <g transform="translate(320, 40)">
+    <rect width="64" height="48" rx="10" fill="#0E3968" opacity="0.9"/>
+    <text x="32" y="28" text-anchor="middle" fill="#fff" font-size="10" font-weight="600" font-family="-apple-system, sans-serif">Auth</text>
+  </g>
+
+  <!-- Floating module block: Workflow -->
+  <g transform="translate(60, 240)">
+    <rect width="64" height="48" rx="10" fill="#2DA896" opacity="0.9"/>
+    <text x="32" y="28" text-anchor="middle" fill="#fff" font-size="10" font-weight="600" font-family="-apple-system, sans-serif">Workflow</text>
+  </g>
+
+  <!-- Floating module block: CRM (coral accent) -->
+  <g transform="translate(360, 230)">
+    <rect width="64" height="48" rx="10" fill="#FF442A" opacity="0.85"/>
+    <text x="32" y="28" text-anchor="middle" fill="#fff" font-size="10" font-weight="600" font-family="-apple-system, sans-serif">CRM</text>
+  </g>
+
+  <!-- Floating module block: Rendez-vous -->
+  <g transform="translate(200, 295)">
+    <rect width="80" height="48" rx="10" fill="#3C67FF" opacity="0.85"/>
+    <text x="40" y="28" text-anchor="middle" fill="#fff" font-size="10" font-weight="600" font-family="-apple-system, sans-serif">Rendez-vous</text>
+  </g>
+
+  <!-- Connecting lines -->
+  <line x1="132" y1="74" x2="200" y2="100" stroke="#3C67FF" stroke-width="1.5" opacity="0.2" stroke-dasharray="4,4"/>
+  <line x1="320" y1="64" x2="265" y2="100" stroke="#3C67FF" stroke-width="1.5" opacity="0.2" stroke-dasharray="4,4"/>
+  <line x1="124" y1="264" x2="200" y2="240" stroke="#2DA896" stroke-width="1.5" opacity="0.2" stroke-dasharray="4,4"/>
+</svg>
