@@ -50,9 +50,6 @@
     padding-block-start: var(--lutece-ds-spacing-xs);
 }
 
-.input-group .btn{
-	padding: calc( var(--lutece-ds-spacing-sm) + var(--lutece-ds-spacing-2xs) ) var(--lutece-ds-spacing-md);
-}
 /* Date Picker */
 .input-group .form-control.datepicker-input{
 	border: inherit

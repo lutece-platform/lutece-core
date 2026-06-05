@@ -1,3 +1,7 @@
 section + section {
- 	padding-block: var(--lutece-ds-spacing-3xl) var(--lutece-ds-spacing-lg);
+ 	padding-block-start: var(--lutece-ds-spacing-lg);
+}
+
+:is( #form-validate, .lutece-appointment ) section + section {
+ 	padding-block-start: 0;
 }

@@ -118,6 +118,28 @@
 	width: 100%;
 }
 
+/* btn-outline-primary 					*/
+.btn-outline-primary {
+	background-color: var(--lutece-ds-color-white);
+	border-color: var(--lutece-ds-color-primary);
+	color: var(--lutece-ds-color-primary);
+}
+
+.btn-outline-primary:not(:disabled):active,
+.btn-outline-primary:hover:not(:disabled),
+.btn-outline-primary:focus:not(:disabled),
+.btn-outline-primary:not(:disabled).focus,
+.btn-outline-primary:not(:disabled).active {
+	background-color: var(--lutece-ds-color-primary) !important;
+	border-color: var(--lutece-ds-color-primary-border);
+	color: var(--lutece-ds-color-white);
+}
+
+.btn-outline-primary:focus::before,
+.btn-outline-primary:hover::before {
+	width: 100%;
+}
+
 /* btn-secondary 					*/
 .btn-secondary {
 	background-color: var(--lutece-ds-color-white);
@@ -129,17 +151,6 @@
 .btn-secondary .link-label,
 .btn-secondary .paris-icon {
 	color: var(--lutece-ds-color-primary);
-}
-
-.btn-secondary:active,
-.btn-secondary:not(:disabled):active,
-.btn-secondary:hover:not(:disabled),
-.btn-secondary:focus:not(:disabled),
-.btn-secondary:not(:disabled).focus,
-.btn-secondary:not(:disabled).active {
-	background-color: var(--lutece-ds-color-primary) !important;
-	border-color: var(--lutece-ds-color-primary);
-	color: var(--lutece-ds-color-white)
 }
 
 .btn-secondary.active:not(:disabled),
@@ -154,8 +165,9 @@
 .btn-secondary:focus:not(:disabled) .link-label,
 .btn-secondary:focus:not(:disabled) .ti,
 .btn-secondary:hover:not(:disabled) .ti{
-    color: var( --white-color ) !important;
-    color: var( --white-color ) !important;
+	background-color: var(--lutece-ds-color-primary) !important;
+	border-color: var(--lutece-ds-color-primary);
+	color: var(--lutece-ds-color-white)
 }
 
 .btn-secondary:focus::before,
@@ -185,12 +197,15 @@
 .btn-gototop {
 	position: fixed !important;
 	bottom: 3.5rem !important;
-	right: .5rem !important;
+	right: 1.5rem !important;
 	border-radius: 1rem;
 	width: 3rem;
 	height: 3rem;
 	padding: var(--lutece-ds-spacing-2xs) var(--lutece-ds-spacing-xs) !important;
 	transition: width .5s ease, opacity .75s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .btn-gototop:hover {
@@ -199,9 +214,18 @@
 }
 
 /* Go to Top : hover */
-.btn-gototop>.btn-label {
-	bottom: .152rem;
+.btn-gototop > .btn-label {
+	bottom: -.152rem;
+	color: var(--lutece-ds-color-white) !important;
 	font-size: var(--lutece-ds-font-size-sm);
+	width: 0;
+	opacity: 0;
+	transition: width 1s ease, opacity 1.5s ease;
+}
+
+.btn-gototop:hover > .btn-label {
+	width: 15rem;
+	opacity: 1;
 }
 
 /* .btn-group */

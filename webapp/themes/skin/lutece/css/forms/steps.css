@@ -87,13 +87,9 @@ header+main .breadcrumb-nav+form .step,
 
 /* 		Step Title Icon / Number				 */
 .step-title .title .step-number {
-	border: .4rem solid var(--lutece-ds-color-primary);
-	border-radius: 100%;
-	margin-top: .5rem;
-	margin-right: var(--lutece-ds-spacing-md);
-	padding-top: 0.1rem;
-	height: 5rem;
-	width: 5rem;
+	border-inline-end: .4rem solid var(--lutece-ds-color-primary);
+	padding-inline-end: var(--lutece-ds-spacing-sm);
+	margin-inline-end: var(--lutece-ds-spacing-sm);
 	background: none;
 	text-align: center;
 	line-height: 4rem;
@@ -110,11 +106,12 @@ header+main .breadcrumb-nav+form .step,
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	text-align: start;
 }
 
 .step-content {
 	position: relative;
-	padding: var(--lutece-ds-spacing-lg);
+	padding-inline: var(--lutece-ds-spacing-lg);
 }
 
 /* Previous Steps  									*/
@@ -135,8 +132,14 @@ header+main .breadcrumb-nav+form .step,
 }
 
 .step-done .step-title .title .step-number {
-	background: var(--lutece-ds-color-primary);
-	flex-shrink: 0;
+    background: var(--lutece-ds-color-primary);
+    padding: 0;
+    border-radius: 50%;
+    line-height: 3.5rem;
+}
+
+.step-done .step-title .title .step-number svg{
+    transform: translate(2px,-2px);
 }
 
 .step-done .step-content {
@@ -160,7 +163,7 @@ header+main .breadcrumb-nav+form .step,
 
 .step-next .step-title .title,
 .step-next .step-title .title span{
-	margin-block-start: 0;
+	margin-block: 0;
 }
 
 /** 		Current Step 								**/
@@ -177,8 +180,8 @@ header+main .breadcrumb-nav+form .step,
 .step-current .step-title .title{
 	color: var(--lutece-ds-color-white);
 	position: relative;
-	margin-block-start: 0;
 	height: var(--lutece-ds-spacing-xl);
+	margin-block: 0;
 }
 
 .step-current .step-title .title .step-number {
@@ -193,21 +196,6 @@ header+main .breadcrumb-nav+form .step,
 
 .step-current .step-title .title.no-step .step-number {
 	border-color: transparent;
-}
-
-/* Arrow 											*/
-.step-current .step-title .title::after {
-	content: '';
-	width: 0;
-	height: 0;
-	position: absolute;
-	border-top: 2.3rem solid var(--lutece-ds-color-primary);
-	border-bottom: 1.1rem solid transparent;
-	border-left: 5rem solid transparent;
-	border-right: 5rem solid transparent;
-	left: 50%;
-	bottom: calc( var(--lutece-ds-spacing-md) * -2.04 );
-	margin-inline-start: calc( var(--lutece-ds-spacing-md) * -2.5 );
 }
 
 /* 	Current Step Group								*/

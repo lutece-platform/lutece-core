@@ -6,14 +6,14 @@ input,
 select,
 textarea {
   font-family: inherit;
-  font-size: var(--lutece-ds-font-size-md);
+  font-size: var(----bs-body-font-size);	
   color: var(--lutece-ds-color-text);
   background: var(--bs-white);
   border: 1px solid var(--lutece-ds-border);
   border-radius: var(--lutece-ds-radius-sm);
   padding: 0 14px;
   transition: border-color var(--lutece-ds-dur-base), box-shadow var(--lutece-ds-dur-base);
-  width: 100%;
+
 }
 
 select,
@@ -70,14 +70,6 @@ label {
 	box-shadow: none;
 }
 
-.form-select {
-	font-size: 13px;
-	color: #999;
-	border: 0;
-	border-bottom: 1px solid #E2E2E2;
-	border-radius: 0;
-	padding: 10px 0;
-}
 
 /* Invalid */
 .invalid-feedback {

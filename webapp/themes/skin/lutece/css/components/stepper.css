@@ -10,11 +10,11 @@
     list-style-type: none;
 }
 
-.step {
+.steps .step {
     text-align: center;
 }
 
-.step  .step__num {
+.steps .step  .step__num {
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -27,17 +27,17 @@
     background: var(--lutece-ds-color-white);
 }
 
-.step h3 {
+.steps .step h3 {
     font-size: var(--lutece-ds-font-size-2xl);
     font-weight: 800;
     margin-bottom: var(--lutece-ds-spacing-base);
 }
 
-.step p {
+.steps .step p {
     font-size: var(--lutece-ds-font-size-base);
 }
 
-[data-bs-theme=dark] .step__num {
+[data-bs-theme=dark] .steps .step__num {
     background: #0E3968;
     color: #fff;
 }

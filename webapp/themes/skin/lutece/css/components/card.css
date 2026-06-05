@@ -300,30 +300,27 @@
 	position: relative;
 }
 
-
 [data-bs-theme=dark] .card.cta {
 	background: var(--lutece-ds-color-blue-strong) !important;
-
 }
-
 
 /* Article grid (portlet list) */
 .grid {
 	padding: 12px 0 32px;
 }
 
-.grid__inner {
-	display: grid;
-	grid-template-columns: 2fr 1fr;
-	gap: 48px;
-}
-
 .posts {
 	--lutece-ds-border-post: var(--lutece-ds-color-neutral-200);
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr;
 	gap: 28px;
 	padding-inline-start: 0;
+}
+
+.posts.grid__inner {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 48px;
 }
 
 .post {

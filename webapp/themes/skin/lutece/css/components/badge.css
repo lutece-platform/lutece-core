@@ -87,26 +87,25 @@
 .badge.badge-success,
 .badge.bg-success {
     background-color: var(--lutece-ds-color-success-bg);
-    color: var(--lutece-ds-color-success);
+    color: var(--lutece-ds-color-success-soft);
 }
 
 .badge.badge-warning,
 .badge.bg-warning {
     background-color: var(--lutece-ds-color-warning-bg);
-    color: var(--lutece-ds-color-warning);
+    color: var(--lutece-ds-color-warning-soft);
 }
 
 .badge.badge-danger,
 .badge.bg-danger {
     background-color: var(--lutece-ds-color-danger-bg);
-    color: var(--lutece-ds-color-danger);
+    color: var(--lutece-ds-color-danger-soft);
 }
 
 .badge.badge-primary,
 .badge.bg-primary {
-    background-color: var(--lutece-ds-color-primary-bg) !important;
-    --bs-bg-opacity: .15;
-    color: var(--lutece-ds-color-primary) !important;
+    background-color: var(--lutece-ds-color-primary);
+    color: var(--lutece-ds-color-white);
 }
 
 /* Variantes neutres */
