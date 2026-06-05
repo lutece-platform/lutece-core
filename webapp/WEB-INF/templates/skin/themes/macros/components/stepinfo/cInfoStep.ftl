@@ -66,9 +66,9 @@ Snippet:
         <ol class="d-flex info-step-figure">
         <#list steps as step>
         <li>
-            <figure<#if imgClass!=''> class="${imgClass!}"</#if>>
+            <div<#if imgClass!=''> class="${imgClass!}"</#if>>
                 <img src="${step.url!}" class="img-fluid" title="${step.title!}" alt="${step.title!}" aria-hidden="true">
-            </figure>
+            </div>
         </li>
         </#list>
         </ol>
@@ -123,9 +123,9 @@ Snippet:
           <ol class="c-info-step-icons<#if !verticalStepper> d-none d-md-flex</#if>">
             <#list steps as step>
                 <li class="c-info-step-icons__item">
-                    <figure <#if imgClass!=''> class="${imgClass!}"</#if> >
+                    <div <#if imgClass!=''> class="${imgClass!}"</#if> >
                         <img src="${step.url!}" class="img-fluid" alt="">
-                    </figure>
+                    </div>
                 </li>
             </#list>
           </ol>
@@ -137,9 +137,9 @@ Snippet:
             <li class="c-info-step__item">
                 <#if haspicto>
                     <div class="c-info-step__icon<#if !verticalStepper> d-md-none</#if>">
-                        <figure class="mb-0<#if imgClass!=''> ${imgClass!}</#if>">
+                        <div class="mb-0<#if imgClass!=''> ${imgClass!}</#if>">
                             <img src="${step.url!}" class="img-fluid" alt="">
-                        </figure>
+                        </div>
                     </div>
                 </#if>
                 <div class="c-info-step__content">
