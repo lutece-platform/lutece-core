@@ -1,9 +1,36 @@
 <@cTpl>
 <#list items as menuitem>
-<li class="nav-item">
+<#if menuitem.children?? && menuitem.children?size gt 0>
+<li class="nav-item dropdown<#if page?? && menuitem.pageId == page.id> active</#if>">
+    <div class="dropdown-group">
+        <button class="nav-link dropdown-toggle" id="navbarMainMenuLink${menuitem.pageId}" title="${menuitem.pageName!}" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          ${menuitem.pageName}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="navbarMainMenuLink${menuitem.pageId}" data-bs-popper="static">
+            <div class="row list-unstyled dropdown-menu-row">
+              <#list menuitem.children?chunk(4) as row>
+                <div class="col">
+                  <ul class="list-unstyled">
+                    <#list row as child>
+                    <li>
+                      <a href="${site_path}?page_id=${child.pageId!}" data-comp="false" data-current="0" data-page="${child.pageId!}" target="_top" class="dropdown-item nav-link" aria-current="<#if page?? &&child.pageId == page.id>true<#else>false</#if>">
+                        <span> ${child.pageName!}</span>
+                      </a>
+                    </li>
+                    </#list>
+                  </ul>
+                </div>
+              </#list>
+            </div>
+        </div>
+    </div>
+</li>
+<#else>
+<li class="nav-item<#if page?? && menuitem.pageId == page.id> active</#if>">
   <a class="nav-link" href="${site_path}?page_id=${menuitem.pageId}" aria-current="<#if page?? && menuitem.pageId == page.id>true<#else>false</#if>" target="_top">
-  	${menuitem.pageName}
+  	${menuitem.pageName} 
   </a>
 </li>
+</#if>
 </#list>
 </@cTpl>
