@@ -52,13 +52,16 @@ Snippet:
     </@cFormRow>
 
 -->
-<#macro cInputDate name id='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=true required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=false params='' deprecated...>
+<#macro cInputDate name id='' label='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=true required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#local typeLocal><#if type='date'>date<#else>text</#if></#local>
 <#local valLocal><#if value !=''>${value}<#elseif value='now'>.now?date?iso_utc</#if></#local>
 <#local errorInput><#if errorMsg !=''>_error</#if></#local>
 <#local inputClass><#if errorMsg !=''>is-invalid</#if></#local>
+<#if label!=''><@cLabel label=label for='${idLocal}' /></#if>
+<#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
+<#if errorMsg !='' && errorMsg !='_error'><@cFormError idLocal errorMsg /></#if>
 <@cInputGroup>
   <@cInput id=idLocal type=typeLocal class='form-control datepicker-input ${inputClass!}' name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=required html5Required=html5Required disabled=disabled readonly=readonly errorMsg=errorInput params=params />
   <#if icon && type='datepicker'>
