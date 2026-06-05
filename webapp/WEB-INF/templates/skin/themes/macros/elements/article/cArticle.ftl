@@ -4,7 +4,7 @@ Macro: cArticle
 Description: Generates an HTML article element with an optional title and content section. Useful for structuring portlet content on skin pages.
 
 Parameters:
-- title (string, optional): Title displayed in the article header. Default: '#i18n{portal.theme.defaultArticleTitle}'.
+- title (string, optional): Title displayed in the article header. Default: ''.
 - titleLevel (number, required): Heading level for the article title (1-6). Default: 2.
 - titleClass (string, optional): CSS class(es) applied to the article title. Default: ''.
 - class (string, optional): CSS class(es) applied to the article element. Default: 'portlet'.
@@ -13,7 +13,6 @@ Parameters:
 
 Showcase:
 - desc: Article - @cArticle
-- newFeature: false
 
 Snippet:
 
@@ -30,12 +29,16 @@ Snippet:
     </@cArticle>
 
 -->
-<#macro cArticle title='#i18n{portal.theme.defaultArticleTitle}' titleLevel=2 titleClass='' class='portlet' id='' params='' deprecated...>
+<#macro cArticle title='' titleLevel=2 titleClass='' class='portlet' content=false id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <article class="<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
 <#if title!=''><@cTitle level=titleLevel class=titleClass>${title}</@cTitle></#if> 
+<#if !content>
+<#nested>
+<#else>
 <@cSection type='div' class='article-content'>
 <#nested>
 </@cSection>
+</#if>
 </article>
 </#macro>
