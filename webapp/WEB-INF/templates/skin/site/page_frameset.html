@@ -6,7 +6,7 @@
 <@themeFrameset.include />
 <#else>
 <!DOCTYPE html>
-<html lang="${user_context_language}" dir="<#if isRtl?boolean>rtl<#else>ltr</#if>" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>">
+<html lang="${user_context_language}" dir="<#if isRtl?boolean>rtl<#else>ltr</#if>" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>" data-lutece-ds-primary="blue" data-lutece-ds-density="">
 <head>
 <base href="${base_url}">
 <title>${favourite!} - ${page_name!}</title>
@@ -86,13 +86,9 @@ ${page_path}
 </#if>
 <#assign optMainContentHeader=.get_optional_template('${commonsGlobalThemeCode}theme_frameset_content_header.html')>
 <#if optMainContentHeader.exists><@optMainContentHeader.include /></#if>
-<div class="container">
-<div class="row">
 <div class="main-content">
 ${page_content}
 <#if display_last_modified?? && display_last_modified><@cText class='text-right pt-3 pr-5'><@cIcon name='clock' title='' class='main-danger-color' /> #i18n{portal.site.site_property.page.lastModified} ${last_modified!}</@cText></#if>
-</div>
-</div>
 </div>
 <#if page_id?? && isExtendInstalled?? && isExtendInstalled>
 <!-- Extends -->
@@ -111,9 +107,14 @@ ${contextinclude_2!}
 <!-- Placed at the end of the document so the pages load faster -->
 <!-- Theme JS includes -->
 <#-- Template to add js to footer in page_frameset.html theme template -->
+<#assign urlDoLogout = dskey('mylutece.security.public_url.mylutece.url.doLogout')!''>
 <script>
-var xssChars='${dskey("portal.theme.site_property.xss.xssChars")!}';
-var xssMsg='${dskey("portal.theme.site_property.xss.xssMsg")!}';
+<#assign xssChars = dskey('portal.theme.site_property.xss.xssChars')!''>
+var xssChars='<#if xssChars != '' && !xssChars?starts_with('DS') >${dskey("portal.theme.site_property.xss.xssChars")!}</#if>';
+<#assign xssMsg = dskey('portal.theme.site_property.xss.xssMsg')!''>
+var xssMsg='<#if xssMsg != '' && !xssMsg?starts_with('DS') >${dskey("portal.theme.site_property.xss.xssMsg")!}</#if>';
+<#assign urlDoLogout = dskey('mylutece.security.public_url.mylutece.url.doLogout')!''>
+var urlDoLogout='<#if urlDoLogout != '' && !urlDoLogout?starts_with('DS') >${urlDoLogout?js_string}</#if>';
 </script>
 <#if themeJSLinks?? >
 <@themeJSLinks />
