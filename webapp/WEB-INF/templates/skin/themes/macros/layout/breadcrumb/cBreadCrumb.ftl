@@ -29,11 +29,11 @@ Snippet:
     ] />
 
 -->
-<#macro cBreadCrumb home='#i18n{portal.theme.home}' items='' class='' type='' params='' deprecated...>
+<#macro cBreadCrumb home='#i18n{portal.theme.home}' items='' class='' listClass='' type='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <nav aria-label="#i18n{portal.theme.breadcrumb}" class="breadcrumb-nav<#if class!=''> ${class!}</#if>"<#if params!=''> ${params!}</#if>>
 	<div class="container<#if type='fluid'>-fluid</#if> bg-light rounded">
-		<ol class="breadcrumb bg-light py-2 px-4 ">
+		<ol class="breadcrumb<#if listClass!=''> ${listClass!}</#if>">
         <#if home!=''>
             <li class="breadcrumb-item">
                 <a target="_top" href=".">${home!}</a>
