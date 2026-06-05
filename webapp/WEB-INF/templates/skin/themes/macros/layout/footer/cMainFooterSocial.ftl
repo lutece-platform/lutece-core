@@ -32,14 +32,17 @@ Snippet:
 -->
 <#macro cMainFooterSocial title nested_pos='after' socialNested='' align='around' classColMain='col-md-7' classColSocial='col-md-5' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
+<#local logoAltDS=dskey('portal.theme.site_property.layout.footer.logoFooter.alt')! />
+<#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /><#else><#local logoAlt=mainSite /></#if>
+<#if !dskey('portal.theme.site_property.layout.footer.logoFooterUrl')?starts_with('DS') && dskey('portal.theme.site_property.layout.footer.logoFooterUrl') != ''><#local logoUrl = dskey('portal.theme.site_property.layout.footer.logoFooterUrl')><#else><#local logoUrl = urlMainSite></#if>
 <#if !dskey('theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></div></#if>
 <footer class="social z-1" role="contentinfo"<#if params !=''> ${params!}</#if>>
     <div class="row m-0">
         <div class="col-12 <#if classColMain !=''> ${classColMain}</#if>">
             <div class="main-footer justify-content-${align} py-4">
                 <div class="d-flex align-items-center justify-content-center justify-content-lg-start w-100">
-                    <a class="logo hide-icon-target" href="${urlMainSite}" target="_blank">
-                        <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='#i18n{portal.theme.labelGoToSite} ${mainSite!}' />
+                    <a class="logo hide-icon-target" href="${logoUrl}" target="_blank">
+                        <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='${logoAlt}' />
                     </a>
                     <hr aria-hidden="true">
                     <a class="site" title="#i18n{portal.theme.labelGoToSite} ${title}" href=".">${title}</a>

@@ -28,11 +28,19 @@ Snippet:
 -->
 <#macro cMainFooter title=mainSite nested_pos='after'  params='' deprecated...>
 <@deprecatedWarning args=deprecated />
+<#local logoAltDS=dskey('portal.theme.site_property.layout.footer.logoFooter.alt')! />
+<#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /><#else><#local logoAlt=mainSite /></#if>
 <#if !dskey('theme.site_property.menu.sidebarMenu.checkbox')?starts_with('DS') && dskey('theme.site_property.menu.sidebarMenu.checkbox')?number == 1></div></div></#if>
+<#if !dskey('portal.theme.site_property.layout.footer.logoFooterUrl')?starts_with('DS') && dskey('portal.theme.site_property.layout.footer.logoFooterUrl') != ''><#local logoUrl = dskey('portal.theme.site_property.layout.footer.logoFooterUrl')><#else><#local logoUrl = urlMainSite></#if>
 <footer role="contentinfo"<#if params !=''> ${params!}</#if>>
   <div class="container">
     <div class="row align-items-center border-bottom py-5">
-      <div class="col-lg-8">
+      <div class="col-lg-2">
+        <a class="logo hide-icon-target" href="${logoUrl}" target="_blank">
+            <@cImg src=logoFooter! class='d-inline-block' id='footer-img' alt='${logoAlt}' />
+        </a>
+      </div>
+      <div class="col-lg-6">
         <ul class="list-inline footer-menu text-center text-lg-start"  aria-label="#i18n{portal.theme.footerInfo}" >
             <#if nested_pos='before'><#nested></#if>
             <@_footerMenu />
