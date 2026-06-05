@@ -30,7 +30,7 @@ Snippet:
 -->
 <#macro cTabPane id active=false disabled=false class='' bodyClass='' title='' titleLevel=3 params='' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card tab-pane fade<#if active> show active</#if><#if disabled> disabled</#if><#if class!=''> ${class!}</#if>"<#if disabled> disabled aria-disabled="true"</#if> id="${id}" tabindex="0" role="tabpanel" aria-labelledby="tab_${id}" ${params!}>    
+<div class="card tab-pane fade<#if active> show active</#if><#if disabled> disabled</#if><#if class!=''> ${class!}</#if>"<#if disabled> disabled aria-disabled="true"</#if> id="${id}" role="tabpanel" aria-labelledby="tab_${id}" ${params!}>    
 	<div class="card-body<#if bodyClass!=''> ${bodyClass!}</#if>">
 		<#nested>
 	</div>
