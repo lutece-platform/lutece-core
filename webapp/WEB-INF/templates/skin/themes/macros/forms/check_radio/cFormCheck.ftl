@@ -12,6 +12,7 @@ Parameters:
 - value (string, optional): the value of the element. Default: ''.
 - btnClass (string, optional): CSS class for the button label, only used if type is 'button'. Default: ''.
 - labelClass (string, optional): the CSS class of the label. Default: ''.
+- inputClass (string, optional): the CSS class of the input element. Default: ''.
 - selectionButton (boolean, optional): adds a selection box around the checkbox. Default: false.
 - selectionLabel (string, optional): label for the selection box. Default: ''.
 - nestedContent (string, optional): additional content to display inside the selection box. Default: ''.
@@ -54,27 +55,28 @@ Snippet:
     </@cFormCheck>
 
 -->
-<#macro cFormCheck name label type class='form-check' id='' value='' btnClass='' labelClass='' selectionButton=false selectionLabel='' nestedContent='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' deprecated...>
+<#macro cFormCheck name label type class='' id='' value='' btnClass='' labelClass='' inputClass='' selectionButton=false selectionLabel='' nestedContent='' textCenter=false errorMsg='' helpMsg='' inline=false disabled=false readonly=false checked=false required=false html5Required=true showRequiredLabel=true params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cType><#if type='button'>checkbox<#else>${type}</#if></#local>
 <#local cId><#if id=''>${name}-${random()}<#else>${id}</#if></#local>
 <#local idMsg><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#if type !='button'>
-<div class="<#if class='form-check'>form-check<#else> ${class}</#if><#if selectionButton> btn-selection</#if><#if inline> form-check-inline</#if><#if errorMsg!=''> is-invalid</#if><#if labelClass?contains('visually-hidden')> hidden-label</#if>">
+<div class="<#if class!=''>${class}</#if><#if selectionButton> btn-selection</#if><#if inline> form-check-inline</#if><#if errorMsg!=''> is-invalid</#if><#if labelClass?contains('visually-hidden')> hidden-label</#if>">
 <#if selectionButton><div class="selection-check"></#if>
-    <input type="${cType}" id="${cId!}" name="${name!}" class="form-check-input" <#if value!=''>value="${value}"</#if><#if errorMsg !=''> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params!=''> ${params!}</#if>>
     <#local cFCLabel>${label!} <#nested></#local>
     <#local cFCClass>form-check-label<#if labelClass!=''> ${labelClass}</#if><#if textCenter> w-100 justify-content-center</#if></#local>
     <#local cFCRequired=required />
     <#if !showRequiredLabel><#local cFCRequired=false /></#if>
-    <@cLabel label=cFCLabel class=cFCClass for=cId required=cFCRequired/>
+    <@cLabel label=cFCLabel class=cFCClass for=cId required=cFCRequired >
+        <input type="${cType}" id="${cId!}" name="${name!}"<#if inputClass!=''> class="${inputClass}"</#if><#if value!=''> value="${value}"</#if><#if errorMsg !=''> aria-invalid="true"</#if><#if disabled> disabled</#if><#if required><#if html5Required> required</#if> aria-required="true"</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params!=''> ${params!}</#if>>
+    </@cLabel>
 <#if selectionButton></div></#if>
 <#if !selectionButton>${nestedContent}</#if>
 <#if selectionLabel!=''><p class="selection-subtitle ms-m my-sm<#if textCenter> text-center</#if>">${selectionLabel}</p></#if>
 <#if selectionButton && nestedContent?has_content><div class="selection-content">${nestedContent}</div></#if>
 </div>
 <#else>
-    <input type="${cType!'checkbox'}" name="${name!}" class="btn-check<#if class!=''> ${class}</#if><#if errorMsg!=''> is-invalid</#if>" id="${cId!?replace(',','-')}" autocomplete="off"<#if value!=''> value="${value}"</#if><#if errorMsg !=''>= aria-invalid="true"</#if><#if disabled> disabled</#if><#if required> required</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params!=''> ${params!}</#if>>
+    <input type="${cType!'checkbox'}" name="${name!}" class="btn-check<#if class!=''> ${class}</#if><#if inputClass!=''> ${inputClass}</#if><#if errorMsg!=''> is-invalid</#if>" id="${cId!?replace(',','-')}" autocomplete="off"<#if value!=''> value="${value}"</#if><#if errorMsg !=''>= aria-invalid="true"</#if><#if disabled> disabled</#if><#if required> required</#if><#if readonly> readonly</#if><#if checked> checked</#if><#if params!=''> ${params!}</#if>>
     <#local cFCClass><#if btnClass!=''>${btnClass}<#else>btn btn-outline-primary</#if></#local>
     <#local cFCRequired=required />
     <#if !showRequiredLabel><#local cFCRequired=false /></#if>
