@@ -1,10 +1,83 @@
 /*** 		 						***/
 /*** 	Alert 						***/
+/*** Inspiré du DS CiteLIbre       ***/
 /*** 		 						***/
-.alert{
-	font-size: 1.5rem;
+.alert {
+    display: flex;
+    gap: var(--lutece-ds-spacing-xs);
+    padding: var(--lutece-ds-spacing-sm-tight) var(--lutece-ds-spacing-sm);
+    border-radius: var(--bs-border-radius-lg);
+    border: 0;
+    border-left: var(--lutece-ds-border-width-lg) solid;
+    background-color: var(--lutece-ds-color-primary-bg);
+    border-left-color: var(--lutece-ds-color-primary);
+    color: var(--lutece-ds-color-neutral-900);
+    font-size: var(--lutece-ds-font-size-sm);
+    line-height: 1.5;
 }
 
-.alert p{
-	margin: 0 1rem 0 0;
+.alert p {
+    margin: 0 var(--lutece-ds-spacing-xs) 0 0;
+}
+
+.alert .alert-icon {
+    flex: 0 0 calc( var( --lutece-ds-size-base ) * 5 );
+    width: calc( var( --lutece-ds-size-base ) * 5 );
+    height: calc( var( --lutece-ds-size-base ) * 5 );
+    color: var(--lutece-ds-color-primary);
+    margin-top: calc( var( --lutece-ds-size-base ) / 2 );
+}
+
+.alert .alert-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.alert .alert-title {
+    font-weight: 700;
+    margin-bottom: calc( var( --lutece-ds-size-base ) / 2 );
+    font-size: var(--lutece-ds-font-size-sm);
+    color: inherit;
+}
+
+.alert .alert-text,
+.alert .alert-body > p {
+    font-size: var(--lutece-ds-font-size-sm);
+    color: var(--lutece-ds-color-neutral-600);
+    margin: 0;
+}
+
+/* Variantes sÃ©mantiques */
+.alert.alert-info,
+.alert.alert-primary {
+    background-color: var(--lutece-ds-color-primary-bg);
+    border-left-color: var(--lutece-ds-color-primary);
+}
+.alert.alert-info .alert-icon,
+.alert.alert-primary .alert-icon {
+    color: var(--lutece-ds-color-primary);
+}
+
+.alert.alert-success {
+    background-color: var(--lutece-ds-color-success-bg);
+    border-left-color: var(--lutece-ds-color-success);
+}
+.alert.alert-success .alert-icon {
+    color: var(--lutece-ds-color-success);
+}
+
+.alert.alert-warning {
+    background-color: var(--lutece-ds-color-warning-bg);
+    border-left-color: var(--lutece-ds-color-warning);
+}
+.alert.alert-warning .alert-icon {
+    color: var(--lutece-ds-color-warning);
+}
+
+.alert.alert-danger {
+    background-color: var(--lutece-ds-color-danger-bg);
+    border-left-color: var(--lutece-ds-color-danger);
+}
+.alert.alert-danger .alert-icon {
+    color: var(--lutece-ds-color-danger);
 }

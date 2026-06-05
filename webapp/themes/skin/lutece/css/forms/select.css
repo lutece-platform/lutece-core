@@ -15,8 +15,8 @@
 
 .form-select.disabled,
 .form-select:disabled {
-    color: var(--main-color);
-    background-color: var(--white-light-color );
+    color: var(--lutece-ds-color-text);
+    background-color: var(--lutece-ds-color-neutral-100 );
 	cursor: not-allowed;
 }
 
@@ -32,7 +32,7 @@
 
 .form-select option,
 .form-select optgroup {
-	font-size: var(--font-xm);
+	font-size: var(--lutece-ds-font-size-md);
 	padding: calc(var(--size-1, .4rem) * 5) 0;
 	-webkit-border-radius: 0; 
 	border-radius: 0; 
@@ -40,7 +40,7 @@
 }
 
 .form-select optgroup {
-	font-size: var(--font-xm);
+	font-size: var(--lutece-ds-font-size-md);
 	padding: calc(var(--size-1, .4rem) * 5) 0;
 }
 
@@ -58,7 +58,7 @@
 .form-select:focus,
 .custom-file .custom-file-input:focus+.custom-file-label {
 	box-shadow: none;
-	outline: var(--main-info-color) solid 2px;
+	outline: var(--lutece-ds-color-primary) solid 2px;
 	outline-offset: 0;
 }
 

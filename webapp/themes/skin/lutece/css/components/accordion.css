@@ -15,7 +15,12 @@
 	justify-content: space-between;
 	align-items: center;
 	flex-wrap: wrap;
-	padding: var(--spacing-m);
+	padding: var(--spacing-m) var(--spacing-l);
+}
+
+.accordion .card .card-header > *{
+	margin-block: 0 !important;
+	padding-block: 0 !important;
 }
 
 .accordion .card .card-header:hover{
@@ -37,10 +42,12 @@
 	font-size: var(--font-m);
 }
 
+.accordion .card .card-header .btn-header-accordion:active,
 .accordion .card .card-header .btn-header-accordion:focus,
 .accordion .card .card-header .btn-header-accordion:hover{
 	color: var(--main-color);
 	text-decoration: none;
+	outline: 1px solid var(--dark-color);
 }
 
 .accordion .card .card-header .btn-header-accordion:focus .card-header-prepend + span,
@@ -79,7 +86,7 @@
 }
 
 .accordion .card .card-header .card-subtitle {
-    transform: translateY( calc( -1 * var(--spacing-xs ) ));
+    transform: translateY( calc( -1 * var(--spacing-xxs ) ));
 }
 
 .accordion .card-body{
@@ -94,7 +101,7 @@
 .accordion .card .btn-accordion .ti {
 	color: var( --main-color );
 	margin-right: 0;
-	font-size: var(--spacing-ml);
+	height: var( --spacing-l);
 }
 	
 .accordion .card:hover .btn-accordion .ti {
@@ -262,6 +269,7 @@
     align-items: center;
     justify-content: center;
     padding-inline-end: var(--spacing-xs);
+    padding-block-start: var(--spacing-xxs);
 }
 
 .accordion .card.outline .card-header .card-header-prepend .ti{
@@ -375,7 +383,7 @@
 	.accordion .card.outline .card-header h5{
 		text-align: center;
 		margin-left: 0;
-		line-height: var(--spacing-sm);
+		line-height: var( --spacing-m);
 	}
 }
 
@@ -391,12 +399,12 @@
 	.accordion .card .card-footer {
 		background-color: var( --white-color );
 		border-top-color: var( --gray-light-color );
-		padding: var(--spacing-sm) 0;
+		padding: var( --spacing-m) 0;
 	}
 	
 	.accordion .card.desc .card-footer {
 		border-top-color: var( --gray-light-color );
-		padding: var(--spacing-sm) 0;
+		padding: var( --spacing-m) 0;
 	}
 	
 	.accordion .card.primary .card-footer {
@@ -416,56 +424,4 @@
 	.accordion .card-header .card-title {
 		font-size: var( --font-sm );
 	}
-}
-
-/* @cCascading */
-details.cascading{
-	margin-block-start: var(--spacing-xs);
-}
-
-details.cascading summary::marker {
-    content: url("data:image/svg+xml,%3Csvg%20width%3D%2225%22%20height%3D%2224%22%20viewBox%3D%220%200%2025%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M13.1845%2012L8.19922%207.00945L10.2066%205L17.1992%2012L10.2066%2019L8.19922%2016.9905L13.1845%2012Z%22%20fill%3D%22%23071F32%22%2F%3E%3C%2Fsvg%3E");
-}
-
-details.cascading.cascading-files summary::marker {
-    content: url("data:image/svg+xml,%3Csvg%20width%3D%2225%22%20height%3D%2224%22%20viewBox%3D%220%200%2025%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M8.72661%2017.7605H16.2734V15.6499L8.72661%2015.6499L8.72661%2017.7605ZM8.72661%2013.9439L16.2734%2013.9439V11.8333L8.72661%2011.8333V13.9439ZM4.5%2021.9951L4.5%201.99512L14.5733%201.99512L20.5%207.99512L20.5%2021.9951L4.5%2021.9951ZM13.2834%209.29445L13.2834%204.52366L6.99989%204.52366L6.99989%2019.4666L18.0001%2019.4666L18.0001%209.29445H13.2834Z%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E");
-}
-
-details.cascading summary {
-    padding-block-end: var(--spacing-xs);
-}
-
-details.cascading .cascading-label{
-    vertical-align: super;
-}
-
-details.cascading.cascading-files .cascading-label{
-    padding-inline-start: var( --spacing-xs );
-}
-
-details.cascading .cascading-label:hover{
-    text-decoration: underline;
-}
-
-details.cascading .cascading-content {
-    padding-inline-start: var(--spacing-ml);
-    padding-block-end: var( --spacing-sm );
-	margin-block-start: 0;
-}
-
-details.cascading.cascading-files .cascading-content{
-    padding-inline-start: var(--spacing-ml);
-}
-
-details[open].cascading > summary:first-of-type {
-    color: var(--main-info-color);
-    font-weight: 600;
-}
-
-details[open].cascading > summary:first-of-type::marker {
-    content: url("data:image/svg+xml,%3Csvg%20width%3D%2225%22%20height%3D%2224%22%20viewBox%3D%220%200%2025%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12.6513%2013.6L17.2513%209L19.1035%2010.8522L12.6513%2017.3044L6.19911%2010.8522L8.05132%209L12.6513%2013.6Z%22%20fill%3D%22%23354BCF%22%2F%3E%3C%2Fsvg%3E");
-}
-
-details[open].cascading.cascading-files > summary:first-of-type::marker {
-    content: url("data:image/svg+xml,%3Csvg%20width%3D%2225%22%20height%3D%2224%22%20viewBox%3D%220%200%2025%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M8.72661%2017.7605H16.2734V15.6499L8.72661%2015.6499L8.72661%2017.7605ZM8.72661%2013.9439L16.2734%2013.9439V11.8333L8.72661%2011.8333V13.9439ZM4.5%2021.9951L4.5%201.99512L14.5733%201.99512L20.5%207.99512L20.5%2021.9951L4.5%2021.9951ZM13.2834%209.29445L13.2834%204.52366L6.99989%204.52366L6.99989%2019.4666L18.0001%2019.4666L18.0001%209.29445H13.2834Z%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E");
 }

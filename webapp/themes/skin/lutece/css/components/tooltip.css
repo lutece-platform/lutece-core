@@ -1,14 +1,14 @@
 .custom-tooltip {
-  --bs-tooltip-bg: var(--main-info-color);
+  --bs-tooltip-bg: var(--lutece-ds-color-primary);
   --bs-tooltip-border-radius: 0;
   --bs-tooltip-opacity: 1;
 }
 
 .custom-tooltip.secondary {
-	--bs-tooltip-bg: var(--main-info-color-light);
-	--bs-tooltip-color: var(--main-info-color);
+	--bs-tooltip-bg: var(--lutece-ds-color-primary-bg);
+	--bs-tooltip-color: var(--lutece-ds-color-primary);
 }
 
 .tooltip-inner {
-	font-size: var(--font-m);
+	font-size: var(--lutece-ds-font-size-lg);
 }

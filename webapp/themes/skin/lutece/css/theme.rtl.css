@@ -55,8 +55,10 @@
 @import url(components/sliders.css?ver=.0.1);
 @import url(components/table.css?ver=.0.1);
 @import url(components/tabs.css?ver=.0.1);
+@import url(components/tile.css?ver=.0.1);
 @import url(components/toast.css?ver=.0.1);
 @import url(components/tooltip.css?ver=.0.1);
 @import url(lib/osm.css?ver=.0.1);
 @import url(lib/cookies.css?ver=.0.1);
 @import url( _rhythm.css );
+/* @import url(styles.css?ver=.0.1); */

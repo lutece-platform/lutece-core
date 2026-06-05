@@ -4,4 +4,5 @@
 /***  										***/
 .progress .progress-bar{ 
 	padding: 0; 
+    background-color: var(--lutece-ds-color-primary);
 }

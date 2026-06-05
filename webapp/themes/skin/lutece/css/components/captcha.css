@@ -4,17 +4,17 @@
     flex-basis: 250px !important;
 	margin: 0 !important;
 	padding: 0 !important;
-	border: 1px solid var(--main-color) !important;
+	border: 1px solid var(--lutece-ds-color-text) !important;
 	max-height: 7rem !important;
 }
 
 #button-captcha {
-	background-color: var(--main-color) !important;
+	background-color: var(--lutece-ds-color-text) !important;
 }
 
 #button-captcha .btn {
 	padding-block: 0 !important;
-	padding-inline: calc( var(--spacing-xxs) * 4.625) !important;
+	padding-inline: calc( var(--lutece-ds-spacing-2xs) * 4.625) !important;
 }
 
 @media (max-width: 575.98px) {

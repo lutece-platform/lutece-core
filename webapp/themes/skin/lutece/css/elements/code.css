@@ -1,4 +1,3 @@
-
 /*** 										***/
 /*** Code elements style					***/
 /***  										***/
@@ -15,12 +14,12 @@ code {
 }
 
 pre .copy-to-clipboard {
-	background: #3C5BFE;
+	background: var(--lutece-ds-color-primary, #007BFF);
 	color: #fff;
 	cursor: pointer;
 	padding: 4px 5px;
 	line-height: 1;
-	font-size: 12px;
+	font-size: var(--lutece-ds-font-size-sm);
 	font-weight: 500;
 	border-radius: 4px;
 	position: absolute;
@@ -28,6 +27,57 @@ pre .copy-to-clipboard {
 	top: 10px;
 }
 
-:not(pre) > code + span.copy-to-clipboard {
+:not(pre)>code+span.copy-to-clipboard {
 	display: none;
+}
+
+/* Self-host */
+.sample-code {
+	background: var(--lutece-ds-color-text, #0A1A2B);  /* --cl-ink-900 */
+	color: var(--lutece-ds-color-white);
+	border-radius: var(--lutece-ds-border-radius-lg);
+	padding: var(--lutece-ds-spacing-lg);
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: var(--lutece-ds-spacing-xl);
+	align-items: center;
+}
+
+.sample-code :is(h3,p){
+	color: var(--lutece-ds-color-white);
+}
+
+.sample-code pre {
+	background: var(--lutece-ds-bg-color-pre);
+	border: 1px solid var(--lutece-ds-color-border, rgba(255, 255, 255, 0.1))	;
+	border-radius: var(--lutece-ds-border-radius-lg);
+	padding: var(--lutece-ds-spacing-lg);
+	margin: 0;
+	font-family: var(--lutece-ds-font-family-mono);
+	font-size: var(--lutece-ds-font-size-sm);
+	line-height: 1.7;
+	color: var(--lutece-ds-color-text, #E7EBF0);
+	overflow-x: auto;
+}
+
+.sample-code .comment {
+	color: var(--lutece-ds-color-comment, #7AA9FF);
+}
+
+.sample-code .k {
+	color: var(--lutece-ds-color-keyword, #FF8A6A);
+}
+
+.sample-code .s {
+	color: var(--lutece-ds-color-string, #8EE6C8);
+}
+
+@media (max-width: 767.98px) {
+    .sample-code {
+        display: block;
+    }
+	
+	.sample-code pre {
+		margin-block-start: var(--lutece-ds-spacing-md);
+	}
 }

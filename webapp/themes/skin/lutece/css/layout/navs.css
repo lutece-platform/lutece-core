@@ -1,121 +1,170 @@
 /*** 										***/
 /*** 	Menus 								***/
 /*** 										***/
-/***  Main  						    	***/
+/***  Main â TopNav (pattern DS header-footer.html) ***/
 
 .navigation {
     transition: 0.2s ease;
     background: #fff;
 }
 
-.navigation > .container{
-	padding-inline: 0
+.navigation > .container {
+	padding-inline: 0;
 }
 
 .navigation.nav-bg {
-	box-shadow: 0px 15px 60px rgba(62, 62, 62, 0.102) !important;
+	box-shadow: 0 15px 60px rgba(62, 62, 62, 0.102) !important;
 }
 
-.navigation .navbar-nav,
-.navigation .navbar .nav-item,
-.navigation .navbar-nav .nav-link {
+/* TopNav shell */
+.topnav {
+	display: flex;
+	align-items: center;
+	gap: 28px;
+	min-height: 72px;
+	padding-inline: 24px;
+	background: transparent;
+	width: 100%;
+}
+
+/* Brand + logo */
+.topnav .navbar-brand,
+.topnav__brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	flex-shrink: 0;
+	font-weight: 900;
+	font-size: var(--lutece-ds-font-size-md);
+	letter-spacing: 0.02em;
+	text-decoration: none;
+	color: var(--lutece-ds-color-primary-text-strong);
+	margin-right: 0;
+	padding: 0;
+}
+
+.topnav .navbar-brand:hover,
+.topnav__brand:hover { text-decoration: none; }
+.topnav .navbar-brand .logo,
+.topnav__brand .logo { height: 38px; max-width: 12rem; }
+
+/* Liens du menu */
+.topnav .navbar-nav {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	flex: 1;
+	min-width: 0;
+	position: relative;
+}
+
+.topnav .navbar .nav-item {
 	align-items: center;
 	display: flex;
 	position: relative;
-}
-
-/* Main navbar: even spacing between items (menu + action buttons) so the
-   login / theme switcher / contact buttons are never glued together */
-.navigation .navbar-nav.w-100 {
-	gap: var(--spacing-xs);
-}
-
-/* Theme switcher toggle: scale the sun/moon icons to the button text size
-   so they don't increase the btn-sm height (the dropdown items keep their size) */
-#bd-theme svg {
-	width: 1.5em;
-	height: 1.5em;
-}
-
-.navigation .navbar .navbar-brand .logo {
-	max-width: 12rem;
-}
-
-.navigation .navbar-nav .nav-link{
-	background: transparent;
-	color: var(--main-color);
-	font-size: var(--font-xm);
-	font-weight: 400;
-	padding: 0 var(--spacing-m);
-	position: relative;
-	text-decoration: none;
-	transition: none;
-	cursor: pointer;
-}
-
-.navigation .navbar-nav .dropdown:has( .dropdown-toggle.show ){
-	border : var(--bs-dropdown-border-width) solid var(--bs-dropdown-border-color);
-}
-
-.navigation .navbar-nav .dropdown-item.active, .navigation .navbar-nav .dropdown-item:active{
-	color: var(--white-color);
-	background-color: transparent;
-}
-
-.navigation .navbar-nav .nav-item.active .nav-link{
-	text-decoration: underline;
-	text-decoration-color: var(--main-color);
-	text-underline-offset: 5px;
-	text-decoration-style: dotted;
-}
-
-.navigation .navbar-nav .nav-item .nav-link:hover{
-	text-decoration: underline;
-	text-decoration-color: var(--main-info-color);
-	text-underline-offset: 5px;
-}
-
-.navbar-expand-lg .navbar-nav .nav-link {
-    padding: 20px;
-    font-size: 15px;
-}
-
-@media (max-width: 991px) {
-	.navigation .form-inline {
-	  width: 100%;
-	}
-	.navigation .form-inline input {
-	  width: 100%;
-	}
-}
-
-.nav-item {
 	margin: 0;
 }
 
-.nav-item .nav-link {
-	text-transform: capitalize;
+.topnav .navbar-nav .nav-link {
+	padding: 10px 14px;
+	font-size: var(--lutece-ds-font-size-base);
+	font-weight: 600;
+	color: var(--lutece-ds-color-neutral-600);
+	border-radius: 6px;
+	text-decoration: none;
+	white-space: nowrap;
+	flex-shrink: 0;
+	text-transform: none;
+	background: transparent;
+	cursor: pointer;
+	transition: color .2s ease, background .2s ease;
 }
 
-.navbar-light .navbar-nav .nav-link {
-	color: var(--main-color);
+.topnav .navbar-nav .nav-link:hover {
+	background: var(--lutece-ds-color-neutral-50);
+	color: var(--lutece-ds-color-text);
+	text-decoration: none;
 }
 
-.navbar-light .navbar-nav .nav-link:hover {
-	color: var(--main-info-color);
-}
-  
-.navbar-expand-lg .navbar-nav .nav-link {
-	padding: 5px 20px;
-	font-size: 15px;
+.topnav .navbar-nav .nav-item.active > .nav-link,
+.topnav .navbar-nav .nav-link[aria-current="page"] {
+	color: var(--lutece-ds-color-primary-text-strong);
+	background: var(--lutece-ds-color-primary-bg);
+	text-decoration: none;
 }
 
-@media (max-width: 991px) {
-	.navbar-expand-lg .navbar-nav .nav-link {
-	  padding: 10px;
-	  display: block;
+/* Dropdown (theme switcher, search field, etc.) */
+.topnav .navbar-nav .dropdown:has( .dropdown-toggle.show ) {
+	border: var(--bs-dropdown-border-width) solid var(--bs-dropdown-border-color);
+}
+
+.topnav .navbar-nav .dropdown-item.active,
+.topnav .navbar-nav .dropdown-item:active {
+	color: var(--lutece-ds-color-white);
+	background-color: transparent;
+}
+
+/* Theme switcher â icon-button rond */
+.topnav__theme {
+	width: 40px;
+	height: 40px;
+	padding: 0;
+	border-radius: 999px;
+	border: 1px solid var(--lutece-ds-border);
+	background: transparent;
+	color: var(--lutece-ds-color-neutral-600);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	transition: all .2s ease;
+}
+.topnav__theme:hover {
+	background: var(--lutece-ds-color-neutral-50);
+	color: var(--lutece-ds-color-text);
+	border-color: var(--lutece-ds-color-neutral-300);
+}
+
+.topnav__theme::after { display: none; }
+.topnav__theme svg { width: 18px; height: 18px; }
+.topnav__theme span { display: none; }
+
+/* Theme toggle — icônes sun/moon alternées selon data-bs-theme */
+.topnav__theme .icon-sun { display: none; }
+.topnav__theme .icon-moon { display: block; }
+
+/* Responsive â en dessous de lg, la navbar Bootstrap passe en collapse vertical */
+@media (max-width: 991.98px) {
+	.topnav {
+		flex-wrap: wrap;
+		min-height: auto;
+		padding-block: 12px;
+		padding-inline: 16px;
+		gap: 12px;
 	}
+	.topnav .navbar-toggler { margin-left: auto; }
+	.topnav .collapse.navbar-collapse { flex-basis: 100%; }
+	.topnav .navbar-nav {
+		flex-direction: column;
+		align-items: stretch;
+		width: 100%;
+		gap: 0;
+	}
+	.topnav .navbar-nav .nav-link { width: 100%; }
+	.topnav__theme {
+		width: 100%;
+		height: auto;
+		padding: 10px 14px;
+		border-radius: 6px;
+		justify-content: flex-start;
+		gap: 8px;
+	}
+	.topnav__theme span { display: inline; }
+	.topnav .form-inline,
+	.topnav .form-inline input { width: 100%; }
 }
+
+
 
 /*** 										***/
 /*** 	Skip Menu							***/
@@ -136,9 +185,9 @@
 }
 
 .skip-links a {
-	background-color: var(--main-info-color);
-	color: var(--white-color);
-	font-size: var(--font-m);
+	background-color: var(--lutece-ds-color-primary);
+	color: var(--lutece-ds-color-white);
+	font-size: var(--lutece-ds-font-size-lg);
 	font-weight: 600;
 	left: -999rem;
 	padding: .5rem 1rem;
@@ -159,12 +208,12 @@
 }
 
 #layout-sidebar-wrapper .theme-main-header {
-	border-right: 1px solid var(--shadow-border-color);
-	border-top: 1px solid var(--shadow-border-color);
+	border-right: 1px solid var(--lutece-ds-border-shadow);
+	border-top: 1px solid var(--lutece-ds-border-shadow);
 }
 
 #layout-sidebar-wrapper .container {
-    padding-inline: var(--spacing-m );
+    padding-inline: var(--lutece-ds-spacing-md );
 }
 
 /* Sidebar Menu */
@@ -176,7 +225,7 @@
 #layout-sidebar-wrapper #sidebar-main-menu #main-sidebar-collapse{
 	position: absolute;
 	right: 0;
-	top: calc( .5 * var(--spacing-xs) );
+	top: calc( .5 * var(--lutece-ds-spacing-xs) );
 	z-index: 1;
 }
 
@@ -195,26 +244,26 @@
 
 /* Menu Sidebar */
 #main-menu-sidebar {
-	padding-block-start: var(--spacing-m);
-	background-color: var(--white-color);
+	padding-block-start: var(--lutece-ds-spacing-md);
+	background-color: var(--lutece-ds-color-white);
 }
 
 #main-menu-sidebar .sidebar-divider {
 	border-top-color: rgba(255, 255, 255, .25);
-	margin-block: var(--spacing-m);
+	margin-block: var(--lutece-ds-spacing-md);
 	margin-inline-start: -2.25rem;
 }
 
 #main-menu-sidebar .nav-item {
 	border-bottom: 1px solid #EFF2F6;
     margin-right: 0;
-    padding-bottom: var(--spacing-sm);
-    margin-bottom: var(--spacing-sm);
+    padding-bottom: var(--lutece-ds-spacing-sm);
+    margin-bottom: var(--lutece-ds-spacing-sm);
 }
 
 #main-menu-sidebar .nav-item .nav-link {
-	padding: var(--spacing-sm);
-    color: var(--main-color);
+	padding: var(--lutece-ds-spacing-sm);
+    color: var(--lutece-ds-color-text);
     font-weight: 600;
     line-height: 22px;
     letter-spacing: 1.5px;
@@ -223,20 +272,20 @@
 }
 
 #main-menu-sidebar .nav-item.active:hover :not( .dropdown ) {
-	color: var(--main-color) ;
+	color: var(--lutece-ds-color-text) ;
 }
 
 #main-menu-sidebar .nav-item .nav-link span {
 	flex: 3;
 	font-weight: 600;
-	padding-inline-start: var(--spacing-xs);
-	color: var(--white-color);
-	font-size: var(--font-m)
+	padding-inline-start: var(--lutece-ds-spacing-xs);
+	color: var(--lutece-ds-color-white);
+	font-size: var(--lutece-ds-font-size-lg)
 }
 
 #main-menu-sidebar .nav-item.active .nav-link{
-	background-color: var(--main-info-color);
-	color: var( --white-color);
+	background-color: var(--lutece-ds-color-primary);
+	color: var( --lutece-ds-color-white);
 }
 
 #main-menu-sidebar .nav-item.nav-sublink .nav-sublink {
@@ -244,9 +293,9 @@
 }
 
 #main-menu-sidebar .nav-item .nav-sublink {
-	color: var(--white-color);
+	color: var(--lutece-ds-color-white);
 	font-weight: 600;
-	font-size: var(--font-m);
+	font-size: var(--lutece-ds-font-size-lg);
 	text-transform: capitalize;
 }
 
@@ -255,7 +304,7 @@
 }
 
 #main-menu-sidebar .nav-item.nav-sublink .navbar-nav .nav-item:first-child {
-	margin-block-start: var(--spacing-sm);
+	margin-block-start: var(--lutece-ds-spacing-sm);
 }
 
 #main-menu-sidebar .nav-item.nav-sublink .navbar-nav .nav-item:only-child {
@@ -265,11 +314,11 @@
 #main-menu-sidebar .nav-item .nav-link:hover,
 #main-menu-sidebar .nav-item .nav-link:visited,
 #main-menu-sidebar .nav-item .nav-link:active {
-	border-bottom-color: var(--white-color);
+	border-bottom-color: var(--lutece-ds-color-white);
 }
 
 #main-menu-sidebar .nav-item.active .nav-link span {
-	color: var(--main-info-color);
+	color: var(--lutece-ds-color-primary);
 }
 
 @media (max-width: 767.98px) {
@@ -284,7 +333,7 @@
 	}
 	
 	.main-header.is-sidebar.is-fixed + #layout-sidebar-wrapper #layout-sidebar #main {
-		margin-block-start: calc( var(--spacing-base) * 23.85 );
+		margin-block-start: calc( var(--lutece-ds-spacing-base) * 23.85 );
 	}
 	
 	#layout-sidebar-wrapper{

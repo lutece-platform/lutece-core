@@ -13,7 +13,7 @@
 		padding-top: 10rem;
 		overflow-y: auto;
 		visibility: hidden;
-		background-color: var( --white-color );
+		background-color: var( --lutece-ds-color-white );
 		transition-timing-function: ease-in-out;
 		transition-duration: .3s;
 		transition-property: left, visibility;

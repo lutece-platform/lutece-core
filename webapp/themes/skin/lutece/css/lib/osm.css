@@ -26,12 +26,12 @@
 
 .col.col-osm.list-group .list-group-item:hover {
 	cursor: pointer;
-	background-color: var(--white-light-color);
+	background-color: var(--lutece-ds-color-neutral-100);
 }
 
 .col.col-osm.list-group .list-group-item.active {
-	background-color: var(--main-info-color);
-	border-color: var(--main-info-color);
+	background-color: var(--lutece-ds-color-primary);
+	border-color: var(--lutece-ds-color-primary);
 }
 
 .btn-osm {

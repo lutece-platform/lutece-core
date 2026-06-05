@@ -7,7 +7,7 @@
 }
 
 .carousel-themed .carousel-caption h3 {
-	color: var( --main-color );
+	color: var( --lutece-ds-color-text );
     font-weight: 800;
     font-size: 1.3rem;
 	line-height: 2rem;
@@ -42,14 +42,14 @@
 }
 
 .carousel-bg-control {
-	color: var(--main-info-color);
-	background-color: var(--white-light-color) !important;
+	color: var(--lutece-ds-color-primary);
+	background-color: var(--lutece-ds-color-neutral-100) !important;
 }
 
 .carousel-bg-control:hover, 
 .carousel-bg-control:focus {
-	background-color: var(--main-info-color) !important;
-	color: var(--white-color);
+	background-color: var(--lutece-ds-color-primary) !important;
+	color: var(--lutece-ds-color-white);
 }  
 
 .carousel-bg-control .carousel-control-prev-icon {

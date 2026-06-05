@@ -1,12 +1,12 @@
 .custom-popover {
   --bs-popover-font-size: 1.5rem;
-  font-family: var(--font-family-list) !important;
-  --bs-popover-border-color: var(--main-info-color);
+  font-family: var(--lutece-ds-font-family-base) !important;
+  --bs-popover-border-color: var(--lutece-ds-color-primary);
   --bs-popover-header-color: var(--bs-white);
-  --bs-popover-header-bg: var(--main-info-color);
+  --bs-popover-header-bg: var(--lutece-ds-color-primary);
 }
 
 .custom-popover .popover-header{
     color: white;
-    font-size: var(--font-ml);
+    font-size: var(--lutece-ds-font-size-xl);
 }

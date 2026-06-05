@@ -15,12 +15,12 @@
 
 .search-wrapper .form-control::-moz-placeholder {
 	color: #999;
-	font-size: 15px;
+	font-size: var(--lutece-ds-font-size-md);
 }
 
 .search-wrapper .form-control::placeholder {
 	color: #999;
-	font-size: 15px;
+	font-size: var(--lutece-ds-font-size-md);
 }
 
 .search-wrapper .form-control-lg {

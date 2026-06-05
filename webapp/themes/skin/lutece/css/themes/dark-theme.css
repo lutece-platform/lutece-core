@@ -1,138 +1,158 @@
 /*** 										***/
 /*** DARK Theme 							***/
-/*** 										***/
+/*** 										***/		
 [data-bs-theme=dark] {
-	/* Main colors are managed in BO or theme template named _theme_color.ftl */
-	/* Main Theme Colors */
-	/* Default styles init */
-    --theme-bg-default: #1f2125 !important;
-	--bs-body-bg: #17181c !important;
-	--bs-body-color: #b2b4b5 !important;
-	--bs-card-color: #fafcfe !important;
-	--bs-border-color: #2c2e2f !important;
-	
-    --main-color: #fff;
+	/* Main colors are managed in BO or theme template named _theme_color.ftl 	*/
+	/* Main Theme Colors 														*/
+	/* Default styles init 														*/
+	--lutece-ds-surface-page: #071F32 !important;
 
-	--main-info-color: #3C5BFE;
-	--main-info-color-40: color-mix(in srgb, var(--main-info-color) 40%, var(--theme-bg-default));
-	--main-info-color-light: color-mix(in srgb, var(--main-info-color) 15%, var(--theme-bg-default));
-	--main-info-color-text: #17215F;
-	--main-info-color-hover: rgb(255, 68, 42);
+	--lutece-ds-color-text: #fff;
 
-	--main-danger-color: #E22C3F;
-	--main-danger-color-lighter: color-mix(in srgb, var(--main-danger-color) 25%, var(--theme-bg-default));
-	--main-danger-color-lightest: #FFF2F2;
-	--main-danger-color-text: #86131E;
+	/* 
+	--lutece-ds-color-primary: #F2F6FF;
+	--lutece-ds-color-primary-soft: #F2F6FF;
+	--lutece-ds-color-primary-bg: #F2F6FF;
+	--lutece-ds-color-primary-text-strong: #17215F; 
+	*/
 
-	--main-footer-danger-color: #9c1621;
+	--lutece-ds-color-danger: #E22C3F;
+	--lutece-ds-color-danger-bg: #FFF2F2;
+	--lutece-ds-color-danger-text-strong: #86131E;
 
-	--main-success-color: #248619;
-	--main-success-color-lighter: color-mix(in srgb, var(--main-success-color) 25%, var(--theme-bg-default));
-	--main-success-color-lightest: #ECFAEA;
-	--main-success-color-text: #0F320B;
+	--lutece-ds-color-danger-dark: #9c1621;
 
-	--main-warning-color: #FFA13D;
-	--main-warning-color-lighter: color-mix(in srgb, var(--main-warning-color) 25%, var(--theme-bg-default));
-	--main-warning-color-lightest: #FFFAE6;
-	--main-warning-color-text: #844501;
-	
+	--lutece-ds-color-success: #248619;
+	--lutece-ds-color-success-bg: #ECFAEA;
+	--lutece-ds-color-success-text-strong: #0F320B;
+
+	--lutece-ds-color-warning: #FFA13D;
+	--lutece-ds-color-warning-bg: #FFFAE6;
+	--lutece-ds-color-warning-text-strong: #844501;
+
 	/* Black to White */
-	--black-color: #fff;
-	--dark-color: #fff;
-	--dark-lighter-color: #6D6D6D;
+	--lutece-ds-color-neutral-900: #fff;
+	--lutece-ds-color-neutral-600: #6D6D6D;
 
-	--gray-dark-color: #A1A1A1;
-	--gray-darklight-color: #B3B3B3;
-	--gray-color: #C3C3C3;
-	--gray-light-color: #D5D9DD;
+	--lutece-ds-color-neutral-500: #071F32;
+	--lutece-ds-color-neutral-300: #C3C3C3;
+	--lutece-ds-color-neutral-200: #D5D9DD;
 
-	--white-lighter-color : #FCFAFA;
-	--white-light-color: #f0f0f0;
-	--white-color: #fafcfe;
-
+	--lutece-ds-color-neutral-50: #FCFAFA;
+	--lutece-ds-color-neutral-100: #f0f0f0;
+	
 	/* Blue */
-	--blue-darker-color: #495E7E;
-	--blue-dark-color: #5C769E;
-	--blue-color: #B2BED2;
-	--blue-light: #CFD7E3;
-	--blue-bg-colored: #DFE7FC;
-	--blue-bg-colored-light: #F2F6FF;
-	
-	--blue-gray-color: #5C769E;
-	--blue-turquoise-color: #1CBCB6;
-	
+	--lutece-ds-color-blue-700: #495E7E;
+	--lutece-ds-color-blue-600: #5C769E;
+	--lutece-ds-color-blue-400: #B2BED2;
+	--lutece-ds-color-blue-300: #CFD7E3;
+	--lutece-ds-color-blue-200: #DFE7FC;
+	--lutece-ds-color-blue-100: #F2F6FF;
+
+	--lutece-ds-color-blue-slate: #5C769E;
+	--lutece-ds-color-teal: #1CBCB6;
+
 	/* Icon */
-	--card-title-icon: #0C518A;
-	
+	--lutece-ds-color-icon-card-title: #0C518A;
+
 	/* Shadow */
-	--main-color-shadow: #071f321a;
-	--card-color-shadow: #00000029;
-	--switch-color-shadow: #0088dd40;
-
-	/* File dropzone */
-	--file-dropzone-color: transparent;
-	--file-dropzone-hover-color: rgba(255, 255, 255, .06);
-	--file-dropzone-border-color: var(--white-color);
-	--file-dropzone-border-disabled: var(--gray-dark-color);
-	--file-dropzone-text-disabled: var(--gray-dark-color);
-	--file-dropzone-icon-disabled: var(--gray-color);
-	--file-dropzone-border-hover-color: var(--main-info-color);
-
-	/* Borders & shadows */
-	--border-color: var(--blue-color);
-	--shadow-border-color: var(--blue-light);
-
-	/* Status */
-	--status-coming: var(--blue-turquoise-color);
-	--status-todo: var(--main-danger-color);
-	--status-doing: var(--main-warning-color);
-	--status-done: var(--main-success-color);
-	--status-passed: var(--blue-gray-color);
+	--lutece-ds-shadow-color-primary: #071f321a;
+	--lutece-ds-shadow-color-card: #00000029;
+	--lutece-ds-shadow-color-switch: #0088dd40;
 }
 
 [data-bs-theme=dark] img.darkmode,
-[data-bs-theme=dark] .main-footer .logo > img,
+[data-bs-theme=dark] .main-footer .logo>img,
 [data-bs-theme=dark]::-webkit-calendar-picker-indicator {
-    filter: invert(1)
+	filter: invert(1)
 }
 
-[data-bs-theme=dark] svg path{
-    fill: var(--main-color)
+[data-bs-theme=dark] svg path {
+	fill: var(--lutece-ds-color-text)
 }
 
-[data-bs-theme=dark] .navigation .navbar-nav .nav-item .nav-link {
-	color: var(--white-color);
+/* Menu */
+[data-bs-theme=dark] .navigation {
+    background: var(--lutece-ds-surface-page);
+    border-bottom-color: rgba(255,255,255,0.08);
 }
 
+/* Menu */
 [data-bs-theme=dark] .navigation .navbar-nav .nav-item.active .nav-link {
 	text-decoration: underline;
 }
 
+[data-bs-theme=dark] .topnav {
+	background: transparent;
+	border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-bs-theme=dark] .topnav .navbar-nav .nav-link {
+	color: rgba(255, 255, 255, 0.75);
+}
+
+[data-bs-theme=dark] .navbar-brand.topnav__brand img{
+	filter: invert(.75);
+	filter: brightness(0) invert(1);
+}
+
+[data-bs-theme=dark] .topnav .navbar-nav .nav-link:hover {
+	background: rgba(255, 255, 255, 0.08);
+	color: #fff;
+}
+
+[data-bs-theme=dark] .topnav .navbar-nav .nav-item.active>.nav-link,
+[data-bs-theme=dark] .topnav .navbar-nav .nav-link[aria-current="page"] {
+	background: rgba(255, 255, 255, 0.08);
+	color: #fff;
+}
+
+[data-bs-theme=dark] .topnav__theme {
+	border-color: rgba(255, 255, 255, 0.2);
+}
+
+[data-bs-theme=dark] .topnav__theme:hover {
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+}
+
 [data-bs-theme=dark] .shadow {
-    box-shadow: none !important
+	box-shadow: none !important
+}
+
+[data-bs-theme=dark] .topnav__theme .icon-sun {
+	display: block;
+}
+
+[data-bs-theme=dark] .topnav__theme .icon-moon {
+	display: none;
 }
 
 /** Text **/
-[data-bs-theme=dark]  .text-primary {
-	color: var(--main-color) !important;
+[data-bs-theme=dark] .hero :is(p,h1,h2,h3,h4,h5,h6,span,div) {
+	color: var(--lutece-ds-color-text) !important;
 }
 
-[data-bs-theme=dark]  .text-info {
-	color: var(--main-info-color) !important;
+[data-bs-theme=dark] :is(.text-primary, .text-muted) {
+	color: var(--lutece-ds-color-primary-text-strong) !important;
+	--bs-text-opacity: 1;
+}
+
+[data-bs-theme=dark] .text-info {
+	color: var(--lutece-ds-color-primary) !important;
 }
 
 [data-bs-theme=dark] .text-dark-border {
-	text-shadow: .1rem .1rem 0 var(--dark-color), -.1rem -.1rem 0 var(--dark-color), .1rem -.1rem 0 var(--dark-color), -.1rem .1rem 0 var(--dark-color), .1rem .1rem 0 var(--dark-color);
+	text-shadow: .1rem .1rem 0 var(--lutece-ds-color-neutral-900), -.1rem -.1rem 0 var(--lutece-ds-color-neutral-900), .1rem -.1rem 0 var(--lutece-ds-color-neutral-900), -.1rem .1rem 0 var(--lutece-ds-color-neutral-900), .1rem .1rem 0 var(--lutece-ds-color-neutral-900);
 }
 
 [data-bs-theme=dark] .text-dark {
-    color: var(--theme-bg-default) !important
+	color: var(--lutece-ds-surface-page) !important
 }
 
-
 [data-bs-theme=dark] .text-bg-light {
-    color: var(--theme-bg-default) !important;
-    background-color: transparent !important
+	color: var(--lutece-ds-surface-page) !important;
+	background-color: transparent !important;
 }
 
 /** Form **/
@@ -140,13 +160,13 @@
 [data-bs-theme=dark] .form-select,
 [data-bs-theme=dark] .form-control:focus,
 [data-bs-theme=dark] .form-select:focus {
-    background-color: var(--theme-bg-default);
-    color:  var(--white-color);
+	background-color: var(--lutece-ds-surface-page);
+	color: var(--lutece-ds-color-white);
 }
 
 [data-bs-theme=dark] .card {
-    border: var( --border-normal) solid var(--bs-border-color-translucent) !important;
-    background-color:  var(--theme-bg-default);
+	border: var(--lutece-ds-border-width-sm) solid var(--bs-border-color-translucent) !important;
+	background-color: var(--lutece-ds-surface-page);
 }
 
 [data-bs-theme=dark] .card-body label {
@@ -154,191 +174,50 @@
 }
 
 [data-bs-theme=dark] .card-footer {
-    border-top: var( --border-normal) solid var(--bs-border-color-translucent)
+	border-top: var(--lutece-ds-border-width-sm) solid var(--bs-border-color-translucent)
 }
 
 
 [data-bs-theme=dark] .bg-content {
-    background-color: var(--theme-bg-default) !important;
-    border: var( --border-normal) solid  var(--main-color) !important;
+	background-color: var(--lutece-ds-surface-page) !important;
+	border: var(--lutece-ds-border-width-sm) solid var(--lutece-ds-color-text) !important;
 }
 
 [data-bs-theme=dark] table,
 [data-bs-theme=dark] .table td,
 [data-bs-theme=dark] .table th {
-    --bs-table-hover-bg: #222633;
-    background-color:  var(--theme-bg-default);
+	--bs-table-hover-bg: #222633;
+	background-color: var(--lutece-ds-surface-page);
 }
 
 [data-bs-theme=dark] * ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, .186) !important
+	background: rgba(255, 255, 255, .186) !important
 }
 
-[data-bs-theme=dark] .btn,
+/* [data-bs-theme=dark] .btn, */
 [data-bs-theme=dark] .badge {
-    border-width: 0 !important
+	border-width: 0 !important
 }
 
 [data-bs-theme=dark] .btn.btn-default {
-    border-width: 1px !important
+	border-width: 1px !important
 }
 
-/** Forms steps : .step-title plus foncé que .step-current, texte/flèche adaptés **/
-[data-bs-theme=dark] .step-title {
-    border-top: 0;
-    border-bottom: 0;
+/* Card */
+[data-theme="dark"] .pack,
+[data-theme="dark"] .value {
+	background: #0E3968;
+	border-color: rgba(255, 255, 255, 0.1);
+	color: #E5EBF2;
 }
 
-[data-bs-theme=dark] .step-current .step-title {
-    background-color: color-mix(in srgb, var(--bs-tertiary-bg) 85%, black);
+[data-theme="dark"] .pack__title,
+[data-theme="dark"] .value h3 {
+	color: #fff;
 }
 
-[data-bs-theme=dark] .step-current .step-title .title,
-[data-bs-theme=dark] .step-current .step-title .title .step-number {
-    color: var(--main-color);
-    border-color: var(--main-color);
-}
-
-[data-bs-theme=dark] .step-current .step-title .title::after {
-    border-top-color: color-mix(in srgb, var(--bs-tertiary-bg) 85%, black);
-}
-
-[data-bs-theme=dark] .step-current .step-content .step-group {
-    background-color: transparent;
-}
-
-/** Checkbox / radio : fond foncé + aperçu de la coche au hover **/
-[data-bs-theme=dark] .form-check .form-check-input:not(:checked) {
-    background-color: var(--theme-bg-default);
-    border-color: color-mix(in srgb, var(--theme-bg-default) 80%, white);
-}
-
-[data-bs-theme=dark] .form-check .form-check-input:not(:checked):not(:disabled):hover[type=checkbox] {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23ffffff80' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
-}
-
-[data-bs-theme=dark] .form-check .form-check-input:not(:checked):not(:disabled):hover[type=radio] {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='1.5' fill='%23ffffff80'/%3e%3c/svg%3e");
-}
-
-/** Datepicker (vendor datepicker-bs5) **/
-[data-bs-theme=dark] .datepicker-picker {
-    background-color: var(--theme-bg-default);
-    color: var(--main-color);
-}
-
-[data-bs-theme=dark] .datepicker-title,
-[data-bs-theme=dark] .datepicker-footer {
-    background-color: color-mix(in srgb, var(--theme-bg-default) 80%, white);
-    color: var(--main-color);
-}
-
-[data-bs-theme=dark] .datepicker-controls .btn,
-[data-bs-theme=dark] .datepicker-controls .btn:disabled {
-    background-color: var(--theme-bg-default);
-    border-color: color-mix(in srgb, var(--theme-bg-default) 80%, white);
-    color: var(--main-color);
-}
-
-[data-bs-theme=dark] .datepicker-controls .btn:focus,
-[data-bs-theme=dark] .datepicker-controls .btn:hover,
-[data-bs-theme=dark] .datepicker-controls .btn:not(:disabled):active {
-    background-color: color-mix(in srgb, var(--theme-bg-default) 70%, white);
-    border-color: color-mix(in srgb, var(--theme-bg-default) 60%, white);
-    color: var(--main-color);
-}
-
-[data-bs-theme=dark] .datepicker-header .datepicker-controls .btn {
-    border-color: transparent;
-}
-
-[data-bs-theme=dark] .datepicker .dow {
-    color: var(--main-color);
-}
-
-[data-bs-theme=dark] .datepicker .week {
-    color: color-mix(in srgb, var(--main-color) 50%, transparent);
-}
-
-[data-bs-theme=dark] .datepicker-cell:not(.disabled):hover {
-    background-color: color-mix(in srgb, var(--theme-bg-default) 75%, white);
-}
-
-[data-bs-theme=dark] .datepicker-cell.focused:not(.selected) {
-    background-color: color-mix(in srgb, var(--theme-bg-default) 65%, white);
-}
-
-[data-bs-theme=dark] .datepicker-cell.selected,
-[data-bs-theme=dark] .datepicker-cell.selected:hover {
-    background-color: var(--main-info-color);
-    color: var(--main-info-color-text);
-}
-
-[data-bs-theme=dark] .datepicker-cell.disabled {
-    color: color-mix(in srgb, var(--main-color) 35%, transparent);
-}
-
-[data-bs-theme=dark] .datepicker-cell.next:not(.disabled),
-[data-bs-theme=dark] .datepicker-cell.prev:not(.disabled) {
-    color: color-mix(in srgb, var(--main-color) 55%, transparent);
-}
-
-[data-bs-theme=dark] .datepicker-cell.highlighted:not(.selected):not(.range):not(.today) {
-    background-color: color-mix(in srgb, var(--theme-bg-default) 85%, white);
-}
-
-[data-bs-theme=dark] .datepicker-cell.highlighted:not(.selected):not(.range):not(.today):not(.disabled):hover {
-    background-color: color-mix(in srgb, var(--theme-bg-default) 75%, white);
-}
-
-[data-bs-theme=dark] .datepicker-cell.today:not(.selected) {
-    background-color: var(--blue-turquoise-color);
-    color: var(--theme-bg-default);
-}
-
-[data-bs-theme=dark] .datepicker-cell.range-end:not(.selected),
-[data-bs-theme=dark] .datepicker-cell.range-start:not(.selected) {
-    background-color: var(--blue-darker-color);
-    color: var(--main-color);
-}
-
-[data-bs-theme=dark] .datepicker-cell.range {
-    background-color: color-mix(in srgb, var(--theme-bg-default) 70%, white);
-}
-
-[data-bs-theme=dark] .datepicker-cell.range:not(.disabled):not(.focused):not(.today):hover {
-    background-color: color-mix(in srgb, var(--theme-bg-default) 60%, white);
-}
-
-[data-bs-theme=dark] .datepicker-input.in-edit {
-    border-color: var(--main-info-color);
-}
-
-/* Le theme-datepicker.css emploie var(--white-color) qui en dark = --theme-bg-default :
-   les bordures 4px deviennent invisibles sur le fond du picker mais réapparaissent
-   en sombre sur les cellules éclaircies (hover/selected). On force transparent. */
-[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell,
-[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.selected.focused,
-[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.disabled:hover,
-[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range,
-[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range-start,
-[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range-end {
-    border-color: transparent;
-}
-
-[data-bs-theme=dark] .datepicker-footer .datepicker-controls .btn:hover {
-    color: var(--main-info-color-text);
-}
-
-/* Bordures claires (--blue-light, --white-light-color) à neutraliser en dark */
-[data-bs-theme=dark] .datepicker-dropdown .datepicker-picker {
-    border-color: color-mix(in srgb, var(--theme-bg-default) 70%, white);
-}
-
-[data-bs-theme=dark] .datepicker-header .datepicker-controls {
-    border-block-end-color: transparent;
-}
-
-[data-bs-theme=dark] .datepicker-footer .datepicker-controls:has( .btn:not([style]) ) {
-    border-block-start-color: transparent;
+[data-theme="dark"] .pack__desc,
+[data-theme="dark"] .pack__list,
+[data-theme="dark"] .value p {
+	color: rgba(255, 255, 255, 0.7);
 }

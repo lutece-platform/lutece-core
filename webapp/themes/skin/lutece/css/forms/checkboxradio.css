@@ -1,137 +1,33 @@
 /*** 										***/
 /*** Checkbox and radio 					***/
 /***  										***/
-.form-check-input[type=checkbox]{
-    border-radius: 0
-}
-
-.form-switch .form-check-input[type=checkbox]{
-    border-radius: var(--spacing-ml);
-}
 
 .form-check {
-	min-height: calc( var(--spacing-xxs) * 4);
+	min-height: calc( var(--lutece-ds-spacing-2xs) * 4);
 	touch-action: manipulation;
 }
 
-/* Neutralize form-label margin inside form-check (form-label is for stacked layouts) */
-.form-check .form-check-label.form-label,
-.form-check .form-label.form-check-label {
-	margin-bottom: 0;
-}
-
-.form-check .form-check-input ~ .form-check-label{
-    width: auto;
+.form-check .form-check-label{
+	display: flex;
+	align-self: center;
+	gap : var(--lutece-ds-spacing-sm)
 }
 
 .form-check:not( .form-check-inline ){
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-xs);
-	padding-block: calc( var(--spacing-xxs) * 1.875 );
+	padding-block: calc( var(--lutece-ds-spacing-2xs) * 1.875 );
 	padding-inline-start: 0;
 }
 
-/* Variante inline : même alignement centré que le mode bloc, en inline-flex pour garder les options sur une ligne */
-.form-check.form-check-inline{
-	display: inline-flex;
-	align-items: center;
-	gap: var(--spacing-xs);
-	padding-inline-start: 0;
-}
-
-/* Neutralise le décalage Bootstrap (margin-left négatif + float) en mode flex : espacement géré par le gap */
-.form-check:not( .form-check-inline ) .form-check-input,
-.form-check.form-check-inline .form-check-input {
-	margin-inline-start: 0;
-	float: none;
-}
-
-.form-check .form-check-input {
-    background-color: var( --white-color );
-    border-color: var( --main-color );
-	width: 1.2em;
-	height: 1.2em;
-	margin-top: 0;
-	transition: background-color .15s ease, border-color .15s ease;
-}
-
-/* État coché : fond gris plus clair, coche bleue + halo autour de la coche */
-.form-check .form-check-input:checked{
-    background-color: var( --bs-secondary-bg );
-    border-color: var( --bs-secondary-bg );
-}
-
-.form-check .form-check-input:checked[type=checkbox]{
-	background-image:
-		url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%233C5BFE' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e"),
-		radial-gradient( circle at center, color-mix( in srgb, var(--main-info-color) 45%, transparent ), transparent 60% );
-	background-size: 85%, 100%;
-	background-position: center;
-	background-repeat: no-repeat;
-}
-
-.form-check .form-check-input:checked[type=radio]{
-	background-image:
-		url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2.2' fill='%233C5BFE'/%3e%3c/svg%3e"),
-		radial-gradient( circle at center, color-mix( in srgb, var(--main-info-color) 45%, transparent ), transparent 60% );
-	background-size: 65%, 100%;
-	background-position: center;
-	background-repeat: no-repeat;
-}
-
-.form-check .form-check-input:focus-within{
-	color: var( --main-info-color );
-}
-
-.form-check .form-check-input:not(:disabled):hover{
-	cursor: pointer;
-}
-
-/* Aperçu de la coche/du point au survol d'une case/radio non cochée */
-.form-check .form-check-input:not(:disabled):not(:checked):hover[type=checkbox]{
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%2300000080' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
-}
-
-.form-check .form-check-input:not(:disabled):not(:checked):hover[type=radio]{
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='1.5' fill='%2300000080'/%3e%3c/svg%3e");
-}
-
-.form-check .form-check-input:not(:disabled):active,
-.form-check .form-check-input:focus:not(:checked){
-	background-color: var( --main-info-color );
-	border-color: var( --main-info-color );	
-	outline: 1px solid var(--main-info-color);
-}
-
-.form-check .form-check-input:focus{
-	box-shadow: none;
-}
-
-.form-check .form-check-input ~ .form-check-label{
-	font-family: var( --font-family-list );
-	font-weight: 400;
-	font-size: var( --font-m );
-	width: 100%;
-	transition: filter .15s ease, color .15s ease;
-}
-
-.form-check .form-check-input:not(:disabled) ~ .form-check-label:hover{
-	filter: brightness(1.2);
-	cursor: pointer;
-}
-
-.form-check .form-check-input ~ .form-check-label > a {
-    display: inline-flex;
-	align-items: center;
-	font-weight: 500;
-	color: var( --main-color );
+.form-check input {
+	width: 18px; 
+	height: 18px;
+ 	accent-color: var(--lutece-ds-color-primary);
 }
 
 .form-check:active,
 .form-check:focus,
 .form-check:focus-within {
-	outline: .15rem solid var( --main-color ) !important;
+	outline: .15rem solid var( --lutece-ds-color-text ) !important;
 	outline-offset: .25rem !important;
 }
 
@@ -144,85 +40,70 @@
     max-width: fit-content;
 }
 
-.form-check .form-check-input.is-invalid{
-	background-color: var( --white-color );
-	border-color: var( --main-danger-color );
+.form-check input.is-invalid{
+	background-color: var( --lutece-ds-color-white );
+	border-color: var( --lutece-ds-color-danger );
 	border-width: 2px;
 }
 
-.form-check .form-check-input.is-invalid ~ .form-check-label{
-	color: var( --main-danger-color ) !important;
+.form-check input.is-invalid ~ .form-check-label{
+	color: var( --lutece-ds-color-danger ) !important;
 }
 
 /* Disabled */
-.form-check .form-check-input:disabled{
-	background-color: var(--white-light-color);
-	border-color: var( --border-color );
+.form-check input:disabled{
+	background-color: var(--lutece-ds-color-neutral-100);
+	border-color: var( --lutece-ds-border );
 }
 
-.form-check .form-check-input:disabled ~ .form-check-label{
-	color: var( --blue-darker-color );
-}
-
-/* Checked */
-.form-check .form-check-input:checked ~ .form-check-label,
-.form-check .form-check-input:checked ~ .form-check-label > a{
-	text-shadow: .5px 0 0 #555, -.5px 0 0 #555;
-}
-
-.form-check .form-check-input:checked ~ .form-check-label{
-	color: var( --main-color );
-}
-
-.form-check .form-check-input:checked ~ .selection-subtitle,
-.form-check:has(.form-check-input:checked) .selection-subtitle{
-	color: var( --main-info-color );
+.form-check input:disabled ~ .form-check-label{
+	color: var( --lutece-ds-color-blue-700 );
 }
 
 /* Label Hidden */
 .form-check.form-check-inline.hidden-label .form-check-input{
     position: relative;
-    top: var(--spacing-xxs);
+    top: var(--lutece-ds-spacing-2xs);
 }
 
 /* Button Selection */
 .form-check.btn-selection {
-    border: 1px solid var(--blue-light);
-    margin-bottom: var(--spacing-sm);
+    border: 1px solid var(--lutece-ds-color-blue-300);
+    margin-bottom: var(--lutece-ds-spacing-sm);
     padding-inline-start: 0;
     padding-block-end: 0;
 }
 
 .form-check.btn-selection .selection-check{
-    padding-inline-start: var(--spacing-ml);
-    padding-block-start: var(--spacing-xs);
-    padding-inline-end: var(--spacing-xs);
+    padding-inline-start: var(--lutece-ds-spacing-md-loose);
+    padding-block-start: var(--lutece-ds-spacing-xs);
+    padding-inline-end: var(--lutece-ds-spacing-xs);
 }
 
 .form-check.btn-selection:hover:has(.form-check-input:not(:disabled)) {
-	background-color: var(--blue-bg-colored-light);
+	background-color: var(--lutece-ds-color-blue-100);
 }
 
-.form-check.btn-selection:has(.form-check-input:checked){
-  background-color: var(--blue-bg-colored);
+.form-check.btn-selection:has(input:checked){
+  background-color: var(--lutece-ds-color-blue-200);
 }
 
 .form-check.btn-selection .selection-content {
 	display: none;
-	background-color: var(--white-color);
-	border-block-start: 1px solid var(--blue-light);
-	margin-block-start: var(--spacing-xs);
-	padding-inline: var( --spacing-ml );
-	padding-block-end: var(--spacing-l);
+	background-color: var(--lutece-ds-color-white);
+	border-block-start: 1px solid var(--lutece-ds-color-blue-300);
+	margin-block-start: var(--lutece-ds-spacing-xs);
+	padding-inline: var( --lutece-ds-spacing-md-loose );
+	padding-block-end: var(--lutece-ds-spacing-lg);
 }
 
-.form-check.btn-selection .selection-check:has( .form-check-input:checked ) ~ .selection-content,
-.form-check.btn-selection .selection-check:has( .form-check-input.is-invalid ) ~ .invalid-feedback {
+.form-check.btn-selection .selection-check:has( input:checked ) ~ .selection-content,
+.form-check.btn-selection .selection-check:has( input.is-invalid ) ~ .invalid-feedback {
     display: block;
 }
 
 /* TOS */
-.form-check.custom-tos .form-check-input ~ .form-check-label{
+.form-check.custom-tos input ~ .form-check-label{
 	display: flex;
 	align-items: center;
 }
@@ -244,10 +125,10 @@
 
 /* CheckBox as Button */
 .btn-check:checked + .btn-outline{
-	background-color: var( --main-info-color );
-	border-color: var( --main-info-color );
-	color: var( --white-color);
-	fill: var( --white-color);
+	background-color: var( --lutece-ds-color-primary );
+	border-color: var( --lutece-ds-color-primary );
+	color: var( --lutece-ds-color-white);
+	fill: var( --lutece-ds-color-white);
 }
 
 .btn-check.btn-xl + .btn-outline{
@@ -256,12 +137,12 @@
 
 @media (max-width: 767.98px) {
 	/* TOS */
-	.form-check.custom-tos .form-check-input ~ .form-check-label{
+	.form-check.custom-tos input ~ .form-check-label{
 		flex-direction: column;
 	}
 
-	.form-check.custom-tos .form-check-input ~ .form-check-label a{
+	.form-check.custom-tos input ~ .form-check-label a{
 		margin: 0 !important;
-		font-size: var(--font-sm);
+		font-size: var(--lutece-ds-font-size-sm);
 	}
 }

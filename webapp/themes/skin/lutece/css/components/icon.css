@@ -8,44 +8,57 @@
 
 /***  Icons Size                            ***/
 .icon-sm {
-	height: var(--icon-sm) !important;
-	width: var(--icon-sm) !important;
+	height: var(--lutece-ds-icon-size-sm) !important;
+	width: var(--lutece-ds-icon-size-sm) !important;
 }
 
 .icon-m {
-	height: var(--icon-m) !important;
-	width: var(--icon-m) !important;
+	height: var(--lutece-ds-icon-size-md) !important;
+	width: var(--lutece-ds-icon-size-md) !important;
 }
 
 .icon-ml {
-	height: var(--icon-ml) !important;
-	width: var(--icon-ml) !important;
+	height: var(--lutece-ds-icon-size-lg) !important;
+	width: var(--lutece-ds-icon-size-lg) !important;
 }
 
 .icon-l {
-	height: var(--icon-l) !important;
-	width: var(--icon-l) !important;
+	height: var(--lutece-ds-icon-size-xl) !important;
+	width: var(--lutece-ds-icon-size-xl) !important;
 }
 
 .icon-xl {
-	height: var(--icon-xl) !important;
-	width: var(--icon-xl) !important;
+	height: var(--lutece-ds-icon-size-2xl) !important;
+	width: var(--lutece-ds-icon-size-2xl) !important;
 }
 
 .icon-xxl {
-	height: var(--icon-xxl) !important;
-	width: var(--icon-xxl) !important;
+	height: var(--lutece-ds-icon-size-3xl) !important;
+	width: var(--lutece-ds-icon-size-3xl) !important;
+}
+
+/*** Paris Icon								***/
+.paris-icon {
+    fill: var(--lutece-ds-color-white);
+    transition: fill .3s ease;
+    height: calc(var(--lutece-ds-size-base) * 6);
+    width: calc(var(--lutece-ds-size-base) * 6);
+	transform: translateY(-2px);
+}
+
+.paris-icon-sprite {
+    display: none;
 }
 
 /* Icons Utils 						*/
 .rounded-bg-icon {
-    width: calc(var(--size-base) * 10);
-    height: calc(var(--size-base) * 10);
-    background-color: var(--white-color);
-    border-radius: var(--rounded);
-    margin: 0 calc(var(--size-base) * 2.5)
+    width: calc(var(--lutece-ds-size-base) * 10);
+    height: calc(var(--lutece-ds-size-base) * 10);
+    background-color: var(--lutece-ds-color-white);
+    border-radius: var(--lutece-ds-radius-rounded);
+    margin: 0 calc(var(--lutece-ds-size-base) * 2.5)
 }
 
 .btn-close:hover{
-    background-color:var(--gray-color);
+    background-color:var(--lutece-ds-color-neutral-300);
 }

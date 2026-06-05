@@ -9,49 +9,49 @@
 .page-item {
 	display: flex;
 	align-items: center;
-	margin-inline-start: var(--spacing-xs);
+	margin-inline-start: var(--lutece-ds-spacing-xs);
 }
 
 .page-item .page-link {
-	font-family: var(--font-family-list);
+	font-family: var(--lutece-ds-font-family-base);
 	font-weight: 600;
-	font-size: var(--font-m);
-	color: var(--main-color);
+	font-size: var(--lutece-ds-font-size-lg);
+	color: var(--lutece-ds-color-text);
 	background-color: transparent;
 	border: 0;
 	text-decoration: none;
 	line-height: 2.2rem;
 	display: flex;
-	padding: 6px var(--spacing-xs, 8px);
+	padding: 6px var(--lutece-ds-spacing-xs, 8px);
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: var(--spacing-l);
-	height: var(--spacing-l);
-	background-color: var(--white-light-color)
+	width: var(--lutece-ds-spacing-lg);
+	height: var(--lutece-ds-spacing-lg);
+	background-color: var(--lutece-ds-color-neutral-100)
 }
 
 .page-link:hover,
 .page-link:focus,
 .page-link:active {
 	box-shadow: none;
-	background-color:var(--blue-light);
+	background-color:var(--lutece-ds-color-blue-300);
 }
 
 .page-item .page-link svg {
-	fill: var(--main-color);
+	fill: var(--lutece-ds-color-text);
 	stroke: none;
     width: 24px;
     height: auto;
 }
 
 .page-item.disabled .page-link svg {
-	color: var(--blue-color);
+	color: var(--lutece-ds-color-blue-400);
 }
 
 .page-item.active .page-link {
-	color: var(--white-color);
-	background-color: var(--main-info-color);
+	color: var(--lutece-ds-color-white);
+	background-color: var(--lutece-ds-color-primary);
 }
 
 .page-link.cesure {

@@ -1,112 +1,140 @@
-/*** 										***/
-/*** Variables  							***/
-/*** 										***/
+/*** 										 ***/
+/*** Variables Lutèce DS                     ***/
+/*** 										 ***/
 :root{
 	/* Default base for all sizes */
-	--size-base: .4rem;
+	--lutece-ds-size-base: .4rem;
 
 	/* Font Family */
-	--font-family-pref: "Open Sans";
-	--font-family-basics: Arial, Helvetica, sans-serif;
-	--font-family-list: var( --font-family-pref), var(--font-family-basics );
+	--lutece-ds-font-family-primary: "Montserrat";
+	--lutece-ds-font-family-fallback: Arial, Helvetica, sans-serif;
+	--lutece-ds-font-family-base: var( --lutece-ds-font-family-primary ), var( --lutece-ds-font-family-fallback );
 
-    --bs-font-sans-serif: system-ui, -apple-system, var( --font-family-pref ), "Segoe UI",  "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    /* Boostrap 5 override */
+    --bs-font-sans-serif: system-ui, -apple-system, var( --lutece-ds-font-family-primary ), "Segoe UI",  "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --bs-body-font-family: var(--bs-font-sans-serif);
-    
-    --bs-body-font-size: calc( var( --size-base ) * 4 );
-    --bs-body-font-weight: 400;  
+
+    --bs-body-font-size: calc( var( --lutece-ds-size-base ) * 4 );
+    --bs-body-font-weight: 400;
     --bs-body-line-height: 1.5;
     --bs-link-decoration: underline;
-    --bs-border-width: calc( var( --size-base ) / 4 );
+    --bs-border-width: calc( var( --lutece-ds-size-base ) / 4 );
     --bs-border-style: solid;
-    
-    --bs-border-radius: calc( var( --size-base ) * 1.25 );
+
+    --bs-border-radius: calc( var( --lutece-ds-size-base ) * 1.25 );
     --bs-border-radius-sm: calc( var( --bs-border-radius ) / 2 );
     --bs-border-radius-lg: var( --bs-border-radius );
     --bs-border-radius-xl: calc( var( --bs-border-radius ) * 2 );
     --bs-border-radius-2xl: calc( var( --bs-border-radius ) * 4 );
     --bs-border-radius-pill: calc( var( --bs-border-radius ) * 10 );
-	
+
 	/* Menu */
-	--menu-fixed-top: calc( 15.175 * var( --size-base ) );
-	--menu-dropdown-start: calc( 92 * var(--size-base) );
-    --menu-user-monparis-top: calc( -4.375 * var( --size-base ) );
+	--lutece-ds-menu-fixed-top: calc( 15.175 * var( --lutece-ds-size-base ) );
+	--lutece-ds-menu-dropdown-start: calc( 92 * var( --lutece-ds-size-base ) );
+    --lutece-ds-menu-user-top: calc( -4.375 * var( --lutece-ds-size-base ) );
 
 	/* Divider macro */
-	--divider-margin-content-before: 1;
-	--divider-margin-content-after: 1;
-	--divider-margin-start: calc( var( --size-base ) * 1.5 );
-	--divider-margin-end: calc( var( --size-base ) * 1.5 );
+	--lutece-ds-divider-margin-before: 1;
+	--lutece-ds-divider-margin-after: 1;
+	--lutece-ds-divider-margin-start: calc( var( --lutece-ds-size-base ) * 1.5 );
+	--lutece-ds-divider-margin-end: calc( var( --lutece-ds-size-base ) * 1.5 );
 
-	/* Utilities */
-    --scollbar-with: auto; 
-    --scollbar-radius: 0; 
-	
+	/* Utilities - Scrollbar */
+    --lutece-ds-scrollbar-width: auto;
+    --lutece-ds-scrollbar-radius: 0;
+
     /* Text */
-	--text-underline-offset :  calc( var(--size-base, .4rem ) * .375 ) ;
-    
+	--lutece-ds-text-underline-offset: calc( var( --lutece-ds-size-base, .4rem ) * .375 );
+
     /* Line Height */
-    --line-height-xxs: calc( var( --size-base ) * 2.725 );
-    --line-height-xs: calc( var( --size-base ) * 3.75 );    /* Default */
-    --line-height-sm: calc( var( --size-base ) * 5.5 );
-    --line-height-m: calc( var( --size-base ) * 6.25 );
-    --line-height-l: calc( var( --size-base ) * 6.55 );
-    --line-height-xl: calc( var( --size-base ) * 7.5 );
-    --line-height-xxl: calc( var( --size-base ) * 8.5 );
-    --line-height-xxxl: calc( var( --size-base ) * 11.5 );
+    --lutece-ds-line-height-2xs: calc( var( --lutece-ds-size-base ) * 2.725 );
+    --lutece-ds-line-height-xs:  calc( var( --lutece-ds-size-base ) * 3.75 );   /* Default */
+    --lutece-ds-line-height-sm:  calc( var( --lutece-ds-size-base ) * 5.5 );
+    --lutece-ds-line-height-md:  calc( var( --lutece-ds-size-base ) * 6.25 );
+    --lutece-ds-line-height-lg:  calc( var( --lutece-ds-size-base ) * 6.55 );
+    --lutece-ds-line-height-xl:  calc( var( --lutece-ds-size-base ) * 7.5 );
+    --lutece-ds-line-height-2xl: calc( var( --lutece-ds-size-base ) * 8.5 );
+    --lutece-ds-line-height-3xl: calc( var( --lutece-ds-size-base ) * 11.5 );
 
-	/* Spacing utilities */
-	--spacing-base:  var(--size-base, .4rem );
-    --spacing-xxs: var(--spacing-base);             /* .4rem    xxs */
-    --spacing-xs: calc(var(--spacing-base) * 2);    /* .8rem    xs  */
-    --spacing-xls: calc(var(--spacing-base) * 2.5);    /* 1rem    ssm  */
-    --spacing-sms: calc(var(--spacing-base) * 3.5);    /* 1.5rem    ssm  */
-    --spacing-sm: calc(var(--spacing-base) * 4);    /* 1.6rem   sm  */
-    --spacing-m: calc(var(--spacing-base) * 6.5);     /* 2.5rem   m   */
-    --spacing-ml: calc(var(--spacing-base) * 8);    /* 3.2rem   ml  */ 
-    --spacing-l: calc(var(--spacing-base) * 10);    /* 4rem    l    */
-    --spacing-xl: calc(var(--spacing-base) * 14);   /* 5.6rem  xl   */   
-    --spacing-xxl: calc(var(--spacing-base) * 20);  /* 8rem    xxl  */
-    --spacing-xxxl: calc(var(--spacing-base) * 22); /* 8.8rem  xxxl */   
-	
-	/* Border Size */
-    --border-normal: calc( var(--size-base, .4rem ) / 4 );
-    --border-medium: calc(var(--border-normal) * 3);
-    --border-large: calc(var(--border-normal) * 5);
-	
+	/* Spacing */
+	--lutece-ds-spacing-base:     var( --lutece-ds-size-base, .4rem );
+    --lutece-ds-spacing-2xs:      var( --lutece-ds-spacing-base );                    /* .4rem  /  4px */
+    --lutece-ds-spacing-xs:       calc( var( --lutece-ds-spacing-base ) * 2 );        /* .8rem  /  8px */
+    --lutece-ds-spacing-xs-loose: calc( var( --lutece-ds-spacing-base ) * 2.5 );      /* 1rem   / 10px */
+    --lutece-ds-spacing-sm-tight: calc( var( --lutece-ds-spacing-base ) * 3.5 );      /* 1.4rem / 14px */
+    --lutece-ds-spacing-sm:       calc( var( --lutece-ds-spacing-base ) * 4 );        /* 1.6rem / 16px */
+    --lutece-ds-spacing-md:       calc( var( --lutece-ds-spacing-base ) * 6.5 );      /* 2.6rem / 26px */
+    --lutece-ds-spacing-md-loose: calc( var( --lutece-ds-spacing-base ) * 8 );        /* 3.2rem / 32px */
+    --lutece-ds-spacing-lg:       calc( var( --lutece-ds-spacing-base ) * 10 );       /* 4rem   / 40px */
+    --lutece-ds-spacing-xl:       calc( var( --lutece-ds-spacing-base ) * 12 );       /* 4.8rem / 48px */
+    --lutece-ds-spacing-2xl:      calc( var( --lutece-ds-spacing-base ) * 14 );       /* 5.6rem / 56px */
+    --lutece-ds-spacing-3xl:      calc( var( --lutece-ds-spacing-base ) * 20 );       /* 8rem   / 80px */
+    --lutece-ds-spacing-4xl:      calc( var( --lutece-ds-spacing-base ) * 22 );       /* 8.8rem / 88px */
+
+	/* Border width */
+    --lutece-ds-border-width-sm: calc( var( --lutece-ds-size-base, .4rem ) / 4 );
+    --lutece-ds-border-width-md: calc( var( --lutece-ds-border-width-sm ) * 3 );
+    --lutece-ds-border-width-lg: calc( var( --lutece-ds-border-width-sm ) * 5 );
+
 	/* Shadows */
-    --shadow-radius: calc( var(--size-base, .4rem ) * 2 );
-    --shadow-button: 0 3px 6px 0 rgba(0, 0, 0, calc( var(--size-base, .4rem ) / 1.6 ) );
-    --shadow-card-filter : drop-shadow( 0 10px 20px rgba( 0, 0, 0, calc( var(--size-base, .4rem ) / 2.5 ) ) );
-    --shadow-card-border : 0 0 0 var(--size-base, .4rem ) var( --shadow-border-color );
-    --shadow-focus : 0 0 0 calc( var(--size-base, .4rem ) * 1.5 ) var( --main-color );
+    --lutece-ds-shadow-radius:      calc( var( --lutece-ds-size-base, .4rem ) * 2 );
+    --lutece-ds-shadow-button:      0 3px 6px 0 rgba( 0, 0, 0, calc( var( --lutece-ds-size-base, .4rem ) / 1.6 ) );
+    --lutece-ds-shadow-card-filter: drop-shadow( 0 10px 20px rgba( 0, 0, 0, calc( var( --lutece-ds-size-base, .4rem ) / 2.5 ) ) );
+    --lutece-ds-shadow-card-border: 0 0 0 var( --lutece-ds-size-base, .4rem ) var( --lutece-ds-border-shadow );
+    --lutece-ds-shadow-focus:       0 0 0 calc( var( --lutece-ds-size-base, .4rem ) * 1.5 ) var( --lutece-ds-color-text );
 
-	/* Font Size   */
-    --font-xs: calc( var(--size-base, .4rem ) * 2.5 );
-    --font-sm: calc( var(--size-base, .4rem ) * 3 );
-    --font-lm: calc( var(--size-base, .4rem ) * 3.25 );
-    --font-xm: calc( var(--size-base, .4rem ) * 3.75 );
-    --font-m:  calc( var(--size-base, .4rem ) * 4 );
-    --font-ml: calc( var(--size-base, .4rem ) * 4.5 );
-    --font-l: calc( var(--size-base, .4rem ) * 5 );
-    --font-xl: calc( var(--size-base, .4rem ) * 6 );
-    --font-xxl: calc( var(--size-base, .4rem ) * 8 );
-    --font-xxxl: calc( var(--size-base, .4rem ) * 11.25 );
-
-	/* Icons Size   */
+	/* Font Size */
+    --lutece-ds-font-size-xs:   calc( var( --lutece-ds-size-base, .4rem ) * 2.5 ); /* 10px */
+    --lutece-ds-font-size-sm:   calc( var( --lutece-ds-size-base, .4rem ) * 3 );   /* 12px */
+    --lutece-ds-font-size-base: calc( var( --lutece-ds-size-base, .4rem ) * 3.5 ); /* 14px */
+    --lutece-ds-font-size-md:   calc( var( --lutece-ds-size-base, .4rem ) * 3.75 );/* 15px */
+    --lutece-ds-font-size-lg:   calc( var( --lutece-ds-size-base, .4rem ) * 4 );   /* 16px */
+    --lutece-ds-font-size-xl:   calc( var( --lutece-ds-size-base, .4rem ) * 4.5 ); /* 18px */
+    --lutece-ds-font-size-2xl:  calc( var( --lutece-ds-size-base, .4rem ) * 5 );   /* 20px */
+    --lutece-ds-font-size-3xl:  calc( var( --lutece-ds-size-base, .4rem ) * 6 );   /* 24px */
+    --lutece-ds-font-size-4xl:  calc( var( --lutece-ds-size-base, .4rem ) * 8 );   /* 32px */
+    --lutece-ds-font-size-5xl:  calc( var( --lutece-ds-size-base, .4rem ) * 9 );   /* 36px */
+    --lutece-ds-font-size-6xl:  calc( var( --lutece-ds-size-base, .4rem ) * 12 );  /* 48px */
+    --lutece-ds-font-size-7xl:  calc( var( --lutece-ds-size-base, .4rem ) * 15 );  /* 60px */
+   
+	/* Icon size */
 	/* 18px / 24px / 28px / 32px / 40px / 56px */
-    --icon-sm: calc( var(--size-base, .4rem ) * 4.5 );
-    --icon-m: calc( var(--size-base, .4rem ) * 6 );
-    --icon-ml: calc( var(--size-base, .4rem ) * 7 );
-    --icon-l: calc( var(--size-base, .4rem ) * 8 );
-    --icon-xl: calc( var(--size-base, .4rem ) * 10 );
-    --icon-xxl: calc( var(--size-base, .4rem ) * 14 );
+    --lutece-ds-icon-size-sm:  calc( var( --lutece-ds-size-base, .4rem ) * 4.5 );
+    --lutece-ds-icon-size-md:  calc( var( --lutece-ds-size-base, .4rem ) * 6 );
+    --lutece-ds-icon-size-lg:  calc( var( --lutece-ds-size-base, .4rem ) * 7 );
+    --lutece-ds-icon-size-xl:  calc( var( --lutece-ds-size-base, .4rem ) * 8 );
+    --lutece-ds-icon-size-2xl: calc( var( --lutece-ds-size-base, .4rem ) * 10 );
+    --lutece-ds-icon-size-3xl: calc( var( --lutece-ds-size-base, .4rem ) * 14 );
 
 	/* Forms - Inputs */
-	--checkbox-size: calc(var(--size-base ) * 4.5 );
-	--radio-size: calc(var(--size-base ) * 5.5 );
+	--lutece-ds-checkbox-size: calc( var( --lutece-ds-size-base ) * 4.5 );
+	--lutece-ds-radio-size:    calc( var( --lutece-ds-size-base ) * 5.5 );
 
-    /* Rounded */ 
-    --rounded : 50%;
+    /* Rounded */
+    --lutece-ds-radius-xs: 4px;
+    --lutece-ds-radius-sm: 6px;
+    --lutece-ds-radius-md: 10px;
+    --lutece-ds-radius-lg: 14px;
+    --lutece-ds-radius-xl: 20px;
+    --lutece-ds-radius-2xl: 28px;
+    --lutece-ds-radius-pill: 999px;
+    --lutece-ds-radius-rounded: 50%;
+
+    /* Transition */
+    --lutece-ds-ease: cubic-bezier(0.2, 0.6, 0.2, 1);
+    --lutece-ds-dur-fast: 120ms;
+    --lutece-ds-dur-base: 180ms;
+    --lutece-ds-dur-slow: 280ms;
+
+    /* Density */
+    --lutece-ds-density: 1;
+    --lutece-ds-ctrl-h-sm: calc(32px * var(--lutece-ds-density));
+    --lutece-ds-ctrl-h-md: calc(40px * var(--lutece-ds-density));
+    --lutece-ds-ctrl-h-lg: calc(48px * var(--lutece-ds-density));
+}
+
+[data-lutece-ds-density="compact"] {
+  --lutece-ds-density: 0.9;
+  --lutece-ds-size-base: .35rem;
 }

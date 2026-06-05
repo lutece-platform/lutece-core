@@ -1,137 +1,49 @@
 /*** 										***/
-/*** Info-step								***/
+/*** Steps								    ***/
 /***  										***/
-.stepper{
-	display: flex;
-	justify-content: center;
-	margin-bottom: 2rem;
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--lutece-ds-spacing-lg);
+    margin: 0 auto;
+    max-width: 920px;
+    list-style-type: none;
 }
 
-.stepper ol{
-	display: inline-flex;
-	justify-content: space-around;
-	padding: 0;
-	width: 100%;
-}
-
-.stepper > ol > li{
-	position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.stepper > ol > li:last-of-type + div {
-	display:none;
-}
-
-.stepper li .idx, .stepper li figure {
-    border-radius: 50%;
-    background-color: var(--white-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 3.8rem;
-    height: 3.8rem;
-    border: .4rem solid var(--blue-light);
-    z-index: 1;
-}
-
-.stepper li .idx span{
-	font-family: var(--font-family-list);
-    font-weight: 600;
-    font-size: var(--font-m);
+.step {
     text-align: center;
-    color: var(--blue-darker-color);
 }
 
-article .stepper li p, 
-.stepper li p {
-	text-align: center;
-    font-size: var(--font-m);
-    font-weight: 600;
-    line-height: 22px;
-    color: var(--blue-darker-color);
-    position: absolute;
-    top: 35px;
-    width: max-content;
+.step  .step__num {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: var(--lutece-ds-font-size-xl);
+    font-weight: 900;
+    border: 2px solid;
+    margin: 0 auto  var(--lutece-ds-spacing-base);
+    background: var(--lutece-ds-color-white);
 }
 
-.stepper .idx img,
-.stepper figure img{
-	filter: brightness( 0.1 )
+.step h3 {
+    font-size: var(--lutece-ds-font-size-2xl);
+    font-weight: 800;
+    margin-bottom: var(--lutece-ds-spacing-base);
 }
 
-/* Progress line */
-.stepper > ol > li.bs-stepper-container {
-	flex: 1 1 32px;
-	margin: 0 0.5%;
-	display: flex;
-    flex-direction: row;
-	justify-content: center;
+.step p {
+    font-size: var(--lutece-ds-font-size-base);
 }
 
-.bs-stepper-line {
-    width: 100%;
-    height: 3px;
-    background-color: var(--blue-light);
+[data-bs-theme=dark] .step__num {
+    background: #0E3968;
+    color: #fff;
 }
 
-/* Status */
-.stepper .done .idx,.stepper .done figure,
-.stepper .in-progress .idx,.stepper .in-progress figure,
-.stepper .started .idx,.stepper .started figure {
-	border: .4rem solid var( --main-color );
-}
-
-.stepper .done .idx svg {
-	color: var(--white-color) !important;
-}
-
-.stepper .done .idx {
-    background-color: var(--main-color);
-}
-
-.stepper .done .idx span,
-.stepper .in-progress .idx span,
-.stepper .started .idx span {
-	color: var(--main-color);
-}
-
-.stepper .bs-stepper-line.done {
-	background-color: var(--main-color);
-}
-
-article .stepper li.done p, .stepper li.done p,
-article .stepper li.in-progress p, .stepper li.in-progress p,
-article .stepper li.started p, .stepper li.started p {
-	color: var(--main-color);
-}
-
-/* Status In Progress */
-.bs-stepper-line.end {
-	flex: 0.5;
-	margin-left: 2.5%;
-}
-
-.bs-stepper-line.start {
-	flex: 0.5;
-    background-color: black;
-    margin-right: 2.5%;
-}
-
-/* Button More */
-.btn-infostep-more{
-	display: flex;
-	position: absolute;
-	top: 40px;
-	width: max-content;
-}
-
-.infostep-more{
-	position: absolute;
-	top: 55px;
-	width: max-content;
+@media (max-width: 767.98px) {
+    .steps {
+        display: block;
+    }
 }

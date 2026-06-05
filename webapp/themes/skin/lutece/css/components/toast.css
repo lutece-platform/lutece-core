@@ -3,8 +3,8 @@
 /***  										***/
 .toast-container{
 	z-index: 1000;
-	top: var(--spacing-sm);
-	right: var(--spacing-sm)
+	top: var(--lutece-ds-spacing-sm);
+	right: var(--lutece-ds-spacing-sm)
 }
 
 .toast{
@@ -12,59 +12,59 @@
 }
 
 .toast .btn-close{
-    font-size: var(--font-m);
+    font-size: var(--lutece-ds-font-size-lg);
 }
 
 .toast .toast-header strong{
-    color: var(--main-info-color);
+    color: var(--lutece-ds-color-primary);
 }
 
 .toast.success .toast-header strong{
-    color: var(--main-success-color-text);
+    color: var(--lutece-ds-color-success-text-strong);
 }
 
 .toast.error .toast-header strong{
-    color: var(--main-danger-color-text);
+    color: var(--lutece-ds-color-danger-text-strong);
 }
 
 .toast.info .toast-header strong{
-    color: var(--main-color);
+    color: var(--lutece-ds-color-text);
 }
 
 .toast-header, .toast-body{
-    font-size: var(--font-m);
-    padding: var(--spacing-sm);
+    font-size: var(--lutece-ds-font-size-lg);
+    padding: var(--lutece-ds-spacing-sm);
     font-weight:400;
 }
 
 .toast.success, .toast.success .toast-header{
-    background-color: var(--main-success-color-lightest);
+    background-color: var(--lutece-ds-color-success-bg);
 }
 
 .toast.success{
-    border-left: 4px solid var(--main-success-color);
+    border-left: 4px solid var(--lutece-ds-color-success);
 }
 
 .toast.error, .toast.error .toast-header{
-    background-color: var(--main-danger-color-lightest);
+    background-color: var(--lutece-ds-color-danger-bg);
 }
 
 .toast.error{
-    border-left: 4px solid var(--main-danger-color);
+    border-left: 4px solid var(--lutece-ds-color-danger);
 }
 
 .toast.warning, .toast.warning .toast-header{
-    background-color: var(--main-warning-color-lightest);
+    background-color: var(--lutece-ds-color-warning-bg);
 }
 
 .toast.warning{
-    border-left: 4px solid var(--main-warning-color);
+    border-left: 4px solid var(--lutece-ds-color-warning);
 }
 
 .toast.info, .toast.info .toast-header{
-    background-color: var(--main-info-color-light);
+    background-color: var(--lutece-ds-color-primary-bg);
 }
 
 .toast.info{
-    border-left: 4px solid var(--main-info-color);
+    border-left: 4px solid var(--lutece-ds-color-primary);
 }

@@ -2,27 +2,27 @@
 /*** Modal									***/
 /***  										***/
 .cmodal .modal-header{
-	padding: 0 0 var(--spacing-m);
+	padding: 0 0 var(--lutece-ds-spacing-md);
 }
 
-.cmodal .modal-header .close .ti{
-	color: var( --black-color );
+.cmodal .modal-header .close .paris-icon{
+	fill: var( --lutece-ds-color-black );
 }
 
 .cmodal .modal-header .modal-title {
-	font-size: var(--font-l);
+	font-size: var(--lutece-ds-font-size-2xl);
     font-weight: 800;
 }
 
 .cmodal .modal-content{
-	padding: var(--spacing-xl);
+	padding: var(--lutece-ds-spacing-xl);
 }
 
 .cmodal .modal-body{
-	font-family: var( --font-family-list );
-	font-size: var( --font-m );
+	font-family: var( --lutece-ds-font-family-base );
+	font-size: var( --lutece-ds-font-size-lg );
 	font-weight: 400;
-	padding: var(--spacing-m) 0;
+	padding: var(--lutece-ds-spacing-md) 0;
 }
 
 .cmodal .modal-footer {

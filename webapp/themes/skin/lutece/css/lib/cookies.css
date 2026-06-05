@@ -2,7 +2,7 @@
 /** 	Cookies								**/
 /*********************************************/
 .cookies {
-	background-color: var(--white-light-color);
+	background-color: var(--lutece-ds-color-neutral-100);
 	bottom: 0;
 	box-shadow: -.2rem -.2rem 0 0 rgba(7, 31, 50, .1);
 	max-width: 92rem;

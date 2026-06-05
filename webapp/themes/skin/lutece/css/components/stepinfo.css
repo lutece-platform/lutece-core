@@ -30,14 +30,14 @@
 
 .info-step li .idx{
     border-radius: 50%;
-    background-color: var( --main-info-color );
+    background-color: var( --lutece-ds-color-primary );
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     width: 2.8rem;
     height: 2.8rem;
-    border: .4rem solid var( --main-info-color );
+    border: .4rem solid var( --lutece-ds-color-primary );
 }
 
 /* Progress line */
@@ -52,7 +52,7 @@
 .info-step .bs-infostep-container .bs-infostep-line {
     width: 100%;
     height: 3px;
-    background-color: var(--blue-light);
+    background-color: var(--lutece-ds-color-blue-300);
 }
 
 .info-step li figure {
@@ -71,11 +71,11 @@
 
 .info-step li .idx span{
 	display: inline-block;
-	font-family: var( --font-family-list );
+	font-family: var( --lutece-ds-font-family-base );
 	font-weight: 800;
-	font-size: var(--font-sm);
+	font-size: var(--lutece-ds-font-size-sm);
 	text-align: center;
-	color: var( --white-color )
+	color: var( --lutece-ds-color-white )
 }
 
 article .info-step li p, 
@@ -88,23 +88,23 @@ article .info-step li p,
 /* Active item management : status = done */
 .info-step li.done .idx + li::after,
 .info-step li.done + li::after{
-	border-top: .3rem solid var( --main-info-color );
+	border-top: .3rem solid var( --lutece-ds-color-primary );
 }
 
 /* Active item management : status = active */
 .info-step li.active .idx + li::after,
 .info-step li.active + li::after{
-	border-top: .3rem solid var( --gray-dark-color );
+	border-top: .3rem solid var( --lutece-ds-color-neutral-500 );
 }
 
 .info-step li.active ~ li .idx,
 .info-step li.active ~ li figure{
-	border-color: var( --gray-dark-color );
-	background-color: var(--white-color);
+	border-color: var( --lutece-ds-color-neutral-500 );
+	background-color: var(--lutece-ds-color-white);
 }
 
 .info-step li.active ~ li .idx span{
-	color: var( --gray-dark-color );
+	color: var( --lutece-ds-color-neutral-500 );
 }
 
 .info-step li.active ~ li .idx > img,
@@ -114,17 +114,17 @@ article .info-step li p,
 
 .info-step li.active .idx + li ~ li::after,
 .info-step li.active + li ~ li::after{
-	border-top: .3rem dashed var( --gray-dark-color );
+	border-top: .3rem dashed var( --lutece-ds-color-neutral-500 );
 }
 
 
 @media (max-width: 354.8px) {
 	.info-step li .idx span {
-		font-family: var( --font-family-list );
+		font-family: var( --lutece-ds-font-family-base );
 		font-weight: 600;
 		font-size: 3rem;
 		text-align: center;
-		color: var( --white-color );
+		color: var( --lutece-ds-color-white );
 	}
 
 	.info-step li::after {
@@ -227,10 +227,10 @@ article .info-step li p,
 /* New step Info */
 .c-info-step__title {
   font-weight: 600;
-  font-size: var(--font-ml);
-  color: var(--main-color);
+  font-size: var(--lutece-ds-font-size-xl);
+  color: var(--lutece-ds-color-text);
   margin-bottom: 0.5rem;
-  margin-top: var(--spacing-sm);
+  margin-top: var(--lutece-ds-spacing-sm);
 }
 
 .stepper-horizontal.c-info-step-wrapper {
@@ -273,8 +273,8 @@ article .info-step li p,
   border-radius: 50%;
   margin: 0 auto 0;
   color: white;
-  background-color: var(--main-info-color);
-  font-size: var(--font-l);
+  background-color: var(--lutece-ds-color-primary);
+  font-size: var(--lutece-ds-font-size-2xl);
   font-weight: 800;
 }
 
@@ -285,7 +285,7 @@ article .info-step li p,
   width: calc(100% - 4.4rem); /* Longueur de la ligne */
   left: calc(50% + 2.2rem); /* Position horizontale de la ligne */
   height: 0.2rem;
-  background-color: var(--blue-light);
+  background-color: var(--lutece-ds-color-blue-300);
   order: -1;
 }
 
@@ -294,10 +294,10 @@ article .info-step li p,
 }
 
 .stepper-horizontal .c-info-step__desc {
-  color: var(--main-color);
-  font-size: var(--font-m);
-  padding-left: var(--spacing-ml); /* Espace à gauche */
-  padding-right: var(--spacing-ml); /* Espace à droite */
+  color: var(--lutece-ds-color-text);
+  font-size: var(--lutece-ds-font-size-lg);
+  padding-left: var(--lutece-ds-spacing-md-loose); /* Espace à gauche */
+  padding-right: var(--lutece-ds-spacing-md-loose); /* Espace à droite */
 }
 
 .stepper-vertical .c-info-step {
@@ -323,8 +323,8 @@ article .info-step li p,
   align-items: center;
   justify-content: center;
   color: white;
-  background-color: var(--main-info-color);
-  font-size: var(--font-l);
+  background-color: var(--lutece-ds-color-primary);
+  font-size: var(--lutece-ds-font-size-2xl);
   font-weight: 800;
   z-index: 1;
 }
@@ -338,12 +338,12 @@ article .info-step li p,
   bottom: -3rem; /* Ajustement de la position */
   transform: translateX(2.2rem); /* Position du trait */
   width: 0.2rem; /* Largeur du trait */
-  background-color: var(--blue-light);
+  background-color: var(--lutece-ds-color-blue-300);
 }
 
 .stepper-vertical .c-info-step__desc {
-  color: var(--main-color);
-  font-size: var(--font-m);
+  color: var(--lutece-ds-color-text);
+  font-size: var(--lutece-ds-font-size-lg);
 }
 
 .stepper-vertical .c-info-step__icon {
@@ -361,7 +361,7 @@ article .info-step li p,
     .stepper-vertical .c-info-step__item:before {
       flex: 0 0 3rem; /* Taille du cercle */
       height: 3rem; /* Taille du cercle */
-      font-size: var(--font-m);
+      font-size: var(--lutece-ds-font-size-lg);
       font-weight: 600;
     }
 

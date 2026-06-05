@@ -38,14 +38,16 @@
 @import url(components/carousel.css?ver=.0.1);
 @import url(components/contentframe.css?ver=.0.1);
 @import url(components/dropdown.css?ver=.0.1);
+@import url(components/hero.css?ver=.0.1);
 @import url(components/filter.css?ver=.0.1);
 @import url(components/icon.css?ver=.0.1);
 @import url(components/list.css?ver=.0.1);
 @import url(components/modal.css?ver=.0.1);
 @import url(components/offcanvas.css?ver=.0.1);
 @import url(components/pagination.css?ver=.0.1);
-@import url(components/portlet.css?ver=.0.1);
 @import url(components/popover.css?ver=.0.1);
+@import url(components/portlet.css?ver=.0.1);
+@import url(components/post.css?ver=.0.1);
 @import url(components/progress.css?ver=.0.1);
 @import url(components/stepper.css?ver=.0.1);
 @import url(components/stepinfo.css?ver=.0.1);
@@ -55,8 +57,10 @@
 @import url(components/sliders.css?ver=.0.1);
 @import url(components/table.css?ver=.0.1);
 @import url(components/tabs.css?ver=.0.1);
+@import url(components/tile.css?ver=.0.1);
 @import url(components/toast.css?ver=.0.1);
 @import url(components/tooltip.css?ver=.0.1);
 @import url(lib/osm.css?ver=.0.1);
 @import url(lib/cookies.css?ver=.0.1);
 @import url( _rhythm.css );
+/* @import url(styles.css?ver=.0.1); */

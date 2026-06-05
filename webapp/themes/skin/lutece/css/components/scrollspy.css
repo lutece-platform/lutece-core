@@ -4,18 +4,18 @@
 }
 
 .anchors > ul > li{
-	padding: var(--spacing-xs );
-	background-color: var(--white-light-color);
+	padding: var(--lutece-ds-spacing-xs );
+	background-color: var(--lutece-ds-color-neutral-100);
 }
 
 .anchors > ul > li:has( .active ) {
-	background-color: var(--main-info-color);
+	background-color: var(--lutece-ds-color-primary);
 }
 
 .anchors > ul > li > a {
-	color: var(--dark-color);
+	color: var(--lutece-ds-color-neutral-900);
 }
 
 .anchors > ul > li > a.active {
-	color: var(--white-light-color);
+	color: var(--lutece-ds-color-neutral-100);
 }

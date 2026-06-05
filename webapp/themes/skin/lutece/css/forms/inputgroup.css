@@ -1,8 +1,27 @@
 /*** 										***/
 /*** Input Groups							***/
 /***  										***/
-:is( .helptext, label ) + .input-group{
-	margin-block-start: var(--spacing-xxs);
+.input-group{
+	position: relative;
+	box-shadow: 0px 15px 60px rgba(62, 62, 62, 0.102) !important;
+	align-items: center;
+	outline: transparent solid 1px;
+	margin-block-start: 0
+}
+
+:is( .form-text, label ) + .input-group{
+	margin-block-start: var(--lutece-ds-spacing-2xs);
+}
+
+.input-group > :is( input, select, textarea, .btn),
+.input-group:hover > :is( input, select, textarea, .btn) {
+    border: 0;
+    padding-inline-start: 1.5rem;
+    outline: 0;
+}
+
+.input-group:hover{
+	outline-color: var(--lutece-ds-color-blue-600);
 }
 
 .input-group > .form-control-alternate {
@@ -14,10 +33,39 @@
 	margin-inline: var(--spacing-xs);
 }
 
+.input-group .input-group-text {
+    color: var(--lutece-ds-color-text);
+    background-color: var(--lutece-ds-color-white);
+    border: 0;
+    position: absolute;
+    right: var(--lutece-ds-spacing-2xs);
+    z-index: 90;
+    font-size: var(--lutece-ds-font-size-lg);
+    font-family: var(--lutece-ds-font-family-base);
+    font-weight: 500;
+}
+
+.input-group .input-group-text:has(.btn) {
+    top: calc(var(--lutece-ds-spacing-2xs) * 4);
+    padding-block-start: var(--lutece-ds-spacing-xs);
+}
+
+.input-group .btn{
+	padding: calc( var(--lutece-ds-spacing-sm) + var(--lutece-ds-spacing-2xs) ) var(--lutece-ds-spacing-md);
+}
+/* Date Picker */
+.input-group .form-control.datepicker-input{
+	border: inherit
+}
+
+.input-group .datepicker  + .paris-icon{
+	margin-inline: var(--lutece-ds-spacing-xs);
+}
+
 /* Merged*/
 .input-group.merged > .input-group-text {
-	background-color: var(--white-color) !important;
-	border-color: var(--dark-lighter-color) !important;
+	background-color: var(--lutece-ds-color-white) !important;
+	border-color: var(--lutece-ds-color-neutral-600) !important;
 	border-inline-end: 0 !important;
 	border-radius: 0;
 }
@@ -26,21 +74,21 @@
 	border-inline-start: 0 !important;
 	outline: 0;
 	border-radius: 0;
-	border-color: var(--dark-lighter-color) !important;
+	border-color: var(--lutece-ds-color-neutral-600) !important;
 	margin-top: 0;
 }
 
 .input-group.merged > .form-control::placeholder {
-	color: var(--dark-lighter-color);
+	color: var(--lutece-ds-color-neutral-600);
 	font-style: italic;
 }
 
 /* Password */
 .input-group.password input[type="password"]{
-	margin-inline-start: var(--spacing-xxs)
+	margin-inline-start: var(--lutece-ds-spacing-2xs)
 }
 
-.input-group.password .helptext{
-	border: .1rem solid var(--white-color);
-	border-block-end-color:var(--blue-dark-color);
+.input-group.password .form-text{
+	border: .1rem solid var(--lutece-ds-color-white);
+	border-block-end-color:var(--lutece-ds-color-blue-600);
 }

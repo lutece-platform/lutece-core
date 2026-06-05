@@ -4,14 +4,14 @@
 ul,
 ol,
 li {
-	font-family: var(--font-family-list);
+	font-family: var(--lutece-ds-font-family-base);
 	font-weight: 400;
-	font-size: var(--font-m);
+	font-size: var(--lutece-ds-font-size-lg);
 }
 
 ul li::marker {
-   color: var(--main-info-color);
-   font-size: var(--font-xl);
+   color: var(--lutece-ds-color-primary);
+   font-size: var(--lutece-ds-font-size-3xl);
 }
 
 ol li::marker {
@@ -27,6 +27,6 @@ ol li::marker::after {
 	ul,
 	ol,
 	li{
-		font-size: var( --font-sm );
+		font-size: var( --lutece-ds-font-size-sm );
 	}
 }

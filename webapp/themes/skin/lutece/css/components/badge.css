@@ -1,27 +1,37 @@
 /*** 										***/
 /*** Badges	    							***/
-/***  										***/
+/*** Inspiré du DS CiteLIbre (.cl-badge)    ***/
+/*** 										***/
 .badge {
-    display: inline-block;
-    padding: var(--spacing-xs) var(--spacing-m);
-    background-color: var(--blue-bg-colored-light);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--lutece-ds-spacing-2xs);
+    font-size: var(--lutece-ds-font-size-sm);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: var(--lutece-ds-spacing-2xs) var(--lutece-ds-spacing-xs-loose);
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--lutece-ds-color-neutral-100);
+    color: var(--lutece-ds-color-blue-text);
+    line-height: 1;
     position: relative;
 }
 
 .badge.dismissible{
-    padding: var(--spacing-xs);
+    padding: var(--lutece-ds-spacing-2xs);
 }
 
 .badge .btn-close {
     position: relative;
-    margin-inline-start: var(--spacing-xs);
-    width: var(--spacing-xxs);
-    height: var(--spacing-xxs);
+    margin-inline-start: var(--lutece-ds-spacing-xs);
+    width: var(--lutece-ds-spacing-2xs);
+    height: var(--lutece-ds-spacing-2xs);
 }
 
 .badge .badge-label {
     text-transform: uppercase;
-    letter-spacing: calc( var(--spacing-xxs) / 3 );
+    letter-spacing: calc( var(--lutece-ds-spacing-2xs) / 3 );
     font-weight: 600;
     margin-bottom: 0;
 }
@@ -32,6 +42,92 @@
    align-items: center;
 }
 
+.badge.badge-pill {
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+}
+
+/* Variantes accents */
+.badge.badge-blue,
+.badge.bg-blue {
+    background-color: var(--lutece-ds-color-blue-bg);
+    color: var(--lutece-ds-color-blue-text);
+}
+
+.badge.badge-coral,
+.badge.bg-coral {
+    background-color: var(--lutece-ds-color-coral-bg);
+    color: var(--lutece-ds-color-coral-text);
+}
+
+.badge.badge-teal,
+.badge.bg-teal {
+    background-color: var(--lutece-ds-color-teal-bg);
+    color: var(--lutece-ds-color-teal-text);
+}
+
+.badge.badge-violet,
+.badge.bg-violet {
+    background-color: var(--lutece-ds-color-violet-bg);
+    color: var(--lutece-ds-color-violet-text);
+}
+
+.badge.badge-rose,
+.badge.bg-rose {
+    background-color: var(--lutece-ds-color-rose-bg);
+    color: var(--lutece-ds-color-rose-text);
+}
+
+/* Variantes sÃ©mantiques */
+.badge.badge-success,
+.badge.bg-success {
+    background-color: var(--lutece-ds-color-success-bg);
+    color: var(--lutece-ds-color-success);
+}
+
+.badge.badge-warning,
+.badge.bg-warning {
+    background-color: var(--lutece-ds-color-warning-bg);
+    color: var(--lutece-ds-color-warning);
+}
+
+.badge.badge-danger,
+.badge.bg-danger {
+    background-color: var(--lutece-ds-color-danger-bg);
+    color: var(--lutece-ds-color-danger);
+}
+
+.badge.badge-primary,
+.badge.bg-primary {
+    background-color: var(--lutece-ds-color-primary-bg) !important;
+    --bs-bg-opacity: .15;
+    color: var(--lutece-ds-color-primary) !important;
+}
+
+/* Variantes neutres */
+.badge.badge-dark,
+.badge.bg-dark {
+    background-color: var(--lutece-ds-color-blue-strong);
+    color: var(--lutece-ds-color-white);
+}
+
 .badge.badge-secondary {
-    background-color: var(--white-color);
+    background-color: var(--lutece-ds-color-white);
+    color: var(--lutece-ds-color-blue-text);
+}
+
+/* Badge avec point avant le label */
+.badge.badge-dot::before {
+    content: "";
+    width: calc( var( --lutece-ds-size-base ) * 1.5 );
+    height: calc( var( --lutece-ds-size-base ) * 1.5 );
+    border-radius: var(--bs-border-radius-pill);
+    background: currentColor;
+    display: inline-block;
+    flex-shrink: 0;
 }

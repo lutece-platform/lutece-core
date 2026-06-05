@@ -2,7 +2,7 @@
 /*** Default link styles					***/
 /***  										***/
 a {
-	color: var(--main-info-color);
+	color: var(--lutece-ds-color-primary);
 	text-decoration: underline;
 }
 
@@ -19,7 +19,7 @@ a:focus {
 .show-icon-target[target=_blank]::after,
 .show-icon-target [target=_blank]::after,
 [target=_blank]::after {
-    --icon-size: var(--font-m );
+    --icon-size: var(--lutece-ds-font-size-lg );
     background-color: currentColor;
     content: "";
     display: inline-block;
@@ -45,7 +45,7 @@ small a {
 }
 
 a.link-secondary{
-    border-bottom: 2px solid var(--main-info-color);
+    border-bottom: 2px solid var(--lutece-ds-color-primary);
     text-decoration: none;
 }
 
@@ -59,36 +59,36 @@ a.link-secondary:hover {
 
 a.link-secondary.disabled {
 	pointer-events: none;
-	border-color: var(--blue-light);
+	border-color: var(--lutece-ds-color-blue-300);
 	opacity:1;
 }
 
 .link-secondary.disabled .link-label,
 .link-secondary.disabled:not(.hide-icon-target)[target=_blank]::after{
-	color: var(--blue-dark-color);
+	color: var(--lutece-ds-color-blue-600);
 }
 
 a.btn.btn-primary.disabled {
 	pointer-events: none;
-	background-color: var(--blue-light);
+	background-color: var(--lutece-ds-color-blue-300);
 	border:none;
 	opacity:1;
 }
 
 a.btn.btn-primary.disabled .link-label,
 a.btn.btn-primary.disabled:not(.hide-icon-target)[target=_blank]::after{
-	color: var(--blue-darker-color);
+	color: var(--lutece-ds-color-blue-700);
 }
 
 a.btn.btn-primary:not(.hide-icon-target):hover[target=_blank]::after{
-	background-color: var(--main-info-color);
+	background-color: var(--lutece-ds-color-primary);
 }
 
 [data-target-icon="true"] .link-secondary:hover[target=_blank]::after,
 [data-target-icon="true"] .link-secondary:focus[target=_blank]::after,
 [data-target-icon="true"] .btn-secondary:hover[target=_blank]::after,
 [data-target-icon="true"] .btn-secondary:focus[target=_blank]::after {
-	color: var(--white-color);
+	color: var(--lutece-ds-color-white);
 }
 
 /* Share links */
@@ -98,8 +98,8 @@ a.btn.btn-primary:not(.hide-icon-target):hover[target=_blank]::after{
 	text-decoration: none;
 	transition: color .2s ease;
 	width: 3.2rem;
-	color: var(--main-color);
-	color: var(--main-color);
+	fill: var(--lutece-ds-color-text);
+	color: var(--lutece-ds-color-text);
 }
 
 .share-link .icon,
@@ -107,18 +107,18 @@ a.btn.btn-primary:not(.hide-icon-target):hover[target=_blank]::after{
 	height: 5.12rem;
 	transition: fill .3s ease;
 	width: 3.2rem;
-	color: var(--main-color);
-	color: var(--main-color);
+	fill: var(--lutece-ds-color-text);
+	color: var(--lutece-ds-color-text);
 }
 
 .share-link:focus .ti,
 .share-link:hover .ti,
 .share-link:focus .icon,
 .share-link:hover .icon,
-.social-link:focus .ti,
-.social-link:hover .ti {
-	color: var(--main-danger-color);
-	color: var(--main-danger-color);
+.social-link:focus .paris-icon,
+.social-link:hover .paris-icon {
+	fill: var(--lutece-ds-color-danger);
+	color: var(--lutece-ds-color-danger);
 }
 
 .social-link .ti,
@@ -131,5 +131,5 @@ a.btn.btn-primary:not(.hide-icon-target):hover[target=_blank]::after{
 }
 
 a.link-secondary .link-label {
-	color: var(--main-color);
+	color: var(--lutece-ds-color-text);
 }

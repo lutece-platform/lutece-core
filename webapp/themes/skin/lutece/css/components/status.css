@@ -2,10 +2,12 @@
 /* Status  */
 /* ******* */
 .status{
-	display: inline-block;
-    font-size: var(--font-sm);
-    font-weight: 600;
-    padding-inline-start: var( --spacing-xxs );
+	display: inline-flex;
+	align-items: center;
+	gap: var(--lutece-ds-spacing-2xs);
+	font-size: var(--lutece-ds-font-size-sm);
+	font-weight: 600;
+	padding-inline-start: var( --lutece-ds-spacing-2xs );
 }
 
 .status > svg{
@@ -17,30 +19,82 @@
 }
 
 .status > svg + .status-label{
-	margin-inline-start: var(--spacing-xxs );
+	margin-inline-start: var(--lutece-ds-spacing-2xs );
 }
 
-.status.forthcoming, 
+.status.forthcoming,
 .status.coming > .status-label {
-	color: var( --status-coming );  
+	color: var( --lutece-ds-status-coming );
 }
 
-.status.tobecompleted, 
+.status.tobecompleted,
 .status.tobecompleted > .status-label  {
-	color: var( --status-todo )
+	color: var( --lutece-ds-status-todo )
 }
 
-.status.inprogress, 
+.status.inprogress,
 .status.inprogress > .status-label  {
-	color: var( --status-doing )
+	color: var( --lutece-ds-status-doing )
 }
 
-.status.over, 
+.status.over,
 .status.over > .status-label {
-	color: var( --status-done )
+	color: var( --lutece-ds-status-done )
 }
 
-.status.bygone, 
+.status.bygone,
 .status.bygone > .status-label  {
-	color: var( --status-passed )
+	color: var( --lutece-ds-status-passed )
+}
+
+/* Variante pill â statut compact type badge (inspirÃ© DS CiteLIbre) */
+.status.status-pill {
+	padding: var(--lutece-ds-spacing-2xs) var(--lutece-ds-spacing-xs-loose);
+	border-radius: var(--bs-border-radius-pill);
+	font-size: var(--lutece-ds-font-size-sm);
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	line-height: 1;
+	background-color: var(--lutece-ds-color-neutral-100);
+	color: var(--lutece-ds-color-blue-text);
+}
+
+.status.status-pill::before {
+	content: "";
+	width: calc( var( --lutece-ds-size-base ) * 1.5 );
+	height: calc( var( --lutece-ds-size-base ) * 1.5 );
+	border-radius: var(--bs-border-radius-pill);
+	background: currentColor;
+	display: inline-block;
+	flex-shrink: 0;
+}
+
+.status.status-pill.status-success,
+.status.status-pill.over {
+	background-color: var(--lutece-ds-color-success-bg);
+	color: var(--lutece-ds-color-success);
+}
+
+.status.status-pill.status-warning,
+.status.status-pill.inprogress {
+	background-color: var(--lutece-ds-color-warning-bg);
+	color: var(--lutece-ds-color-warning);
+}
+
+.status.status-pill.status-danger,
+.status.status-pill.tobecompleted {
+	background-color: var(--lutece-ds-color-danger-bg);
+	color: var(--lutece-ds-color-danger);
+}
+
+.status.status-pill.status-info,
+.status.status-pill.forthcoming {
+	background-color: var(--lutece-ds-color-primary-bg);
+	color: var(--lutece-ds-color-primary);
+}
+
+.status.status-pill.status-neutral,
+.status.status-pill.bygone {
+	background-color: var(--lutece-ds-color-neutral-100);
+	color: var(--lutece-ds-color-blue-slate);
 }
