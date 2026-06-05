@@ -57,7 +57,7 @@ Snippet:
     <@cInput name='quantity' type='number' min=1 max=100 value='1' />
 
 -->
-<#macro cInput name class='form-control' id='' type='text' size='' value='' placeholder='' phoneCountry='FR' required=false html5Required=true disabled=false readonly=false pattern='' ariaLabel='' autocomplete='' accept='' title='' maxlength=0 min=0 max=0 step=0 datalistId='' datalist='' helpMsg='' errorMsg='' hideErrorMsg=false params='' deprecated...>
+<#macro cInput name class='form-control' id='' type='text' size='' value='' placeholder='' phoneCountry='FR' required=false html5Required=false disabled=false readonly=false pattern='' ariaLabel='' autocomplete='' accept='' title='' maxlength=0 min=0 max=0 step=0 datalistId='' datalist='' helpMsg='' errorMsg='' hideErrorMsg=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local isRequired = ( propagateRequired?? && propagateRequired) || required />
 <#local hasError = (errorMsg != '')>
