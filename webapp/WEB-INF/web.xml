@@ -117,9 +117,11 @@
         <filter-name>safeRequestFilterAdmin</filter-name>
         <filter-class>fr.paris.lutece.portal.web.xss.SafeRequestFilterAdmin</filter-class>
     </filter>
-    <!-- Many plugins cast request to MultipartHttpRequestServlet and request 
-        can be wrapped in any plugin's filter. So upload filters are processed after 
-        plugins'. See LUTECE-1323. requestSizeMax = the request size max activateNormalizeFileName 
+    <!-- Many plugins cast request to MultipartHttpRequestServlet and request
+        can be wrapped in any plugin's filter. So upload filters are processed after
+        plugins' but before the safe request (XSS) filters, so that the XSS filters can scan
+        the multipart body form fields. See LUTECE-1323 and LUT-32598. requestSizeMax = the
+        request size max activateNormalizeFileName
         = true if you want that the name of the files uploaded will be normalize -->
     <filter>
         <filter-name>uploadFilterSite</filter-name>
@@ -185,18 +187,10 @@
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
-  <filter-mapping>
-        <filter-name>safeRequestFilterSite</filter-name>
-        <url-pattern>/jsp/site/*</url-pattern>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
-    <filter-mapping>
-        <filter-name>safeRequestFilterAdmin</filter-name>
-        <url-pattern>/jsp/admin/*</url-pattern>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
+    <!-- Upload filters are mapped before the safe request (XSS) filters so that multipart requests
+        are converted to MultipartHttpServletRequest first : the XSS filters can then scan the
+        multipart body form fields through the wrapper's getParameterNames()/getParameterValues().
+        See LUT-32598. -->
     <filter-mapping>
         <filter-name>uploadFilterSite</filter-name>
         <url-pattern>/jsp/site/*</url-pattern>
@@ -205,6 +199,18 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>uploadFilterAdmin</filter-name>
+        <url-pattern>/jsp/admin/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>safeRequestFilterSite</filter-name>
+        <url-pattern>/jsp/site/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>safeRequestFilterAdmin</filter-name>
         <url-pattern>/jsp/admin/*</url-pattern>
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>REQUEST</dispatcher>

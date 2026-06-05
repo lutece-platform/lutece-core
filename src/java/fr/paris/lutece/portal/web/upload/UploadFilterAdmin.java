@@ -44,6 +44,17 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UploadFilterAdmin extends UploadFilter
 {
+    private static final String PROPERTY_SAFE_REQUEST_PREFIX = "lutece.safe.request.admin";
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected String getSafeRequestPropertyPrefix( )
+    {
+        return PROPERTY_SAFE_REQUEST_PREFIX;
+    }
+
     /**
      * {@inheritDoc}
      */
