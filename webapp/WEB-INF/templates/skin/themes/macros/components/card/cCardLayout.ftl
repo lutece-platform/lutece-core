@@ -14,6 +14,8 @@ Showcase:
 - desc: Layout carte - @cCardLayout
 - bs: components/card
 - newFeature: false
+- updatedFeature: false
+- deprecated: false
 
 Snippet:
 

@@ -1,7 +1,9 @@
 <#--
 Macro: scrollTopBtn
 
-Description: Generates a scroll-to-top button that appears when the user scrolls down the page, enabling smooth scrolling back to the top on click.
+Description: Generates a floating scroll-to-top button (`<a id="scroll">`) that becomes visible when the user scrolls more than 100px down the page, with a smooth scroll-to-top behavior on click. The button is initially hidden and toggled via the embedded vanilla JS scroll listener.
+
+Parameters: None.
 
 Showcase:
 - desc: Retour en haut - @scrollTopBtn
@@ -9,7 +11,7 @@ Showcase:
 
 Snippet:
 
-    Basic usage (include once at the bottom of the page layout):
+    Basic usage (include once at the bottom of the page layout, typically in the footer):
 
     <@scrollTopBtn />
 

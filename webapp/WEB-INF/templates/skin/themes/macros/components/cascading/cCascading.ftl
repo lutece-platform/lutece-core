@@ -13,6 +13,8 @@ Parameters:
 Showcase:
 - desc: Cascading - @cCascading
 - newFeature: false
+- updatedFeature: true
+- deprecated: false
 
 Snippet:
 

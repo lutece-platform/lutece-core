@@ -25,6 +25,40 @@ Showcase:
 - desc: Accordéon - @cAccordion
 - bs: components/accordion
 - newFeature: false
+- updatedFeature: true
+- deprecated: false
+
+Samples :
+    <@cAccordion id='acc1' title='Titre de l\'accordéon' subTitle='...et son sous-titre'>
+    Contenu de l'accordéon
+    </@cAccordion>
+    <@cAccordion id='acc2' title='accordéon avec titleClass et header...' class='primary' titleClass='main-info-color' header='<p class="ms-auto text-danger fw-bold">Header</p>'>
+    Contenu de l'accordéon
+    </@cAccordion>
+    <@cAccordion id='acc3' title='accordéon avec bouton action' subTitle='Sous titre' subTitleClass='text-muted' btnClass='btn-secondary'>
+    Contenu de l'accordéon type "Info"
+    </@cAccordion>
+    <@cAccordion id='acc31' title='accordéon avec outline' class='outline' >
+    Contenu de l'accordéon type "Info"
+    </@cAccordion>
+    <@cAccordion id='accCollapse' title='accordéon collapse' class='unfold' >
+    Contenu de l'accordéon type "Déplié"
+    </@cAccordion>
+    <@cAccordion id='acc32' title='accordéon avec alert primary outline' class='alert alert-outline alert-primary' state=false>
+    Contenu de l'accordéon type "Info"
+    </@cAccordion>
+    <@cAccordion id='acc33' title='accordéon avec alert primary outline' class='alert alert-outline alert-warning' btnTitle='Voir le détail'>
+    Contenu de l'accordéon type "Info"
+    </@cAccordion>
+    <@cAccordion id='acc34' title='accordéon avec alert primary outline' class='alert alert-outline alert-success' btnTitle='Voir le détail'>
+    Contenu de l'accordéon type "Info"
+    </@cAccordion>
+    <@cAccordion id='acc35' title='accordéon avec alert primary outline' class='alert alert-outline alert-danger' btnTitle='Voir le détail'>
+    Contenu de l'accordéon type "Info"
+    </@cAccordion>
+    <@cAccordion id='acc6' title='Exemple avec bordure' subTitle='...et son sous-titre' border=true state=false>
+    Contenu de l'accordéon
+    </@cAccordion>
 
 Snippet:
 
@@ -50,7 +84,7 @@ Snippet:
         <#local cardTitleClass>card-header m-0<#if !state> collapsed</#if></#local>
         <#local titleParams>data-bs-toggle="collapse" data-bs-target="#collapseAcc${id}" <#if hasCollapse>aria-expanded="<#if state>true<#else>false</#if></#if>" aria-controls="collapseAcc${id}"</#local>
         <@cTitle level=titleLevel class=cardTitleClass params=titleParams>
-            <button class="btn btn-link btn-block btn-header-accordion w-100<#if iconType != 'info'> main-${iconType}-color-text</#if>" type="button" data-bs-toggle="collapse" data-show-label="${btnShowLabel}" data-hide-label="${btnHideLabel}" data-bs-target="#collapseAcc${id}" aria-expanded="<#if state>true<#else>false</#if>" aria-controls="collapseAcc${id}" aria-labelledby="headingAcc${id}">
+            <button class="btn btn-link btn-header-accordion w-100<#if iconType != 'info'> main-${iconType}-color-text</#if>" type="button" data-bs-toggle="collapse" data-show-label="${btnShowLabel}" data-hide-label="${btnHideLabel}" data-bs-target="#collapseAcc${id}" aria-expanded="<#if state>true<#else>false</#if>" aria-controls="collapseAcc${id}" aria-labelledby="headingAcc${id}">
             <span class="d-flex<#if !class?contains('outline') && header =''> flex-column<#else> align-items-center</#if> flex-1">
             <#if class?contains('outline')>
                 <span class="card-header-prepend">

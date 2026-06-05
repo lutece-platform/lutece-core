@@ -1,18 +1,43 @@
-<#-- Macro: cForm
+<#--
+Macro: cForm
 
-Description: permet de définir le container d'un formulaire.
+Description: Generates a `<form>` container with optional front-office validation. When `foValidation=true` (default), automatically loads the theme-form-validation and theme-form-observer modules and exposes a global `window.__formValidationConfig` with locale-aware error messages (i18n keys, overridable via datastore site properties).
 
 Parameters:
+- class (string, optional): CSS class applied to the form. Default: ''.
+- id (string, optional): the ID of the form. Falls back to `name` when set. Default: ''.
+- params (string, optional): additional HTML attributes added to the form. Default: ''.
+- name (string, optional): value of the `name` attribute of the form. Default: ''.
+- method (string, optional): value of the `method` attribute. Accepted values: 'post', 'get'. Default: 'post'.
+- role (string, optional): value used as `aria-label` on the form for accessibility. Default: ''.
+- action (string, optional): URL of the form action. Default: ''.
+- enctype (string, optional): value of the `enctype` attribute (e.g. 'multipart/form-data' for file uploads). Default: ''.
+- foValidation (boolean, optional): enables front-office form validation (loads validation modules and config). Default: true.
 
-@param - id - string - optional - l'ID du formulaire
-@param - class - string - optional - ajoute une classe CSS au formulaire
-@param - method - string - optional - permet de définir la valeur de l'attribut 'method' du formulaire (par défaut: 'post')
-@param - name - string - optional - permet de définir la valeur de l'attribut 'name' du formulaire
-@param - role - string - optional - permet de définir la valeur de l'attribut 'aria-label' du formulaire
-@param - action - string - optional - permet de définir l'url de l'action du formulaire
-@param - enctype - string - optional - permet de définir la valeur de l'attribut 'enctype' du formulaire
-@param - params - string - optional - permet d'ajouter des parametres HTML au formulaire
-@param - foValidation - boolean - optional - permet d'activer la validation du formulaire côté front-office. Par défaut: true.
+Snippet:
+
+    Basic POST form:
+
+    <@cForm action='jsp/site/Portal.jsp' method='post' name='contact'>
+        <@cField label='#i18n{site.contact.name}'>
+            <@cInput type='text' name='username' required=true />
+        </@cField>
+        <@cBtn type='submit' label='#i18n{site.contact.submit}' />
+    </@cForm>
+
+    File upload form with multipart enctype:
+
+    <@cForm action='jsp/site/Portal.jsp?page=upload' method='post' enctype='multipart/form-data'>
+        <@cInput type='file' name='attachment' />
+        <@cBtn type='submit' label='#i18n{site.upload.send}' />
+    </@cForm>
+
+    Form with front-office validation disabled (server-side only):
+
+    <@cForm action='jsp/site/Portal.jsp' method='post' foValidation=false>
+        ...
+    </@cForm>
+
 -->
 <#macro cForm class='' id='' params='' name='' method='post' role='' action='' enctype='' foValidation=true deprecated...>
 <@deprecatedWarning args=deprecated />

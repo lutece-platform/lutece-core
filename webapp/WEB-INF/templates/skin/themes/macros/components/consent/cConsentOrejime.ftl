@@ -22,6 +22,8 @@ Parameters:
 Showcase:
 - desc: Consentement avec la librairie Orejime - @cConsentOrejime
 - newFeature: true
+- updatedFeature: false
+- deprecated: false
 
 Snippet:
  

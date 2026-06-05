@@ -20,6 +20,8 @@ Showcase:
 - desc: Bouton - @cBtn
 - bs: components/buttons
 - newFeature: false
+- updatedFeature: false
+- deprecated: false
 
 Snippet:
 

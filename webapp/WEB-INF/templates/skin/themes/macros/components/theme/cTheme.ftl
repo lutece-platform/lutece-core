@@ -9,6 +9,12 @@ Parameters:
 - id (string, optional): HTML id attribute for the dropdown button. Default: ''.
 - params (string, optional): Additional HTML attributes/styles. Default: ''.
 
+Showcase:
+- desc: Theme Switcher - @cThemeSwitcher
+- newFeature: true
+- updatedFeature: false
+- deprecated: false
+
 Snippet:
 
     Basic theme switcher:

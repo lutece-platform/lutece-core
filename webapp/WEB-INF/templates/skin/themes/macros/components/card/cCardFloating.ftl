@@ -15,6 +15,8 @@ Showcase:
 - desc: Carte flottante - @cCardFloating
 - bs: components/card
 - newFeature: false
+- updatedFeature: false
+- deprecated: false
 
 Snippet:
 

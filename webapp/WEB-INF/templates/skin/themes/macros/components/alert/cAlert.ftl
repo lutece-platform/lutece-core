@@ -15,7 +15,24 @@ Parameters:
 Showcase:
 - desc: Alerte - @cAlert
 - bs: components/alerts
-- newFeature: false
+
+Samples:
+    <@cAlert title='Titre de l\'alerte' />
+    <@cAlert class='danger' title='Message erreur' />
+    <@cAlert class='danger' title='Message d\'erreur'>Contenu de l'erreur</@cAlert>
+    <@cAlert class='danger' dismissible=true title='Message d\'erreur'>Message d'erreur et bouton de fermeture</@cAlert>
+    <@cAlert class='warning' title='Message attention...' />
+    <@cAlert class='warning' dismissible=true title='Message attention...'>Contenu du message "warning"</@cAlert>
+    <@cAlert class='success' title='Message validation...'>Confirmation...</@cAlert>
+    <@cAlert class='success' dismissible=true title='Message validation...'>Confirmation...</@cAlert>
+    <@cAlert type='warning' class='mt-xxl' dismissible=true title='Message validation...'>Confirmation...</@cAlert>
+    <@cAlert type='warning' isHtmlTitle=true htmlTitleLevel=3 dismissible=true title='Message avec titre HTML de niveau 3'>
+    <@chList>
+        <@chItem>Contenu du message avec un titre HTML personnalisé</@chItem>
+        <@chItem>Le titre est de niveau 3 grâce au paramètre htmlTitleLevel</@chItem>
+        <@chItem>Le paramètre isHtmlTitle doit être à true pour que le titre soit interprété comme du HTML</@chItem>
+    </@chList>
+    </@cAlert>
 
 Snippet:
 

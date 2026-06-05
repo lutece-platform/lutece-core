@@ -20,6 +20,8 @@ Showcase:
 - desc: Carrousel - @cCarousel
 - bs: components/carousel
 - newFeature: false
+- updatedFeature: false
+- deprecated: false
 
 Snippet:
 
@@ -85,7 +87,6 @@ Snippet:
             <span class="visually-hidden">${labelNext}</span>
         </span>
     </button>
-
     </#if>
 </div>
 <script type="module" src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-carousel.js"></script>
