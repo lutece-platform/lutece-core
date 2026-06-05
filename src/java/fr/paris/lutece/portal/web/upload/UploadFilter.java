@@ -50,7 +50,7 @@ import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.web.xss.XSSRequestWrapper;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.http.MultipartUtil;
 
 /**
@@ -60,6 +60,8 @@ public abstract class UploadFilter implements Filter
 {
     private static final String PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED = "portal.util.message.titleDefault";
     private static final String PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED = "portal.util.message.fileSizeLimitExceeded";
+    private static final String PROPERTY_SUFFIX_ACTIVATE_XSS_FILTER = ".activateXssFilter";
+    private static final String PROPERTY_SUFFIX_SANITIZE_FILTER_MODE = ".sanitizeFilterMode";
     private static final int KILO_BYTE = 1024;
     private static final String SIZE_THRESHOLD = "sizeThreshold";
     private static final String REQUEST_SIZE_MAX = "requestSizeMax";
@@ -67,6 +69,7 @@ public abstract class UploadFilter implements Filter
     private int _nSizeThreshold = -1;
     private long _nRequestSizeMax = -1;
     private boolean _bActivateNormalizeFileName;
+    private boolean _bXssSanitizeMode;
 
     /**
      * Forward the error message url depends site or admin implementation.
@@ -82,6 +85,14 @@ public abstract class UploadFilter implements Filter
      * @return Message
      */
     protected abstract String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey );
+
+    /**
+     * Get the property prefix used to read the safe-request XSS configuration ({@code .activateXssFilter}, {@code .sanitizeFilterMode}) for this filter
+     * context (site or admin).
+     *
+     * @return the property prefix, without trailing dot
+     */
+    protected abstract String getSafeRequestPropertyPrefix( );
 
     /**
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
@@ -121,6 +132,22 @@ public abstract class UploadFilter implements Filter
             AppLogService.error( ex.getMessage( ), ex );
             throw new ServletException( ex.getMessage( ), ex );
         }
+
+        initXssSanitizeMode( );
+    }
+
+    /**
+     * Read the safe-request XSS configuration to determine whether the XSS filter is active in sanitize mode. Since this filter now runs before the safe
+     * request filter (see LUT-32598), the multipart body form fields must be sanitized at parse time : the safe request filter cannot wrap a
+     * {@link MultipartHttpServletRequest} without breaking downstream casts.
+     */
+    private void initXssSanitizeMode( )
+    {
+        String strPrefix = getSafeRequestPropertyPrefix( );
+        boolean bActivateXssFilter = Boolean.parseBoolean( AppPropertiesService.getProperty( strPrefix + PROPERTY_SUFFIX_ACTIVATE_XSS_FILTER ) );
+        boolean bSanitizeFilterMode = Boolean.parseBoolean( AppPropertiesService.getProperty( strPrefix + PROPERTY_SUFFIX_SANITIZE_FILTER_MODE ) );
+
+        _bXssSanitizeMode = bActivateXssFilter && bSanitizeFilterMode;
     }
 
     /**
@@ -151,7 +178,7 @@ public abstract class UploadFilter implements Filter
             {
         	
                 MultipartHttpServletRequest multiHtppRequest = MultipartUtil.convert( _nSizeThreshold, _nRequestSizeMax, _bActivateNormalizeFileName,
-                        httpRequest , httpRequest instanceof XSSRequestWrapper );
+                        httpRequest, _bXssSanitizeMode );
                 chain.doFilter( multiHtppRequest, response );
             }
             catch( SizeLimitExceededException e )

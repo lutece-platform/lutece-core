@@ -33,9 +33,16 @@
  */
 package fr.paris.lutece.util.http;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.fileupload.FileItem;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -83,6 +90,32 @@ public class SecurityUtilTest extends LuteceTestCase
         assertTrue( SecurityUtil.containsCleanParameters( request ) );
         request.setParameter( "param4", "}" );
         assertTrue( SecurityUtil.containsCleanParameters( request ) );
+    }
+
+    /**
+     * Test of containsCleanParameters method when the request is wrapped as a {@link MultipartHttpServletRequest}.
+     * Verifies that XSS characters are detected in the multipart body form-field parameters, which are scanned through
+     * the wrapper's own {@code getParameterNames()} / {@code getParameterValues()} methods rather than through the
+     * underlying request.
+     */
+    @Test
+    public void testContainsCleanParametersMultipart( )
+    {
+        System.out.println( "containsCleanParameters - multipart" );
+
+        Map<String, List<FileItem>> emptyFiles = Collections.emptyMap( );
+
+        MockHttpServletRequest underlying = new MockHttpServletRequest( );
+        Map<String, String [ ]> bodyParams = new HashMap<>( );
+        bodyParams.put( "bodyParam", new String [ ] { "az" } );
+        MultipartHttpServletRequest cleanRequest = new MultipartHttpServletRequest( underlying, emptyFiles, bodyParams );
+        assertTrue( SecurityUtil.containsCleanParameters( cleanRequest ) );
+
+        MockHttpServletRequest underlyingWithXssBody = new MockHttpServletRequest( );
+        Map<String, String [ ]> dirtyBodyParams = new HashMap<>( );
+        dirtyBodyParams.put( "bodyParam", new String [ ] { "<script>" } );
+        MultipartHttpServletRequest dirtyBodyRequest = new MultipartHttpServletRequest( underlyingWithXssBody, emptyFiles, dirtyBodyParams );
+        assertFalse( SecurityUtil.containsCleanParameters( dirtyBodyRequest ) );
     }
 
     /**

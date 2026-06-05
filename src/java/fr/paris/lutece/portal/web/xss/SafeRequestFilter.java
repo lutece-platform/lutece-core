@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.xss;
 
+import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.http.SecurityUtil;
 
 import java.io.IOException;
@@ -109,21 +110,47 @@ public abstract class SafeRequestFilter implements Filter
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-    	if ( _bActivateXssFilter && _bSanitizeFilterMode && request instanceof HttpServletRequest)
+    	if ( _bActivateXssFilter && _bSanitizeFilterMode && request instanceof HttpServletRequest && !( request instanceof MultipartHttpServletRequest ) )
     	{
     		chain.doFilter(new XSSRequestWrapper((HttpServletRequest) request), response);
-    	} 
-    	else if ( _bActivateXssFilter && _strXssCharacters != null && !_strXssCharacters.trim( ).equals( "" )
-                && !SecurityUtil.containsCleanParameters( httpRequest, _strXssCharacters ) )
+    	}
+    	else if ( _bActivateXssFilter && !_bSanitizeFilterMode && _strXssCharacters != null && !_strXssCharacters.trim( ).equals( "" )
+                && !hasCleanParameters( httpRequest ) )
         {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
             httpServletResponse.sendRedirect( getMessageUrl( httpRequest, PROPERTY_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS, null,
                     PROPERTY_TITLE_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS ) );
-        } 
+        }
     	else
     	{
             chain.doFilter(request, response);
         }
+    }
+
+    /**
+     * Check that no request parameter contains forbidden XSS characters. The upload filter runs before this filter (see LUT-32598), so multipart requests are
+     * received as {@link MultipartHttpServletRequest} : their body form fields are scanned through the wrapper's own parameter accessors. Since the wrapper
+     * only exposes the multipart body form fields, the query string parameters are checked on the wrapped request.
+     *
+     * @param httpRequest
+     *            the HTTP request, possibly a {@link MultipartHttpServletRequest}
+     * @return true if no parameter contains forbidden XSS characters, false otherwise
+     */
+    private boolean hasCleanParameters( HttpServletRequest httpRequest )
+    {
+        if ( !SecurityUtil.containsCleanParameters( httpRequest, _strXssCharacters ) )
+        {
+            return false;
+        }
+
+        if ( httpRequest instanceof MultipartHttpServletRequest )
+        {
+            HttpServletRequest wrappedRequest = (HttpServletRequest) ( (MultipartHttpServletRequest) httpRequest ).getRequest( );
+
+            return SecurityUtil.containsCleanParameters( wrappedRequest, _strXssCharacters );
+        }
+
+        return true;
     }
 
     /**
