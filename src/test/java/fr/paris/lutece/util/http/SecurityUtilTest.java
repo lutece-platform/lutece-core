@@ -120,6 +120,26 @@ public class SecurityUtilTest extends LuteceTestCase
         request.setParameter( "url", strUrl );
         assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
 
+        // percent-encoded "\/\/redirect.ywh.at/..." : the browser resolves it as the protocol-relative URL "//redirect.ywh.at/..."
+        strUrl = "%5C%2F%5C%2Fredirect.ywh.at%2Fjspaa%2Fsite%2FPortal.jsp";
+        request.setParameter( "url", strUrl );
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        // double percent-encoded variant of the same payload
+        strUrl = "%255C%252F%255C%252Fredirect.ywh.at";
+        request.setParameter( "url", strUrl );
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        // percent-encoded "//anothersite.com"
+        strUrl = "%2F%2Fanothersite.com";
+        request.setParameter( "url", strUrl );
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        // percent-encoded "https://anothersite.com" with mixed case scheme
+        strUrl = "HtTpS%3A%2F%2Fanothersite.com";
+        request.setParameter( "url", strUrl );
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
         strUrl = "http://another.subdomain.mylutece.com";
         request.setParameter( "url", strUrl );
         String strUrlPatterns = "http://**.lutece.com,https://**.lutece.com";

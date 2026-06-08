@@ -33,8 +33,11 @@
  */
 package fr.paris.lutece.util.http;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,6 +72,7 @@ public final class SecurityUtil
     public static final String PROPERTY_REDIRECT_URL_SAFE_PATTERNS = "lutece.security.redirectUrlSafePatterns";
     public static final String PROPERTY_REDIRECT_URL_BLOCKED_SCHEMES = "lutece.security.redirectUrlBlockedSchemes";
     public static final String PROPERTY_REDIRECT_URL_BLOCKED_CHARACTERS_PATTERNS = "lutece.security.redirectUrlBlockedCharactersPatterns";
+    private static final int MAX_URL_DECODE_ITERATIONS = 3;
     private static Pattern PATTERN_URL_SAFE ;
 
     public static final Logger _log = LogManager.getLogger( LOGGER_NAME );
@@ -314,6 +318,13 @@ public final class SecurityUtil
         {
             return true; // this is not a valid redirect Url, but it is not unsafe
         }
+
+        // Normalize the URL (decode percent-encoding, turn backslashes into forward slashes, strip control characters)
+        // before running the checks below. Otherwise obfuscated payloads such as "%5C%2F%5C%2Fevil.com" (which the
+        // browser resolves as the protocol-relative URL "//evil.com") would bypass the blocked schemes and characters.
+        String strNormalizedUrl = normalizeUrlForRedirectCheck( strUrl );
+        String strLowerNormalizedUrl = strNormalizedUrl.toLowerCase( Locale.ROOT );
+
         // filter schemes
         String strRedirecUrlBlockedSchemes=AppPropertiesService.getProperty(PROPERTY_REDIRECT_URL_BLOCKED_SCHEMES);
         String strRedirecUrlBlockedCharactersPatterns=AppPropertiesService.getProperty(PROPERTY_REDIRECT_URL_BLOCKED_CHARACTERS_PATTERNS);
@@ -321,13 +332,13 @@ public final class SecurityUtil
         {
         	PATTERN_URL_SAFE = Pattern.compile( strRedirecUrlBlockedCharactersPatterns );
         }
-        
-        
-        if( (strRedirecUrlBlockedCharactersPatterns == null|| !PATTERN_URL_SAFE.matcher( strUrl ).find( ))
-				&&  strRedirecUrlBlockedSchemes != null && !Arrays.stream(strRedirecUrlBlockedSchemes.split(CONSTANT_COMMA)).anyMatch(x->strUrl.startsWith(x)))
+
+
+        if( (strRedirecUrlBlockedCharactersPatterns == null|| !PATTERN_URL_SAFE.matcher( strNormalizedUrl ).find( ))
+				&&  strRedirecUrlBlockedSchemes != null && Arrays.stream(strRedirecUrlBlockedSchemes.split(CONSTANT_COMMA)).noneMatch(x->strLowerNormalizedUrl.startsWith(x.toLowerCase(Locale.ROOT))))
         {
         	return true; // should be a relative path
-        	
+
         }
 
         // compare with current baseUrl
@@ -356,6 +367,40 @@ public final class SecurityUtil
 
         return false;
 
+    }
+
+    /**
+     * Normalize a URL before checking it against the blocked schemes and characters, in order to defeat obfuscation techniques used to bypass the open
+     * redirect protection. It decodes percent-encoding (repeatedly, to defeat multiple/nested encoding such as "%255C"), turns backslashes into forward
+     * slashes (browsers interpret "\" as "/") and strips control characters and whitespace that browsers ignore when resolving the URL.
+     *
+     * @param strUrl
+     *            the raw URL to normalize
+     * @return the decoded and normalized URL
+     */
+    private static String normalizeUrlForRedirectCheck( String strUrl )
+    {
+        String strNormalized = strUrl;
+
+        for ( int i = 0; i < MAX_URL_DECODE_ITERATIONS; i++ )
+        {
+            String strPrevious = strNormalized;
+            try
+            {
+                strNormalized = URLDecoder.decode( strPrevious, "UTF-8" );
+            }
+            catch ( IllegalArgumentException | UnsupportedEncodingException e )
+            {
+                // malformed encoding : keep the last successfully decoded value
+                break;
+            }
+            if ( strNormalized.equals( strPrevious ) )
+            {
+                break;
+            }
+        }
+
+        return strNormalized.replace( '\\', '/' ).replaceAll( "[\\x00-\\x20]", StringUtils.EMPTY );
     }
 
     /**
