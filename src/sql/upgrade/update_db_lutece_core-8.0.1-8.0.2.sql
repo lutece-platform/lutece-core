@@ -82,3 +82,7 @@ DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.use
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.theme.switch.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.color.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.density.checkbox', '0');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev3.sql
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.translate.lang';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.lang', 'fr');
