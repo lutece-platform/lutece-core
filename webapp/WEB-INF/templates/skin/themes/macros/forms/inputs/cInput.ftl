@@ -95,13 +95,13 @@ function setInvalidMaxMinMessage( input ) {
   const value = parseFloat(input.value);
   const min = input.hasAttribute('min') ? parseFloat(input.getAttribute('min')) : -Infinity;
   const max = input.hasAttribute('max') ? parseFloat(input.getAttribute('max')) : Infinity;
-  if ( value <= min || value >= max  ) {
+  if ( value < min || value > max  ) {
     if ( !input.classList.contains('is-invalid') ) {
         input.classList.add('is-invalid');
         if( input.parentNode.classList.contains('input-group') ) {
-            input.parentNode.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${i18n('portal.theme.labelQuantityInvalid',input.min,input.max)}</p>' );
+            input.parentNode.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${i18n('portal.theme.labelQuantityInvalid',min,max)}</p>' );
         } else {
-            input.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${i18n('portal.theme.labelQuantityInvalid',input.min,input.max)}</p>' );
+            input.insertAdjacentHTML('beforebegin', '<p class="invalid-feedback" >${i18n('portal.theme.labelQuantityInvalid',min,max)}</p>' );
         }
         input.setAttribute('aria-invalid', 'true');
         input.setAttribute('aria-describedby', 'error_' + input.id);
