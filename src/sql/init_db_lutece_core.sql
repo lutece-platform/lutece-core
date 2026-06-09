@@ -301,6 +301,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.color.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.density.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.logo.alt', '');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.lang', 'fr');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.robotIndex.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssChars', '<>#"&');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssMsg', 'Les caract\\u00e8res &#60; &#62; &#35; et &#34;  &amp; sont interdits dans le contenu de votre message.');
