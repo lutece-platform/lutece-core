@@ -48,7 +48,7 @@ Snippet:
 <#else>
 	<div class="card-img<#if imgClass!=''> ${imgClass}</#if>"><img src="${img}" height="128" alt=""></div>
 </#if>
-    div class="card-body">
+    <div class="card-body">
 	<p class="card-title"><#if title=''>#i18n{portal.util.message.emptyTitle}	<#else>${title}</#if></p>
 <#if subtitle !=''>
 	<p class="card-subtitle text-muted">${subtitle}</p>

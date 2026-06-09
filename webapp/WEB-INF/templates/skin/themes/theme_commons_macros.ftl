@@ -17,6 +17,7 @@
 <@cMacro name='getThemeDatePicker' group='components/datepicker' />
 <@cMacro name='initThemeDatePicker' group='components/datepicker' />
 <@cMacro name='cDropdown' group='components/dropdown' />
+<@cMacro name='cEmpty' group='components/empty' />
 <@cMacro name='cErrorMessage' group='components/error' />
 <@cMacro name='cFilter' group='components/filter' />
 <@cMacro name='cIcon' group='components/icons' />
