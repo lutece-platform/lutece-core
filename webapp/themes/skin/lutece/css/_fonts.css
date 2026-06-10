@@ -135,31 +135,8 @@
 }
 
 /*** 										***/
-/*** Imports 	Marianne - France Connect   ***/
+/*** Imports 	Fraunces  ***/
 /*** 										***/
-
-/*** Marianne Regular 					***/
-@font-face {
-    font-family: "Marianne";
-    font-weight: 400;
-    font-style: normal;
-    src: local("Marianne Regular"),
-		 local("Marianne-Regular"),
-		 url("../fonts/Marianne-Regular.woff2") format("woff2"),
-         url("../fonts/Marianne-Regular.woff") format("woff");
-}
-
-/*** Marianne Regular 					***/
-@font-face {
-    font-family: "Marianne";
-    font-weight: 700;
-    font-style: normal;
-    src: local("Marianne Bold"),
-		 local("Marianne-Bold"),
-		 url("../fonts/Marianne-Bold.woff2") format("woff2"),
-         url("../fonts/Marianne-Bold.woff") format("woff");
-}
-
 /* Latin Basic, as defined by Google Fonts */
 @font-face {
   font-family: 'Fraunces';

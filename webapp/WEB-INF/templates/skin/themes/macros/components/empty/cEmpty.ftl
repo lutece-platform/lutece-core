@@ -4,7 +4,7 @@ Description: Generates an empty state message with an optional icon, image, titl
 
 Parameters:
 - title (string, optional): the main title of the empty state message.
-- subtitle (string, optional): the subtitle of the empty state message.
+- subtitle (string, optional): the subtitle of the empty state message. Defaul value "default"
 - iconName (string, optional): the name of the icon to use, using the Themify Icon font (e.g. "mood-empty", "heart", "star", etc.).
 - img (string, optional): the URL of the image to display.
 - actionTitle (string, optional): the title of the action button.
@@ -34,33 +34,23 @@ Snippet:
     Empty state with nested custom content:
 
     <@cEmpty title='Your inbox is empty' iconName='mail'>
-        <div class="card-footer">
-            <a class="btn btn-outline-primary" href="/admin/mail/compose">Compose Message</a>
-        </div>
+        <p class="text-center"><a class="btn btn-outline-primary" href="/admin/mail/compose">Compose Message</a></p>
     </@cEmpty>
 
 -->
-<#macro cEmpty title='' subtitle='' id='' class='' iconName='icon-off' iconClass='' img='' imgClass='' actionTitle='' actionBtn='primary' actionIcon='plus' actionClass='' actionUrl='#' deprecated...>
+<#macro cEmpty title='' subtitle='default' id='' class='' iconName='mood-empty' iconClass='' img='' imgClass='' actionTitle='' actionBtn='primary' actionIcon='plus' actionClass='' actionUrl='#' deprecated...>
 <@deprecatedWarning args=deprecated />
-<div class="card<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if>>
-<#if img=''>
-	<div class="card-img<#if iconClass!=''> ${iconClass}</#if>"><@cIcon name='${iconName}' params='style="font-size:48px"' /></div>
-<#else>
-	<div class="card-img<#if imgClass!=''> ${imgClass}</#if>"><img src="${img}" height="128" alt=""></div>
-</#if>
-    <div class="card-body">
-	<p class="card-title"><#if title=''>#i18n{portal.util.message.emptyTitle}	<#else>${title}</#if></p>
-<#if subtitle !=''>
-	<p class="card-subtitle text-muted">${subtitle}</p>
-<#else>
-	<p class="card-subtitle text-muted">#i18n{portal.util.message.emptySubTitle}</p>
-</#if>
+<div class="lutece-ds-empty<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if>>
+<#if img=''><div class="icon<#if iconClass!=''> ${iconClass}</#if>"><@cIcon name='${iconName}' params='style="font-size:48px"' /></div><#else>	<div class="illustration<#if imgClass!=''> ${imgClass}</#if>"><img src="${img}" height="128" alt=""></div></#if>
+<p class="title"><#if title=''>#i18n{portal.util.message.emptyTitle} <#else>${title}</#if></p>
+<#if subtitle !='default'><p class="text">${subtitle}</p><#else><p class="text">#i18n{portal.util.message.emptySubTitle}</p></#if>
 <#nested>
-    </div>
 <#if actionTitle !=''>
-	<div class="card-footer<#if actionClass!=''> ${actionClass}</#if>">
-		<a href="${actionUrl}" class="btn btn-${actionBtn}"><#if actionIcon !=''><@icon prefix='ti ti-' style='${actionIcon}' /></#if> ${actionTitle}</a>
-	</div>
+<p class="actions<#if actionClass!=''> ${actionClass}</#if>">
+	<a href="${actionUrl}" class="btn btn-${actionBtn}">
+        <#if actionIcon !=''><@icon prefix='ti ti-' style='${actionIcon}' /></#if> ${actionTitle}
+    </a>
+</p>
 </#if>
 </div>
 </#macro>
