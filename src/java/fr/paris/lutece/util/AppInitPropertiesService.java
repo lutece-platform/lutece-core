@@ -36,15 +36,32 @@ package fr.paris.lutece.util;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import fr.paris.lutece.portal.service.init.WebConfResourceLocator;
+
 
 
 /**
- * This class provides management services for properties files
+ * This class provides management services for properties files.
+ *
+ * <p>
+ * The configuration is split into two independent sources :
+ * </p>
+ * <ul>
+ * <li>a <b>base</b> source holding every {@code .properties} file except those located under the
+ * {@code override/} and {@code override/plugins} directories ;</li>
+ * <li>an <b>override</b> source holding only the {@code .properties} files located under the
+ * {@code override/} and {@code override/plugins} directories.</li>
+ * </ul>
+ * <p>
+ * Each source is exposed to MicroProfile Config through a dedicated {@code ConfigSource}, the override
+ * source being given a higher ordinal so that its values take precedence over the base ones.
+ * </p>
  */
 public final class AppInitPropertiesService
 {
@@ -55,11 +72,8 @@ public final class AppInitPropertiesService
     private static final String FILE_PROPERTIES_DAEMONS = "daemons.properties";
     private static final String FILE_PROPERTIES_CACHES = "caches.properties";
     private static final String FILE_PROPERTIES_EDITORS = "editors.properties";
-    private static final String PATH_PLUGINS = "plugins/";
-    private static final String PATH_THEMES="themes/";
-    private static final String PATH_OVERRIDE_CORE = "override/";
-    private static final String PATH_OVERRIDE_PLUGINS = "override/plugins";
-    private static PropertiesService _propertiesService;
+    private static PropertiesService _basePropertiesService;
+    private static PropertiesService _overridePropertiesService;
 
     /**
      * Private constructor
@@ -69,67 +83,130 @@ public final class AppInitPropertiesService
     }
 
     /**
-     * Initializes the service
-     * 
+     * Initializes the base and the override properties services.
+     *
      * @param strConfPath
      *            The configuration path
      */
     public static void init( String strConfPath )
     {
-    	if(_propertiesService == null ) {
+    	if ( _basePropertiesService == null )
+    	{
 	        String confPath = strConfPath;
-	        _propertiesService = new PropertiesService();
-	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CONFIG );
-	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DATABASE );
-	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_LUTECE );
-	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_SEARCH );
-	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DAEMONS );
-	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CACHES );
-	        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_EDITORS );
-	        _propertiesService.addPropertiesDirectory( confPath + PATH_PLUGINS, confPath + PATH_THEMES, confPath + PATH_OVERRIDE_CORE, confPath + PATH_OVERRIDE_PLUGINS  );
+	        _basePropertiesService = new PropertiesService( );
+	        _basePropertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CONFIG );
+	        _basePropertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DATABASE );
+	        _basePropertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_LUTECE );
+	        _basePropertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_SEARCH );
+	        _basePropertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DAEMONS );
+	        _basePropertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CACHES );
+	        _basePropertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_EDITORS );
+	        _basePropertiesService.addPropertiesPaths( WebConfResourceLocator.getPathPropertiesFileWithoutOverride( ) );
+
+	        _overridePropertiesService = new PropertiesService( );
+	        _overridePropertiesService.addPropertiesPaths( WebConfResourceLocator.getPathOverridePropertiesFile( ) );
     	}
     }
 
     /**
-     * Returns the value of a variable defined in the .properties file of the application as a String
+     * Returns the value of a variable defined in the base properties files (everything except the
+     * override directories) as a String.
      *
      * @param strProperty
      *            The variable name
-     * @return The variable value read in the properties file
+     * @return The variable value read in the base properties files
      */
-    public static String getProperty( String strProperty )
+    public static String getBaseProperty( String strProperty )
     {
-        return _propertiesService.getProperty( strProperty );
-    }
-    /**
-     * Reloads all the properties files
-     */
-    public static void reloadAll( )
-    {
-        _propertiesService.reloadAll( );
+        return _basePropertiesService.getProperty( strProperty );
     }
 
     /**
-     * Reloads a given properties file
-     * 
+     * Returns the names of the variables defined in the base properties files (everything except the
+     * override directories).
+     *
+     * @return The set of base property names
+     */
+    public static Set<String> getBasePropertiesName( )
+    {
+        return _basePropertiesService.getProperties( ).stringPropertyNames( );
+    }
+
+    /**
+     * Returns the value of a variable defined in the override properties files ({@code override/} and
+     * {@code override/plugins}) as a String.
+     *
+     * @param strProperty
+     *            The variable name
+     * @return The variable value read in the override properties files
+     */
+    public static String getOverrideProperty( String strProperty )
+    {
+        return _overridePropertiesService.getProperty( strProperty );
+    }
+
+    /**
+     * Returns the names of the variables defined in the override properties files ({@code override/}
+     * and {@code override/plugins}).
+     *
+     * @return The set of override property names
+     */
+    public static Set<String> getOverridePropertiesName( )
+    {
+        return _overridePropertiesService.getProperties( ).stringPropertyNames( );
+    }
+
+    /**
+     * Returns the value of a variable defined in the .properties files of the application as a String.
+     * The override source takes precedence over the base source.
+     *
+     * @param strProperty
+     *            The variable name
+     * @return The variable value read in the properties files
+     */
+    public static String getProperty( String strProperty )
+    {
+        String strValue = _overridePropertiesService.getProperty( strProperty );
+        if ( strValue == null )
+        {
+            strValue = _basePropertiesService.getProperty( strProperty );
+        }
+        return strValue;
+    }
+    /**
+     * Reloads all the properties files of both the base and the override sources.
+     */
+    public static void reloadAll( )
+    {
+        _basePropertiesService.reloadAll( );
+        _overridePropertiesService.reloadAll( );
+    }
+
+    /**
+     * Reloads a given properties file in whichever source it belongs to.
+     *
      * @param strFilename
      *            The file name
      */
     public static void reload( String strFilename )
     {
-        _propertiesService.reload( strFilename );
+        _basePropertiesService.reload( strFilename );
+        _overridePropertiesService.reload( strFilename );
     }
 
     /**
-     * Gets properties
-     * 
+     * Gets all properties, merging the base and the override sources, the override values taking
+     * precedence.
+     *
      * @return All properties
      * @since version 3.0
      */
     public static Properties getProperties( )
     {
-        // Return a copy of all properties
-        return new Properties( _propertiesService.getProperties( ) );
+        Properties properties = new Properties( );
+        properties.putAll( _basePropertiesService.getProperties( ) );
+        properties.putAll( _overridePropertiesService.getProperties( ) );
+        return properties;
     }
     /**
      * Get all properties As map
@@ -138,9 +215,8 @@ public final class AppInitPropertiesService
     public static Map<String, String> getPropertiesAsMap( )
     {
         Map<String, String> res = new HashMap<>( );
-        Properties properties = _propertiesService.getProperties( );
+        Properties properties = getProperties( );
 
-        // enumerate over property names to get all properties, including one which are defaults
         Enumeration<?> names = properties.propertyNames( );
 
         while ( names.hasMoreElements( ) )
@@ -152,14 +228,16 @@ public final class AppInitPropertiesService
         return res;
     }
     /**
-     * Return Properties Name
-     * @return
+     * Return the union of the base and the override property names.
+     * @return The set of all property names
      */
     public static Set<String> getPropertiesName( )
     {
-        return _propertiesService.getProperties( ).stringPropertyNames();
+        Set<String> setNames = new LinkedHashSet<>( _basePropertiesService.getProperties( ).stringPropertyNames( ) );
+        setNames.addAll( _overridePropertiesService.getProperties( ).stringPropertyNames( ) );
+        return setNames;
     }
-    
+
     /**
      * Returns a list of keys that match a given prefix.
      *
@@ -171,7 +249,7 @@ public final class AppInitPropertiesService
     public static List<String> getKeys( String strPrefix )
     {
         List<String> listKeys = new ArrayList<>( );
-        Enumeration eList = _propertiesService.getProperties( ).keys( );
+        Enumeration eList = getProperties( ).keys( );
 
         while ( eList.hasMoreElements( ) )
         {

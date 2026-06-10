@@ -101,6 +101,17 @@ public class PropertiesService
     	loadProperties(WebConfResourceLocator.getPathPropertiesFile( ));
     }
 
+    /**
+     * Add properties from a given set of resource paths.
+     *
+     * @param setPaths
+     *            The set of resource paths to load
+     */
+    public void addPropertiesPaths( Set<String> setPaths )
+    {
+        loadProperties( setPaths );
+    }
+
 	private void loadProperties( Set<String> listPath) {
 		
 		listPath.forEach(pathResource -> {
@@ -163,7 +174,10 @@ public class PropertiesService
     public void reload( String strFilename )
     {
         String strFullPath = _mapPropertiesFiles.get( strFilename );
-        loadFile( strFullPath );
+        if ( strFullPath != null )
+        {
+            loadFile( strFullPath );
+        }
     }
 
     /**

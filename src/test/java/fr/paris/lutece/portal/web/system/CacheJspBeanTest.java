@@ -63,7 +63,7 @@ public class CacheJspBeanTest extends LuteceTestCase
     private @Inject ISecurityTokenService _securityTokenService;
     
     @BeforeEach
-    private void resetObserver() {
+    public void resetObserver() {
         resetCacheObserver.reset( );
     }
     
