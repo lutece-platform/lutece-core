@@ -47,7 +47,7 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 @SessionScoped
 @Named
-@Controller( name = "autoInclude", controllerJsp = "ManageAutoIncludes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT" )
+@Controller( controllerJsp = "ManageAutoIncludes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT" )
 public class AutoIncludeJspBean extends MVCAdminJspBean
 {
     private static final long serialVersionUID = 3045411044102177294L;

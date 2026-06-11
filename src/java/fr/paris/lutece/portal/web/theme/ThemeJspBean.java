@@ -72,7 +72,7 @@ import fr.paris.lutece.portal.util.mvc.binding.BindingResult;
  */
 @RequestScoped
 @Named
-@Controller( controllerJsp = "ManageThemes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_THEME_MANAGEMENT" )
+@Controller( name = "theme", controllerJsp = "ManageThemes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_THEME_MANAGEMENT" )
 public class ThemeJspBean extends MVCAdminJspBean
 {
     private static final long serialVersionUID = 3959917474602825328L;
