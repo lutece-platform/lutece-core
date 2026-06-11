@@ -39,7 +39,7 @@
 							<@li><strong>#i18n{portal.theme.manage_themes.licence}</strong> : ${theme.themeLicence}</@li>
 						</@ul>
 						<@p class='text-center mt-4'>
-                     	 	<@aButton href='jsp/admin/theme/ManageThemes.jsp?action=modifyGlobalTheme&theme=${theme.codeTheme}&theme_version=${theme.themeVersion}' title='#i18n{portal.theme.manage_themes.buttonChangeChoose}' buttonIcon='click' iconPosition='right' />
+                     	 	<@aButton href='${url_modify_global_theme}&theme=${theme.codeTheme}&theme_version=${theme.themeVersion}' title='#i18n{portal.theme.manage_themes.buttonChangeChoose}' buttonIcon='click' iconPosition='right' />
                     	</@p>
 					</@boxBody>
 					<@div class='p-3 bg-light'>

@@ -729,7 +729,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected String getViewUrl( String strView )
     {
-        UrlItem url = new UrlItem( hasControllerName( ) ? getControllerBaseUrl( ) : getControllerJsp( ) );
+        UrlItem url = new UrlItem( hasControllerName( ) ? _controller.name( ) : getControllerJsp( ) );
         url.addParameter( MVCUtils.PARAMETER_VIEW, strView );
 
         return url.getUrl( );
@@ -744,7 +744,15 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected String getViewFullUrl( String strView )
     {
-        return hasControllerName( ) ? getViewUrl( strView ) : getControllerPath( ) + getViewUrl( strView );
+        if ( hasControllerName( ) )
+        {
+            UrlItem url = new UrlItem( getControllerBaseUrl( ) );
+            url.addParameter( MVCUtils.PARAMETER_VIEW, strView );
+
+            return url.getUrl( );
+        }
+
+        return getControllerPath( ) + getViewUrl( strView );
     }
 
     /**

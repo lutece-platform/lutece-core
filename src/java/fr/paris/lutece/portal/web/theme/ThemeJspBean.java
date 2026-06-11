@@ -101,7 +101,8 @@ public class ThemeJspBean extends MVCAdminJspBean
     public static final String MARK_THEMES_LIST = "themes_list";
     public static final String MARK_THEME_DEFAULT = "theme_default";
     public static final String MARK_BASE_URL = "base_url";
-    
+    public static final String MARK_URL_MODIFY_GLOBAL_THEME = "url_modify_global_theme";
+
     @Inject
     private ThemeService _themeService;
 
@@ -119,7 +120,8 @@ public class ThemeJspBean extends MVCAdminJspBean
         model.put( MARK_THEMES_LIST, _listThemes );
         model.put( MARK_THEME_DEFAULT, _themeService.getGlobalTheme(  ) );
         model.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
-        
+        model.put( MARK_URL_MODIFY_GLOBAL_THEME, getActionUrl( ACTION_MODIFY_GLOBAL_THEME ) );
+
         setPageTitleProperty( PROPERTY_MANAGE_THEMES_PAGE_TITLE );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_THEMES, getLocale(  ), model );
