@@ -1,0 +1,22 @@
+<#--
+  Admin MVC front-controller page frame.
+  Programmatic replacement for AdminHeader.jsp + AdminFooter.jsp.
+  The fragments (admin_stylesheets, admin_menu_header, admin_menu_footer) are pre-rendered
+  HTML produced by AdminMenuJspBean and are emitted as-is. The menu header fragment closes
+  </head> and opens <body> (see LUTECE-2310); the menu footer fragment closes </body></html>.
+-->
+<!DOCTYPE html>
+<html lang="${lang}" dir="ltr">
+<head>
+<base href="${base_url}">
+<title>${site_name} - Administration</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+${admin_stylesheets}
+<#if accessible_mode>
+<link rel="stylesheet" type="text/css" href="css/admin/portal_admin_accessibility.css" media="screen, projection" >
+</#if>
+<link rel="shortcut icon" href="${base_url}favicon.ico">
+${admin_menu_header}
+${content}
+${admin_menu_footer}

@@ -167,6 +167,14 @@
         <url-pattern>/servlet/plugins/*</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>AdminMvcServlet</servlet-name>
+        <servlet-class>fr.paris.lutece.portal.web.admin.AdminMvcServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminMvcServlet</servlet-name>
+        <url-pattern>/jsp/admin/mvc/*</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>ImageServlet</servlet-name>
         <servlet-class>fr.paris.lutece.portal.service.image.ImageServlet</servlet-class>
     </servlet>

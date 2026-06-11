@@ -138,7 +138,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
         if ( _controller.securityTokenEnabled( ) )
         {
-            getSecurityTokenHandler( ).registerActions( _controller.controllerPath( ) + _controller.controllerJsp( ), methods );
+            getSecurityTokenHandler( ).registerActions( getSecurityTokenKey( ), methods );
         }
 
         try
@@ -570,6 +570,41 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     }
 
     /**
+     * Indicates whether this controller uses the front-controller routing model (a non blank
+     * {@link Controller#name()}) rather than the legacy JSP routing.
+     *
+     * @return {@code true} when a front-controller route name is declared
+     */
+    private boolean hasControllerName( )
+    {
+        return _controller.name( ) != null && !_controller.name( ).isBlank( );
+    }
+
+    /**
+     * Returns the base URL used to build view and action URLs. When a front-controller route name
+     * is declared, the base targets the admin MVC servlet ({@code jsp/admin/mvc/&#123;name&#125;});
+     * otherwise it falls back to the legacy controller JSP path.
+     *
+     * @return the controller base URL
+     */
+    protected String getControllerBaseUrl( )
+    {
+        return hasControllerName( ) ? "jsp/admin/mvc/" + _controller.name( ) : getControllerPath( ) + getControllerJsp( );
+    }
+
+    /**
+     * Returns the key under which this controller registers and validates its CSRF security token.
+     * The front-controller route name is favored when present, keeping generation and validation
+     * consistent; legacy controllers keep the JSP-path based key.
+     *
+     * @return the security token key
+     */
+    private String getSecurityTokenKey( )
+    {
+        return hasControllerName( ) ? _controller.name( ) : _controller.controllerPath( ) + _controller.controllerJsp( );
+    }
+
+    /**
      * Redirect to requested page
      *
      * @param request
@@ -694,7 +729,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected String getViewUrl( String strView )
     {
-        UrlItem url = new UrlItem( getControllerJsp( ) );
+        UrlItem url = new UrlItem( hasControllerName( ) ? getControllerBaseUrl( ) : getControllerJsp( ) );
         url.addParameter( MVCUtils.PARAMETER_VIEW, strView );
 
         return url.getUrl( );
@@ -709,7 +744,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected String getViewFullUrl( String strView )
     {
-        return getControllerPath( ) + getViewUrl( strView );
+        return hasControllerName( ) ? getViewUrl( strView ) : getControllerPath( ) + getViewUrl( strView );
     }
 
     /**
@@ -721,7 +756,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
      */
     protected String getActionUrl( String strAction )
     {
-        UrlItem url = new UrlItem( getControllerPath( ) + getControllerJsp( ) );
+        UrlItem url = new UrlItem( getControllerBaseUrl( ) );
         url.addParameter( MVCUtils.PARAMETER_ACTION, strAction );
 
         return url.getUrl( );

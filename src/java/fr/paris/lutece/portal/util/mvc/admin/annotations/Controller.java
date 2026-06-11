@@ -50,18 +50,30 @@ import java.lang.annotation.Target;
 public @interface Controller
 {
     /**
-     * The XPage name as it is called in the URL
+     * The unique route name of the controller, used by the admin MVC front-controller servlet
+     * ({@code /jsp/admin/mvc/&#123;name&#125;}). When set, no physical "fond de traitement" JSP is
+     * required: the front-controller resolves the bean by this name and invokes
+     * {@code processController}. When blank, the controller falls back to the legacy JSP routing
+     * based on {@link #controllerPath()} and {@link #controllerJsp()}.
+     *
+     * @return the controller route name
+     */
+    String name( ) default "";
+
+    /**
+     * The XPage name as it is called in the URL. Optional when {@link #name()} is set (new
+     * front-controller model).
      *
      * @return the controller jsp
      */
-    String controllerJsp( );
+    String controllerJsp( ) default "";
 
     /**
-     * Path of the controller JSP
+     * Path of the controller JSP. Optional when {@link #name()} is set (new front-controller model).
      *
      * @return the controller path
      */
-    String controllerPath( );
+    String controllerPath( ) default "";
 
     /**
      * The right associated to the JSP
