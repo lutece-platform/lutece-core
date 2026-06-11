@@ -1,7 +1,7 @@
 # Design : Front-controller MVC Back-Office (suppression des JSP « fond de traitement »)
 
 **Date :** 2026-06-11
-**Statut :** Draft
+**Statut :** POC validé en runtime (branche `poc/front-controller-bo-mvc`, pilote `ThemeJspBean`)
 **Module :** lutece-core (cœur du framework)
 **Version Lutece :** 8.x
 
@@ -15,11 +15,11 @@ géré par le framework MVC) et enrober le résultat avec les includes
 de présentation par contrôleur, mêlant appel de contrôleur (scriptlet EL) et mécanique
 de chrome, dupliqué à l'identique partout.
 
-Exemple actuel (`ManageAutoIncludes.jsp`) :
+Exemple actuel (`jsp/admin/theme/ManageThemes.jsp`) :
 
 ```jsp
 <%@ page errorPage="../ErrorPage.jsp" %>
-${ pageContext.setAttribute( 'strContent', autoIncludeJspBean.processController( pageContext.request, pageContext.response ) ) }
+${ pageContext.setAttribute( 'strContent', themeJspBean.processController( pageContext.request, pageContext.response ) ) }
 <jsp:include page="../AdminHeader.jsp" />
 ${ pageContext.getAttribute( 'strContent' ) }
 <%@ include file="../AdminFooter.jsp" %>
@@ -60,15 +60,15 @@ On aligne simplement le Back-Office sur ce principe.
 | `MvcControllerRegistry` | Nouveau `@ApplicationScoped` | Scan CDI au démarrage : map `name → Bean`. Détection de collision (fail-fast). |
 | `AdminMvcServlet` | Nouvelle servlet `/jsp/admin/mvc/*` | Front-controller : résout le bean, appelle `processController`, gère view/action, compose le chrome. |
 | `PageFrameService` + `admin_page_frame.html` | Nouveau service + template | Compose `<head>` + styles + menu header + contenu + footer. Remplace `AdminHeader.jsp`/`AdminFooter.jsp`. |
-| `getControllerBaseUrl()` | Modif `MVCAdminJspBean` | Base d'URL des helpers `getViewUrl`/`getActionUrl` : `jsp/admin/mvc/{name}` si `name`, sinon legacy. |
+| `getControllerBaseUrl()` + helpers d'URL | Modif `MVCAdminJspBean` | Base d'URL `jsp/admin/mvc/{name}` (si `name`) pour les liens href ; `getViewUrl` renvoie une cible same-dir pour les redirections (voir § Génération d'URL). |
 
 ### Flux d'une requête
 
 ```
-GET /jsp/admin/mvc/autoInclude?view=create
+GET /jsp/admin/mvc/theme?view=manageThemes
   → [filtres /jsp/admin/* : auth, multipart, XSS, token, encoding]   (hérités, rien à coder)
   → AdminMvcServlet
-       name      = "autoInclude"
+       name      = "theme"
        beanClass = registry.resolve(name)                 // 404 si inconnu
        ctrl      = CDI.current().select(beanClass).get()  // respecte @SessionScoped
        content   = ctrl.processController(request, response)  // init+RBAC+token+dispatch
@@ -82,8 +82,8 @@ GET /jsp/admin/mvc/autoInclude?view=create
 
 ```java
 @Controller(
-    name = "autoInclude",          // NOUVEAU — clé de route, optionnel
-    right = "CORE_..._MANAGEMENT",
+    name = "theme",                // NOUVEAU — clé de route, optionnel
+    right = "CORE_THEME_MANAGEMENT",
     securityTokenEnabled = true
     // controllerJsp / controllerPath : default "" — non requis pour un nouveau bean
 )
@@ -142,7 +142,7 @@ Fragments produits par les mêmes méthodes qu'aujourd'hui :
 `adminMenuJspBean.getAdminStyleSheets()`, `getAdminMenuHeader(request)`,
 `getAdminMenuFooter(request)` → rendu identique à l'existant.
 
-### Génération d'URL (templates inchangés)
+### Génération d'URL
 
 ```java
 protected String getControllerBaseUrl( ) {
@@ -152,18 +152,29 @@ protected String getControllerBaseUrl( ) {
 }
 ```
 
-`getViewUrl` / `getActionUrl` / `getViewFullUrl` s'appuient dessus. Les templates qui
-utilisent ces helpers génèrent automatiquement `jsp/admin/mvc/{name}?view=...` sans
-être modifiés.
+**Distinction cruciale entre redirection et lien href** (validée en runtime) :
+
+- **`getActionUrl` / `getViewFullUrl`** (utilisés dans les **liens href** des templates) →
+  chemin complet `jsp/admin/mvc/{name}?…`, résolu par le navigateur contre le
+  `<base href>` de la page.
+- **`getViewUrl`** (utilisé comme **cible de redirection** par `redirectView`/`redirect`) →
+  chemin **relatif au même répertoire**, soit juste `{name}?view=…`. Indispensable car
+  `HttpServletResponse.sendRedirect` résout l'URL relativement à l'URI courante
+  (`/jsp/admin/mvc/{name}`), **pas** contre le `<base href>`. Un chemin complet ici
+  produirait `/jsp/admin/mvc/jsp/admin/mvc/{name}` → 404.
+
+C'est exactement la séparation qui existe déjà en legacy (`getControllerJsp()` = nom de
+fichier same-dir pour la redirection vs `getControllerPath()+getControllerJsp()` = chemin
+complet pour les liens).
 
 ## Migration d'un contrôleur — avant / après
 
 | | AVANT | APRÈS |
 |---|---|---|
-| Annotation | `@Controller(controllerJsp="ManageAutoIncludes.jsp", controllerPath="jsp/admin/templates/", right=...)` | `@Controller(name="autoInclude", right=...)` |
-| Fichier JSP | `webapp/jsp/admin/templates/ManageAutoIncludes.jsp` | **supprimé** |
-| Feature `<url>` | `jsp/admin/templates/ManageAutoIncludes.jsp` | `jsp/admin/mvc/autoInclude` |
-| Templates (liens/formulaires) | `getViewUrl(...)` → `ManageAutoIncludes.jsp?view=...` | **inchangés** → `jsp/admin/mvc/autoInclude?view=...` |
+| Annotation | `@Controller(controllerJsp="ManageThemes.jsp", controllerPath="jsp/admin/templates/", right="CORE_THEME_MANAGEMENT")` | `@Controller(name="theme", right="CORE_THEME_MANAGEMENT")` |
+| Fichier JSP | `webapp/jsp/admin/theme/ManageThemes.jsp` | **supprimé** |
+| Feature `<url>` | `jsp/admin/theme/ManageThemes.jsp` | `jsp/admin/mvc/theme` |
+| Liens href (templates) | chemin codé en dur vers la JSP | `getActionUrl(...)` → `jsp/admin/mvc/theme?action=...` |
 | Code Java (`@View`/`@Action`) | — | **inchangé** |
 
 **Bilan migration d'un contrôleur existant :** 1 annotation éditée, 1 JSP supprimée,
@@ -172,23 +183,29 @@ utilisent ces helpers génèrent automatiquement `jsp/admin/mvc/{name}?view=...`
 
 ## Fichiers à créer / modifier
 
-### À créer
-- [ ] `src/java/fr/paris/lutece/portal/web/admin/AdminMvcServlet.java` — front-controller.
-- [ ] `src/java/fr/paris/lutece/portal/util/mvc/admin/MvcControllerRegistry.java` — registre CDI.
-- [ ] `src/java/fr/paris/lutece/portal/util/mvc/admin/PageFrameService.java` — composition du chrome.
-- [ ] `webapp/WEB-INF/templates/admin/admin_page_frame.html` — template de page.
+### À créer (fait dans le POC)
+- [x] `src/java/fr/paris/lutece/portal/web/admin/AdminMvcServlet.java` — front-controller.
+- [x] `src/java/fr/paris/lutece/portal/util/mvc/admin/MvcControllerRegistry.java` — registre CDI.
+- [x] `src/java/fr/paris/lutece/portal/util/mvc/admin/PageFrameService.java` — composition du chrome.
+- [x] `webapp/WEB-INF/templates/admin/admin_page_frame.html` — template de page.
 
-### À modifier
-- [ ] `src/java/fr/paris/lutece/portal/util/mvc/admin/annotations/Controller.java`
+### À modifier (fait dans le POC)
+- [x] `src/java/fr/paris/lutece/portal/util/mvc/admin/annotations/Controller.java`
       — ajouter `name() default ""` ; passer `controllerJsp()`/`controllerPath()` en `default ""`.
-- [ ] `src/java/fr/paris/lutece/portal/util/mvc/admin/MVCAdminJspBean.java`
-      — clé token (ligne ~141) ; ajouter `getControllerBaseUrl()` ; brancher
-      `getViewUrl`/`getActionUrl`/`getViewFullUrl` dessus.
-- [ ] `webapp/WEB-INF/web.xml` — déclaration + mapping `AdminMvcServlet` sur `/jsp/admin/mvc/*`.
+- [x] `src/java/fr/paris/lutece/portal/util/mvc/admin/MVCAdminJspBean.java`
+      — clé token (`getSecurityTokenKey()`) ; `getControllerBaseUrl()` ; `getViewUrl` (cible
+      redirection same-dir) / `getActionUrl` / `getViewFullUrl` (liens href, chemin complet).
+- [x] `webapp/WEB-INF/web.xml` — déclaration + mapping `AdminMvcServlet` sur `/jsp/admin/mvc/*`.
 
-### Migration pilote (preuve de concept)
-- [ ] Migrer `AutoIncludeJspBean` (`name="autoInclude"`), supprimer `ManageAutoIncludes.jsp`,
-      mettre à jour l'URL de la feature `CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT`.
+### Migration pilote (preuve de concept — validée en runtime)
+- [x] `ThemeJspBean` (`name="theme"`) : vue `manageThemes` + action `modifyGlobalTheme`.
+      Joignable via `jsp/admin/mvc/theme` **et** son ancienne JSP `ManageThemes.jsp`
+      (cohabitation). Parcours complet vue → action → redirect → vue validé.
+
+> Note : `AutoIncludeJspBean` avait d'abord été choisi comme pilote mais il n'a aucune
+> `@View` par défaut (uniquement une `@Action` qui redirige vers un dashboard) —
+> l'ouvrir « à vide » déclenche un NPE latent du core. Mauvais cas de test ; remplacé
+> par `ThemeJspBean`, un vrai contrôleur de gestion.
 
 ## Hors périmètre (YAGNI)
 
@@ -206,3 +223,10 @@ utilisent ces helpers génèrent automatiquement `jsp/admin/mvc/{name}?view=...`
 - **Multipart** : assuré par `multipartFilterAdmin` hérité du mapping `/jsp/admin/*`.
 - **Rendu du chrome** : valider que `admin_page_frame.html` produit un HTML strictement
   équivalent à `AdminHeader.jsp`/`AdminFooter.jsp` (têtes cache, accessibilité, base href).
+- **Redirection relative (résolu)** : `sendRedirect` résout contre l'URI courante, pas le
+  `<base href>` → la cible de redirection doit être same-dir (`{name}?view=…`), les liens
+  href gardent le chemin complet. Cf. § Génération d'URL.
+- **Bug latent du core (à corriger hors POC)** : si un contrôleur n'a pas de `@View` par
+  défaut, `processController` appelle `fireBeforeControllerEvent(null,…)` et
+  `AccessLogService.onControllerInvocation` NPE sur `method.getName()`. Ajouter un
+  garde-fou indépendamment du front-controller.
