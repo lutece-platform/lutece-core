@@ -45,11 +45,6 @@ Snippet:
 <@initThemeDatePicker />
 <#global themeDatepickerInitialized = true /></#if>
 <#local dtThemeOptions>${dskey('theme.site_property.config.datepicker.textblock')!}</#local>
-<#if isDatePickerLoaded?? && isDatePickerLoaded>
-<#else>
-<#global isDatePickerLoaded = true />
-<@initThemeDatePicker />
-</#if>
 <script>
 document.addEventListener('DOMContentLoaded', (e) => {
   const customOptions = {<#if options?size gt 0><#list options as opt, val>${opt} : <#if val?is_boolean || val?is_number>${val?c}<#elseif val?is_string>'${val}'</#if>,</#list></#if> };
