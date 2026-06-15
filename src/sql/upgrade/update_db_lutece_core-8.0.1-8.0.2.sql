@@ -86,3 +86,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.
 -- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev3.sql
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.translate.lang';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.lang', 'fr');
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.forms.showResponseFormWarning.checkbox';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.showResponseFormWarning.checkbox', '1');
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.forms.labelInfoResponse';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.labelInfoResponse','Formulaire enregistré !');

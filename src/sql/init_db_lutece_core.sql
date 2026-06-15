@@ -287,6 +287,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.theme.chec
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.type.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footerSocial.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.showResponseFormWarning.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.labelInfoResponse', 'Formulaire enregistré !');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.link.showTargetIcon.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.fixedMenu.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.gototop.checkbox', '1');
