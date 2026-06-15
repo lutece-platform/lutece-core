@@ -39,7 +39,8 @@
 <#-- ---------------------------------- -->
 <#-- Theme Specific VARS                -->
 <#-- ---------------------------------- -->
-<#assign logoHeader>${dskey('portal.theme.site_property.menu.logo')!'${commonsSiteThemePath}images/logo.png'}</#assign>
+<#assign logoHeaderDS = dskey('portal.theme.site_property.menu.logo')!''>
+<#assign logoHeader><#if logoHeaderDS?has_content && !logoHeaderDS?starts_with('DS Value')>${logoHeaderDS}<#else>${commonsSiteThemePath}images/logo.png</#if></#assign>
 <#assign logoFooter>${dskey('portal.theme.site_property.layout.footer.logoFooter')!'${commonsSiteThemePath}images/logo.png'}</#assign>
 <#assign hasSearchMenu><#if !dskey('portal.theme.site_property.menu.search.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.search.checkbox') =='1'>true<#else>false</#if></#assign>
 <#assign footerLinkContact><#if dskey('portal.theme.site_property.Url.contactURL') !=''>${dskey('portal.theme.site_property.Url.contactURL')!'${urlMainSite}/contact'}</#if></#assign>
