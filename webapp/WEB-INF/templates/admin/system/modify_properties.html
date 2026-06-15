@@ -1,3 +1,8 @@
+<#assign masonryRowParams>data-masonry='{"percentPosition": true }'</#assign>
+<style>
+/* Collapse the masonry item when its group only holds hidden options, so no empty gap is left in the layout */
+[data-prop]:has(input.hidden-options){ display:none; }
+</style>
 <@tform action='jsp/admin/DoModifyProperties.jsp' class='mt-2'>
 <@pageContainer>
     <@pageColumn> 
@@ -34,11 +39,10 @@
                         <#assign groupList = []>
                         <#list groups?sort as groupGroup><#if !groupList?seq_contains(groupGroup)><#assign groupList = groupList + [groupGroup]></#if></#list>
                         <#if groupList?size gt 0>
-                        <@row class='row-cols-1 row-cols-sm-2 row-cols-md-3 g-3'>
-                        <#list groupList?chunk(5) as groupListCol>
-                        <@columns class='col pt-3'>
-                        <#list groupListCol?sort as groupCol>
-                           <@box class='properties-group' params='data-prop="${groupCol}"'>
+                        <@row class='g-3' params=masonryRowParams>
+                        <#list groupList?sort as groupCol>
+                        <@columns xs=12 sm=6 md=4 class='mb-3' params='data-prop="${groupCol}"'>
+                           <@box class='properties-group'>
                               <@boxBody>
                                 <#assign groupName=''>
                                 <#list group.localizedDataList?filter( groupItem -> groupItem.group = groupCol ) as groupItem>
@@ -110,7 +114,6 @@
                                 </#list>
                                 </@boxBody>
                             </@box>
-                        </#list>    
                         </@columns>
                         </#list>
                         </@row>
@@ -131,12 +134,68 @@
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
 <script src="themes/admin/shared/js/lib/bootstrap/masonry.pkgd.min.js"></script>
+<script>
+// Masonry layout for the property groups.
+// The .row carries data-masonry so Masonry auto-initialises it, but JS-masonry positions items
+// absolutely from measured sizes, so it must be re-laid-out whenever sizes/visibility change:
+// when a hidden tab becomes visible, when the live filter shows/hides groups, and when a switch
+// toggles a dependent field. Those cases are handled below.
+(function () {
+    function getInstance( grid ) {
+        return ( window.Masonry && Masonry.data ) ? Masonry.data( grid ) : null;
+    }
+    function relayout( scope ) {
+        ( scope || document ).querySelectorAll( '[data-masonry]' ).forEach( function ( grid ) {
+            var m = getInstance( grid );
+            if ( !m && window.Masonry ) { m = new Masonry( grid, { percentPosition: true } ); }
+            if ( m ) { if ( m.reloadItems ) { m.reloadItems(); } m.layout(); }
+        } );
+    }
+    var timer;
+    function relayoutSoon( scope ) { clearTimeout( timer ); timer = setTimeout( function () { relayout( scope ); }, 60 ); }
+
+    // Exposed so the live filter (which runs after it has updated the DOM) can trigger a reflow
+    window.__propsMasonryRelayout = function () { relayout(); };
+
+    window.addEventListener( 'load', function () {
+        relayout();
+        // editors and other async content can change heights shortly after load
+        setTimeout( function () { relayout(); }, 300 );
+
+        // A grid inside a hidden tab can't be measured at init; lay it out when its tab is shown
+        document.querySelectorAll( '[data-bs-toggle="tab"]' ).forEach( function ( link ) {
+            link.addEventListener( 'shown.bs.tab', function () {
+                relayout( document.querySelector( this.getAttribute( 'href' ) ) || document );
+            } );
+        } );
+
+        // Switches that reveal/hide dependent fields change a card's height
+        document.querySelectorAll( '[data-masonry]' ).forEach( function ( grid ) {
+            grid.addEventListener( 'change', function () { relayoutSoon( grid ); } );
+        } );
+    } );
+})();
+</script>
 <script type="module">
 import LuteceSearchList from './themes/shared/modules/luteceSearchList.js';
 const searchInput = document.querySelector("#search_prop");
-const searchElementList = document.querySelectorAll("*[data-prop]");
+// Filter at the individual property-box level so only the boxes matching the keyword stay
+// visible, instead of revealing every box of a matching group.
+const searchElementList = document.querySelectorAll('[id^="box_"]');
 new LuteceSearchList( searchInput, searchElementList, {
-    searchableChild: [".searchable",".title"],
+    searchableChild: [".searchable"],
+    extraSearchFunction: function(){
+        // Hide a group (masonry item) when none of its property boxes are visible, so no empty
+        // group card is left behind. Groups holding only hidden options are left to the CSS rule.
+        document.querySelectorAll('[data-prop]').forEach( function( group ){
+            if( group.querySelector('input.hidden-options') ){ return; }
+            const hasVisible = Array.from( group.querySelectorAll('[id^="box_"]') )
+                .some( box => window.getComputedStyle(box).display !== 'none' );
+            group.style.display = hasVisible ? '' : 'none';
+        });
+        // Reflow masonry once visibility has been updated, to remove blank gaps
+        if( window.__propsMasonryRelayout ){ window.__propsMasonryRelayout(); }
+    },
 });
 
 window.addEventListener( "load", function(){
