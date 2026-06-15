@@ -163,7 +163,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	const formValidate = document.getElementById('form-validate')<#if actionStep?? && actionStep !=''>,formValidateButton = document.getElementById('${actionStep!}')</#if>;
 	<#if step?number gt 1 >
 	<#if actionStep?? && actionStep !=''>
-	formValidateButton.addEventListener('click', (e) => {
+	formValidateButton && formValidateButton.addEventListener('click', (e) => {
 		const invalids = document.querySelectorAll('.form-control:invalid','.form-control:user-invalid');
 		const arrInvalids = Array.prototype.slice.call(invalids);
 		arrInvalids.forEach( function( invalid ){
@@ -204,7 +204,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 	}
 
 	const btnValidateHidden = '<button class="visually-hidden" name="${actionStep}" aria-hidden="true" tabindex="-1" ></button>'
-	formValidate.insertAdjacentHTML('afterbegin', btnValidateHidden );
+	formValidate && formValidate.insertAdjacentHTML('afterbegin', btnValidateHidden );
 });
 </script> 
 <script type="module" src="${commonsSharedThemePath}${commonsSiteJsModulesPath}theme-form-validation.js"></script>
