@@ -132,7 +132,15 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
     public String processController( HttpServletRequest request, HttpServletResponse response ) throws AccessDeniedException
     {
         _response = response;
-        init( request, _controller.right( ) );
+
+        if ( _controller.publicAccess( ) )
+        {
+            initPublic( request );
+        }
+        else
+        {
+            init( request, _controller.right( ) );
+        }
 
         Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( getClass( ) );
 
@@ -168,6 +176,14 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 
             // No view or action found so display the default view
             m = MVCUtils.findDefaultViewMethod( methods );
+
+            if ( m == null )
+            {
+                // Legitimate for action-only controllers (no @View, only @Action redirecting elsewhere)
+                // invoked without a matching action: nothing to render, let the caller handle it.
+                return null;
+            }
+
         	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.DEFAULT_VIEW, _controller.securityTokenEnabled( ));
             return (String) processView(m, request);
         }

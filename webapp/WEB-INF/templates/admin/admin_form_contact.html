@@ -1,6 +1,6 @@
 <#assign boxTitle>#i18n{portal.admin.admin_form_contact.boxTitle}</#assign>
 <@adminLoginPage title=boxTitle site_name=site_name>
-<@tform name='form_contact' id='form_contact' action='jsp/admin/DoAdminFormContact.jsp'>
+<@tform name='form_contact' id='form_contact' action='${action_url}'>
 	<p class="font-weight-bold text-center">#i18n{portal.admin.message.admin_form_contact.sendingError}</p>
 	<@formGroup  labelFor='message_contact' labelKey='#i18n{portal.admin.admin_forgot_password.loginLabel}' hideLabel=['all']>
 		<@input type='textarea' name='message_contact' params='required' placeHolder='#i18n{portal.admin.admin_form_contact.messageContactLabel}' />

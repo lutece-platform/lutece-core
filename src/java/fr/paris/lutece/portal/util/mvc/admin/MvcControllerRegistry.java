@@ -93,6 +93,12 @@ public class MvcControllerRegistry
             }
 
             registerController( strRouteName, bean );
+
+            if ( controller.publicAccess( ) )
+            {
+                AppLogService.info( "Admin MVC controller '{}' ({}) is declared PUBLIC (pre-authentication)", strRouteName,
+                        bean.getBeanClass( ).getName( ) );
+            }
         }
 
         AppLogService.info( "Admin MVC front-controller registry initialized with {} route(s)", _mapControllers.size( ) );

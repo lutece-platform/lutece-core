@@ -226,7 +226,169 @@ complet pour les liens).
 - **Redirection relative (résolu)** : `sendRedirect` résout contre l'URI courante, pas le
   `<base href>` → la cible de redirection doit être same-dir (`{name}?view=…`), les liens
   href gardent le chemin complet. Cf. § Génération d'URL.
-- **Bug latent du core (à corriger hors POC)** : si un contrôleur n'a pas de `@View` par
-  défaut, `processController` appelle `fireBeforeControllerEvent(null,…)` et
-  `AccessLogService.onControllerInvocation` NPE sur `method.getName()`. Ajouter un
-  garde-fou indépendamment du front-controller.
+- **Bug latent du core (corrigé)** : si un contrôleur n'a pas de `@View` par défaut,
+  `processController` appelait `fireBeforeControllerEvent(null,…)` → NPE dans
+  `AccessLogService.onControllerInvocation`. Corrigé via le garde-fou action-only
+  (cf. chapitre « Contrôleurs publics », § Garde-fou).
+
+---
+
+# Chapitre 2 — Contrôleurs publics (pré-authentification) & migration d'AdminLoginJspBean
+
+**Date :** 2026-06-12
+**Statut :** POC validé en runtime (login OK, logs propres sur `doLogin`)
+
+## Contexte
+
+Au-delà des contrôleurs post-authentification (chapitre 1), certaines pages admin sont
+**pré-authentification** : login, mot de passe oublié, identifiant oublié, réinitialisation,
+contact. Leurs JSP de traitement (`DoAdminLogin.jsp`, `DoAdminForgotPassword.jsp`, …)
+portaient le **même anti-pattern** — et il est **aggravé** sous Jakarta EE 11 / Servlet 6.1
+(WebSphere Liberty) :
+
+```jsp
+<%@ page errorPage="ErrorPage.jsp" %>
+<jsp:include page="AdminHeaderSessionLess.jsp" />     <#-- écrit une page HTML via getWriter -->
+${ pageContext.response.sendRedirect( adminLoginJspBean.doLogin( pageContext.request )) }
+```
+
+Le `jsp:include` écrit du HTML (acquiert `getWriter`), puis `sendRedirect` est appelé ; le
+conteneur écrit le corps de redirection via `getOutputStream` → `IllegalStateException`
+loguée en boucle. **Aucune correction au niveau JSP n'est possible** : toute JSP acquiert un
+`JspWriter` au démarrage de `_jspService`. Seule une **servlet** (qui ne touche jamais
+`getWriter` pour un corps) fait un `sendRedirect` propre → c'est le front-controller.
+
+## Obstacles spécifiques au pré-auth
+
+1. **`init(request, right)` exige un utilisateur + un droit.** `processController` appelle
+   systématiquement `init( request, _controller.right( ) )`, or `init()` exige un user
+   authentifié et un `Right` existant. En pré-auth (user `null`, pas de droit) → échec / NPE.
+2. **L'`AuthenticationFilter` protège `/jsp/admin/*`.** Notre servlet en hérite ; il faut
+   donc autoriser explicitement l'URL publique.
+3. **`getResquestedUrl` de l'`AuthenticationFilter` utilise `getServletPath()`** — pour un
+   mapping en préfixe (`/jsp/admin/mvc/*`), `getServletPath()` vaut `/jsp/admin/mvc` (le nom
+   du contrôleur est dans `getPathInfo()`). La whitelist ne pourrait donc pas cibler un
+   contrôleur précis. → un contrôleur public exige un **mapping servlet exact**.
+
+## Décision — flag `publicAccess` explicite (jamais implicite)
+
+On ajoute `boolean publicAccess( ) default false` à `@Controller`. **Opt-in explicite** :
+- `right()` **reste obligatoire** (pas de `default`) → aucun contrôleur existant ne devient
+  public par oubli.
+- Un contrôleur n'est public **que** s'il déclare `publicAccess = true` (et son URL doit
+  *aussi* être dans la whitelist de l'`AuthenticationFilter` — double barrière indépendante).
+
+> Rejeté : « `right` vide = public ». Trop dangereux (exposition par oubli + perte du
+> contrôle RBAC). Le flag rend l'intention visible et auditable.
+
+## Design
+
+### `@Controller.publicAccess` + `initPublic`
+
+```java
+// MVCAdminJspBean.processController
+if ( _controller.publicAccess( ) )
+    initPublic( request );                      // init minimal : locale seule, sans user/right
+else
+    init( request, _controller.right( ) );      // comportement strict ACTUEL, inchangé
+```
+
+`AdminFeaturesPageJspBean.initPublic( request )` : `_user = getAdminUser(request)` (peut être
+`null`), `_locale = AdminUserService.getLocale(request)`. Aucun lookup de droit, aucun
+`checkRight`.
+
+### Mapping servlet exact + résolution du nom
+
+```xml
+<servlet-mapping>
+    <servlet-name>AdminMvcServlet</servlet-name>
+    <url-pattern>/jsp/admin/mvc/*</url-pattern>            <!-- contrôleurs normaux -->
+    <url-pattern>/jsp/admin/mvc/adminLogin</url-pattern>   <!-- contrôleur public : URL complète pour l'auth filter -->
+</servlet-mapping>
+```
+
+`AdminMvcServlet.extractRouteName` gère les deux cas : `pathInfo` présent (préfixe) → 1ᵉʳ
+segment ; `pathInfo` `null` (mapping exact) → dernier segment du `servletPath`.
+
+### Whitelist de l'`AuthenticationFilter`
+
+```properties
+path.jsp.admin.public.list=…,adminLoginMvc,…
+path.jsp.admin.public.adminLoginMvc=jsp/admin/mvc/adminLogin
+```
+
+`getResquestedUrl` ignorant la query string, **vue + toutes les actions** d'`adminLogin`
+partagent la même URL `jsp/admin/mvc/adminLogin` → **une seule** entrée couvre tout.
+
+### Audit
+
+`MvcControllerRegistry` logue un `INFO` au démarrage pour chaque contrôleur `publicAccess`.
+
+## Migration d'`AdminLoginJspBean`
+
+- `extends MVCAdminJspBean`, `@Controller( name = "adminLogin", right = "", publicAccess = true )`.
+- **Toutes les actions** annotées `@Action` et leurs `return <url>` passés par `redirect(...)` :
+  `login`, `doForgotPassword`, `doResetPassword`, `doForgotLogin`, `doFormContact`, `doLogout`.
+- Formulaires **model-driven** : `getActionUrl(...)` injecté au modèle (`do_admin_login_url`,
+  `action_url`) ; les templates postent vers `/jsp/admin/mvc/adminLogin?action=…`.
+- URLs relatives rendues **absolues** (`JSP_URL_FORM_CONTACT`, early-return HTTPS) pour une
+  redirection correcte depuis `/jsp/admin/mvc/`.
+- Logout : propriété `lutece.admin.logout.url` repointée → le lien du menu passe par le
+  front-controller.
+- **Token CSRF du login : inchangé** (mécanisme manuel `ISecurityTokenService`, clé
+  `admin/admin_login.html`). On ne modifie pas la sémantique de sécurité.
+
+### Périmètre : actions seulement
+
+Les **vues** `get*` restent servies par leurs JSP existantes (`AdminLogin.jsp`, …). Ce sont
+des JSP de **rendu pur** (pas de `sendRedirect`) → elles n'ont pas l'anti-pattern. Migrer les
+vues en `@View` nécessiterait un **chrome sessionless** (`PageFrameService.wrapPublic`, car
+`getAdminMenuHeader` exige un user) + la reconfiguration des URLs d'auth
+(`getLoginPageUrl` en dur) → tâche dédiée, à faible ROI et risque élevé (lockout login).
+**Reporté volontairement.**
+
+## Garde-fou « action-only » (fix du bug latent du core)
+
+Un contrôleur **uniquement `@Action`** (qui redirige ailleurs) est légitime. Invoqué sans
+action correspondante, l'ancien code faisait `fireBeforeControllerEvent(null)` → NPE 500.
+Désormais :
+
+```java
+m = MVCUtils.findDefaultViewMethod( methods );
+if ( m == null )
+{
+    return null;          // rien à rendre (action-only sans action) — pas de NPE
+}
+```
+
+et `AdminMvcServlet` répond **404** propre quand `processController` renvoie `null` (réponse
+non committée). **Aucun impact** sur les contrôleurs à vue (`ThemeJspBean` & co.) :
+`findDefaultViewMethod` y retourne toujours la `@View(defaultView=true)`, donc `m` n'est
+jamais `null`.
+
+## Fichiers (chapitre 2)
+
+### Modifiés
+- [x] `annotations/Controller.java` — `publicAccess()`.
+- [x] `web/admin/AdminFeaturesPageJspBean.java` — `initPublic()`.
+- [x] `util/mvc/admin/MVCAdminJspBean.java` — branche `publicAccess` + garde-fou action-only.
+- [x] `web/admin/AdminMvcServlet.java` — mapping exact, contenu `null` → 404, clé i18n réelle.
+- [x] `util/mvc/admin/MvcControllerRegistry.java` — log d'audit public.
+- [x] `web/user/AdminLoginJspBean.java` — conversion MVC + `@Action` + `redirect()`.
+- [x] `webapp/WEB-INF/web.xml` — mapping exact `/jsp/admin/mvc/adminLogin`.
+- [x] `webapp/WEB-INF/conf/lutece.properties` — whitelist `adminLoginMvc` + logout repointé.
+- [x] 5 templates `admin_login/forgot_password/reset_password/forgot_login/form_contact.html`
+      — action du formulaire model-driven.
+
+## Points de vigilance (chapitre 2)
+
+- **Chrome sessionless** requis avant toute migration des **vues** pré-auth.
+- **URL de login** : si un jour on migre la vue login, repointer `getLoginPageUrl()` et
+  adapter le test interne de `getLogin` (sinon boucle de redirection).
+- **Token périmé** : un token de login expiré (redéploiement, page ancienne, retour
+  navigateur) lève `AccessDeniedException` → message « accès refusé ». Comportement d'origine
+  conservé ; en usage normal (page fraîche) le login fonctionne.
+- **Bruit de logs non lié** : `WELD-000xxx` (intégration Weld/Liberty, cascade après un 500),
+  `Error500.jsp _jsp_performFinalCleanUp` (bug pré-existant du core), `IOException broken
+  pipe` (abandon navigateur), `/DS Value Missing` (clé datastore non seedée). Indépendants du
+  front-controller.

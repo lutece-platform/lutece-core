@@ -150,6 +150,21 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     }
 
     /**
+     * Minimal initialization for a public (pre-authentication) controller. Does not require an authenticated
+     * user nor an RBAC right: it only resolves the locale (from the user if one is already signed in, otherwise
+     * the request/default locale). Used by the admin MVC front-controller when the controller is annotated
+     * {@code @Controller( publicAccess = true )}.
+     *
+     * @param request
+     *            the HTTP request
+     */
+    public void initPublic( HttpServletRequest request )
+    {
+        _user = AdminUserService.getAdminUser( request );
+        _locale = AdminUserService.getLocale( request );
+    }
+
+    /**
      * Set the page title property
      * 
      * @param strPageTitleKey

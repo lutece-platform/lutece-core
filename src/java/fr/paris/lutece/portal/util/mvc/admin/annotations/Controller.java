@@ -109,4 +109,18 @@ public @interface Controller
      * @return True if this controller security token is handled by the automatic process.
      */
     boolean securityTokenEnabled( ) default false;
+
+    /**
+     * Marks this controller as publicly accessible (pre-authentication). When {@code true}, the admin MVC
+     * front-controller skips the standard {@code init( request, right )} call (no authenticated user nor RBAC
+     * right is required) and performs a minimal initialization instead. This is an explicit opt-in: a
+     * controller is never made public by omitting its {@link #right()}.
+     * <p>
+     * Reaching a public controller without authentication still requires its URL to be declared in the
+     * {@code AuthenticationFilter} whitelist — a second, independent gate.
+     * </p>
+     *
+     * @return {@code true} if this controller bypasses authentication, {@code false} (default) otherwise
+     */
+    boolean publicAccess( ) default false;
 }

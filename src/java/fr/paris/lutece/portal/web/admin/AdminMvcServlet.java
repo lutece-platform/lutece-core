@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.MvcControllerRegistry;
 import fr.paris.lutece.portal.util.mvc.admin.PageFrameService;
+import fr.paris.lutece.portal.web.constants.Messages;
 
 import jakarta.enterprise.inject.spi.Bean;
 import jakarta.enterprise.inject.spi.CDI;
@@ -63,7 +64,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AdminMvcServlet extends HttpServlet
 {
     private static final long serialVersionUID = 1L;
-    private static final String MESSAGE_ACCESS_DENIED = "portal.util.message.accessDenied";
+    private static final String MESSAGE_ACCESS_DENIED = Messages.USER_ACCESS_DENIED;
     private static final String CONTENT_TYPE_HTML = "text/html; charset=UTF-8";
 
     /**
@@ -143,6 +144,14 @@ public class AdminMvcServlet extends HttpServlet
                 return;
             }
 
+            if ( strContent == null )
+            {
+                AppLogService.error( "No view rendered by admin MVC controller {} (action-only controller invoked without a matching action?)",
+                        bean.getBeanClass( ).getName( ) );
+                response.sendError( HttpServletResponse.SC_NOT_FOUND );
+                return;
+            }
+
             String strPage = CDI.current( ).select( PageFrameService.class ).get( ).wrap( request, strContent );
             response.setContentType( CONTENT_TYPE_HTML );
             response.getWriter( ).write( strPage );
@@ -159,7 +168,10 @@ public class AdminMvcServlet extends HttpServlet
     }
 
     /**
-     * Extracts the controller route name from the request path info ({@code /name} becomes {@code name}).
+     * Extracts the controller route name from the request. For the prefix mapping ({@code /jsp/admin/mvc/*})
+     * the name is the first segment of the path info ({@code /name} becomes {@code name}). For an exact mapping
+     * declared for a public controller ({@code /jsp/admin/mvc/name}) the path info is {@code null}, so the name
+     * is taken from the last segment of the servlet path.
      *
      * @param request the HTTP request
      * @return the route name, or an empty string when absent
@@ -168,14 +180,21 @@ public class AdminMvcServlet extends HttpServlet
     {
         String strPathInfo = request.getPathInfo( );
 
-        if ( strPathInfo == null || strPathInfo.length( ) <= 1 )
+        if ( strPathInfo != null && strPathInfo.length( ) > 1 )
+        {
+            String strName = strPathInfo.substring( 1 );
+            int nSlash = strName.indexOf( '/' );
+
+            return nSlash >= 0 ? strName.substring( 0, nSlash ) : strName;
+        }
+
+        String strServletPath = request.getServletPath( );
+
+        if ( strServletPath == null || strServletPath.isEmpty( ) )
         {
             return "";
         }
 
-        String strName = strPathInfo.substring( 1 );
-        int nSlash = strName.indexOf( '/' );
-
-        return nSlash >= 0 ? strName.substring( 0, nSlash ) : strName;
+        return strServletPath.substring( strServletPath.lastIndexOf( '/' ) + 1 );
     }
 }

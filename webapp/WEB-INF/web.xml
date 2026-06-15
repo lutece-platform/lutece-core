@@ -173,6 +173,7 @@
     <servlet-mapping>
         <servlet-name>AdminMvcServlet</servlet-name>
         <url-pattern>/jsp/admin/mvc/*</url-pattern>
+        <url-pattern>/jsp/admin/mvc/adminLogin</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>ImageServlet</servlet-name>
