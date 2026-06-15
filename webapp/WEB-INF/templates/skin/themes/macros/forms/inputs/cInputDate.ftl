@@ -19,6 +19,8 @@ Parameters:
 - readonly (boolean, optional): sets the input as readonly. Default: false.
 - helpMsg (string, optional): help message displayed below the input. Default: ''.
 - errorMsg (string, optional): error message displayed on validation failure. Default: ''.
+- format (string, optional): the date format submitted to the server (datepicker dataFormat). Must match the server locale pattern from lutece.format.date.short (e.g. 'dd/mm/yyyy' for FR). Uses vanillajs-datepicker tokens (lowercase 'mm' for numeric month). Default: '' (datepicker default 'yyyy-m-d 00:00:00').
+- showFormat (string, optional): the date format displayed to the user. Default: '' (derived from the browser language).
 - params (string, optional): additional HTML attributes. Default: ''.
 
 Showcase:
@@ -52,7 +54,7 @@ Snippet:
     </@cFormRow>
 
 -->
-<#macro cInputDate name id='' label='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=true required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=false params='' deprecated...>
+<#macro cInputDate name id='' label='' class='' type='datepicker' icon=true options={} value='' placeholder='' autocomplete='' html5Required=true required=false disabled=false readonly=false helpMsg='' errorMsg='' separator=false format='' showFormat='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#local typeLocal><#if type='date'>date<#else>text</#if></#local>
@@ -73,7 +75,7 @@ Snippet:
 </@cInputGroup>
 <#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
 <#if errorMsg !='' && errorMsg !='_error'><@cFormError idLocal errorMsg /></#if>
-<#if type='datepicker'><@getThemeDatePicker idField=idLocal options=options /></#if>
+<#if type='datepicker'><@getThemeDatePicker idField=idLocal format=format showFormat=showFormat options=options /></#if>
 <#if separator>
 <script>
 (function() {
