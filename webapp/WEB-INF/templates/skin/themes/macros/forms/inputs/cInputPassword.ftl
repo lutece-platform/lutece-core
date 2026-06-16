@@ -6,6 +6,8 @@ Description: Generates a password input field with optional show/hide toggle but
 Parameters:
 - name (string, required): the name attribute of the input.
 - label (string, optional): the label text. Default: '#i18n{portal.theme.labelPassword}'.
+- labelClass (string, optional): CSS class for the label. Default: ''.
+- icon  (string, optional): icon name to display before input : ''.
 - btnShowPassword (boolean, optional): displays a button to toggle password visibility. Default: true.
 - passwordMeter (boolean, optional): displays password strength indicator. Default: false.
 - pmLabel (string, optional): label for the password strength message. Default: '#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}'.
@@ -31,27 +33,28 @@ Showcase:
 
 Snippet:
 
-    Basic password input:
+Basic password input:
 
-    <@cInputPassword name='password' />
+<@cInputPassword name='password' />
 
-    Password with strength meter and generator:
+Password with strength meter and generator:
 
-    <@cInputPassword name='new_password' id='new_password' passwordMeter=true />
+<@cInputPassword name='new_password' id='new_password' passwordMeter=true />
 
-    Password with confirmation field sync:
+Password with confirmation field sync:
 
-    <@cInputPassword name='password' id='password' passwordMeter=true pmConfirmFieldId='confirm_password' />
-    <@cInputPassword name='confirm_password' id='confirm_password' label='Confirm password' passwordMeter=false />
+<@cInputPassword name='password' id='password' passwordMeter=true pmConfirmFieldId='confirm_password' />
+<@cInputPassword name='confirm_password' id='confirm_password' label='Confirm password' passwordMeter=false />
 
 -->
-<#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='#i18n{portal.theme.labelPasswordHelp}' errorMsg='' params='' deprecated...>
+<#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' labelClass='' icon='' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='#i18n{portal.theme.labelPasswordHelp}' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local passId><#if id !=''>${id!}<#else>${name!}</#if></#local>
 <#local passLabel><#if pmLabel !=''>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
 <#local passClass>form-control pwd<#if class!=''> ${class!}</#if><#if size!=''> form-control-${size!}</#if><#if errorMsg!=''> is-invalid</#if></#local>
-<#if label !=''><@cLabel label=label for=passId required=required /></#if>
+<#if label !=''><@cLabel label=label for=passId required=required class=labelClass /></#if>
 <@cInputGroup class='password'>
+    <#if icon !=''><@cIcon name='${icon!}' /></#if>
     <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=autocomplete params='autocomplete="off" ${params!}'>
     <#if btnShowPassword>
     <@cBtn class='secondary toggle-password' type='button' label='' params='data-bs-toggle="#${passId}" aria-pressed="false" title="#i18n{portal.theme.labelPasswordShow}" tabindex="0"'>
