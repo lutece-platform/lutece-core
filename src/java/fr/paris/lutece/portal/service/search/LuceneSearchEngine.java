@@ -206,15 +206,26 @@ public class LuceneSearchEngine implements SearchEngine
             if ( StringUtils.isNotBlank( strDateAfter ) )
             {
                 Date dateAfter = DateUtil.formatDate( strDateAfter, locale );
-                strAfter = new BytesRef( DateTools.dateToString( dateAfter, Resolution.DAY ) );
-                bDateAfter = true;
+                if ( dateAfter != null )
+                {
+                    strAfter = new BytesRef( DateTools.dateToString( dateAfter, Resolution.DAY ) );
+                    bDateAfter = true;
+                }
             }
 
             if ( StringUtils.isNotBlank( strDateBefore ) )
             {
                 Date dateBefore = DateUtil.formatDate( strDateBefore, locale );
-                strBefore = new BytesRef( DateTools.dateToString( dateBefore, Resolution.DAY ) );
-                bDateBefore = true;
+                if ( dateBefore != null )
+                {
+                    strBefore = new BytesRef( DateTools.dateToString( dateBefore, Resolution.DAY ) );
+                    bDateBefore = true;
+                }
+            }
+
+            if ( !bDateAfter && !bDateBefore )
+            {
+                return null;
             }
 
             return new TermRangeQuery( SearchItem.FIELD_DATE, strAfter, strBefore, bDateAfter, bDateBefore );

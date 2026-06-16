@@ -1,255 +1,198 @@
-<!-- ============ SEARCH HERO ============ -->
-<@cForm action='jsp/site/Portal.jsp' role="search">
-<section class="search-hero">
-  <div class="container search-hero__inner">
-    <span class="search-hero__kicker">Recherche globale</span>
-    <h1 class="text-white" hidden>Tous les services de votre collectivité, en un seul endroit</h1>
-    <p class="search-hero__sub" hidden>Démarches, rendez-vous, documents, actualités, contacts — tapez ce que vous cherchez, nous trouvons le reste.</p>
-    <div class="search-bar">
-      <div class="search-box">
-            <@cInput type='hidden' name='page' value='search' />
+<@cTpl>
+<#-- ============ SEARCH HERO ============ -->
+<@cForm action='jsp/site/Portal.jsp' role='search'>
+<@cSection class='search-hero'>
+  <@cContainer class='search-hero__inner'>
+    <@cInline class='search-hero__kicker'>Recherche globale</@cInline>
+    <@cTitle level=1 class='text-white' params='hidden'>Tous les services de votre collectivité, en un seul endroit</@cTitle>
+    <@cText class='search-hero__sub' params='hidden'>Démarches, rendez-vous, documents, actualités, contacts — tapez ce que vous cherchez, nous trouvons le reste.</@cText>
+    <@cBlock class='search-bar'>
+        <@cBlock class='search-box'>
+            <@cInput type='hidden' name='page' value='search' class='' />
             <svg class="icon-search" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input id="q" class="form-control" name="query" type="search" value="${query!}" autocomplete="off" placeholder="Démarche, rendez-vous, contact, document…"/>
-            <button type="button" class="search-box__clear" aria-label="Effacer">
+            <@cInput type='search' id='q' name='query' value='${query!}' autocomplete='off' placeholder='Démarche, rendez-vous, contact, document…' />
+            <@cBtn type='button' noclass=true class='search-box__clear' label='' params=' aria-label="Effacer"'>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
-            </button>
+            </@cBtn>
             <@cBtn type='submit' label='#i18n{portal.search.search_results.buttonSearch}' />
-      </div>
-      <#-- 
-      Suggest panel (appears when focused + empty OR typing) -> TODO make it work with searchSolr
-        <div class="suggest-group-title">Suggestions</div>
-        <ul class="suggest-panel list-unstyled" id="suggest">
-            <li class="suggest-item" tabindex="0" onclick="setQuery('carte d\'identité')">
-                <span class="suggest-item__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><line x1="15" y1="10" x2="19" y2="10"/></svg></span>
-                <span class="suggest-item__txt"><b>Carte d'identité</b> — nouvelle demande</span>
-                <span class="suggest-item__tag">Démarche</span>
-            </li>
-            <li class="suggest-item" tabindex="0" onclick="setQuery('carte d\'identité perte')">
-                <span class="suggest-item__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
-                <span class="suggest-item__txt"><b>Carte d'identité</b> perdue ou volée</span>
-                <span class="suggest-item__tag">Démarche</span>
-            </li>
-            <li class="suggest-item" tabindex="0" onclick="setQuery('rdv carte d\'identité')">
-                <span class="suggest-item__icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
-                <span class="suggest-item__txt">Prendre <b>rendez-vous</b> pour carte d'identité</span>
-                <span class="suggest-item__tag">Rendez-vous</span>
-            </li>
-        </ul>
-        <div class="suggest-group-title">Recherches récentes</div>
-        <ul class="suggest-panel list-unstyled" id="recent-searches">
-            <li class="suggest-item" tabindex="0" onclick="setQuery('passeport')">
-                <span class="suggest-item__icon" style="background:var(--surface-muted);color:var(--text-muted);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                <span class="suggest-item__txt">Passeport</span>
-            </li>
-            <li class="suggest-item" tabindex="0" onclick="setQuery('acte de naissance')">
-                <span class="suggest-item__icon" style="background:var(--surface-muted);color:var(--text-muted);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                <span class="suggest-item__txt">Acte de naissance</span>
-            </li>
-        </ul>
-    </div>
-    # included sponsored links if available - might be null 
-    <div class="pop">
-        <span class="pop__label">Populaire :</span>
-        <button class="chip" onclick="setQuery('passeport')">Passeport</button>
-        <button class="chip" onclick="setQuery('inscription scolaire')">Inscription scolaire</button>
-        <button class="chip" onclick="setQuery('permis de construire')">Permis de construire</button>
-        <button class="chip" onclick="setQuery('stationnement')">Stationnement résidentiel</button>
-        <button class="chip" onclick="setQuery('recensement')">Recensement</button>
-    </div>
-    -->
-  </div>
-</section>
-<!-- ============ CONTENT ============ -->
- <@cContainer class='section'>
+        </@cBlock>
+    </@cBlock>
+  </@cContainer>
+</@cSection>
+<#-- ============ CONTENT ============ -->
+<@cContainer class='section'>
     <#if results_list?? && results_list?size gt 0>
         <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' },{ 'title': '#i18n{portal.search.search_results.title}', 'url': 'jsp/site/Portal.jsp?page=search&query=${query!}'}]>
         <@cBlock class='d-flex justify-content-between align-items-center mb-4'>
             <@cBreadCrumb home='Home' type='fluid' items=breadcrumbItems listClass='ms-m' />
             <@cBlock class='result-stats'>
-                <@cInline><strong>${paginator.itemsCount} ${'#i18n{portal.search.search_results.labelResultsRange}'?lower_case}</strong> #i18n{portal.search.search_results.labelResultsFor}</@cInline> <@cBadge label='${query}' />
+                <@cInline><@cInline type='strong'>${paginator.itemsCount} ${'#i18n{portal.search.search_results.labelResultsRange}'?lower_case}</@cInline> #i18n{portal.search.search_results.labelResultsFor}</@cInline> <@cBadge label='${query}' />
             </@cBlock>
         </@cBlock>
     <#else>
         <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' }]>
         <@cBreadCrumb home='Home' type='fluid' items=breadcrumbItems />
-    </#if> 
-    <div class="search-body">
-  <div class="container">
-    <div class="layout">
-    <!-- ====== FILTERS ====== -->
-        <aside class="filter-panel" aria-label="Filtres">
-            <div class="filter-panel__head">
-                <span>Affiner</span>
-                <button type="button" class="filter-reset">Tout effacer</button>
-            </div>
-            <div class="filter-group">
-              <div class="filter-group-title">Type de contenu</div>
-                <#if type_filter != "none">
-				<#-- type_filter -->
-				<label for="type_filter">#i18n{portal.search.search_results.typeFilter}</label>
-				<#if type_filter == "option">
-					<select id="type_filter"  name="type_filter" class="form-select">
-						<#list list_type_and_link as map>
-							<option value="${map.type}"<#if (selected_types![])?seq_contains(map.type)> selected="selected"</#if>><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></option>
-						</#list>
-					</select>
-				<#else>
-					<#list list_type_and_link as map>
-						<#if type_filter != "checkbox" || map_index != 0>
-                        <label class="filter-check">
-							<input type=${type_filter} name="type_filter" value="${map.type}"<#if (selected_types![])?seq_contains(map.type)> checked="checked"</#if> />
-							<#if map.link?exists && map.link != "">
-								<#-- <a href="${map.link!}"  > -->
-                                    <#if map_index != 0>${map.type?lower_case?capitalize}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if>
-                                <#-- </a> -->
-							<#else>
-								<#if map_index != 0>${map.type?lower_case?capitalize}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if>
-							</#if>
-                        </label>    
-						</#if>
-					</#list>
-				</#if>
-			</#if>
-            <#-- default_operator and/or -->
-                <label for="default_operator">#i18n{portal.search.search_results.operator}</label>
-                <select id="default_operator" name="default_operator" class="sort-select">
-                    <#list ["OR","AND"] as operator>
-                        <option value="${operator}" <#if operator = default_operator> selected="selected"</#if> >
-                            #i18n{portal.search.advanced_parameters.defaultOperator.${operator?upper_case}}
-                        </option>
-                    </#list>
-                </select>
-            </div>
-            <#if taglist?has_content>
-            <#if tag_filter == "1" && taglist?trim != "">
-            <div class="filter-group">
-                <div class="filter-group-title">Tags</div>
-                  <#-- tag_filter -->
-                  <#list taglist?split(" ") as tag>
-                      <#if tag?exists && tag?trim !="">
-                          <!-- <@cBtn label=tag class='btn btn-outline-action' name='tag_filter' value=tag /> -->
-                          <label class="filter-check"><input type="checkbox" checked/> ${tag?lower_case?capitalize} </label>
-                      </#if>
-                  </#list>
-              </div>
-              </#if>
-            </#if>
-            <#if date_filter == '1'>
-            <#-- date_filter 0/1 -->
-            <div class="filter-group">
-              <div class="filter-group-title">Mise à jour</div>
-                <label class="filter-check"><input type="radio" id="filter-seven" name="datefilter" value="seven"<#if (selected_datefilter!'') == 'seven'> checked="checked"</#if> /> 7 derniers jours</label>
-                <label class="filter-check"><input type="radio" id="filter-month" name="datefilter" value="month"<#if (selected_datefilter!'') == 'month'> checked="checked"</#if>/> Ce mois-ci</label>
-                <label class="filter-check"><input type="radio" id="filter-year" name="datefilter" value="year"<#if (selected_datefilter!'') == 'year'> checked="checked"</#if>/> Cette année</label>
-                <label class="filter-check"><input type="radio" id="filter-all" name="datefilter" value="all"<#if (selected_datefilter!'') == 'all'> checked="checked"</#if>/> Toutes dates</label>
-                <@cFieldset id='date_filter' legend='#i18n{portal.search.search_results.dateFilter}' >
-                    <@cField label='#i18n{ i18nLabelKey="portal.search.search_results.dateFilterAfter" }' for='date_after'>
-                        <@cInputDate name='date_after' label='#i18n{portal.search.search_results.dateFilterAfter}' value='${date_after_value!""}' format='${date_picker_format!"dd/mm/yyyy"}' showFormat='${date_picker_format!"dd/mm/yyyy"}' />
-                    </@cField>
-                    <@cField label='#i18n{ i18nLabelKey="portal.search.search_results.dateFilterBefore" }' for='date_before' >
-                        <@cInputDate name='date_before' label='#i18n{portal.search.search_results.dateFilterBefore}' value='${date_before_value!""}' format='${date_picker_format!"dd/mm/yyyy"}' showFormat='${date_picker_format!"dd/mm/yyyy"}' />
-                    </@cField>
-                </@cFieldset>
-            </div>
-            </#if>
-      </aside>
-    <section class="results-col">
-    <!-- Toolbar -->
-        <div class="toolbar">
-          <div class="pills" hidden>
-            <span class="pill">Démarches <button aria-label="Retirer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>
-            <span class="pill">Rendez-vous <button aria-label="Retirer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>
-            <span class="pill">Particuliers <button aria-label="Retirer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>
-            <span class="pill">En ligne <button aria-label="Retirer"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></span>
-          </div>
-          <#if query?? && query?trim != ''>
-          <div class="toolbar__right ms-auto">
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:var(--cl-text-muted);">
-              <span>Trier :</span>
-              <select class="sort-select" aria-label="Trier par">
-                <option>Pertinence</option>
-                <option>Date (récent)</option>
-                <option>Alphabétique (A → Z)</option>
-                <option>Durée</option>
-              </select>
-            </label>
-            <div class="view-toggle" role="group" aria-label="Affichage">
-              <button type="button" aria-pressed="true" aria-label="Vue liste" title="Vue liste" data-view="list">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
-              </button>
-              <button type="button" aria-pressed="false" aria-label="Vue grille" title="Vue grille" data-view="grid">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-              </button>
-            </div>
-          </div>
-          </#if>
-        </div>
-        <!-- Results -->
-        <div class="results" id="results">
-            <#if error?has_content><@cAlert title=error type='danger' /></#if>
-            <#-- included sponsored links if available - might be null -->
-            ${sponsoredlinks_set!}
-            <#if results_list??>
-                <#if results_list?size gt 0>
-                    <@chList>
-                    <#list results_list as result>
-                    <#assign resultHeader='<small>[ ${result.type} ]</small> - ${result.title}' >
-                    <#assign resultUrl = result.url! />
-                    <#assign resultTitle = result.title! />
-                    <#assign resultDescription = result.summary! />
-                    <#assign resultDate = '<small class="mx-3">${result.date?date?string.short!}</small>' />
-                    <@chItem>
-                        <!-- ${result?index} -->
-                        <a class="result-card" href="${resultUrl}">
-                            <div class="result-card__icon result-card__icon--coral">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-text"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" /><path d="M9 9l1 0" /><path d="M9 13l6 0" /><path d="M9 17l6 0" /></svg>
-                            </div>
-                            <div>
-                            <div class="result-card__meta">
-                                <span class="badge">${result.type!} </span>
-                                <span>${resultDate}</span>
-                                <!-- <span class="dot">·</span><span class="result-card__extra">● Ouvert 24/7</span> -->
-                            </div>
-                            <h2 class="result-card__title">${resultTitle}</h2>
-                            <p class="result-card__desc">${resultDescription}</p>
-                            <div class="result-card__crumb" hidden>
-                                <span>Accueil</span>
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                                <span>Démarches</span>
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                                <span>Papiers d'identité</span>
-                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
-                                <span>Carte nationale d'identité</span>
-                            </div>
-                            </div>
-                            <span class="result-card__arrow" aria-hidden="true">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                            </span>
-                        </a>
-                    </@chItem>
-                    </#list>
-                    </@chList>
-                <#else>
-                    <#if query?? && query?trim != ''>
-                        <@cEmpty title='#i18n{portal.search.search_results.labelNoResult}' subtitle='#i18n{portal.search.search_results.labelTryOther}' />
+    </#if>
+    <@cBlock class='search-body'>
+      <@cBlock class='container'>
+        <@cBlock class='layout'>
+        <#-- ====== FILTERS ====== -->
+            <@cBlock type='aside' class='filter-panel' params='aria-label="Filtres"'>
+                <@cBlock class='filter-panel__head'>
+                    <@cInline>Affiner</@cInline>
+                    <@cBtn type='button' noclass=true class='filter-reset' label='Tout effacer' />
+                </@cBlock>
+                <@cBlock class='filter-group'>
+                  <@cBlock class='filter-group-title'>Type de contenu</@cBlock>
+                    <#if type_filter != "none">
+                    <#-- type_filter -->
+                    <@cLabel for='type_filter' label='#i18n{portal.search.search_results.typeFilter}' />
+                    <#if type_filter == "option">
+                        <@cSelect id='type_filter' name='type_filter'>
+                            <#list list_type_and_link as map>
+                                <#assign optLabel><#if map_index != 0>${map.type}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
+                                <@cOption value=map.type! label=optLabel selected=(selected_types![])?seq_contains(map.type) />
+                            </#list>
+                        </@cSelect>
                     <#else>
-                        <svg xmlns="http://www.w3.org/2000/svg" style="color: var(--lutece-ds-primary);" viewBox="-50 50 700 400"><g><path d="M98.17,313.63c46.24,53,92.93,59.71,158.56,72.27s113.82,3.88,149.33-28.13c41-37,39.38-121.76-23.36-151.94-19.6-9.45-42.94-12.31-60.11-25.6C289.8,154.87,263.28,115.41,210.64,108s-88.13,27.9-88.13,27.9C79.28,183.24,51.93,260.59,98.17,313.63Z" style="fill:currentColor"></path><path d="M98.17,313.63c46.24,53,92.93,59.71,158.56,72.27s113.82,3.88,149.33-28.13c41-37,39.38-121.76-23.36-151.94-19.6-9.45-42.94-12.31-60.11-25.6C289.8,154.87,263.28,115.41,210.64,108s-88.13,27.9-88.13,27.9C79.28,183.24,51.93,260.59,98.17,313.63Z" style="fill:#fff;opacity:0.7000000000000001;isolation:isolate"></path></g><g><path d="M275.92,380.77V360.45H216.08v20.32A29.43,29.43,0,0,1,209.72,399l-2.62,3.3h77.8l-2.62-3.3A29.43,29.43,0,0,1,275.92,380.77Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M212.4,395h67.2a29.38,29.38,0,0,1-3.68-14.23V360.45H216.08v20.32A29.38,29.38,0,0,1,212.4,395Z" style="fill:currentColor"></path><rect x="125.74" y="186.47" width="240.51" height="180.39" rx="8.48" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M125.74,338.82H366.26v19.55a8.48,8.48,0,0,1-8.48,8.48H134.23a8.48,8.48,0,0,1-8.48-8.48h0V338.82Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="137.84" y="197.7" width="216.32" height="127.44" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M250.44,352.84a4.44,4.44,0,1,0-4.44,4.44,4.44,4.44,0,0,0,4.44-4.44Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="207.1" y="402.34" width="77.81" height="3.63" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><rect x="139.54" y="206.68" width="212.59" height="11.17" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><polygon points="174.62 217.85 172.07 210.95 139.54 210.95 139.54 217.85 139.54 227 139.54 319.71 352.13 319.71 352.13 217.85 174.62 217.85" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></polygon><line x1="196.76" y1="268.36" x2="296.44" y2="268.36" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="278.16" x2="296.44" y2="278.16" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="287.96" x2="296.44" y2="287.96" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="297.77" x2="296.44" y2="297.77" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><path d="M291.17,242.23H200.84a7.08,7.08,0,0,1-7.09-7.07v0h0a7.08,7.08,0,0,1,7.07-7.09h90.35a7.08,7.08,0,0,1,7.09,7.09h0A7.08,7.08,0,0,1,291.17,242.23Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M291.17,242.23H278.83V228.05h12.34a7.08,7.08,0,0,1,7.09,7.09h0A7.08,7.08,0,0,1,291.17,242.23Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M288.42,229.85a4.07,4.07,0,1,0,.19,5.75h0a4.05,4.05,0,0,0-.18-5.74Zm-.4,5.2a3.26,3.26,0,1,1-.15-4.62,3.27,3.27,0,0,1,.15,4.62l0,0Z" style="fill:#fff"></path><path d="M291.48,237.08a.65.65,0,0,0-.69-.14l-1.47-1.38a.4.4,0,0,0-.56,0l-.13.14a.42.42,0,0,0,0,.57l1.45,1.36a.69.69,0,0,0,.17.72l2.5,2.45a.88.88,0,0,0,1.24,0h0a.88.88,0,0,0,0-1.24Z" style="fill:#fff"></path></g><g><path d="M317.3,285a5.83,5.83,0,0,0,3.21,3.22c1.13.46,2.64.36,4.38,1.34,3.93,2.21,13.74.24,20.85,1s16.69-7.11,16.69-7.11L390.64,285V257s-29.44,1.23-35.82-1.23-13.49-7.6-16.68-7.36-29.44,3.19-29.44,3.19L317.29,285Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M310,172.1a29.63,29.63,0,1,0,32.71,26.19h0A29.61,29.61,0,0,0,310,172.1Zm5.88,53.08a23.77,23.77,0,1,1,21-26.25,23.77,23.77,0,0,1-21,26.25Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M309.84,170.41a29.63,29.63,0,1,0,32.71,26.19h0A29.64,29.64,0,0,0,309.84,170.41Zm5.88,53.08a23.77,23.77,0,1,1,21-26.25A23.77,23.77,0,0,1,315.72,223.49Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="314.5" y="229.86" width="7.17" height="26.42" rx="2.88" transform="translate(-24.82 36.49) rotate(-6.32)" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M316.88,247l3-.32A4.93,4.93,0,0,1,325.3,251l4.49,40.61a6.3,6.3,0,0,1-5.57,6.95l-.2,0a6.29,6.29,0,0,1-6.95-5.57l-4.49-40.6a4.92,4.92,0,0,1,4.35-5.44Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M321.24,280.84s-7.11.26-8.11,1.49-.82,5.51,1.11,6c4.92,1.29,15.38.54,15.79-.34s1.25-6-.91-6.55A52,52,0,0,0,321.24,280.84Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M319.19,270.92s-8.27-.31-9.56,1.18-1.54,7.06.64,7.9c5.56,2.13,18.07,1.3,18.64.2s1.81-6.81-.64-7.73S319.19,270.92,319.19,270.92Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M318,259.72s-8.84-.34-10.22,1.26-1.65,7.54.68,8.44c6,2.28,19,2.28,19.61,1.1s2.25-8.16-.37-9.15S318,259.72,318,259.72Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M312.9,249.24s-8.84-.33-10.22,1.26-1.71,7.72.68,8.44,19,2.28,19.61,1.11,2.25-8.17-.37-9.16S312.9,249.24,312.9,249.24Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M341.85,278.65a14.91,14.91,0,0,1-4.45-2.06c-7.11-4.91-6.87-16.19-6.87-16.19l-1.71-.49a15.22,15.22,0,0,1-3.93-2.21,35.52,35.52,0,0,1,1,7.11A5.31,5.31,0,0,1,321,270c-2.21.25-3.19.49-3.93-2.45s-4.41-14.72-4.66-16.44c-.22-1.56,2.4-4.34,6.57-5,6.41.52,12.73,2.31,19.19,2.31a13,13,0,0,1,6.25,2.3" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M348.61,279.27a22.83,22.83,0,0,1-2.34,0" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M353.84,278.3a22.7,22.7,0,0,1-5.23,1" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><line x1="362.67" y1="275.12" x2="371.5" y2="275.12" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></line><line x1="363.41" y1="277.57" x2="367.09" y2="277.57" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></line><path d="M330.53,260.4s4.88,0,8.08-2.91" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M324.78,257.38a19.4,19.4,0,0,0-.83-3.92" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M317,266.26s-.93-2.58.2-3.51,4.13-2.27,4.65-1.24,1.65,5.78,1.34,6.71l-.31.93" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5px"></path><polyline points="452.55 297.55 368 297.55 368 255.99 452.55 255.99" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></polyline><circle cx="374.2" cy="292.87" r="1.9" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></circle><path d="M239.83,216.41a5.83,5.83,0,0,0,3.22-3.21c.46-1.13.35-2.63,1.34-4.38,2.2-3.92.24-13.73,1-20.85s-7.12-16.68-7.12-16.68l1.53-28.21h-28s1.22,29.44-1.23,35.81-7.6,13.5-7.36,16.69S206.42,225,206.42,225l33.36-8.59Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M127,223.69A29.63,29.63,0,1,0,153.21,191h-.07A29.63,29.63,0,0,0,127,223.69Zm53-5.89a23.78,23.78,0,1,1-26.27-21h0A23.79,23.79,0,0,1,180,217.8Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M125.27,223.87a29.62,29.62,0,1,0,26.19-32.71A29.62,29.62,0,0,0,125.27,223.87ZM178.35,218a23.77,23.77,0,1,1-26.25-21,23.77,23.77,0,0,1,26.25,21Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="184.72" y="212.05" width="26.42" height="7.17" rx="2.88" transform="translate(-22.53 23.1) rotate(-6.32)" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M201.86,216.84l-.33-3a4.93,4.93,0,0,1,4.36-5.44l40.6-4.49a6.31,6.31,0,0,1,7,5.57h0l0,.2a6.31,6.31,0,0,1-5.57,7h0l-40.6,4.49A4.94,4.94,0,0,1,201.86,216.84Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M235.69,212.48s.27,7.1,1.49,8.1,5.52.82,6-1.11c1.3-4.91.54-15.38-.34-15.78s-6-1.26-6.54.91A52,52,0,0,0,235.69,212.48Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M225.78,214.52s-.32,8.27,1.17,9.56,7.06,1.55,7.9-.64c2.14-5.56,1.3-18.07.2-18.63s-6.81-1.81-7.73.64S225.78,214.52,225.78,214.52Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M214.58,215.73s-.34,8.84,1.25,10.22,7.55,1.65,8.45-.69c2.28-5.94,2.28-19,1.1-19.6s-8.17-2.25-9.15.37S214.58,215.73,214.58,215.73Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M204.1,220.82s-.34,8.84,1.26,10.22,7.72,1.71,8.44-.69,2.28-19,1.1-19.61-8.16-2.24-9.15.38S204.1,220.82,204.1,220.82Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M234.12,185.08a17.44,17.44,0,0,1-2.68,11.23c-4.9,7.12-16.19,6.87-16.19,6.87l-.49,1.72a14.87,14.87,0,0,1-2.21,3.92,35.61,35.61,0,0,1,7.12-1,5.32,5.32,0,0,1,5.15,4.91c.25,2.21.49,3.19-2.45,3.92s-14.72,4.42-16.44,4.67c-1.56.22-4.34-2.4-5-6.57.53-6.41,2.32-12.74,2.32-19.19a13,13,0,0,1,2.3-6.26" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M233.16,179.88a20.15,20.15,0,0,1,.68,2.86" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><line x1="229.97" y1="171.04" x2="229.97" y2="162.21" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></line><line x1="232.42" y1="170.31" x2="232.42" y2="166.63" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></line><path d="M215.25,203.18s0-4.88-2.91-8.08" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M212.24,208.94a19.38,19.38,0,0,0-3.92.82" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M221.12,216.68s-2.58.93-3.51-.21-2.27-4.13-1.24-4.64,5.78-1.65,6.71-1.34l.93.3" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5px"></path><polyline points="252.41 81.16 252.41 165.71 210.84 165.71 210.84 81.16" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></polyline><circle cx="247.72" cy="159.51" r="1.9" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></circle><path d="M198,367a5.8,5.8,0,0,1-3.21,3.22c-1.13.47-2.63.36-4.38,1.34-3.92,2.21-13.73.25-20.85,1s-16.68-7.11-16.68-7.11L124.64,367V339s29.44,1.23,35.82-1.22,13.49-7.61,16.68-7.36,29.44,3.19,29.44,3.19Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M205.25,254.16a29.63,29.63,0,1,1-32.71,26.19h0a29.62,29.62,0,0,1,32.7-26.18Zm-5.88,53.08a23.78,23.78,0,1,0-21-26.27h0A23.79,23.79,0,0,0,199.37,307.24Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M205.43,252.47a29.62,29.62,0,1,1-32.71,26.18,29.62,29.62,0,0,1,32.71-26.18Zm-5.88,53.08a23.78,23.78,0,1,0-21-26.27v0a23.78,23.78,0,0,0,21,26.25Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="183.96" y="321.54" width="26.42" height="7.17" rx="2.88" transform="translate(-147.68 485.31) rotate(-83.68)" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M191.27,380.66l-.2,0a6.3,6.3,0,0,1-5.57-7l4.49-40.6a4.92,4.92,0,0,1,5.44-4.36l3,.33a4.93,4.93,0,0,1,4.36,5.44l-4.49,40.65a6.32,6.32,0,0,1-7,5.57Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M194,362.89s7.1.27,8.1,1.49.82,5.51-1.11,6c-4.91,1.3-15.38.54-15.78-.34s-1.26-6,.91-6.55A52,52,0,0,1,194,362.89Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M196.08,353s8.27-.32,9.56,1.17,1.55,7.06-.64,7.9c-5.56,2.13-18.07,1.3-18.63.2s-1.81-6.81.64-7.73S196.08,353,196.08,353Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M197.29,341.77s8.84-.33,10.22,1.26,1.65,7.55-.68,8.44c-6,2.29-19,2.28-19.61,1.11s-2.25-8.17.37-9.16S197.29,341.77,197.29,341.77Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M202.38,331.3s8.84-.34,10.22,1.25,1.71,7.73-.69,8.45-19,2.27-19.61,1.1-2.24-8.17.38-9.15S202.38,331.3,202.38,331.3Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M168,361.37a16.77,16.77,0,0,0,9.85-2.73c7.12-4.91,6.87-16.19,6.87-16.19l1.72-.49a14.87,14.87,0,0,0,3.92-2.21,35.52,35.52,0,0,0-1,7.11,5.33,5.33,0,0,0,4.91,5.16c2.21.24,3.19.49,3.93-2.46s4.41-14.72,4.66-16.43-2.4-4.35-6.57-5c-6.41.53-12.74,2.32-19.19,2.32a13.08,13.08,0,0,0-6.26,2.29" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M161.44,360.36a22.36,22.36,0,0,0,4.29.87" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><line x1="152.6" y1="357.17" x2="143.77" y2="357.17" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></line><line x1="151.87" y1="359.62" x2="148.19" y2="359.62" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></line><path d="M184.74,342.45s-4.88,0-8.08-2.91" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M190.5,339.43a19.38,19.38,0,0,1,.82-3.92" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M198.24,348.31s.93-2.58-.21-3.51-4.13-2.27-4.64-1.24-1.65,5.79-1.34,6.71l.31.93" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5px"></path><polyline points="62.72 379.61 147.27 379.61 147.27 338.04 62.72 338.04" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></polyline><path d="M139.17,374.92a1.9,1.9,0,1,0,1.9-1.9h0A1.9,1.9,0,0,0,139.17,374.92Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path></g></svg>
-                        <!-- <@cEmpty title='#i18n{portal.util.labelNoItem}' subtitle='#i18n{portal.search.search_results.labelDoSearch}' /> -->
+                        <#list list_type_and_link as map>
+                            <#if type_filter != "checkbox" || map_index != 0>
+                            <#assign tfLabel><#if map_index != 0>${map.type?lower_case?capitalize}<#else>#i18n{portal.search.search_results.typeFilterNone}</#if></#assign>
+                            <@cFormCheck type=type_filter! name='type_filter' value=map.type! labelClass='filter-check' checked=(selected_types![])?seq_contains(map.type) label=tfLabel />
+                            </#if>
+                        </#list>
+                    </#if>
+                    </#if>
+                    <#-- default_operator and/or -->
+                    <@cLabel for='default_operator' label='#i18n{portal.search.search_results.operator}' />
+                    <@cSelect id='default_operator' name='default_operator' class='sort-select'>
+                        <#list ["OR","AND"] as operator>
+                            <@cOption value=operator! selected=(operator = default_operator) label='#i18n{portal.search.advanced_parameters.defaultOperator.${operator?upper_case}}' />
+                        </#list>
+                    </@cSelect>
+                </@cBlock>
+                <#if taglist?has_content>
+                <#if tag_filter == "1" && taglist?trim != ''>
+                <@cBlock class='filter-group'>
+                    <@cBlock class='filter-group-title'>Tags</@cBlock>
+                    <#-- tag_filter -->
+                    <#list taglist?split(" ") as tag>
+                        <#if tag?? && tag?trim != ''>
+                            <@cFormCheck type='checkbox' checked=true labelClass='filter-check' label='${tag?lower_case?capitalize}' />
+                        </#if>
+                    </#list>
+                </@cBlock>
+                </#if>
+                </#if>
+                <#if date_filter == '1'>
+                <#-- date_filter 0/1 -->
+                <@cBlock class='filter-group'>
+                  <@cBlock class='filter-group-title'>Mise à jour</@cBlock>
+                    <@cFormCheck type='radio' labelClass='filter-check' id='filter-seven' name='datefilter' value='seven' checked=(selected_datefilter!'') == 'seven' label='7 derniers jours' />
+                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-month" name="datefilter" value="month" checked=(selected_datefilter!'') == 'month' label='Ce mois-ci' />
+                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-year" name="datefilter" value="year" checked=(selected_datefilter!'') == 'year' label='Cette année' />
+                    <@cFormCheck type="radio" labelClass='filter-check' id="filter-all" name="datefilter" value="all" checked=(selected_datefilter!'') == 'all' label='Toutes dates' />
+                    <@cFieldset id='date_filter' legend='#i18n{portal.search.search_results.dateFilter}' >
+                        <@cField label='#i18n{portal.search.search_results.dateFilterAfter}' for='date_after'>
+                            <@cInputDate name='date_after' label='#i18n{portal.search.search_results.dateFilterAfter}' value='${date_after_value!""}' format='${date_picker_format!"dd/mm/yyyy"}' showFormat='${date_picker_format!"dd/mm/yyyy"}' />
+                        </@cField>
+                        <@cField label='#i18n{portal.search.search_results.dateFilterBefore}' for='date_before' >
+                            <@cInputDate name='date_before' label='#i18n{portal.search.search_results.dateFilterBefore}' value='${date_before_value!""}' format='${date_picker_format!"dd/mm/yyyy"}' showFormat='${date_picker_format!"dd/mm/yyyy"}' />
+                        </@cField>
+                    </@cFieldset>
+                </@cBlock>
+                </#if>
+          </@cBlock>
+        <@cSection class='results-col'>
+        <#-- Toolbar -->
+            <@cBlock class='toolbar'>
+              <#if query?? && query?trim != ''>
+              <@cBlock class='toolbar__right ms-auto'>
+                <@cBlock type='label' params='style="display:flex;align-items:center;gap:8px;"'>
+                  <@cInline>Trier :</@cInline>
+                  <@cSelect name='sort' class='sort-select' params='aria-label="Trier par"'>
+                    <@cOption value='relevance' label='Pertinence' />
+                    <@cOption value='date' label='Date (récent)' />
+                    <@cOption value='alpha' label='Alphabétique (A → Z)' />
+                    <@cOption value='duration' label='Durée' />
+                  </@cSelect>
+                </@cBlock>
+                <@cBlock class='view-toggle' params='role="group" aria-label="Affichage"'>
+                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="true" aria-label="Vue liste" title="Vue liste" data-view="list"'>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
+                  </@cBtn>
+                  <@cBtn type='button' noclass=true class='' label='' params=' aria-pressed="false" aria-label="Vue grille" title="Vue grille" data-view="grid"'>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                  </@cBtn>
+                </@cBlock>
+              </@cBlock>
+              </#if>
+            </@cBlock>
+            <#-- Results -->
+            <@cBlock class='results' id='results'>
+                <#if error?has_content><@cAlert title=error type='danger' /></#if>
+                <#-- included sponsored links if available - might be null -->
+                ${sponsoredlinks_set!}
+                <#if results_list??>
+                    <#if results_list?size gt 0>
+                        <@chList>
+                        <#list results_list as result>
+                        <#assign resultUrl = result.url! />
+                        <#assign resultTitle = result.title! />
+                        <#assign resultDescription = result.summary! />
+                        <@chItem>
+                            <@cLink href=resultUrl class='result-card' label=''>
+                                <@cBlock class='result-card__icon result-card__icon--coral'>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-text"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14 3v4a1 1 0 0 0 1 1h4" /><path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" /><path d="M9 9l1 0" /><path d="M9 13l6 0" /><path d="M9 17l6 0" /></svg>
+                                </@cBlock>
+                                <@cBlock>
+                                    <@cBlock class='result-card__meta'>
+                                        <@cInline class='badge'>${result.type!}</@cInline>
+                                        <@cInline type='small' class='mx-3'>${(result.date?date?string.short)!}</@cInline>
+                                    </@cBlock>
+                                    <@cTitle level=2 class='result-card__title'>${resultTitle}</@cTitle>
+                                    <@cText class='result-card__desc'>${resultDescription}</@cText>
+                                    <@cBlock class='result-card__crumb' params='hidden'>
+                                        <@cInline>Accueil</@cInline>
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                        <@cInline>Démarches</@cInline>
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                        <@cInline>Papiers d'identité</@cInline>
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                        <@cInline>Carte nationale d'identité</@cInline>
+                                    </@cBlock>
+                                </@cBlock>
+                                <@cInline class='result-card__arrow' params='aria-hidden="true"'>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                                </@cInline>
+                            </@cLink>
+                        </@chItem>
+                        </#list>
+                        </@chList>
+                    <#else>
+                        <#if query?? && query?trim != ''>
+                            <@cEmpty title='#i18n{portal.search.search_results.labelNoResult}' subtitle='#i18n{portal.search.search_results.labelTryOther}' />
+                        <#else>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="color: var(--lutece-ds-primary);" viewBox="-50 50 700 400"><g><path d="M98.17,313.63c46.24,53,92.93,59.71,158.56,72.27s113.82,3.88,149.33-28.13c41-37,39.38-121.76-23.36-151.94-19.6-9.45-42.94-12.31-60.11-25.6C289.8,154.87,263.28,115.41,210.64,108s-88.13,27.9-88.13,27.9C79.28,183.24,51.93,260.59,98.17,313.63Z" style="fill:currentColor"></path><path d="M98.17,313.63c46.24,53,92.93,59.71,158.56,72.27s113.82,3.88,149.33-28.13c41-37,39.38-121.76-23.36-151.94-19.6-9.45-42.94-12.31-60.11-25.6C289.8,154.87,263.28,115.41,210.64,108s-88.13,27.9-88.13,27.9C79.28,183.24,51.93,260.59,98.17,313.63Z" style="fill:#fff;opacity:0.7000000000000001;isolation:isolate"></path></g><g><path d="M275.92,380.77V360.45H216.08v20.32A29.43,29.43,0,0,1,209.72,399l-2.62,3.3h77.8l-2.62-3.3A29.43,29.43,0,0,1,275.92,380.77Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M212.4,395h67.2a29.38,29.38,0,0,1-3.68-14.23V360.45H216.08v20.32A29.38,29.38,0,0,1,212.4,395Z" style="fill:currentColor"></path><rect x="125.74" y="186.47" width="240.51" height="180.39" rx="8.48" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M125.74,338.82H366.26v19.55a8.48,8.48,0,0,1-8.48,8.48H134.23a8.48,8.48,0,0,1-8.48-8.48h0V338.82Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="137.84" y="197.7" width="216.32" height="127.44" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><path d="M250.44,352.84a4.44,4.44,0,1,0-4.44,4.44,4.44,4.44,0,0,0,4.44-4.44Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="207.1" y="402.34" width="77.81" height="3.63" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><rect x="139.54" y="206.68" width="212.59" height="11.17" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect><polygon points="174.62 217.85 172.07 210.95 139.54 210.95 139.54 217.85 139.54 227 139.54 319.71 352.13 319.71 352.13 217.85 174.62 217.85" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></polygon><line x1="196.76" y1="268.36" x2="296.44" y2="268.36" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="278.16" x2="296.44" y2="278.16" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="287.96" x2="296.44" y2="287.96" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><line x1="196.76" y1="297.77" x2="296.44" y2="297.77" style="fill:none;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px"></line><path d="M291.17,242.23H200.84a7.08,7.08,0,0,1-7.09-7.07v0h0a7.08,7.08,0,0,1,7.07-7.09h90.35a7.08,7.08,0,0,1,7.09,7.09h0A7.08,7.08,0,0,1,291.17,242.23Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M291.17,242.23H278.83V228.05h12.34a7.08,7.08,0,0,1,7.09,7.09h0A7.08,7.08,0,0,1,291.17,242.23Z" style="fill:#2e353a;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M288.42,229.85a4.07,4.07,0,1,0,.19,5.75h0a4.05,4.05,0,0,0-.18-5.74Zm-.4,5.2a3.26,3.26,0,1,1-.15-4.62,3.27,3.27,0,0,1,.15,4.62l0,0Z" style="fill:#fff"></path><path d="M291.48,237.08a.65.65,0,0,0-.69-.14l-1.47-1.38a.4.4,0,0,0-.56,0l-.13.14a.42.42,0,0,0,0,.57l1.45,1.36a.69.69,0,0,0,.17.72l2.5,2.45a.88.88,0,0,0,1.24,0h0a.88.88,0,0,0,0-1.24Z" style="fill:#fff"></path></g><g><path d="M317.3,285a5.83,5.83,0,0,0,3.21,3.22c1.13.46,2.64.36,4.38,1.34,3.93,2.21,13.74.24,20.85,1s16.69-7.11,16.69-7.11L390.64,285V257s-29.44,1.23-35.82-1.23-13.49-7.6-16.68-7.36-29.44,3.19-29.44,3.19L317.29,285Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><path d="M310,172.1a29.63,29.63,0,1,0,32.71,26.19h0A29.61,29.61,0,0,0,310,172.1Zm5.88,53.08a23.77,23.77,0,1,1,21-26.25,23.77,23.77,0,0,1-21,26.25Z" style="fill:#fff;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></path><rect x="314.5" y="229.86" width="7.17" height="26.42" rx="2.88" transform="translate(-24.82 36.49) rotate(-6.32)" style="fill:currentColor;stroke:#2e353a;stroke-linecap:round;stroke-linejoin:round"></rect></g></svg>
+                        </#if>
                     </#if>
                 </#if>
-            </#if>
-        </div>    
+            </@cBlock>
         <#if results_list??>
             <#if results_list?size gt 0>
-                    <@cBlock class='mt-m'>
+                <@cBlock class='mt-m'>
                     <@cPagination paginator=paginator class='mb-0' />
-                    <@cText class='mb-0'>#i18n{portal.search.search_results.labelResultsCount} : <strong>${paginator.itemsCount}</strong> #i18n{portal.search.search_results.labelResultsRange} : <strong>${paginator.rangeMin} - ${paginator.rangeMax}</strong></@cText>
+                    <@cText class='mb-0'>#i18n{portal.search.search_results.labelResultsCount} : <@cInline type='strong'>${paginator.itemsCount}</@cInline> #i18n{portal.search.search_results.labelResultsRange} : <@cInline type='strong'>${paginator.rangeMin} - ${paginator.rangeMax}</@cInline></@cText>
                 </@cBlock>
-            </#if>    
-        </#if>    
-    </@cContainer>
+            </#if>
+        </#if>
+        </@cSection>
+        </@cBlock>
+      </@cBlock>
+    </@cBlock>
+</@cContainer>
 </@cForm>
- <script>
+<script>
 (function() {
     // Format used by the datepicker for both display and submission (matches the server locale pattern).
     const currentdateFormat = '${date_picker_format!"dd/mm/yyyy"}';
@@ -335,12 +278,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Search interactions
   const q = document.getElementById('q');
   function setQuery(v) { q.value = v; q.focus(); }
-  
-  // Pills: remove active filters
+
+  // Clear the query input
   document.querySelectorAll('.search-box__clear').forEach(b => {
     b.addEventListener('click', (e) => { q.value = ''; q.focus(); });
   });
-  
+
   // Pills: remove active filters
   document.querySelectorAll('.pill button').forEach(b => {
     b.addEventListener('click', (e) => { e.preventDefault(); b.closest('.pill').remove(); });
@@ -389,3 +332,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 <@cSearchSetResultPageTitle />
+</@cTpl>
