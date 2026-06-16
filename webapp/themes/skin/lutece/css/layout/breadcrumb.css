@@ -12,27 +12,27 @@
 .breadcrumb-nav .breadcrumb {
     display: flex;
     align-items: center;
-    gap: var(--lutece-ds-spacing-2xs);
-    font-size: var(--lutece-ds-font-size-lg);
-    color: var(--lutece-ds-color-blue-700);
+    gap: var(--lutece-ds-sp-2xs);
+    font-size: var(--lutece-ds-fs-lg);
+    color: var(--lutece-ds-blue-700);
 }
 
 .breadcrumb-item,
 .breadcrumb-item a {
 	font-family: var(--lutece-ds-font-family-base);
 	font-weight: 400;
-	font-size: var(--lutece-ds-font-size-lg); 
-	line-height: var( --lutece-ds-spacing-md );
-	color: var( ---lutece-ds-color-blue-700 );
+	font-size: var(--lutece-ds-fs-lg); 
+	line-height: var( --lutece-ds-sp-md );
+	color: var( ---lutece-ds-blue-700 );
 	text-decoration: none;
-	padding-inline-end: var(--lutece-ds-spacing-2xs);
+	padding-inline-end: var(--lutece-ds-sp-2xs);
 	margin-block-start: 0;
 }
 
 .breadcrumb-item a {
-	color: var( ---lutece-ds-color-blue-700 );
+	color: var( ---lutece-ds-blue-700 );
 	text-decoration: none;
-	padding-inline-end:var(--lutece-ds-color-blue-700);
+	padding-inline-end:var(--lutece-ds-blue-700);
 	margin-block-start: 0;
 }
 
@@ -58,7 +58,7 @@
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	color: var(--lutece-ds-color-text);
+	color: var(--lutece-ds-text);
 }
 
 .breadcrumb-item.active::before {
@@ -78,18 +78,18 @@
 	/* Breadcrumb */
 	.breadcrumb-nav {
 		padding-block-end: 0 !important;
-		margin-block-start: var(--lutece-ds-spacing-xs );
+		margin-block-start: var(--lutece-ds-sp-xs );
 	}
 	
 	.breadcrumb-nav .breadcrumb {
-		background-color: var(--lutece-ds-color-white);
+		background-color: var(--lutece-ds-white);
 		border-radius: 0;
-		padding: var(--lutece-ds-spacing-xs) 0 0;
+		padding: var(--lutece-ds-sp-xs) 0 0;
 	}
 		
 	.breadcrumb-item,
 	.breadcrumb-item a {
-		font-size: var(--lutece-ds-font-size-lg);
+		font-size: var(--lutece-ds-fs-lg);
 		padding-inline-end: 0;
 	}
 
@@ -103,7 +103,7 @@
 	/* Breadcrumb */
 	.breadcrumb-item,
 	.breadcrumb-item a {
-		font-size: var(--lutece-ds-font-size-sm);
+		font-size: var(--lutece-ds-fs-sm);
 	}
 
 	.breadcrumb-item.active {

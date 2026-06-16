@@ -2,13 +2,13 @@
 /*** Portlets								***/
 /*** 										***/
 .portlet.card, .portlet.card .card-header {
-    background-color: var(--lutece-ds-color-white) !important;
+    background-color: var(--lutece-ds-white) !important;
     padding: var(--bs-card-spacer-x) var(--bs-card-spacer-y);
 }
 
 .portlet.card .card-header{
 	border-bottom: 0;
-	padding-inline-start: var(--lutece-ds-spacing-md);
+	padding-inline-start: var(--lutece-ds-sp-md);
 }
 
 .portlet.card .card-body{
@@ -17,11 +17,11 @@
 }
 
 .portlet.card .card-body .card-title{
-	font-size: var(--lutece-ds-font-size-3xl);
+	font-size: var(--lutece-ds-fs-3xl);
 	font-weight: 700;
 }
 
 .portlet.card.main-bg-color .card-body,
 .portlet.card.main-bg-color .card-body :is( a,p,h1,h2,h3,h4,h5,h6,.h2,.h3,.h4,.h5,.h6,span,strong ){
-	color: var( --lutece-ds-color-white )
+	color: var( --lutece-ds-white )
 }

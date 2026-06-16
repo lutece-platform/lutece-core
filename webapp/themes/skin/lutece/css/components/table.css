@@ -3,7 +3,7 @@
 /***  										***/
 
 .ctable {
-	color: var(--lutece-ds-color-text);
+	color: var(--lutece-ds-text);
 	border-collapse: separate;
 	border-spacing: 0;
 }
@@ -13,26 +13,26 @@
 	font-size: 1.5rem;
 	font-weight: 600;
 	padding: 2.5rem 3.2rem;
-	border-bottom: .1rem solid var(--lutece-ds-color-blue-300);
+	border-bottom: .1rem solid var(--lutece-ds-blue-300);
 }
 
 .ctable tbody td {
-	color: var(--lutece-ds-color-text);
+	color: var(--lutece-ds-text);
 	font-size: 1.5rem;
 	padding: 2.5rem 3.2rem;
 	border: 0;
-	border-bottom: .1rem solid var(--lutece-ds-color-blue-300);
+	border-bottom: .1rem solid var(--lutece-ds-blue-300);
 	position: relative;
 	vertical-align: middle;
 }
 
 .ctable tr:hover td{
-	background-color: var(--lutece-ds-color-blue-100);
+	background-color: var(--lutece-ds-blue-100);
 }
 
 .ctable tr:hover td:first-of-type:before {
 	content: '';
-	background-color: var(--lutece-ds-color-primary);
+	background-color: var(--lutece-ds-primary);
 	width: .6rem;
 	position: absolute;
 	top: 0;
@@ -41,12 +41,12 @@
 }
 
 .ctable td.button {
-	background-color: var(--lutece-ds-color-primary);
+	background-color: var(--lutece-ds-primary);
 	border: 0;
-	border-bottom: .1rem solid var(--lutece-ds-color-white);
+	border-bottom: .1rem solid var(--lutece-ds-white);
 	font-family: var(--lutece-ds-font-family-base);
 	font-weight: 500;
-	color: var(--lutece-ds-color-white)
+	color: var(--lutece-ds-white)
 }
 
 .ctable td.button:hover {
@@ -54,8 +54,8 @@
 }
 
 .ctable td.button .paris-icon {
-	fill: var(--lutece-ds-color-white);
-	stroke: var(--lutece-ds-color-white);
+	fill: var(--lutece-ds-white);
+	stroke: var(--lutece-ds-white);
 	stroke-width: 0..5rem;
 	width: 2rem;
 	width: 2rem;
@@ -144,7 +144,7 @@
 
 	/* Collapsible table : cTable param collapsible=true	*/
 	.ctable.xs-collapsed tr {
-		border-bottom: .8rem solid var(--lutece-ds-color-white);
+		border-bottom: .8rem solid var(--lutece-ds-white);
 	}
 
 	.ctable.xs-collapsed tfoot,
@@ -157,7 +157,7 @@
 	}
 
 	.ctable.xs-collapsed tr {
-		border-bottom: .8rem solid var(--lutece-ds-color-white);
+		border-bottom: .8rem solid var(--lutece-ds-white);
 	}
 
 	.ctable.xs-collapsed tfoot,
@@ -209,7 +209,7 @@
 	}
 
 	.ctable td.button span {
-		background-color: var(--lutece-ds-color-primary);
+		background-color: var(--lutece-ds-primary);
 		padding: 1rem;
 	}
 
@@ -218,12 +218,12 @@
 	}
 
 	.ctable tr:nth-child(2n) td:first-child {
-		border-top: .4rem solid var(--lutece-ds-color-text);
+		border-top: .4rem solid var(--lutece-ds-text);
 		;
 	}
 
 	.ctable tr:nth-child(2n+1) td:first-child {
-		border-top: .4rem solid var(--lutece-ds-color-primary);
+		border-top: .4rem solid var(--lutece-ds-primary);
 	}
 
 	.ctable tr:nth-child(2n) td:first-of-type::before,

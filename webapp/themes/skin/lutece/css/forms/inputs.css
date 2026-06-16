@@ -7,7 +7,7 @@ select,
 textarea {
   font-family: inherit;
   font-size: var(----bs-body-font-size);	
-  color: var(--lutece-ds-color-text);
+  color: var(--lutece-ds-text);
   background: var(--bs-white);
   border: 1px solid var(--lutece-ds-border);
   border-radius: var(--lutece-ds-radius-sm);
@@ -26,8 +26,8 @@ textarea {
 }
 
 option{
-	color: var(--lutece-ds-color-text) !important;
-	font-size: var( --lutece-ds-font-size-lg ) !important;
+	color: var(--lutece-ds-text) !important;
+	font-size: var( --lutece-ds-fs-lg ) !important;
 	font-weight: 500 !important;
 }
 
@@ -38,16 +38,16 @@ legend {
 
 input:disabled + .btn,
 input:disabled + .btn:hover {
-	color: var( --lutece-ds-color-text);
+	color: var( --lutece-ds-text);
     cursor: default;
     opacity: .5
 }
 
 /* BS Overrides */
 label {
-	font-size: var(--lutece-ds-font-size-sm);
+	font-size: var(--lutece-ds-fs-sm);
 	font-weight: 500;
-	color: var(--lutece-ds-color-text-muted)
+	color: var(--lutece-ds-text-muted)
 }
 /* 
 .form-control{
@@ -73,9 +73,9 @@ label {
 
 /* Invalid */
 .invalid-feedback {
-	font-size: var(--lutece-ds-font-size-xs);
+	font-size: var(--lutece-ds-fs-xs);
 	font-weight: 500;
-	color: var(--lutece-ds-color-danger);
+	color: var(--lutece-ds-danger);
 	display: block;
 }
 
@@ -84,14 +84,14 @@ label:has( ~ .input-group ~ .is-invalid),
 label:has( ~ .input-group .is-invalid),
 legend.is-invalid,
 label:has( .is-invalid ){
-	color: var(--lutece-ds-color-danger) !important
+	color: var(--lutece-ds-danger) !important
 }
 
 .form-control.is-invalid,
 .was-validated .form-control:invalid {
     background-image:none;
     box-shadow: none;
-	outline: var(--lutece-ds-color-danger) solid 2px;
+	outline: var(--lutece-ds-danger) solid 2px;
 	outline-offset: 0;
 }
 
@@ -104,26 +104,26 @@ label:has( .is-invalid ){
 /*** 										***/
 input[type="number"] + .input-group-append > .input-group-text {
     border: 1px solid;
-    right: calc( var(--lutece-ds-spacing-lg) * -1 );
+    right: calc( var(--lutece-ds-sp-lg) * -1 );
     top: .25rem;
-    padding: calc( var(--lutece-ds-spacing-sm) + .25rem) var(--lutece-ds-spacing-2xs);
+    padding: calc( var(--lutece-ds-sp-sm) + .25rem) var(--lutece-ds-sp-2xs);
 }
 
 /*** 										***/
 /*** Input Password strength 				***/
 /*** 										***/
 .indicator {
-	font-size: var(--lutece-ds-font-size-xs);
+	font-size: var(--lutece-ds-fs-xs);
 	font-weight: 600;
 	min-height: calc(var(--lutece-ds-size-base, .4rem) * 8.75);
 }
 
 .indicator .dot {
-	width: var(--lutece-ds-spacing-xs);
-	height: var(--lutece-ds-spacing-xs);
+	width: var(--lutece-ds-sp-xs);
+	height: var(--lutece-ds-sp-xs);
 	display: inline-block;
 	border-radius: 50%;
-	background: var(--lutece-ds-color-white);
+	background: var(--lutece-ds-white);
 }
 
 .password-refresh {
@@ -139,14 +139,14 @@ input[type="number"] + .input-group-append > .input-group-text {
 
 @media (max-width: 767.98px) {
 	.form-control {
-		font-size: var(--lutece-ds-font-size-lg)
+		font-size: var(--lutece-ds-fs-lg)
 	}
 }
 
 /* Quantity Picker */
 /* Quantity input */
 .quantity-picker .quantity-input {
-	width: var(--lutece-ds-spacing-2xl);
+	width: var(--lutece-ds-sp-2xl);
 	border: none;
 	text-align: center;
 	-moz-appearance: textfield;
@@ -161,23 +161,23 @@ input[type="number"] + .input-group-append > .input-group-text {
 }
 
 .quantity-picker.is-invalid .input-group {
-	outline: var(--lutece-ds-color-danger) solid 3px;
+	outline: var(--lutece-ds-danger) solid 3px;
 	padding-left: 1px;
 }
 
 /* Quantity button  */
 .quantity-btn{
-	background-color: var( --lutece-ds-color-white );
-	border-color: var( --lutece-ds-color-blue-600 );
-	outline: var(--lutece-ds-color-blue-600) solid 1px;
+	background-color: var( --lutece-ds-white );
+	border-color: var( --lutece-ds-blue-600 );
+	outline: var(--lutece-ds-blue-600) solid 1px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .quantity-btn .btn-label{
-	color: var(--lutece-ds-color-text);
-	font-size: var(var(--lutece-ds-font-size-2xl);)
+	color: var(--lutece-ds-text);
+	font-size: var(var(--lutece-ds-fs-2xl);)
 }
 
 .quantity-btn:active,
@@ -192,7 +192,7 @@ input[type="number"] + .input-group-append > .input-group-text {
 .quantity-btn:not(.disabled).active,
 .quantity-btn:not(.disabled):not(.disabled).active,
 .quantity-btn:focus .btn-label{
-	color: var(--lutece-ds-color-text) !important;
+	color: var(--lutece-ds-text) !important;
 	background-color: transparent !important;
 }
 
@@ -206,14 +206,14 @@ input[type="number"] + .input-group-append > .input-group-text {
 .quantity-btn:disabled *:focus,
 .quantity-btn:disabled *:active,
 .quantity-btn:disabled{
-	color: var( --lutece-ds-color-blue-600 ) !important;
-	background-color: var( --lutece-ds-color-neutral-100 ) !important;
-	border-color: var( --lutece-ds-color-neutral-100 ) !important;
+	color: var( --lutece-ds-blue-600 ) !important;
+	background-color: var( --lutece-ds-neutral-100 ) !important;
+	border-color: var( --lutece-ds-neutral-100 ) !important;
 	box-shadow: none !important;
 	transition: none !important;
 }
 
 .quantity-btn:disabled {
-	color: var(--lutece-ds-color-neutral-400 );
+	color: var(--lutece-ds-neutral-400 );
 	cursor: not-allowed;
 }

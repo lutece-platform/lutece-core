@@ -4,7 +4,7 @@
 .steps {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--lutece-ds-spacing-lg);
+    gap: var(--lutece-ds-sp-lg);
     margin: 0 auto;
     max-width: 920px;
     list-style-type: none;
@@ -20,21 +20,21 @@
     border-radius: 50%;
     display: grid;
     place-items: center;
-    font-size: var(--lutece-ds-font-size-xl);
+    font-size: var(--lutece-ds-fs-xl);
     font-weight: 900;
     border: 2px solid;
-    margin: 0 auto  var(--lutece-ds-spacing-base);
-    background: var(--lutece-ds-color-white);
+    margin: 0 auto  var(--lutece-ds-sp-base);
+    background: var(--lutece-ds-white);
 }
 
 .steps .step h3 {
-    font-size: var(--lutece-ds-font-size-2xl);
+    font-size: var(--lutece-ds-fs-2xl);
     font-weight: 800;
-    margin-bottom: var(--lutece-ds-spacing-base);
+    margin-bottom: var(--lutece-ds-sp-base);
 }
 
 .steps .step p {
-    font-size: var(--lutece-ds-font-size-base);
+    font-size: var(--lutece-ds-fs-base);
 }
 
 [data-bs-theme=dark] .steps .step__num {

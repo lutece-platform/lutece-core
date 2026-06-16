@@ -2,8 +2,8 @@
 /*** 	Footer 								***/
 /*** 										***/
 footer {
-  background: var(--lutece-ds-color-blue-900);
-  color: var(--lutece-ds-color-white);
+  background: var(--lutece-ds-blue-900);
+  color: var(--lutece-ds-white);
   padding: 64px 0 32px;
 }
 
@@ -42,4 +42,16 @@ footer a:hover {
   color: rgba(255, 255, 255, 0.5);
   display: flex;
   justify-content: space-between;
+}
+
+@media (max-width: 767.98px) {
+  footer {
+    padding: 24px;
+  }
+  
+  .foot__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+  }
 }

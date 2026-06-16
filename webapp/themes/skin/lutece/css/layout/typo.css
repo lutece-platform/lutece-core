@@ -3,47 +3,47 @@
 /*** 										***/
 .fs-xs,
 .font-xs{ 
-	font-size: var( --lutece-ds-font-size-xs ) !important;
+	font-size: var( --lutece-ds-fs-xs ) !important;
 }
 
 .fs-s, 
 .font-s{ 
-	font-size: var( --lutece-ds-font-size-base ) !important;
+	font-size: var( --lutece-ds-fs-base ) !important;
 }
 
 .fs-sm, 
 .font-sm{ 
-	font-size: var( --lutece-ds-font-size-sm ) !important;
+	font-size: var( --lutece-ds-fs-sm ) !important;
 }
 
 .fs-m, 
 .font-m{ 
-	font-size: var( --lutece-ds-font-size-lg ) !important;
+	font-size: var( --lutece-ds-fs-lg ) !important;
 }
 
 .fs-ml, 
 .font-ml{ 
-	font-size: var( --lutece-ds-font-size-xl ) !important;
+	font-size: var( --lutece-ds-fs-xl ) !important;
 }
 
 .fs-l, 
 .font-l{ 
-	font-size: var( --lutece-ds-font-size-2xl ) !important;
+	font-size: var( --lutece-ds-fs-2xl ) !important;
 }
 
 .fs-xl, 
 .font-xl{ 
-	font-size: var( --lutece-ds-font-size-3xl ) !important;
+	font-size: var( --lutece-ds-fs-3xl ) !important;
 }
 
 .fs-xxl, 
 .font-xxl{ 
-	font-size: var( --lutece-ds-font-size-4xl) !important;
+	font-size: var( --lutece-ds-fs-4xl) !important;
 }
 
 .fs-xxxl, 
 .font-xxxl{ 
-	font-size: var( --lutece-ds-font-size-5xl ) !important;
+	font-size: var( --lutece-ds-fs-5xl ) !important;
 }
 
 /* Fonts 					*/

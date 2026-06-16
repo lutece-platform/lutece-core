@@ -6,10 +6,10 @@
 	--lutece-ds-size-base: .4rem;
 
 	/* Font Family */
-	--lutece-ds-font-family-primary: "Montserrat";
+	--lutece-ds-font-family-primary: "Open Sans";
 	--lutece-ds-font-family-fallback: Arial, Helvetica, sans-serif;
 	--lutece-ds-font-family-base: var( --lutece-ds-font-family-primary ), var( --lutece-ds-font-family-fallback );
-
+    
     /* Boostrap 5 override */
     --bs-font-sans-serif: system-ui, -apple-system, var( --lutece-ds-font-family-primary ), "Segoe UI",  "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -48,31 +48,31 @@
 	--lutece-ds-text-underline-offset: calc( var( --lutece-ds-size-base, .4rem ) * .375 );
 
     /* Line Height */
-    --lutece-ds-line-height-2xs: calc( var( --lutece-ds-size-base ) * 2.725 );
-    --lutece-ds-line-height-xs:  calc( var( --lutece-ds-size-base ) * 3.75 );   /* Default */
-    --lutece-ds-line-height-sm:  calc( var( --lutece-ds-size-base ) * 5.5 );
-    --lutece-ds-line-height-md:  calc( var( --lutece-ds-size-base ) * 6.25 );
-    --lutece-ds-line-height-lg:  calc( var( --lutece-ds-size-base ) * 6.55 );
-    --lutece-ds-line-height-xl:  calc( var( --lutece-ds-size-base ) * 7.5 );
-    --lutece-ds-line-height-2xl: calc( var( --lutece-ds-size-base ) * 8.5 );
-    --lutece-ds-line-height-3xl: calc( var( --lutece-ds-size-base ) * 11.5 );
+    --lutece-ds-lh-2xs: calc( var( --lutece-ds-size-base ) * 2.725 );
+    --lutece-ds-lh-xs:  calc( var( --lutece-ds-size-base ) * 3.75 );   /* Default */
+    --lutece-ds-lh-sm:  calc( var( --lutece-ds-size-base ) * 5.5 );
+    --lutece-ds-lh-md:  calc( var( --lutece-ds-size-base ) * 6.25 );
+    --lutece-ds-lh-lg:  calc( var( --lutece-ds-size-base ) * 6.55 );
+    --lutece-ds-lh-xl:  calc( var( --lutece-ds-size-base ) * 7.5 );
+    --lutece-ds-lh-2xl: calc( var( --lutece-ds-size-base ) * 8.5 );
+    --lutece-ds-lh-3xl: calc( var( --lutece-ds-size-base ) * 11.5 );
 
 	/* Spacing */
-	--lutece-ds-spacing-base:     var( --lutece-ds-size-base, .4rem );
-    --lutece-ds-spacing-2xs:      var( --lutece-ds-spacing-base );                    /* .4rem  /  4px */
-    --lutece-ds-spacing-xs:       calc( var( --lutece-ds-spacing-base ) * 2 );        /* .8rem  /  8px */
-    --lutece-ds-spacing-xs-loose: calc( var( --lutece-ds-spacing-base ) * 2.5 );      /* 1rem   / 10px */
-    --lutece-ds-spacing-xs-high:  calc( var( --lutece-ds-spacing-base ) * 3 );        /* 1.2rem / 12px */
-    --lutece-ds-spacing-sm-tight: calc( var( --lutece-ds-spacing-base ) * 3.5 );      /* 1.4rem / 14px */
-    --lutece-ds-spacing-sm:       calc( var( --lutece-ds-spacing-base ) * 4 );        /* 1.6rem / 16px */
-    --lutece-ds-spacing-sm-loose: calc( var( --lutece-ds-spacing-base ) * 5 );        /* 2rem   / 20px */
-    --lutece-ds-spacing-md:       calc( var( --lutece-ds-spacing-base ) * 6.5 );      /* 2.6rem / 26px */
-    --lutece-ds-spacing-md-loose: calc( var( --lutece-ds-spacing-base ) * 8 );        /* 3.2rem / 32px */
-    --lutece-ds-spacing-lg:       calc( var( --lutece-ds-spacing-base ) * 10 );       /* 4rem   / 40px */
-    --lutece-ds-spacing-xl:       calc( var( --lutece-ds-spacing-base ) * 12 );       /* 4.8rem / 48px */
-    --lutece-ds-spacing-2xl:      calc( var( --lutece-ds-spacing-base ) * 14 );       /* 5.6rem / 56px */
-    --lutece-ds-spacing-3xl:      calc( var( --lutece-ds-spacing-base ) * 20 );       /* 8rem   / 80px */
-    --lutece-ds-spacing-4xl:      calc( var( --lutece-ds-spacing-base ) * 22 );       /* 8.8rem / 88px */
+	--lutece-ds-sp-base:     var( --lutece-ds-size-base, .4rem );
+    --lutece-ds-sp-2xs:      var( --lutece-ds-sp-base );                    /* .4rem  /  4px */
+    --lutece-ds-sp-xs:       calc( var( --lutece-ds-sp-base ) * 2 );        /* .8rem  /  8px */
+    --lutece-ds-sp-xs-loose: calc( var( --lutece-ds-sp-base ) * 2.5 );      /* 1rem   / 10px */
+    --lutece-ds-sp-xs-high:  calc( var( --lutece-ds-sp-base ) * 3 );        /* 1.2rem / 12px */
+    --lutece-ds-sp-sm-tight: calc( var( --lutece-ds-sp-base ) * 3.5 );      /* 1.4rem / 14px */
+    --lutece-ds-sp-sm:       calc( var( --lutece-ds-sp-base ) * 4 );        /* 1.6rem / 16px */
+    --lutece-ds-sp-sm-loose: calc( var( --lutece-ds-sp-base ) * 5 );        /* 2rem   / 20px */
+    --lutece-ds-sp-md:       calc( var( --lutece-ds-sp-base ) * 6.5 );      /* 2.6rem / 26px */
+    --lutece-ds-sp-md-loose: calc( var( --lutece-ds-sp-base ) * 8 );        /* 3.2rem / 32px */
+    --lutece-ds-sp-lg:       calc( var( --lutece-ds-sp-base ) * 10 );       /* 4rem   / 40px */
+    --lutece-ds-sp-xl:       calc( var( --lutece-ds-sp-base ) * 12 );       /* 4.8rem / 48px */
+    --lutece-ds-sp-2xl:      calc( var( --lutece-ds-sp-base ) * 14 );       /* 5.6rem / 56px */
+    --lutece-ds-sp-3xl:      calc( var( --lutece-ds-sp-base ) * 20 );       /* 8rem   / 80px */
+    --lutece-ds-sp-4xl:      calc( var( --lutece-ds-sp-base ) * 22 );       /* 8.8rem / 88px */
 
 	/* Border width */
     --lutece-ds-border-width-sm: calc( var( --lutece-ds-size-base, .4rem ) / 4 );
@@ -84,7 +84,7 @@
     --lutece-ds-shadow-button:      0 3px 6px 0 rgba( 0, 0, 0, calc( var( --lutece-ds-size-base, .4rem ) / 1.6 ) );
     --lutece-ds-shadow-card-filter: drop-shadow( 0 10px 20px rgba( 0, 0, 0, calc( var( --lutece-ds-size-base, .4rem ) / 2.5 ) ) );
     --lutece-ds-shadow-card-border: 0 0 0 var( --lutece-ds-size-base, .4rem ) var( --lutece-ds-border-shadow );
-    --lutece-ds-shadow-focus:       0 0 0 calc( var( --lutece-ds-size-base, .4rem ) * 1.5 ) var( --lutece-ds-color-text );
+    --lutece-ds-shadow-focus:       0 0 0 calc( var( --lutece-ds-size-base, .4rem ) * 1.5 ) var( --lutece-ds-text );
 
 	/* Font Weight */
     --lutece-ds-fw-regular: 400;
@@ -93,34 +93,29 @@
     --lutece-ds-fw-bold: 700;
     --lutece-ds-fw-extrabold: 800;
 
-	/* Font Size */
-    --lutece-ds-font-size-xs:   calc( var( --lutece-ds-size-base, .4rem ) * 2.5 ); /* 10px */
-    --lutece-ds-font-size-sm:   calc( var( --lutece-ds-size-base, .4rem ) * 3 );   /* 12px */
-    --lutece-ds-font-size-base: calc( var( --lutece-ds-size-base, .4rem ) * 3.5 ); /* 14px */
-    --lutece-ds-font-size-md:   calc( var( --lutece-ds-size-base, .4rem ) * 3.75 );/* 15px */
-    --lutece-ds-font-size-lg:   calc( var( --lutece-ds-size-base, .4rem ) * 4 );   /* 16px */
-    --lutece-ds-font-size-xl:   calc( var( --lutece-ds-size-base, .4rem ) * 4.5 ); /* 18px */
-    --lutece-ds-font-size-2xl:  calc( var( --lutece-ds-size-base, .4rem ) * 5 );   /* 20px */
-    --lutece-ds-font-size-3xl:  calc( var( --lutece-ds-size-base, .4rem ) * 6 );   /* 24px */
-    --lutece-ds-font-size-4xl:  calc( var( --lutece-ds-size-base, .4rem ) * 8 );   /* 32px */
-    --lutece-ds-font-size-5xl:  calc( var( --lutece-ds-size-base, .4rem ) * 9 );   /* 36px */
-    --lutece-ds-font-size-6xl:  calc( var( --lutece-ds-size-base, .4rem ) * 12 );  /* 48px */
-    --lutece-ds-font-size-7xl:  calc( var( --lutece-ds-size-base, .4rem ) * 15 );  /* 60px */
-    --lutece-ds-fs-xs: var( --lutece-ds-font-size-xs );
-    --lutece-ds-fs-sm: var( --lutece-ds-font-size-sm );
-    --lutece-ds-fs-md: var( --lutece-ds-font-size-md );
-    --lutece-ds-fs-lg: var( --lutece-ds-font-size-lg );
-    --lutece-ds-fs-xl: var( --lutece-ds-font-size-xl );
+	/* Font Size */ 
+    --lutece-ds-fs-xs:   calc( var( --lutece-ds-size-base, .4rem ) * 2.5 ); /* 10px */
+    --lutece-ds-fs-sm:   calc( var( --lutece-ds-size-base, .4rem ) * 3 );   /* 12px */
+    --lutece-ds-fs-base: calc( var( --lutece-ds-size-base, .4rem ) * 3.5 ); /* 14px */
+    --lutece-ds-fs-md:   calc( var( --lutece-ds-size-base, .4rem ) * 3.75 );/* 15px */
+    --lutece-ds-fs-lg:   calc( var( --lutece-ds-size-base, .4rem ) * 4 );   /* 16px */
+    --lutece-ds-fs-xl:   calc( var( --lutece-ds-size-base, .4rem ) * 4.5 ); /* 18px */
+    --lutece-ds-fs-2xl:  calc( var( --lutece-ds-size-base, .4rem ) * 5 );   /* 20px */
+    --lutece-ds-fs-3xl:  calc( var( --lutece-ds-size-base, .4rem ) * 6 );   /* 24px */
+    --lutece-ds-fs-4xl:  calc( var( --lutece-ds-size-base, .4rem ) * 8 );   /* 32px */
+    --lutece-ds-fs-5xl:  calc( var( --lutece-ds-size-base, .4rem ) * 9 );   /* 36px */
+    --lutece-ds-fs-6xl:  calc( var( --lutece-ds-size-base, .4rem ) * 12 );  /* 48px */
+    --lutece-ds-fs-7xl:  calc( var( --lutece-ds-size-base, .4rem ) * 15 );  /* 60px */
     
 	/* Icon size */
 	/* 18px / 24px / 28px / 32px / 40px / 56px / 64px */
-    --lutece-ds-icon-size-sm:  calc( var( --lutece-ds-size-base, .4rem ) * 4.5 );
-    --lutece-ds-icon-size-md:  calc( var( --lutece-ds-size-base, .4rem ) * 6 );
-    --lutece-ds-icon-size-lg:  calc( var( --lutece-ds-size-base, .4rem ) * 7 );
-    --lutece-ds-icon-size-xl:  calc( var( --lutece-ds-size-base, .4rem ) * 8 );
-    --lutece-ds-icon-size-2xl: calc( var( --lutece-ds-size-base, .4rem ) * 10 );
-    --lutece-ds-icon-size-3xl: calc( var( --lutece-ds-size-base, .4rem ) * 14 );
-    --lutece-ds-icon-size-4xl: calc( var( --lutece-ds-size-base, .4rem ) * 16 );
+    --lutece-ds-icon-sm:  calc( var( --lutece-ds-size-base, .4rem ) * 4.5 );
+    --lutece-ds-icon-md:  calc( var( --lutece-ds-size-base, .4rem ) * 6 );
+    --lutece-ds-icon-lg:  calc( var( --lutece-ds-size-base, .4rem ) * 7 );
+    --lutece-ds-icon-xl:  calc( var( --lutece-ds-size-base, .4rem ) * 8 );
+    --lutece-ds-icon-2xl: calc( var( --lutece-ds-size-base, .4rem ) * 10 );
+    --lutece-ds-icon-3xl: calc( var( --lutece-ds-size-base, .4rem ) * 14 );
+    --lutece-ds-icon-4xl: calc( var( --lutece-ds-size-base, .4rem ) * 16 );
 
 	/* Forms - Inputs */
 	--lutece-ds-checkbox-size: calc( var( --lutece-ds-size-base ) * 4.5 );

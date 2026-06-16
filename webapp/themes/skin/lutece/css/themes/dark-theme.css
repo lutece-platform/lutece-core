@@ -6,54 +6,47 @@
 	/* Main Theme Colors 														*/
 	/* Default styles init 														*/
 	--lutece-ds-surface-page: #071F32 !important;
+	--lutece-ds-surface-muted: #F7F9FC;
+	--lutece-ds-text: #fff;
 
-	--lutece-ds-color-text: #fff;
+	--lutece-ds-danger: #E22C3F;
+	--lutece-ds-danger-bg: #FFF2F2;
+	--lutece-ds-danger-text-strong: #86131E;
 
-	/* 
-	--lutece-ds-color-primary: #F2F6FF;
-	--lutece-ds-color-primary-soft: #F2F6FF;
-	--lutece-ds-color-primary-bg: #F2F6FF;
-	--lutece-ds-color-primary-text-strong: #17215F; 
-	*/
+	--lutece-ds-danger-dark: #9c1621;
 
-	--lutece-ds-color-danger: #E22C3F;
-	--lutece-ds-color-danger-bg: #FFF2F2;
-	--lutece-ds-color-danger-text-strong: #86131E;
+	--lutece-ds-success: #248619;
+	--lutece-ds-success-bg: #ECFAEA;
+	--lutece-ds-success-text-strong: #0F320B;
 
-	--lutece-ds-color-danger-dark: #9c1621;
-
-	--lutece-ds-color-success: #248619;
-	--lutece-ds-color-success-bg: #ECFAEA;
-	--lutece-ds-color-success-text-strong: #0F320B;
-
-	--lutece-ds-color-warning: #FFA13D;
-	--lutece-ds-color-warning-bg: #FFFAE6;
-	--lutece-ds-color-warning-text-strong: #844501;
+	--lutece-ds-warning: #FFA13D;
+	--lutece-ds-warning-bg: #FFFAE6;
+	--lutece-ds-warning-text-strong: #844501;
 
 	/* Black to White */
-	--lutece-ds-color-neutral-900: #fff;
-	--lutece-ds-color-neutral-600: #6D6D6D;
+	--lutece-ds-neutral-900: #fff;
+	--lutece-ds-neutral-600: #6D6D6D;
 
-	--lutece-ds-color-neutral-500: #071F32;
-	--lutece-ds-color-neutral-300: #C3C3C3;
-	--lutece-ds-color-neutral-200: #D5D9DD;
+	--lutece-ds-neutral-500: #071F32;
+	--lutece-ds-neutral-300: #C3C3C3;
+	--lutece-ds-neutral-200: #D5D9DD;
 
-	--lutece-ds-color-neutral-50: #FCFAFA;
-	--lutece-ds-color-neutral-100: #f0f0f0;
+	--lutece-ds-neutral-50: #FCFAFA;
+	--lutece-ds-neutral-100: #f0f0f0;
 	
 	/* Blue */
-	--lutece-ds-color-blue-700: #495E7E;
-	--lutece-ds-color-blue-600: #5C769E;
-	--lutece-ds-color-blue-400: #B2BED2;
-	--lutece-ds-color-blue-300: #CFD7E3;
-	--lutece-ds-color-blue-200: #DFE7FC;
-	--lutece-ds-color-blue-100: #F2F6FF;
+	--lutece-ds-blue-700: #495E7E;
+	--lutece-ds-blue-600: #5C769E;
+	--lutece-ds-blue-400: #B2BED2;
+	--lutece-ds-blue-300: #CFD7E3;
+	--lutece-ds-blue-200: #DFE7FC;
+	--lutece-ds-blue-100: #F2F6FF;
 
-	--lutece-ds-color-blue-slate: #5C769E;
-	--lutece-ds-color-teal: #1CBCB6;
+	--lutece-ds-blue-slate: #5C769E;
+	--lutece-ds-teal: #1CBCB6;
 
 	/* Icon */
-	--lutece-ds-color-icon-card-title: #0C518A;
+	--lutece-ds-icon-card-title: #0C518A;
 
 	/* Shadow */
 	--lutece-ds-shadow-color-primary: #071f321a;
@@ -68,7 +61,7 @@
 }
 
 [data-bs-theme=dark] svg path {
-	fill: var(--lutece-ds-color-text)
+	fill: var(--lutece-ds-text)
 }
 
 /* Menu */
@@ -98,22 +91,33 @@
 
 [data-bs-theme=dark] .topnav .navbar-nav .nav-link:hover {
 	background: rgba(255, 255, 255, 0.08);
-	color: #fff;
+	color: var(--lutece-ds-text);
 }
 
 [data-bs-theme=dark] .topnav .navbar-nav .nav-item.active>.nav-link,
 [data-bs-theme=dark] .topnav .navbar-nav .nav-link[aria-current="page"] {
 	background: rgba(255, 255, 255, 0.08);
-	color: #fff;
+	color: var(--lutece-ds-text);
 }
 
 [data-bs-theme=dark] .topnav__theme {
+	color: var(--lutece-ds-text);
 	border-color: rgba(255, 255, 255, 0.2);
 }
 
 [data-bs-theme=dark] .topnav__theme:hover {
-	background: rgba(255, 255, 255, 0.1);
-	color: #fff;
+    background: var(--lutece-ds-surface-page);
+}
+
+[data-bs-theme=dark] .top-nav-density > .btn,
+[data-bs-theme=dark] .top-nav-colors > .btn{
+    background: var(--lutece-ds-surface-page);
+    border: 1px solid var(--lutece-ds-border);
+}
+
+[data-bs-theme=dark] .top-nav-density .btn-group-pill .btn[aria-pressed="true"] {
+    background: var( --lutece-ds-surface-page );
+	color: var(--lutece-ds-text);
 }
 
 [data-bs-theme=dark] .shadow {
@@ -129,21 +133,18 @@
 }
 
 /** Text **/
-[data-bs-theme=dark] .hero :is(p,h1,h2,h3,h4,h5,h6,span,div) {
-	color: var(--lutece-ds-color-text) !important;
-}
-
-[data-bs-theme=dark] :is(.text-primary, .text-muted) {
-	color: var(--lutece-ds-color-primary-text-strong) !important;
+[data-bs-theme=dark] .badge .text-muted,
+[data-bs-theme=dark] .badge .text-primary {
+	color: var(--lutece-ds-neutral-500) !important;
 	--bs-text-opacity: 1;
 }
 
 [data-bs-theme=dark] .text-info {
-	color: var(--lutece-ds-color-primary) !important;
+	color: var(--lutece-ds-primary) !important;
 }
 
 [data-bs-theme=dark] .text-dark-border {
-	text-shadow: .1rem .1rem 0 var(--lutece-ds-color-neutral-900), -.1rem -.1rem 0 var(--lutece-ds-color-neutral-900), .1rem -.1rem 0 var(--lutece-ds-color-neutral-900), -.1rem .1rem 0 var(--lutece-ds-color-neutral-900), .1rem .1rem 0 var(--lutece-ds-color-neutral-900);
+	text-shadow: .1rem .1rem 0 var(--lutece-ds-neutral-900), -.1rem -.1rem 0 var(--lutece-ds-neutral-900), .1rem -.1rem 0 var(--lutece-ds-neutral-900), -.1rem .1rem 0 var(--lutece-ds-neutral-900), .1rem .1rem 0 var(--lutece-ds-neutral-900);
 }
 
 [data-bs-theme=dark] .text-dark {
@@ -161,7 +162,7 @@
 [data-bs-theme=dark] .form-control:focus,
 [data-bs-theme=dark] .form-select:focus {
 	background-color: var(--lutece-ds-surface-page);
-	color: var(--lutece-ds-color-white);
+	color: var(--lutece-ds-white);
 }
 
 [data-bs-theme=dark] .card {
@@ -180,7 +181,7 @@
 
 [data-bs-theme=dark] .bg-content {
 	background-color: var(--lutece-ds-surface-page) !important;
-	border: var(--lutece-ds-border-width-sm) solid var(--lutece-ds-color-text) !important;
+	border: var(--lutece-ds-border-width-sm) solid var(--lutece-ds-text) !important;
 }
 
 [data-bs-theme=dark] table,

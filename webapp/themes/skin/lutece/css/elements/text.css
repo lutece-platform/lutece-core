@@ -3,55 +3,55 @@
 /***  										***/
 p, .p, .paragraph {
   font-weight: 400;
-  color: var( --lutece-ds-color-text );
-  font-size: var(--lutece-ds-font-size-md);
+  color: var( --lutece-ds-text );
+  font-size: var(--lutece-ds-fs-md);
   line-height: 26px;
   font-family: var(--lutece-ds-font-family-base ) !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: var( --lutece-ds-color-text );
+  color: var( --lutece-ds-text );
   font-family: var(--lutece-ds-font-family-base ) !important;
   font-weight: 700;
   line-height: 1.2;
 }
 
 h1, .h1 {
-  font-size: var(--lutece-ds-font-size-5xl);
+  font-size: var(--lutece-ds-fs-5xl);
   font-weight: 800;
 }
 
 @media (max-width: 575px) {
 	h1, .h1 {
-	  font-size: var(--lutece-ds-font-size-3xl);
+	  font-size: var(--lutece-ds-fs-3xl);
 	  font-weight: 600;
-    margin-block-end: var(--lutece-ds-spacing-sm);
+    margin-block-end: var(--lutece-ds-sp-sm);
 	}
 }
   
 h2, .h2 {
-  font-size: var(--lutece-ds-font-size-4xl);
+  font-size: var(--lutece-ds-fs-4xl);
   font-weight: 800;
-  margin-block-end: var(--lutece-ds-spacing-sm-tight);
+  margin-block-end: var(--lutece-ds-sp-sm-tight);
 }
 
 @media (max-width: 575px) {
 	h2, .h2 {
-	  font-size: var(--lutece-ds-font-size-4xl);
+	  font-size: var(--lutece-ds-fs-4xl);
 	  font-weight: 600;
-    margin-block-end: var(--lutece-ds-spacing-xs-loose);
+    margin-block-end: var(--lutece-ds-sp-xs-loose);
 	}
 }
   
 h3, .h3 {
-  font-size: var(--lutece-ds-font-size-4xl);
-  margin-block-end: var(--lutece-ds-spacing-sm-tight);
+  font-size: var(--lutece-ds-fs-4xl);
+  margin-block-end: var(--lutece-ds-sp-sm-tight);
 }
 
 @media (max-width: 575px) {
   h3, .h3 {
     font-size: 28px;
-    margin-block-end: var(--lutece-ds-spacing-xs-loose);
+    margin-block-end: var(--lutece-ds-sp-xs-loose);
   }
 }
 
@@ -64,19 +64,19 @@ h5, .h5 {
 }
   
 h6, .h6 {
-  font-size: var(--lutece-ds-font-size-xl);
+  font-size: var(--lutece-ds-fs-xl);
 }
 
 
 .block {
-    color: var(--lutece-ds-color-blue-700);
+    color: var(--lutece-ds-blue-700);
     text-align: center;
-    font-size: var(--lutece-ds-font-size-lg);
-    margin: 0 auto var(--lutece-ds-spacing-xl);
+    font-size: var(--lutece-ds-fs-lg);
+    margin: 0 auto var(--lutece-ds-sp-xl);
 }
 
 blockquote {
-  font-size: var(--lutece-ds-font-size-2xl) !important;
+  font-size: var(--lutece-ds-fs-2xl) !important;
   color: #222;
   padding: 20px 40px;
   border-left: 2px solid #3C5BFE;

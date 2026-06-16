@@ -12,7 +12,7 @@
 }
 
 [data-bs-theme="light"] #bs-theme-switcher .dropdown-menu .dropdown-item.active{
-    color: var(--lutece-ds-color-primary-soft)
+    color: var(--lutece-ds-primary-soft)
 }
 
 /* Mylutece Include */
@@ -30,7 +30,7 @@
 .goog-text-highlight { background: transparent !important; box-shadow: none !important; } */
 
 #lang-btn + .dropdown-menu .dropdown-item.active {
-    color: var( --lutece-ds-color-white ) !important;
-    background-color: var( --lutece-ds-color-primary ) !important;
+    color: var( --lutece-ds-white ) !important;
+    background-color: var( --lutece-ds-primary ) !important;
     font-weight: 500 !important;
 }

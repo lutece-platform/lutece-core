@@ -8,38 +8,38 @@
 
 /***  Icons Size                            ***/
 .icon-sm {
-	height: var(--lutece-ds-icon-size-sm) !important;
-	width: var(--lutece-ds-icon-size-sm) !important;
+	height: var(--lutece-ds-icon-sm) !important;
+	width: var(--lutece-ds-icon-sm) !important;
 }
 
 .icon-m {
-	height: var(--lutece-ds-icon-size-md) !important;
-	width: var(--lutece-ds-icon-size-md) !important;
+	height: var(--lutece-ds-icon-md) !important;
+	width: var(--lutece-ds-icon-md) !important;
 }
 
 .icon-ml {
-	height: var(--lutece-ds-icon-size-lg) !important;
-	width: var(--lutece-ds-icon-size-lg) !important;
+	height: var(--lutece-ds-icon-lg) !important;
+	width: var(--lutece-ds-icon-lg) !important;
 }
 
 .icon-l {
-	height: var(--lutece-ds-icon-size-xl) !important;
-	width: var(--lutece-ds-icon-size-xl) !important;
+	height: var(--lutece-ds-icon-xl) !important;
+	width: var(--lutece-ds-icon-xl) !important;
 }
 
 .icon-xl {
-	height: var(--lutece-ds-icon-size-2xl) !important;
-	width: var(--lutece-ds-icon-size-2xl) !important;
+	height: var(--lutece-ds-icon-2xl) !important;
+	width: var(--lutece-ds-icon-2xl) !important;
 }
 
 .icon-xxl {
-	height: var(--lutece-ds-icon-size-3xl) !important;
-	width: var(--lutece-ds-icon-size-3xl) !important;
+	height: var(--lutece-ds-icon-3xl) !important;
+	width: var(--lutece-ds-icon-3xl) !important;
 }
 
 /*** Paris Icon								***/
 .paris-icon {
-    fill: var(--lutece-ds-color-white);
+    fill: var(--lutece-ds-white);
     transition: fill .3s ease;
     height: calc(var(--lutece-ds-size-base) * 6);
     width: calc(var(--lutece-ds-size-base) * 6);
@@ -54,11 +54,11 @@
 .rounded-bg-icon {
     width: calc(var(--lutece-ds-size-base) * 10);
     height: calc(var(--lutece-ds-size-base) * 10);
-    background-color: var(--lutece-ds-color-white);
+    background-color: var(--lutece-ds-white);
     border-radius: var(--lutece-ds-radius-rounded);
     margin: 0 calc(var(--lutece-ds-size-base) * 2.5)
 }
 
 .btn-close:hover{
-    background-color:var(--lutece-ds-color-neutral-300);
+    background-color:var(--lutece-ds-neutral-300);
 }

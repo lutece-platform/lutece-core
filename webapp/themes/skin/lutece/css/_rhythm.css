@@ -1,5 +1,5 @@
 section + section {
- 	padding-block-start: var(--lutece-ds-spacing-lg);
+ 	padding-block-start: var(--lutece-ds-sp-lg);
 }
 
 :is( #form-validate, .lutece-appointment ) section + section {

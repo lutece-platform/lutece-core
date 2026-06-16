@@ -2,9 +2,9 @@
 /*** Content Frame							***/
 /***  										***/
 .content-frame.content-frame-primary{
-	border: .4rem solid var(--lutece-ds-color-primary);
-	padding: var(--lutece-ds-spacing-xl);
-	min-height: : var(--lutece-ds-spacing-lg);
+	border: .4rem solid var(--lutece-ds-primary);
+	padding: var(--lutece-ds-sp-xl);
+	min-height: : var(--lutece-ds-sp-lg);
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
@@ -13,7 +13,7 @@
 
 .content-frame.content-frame-primary .content-frame-title {
     overflow-wrap: break-word;
-    color: var(--lutece-ds-color-primary);
+    color: var(--lutece-ds-primary);
 }
 
 article .content-frame-title::after, article header > .content-frame-title::after {
@@ -25,16 +25,16 @@ article .content-frame-title::after, article header > .content-frame-title::afte
 .content-frame.content-frame-secondary,
 .content-frame.content-frame-tertiary{
 	padding: 4rem 5.6rem;
-	min-height: : var(--lutece-ds-spacing-lg);
-	background-color: var(--lutece-ds-color-neutral-100);
+	min-height: : var(--lutece-ds-sp-lg);
+	background-color: var(--lutece-ds-neutral-100);
 }
 
 .content-frame.content-frame-secondary{
-	border-left: .6rem solid var(--lutece-ds-color-primary);
+	border-left: .6rem solid var(--lutece-ds-primary);
 }
 
 .content-frame.content-frame-tertiary{
-	border-left: .6rem solid var(--lutece-ds-color-text);
+	border-left: .6rem solid var(--lutece-ds-text);
 }
 
 .content-frame.content-frame-secondary .content-frame-content,
@@ -43,11 +43,11 @@ article .content-frame-title::after, article header > .content-frame-title::afte
 }
 
 .content-frame.content-frame-secondary .content-frame-title {
-    color: var(--lutece-ds-color-primary);
+    color: var(--lutece-ds-primary);
 }
 
 .content-frame.content-frame-tertiary .content-frame-title {
-    color: var(--lutece-ds-color-text);
+    color: var(--lutece-ds-text);
 }
 
 @media (max-width: 354.8px) {
@@ -73,8 +73,8 @@ article .content-frame-title::after, article header > .content-frame-title::afte
 	.content-frame.content-frame-primary .content-frame-title {
         margin: 0;
         overflow-wrap: break-word;
-        color: var(--lutece-ds-color-primary);
-        background-color: var( --lutece-ds-color-white );
+        color: var(--lutece-ds-primary);
+        background-color: var( --lutece-ds-white );
         padding: 1.5rem 0 1.5rem 0;
         transform: translate(-6rem);
     }

@@ -6,11 +6,15 @@
 	box-shadow: 0px 15px 60px rgba(62, 62, 62, 0.102) !important;
 	align-items: center;
 	outline: transparent solid 1px;
-	margin-block-start: 0
+	margin-block-start: 0;
+	padding-inline-start: var(--lutece-ds-sp-xs);
+	border: 1px solid var(--lutece-ds-border);
+	border-radius: var(--lutece-ds-radius-sm);
+	background-color: var(--lutece-ds-white);
 }
 
 :is( .form-text, label ) + .input-group{
-	margin-block-start: var(--lutece-ds-spacing-2xs);
+	margin-block-start: var(--lutece-ds-sp-2xs);
 }
 
 .input-group > :is( input, select, textarea, .btn),
@@ -18,10 +22,11 @@
     border: 0;
     padding-inline-start: 1.5rem;
     outline: 0;
+	padding: var(--lutece-ds-sp-xs) var(--lutece-ds-sp-sm);
 }
 
 .input-group:hover{
-	outline-color: var(--lutece-ds-color-blue-600);
+	outline-color: var(--lutece-ds-blue-600);
 }
 
 .input-group > .form-control-alternate {
@@ -34,35 +39,31 @@
 }
 
 .input-group .input-group-text {
-    color: var(--lutece-ds-color-text);
-    background-color: var(--lutece-ds-color-white);
+    color: var(--lutece-ds-text);
+    background-color: var(--lutece-ds-white);
     border: 0;
     position: absolute;
-    right: var(--lutece-ds-spacing-2xs);
+    right: var(--lutece-ds-sp-2xs);
     z-index: 90;
-    font-size: var(--lutece-ds-font-size-lg);
+    font-size: var(--lutece-ds-fs-lg);
     font-family: var(--lutece-ds-font-family-base);
     font-weight: 500;
 }
 
 .input-group .input-group-text:has(.btn) {
-    top: calc(var(--lutece-ds-spacing-2xs) * 4);
-    padding-block-start: var(--lutece-ds-spacing-xs);
+    top: calc(var(--lutece-ds-sp-2xs) * 4);
+    padding-block-start: var(--lutece-ds-sp-xs);
 }
 
 /* Date Picker */
-.input-group .form-control.datepicker-input{
-	border: inherit
-}
-
 .input-group .datepicker  + .paris-icon{
-	margin-inline: var(--lutece-ds-spacing-xs);
+	margin-inline: var(--lutece-ds-sp-xs);
 }
 
 /* Merged*/
 .input-group.merged > .input-group-text {
-	background-color: var(--lutece-ds-color-white) !important;
-	border-color: var(--lutece-ds-color-neutral-600) !important;
+	background-color: var(--lutece-ds-white) !important;
+	border-color: var(--lutece-ds-neutral-600) !important;
 	border-inline-end: 0 !important;
 	border-radius: 0;
 }
@@ -71,21 +72,21 @@
 	border-inline-start: 0 !important;
 	outline: 0;
 	border-radius: 0;
-	border-color: var(--lutece-ds-color-neutral-600) !important;
+	border-color: var(--lutece-ds-neutral-600) !important;
 	margin-top: 0;
 }
 
 .input-group.merged > .form-control::placeholder {
-	color: var(--lutece-ds-color-neutral-600);
+	color: var(--lutece-ds-neutral-600);
 	font-style: italic;
 }
 
 /* Password */
 .input-group.password input[type="password"]{
-	margin-inline-start: var(--lutece-ds-spacing-2xs)
+	margin-inline-start: var(--lutece-ds-sp-2xs)
 }
 
 .input-group.password .form-text{
-	border: .1rem solid var(--lutece-ds-color-white);
-	border-block-end-color:var(--lutece-ds-color-blue-600);
+	border: .1rem solid var(--lutece-ds-white);
+	border-block-end-color:var(--lutece-ds-blue-600);
 }

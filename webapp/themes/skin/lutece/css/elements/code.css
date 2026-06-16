@@ -14,12 +14,12 @@ code {
 }
 
 pre .copy-to-clipboard {
-	background: var(--lutece-ds-color-primary, #007BFF);
+	background: var(--lutece-ds-primary, #007BFF);
 	color: #fff;
 	cursor: pointer;
 	padding: 4px 5px;
 	line-height: 1;
-	font-size: var(--lutece-ds-font-size-sm);
+	font-size: var(--lutece-ds-fs-sm);
 	font-weight: 500;
 	border-radius: 4px;
 	position: absolute;
@@ -33,43 +33,43 @@ pre .copy-to-clipboard {
 
 /* Self-host */
 .sample-code {
-	background: var(--lutece-ds-color-text, #0A1A2B);  /* --cl-ink-900 */
-	color: var(--lutece-ds-color-white);
+	background: var(--lutece-ds-text, #0A1A2B);  /* --cl-ink-900 */
+	color: var(--lutece-ds-white);
 	border-radius: var(--lutece-ds-border-radius-lg);
-	padding: var(--lutece-ds-spacing-lg);
+	padding: var(--lutece-ds-sp-lg);
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: var(--lutece-ds-spacing-xl);
+	gap: var(--lutece-ds-sp-xl);
 	align-items: center;
 }
 
 .sample-code :is(h3,p){
-	color: var(--lutece-ds-color-white);
+	color: var(--lutece-ds-white);
 }
 
 .sample-code pre {
 	background: var(--lutece-ds-bg-color-pre);
-	border: 1px solid var(--lutece-ds-color-border, rgba(255, 255, 255, 0.1))	;
+	border: 1px solid var(--lutece-ds-border, rgba(255, 255, 255, 0.1))	;
 	border-radius: var(--lutece-ds-border-radius-lg);
-	padding: var(--lutece-ds-spacing-lg);
+	padding: var(--lutece-ds-sp-lg);
 	margin: 0;
 	font-family: var(--lutece-ds-font-family-mono);
-	font-size: var(--lutece-ds-font-size-sm);
+	font-size: var(--lutece-ds-fs-sm);
 	line-height: 1.7;
-	color: var(--lutece-ds-color-text, #E7EBF0);
+	color: var(--lutece-ds-text, #E7EBF0);
 	overflow-x: auto;
 }
 
 .sample-code .comment {
-	color: var(--lutece-ds-color-comment, #7AA9FF);
+	color: var(--lutece-ds-comment, #7AA9FF);
 }
 
 .sample-code .k {
-	color: var(--lutece-ds-color-keyword, #FF8A6A);
+	color: var(--lutece-ds-keyword, #FF8A6A);
 }
 
 .sample-code .s {
-	color: var(--lutece-ds-color-string, #8EE6C8);
+	color: var(--lutece-ds-string, #8EE6C8);
 }
 
 @media (max-width: 767.98px) {
@@ -78,6 +78,6 @@ pre .copy-to-clipboard {
     }
 	
 	.sample-code pre {
-		margin-block-start: var(--lutece-ds-spacing-md);
+		margin-block-start: var(--lutece-ds-sp-md);
 	}
 }

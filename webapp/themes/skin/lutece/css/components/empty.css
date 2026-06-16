@@ -6,9 +6,9 @@
     justify-content: center;
     text-align: center;
     gap: 0;
-    padding: var(--lutece-ds-spacing-sm) var( --lutece-ds-spacing-xs);
-    background: var(--lutece-ds-color-primary-bg);
-    border: 1px dashed var(--lutece-ds-color-neutral-500);
+    padding: var(--lutece-ds-sp-sm) var( --lutece-ds-sp-xs);
+    background: var(--lutece-ds-primary-bg);
+    border: 1px dashed var(--lutece-ds-neutral-500);
     border-radius: var(--lutece-ds-radius-lg);
 }
 
@@ -24,24 +24,24 @@
 }
 
 .lutece-ds-empty .icon {
-    width: var(--lutece-ds-icon-size-4xl);
-    height: var(--lutece-ds-icon-size-4xl);
+    width: var(--lutece-ds-icon-4xl);
+    height: var(--lutece-ds-icon-4xl);
     border-radius: var(--lutece-ds-radius-lg);
-    background: var(--lutece-ds-color-primary-bg);
-    color: var(--lutece-ds-color-primary);
+    background: var(--lutece-ds-primary-bg);
+    color: var(--lutece-ds-primary);
     display: grid;
     place-items: center;
-    margin-bottom: var(--lutece-ds-spacing-sm-loose:);
+    margin-bottom: var(--lutece-ds-sp-sm-loose:);
 }
 
 .lutece-ds-empty .icon svg {
-    width: var(--lutece-ds-icon-size-lg);
-    height: var(--lutece-ds-icon-size-lg);
+    width: var(--lutece-ds-icon-lg);
+    height: var(--lutece-ds-icon-lg);
 }
 
 .lutece-ds-empty .illustration {
     max-width: 220px;
-    margin-bottom: var(--lutece-ds-spacing-sm-loose);
+    margin-bottom: var(--lutece-ds-sp-sm-loose);
 }
 
 .lutece-ds-empty .illustration img,
@@ -55,37 +55,37 @@
     font-size: var(--lutece-ds-fs-xl);
     font-weight: var(--lutece-ds-fw-extrabold);
     letter-spacing: -0.01em;
-    color: var(--lutece-ds-color-text);
-    margin-bottom: var(--lutece-ds-spacing-xs);
+    color: var(--lutece-ds-text);
+    margin-bottom: var(--lutece-ds-sp-xs);
 }
 
 .lutece-ds-empty .text {
     font-size: var(--lutece-ds-fs-sm);
     color: var(--lutece-ds-text-muted);
-    line-height: var(--lutece-ds-line-height-xs);
+    line-height: var(--lutece-ds-lh-xs);
     max-width: 420px;
 }
 
 .lutece-ds-empty .actions {
     display: flex;
-    gap: var(--lutece-ds-spacing-xs-high);
-    margin-top: var(--lutece-ds-spacing-xs-high);
+    gap: var(--lutece-ds-sp-xs-high);
+    margin-top: var(--lutece-ds-sp-xs-high);
 }
 
 .lutece-ds-empty--sm {
-    padding: var( --lutece-ds-spacing-xs) var(--lutece-ds-spacing-xs-high);
+    padding: var( --lutece-ds-sp-xs) var(--lutece-ds-sp-xs-high);
 }
 
 .lutece-ds-empty--sm .lutece-ds-empty .icon {
     width: 44px;
     height: 44px;
     border-radius: var(--lutece-ds-radius-md);
-    margin-bottom: var(--lutece-ds-spacing-sm);
+    margin-bottom: var(--lutece-ds-sp-sm);
 }
 
 .lutece-ds-empty--sm .lutece-ds-empty .icon svg {
-    width: var(--lutece-ds-spacing-3xl);
-    height: var(--lutece-ds-spacing-3xl);
+    width: var(--lutece-ds-sp-3xl);
+    height: var(--lutece-ds-sp-3xl);
 }
 
 .lutece-ds-empty--sm .lutece-ds-empty .title {

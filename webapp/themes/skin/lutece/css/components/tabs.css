@@ -21,8 +21,8 @@
 }
 
 .tab-content {
-	box-shadow: 0 -1px 0 0 var(--lutece-ds-color-blue-300);
-    border: 1px solid var(--lutece-ds-color-blue-300);
+	box-shadow: 0 -1px 0 0 var(--lutece-ds-blue-300);
+    border: 1px solid var(--lutece-ds-blue-300);
     border-top: 0;
 }
 
@@ -39,22 +39,22 @@
 }
 
 .nav-tabs .nav-link {
-	font-size: var(--lutece-ds-font-size-lg);
+	font-size: var(--lutece-ds-fs-lg);
 	font-weight: 600;
 	line-height: 22px;
-	color: var(--lutece-ds-color-text);
-	padding: var(--lutece-ds-spacing-sm) var(--lutece-ds-spacing-md);
-	background-color: var(--lutece-ds-color-neutral-100);
+	color: var(--lutece-ds-text);
+	padding: var(--lutece-ds-sp-sm) var(--lutece-ds-sp-md);
+	background-color: var(--lutece-ds-neutral-100);
 	border-radius: 0;
-	margin: 0 var(--lutece-ds-spacing-xs);
-	border-bottom: 1px solid var(--lutece-ds-color-blue-300);
+	margin: 0 var(--lutece-ds-sp-xs);
+	border-bottom: 1px solid var(--lutece-ds-blue-300);
 	height: 56px;
 }
 
 .nav-tabs .nav-link:hover,
 .nav-tabs .nav-link:focus {
-	background-color: var(--lutece-ds-color-blue-300);
-	border-bottom: 2px solid var(--lutece-ds-color-text);
+	background-color: var(--lutece-ds-blue-300);
+	border-bottom: 2px solid var(--lutece-ds-text);
 }
 
 .nav-tabs .nav-link[disabled] {
@@ -62,38 +62,38 @@
 }
 
 .nav-tabs .nav-link.active {
-	background-color: var(--lutece-ds-color-white);
+	background-color: var(--lutece-ds-white);
 	border-bottom: 0;
 }
 
 /* Card Pane */
 .card.tab-pane {
-	padding: var(--lutece-ds-spacing-sm) var(--lutece-ds-spacing-md-loose);
-    background: var(--lutece-ds-color-white) 0 0 no-repeat padding-box;
+	padding: var(--lutece-ds-sp-sm) var(--lutece-ds-sp-md-loose);
+    background: var(--lutece-ds-white) 0 0 no-repeat padding-box;
     margin-block-start: 0;
     border-bottom: 1px solid rgba(0,0,0,.125);
 	container-type: normal;
 }
 
 .tab-pane .card-header {
-	background-color: var(--lutece-ds-color-neutral-100);
-	padding: var(--lutece-ds-spacing-sm) var(--lutece-ds-spacing-md);
+	background-color: var(--lutece-ds-neutral-100);
+	padding: var(--lutece-ds-sp-sm) var(--lutece-ds-sp-md);
 }
 
 .tab-pane.disabled .card-header {
-	background-color: var(--lutece-ds-color-white);
+	background-color: var(--lutece-ds-white);
 }
 
 .tab-pane.disabled .card-header h5 {
-	color: var(--lutece-ds-color-blue-700);
+	color: var(--lutece-ds-blue-700);
 }
 
 .tab-collapse {
 	display: flex;
-	font-size: var(--lutece-ds-font-size-lg);
+	font-size: var(--lutece-ds-fs-lg);
 	font-weight: 600;
 	line-height: 22px;
-	color: var(--lutece-ds-color-text);
+	color: var(--lutece-ds-text);
 	text-decoration: none;
 }
 

@@ -5,33 +5,37 @@
 .badge {
     display: inline-flex;
     align-items: center;
-    gap: var(--lutece-ds-spacing-2xs);
-    font-size: var(--lutece-ds-font-size-sm);
+    gap: var(--lutece-ds-sp-2xs);
+    font-size: var(--lutece-ds-fs-sm);
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    padding: var(--lutece-ds-spacing-2xs) var(--lutece-ds-spacing-xs-loose);
-    border-radius: var(--bs-border-radius-pill);
-    background-color: var(--lutece-ds-color-neutral-100);
-    color: var(--lutece-ds-color-blue-text);
+    padding: var(--lutece-ds-sp-2xs) var(--lutece-ds-sp-xs-loose);
+    border-radius: var(--bs-border-radius-sm);
+    background-color: var(--lutece-ds-neutral-100);
+    color: var(--lutece-ds-blue-text);
     line-height: 1;
     position: relative;
 }
 
+.badge.badge-pill {
+    border-radius: var(--bs-border-radius-pill);
+}
+
 .badge.dismissible{
-    padding: var(--lutece-ds-spacing-2xs);
+    padding: var(--lutece-ds-sp-2xs);
 }
 
 .badge .btn-close {
     position: relative;
-    margin-inline-start: var(--lutece-ds-spacing-xs);
-    width: var(--lutece-ds-spacing-2xs);
-    height: var(--lutece-ds-spacing-2xs);
+    margin-inline-start: var(--lutece-ds-sp-xs);
+    width: var(--lutece-ds-sp-2xs);
+    height: var(--lutece-ds-sp-2xs);
 }
 
 .badge .badge-label {
     text-transform: uppercase;
-    letter-spacing: calc( var(--lutece-ds-spacing-2xs) / 3 );
+    letter-spacing: calc( var(--lutece-ds-sp-2xs) / 3 );
     font-weight: 600;
     margin-bottom: 0;
 }
@@ -55,69 +59,71 @@
 /* Variantes accents */
 .badge.badge-blue,
 .badge.bg-blue {
-    background-color: var(--lutece-ds-color-blue-bg);
-    color: var(--lutece-ds-color-blue-text);
+    background-color: var(--lutece-ds-blue-bg) !important;
+    color: var(--lutece-ds-blue-text) !important;
 }
 
 .badge.badge-coral,
 .badge.bg-coral {
-    background-color: var(--lutece-ds-color-coral-bg);
-    color: var(--lutece-ds-color-coral-text);
+    background-color: var(--lutece-ds-coral-bg) !important;
+    color: var(--lutece-ds-coral-text) !important;
 }
 
 .badge.badge-teal,
 .badge.bg-teal {
-    background-color: var(--lutece-ds-color-teal-bg);
-    color: var(--lutece-ds-color-teal-text);
+    background-color: var(--lutece-ds-teal-bg) !important;
+    color: var(--lutece-ds-teal-text) !important;
 }
 
 .badge.badge-violet,
 .badge.bg-violet {
-    background-color: var(--lutece-ds-color-violet-bg);
-    color: var(--lutece-ds-color-violet-text);
+    background-color: var(--lutece-ds-violet-bg) !important;
+    color: var(--lutece-ds-violet-text) !important;
 }
 
 .badge.badge-rose,
 .badge.bg-rose {
-    background-color: var(--lutece-ds-color-rose-bg);
-    color: var(--lutece-ds-color-rose-text);
+    background-color: var(--lutece-ds-rose-bg) !important;
+    color: var(--lutece-ds-rose-text) !important;
 }
 
 /* Variantes sÃ©mantiques */
 .badge.badge-success,
 .badge.bg-success {
-    background-color: var(--lutece-ds-color-success-bg);
-    color: var(--lutece-ds-color-success-soft);
+    background-color: var(--lutece-ds-success-bg) !important;
+    color: var(--lutece-ds-success-soft) !important;
 }
 
 .badge.badge-warning,
 .badge.bg-warning {
-    background-color: var(--lutece-ds-color-warning-bg);
-    color: var(--lutece-ds-color-warning-soft);
+    background-color: var(--lutece-ds-warning-bg) !important;
+    color: var(--lutece-ds-warning-soft) !important;
 }
 
 .badge.badge-danger,
 .badge.bg-danger {
-    background-color: var(--lutece-ds-color-danger-bg);
-    color: var(--lutece-ds-color-danger-soft);
+    background-color: var(--lutece-ds-danger-bg) !important;
+    color: var(--lutece-ds-danger-soft) !important;
 }
 
+[data-bs-theme=light] .badge.badge-primary,
+[data-bs-theme=light] .badge.bg-primary, 
 .badge.badge-primary,
 .badge.bg-primary {
-    background-color: var(--lutece-ds-color-primary);
-    color: var(--lutece-ds-color-white);
+    background-color: var(--lutece-ds-primary) !important;
+    color: var(--lutece-ds-white) !important;
 }
 
 /* Variantes neutres */
 .badge.badge-dark,
 .badge.bg-dark {
-    background-color: var(--lutece-ds-color-blue-strong);
-    color: var(--lutece-ds-color-white);
+    background-color: var(--lutece-ds-blue-strong) !important;
+    color: var(--lutece-ds-white) !important;
 }
 
 .badge.badge-secondary {
-    background-color: var(--lutece-ds-color-white);
-    color: var(--lutece-ds-color-blue-text);
+    background-color: var(--lutece-ds-white) !important;
+    color: var(--lutece-ds-blue-text) !important;
 }
 
 /* Badge avec point avant le label */

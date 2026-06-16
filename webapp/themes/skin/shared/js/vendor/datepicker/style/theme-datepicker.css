@@ -7,14 +7,14 @@
   border-radius: 1rem;
   /* width: auto; */
   padding: var( --spacing-3 );
-  border: 1px solid var(--lutece-ds-color-blue-300, #CFD7E3);
+  border: 1px solid var(--lutece-ds-blue-300, #CFD7E3);
   box-shadow: none;
   width: calc( ( var( --lutece-ds-size-base ) * 9.5 ) * 8 );
 }
 
 .datepicker-header .datepicker-controls{
   padding-block-end: var(--spacing-2 );
-  border-block-end: 1px solid var(--lutece-ds-color-neutral-100);
+  border-block-end: 1px solid var(--lutece-ds-neutral-100);
 }
 
 .datepicker-header .datepicker-controls .btn {
@@ -22,30 +22,30 @@
 }
 
 .datepicker-header .datepicker-controls .view-switch{
-  font-size: var(--lutece-ds-font-size-lg);
+  font-size: var(--lutece-ds-fs-lg);
   font-weight: 700;
-  color: var( --lutece-ds-color-text );
+  color: var( --lutece-ds-text );
   text-transform: capitalize;
 }
 
 .datepicker-header .datepicker-controls .btn:not(.view-switch):focus, 
 .datepicker-header .datepicker-controls .btn:not(.view-switch):hover {
-  background-color: var( --lutece-ds-color-white );
-  border-color: var( --lutece-ds-color-text );
-  color: var( --lutece-ds-color-text );
+  background-color: var( --lutece-ds-white );
+  border-color: var( --lutece-ds-text );
+  color: var( --lutece-ds-text );
 }
 
 .datepicker-controls .prev-button, .datepicker-controls .next-button {
-  border: 1px solid var( --lutece-ds-color-text );
-  color: var( --lutece-ds-color-text );
+  border: 1px solid var( --lutece-ds-text );
+  color: var( --lutece-ds-text );
 }
 
 .datepicker-controls .prev-button:hover, .datepicker-controls .next-button:hover{
-  color: var( --lutece-ds-color-primary );
+  color: var( --lutece-ds-primary );
 }
 
 .datepicker-main .datepicker-view .days .days-of-week .dow {
-  font-size: var(--lutece-ds-font-size-lg);
+  font-size: var(--lutece-ds-fs-lg);
   font-weight: 700; 
   padding: var(--spacing-2);
   width: calc( var( --lutece-ds-size-base ) * 9.5 );
@@ -63,11 +63,11 @@
 
 .datepicker-main .datepicker-grid .datepicker-cell{
   background: transparent;
-  border: 4px solid var( --lutece-ds-color-white );
+  border: 4px solid var( --lutece-ds-white );
   border-radius: .1px;
-  color: var( --lutece-ds-color-text );
+  color: var( --lutece-ds-text );
   cursor: pointer;
-  font-size: var(--lutece-ds-font-size-lg);
+  font-size: var(--lutece-ds-fs-lg);
   font-weight: 700; 
   padding: var(--spacing-2);
   width: calc( var( --lutece-ds-size-base ) * 9.5 );
@@ -76,32 +76,32 @@
 
 .datepicker-main .datepicker-grid .datepicker-cell.focused,
 .datepicker-main .datepicker-grid .datepicker-cell:hover{
-  border-color: var(--lutece-ds-color-primary);
+  border-color: var(--lutece-ds-primary);
 }
 
 .datepicker-main .datepicker-grid .datepicker-cell.today{
-  border-color: var(--lutece-ds-color-primary);
-  background-color: var(--lutece-ds-color-white);
-  color: var(--lutece-ds-color-primary )
+  border-color: var(--lutece-ds-primary);
+  background-color: var(--lutece-ds-white);
+  color: var(--lutece-ds-primary )
 }
 
 .datepicker-main .datepicker-grid .datepicker-cell.selected{
-  background-color: var(--lutece-ds-color-primary);
-  color: var(--lutece-ds-color-white )
+  background-color: var(--lutece-ds-primary);
+  color: var(--lutece-ds-white )
 }
 
 .datepicker-main .datepicker-grid .datepicker-cell.selected.focused{
-  border-color: var(--lutece-ds-color-white );
+  border-color: var(--lutece-ds-white );
 }
 
 .datepicker-main .datepicker-grid .datepicker-cell.disabled{
-  color: var(--lutece-ds-color-blue-700);
-  background-color: var(--lutece-ds-color-neutral-100);
+  color: var(--lutece-ds-blue-700);
+  background-color: var(--lutece-ds-neutral-100);
   font-weight: 400;
 }
 
 .datepicker-main .datepicker-grid .datepicker-cell.disabled:hover{
-  border-color: var(--lutece-ds-color-white);
+  border-color: var(--lutece-ds-white);
   cursor: default;
 }
 
@@ -112,7 +112,7 @@
 
 .datepicker-main .datepicker-grid .datepicker-cell.month:not(.focused),
 .datepicker-main .datepicker-grid .datepicker-cell.year:not(.focused){
-  color: var(--lutece-ds-color-blue-700);
+  color: var(--lutece-ds-blue-700);
   font-weight: 400;
 }
 
@@ -124,16 +124,16 @@
 .datepicker-footer .datepicker-controls:has( .btn:not([style]) ) {
   margin-block-start: var(--spacing-2);
   padding-block-start: var(--spacing-2);
-  border-block-start: 1px solid var(--lutece-ds-color-blue-300, #CFD7E3);
+  border-block-start: 1px solid var(--lutece-ds-blue-300, #CFD7E3);
 }
 
 .datepicker-footer .datepicker-controls .btn {
-  font-size: var(--lutece-ds-font-size-lg);
+  font-size: var(--lutece-ds-fs-lg);
 }
 
 .datepicker-footer .datepicker-controls .btn:hover {
-  background-color: var(--lutece-ds-color-primary);
-  color: var(--lutece-ds-color-white )
+  background-color: var(--lutece-ds-primary);
+  color: var(--lutece-ds-white )
 }
 
 .datepicker .days-of-week {
@@ -141,8 +141,8 @@
 }
 
 .datepicker .week {
-  color: var(--lutece-ds-color-blue-700);
-  font-size: var(--lutece-ds-font-size-xs);
+  color: var(--lutece-ds-blue-700);
+  font-size: var(--lutece-ds-fs-xs);
 }
 
 /* Range */
@@ -167,14 +167,14 @@
 }
 /* Calendar */
 .datepicker-main .datepicker-grid .datepicker-cell.range {
-  background-color: var(--lutece-ds-color-neutral-100);
-  border-color: var(--lutece-ds-color-white );
-  color: var(--lutece-ds-color-primary)
+  background-color: var(--lutece-ds-neutral-100);
+  border-color: var(--lutece-ds-white );
+  color: var(--lutece-ds-primary)
 }
 
 .datepicker-main .datepicker-grid .datepicker-cell.range-start,
 .datepicker-main .datepicker-grid .datepicker-cell.range-end {
-  background-color: var(--lutece-ds-color-primary);
-  color: var(--lutece-ds-color-white );
-  border-color: var(--lutece-ds-color-white );
+  background-color: var(--lutece-ds-primary);
+  color: var(--lutece-ds-white );
+  border-color: var(--lutece-ds-white );
 } 

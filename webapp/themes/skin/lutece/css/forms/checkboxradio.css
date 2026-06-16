@@ -3,31 +3,31 @@
 /***  										***/
 
 .form-check {
-	min-height: calc( var(--lutece-ds-spacing-2xs) * 4);
+	min-height: calc( var(--lutece-ds-sp-2xs) * 4);
 	touch-action: manipulation;
 }
 
 .form-check .form-check-label{
 	display: flex;
 	align-self: center;
-	gap : var(--lutece-ds-spacing-sm)
+	gap : var(--lutece-ds-sp-sm)
 }
 
 .form-check:not( .form-check-inline ){
-	padding-block: calc( var(--lutece-ds-spacing-2xs) * 1.875 );
+	padding-block: calc( var(--lutece-ds-sp-2xs) * 1.875 );
 	padding-inline-start: 0;
 }
 
 .form-check input {
 	width: 18px; 
 	height: 18px;
- 	accent-color: var(--lutece-ds-color-primary);
+ 	accent-color: var(--lutece-ds-primary);
 }
 
 .form-check:active,
 .form-check:focus,
 .form-check:focus-within {
-	outline: .15rem solid var( --lutece-ds-color-text ) !important;
+	outline: .15rem solid var( --lutece-ds-text ) !important;
 	outline-offset: .25rem !important;
 }
 
@@ -41,60 +41,60 @@
 }
 
 .form-check input.is-invalid{
-	background-color: var( --lutece-ds-color-white );
-	border-color: var( --lutece-ds-color-danger );
+	background-color: var( --lutece-ds-white );
+	border-color: var( --lutece-ds-danger );
 	border-width: 2px;
 }
 
 .form-check input.is-invalid ~ .form-check-label{
-	color: var( --lutece-ds-color-danger ) !important;
+	color: var( --lutece-ds-danger ) !important;
 }
 
 /* Disabled */
 .form-check input:disabled{
-	background-color: var(--lutece-ds-color-neutral-100);
+	background-color: var(--lutece-ds-neutral-100);
 	border-color: var( --lutece-ds-border );
 }
 
 .form-check input:disabled ~ .form-check-label{
-	color: var( --lutece-ds-color-blue-700 );
+	color: var( --lutece-ds-blue-700 );
 }
 
 /* Label Hidden */
 .form-check.form-check-inline.hidden-label .form-check-input{
     position: relative;
-    top: var(--lutece-ds-spacing-2xs);
+    top: var(--lutece-ds-sp-2xs);
 }
 
 /* Button Selection */
 .form-check.btn-selection {
-    border: 1px solid var(--lutece-ds-color-blue-300);
-    margin-bottom: var(--lutece-ds-spacing-sm);
+    border: 1px solid var(--lutece-ds-blue-300);
+    margin-bottom: var(--lutece-ds-sp-sm);
     padding-inline-start: 0;
     padding-block-end: 0;
 }
 
 .form-check.btn-selection .selection-check{
-    padding-inline-start: var(--lutece-ds-spacing-md-loose);
-    padding-block-start: var(--lutece-ds-spacing-xs);
-    padding-inline-end: var(--lutece-ds-spacing-xs);
+    padding-inline-start: var(--lutece-ds-sp-md-loose);
+    padding-block-start: var(--lutece-ds-sp-xs);
+    padding-inline-end: var(--lutece-ds-sp-xs);
 }
 
 .form-check.btn-selection:hover:has(.form-check-input:not(:disabled)) {
-	background-color: var(--lutece-ds-color-blue-100);
+	background-color: var(--lutece-ds-blue-100);
 }
 
 .form-check.btn-selection:has(input:checked){
-  background-color: var(--lutece-ds-color-blue-200);
+  background-color: var(--lutece-ds-blue-200);
 }
 
 .form-check.btn-selection .selection-content {
 	display: none;
-	background-color: var(--lutece-ds-color-white);
-	border-block-start: 1px solid var(--lutece-ds-color-blue-300);
-	margin-block-start: var(--lutece-ds-spacing-xs);
-	padding-inline: var( --lutece-ds-spacing-md-loose );
-	padding-block-end: var(--lutece-ds-spacing-lg);
+	background-color: var(--lutece-ds-white);
+	border-block-start: 1px solid var(--lutece-ds-blue-300);
+	margin-block-start: var(--lutece-ds-sp-xs);
+	padding-inline: var( --lutece-ds-sp-md-loose );
+	padding-block-end: var(--lutece-ds-sp-lg);
 }
 
 .form-check.btn-selection .selection-check:has( input:checked ) ~ .selection-content,
@@ -125,10 +125,10 @@
 
 /* CheckBox as Button */
 .btn-check:checked + .btn-outline{
-	background-color: var( --lutece-ds-color-primary );
-	border-color: var( --lutece-ds-color-primary );
-	color: var( --lutece-ds-color-white);
-	fill: var( --lutece-ds-color-white);
+	background-color: var( --lutece-ds-primary );
+	border-color: var( --lutece-ds-primary );
+	color: var( --lutece-ds-white);
+	fill: var( --lutece-ds-white);
 }
 
 .btn-check.btn-xl + .btn-outline{
@@ -143,6 +143,6 @@
 
 	.form-check.custom-tos input ~ .form-check-label a{
 		margin: 0 !important;
-		font-size: var(--lutece-ds-font-size-sm);
+		font-size: var(--lutece-ds-fs-sm);
 	}
 }

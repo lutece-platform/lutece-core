@@ -16,7 +16,7 @@
 	padding: 20px 0;
 	color: #222;
 	display: block;
-	font-size: var(--lutece-ds-font-size-xl);
+	font-size: var(--lutece-ds-fs-xl);
 	font-weight: 500;
 }
 .sidenav > li:not(:last-child) {

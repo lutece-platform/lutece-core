@@ -10,7 +10,7 @@ html {
 }
 
 body {
-	color: var( --lutece-ds-color-text );
+	color: var( --lutece-ds-text );
 	font-family: var(--lutece-ds-font-family-base ) !important;
     -webkit-font-smoothing: antialiased;
     font-size: var( --bs-body-font-size );
@@ -52,7 +52,7 @@ img {
     justify-content: space-between;
     margin-bottom: 28px;
     padding-bottom: 14px;
-    border-bottom: 2px solid var(--lutece-ds-color-blue-800);
+    border-bottom: 2px solid var(--lutece-ds-blue-800);
 }
 
 .section-title {
@@ -60,7 +60,7 @@ img {
     font-weight: 600;
     font-size: 32px;
     letter-spacing: -0.01em;
-    color: var(--lutece-ds-color-blue-800);
+    color: var(--lutece-ds-blue-800);
 }
 
 /* Fluid layout */
@@ -69,7 +69,7 @@ img {
 }
 
 [data-layout="fluid"] #main {
-	padding-inline: var(--lutece-ds-spacing-md);
+	padding-inline: var(--lutece-ds-sp-md);
 }
 
 .site-map{

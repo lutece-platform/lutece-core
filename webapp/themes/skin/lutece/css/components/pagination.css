@@ -9,49 +9,49 @@
 .page-item {
 	display: flex;
 	align-items: center;
-	margin-inline-start: var(--lutece-ds-spacing-xs);
+	margin-inline-start: var(--lutece-ds-sp-xs);
 }
 
 .page-item .page-link {
 	font-family: var(--lutece-ds-font-family-base);
 	font-weight: 600;
-	font-size: var(--lutece-ds-font-size-lg);
-	color: var(--lutece-ds-color-text);
+	font-size: var(--lutece-ds-fs-lg);
+	color: var(--lutece-ds-text);
 	background-color: transparent;
 	border: 0;
 	text-decoration: none;
 	line-height: 2.2rem;
 	display: flex;
-	padding: 6px var(--lutece-ds-spacing-xs, 8px);
+	padding: 6px var(--lutece-ds-sp-xs, 8px);
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: var(--lutece-ds-spacing-lg);
-	height: var(--lutece-ds-spacing-lg);
-	background-color: var(--lutece-ds-color-neutral-100)
+	width: var(--lutece-ds-sp-lg);
+	height: var(--lutece-ds-sp-lg);
+	background-color: var(--lutece-ds-neutral-100)
 }
 
 .page-link:hover,
 .page-link:focus,
 .page-link:active {
 	box-shadow: none;
-	background-color:var(--lutece-ds-color-blue-300);
+	background-color:var(--lutece-ds-blue-300);
 }
 
 .page-item .page-link svg {
-	fill: var(--lutece-ds-color-text);
+	fill: var(--lutece-ds-text);
 	stroke: none;
     width: 24px;
     height: auto;
 }
 
 .page-item.disabled .page-link svg {
-	color: var(--lutece-ds-color-blue-400);
+	color: var(--lutece-ds-blue-400);
 }
 
 .page-item.active .page-link {
-	color: var(--lutece-ds-color-white);
-	background-color: var(--lutece-ds-color-primary);
+	color: var(--lutece-ds-white);
+	background-color: var(--lutece-ds-primary);
 }
 
 .page-link.cesure {
