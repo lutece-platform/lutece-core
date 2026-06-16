@@ -18,6 +18,9 @@
 	max-width: 550px;
 }
 
+.login-crumbs{
+	margin-block-end: var(--lutece-ds-sp-xl);
+}
 
 .login-kicker {
 	display: inline-flex;

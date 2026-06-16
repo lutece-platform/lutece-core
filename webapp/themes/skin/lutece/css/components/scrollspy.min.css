@@ -1,0 +1,1 @@
+.anchors > ul{list-style-type:none;width:90%}.anchors > ul > li{padding:var(--lutece-ds-sp-xs );background-color:var(--lutece-ds-neutral-100)}.anchors > ul > li:has( .active ){background-color:var(--lutece-ds-primary)}.anchors > ul > li > a{color:var(--lutece-ds-neutral-900)}.anchors > ul > li > a.active{color:var(--lutece-ds-neutral-100)}
