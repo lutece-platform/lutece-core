@@ -29,7 +29,7 @@
                     </#if>
                 </#list>
             </@tabList>
-            <@tabContent class='pt-0'>
+            <@tabContent>
                 <#list groups_list as group>
                 <#assign index = group?index>
                 <#if index == 0 ><#assign tabactive = true><#else><#assign tabactive = false></#if>
