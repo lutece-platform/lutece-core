@@ -7,7 +7,7 @@
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessageService" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessage" %>
 <%@ page import="fr.paris.lutece.portal.service.i18n.I18nService" %>
-
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 
 
 <%@ page buffer="1024kb"%>
@@ -43,8 +43,13 @@
     	}
         if ( AdminAuthenticationService.getInstance( ).getRegisteredUser( request ) == null )
         {
+			String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
+			if ( StringUtils.isBlank( strLoginUrl ) )
+			{
+				strLoginUrl =  AppPathService.getAdminMenuUrl( );
+			}
             response.sendRedirect( AdminMessageService.getMessageUrl( request, Messages.MESSAGE_USER_SESSION_EXPIRED,
-                    AdminAuthenticationService.getInstance( ).getLoginPageUrl( ), AdminMessage.TYPE_WARNING ) );
+					strLoginUrl, AdminMessage.TYPE_WARNING ) );
         }
         else
         {
