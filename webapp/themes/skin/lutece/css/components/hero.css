@@ -1,8 +1,6 @@
 /* Hero */
 .hero {
-    /* background: var(--lutece-ds-primary); 
-    color: #fff;*/
-    padding: 72px 0 40px;
+    padding: var(--lutece-ds-sp-lg) 0 var(--lutece-ds-sp-sm-loose);
     position: relative;
     overflow: hidden;
 }
@@ -21,7 +19,7 @@
 .hero__grid {
     display: grid;
     grid-template-columns: 1.15fr 1fr;
-    gap: 48px;
+    gap: var(--lutece-ds-sp-xl);
     align-items: center;
 }
 
@@ -35,10 +33,10 @@
     gap: var(--lutece-ds-sp-xs);
     background: var(--lutece-ds-primary);
     border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: var(--lutece-ds-sp-xs) 12px;
-    border-radius: 999px;
+    padding: var(--lutece-ds-sp-xs) var(--lutece-ds-sp-xs-high);
+    border-radius: var(--lutece-ds-radius-pill);
     font-size: var(--lutece-ds-fs-sm);
-    font-weight: 600;
+    font-weight: var(--lutece-ds-fw-semibold);
     color: var(--lutece-ds-white);
     margin-bottom: 24px;
 }
@@ -70,8 +68,7 @@
 }
 
 .hero p {
-    /* color: var(--lutece-ds-white); */
-    font-size: 17px;
+    font-size: var(--lutece-ds-fs-lg);
     line-height: 1.6;
     margin-bottom: var(--lutece-ds-sp-md-loose);
     max-width: 520px;
@@ -79,7 +76,7 @@
 
 .hero__cta {
     display: flex;
-    gap: 12px;
+    gap: var(--lutece-ds-sp-xs-high);
 }
 
 .hero__viz {
@@ -95,7 +92,7 @@
 
 .hero__viz img{
     background: rgba(0,0,0,.04);
-    border-radius: 50px;
+    border-radius: var(--lutece-ds-radius-5xl);
 }
 
 .hero__chip {
