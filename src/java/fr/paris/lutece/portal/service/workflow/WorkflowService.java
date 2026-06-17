@@ -40,6 +40,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
@@ -823,6 +824,24 @@ public final class WorkflowService
      */
     public State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId )
     {
+        return getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId, I18nService.getDefaultLocale( ) );
+    }
+
+    /**
+     * returns the state of a given document of the document in the workflow and the user role
+     *
+     * @param nIdResource
+     *            the document id
+     * @param strResourceType
+     *            the document type
+     * @param nIdWorkflow
+     *            the workflow id
+     * @param nIdExternalParentId
+     *            the external parent id
+     * @return the state of a given document
+     */
+    public State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId, Locale locale )
+    {
         if ( isAvailable( ) )
         {
             State state = null;
@@ -830,7 +849,7 @@ public final class WorkflowService
 
             try
             {
-                state = _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId );
+                state = _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId, locale );
                 TransactionManager.commitTransaction( null );
             }
             catch( Exception e )
