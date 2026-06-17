@@ -8,6 +8,7 @@ Parameters:
 - title (string, required): the title of the step.
 - showTitle (boolean, optional): displays the step title header. Default: true.
 - titleLevel (number, optional): HTML heading level for the title tag. Default: 2.
+- formId -  string - optional - the id of the form to check default 'form-validate' 
 - actionNextStep (string, optional): action name for the next step button. Default: ''.
 - titleNextStep (string, optional): title attribute for the next step button. Default: ''.
 - labelNextStep (string, optional): label of the next step button. Default: '#i18n{portal.theme.labelNextStep}'.
@@ -55,7 +56,7 @@ Snippet:
     </@cStepCurrent>
 
 -->
-<#macro cStepCurrent step title showTitle=true titleLevel=2 titleClass='h3' actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{portal.theme.labelSaveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{portal.theme.labelResetResponse}' showPrevStep=true hasSteps=true hasMandatory=true id='current_step' class='' params='' deprecated...>
+<#macro cStepCurrent step title showTitle=true titleLevel=2 titleClass='h3' formId='form-validate' actionNextStep='' titleNextStep='' labelNextStep='#i18n{portal.theme.labelNextStep}' actionPrevStep='' titlePrevStep='' labelPrevStep='#i18n{portal.theme.labelPrevStep}' actionSaveStep='' titleSaveStep='' labelSaveStep='#i18n{portal.theme.labelSaveStep}' actionSaveForBackUpStep='' titleSaveForBackUpStep='' labelForBackUpStep='#i18n{portal.theme.labelSaveResponse}' actionResetBackUpStep='' titleResetBackUpStep='' labelResetBackUpStep='#i18n{portal.theme.labelResetResponse}' showPrevStep=true hasSteps=true hasMandatory=true id='current_step' class='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local stepClass><#if !showTitle> step-no-title</#if></#local>
 <@cSection id='${id}' class='step step-current ${class!}${stepClass!}' params=params >
@@ -160,7 +161,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		}
 	}
 	<#assign actionStep><#if actionNextStep !=''>${actionNextStep!}<#else>${actionSaveStep!}</#if></#assign>
-	const formValidate = document.getElementById('form-validate')<#if actionStep?? && actionStep !=''>,formValidateButton = document.getElementById('${actionStep!}')</#if>;
+	const formValidate = document.getElementById('${formId!}')<#if actionStep?? && actionStep !=''>,formValidateButton = document.getElementById('${actionStep!}')</#if>;
 	<#if step?number gt 1 >
 	<#if actionStep?? && actionStep !=''>
 	formValidateButton && formValidateButton.addEventListener('click', (e) => {
