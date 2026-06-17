@@ -55,6 +55,7 @@
 }
 
 [data-bs-theme=dark] img.darkmode,
+[data-bs-theme=dark] .banner.bg-banner,
 [data-bs-theme=dark] .main-footer .logo>img,
 [data-bs-theme=dark]::-webkit-calendar-picker-indicator {
 	filter: invert(1)

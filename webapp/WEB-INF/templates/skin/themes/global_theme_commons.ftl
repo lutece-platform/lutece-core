@@ -46,6 +46,8 @@
 <#assign urlDefaultBannerImage>${dskey('portal.theme.site_property.banner')}</#assign>
 <#assign showWholeSiteBannerEverywhere><#if dskey('portal.theme.site_property.banner.showSiteImgEverywhere.checkbox') =='1'>false<#else>true</#if></#assign>
 <#assign isBannerOnlyHome=showWholeSiteBannerEverywhere?boolean >
+<#assign isBannerFixed><#if !dskey('portal.theme.site_property.banner.fixed.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.banner.fixed.checkbox') =='1'>true<#else>false</#if></#assign>
+<#assign hasBannerInternalStyle><#if !dskey('portal.theme.site_property.banner.internal.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.banner.internal.checkbox') =='1'>true<#else>false</#if></#assign>
 <#-- END BANNER MANAGEMENT    -->
 <#-- MENU MANAGEMENT          -->
 <#assign isRtl><#if !dskey('portal.theme.site_property.layout.dir.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.layout.dir.checkbox') =='1'>true<#else>false</#if></#assign>

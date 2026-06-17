@@ -261,8 +261,11 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.fixed.chec
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.internal.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.image.positionx', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.image.positiony', '');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.showSiteImg.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.showSiteImgEverywhere.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.shown.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.bgcolor', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.color', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.padding', '');

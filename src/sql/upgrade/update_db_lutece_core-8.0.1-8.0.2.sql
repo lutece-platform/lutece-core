@@ -92,3 +92,11 @@ DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.forms.sh
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.showResponseFormWarning.checkbox', '1');
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.forms.labelInfoResponse';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.labelInfoResponse','Formulaire enregistré !');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev5.sql
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.showSiteImg.checkbox';
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.banner.title.checkbox';
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.banner.title';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.showSiteImg.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title', '');
