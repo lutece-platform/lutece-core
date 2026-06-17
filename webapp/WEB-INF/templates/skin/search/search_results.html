@@ -1,5 +1,19 @@
 <@cTpl>
 <#-- ============ SEARCH HERO ============ -->
+<@cContainer>
+    <#if results_list?? && results_list?size gt 0>
+        <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' },{ 'title': '#i18n{portal.search.search_results.title}', 'url': 'jsp/site/Portal.jsp?page=search&query=${query!}'}]>
+        <@cBlock class='d-flex justify-content-between align-items-center'>
+            <@cBreadCrumb home='Home' type='fluid' items=breadcrumbItems listClass='ms-m' />
+            <@cBlock class='result-stats'>
+                <@cInline><@cInline type='strong'>${paginator.itemsCount} ${'#i18n{portal.search.search_results.labelResultsRange}'?lower_case}</@cInline> #i18n{portal.search.search_results.labelResultsFor}</@cInline> <@cBadge label='${query}' />
+            </@cBlock>
+        </@cBlock>
+    <#else>
+        <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' }]>
+        <@cBreadCrumb home='Home' type='fluid' items=breadcrumbItems />
+    </#if>
+</@cContainer>    
 <@cForm action='jsp/site/Portal.jsp' role='search'>
 <@cSection class='search-hero'>
   <@cContainer class='search-hero__inner'>
@@ -21,18 +35,6 @@
 </@cSection>
 <#-- ============ CONTENT ============ -->
 <@cContainer class='section'>
-    <#if results_list?? && results_list?size gt 0>
-        <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' },{ 'title': '#i18n{portal.search.search_results.title}', 'url': 'jsp/site/Portal.jsp?page=search&query=${query!}'}]>
-        <@cBlock class='d-flex justify-content-between align-items-center mb-4'>
-            <@cBreadCrumb home='Home' type='fluid' items=breadcrumbItems listClass='ms-m' />
-            <@cBlock class='result-stats'>
-                <@cInline><@cInline type='strong'>${paginator.itemsCount} ${'#i18n{portal.search.search_results.labelResultsRange}'?lower_case}</@cInline> #i18n{portal.search.search_results.labelResultsFor}</@cInline> <@cBadge label='${query}' />
-            </@cBlock>
-        </@cBlock>
-    <#else>
-        <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' }]>
-        <@cBreadCrumb home='Home' type='fluid' items=breadcrumbItems />
-    </#if>
     <@cBlock class='search-body'>
       <@cBlock class='container'>
         <@cBlock class='layout'>
