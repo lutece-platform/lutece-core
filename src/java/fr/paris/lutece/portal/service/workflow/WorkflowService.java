@@ -820,6 +820,12 @@ public final class WorkflowService
      *            the workflow id
      * @param nIdExternalParentId
      *            the external parent id
+     * <p>
+     * It is recommended to use {@link WorkflowService#getState(int, String, int, Integer, Locale)} instead,
+     * which lets you provide the locale from your environment or the incoming http request.
+     * The default locale is set through the <code>lutece.i18n.defaultLocale</code> property.
+     * </p>
+     * @see WorkflowService#getState(int, String, int, Integer, Locale)
      * @return the state of a given document
      */
     public State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId )
@@ -838,6 +844,8 @@ public final class WorkflowService
      *            the workflow id
      * @param nIdExternalParentId
      *            the external parent id
+     * @param locale
+     *            the locale. If the provided locale is null, default locale is set through the <code>lutece.i18n.defaultLocale</code> property.
      * @return the state of a given document
      */
     public State getState( int nIdResource, String strResourceType, int nIdWorkflow, Integer nIdExternalParentId, Locale locale )
@@ -849,7 +857,7 @@ public final class WorkflowService
 
             try
             {
-                state = _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId, locale );
+                state = _service.getState( nIdResource, strResourceType, nIdWorkflow, nIdExternalParentId, locale != null ? locale : I18nService.getDefaultLocale( )  );
                 TransactionManager.commitTransaction( null );
             }
             catch( Exception e )
