@@ -41,6 +41,7 @@
                         <#if groupList?size gt 0>
                         <@row class='g-3' params=masonryRowParams>
                         <#list groupList?sort as groupCol>
+                        <#if groupCol?trim !=''>
                         <@columns xs=12 sm=6 md=4 class='mb-3' params='data-prop="${groupCol}"'>
                            <@box class='properties-group'>
                               <@boxBody>
@@ -115,6 +116,7 @@
                                 </@boxBody>
                             </@box>
                         </@columns>
+                        </#if>
                         </#list>
                         </@row>
                         </#if>
@@ -148,7 +150,11 @@
         ( scope || document ).querySelectorAll( '[data-masonry]' ).forEach( function ( grid ) {
             var m = getInstance( grid );
             if ( !m && window.Masonry ) { m = new Masonry( grid, { percentPosition: true } ); }
-            if ( m ) { if ( m.reloadItems ) { m.reloadItems(); } m.layout(); }
+            if ( m ) { 
+                if ( m.reloadItems ) { 
+                    m.reloadItems(); 
+                } 
+                m.layout(); }
         } );
     }
     var timer;
