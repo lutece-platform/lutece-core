@@ -238,6 +238,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.show_site_name.che
 
 INSERT INTO core_datastore VALUES ('theme.globalThemeCode', 'lutece');
 INSERT INTO core_datastore VALUES ('theme.globalThemeVersion', '1.0');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.accessibilityLabel', 'Acccesibilité partiellement conforme');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.accessibilityURL', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.account', '');
@@ -255,6 +256,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.legalURLLabel
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.search', 'jsp/site/Portal.jsp?page=search');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.wikiURL', 'https://lutece.paris.fr/support');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.Url.wikiURLLabel', 'Wiki');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.credits', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.fixed.checkbox', '1');
@@ -263,25 +265,30 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.image.posi
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.image.positiony', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.showSiteImg.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.showSiteImgEverywhere.checkbox', '0');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.shown.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.shown.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.bgcolor', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.color', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.padding', '');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerBrowserWarning.checkbox', '0');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerForm.showBannerImg.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerForm.showFormImg.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerForm.showFormTitle.checkbox', '1');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.CloseButton.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Duration', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Position', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Title', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.Type', 'info');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.bannerMessage.htmlblock', '');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.config.datepicker.textblock', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.config.editor.textblock', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.config.locales', 'fr');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.colors.dark.textblock', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.colors.light.textblock', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.customstyles.checkbox', '1');
@@ -289,9 +296,12 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.dir.checkb
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.theme.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.type.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footerSocial.checkbox', '1');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.showResponseFormWarning.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.forms.labelInfoResponse', 'Formulaire enregistré !');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.link.showTargetIcon.checkbox', '1');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.fixedMenu.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.gototop.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.hasDefaultMenu.checkbox', '1');
@@ -306,9 +316,14 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.density.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.logo.alt', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.lang', 'fr');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.langs.textblock','en,es,it,da,nl,de,tr,ko,zh-CN');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.translate.search.checkbox','1');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.robotIndex.checkbox', '0');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssChars', '<>#"&');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.xss.xssMsg', 'Les caract\\u00e8res &#60; &#62; &#35; et &#34;  &amp; sont interdits dans le contenu de votre message.');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.required', 'Ce champ est obligatoire.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.email', 'Veuillez saisir une adresse email valide.');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.msg.url', 'Veuillez saisir une URL valide.');
@@ -332,15 +347,18 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.va
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorFeedbackClass', 'invalid-feedback');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.helpClass', 'form-text');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.formvalidation.errorIconSvg', '<i class="ti ti-alert-triangle main-danger-color me-xs" aria-hidden="true"></i>');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.enabled.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.duration', '1800');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.warningDelay', '120');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.keepAliveUrl', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.maxExtensions', '10');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.sessiontimeout.position', 'top-0 end-0');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooter', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooterAlt', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.layout.footer.logoFooterUrl', '');
+
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.platform.select', 'tarte_au_citron');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.consent.select.options', 'tarte_au_citron|orejime');
 
