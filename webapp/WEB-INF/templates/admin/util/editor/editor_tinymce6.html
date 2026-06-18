@@ -9,7 +9,7 @@
 <#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->
 <#-- Force it here because if it is a wrong value, tinyMCE does not load -->
 <#if locale?? && (2 <= locale?string?length) && (locale?string?substring(0,2) == "fr")><#assign editorLocale='fr_FR' /></#if>
-<#if cssFiles==""><#local cssFiles="editor.css, page_template_styles.css" /></#if>
+<#if cssFiles==""><#local cssFiles="themes/skin/${commonsGlobalThemeCode}/css/theme.min.css, themes/skin/shared/css/site.css, themes/skin/shared/css/shared.css, css/site.css" /></#if>
 <#local optEditorConfig=.get_optional_template('editor_tinymce_theme.html')>
 <#if optEditorConfig.exists><@optEditorConfig.include /></#if>
 <script src="themes/admin/shared/js/editors/tinymce6/langs/${editorLocale}.js"></script>
