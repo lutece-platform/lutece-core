@@ -47,14 +47,16 @@ document.addEventListener("DOMContentLoaded", function(){
   const btnCollapse = document.getElementById('main-sidebar-collapse');
 	if ( btnCollapse ) {
      btnCollapse.addEventListener("click", function (e) {
-      const menuAside = document.querySelector('#main-sidebar'), mainContent = document.querySelector('#main'), banner = mainContent.querySelector('.banner-wrapper');
+      const menuAside = document.querySelector('#main-menu-sidebar'),headContainer=document.querySelector('.theme-main-header'), mainContent = document.querySelector('#layout-sidebar-wrapper'), banner = mainContent.querySelector('.banner-wrapper');
       if (menuAside) {
         const isExpanded = btnCollapse.getAttribute("aria-expanded") === "true";
         btnCollapse.setAttribute("aria-expanded", isExpanded ? "false" : "true");
-        btnCollapse.style.left = !isExpanded ? 'calc(var(--spacing-5xl) * 1.6)' : '0';
+        btnCollapse.style.left = !isExpanded ? 'calc(var(--spacing-5xl) * 1.6)' : '-5px';
+        btnCollapse.classList.toggle("position-fixed");
+        btnCollapse.querySelector('.ti').classList.toggle('ti-layout-sidebar-right-collapse');
         menuAside.classList.toggle("d-none");
-        mainContent.classList.toggle("col-md-8");
-        mainContent.classList.toggle("col-lg-9");
+        mainContent.classList.toggle("d-block");
+        headContainer.classList.toggle("border-0");
         if (banner) {
           banner.classList.toggle("is-fixed");
         }
@@ -343,79 +345,82 @@ document.addEventListener("DOMContentLoaded", function(){
   }
 
   // Theming Switchers : dark/light, density, primary color
-  const bar = document.getElementById('lutece-ds-topbar');
-  if (bar) {
-    const menu = bar.querySelector('.lutece-ds-tw-menu');
-    if( hasUserThemeSwitch ){
-      // const loginClass = hasLogin ? '' : ' ms-lg-auto';
-      const loginClass = '';
-      menu.insertAdjacentHTML('beforeend', `
-        <li id="bs-theme-switcher" class="nav-item d-block d-lg-flex${loginClass}">
-          <button id="themeToggle" data-tw="theme" data-val="light" class="theme-toggle topnav__theme" type="button" aria-label="#i18n{portal.theme.labelToggleTheme}" title="#i18n{portal.theme.labelToggleTheme}">
-            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-            
-          </button>
-        </li>
-      `);
-    }
+  const bars = document.querySelectorAll('.lutece-ds-topbar');
 
-    if( hasUserThemeDensity ){
-      menu.insertAdjacentHTML('beforeend', `
-        <li class="nav-item top-nav-density">
-          <div class="btn btn-group btn-group-pill" role="group" aria-label="Densité">
-            <button class="btn" data-tw="density" data-val="cozy" title="Confortable">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 20h16" /><path d="M4 12h16" /><path d="M4 4h16" /></svg>
+  if (bars.length > 0) {
+    bars.forEach(bar => {
+      const menu = bar.querySelector('.lutece-ds-tw-menu');
+      if( hasUserThemeSwitch ){
+        // const loginClass = hasLogin ? '' : ' ms-lg-auto';
+        const loginClass = '';
+        menu.insertAdjacentHTML('beforeend', `
+          <li id="bs-theme-switcher" class="nav-item d-block d-lg-flex${loginClass}">
+            <button id="themeToggle" data-tw="theme" data-val="light" class="theme-toggle topnav__theme" type="button" aria-label="#i18n{portal.theme.labelToggleTheme}" title="#i18n{portal.theme.labelToggleTheme}">
+              <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              
             </button>
-            <button class="btn" data-tw="density" data-val="compact" title="Compacte">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 3h16" /><path d="M4 9h16" /><path d="M4 15h16" /><path d="M4 21h16" /></svg>
-            </button>
-          </div>
-        </li>
-      `);
-    }
-
-    if( hasUserThemeColors ) {
-      menu.insertAdjacentHTML('beforeend', `
-        <li class="nav-item top-nav-colors">
-          <div class="btn btn-group btn-group-pill" role="group" aria-label="Primaire">
-            <button class="btn rounded-circle" data-tw="primary" data-val="blue" style="background:#3D6BFF;height:24px;" title="Bleu"></button>
-            <button class="btn rounded-circle" data-tw="primary" data-val="teal" style="background:#14B584;height:24px;" title="Émeraude"></button>
-            <button class="btn rounded-circle" data-tw="primary" data-val="coral" style="background:#FF4F33;height:24px;" title="Corail"></button>
-            <button class="btn rounded-circle" data-tw="primary" data-val="violet" style="background:#6B57E0;height:24px;" title="Violet"></button>
-          </div>
-        </li>
-      `);
-    }
-    const state = {
-      density: localStorage.getItem('lutece-ds-density') || 'cozy',
-      theme:   localStorage.getItem('lutece-ds-theme')   || 'light',
-      primary: localStorage.getItem('lutece-ds-primary') || 'blue',
-    };
-    
-    const apply = () => {
-      const root = document.documentElement;
-      root.setAttribute('data-lutece-ds-density', state.density);
-      root.setAttribute('data-bs-theme', state.theme);
-      root.setAttribute('data-lutece-ds-primary', state.primary);
-      bar.querySelectorAll('button[data-tw]').forEach(b => {
-        b.setAttribute('aria-pressed', String(b.dataset.val === state[b.dataset.tw]));
-      });
-    };
-
-    bar.addEventListener('click', (e) => {
-      const b = e.target.closest('button[data-tw]');
-      if (!b) return;
-      if ( b.dataset.tw === 'theme' ) {
-        state[b.dataset.tw] = state[b.dataset.tw] === 'light' ? 'dark' : 'light';
-        b.dataset.val = state[b.dataset.tw] === 'dark' ? 'dark' : 'light' ;
-      } else {
-        state[b.dataset.tw] = b.dataset.val;
+          </li>
+        `);
       }
-      localStorage.setItem('lutece-ds-' + b.dataset.tw, b.dataset.val);
+
+      if( hasUserThemeDensity ){
+        menu.insertAdjacentHTML('beforeend', `
+          <li class="nav-item top-nav-density">
+            <div class="btn btn-group btn-group-pill" role="group" aria-label="Densité">
+              <button class="btn" data-tw="density" data-val="cozy" title="Confortable">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16" /><path d="M4 12h16" /><path d="M4 4h16" /></svg>
+              </button>
+              <button class="btn" data-tw="density" data-val="compact" title="Compacte">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h16" /><path d="M4 9h16" /><path d="M4 15h16" /><path d="M4 21h16" /></svg>
+              </button>
+            </div>
+          </li>
+        `);
+      }
+
+      if( hasUserThemeColors ) {
+        menu.insertAdjacentHTML('beforeend', `
+          <li class="nav-item top-nav-colors">
+            <div class="btn btn-group btn-group-pill" role="group" aria-label="Primaire">
+              <button class="btn rounded-circle" data-tw="primary" data-val="blue" style="background:#3D6BFF;height:24px;" title="Bleu"></button>
+              <button class="btn rounded-circle" data-tw="primary" data-val="teal" style="background:#14B584;height:24px;" title="Émeraude"></button>
+              <button class="btn rounded-circle" data-tw="primary" data-val="coral" style="background:#FF4F33;height:24px;" title="Corail"></button>
+              <button class="btn rounded-circle" data-tw="primary" data-val="violet" style="background:#6B57E0;height:24px;" title="Violet"></button>
+            </div>
+          </li>
+        `);
+      }
+      const state = {
+        density: localStorage.getItem('lutece-ds-density') || 'cozy',
+        theme:   localStorage.getItem('lutece-ds-theme')   || 'light',
+        primary: localStorage.getItem('lutece-ds-primary') || 'blue',
+      };
+      
+      const apply = () => {
+        const root = document.documentElement;
+        root.setAttribute('data-lutece-ds-density', state.density);
+        root.setAttribute('data-bs-theme', state.theme);
+        root.setAttribute('data-lutece-ds-primary', state.primary);
+        bar.querySelectorAll('button[data-tw]').forEach(b => {
+          b.setAttribute('aria-pressed', String(b.dataset.val === state[b.dataset.tw]));
+        });
+      };
+
+      bar.addEventListener('click', (e) => {
+        const b = e.target.closest('button[data-tw]');
+        if (!b) return;
+        if ( b.dataset.tw === 'theme' ) {
+          state[b.dataset.tw] = state[b.dataset.tw] === 'light' ? 'dark' : 'light';
+          b.dataset.val = state[b.dataset.tw] === 'dark' ? 'dark' : 'light' ;
+        } else {
+          state[b.dataset.tw] = b.dataset.val;
+        }
+        localStorage.setItem('lutece-ds-' + b.dataset.tw, b.dataset.val);
+        apply();
+      });
       apply();
     });
-    apply();
   }
 
 });
