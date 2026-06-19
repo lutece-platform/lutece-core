@@ -48,26 +48,31 @@
 
 /* Fonts 					*/
 /* Font weight util classes */
+.fw-black,
 .font-black {
 	font-family: var(--lutece-ds-font-family-base) !important;
 	font-weight: 900 !important;
 }
 
+.fw-extra-bold,
 .font-extra-bold {
 	font-family: var(--lutece-ds-font-family-base) !important;
 	font-weight: 800 !important;
 }
 
+.fw-bold,
 .font-bold {
 	font-family: var(--lutece-ds-font-family-base) !important;
 	font-weight: 600 !important;
 }
 
+.fw-medium-bold,
 .font-medium-bold {
 	font-family: var(--lutece-ds-font-family-base) !important;
 	font-weight: 500 !important;
 }
 
+.fw-semi-bold,
 .font-semi-bold {
 	font-family: var(--lutece-ds-font-family-base) !important;
 	font-weight: 600 !important;;
