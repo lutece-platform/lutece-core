@@ -44,6 +44,11 @@ footer a:hover {
   justify-content: space-between;
 }
 
+#layout-sidebar-wrapper footer{
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
 @media (max-width: 767.98px) {
   footer {
     padding: 24px;

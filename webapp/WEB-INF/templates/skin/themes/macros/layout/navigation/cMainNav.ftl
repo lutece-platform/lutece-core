@@ -64,7 +64,7 @@ Snippet:
 <#local logoAltDS=dskey('portal.theme.site_property.menu.logo.alt')! />
 <#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /></#if>
 <div class="container main-header<#if class !=''> ${class!}</#if><#if isSidebar> is-sidebar<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if><#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if></#if>"<#if role !=''> role='${role!}'</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if>>
-<nav class="navbar navbar-expand-lg navbar-light topnav" aria-labelledby="main-nav-title" id="lutece-ds-topbar">
+<nav class="navbar navbar-expand-lg navbar-light topnav lutece-ds-topbar" aria-labelledby="main-nav-title">
     <a class="navbar-brand topnav__brand" href="${href!'.'}">
        <#if logoHeader !=''><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>
         <span class="main-service-title visually-hidden">${title}</span>
@@ -130,46 +130,51 @@ Snippet:
     <header class="theme-main-header<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if>" id="main-banner-${pageId!'theme'}" role="banner">
         <div id="sidebar-main-menu">
              <#if isSibebarCollapsible>
-            <button id="main-sidebar-collapse" type="button" class="btn btn-outline-primary btn-mini" aria-label="#i18n{portal.util.labelShow} / #i18n{portal.util.labelHide} #i18n{portal.theme.mainMenu}" aria-expanded="true" aria-controls="main-menu-sidebar">
-                <@cIcon name='burger' />
+            <button id="main-sidebar-collapse" type="button" class="btn btn-link btn-mini border-0 text-decoration-none" aria-label="#i18n{portal.util.labelShow} / #i18n{portal.util.labelHide} #i18n{portal.theme.mainMenu}" aria-expanded="true" aria-controls="main-menu-sidebar">
+                <@cIcon name='layout-sidebar-left-collapse' class='fs-ml' />
             </button>
             </#if>
-            <nav class="navbar-main sidebar-nav " id="main-menu-sidebar" aria-label="#i18n{portal.theme.mainMenu}" role="navigation">
-                <ul class="navbar-nav navbar-main flex-column me-auto" aria-label="#i18n{portal.theme.mainMenu}">
+            <nav class="navbar-main sidebar-nav lutece-ds-topbar" id="main-menu-sidebar" aria-label="#i18n{portal.theme.mainMenu}" role="navigation">
+                <a class="navbar-brand sidebar-brand" href="${href!'.'}">
+                <#if logoHeader !=''><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>
+                    <span class="main-service-title visually-hidden">${title}</span>
+                </a>
+                <ul class="navbar-nav navbar-main flex-column me-auto  lutece-ds-tw-menu" aria-label="#i18n{portal.theme.mainMenu}">
                     <#if hasMenu>
                         <#if showDefaultMenu>${page_main_menu_html!menu}</#if>
                         <#if customMenuSideBar??>${customMenuSideBar!}</#if>
                     </#if>
-                    <#if hasSearchMenu && typeSearch='icon'>
-                        <@cMainNavItem title='' url=searchUrl >
-                            <@cIcon name='search' class='main-color' params='aria-hidden="true"' />
-                            <@cInline class='visually-hidden'>#i18n{portal.util.labelSearch}</@cInline>
-                        </@cMainNavItem>
-                    </#if>
                     <#if hasNestedMenu>
                     <#nested>
                     </#if>
+                    <#if hasMenu && hasSearchMenu>
+                        <#assign formSearchAction><#if searchAction=''>${urlSearch!}<#else>${searchAction!}</#if></#assign>
+                        <@cMainNavItem title='' url='' class='ms-auto' >
+                            <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' params='role="search"'>
+                                <input type="hidden" name="page" value="search<#if searchSolr>-solr</#if>">
+                                <#if searchParams !=''>${searchParams!}</#if>
+                                <@cLabel for='header-query-top' class='visually-hidden' label='#i18n{portal.util.labelSearch}' />
+                                <@cInputGroup class='mt-0'>
+                                    <@cInput name='query' id='header-query-top' placeholder='#i18n{portal.site.page_menu_tools.labelSearch}' autocomplete='on' />
+                                    <@cInputGroupAddon>
+                                        <@cBtn label='' id='button-main-search' class='secondary' params='aria-label="#i18n{portal.site.page_menu_tools.labelSearch}"'>
+                                            <@cIcon name='search' title='#i18n{portal.site.page_menu_tools.labelSearch}' />
+                                        </@cBtn >
+                                    </@cInputGroupAddon>
+                                </@cInputGroup>
+                            </@cForm>
+                        </@cMainNavItem>
+                    </#if>
+                    <#if hasLogin>
+                        <li class="nav-item navbar-user<#if loginClass !='' > ${loginClass!}</#if>" aria-label="#i18n{portal.theme.labelAccount}">
+                            ${pageinclude_userlogin?default("")}
+                        </li>
+                    </#if>
+                    <@translationMenu />
                 </ul>
-                <#if hasSearchMenu && typeSearch='field'>
-                    <#assign formSearchAction><#if searchAction=''>${urlSearch!}<#else>${searchAction!}</#if></#assign>
-                    <@cForm action=formSearchAction class='mx-m' params='role="search"'>
-                        <input type="hidden" name="page" value="search<#if searchSolr>-solr</#if>">
-                        <#if searchParams !=''>${searchParams!}</#if>
-                        <@cLabel for='header-query' class='visually-hidden' label='#i18n{portal.util.labelSearch}' />
-                        <@cInputGroup>
-                            <@cInput name='query' id='header-query' placeholder='#i18n{portal.site.page_menu_tools.labelSearch}' />
-                            <@cInputGroupAddon>
-                                <@cBtn label='' id='button-main-search-top' class='secondary' params='aria-label="#i18n{portal.site.page_menu_tools.labelSearch}"'>
-                                    <@cIcon name='search' title='#i18n{portal.site.page_menu_tools.labelSearch}' />
-                                </@cBtn>
-                            </@cInputGroupAddon>
-                        </@cInputGroup>
-                    </@cForm>
-                </#if>
             </nav>
         </div>
     </header>
-    <div id="layout-sidebar">
     <main id="main"<#if mainClass !=''> class="${mainClass!}"</#if> role="main">
         <#if hasBanner?boolean>
             <#assign optMainBanner=.get_optional_template('../../../../site/theme_frameset_main_banner.html')>
