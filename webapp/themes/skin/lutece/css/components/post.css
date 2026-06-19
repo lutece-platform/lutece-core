@@ -643,3 +643,11 @@
         font-size: 38px;
     }
 }
+
+
+@media (max-width: 767.98px) {
+
+    .bl-body.bl-body-one-col {
+        grid-template-columns: 1fr;
+    }
+}
