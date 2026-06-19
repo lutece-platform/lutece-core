@@ -2,6 +2,7 @@
 <%@page import="fr.paris.lutece.portal.service.admin.PasswordResetException"%>
 <%@ page isErrorPage="true" %>
 <%@ page import="fr.paris.lutece.portal.web.constants.Messages" %>
+<%@ page import="fr.paris.lutece.portal.service.admin.AdminAuthenticationService" %>
 <%@ page import="fr.paris.lutece.portal.service.util.*" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessageService" %>
 <%@ page import="fr.paris.lutece.portal.service.message.AdminMessage" %>
@@ -9,6 +10,7 @@
 <%@ page import="fr.paris.lutece.portal.service.portal.PortalService" %>
 <%@ page import="fr.paris.lutece.portal.web.l10n.LocaleService" %>
 <%@ page pageEncoding="UTF-8" %>
+<%@ page import="org.apache.commons.lang3.StringUtils" %>
 
 <%@ page buffer="1024kb"%>
 <%@ page autoFlush="false"%>
@@ -41,7 +43,20 @@
     	{
     		AppLogService.error( "AccessDeniedException : " + exception.getMessage() );
     	}
-        response.sendRedirect( AdminMessageService.getMessageUrl( request , Messages.USER_ACCESS_DENIED , AdminMessage.TYPE_STOP ) );
+        if ( AdminAuthenticationService.getInstance( ).getRegisteredUser( request ) == null )
+        {
+			String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
+			if ( StringUtils.isBlank( strLoginUrl ) )
+			{
+				strLoginUrl =  AppPathService.getAdminMenuUrl( );
+			}
+            response.sendRedirect( AdminMessageService.getMessageUrl( request, Messages.MESSAGE_USER_SESSION_EXPIRED,
+					strLoginUrl, AdminMessage.TYPE_WARNING ) );
+        }
+        else
+        {
+            response.sendRedirect( AdminMessageService.getMessageUrl( request , Messages.USER_ACCESS_DENIED , AdminMessage.TYPE_STOP ) );
+        }
     }
     else if ( exception.getCause( ) instanceof fr.paris.lutece.portal.service.admin.PasswordResetException )
     {
