@@ -26,6 +26,7 @@
 <script src="${commonsSiteThemePath}${commonsSiteJsPath}vendor/bootstrap.bundle.min.js?version=${commonsGlobalThemeVersion}"></script>
 <script src="${commonsSharedThemePath}${commonsSiteJsPath}shared.js?version=${commonsGlobalThemeVersion}"></script>
 <script type="module" src="${commonsSiteThemePath}${commonsSiteJsPath}theme.min.js?version=${commonsGlobalThemeVersion}"></script>
+<script type="module" src="${commonsSiteThemePath}${commonsSiteJsPath}theme-utils.min.js?version=${commonsGlobalThemeVersion}"></script>
 <!-- Site CSS include                  -->
 <script src="${commonsSiteJsPath}site.js?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}"></script>
 </#macro>
