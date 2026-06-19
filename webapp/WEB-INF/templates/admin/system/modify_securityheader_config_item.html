@@ -1,14 +1,12 @@
 <@pageContainer>
     <@pageColumn> 
         <@pageHeader title='#i18n{portal.securityheader.modify_securityheader_config_item.pageTitle}' />
-		<@tform method='post' id='modify-securityheader-config-item-form' action='jsp/admin/system/ModifySecurityHeaderConfig.jsp'>
+		<@tform method='post' id='modify-securityheader-config-item-form' action='jsp/admin/system/ModifySecurityHeaderConfig.jsp' boxed=true>
 			<@input type='hidden' name='id_config_item' value='${securityheaderConfigItem.idConfigItem}' />
 			<@input type='hidden' name='id_securityheader' value='${id_securityheader}' />
-			
 			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader_config_item.labelHeaderCustomValue}' labelFor='headerCustomValue' mandatory=true>
 				<@input type='text' name='headerCustomValue' id='headerCustomValue' value='${securityheaderConfigItem.headerCustomValue}' maxlength=1024 />
 			</@formGroup>
-			
 			<@formGroup labelKey='#i18n{portal.securityheader.modify_securityheader_config_item.labelUrlPattern}' helpKey='#i18n{portal.securityheader.modify_securityheader_config_item.urlPattern.help}' labelFor='urlPattern' mandatory=true>
 				<@input type='text' name='urlPattern' id='urlPattern' value='${securityheaderConfigItem.urlPattern}' maxlength=1024 />
 			</@formGroup>			
