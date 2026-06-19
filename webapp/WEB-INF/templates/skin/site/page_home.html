@@ -1,23 +1,14 @@
 <@cTpl>
-<@cSection class='border-bottom gray-light-border-color'>
+<@cSection>
     <@cContainer>
-       ${page_content_col1}
+       ${page_content_col1!}
     </@cContainer>
 </@cSection>
 <@cSection>
     <@cContainer>
         <@cRow>
             <@cCol>
-                ${page_content_col2}
-            </@cCol>
-        </@cRow>
-    </@cContainer>
-</@cSection>
-<@cSection class='bg-light'>
-    <@cContainer>
-        <@cRow>
-            <@cCol>
-                ${page_content_col3}
+                ${page_content_col2!}
             </@cCol>
         </@cRow>
     </@cContainer>
@@ -26,7 +17,7 @@
     <@cContainer>
         <@cRow>
             <@cCol>
-                ${page_content_col4}
+                ${page_content_col3!}
             </@cCol>
         </@cRow>
     </@cContainer>
@@ -35,7 +26,7 @@
     <@cContainer>
         <@cRow>
             <@cCol>
-                ${page_content_col5}
+                ${page_content_col4!}
             </@cCol>
         </@cRow>
     </@cContainer>
@@ -44,7 +35,16 @@
     <@cContainer>
         <@cRow>
             <@cCol>
-                ${page_content_col6}
+                ${page_content_col5!}
+            </@cCol>
+        </@cRow>
+    </@cContainer>
+</@cSection>
+<@cSection>
+    <@cContainer>
+        <@cRow>
+            <@cCol>
+                ${page_content_col6!}
             </@cCol>
         </@cRow>
     </@cContainer>
