@@ -9,9 +9,7 @@
                     <@manageFeatureItemColumn auto=true>
                         <@img url='themes/admin/shared/images/page_templates/${page_templates.picture}' class='thumbnail-sm img-invert' alt='${i18n("portal.style.manage_page_templates.picturealt",page_templates.description?html)}' />
                     </@manageFeatureItemColumn>
-                    <@manageFeatureItemColumn>
-                    #i18n{portal.style.manage_page_templates.columnTitleDescription} ${page_templates.description}
-                    </@manageFeatureItemColumn>
+                    <@manageFeatureItemColumn>${page_templates.description}</@manageFeatureItemColumn>
                     <@manageFeatureItemColumn>
                         ${page_templates.file}
                      </@manageFeatureItemColumn>

@@ -190,6 +190,12 @@ const searchInput = document.querySelector("#search_prop");
 const searchElementList = document.querySelectorAll('[id^="box_"]');
 new LuteceSearchList( searchInput, searchElementList, {
     searchableChild: [".searchable"],
+    // Keep the filter value across form submits / page reloads.
+    persist: true,
+    persistKey: "lutece-admin-prop-search",
+    // Add a clear button next to the filter field.
+    clearButton: true,
+    clearButtonLabel: "#i18n{portal.util.labelReset}",
     extraSearchFunction: function(){
         // Hide a group (masonry item) when none of its property boxes are visible, so no empty
         // group card is left behind. Groups holding only hidden options are left to the CSS rule.

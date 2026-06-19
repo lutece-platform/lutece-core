@@ -91,5 +91,11 @@ const searchElementList = document.querySelectorAll(".item-labels");
 new LuteceSearchList( searchInput, searchElementList, {
 	searchableChild: [".searchable"],
 	highlight: true,
+	 // Keep the filter value across form submits / page reloads.
+    persist: true,
+    persistKey: "lutece-admin-daemons-search",
+    // Add a clear button next to the filter field.
+    clearButton: true,
+    clearButtonLabel: "#i18n{portal.util.labelReset}",
 });
 </script>

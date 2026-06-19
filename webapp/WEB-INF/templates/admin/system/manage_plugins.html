@@ -108,6 +108,12 @@ const searchInput = document.querySelector("#search_plugins");
 const searchElementList = document.querySelectorAll("*[data-plugin]");
 new LuteceSearchList( searchInput, searchElementList, {
 	searchableChild: [".searchable",".title"],
+	 // Keep the filter value across form submits / page reloads.
+    persist: true,
+    persistKey: "lutece-admin-plugins-search",
+    // Add a clear button next to the filter field.
+    clearButton: true,
+    clearButtonLabel: "#i18n{portal.util.labelReset}",
 	highlight: true,
 	toggleList: true,
 	toggleRow: true,

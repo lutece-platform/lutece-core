@@ -36,6 +36,14 @@ export default class LuteceSearchList {
       toggleCardClass: ['flex-row'],  
       toggleCardHeaderClass : ['flex-column','justify-content-around','align-items-start'],  
       toggleCardFooterClass : ['d-flex','align-items-center','mt-0'],
+      persist: false,
+      persistKey: null,
+      persistStorage: 'session',
+      clearButton: false,
+      clearButtonLabel: 'Clear',
+      clearButtonClass: ['btn', 'btn-outline-secondary'],
+      clearButtonIconPrefix: 'ti',
+      clearButtonIcon: 'ti-x',
       extraSearchFunction: () => {}
     }, options);
     this.init();
@@ -44,33 +52,35 @@ export default class LuteceSearchList {
    * Initializes the search functionality by adding an event listener to the search input element.
    */
   init() {
+    // Restore a previously persisted filter value before wiring events, so the
+    // initial filtering below reflects it.
+    if ( this.options.persist ) {
+      const savedValue = this.getPersistedValue();
+      if ( savedValue ) { this.searchInput.value = savedValue; }
+    }
+
+    // Optional clear ("reset") button next to the search field.
+    if ( this.options.clearButton ) { this.setupClearButton(); }
+
     this.searchInput.addEventListener('input', this.debounce(() => {
-      const searchTerm = this.searchInput.value.toLowerCase();
-      this.searchElementList.forEach( element => {
-        const searchContent = this.getSearchContent(element);
-        const isVisible = searchContent.includes(searchTerm);
-        if ( this.options.highlight ) {
-          if (searchTerm.length > 0) {
-            this.removeHighlight(element);
-            this.addHighlight(element, searchTerm);
-          } else {
-            this.removeHighlight(element);
-          }
-        }
-        if ( this.options.hideClass) {
-          isVisible ? element.classList.remove(`${this.options.hideClass}`) : element.classList.add(`${this.options.hideClass}`);
-        } else {
-          element.style.display = isVisible ? '' : 'none';
-        }
-      });
-      this.options.extraSearchFunction();
+      this.applySearch();
+      if ( this.options.persist ) { this.savePersistedValue(); }
     }, this.options.debounceTime ));
+
+    // Keep the clear button visibility in sync without waiting for the debounce.
+    if ( this.options.clearButton ) {
+      this.searchInput.addEventListener('input', () => this.updateClearButton());
+    }
 
     this.searchInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
           event.preventDefault();
         }
     });
+
+    // Apply the restored value (if any) and set the initial clear button state.
+    if ( this.options.persist && this.searchInput.value ) { this.applySearch(); }
+    if ( this.options.clearButton ) { this.updateClearButton(); }
 
     if ( this.options.toggleList ) {
       const displayType = this.getToggleState();
@@ -90,6 +100,112 @@ export default class LuteceSearchList {
         }
       });
     }
+  }
+
+  /**
+   * Filters (and optionally highlights) the elements against the current input value.
+   * Extracted so it can be triggered programmatically (restore, clear) and not only on input.
+   */
+  applySearch() {
+    const searchTerm = this.searchInput.value.toLowerCase();
+    this.searchElementList.forEach( element => {
+      const searchContent = this.getSearchContent(element);
+      const isVisible = searchContent.includes(searchTerm);
+      if ( this.options.highlight ) {
+        if (searchTerm.length > 0) {
+          this.removeHighlight(element);
+          this.addHighlight(element, searchTerm);
+        } else {
+          this.removeHighlight(element);
+        }
+      }
+      if ( this.options.hideClass) {
+        isVisible ? element.classList.remove(`${this.options.hideClass}`) : element.classList.add(`${this.options.hideClass}`);
+      } else {
+        element.style.display = isVisible ? '' : 'none';
+      }
+    });
+    this.options.extraSearchFunction();
+  }
+
+  /**
+   * Returns the storage key used to persist the filter value.
+   * Falls back to a key derived from the input id when persistKey is not provided.
+   * @private
+   * @returns {string}
+   */
+  getPersistKey() {
+    return this.options.persistKey || ( 'luteceSearchList-' + ( this.searchInput.id || 'default' ) );
+  }
+
+  /**
+   * Returns the storage backend (sessionStorage by default, localStorage when persistStorage='local').
+   * @private
+   * @returns {Storage}
+   */
+  getPersistStorage() {
+    return this.options.persistStorage === 'local' ? window.localStorage : window.sessionStorage;
+  }
+
+  /**
+   * Reads the persisted filter value (null when none or storage is unavailable).
+   * @private
+   * @returns {?string}
+   */
+  getPersistedValue() {
+    try {
+      return this.getPersistStorage().getItem( this.getPersistKey() );
+    } catch ( e ) {
+      return null;
+    }
+  }
+
+  /**
+   * Writes the current filter value to storage.
+   * @private
+   */
+  savePersistedValue() {
+    try {
+      this.getPersistStorage().setItem( this.getPersistKey(), this.searchInput.value );
+    } catch ( e ) { /* storage unavailable (private mode, quota) : ignore */ }
+  }
+
+  /**
+   * Creates a clear ("reset") button right after the search input and wires its click.
+   * @private
+   */
+  setupClearButton() {
+    const btn = document.createElement( 'button' );
+    btn.type = 'button';
+    btn.classList.add( ...this.options.clearButtonClass );
+    btn.setAttribute( 'aria-label', this.options.clearButtonLabel );
+    btn.setAttribute( 'title', this.options.clearButtonLabel );
+    const icon = document.createElement( 'i' );
+    icon.classList.add( this.options.clearButtonIconPrefix, this.options.clearButtonIcon );
+    btn.appendChild( icon );
+    this.searchInput.insertAdjacentElement( 'afterend', btn );
+    btn.addEventListener( 'click', () => this.clear() );
+    this.clearButton = btn;
+  }
+
+  /**
+   * Clears the filter, re-applies the (empty) search, updates persistence and focuses the input.
+   */
+  clear() {
+    this.searchInput.value = '';
+    this.applySearch();
+    if ( this.options.persist ) { this.savePersistedValue(); }
+    this.updateClearButton();
+    this.searchInput.focus();
+  }
+
+  /**
+   * Shows the clear button only when the input holds a value.
+   * @private
+   */
+  updateClearButton() {
+    if ( !this.clearButton ) { return; }
+    this.clearButton.style.display = this.searchInput.value.length > 0 ? '' : 'none';
   }
 
   /**
