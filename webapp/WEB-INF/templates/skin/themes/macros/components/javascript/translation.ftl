@@ -57,7 +57,7 @@
 <#list availableLangs as l><#if l.code?lower_case == defaultLang><#local defaultLangLabel = l.label><#break></#if>
 </#list>
 <li class="nav-item dropdown">
-    <button class="btn btn-sm btn-outline-primary dropdown-toggle notranslate" translate="no" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="lang-btn">
+    <button class="btn btn-sm btn-outline-primary dropdown-toggle notranslate lang-btn" translate="no" type="button" data-bs-toggle="dropdown" aria-expanded="false">
     ${defaultLangLabel}
     </button>
     <ul class="dropdown-menu dropdown-menu-end w-100 p-0 notranslate" translate="no">
@@ -153,12 +153,19 @@ function getStoredLang() {
 }
 
 function syncDropdownToLang(lang) {
-    let item = document.querySelector('[data-lang="' + lang + '"]');
-    if (!item) return;
-    let btn = document.getElementById('lang-btn');
-    btn.textContent = item.textContent;
-    document.querySelectorAll('[data-lang]').forEach(function(el) { el.classList.remove('active'); });
-    item.classList.add('active');
+    let items = document.querySelectorAll('[data-lang="' + lang + '"]');
+    
+    if (!items) return;
+    items.forEach( function( item ){
+
+        let btnLang = document.querySelectorAll('.lang-btn');
+        if (!btnLang) return;
+        btnLang.forEach( function(btn){
+            btn.textContent = item.textContent;
+            document.querySelectorAll('[data-lang]').forEach(function(el) { el.classList.remove('active'); });
+            item.classList.add('active');
+        });
+    });
 }
 
 // Google Translate forces `body { top: 40px }` inline after each translation
@@ -191,25 +198,27 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('[data-lang]').forEach(function(item) {
         item.addEventListener('click', function(e) {
             e.preventDefault();
-            let lang = this.getAttribute('data-lang');
-            let btn = document.getElementById('lang-btn');
-            btn.textContent = this.textContent;
-            document.querySelectorAll('[data-lang]').forEach(function(el) { el.classList.remove('active'); });
-            this.classList.add('active');
-            bootstrap.Dropdown.getOrCreateInstance(btn).hide();
-            localStorage.setItem('userLangChoice', lang);
-            if (lang === defaultLang) {
-                // Reset to original: remove Google Translate cookie on all domain levels and reload
-                let expiry = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
-                document.cookie = expiry + ';';
-                let parts = location.hostname.split('.');
-                for (let i = 0; i < parts.length - 1; i++) {
-                    document.cookie = expiry + '; domain=.' + parts.slice(i).join('.');
+            let lang = item.getAttribute('data-lang');
+            let btnLang = document.querySelectorAll('.lang-btn');
+            btnLang.forEach( function(btn){
+                btn.textContent = item.textContent;
+                document.querySelectorAll('[data-lang]').forEach(function(el) { el.classList.remove('active'); });
+                item.classList.add('active');
+                bootstrap.Dropdown.getOrCreateInstance(btn).hide();
+                localStorage.setItem('userLangChoice', lang);
+                if (lang === defaultLang) {
+                    // Reset to original: remove Google Translate cookie on all domain levels and reload
+                    let expiry = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/';
+                    document.cookie = expiry + ';';
+                    let parts = location.hostname.split('.');
+                    for (let i = 0; i < parts.length - 1; i++) {
+                        document.cookie = expiry + '; domain=.' + parts.slice(i).join('.');
+                    }
+                    location.reload();
+                } else {
+                    translatePage(lang);
                 }
-                location.reload();
-            } else {
-                translatePage(lang);
-            }
+            });
         });
     });
 <#if langSearch == '1'>
@@ -222,10 +231,14 @@ document.addEventListener('DOMContentLoaded', function() {
             item.closest('li').style.display = text.includes(query) ? '' : 'none';
         });
     });
-    document.querySelector('.dropdown:has(#lang-btn)').addEventListener('shown.bs.dropdown', function() {
-        langSearch.value = '';
-        langSearch.dispatchEvent(new Event('input'));
-        langSearch.focus();
+    
+    let btnLang = document.querySelectorAll('.lang-btn');
+    btnLang.forEach( function(btn){
+        btn.addEventListener('shown.bs.dropdown', function() {
+            langSearch.value = '';
+            langSearch.dispatchEvent(new Event('input'));
+            langSearch.focus();
+        });
     });
 </#if>
     // Auto-translate only if user has never made an explicit choice and browser is not the default lang
