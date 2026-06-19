@@ -26,7 +26,7 @@ Snippet:
 			<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' size='' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] />
 			<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all']  />
 			</#if>
-			<@offcanvas id="page-properties" title="#i18n{portal.site.admin_page.titlePageProperties}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' targetElement='#properties' btnColor="portet" btnIcon="wrench mx-1" btnTitle="#i18n{portal.site.admin_page.titlePageProperties}" hideTitle=['all'] size="" />
+			<@offcanvas id="page-properties" redirectForm=false title="#i18n{portal.site.admin_page.titlePageProperties}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' targetElement='#properties' btnColor="portet" btnIcon="wrench mx-1" btnTitle="#i18n{portal.site.admin_page.titlePageProperties}" hideTitle=['all'] size="" />
 			<@offcanvas id="childpage-properties" title="#i18n{portal.site.admin_page.titleAddChildPage}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5' targetElement='#childpage' btnColor="portet" btnIcon="file-plus me-1" btnTitle="#i18n{portal.site.admin_page.titleAddChildPage}" hideTitle=['all'] size=""  redirectForm=false/>
 			<@offcanvas id="portlet-type-wrapper" title="#i18n{portal.site.admin_page.labelPortletPage}" btnColor="portet" btnIcon="apps" btnTitle="#i18n{portal.site.admin_page.labelPortletPage}" hideTitle=['all'] >
 			<@listGroup>
