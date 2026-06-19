@@ -321,7 +321,7 @@ public final class AdminAuthenticationService
      */
     public AdminUser getRegisteredUser( HttpServletRequest request )
     {
-        HttpSession session = request.getSession( );
+        HttpSession session = request.getSession(false);
 
         if ( session != null )
         {
