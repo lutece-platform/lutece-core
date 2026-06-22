@@ -116,6 +116,13 @@ public class AdminLoginJspBean implements Serializable
     private static final String CONSTANT_ACTION_DOLOGOUT = "doLogout";
     private static final String CONSTANT_BO = "BO";
 
+    // Non-sensitive UI preferences carried through logout (the Clear-Site-Data header wipes localStorage)
+    private static final String PARAMETER_TABLER_THEME = "lutece-tabler-theme";
+    private static final String PARAMETER_BO_READMODE = "lutece-bo-readmode";
+    private static final String THEME_DARK = "dark";
+    private static final String THEME_LIGHT = "light";
+    private static final String READMODE_RTL = "rtl";
+
     // Jsp
     private static final String JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD = "jsp/admin/user/ModifyDefaultUserPassword.jsp";
     private static final String JSP_URL_FORM_CONTACT = "AdminFormContact.jsp";
@@ -752,6 +759,22 @@ public class AdminLoginJspBean implements Serializable
 
         _accessLogService.info( AccessLoggerConstants.EVENT_TYPE_CONNECT, CONSTANT_ACTION_DOLOGOUT, user, null, CONSTANT_BO );
 
-        return AdminMessageService.getLogoutMessageUrl( request );
+        // The logout Clear-Site-Data header wipes the browser localStorage. Carry the non-sensitive UI preferences
+        // (theme mode, read direction) through the redirect so the landing page can re-seed them. Values are
+        // strictly whitelisted to avoid injecting anything into the redirect URL.
+        UrlItem urlLogoutMessage = new UrlItem( AdminMessageService.getLogoutMessageUrl( request ) );
+
+        String strTheme = request.getParameter( PARAMETER_TABLER_THEME );
+        if ( THEME_DARK.equals( strTheme ) || THEME_LIGHT.equals( strTheme ) )
+        {
+            urlLogoutMessage.addParameter( PARAMETER_TABLER_THEME, strTheme );
+        }
+
+        if ( READMODE_RTL.equals( request.getParameter( PARAMETER_BO_READMODE ) ) )
+        {
+            urlLogoutMessage.addParameter( PARAMETER_BO_READMODE, READMODE_RTL );
+        }
+
+        return urlLogoutMessage.getUrl( );
     }
 }

@@ -27,3 +27,24 @@
 <![endif]-->
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon" href="<%= strBase %>favicon.ico">
+<!-- Apply the user's stored theme mode synchronously, before first paint, so logout/message pages keep the admin theme -->
+<script>
+// The logout Clear-Site-Data header wipes localStorage : re-seed the non-sensitive UI preferences carried
+// through the redirect as query params (whitelisted), so the user's theme/read direction survive logout.
+const urlParams = new URLSearchParams( window.location.search );
+const paramTheme = urlParams.get('lutece-tabler-theme');
+if( paramTheme === 'dark' || paramTheme === 'light' ){
+	localStorage.setItem('lutece-tabler-theme', paramTheme);
+}
+if( urlParams.get('lutece-bo-readmode') === 'rtl' ){
+	localStorage.setItem('lutece-bo-readmode', 'rtl');
+}
+const localTheme = localStorage.getItem('lutece-tabler-theme');
+if( localTheme !== null ){
+	document.documentElement.dataset.bsTheme = localTheme;
+}
+// Read direction : apply the user's stored value on <html> before first paint (persists over login/logout)
+if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
+	document.documentElement.setAttribute('dir','rtl');
+}
+</script>

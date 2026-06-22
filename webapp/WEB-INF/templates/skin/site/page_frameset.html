@@ -6,7 +6,7 @@
 <@themeFrameset.include />
 <#else>
 <!DOCTYPE html>
-<html lang="${user_context_language}" dir="<#if isRtl?boolean>rtl<#else>ltr</#if>" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>" data-lutece-ds-primary="blue" data-lutece-ds-density="">
+<html lang="${user_context_language}" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>" data-lutece-ds-primary="blue" data-lutece-ds-density="">
 <head>
 <base href="${base_url}">
 <title>${favourite!} - ${page_name!}</title>
@@ -72,7 +72,7 @@ ${rss?default("<!-- no RSS feed -->")}
 <!-- jQuery JS is no more included ! -- USE optionnal lib Jquery if needed for compat purpose [https://github.com/lutece-platform/lutece-tech-library-theme-jquery] -->
 </#if>
 </head>
-<body id="body-page<#if data.homePage>-home<#elseif page_id=1>-<#if data.name !=''>${data.name?replace(' ','_')?lower_case!}<#else>xpage</#if><#else>-${page_id!}</#if>"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if>>
+<body id="body-page<#if data.homePage>-home<#elseif page_id=1>-<#if data.name !=''>${data.name?replace(' ','_')?lower_case!}<#else>xpage</#if><#else>-${page_id!}</#if>"<#if lutece_user??> class="logged"</#if> data-bs-target-icon="${isTargetDefaultIconShown!'false'}"<#if isLayoutFluid?? && isLayoutFluid?boolean> data-layout="fluid"</#if> dir="<#if isRtl?boolean>rtl<#else>ltr</#if>">
 <!-- Accessibility Skip Nav Menu-->
 <@skipNav skipMenu=skipLinkMenu?boolean target=skipLinkMainId!'main' />
 <!-- Page Header -->

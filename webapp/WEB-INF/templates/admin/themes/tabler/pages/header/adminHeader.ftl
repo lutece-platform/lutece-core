@@ -36,17 +36,26 @@ Snippet:
 <#local logoWidth><#attempt>${dskey('portal.site.site_property.logo.width')}<#recover>24</#attempt></#local>
 <#local logoHeight><#attempt>${dskey('portal.site.site_property.logo.height')}<#recover>24</#attempt></#local>
 <script>
-let localTheme=localStorage.getItem('lutece-tabler-theme')
+let localTheme = localStorage.getItem('lutece-tabler-theme');
 <#if adminDarkMode?number==1>
 <#if userDarkMode?number!=1>
-localStorage.setItem( 'lutece-tabler-theme','dark');
+localTheme = 'dark';
 <#else>
 if( localTheme === null ){
 	localTheme = 'dark';
 }
-localStorage.setItem( 'lutece-tabler-theme',localTheme );
 </#if>
 </#if>
+if( localTheme === null ){
+	localTheme = 'light';
+}
+localStorage.setItem( 'lutece-tabler-theme', localTheme );
+// Apply synchronously, before first paint, so the stored mode is loaded on every page (incl. right after login)
+document.documentElement.dataset.bsTheme = localTheme;
+// Read direction : apply the user's stored value on <html> before first paint (persists over login/logout)
+if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
+	document.documentElement.setAttribute('dir','rtl');
+}
 </script>
 <#-- Optional Jquery Inclusion for compat need the library-theme-jquery library https://github.com/lutece-platform/lutece-tech-library-theme-jquery -->
 <#if jqueryHeader??>
@@ -200,7 +209,7 @@ localStorage.setItem( 'lutece-tabler-theme',localTheme );
 						<a href="jsp/admin/AdminTechnicalMenu.jsp" class="dropdown-item">#i18n{portal.admindashboard.view_dashboards.title}</a>
 						</#if>
 						<#if admin_logout_url?has_content>
-						<a href="${admin_logout_url}" class="dropdown-item">#i18n{portal.users.admin_header.deconnectionLink}</a>
+						<a href="${admin_logout_url}" id="lutece-admin-logout" class="dropdown-item">#i18n{portal.users.admin_header.deconnectionLink}</a>
 						</#if>
 					</div>
 				</div>

@@ -37,7 +37,18 @@ Snippet:
 <#local logoUrl><#attempt>${dskey('portal.site.site_property.logo_url')}<#recover>${dskey('portal.site.site_property.logo_url')}!=''?then(${dskey('portal.site.site_property.logo_url')},'themes/admin/shared/images/logo-header-icon.min.svg')</#attempt></#local>
 <#local loginIsCover><#attempt>${dskey('portal.site.site_property.layout.login.cover.checkbox')?number}<#recover>0</#attempt></#local>
 <#local loginIsCoverContain><#attempt>${dskey('portal.site.site_property.layout.login.cover.contain.checkbox')?number}<#recover>0</#attempt></#local>
-<#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim /> 
+<#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim />
+<script>
+// Apply the user's stored theme mode synchronously, before first paint, so the login page matches the admin theme
+const localTheme = localStorage.getItem('lutece-tabler-theme');
+if( localTheme !== null ){
+	document.documentElement.dataset.bsTheme = localTheme;
+}
+// Read direction : apply the user's stored value on <html> before first paint (persists over login/logout)
+if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
+	document.documentElement.setAttribute('dir','rtl');
+}
+</script>
 </head>
 <body class="<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<#if params!=''> ${params}</#if>>
 <main class="<#if loginIsCover?number == 1>row g-0 flex-fill<#else>page page-center"</#if>">
