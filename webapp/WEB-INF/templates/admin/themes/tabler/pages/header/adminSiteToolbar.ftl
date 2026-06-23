@@ -9,9 +9,9 @@ Snippet:
 
 -->
 <#macro adminSiteToolbar >
-<@columns>
+<@columns class='d-none d-lg-block flex-1'>
 	<@btnToolbar>
-		<@btnGroup class='ms-3 me-2 d-none d-lg-block'>
+		<@btnGroup class='ms-3 me-2'>
 			<@button id='display-desktop' title='#i18n{portal.site.admin_page.buttonXLargeScreen}' buttonIcon='device-desktop' color='primary' class='btn-preview active' hideTitle=['all'] />
 			<@button id='display-laptop' title='#i18n{portal.site.admin_page.buttonLargeScreen}' buttonIcon='device-laptop' color='primary' class='btn-preview' hideTitle=['all'] />
 			<@button id='display-tablet' title='#i18n{portal.site.admin_page.buttonTablet}' buttonIcon='device-tablet' color='primary' class='btn-preview' hideTitle=['all'] />

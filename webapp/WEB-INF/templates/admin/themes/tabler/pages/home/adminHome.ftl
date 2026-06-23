@@ -48,6 +48,11 @@ import {
 	LuteceDraggable
 } from './themes/shared/modules/luteceDraggable.js';
 
+// Dragging is disabled below this breakpoint (Bootstrap md): on touch devices it
+// captures touch events and prevents the page from being scrolled.
+const DASHBOARD_DRAG_BREAKPOINT = 768;
+const isDashboardDragEnabled = () => window.innerWidth >= DASHBOARD_DRAG_BREAKPOINT;
+
 const containers = document.querySelectorAll('#dashboard-widgets .widget-col');
 const draggables = Array.from(containers).flatMap(container => [...container.children]);
 
@@ -57,12 +62,8 @@ AdminHomeDraggable.on('dragged', (event) => {
 	// should be make a call to user preference to save the position of the widget
 });
 
-// Get all the elements that need to have a "move" cursor
-const elements = document.querySelectorAll('#dashboard-widgets .widget-col > .card > .card-header, #dashboard-widgets .widget-col > .card .avatar, #dashboard-widgets .widget-col > .card .info-box-icon');
-// Loop through each element and set the cursor to "move"
-elements.forEach((element) => {
-	element.style.cursor = 'move';
-});
+// Elements that get a "move" cursor when dragging is enabled
+const moveCursorElements = document.querySelectorAll('#dashboard-widgets .widget-col > .card > .card-header, #dashboard-widgets .widget-col > .card .avatar, #dashboard-widgets .widget-col > .card .info-box-icon');
 
 function setCounters( speed, counters  ){
 	counters.forEach( counter => {
@@ -89,6 +90,7 @@ function setCounters( speed, counters  ){
 }
 
 const dashSortables = [].slice.call(document.querySelectorAll('.dashboard-widgets .widget-col'));
+const sortableInstances = [];
 // Loop through each nested sortable element
 for ( var i = 0; i < dashSortables.length; i++) {
 	var sortableDash = new Sortable( dashSortables[i], {
@@ -106,7 +108,28 @@ for ( var i = 0; i < dashSortables.length; i++) {
 			}
 		}
 	});
+	sortableInstances.push(sortableDash);
 }
+
+// Enable/disable widget dragging depending on the viewport width.
+function updateDashboardDragState() {
+	const enabled = isDashboardDragEnabled();
+	// Native HTML5 drag used by LuteceDraggable
+	draggables.forEach((draggable) => {
+		draggable.setAttribute('draggable', enabled ? 'true' : 'false');
+	});
+	// SortableJS (also handles touch dragging)
+	sortableInstances.forEach((sortable) => {
+		sortable.option('disabled', !enabled);
+	});
+	// "move" cursor only when dragging is possible
+	moveCursorElements.forEach((element) => {
+		element.style.cursor = enabled ? 'move' : '';
+	});
+}
+
+updateDashboardDragState();
+window.addEventListener('resize', updateDashboardDragState);
 
 const boxCount = document.querySelectorAll('.box-widget .counter')
 setCounters( 200, boxCount );
