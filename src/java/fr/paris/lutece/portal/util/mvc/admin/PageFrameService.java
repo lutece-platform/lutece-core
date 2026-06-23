@@ -60,7 +60,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @ApplicationScoped
 public class PageFrameService
 {
-    private static final String TEMPLATE_PAGE_FRAME = "admin/admin_page_frame.html";
+    private static final String TEMPLATE_PAGE_FRAME = "admin/admin_page_layout.html";
     private static final String MARK_LANG = "lang";
     private static final String MARK_BASE_URL = "base_url";
     private static final String MARK_SITE_NAME = "site_name";
