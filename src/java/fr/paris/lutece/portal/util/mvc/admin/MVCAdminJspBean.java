@@ -89,6 +89,14 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 {
     private static final long serialVersionUID = 278165302545398831L;
 
+    /**
+     * Request attribute set when a controller method has fully written the response itself
+     * (e.g. a {@code @ResponseBody} action producing JSON/XML). The admin MVC front-controller
+     * relies on it to know the response is already handled and must not be wrapped nor turned
+     * into a 404, regardless of whether the response buffer has been committed yet.
+     */
+    public static final String ATTRIBUTE_RESPONSE_BODY_HANDLED = "lutece.mvc.responseBody.handled";
+
     // instance vars
     private static Logger _logger = MVCUtils.getLogger( );
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
@@ -168,6 +176,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
             	getEventDispatcher().fireBeforeControllerEvent( m, true, MvcEvent.ControllerInvocationType.ACTION, _controller.securityTokenEnabled( ));
             	// Check for @ResponseBody annotation
                 if (m.isAnnotationPresent(ResponseBody.class)) {
+                    request.setAttribute( ATTRIBUTE_RESPONSE_BODY_HANDLED, Boolean.TRUE );
                     processResponseBody(m, request);
                     return null; // No page needed
                 }

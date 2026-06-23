@@ -139,7 +139,8 @@ public class AdminMvcServlet extends HttpServlet
         {
             String strContent = controller.processController( request, response );
 
-            if ( response.isCommitted( ) )
+            if ( response.isCommitted( )
+                    || Boolean.TRUE.equals( request.getAttribute( MVCAdminJspBean.ATTRIBUTE_RESPONSE_BODY_HANDLED ) ) )
             {
                 return;
             }
