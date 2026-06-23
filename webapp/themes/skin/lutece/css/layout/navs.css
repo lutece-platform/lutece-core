@@ -105,8 +105,8 @@
 
 .topnav .navbar-nav .dropdown-item.active,
 .topnav .navbar-nav .dropdown-item:active {
-	color: var(--lutece-ds-white);
-	background-color: transparent;
+	color: var(--lutece-ds-black);
+	background-color: var(--lutece-ds-primary-bg);
 }
 
 /* Theme switcher â icon-button rond */
