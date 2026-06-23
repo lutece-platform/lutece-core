@@ -50,13 +50,21 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
 import jakarta.inject.Inject;
 
 public class AdminWorkgroupJspBeanTest extends LuteceTestCase
 {
+    private static final String RIGHT = "CORE_WORKGROUPS_MANAGEMENT";
+    private static final String TOKEN_ASSIGN = "admin/workgroup/assign_users_workgroup.html";
+    private static final String TOKEN_CREATE = "admin/workgroup/create_workgroup.html";
+    private static final String TOKEN_MODIFY = "admin/workgroup/modify_workgroup.html";
+    private static final String TOKEN_REMOVE = "jsp/admin/workgroup/DoRemoveWorkgroup.jsp";
+
     private AdminWorkgroup adminWorkgroup;
     private @Inject AdminWorkgroupJspBean bean;
     private @Inject ISecurityTokenService _securityTokenService;
@@ -76,34 +84,48 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         AdminWorkgroupHome.removeAllUsersForWorkgroup( adminWorkgroup.getKey( ) );
         AdminWorkgroupHome.remove( adminWorkgroup.getKey( ) );
     }
+
+    /**
+     * Builds a request with an authenticated admin user holding the workgroup management permission.
+     *
+     * @return the request
+     */
+    private MockHttpServletRequest authedRequest( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), RIGHT );
+        return request;
+    }
+
     @Test
     public void testDoAssignUsers( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "assignUsers" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "list_users", Integer.toString( user.getUserId( ) ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/workgroup/assign_users_workgroup.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_ASSIGN ) );
 
         assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
-        bean.doAssignUsers( request );
+        bean.processController( request, new MockHttpServletResponse( ) );
         assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
     }
+
     @Test
     public void testDoAssignUsersInvalidToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "assignUsers" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "list_users", Integer.toString( user.getUserId( ) ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/workgroup/assign_users_workgroup.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_ASSIGN ) + "b" );
 
         assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         try
         {
-            bean.doAssignUsers( request );
+            bean.processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -111,10 +133,12 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         }
     }
+
     @Test
     public void testDoAssignUsersNoToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "assignUsers" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "list_users", Integer.toString( user.getUserId( ) ) );
@@ -122,7 +146,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         try
         {
-            bean.doAssignUsers( request );
+            bean.processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -130,55 +154,48 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         }
     }
+
     @Test
     public void testGetAssignUsers( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_VIEW, "assignUsers" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
-        AdminUser user = new AdminUser( );
-        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
-        bean.init( request, "CORE_WORKGROUPS_MANAGEMENT" );
 
-        String html = bean.getAssignUsers( request );
-
-        assertNotNull( html );
+        assertNotNull( bean.processController( request, new MockHttpServletResponse( ) ) );
     }
+
     @Test
     public void testDoCreateWorkgroup( ) throws AccessDeniedException
     {
         final String key = getRandomName( );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUser user = new AdminUser( );
-        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createWorkgroup" );
         request.setParameter( "workgroup_key", key );
         request.setParameter( "workgroup_description", key );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/workgroup/create_workgroup.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_CREATE ) );
 
         assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
-        bean.init( request, "CORE_WORKGROUPS_MANAGEMENT" );
-        bean.doCreateWorkgroup( request );
+        bean.processController( request, new MockHttpServletResponse( ) );
         assertTrue( AdminWorkgroupHome.checkExistWorkgroup( key ) );
 
         AdminWorkgroupHome.remove( key );
     }
+
     @Test
     public void testDoCreateWorkgroupInvalidToken( ) throws AccessDeniedException
     {
         final String key = getRandomName( );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUser user = new AdminUser( );
-        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createWorkgroup" );
         request.setParameter( "workgroup_key", key );
         request.setParameter( "workgroup_description", key );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/workgroup/create_workgroup.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_CREATE ) + "b" );
 
         assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
-        bean.init( request, "CORE_WORKGROUPS_MANAGEMENT" );
         try
         {
-            bean.doCreateWorkgroup( request );
+            bean.processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -188,21 +205,20 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
 
         AdminWorkgroupHome.remove( key );
     }
+
     @Test
     public void testDoCreateWorkgroupNoToken( ) throws AccessDeniedException
     {
         final String key = getRandomName( );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUser user = new AdminUser( );
-        AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createWorkgroup" );
         request.setParameter( "workgroup_key", key );
         request.setParameter( "workgroup_description", key );
 
         assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
-        bean.init( request, "CORE_WORKGROUPS_MANAGEMENT" );
         try
         {
-            bean.doCreateWorkgroup( request );
+            bean.processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -212,32 +228,34 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
 
         AdminWorkgroupHome.remove( key );
     }
+
     @Test
     public void testDoModifyWorkgroup( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyWorkgroup" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         request.setParameter( "workgroup_description", adminWorkgroup.getDescription( ) + "_mod" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/workgroup/modify_workgroup.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_MODIFY ) );
 
         assertEquals( adminWorkgroup.getKey( ), adminWorkgroup.getDescription( ) );
-        bean.doModifyWorkgroup( request );
+        bean.processController( request, new MockHttpServletResponse( ) );
         assertEquals( adminWorkgroup.getDescription( ) + "_mod", AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
     }
+
     @Test
     public void testDoModifyWorkgroupInvalidToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyWorkgroup" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         request.setParameter( "workgroup_description", adminWorkgroup.getDescription( ) + "_mod" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/workgroup/modify_workgroup.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_MODIFY ) + "b" );
 
         assertEquals( adminWorkgroup.getKey( ), adminWorkgroup.getDescription( ) );
         try
         {
-            bean.doModifyWorkgroup( request );
+            bean.processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -245,17 +263,19 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             assertEquals( adminWorkgroup.getDescription( ), AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
         }
     }
+
     @Test
     public void testDoModifyWorkgroupNoToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyWorkgroup" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         request.setParameter( "workgroup_description", adminWorkgroup.getDescription( ) + "_mod" );
 
         assertEquals( adminWorkgroup.getKey( ), adminWorkgroup.getDescription( ) );
         try
         {
-            bean.doModifyWorkgroup( request );
+            bean.processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -263,13 +283,15 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             assertEquals( adminWorkgroup.getDescription( ), AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
         }
     }
+
     @Test
-    public void testGetConfirmRemoveWorkgroup( )
+    public void testGetConfirmRemoveWorkgroup( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_VIEW, "confirmRemoveWorkgroup" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
 
-        bean.getConfirmRemoveWorkgroup( request );
+        bean.processController( request, new MockHttpServletResponse( ) );
 
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
@@ -277,30 +299,32 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         assertTrue( message.getRequestParameters( ).containsKey( "workgroup_key" ) );
         assertEquals( adminWorkgroup.getKey( ), message.getRequestParameters( ).get( "workgroup_key" ) );
     }
+
     @Test
     public void testDoRemoveWorkgroup( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "removeWorkgroup" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "jsp/admin/workgroup/DoRemoveWorkgroup.jsp" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_REMOVE ) );
 
         assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
-        bean.doRemoveWorkgroup( request );
+        bean.processController( request, new MockHttpServletResponse( ) );
         assertFalse( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
     }
+
     @Test
     public void testDoRemoveWorkgroupInvalidToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "removeWorkgroup" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "jsp/admin/workgroup/DoRemoveWorkgroup.jsp" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_REMOVE ) + "b" );
 
         assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
         try
         {
-            bean.doRemoveWorkgroup( request );
+            bean.processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -308,16 +332,18 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
         }
     }
+
     @Test
     public void testDoRemoveWorkgroupNoToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "removeWorkgroup" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
 
         assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
         try
         {
-            bean.doRemoveWorkgroup( request );
+            bean.processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -325,38 +351,40 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
         }
     }
+
     @Test
     public void testDoUnAssignUser( ) throws AccessDeniedException
     {
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         AdminWorkgroupHome.addUserForWorkgroup( user, adminWorkgroup.getKey( ) );
 
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "unassignUser" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/workgroup/assign_users_workgroup.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_ASSIGN ) );
 
         assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
-        bean.doUnAssignUser( request );
+        bean.processController( request, new MockHttpServletResponse( ) );
         assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
     }
+
     @Test
     public void testDoUnAssignUserInvalidToken( ) throws AccessDeniedException
     {
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         AdminWorkgroupHome.addUserForWorkgroup( user, adminWorkgroup.getKey( ) );
 
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "unassignUser" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/workgroup/assign_users_workgroup.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_ASSIGN ) + "b" );
 
         assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         try
         {
-            bean.doUnAssignUser( request );
+            bean.processController( request, new MockHttpServletResponse( ) );
             fail( "Should have Thrown" );
         }
         catch( AccessDeniedException e )
@@ -364,20 +392,22 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         }
     }
+
     @Test
     public void testDoUnAssignUserNoToken( ) throws AccessDeniedException
     {
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         AdminWorkgroupHome.addUserForWorkgroup( user, adminWorkgroup.getKey( ) );
 
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "unassignUser" );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
 
         assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         try
         {
-            bean.doUnAssignUser( request );
+            bean.processController( request, new MockHttpServletResponse( ) );
             fail( "Should have Thrown" );
         }
         catch( AccessDeniedException e )

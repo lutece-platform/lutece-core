@@ -68,7 +68,10 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
@@ -86,7 +89,8 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 @SessionScoped
 @Named
-public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "workgroups", right = "CORE_WORKGROUPS_MANAGEMENT" )
+public class AdminWorkgroupJspBean extends MVCAdminJspBean
 {
     // Rights
     /**
@@ -104,7 +108,6 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_CREATE_WORKGROUP = "admin/workgroup/create_workgroup.html";
     private static final String TEMPLATE_MODIFY_WORKGROUP = "admin/workgroup/modify_workgroup.html";
     private static final String TEMPLATE_ASSIGN_USERS = "admin/workgroup/assign_users_workgroup.html";
-    private static final String JSP_PATH = "jsp/admin/workgroup/";
 
     // Markers Freemarker
     private static final String MARK_WORKGROUPS_LIST = "workgroups_list";
@@ -134,11 +137,22 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_ID_USER = "id_user";
     private static final String PARAMETER_ANCHOR = "anchor";
 
-    // JSP
-    private static final String JSP_MANAGE_WORKGROUPS = "ManageWorkgroups.jsp";
-    private static final String JSP_ASSIGN_USERS_TO_WORKGROUPS = "AssignUsersWorkgroup.jsp";
-    private static final String JSP_URL_REMOVE_WORKGROUP = "jsp/admin/workgroup/DoRemoveWorkgroup.jsp";
-    private static final String JSP_URL_ASSIGN_USERS_TO_WORKGROUPS = "jsp/admin/workgroup/AssignUsersWorkgroup.jsp";
+    // Views
+    private static final String VIEW_MANAGE_WORKGROUPS = "manageWorkgroups";
+    private static final String VIEW_CREATE_WORKGROUP = "createWorkgroup";
+    private static final String VIEW_MODIFY_WORKGROUP = "modifyWorkgroup";
+    private static final String VIEW_ASSIGN_USERS = "assignUsers";
+    private static final String VIEW_CONFIRM_REMOVE_WORKGROUP = "confirmRemoveWorkgroup";
+
+    // Actions
+    private static final String ACTION_CREATE_WORKGROUP = "createWorkgroup";
+    private static final String ACTION_MODIFY_WORKGROUP = "modifyWorkgroup";
+    private static final String ACTION_REMOVE_WORKGROUP = "removeWorkgroup";
+    private static final String ACTION_ASSIGN_USERS = "assignUsers";
+    private static final String ACTION_UNASSIGN_USER = "unassignUser";
+
+    // Security token key for the removal action
+    private static final String TOKEN_REMOVE_WORKGROUP = "jsp/admin/workgroup/DoRemoveWorkgroup.jsp";
 
     // Messages
     private static final String MESSAGE_WORKGROUP_ALREADY_EXIST = "portal.workgroup.message.workgroupAlreadyExist";
@@ -161,6 +175,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code for the workgroup management page
      */
+    @View( value = VIEW_MANAGE_WORKGROUPS, defaultView = true )
     public String getManageWorkgroups( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_WORKGROUPS_PAGETITLE );
@@ -247,6 +262,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      *            The HTTP Request
      * @return The HTML form
      */
+    @View( VIEW_CREATE_WORKGROUP )
     public String getCreateWorkgroup( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_CREATE_WORKGROUP_PAGETITLE );
@@ -268,6 +284,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_CREATE_WORKGROUP )
     public String doCreateWorkgroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
@@ -275,24 +292,24 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strKey == null ) || ( strKey.equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
 
         if ( ( strDescription == null ) || ( strDescription.equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
 
         // Check if workgroup already exist
         if ( Boolean.TRUE.equals( AdminWorkgroupHome.checkExistWorkgroup( strKey ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_EXIST, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_EXIST, AdminMessage.TYPE_STOP ) );
         }
 
         // Check if strKey contains accentuated caracters
         if ( !StringUtil.checkCodeKey( strKey ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER, AdminMessage.TYPE_STOP ) );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_WORKGROUP ) )
         {
@@ -310,7 +327,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             getUser().getUserWorkgroups().add( strKey );
         }
 
-        return JSP_MANAGE_WORKGROUPS;
+        return redirectView( request, VIEW_MANAGE_WORKGROUPS );
     }
 
     /**
@@ -320,15 +337,15 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      *            The Http Request
      * @return the confirmation url
      */
+    @View( VIEW_CONFIRM_REMOVE_WORKGROUP )
     public String getConfirmRemoveWorkgroup( HttpServletRequest request )
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
-        String strUrlRemove = JSP_URL_REMOVE_WORKGROUP;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_WORKGROUP ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, TOKEN_REMOVE_WORKGROUP ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, null, null, strUrlRemove, null, AdminMessage.TYPE_CONFIRMATION, parameters, JSP_PATH+JSP_MANAGE_WORKGROUPS );
+        return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, null, null, getActionUrl( ACTION_REMOVE_WORKGROUP ), null, AdminMessage.TYPE_CONFIRMATION, parameters, getViewFullUrl( VIEW_MANAGE_WORKGROUPS ) ) );
     }
 
     /**
@@ -340,6 +357,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REMOVE_WORKGROUP )
     public String doRemoveWorkgroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
@@ -347,7 +365,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         if ( CollectionUtils.isNotEmpty( AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_USED, JSP_PATH+JSP_MANAGE_WORKGROUPS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_USED, getViewFullUrl( VIEW_MANAGE_WORKGROUPS ), AdminMessage.TYPE_STOP ) );
         }
 
         if ( !_removalListenerService.checkForRemoval( strWorkgroupKey, listErrors, getLocale( ) ) )
@@ -357,16 +375,16 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
                     strCause
             };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args, JSP_PATH+JSP_MANAGE_WORKGROUPS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args, getViewFullUrl( VIEW_MANAGE_WORKGROUPS ), AdminMessage.TYPE_STOP ) );
         }
-        if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_WORKGROUP ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_REMOVE_WORKGROUP ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         AdminWorkgroupHome.remove( strWorkgroupKey );
 
-        return JSP_MANAGE_WORKGROUPS;
+        return redirectView( request, VIEW_MANAGE_WORKGROUPS );
     }
 
     /**
@@ -376,6 +394,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return The HTML form to update info
      */
+    @View( VIEW_MODIFY_WORKGROUP )
     public String getModifyWorkgroup( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MODIFY_WORKGROUP_PAGETITLE );
@@ -406,6 +425,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MODIFY_WORKGROUP )
     public String doModifyWorkgroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strWorgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
@@ -413,7 +433,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isEmpty( strDescription ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_WORKGROUP ) )
         {
@@ -425,7 +445,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         adminWorkgroup.setDescription( strDescription );
         AdminWorkgroupHome.update( adminWorkgroup );
 
-        return JSP_MANAGE_WORKGROUPS;
+        return redirectView( request, VIEW_MANAGE_WORKGROUPS );
     }
 
     /**
@@ -435,12 +455,13 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return the html code for display the modes list
      */
+    @View( VIEW_ASSIGN_USERS )
     public String getAssignUsers( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<>( );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
 
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_WORKGROUPS;
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_ASSIGN_USERS );
         UrlItem url = new UrlItem( strBaseUrl );
 
         // WORKGROUP
@@ -548,6 +569,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_ASSIGN_USERS )
     public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
@@ -573,7 +595,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return JSP_ASSIGN_USERS_TO_WORKGROUPS + "?" + PARAMETER_WORKGROUP_KEY + "=" + strWorkgroupKey;
+        UrlItem url = new UrlItem( getViewUrl( VIEW_ASSIGN_USERS ) );
+        url.addParameter( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
+
+        return redirect( request, url.getUrl( ) );
     }
 
     /**
@@ -585,6 +610,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_UNASSIGN_USER )
     public String doUnAssignUser( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
@@ -602,7 +628,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             AdminWorkgroupHome.removeUserFromWorkgroup( adminUser, strWorkgroupKey );
         }
 
-        return JSP_ASSIGN_USERS_TO_WORKGROUPS + "?" + PARAMETER_WORKGROUP_KEY + "=" + strWorkgroupKey + "#" + strAnchor;
+        UrlItem url = new UrlItem( getViewUrl( VIEW_ASSIGN_USERS ) );
+        url.addParameter( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
+
+        return redirect( request, url.getUrl( ) + "#" + strAnchor );
     }
 
     /**
