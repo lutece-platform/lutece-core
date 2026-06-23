@@ -29,7 +29,7 @@
 						<#if daemon.inProgress><@span class='ms-2'><@tag color='info' title='#i18n{portal.system.manage_daemons.labelInProgress}'><@icon style='clock' /></@tag></@span></#if>
 						</@p>
 					<#else>
-						<@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='' class='d-inline-flex align-items-center' >
+						<@tform method='post' action='jsp/admin/mvc/daemons' type='' class='d-inline-flex align-items-center' >
 							<@input type='hidden' name='daemon' value='${daemon.id}' />
 							<@input type='hidden' name='token' value='${token}' />
 							<@formGroup labelFor='interval' labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' class='d-inline-flex align-items-center' labelClass='me-2 mb-0'>
@@ -42,7 +42,7 @@
 						</#if>
 						<#if daemon.running && daemon.cron??><#if daemon.cron?has_content><@p class='mb-0'>${(daemon.cron)!}</@p></#if>
 					<#else>
-						<@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='' class='d-inline-flex align-items-center' >
+						<@tform method='post' action='jsp/admin/mvc/daemons' type='' class='d-inline-flex align-items-center' >
 							<@input type='hidden' name='daemon' value='${daemon.id}' />
 							<@input type='hidden' name='token' value='${token}' />
 							<@formGroup labelFor='cron'  labelKey='#i18n{portal.system.manage_daemons.columnTitleCron}' class='d-inline-flex align-items-center' labelClass='me-2 mb-0'>								
@@ -68,7 +68,7 @@
 					</@div>
 				</@manageFeatureItemColumn>
 				<@manageFeatureItemColumn align='end' class='align-self-baseline'>
-					<@tform method="post" action="jsp/admin/system/DoDaemonAction.jsp" type=''>
+					<@tform method="post" action="jsp/admin/mvc/daemons" type=''>
 					<@input type='hidden' name='daemon' value='${daemon.id}' />
 					<@input type='hidden' name='token' value='${token}' />
 					<#if daemon.running>

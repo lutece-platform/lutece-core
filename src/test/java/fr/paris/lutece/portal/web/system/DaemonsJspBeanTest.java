@@ -57,6 +57,8 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 public class DaemonsJspBeanTest extends LuteceTestCase
@@ -64,7 +66,6 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     private static final String TEMPLATE_MANAGE_DAEMONS = "admin/system/manage_daemons.html";
     private static final String JUNIT_DAEMON = "JUNIT";
     private static final String DAEMON_INTERVAL_DSKEY = "core.daemon." + JUNIT_DAEMON + ".interval";
-    private DaemonsJspBean bean;
     private DaemonEntry _entry;
     private String origMaxInitialStartDelay;
     private TestDaemon _testDaemon;
@@ -75,7 +76,6 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     {
         origMaxInitialStartDelay = setInitialStartDelay( );
         assertEquals( "Failed to adjust daemon initial start delay", 1, AppPropertiesService.getPropertyInt( "daemon.maxInitialStartDelay", 3000 ) );
-        bean = new DaemonsJspBean( );
         _entry = new DaemonEntry( );
         _entry.setId( JUNIT_DAEMON );
         _entry.setNameKey( JUNIT_DAEMON );
@@ -127,18 +127,41 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         System.setProperty( "daemon.maxInitialStartDelay", origMaxInitialStartDelay );
     }
 
+    /**
+     * Builds a request with an authenticated admin user holding the daemon management permission.
+     *
+     * @return the request
+     */
+    private MockHttpServletRequest newAuthenticatedRequest( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
+        return request;
+    }
+
+    /**
+     * Gets a CDI-managed instance of the controller under test.
+     *
+     * @return the DaemonsJspBean instance
+     */
+    private DaemonsJspBean getInstance( )
+    {
+        return CDI.current( ).select( DaemonsJspBean.class ).get( );
+    }
+
     @Test
     public void testDoDaemonActionStart( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
         long lScheduledTime;
         assertFalse( _entry.isRunning( ) );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "START" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         lReadyTime = System.nanoTime( );
-        bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
+        getInstance( ).processController( request, response ); // Daemon should run periodically with interval of 1s
 
         assertTrue( _entry.isRunning( ) );
         _testDaemon.go( );
@@ -164,13 +187,14 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     public void testDoDaemonActionStartInvalidToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "START" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
         try
         {
-            bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
+            getInstance( ).processController( request, response ); // Daemon should run periodically with interval of 1s
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -192,12 +216,13 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     public void testDoDaemonActionStartNoToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "START" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         try
         {
-            bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
+            getInstance( ).processController( request, response ); // Daemon should run periodically with interval of 1s
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -225,11 +250,12 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         _testDaemon.go( );
         _testDaemon.waitForCompletion( );
         // We have about 1 second to stop the daemon
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "STOP" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
-        bean.doDaemonAction( request );
+        getInstance( ).processController( request, response );
         assertFalse( _entry.isRunning( ) );
         try
         {
@@ -253,13 +279,14 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         _testDaemon.go( );
         _testDaemon.waitForCompletion( );
         // We have about 1 second to stop the daemon
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "STOP" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
         try
         {
-            bean.doDaemonAction( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -279,12 +306,13 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         _testDaemon.go( );
         _testDaemon.waitForCompletion( );
         // We have about 1 second to stop the daemon
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "STOP" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         try
         {
-            bean.doDaemonAction( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -312,13 +340,14 @@ public class DaemonsJspBeanTest extends LuteceTestCase
 
         _testDaemon.waitForCompletion( );
 
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "RUN" ); // Manually do 1 run of the
                                                  // daemon now
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         lReadyTime = System.nanoTime( );
-        bean.doDaemonAction( request );
+        getInstance( ).processController( request, response );
 
         _testDaemon.go( ); // It should run in less than 1000 seconds !
         lScheduledTime = System.nanoTime( );
@@ -344,7 +373,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
 
         _testDaemon.waitForCompletion( );
 
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "RUN" ); // Manually do 1 run of the
                                                  // daemon now
         request.setParameter( "daemon", JUNIT_DAEMON );
@@ -352,7 +382,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
 
         try
         {
-            bean.doDaemonAction( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -387,14 +417,15 @@ public class DaemonsJspBeanTest extends LuteceTestCase
 
         _testDaemon.waitForCompletion( );
 
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "RUN" ); // Manually do 1 run of the
                                                  // daemon now
         request.setParameter( "daemon", JUNIT_DAEMON );
 
         try
         {
-            bean.doDaemonAction( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -415,26 +446,28 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     public void testDoDaemonActionUpdateInterval( ) throws AccessDeniedException
     {
         final long lTestInterval = 314159L;
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "UPDATE_INTERVAL" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( "interval", Long.toString( lTestInterval ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
-        bean.doDaemonAction( request );
+        getInstance( ).processController( request, response );
         assertEquals( lTestInterval, _entry.getInterval( ) );
     }
     @Test
     public void testDoDaemonActionUpdateIntervalInvalidToken( ) throws AccessDeniedException
     {
         final long lTestInterval = 314159L;
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "UPDATE_INTERVAL" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( "interval", Long.toString( lTestInterval ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
         try
         {
-            bean.doDaemonAction( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -446,14 +479,15 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     public void testDoDaemonActionUpdateIntervalNoToken( ) throws AccessDeniedException
     {
         final long lTestInterval = 314159L;
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
         request.setParameter( "action", "UPDATE_INTERVAL" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( "interval", Long.toString( lTestInterval ) );
 
         try
         {
-            bean.doDaemonAction( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -464,24 +498,17 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     @Test
     public void testDoDaemonActionUnknown( ) throws AccessDeniedException
     {
-        try
-        {
-            MockHttpServletRequest request = new MockHttpServletRequest( );
-            request.setParameter( "action", "UNKNOWN" );
-            bean.doDaemonAction( request );
-            // does not throw
-        }
-        catch( Exception e )
-        {
-            fail( e.getMessage( ) );
-        }
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
+        request.setParameter( "action", "UNKNOWN" );
+        // An unknown action falls back to the default view and must not throw
+        getInstance( ).processController( request, response );
     }
     @Test
     public void testGetManageDaemons( ) throws PasswordResetException, AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
-        bean.init( request, DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
-        assertNotNull( bean.getManageDaemons( request ) );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
+        assertNotNull( getInstance( ).processController( request, response ) );
     }
 }
