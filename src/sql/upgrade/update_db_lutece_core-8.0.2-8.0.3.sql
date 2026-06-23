@@ -5,3 +5,4 @@
 UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/theme' WHERE id_right = 'CORE_THEME_MANAGEMENT';
 UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/securityheader' WHERE id_right = 'CORE_SECURITY_HEADER_MANAGEMENT';
 UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/cache' WHERE id_right = 'CORE_CACHE_MANAGEMENT';
+UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/rights' WHERE id_right = 'CORE_RIGHT_MANAGEMENT';

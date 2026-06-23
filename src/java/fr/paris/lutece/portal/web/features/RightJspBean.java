@@ -47,6 +47,11 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -60,7 +65,6 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
@@ -76,7 +80,8 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 @SessionScoped
 @Named
-public class RightJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "rights", right = "CORE_RIGHT_MANAGEMENT" )
+public class RightJspBean extends MVCAdminJspBean
 {
     private static final long serialVersionUID = 8074788265698162631L;
 
@@ -109,9 +114,14 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MANAGE_RIGHTS = "admin/features/manage_rights.html";
     private static final String TEMPLATE_ASSIGN_USERS = "admin/features/assign_users_right.html";
 
-    // JSP
-    private static final String JSP_URL_ASSIGN_USERS_TO_RIGHT = "jsp/admin/features/AssignUsersRight.jsp";
-    private static final String JSP_ASSIGN_USERS_TO_RIGHT = "AssignUsersRight.jsp";
+    // Views
+    private static final String VIEW_MANAGE_RIGHTS = "manageRights";
+    private static final String VIEW_ASSIGN_USERS = "assignUsers";
+
+    // Actions
+    private static final String ACTION_ASSIGN_USERS = "assignUsers";
+    private static final String ACTION_UNASSIGN_USER = "unassignUser";
+
     private int _nItemsPerPage;
     private String _strCurrentPageIndex;
     private ItemNavigator _itemNavigator;
@@ -123,6 +133,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return the html code for display the rights list
      */
+    @View( value = VIEW_MANAGE_RIGHTS, defaultView = true )
     public String getManageRights( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_RIGHTS_PAGETITLE );
@@ -145,12 +156,13 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return the html code for display the modes list
      */
+    @View( VIEW_ASSIGN_USERS )
     public String getAssignUsers( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<>( );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
 
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_RIGHT;
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_ASSIGN_USERS );
         UrlItem url = new UrlItem( strBaseUrl );
 
         // RIGHT
@@ -256,6 +268,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_ASSIGN_USERS )
     public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
@@ -280,7 +293,10 @@ public class RightJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return JSP_ASSIGN_USERS_TO_RIGHT + "?" + PARAMETER_ID_RIGHT + "=" + strIdRight;
+        UrlItem url = new UrlItem( getViewUrl( VIEW_ASSIGN_USERS ) );
+        url.addParameter( PARAMETER_ID_RIGHT, strIdRight );
+
+        return redirect( request, url.getUrl( ) );
     }
 
     /**
@@ -292,6 +308,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_UNASSIGN_USER )
     public String doUnAssignUser( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
@@ -309,7 +326,10 @@ public class RightJspBean extends AdminFeaturesPageJspBean
             AdminUserHome.removeRightForUser( nIdUser, strIdRight );
         }
 
-        return JSP_ASSIGN_USERS_TO_RIGHT + "?" + PARAMETER_ID_RIGHT + "=" + strIdRight + "#" + strAnchor;
+        UrlItem url = new UrlItem( getViewUrl( VIEW_ASSIGN_USERS ) );
+        url.addParameter( PARAMETER_ID_RIGHT, strIdRight );
+
+        return redirect( request, url.getUrl( ) + "#" + strAnchor );
     }
 
     /**

@@ -14,7 +14,7 @@
                     <@p><em>${right.description}</em></@p>
                 </@manageFeatureItemColumn>
                 <@manageFeatureItemColumn auto=true>
-                    <@aButton href='jsp/admin/features/AssignUsersRight.jsp?id_right=${right.id}' buttonIcon='user' color='primary' title='#i18n{portal.features.manage_rights.buttonLabelAssignUsers}' hideTitle=['all'] />
+                    <@aButton href='jsp/admin/mvc/rights?view=assignUsers&id_right=${right.id}' buttonIcon='user' color='primary' title='#i18n{portal.features.manage_rights.buttonLabelAssignUsers}' hideTitle=['all'] />
                 </@manageFeatureItemColumn>
             </@manageFeatureItem>
             </#list>

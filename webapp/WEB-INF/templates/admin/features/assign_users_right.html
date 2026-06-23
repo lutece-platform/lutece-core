@@ -3,7 +3,8 @@
 	<@pageColumn>
 		<@pageHeader title='${boxTitle}'>
 			<@offcanvas id="search-users" title="#i18n{portal.users.manage_users.search_users.buttonSearch}" position="end" btnTitle="#i18n{portal.users.manage_users.search_users.buttonSearch}" btnIcon="search" size="auto">
-				<@tform method='post' name='search_users' action='jsp/admin/features/AssignUsersRight.jsp'>
+				<@tform method='post' name='search_users' action='jsp/admin/mvc/rights'>
+					<@input type='hidden' name='view' value='assignUsers' />
 					<@input type='hidden' name='id_right' value='${right.id}' />
 					<#if (user_levels?has_content)>
 						<@formGroup title='#i18n{portal.users.manage_users.search_users.userLevelLabel}' labelFor='user_level' rows=2 labelKey=''>
@@ -68,7 +69,8 @@
 						title="#i18n{portal.features.assign_users.labelAvailableUser} (${available_users_list?size})" />
 					<@boxBody>
 						<#if available_users_list?size gt 0>
-							<@tform name='assignUser' method='post' action='jsp/admin/features/DoAssignUsersRight.jsp'>
+							<@tform name='assignUser' method='post' action='jsp/admin/mvc/rights'>
+								<@input type='hidden' name='action' value='assignUsers' />
 								<@input type='hidden' name='id_right' value='${right.id}' />
 								<@input type='hidden' name='token' value='${token}' />
 								<@formGroup labelFor='available_users_list'>
@@ -83,7 +85,8 @@
 				</@box>
 			</@columns>
 			<@columns md=8>
-				<@tform method='post' action='jsp/admin/features/AssignUsersRight.jsp'>
+				<@tform method='post' action='jsp/admin/mvc/rights'>
+					<@input type='hidden' name='view' value='assignUsers' />
 					<#if search_is_search>
 						<@input type='hidden' name='search_is_search' value='true' />
 						<@input type='hidden' name='search_user_level' value='${search_admin_user_filter.userLevel}' />
@@ -118,7 +121,8 @@
 										<@p class='mb-0'>#i18n{portal.users.manage_users.columnTitleAccessCode} : <em>${assigned_user.accessCode}</em> - #i18n{portal.users.manage_users.columnTitleEmail} : <@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'> ${assigned_user.email}</@link></@p>
 									</@manageFeatureItemColumn>
 									<@manageFeatureItemColumn align='end'>
-										<@tform method='post' action='jsp/admin/features/DoUnassignUserRight.jsp'>
+										<@tform method='post' action='jsp/admin/mvc/rights'>
+											<@input type='hidden' name='action' value='unassignUser' />
 											<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
 											<@input type='hidden' name='id_right' value='${right.id?html}' />
 											<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />

@@ -48,14 +48,19 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 public class RightJspBeanTest extends LuteceTestCase
 {
+    private static final String TOKEN_KEY_ASSIGN = "admin/features/assign_users_right.html";
+
     private Right right;
-    private RightJspBean bean;
     private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
@@ -65,7 +70,6 @@ public class RightJspBeanTest extends LuteceTestCase
         right.setId( getRandomName( ) );
         right.setLevel( 0 );
         RightHome.create( right );
-        bean = new RightJspBean( );
     }
 
     @AfterEach
@@ -73,34 +77,60 @@ public class RightJspBeanTest extends LuteceTestCase
     {
         RightHome.remove( right.getId( ) );
     }
+
+    /**
+     * Builds a request with an authenticated admin user holding the right management permission.
+     *
+     * @return the request
+     */
+    private MockHttpServletRequest newAuthenticatedRequest( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), RightJspBean.RIGHT_MANAGE_RIGHTS );
+        return request;
+    }
+
+    /**
+     * Gets a CDI-managed instance of the controller under test.
+     *
+     * @return the RightJspBean instance
+     */
+    private RightJspBean getInstance( )
+    {
+        return CDI.current( ).select( RightJspBean.class ).get( );
+    }
+
     @Test
     public void testDoAssignUsers( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "assignUsers" );
         request.setParameter( "id_right", right.getId( ) );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/features/assign_users_right.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_KEY_ASSIGN ) );
 
         assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
-        bean.doAssignUsers( request );
+        getInstance( ).processController( request, response );
         assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
     }
+
     @Test
     public void testDoAssignUsersInvalidToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "assignUsers" );
         request.setParameter( "id_right", right.getId( ) );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/features/assign_users_right.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_KEY_ASSIGN ) + "b" );
 
         assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         try
         {
-            bean.doAssignUsers( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -108,10 +138,13 @@ public class RightJspBeanTest extends LuteceTestCase
             assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         }
     }
+
     @Test
     public void testDoAssignUsersNoToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "assignUsers" );
         request.setParameter( "id_right", right.getId( ) );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
@@ -119,7 +152,7 @@ public class RightJspBeanTest extends LuteceTestCase
         assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         try
         {
-            bean.doAssignUsers( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -127,22 +160,24 @@ public class RightJspBeanTest extends LuteceTestCase
             assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         }
     }
+
     @Test
     public void testDoUnAssignUser( ) throws AccessDeniedException
     {
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         AdminUserHome.createRightForUser( user.getUserId( ), right.getId( ) );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "unassignUser" );
         request.setParameter( "id_right", right.getId( ) );
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
         request.setParameter( "anchor", "anchor" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/features/assign_users_right.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_KEY_ASSIGN ) );
 
         assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         try
         {
-            bean.doUnAssignUser( request );
+            getInstance( ).processController( request, response );
             assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         }
         finally
@@ -150,22 +185,24 @@ public class RightJspBeanTest extends LuteceTestCase
             AdminUserHome.removeRightForUser( user.getUserId( ), right.getId( ) );
         }
     }
+
     @Test
     public void testDoUnAssignUserInvalidToken( ) throws AccessDeniedException
     {
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         AdminUserHome.createRightForUser( user.getUserId( ), right.getId( ) );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "unassignUser" );
         request.setParameter( "id_right", right.getId( ) );
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
         request.setParameter( "anchor", "anchor" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/features/assign_users_right.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TOKEN_KEY_ASSIGN ) + "b" );
 
         assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         try
         {
-            bean.doUnAssignUser( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -177,12 +214,15 @@ public class RightJspBeanTest extends LuteceTestCase
             AdminUserHome.removeRightForUser( user.getUserId( ), right.getId( ) );
         }
     }
+
     @Test
     public void testDoUnAssignUserNoToken( ) throws AccessDeniedException
     {
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         AdminUserHome.createRightForUser( user.getUserId( ), right.getId( ) );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        MockHttpServletResponse response = new MockHttpServletResponse( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "unassignUser" );
         request.setParameter( "id_right", right.getId( ) );
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
         request.setParameter( "anchor", "anchor" );
@@ -190,7 +230,7 @@ public class RightJspBeanTest extends LuteceTestCase
         assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         try
         {
-            bean.doUnAssignUser( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
