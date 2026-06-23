@@ -1,13 +1,13 @@
 <@tabPanel id='right_levels'>
     <@pageHeader title="#i18n{portal.users.adminFeature.level_right_management.name}" titleClass="pb-3" description="#i18n{portal.features.manage_levels.featureDescription}">
-        <@offcanvas targetUrl="jsp/admin/features/CreateLevel.jsp" targetElement="#create-level-form" id="create-level" title="#i18n{portal.features.create_level.boxTitle}" btnTitle="#i18n{portal.features.manage_levels.buttonLabelCreate}" btnIcon="plus" btnColor="primary" position="end"  />
+        <@offcanvas targetUrl="jsp/admin/mvc/levels?view=createLevel" targetElement="#create-level-form" id="create-level" title="#i18n{portal.features.create_level.boxTitle}" btnTitle="#i18n{portal.features.manage_levels.buttonLabelCreate}" btnIcon="plus" btnColor="primary" position="end"  />
     </@pageHeader>
     <@manageFeature>
         <#list levels_list as level >
             <@manageFeatureItem>
                 <@manageFeatureItemColumn>${level.name}</@manageFeatureItemColumn>
                 <@manageFeatureItemColumn auto=true>
-                    <@offcanvas targetUrl="jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}" targetElement="#right-level-form" id="level-${level.id}" title="#i18n{portal.features.manage_groups.buttonModify} ${level.name?html}" btnTitle="#i18n{portal.features.manage_groups.buttonModify}" btnIcon="edit" btnColor="primary" position="end" />
+                    <@offcanvas targetUrl="jsp/admin/mvc/levels?view=modifyLevel&level_id=${level.id}" targetElement="#right-level-form" id="level-${level.id}" title="#i18n{portal.features.manage_groups.buttonModify} ${level.name?html}" btnTitle="#i18n{portal.features.manage_groups.buttonModify}" btnIcon="edit" btnColor="primary" position="end" />
                 </@manageFeatureItemColumn>
             </@manageFeatureItem>
         </#list>

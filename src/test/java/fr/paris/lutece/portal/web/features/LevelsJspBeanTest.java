@@ -38,7 +38,6 @@ import java.security.SecureRandom;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -48,10 +47,13 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 /**
@@ -60,124 +62,130 @@ import jakarta.inject.Inject;
  */
 public class LevelsJspBeanTest extends LuteceTestCase
 {
-    // Templates files path
+    // Templates files path, used as security token keys
     private static final String TEMPLATE_CREATE_LEVEL = "admin/features/create_level.html";
     private static final String TEMPLATE_MODIFY_LEVEL = "admin/features/modify_level.html";
     private static final String TEST_LEVEL_ID = "0"; // administrator level_right
     private MockHttpServletRequest request;
-    private LevelsJspBean instance;
+    private MockHttpServletResponse response;
     private @Inject ISecurityTokenService _securityTokenService;
 
     @BeforeEach
     protected void setUp( ) throws Exception
     {
         request = new MockHttpServletRequest( );
+        response = new MockHttpServletResponse( );
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
-
-        instance = new LevelsJspBean( );
-        instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
     }
 
     /**
-     * Test of getCreateLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
+     * Gets a CDI-managed instance of the controller under test.
+     *
+     * @return the LevelsJspBean instance
+     */
+    private LevelsJspBean getInstance( )
+    {
+        return CDI.current( ).select( LevelsJspBean.class ).get( );
+    }
+
+    /**
+     * Test of createLevel view, of class LevelsJspBean.
+     *
+     * @throws AccessDeniedException
+     *             if the controller denies access
      */
     @Test
     public void testGetCreateLevel( ) throws AccessDeniedException
     {
-        assertTrue( StringUtils.isNotEmpty( instance.getCreateLevel( request ) ) );
+        request.addParameter( MVCUtils.PARAMETER_VIEW, "createLevel" );
+        assertNotNull( getInstance( ).processController( request, response ) );
     }
 
     /**
-     * Test of doCreateLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
-     * 
+     * Test of createLevel action, of class LevelsJspBean.
+     *
      * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     @Test
     public void testDoCreateLevel( ) throws AccessDeniedException
     {
         final String name = getRandomName( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createLevel" );
         request.setParameter( "level_name", name );
         request.setParameter( "level_id", String.valueOf( getRandomId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_CREATE_LEVEL ) );
 
-        LevelHome.getLevelsList( ).forEach( level -> {
-            assertFalse( name.equals( level.getName( ) ) );
-        } );
+        LevelHome.getLevelsList( ).forEach( level -> assertFalse( name.equals( level.getName( ) ) ) );
         try
         {
-            instance.doCreateLevel( request );
-            assertEquals( 1, LevelHome.getLevelsList( ).stream( ).filter( level -> {
-                return name.equals( level.getName( ) );
-            } ).count( ) );
+            getInstance( ).processController( request, response );
+            assertEquals( 1, LevelHome.getLevelsList( ).stream( ).filter( level -> name.equals( level.getName( ) ) ).count( ) );
         }
         finally
         {
-            LevelHome.getLevelsList( ).stream( ).filter( level -> {
-                return name.equals( level.getName( ) );
-            } ).forEach( level -> {
-                LevelHome.remove( level.getId( ) );
-            } );
+            LevelHome.getLevelsList( ).stream( ).filter( level -> name.equals( level.getName( ) ) ).forEach( level -> LevelHome.remove( level.getId( ) ) );
         }
     }
+
+    /**
+     * Test that an invalid token prevents the level creation.
+     *
+     * @throws AccessDeniedException
+     *             if the security token is invalid
+     */
     @Test
     public void testDoCreateLevelInvalidToken( ) throws AccessDeniedException
     {
         final String name = getRandomName( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createLevel" );
         request.setParameter( "level_name", name );
         request.setParameter( "level_id", String.valueOf( getRandomId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_CREATE_LEVEL ) + "b" );
 
-        LevelHome.getLevelsList( ).forEach( level -> {
-            assertFalse( name.equals( level.getName( ) ) );
-        } );
+        LevelHome.getLevelsList( ).forEach( level -> assertFalse( name.equals( level.getName( ) ) ) );
         try
         {
-            instance.doCreateLevel( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
         {
-            LevelHome.getLevelsList( ).forEach( level -> {
-                assertFalse( name.equals( level.getName( ) ) );
-            } );
+            LevelHome.getLevelsList( ).forEach( level -> assertFalse( name.equals( level.getName( ) ) ) );
         }
         finally
         {
-            LevelHome.getLevelsList( ).stream( ).filter( level -> {
-                return name.equals( level.getName( ) );
-            } ).forEach( level -> {
-                LevelHome.remove( level.getId( ) );
-            } );
+            LevelHome.getLevelsList( ).stream( ).filter( level -> name.equals( level.getName( ) ) ).forEach( level -> LevelHome.remove( level.getId( ) ) );
         }
     }
+
+    /**
+     * Test that a missing token prevents the level creation.
+     *
+     * @throws AccessDeniedException
+     *             if the security token is invalid
+     */
     @Test
     public void testDoCreateLevelNoToken( ) throws AccessDeniedException
     {
         final String name = getRandomName( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createLevel" );
         request.setParameter( "level_name", name );
         request.setParameter( "level_id", String.valueOf( getRandomId( ) ) );
 
-        LevelHome.getLevelsList( ).forEach( level -> {
-            assertFalse( name.equals( level.getName( ) ) );
-        } );
+        LevelHome.getLevelsList( ).forEach( level -> assertFalse( name.equals( level.getName( ) ) ) );
         try
         {
-            instance.doCreateLevel( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
         {
-            LevelHome.getLevelsList( ).forEach( level -> {
-                assertFalse( name.equals( level.getName( ) ) );
-            } );
+            LevelHome.getLevelsList( ).forEach( level -> assertFalse( name.equals( level.getName( ) ) ) );
         }
         finally
         {
-            LevelHome.getLevelsList( ).stream( ).filter( level -> {
-                return name.equals( level.getName( ) );
-            } ).forEach( level -> {
-                LevelHome.remove( level.getId( ) );
-            } );
+            LevelHome.getLevelsList( ).stream( ).filter( level -> name.equals( level.getName( ) ) ).forEach( level -> LevelHome.remove( level.getId( ) ) );
         }
     }
 
@@ -187,27 +195,32 @@ public class LevelsJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
-    
+
     private int getRandomId( )
     {
         return ThreadLocalRandom.current( ).nextInt( 10, 50 );
     }
 
     /**
-     * Test of getModifyLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
+     * Test of modifyLevel view, of class LevelsJspBean.
+     *
+     * @throws AccessDeniedException
+     *             if the controller denies access
      */
     @Test
     public void testGetModifyLevel( ) throws AccessDeniedException
     {
+        request.addParameter( MVCUtils.PARAMETER_VIEW, "modifyLevel" );
         request.addParameter( Parameters.LEVEL_ID, TEST_LEVEL_ID );
 
-        assertTrue( StringUtils.isNotEmpty( instance.getModifyLevel( request ) ) );
+        assertNotNull( getInstance( ).processController( request, response ) );
     }
 
     /**
-     * Test of doModifyLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
-     * 
+     * Test of modifyLevel action, of class LevelsJspBean.
+     *
      * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     @Test
     public void testDoModifyLevel( ) throws AccessDeniedException
@@ -217,13 +230,14 @@ public class LevelsJspBeanTest extends LuteceTestCase
         level.setName( name );
         level.setId( getRandomId( ) );
         LevelHome.create( level );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyLevel" );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MODIFY_LEVEL ) );
         try
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
-            instance.doModifyLevel( request );
+            getInstance( ).processController( request, response );
             assertEquals( name + "_mod", LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
         }
         finally
@@ -231,6 +245,13 @@ public class LevelsJspBeanTest extends LuteceTestCase
             LevelHome.remove( level.getId( ) );
         }
     }
+
+    /**
+     * Test that an invalid token prevents the level modification.
+     *
+     * @throws AccessDeniedException
+     *             if the security token is invalid
+     */
     @Test
     public void testDoModifyLevelInvalidToken( ) throws AccessDeniedException
     {
@@ -239,13 +260,14 @@ public class LevelsJspBeanTest extends LuteceTestCase
         level.setName( name );
         level.setId( getRandomId( ) );
         LevelHome.create( level );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyLevel" );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, TEMPLATE_MODIFY_LEVEL ) + "b" );
         try
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
-            instance.doModifyLevel( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -257,6 +279,13 @@ public class LevelsJspBeanTest extends LuteceTestCase
             LevelHome.remove( level.getId( ) );
         }
     }
+
+    /**
+     * Test that a missing token prevents the level modification.
+     *
+     * @throws AccessDeniedException
+     *             if the security token is invalid
+     */
     @Test
     public void testDoModifyLevelNoToken( ) throws AccessDeniedException
     {
@@ -265,12 +294,13 @@ public class LevelsJspBeanTest extends LuteceTestCase
         level.setName( name );
         level.setId( getRandomId( ) );
         LevelHome.create( level );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyLevel" );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
         try
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
-            instance.doModifyLevel( request );
+            getInstance( ).processController( request, response );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )

@@ -1,7 +1,8 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title='#i18n{portal.features.create_level.boxTitle}' />
-		<@tform id="create-level-form" method='post' id="create-level-form" name='create_mode' action='jsp/admin/features/DoCreateLevel.jsp'>
+		<@tform id="create-level-form" method='post' id="create-level-form" name='create_mode' action='jsp/admin/mvc/levels'>
+			<@input type='hidden' name='action' value='createLevel' />
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.features.create_level.labelId}' labelFor='level_id' mandatory=true>
 				<@input type='text' name='level_id' id='level_id' value='${level_id}' maxlength=3 />

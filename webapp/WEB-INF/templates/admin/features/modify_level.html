@@ -2,8 +2,9 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title='${title}' />
-		<@tform method='post' action='jsp/admin/features/DoModifyLevel.jsp' id="right-level-form" name='modify_level'>
-		<@input type='hidden' name='level_id' value='${level.id}' />	
+		<@tform method='post' action='jsp/admin/mvc/levels' id="right-level-form" name='modify_level'>
+		<@input type='hidden' name='action' value='modifyLevel' />
+		<@input type='hidden' name='level_id' value='${level.id}' />
 		<@input type='hidden' name='token' value='${token}' />
 		<@formGroup labelKey='${level.name?html}' labelFor='level_name' mandatory=true>
 			<@input type='text' name='level_name' id='level_name' value='${level.name?html}' maxlength=80 />
