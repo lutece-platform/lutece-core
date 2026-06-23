@@ -69,7 +69,7 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 @RequestScoped
 @Named
-@Controller( controllerJsp = "ManageSecurityHeaders.jsp", controllerPath = "jsp/admin/system/", right = "CORE_SECURITY_HEADER_MANAGEMENT", securityTokenEnabled = true )
+@Controller( name = "securityheader", right = "CORE_SECURITY_HEADER_MANAGEMENT", securityTokenEnabled = true )
 public class SecurityHeaderJspBean extends MVCAdminJspBean
 {
     // Templates
@@ -128,12 +128,7 @@ public class SecurityHeaderJspBean extends MVCAdminJspBean
     private static final String PARAMETER_TYPE = "type";
     private static final String PARAMETER_PAGE_CATEGORY  = "pageCategory";
     
-    // Jsp definition
-    public static final String JSP_MANAGE_SECURITY_HEADERS = "ManageSecurityHeaders.jsp";
-    public static final String JSP_REMOVE_SECURITY_HEADERS = "jsp/admin/system/DoRemoveSecurityHeader.jsp";
-    public static final String JSP_MODIFY_SECURITY_HEADER_CONFIG = "ModifySecurityHeaderConfig.jsp";
-  
-    private static final long serialVersionUID = 7010476999488231065L; 
+    private static final long serialVersionUID = 7010476999488231065L;
     
     @Inject
     private SecurityHeaderService _securityHeaderService;

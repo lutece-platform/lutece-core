@@ -64,7 +64,7 @@ import fr.paris.lutece.util.url.UrlItem;
 
 @RequestScoped
 @Named
-@Controller( controllerJsp = "ModifySecurityHeaderConfig.jsp", controllerPath = "jsp/admin/system/", right = "CORE_SECURITY_HEADER_MANAGEMENT", securityTokenEnabled = true )
+@Controller( name = "securityheaderconfig", right = "CORE_SECURITY_HEADER_MANAGEMENT", securityTokenEnabled = true )
 public class SecurityHeaderConfigJspBean extends MVCAdminJspBean
 {
 	// Rights
@@ -107,8 +107,8 @@ public class SecurityHeaderConfigJspBean extends MVCAdminJspBean
     private static final String PARAMETER_HEADER_CUSTOM_VALUE = "headerCustomValue";
     private static final String PARAMETER_VIEW = "view";
 
-    // Jsp definition
-    public static final String JSP_MANAGE_SECURITY_HEADERS = "jsp/admin/system/ManageSecurityHeaders.jsp";
+    // Front-controller route of the security header management controller (SecurityHeaderJspBean)
+    public static final String JSP_MANAGE_SECURITY_HEADERS = "jsp/admin/mvc/securityheader";
 
 	private static final long serialVersionUID = -1017233262963948739L;
     

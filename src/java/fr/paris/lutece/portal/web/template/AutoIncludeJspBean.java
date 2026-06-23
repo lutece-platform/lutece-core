@@ -38,16 +38,16 @@ import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.web.admin.AdminMenuJspBean;
-import jakarta.enterprise.context.SessionScoped;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage AutoInclude features ( manage, create, modify, remove )
  */
-@SessionScoped
+@RequestScoped
 @Named
-@Controller( controllerJsp = "ManageAutoIncludes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT" )
+@Controller( name = "autoinclude", right = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT" )
 public class AutoIncludeJspBean extends MVCAdminJspBean
 {
     private static final long serialVersionUID = 3045411044102177294L;

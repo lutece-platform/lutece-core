@@ -1,7 +1,7 @@
 <@pageContainer>
     <@pageColumn id='create-securityheader'> 
         <@pageHeader title='#i18n{portal.securityheader.create_securityheader.title}' />
-		<@tform method='post' id='create-securityheader-form' action='jsp/admin/system/ManageSecurityHeaders.jsp'>
+		<@tform method='post' id='create-securityheader-form' action='jsp/admin/mvc/securityheader'>
 			<@formGroup labelKey='#i18n{portal.securityheader.create_securityheader.labelName}' labelFor='name' mandatory=true>
 				<@input type='text' name='name' id='name' value='' maxlength=60 />
 			</@formGroup>

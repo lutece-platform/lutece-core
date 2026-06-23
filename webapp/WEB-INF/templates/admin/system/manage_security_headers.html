@@ -9,7 +9,7 @@
 				</@inputGroup>
 			</@formGroup>
 		</@tform>
-		<@offcanvas targetUrl="jsp/admin/system/ManageSecurityHeaders.jsp?view=createSecurityHeader" targetElement="#create-securityheader-form" redirectForm=false id="template-create-securityheader" title="#i18n{portal.securityheader.create_securityheader.title}" btnTitle="#i18n{portal.securityheader.create_securityheader.title}" btnIcon="plus me-1" position="end" />
+		<@offcanvas targetUrl="jsp/admin/mvc/securityheader?view=createSecurityHeader" targetElement="#create-securityheader-form" redirectForm=false id="template-create-securityheader" title="#i18n{portal.securityheader.create_securityheader.title}" btnTitle="#i18n{portal.securityheader.create_securityheader.title}" btnIcon="plus me-1" position="end" />
 	</@pageHeader>
 		<#assign id=0>
 		<@manageFeature>
@@ -33,7 +33,7 @@
 					<@code class='text-wrap searchable'>${security_header.value?trim}</@code>
 				</@manageFeatureItemColumn>
 				<@manageFeatureItemColumn align='end'>
-					 <@tform method='post' type='inline' align='middle' action='jsp/admin/system/ManageSecurityHeaders.jsp'>
+					 <@tform method='post' type='inline' align='middle' action='jsp/admin/mvc/securityheader'>
 						<@input type='hidden' name='id_securityheader' value='${security_header.id}' />
 						<#if security_header.active>
 							<@button type='submit' title='#i18n{portal.system.manage_security_headers.actionDisable}' name='action' value='disableSecurityHeader' buttonIcon='player-stop me-1' color='danger' />
@@ -41,8 +41,8 @@
 							<@button type='submit' title='#i18n{portal.system.manage_security_headers.actionEnable}' name='action' value='enableSecurityHeader' buttonIcon='player-play me-1' color='success' />
 						</#if>
 					</@tform>
-					<@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp?view=modifySecurityHeaderConfig&id_securityheader=${security_header.id}' buttonIcon='eye' title='#i18n{portal.util.labelMore}' />									 				 				
-					<@aButton href='jsp/admin/system/ManageSecurityHeaders.jsp?view=confirmRemoveSecurityHeader&id_securityheader=${security_header.id}' buttonIcon='trash' title='#i18n{portal.securityheader.remove_securityheader.linkLabelRemove}' color='danger' />
+					<@aButton href='jsp/admin/mvc/securityheader?view=modifySecurityHeaderConfig&id_securityheader=${security_header.id}' buttonIcon='eye' title='#i18n{portal.util.labelMore}' />									 				 				
+					<@aButton href='jsp/admin/mvc/securityheader?view=confirmRemoveSecurityHeader&id_securityheader=${security_header.id}' buttonIcon='trash' title='#i18n{portal.securityheader.remove_securityheader.linkLabelRemove}' color='danger' />
 				</@manageFeatureItemColumn>
 			</@manageFeatureItem>
 			<#assign id=id + 1>

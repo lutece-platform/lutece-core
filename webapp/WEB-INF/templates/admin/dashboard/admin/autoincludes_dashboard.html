@@ -13,7 +13,7 @@
 		<@box class='mt-3'>
 			<@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsChange}' />
 			<@boxBody>
-				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
+				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/mvc/autoinclude'>
 				<@input type='hidden' name='action' value='activate' />
 				<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' class='has-addons' rows=2>
 					<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list params='addons' size='' />
