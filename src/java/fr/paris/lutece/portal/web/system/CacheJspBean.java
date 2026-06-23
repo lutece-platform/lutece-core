@@ -39,92 +39,173 @@ import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * This class provides the user interface to manage system features ( manage logs, view system files, ... ).
+ * This class provides the user interface to manage the caches through the admin MVC front-controller.
  */
 @RequestScoped
 @Named
-public class CacheJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "cache", right = "CORE_CACHE_MANAGEMENT" )
+public class CacheJspBean extends MVCAdminJspBean
 {
     // Right
     public static final String RIGHT_CACHE_MANAGEMENT = "CORE_CACHE_MANAGEMENT";
 
-    // Jsp definition
-    public static final String JSP_MANAGE_CACHES = "ManageCaches.jsp";
-    private static final String JSP_PATH = "jsp/admin/system/";
-
-    private static final String JSP_TOGGLE_CACHE = "jsp/admin/system/DoToggleCache.jsp";
-    private static final String PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE = "portal.system.message.confirmToggleCache";
-    private static final String PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE = "portal.system.message.confirmToggleCacheTitle";
-    private static final String PROPERTY_MESSAGE_INVALID_CACHE_ID = "portal.system.message.invalidCacheId";
-
     private static final long serialVersionUID = 7010476999488231065L;
+
+    // Templates
+    private static final String TEMPLATE_MANAGE_CACHES = "admin/system/manage_caches.html";
+    private static final String TEMPLATE_CACHE_INFOS = "admin/system/cache_infos.html";
+
+    // Views
+    private static final String VIEW_MANAGE_CACHES = "manageCaches";
+    private static final String VIEW_CACHE_INFOS = "cacheInfos";
+    private static final String VIEW_CONFIRM_TOGGLE_CACHE = "confirmToggleCache";
+
+    // Actions
+    private static final String ACTION_RESET_CACHES = "resetCaches";
+    private static final String ACTION_TOGGLE_CACHE = "toggleCache";
 
     // Markers
     private static final String MARK_SERVICES_LIST = "services_list";
 
-    // Template Files path
-    private static final String TEMPLATE_MANAGE_CACHES = "admin/system/manage_caches.html";
-    private static final String TEMPLATE_CACHE_INFOS = "admin/system/cache_infos.html";
+    // Parameters
     private static final String PARAMETER_ID_CACHE = "id_cache";
 
+    // Messages
+    private static final String PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE = "portal.system.message.confirmToggleCache";
+    private static final String PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE = "portal.system.message.confirmToggleCacheTitle";
+    private static final String PROPERTY_MESSAGE_INVALID_CACHE_ID = "portal.system.message.invalidCacheId";
+
+    @Inject
+    private Models _models;
+
     /**
-     * Returns the page to manage caches
-     * 
+     * Returns the page to manage caches.
+     *
      * @param request
      *            The HttpServletRequest
-     * @return The HTML code.
+     * @return The HTML code of the manage caches page
      */
+    @View( value = VIEW_MANAGE_CACHES, defaultView = true )
     public String getManageCaches( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<>( );
-        model.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_CACHES ) );
+        _models.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList( ) );
+        _models.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, ACTION_RESET_CACHES ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CACHES, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CACHES, getLocale( ), _models );
 
         return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Process cache resetting
+     * Returns the cache infos page for one cache or for all caches.
      *
      * @param request
-     *            The HTTP request
-     * @return The URL to display when the process is done.
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     *            The HttpServletRequest
+     * @return The HTML code of the cache infos page
      */
-    public static String doResetCaches( HttpServletRequest request ) throws AccessDeniedException
+    @View( VIEW_CACHE_INFOS )
+    public String getCacheInfos( HttpServletRequest request )
     {
-    	ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
-        if ( !securityTokenService.validate( request, TEMPLATE_MANAGE_CACHES ) )
-        {
-            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
-        }
+        List<CacheableService<?, ?>> list;
         String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
 
         if ( strCacheIndex != null )
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService<?,?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            CacheableService<?, ?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            list = new ArrayList<>( );
+            list.add( cs );
+        }
+        else
+        {
+            list = CacheService.getCacheableServicesList( );
+        }
+
+        _models.put( MARK_SERVICES_LIST, list );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CACHE_INFOS, getLocale( ), _models );
+
+        return getAdminPage( template.getHtml( ) );
+    }
+
+    /**
+     * Returns the confirmation page before changing the activation of a cache.
+     *
+     * @param request
+     *            The Http Request
+     * @return the confirmation message URL, the redirection being committed by the framework
+     */
+    @View( VIEW_CONFIRM_TOGGLE_CACHE )
+    public String getConfirmToggleCache( HttpServletRequest request )
+    {
+        String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
+
+        if ( strCacheIndex != null )
+        {
+            int nCacheIndex = Integer.parseInt( strCacheIndex );
+            CacheableService<?, ?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+
+            if ( cs != null )
+            {
+                Object [ ] messageArgs = {
+                        cs.getName( )
+                };
+
+                Map<String, Object> parameters = new HashMap<>( );
+                parameters.put( PARAMETER_ID_CACHE, strCacheIndex );
+                parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, ACTION_TOGGLE_CACHE ) );
+
+                return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE, messageArgs,
+                        PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE, getActionUrl( ACTION_TOGGLE_CACHE ), "", AdminMessage.TYPE_CONFIRMATION, parameters ) );
+            }
+        }
+
+        return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_INVALID_CACHE_ID, AdminMessage.TYPE_ERROR ) );
+    }
+
+    /**
+     * Processes the cache reset for one cache or for all caches.
+     *
+     * @param request
+     *            The HTTP request
+     * @return the redirection to the manage caches view
+     * @throws AccessDeniedException
+     *             if the security token is invalid
+     */
+    @Action( ACTION_RESET_CACHES )
+    public String doResetCaches( HttpServletRequest request ) throws AccessDeniedException
+    {
+        if ( !getSecurityTokenService( ).validate( request, ACTION_RESET_CACHES ) )
+        {
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
+        }
+
+        String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
+
+        if ( strCacheIndex != null )
+        {
+            int nCacheIndex = Integer.parseInt( strCacheIndex );
+            CacheableService<?, ?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
             cs.resetCache( );
         }
         else
@@ -134,97 +215,36 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
             I18nService.resetCache( );
         }
 
-        return JSP_MANAGE_CACHES;
+        return redirectView( request, VIEW_MANAGE_CACHES );
     }
 
     /**
-     * Gets cache infos for all caches
-     * 
-     * @param request
-     *            The HTTP request
-     * @return HTML formated cache infos
-     */
-    public String getCacheInfos( HttpServletRequest request )
-    {
-        List<CacheableService<?,?>> list;
-        String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
-
-        if ( strCacheIndex != null )
-        {
-            int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService<?,?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
-            list = new ArrayList<>( );
-            list.add( cs );
-        }
-        else
-        {
-            list = CacheService.getCacheableServicesList( );
-        }
-
-        HashMap<String, Collection<CacheableService<?,?>>> model = new HashMap<>( );
-        model.put( MARK_SERVICES_LIST, list );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CACHE_INFOS, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
-
-    /**
-     * Returns the page of confirmation for changing the cache activation
-     *
-     * @param request
-     *            The Http Request
-     * @return the HTML page
-     */
-    public String getConfirmToggleCache( HttpServletRequest request )
-    {
-        String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
-        if ( strCacheIndex != null )
-        {
-            int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService<?,?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
-            if ( cs != null )
-            {
-                Object [ ] messageArgs = {
-                        cs.getName( )
-                };
-
-                Map<String, Object> parameters = new HashMap<>( );
-                parameters.put( PARAMETER_ID_CACHE, strCacheIndex );
-                parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_TOGGLE_CACHE ) );
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE, messageArgs,
-                        PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE, JSP_TOGGLE_CACHE, "", AdminMessage.TYPE_CONFIRMATION, parameters );
-            }
-        }
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_INVALID_CACHE_ID, JSP_PATH+JSP_MANAGE_CACHES, AdminMessage.TYPE_ERROR );
-    }
-
-    /**
-     * Process cache toggle on/off
+     * Processes the cache toggle on/off.
      *
      * @param request
      *            The HTTP request
-     * @return The URL to display when the process is done.
+     * @return the redirection to the manage caches view
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
-    public static String doToggleCache( HttpServletRequest request ) throws AccessDeniedException
+    @Action( ACTION_TOGGLE_CACHE )
+    public String doToggleCache( HttpServletRequest request ) throws AccessDeniedException
     {
-        ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
-        if ( !securityTokenService.validate( request, JSP_TOGGLE_CACHE ) )
+        if ( !getSecurityTokenService( ).validate( request, ACTION_TOGGLE_CACHE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
+
         String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
 
         if ( strCacheIndex != null )
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService<?,?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            CacheableService<?, ?> cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
             cs.enableCache( !cs.isCacheEnable( ) );
         }
 
-        return JSP_MANAGE_CACHES;
+        return redirectView( request, VIEW_MANAGE_CACHES );
     }
 
 }
