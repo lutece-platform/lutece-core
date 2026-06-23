@@ -1,7 +1,8 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title='#i18n{portal.role.create_role.boxTitle}' skipHeader=true />
-		<@tform action='jsp/admin/role/DoCreatePageRole.jsp' id='create_page_role_form' name='create_page_role'>
+		<@tform action='jsp/admin/mvc/pagerole' id='create_page_role_form' name='create_page_role'>
+			<@input type='hidden' name='action' value='createPageRole' />
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.role.create_role.labelName}' mandatory=true rows=2>
 				<@input type='text' name='role' maxlength=50 />
@@ -14,7 +15,7 @@
 			</@formGroup>
 			<@formGroup rows=2>
 				<@button type='submit' title='#i18n{portal.role.modify_role.buttonLabelValidate}' hideTitle=['xs'] buttonIcon='check' size='' />
-				<@aButton href='jsp/admin/role/ManagePageRole.jsp' title='#i18n{portal.admin.message.buttonCancel}' hideTitle=['xs'] buttonIcon='times' color='secondary' cancel=true size='' />
+				<@aButton href='jsp/admin/mvc/pagerole?view=managePageRole' title='#i18n{portal.admin.message.buttonCancel}' hideTitle=['xs'] buttonIcon='times' color='secondary' cancel=true size='' />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>

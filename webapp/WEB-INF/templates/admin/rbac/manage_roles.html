@@ -23,7 +23,7 @@
                             <@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.rbac.view_role_description.labelDescription}'  buttonIcon='edit' color='primary' />
                             <@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} ' buttonIcon='user' color='primary' />
                             <#if exist_front_role_map?has_content && exist_front_role_map[role.key]>
-                                <@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelViewFrontRole} ' buttonIcon='link'  color='primary' />
+                                <@aButton href='jsp/admin/mvc/pagerole?view=modifyPageRole&role=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelViewFrontRole} ' buttonIcon='link'  color='primary' />
                             </#if> 
                             <@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete} ' buttonIcon='trash' color='danger' />
                         </@manageFeatureItemColumn>

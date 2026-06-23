@@ -45,7 +45,11 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
@@ -64,15 +68,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * JspBean for Role management
+ * JspBean for page Role management through the admin MVC front-controller.
  */
 @RequestScoped
 @Named
-public class RoleJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "pagerole", right = "CORE_ROLES_MANAGEMENT" )
+public class RoleJspBean extends MVCAdminJspBean
 {
-    // //////////////////////////////////////////////////////////////////////////////
-    // Constant
-
     // Right
     /**
      * Right to manage roles
@@ -102,9 +104,19 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_PAGE_ROLE_MODIFY = "admin/role/modify_page_role.html";
     private static final String TEMPLATE_CREATE_PAGE_ROLE = "admin/role/create_page_role.html";
 
-    // Jsp
-    private static final String PATH_JSP = "jsp/admin/role/";
-    private static final String JSP_REMOVE_ROLE = "DoRemovePageRole.jsp";
+    // Security token key for the removal action
+    private static final String TOKEN_REMOVE_ROLE = "DoRemovePageRole.jsp";
+
+    // Views
+    private static final String VIEW_MANAGE_ROLES = "managePageRole";
+    private static final String VIEW_CREATE_PAGE_ROLE = "createPageRole";
+    private static final String VIEW_MODIFY_PAGE_ROLE = "modifyPageRole";
+    private static final String VIEW_REMOVE_PAGE_ROLE = "removePageRole";
+
+    // Actions
+    private static final String ACTION_CREATE_PAGE_ROLE = "createPageRole";
+    private static final String ACTION_MODIFY_PAGE_ROLE = "modifyPageRole";
+    private static final String ACTION_REMOVE_PAGE_ROLE = "removePageRole";
 
     // Properties
     private static final String PROPERTY_PAGE_TITLE_CREATE_ROLE = "portal.role.create_role.pageTitle";
@@ -116,97 +128,88 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CONFIRM_REMOVE = "portal.role.message.confirmRemoveRole";
     private static final String MESSAGE_CANNOT_REMOVE_ROLE = "portal.role.message.cannotRemoveRole";
 
-    @Inject 
-    @Named(BeanUtils.BEAN_ROLE_REMOVAL_SERVICE)
+    @Inject
+    @Named( BeanUtils.BEAN_ROLE_REMOVAL_SERVICE )
     private RemovalListenerService _removalListenerService;
-  
-    /**
-     * Creates a new RoleJspBean object.
-     */
-    public RoleJspBean( )
-    {
-        // Ctor
-    }
+
+    @Inject
+    private Models _models;
 
     /**
-     * Returns Page Role management form
-     * 
+     * Returns Page Role management form.
+     *
      * @param request
      *            The Http request
      * @return Html form
      */
+    @View( value = VIEW_MANAGE_ROLES, defaultView = true )
     public String getManagePageRole( HttpServletRequest request )
     {
         setPageTitleProperty( null );
 
-        Map<String, Object> model = new HashMap<>( );
         Collection<Role> listRoles = RoleHome.findAll( );
         User user = getUser( );
         listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, user );
         Map<String, Boolean> mapExistRbac = listRoles.stream( ).collect( Collectors.toMap( Role::getRole, x -> RBACRoleHome.checkExistRole( x.getRole( ) ) ) );
 
-        model.put( MARK_ROLES_LIST, listRoles );
-        model.put( MARK_EXIST_RBAC_MAP, mapExistRbac );
+        _models.put( MARK_ROLES_LIST, listRoles );
+        _models.put( MARK_EXIST_RBAC_MAP, mapExistRbac );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ROLES, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ROLES, getLocale( ), _models );
 
         return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Insert a new PageRole
-     * 
+     * Insert a new PageRole.
+     *
      * @param request
      *            The HTTP request
      * @return String The html code page
      */
+    @View( VIEW_CREATE_PAGE_ROLE )
     public String getCreatePageRole( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_ROLE );
 
-        Map<String, Object> model = new HashMap<>( );
+        _models.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
+        _models.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
+        _models.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_PAGE_ROLE ) );
 
-        model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
-        model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_CREATE_PAGE_ROLE ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_ROLE, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_ROLE, getLocale( ), _models );
 
         return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Create PageRole
-     * 
+     * Create PageRole.
+     *
      * @param request
      *            The HTTP request
      * @return String The url page
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_CREATE_PAGE_ROLE )
     public String doCreatePageRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         String strPageRoleDescription = request.getParameter( PARAMETER_PAGE_ROLE_DESCRIPTION );
         String strPageWorkgroup = request.getParameter( PARAMETER_PAGE_WORKGROUP );
 
-        // Mandatory field
-
         if ( StringUtil.isAnyEmpty( strPageRole, strPageRoleDescription ) || ( strPageWorkgroup == null ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
 
-        // Check if code is valid
         if ( !StringUtil.checkCodeKey( strPageRole ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_FORMAT, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_FORMAT, AdminMessage.TYPE_STOP ) );
         }
 
-        // Check if role exist
         if ( RoleHome.findExistRole( strPageRole ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_EXIST, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_EXIST, AdminMessage.TYPE_STOP ) );
         }
 
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_PAGE_ROLE ) )
@@ -219,20 +222,20 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         role.setWorkgroup( strPageWorkgroup );
         RoleHome.create( role );
 
-        return getHomeUrl( request );
+        return redirect( request, getHomeUrl( request ) );
     }
 
     /**
+     * Returns the page role modification form.
      *
      * @param request
      *            The HTTP request
      * @return String The html code page
      */
+    @View( VIEW_MODIFY_PAGE_ROLE )
     public String getModifyPageRole( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_ROLE );
-
-        Map<String, Object> model = new HashMap<>( );
 
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
 
@@ -243,34 +246,34 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
             return getManagePageRole( request );
         }
 
-        model.put( MARK_ROLE, role );
-        model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_PAGE_ROLE_MODIFY ) );
+        _models.put( MARK_ROLE, role );
+        _models.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
+        _models.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_PAGE_ROLE_MODIFY ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ROLE_MODIFY, getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ROLE_MODIFY, getLocale( ), _models );
 
         return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Modify PageRole
-     * 
+     * Modify PageRole.
+     *
      * @param request
      *            The HTTP request
      * @return String The url page
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MODIFY_PAGE_ROLE )
     public String doModifyPageRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         String strPageRoleDescription = request.getParameter( PARAMETER_PAGE_ROLE_DESCRIPTION );
         String strPageWorkgroup = request.getParameter( PARAMETER_PAGE_WORKGROUP );
 
-        // Mandatory field
         if ( ( strPageRoleDescription == null ) || strPageRoleDescription.equals( "" ) || ( strPageWorkgroup == null ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
 
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_PAGE_ROLE_MODIFY ) )
@@ -284,51 +287,52 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         role.setWorkgroup( strPageWorkgroup );
         RoleHome.update( role );
 
-        return getHomeUrl( request );
+        return redirect( request, getHomeUrl( request ) );
     }
 
     /**
-     * confirm Delete PageRole
-     * 
+     * Confirm Delete PageRole.
+     *
      * @param request
      *            The HTTP request
      * @return String The html code page
      */
+    @View( VIEW_REMOVE_PAGE_ROLE )
     public String getRemovePageRole( HttpServletRequest request )
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         if ( StringUtils.isBlank( strPageRole ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     PARAMETER_PAGE_ROLE
-            }, AdminMessage.TYPE_STOP );
+            }, AdminMessage.TYPE_STOP ) );
         }
         Role role = RoleHome.findByPrimaryKey( strPageRole );
         if ( role == null || !strPageRole.equals( role.getRole( ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                     strPageRole
-            }, AdminMessage.TYPE_STOP );
+            }, AdminMessage.TYPE_STOP ) );
         }
-        String strURL = PATH_JSP + JSP_REMOVE_ROLE;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_PAGE_ROLE, request.getParameter( PARAMETER_PAGE_ROLE ) );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_REMOVE_ROLE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, TOKEN_REMOVE_ROLE ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, new Object [ ] {
+        return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, new Object [ ] {
                 strPageRole
-        }, null, strURL, null, AdminMessage.TYPE_CONFIRMATION, parameters );
+        }, null, getActionUrl( ACTION_REMOVE_PAGE_ROLE ), null, AdminMessage.TYPE_CONFIRMATION, parameters ) );
     }
 
     /**
-     * Delete PageRole
-     * 
+     * Delete PageRole.
+     *
      * @param request
      *            The HTTP request
      * @return String The url page
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REMOVE_PAGE_ROLE )
     public String doRemovePageRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
@@ -341,14 +345,14 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
                     strPageRole, strCause
             };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP ) );
         }
-        if ( !getSecurityTokenService( ).validate( request, JSP_REMOVE_ROLE ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_REMOVE_ROLE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         RoleHome.remove( strPageRole );
 
-        return getHomeUrl( request );
+        return redirect( request, getHomeUrl( request ) );
     }
 }

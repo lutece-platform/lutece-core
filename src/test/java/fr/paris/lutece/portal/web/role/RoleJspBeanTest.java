@@ -44,6 +44,7 @@ import org.junit.jupiter.api.Test;
 
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -51,16 +52,19 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 public class RoleJspBeanTest extends LuteceTestCase
 {
     private static final String PARAMETER_PAGE_ROLE = "role";
-    private @Inject RoleJspBean bean;
     private Role role;
     private @Inject ISecurityTokenService _securityTokenService;
 
@@ -86,33 +90,50 @@ public class RoleJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
-    @Test
-    public void testGetRemovePageRole( )
+
+    /**
+     * Builds a request with an authenticated admin user holding the role management permission.
+     *
+     * @return the request
+     */
+    private MockHttpServletRequest newAuthenticatedRequest( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), RoleJspBean.RIGHT_ROLES_MANAGEMENT );
+        return request;
+    }
+
+    /**
+     * Gets a CDI-managed instance of the controller under test.
+     *
+     * @return the RoleJspBean instance
+     */
+    private RoleJspBean getInstance( )
+    {
+        return CDI.current( ).select( RoleJspBean.class ).get( );
+    }
+
+    @Test
+    public void testGetRemovePageRole( ) throws AccessDeniedException
+    {
+        ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
+
         // no args
-        bean.getRemovePageRole( request );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_VIEW, "removePageRole" );
+        getInstance( ).processController( request, new MockHttpServletResponse( ) );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
-        ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
         for ( ReferenceItem lang : listLanguages )
         {
             assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( PARAMETER_PAGE_ROLE ) );
         }
-        // invalid arg
-        request = new MockHttpServletRequest( );
-        request.addParameter( PARAMETER_PAGE_ROLE, role.getRole( ) );
-        bean.getRemovePageRole( request );
-        message = AdminMessageService.getMessage( request );
-        assertNotNull( message );
-        for ( ReferenceItem lang : listLanguages )
-        {
-            assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( role.getRole( ) ) );
-        }
+
         // valid arg
-        request = new MockHttpServletRequest( );
+        request = newAuthenticatedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_VIEW, "removePageRole" );
         request.addParameter( PARAMETER_PAGE_ROLE, role.getRole( ) );
-        bean.getRemovePageRole( request );
+        getInstance( ).processController( request, new MockHttpServletResponse( ) );
         message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         for ( ReferenceItem lang : listLanguages )
@@ -121,21 +142,22 @@ public class RoleJspBeanTest extends LuteceTestCase
         }
         assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
+
     @Test
     public void testDoCreatePageRole( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
         final String name = getRandomName( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createPageRole" );
         request.setParameter( "role", name );
         request.setParameter( "role_description", name );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/role/create_page_role.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/role/create_page_role.html" ) );
 
         assertNull( RoleHome.findByPrimaryKey( name ) );
         try
         {
-            bean.doCreatePageRole( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             Role stored = RoleHome.findByPrimaryKey( name );
             assertNotNull( stored );
             assertEquals( name, stored.getRole( ) );
@@ -147,21 +169,22 @@ public class RoleJspBeanTest extends LuteceTestCase
             RoleHome.remove( name );
         }
     }
+
     @Test
     public void testDoCreatePageRoleInvalidToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
         final String name = getRandomName( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createPageRole" );
         request.setParameter( "role", name );
         request.setParameter( "role_description", name );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/role/create_page_role.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/role/create_page_role.html" ) + "b" );
 
         assertNull( RoleHome.findByPrimaryKey( name ) );
         try
         {
-            bean.doCreatePageRole( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Shoud have thrown" );
         }
         catch( AccessDeniedException e )
@@ -173,11 +196,13 @@ public class RoleJspBeanTest extends LuteceTestCase
             RoleHome.remove( name );
         }
     }
+
     @Test
     public void testDoCreatePageRoleNoToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
         final String name = getRandomName( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createPageRole" );
         request.setParameter( "role", name );
         request.setParameter( "role_description", name );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
@@ -185,7 +210,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         assertNull( RoleHome.findByPrimaryKey( name ) );
         try
         {
-            bean.doCreatePageRole( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Shoud have thrown" );
         }
         catch( AccessDeniedException e )
@@ -197,34 +222,36 @@ public class RoleJspBeanTest extends LuteceTestCase
             RoleHome.remove( name );
         }
     }
+
     @Test
     public void testDoModifyPageRole( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyPageRole" );
         request.setParameter( "role", role.getRole( ) );
         request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/role/modify_page_role.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/role/modify_page_role.html" ) );
 
         assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
-        bean.doModifyPageRole( request );
+        getInstance( ).processController( request, new MockHttpServletResponse( ) );
         assertEquals( role.getRoleDescription( ) + "_mod", RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
     }
+
     @Test
     public void testDoModifyPageRoleInvalidtoken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyPageRole" );
         request.setParameter( "role", role.getRole( ) );
         request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/role/modify_page_role.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/role/modify_page_role.html" ) + "b" );
 
         assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         try
         {
-            bean.doModifyPageRole( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -232,10 +259,12 @@ public class RoleJspBeanTest extends LuteceTestCase
             assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         }
     }
+
     @Test
     public void testDoModifyPageRoleNotoken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyPageRole" );
         request.setParameter( "role", role.getRole( ) );
         request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
@@ -243,7 +272,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         try
         {
-            bean.doModifyPageRole( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -251,28 +280,32 @@ public class RoleJspBeanTest extends LuteceTestCase
             assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         }
     }
+
     @Test
     public void testDoRemovePageRole( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "removePageRole" );
         request.setParameter( "role", role.getRole( ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "DoRemovePageRole.jsp" ) );
 
         assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
-        bean.doRemovePageRole( request );
+        getInstance( ).processController( request, new MockHttpServletResponse( ) );
         assertNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
     }
+
     @Test
     public void testDoRemovePageRoleInvalidToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "removePageRole" );
         request.setParameter( "role", role.getRole( ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "DoRemovePageRole.jsp" ) + "b" );
 
         assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         try
         {
-            bean.doRemovePageRole( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -280,16 +313,18 @@ public class RoleJspBeanTest extends LuteceTestCase
             assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         }
     }
+
     @Test
     public void testDoRemovePageRoleNoToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = newAuthenticatedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "removePageRole" );
         request.setParameter( "role", role.getRole( ) );
 
         assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         try
         {
-            bean.doRemovePageRole( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
