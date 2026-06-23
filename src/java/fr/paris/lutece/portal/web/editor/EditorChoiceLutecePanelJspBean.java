@@ -39,17 +39,24 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.editor.RichTextEditorService;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 
 /**
  * The Class EditorChoiceLutecePanelJspBean.
  */
 @RequestScoped
 @Named
-public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
+@Controller( name = "editor", right = "CORE_EDITORS_MANAGEMENT" )
+public class EditorChoiceLutecePanelJspBean extends MVCAdminJspBean
 {
     public static final String RIGHT_EDITORS_MANAGEMENT = "CORE_EDITORS_MANAGEMENT";
     private static final String ANCHOR_ADMIN_DASHBOARDS = "editors";
+
+    // Actions
+    private static final String ACTION_UPDATE_BACK_OFFICE_EDITOR = "updateBackOfficeEditor";
+    private static final String ACTION_UPDATE_FRONT_OFFICE_EDITOR = "updateFrontOfficeEditor";
 
     /**
      * Generated servial UID
@@ -68,6 +75,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_UPDATE_BACK_OFFICE_EDITOR )
     public String doUpdateBackOfficeEditor( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_EDITOR_CHOICE_PANEL ) )
@@ -77,7 +85,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
         String strEditorName = request.getParameter( PARAM_EDITOR_BACK_OFFICE );
         RichTextEditorService.updateBackOfficeDefaultEditor( strEditorName );
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
     /**
@@ -89,6 +97,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_UPDATE_FRONT_OFFICE_EDITOR )
     public String doUpdateFrontOfficeEditor( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_EDITOR_CHOICE_PANEL ) )
@@ -98,6 +107,6 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
         String strEditorName = request.getParameter( PARAM_EDITOR_FRONT_OFFICE );
         RichTextEditorService.updateFrontOfficeDefaultEditor( strEditorName );
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 }

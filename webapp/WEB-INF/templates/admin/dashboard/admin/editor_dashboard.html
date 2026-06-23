@@ -2,7 +2,8 @@
     <@pageHeader title="#i18n{portal.admindashboard.editorChoice.title}" titleClass="pb-3"/>
     <@row>
         <@columns sm=12 md=6>
-            <@tform action='jsp/admin/admindashboard/DoUpdateBackOfficeEditor.jsp' boxed=true>
+            <@tform action='jsp/admin/mvc/editor' boxed=true>
+                <@input type='hidden' name='action' value='updateBackOfficeEditor' />
                 <@input type='hidden' name='token' value='${token}' />
                 <@formGroup labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorBackOffice}' rows=2>
                     <#if !current_editor_back_office??><#assign current_editor_back_office = ""></#if>
@@ -14,7 +15,8 @@
             </@tform>
         </@columns>
         <@columns sm=12 md=6>
-            <@tform action='jsp/admin/admindashboard/DoUpdateFrontOfficeEditor.jsp' boxed=true>
+            <@tform action='jsp/admin/mvc/editor' boxed=true>
+                <@input type='hidden' name='action' value='updateFrontOfficeEditor' />
                 <@input type='hidden' name='token' value='${token}' />
                 <@formGroup labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorFrontOffice}' rows=2>
                     <#if !current_editor_front_office??><#assign current_editor_front_office = ""></#if>
