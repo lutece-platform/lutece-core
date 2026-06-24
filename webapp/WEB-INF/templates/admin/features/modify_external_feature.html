@@ -1,7 +1,8 @@
 <@pageContainer>
    <@pageColumn>
       <@pageHeader title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' />
-      <@tform method='post' id="modify_external_form" name='modify_external_feature' action='jsp/admin/features/DoModifyExternalFeature.jsp'>
+      <@tform method='post' id="modify_external_form" name='modify_external_feature' action='jsp/admin/mvc/externalfeatures'>
+      <@input type='hidden' name='action' value='modifyExternalFeature' />
       <@input type='hidden' name='token' value='${token}' />
       <@input type='hidden' name='external_feature_id' value=external_feature.id />
       <@input type='hidden' name='external_feature_order' value=external_feature.order />

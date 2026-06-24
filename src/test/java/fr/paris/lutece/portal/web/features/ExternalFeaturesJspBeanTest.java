@@ -53,9 +53,12 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 public class ExternalFeaturesJspBeanTest extends LuteceTestCase
@@ -81,7 +84,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        AppLogService.info("ExternalFeaturesJspBeanTest.setUp");
+        AppLogService.info( "ExternalFeaturesJspBeanTest.setUp" );
         _right = new Right( );
         _right.setId( RIGHT_ID );
         _right.setNameKey( NAMEKEY );
@@ -103,54 +106,56 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @AfterEach
     protected void tearDown( ) throws Exception
     {
-        AppLogService.info("ExternalFeaturesJspBeanTest.tearDown");
+        AppLogService.info( "ExternalFeaturesJspBeanTest.tearDown" );
         RightHome.remove( RIGHT_ID );
         FeatureGroupHome.remove( FEATUREGROUP );
     }
 
     /**
-     * Test of getCreateExternalFeature method, of class ExternalFeaturesJspBean.
+     * Builds a request with an authenticated admin user holding the features management permission.
+     *
+     * @return the request
      */
+    private MockHttpServletRequest authedRequest( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        return request;
+    }
+
+    /**
+     * Gets a CDI-managed instance of the controller under test.
+     *
+     * @return the ExternalFeaturesJspBean instance
+     */
+    private ExternalFeaturesJspBean getInstance( )
+    {
+        return CDI.current( ).select( ExternalFeaturesJspBean.class ).get( );
+    }
+
     @Test
     public void testGetCreateExternalFeature( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        assertNotNull( instance.getCreateExternalFeature( request ) );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_VIEW, "createExternalFeature" );
+        assertNotNull( getInstance( ).processController( request, new MockHttpServletResponse( ) ) );
     }
 
-    /**
-     * Test of getModifyExternalFeature method, of class ExternalFeaturesJspBean.
-     */
     @Test
     public void testGetModifyExternalFeature( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_VIEW, "modifyExternalFeature" );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        assertNotNull( instance.getModifyExternalFeature( request ) );
+        assertNotNull( getInstance( ).processController( request, new MockHttpServletResponse( ) ) );
     }
 
-    /**
-     * Test of doModifyExternalFeature method, of class ExternalFeaturesJspBean.
-     * 
-     * @throws AccessDeniedException
-     */
     @Test
     public void testDoModifyExternalFeature( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyExternalFeature" );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         String strRandom = getRandomName( );
         request.setParameter( "id", _right.getId( ) );
         request.setParameter( "nameKey", strRandom );
@@ -163,11 +168,9 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
         request.setParameter( "external_feature_order", "100" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/features/modify_external_feature.html" ) );
 
-        instance.getModifyExternalFeature( request );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/features/modify_external_feature.html" ) );
-        instance.doModifyExternalFeature( request );
+        getInstance( ).processController( request, new MockHttpServletResponse( ) );
 
         Right right = RightHome.findByPrimaryKey( _right.getId( ) );
         assertNotNull( right );
@@ -185,12 +188,9 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @Test
     public void testDoModifyExternalFeatureInvalidToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyExternalFeature" );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         String strRandom = getRandomName( );
         request.setParameter( "id", _right.getId( ) );
         request.setParameter( "nameKey", strRandom );
@@ -202,13 +202,10 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "iconUrl", strRandom );
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
-
-        instance.getModifyExternalFeature( request );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/features/modify_external_feature.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/features/modify_external_feature.html" ) + "b" );
         try
         {
-            instance.doModifyExternalFeature( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -230,12 +227,9 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @Test
     public void testDoModifyExternalFeatureNoToken( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "modifyExternalFeature" );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         String strRandom = getRandomName( );
         request.setParameter( "id", _right.getId( ) );
         request.setParameter( "nameKey", strRandom );
@@ -247,12 +241,9 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "iconUrl", strRandom );
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
-
-        instance.getModifyExternalFeature( request );
-
         try
         {
-            instance.doModifyExternalFeature( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -271,21 +262,11 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         }
     }
 
-    /**
-     * Test of doCreateExternalFeature method, of class ExternalFeaturesJspBean.
-     * 
-     * @throws AccessDeniedException
-     * @throws PasswordResetException
-     */
     @Test
     public void testDoCreateExternalFeature( ) throws PasswordResetException, AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createExternalFeature" );
         String strRandom = getRandomName( );
         request.setParameter( "id", strRandom );
         request.setParameter( "nameKey", strRandom );
@@ -297,10 +278,9 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "iconUrl", strRandom );
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/features/create_external_feature.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/features/create_external_feature.html" ) );
 
-        instance.doCreateExternalFeature( request );
+        getInstance( ).processController( request, new MockHttpServletResponse( ) );
 
         try
         {
@@ -332,12 +312,8 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @Test
     public void testDoCreateExternalFeatureInvalidToken( ) throws PasswordResetException, AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createExternalFeature" );
         String strRandom = getRandomName( );
         request.setParameter( "id", strRandom );
         request.setParameter( "nameKey", strRandom );
@@ -349,12 +325,11 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "iconUrl", strRandom );
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "admin/features/create_external_feature.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "admin/features/create_external_feature.html" ) + "b" );
 
         try
         {
-            instance.doCreateExternalFeature( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -371,12 +346,8 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @Test
     public void testDoCreateExternalFeatureNoToken( ) throws PasswordResetException, AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "createExternalFeature" );
         String strRandom = getRandomName( );
         request.setParameter( "id", strRandom );
         request.setParameter( "nameKey", strRandom );
@@ -391,7 +362,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doCreateExternalFeature( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -405,43 +376,27 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         }
     }
 
-    /**
-     * Test of getRemoveExternalFeature method, of class ExternalFeaturesJspBean.
-     */
     @Test
     public void testGetRemoveExternalFeature( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_VIEW, "confirmRemoveExternalFeature" );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getRemoveExternalFeature( request );
+        getInstance( ).processController( request, new MockHttpServletResponse( ) );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
 
-    /**
-     * Test of doRemoveExternalFeature method, of class ExternalFeaturesJspBean.
-     * 
-     * @throws AccessDeniedException
-     * @throws PasswordResetException
-     */
     @Test
     public void testDoRemoveExternalFeature( ) throws PasswordResetException, AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "removeExternalFeature" );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) );
 
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getRemoveExternalFeature( request );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) );
-        instance.doRemoveExternalFeature( request );
+        getInstance( ).processController( request, new MockHttpServletResponse( ) );
 
         Right right = RightHome.findByPrimaryKey( TEST_EXTERNAL_FEATURE_ID );
         assertNull( right );
@@ -450,18 +405,13 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @Test
     public void testDoRemoveExternalFeatureInvalidToken( ) throws PasswordResetException, AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "removeExternalFeature" );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getRemoveExternalFeature( request );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                _securityTokenService.getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, _securityTokenService.getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) + "b" );
         try
         {
-            instance.doRemoveExternalFeature( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -474,17 +424,12 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @Test
     public void testDoRemoveExternalFeatureNoToken( ) throws PasswordResetException, AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
+        MockHttpServletRequest request = authedRequest( );
+        request.addParameter( MVCUtils.PARAMETER_ACTION, "removeExternalFeature" );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEATURE, TEST_EXTERNAL_FEATURE_ID );
-        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getRemoveExternalFeature( request );
-
         try
         {
-            instance.doRemoveExternalFeature( request );
+            getInstance( ).processController( request, new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )

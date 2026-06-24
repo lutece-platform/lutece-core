@@ -54,7 +54,10 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -64,7 +67,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  */
 @RequestScoped
 @Named
-public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "externalfeatures", right = "CORE_FEATURES_MANAGEMENT" )
+public class ExternalFeaturesJspBean extends MVCAdminJspBean
 {
     private static final long serialVersionUID = -5179996626579180810L;
     // Properties
@@ -84,8 +88,18 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_ID_LEVEL = "level_id";
     private static final String PARAMETER_ORDER_EXTERNAL_FEATURE = "external_feature_order";
 
-    // JSP
-    private static final String JSP_DELETE_EXTERNAL_FEATURE = "jsp/admin/features/DoRemoveExternalFeature.jsp";
+    // Security token key for the removal action
+    private static final String TOKEN_REMOVE_EXTERNAL_FEATURE = "jsp/admin/features/DoRemoveExternalFeature.jsp";
+
+    // Views
+    private static final String VIEW_CREATE_EXTERNAL_FEATURE = "createExternalFeature";
+    private static final String VIEW_MODIFY_EXTERNAL_FEATURE = "modifyExternalFeature";
+    private static final String VIEW_CONFIRM_REMOVE_EXTERNAL_FEATURE = "confirmRemoveExternalFeature";
+
+    // Actions
+    private static final String ACTION_CREATE_EXTERNAL_FEATURE = "createExternalFeature";
+    private static final String ACTION_MODIFY_EXTERNAL_FEATURE = "modifyExternalFeature";
+    private static final String ACTION_REMOVE_EXTERNAL_FEATURE = "removeExternalFeature";
 
     // Rights
     public static final String RIGHT_EXTERNAL_FEATURES_MANAGEMENT = "CORE_FEATURES_MANAGEMENT";
@@ -97,6 +111,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 
     private static final String ANCHOR_ADMIN_DASHBOARDS = "external_features";
 
+    @View( VIEW_CREATE_EXTERNAL_FEATURE )
     public String getCreateExternalFeature( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_CREATE_EXTERNAL_FEATURE_PAGETITLE );
@@ -126,6 +141,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         return getAdminPage( template.getHtml( ) );
     }
 
+    @Action( ACTION_CREATE_EXTERNAL_FEATURE )
     public String doCreateExternalFeature( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_EXTERNAL_FEATURE ) )
@@ -139,9 +155,10 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         externalFeature.setLevel( Integer.parseInt( request.getParameter( PARAMETER_ID_LEVEL ) ) );
 
         RightHome.create( externalFeature );
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
+    @View( VIEW_CONFIRM_REMOVE_EXTERNAL_FEATURE )
     public String getRemoveExternalFeature( HttpServletRequest request )
     {
 
@@ -156,24 +173,26 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_ID_EXTERNAL_FEATURE, strExternalFeatureId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DELETE_EXTERNAL_FEATURE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, TOKEN_REMOVE_EXTERNAL_FEATURE ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, JSP_DELETE_EXTERNAL_FEATURE, "",
-                AdminMessage.TYPE_CONFIRMATION, parameters );
+        return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null,
+                getActionUrl( ACTION_REMOVE_EXTERNAL_FEATURE ), "", AdminMessage.TYPE_CONFIRMATION, parameters ) );
     }
 
+    @Action( ACTION_REMOVE_EXTERNAL_FEATURE )
     public String doRemoveExternalFeature( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !getSecurityTokenService( ).validate( request, JSP_DELETE_EXTERNAL_FEATURE ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_REMOVE_EXTERNAL_FEATURE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strExternalFeatureId = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
         RightHome.remove( strExternalFeatureId );
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
+    @View( VIEW_MODIFY_EXTERNAL_FEATURE )
     public String getModifyExternalFeature( HttpServletRequest request )
     {
 
@@ -207,6 +226,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         return getAdminPage( template.getHtml( ) );
     }
 
+    @Action( ACTION_MODIFY_EXTERNAL_FEATURE )
     public String doModifyExternalFeature( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_EXTERNAL_FEATURE ) )
@@ -234,6 +254,6 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
             user.updateRight( externalFeature );
         }
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 }

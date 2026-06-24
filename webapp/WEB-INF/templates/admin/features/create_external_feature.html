@@ -3,7 +3,8 @@
     	<@box>
 		<@boxHeader title='#i18n{portal.features.external_features.manage_external_features.create}' />
 		<@boxBody>
-			<@tform method='post' id="create_external_form" name='create_external_feature' action='jsp/admin/features/DoCreateExternalFeature.jsp'>
+			<@tform method='post' id="create_external_form" name='create_external_feature' action='jsp/admin/mvc/externalfeatures'>
+			<@input type='hidden' name='action' value='createExternalFeature' />
 			<@input type='hidden' name='token' value='${token}' />
 			<@messages errors=errors />
 			<@formGroup labelFor='id' labelKey='#i18n{portal.features.external_features.create_external_features.id}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.id.help}' rows=2>
