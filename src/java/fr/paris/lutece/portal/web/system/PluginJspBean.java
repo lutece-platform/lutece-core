@@ -47,7 +47,10 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -59,7 +62,6 @@ import java.util.Map;
 
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -67,7 +69,8 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 @RequestScoped
 @Named
-public class PluginJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "plugins", right = "CORE_PLUGINS_MANAGEMENT" )
+public class PluginJspBean extends MVCAdminJspBean
 {
     // //////////////////////////////////////////////////////////////////////////////
     // Constants
@@ -99,9 +102,18 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_PLUGIN_TYPE_NAME_INSERTSERVICE = "portal.system.pluginType.name.insertService";
     private static final String PROPERTY_PLUGIN_TYPE_NAME_CONTENTSERVICE = "portal.system.pluginType.name.contentService";
     private static final String TEMPLATE_PLUGIN_DETAILS = "/admin/system/view_plugin.html";
+    // Security token key for the uninstall action
     private static final String JSP_UNINSTALL_PLUGIN = "jsp/admin/system/DoUninstallPlugin.jsp";
-    public static final String JSP_MANAGE_PLUGINS = "ManagePlugins.jsp";
-    private static final String JSP_PATH = "jsp/admin/system/";
+
+    // Views
+    private static final String VIEW_MANAGE_PLUGINS = "managePlugins";
+    private static final String VIEW_CONFIRM_UNINSTALL_PLUGIN = "confirmUninstallPlugin";
+    private static final String VIEW_PLUGIN_DESCRIPTION = "pluginDescription";
+
+    // Actions
+    private static final String ACTION_INSTALL_PLUGIN = "installPlugin";
+    private static final String ACTION_UNINSTALL_PLUGIN = "uninstallPlugin";
+    private static final String ACTION_MODIFY_PLUGIN_POOL = "modifyPluginPool";
 
     /**
      * Returns the plugins management page
@@ -110,6 +122,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return Html page
      */
+    @View( value = VIEW_MANAGE_PLUGINS, defaultView = true )
     public String getManagePlugins( HttpServletRequest request )
     {
         Locale locale = AdminUserService.getLocale( request );
@@ -133,13 +146,12 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      *
      * @param request
      *            The Http request
-     * @param context
-     *            The servlet context
      * @return the url of the page containing a log essage
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
-    public String doInstallPlugin( HttpServletRequest request, ServletContext context ) throws AccessDeniedException
+    @Action( ACTION_INSTALL_PLUGIN )
+    public String doInstallPlugin( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
         Plugin plugin = PluginService.getPlugin( strPluginName );
@@ -150,7 +162,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
                     plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( )
             };
 
-            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args, JSP_PATH+JSP_MANAGE_PLUGINS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args, getViewFullUrl( VIEW_MANAGE_PLUGINS ), AdminMessage.TYPE_STOP ) );
 
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
@@ -165,10 +177,10 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         {
             AppLogService.error( e.getMessage( ), e );
 
-            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_INSTALL_ERROR, JSP_PATH+JSP_MANAGE_PLUGINS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_INSTALL_ERROR, getViewFullUrl( VIEW_MANAGE_PLUGINS ), AdminMessage.TYPE_STOP ) );
         }
 
-        return getHomeUrl( request );
+        return redirect( request, getHomeUrl( request ) );
     }
 
     /**
@@ -176,13 +188,12 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      *
      * @param request
      *            The Http request
-     * @param context
-     *            The servlet context
      * @return the url of the page containing a log essage
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
-    public String doUninstallPlugin( HttpServletRequest request, ServletContext context ) throws AccessDeniedException
+    @Action( ACTION_UNINSTALL_PLUGIN )
+    public String doUninstallPlugin( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, JSP_UNINSTALL_PLUGIN ) )
         {
@@ -199,7 +210,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
             AppLogService.error( e.getMessage( ), e );
         }
 
-        return getHomeUrl( request );
+        return redirect( request, getHomeUrl( request ) );
     }
 
     /**
@@ -209,6 +220,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      *            The Http Request
      * @return the HTML page
      */
+    @View( VIEW_CONFIRM_UNINSTALL_PLUGIN )
     public String getConfirmUninstallPlugin( HttpServletRequest request )
     {
         String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
@@ -218,8 +230,8 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAM_PLUGIN_NAME, strPluginName );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_UNINSTALL_PLUGIN ) );
-        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, null, null, JSP_UNINSTALL_PLUGIN, null, AdminMessage.TYPE_CONFIRMATION,
-                parameters, JSP_PATH+JSP_MANAGE_PLUGINS );
+        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, null, null, getActionUrl( ACTION_UNINSTALL_PLUGIN ), null, AdminMessage.TYPE_CONFIRMATION,
+                parameters, getViewFullUrl( VIEW_MANAGE_PLUGINS ) );
 
         for ( PortletType portletType : listPortletTypes )
         {
@@ -228,11 +240,11 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
             if ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) != 0 && isPortletExists( strPluginHomeClass ) )
             {
                 strMessageKey = PROPERTY_PLUGIN_PORTLET_EXIST_MESSAGE;
-                strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, JSP_PATH+JSP_MANAGE_PLUGINS, AdminMessage.TYPE_STOP );
+                strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, getViewFullUrl( VIEW_MANAGE_PLUGINS ), AdminMessage.TYPE_STOP );
             }
         }
 
-        return strAdminMessageUrl;
+        return redirect( request, strAdminMessageUrl );
     }
 
     /**
@@ -244,6 +256,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MODIFY_PLUGIN_POOL )
     public String doModifyPluginPool( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
@@ -263,7 +276,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
             AppLogService.error( e.getMessage( ), e );
         }
 
-        return getHomeUrl( request );
+        return redirect( request, getHomeUrl( request ) );
     }
 
     /**
@@ -273,6 +286,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      *            The HTTP request
      * @return The popup HTML code
      */
+    @View( VIEW_PLUGIN_DESCRIPTION )
     public String getPluginDescription( HttpServletRequest request )
     {
         String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );

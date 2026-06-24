@@ -55,6 +55,8 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import jakarta.inject.Inject;
 
 /**
@@ -100,20 +102,21 @@ public class PluginJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( PARAM_PLUGIN_TYPE, PARAM_PLUGIN_TYPE_ALL );
 
-        instance.init( request, PluginJspBean.RIGHT_MANAGE_PLUGINS );
-        assertNotNull( instance.getManagePlugins( request ) );
+        assertNotNull( instance.processController( withView( request, "managePlugins" ), new MockHttpServletResponse( ) ) );
     }
     @Test
     public void testDoInstallPlugin( ) throws AccessDeniedException
     {
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "admin/system/manage_plugins.html" ) );
-        instance.doInstallPlugin( request, request.getServletContext( ) );
+        instance.processController( withAction( request, "installPlugin" ), new MockHttpServletResponse( ) );
         assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
     }
     @Test
@@ -121,12 +124,13 @@ public class PluginJspBeanTest extends LuteceTestCase
     {
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "admin/system/manage_plugins.html" ) + "b" );
         try
         {
-            instance.doInstallPlugin( request, request.getServletContext( ) );
+            instance.processController( withAction( request, "installPlugin" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -139,10 +143,11 @@ public class PluginJspBeanTest extends LuteceTestCase
     {
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         try
         {
-            instance.doInstallPlugin( request, request.getServletContext( ) );
+            instance.processController( withAction( request, "installPlugin" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -155,37 +160,41 @@ public class PluginJspBeanTest extends LuteceTestCase
     {
         assertEquals( AppConnectionService.DEFAULT_POOL_NAME, PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( PARAM_DB_POOL_NAME, "junit" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "admin/system/manage_plugins.html" ) );
-        instance.doModifyPluginPool( request );
+        instance.processController( withAction( request, "modifyPluginPool" ), new MockHttpServletResponse( ) );
         assertEquals( "junit", PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
     }
     @Test
     public void testDoModifyPluginPoolInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( PARAM_DB_POOL_NAME, "junit" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "admin/system/manage_plugins.html" ) + "b" );
-        assertThrows( AccessDeniedException.class, () -> instance.doModifyPluginPool( request ) );
+        assertThrows( AccessDeniedException.class, () -> instance.processController( withAction( request, "modifyPluginPool" ), new MockHttpServletResponse( ) ) );
     }
     @Test
     public void testDoModifyPluginPoolNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( PARAM_DB_POOL_NAME, "junit" );
-        assertThrows( AccessDeniedException.class, () -> instance.doModifyPluginPool( request ) );
+        assertThrows( AccessDeniedException.class, () -> instance.processController( withAction( request, "modifyPluginPool" ), new MockHttpServletResponse( ) ) );
     }
     @Test
-    public void testGetConfirmUninstallPlugin( )
+    public void testGetConfirmUninstallPlugin( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( "plugin_name", PLUGIN_NAME );
-        instance.getConfirmUninstallPlugin( request );
+        instance.processController( withView( request, "confirmUninstallPlugin" ), new MockHttpServletResponse( ) );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
@@ -196,10 +205,11 @@ public class PluginJspBeanTest extends LuteceTestCase
         PluginService.getPlugin( PLUGIN_NAME ).install( );
         assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "jsp/admin/system/DoUninstallPlugin.jsp" ) );
-        instance.doUninstallPlugin( request, request.getServletContext( ) );
+        instance.processController( withAction( request, "uninstallPlugin" ), new MockHttpServletResponse( ) );
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
     }
     @Test
@@ -208,12 +218,13 @@ public class PluginJspBeanTest extends LuteceTestCase
         PluginService.getPlugin( PLUGIN_NAME ).install( );
         assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "jsp/admin/system/DoUninstallPlugin.jsp" ) + "b" );
         try
         {
-            instance.doUninstallPlugin( request, request.getServletContext( ) );
+            instance.processController( withAction( request, "uninstallPlugin" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -227,11 +238,12 @@ public class PluginJspBeanTest extends LuteceTestCase
         PluginService.getPlugin( PLUGIN_NAME ).install( );
         assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addParameter( "plugin_name", PLUGIN_NAME );
 
         try
         {
-            instance.doUninstallPlugin( request, request.getServletContext( ) );
+            instance.processController( withAction( request, "uninstallPlugin" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -239,4 +251,8 @@ public class PluginJspBeanTest extends LuteceTestCase
             assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
         }
     }
+
+    private MockHttpServletRequest withView( MockHttpServletRequest r, String v ) { r.addParameter( MVCUtils.PARAMETER_VIEW, v ); return r; }
+
+    private MockHttpServletRequest withAction( MockHttpServletRequest r, String a ) { r.addParameter( MVCUtils.PARAMETER_ACTION, a ); return r; }
 }

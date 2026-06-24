@@ -11,7 +11,7 @@
 					</@inputGroup>
 				</@formGroup>
 			</@tform>
-			<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' type='inline'>
+			<@tform method='post' name='FilterPluginsForm' action='jsp/admin/mvc/plugins?view=managePlugins' type='inline'>
 				<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type'
 					hideLabel=['all'] formStyle='inline'>
 					<@inputGroup>
@@ -36,7 +36,7 @@
 							<@p class='mb-0'><@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${core.providerUrl}' target='_blank'>${core.providerUrl}</@link></em></@p>
 						</@boxBody>
 						<@boxFooter>
-                            <@offcanvas targetUrl="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}" targetElement="#plugin-content" id="plugin-core"  btnIcon="info-circle" btnColor="info" position="end" title="#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${core.name}" />
+                            <@offcanvas targetUrl="jsp/admin/mvc/plugins?view=pluginDescription&plugin_name=${core.name}" targetElement="#plugin-content" id="plugin-core"  btnIcon="info-circle" btnColor="info" position="end" title="#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${core.name}" />
 						</@boxFooter>
 					</@box>
 				</@columns>
@@ -70,7 +70,7 @@
 							<@boxFooter>
 								<#if plugin.installed>
 									<#if plugin.dbPoolRequired>
-										<@tform method='post' type='inline' align='middle' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
+										<@tform method='post' type='inline' align='middle' action='jsp/admin/mvc/plugins?action=modifyPluginPool#plugin_${plugin.name}_${plugin.version}'>
 											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 											<@input type='hidden' name='token' value='${token}' />
 											<@formGroup rows=2 groupStyle='inline' formStyle='inline'>
@@ -82,11 +82,11 @@
 										</@tform>
 									</#if>
 								</#if>
-								<@offcanvas targetUrl="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}" targetElement="#plugin-content" id="plugin-${plugin?index}" btnIcon="info-circle" btnColor="info me-1" position="end" title="#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${plugin.name}" />
+								<@offcanvas targetUrl="jsp/admin/mvc/plugins?view=pluginDescription&plugin_name=${plugin.name}" targetElement="#plugin-content" id="plugin-${plugin?index}" btnIcon="info-circle" btnColor="info me-1" position="end" title="#i18n{portal.system.view_plugin.boxTitlePluginDetail} ${plugin.name}" />
 								<#if plugin.installed>
-									<@aButton href='jsp/admin/system/ConfirmUninstallPlugin.jsp?plugin_name=${plugin.name}' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='player-stop me-1' hideTitle=['xs','sm'] color='danger' />
+									<@aButton href='jsp/admin/mvc/plugins?view=confirmUninstallPlugin&plugin_name=${plugin.name}' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='player-stop me-1' hideTitle=['xs','sm'] color='danger' />
 								<#else>
-									<@tform method='post' type='inline' align='middle' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
+									<@tform method='post' type='inline' align='middle' action='jsp/admin/mvc/plugins?action=installPlugin#plugin_${plugin.name}_${plugin.version}'>
 										<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 										<@input type='hidden' name='token' value='${token}' />
 										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='player-play me-1' hideTitle=['xs','sm'] color='success' />
