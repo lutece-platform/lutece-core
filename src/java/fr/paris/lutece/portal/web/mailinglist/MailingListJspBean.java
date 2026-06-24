@@ -65,7 +65,10 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
@@ -81,7 +84,8 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 @SessionScoped
 @Named
-public class MailingListJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "mailinglists", right = "CORE_MAILINGLISTS_MANAGEMENT" )
+public class MailingListJspBean extends MVCAdminJspBean
 {
     private static final long serialVersionUID = -1589153949244582338L;
 
@@ -124,10 +128,23 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_DESCRIPTION = "description";
     private static final String PARAMETER_SESSION = "session";
 
-    // JSP
-    private static final String JSP_MODIFY_MAILINGLIST = "ModifyMailingList.jsp";
-    private static final String JSP_URL_REMOVE_MAILINGLIST = "jsp/admin/mailinglist/DoRemoveMailingList.jsp";
-    private static final String JSP_URL_MANAGE_MAILINGLISTS = "jsp/admin/mailinglist/ManageMailingLists.jsp";
+    // Views
+    private static final String VIEW_MANAGE_MAILINGLISTS = "manageMailinglists";
+    private static final String VIEW_CREATE_MAILINGLIST = "createMailinglist";
+    private static final String VIEW_MODIFY_MAILINGLIST = "modifyMailinglist";
+    private static final String VIEW_VIEW_USERS = "viewUsers";
+    private static final String VIEW_ADD_USERS = "addUsers";
+    private static final String VIEW_CONFIRM_REMOVE_MAILINGLIST = "confirmRemoveMailingList";
+
+    // Actions
+    private static final String ACTION_CREATE_MAILINGLIST = "createMailinglist";
+    private static final String ACTION_MODIFY_MAILINGLIST = "modifyMailinglist";
+    private static final String ACTION_REMOVE_MAILINGLIST = "removeMailingList";
+    private static final String ACTION_ADD_USERS = "addUsers";
+    private static final String ACTION_DELETE_FILTER = "deleteFilter";
+
+    // Security token key for the removal action
+    private static final String TOKEN_REMOVE_MAILINGLIST = "jsp/admin/mailinglist/DoRemoveMailingList.jsp";
     private MailingListFilter _mailingListFilter;
     private int _nItemsPerPage;
     private String _strCurrentPageIndex;
@@ -143,6 +160,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code for the mailinglist management page
      */
+    @View( value = VIEW_MANAGE_MAILINGLISTS, defaultView = true )
     public String getManageMailinglists( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<>( );
@@ -178,7 +196,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         int defaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_MAILINGLIST_PER_PAGE, 50 );
         _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, defaultItemsPerPage );
 
-        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_MAILINGLISTS );
+        UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_MANAGE_MAILINGLISTS ) );
         url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
         url.addParameter( Parameters.SORTED_ASC, Boolean.toString( bIsAscSort ) );
         url.addParameter( PARAMETER_SESSION, PARAMETER_SESSION );
@@ -203,6 +221,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code for the mailinglist create page
      */
+    @View( VIEW_CREATE_MAILINGLIST )
     public String getCreateMailinglist( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_CREATE_MAILINGLIST_PAGETITLE );
@@ -233,6 +252,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             If the security token is invalid
      */
+    @Action( ACTION_CREATE_MAILINGLIST )
     public String doCreateMailingList( HttpServletRequest request ) throws AccessDeniedException
     {
         MailingList mailinglist = new MailingList( );
@@ -240,7 +260,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( strErrors != null )
         {
-            return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP ) );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_MAILINGLIST ) )
         {
@@ -250,10 +270,10 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         MailingListHome.create( mailinglist );
 
         // Forward to modify page to enter users filters
-        UrlItem urlModify = new UrlItem( JSP_MODIFY_MAILINGLIST );
+        UrlItem urlModify = new UrlItem( getViewUrl( VIEW_MODIFY_MAILINGLIST ) );
         urlModify.addParameter( PARAMETER_MAILINGLIST_ID, mailinglist.getId( ) );
 
-        return urlModify.getUrl( );
+        return redirect( request, urlModify.getUrl( ) );
     }
 
     /**
@@ -263,6 +283,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code for the mailinglist modify page
      */
+    @View( VIEW_MODIFY_MAILINGLIST )
     public String getModifyMailinglist( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MODIFY_MAILINGLIST_PAGETITLE );
@@ -307,6 +328,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MODIFY_MAILINGLIST )
     public String doModifyMailingList( HttpServletRequest request ) throws AccessDeniedException
     {
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
@@ -317,7 +339,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( strErrors != null )
         {
-            return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP ) );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
         {
@@ -326,7 +348,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         MailingListHome.update( mailinglist );
 
-        return getHomeUrl( request );
+        return redirect( request, getHomeUrl( request ) );
     }
 
     /**
@@ -336,6 +358,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      *            The Http Request
      * @return the confirmation url
      */
+    @View( VIEW_CONFIRM_REMOVE_MAILINGLIST )
     public String getConfirmRemoveMailingList( HttpServletRequest request )
     {
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
@@ -348,12 +371,12 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             Object [ ] args = {
                     strCause
             };
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE, args, JSP_URL_MANAGE_MAILINGLISTS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE, args, getViewFullUrl( VIEW_MANAGE_MAILINGLISTS ), AdminMessage.TYPE_STOP ) );
         }
-        String strUrlRemove = JSP_URL_REMOVE_MAILINGLIST;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_MAILINGLIST_ID, strId );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, null, null, strUrlRemove, null, AdminMessage.TYPE_CONFIRMATION, parameters, JSP_URL_MANAGE_MAILINGLISTS );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, TOKEN_REMOVE_MAILINGLIST ) );
+        return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, null, null, getActionUrl( ACTION_REMOVE_MAILINGLIST ), null, AdminMessage.TYPE_CONFIRMATION, parameters, getViewFullUrl( VIEW_MANAGE_MAILINGLISTS ) ) );
 
     }
 
@@ -366,9 +389,10 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REMOVE_MAILINGLIST )
     public String doRemoveMailingList( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_MAILINGLIST ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_REMOVE_MAILINGLIST ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -377,7 +401,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         MailingListHome.remove( nId );
 
-        return getHomeUrl( request );
+        return redirect( request, getHomeUrl( request ) );
     }
 
     /**
@@ -387,6 +411,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code for the mailinglist modify page
      */
+    @View( VIEW_VIEW_USERS )
     public String getViewUsers( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_VIEW_USERS_PAGETITLE );
@@ -421,6 +446,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code for the mailinglist modify page
      */
+    @View( VIEW_ADD_USERS )
     public String getAddUsers( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_ADD_USERS_PAGETITLE );
@@ -458,6 +484,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_ADD_USERS )
     public String doAddUsers( HttpServletRequest request ) throws AccessDeniedException
     {
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
@@ -478,13 +505,13 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             MailingListHome.addFilterToMailingList( filter, nId );
 
             // Forward to modify page to enter users filters
-            UrlItem urlModify = new UrlItem( JSP_MODIFY_MAILINGLIST );
+            UrlItem urlModify = new UrlItem( getViewUrl( VIEW_MODIFY_MAILINGLIST ) );
             urlModify.addParameter( PARAMETER_MAILINGLIST_ID, nId );
 
-            return urlModify.getUrl( );
+            return redirect( request, urlModify.getUrl( ) );
         }
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_FILTER_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
+        return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_FILTER_ALREADY_EXISTS, AdminMessage.TYPE_STOP ) );
     }
 
     /**
@@ -496,6 +523,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_DELETE_FILTER )
     public String doDeleteFilter( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
@@ -514,10 +542,10 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         MailingListHome.deleteFilterToMailingList( filter, nId );
 
         // Forward to modify page to enter users filters
-        UrlItem urlModify = new UrlItem( JSP_MODIFY_MAILINGLIST );
+        UrlItem urlModify = new UrlItem( getViewUrl( VIEW_MODIFY_MAILINGLIST ) );
         urlModify.addParameter( PARAMETER_MAILINGLIST_ID, nId );
 
-        return urlModify.getUrl( );
+        return redirect( request, urlModify.getUrl( ) );
     }
 
     /**

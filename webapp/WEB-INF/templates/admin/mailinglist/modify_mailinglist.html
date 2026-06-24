@@ -3,21 +3,23 @@
         <@pageHeader title='#i18n{portal.mailinglist.modify_mailinglist.title} ${mailinglist.name?html}' >
             <#if mailinglist.filters?size gt 0>
                 <#list mailinglist.filters as filter>
-                <@tform method='post' action='jsp/admin/mailinglist/DoDeleteFilter.jsp'>
+                <@tform method='post' action='jsp/admin/mvc/mailinglists'>
+                    <@input type='hidden' name='action' value='deleteFilter' />
                     <@input type='hidden' name='id_mailinglist' value='${mailinglist.id?html}' />
                     <@input type='hidden' name='workgroup' value='${filter.workgroup?html}' />
                     <@input type='hidden' name='role' value='${filter.role?html}' />
                     <@input type='hidden' name='token' value='${token}' />
                     <@button type='submit' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}'  color='danger w-100' />
                 </@tform>
-                <@offcanvas targetUrl="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id!}" targetElement="#mailinglist-users-table" redirectForm=false id="mailinglist-view-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}"  btnIcon="eye" position="end" />
+                <@offcanvas targetUrl="jsp/admin/mvc/mailinglists?view=viewUsers&id_mailinglist=${mailinglist.id!}" targetElement="#mailinglist-users-table" redirectForm=false id="mailinglist-view-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}"  btnIcon="eye" position="end" />
                 </#list>
             <#else>
                 <@alert type='info' iconTitle='circle-info' titleLevel='h3' title='#i18n{portal.mailinglist.modify_mailinglist.message.noUsers} Blak azpdij azidjpazd jjazdji' />
             </#if>
-            <@offcanvas targetUrl='jsp/admin/mailinglist/AddUsers.jsp?id_mailinglist=${mailinglist.id!}' targetElement="#add-user-form" redirectForm=false id="mailinglist-add-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"  btnIcon="plus" position="end" />
+            <@offcanvas targetUrl='jsp/admin/mvc/mailinglists?view=addUsers&id_mailinglist=${mailinglist.id!}' targetElement="#add-user-form" redirectForm=false id="mailinglist-add-user" title="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}" btnTitle="#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}"  btnIcon="plus" position="end" />
         </@pageHeader>
-        <@tform method='post' action='jsp/admin/mailinglist/DoModifyMailingList.jsp' boxed=true>
+        <@tform method='post' action='jsp/admin/mvc/mailinglists' boxed=true>
+            <@input type='hidden' name='action' value='modifyMailinglist' />
             <@input type='hidden' id='id_mailinglist' name='id_mailinglist' value='${mailinglist.id}' />
             <@input type='hidden' name='token' value='${token}' />
             <@formGroup labelKey='#i18n{portal.mailinglist.modify_mailinglist.labelName}' labelFor='name' mandatory=true>

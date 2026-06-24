@@ -1,7 +1,8 @@
 <@pageContainer>
     <@pageColumn> 
         <@pageHeader title='#i18n{portal.mailinglist.create_mailinglist.title}' />
-		<@tform method='post' id='create-mailinglist-form' action='jsp/admin/mailinglist/DoCreateMailingList.jsp'>
+		<@tform method='post' id='create-mailinglist-form' action='jsp/admin/mvc/mailinglists'>
+			<@input type='hidden' name='action' value='createMailinglist' />
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.mailinglist.create_mailinglist.labelName}' labelFor='name' mandatory=true>
 				<@input type='text' name='name' id='name' value='' />

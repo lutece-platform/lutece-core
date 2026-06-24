@@ -1,7 +1,8 @@
 <@pageContainer>
     <@pageColumn> 
         <@pageHeader title='#i18n{portal.mailinglist.add_users.title}' />
-		<@tform method='post' action='jsp/admin/mailinglist/DoAddUsers.jsp' boxed=true id='add-user-form'>
+		<@tform method='post' action='jsp/admin/mvc/mailinglists' boxed=true id='add-user-form'>
+			<@input type='hidden' name='action' value='addUsers' />
 			<@input type='hidden' name='id_mailinglist' value='${mailinglist.id}' />
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.mailinglist.add_users.labelWorkgroup}' labelFor='workgroup' mandatory=true>
@@ -12,7 +13,7 @@
 			</@formGroup>
 			<@formGroup>
 				<@button type='submit' buttonIcon='device-floppy' title='#i18n{portal.mailinglist.add_users.buttonAdd}' color='primary'/>
-				<@aButton href='jsp/admin/mailinglist/ManageMailingLists.jsp' buttonIcon='remove' title='#i18n{portal.util.labelCancel}'  color='secondary' />
+				<@aButton href='jsp/admin/mvc/mailinglists' buttonIcon='remove' title='#i18n{portal.util.labelCancel}'  color='secondary' />
 			</@formGroup>
 		</@tform>
 	</@pageColumn>
