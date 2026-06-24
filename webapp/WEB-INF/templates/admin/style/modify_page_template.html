@@ -6,7 +6,8 @@
                 <@img url='themes/admin/shared/images/page_templates/${page_template.picture}' alt='' title='${i18n("portal.style.manage_page_templates.picturealt",page_template.description?html)}' />
             </@boxHeader>
             <@boxBody>
-                <@tform method='post' params='enctype="multipart/form-data"' id="modify-template-form" action='jsp/admin/style/DoModifyPageTemplate.jsp' name='modify_page_template'>
+                <@tform method='post' params='enctype="multipart/form-data"' id="modify-template-form" action='jsp/admin/mvc/pagetemplates' name='modify_page_template'>
+                    <@input type='hidden' name='action' value='modifyPageTemplate' />
                     <@input type='hidden' name='page_template_id' value='${page_template.id}' />
                     <@input type='hidden' name='token' value='${token}' />
                     <@formGroup labelKey='#i18n{portal.style.modify_page_template.labelDescription}' labelFor='page_template_description' mandatory=true>
@@ -14,7 +15,7 @@
                     </@formGroup>
                     <@formGroup>
                         <@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_mode.buttonLabelValidate}' size='' />
-                        <@aButton href='jsp/admin/style/ManagePageTemplates.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}' size='' color='danger' />
+                        <@aButton href='jsp/admin/mvc/pagetemplates' buttonIcon='times' title='#i18n{portal.util.labelCancel}' size='' color='danger' />
                     </@formGroup>
                 </@tform>
             </@boxBody>

@@ -48,7 +48,10 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -58,7 +61,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  */
 @RequestScoped
 @Named
-public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "pagetemplates", right = "CORE_PAGE_TEMPLATE_MANAGEMENT" )
+public class PageTemplatesJspBean extends MVCAdminJspBean
 {
     // Right
     /**
@@ -87,8 +91,17 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE = "portal.style.message.pageTemplateConfirmDelete";
     private static final String MESSAGE_PAGE_TEMPLATE_IS_USED = "portal.style.message.pageTemplateIsUsed";
 
-    // JSP
-    private static final String JSP_DO_REMOVE_PAGE_TEMPLATE = "jsp/admin/style/DoRemovePageTemplate.jsp";
+    // Security token key for the removal action
+    private static final String TOKEN_REMOVE_PAGE_TEMPLATE = "jsp/admin/style/DoRemovePageTemplate.jsp";
+
+    // Views
+    private static final String VIEW_MANAGE_PAGE_TEMPLATE = "managePageTemplate";
+    private static final String VIEW_MODIFY_PAGE_TEMPLATE = "modifyPageTemplate";
+    private static final String VIEW_CONFIRM_REMOVE_PAGE_TEMPLATE = "confirmRemovePageTemplate";
+
+    // Actions
+    private static final String ACTION_MODIFY_PAGE_TEMPLATE = "modifyPageTemplate";
+    private static final String ACTION_REMOVE_PAGE_TEMPLATE = "removePageTemplate";
 
     /**
      * Returns the list of page templates
@@ -97,6 +110,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return the html code for display the page templates list
      */
+    @View( value = VIEW_MANAGE_PAGE_TEMPLATE, defaultView = true )
     public String getManagePageTemplate( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_PAGE_TEMPLATE_LIST );
@@ -116,6 +130,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return the html code of the page template form
      */
+    @View( VIEW_MODIFY_PAGE_TEMPLATE )
     public String getModifyPageTemplate( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_PAGE_TEMPLATE );
@@ -140,6 +155,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MODIFY_PAGE_TEMPLATE )
     public String doModifyPageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
@@ -158,7 +174,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         // If the process is successful, redirects towards the page template management
         // page
-        return getHomeUrl( request );
+        return redirect( request, getHomeUrl( request ) );
     }
 
     /**
@@ -168,6 +184,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return the html code for the remove confirmation page
      */
+    @View( VIEW_CONFIRM_REMOVE_PAGE_TEMPLATE )
     public String getConfirmRemovePageTemplate( HttpServletRequest request )
     {
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
@@ -177,14 +194,14 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( !bIsUsed )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_TEMPLATE_IS_USED, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_TEMPLATE_IS_USED, AdminMessage.TYPE_STOP ) );
         }
 
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, strId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, new Object [ ] {}, null, JSP_DO_REMOVE_PAGE_TEMPLATE, null,
-                AdminMessage.TYPE_CONFIRMATION, parameters );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, TOKEN_REMOVE_PAGE_TEMPLATE ) );
+        return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, new Object [ ] {}, null,
+                getActionUrl( ACTION_REMOVE_PAGE_TEMPLATE ), null, AdminMessage.TYPE_CONFIRMATION, parameters ) );
     }
 
     /**
@@ -196,9 +213,10 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REMOVE_PAGE_TEMPLATE )
     public String doRemovePageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !getSecurityTokenService( ).validate( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) )
+        if ( !getSecurityTokenService( ).validate( request, TOKEN_REMOVE_PAGE_TEMPLATE ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -208,6 +226,6 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         PageTemplateHome.remove( nId );
 
-        return getHomeUrl( request );
+        return redirect( request, getHomeUrl( request ) );
     }
 }
