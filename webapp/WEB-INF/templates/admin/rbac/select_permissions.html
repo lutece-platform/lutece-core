@@ -5,7 +5,7 @@
 			<@li class="step-item">#i18n{portal.rbac.select_resource_ids.labelSelectIdsResources} <@icon style='check text-green' /></@li>
 			<@li class="step-item active">${i18n('portal.rbac.select_permissions.titleSelectPermissions', role_key)}</@li>
 		</@ul>
-		<@tform method='post'  class='d-flex justify-content-center align-items-center flex-column'  action='jsp/admin/rbac/DoSelectPermissions.jsp' name='add_control' boxed=true>
+		<@tform method='post'  class='d-flex justify-content-center align-items-center flex-column'  action='jsp/admin/mvc/rbac?action=selectPermissions' name='add_control' boxed=true>
 		<@input type='hidden' name='role_key' value='${role_key}' />
 		<@input type='hidden' name='resource_type' value='${resource_type}' />
 		<@input type='hidden' name='select_resources' value='${select_resources}' />
@@ -29,7 +29,7 @@
 		</@ul>
 		</@formGroup>
 		<@formGroup>
-			<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='default' />
+			<@aButton href='jsp/admin/mvc/rbac?view=addControlToRole&role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.util.labelBack}' color='default' />
 			<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' color='primary'/>
 		</@formGroup>
 		</@tform>

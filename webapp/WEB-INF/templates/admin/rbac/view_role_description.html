@@ -1,7 +1,7 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title='${role.description} [${role.key}]' class='col-md-3'>
-			<@tform type='inline' align="middle" method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
+			<@tform type='inline' align="middle" method='post' action='jsp/admin/mvc/rbac?view=addControlToRole'>
 				<@input type='hidden' name='role_key' value='${role.key}' />
 				<@formGroup groupStyle='inline' formStyle='inline'>
 					<@inputGroup>
@@ -14,9 +14,9 @@
 					</@inputGroup>
 				</@formGroup>
 			</@tform>
-			<@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} ' buttonIcon='user' color='primary' />
+			<@aButton href='jsp/admin/mvc/rbac?view=assignUsers&role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} ' buttonIcon='user' color='primary' />
 			<@offcanvas id="edit-role" title="#i18n{portal.rbac.modify_role.titleModifyRole}" position="end" btnTitle="#i18n{portal.rbac.modify_role.titleModifyRole}" btnIcon="edit">
-				<@tform method='post' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
+				<@tform method='post' action='jsp/admin/mvc/rbac?action=modifyRole' name='modify_role'>
 					<@input type='hidden' name='role_key_previous' value='${role.key}' />
 					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelKey='#i18n{portal.rbac.modify_role.labelKey}' labelFor='role_key' mandatory=true rows=2>
@@ -37,7 +37,7 @@
 					<@formGroup rows=2 class='mt-3'>
 						<@button type='submit' name='apply' title='#i18n{portal.util.labelValidate}' buttonIcon='save'
 							color='primary' size='' />
-						<@aButton href='jsp/admin/rbac/ManageRoles.jsp' title='#i18n{portal.admin.message.buttonCancel}'
+						<@aButton href='jsp/admin/mvc/rbac?view=manageRoles' title='#i18n{portal.admin.message.buttonCancel}'
 							buttonIcon='times' color='default' size='' />
 					</@formGroup>
 				</@tform>
@@ -56,7 +56,7 @@
 				<@p>#i18n{portal.rbac.view_role_description.columnTitlePermission} : <#if controled_resource.permissionKey??><strong>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</strong></#if></@p>
 			</@manageFeatureItemColumn>
 			<@manageFeatureItemColumn auto=true>
-				<@tform method='post' action='jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp'>
+				<@tform method='post' action='jsp/admin/mvc/rbac?view=confirmRemoveControlFromRole'>
 					<@input type='hidden' name='rbac_id' value='${controled_resource.RBACId}' />
 					<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' color='danger' />
 				</@tform>

@@ -11,3 +11,4 @@ UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/pagerole' WHERE id_right 
 UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/workgroups' WHERE id_right = 'CORE_WORKGROUPS_MANAGEMENT';
 UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/mailinglists' WHERE id_right = 'CORE_MAILINGLISTS_MANAGEMENT';
 UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/pagetemplates' WHERE id_right = 'CORE_PAGE_TEMPLATE_MANAGEMENT';
+UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/rbac' WHERE id_right = 'CORE_RBAC_MANAGEMENT';

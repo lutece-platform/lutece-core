@@ -73,7 +73,10 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.BeanUtils;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.role.RoleJspBean;
@@ -92,7 +95,8 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 @SessionScoped
 @Named
-public class RoleManagementJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "rbac", right = "CORE_RBAC_MANAGEMENT" )
+public class RoleManagementJspBean extends MVCAdminJspBean
 {
     // ////////////////////////////////////////////////////////////////////////////////
     // Contants
@@ -176,16 +180,32 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_SELECT_RESOURCE_IDS = "admin/rbac/select_resource_ids.html";
     private static final String TEMPLATE_ASSIGN_USERS = "admin/rbac/assign_users_role.html";
 
-    // jsp
-    private static final String JSP_URL_ROLES_MANAGEMENT = "ManageRoles.jsp";
-    private static final String JSP_URL_SELECT_PERMISSIONS = "SelectPermissions.jsp";
-    private static final String JSP_URL_ROLE_DESCRIPTION = "ViewRoleDescription.jsp";
-    private static final String JSP_URL_SELECT_SPECIFIC_IDS = "SelectSpecificIds.jsp";
+    // Security token keys (kept as opaque scoping strings)
     private static final String JSP_URL_REMOVE_ROLE = "jsp/admin/rbac/DoRemoveRole.jsp";
     private static final String JSP_URL_REMOVE_CONTROL_FROM_ROLE = "jsp/admin/rbac/DoRemoveControlFromRole.jsp";
     private static final String JSP_ASSIGN_USERS_TO_ROLE = "AssignUsersRole.jsp";
-    private static final String JSP_URL_ASSIGN_USERS_TO_ROLE = "jsp/admin/rbac/AssignUsersRole.jsp";
-    private static final String JSP_PATH = "jsp/admin/rbac/";
+
+    // Views
+    private static final String VIEW_MANAGE_ROLES = "manageRoles";
+    private static final String VIEW_CREATE_ROLE = "createRole";
+    private static final String VIEW_ROLE_DESCRIPTION = "viewRoleDescription";
+    private static final String VIEW_ADD_CONTROL_TO_ROLE = "addControlToRole";
+    private static final String VIEW_SELECT_SPECIFIC_IDS = "selectSpecificIds";
+    private static final String VIEW_SELECT_PERMISSIONS = "selectPermissions";
+    private static final String VIEW_ASSIGN_USERS = "assignUsers";
+    private static final String VIEW_CONFIRM_REMOVE_ROLE = "confirmRemoveRole";
+    private static final String VIEW_CONFIRM_REMOVE_CONTROL = "confirmRemoveControlFromRole";
+
+    // Actions
+    private static final String ACTION_CREATE_ROLE = "createRole";
+    private static final String ACTION_MODIFY_ROLE = "modifyRole";
+    private static final String ACTION_REMOVE_ROLE = "removeRole";
+    private static final String ACTION_REMOVE_CONTROL = "removeControlFromRole";
+    private static final String ACTION_SELECT_RESOURCES = "selectResources";
+    private static final String ACTION_SELECT_RESOURCES_FROM_IDS = "selectResourcesFromIdsList";
+    private static final String ACTION_SELECT_PERMISSIONS = "selectPermissions";
+    private static final String ACTION_ASSIGN_USERS = "assignUsers";
+    private static final String ACTION_UNASSIGN_USER = "unassignUser";
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -201,6 +221,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code for the role management page
      */
+    @View( value = VIEW_MANAGE_ROLES, defaultView = true )
     public String getManageRoles( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_ROLES_PAGETITLE );
@@ -264,6 +285,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code for the role creation page
      */
+    @View( VIEW_CREATE_ROLE )
     public String getCreateRole( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_ROLE_CREATION_PAGETITLE );
@@ -286,6 +308,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_CREATE_ROLE )
     public String doCreateRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
@@ -294,15 +317,15 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isBlank( strRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
         if ( RBACRoleHome.checkExistRole( strRoleKey ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP ) );
         }
         if ( !StringUtil.checkCodeKey( strRoleKey ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_SPECIAL_CHARACTER, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_SPECIAL_CHARACTER, AdminMessage.TYPE_STOP ) );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_ROLE ) )
         {
@@ -325,7 +348,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             RoleHome.create( roleFront );
         }
 
-        return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
+        return redirect( request, getViewUrl( VIEW_ROLE_DESCRIPTION ) + "&" + PARAMETER_ROLE_KEY + "=" + strRoleKey );
     }
 
     /**
@@ -338,6 +361,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MODIFY_ROLE )
     public String doModifyRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strOldRoleKey = request.getParameter( PARAMETER_ROLE_KEY_PREVIOUS );
@@ -348,7 +372,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // check that new role key is valid
         if ( StringUtils.isBlank( strNewRoleKey ) || StringUtils.isBlank( strRoleDescription ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
 
         if ( strOldRoleKey.equals( strNewRoleKey ) ) // if the key doesn't change, update the description
@@ -379,7 +403,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             if ( RBACRoleHome.checkExistRole( strNewRoleKey ) )
             {
-                return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
+                return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP ) );
             }
             if ( !getSecurityTokenService( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
             {
@@ -407,7 +431,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         }
 
-        return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strNewRoleKey;
+        return redirect( request, getViewUrl( VIEW_ROLE_DESCRIPTION ) + "&" + PARAMETER_ROLE_KEY + "=" + strNewRoleKey );
     }
 
     /**
@@ -417,15 +441,16 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            the HTTP request
      * @return the url of the confirmation page
      */
+    @View( VIEW_CONFIRM_REMOVE_ROLE )
     public String doConfirmRemoveRole( HttpServletRequest request )
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
 
-        String strDeleteUrl = JSP_URL_REMOVE_ROLE;
+        String strDeleteUrl = getActionUrl( ACTION_REMOVE_ROLE );
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_ROLE_KEY, strRoleKey );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_ROLE ) );
-        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters ) );
     }
 
     /**
@@ -437,6 +462,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REMOVE_ROLE )
     public String doRemoveRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
@@ -445,7 +471,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // check that no user has this role
         if ( AdminUserHome.checkRoleAttributed( strRoleKey ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ATTRIBUTED, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ATTRIBUTED, AdminMessage.TYPE_STOP ) );
         }
         if ( !_removalListenerService.checkForRemoval( strRoleKey, listErrors, getLocale( ) ) )
         {
@@ -454,7 +480,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                     strCause
             };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP ) );
         }
         else
         {
@@ -468,7 +494,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             // remove resources entries for that role
             RBACHome.removeForRoleKey( strRoleKey );
 
-            return JSP_URL_ROLES_MANAGEMENT;
+            return redirectView( request, VIEW_MANAGE_ROLES );
         }
     }
 
@@ -479,6 +505,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            the HTTP request
      * @return the HTML code for the description page
      */
+    @View( VIEW_ROLE_DESCRIPTION )
     public String getViewRoleDescription( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_ROLE_DESCRIPTION_PAGETITLE );
@@ -519,20 +546,21 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the url of the confirmation page
      */
+    @View( VIEW_CONFIRM_REMOVE_CONTROL )
     public String doConfirmRemoveControlFromRole( HttpServletRequest request )
     {
         String strIdControl = request.getParameter( PARAMETER_RBAC_ID );
         int nId = Integer.parseInt( strIdControl );
 
         RBAC rbac = RBACHome.findByPrimaryKey( nId );
-        String strDeleteUrl = JSP_URL_REMOVE_CONTROL_FROM_ROLE;
+        String strDeleteUrl = getActionUrl( ACTION_REMOVE_CONTROL );
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_RBAC_ID, strIdControl );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) );
-        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL,
+        return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL,
                 new Object[ ] { rbac.getRoleKey( ), rbac.getPermissionKey( ), rbac.getResourceIdLabel( ),
                         rbac.getResourceTypeLabel( ) },
-                null, strDeleteUrl, "", AdminMessage.TYPE_CONFIRMATION, parameters );
+                null, strDeleteUrl, "", AdminMessage.TYPE_CONFIRMATION, parameters ) );
     }
 
     /**
@@ -544,6 +572,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REMOVE_CONTROL )
     public String doRemoveControlFromRole( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) )
@@ -558,7 +587,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // remove control
         RBACHome.remove( nId );
 
-        return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + rbac.getRoleKey( );
+        return redirect( request, getViewUrl( VIEW_ROLE_DESCRIPTION ) + "&" + PARAMETER_ROLE_KEY + "=" + rbac.getRoleKey( ) );
     }
 
     /**
@@ -572,6 +601,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            the HTTP request
      * @return the HTML content for the resource selection method choice
      */
+    @View( VIEW_ADD_CONTROL_TO_ROLE )
     public String getAddControlToRole( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_CHOOSE_RESOURCES_PAGETITLE );
@@ -613,6 +643,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the url of the page to be redirected to
      */
+    @Action( ACTION_SELECT_RESOURCES )
     public String doSelectResources( HttpServletRequest request )
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
@@ -621,23 +652,23 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strSelectionMethod == null ) || ( strSelectionMethod.trim( ).equals( "" ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, JSP_PATH+JSP_URL_ROLES_MANAGEMENT, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, getViewFullUrl( VIEW_MANAGE_ROLES ), AdminMessage.TYPE_STOP ) );
         }
         else
             if ( strSelectionMethod.equals( PARAMETER_SELECTION_METHOD_CHOOSE ) )
             {
-                return JSP_URL_SELECT_SPECIFIC_IDS + "?" + PARAMETER_RESOURCE_TYPE + "=" + strResourceType + "&" + PARAMETER_ROLE_KEY + "=" + strRoleKey + "&"
-                        + PARAMETER_SELECT_RESOURCES_METHOD + "=" + strSelectionMethod;
+                return redirect( request, getViewUrl( VIEW_SELECT_SPECIFIC_IDS ) + "&" + PARAMETER_RESOURCE_TYPE + "=" + strResourceType + "&" + PARAMETER_ROLE_KEY + "=" + strRoleKey + "&"
+                        + PARAMETER_SELECT_RESOURCES_METHOD + "=" + strSelectionMethod );
             }
             else
                 if ( strSelectionMethod.equals( PARAMETER_METHOD_SELECTION_ALL ) )
                 {
-                    return JSP_URL_SELECT_PERMISSIONS + "?" + PARAMETER_RESOURCE_TYPE + "=" + strResourceType + "&" + PARAMETER_ROLE_KEY + "=" + strRoleKey
-                            + "&" + PARAMETER_SELECT_RESOURCES_METHOD + "=" + strSelectionMethod;
+                    return redirect( request, getViewUrl( VIEW_SELECT_PERMISSIONS ) + "&" + PARAMETER_RESOURCE_TYPE + "=" + strResourceType + "&" + PARAMETER_ROLE_KEY + "=" + strRoleKey
+                            + "&" + PARAMETER_SELECT_RESOURCES_METHOD + "=" + strSelectionMethod );
                 }
                 else
                 {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, JSP_PATH+JSP_URL_ROLES_MANAGEMENT, AdminMessage.TYPE_STOP );
+                    return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, getViewFullUrl( VIEW_MANAGE_ROLES ), AdminMessage.TYPE_STOP ) );
                 }
     }
 
@@ -649,6 +680,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code for the list of ids to select
      */
+    @View( VIEW_SELECT_SPECIFIC_IDS )
     public String getSelectSpecificIds( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_SELECT_RESOURCES_IDS_PAGETITLE );
@@ -689,6 +721,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the url of the page to be redirected to
      */
+    @Action( ACTION_SELECT_RESOURCES_FROM_IDS )
     public String doSelectResourcesFromIdsList( HttpServletRequest request )
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
@@ -713,8 +746,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 }
                 else
                 {
-                    StringBuilder sbUrl = new StringBuilder( JSP_URL_SELECT_PERMISSIONS );
-                    sbUrl.append( "?" );
+                    StringBuilder sbUrl = new StringBuilder( getViewUrl( VIEW_SELECT_PERMISSIONS ) );
+                    sbUrl.append( "&" );
                     sbUrl.append( PARAMETER_RESOURCE_TYPE );
                     sbUrl.append( "=" );
                     sbUrl.append( strResourceType );
@@ -741,8 +774,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             else
                 if ( strSelectionMethod.equals( PARAMETER_METHOD_SELECTION_ALL ) )
                 {
-                    StringBuilder sbUrl = new StringBuilder( JSP_URL_SELECT_PERMISSIONS );
-                    sbUrl.append( "?" );
+                    StringBuilder sbUrl = new StringBuilder( getViewUrl( VIEW_SELECT_PERMISSIONS ) );
+                    sbUrl.append( "&" );
                     sbUrl.append( PARAMETER_RESOURCE_TYPE );
                     sbUrl.append( "=" );
                     sbUrl.append( strResourceType );
@@ -761,7 +794,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                     strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ID_SELECTION_METHOD, AdminMessage.TYPE_STOP );
                 }
 
-        return strUrl;
+        return redirect( request, strUrl );
     }
 
     /**
@@ -775,6 +808,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code for the permission selection page.
      */
+    @View( VIEW_SELECT_PERMISSIONS )
     public String getSelectPermissions( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_SELECT_PERMISSIONS_PAGETITLE );
@@ -828,6 +862,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_SELECT_PERMISSIONS )
     public String doSelectPermissions( HttpServletRequest request ) throws AccessDeniedException
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
@@ -853,7 +888,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // if method is "choose", check that we have at least one id checked
         if ( strPermissionsSelectionMethod == null )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD, AdminMessage.TYPE_STOP ) );
         }
         else
             if ( strPermissionsSelectionMethod.equals( PARAMETER_METHOD_SELECTION_CHOOSE ) )
@@ -862,7 +897,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
                 if ( ( strArrayPermissionKeys == null ) || ( strArrayPermissionKeys.length == 0 ) )
                 {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PERMISSION_LIST_EMPTY, AdminMessage.TYPE_STOP );
+                    return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PERMISSION_LIST_EMPTY, AdminMessage.TYPE_STOP ) );
                 }
             }
             else
@@ -873,7 +908,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 }
                 else
                 {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD, AdminMessage.TYPE_STOP );
+                    return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD, AdminMessage.TYPE_STOP ) );
                 }
 
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_SELECT_PERMISSIONS ) )
@@ -895,7 +930,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
+        return redirect( request, getViewUrl( VIEW_ROLE_DESCRIPTION ) + "&" + PARAMETER_ROLE_KEY + "=" + strRoleKey );
     }
 
     /**
@@ -905,12 +940,13 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return the html code for display the modes list
      */
+    @View( VIEW_ASSIGN_USERS )
     public String getAssignUsers( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<>( );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
 
-        String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_ROLE;
+        String strBaseUrl = AppPathService.getBaseUrl( request ) + getViewFullUrl( VIEW_ASSIGN_USERS );
         UrlItem url = new UrlItem( strBaseUrl );
 
         // ROLE
@@ -1009,6 +1045,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_ASSIGN_USERS )
     public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
@@ -1034,7 +1071,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return JSP_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
+        return redirect( request, getViewUrl( VIEW_ASSIGN_USERS ) + "&" + PARAMETER_ROLE_KEY + "=" + strRoleKey );
     }
 
     /**
@@ -1046,6 +1083,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_UNASSIGN_USER )
     public String doUnAssignUser( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
@@ -1063,7 +1101,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             AdminUserHome.removeRoleForUser( nIdUser, strRoleKey );
         }
 
-        return JSP_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey + "#" + strAnchor;
+        return redirect( request, getViewUrl( VIEW_ASSIGN_USERS ) + "&" + PARAMETER_ROLE_KEY + "=" + strRoleKey + "#" + strAnchor );
     }
 
     /**

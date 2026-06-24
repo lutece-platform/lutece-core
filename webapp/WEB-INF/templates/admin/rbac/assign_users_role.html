@@ -2,7 +2,7 @@
 	<@pageColumn>
 		<@pageHeader title='${role.description} <strong>[${role.key}]</strong>'>
 			<@offcanvas id="search-users" title="#i18n{portal.users.manage_users.search_users.buttonSearch}" position="end" btnTitle="#i18n{portal.users.manage_users.search_users.buttonSearch}" btnIcon="search me-1"  btnClass="me-1" size="auto">
-				<@tform method='post' name='search_users' action='jsp/admin/rbac/AssignUsersRole.jsp'>
+				<@tform method='post' name='search_users' action='jsp/admin/mvc/rbac?view=assignUsers'>
 					<@input type='hidden' name='role_key' value='${role.key}' />
 					<#if (user_levels?has_content)>
 					<@formGroup rows=2 labelKey='' title='#i18n{portal.users.manage_users.search_users.userLevelLabel}' labelFor='user_level'>
@@ -56,8 +56,8 @@
 					</@formGroup>
 				</@tform>
 			</@offcanvas>
-			<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' hideTitle=['xs','sm'] buttonIcon='edit' size='' class='me-1' />
-			<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' hideTitle=['xs','sm'] buttonIcon='trash' color='danger' size='' class='me-1' />
+			<@aButton href='jsp/admin/mvc/rbac?view=viewRoleDescription&role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' hideTitle=['xs','sm'] buttonIcon='edit' size='' class='me-1' />
+			<@aButton href='jsp/admin/mvc/rbac?view=confirmRemoveRole&role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' hideTitle=['xs','sm'] buttonIcon='trash' color='danger' size='' class='me-1' />
 			<@item_navigation display='inline' item_navigator=item_navigator />
 		</@pageHeader>
 		<@row>
@@ -66,7 +66,7 @@
 					<#assign available_users_number=available_users_list?size>
 					<@boxHeader title="#i18n{portal.rbac.assign_users.labelAvailableUser} (${available_users_number})" />
 					<@boxBody>
-						<@tform name='assignUser' method='post' action='jsp/admin/rbac/DoAssignUsersRole.jsp' >
+						<@tform name='assignUser' method='post' action='jsp/admin/mvc/rbac?action=assignUsers' >
 						<#assign available_users_number=available_users_list?size>
 						<#if available_users_number gt 0>
 							<@input type='hidden' name='role_key' value='${role.key}' />
@@ -89,7 +89,7 @@
 					<@boxHeader title="#i18n{portal.rbac.assign_users.labelAssignedUser} (${assigned_users_number})" />
 					<@boxBody>
 					<#if assigned_users_list?size gt 0 || search_is_search>
-						<@tform action='jsp/admin/rbac/AssignUsersRole.jsp'>
+						<@tform action='jsp/admin/mvc/rbac?view=assignUsers'>
 						<#if search_is_search>
 						<@input type='hidden' name='search_is_search' value='true' />
 						<@input type='hidden' name='search_user_level' value='${search_admin_user_filter.userLevel}' />
@@ -119,7 +119,7 @@
 									<@p>#i18n{portal.users.manage_users.columnTitleEmail} : <@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'> ${assigned_user.email}</@link></@p>
 								</@manageFeatureItemColumn>
 								<@manageFeatureItemColumn auto=true align='end'>
-									<@tform method='post' action='jsp/admin/rbac/DoUnassignUserRole.jsp'>
+									<@tform method='post' action='jsp/admin/mvc/rbac?action=unassignUser'>
 										<@input type='hidden' name='token' value='${token}' />
 										<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
 										<@input type='hidden' name='role_key' value='${role.key?html}' />
