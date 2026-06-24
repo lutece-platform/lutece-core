@@ -12,14 +12,14 @@
 		</@pageHeader>
 		<@tabs>
 			<@tabList>
-				<@tabLink active=true href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
-				<@tabLink href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' />
-				<@tabLink href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
-				<@tabLink href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
-				<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
+				<@tabLink active=true href='jsp/admin/mvc/user?view=modifyAdminUser&id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
+				<@tabLink href='jsp/admin/mvc/user?view=modifyUserPassword&id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' />
+				<@tabLink href='jsp/admin/mvc/user?view=modifyAdminUserRights&id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
+				<@tabLink href='jsp/admin/mvc/user?view=modifyAdminUserRoles&id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
+				<@tabLink href='jsp/admin/mvc/user?view=modifyAdminUserWorkgroups&id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
 			</@tabList>
 			<@tabContent>
-				<@tform method='post' role='form' name='modify_user' action='jsp/admin/user/DoModifyUser.jsp'  params='enctype="multipart/form-data"'>
+				<@tform method='post' role='form' name='modify_user' action='jsp/admin/mvc/user?action=modifyAdminUser'  params='enctype="multipart/form-data"'>
 				<@input type='hidden' name='id_user' value='${user.userId}' />
 				<@input type='hidden' name='token' value='${token}' />
 				<@row>
@@ -124,7 +124,7 @@
 					<@columns>
 						<@formGroup rows=2>
 							<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user.buttonLabelModify}' color='primary' size='' />
-							<@aButton href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
+							<@aButton href='jsp/admin/mvc/user?view=manageAdminUsers' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}' size='' />
 						</@formGroup>
 					</@columns>
 				</@row>   

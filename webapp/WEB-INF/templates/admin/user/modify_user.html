@@ -7,12 +7,12 @@
 			</@boxHeader>
 			<@boxBody>
 				<@tabList>
-					<@li class="active"><@link href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link></@li>
-					<@li><@link href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></@li>
-					<@li><@link href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></@li>
-					<@li><@link href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></@li>
+					<@li class="active"><@link href='jsp/admin/mvc/user?view=modifyAdminUser&id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link></@li>
+					<@li><@link href='jsp/admin/mvc/user?view=modifyAdminUserRights&id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></@li>
+					<@li><@link href='jsp/admin/mvc/user?view=modifyAdminUserRoles&id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></@li>
+					<@li><@link href='jsp/admin/mvc/user?view=modifyAdminUserWorkgroups&id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></@li>
 				</@tabList>
-				<@tform name='modify_user' id='modify_user' action='jsp/admin/user/DoModifyUser.jsp' params='enctype="multipart/form-data"'>
+				<@tform name='modify_user' id='modify_user' action='jsp/admin/mvc/user?action=modifyAdminUser' params='enctype="multipart/form-data"'>
 				<@input type='hidden' name='id_user' value='${user.userId}' />
 				<@input type='hidden' name='token' value='${token}' />
 				<@row>

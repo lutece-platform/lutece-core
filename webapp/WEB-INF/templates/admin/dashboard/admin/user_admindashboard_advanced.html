@@ -1,7 +1,7 @@
 <!-- DEFAULT USER PARAMETERS -->
 <@tabPanel id='defaultUserParameterValues'>
 <@pageHeader title="#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}" class="col-md-12" titleClass="pb-3" />
-<@tform method='post' name='default_user_parameters' action='jsp/admin/user/DoModifyDefaultUserParameterValues.jsp' boxed=true>
+<@tform method='post' name='default_user_parameters' action='jsp/admin/mvc/user?action=modifyDefaultUserParameterValues' boxed=true>
 <@input type='hidden' name='token' value='${token!""}' />
 <@input type='hidden' name='tab' value='defaultUserParameterValues' />
 <@row>
@@ -59,7 +59,7 @@
 <#if email_pattern??>
 <@tabPanel id='modifyEmailPattern'>
 <@pageHeader title="#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}" />
-	<@tform method='post' name='email_pattern_form' action='jsp/admin/user/DoModifyEmailPattern.jsp' boxed=true>
+	<@tform method='post' name='email_pattern_form' action='jsp/admin/mvc/user?action=modifyEmailPattern' boxed=true>
 	<@input type='hidden' name='token' value='${token!""}' />
 	<#if plugin_regularexpression>
 		<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManually}' labelFor='is_email_pattern_set_manually'>
@@ -83,7 +83,7 @@
 	</@formGroup>
 	</@tform>
 	<#if plugin_regularexpression && !is_email_pattern_set_manually>
-	<@tform method='post' action='jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions'>
+	<@tform method='post' action='jsp/admin/mvc/user?action=insertRegularExpression#list-regularexpressions'>
 		<@input type='hidden' name='token' value='${token!""}' />
 		<@fieldSet legend='#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}'>
 		<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}' labelFor='id_expression'>
@@ -111,7 +111,7 @@
 				${expression.validExemple}
 			</@manageFeatureItemColumn>
 			<@manageFeatureItemColumn align='end'>
-				<@tform method='post' action='jsp/admin/user/DoRemoveRegularExpression.jsp#list-regularexpressions'>
+				<@tform method='post' action='jsp/admin/mvc/user?action=removeRegularExpression#list-regularexpressions'>
 					<@input type='hidden' name='token' value='${token!""}' />
 					<@input type='hidden' name='id_expression' value='${expression.idExpression}' />
 					<@button type='submit' title='#i18n{portal.users.manage_advanced_parameters.buttonDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='' />

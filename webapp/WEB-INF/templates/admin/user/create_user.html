@@ -17,7 +17,7 @@
 	<#if import_user?has_content>
 		<@box>
 			<@boxBody>
-				<@tform name='create_user' action='jsp/admin/user/DoCreateUser.jsp' params='enctype="multipart/form-data"' >
+				<@tform name='create_user' action='jsp/admin/mvc/user?action=createAdminUser' params='enctype="multipart/form-data"' >
 				<@input type='hidden' name='token' value='${token}' />
 				<@row>
 					<@columns md=4>

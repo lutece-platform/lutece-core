@@ -9,7 +9,7 @@
 			<@breadcrumbItem><@link href='jsp/admin/AdminTechnicalMenu.jsp#lifeTimeEmails' label='#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}' /></@breadcrumbItem>
 			<@breadcrumbItem>'#i18n{${emailLabel}}</@breadcrumbItem>
 		</@breadcrumbs>
-		<@tform action='jsp/admin/user/DoModifyAccountLifeTimeEmails.jsp' boxed=true>
+		<@tform action='jsp/admin/mvc/user?action=modifyAccountLifeTimeEmails' boxed=true>
 			<@input type='hidden' name='token' value='${token!}' />
 			<@input type='hidden' name='email_type' value='${email_type!}' />
 			<@row>

@@ -1,6 +1,6 @@
 <@tabPanel id='advancedSecurityParameters'>
 	<@pageHeader title="#i18n{portal.users.manage_advanced_parameters.securityParameters}" titleClass="pb-3" >
-		<@tform type='inline' action='jsp/admin/user/GetChangeUseAdvancedSecurityParameters.jsp'>
+		<@tform type='inline' action='jsp/admin/mvc/user?view=changeUseAdvancedSecurityParameters'>
 		<#if use_advanced_security_parameters>
 			<@button type='submit' color='danger' buttonIcon='shield-x me-1' title='#i18n{portal.users.manage_advanced_parameters.removeAdvancedParameters}' hideTitle=['xs','sm']  />
 		<#else>
@@ -8,7 +8,7 @@
 		</#if>
 		</@tform>
 	</@pageHeader>
-	<@tform method='post' name='password_global_security' action='jsp/admin/user/DoModifyDefaultUserSecurityParameterValues.jsp#footer' boxed=true>
+	<@tform method='post' name='password_global_security' action='jsp/admin/mvc/user?action=modifyDefaultUserSecurityValues#footer' boxed=true>
 		<@input type='hidden' name='token' value='${token}' />
 		<@fieldSet legend='#i18n{portal.users.manage_advanced_parameters.password.fieldset.legend}'>
 		<@row>
@@ -135,7 +135,7 @@
 </@tabPanel>
 <@tabPanel id='lifeTimeEmails'>
 <@pageHeader title="#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}"  class='mt-3' />
-	<@tform method='post' action='jsp/admin/user/ModifyAccountLifeTimeEmails.jsp' boxed=true>
+	<@tform method='post' action='jsp/admin/mvc/user?view=modifyAccountLifeTimeEmails' boxed=true>
 	<@formGroup labelKey='#i18n{portal.users.accountLifeTime.labelSelectEmail}' labelFor='email_type'>
 		<@select name='email_type' id='email_type'>
 			<@option value='first' selected=true label='#i18n{portal.users.accountLifeTime.labelFirstEmail}' />

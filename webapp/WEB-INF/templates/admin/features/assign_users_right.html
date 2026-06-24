@@ -127,7 +127,7 @@
 											<@input type='hidden' name='id_right' value='${right.id?html}' />
 											<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
 											<@input type='hidden' name='token' value='${token}' />
-											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' buttonIcon='edit' title='#i18n{portal.features.assign_users.actionModify}' color='primary' />
+											<@aButton href='jsp/admin/mvc/user?view=modifyAdminUser&id_user=${assigned_user.userId}' buttonIcon='edit' title='#i18n{portal.features.assign_users.actionModify}' color='primary' />
 											<@button type='submit' buttonIcon='playlist-x' title='#i18n{portal.features.assign_users.actionUnassign}' color='danger' />
 										</@tform>
 									</@manageFeatureItemColumn>

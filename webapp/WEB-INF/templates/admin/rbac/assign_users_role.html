@@ -124,7 +124,7 @@
 										<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
 										<@input type='hidden' name='role_key' value='${role.key?html}' />
 										<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
-										<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' buttonIcon='edit' size='' />
+										<@aButton href='jsp/admin/mvc/user?view=modifyAdminUser&id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' buttonIcon='edit' size='' />
 										<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' buttonIcon='playlist-x' color='danger' size='' />
 									</@tform>
 								</@manageFeatureItemColumn>

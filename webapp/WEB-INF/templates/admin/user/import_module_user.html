@@ -6,7 +6,7 @@
         <@box>
             <@boxHeader title=boxtitle />
             <@boxBody>
-				<@tform name='searchUsers' id='searchUsers' action='jsp/admin/user/ImportUser.jsp' >
+				<@tform name='searchUsers' id='searchUsers' action='jsp/admin/mvc/user?view=findImportAdminUser' >
 					<@formGroup labelFor='last_name' labelKey='${i18n("portal.users.modify_user.labelLastName")}'>
 						<#if user??><#assign value = user.lastName /></#if>
 						<@input type='text' name='last_name' id='last_name' value=value! />
@@ -44,7 +44,7 @@
 					<@td>${user.firstName!}</@td>
 					<@td>${user.email!}</@td>
 					<@td>
-						<@tform name='importUsers' id='importUsers' action='jsp/admin/user/DoSelectImportUser.jsp' >
+						<@tform name='importUsers' id='importUsers' action='jsp/admin/mvc/user?action=selectImportUser' >
 							<@input type='hidden' name='access_code' value='${user.accessCode!}' />
 							<@button type='submit' title='#i18n{portal.users.import_module_user.resultButtonLabelImportUser}' buttonIcon='file-import' color='primary' size='' />
 						</@tform>

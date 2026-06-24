@@ -5,11 +5,11 @@
                 <@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/AdminTechnicalMenu.jsp?tab=defaultUserParameterValues#users_advanced_parameters' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' hideTitle=['xs','sm','md'] />
             </#if>
             <#if permission_import_export_users>
-                <@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' hideTitle=['xs','sm','md'] />
+                <@aButton color='primary' class='me-1' class='me-1' size='' href='jsp/admin/mvc/user?view=exportUsers' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' hideTitle=['xs','sm','md'] />
             </#if>
             <@aButton color='primary' class='me-1' class='me-1' size='' href='${url_user_creation}' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' hideTitle=['xs','sm','md'] />
             <@offcanvas id='search-users' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' position='end' btnTitle='#i18n{portal.users.manage_users.search_users.buttonSearch}' hideTitle=['xs','sm','md'] btnIcon='search me-1'>
-                <@tform method='post' name='search_users' action='jsp/admin/user/ManageUsers.jsp' id='userSearch' class='border-bottom pb-3'>
+                <@tform method='post' name='search_users' action='jsp/admin/mvc/user?view=manageAdminUsers' id='userSearch' class='border-bottom pb-3'>
                     <@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelAccessCode}' labelFor='access_code' hideLabel=['all'] rows=2>
                         <@input type='text' id='access_code' name='search_access_code' value='${search_admin_user_filter.accessCode}' placeHolder='#i18n{portal.users.manage_users.search_users.labelAccessCode}' size='' />
                     </@formGroup>
@@ -43,7 +43,7 @@
                         <@button type='submit' name='search_is_search' style='w-100' buttonIcon='search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' color='primary' class='me-1' class='me-1'  size='' />
                     </@formGroup>
                 </@tform>
-                <@tform method='post' action='jsp/admin/user/ManageUsers.jsp'>
+                <@tform method='post' action='jsp/admin/mvc/user?view=manageAdminUsers'>
                     <#if search_is_search>
                         <@input type='hidden' name='search_is_search' value='true' />
                         <@input type='hidden' name='search_user_level' value='${search_admin_user_filter.userLevel}' />
@@ -106,17 +106,17 @@
                         </#if>
                         <@manageFeatureItemColumn auto=true>
                             <@aButton class='dropdown-toggle' size='' id='portlet-type' dropdownMenu=true href='#' title='#i18n{portal.util.labelActions}' color=''>
-                                <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' label='#i18n{portal.users.actions.labelUpdate}' /></@div>
+                                <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/mvc/user?view=modifyAdminUser&id_user=${user.userId}' label='#i18n{portal.users.actions.labelUpdate}' /></@div>
                                 <#if defaultModeUsed>
-                                    <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' label='#i18n{portal.users.actions.labelPassword}' /></@div>
+                                    <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/mvc/user?view=modifyUserPassword&id_user=${user.userId}' label='#i18n{portal.users.actions.labelPassword}' /></@div>
                                 </#if>
-                                <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' label='#i18n{portal.users.actions.labelRights}' /></@div>
-                                <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' label='#i18n{portal.users.actions.labelRoles}' /></@div>
-                                <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' label='#i18n{portal.users.actions.labelWorkgroups}' /></@div>
+                                <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/mvc/user?view=modifyAdminUserRights&id_user=${user.userId}' label='#i18n{portal.users.actions.labelRights}' /></@div>
+                                <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/mvc/user?view=modifyAdminUserRoles&id_user=${user.userId}' label='#i18n{portal.users.actions.labelRoles}' /></@div>
+                                <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/mvc/user?view=modifyAdminUserWorkgroups&id_user=${user.userId}' label='#i18n{portal.users.actions.labelWorkgroups}' /></@div>
                                 <#if !user.statusAnonymized>
-                                    <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}' label='#i18n{portal.users.actions.labelAnonymize}' /></@div>
+                                    <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/mvc/user?view=anonymizeAdminUser&id_user=${user.userId}' label='#i18n{portal.users.actions.labelAnonymize}' /></@div>
                                 </#if>
-                                <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}' label='#i18n{portal.users.actions.labelDelete}' /></@div>
+                                <@div><@link class='dropdown-item portlet-type-ref' href='jsp/admin/mvc/user?action=confirmRemoveAdminUser&id_user=${user.userId}' label='#i18n{portal.users.actions.labelDelete}' /></@div>
                             </@aButton>
                         </@manageFeatureItemColumn>
                     </@manageFeatureItem>
