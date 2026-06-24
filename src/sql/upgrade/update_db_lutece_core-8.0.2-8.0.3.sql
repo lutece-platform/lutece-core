@@ -14,3 +14,4 @@ UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/pagetemplates' WHERE id_r
 UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/rbac' WHERE id_right = 'CORE_RBAC_MANAGEMENT';
 UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/plugins' WHERE id_right = 'CORE_PLUGINS_MANAGEMENT';
 UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/properties' WHERE id_right = 'CORE_PROPERTIES_MANAGEMENT';
+UPDATE core_admin_right SET admin_url = 'jsp/admin/mvc/searchindexation' WHERE id_right = 'CORE_SEARCH_INDEXATION';

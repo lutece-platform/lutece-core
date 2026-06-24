@@ -38,7 +38,10 @@ import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.search.SearchIndexer;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.Collection;
@@ -53,7 +56,8 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 @RequestScoped
 @Named
-public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "searchindexation", right = "CORE_SEARCH_INDEXATION" )
+public class SearchIndexationJspBean extends MVCAdminJspBean
 {
     // //////////////////////////////////////////////////////////////////////////
     // Constantes
@@ -67,6 +71,12 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_LOGS = "logs";
     private static final String MARK_INDEXERS_LIST = "indexers_list";
 
+    // Views
+    private static final String VIEW_INDEXING_PROPERTIES = "indexingProperties";
+
+    // Actions
+    private static final String ACTION_INDEXING = "doIndexing";
+
     /**
      * Displays the indexing parameters
      *
@@ -74,6 +84,7 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
      *            the http request
      * @return the html code which displays the parameters page
      */
+    @View( value = VIEW_INDEXING_PROPERTIES, defaultView = true )
     public String getIndexingProperties( HttpServletRequest request )
     {
         HashMap<String, Object> model = new HashMap<>( );
@@ -95,6 +106,7 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_INDEXING )
     public String doIndexing( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_INDEXER ) )
