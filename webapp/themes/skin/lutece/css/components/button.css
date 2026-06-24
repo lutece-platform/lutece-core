@@ -3,7 +3,6 @@
 /***  										***/
 .btn {
 	font-family: var(--lutece-ds-font-family-base);
-	padding: 13px 30px;
 	padding: var(--lutece-ds-sp-xs) var(--lutece-ds-sp-sm);
 	font-weight: 600;
 	font-size: var(--lutece-ds-fs-lg);
@@ -31,7 +30,7 @@
 }
 
 .btn-hover {
-	box-shadow: 0px 0px 0 var(--lutece-ds-sp-2xs) var(--lutece-ds-blue-300);
+	box-shadow: 0 0 0 var(--lutece-ds-sp-2xs) var(--lutece-ds-blue-300);
 }
 
 .btn:active,
@@ -254,8 +253,10 @@
 }
 
 @media (max-width: 575.98px) {
+	.btn {
+ 	   font-size: var(--lutece-ds-fs-sm);
+	}
 
-	/* Buttons 			*/
 	.btn-link {
 		font-size: calc(var(--lutece-ds-size-base) * 2);
 		padding: 0;
@@ -289,6 +290,13 @@
 		width: var(--lutece-ds-sp-md);
 		height: var(--lutece-ds-sp-md);
 		order: 2
+	}
+}
+
+
+@media (max-width: 1024.98px) {
+    .btn {
+ 	   font-size: var(--lutece-ds-fs-md);
 	}
 }
 

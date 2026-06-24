@@ -46,6 +46,16 @@
 	font-size: var( --lutece-ds-fs-5xl ) !important;
 }
 
+.fs-xxxxl, 
+.font-xxxxl{ 
+	font-size: var( --lutece-ds-fs-6xl ) !important;
+}
+
+.fs-xxxxxl, 
+.font-xxxxxl{ 
+	font-size: var( --lutece-ds-fs-7xl ) !important;
+}
+
 /* Fonts 					*/
 /* Font weight util classes */
 .fw-black,

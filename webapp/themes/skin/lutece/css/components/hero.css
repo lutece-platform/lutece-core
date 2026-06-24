@@ -60,7 +60,7 @@
 }
 
 .hero h1 {
-    font-size: var(--lutece-ds-fs-7xl);
+    font-size: var(--lutece-ds-fs-6xl);
     font-weight: var(--lutece-ds-fw-extrabold);
     line-height: 1.02;
     letter-spacing: -0.02em;
@@ -158,11 +158,20 @@
 	color: var(--lutece-ds-text) !important;
 }
 
-[data-bs-theme=dark] .hero .hero-illustration svg path {
-    /* display: none; */
-}
-
 @media (max-width: 767.98px) {
+    .hero {
+        padding-block-start: var(--lutece-ds-sp-xs);
+    }
+
+    .hero h1 {
+        font-size: var(--lutece-ds-fs-4xl);
+        margin-bottom: var(--lutece-ds-sp-sm);
+    }
+
+    .hero__viz {
+        margin-block-start: var(--lutece-ds-sp-sm);
+    }
+    
     .hero__chip--forms {
         top: 5%;
         left: 5%;
@@ -194,8 +203,11 @@
     }
 }
 
-
 @media (max-width: 1024.98px) {
+    .hero h1 {
+        font-size: var(--lutece-ds-fs-6xl);
+    }
+
     .hero__chip--forms {
         top: 5%;
         left: 5%;

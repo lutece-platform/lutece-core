@@ -126,19 +126,27 @@ Snippet:
 </div>
 <#if isSidebar>
 <#assign menu=page_main_menu!>
+<nav id="sidebar-brand">
+    <a class="navbar-brand navbar-brand-sidebar" href="${href!'.'}">
+        <#if logoHeader !=''><img src="${logoHeader!}" class="img-fluid" width="120" alt="${logoAlt!}" aria-hidden="true"></#if>
+        <span class="main-service-title visually-hidden">${title}</span>
+    </a>
+    <#if isSibebarCollapsible>
+    <button id="main-sidebar-collapse" type="button" class="btn btn-link p-0 border-0 text-decoration-none" aria-label="#i18n{portal.util.labelShow} / #i18n{portal.util.labelHide} #i18n{portal.theme.mainMenu}" aria-expanded="true" aria-controls="main-menu-sidebar">
+        <@cIcon name='layout-sidebar-left-collapse' class='fs-ml' />
+    </button>
+    </#if>
+</nav>
 <div id="layout-sidebar-wrapper">
     <header class="theme-main-header<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if>" id="main-banner-${pageId!'theme'}" role="banner">
         <div id="sidebar-main-menu">
-             <#if isSibebarCollapsible>
-            <button id="main-sidebar-collapse" type="button" class="btn btn-link btn-mini border-0 text-decoration-none" aria-label="#i18n{portal.util.labelShow} / #i18n{portal.util.labelHide} #i18n{portal.theme.mainMenu}" aria-expanded="true" aria-controls="main-menu-sidebar">
-                <@cIcon name='layout-sidebar-left-collapse' class='fs-ml' />
-            </button>
-            </#if>
             <nav class="navbar-main sidebar-nav lutece-ds-topbar" id="main-menu-sidebar" aria-label="#i18n{portal.theme.mainMenu}" role="navigation">
+                <#--
                 <a class="navbar-brand sidebar-brand" href="${href!'.'}">
                 <#if logoHeader !=''><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>
                     <span class="main-service-title visually-hidden">${title}</span>
                 </a>
+                -->
                 <ul class="navbar-nav navbar-main flex-column me-auto  lutece-ds-tw-menu" aria-label="#i18n{portal.theme.mainMenu}">
                     <#if hasMenu>
                         <#if showDefaultMenu>${page_main_menu_html!menu}</#if>

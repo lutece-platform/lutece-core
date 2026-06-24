@@ -74,6 +74,7 @@
 	background: var(--lutece-ds-surface);
 	transition: all .2s;
 	cursor: pointer;
+	margin-block-end: var(--lutece-ds-sp-sm);
 }
 
 .card.pack.hover:hover {

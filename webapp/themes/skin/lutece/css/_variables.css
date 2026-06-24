@@ -33,6 +33,7 @@
 	--lutece-ds-menu-fixed-top: calc( 15.175 * var( --lutece-ds-size-base ) );
 	--lutece-ds-menu-dropdown-start: calc( 92 * var( --lutece-ds-size-base ) );
     --lutece-ds-menu-user-top: calc( -4.375 * var( --lutece-ds-size-base ) );
+    --lutece-ds-menu-sidebar-top: calc( -15.375 * var( --lutece-ds-size-base ) );
 
 	/* Divider macro */
 	--lutece-ds-divider-margin-before: 1;
@@ -102,8 +103,8 @@
     --lutece-ds-fs-xl:   calc( var( --lutece-ds-size-base, .4rem ) * 4.5 ); /* 18px */
     --lutece-ds-fs-2xl:  calc( var( --lutece-ds-size-base, .4rem ) * 5 );   /* 20px */
     --lutece-ds-fs-3xl:  calc( var( --lutece-ds-size-base, .4rem ) * 6 );   /* 24px */
-    --lutece-ds-fs-4xl:  calc( var( --lutece-ds-size-base, .4rem ) * 8 );   /* 32px */
-    --lutece-ds-fs-5xl:  calc( var( --lutece-ds-size-base, .4rem ) * 9 );   /* 36px */
+    --lutece-ds-fs-4xl:  calc( var( --lutece-ds-size-base, .4rem ) * 7 );   /* 28px */
+    --lutece-ds-fs-5xl:  calc( var( --lutece-ds-size-base, .4rem ) * 8 );   /* 32px */
     --lutece-ds-fs-6xl:  calc( var( --lutece-ds-size-base, .4rem ) * 12 );  /* 48px */
     --lutece-ds-fs-7xl:  calc( var( --lutece-ds-size-base, .4rem ) * 15 );  /* 60px */
     

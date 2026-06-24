@@ -207,6 +207,19 @@
 /*** 										***/
 /*** 	Menus Sidebar						***/
 /*** 										***/
+
+#sidebar-brand{
+    width: 25rem;
+    border-inline-end: 1px solid var(--lutece-ds-border-shadow);
+    padding: var(--lutece-ds-sp-sm);
+	position: relative;
+}
+
+#sidebar-brand:has( + #layout-sidebar-wrapper.collapsed){
+	 border-inline-end: none;
+     padding-inline-start: var(--lutece-ds-sp-md);
+}
+
 .main-header.is-sidebar .topnav {
 	display: none;
 }
@@ -223,8 +236,13 @@
     margin-block-end: var( --lutece-ds-sp-md);
 }
 
-.sidebar-nav .navbar-brand.sidebar-brand:hover { text-decoration: none; }
-.sidebar-nav .navbar-brand.sidebar-brand .logo { max-width: 12rem; }
+.sidebar-nav .navbar-brand.sidebar-brand:hover { 
+    text-decoration: none; 
+}
+
+.sidebar-nav .navbar-brand.sidebar-brand .logo { 
+    max-width: 12rem; 
+}
 
 #sidebar-main-menu #main-menu-sidebar  .nav-item {
   	padding-bottom: 0;
@@ -251,9 +269,12 @@
 
 #layout-sidebar-wrapper .theme-main-header {
 	border-right: 1px solid var(--lutece-ds-border-shadow);
-	border-top: 1px solid var(--lutece-ds-border-shadow);
 	position: relative;
 	z-index: 1;
+}
+
+#layout-sidebar-wrapper #main {
+	margin-block-start: var(--lutece-ds-menu-sidebar-top);
 }
 
 #layout-sidebar-wrapper .container {
@@ -271,10 +292,10 @@
 }
 
 /* Collapsible Sidebar */
-#layout-sidebar-wrapper #sidebar-main-menu #main-sidebar-collapse{
+#sidebar-brand #main-sidebar-collapse{
 	position: absolute;
 	right: var(--lutece-ds-sp-xs);
-	top: calc( .5 * var(--lutece-ds-sp-xs) );
+	top: var(--lutece-ds-sp-xxs);
 	z-index: 1;
 	width: var(--lutece-ds-sp-md);
 }
@@ -283,7 +304,7 @@
 	grid-template-columns: 0 1fr;
 }
 
-#layout-sidebar-wrapper.collapsed #sidebar-main-menu #main-sidebar-collapse{
+#sidebar-brand:has( + #layout-sidebar-wrapper.collapsed) #main-sidebar-collapse{
 	right: auto;
 	left: 0;
 }
@@ -294,7 +315,6 @@
 
 /* Menu Sidebar */
 #main-menu-sidebar {
-	padding-block-start: var(--lutece-ds-sp-md);
 	background-color: var(--lutece-ds-white);
 }
 
@@ -322,7 +342,6 @@
 	margin-block-end: var(--lutece-ds-sp-xs);
 }
 
-
 #main-menu-sidebar .nav-item .nav-link {
 	padding: var(--lutece-ds-sp-sm);
     color: var(--lutece-ds-text);
@@ -341,7 +360,6 @@
 	flex: 3;
 	font-weight: 600;
 	padding-inline-start: var(--lutece-ds-sp-xs);
-	/* color: var(--lutece-ds-white); */
 	font-size: var(--lutece-ds-fs-lg)
 }
 
@@ -384,12 +402,21 @@
 }
 
 @media (max-width: 767.98px) {
+    #sidebar-brand,
 	#main-menu-sidebar{
 		display: none;
 	}
 
 	.main-header.is-sidebar .topnav {
 		display: flex;
+	}
+
+	#layout-sidebar-wrapper #main {
+		margin-block-start: initial;
+	}
+
+	#layout-sidebar-wrapper .container {
+		padding-inline: var(--lutece-ds-sp-xs );
 	}
 
 	#layout-sidebar-wrapper #layout-sidebar {

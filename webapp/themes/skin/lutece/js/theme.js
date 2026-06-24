@@ -47,7 +47,10 @@ document.addEventListener("DOMContentLoaded", function(){
   const btnCollapse = document.getElementById('main-sidebar-collapse');
 	if ( btnCollapse ) {
      btnCollapse.addEventListener("click", function (e) {
-      const menuAside = document.querySelector('#main-menu-sidebar'),headContainer=document.querySelector('.theme-main-header'), mainContent = document.querySelector('#layout-sidebar-wrapper'), banner = mainContent.querySelector('.banner-wrapper');
+      const menuAside = document.querySelector('#main-menu-sidebar'),
+            headContainer=document.querySelector('.theme-main-header'), 
+            mainContent = document.querySelector('#layout-sidebar-wrapper'), 
+            banner = mainContent.querySelector('.banner-wrapper');
       if (menuAside) {
         const isExpanded = btnCollapse.getAttribute("aria-expanded") === "true";
         btnCollapse.setAttribute("aria-expanded", isExpanded ? "false" : "true");
@@ -55,7 +58,9 @@ document.addEventListener("DOMContentLoaded", function(){
         btnCollapse.classList.toggle("position-fixed");
         btnCollapse.querySelector('.ti').classList.toggle('ti-layout-sidebar-right-collapse');
         menuAside.classList.toggle("d-none");
-        mainContent.classList.toggle("d-block");
+  
+        mainContent.classList.toggle("d-block" );
+        mainContent.classList.toggle( "collapsed");
         headContainer.classList.toggle("border-0");
         if (banner) {
           banner.classList.toggle("is-fixed");
