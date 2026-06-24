@@ -54,7 +54,10 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -65,7 +68,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  */
 @RequestScoped
 @Named
-public class AttributeJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "attribute", right = "CORE_USERS_MANAGEMENT" )
+public class AttributeJspBean extends MVCAdminJspBean
 {
     /**
      * Generated serial version UID
@@ -93,7 +97,17 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     // JSP
     private static final String JSP_URL_REMOVE_ATTRIBUTE = "jsp/admin/user/attribute/DoRemoveAttribute.jsp";
     private static final String ANCHOR_ADMIN_DASHBOARDS = "attributes_management";
-    private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
+    // Views
+    private static final String VIEW_CREATE_ATTRIBUTE = "createAttribute";
+    private static final String VIEW_MODIFY_ATTRIBUTE = "modifyAttribute";
+    private static final String VIEW_CONFIRM_REMOVE_ATTRIBUTE = "confirmRemoveAttribute";
+
+    // Actions
+    private static final String ACTION_CREATE_ATTRIBUTE = "createAttribute";
+    private static final String ACTION_MODIFY_ATTRIBUTE = "modifyAttribute";
+    private static final String ACTION_REMOVE_ATTRIBUTE = "removeAttribute";
+    private static final String ACTION_MOVE_UP_ATTRIBUTE = "moveUpAttribute";
+    private static final String ACTION_MOVE_DOWN_ATTRIBUTE = "moveDownAttribute";
 
     @Inject
     private AttributeService _attributeService;
@@ -105,6 +119,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      *            HttpServletRequest
      * @return the Html form
      */
+    @View( VIEW_CREATE_ATTRIBUTE )
     public String getCreateAttribute( HttpServletRequest request )
     {
         String strAttributeTypeClassName = request.getParameter( PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME );
@@ -122,7 +137,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( attribute == null )
         {
-            return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+            return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
         }
 
         setPageTitleProperty( attribute.getPropertyCreatePageTitle( ) );
@@ -148,6 +163,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_CREATE_ATTRIBUTE )
     public String doCreateAttribute( HttpServletRequest request ) throws AccessDeniedException
     {
         String strAttributeTypeClassName = request.getParameter( PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME );
@@ -177,7 +193,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
                 if ( StringUtils.isNotBlank( strError ) )
                 {
-                    return strError;
+                    return redirect( request, strError );
                 }
                 if ( !getSecurityTokenService( ).validate( request, attribute.getTemplateCreateAttribute( ) ) )
                 {
@@ -187,12 +203,12 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
                 if ( strActionApply != null )
                 {
-                    return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + attribute.getIdAttribute( );
+                    return redirect( request, getViewUrl( VIEW_MODIFY_ATTRIBUTE ) + "&" + PARAMETER_ID_ATTRIBUTE + EQUAL + attribute.getIdAttribute( ) );
                 }
             }
         }
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
     /**
@@ -202,6 +218,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      *            HttpServletRequest
      * @return the html form
      */
+    @View( VIEW_MODIFY_ATTRIBUTE )
     public String getModifyAttribute( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -227,7 +244,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         }
 
         // Otherwise, we redirect the user to the attribute management interface
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
     /**
@@ -239,6 +256,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MODIFY_ATTRIBUTE )
     public String doModifyAttribute( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -256,7 +274,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
                 if ( strError != null )
                 {
-                    return strError;
+                    return redirect( request, strError );
                 }
                 if ( !getSecurityTokenService( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
                 {
@@ -267,12 +285,12 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
                 if ( strActionApply != null )
                 {
-                    return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + attribute.getIdAttribute( );
+                    return redirect( request, getViewUrl( VIEW_MODIFY_ATTRIBUTE ) + "&" + PARAMETER_ID_ATTRIBUTE + EQUAL + attribute.getIdAttribute( ) );
                 }
             }
         }
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
     /**
@@ -282,6 +300,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      *            HttpServletRequest
      * @return The Jsp URL of the confirmation window
      */
+    @View( VIEW_CONFIRM_REMOVE_ATTRIBUTE )
     public String doConfirmRemoveAttribute( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -290,8 +309,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         parameters.put( PARAMETER_ID_ATTRIBUTE, strIdAttribute );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE ) );
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE, JSP_URL_REMOVE_ATTRIBUTE, AdminMessage.TYPE_CONFIRMATION,
-                parameters );
+        return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE, getActionUrl( ACTION_REMOVE_ATTRIBUTE ), AdminMessage.TYPE_CONFIRMATION, parameters ) );
     }
 
     /**
@@ -303,6 +321,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REMOVE_ATTRIBUTE )
     public String doRemoveAttribute( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -317,7 +336,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.removeAttribute( nIdAttribute );
         }
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
     /**
@@ -329,6 +348,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MOVE_UP_ATTRIBUTE )
     public String doMoveUpAttribute( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -364,7 +384,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.updateAttribute( currentAttribute );
         }
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
     /**
@@ -376,6 +396,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MOVE_DOWN_ATTRIBUTE )
     public String doMoveDownAttribute( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -411,6 +432,6 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.updateAttribute( currentAttribute );
         }
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 }

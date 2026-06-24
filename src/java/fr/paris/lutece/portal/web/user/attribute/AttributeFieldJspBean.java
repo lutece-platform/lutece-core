@@ -43,7 +43,10 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -65,7 +68,8 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 @SessionScoped
 @Named
-public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "attributefield", right = "CORE_USERS_MANAGEMENT" )
+public class AttributeFieldJspBean extends MVCAdminJspBean
 {
     /**
      * Generated serial version UID
@@ -98,7 +102,20 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_ATTRIBUTE = "attribute";
 
     // JSP
-    private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
+    // Cross-route URL to the attribute modify view (AttributeJspBean)
+    private static final String URL_MODIFY_ATTRIBUTE = "jsp/admin/mvc/attribute?view=modifyAttribute";
+
+    // Views
+    private static final String VIEW_CREATE_ATTRIBUTE_FIELD = "createAttributeField";
+    private static final String VIEW_MODIFY_ATTRIBUTE_FIELD = "modifyAttributeField";
+    private static final String VIEW_CONFIRM_REMOVE_ATTRIBUTE_FIELD = "confirmRemoveAttributeField";
+
+    // Actions
+    private static final String ACTION_CREATE_ATTRIBUTE_FIELD = "createAttributeField";
+    private static final String ACTION_MODIFY_ATTRIBUTE_FIELD = "modifyAttributeField";
+    private static final String ACTION_REMOVE_ATTRIBUTE_FIELD = "removeAttributeField";
+    private static final String ACTION_MOVE_UP_ATTRIBUTE_FIELD = "moveUpAttributeField";
+    private static final String ACTION_MOVE_DOWN_ATTRIBUTE_FIELD = "moveDownAttributeField";
     private static final String JSP_URL_REMOVE_ATTRIBUTE_FIELD = "jsp/admin/user/attribute/DoRemoveAttributeField.jsp";
     private static final String JSP_ATTRIBUTES_LIST = "jsp/admin/AdminTechnicalMenu.jsp?tab=attributes_management#users_advanced_parameters";
     
@@ -114,6 +131,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      *            HttpServletRequest
      * @return the html form
      */
+    @View( VIEW_CREATE_ATTRIBUTE_FIELD )
     public String getCreateAttributeField( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_CREATE_ATTRIBUTE_FIELDS_PAGETITLE );
@@ -141,6 +159,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_CREATE_ATTRIBUTE_FIELD )
     public String doCreateAttributeField( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -154,12 +173,12 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         {
             if ( StringUtils.isBlank( strTitle ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ATTRIBUTES_LIST, AdminMessage.TYPE_STOP );
+                return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ATTRIBUTES_LIST, AdminMessage.TYPE_STOP ) );
             }
 
             if ( StringUtils.isBlank( strValue ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ATTRIBUTES_LIST, AdminMessage.TYPE_STOP );
+                return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, JSP_ATTRIBUTES_LIST, AdminMessage.TYPE_STOP ) );
             }
 
             if ( !getSecurityTokenService( ).validate( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) )
@@ -176,7 +195,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             _attributeFieldService.createAttributeField( attributeField );
         }
 
-        return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + nIdAttribute;
+        return redirect( request, URL_MODIFY_ATTRIBUTE + "&" + PARAMETER_ID_ATTRIBUTE + EQUAL + nIdAttribute );
     }
 
     /**
@@ -186,6 +205,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      *            HttpServletRequest
      * @return the html form
      */
+    @View( VIEW_MODIFY_ATTRIBUTE_FIELD )
     public String getModifyAttributeField( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MODIFY_ATTRIBUTE_FIELDS_PAGETITLE );
@@ -219,6 +239,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MODIFY_ATTRIBUTE_FIELD )
     public String doModifyAttributeField( HttpServletRequest request ) throws AccessDeniedException
     {
         String strTitle = request.getParameter( PARAMETER_TITLE );
@@ -233,12 +254,12 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         {
             if ( StringUtils.isBlank( strTitle ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
             }
 
             if ( StringUtils.isBlank( strValue ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
             }
 
             if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) )
@@ -257,7 +278,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             _attributeFieldService.updateAttributeField( attributeField );
         }
 
-        return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute;
+        return redirect( request, URL_MODIFY_ATTRIBUTE + "&" + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute );
     }
 
     /**
@@ -267,6 +288,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      *            HttpServletRequest
      * @return the html form
      */
+    @View( VIEW_CONFIRM_REMOVE_ATTRIBUTE_FIELD )
     public String doConfirmRemoveAttributeField( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -277,8 +299,8 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         parameters.put( PARAMETER_ID_FIELD, strIdField );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, getSecurityTokenService( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) );
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD, JSP_URL_REMOVE_ATTRIBUTE_FIELD,
-                AdminMessage.TYPE_CONFIRMATION, parameters );
+        return redirect( request, AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD, getActionUrl( ACTION_REMOVE_ATTRIBUTE_FIELD ),
+                AdminMessage.TYPE_CONFIRMATION, parameters ) );
     }
 
     /**
@@ -290,6 +312,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REMOVE_ATTRIBUTE_FIELD )
     public String doRemoveAttributeField( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -307,7 +330,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             AdminUserFieldService.doRemoveUserFieldsByIdField( nIdField );
         }
 
-        return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute;
+        return redirect( request, URL_MODIFY_ATTRIBUTE + "&" + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute );
     }
 
     /**
@@ -319,6 +342,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MOVE_UP_ATTRIBUTE_FIELD )
     public String doMoveUpAttributeField( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -361,7 +385,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute;
+        return redirect( request, URL_MODIFY_ATTRIBUTE + "&" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute );
     }
 
     /**
@@ -373,6 +397,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MOVE_DOWN_ATTRIBUTE_FIELD )
     public String doMoveDownAttributeField( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
@@ -415,6 +440,6 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return JSP_MODIFY_ATTRIBUTE + "?" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute;
+        return redirect( request, URL_MODIFY_ATTRIBUTE + "&" + PARAMETER_ID_ATTRIBUTE + "=" + strIdAttribute );
     }
 }

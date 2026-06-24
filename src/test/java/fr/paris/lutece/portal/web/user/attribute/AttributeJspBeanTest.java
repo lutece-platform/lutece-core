@@ -63,6 +63,8 @@ import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import jakarta.inject.Inject;
 
 public class AttributeJspBeanTest extends LuteceTestCase
@@ -114,13 +116,13 @@ public class AttributeJspBeanTest extends LuteceTestCase
     private void testGetCreateAttribute( AttributeType type ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "attribute_type_class_name", type.getClassName( ) );
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
-        assertNotNull( instance.getCreateAttribute( request ) );
+        assertNotNull( instance.processController( withView( request, "createAttribute" ), new MockHttpServletResponse( ) ) );
     }
     @Test
     public void testDoCreateAttribute( )
@@ -137,6 +139,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "attribute_type_class_name", type.getClassName( ) );
         String strTitle = getRandomName( );
         request.setParameter( "title", strTitle );
@@ -147,11 +150,10 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         try
         {
-            instance.doCreateAttribute( request );
+            instance.processController( withAction( request, "createAttribute" ), new MockHttpServletResponse( ) );
             assertTrue( "Did not find attribute of type " + type.getClassName( ), _attributeService.getAllAttributesWithoutFields( Locale.FRANCE )
                     .stream( ).anyMatch( a -> a.getTitle( ).equals( strTitle ) ) );
         }
@@ -176,6 +178,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "attribute_type_class_name", type.getClassName( ) );
         String strTitle = getRandomName( );
         request.setParameter( "title", strTitle );
@@ -186,11 +189,10 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         try
         {
-            instance.doCreateAttribute( request );
+            instance.processController( withAction( request, "createAttribute" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -219,6 +221,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "attribute_type_class_name", type.getClassName( ) );
         String strTitle = getRandomName( );
         request.setParameter( "title", strTitle );
@@ -226,11 +229,10 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         try
         {
-            instance.doCreateAttribute( request );
+            instance.processController( withAction( request, "createAttribute" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -257,15 +259,15 @@ public class AttributeJspBeanTest extends LuteceTestCase
     private void testGetModifyAttribute( AttributeType type ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         IAttribute attribute = _attributes.get( type );
         assertNotNull( attribute );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
-        assertNotNull( instance.getModifyAttribute( request ) );
+        assertNotNull( instance.processController( withView( request, "modifyAttribute" ), new MockHttpServletResponse( ) ) );
     }
     @Test
     public void testDoModifyAttribute( )
@@ -282,6 +284,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         IAttribute attribute = _attributes.get( type );
         assertNotNull( attribute );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
@@ -294,9 +297,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
-        instance.doModifyAttribute( request );
+        instance.processController( withAction( request, "modifyAttribute" ), new MockHttpServletResponse( ) );
         IAttribute stored = _attributeService.getAttributeWithoutFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
         assertEquals( strTitle, stored.getTitle( ) );
@@ -316,6 +318,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         IAttribute attribute = _attributes.get( type );
         assertNotNull( attribute );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
@@ -328,11 +331,10 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         try
         {
-            instance.doModifyAttribute( request );
+            instance.processController( withAction( request, "modifyAttribute" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -357,6 +359,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             throws PasswordResetException, AccessDeniedException, InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         IAttribute attribute = _attributes.get( type );
         assertNotNull( attribute );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
@@ -366,11 +369,10 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         try
         {
-            instance.doModifyAttribute( request );
+            instance.processController( withAction( request, "modifyAttribute" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -381,14 +383,15 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
     @Test
-    public void testDoConfirmRemoveAttribute( )
+    public void testDoConfirmRemoveAttribute( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute",
                 Integer.toString( _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new ).getIdAttribute( ) ) );
 
         
-        instance.doConfirmRemoveAttribute( request );
+        instance.processController( withView( request, "confirmRemoveAttribute" ), new MockHttpServletResponse( ) );
 
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
@@ -398,13 +401,14 @@ public class AttributeJspBeanTest extends LuteceTestCase
     public void testDoRemoveAttribute( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         int idAttribute = _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new ).getIdAttribute( );
         request.setParameter( "id_attribute", Integer.toString( idAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "jsp/admin/user/attribute/DoRemoveAttribute.jsp" ) );
 
         
-        instance.doRemoveAttribute( request );
+        instance.processController( withAction( request, "removeAttribute" ), new MockHttpServletResponse( ) );
 
         IAttribute stored = _attributeService.getAttributeWithoutFields( idAttribute, Locale.FRANCE );
         assertNull( stored );
@@ -413,6 +417,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
     public void testDoRemoveAttributeInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         int idAttribute = _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new ).getIdAttribute( );
         request.setParameter( "id_attribute", Integer.toString( idAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -421,7 +426,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
         
         try
         {
-            instance.doRemoveAttribute( request );
+            instance.processController( withAction( request, "removeAttribute" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -434,13 +439,14 @@ public class AttributeJspBeanTest extends LuteceTestCase
     public void testDoRemoveAttributeNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         int idAttribute = _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new ).getIdAttribute( );
         request.setParameter( "id_attribute", Integer.toString( idAttribute ) );
 
         
         try
         {
-            instance.doRemoveAttribute( request );
+            instance.processController( withAction( request, "removeAttribute" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -458,16 +464,16 @@ public class AttributeJspBeanTest extends LuteceTestCase
         int nPosition = listAttributes.get( 0 ).getPosition( );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
-        instance.doMoveDownAttribute( request );
+        instance.processController( withAction( request, "moveDownAttribute" ), new MockHttpServletResponse( ) );
 
         IAttribute stored = _attributeService.getAttributeWithoutFields( nIdAttribute, Locale.FRANCE );
         assertNotNull( stored );
@@ -482,10 +488,10 @@ public class AttributeJspBeanTest extends LuteceTestCase
         int nPosition = listAttributes.get( 0 ).getPosition( );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -493,7 +499,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doMoveDownAttribute( request );
+            instance.processController( withAction( request, "moveDownAttribute" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -512,16 +518,16 @@ public class AttributeJspBeanTest extends LuteceTestCase
         int nPosition = listAttributes.get( 0 ).getPosition( );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
 
         try
         {
-            instance.doMoveDownAttribute( request );
+            instance.processController( withAction( request, "moveDownAttribute" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -540,16 +546,16 @@ public class AttributeJspBeanTest extends LuteceTestCase
         int nPosition = listAttributes.get( listAttributes.size( ) - 1 ).getPosition( );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
-        instance.doMoveUpAttribute( request );
+        instance.processController( withAction( request, "moveUpAttribute" ), new MockHttpServletResponse( ) );
 
         IAttribute stored = _attributeService.getAttributeWithoutFields( nIdAttribute, Locale.FRANCE );
         assertNotNull( stored );
@@ -564,10 +570,10 @@ public class AttributeJspBeanTest extends LuteceTestCase
         int nPosition = listAttributes.get( listAttributes.size( ) - 1 ).getPosition( );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -575,7 +581,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doMoveUpAttribute( request );
+            instance.processController( withAction( request, "moveUpAttribute" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -594,16 +600,16 @@ public class AttributeJspBeanTest extends LuteceTestCase
         int nPosition = listAttributes.get( listAttributes.size( ) - 1 ).getPosition( );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
 
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
 
         try
         {
-            instance.doMoveUpAttribute( request );
+            instance.processController( withAction( request, "moveUpAttribute" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -620,4 +626,8 @@ public class AttributeJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
+
+    private MockHttpServletRequest withView( MockHttpServletRequest r, String v ) { r.addParameter( MVCUtils.PARAMETER_VIEW, v ); return r; }
+
+    private MockHttpServletRequest withAction( MockHttpServletRequest r, String a ) { r.addParameter( MVCUtils.PARAMETER_ACTION, a ); return r; }
 }

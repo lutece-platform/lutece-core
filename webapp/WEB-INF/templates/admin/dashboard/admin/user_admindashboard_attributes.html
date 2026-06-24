@@ -1,6 +1,6 @@
 <@tabPanel id='attributes_management'>
 <@pageHeader title="#i18n{portal.users.manage_attributes.pageTitle}" titleClass="pb-3" >
-<@tform type='inline' method='get' align="middle" action='jsp/admin/user/attribute/CreateAttribute.jsp'>
+<@tform type='inline' method='get' align="middle" action='jsp/admin/mvc/attribute?view=createAttribute'>
 	<@formGroup labelFor='attribute_type_class_name' formStyle='inline' groupStyle="inline" class='has-addons'>
 		<@inputGroup class=''>
 			<@select id='attribute_type_class_name' name='attribute_type_class_name' size='sm'>
@@ -23,14 +23,14 @@
 		<@manageFeatureItemColumn auto=true>
 		<#if attribute.plugin?exists && attribute.plugin.name != "">
 			<#if cpt != 1>
-				<@tform type="inline" align='middle' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
+				<@tform type="inline" align='middle' method='post' action='jsp/admin/mvc/attribute?action=moveUpAttribute#list'>
 					<@input type='hidden' name='token' value='${token}' />
 					<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
 					<@button type='submit' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' />
 					</@tform>
 			</#if>
 			<#if attribute_has_next>
-				<@tform type="inline" align='middle' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
+				<@tform type="inline" align='middle' method='post' action='jsp/admin/mvc/attribute?action=moveDownAttribute#list'>
 					<@input type='hidden' name='token' value='${token}' />
 					<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
 					<@button type='submit' buttonIcon='chevron-down' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' />
@@ -38,22 +38,22 @@
 			</#if>
 		<#else>
 			<#if cpt != 1>
-				<@tform type="inline" align='middle' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
+				<@tform type="inline" align='middle' method='post' action='jsp/admin/mvc/attribute?action=moveUpAttribute#list'>
 					<@input type='hidden' name='token' value='${token}' />
 					<@input type='hidden' name='id_attribute' value=attribute.idAttribute />
 					<@button type='submit' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' />
 				</@tform>
 			</#if>
 			<#if attribute_has_next>
-				<@tform type="inline" align='middle' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
+				<@tform type="inline" align='middle' method='post' action='jsp/admin/mvc/attribute?action=moveDownAttribute#list'>
 					<@input type='hidden' name='token' value='${token}' />
 					<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
 					<@button type='submit' buttonIcon='chevron-down' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' />
 				</@tform>
 			</#if>
 		</#if>
-		<@offcanvas id='offcanvasModifyAttr-${attribute.idAttribute}' targetUrl='jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}' useIframe=true title='#i18n{portal.users.manage_attributes.buttonLabelModify}' btnTitle='#i18n{portal.users.manage_attributes.buttonLabelModify}' btnIcon='edit' btnClass='me-1' hideTitle=['xs','md'] position='end' size='half' />
-		<@aButton  color='danger' href='jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}' buttonIcon='trash' title='#i18n{portal.users.manage_attributes.buttonLabelDelete}'  />
+		<@offcanvas id='offcanvasModifyAttr-${attribute.idAttribute}' targetUrl='jsp/admin/mvc/attribute?view=modifyAttribute&id_attribute=${attribute.idAttribute}' useIframe=true title='#i18n{portal.users.manage_attributes.buttonLabelModify}' btnTitle='#i18n{portal.users.manage_attributes.buttonLabelModify}' btnIcon='edit' btnClass='me-1' hideTitle=['xs','md'] position='end' size='half' />
+		<@aButton  color='danger' href='jsp/admin/mvc/attribute?view=confirmRemoveAttribute&id_attribute=${attribute.idAttribute}' buttonIcon='trash' title='#i18n{portal.users.manage_attributes.buttonLabelDelete}'  />
 		</@manageFeatureItemColumn>
 	</@manageFeatureItem>
 </#list>

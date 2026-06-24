@@ -1,7 +1,7 @@
 <@pageContainer>
     <@pageColumn>
         <@pageHeader title='#i18n{portal.users.modify_attribute_field.pageTitle} : ${attribute.title?html}' />
-		<@tform id='modify-attr-field' action='jsp/admin/user/attribute/DoModifyAttributeField.jsp#list' method='post' boxed=true>
+		<@tform id='modify-attr-field' action='jsp/admin/mvc/attributefield?action=modifyAttributeField#list' method='post' boxed=true>
 			<@input type='hidden' name='token' value='${token}' />
 			<@input type='hidden' value='${attribute.idAttribute}' name='id_attribute' />
 			<@input type='hidden' value='${attribute_field.idField}' name='id_field' />

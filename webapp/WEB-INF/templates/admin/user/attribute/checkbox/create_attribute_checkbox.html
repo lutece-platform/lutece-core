@@ -6,7 +6,7 @@
 			<@breadcrumbItem><@link href='jsp/admin/AdminTechnicalMenu.jsp#attributes_management' label='#i18n{portal.users.manage_attributes.pageTitle}' /></@breadcrumbItem>
 			<@breadcrumbItem>#i18n{portal.users.create_attribute.pageTitleAttributeCheckBox}</@breadcrumbItem>
 		</@breadcrumbs>
-		<@tform action='jsp/admin/user/attribute/DoCreateAttribute.jsp' method='post' boxed=true>
+		<@tform action='jsp/admin/mvc/attribute?action=createAttribute' method='post' boxed=true>
 			<@input type='hidden' name='token' value='${token}' />
 			<@formGroup labelKey='#i18n{portal.users.create_attribute.labelTitle}' labelFor='attr_title' helpKey='#i18n{portal.users.create_attribute.labelTitleComment}' mandatory=true>
 				<@input type='text' name='title' id='attr_title' maxlength=255 />

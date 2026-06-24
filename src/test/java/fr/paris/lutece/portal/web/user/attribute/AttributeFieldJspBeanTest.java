@@ -61,6 +61,8 @@ import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import jakarta.inject.Inject;
 
 public class AttributeFieldJspBeanTest extends LuteceTestCase
@@ -112,13 +114,14 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         return "junit" + bigInt.toString( 36 );
     }
     @Test
-    public void testDoConfirmRemoveAttributeField( )
+    public void testDoConfirmRemoveAttributeField( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.addParameter( "id_attribute", "1" );
         request.addParameter( "id_field", "1" );
 
-        instance.doConfirmRemoveAttributeField( request );
+        instance.processController( withView( request, "confirmRemoveAttributeField" ), new MockHttpServletResponse( ) );
 
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
@@ -137,12 +140,13 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testDoRemoveAttributeField( IAttribute attribute ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.addParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.addParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "jsp/admin/user/attribute/DoRemoveAttributeField.jsp" ) );
 
-        instance.doRemoveAttributeField( request );
+        instance.processController( withAction( request, "removeAttributeField" ), new MockHttpServletResponse( ) );
 
         IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
@@ -161,6 +165,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testDoRemoveAttributeFieldInvalidToken( IAttribute attribute ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.addParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.addParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -168,7 +173,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doRemoveAttributeField( request );
+            instance.processController( withAction( request, "removeAttributeField" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -191,12 +196,13 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testDoRemoveAttributeFieldNoToken( IAttribute attribute ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.addParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.addParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
 
         try
         {
-            instance.doRemoveAttributeField( request );
+            instance.processController( withAction( request, "removeAttributeField" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -219,11 +225,11 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testGetCreateAttributeField( IAttribute attribute ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
-        assertNotNull( instance.getCreateAttributeField( request ) );
+        assertNotNull( instance.processController( withView( request, "createAttributeField" ), new MockHttpServletResponse( ) ) );
     }
     @Test
     public void testDoCreateAttributeField( ) throws AccessDeniedException
@@ -238,6 +244,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testDoCreateAttributeField( IAttribute attribute ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         String strName = getRandomName( );
         request.setParameter( "title", strName );
@@ -245,7 +252,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "admin/user/attribute/create_attribute_field.html" ) );
 
-        instance.doCreateAttributeField( request );
+        instance.processController( withAction( request, "createAttributeField" ), new MockHttpServletResponse( ) );
 
         IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
@@ -266,6 +273,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testDoCreateAttributeFieldInvalidToken( IAttribute attribute ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         String strName = getRandomName( );
         request.setParameter( "title", strName );
@@ -275,7 +283,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doCreateAttributeField( request );
+            instance.processController( withAction( request, "createAttributeField" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -300,6 +308,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testDoCreateAttributeFieldNoToken( IAttribute attribute ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         String strName = getRandomName( );
         request.setParameter( "title", strName );
@@ -307,7 +316,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doCreateAttributeField( request );
+            instance.processController( withAction( request, "createAttributeField" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -332,12 +341,12 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testGetModifyAttributeField( IAttribute attribute ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
 
-        assertNotNull( instance.getModifyAttributeField( request ) );
+        assertNotNull( instance.processController( withView( request, "modifyAttributeField" ), new MockHttpServletResponse( ) ) );
     }
     @Test
     public void testDoModifyAttributeField( ) throws AccessDeniedException
@@ -352,6 +361,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testDoModifyAttributeField( IAttribute attribute ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
         String strName = getRandomName( );
@@ -360,7 +370,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "admin/user/attribute/modify_attribute_field.html" ) );
 
-        instance.doModifyAttributeField( request );
+        instance.processController( withAction( request, "modifyAttributeField" ), new MockHttpServletResponse( ) );
 
         IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
@@ -381,6 +391,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testDoModifyAttributeFieldInvalidToken( IAttribute attribute ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
         String strName = getRandomName( );
@@ -391,7 +402,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doModifyAttributeField( request );
+            instance.processController( withAction( request, "modifyAttributeField" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -416,6 +427,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
     private void testDoModifyAttributeFieldNoToken( IAttribute attribute ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
         String strName = getRandomName( );
@@ -424,7 +436,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doModifyAttributeField( request );
+            instance.processController( withAction( request, "modifyAttributeField" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -455,12 +467,13 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         AttributeField attributeField = attribute.getListAttributeFields( ).get( 0 );
         int nOrigPosition = attributeField.getPosition( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, attribute.getTemplateModifyAttribute( ) ) );
 
-        instance.doMoveDownAttributeField( request );
+        instance.processController( withAction( request, "moveDownAttributeField" ), new MockHttpServletResponse( ) );
 
         IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
@@ -488,6 +501,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         AttributeField attributeField = attribute.getListAttributeFields( ).get( 0 );
         int nOrigPosition = attributeField.getPosition( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -495,7 +509,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doMoveDownAttributeField( request );
+            instance.processController( withAction( request, "moveDownAttributeField" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -526,12 +540,13 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         AttributeField attributeField = attribute.getListAttributeFields( ).get( 0 );
         int nOrigPosition = attributeField.getPosition( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
 
         try
         {
-            instance.doMoveDownAttributeField( request );
+            instance.processController( withAction( request, "moveDownAttributeField" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -562,12 +577,13 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         AttributeField attributeField = attribute.getListAttributeFields( ).get( attribute.getListAttributeFields( ).size( ) - 1 );
         int nOrigPosition = attributeField.getPosition( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, attribute.getTemplateModifyAttribute( ) ) );
 
-        instance.doMoveUpAttributeField( request );
+        instance.processController( withAction( request, "moveUpAttributeField" ), new MockHttpServletResponse( ) );
 
         IAttribute stored = _attributeService.getAttributeWithFields( attribute.getIdAttribute( ), Locale.FRANCE );
         assertNotNull( stored );
@@ -595,6 +611,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         AttributeField attributeField = attribute.getListAttributeFields( ).get( 0 );
         int nOrigPosition = attributeField.getPosition( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -602,7 +619,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doMoveUpAttributeField( request );
+            instance.processController( withAction( request, "moveUpAttributeField" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -633,12 +650,13 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         AttributeField attributeField = attribute.getListAttributeFields( ).get( 0 );
         int nOrigPosition = attributeField.getPosition( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
         request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
 
         try
         {
-            instance.doMoveUpAttributeField( request );
+            instance.processController( withAction( request, "moveUpAttributeField" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -650,4 +668,8 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
             assertEquals( nOrigPosition, field.getPosition( ) );
         }
     }
+
+    private MockHttpServletRequest withView( MockHttpServletRequest r, String v ) { r.addParameter( MVCUtils.PARAMETER_VIEW, v ); return r; }
+
+    private MockHttpServletRequest withAction( MockHttpServletRequest r, String a ) { r.addParameter( MVCUtils.PARAMETER_ACTION, a ); return r; }
 }

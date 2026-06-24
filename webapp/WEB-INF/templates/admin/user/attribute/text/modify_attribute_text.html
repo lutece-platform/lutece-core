@@ -6,7 +6,7 @@
 			<@breadcrumbItem><@link href='jsp/admin/AdminTechnicalMenu.jsp#attributes_management' label='#i18n{portal.users.manage_attributes.pageTitle}' /></@breadcrumbItem>
 			<@breadcrumbItem>#i18n{portal.users.modify_attribute.pageTitleAttributeText}</@breadcrumbItem>
 		</@breadcrumbs>
-		<@tform action='jsp/admin/user/attribute/DoModifyAttribute.jsp' method='post' boxed=true>
+		<@tform action='jsp/admin/mvc/attribute?action=modifyAttribute' method='post' boxed=true>
 			<@input type='hidden' name='token' value='${token}' />
 			<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
 			<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelTitle}' labelFor='attr_title' helpKey='#i18n{portal.users.modify_attribute.labelTitleComment}' mandatory=true>
