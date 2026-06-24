@@ -33,15 +33,11 @@
  */
 package fr.paris.lutece.portal.web.system;
 
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -49,77 +45,82 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.datastore.LocalizedData;
 import fr.paris.lutece.portal.service.datastore.LocalizedDataGroup;
-import fr.paris.lutece.portal.service.security.ISecurityTokenService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.site.properties.SitePropertiesService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 /**
- * This class provides the user interface to manage system features ( manage logs, view system files, ... ).
+ * This class provides the user interface to manage the site properties through the admin MVC front-controller.
  */
 @RequestScoped
 @Named
-public class SystemJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "properties", right = "CORE_PROPERTIES_MANAGEMENT" )
+public class SystemJspBean extends MVCAdminJspBean
 {
     // Right
     public static final String RIGHT_PROPERTIES_MANAGEMENT = "CORE_PROPERTIES_MANAGEMENT";
 
-    // Jsp definition
-    public static final String JSP_MANAGE_PROPERTIES = "ManageProperties.jsp";
-
-    /** serial id */
     private static final long serialVersionUID = 3770485521087669430L;
 
     // Markers
     private static final String MARK_PROPERTIES_GROUPS_LIST = "groups_list";
 
-    // Template 
+    // Template
     private static final String TEMPLATE_MODIFY_PROPERTIES = "admin/system/modify_properties.html";
 
     // Properties file definition
     private static final String MARK_WEBAPP_URL = "webapp_url";
     private static final String MARK_LOCALE = "locale";
 
-    
-    
+    // Views
+    private static final String VIEW_MANAGE_PROPERTIES = "manageProperties";
+
+    // Actions
+    private static final String ACTION_MODIFY_PROPERTIES = "modifyProperties";
+
+    @Inject
+    private Models _models;
+
     /**
-     * Returns the form to update site properties in DataStore
+     * Returns the properties management page.
      *
      * @param request
      *            The Http request
-     * @return The HTML form to update info
+     * @return The HTML code of the properties management page
      */
+    @View( value = VIEW_MANAGE_PROPERTIES, defaultView = true )
     public String getManageProperties( HttpServletRequest request )
-    {   	
-    	Map<String, Object> model = new HashMap<>( );
-        model.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale( ) ) );
-        model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_PROPERTIES ) );
+    {
+        _models.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale( ) ) );
+        _models.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
+        _models.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
+        _models.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MODIFY_PROPERTIES ) );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PROPERTIES, getLocale( ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PROPERTIES, getLocale( ), _models );
 
         return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
-     * Process the update of site properties in DataStore
+     * Process the properties modification.
      *
      * @param request
      *            The Http request
-     * @param context
-     *            The context
-     * @return The Jsp URL of the process result
+     * @return the redirection to the properties management view
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
-    public static String doModifyProperties( HttpServletRequest request, ServletContext context ) throws AccessDeniedException
+    @Action( ACTION_MODIFY_PROPERTIES )
+    public String doModifyProperties( HttpServletRequest request ) throws AccessDeniedException
     {
-    	ISecurityTokenService securityTokenService = CDI.current( ).select( ISecurityTokenService.class ).get( );
-        if ( !securityTokenService.validate( request, TEMPLATE_MODIFY_PROPERTIES ) )
+        if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MODIFY_PROPERTIES ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -140,7 +141,6 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        // if the operation occurred well, redirects towards the view of the Properties
-        return JSP_MANAGE_PROPERTIES;
+        return redirectView( request, VIEW_MANAGE_PROPERTIES );
     }
 }

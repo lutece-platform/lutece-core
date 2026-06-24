@@ -45,6 +45,9 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 /**
@@ -63,8 +66,7 @@ public class SystemJspBeanTest extends LuteceTestCase
         request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
 
-        instance = new SystemJspBean( );
-        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        instance = CDI.current( ).select( SystemJspBean.class ).get( );
     }
 
     /**
@@ -73,7 +75,7 @@ public class SystemJspBeanTest extends LuteceTestCase
     @Test
     public void testGetManageProperties( ) throws AccessDeniedException
     {
-        assertTrue( StringUtils.isNotEmpty( instance.getManageProperties( request ) ) );
+        assertTrue( StringUtils.isNotEmpty( instance.processController( request, new MockHttpServletResponse( ) ) ) );
     }
     @Test
     public void testDoModifyProperties( ) throws AccessDeniedException
@@ -86,7 +88,7 @@ public class SystemJspBeanTest extends LuteceTestCase
 
         try
         {
-            SystemJspBean.doModifyProperties( request, request.getServletContext( ) );
+            instance.processController( withAction( request ), new MockHttpServletResponse( ) );
             assertEquals( origValue + "_mod", DatastoreService.getDataValue( property, "" ) );
         }
         finally
@@ -105,7 +107,7 @@ public class SystemJspBeanTest extends LuteceTestCase
 
         try
         {
-            SystemJspBean.doModifyProperties( request, request.getServletContext( ) );
+            instance.processController( withAction( request ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -126,7 +128,7 @@ public class SystemJspBeanTest extends LuteceTestCase
 
         try
         {
-            SystemJspBean.doModifyProperties( request, request.getServletContext( ) );
+            instance.processController( withAction( request ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -138,4 +140,6 @@ public class SystemJspBeanTest extends LuteceTestCase
             DatastoreService.setDataValue( property, origValue );
         }
     }
+
+    private MockHttpServletRequest withAction( MockHttpServletRequest r ) { r.addParameter( MVCUtils.PARAMETER_ACTION, "modifyProperties" ); return r; }
 }
