@@ -42,7 +42,9 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.search.SearchResourceIdService;
 import fr.paris.lutece.portal.service.search.SearchService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.ReferenceItem;
@@ -58,7 +60,8 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 @RequestScoped
 @Named
-public class SearchJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "search", right = "CORE_SEARCH_MANAGEMENT" )
+public class SearchJspBean extends MVCAdminJspBean
 {
     /** Unique name for the right to manage search parameters */
     public static final String RIGHT_SEARCH_MANAGEMENT = "CORE_SEARCH_MANAGEMENT";
@@ -74,6 +77,9 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
 
     // Jsp url
     private static final String ANCHOR_ADMIN_DASHBOARDS = "search";
+
+    // Actions
+    private static final String ACTION_MODIFY_ADVANCED_PARAMETERS = "modifyAdvancedParameters";
 
     // Parameters
     private static final String PARAMETER_CANCEL = "cancel";
@@ -92,6 +98,7 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if permission to manage advanced parameters on search has not been granted to the user
      */
+    @Action( ACTION_MODIFY_ADVANCED_PARAMETERS )
     public String doModifyAdvancedParameters( HttpServletRequest request ) throws AccessDeniedException
     {
     	User currentUser = getUser( );
@@ -118,7 +125,7 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             if ( StringUtils.isBlank( strTypeFilter ) || StringUtils.isBlank( strDefaultOperator ) || StringUtils.isBlank( strDateFilter )
                     || StringUtils.isBlank( strTagFilter ) )
             {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+                return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
             }
 
             ReferenceItem param = new ReferenceItem( );
@@ -147,6 +154,6 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             SearchParameterHome.update( param );
         }
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 }

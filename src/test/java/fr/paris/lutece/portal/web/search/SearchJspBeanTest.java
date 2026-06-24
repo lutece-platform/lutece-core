@@ -56,6 +56,9 @@ import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import jakarta.enterprise.inject.spi.CDI;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import jakarta.inject.Inject;
@@ -75,7 +78,7 @@ public class SearchJspBeanTest extends LuteceTestCase
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        _bean = new SearchJspBean( );
+        _bean = CDI.current( ).select( SearchJspBean.class ).get( );
         _origSearchParameters = SearchParameterHome.findParametersList( );
     }
 
@@ -146,11 +149,10 @@ public class SearchJspBeanTest extends LuteceTestCase
         }
         user.addRoles( roles );
         AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_SEARCH_MANAGEMENT" );
-        _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
-        _bean.doModifyAdvancedParameters( request );
+        _bean.processController( withAction( request ), new MockHttpServletResponse( ) );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNull( message );
         for ( ReferenceItem param : _origSearchParameters )
@@ -227,13 +229,12 @@ public class SearchJspBeanTest extends LuteceTestCase
         }
         user.addRoles( roles );
         AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_SEARCH_MANAGEMENT" );
-        _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "admin/search/manage_advanced_parameters.html" ) + "b" );
 
         try
         {
-            _bean.doModifyAdvancedParameters( request );
+            _bean.processController( withAction( request ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -303,11 +304,10 @@ public class SearchJspBeanTest extends LuteceTestCase
         }
         user.addRoles( roles );
         AdminUserUtils.registerAdminUserWithRight( request, user, "CORE_SEARCH_MANAGEMENT" );
-        _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
 
         try
         {
-            _bean.doModifyAdvancedParameters( request );
+            _bean.processController( withAction( request ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -326,4 +326,6 @@ public class SearchJspBeanTest extends LuteceTestCase
         return "junit" + bigInt.toString( 36 );
     }
 
+
+    private MockHttpServletRequest withAction( MockHttpServletRequest r ) { r.addParameter( MVCUtils.PARAMETER_ACTION, "modifyAdvancedParameters" ); return r; }
 }
