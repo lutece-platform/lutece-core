@@ -57,6 +57,8 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
 import jakarta.inject.Inject;
 
 public class DashboardJspBeanTest extends LuteceTestCase
@@ -115,13 +117,14 @@ public class DashboardJspBeanTest extends LuteceTestCase
         assertEquals( _nZone, stored.getZone( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DashboardJspBean.RIGHT_MANAGE_DASHBOARD );
         request.setParameter( "dashboard_name", _dashboard.getName( ) );
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "/admin/dashboard/manage_dashboards.html" ) );
 
-        _instance.doMoveDashboard( request );
+        _instance.processController( withAction( request, "moveDashboard" ), new MockHttpServletResponse( ) );
 
         stored = DashboardHome.findByPrimaryKey( _dashboard.getName( ) );
         assertNotNull( stored );
@@ -137,6 +140,7 @@ public class DashboardJspBeanTest extends LuteceTestCase
         assertEquals( _nZone, stored.getZone( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DashboardJspBean.RIGHT_MANAGE_DASHBOARD );
         request.setParameter( "dashboard_name", _dashboard.getName( ) );
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
@@ -145,7 +149,7 @@ public class DashboardJspBeanTest extends LuteceTestCase
 
         try
         {
-            _instance.doMoveDashboard( request );
+            _instance.processController( withAction( request, "moveDashboard" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -165,13 +169,14 @@ public class DashboardJspBeanTest extends LuteceTestCase
         assertEquals( _nZone, stored.getZone( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DashboardJspBean.RIGHT_MANAGE_DASHBOARD );
         request.setParameter( "dashboard_name", _dashboard.getName( ) );
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
 
         try
         {
-            _instance.doMoveDashboard( request );
+            _instance.processController( withAction( request, "moveDashboard" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -198,11 +203,12 @@ public class DashboardJspBeanTest extends LuteceTestCase
         assertEquals( nZone, stored.getZone( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DashboardJspBean.RIGHT_MANAGE_DASHBOARD );
         request.setParameter( "column", Integer.toString( nZone ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "/admin/dashboard/manage_dashboards.html" ) );
 
-        _instance.doReorderColumn( request );
+        _instance.processController( withAction( request, "reorderColumn" ), new MockHttpServletResponse( ) );
 
         stored = DashboardHome.findByPrimaryKey( _dashboard.getName( ) );
         assertEquals( 1, stored.getOrder( ) );
@@ -224,13 +230,14 @@ public class DashboardJspBeanTest extends LuteceTestCase
         assertEquals( nZone, stored.getZone( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DashboardJspBean.RIGHT_MANAGE_DASHBOARD );
         request.setParameter( "column", Integer.toString( nZone ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "/admin/dashboard/manage_dashboards.html" ) + "b" );
 
         try
         {
-            _instance.doReorderColumn( request );
+            _instance.processController( withAction( request, "reorderColumn" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -256,11 +263,12 @@ public class DashboardJspBeanTest extends LuteceTestCase
         assertEquals( nZone, stored.getZone( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), DashboardJspBean.RIGHT_MANAGE_DASHBOARD );
         request.setParameter( "column", Integer.toString( nZone ) );
 
         try
         {
-            _instance.doReorderColumn( request );
+            _instance.processController( withAction( request, "reorderColumn" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -270,4 +278,6 @@ public class DashboardJspBeanTest extends LuteceTestCase
             assertEquals( nZone, stored.getZone( ) );
         }
     }
+
+    private MockHttpServletRequest withAction( MockHttpServletRequest r, String a ) { r.addParameter( MVCUtils.PARAMETER_ACTION, a ); return r; }
 }

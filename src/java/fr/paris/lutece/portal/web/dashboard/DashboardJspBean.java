@@ -48,7 +48,9 @@ import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.string.StringUtil;
 
@@ -58,7 +60,8 @@ import fr.paris.lutece.util.string.StringUtil;
  */
 @RequestScoped
 @Named
-public class DashboardJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "dashboard", right = "CORE_DASHBOARD_MANAGEMENT" )
+public class DashboardJspBean extends MVCAdminJspBean
 {
     // Right
     public static final String RIGHT_MANAGE_DASHBOARD = "CORE_DASHBOARD_MANAGEMENT";
@@ -77,6 +80,10 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
     // JSP
     private static final String ANCHOR_ADMIN_DASHBOARDS = "adminHomePageManagement";
+
+    // Actions
+    private static final String ACTION_REORDER_COLUMN = "reorderColumn";
+    private static final String ACTION_MOVE_DASHBOARD = "moveDashboard";
     @Inject
     private DashboardService _dashboardService;
 
@@ -89,13 +96,14 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REORDER_COLUMN )
     public String doReorderColumn( HttpServletRequest request ) throws AccessDeniedException
     {
         String strColumnName = request.getParameter( PARAMETER_COLUMN );
 
         if ( StringUtils.isBlank( strColumnName ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
 
         int nColumn;
@@ -108,7 +116,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         {
             AppLogService.error( "DashboardJspBean.doReorderColumn : {}", nfe.getMessage( ), nfe );
 
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
@@ -116,7 +124,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         }
         _dashboardService.doReorderColumn( nColumn );
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
     /**
@@ -128,13 +136,14 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MOVE_DASHBOARD )
     public String doMoveDashboard( HttpServletRequest request ) throws AccessDeniedException
     {
         String strDashboardName = request.getParameter( PARAMETER_DASHBOARD_NAME );
 
         if ( StringUtils.isBlank( strDashboardName ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP ) );
         }
 
         // retrieve dashboard from database. If not found, will use CDI.
@@ -153,7 +162,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
             if ( dashboard == null )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+                return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP ) );
             }
         }
         else
@@ -177,6 +186,6 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
         _dashboardService.doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
 
-        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 }

@@ -7,7 +7,8 @@
       <#-- name -->
       <@td xs=2 sm=2>
       <#-- column -->
-      <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' type='inline'>
+      <@tform action='jsp/admin/mvc/dashboard' method='post' type='inline'>
+        <@input type='hidden' name='action' value='moveDashboard' />
         <@input type='hidden' name='dashboard_name' value='${dashboard.name}' />
         <@input type='hidden' name='token' value='${token}' />
         <#if !dashboard.order?exists || dashboard.order==0>
@@ -28,7 +29,8 @@
       <#if order>
         <@td xs=2 sm=2>
           <#-- order -->
-          <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' type='inline'>
+          <@tform action='jsp/admin/mvc/dashboard' method='post' type='inline'>
+        <@input type='hidden' name='action' value='moveDashboard' />
             <@input type='hidden' name='dashboard_name' value='${dashboard.name}' />
             <@input type='hidden' name='token' value='${token}' />
             <#if !dashboard.zone?exists || dashboard.zone==0>
@@ -79,7 +81,8 @@
           <#if column_refItem.code !=''>
             <#assign column_key=column_refItem.code />
             <#if map_column_order_status[column_key]?exists && !map_column_order_status[column_key]>
-              <@tform method='post' action='jsp/admin/dashboard/DoReorderColumn.jsp' class='pull-right'>
+              <@tform method='post' action='jsp/admin/mvc/dashboard' class='pull-right'>
+          <@input type='hidden' name='action' value='reorderColumn' />
                 <@input type='hidden' name='column' value='${column_key?html}' />
                 <@input type='hidden' name='token' value='${token}' />
                 <@button type="submit" title='#i18n{portal.dashboard.action.reorder}' buttonIcon='arrows' color='warning' />
