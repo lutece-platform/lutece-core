@@ -1,7 +1,8 @@
 <@pageContainer>
 	<@pageColumn>
 		<@pageHeader title='#i18n{portal.features.modify_group.title}' />
-		<@tform method='post' id="modify-group-form" action='jsp/admin/features/DoModifyGroup.jsp'>
+		<@tform method='post' id="modify-group-form" action='jsp/admin/mvc/featuresgroup'>
+			<@input type='hidden' name='action' value='modifyGroup' />
 		<@input type='hidden' name='token' value='${token}' />
 		<@formGroup labelFor='group_id' labelKey='#i18n{portal.features.modify_group.labelId}' mandatory=true>
 			<@input type='text' id='group_id' name='group_id' value='${feature_group.id?html}' />

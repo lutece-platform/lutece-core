@@ -56,6 +56,9 @@ import fr.paris.lutece.test.AdminUserUtils;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.mocks.MockHttpServletRequest;
+import fr.paris.lutece.test.mocks.MockHttpServletResponse;
+import fr.paris.lutece.portal.util.mvc.utils.MVCUtils;
+import jakarta.enterprise.inject.spi.CDI;
 import jakarta.inject.Inject;
 
 /**
@@ -76,7 +79,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     @BeforeEach
     protected void setUp( ) throws Exception
     {
-        instance = new FeaturesGroupJspBean( );
+        instance = CDI.current( ).select( FeaturesGroupJspBean.class ).get( );
         String strGroupName = getRandomName( );
         featureGroup = new FeatureGroup( );
         featureGroup.setId( strGroupName );
@@ -112,13 +115,14 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         assertNull( stored.getFeatureGroup( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "right_id", right.getId( ) );
         request.addParameter( "group_name", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( stored.getOrder( ) + 1 ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
-        instance.doDispatchFeature( request );
+        instance.processController( withAction( request, "dispatchFeature" ), new MockHttpServletResponse( ) );
         stored = RightHome.findByPrimaryKey( right.getId( ) );
         assertNotNull( stored );
         assertEquals( featureGroup.getId( ), stored.getFeatureGroup( ) );
@@ -132,6 +136,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         assertNull( stored.getFeatureGroup( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "right_id", right.getId( ) );
         request.addParameter( "group_name", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( stored.getOrder( ) + 1 ) );
@@ -140,7 +145,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doDispatchFeature( request );
+            instance.processController( withAction( request, "dispatchFeature" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -159,13 +164,14 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         assertNull( stored.getFeatureGroup( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "right_id", right.getId( ) );
         request.addParameter( "group_name", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( stored.getOrder( ) + 1 ) );
 
         try
         {
-            instance.doDispatchFeature( request );
+            instance.processController( withAction( request, "dispatchFeature" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -185,9 +191,9 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
-        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        assertNotNull( instance.getCreateGroup( request ) );
+        assertNotNull( instance.processController( withView( request, "createGroup" ), new MockHttpServletResponse( ) ) );
     }
 
     /**
@@ -197,11 +203,11 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     public void testGetModifyGroup( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( PARAMETER_GROUP_ID, TEST_GROUP_ID );
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
-        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        assertNotNull( instance.getModifyGroup( request ) );
+        assertNotNull( instance.processController( withView( request, "modifyGroup" ), new MockHttpServletResponse( ) ) );
     }
 
     /**
@@ -214,6 +220,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         String strGroupName = getRandomName( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", strGroupName );
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
@@ -223,7 +230,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doCreateGroup( request );
+            instance.processController( withAction( request, "createGroup" ), new MockHttpServletResponse( ) );
             FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupName );
             assertNotNull( group );
             assertEquals( strGroupName, group.getId( ) );
@@ -241,6 +248,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         String strGroupName = getRandomName( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", strGroupName );
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
@@ -250,7 +258,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doCreateGroup( request );
+            instance.processController( withAction( request, "createGroup" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -268,6 +276,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         String strGroupName = getRandomName( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", strGroupName );
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
@@ -275,7 +284,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doCreateGroup( request );
+            instance.processController( withAction( request, "createGroup" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -287,6 +296,18 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         {
             FeatureGroupHome.remove( strGroupName );
         }
+    }
+
+    private MockHttpServletRequest withAction( MockHttpServletRequest r, String a )
+    {
+        r.addParameter( MVCUtils.PARAMETER_ACTION, a );
+        return r;
+    }
+
+    private MockHttpServletRequest withView( MockHttpServletRequest r, String v )
+    {
+        r.addParameter( MVCUtils.PARAMETER_VIEW, v );
+        return r;
     }
 
     private String getRandomName( )
@@ -306,6 +327,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         String strGroupName = getRandomName( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
@@ -313,7 +335,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
-        instance.doModifyGroup( request );
+        instance.processController( withAction( request, "modifyGroup" ), new MockHttpServletResponse( ) );
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
         assertNotNull( group );
         assertEquals( featureGroup.getId( ), group.getId( ) );
@@ -326,6 +348,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         String strGroupName = getRandomName( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
@@ -335,7 +358,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doModifyGroup( request );
+            instance.processController( withAction( request, "modifyGroup" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -353,6 +376,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         String strGroupName = getRandomName( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
@@ -360,7 +384,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doModifyGroup( request );
+            instance.processController( withAction( request, "modifyGroup" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -381,11 +405,11 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     public void testGetRemoveGroup( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
         AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
-        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        instance.getRemoveGroup( request );
+        instance.processController( withView( request, "confirmRemoveGroup" ), new MockHttpServletResponse( ) );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
@@ -401,11 +425,12 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
-        instance.doRemoveGroup( request );
+        instance.processController( withAction( request, "removeGroup" ), new MockHttpServletResponse( ) );
         assertNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
     }
     @Test
@@ -413,13 +438,14 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "jsp/admin/features/DoRemoveGroup.jsp" ) + "b" );
 
         try
         {
-            instance.doRemoveGroup( request );
+            instance.processController( withAction( request, "removeGroup" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -432,11 +458,12 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
 
         try
         {
-            instance.doRemoveGroup( request );
+            instance.processController( withAction( request, "removeGroup" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -448,12 +475,13 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     public void testDoDispatchFeatureGroup( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( featureGroup.getOrder( ) + 1 ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
-        instance.doDispatchFeatureGroup( request );
+        instance.processController( withAction( request, "dispatchFeatureGroup" ), new MockHttpServletResponse( ) );
         FeatureGroup stored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
         assertNotNull( stored );
         assertEquals( featureGroup.getOrder( ) + 1, stored.getOrder( ) );
@@ -463,6 +491,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     public void testDoDispatchFeatureGroupInvalidToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( featureGroup.getOrder( ) + 1 ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
@@ -470,7 +499,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
 
         try
         {
-            instance.doDispatchFeatureGroup( request );
+            instance.processController( withAction( request, "dispatchFeatureGroup" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -484,12 +513,13 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     public void testDoDispatchFeatureGroupNoToken( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( featureGroup.getOrder( ) + 1 ) );
 
         try
         {
-            instance.doDispatchFeatureGroup( request );
+            instance.processController( withAction( request, "dispatchFeatureGroup" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -513,11 +543,12 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         assertEquals( 100, stored.getOrder( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
-        instance.doReinitFeatures( request );
+        instance.processController( withAction( request, "reinitFeatures" ), new MockHttpServletResponse( ) );
         stored = RightHome.findByPrimaryKey( right.getId( ) );
         assertNotNull( stored );
         assertEquals( 1, stored.getOrder( ) );
@@ -535,13 +566,14 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         assertEquals( 100, stored.getOrder( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
                 _securityTokenService.getToken( request, "admin/features/dispatch_features.html" ) + "b" );
 
         try
         {
-            instance.doReinitFeatures( request );
+            instance.processController( withAction( request, "reinitFeatures" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )
@@ -564,11 +596,12 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         assertEquals( 100, stored.getOrder( ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUserUtils.registerAdminUserWithRight( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         request.addParameter( "group_id", featureGroup.getId( ) );
 
         try
         {
-            instance.doReinitFeatures( request );
+            instance.processController( withAction( request, "reinitFeatures" ), new MockHttpServletResponse( ) );
             fail( "Should have thrown" );
         }
         catch( AccessDeniedException e )

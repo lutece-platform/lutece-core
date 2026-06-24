@@ -27,7 +27,8 @@
 		<#if groupDisplay.feature_list?has_content>
 			<#if groupDisplay.feature_group.order !=0>
 				<#if groupDisplay.order_list_state==false>
-				<@tform method='post' action='jsp/admin/features/DoReinitFeatures.jsp'>
+				<@tform method='post' action='jsp/admin/mvc/featuresgroup'>
+				<@input type='hidden' name='action' value='reinitFeatures' />
 					<@input type='hidden' name='group_id' value='${groupDisplay.feature_group.id?if_exists}' />
 					<@input type='hidden' name='token' value='${token}' />
 					<@button type='submit' title='#i18n{portal.features.dispatch_features.reinitFeatureOrders}' buttonIcon='check' color='warning' size='sm' />
@@ -47,7 +48,8 @@
 						<@p class='mb-0 text-truncate mw-xl'><small data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="${right.description}">${right.description}</small></@p>
 					</@manageFeatureItemColumn>
 					<@manageFeatureItemColumn align='end'>
-						<@tform method='post' type='inline' action='jsp/admin/features/DoDispatchFeature.jsp?tab=assign_features_groups'>
+						<@tform method='post' type='inline' action='jsp/admin/mvc/featuresgroup?tab=assign_features_groups'>
+						<@input type='hidden' name='action' value='dispatchFeature' />
 							<@input type='hidden' name='right_id' value='${right.id}' />
 							<@input type='hidden' name='token' value='${token}' />
 							<@formGroup rows=2 class='has-addons' formStyle='inline' groupStyle="inline">
@@ -73,7 +75,8 @@
 					</@manageFeatureItemColumn>
 					<@manageFeatureItemColumn align='end'>
 						<#if groupDisplay.order_list_state==true>
-							<@tform method='post' type='inline' action='jsp/admin/features/DoDispatchFeature.jsp?tab=assign_features_groups'>
+							<@tform method='post' type='inline' action='jsp/admin/mvc/featuresgroup?tab=assign_features_groups'>
+						<@input type='hidden' name='action' value='dispatchFeature' />
 							<@input type='hidden' name='right_id' value='${right.id}' />
 							<@input type='hidden' name='group_name' value='${right.featureGroup?if_exists}' />
 							<@input type='hidden' name='token' value='${token}' />

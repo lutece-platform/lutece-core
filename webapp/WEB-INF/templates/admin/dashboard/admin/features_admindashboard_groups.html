@@ -1,6 +1,6 @@
 <@tabPanel id='features_management'>
     <@pageHeader title='#i18n{portal.features.manage_groups.title}'  description='#i18n{portal.features.manage_groups.featureDescription}' class='col-md-8'>
-        <@offcanvas targetUrl='jsp/admin/features/CreateGroup.jsp' targetElement='#create-group-form' id='group-create' title='#i18n{portal.features.external_features.manage_external_features.create}' btnTitle='#i18n{portal.features.manage_groups.buttonCreate}' btnIcon='plus' btnColor='primary' position='end' />
+        <@offcanvas targetUrl='jsp/admin/mvc/featuresgroup?view=createGroup' targetElement='#create-group-form' id='group-create' title='#i18n{portal.features.external_features.manage_external_features.create}' btnTitle='#i18n{portal.features.manage_groups.buttonCreate}' btnIcon='plus' btnColor='primary' position='end' />
     </@pageHeader>
     <#if groups_list?? && groups_list?size gt 0>
         <@manageFeature>
@@ -14,7 +14,8 @@
                         <@p class='mb-0 text-truncate mw-lg'><small>${group.descriptionKey}</small></@p>
                     </@manageFeatureItemColumn>
                     <@manageFeatureItemColumn align='end'>
-                        <@tform type='inline' align="middle" method='post' action='jsp/admin/features/DoDispatchFeatureGroup.jsp'>
+                        <@tform type='inline' align="middle" method='post' action='jsp/admin/mvc/featuresgroup'>
+						<@input type='hidden' name='action' value='dispatchFeatureGroup' />
                             <@input type='hidden' name='group_id' value='${group.id?html}' />
                             <@input type='hidden' name='token' value='${token}' />
                             <@formGroup rows=2 class='has-addons' formStyle='inline' groupStyle="inline">
@@ -26,8 +27,9 @@
                         </@tform>
                     </@manageFeatureItemColumn>
                     <@manageFeatureItemColumn align='end'>
-                        <@offcanvas targetUrl='jsp/admin/features/ModifyGroup.jsp?group_id=${group.id?html}' targetElement='#modify-group-form' id='group-modify-${group.id?html}' title='#i18n{portal.features.modify_group.title}' btnTitle='#i18n{portal.util.labelModify}' btnIcon='edit' btnColor='primary me-1' position='end' />
-                        <@tform type='inline' align="middle" class="ml-1" method='post' action='jsp/admin/features/RemoveGroup.jsp'>
+                        <@offcanvas targetUrl='jsp/admin/mvc/featuresgroup?view=modifyGroup&group_id=${group.id?html}' targetElement='#modify-group-form' id='group-modify-${group.id?html}' title='#i18n{portal.features.modify_group.title}' btnTitle='#i18n{portal.util.labelModify}' btnIcon='edit' btnColor='primary me-1' position='end' />
+                        <@tform type='inline' align="middle" class="ml-1" method='post' action='jsp/admin/mvc/featuresgroup'>
+						<@input type='hidden' name='view' value='confirmRemoveGroup' />
                             <@input type='hidden' name='group_id' value='${group.id?html}' />
                             <@button type='submit' title='#i18n{portal.features.manage_groups.buttonDelete}' buttonIcon='trash' color='danger' />
                         </@tform>

@@ -42,7 +42,10 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.ReferenceList;
@@ -65,7 +68,8 @@ import org.apache.commons.collections.CollectionUtils;
  */
 @RequestScoped
 @Named
-public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "featuresgroup", right = "CORE_FEATURES_MANAGEMENT" )
+public class FeaturesGroupJspBean extends MVCAdminJspBean
 {
     public static final String RIGHT_FEATURES_MANAGEMENT = "CORE_FEATURES_MANAGEMENT";
     private static final long serialVersionUID = -8573499137269541850L;
@@ -78,7 +82,18 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_GROUP_ICON = "group_icon";
     private static final String PARAMETER_ORDER_ID = "order_id";
     private static final String PARAMETER_RIGHT_ID = "right_id";
-    private static final String JSP_REMOVE_GROUPS = "jsp/admin/features/DoRemoveGroup.jsp";
+    // Views
+    private static final String VIEW_CREATE_GROUP = "createGroup";
+    private static final String VIEW_MODIFY_GROUP = "modifyGroup";
+    private static final String VIEW_CONFIRM_REMOVE_GROUP = "confirmRemoveGroup";
+
+    // Actions
+    private static final String ACTION_CREATE_GROUP = "createGroup";
+    private static final String ACTION_MODIFY_GROUP = "modifyGroup";
+    private static final String ACTION_REMOVE_GROUP = "removeGroup";
+    private static final String ACTION_DISPATCH_FEATURE = "dispatchFeature";
+    private static final String ACTION_DISPATCH_FEATURE_GROUP = "dispatchFeatureGroup";
+    private static final String ACTION_REINIT_FEATURES = "reinitFeatures";
     private static final String MESSAGE_CONFIRM_DELETE = "portal.features.message.confirmDeleteGroup";
     private static final String MESSAGE_RIGHT_ALREADY_ASSIGN = "portal.features.message.rightAlreadyAssign";
     private static final String MARK_ORDER_LIST = "order_list";
@@ -96,6 +111,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_DISPATCH_FEATURE )
     public String doDispatchFeature( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
@@ -122,7 +138,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         RightHome.update( right );
 
-        return url.getUrl( );
+        return redirect( request, url.getUrl( ) );
     }
 
     /**
@@ -134,6 +150,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_DISPATCH_FEATURE_GROUP )
     public String doDispatchFeatureGroup( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
@@ -152,7 +169,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         FeatureGroupHome.update( featureGroup );
 
-        return url.getUrl( );
+        return redirect( request, url.getUrl( ) );
     }
 
     /**
@@ -164,6 +181,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REINIT_FEATURES )
     public String doReinitFeatures( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
@@ -180,7 +198,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
             url.setAnchor( strGroupId );
         }
 
-        return url.getUrl( );
+        return redirect( request, url.getUrl( ) );
     }
 
     /**
@@ -190,6 +208,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      *            The HTTP request
      * @return The HTML page
      */
+    @View( VIEW_CREATE_GROUP )
     public String getCreateGroup( HttpServletRequest request )
     {
         int nCount = FeatureGroupHome.getFeatureGroupsCount( ) + 1;
@@ -211,6 +230,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      *            The HTTP request
      * @return The HTML page
      */
+    @View( VIEW_MODIFY_GROUP )
     public String getModifyGroup( HttpServletRequest request )
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
@@ -219,7 +239,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         if ( group == null )
         {
-            return getDashboardUrl( request );
+            return redirect( request, getDashboardUrl( request ) );
         }
 
         Map<String, Object> model = new HashMap<>( );
@@ -241,6 +261,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_CREATE_GROUP )
     public String doCreateGroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
@@ -252,7 +273,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         // Mandatory fields
         if ( strGroupId.equals( "" ) || strGroupName.equals( "" ) || strGroupDescription.equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
         if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
@@ -269,7 +290,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         group.setOrder( Integer.parseInt( strGroupOrder ) );
         FeatureGroupHome.update( group );
 
-        return getDashboardUrl( request );
+        return redirect( request, getDashboardUrl( request ) );
     }
 
     /**
@@ -281,6 +302,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             is the security token is invalid
      */
+    @Action( ACTION_MODIFY_GROUP )
     public String doModifyGroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
@@ -292,7 +314,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         // Mandatory fields
         if ( strGroupId.equals( "" ) || strGroupName.equals( "" ) || strGroupDescription.equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
         if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
@@ -307,7 +329,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         FeatureGroupHome.update( group );
 
-        return getDashboardUrl( request );
+        return redirect( request, getDashboardUrl( request ) );
 
     }
 
@@ -336,11 +358,12 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      *            The HTTP request
      * @return The HTML page
      */
+    @View( VIEW_CONFIRM_REMOVE_GROUP )
     public String getRemoveGroup( HttpServletRequest request )
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
 
-        String strUrl = JSP_REMOVE_GROUPS;
+        String strUrl = getActionUrl( ACTION_REMOVE_GROUP );
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_GROUP_ID, strGroupId );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN,
@@ -352,7 +375,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
                 group.getLabel( )
         };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, strUrl, "", AdminMessage.TYPE_CONFIRMATION, parameters );
+        return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, strUrl, "", AdminMessage.TYPE_CONFIRMATION, parameters ) );
     }
 
     /**
@@ -364,13 +387,14 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REMOVE_GROUP )
     public String doRemoveGroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
 
         if ( CollectionUtils.isNotEmpty( RightHome.getRightsList( strGroupId ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_RIGHT_ALREADY_ASSIGN, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_RIGHT_ALREADY_ASSIGN, AdminMessage.TYPE_STOP ) );
         }
         if ( !getSecurityTokenService( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
@@ -379,7 +403,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         FeatureGroupHome.remove( strGroupId );
 
-        return getDashboardUrl( request );
+        return redirect( request, getDashboardUrl( request ) );
     }
 
     /**
