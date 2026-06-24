@@ -56,7 +56,11 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
+import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
+import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.cdi.mvc.Models;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -68,7 +72,8 @@ import fr.paris.lutece.util.string.StringUtil;
  */
 @RequestScoped
 @Named
-public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
+@Controller( name = "admindashboard", right = "CORE_ADMINDASHBOARD_MANAGEMENT" )
+public class AdminDashboardJspBean extends MVCAdminJspBean
 {
     private static final long serialVersionUID = 5312273100074724058L;
 
@@ -98,11 +103,20 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
     // Templates
     private static final String TEMPLATE_VIEW_DASHBOARDS = "/admin/dashboard/admin/view_dashboards.html";
 
-    // Jsp
-    private static final String JSP_MANAGE_DASHBOARDS = "ManageAdminDashboards.jsp";
     private static final String EMPTY_STRING = "";
+
+    // Views
+    private static final String VIEW_MANAGE_DASHBOARDS = "manageDashboards";
+
+    // Actions
+    private static final String ACTION_REORDER_COLUMN = "reorderColumn";
+    private static final String ACTION_MOVE_DASHBOARD = "moveAdminDashboard";
+
     @Inject
     private AdminDashboardService _adminDashboardService;
+
+    @Inject
+    private Models _models;
 
     /**
      * Displays admin dashboards
@@ -136,25 +150,22 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
      *            the request
      * @return html code
      */
+    @View( value = VIEW_MANAGE_DASHBOARDS, defaultView = true )
     public String getManageDashboards( HttpServletRequest request )
     {
-        AdminUser user = AdminUserService.getAdminUser( request );
-
-        Map<String, Object> model = new HashMap<>( );
-
         Map<String, List<IAdminDashboardComponent>> mapAdminDashboards = _adminDashboardService.getAllSetDashboards( );
-        model.put( MARK_MAP_DASHBOARDS, mapAdminDashboards );
+        _models.put( MARK_MAP_DASHBOARDS, mapAdminDashboards );
 
         List<IAdminDashboardComponent> listNotSetDashboards = _adminDashboardService.getNotSetDashboards( );
-        model.put( MARK_NOT_SET_DASHBOARDS, listNotSetDashboards );
+        _models.put( MARK_NOT_SET_DASHBOARDS, listNotSetDashboards );
 
-        model.put( MARK_COLUMN_COUNT, _adminDashboardService.getColumnCount( ) );
-        model.put( MARK_MAP_AVAILABLE_ORDERS, getMapAvailableOrders( ) );
-        model.put( MARK_LIST_AVAILABLE_COLUMNS, getListAvailableColumns( ) );
-        model.put( MARK_MAP_COLUMN_ORDER_STATUS, _adminDashboardService.getOrderedColumnsStatus( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
+        _models.put( MARK_COLUMN_COUNT, _adminDashboardService.getColumnCount( ) );
+        _models.put( MARK_MAP_AVAILABLE_ORDERS, getMapAvailableOrders( ) );
+        _models.put( MARK_LIST_AVAILABLE_COLUMNS, getListAvailableColumns( ) );
+        _models.put( MARK_MAP_COLUMN_ORDER_STATUS, _adminDashboardService.getOrderedColumnsStatus( ) );
+        _models.put( SecurityTokenService.MARK_TOKEN, getSecurityTokenService( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, getLocale( ), _models );
 
         return getAdminPage( template.getHtml( ) );
     }
@@ -168,13 +179,14 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_REORDER_COLUMN )
     public String doReorderColumn( HttpServletRequest request ) throws AccessDeniedException
     {
         String strColumnName = request.getParameter( PARAMETER_COLUMN );
 
         if ( StringUtils.isBlank( strColumnName ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
 
         int nColumn = 0;
@@ -187,7 +199,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         {
             AppLogService.error( "AdminDashboardJspBean.doReorderColumn : {}", nfe.getMessage( ), nfe );
 
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP ) );
         }
         if ( !getSecurityTokenService( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
@@ -195,7 +207,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         }
         _adminDashboardService.doReorderColumn( nColumn );
 
-        return JSP_MANAGE_DASHBOARDS;
+        return redirectView( request, VIEW_MANAGE_DASHBOARDS );
     }
 
     /**
@@ -207,13 +219,14 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
+    @Action( ACTION_MOVE_DASHBOARD )
     public String doMoveAdminDashboard( HttpServletRequest request ) throws AccessDeniedException
     {
         String strDashboardName = request.getParameter( PARAMETER_DASHBOARD_NAME );
 
         if ( StringUtils.isBlank( strDashboardName ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+            return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP ) );
         }
 
         // retrieve dashboard from database. If not found, will use CDI.
@@ -232,7 +245,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
             if ( dashboard == null )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+                return redirect( request, AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP ) );
             }
         }
         else
@@ -257,7 +270,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
         _adminDashboardService.doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
 
-        return JSP_MANAGE_DASHBOARDS;
+        return redirectView( request, VIEW_MANAGE_DASHBOARDS );
     }
 
     /**
