@@ -37,6 +37,7 @@ import java.io.IOException;
 
 import javax.cache.configuration.Configuration;
 
+import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -136,6 +137,7 @@ public class PortalServiceTest extends LuteceTestCase
         page.setName( "junit2" );
         page.setDescription( "junit2" );
         page.setParentPageId( PortalService.getRootPageId( ) );
+        page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
         pageService.createPage( page );
         return page.getId( );
     }
