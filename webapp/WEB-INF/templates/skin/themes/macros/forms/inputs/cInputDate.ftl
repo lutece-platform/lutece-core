@@ -62,8 +62,6 @@ Snippet:
 <#local errorInput><#if errorMsg !=''>_error</#if></#local>
 <#local inputClass><#if errorMsg !=''>is-invalid</#if></#local>
 <#if label!=''><@cLabel label=label for='${idLocal}' /></#if>
-<#if helpMsg !=''><@cFormHelp idLocal helpMsg /></#if>
-<#if errorMsg !='' && errorMsg !='_error'><@cFormError idLocal errorMsg /></#if>
 <@cInputGroup>
   <@cInput id=idLocal type=typeLocal class='form-control datepicker-input ${inputClass!}' name=name value=valLocal placeholder=placeholder autocomplete=autocomplete required=required html5Required=html5Required disabled=disabled readonly=readonly errorMsg=errorInput params=params />
   <#if icon && type='datepicker'>

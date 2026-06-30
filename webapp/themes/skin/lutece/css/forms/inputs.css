@@ -33,7 +33,9 @@ option{
 
 /* Legend aligné sur la taille de texte des labels de champ */
 legend {
-	font-size: var( --font-m );
+	font-size: var(--lutece-ds-fs-lg);
+	font-weight: 500;
+	color: var(--lutece-ds-text-muted);
 }
 
 input:disabled + .btn,
@@ -45,7 +47,7 @@ input:disabled + .btn:hover {
 
 /* BS Overrides */
 label {
-	font-size: var(--lutece-ds-fs-sm);
+	font-size: var(--lutece-ds-fs-lg);
 	font-weight: 500;
 	color: var(--lutece-ds-text-muted)
 }
