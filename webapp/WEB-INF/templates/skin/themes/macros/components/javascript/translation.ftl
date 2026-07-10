@@ -1,5 +1,10 @@
 <#function getDefaultLang>
 <#local defaultLang = dskey('portal.theme.site_property.menu.translate.lang')!'fr'>
+<#-- dskey may return the literal 'DS Value Missing' placeholder when the key is
+     not set, in which case the FreeMarker default (!'fr') does not apply. Guard
+     against it so the anti-flash logic in translationHead does not hide <body>
+     for the whole safety-net timeout on every load. -->
+<#if !defaultLang?has_content || defaultLang == 'DS Value Missing'><#local defaultLang = 'fr'></#if>
 <#return defaultLang>
 </#function>
 <#function getAllowedLangs>
