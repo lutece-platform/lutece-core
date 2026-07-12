@@ -37,16 +37,18 @@ let editorQuickbarMenu = 'quicktable lutece themeiconpicker template',
     
 // Set buttons
 if( luteceInsertServices.length > 0 ){
-	if( luteceInsertServices.includes('library') && autorizedInsertService.includes('library') ){
-    if( luteceInsertServices.includes('image') ){
-			luteceToolbar = ' luteceImage';
-      insertServiceConfigImage = {lutece_insert_service_media_type_image : '#dskey{library.insert_service_media_type_image}', lutece_insert_service_media_type_image_space : '#dskey{library.insert_service_media_type_image_space}'};
-		}	
-		if( luteceInsertServices.includes('pdf') ){
-			luteceToolbar += ' lutecePdf';
-      insertServiceConfigPdf = { lutece_insert_service_media_type_pdf : '#dskey{library.insert_service_media_type_pdf}',  lutece_insert_service_media_type_pdf_space : '#dskey{library.insert_service_media_type_pdf_space}' };
-		}	
-	}
+    <#if isLutecepluginEnable( "library" )>
+        if( luteceInsertServices.includes('library') && autorizedInsertService.includes('library') ){
+            if( luteceInsertServices.includes('image') ){
+                    luteceToolbar = ' luteceImage';
+              insertServiceConfigImage = {lutece_insert_service_media_type_image : '#dskey{library.insert_service_media_type_image}', lutece_insert_service_media_type_image_space : '#dskey{library.insert_service_media_type_image_space}'};
+                }
+                if( luteceInsertServices.includes('pdf') ){
+                    luteceToolbar += ' lutecePdf';
+              insertServiceConfigPdf = { lutece_insert_service_media_type_pdf : '#dskey{library.insert_service_media_type_pdf}',  lutece_insert_service_media_type_pdf_space : '#dskey{library.insert_service_media_type_pdf_space}' };
+                }
+        }
+    </#if>
 
 	if( luteceInsertServices.includes('pagelinkservice') && autorizedInsertService.includes('pagelinkservice') ){
 		luteceToolbar += ' lutecePageLink';
