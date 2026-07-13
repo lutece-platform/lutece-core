@@ -77,6 +77,7 @@ import fr.paris.lutece.portal.service.util.RemovalListenerService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -370,7 +371,15 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         int nIdPage;
         Page page;
 
-        nIdPage = Integer.parseInt( strIdPage );
+        try
+        {
+            nIdPage = Integer.parseInt( strIdPage );
+        }
+        catch( NumberFormatException e )
+        {
+            AppLogService.error( "Invalid page_id parameter: {}", ( ) -> SecurityUtil.logForgingProtect( String.valueOf( strIdPage ) ) );
+            throw new PageNotFoundException( );
+        }
 
         boolean bPageExist = PageHome.checkPageExist( nIdPage );
 
