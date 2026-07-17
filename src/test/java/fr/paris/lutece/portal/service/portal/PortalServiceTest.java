@@ -36,6 +36,8 @@ package fr.paris.lutece.portal.service.portal;
 import java.io.IOException;
 import java.util.List;
 
+import fr.paris.lutece.portal.business.style.PageTemplate;
+import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.page.Page;
@@ -131,6 +133,9 @@ public class PortalServiceTest extends LuteceTestCase
         page.setName( "junit2" );
         page.setDescription( "junit2" );
         page.setParentPageId( PortalService.getRootPageId( ) );
+        List<PageTemplate> pageTemplateList =  PageTemplateHome.getPageTemplatesList( );
+        assertFalse("The list of templates should not be empty", pageTemplateList.isEmpty( ));
+        page.setPageTemplateId( pageTemplateList.get( 0 ).getId( ) );
         pageService.createPage( page );
         return page.getId( );
     }

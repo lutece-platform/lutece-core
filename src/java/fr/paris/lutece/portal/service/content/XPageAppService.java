@@ -52,6 +52,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.Collection;
@@ -247,7 +248,7 @@ public class XPageAppService extends ContentService
 
         data.setContent( page.getContent( ) );
         data.setName( page.getTitle( ) );
-        data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel( ), 0, request ) );
+        data.setPagePath( PortalService.getXPagePathContent( ObjectUtils.getIfNull( page.getPathLabel( ), strName ), 0, request ) );
 
         return PortalService.buildPageContent( data, nMode, request );
     }
