@@ -34,9 +34,11 @@
 package fr.paris.lutece.portal.service.portal;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.cache.configuration.Configuration;
 
+import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -137,7 +139,9 @@ public class PortalServiceTest extends LuteceTestCase
         page.setName( "junit2" );
         page.setDescription( "junit2" );
         page.setParentPageId( PortalService.getRootPageId( ) );
-        page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
+        List<PageTemplate> pageTemplateList =  PageTemplateHome.getPageTemplatesList( );
+        assertFalse( pageTemplateList.isEmpty( ), "The list of templates should not be empty" );
+        page.setPageTemplateId( pageTemplateList.get( 0 ).getId( ) );
         pageService.createPage( page );
         return page.getId( );
     }
