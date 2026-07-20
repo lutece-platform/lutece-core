@@ -9,12 +9,17 @@
 
 .form-check .form-check-label{
 	display: flex;
-	align-self: center;
+	align-items: center;
 	gap : var(--lutece-ds-sp-sm)
 }
 
 .form-check:not( .form-check-inline ){
 	padding-block: calc( var(--lutece-ds-sp-2xs) * 1.875 );
+	padding-inline-start: 0;
+}
+
+/* Bootstrap sets padding-left 1.5em on .form-check: keep it between inline items but align the first one with the form */
+.form-check.form-check-inline:first-of-type {
 	padding-inline-start: 0;
 }
 

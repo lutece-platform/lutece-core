@@ -6,7 +6,8 @@
 	background-repeat: no-repeat;
 	background-position: right 1.6rem center;
 	background-size: 24px 24px;
-	padding: 1.2rem 4.8rem 1.2rem 1.2rem;
+	/* Same padding as the base select/input rule (inputs.css), keeping only the right space for the chevron */
+	padding: 0 4.8rem 0 14px;
 	font-size: var(----bs-body-font-size);
 }
 

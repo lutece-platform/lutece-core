@@ -203,6 +203,7 @@ header+main .breadcrumb-nav+form .step,
 	background-color: var(--lutece-ds-white);
 	border-radius: 0;
 	padding: var(--lutece-ds-sp-lg);
+	margin-block-end: var(--lutece-ds-sp-sm);
 }
 
 .step-current .step-content .form-row.step-group header[class*=col-]{

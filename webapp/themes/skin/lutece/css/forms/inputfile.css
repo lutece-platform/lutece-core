@@ -56,7 +56,7 @@ form .form-row.dropzone > .col > label{
 }
 
 .dropzone .file-input {
-	margin-block-start: var(--lutece-ds-sp-md);
+	margin-block-start: var(--lutece-ds-sp-xs);
 }
 
 .dropzone .file-input.is-invalid {
