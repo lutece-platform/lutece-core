@@ -1,0 +1,53 @@
+/*
+ * Lutece admin dashboard widgets - state persistence styles.
+ * Loaded by adminHome.ftl alongside dashboard-widgets.js.
+ */
+
+/* Collapse toggle button in the widget header */
+#dashboard-widgets .dw-collapse-toggle {
+	padding: 0;
+	margin-right: .25rem;
+	line-height: 1;
+	color: var(--tblr-muted, #6c757d);
+	background: transparent;
+	border: 0;
+}
+
+#dashboard-widgets .dw-collapse-toggle .dw-chevron {
+	transition: transform .15s ease-in-out;
+}
+
+/* Collapsed widget : hide the body (and footer), rotate the chevron */
+#dashboard-widgets .box-widget.dw-collapsed .dw-collapse-toggle .dw-chevron {
+	transform: rotate(-90deg);
+}
+
+#dashboard-widgets .box-widget.dw-collapsed > .card-body,
+#dashboard-widgets .box-widget.dw-collapsed .card-body,
+#dashboard-widgets .box-widget.dw-collapsed .card-footer {
+	display: none !important;
+}
+
+/* Give the drag handle an affordance when dragging is enabled */
+#dashboard-widgets .widget-col .box-widget .card-header {
+	cursor: move;
+}
+
+/* SortableJS helper classes */
+#dashboard-widgets .sortable-ghost {
+	opacity: .4;
+}
+
+#dashboard-widgets .sortable-chosen {
+	outline: 2px dashed var(--tblr-primary, #206bc4);
+	outline-offset: 2px;
+}
+
+/* Tools menu: hidden-widgets count badge pinned to the gear button corner */
+#dashboard-widgets-tools .dropdown .badge {
+	font-size: .625rem;
+	line-height: 1;
+	padding: .2em .4em;
+	pointer-events: none;
+	z-index: 1;
+}
