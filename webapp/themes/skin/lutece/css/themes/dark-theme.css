@@ -158,12 +158,100 @@
 }
 
 /** Form **/
+/* Gray instead of the navy surface, one step lighter than the step group so fields stand out */
 [data-bs-theme=dark] .form-control,
 [data-bs-theme=dark] .form-select,
 [data-bs-theme=dark] .form-control:focus,
 [data-bs-theme=dark] .form-select:focus {
-	background-color: var(--lutece-ds-surface-page);
+	background-color: var(--bs-tertiary-bg);
 	color: var(--lutece-ds-white);
+}
+
+/* Placeholder: #999 on the gray input background is only 4.67:1, below a safe WCAG/RGAA margin (7.56:1 with neutral-300) */
+[data-bs-theme=dark] .form-control::placeholder {
+	color: var(--lutece-ds-neutral-300);
+}
+
+/* Input group (datepicker, password...): align the container surface with the inputs and give it a visible border */
+[data-bs-theme=dark] .input-group {
+	background-color: var(--bs-tertiary-bg);
+	border-color: var(--bs-border-color-translucent);
+}
+
+/** Datepicker: the vendor css hardcodes a white panel, and the theme css draws white grid borders and light surfaces **/
+[data-bs-theme=dark] .datepicker-picker {
+	background-color: var(--bs-gray-900);
+}
+
+[data-bs-theme=dark] .datepicker-dropdown .datepicker-picker {
+	border-color: var(--bs-border-color-translucent);
+}
+
+[data-bs-theme=dark] .datepicker-header .datepicker-controls,
+[data-bs-theme=dark] .datepicker-footer .datepicker-controls:has( .btn:not([style]) ) {
+	border-color: var(--bs-border-color-translucent);
+}
+
+/* Vendor css hardcodes white buttons (bg #fff, hover #e2e6ea, text #000) */
+[data-bs-theme=dark] .datepicker-controls .btn {
+	background-color: transparent;
+	border-color: transparent;
+	color: var(--lutece-ds-text);
+}
+
+[data-bs-theme=dark] .datepicker-controls .btn:focus,
+[data-bs-theme=dark] .datepicker-controls .btn:hover,
+[data-bs-theme=dark] .datepicker-controls .btn:not(:disabled):active {
+	background-color: var(--bs-gray-800);
+	border-color: var(--bs-gray-700);
+	color: var(--lutece-ds-text);
+}
+
+[data-bs-theme=dark] .datepicker-controls .btn:disabled {
+	background-color: var(--bs-dark-bg-subtle);
+	border-color: transparent;
+	color: var(--bs-gray-700);
+}
+
+[data-bs-theme=dark] .datepicker-controls .prev-button,
+[data-bs-theme=dark] .datepicker-controls .next-button {
+	border-color: var(--lutece-ds-text);
+}
+
+/* Grid lines follow the panel background (white on white in light mode) */
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell {
+	border-color: var(--bs-gray-900);
+}
+
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.today {
+	background-color: var(--bs-gray-800);
+	color: var(--lutece-ds-text);
+}
+
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.disabled {
+	background-color: var(--bs-dark-bg-subtle);
+	color: var(--bs-gray-700);
+}
+
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.disabled:hover {
+	border-color: var(--bs-gray-900);
+}
+
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.month:not(.focused),
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.year:not(.focused),
+[data-bs-theme=dark] .datepicker .week {
+	color: var(--lutece-ds-neutral-300);
+}
+
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range {
+	background-color: var(--bs-gray-800);
+	border-color: var(--bs-gray-900);
+	color: var(--lutece-ds-text);
+}
+
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range-start,
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range-end {
+	border-color: var(--bs-gray-900);
 }
 
 [data-bs-theme=dark] .card {
@@ -183,6 +271,28 @@
 [data-bs-theme=dark] .bg-content {
 	background-color: var(--lutece-ds-surface-page) !important;
 	border: var(--lutece-ds-border-width-sm) solid var(--lutece-ds-text) !important;
+}
+
+/* Forms current step: light gray (neutral-100) and white surfaces stay light in dark mode, making white text unreadable. */
+/* Dark grays (Bootstrap tokens) instead of navy blues, so the step does not compete with the navbar color. */
+[data-bs-theme=dark] .step-current {
+	background-color: var(--bs-secondary-bg-subtle);
+}
+
+[data-bs-theme=dark] .step-current .step-content .step-group {
+	background-color: var(--bs-gray-900);
+	border: var(--lutece-ds-border-width-sm) solid var(--bs-border-color-translucent);
+}
+
+/* Step title: drop the light blue separators and use a near-black gray for the current step header */
+[data-bs-theme=dark] .step-title {
+	border-top: 0;
+	border-bottom: 0;
+}
+
+[data-bs-theme=dark] .step-current .step-title {
+	/* No predefined token darker than --bs-secondary-bg-subtle (#161719) */
+	background-color: #0D0F11;
 }
 
 [data-bs-theme=dark] table,
