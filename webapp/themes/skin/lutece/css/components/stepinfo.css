@@ -239,7 +239,7 @@ article .info-step li p,
   align-items: center;
 }
 
-.stepper-horizontal .c-info-step-icons, .stepper-horizontal .c-info-step {
+.stepper-horizontal .c-info-step {
   display: flex;
   width: 100%;
   list-style: none;
@@ -251,7 +251,7 @@ article .info-step li p,
   counter-reset: step-counter 1; /* Initialiser le compteur à 1 */
 }
 
-.stepper-horizontal .c-info-step-icons__item, .stepper-horizontal .c-info-step__item {
+.stepper-horizontal .c-info-step__item {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -259,8 +259,13 @@ article .info-step li p,
   position: relative;
 }
 
-.stepper-horizontal .c-info-step-icons__item {
+/* Pictogramme affiché au-dessus du numéro (order: -2 = avant le trait et le numéro) */
+.stepper-horizontal .c-info-step__icon {
+  display: flex;
   align-items: center;
+  justify-content: center;
+  margin-bottom: var(--lutece-ds-sp-md);
+  order: -2;
 }
 
 .stepper-horizontal .c-info-step__item:before {

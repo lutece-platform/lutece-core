@@ -1,6 +1,10 @@
 /*** 										***/
 /*** Forms Elements							***/
 /***  										***/
+.grid-breadcrumb {
+	grid-template-columns: 1fr 2fr;
+}
+
 .form-control {
     line-height: 3 !important;
     font-size: var(----bs-body-font-size);

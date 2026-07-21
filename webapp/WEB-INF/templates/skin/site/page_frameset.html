@@ -49,7 +49,7 @@ ${plugins_css_links}
 <link rel="apple-touch-icon" sizes="180x180" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}apple-touch-icon.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
 <link rel="icon" type="image/png" sizes="32x32" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}favicon-32x32.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
 <link rel="icon" type="image/png" sizes="16x16" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}favicon-16x16.png?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
-<link rel="manifest" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}site.webmanifest?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
+<link rel="manifest" href="./site.webmanifest?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}">
 <link rel="mask-icon" href="themes/skin/${commonsGlobalThemeCode!}/${thetheme.pathImages}safari-pinned-tab.svg?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" color="#333333">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
@@ -86,6 +86,7 @@ ${page_path}
 </#if>
 <#assign optMainContentHeader=.get_optional_template('${commonsGlobalThemeCode}theme_frameset_content_header.html')>
 <#if optMainContentHeader.exists><@optMainContentHeader.include /></#if>
+<main id="main"<#if mainNavClass !=''> class="${mainNavClass!}"</#if> role="main">
 <div class="main-content">
 ${page_content}
 <#if display_last_modified?? && display_last_modified><@cText class='text-right pt-3 pr-5'><@cIcon name='clock' title='' class='main-danger-color' /> #i18n{portal.site.site_property.page.lastModified} ${last_modified!}</@cText></#if>
@@ -99,6 +100,7 @@ ${contextinclude_2!}
 <#assign optMainContentFooter=.get_optional_template('theme_frameset_content_footer.html')>
 <#if optMainContentFooter.exists><@optMainContentFooter.include /></#if>
 <!-- Footer -->
+</main>
 <#-- Add your own Footer Menu Content here with @mainNavItem macro  -->
 <#assign optMenuFooter=.get_optional_template('theme_frameset_menu_footer.html')>
 <#if optMenuFooter.exists><@optMenuFooter.include /></#if>

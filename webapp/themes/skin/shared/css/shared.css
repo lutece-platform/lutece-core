@@ -15,14 +15,6 @@
     color: var(--lutece-ds-primary-soft)
 }
 
-/* Mylutece Include */
-#body-page-authentification .banner.credits{ 
-    display: none; 
-}
-
-#body-page-authentification #main .banner-wrapper:is(.internal, .is-fixed, .internal.is-fixed) + *{
-    padding-block-start: 0
-}
 
 /* Translation styles   */
 #google_translate_element,

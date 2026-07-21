@@ -44,8 +44,7 @@
 <#-- BANNER MANAGEMENT        -->
 <#assign hasBanner><#if !dskey('portal.theme.site_property.banner.shown.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.banner.shown.checkbox') =='1'>true<#else>false</#if></#assign>
 <#assign urlDefaultBannerImage>${dskey('portal.theme.site_property.banner')}</#assign>
-<#assign showWholeSiteBannerEverywhere><#if dskey('portal.theme.site_property.banner.showSiteImgEverywhere.checkbox') =='1'>false<#else>true</#if></#assign>
-<#assign isBannerOnlyHome=showWholeSiteBannerEverywhere?boolean >
+<#assign isBannerOnlyHome><#if !dskey('portal.theme.site_property.banner.onlyhome.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.banner.onlyhome.checkbox') =='1'>true<#else>false</#if></#assign>
 <#assign isBannerFixed><#if !dskey('portal.theme.site_property.banner.fixed.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.banner.fixed.checkbox') =='1'>true<#else>false</#if></#assign>
 <#assign hasBannerInternalStyle><#if !dskey('portal.theme.site_property.banner.internal.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.banner.internal.checkbox') =='1'>true<#else>false</#if></#assign>
 <#-- END BANNER MANAGEMENT    -->
@@ -64,6 +63,7 @@
 <#assign isMainSidebarMenu><#if dskey('portal.theme.site_property.menu.sidebarMenu.checkbox') == '1'>true<#else>false</#if></#assign>
 <#assign isMainSidebarMenuCollapse><#if dskey('portal.theme.site_property.menu.sidebarMenuCollapse.checkbox') == '1'>true<#else>false</#if></#assign>
 <#assign urlDefaultSearch>${dskey('portal.theme.site_property.Url.search')!}</#assign>
+<#assign mainNavClass='' />
 <#-- MENU MANAGEMENT          -->
 <#-- LAYOUT MANAGEMENT        -->
 <#assign isLayoutFluid><#if dskey('portal.theme.site_property.layout.type.checkbox') == '1'>true<#else>false</#if></#assign>

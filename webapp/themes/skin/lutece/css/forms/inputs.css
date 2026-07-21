@@ -2,11 +2,11 @@
 /*** Label + inputs							***/
 /***  										***/
 select,
-input,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
 select,
 textarea {
   font-family: inherit;
-  font-size: var(----bs-body-font-size);	
+  font-size: var(--lutece-ds-fs-lg);
   color: var(--lutece-ds-text);
   background: var(--bs-white);
   border: 1px solid var(--lutece-ds-border);

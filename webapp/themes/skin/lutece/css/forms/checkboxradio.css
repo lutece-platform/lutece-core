@@ -3,8 +3,11 @@
 /***  										***/
 
 .form-check {
-	min-height: calc( var(--lutece-ds-sp-2xs) * 4);
-	touch-action: manipulation;
+    min-height: calc( var(--lutece-ds-sp-2xs) * 4);
+    touch-action: manipulation;
+    display: flex;
+    gap: 15px;
+    margin-inline-start: 24px;
 }
 
 .form-check .form-check-label{
@@ -27,6 +30,7 @@
 	width: 18px; 
 	height: 18px;
  	accent-color: var(--lutece-ds-primary);
+    padding: 0;
 }
 
 /* Keyboard focus indicator only (:focus-visible): mouse selection should not paint the outline */
@@ -44,23 +48,23 @@
     max-width: fit-content;
 }
 
-.form-check input.is-invalid{
+.form-check .form-check-input.is-invalid{
 	background-color: var( --lutece-ds-white );
 	border-color: var( --lutece-ds-danger );
 	border-width: 2px;
 }
 
-.form-check input.is-invalid ~ .form-check-label{
+.form-check .form-check-input.is-invalid ~ .form-check-label{
 	color: var( --lutece-ds-danger ) !important;
 }
 
 /* Disabled */
-.form-check input:disabled{
+.form-check .form-check-input:disabled{
 	background-color: var(--lutece-ds-neutral-100);
 	border-color: var( --lutece-ds-border );
 }
 
-.form-check input:disabled ~ .form-check-label{
+.form-check .form-check-input:disabled ~ .form-check-label{
 	color: var( --lutece-ds-blue-700 );
 }
 

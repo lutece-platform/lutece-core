@@ -47,12 +47,13 @@ Password with confirmation field sync:
 <@cInputPassword name='confirm_password' id='confirm_password' label='Confirm password' passwordMeter=false />
 
 -->
-<#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' labelClass='' icon='' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='#i18n{portal.theme.labelPasswordHelp}' errorMsg='' params='' deprecated...>
+<#macro cInputPassword name label='#i18n{portal.theme.labelPassword}' labelClass='' icon='' btnShowPassword=true passwordMeter=false pmLabel='#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}' pmUrl='' pmConfirmFieldId='' placeholder='' autocomplete='' class='' id='' size='' value='' required=true disabled=false maxlength=100 helpMsg='' errorMsg='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local passId><#if id !=''>${id!}<#else>${name!}</#if></#local>
 <#local passLabel><#if pmLabel !=''>${pmLabel!}<#else>#i18n{portal.theme.labelPasswordStrength} #i18n{portal.theme.labelPasswordNoPasswordTyped}</#if></#local>
 <#local passClass>form-control pwd<#if class!=''> ${class!}</#if><#if size!=''> form-control-${size!}</#if><#if errorMsg!=''> is-invalid</#if></#local>
 <#if label !=''><@cLabel label=label for=passId required=required class=labelClass /></#if>
+<#if helpMsg !=''><@cFormHelp passId helpMsg /></#if>
 <@cInputGroup class='password'>
     <#if icon !=''><@cIcon name='${icon!}' /></#if>
     <@cInput type='password' class='${passClass!}' size='lg' id=passId name='${name}' maxlength=maxlength required=required placeholder=placeholder autocomplete=autocomplete params='autocomplete="off" ${params!}'>
@@ -63,7 +64,6 @@ Password with confirmation field sync:
     </#if>
     </@cInput>
 </@cInputGroup>
-<#if helpMsg !=''><@cFormHelp passId helpMsg /></#if>
 <#if errorMsg !=''><@cFormError passId errorMsg /></#if>
 <#nested>
 <#if isScriptPasswordLoaded?? && isScriptPasswordLoaded>

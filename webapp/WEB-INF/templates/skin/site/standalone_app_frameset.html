@@ -83,7 +83,7 @@ var xssMsg='${dskey("theme.site_property.xss.xssMsg")!}';
 </script>
 <#if dskey('theme.site_property.bannerBrowserWarning.checkbox')?number = 1>
 <!-- Browser detection and warning old browser -->
-<script src="themes/skin/parisfr/js/vendor/es5.js"></script>
+<script src="themes/skin/shared/js/vendor/es5.js"></script>
 <script>
 window.addEventListener( "load", function() {
 	const browser = bowser.getParser(window.navigator.userAgent);

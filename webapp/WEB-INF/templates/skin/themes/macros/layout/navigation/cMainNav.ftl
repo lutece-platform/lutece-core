@@ -53,17 +53,22 @@ Snippet:
     <@cMainNav title='Admin Portal' isSidebar=true isSibebarCollapsible=true isFixed=true hasSearchMenu=true />
 
 -->
-<#macro cMainNav title=favourite logoImg='' href='.' hasMenu=hasDefaultMenu?boolean hasUserThemeSwitch=hasUserThemeSwitch?boolean hasNestedMenu=true isSidebar=isMainSidebarMenu?boolean isSibebarCollapsible=isMainSidebarMenuCollapse?boolean sidebarMenuClass='' isOnlyHome=isBannerOnlyHome showDefaultMenu=true hasSearchMenu=hasSearchMenu?boolean typeSearch='field' searchUrl=urlDefaultSearch searchAction='jsp/site/Portal.jsp' searchSolr=false searchParams='' isFixed=isFixedMenu?boolean hasLogin=false loginClass='' mainClass='' id='' class='' role='' params='' deprecated...>
+<#macro cMainNav title=favourite logoImg='' href='.' hasMenu=hasDefaultMenu?boolean hasUserThemeSwitch=hasUserThemeSwitch?boolean hasNestedMenu=true isSidebar=isMainSidebarMenu?boolean isSibebarCollapsible=isMainSidebarMenuCollapse?boolean sidebarMenuClass='' isOnlyHome=isBannerOnlyHome?boolean showDefaultMenu=true hasSearchMenu=hasSearchMenu?boolean typeSearch='field' searchUrl=urlDefaultSearch searchAction='jsp/site/Portal.jsp' searchSolr=false searchParams='' isFixed=isFixedMenu?boolean hasLogin=false loginClass='' mainClass='' id='' class='' role='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#assign pageId><#if page_id??>${page_id!'1'}<#else>0</#if></#assign>
 <#if isSidebar>
 <#assign isMainSidebarMenu=isSidebar >
+<#if mainSidebarMenuCols?? && mainSidebarMenuCols != ''><#local sidebarCol=mainSidebarMenuCols?number /><#else><#local sidebarCol=sidebarCol?number /></#if>
+<#local mainCalcCol=12 - sidebarCol />
+<#local asideCol>col-md-${sidebarCol+1} col-lg-${sidebarCol}</#local>
+<#local mainCol>col-md-${mainCalcCol-1} col-lg-${mainCalcCol}</#local>
+<#assign mainNavClass><#if isSidebar>col-12 ${mainCol!}"</#if><#if mainClass !=''> ${mainClass!}</#if></#assign>
 <#else>
 <header class="sticky-top navigation<#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if>" id="main-banner-${page_id!'theme'}" role="banner">
 </#if>
 <#local logoAltDS=dskey('portal.theme.site_property.menu.logo.alt')! />
 <#if logoAltDS?has_content && !logoAltDS?starts_with('DS')><#local logoAlt=logoAltDS /></#if>
-<div class="container main-header<#if class !=''> ${class!}</#if><#if isSidebar> is-sidebar<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if><#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if></#if>"<#if role !=''> role='${role!}'</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if>>
+<div class="container-md main-header<#if class !=''> ${class!}</#if><#if isSidebar> is-sidebar<#if sidebarMenuClass!=''> ${sidebarMenuClass}</#if><#if isFixed> is-fixed</#if><#if hasBanner?boolean><#if isOnlyHome><#if pageId?number = 1> has-banner</#if><#else> has-banner</#if></#if></#if>"<#if role !=''> role='${role!}'</#if><#if id !=''> id="${id!}"</#if><#if params!=''> ${params}</#if>>
 <nav class="navbar navbar-expand-lg navbar-light topnav lutece-ds-topbar" aria-labelledby="main-nav-title">
     <a class="navbar-brand topnav__brand" href="${href!'.'}">
        <#if logoHeader !=''><img src="${logoHeader!}" class="logo" alt="${logoAlt!}" aria-hidden="true"></#if>
@@ -87,14 +92,14 @@ Snippet:
             <#nested>
             </#if>
             <#if hasMenu && hasSearchMenu && typeSearch='icon'>
-                <@cMainNavItem title='' class='ms-auto' url=searchUrl >
+                <@cMainNavItem title='' class='ms-md-auto ' url=searchUrl >
                     <@cIcon name='search' class='main-color' />
                     <@cInline class='visually-hidden'>#i18n{portal.util.labelSearch}</@cInline>
                 </@cMainNavItem>
             </#if>
             <#if hasMenu && hasSearchMenu && typeSearch='field'>
                 <#assign formSearchAction><#if searchAction=''>${urlSearch!}<#else>${searchAction!}</#if></#assign>
-                <@cMainNavItem title='' url='' class='ms-auto' >
+                <@cMainNavItem title='' url='' class='ms-md-auto' >
                     <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' params='role="search"'>
                         <input type="hidden" name="page" value="search<#if searchSolr>-solr</#if>">
                         <#if searchParams !=''>${searchParams!}</#if>
@@ -109,13 +114,13 @@ Snippet:
                         </@cInputGroup>
                     </@cForm>
                 </@cMainNavItem>
-                <@cMainNavItem title='' class='ms-auto d-none d-md-flex d-lg-none ' urlClass='border-0' url=searchUrl>
+                <@cMainNavItem title='' class='ms-md-auto d-none d-md-flex d-lg-none ' urlClass='border-0' url=searchUrl>
                     <@cIcon name='search' class='main-color' />
                     <@cInline class='visually-hidden'>#i18n{portal.util.labelSearch}</@cInline>
                 </@cMainNavItem>
             </#if>
             <#if hasLogin>
-                <li class="nav-item navbar-user<#if loginClass !='' > ${loginClass!}</#if> ms-auto" aria-label="#i18n{portal.theme.labelAccount}">
+                <li class="nav-item navbar-user<#if loginClass !='' > ${loginClass!}</#if> ms-md-auto" aria-label="#i18n{portal.theme.labelAccount}">
                     ${pageinclude_userlogin?default("")}
                 </li>
             </#if>
@@ -157,7 +162,7 @@ Snippet:
                     </#if>
                     <#if hasMenu && hasSearchMenu>
                         <#assign formSearchAction><#if searchAction=''>${urlSearch!}<#else>${searchAction!}</#if></#assign>
-                        <@cMainNavItem title='' url='' class='ms-auto' >
+                        <@cMainNavItem title='' url='' class='ms-md-auto' >
                             <@cForm action=formSearchAction class='d-none d-md-none d-lg-block p-sm' params='role="search"'>
                                 <input type="hidden" name="page" value="search<#if searchSolr>-solr</#if>">
                                 <#if searchParams !=''>${searchParams!}</#if>
@@ -182,18 +187,22 @@ Snippet:
                 </ul>
             </nav>
         </div>
+        <#if hasBanner?? && hasBanner?boolean>
+        <!--  Set banner config in BO Site Properties -->
+        <#assign optMainBanner=.get_optional_template('../../../../site/theme_frameset_main_banner.html')>
+        <#if optMainBanner.exists><@optMainBanner.include /></#if>
+        <#else>
+        <!-- No banner ! Set in BO Properties -->
+        </#if>
     </header>
-    <main id="main"<#if mainClass !=''> class="${mainClass!}"</#if> role="main">
-        <#if hasBanner?boolean>
-            <#assign optMainBanner=.get_optional_template('../../../../site/theme_frameset_main_banner.html')>
-            <#if optMainBanner.exists><@optMainBanner.include /></#if>
-        </#if>
+<#else>
+    <#if hasBanner?? && hasBanner?boolean>
+    <!--  Set banner config in BO Site Properties -->
+    <#assign optMainBanner=.get_optional_template('../../../../site/theme_frameset_main_banner.html')>
+    <#if optMainBanner.exists><@optMainBanner.include /></#if>
     <#else>
-        </header>
-        <main id="main"<#if mainClass !=''> class="${mainClass!}"</#if> role="main">
-        <#if hasBanner?boolean>
-            <#assign optMainBanner=.get_optional_template('../../../../site/theme_frameset_main_banner.html')>
-            <#if optMainBanner.exists><@optMainBanner.include /></#if>
-        </#if>
+    <!-- No banner ! Set in BO Properties -->
     </#if>
+    </header>
+</#if>
 </#macro>

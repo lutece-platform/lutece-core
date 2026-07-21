@@ -149,6 +149,10 @@ const FormValidation = (function() {
      */
     function handleSubmit(event) {
         const form = event.target;
+
+        if( event.submitter && event.submitter.hasAttribute('formnovalidate') ) {
+            return; // Skip validation if submitter has formnovalidate
+        }
         const inputs = getValidatableInputs(form);
         let isFormValid = true;
         let firstInvalidField = null;

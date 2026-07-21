@@ -32,20 +32,20 @@ Snippet:
     </@cMainBanner>
 
 -->
-<#macro cMainBanner title='${favourite!}' titleClass='' hasBanner=hasBanner!'true' isInternal=hasBannerInternalStyle?boolean isFixed=isBannerFixed?boolean onlyHome=isBannerOnlyHome imageSrc=urlDefaultBannerImage!'' class='' id='main-banner' params=''  >
-<#if hasBanner?boolean>
-<#local isOnlyHome=isBannerOnlyHome!onlyHome />
+<#macro cMainBanner title='${favourite!}' titleClass='' isInternal=hasBannerInternalStyle?boolean isFixed=isBannerFixed?boolean onlyHome=isBannerOnlyHome?boolean imageSrc=urlDefaultBannerImage!'' class='' id='main-banner' params=''  >
+<#local isOnlyHome=isBannerOnlyHome  />
 <#-- TODO data n'est pas disponible dans ce contexte, à vérifier -->
 <#local isHomePage=false />
-<#if data??><#local isHomePage=data.homePage! /></#if>
-<#local isBannerAvailable><#if isHomePage>true<#elseif !isOnlyHome>true<#else>false</#if></#local>
+<#if data??><#local isHomePage=data.homePage! /><#else><!-- NO DATA --></#if>
+<#local hasInternalBanner><#if isHomePage>true<#else><#if !isOnlyHome?boolean>false<#else>true</#if></#if></#local>
+<#if hasInternalBanner?trim?boolean>
 <#local titleStyle='' />
 <#local imageStyle='' />
 <#local params=params />
 <#local bannerClass=class />
 <#local dsTitle><#if dskey('portal.theme.site_property.banner.title')?starts_with('DS')><#else>${dskey('portal.theme.site_property.banner.title')}</#if></#local>
 <#if dsTitle !=''><#local title=dsTitle /><#else><#local title=title /></#if>
-<#local hasBannerTitle><#if dskey('portal.theme.site_property.banner.title.checkbox')?starts_with('DS')>1<#else>${dskey('portal.theme.site_property.banner.title.checkbox')}</#if></#local>
+<#local hasBannerTitle><#if !dskey('portal.theme.site_property.banner.title.checkbox')?starts_with('DS')&& dskey('portal.theme.site_property.banner.title.checkbox') == '1'>true<#else>false</#if></#local>
 <#local isBannerImage><#if !dskey('portal.theme.site_property.banner.showSiteImg.checkbox')?starts_with('DS') && dskey('portal.theme.site_property.banner.showSiteImg.checkbox') == '1'>true<#else>false</#if></#local>
 <#local hasBannerFormTitle>${dskey('portal.theme.site_property.bannerForm.showFormTitle.checkbox')}</#local>
 <#local isBannerFormImage><#if dskey('portal.theme.site_property.bannerForm.showBannerImg.checkbox') == '1'>true<#else>false</#if></#local>
@@ -66,9 +66,9 @@ Snippet:
 <#if isInternal && !isHomePage><#local bannerClass +=' internal' /></#if>
 <#if isFixed><div class="banner-wrapper is-fixed<#if bannerClass !='' > ${bannerClass!}</#if>"></#if>
 <div class="banner<#if bannerClass !='' > ${bannerClass!}</#if><#if bannerCredits !='' > credits</#if> page-${page_id!}"<#if id !='' > id="${id!}"</#if><#if bannerCredits !='' > data-credits="${bannerCredits!}"</#if><#if params!=''> ${params}</#if> >
-<#if hasBannerTitle?number=1 && title?trim !=''><h1 id="main-banner-title"<#if titleStyle!=''> style="${titleStyle}"</#if><#if titleClass!=''> class="${titleClass}"</#if>>${title}</h1></#if>
+<#if hasBannerTitle?boolean && title?trim !=''><h1 id="main-banner-title"<#if titleStyle!=''> style="${titleStyle}"</#if><#if titleClass!=''> class="${titleClass}"</#if>>${title}</h1></#if>
 <#nested> 
-</div>
+</div> 
 <#if isFixed></div></#if>
 </#if>
 </#macro>

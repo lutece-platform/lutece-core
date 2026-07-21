@@ -65,7 +65,7 @@ Snippet:
 	<@cContainer>
 		<#if hasSteps>
 			<@cTitle class='title ${titleClass}' level=titleLevel params='data-step="${step}" title="${title} - #i18n{portal.theme.labelCurrentStep}" aria-current="step" tabindex="0"'>
-				<@cText type='span' class='step-number'>${step}</@cText>
+				<#if step?number!=0><@cText type='span' class='step-number'>${step}</@cText></#if>
 				<@cText type='span'>${title?replace('- hidden','')}</@cText>
 			</@cTitle>
 		<#else>
@@ -151,8 +151,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
 		}
 	} else if ( !isNaN(parseInt(currentStepId) ) && parseInt( currentStepId ) > 1 ) {
 		const current = document.querySelector('#current_step');
-		const y = current.offsetTop - 220;
-		window.scrollBy(0, y);
+		// Scroll instantané vers l'étape courante après validation de l'étape précédente.
+		// getBoundingClientRect().top + scrollY = position absolue fiable dans le document
+		// (offsetTop est relatif à l'offsetParent) ; behavior:'instant' force un positionnement
+		// immédiat en ignorant le scroll-behavior:smooth défini par le thème.
+		const y = current.getBoundingClientRect().top + window.scrollY - 220;
+		window.scrollTo({ top: y, behavior: 'instant' });
 		// Déplacer le focus sur le titre de l'étape courante
 		// pour assurer sa restitution par les technologies d'assistance.
 		const stepTitle = document.querySelector('.step-current .step-title .title');

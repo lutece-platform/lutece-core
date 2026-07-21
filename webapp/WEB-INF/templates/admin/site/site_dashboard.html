@@ -1,5 +1,5 @@
 <#if last_modified_page??>
-<@adminDashboardWidget title='#i18n{portal.site.dashboard.columnLastModifiedPage}' id='site_dashboard' url=url md=6 actionMenu=actionMenu>
+<@adminDashboardWidget title='#i18n{portal.site.dashboard.columnLastModifiedPage}' id='site_page_dashboard' url=url md=6 actionMenu=actionMenu>
 <@card class='mb-1'>
 	<@row class='align-items-center'>
 		<@columns>	
@@ -18,7 +18,7 @@
 </@adminDashboardWidget>
 </#if>
 <#if last_modified_portlet??>
-<@adminDashboardWidget title='#i18n{portal.site.dashboard.columnLastModifiedPortlet}' id='site_dashboard' url=url md=6 actionMenu=actionMenu>
+<@adminDashboardWidget title='#i18n{portal.site.dashboard.columnLastModifiedPortlet}' id='site_portlet_dashboard' url=url md=6 actionMenu=actionMenu>
 <@card class='mb-1'>
 	<@row class='align-items-center'>
 		<@columns>	

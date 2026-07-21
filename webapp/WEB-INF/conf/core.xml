@@ -224,6 +224,11 @@
             <url-pattern>/servlet/plugins/core/progressManager/progressFeed</url-pattern>
             <servlet-class>fr.paris.lutece.portal.web.progressmanager.ProgressManagerServlet</servlet-class>
         </servlet>
+        <servlet>
+            <servlet-name>dashboardWidgetsPreferencesServlet</servlet-name>
+            <url-pattern>/servlet/plugins/core/dashboard/widgetsPreferences</url-pattern>
+            <servlet-class>fr.paris.lutece.portal.web.dashboard.DashboardWidgetsPreferencesServlet</servlet-class>
+        </servlet>
     </servlets>
 
 </plug-in>

@@ -39,15 +39,19 @@ Snippet:
 <#local loginIsCoverContain><#attempt>${dskey('portal.site.site_property.layout.login.cover.contain.checkbox')?number}<#recover>0</#attempt></#local>
 <#local loginLayoutImg=dskey('portal.site.site_property.layout.login.image')?trim />
 <script>
-// Apply the user's stored theme mode synchronously, before first paint, so the login page matches the admin theme
-const localTheme = localStorage.getItem('lutece-tabler-theme');
-if( localTheme !== null ){
-	document.documentElement.dataset.bsTheme = localTheme;
-}
-// Read direction : apply the user's stored value on <html> before first paint (persists over login/logout)
-if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
-	document.documentElement.setAttribute('dir','rtl');
-}
+// Apply the user's stored theme mode synchronously, before first paint, so the login page matches the admin theme.
+// Wrapped in an IIFE so the localTheme declaration stays local : the sessionless header (AdminHeaderSessionLess.jsp)
+// already declares one at the top level of the same <head>, and two top-level const of the same name would collide.
+(function () {
+	const localTheme = localStorage.getItem('lutece-tabler-theme');
+	if( localTheme !== null ){
+		document.documentElement.dataset.bsTheme = localTheme;
+	}
+	// Read direction : apply the user's stored value on <html> before first paint (persists over login/logout)
+	if( localStorage.getItem('lutece-bo-readmode') === 'rtl' ){
+		document.documentElement.setAttribute('dir','rtl');
+	}
+})();
 </script>
 </head>
 <body class="<#if loginIsCover?number == 1> d-flex flex-column</#if>" ${readMode!}<#if params!=''> ${params}</#if>>

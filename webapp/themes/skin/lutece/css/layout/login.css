@@ -1,8 +1,8 @@
 /* ============ LOGIN ============ */
 .login-wrap {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	min-height: calc(100vh - 72px - 230px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 72px - 230px);
 }
 
 /* LEFT — form column */

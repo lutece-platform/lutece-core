@@ -68,6 +68,6 @@ Snippet:
 <#elseif consentPlatform == 'orejime'>
     <@cConsentOrejime title=title privacyLink=privacyLink cookieMenu=cookieMenu cookiePolicyLink=cookiePolicyLink alertConfidentialityLabel=alertConfidentialityLabel alertConfidentialityLink=alertConfidentialityLink cookiename=cookiename nocredit=nocredit />
 <#else>
-    <#-- Problem... No consent platform selected ! -->
+    <!-- Problem... No consent platform selected ! -->
 </#if>
 </#macro>

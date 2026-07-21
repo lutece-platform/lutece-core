@@ -55,7 +55,7 @@ Snippet:
     </@cTable>
 
 -->
-<#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params='' deprecated...>
+<#macro cTable caption='' captionClass='visually-hidden' summary='' breakpoint='' themed=true collapsedTitleLevel=3 collapsible=true collapsed=false collapseHeader=true collapseFooter=true collapsedClass='' class='' id='changeme' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#if id='changeme'><!-- ATTENTION : Risque de duplication d'id ! --></#if>
 <div class="<#if id!=''>d-none d-md-block </#if>table-responsive<#if breakpoint!=''>${breakpoint}</#if>">
@@ -69,14 +69,14 @@ Snippet:
 <#macro sortSite jsp_url attribute asc=false desc=true id="" >
 <#if jsp_url?contains("?")><#assign sort_url = jsp_url + "&amp;sorted_attribute_name=" + attribute + "&amp;asc_sort=" /><#else><#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" /></#if>
 <#if asc>
-<a id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" class="btn-sort text-decoration-none" role="button">
+<button type="button" id="sort${id!}_${attribute!}" onclick="window.location.href='${sort_url}true#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.asc}" aria-label="#i18n{portal.util.sort.asc}" class="btn-sort text-decoration-none">
 	<@cIcon name='arrow-up' class='main-color' />
-</a>
+</button>
 </#if>
 <#if desc>
-<a href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}" class="btn-sort text-decoration-none" role="button">
+<button type="button" onclick="window.location.href='${sort_url}false#sort${id!}_${attribute!}'" title="#i18n{portal.util.sort.desc}" aria-label="#i18n{portal.util.sort.desc}" class="btn-sort text-decoration-none">
 	<@cIcon name='arrow-down' class='main-color' />
-</a>
+</button>
 </#if>
 </#macro>
 <#macro cTableResponsive id collapsedClass='' collapsed=true collapseHeader=true collapseFooter=true >
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         const accordionItem = `
-            <@cAccordion id='heading${id}` + index + `' title='` + cells[0].textContent + `' btnClass='btn-outline-action' state=collapsed bodyClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter>
+            <@cAccordion id='heading${id}` + index + `' title='` + cells[0].textContent + `' btnClass='btn-outline-action' titleLevel=collapsedTitleLevel state=collapsed bodyClass=collapsedClass collapseHeader=collapseHeader collapseFooter=collapseFooter>
                 ` + accordionContent + `
             </@cAccordion>`;
 

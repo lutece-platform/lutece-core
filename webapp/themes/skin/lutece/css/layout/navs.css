@@ -169,11 +169,21 @@
 	.topnav .form-inline input { width: 100%; }
 }
 
-
+@media (max-width: 767.98px) {
+	.topnav .navbar-nav {
+		flex-direction: row;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+}
 
 /*** 										***/
 /*** 	Skip Menu							***/
 /*** 										***/
+.skip-nav {
+	margin: 0;
+}
+
 .skip-links,
 .skip-links>li {
 	position: absolute;

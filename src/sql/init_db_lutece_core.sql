@@ -203,6 +203,7 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.admin_home_url', '
 INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'themes/admin/shared/images/unknown.svg');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXs.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.showXsWarning.checkbox', '1');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.widget.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.email', '<webmaster email>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.home_url', 'jsp/site/Portal.jsp');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.layout.darkmode.checkbox', '0');

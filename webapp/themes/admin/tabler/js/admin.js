@@ -162,7 +162,33 @@ function wireLogout( ){
 			if( localStorage.getItem( 'lutece-bo-readmode' ) === 'rtl' ){
 				url.searchParams.set( 'lutece-bo-readmode', 'rtl' );
 			}
-			window.location.assign( url.toString() );
+			const go = () => window.location.assign( url.toString() );
+			// Persist the admin home dashboard widget layout to core_admin_user_preferences so it
+			// survives the logout Clear-Site-Data wipe and follows the user across environments.
+			// The key mirrors storageKey() in dashboard-widgets.js : the layout is stored per admin
+			// user (suffixed with the access code) so a shared computer keeps each user's layout apart.
+			const accessCode = ( window.LuteceAdminUser && window.LuteceAdminUser.accessCode )
+				? String( window.LuteceAdminUser.accessCode ).trim() : '';
+			const widgetsKey = accessCode
+				? ( 'lutece.admin.dashboard.widgets.v1.' + accessCode )
+				: 'lutece.admin.dashboard.widgets.v1';
+			const widgets = localStorage.getItem( widgetsKey );
+			if( widgets !== null ){
+				let navigated = false;
+				const once = () => { if( !navigated ){ navigated = true; go(); } };
+				// Save while still authenticated (before logout invalidates the session), then navigate on
+				// completion. A 1s fallback guarantees logout is never blocked if the request stalls.
+				setTimeout( once, 1000 );
+				fetch( 'servlet/plugins/core/dashboard/widgetsPreferences', {
+					method: 'POST',
+					credentials: 'same-origin',
+					headers: { 'Content-Type': 'application/json' },
+					body: widgets,
+					keepalive: true
+				} ).catch( () => {} ).finally( once );
+			} else {
+				go();
+			}
 		});
 	}
 }

@@ -36,6 +36,9 @@ Snippet:
 <#local logoWidth><#attempt>${dskey('portal.site.site_property.logo.width')}<#recover>24</#attempt></#local>
 <#local logoHeight><#attempt>${dskey('portal.site.site_property.logo.height')}<#recover>24</#attempt></#local>
 <script>
+// Expose the current admin access code so per-user client storage keys can be namespaced.
+// This keeps one user's dashboard widget layout from overwriting another's on a shared computer.
+window.LuteceAdminUser = { accessCode: "${(user.accessCode!'')?js_string}" };
 let localTheme = localStorage.getItem('lutece-tabler-theme');
 <#if adminDarkMode?number==1>
 <#if userDarkMode?number!=1>

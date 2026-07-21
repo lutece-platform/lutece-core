@@ -115,42 +115,51 @@ Snippet:
     </ol>
 </div>
 </#macro>
-<#macro cInfoStep steps haspicto=false verticalStepper=false title=false class='' id='' imgClass='' params='' deprecated...>
+<#macro cInfoStep steps haspicto=false verticalStepper=false hasidx=false title=false titleLevel=3 showMore=0 labelMore=i18n("portal.theme.labelShowMore") a11StatusMsg='' class='' id='' imgClass='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <div class="c-info-step-wrapper<#if verticalStepper> stepper-vertical<#else> stepper-horizontal c-info-step-default</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> >
-  <#if steps?has_content>
-      <#if haspicto && !verticalStepper>
-          <ol class="c-info-step-icons<#if !verticalStepper> d-none d-md-flex</#if>">
-            <#list steps as step>
-                <li class="c-info-step-icons__item">
-                    <div <#if imgClass!=''> class="${imgClass!}"</#if> >
-                        <img src="${step.url!}" class="img-fluid" alt="">
-                    </div>
-                </li>
-            </#list>
-          </ol>
-      </#if>
-  </#if>
-  <ol class="c-info-step" >
+  <ol class="c-info-step<#if hasidx> list-idx</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
     <#if steps?has_content>
         <#list steps as step>
-            <li class="c-info-step__item">
+            <li class="c-info-step__item<#if step.status??> ${step.status}</#if>">
                 <#if haspicto>
-                    <div class="c-info-step__icon<#if !verticalStepper> d-md-none</#if>">
+                    <div class="c-info-step__icon">
                         <div class="mb-0<#if imgClass!=''> ${imgClass!}</#if>">
                             <img src="${step.url!}" class="img-fluid" alt="">
                         </div>
                     </div>
                 </#if>
                 <div class="c-info-step__content">
+                    <#if step.content??>
+                        <#if showMore gt 0>
+                            <#local content>
+                            <#if step.content?length gt showMore>
+                                <#assign truncated=step.content?truncate_w(showMore, '') >
+                                ${truncated}<span class="ellipsis">...</span>
+                                <span class="extra visually-hidden">${step.content?remove_beginning(truncated)}</span>
+                                <span class="d-block text-center mt-2">
+                                    <@cLink href='#' nestedPos='before' class='btn-infostep-more main-color text-decoration-none h6' label=labelMore title=labelMore >
+                                        <@cIcon name=i18n("portal.util.labelBack") class='angle-up hidden' />
+                                    </@cLink>
+                                </span>
+                            <#else>
+                            ${step.content}
+                            </#if>
+                            </#local>
+                        </#if>
+                    </#if>
                     <#if title>
-                        <h3 class="c-info-step__title">${step.title!}</h3>
+                        <#if titleLevel gt 0>
+                            <@cTitle level=titleLevel class='c-info-step__title'>${step.title!}</@cTitle>
+                        <#else>
+                            <@cText class='c-info-step__title'>${step.title!}</@cText>
+                        </#if>    
                         <#if step.content??>
-                            <p class="c-info-step__desc mb-0">${step.content!}</p>
+                            <@cText class="c-info-step__desc mb-0 infostep-more">${content!}</@cText>
                         </#if>
                     <#else>
                         <#if step.content??>
-                            <p class="c-info-step__desc">${step.content!}</p>
+                            <@cText class="c-info-step__desc">${content!}</@cText>
                         </#if>
                     </#if>
                 </div>

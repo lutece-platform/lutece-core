@@ -3,8 +3,8 @@
 <@cContainer>
     <#if results_list?? && results_list?size gt 0>
         <#assign breadcrumbItems = [{ 'title': '#i18n{portal.search.search_results.pathLabel}', 'url': 'jsp/site/Portal.jsp?page=search' },{ 'title': '#i18n{portal.search.search_results.title}', 'url': 'jsp/site/Portal.jsp?page=search&query=${query!}'}]>
-        <@cBlock class='d-flex justify-content-between align-items-center'>
-            <@cBreadCrumb home='Home' type='fluid' items=breadcrumbItems listClass='ms-m' />
+        <@cBlock class='d-md-flex justify-content-between align-items-center'>
+            <@cBreadCrumb home='Home' type='fluid' items=breadcrumbItems listClass='ms-md-m' />
             <@cBlock class='result-stats'>
                 <@cInline><@cInline type='strong'>${paginator.itemsCount} ${'#i18n{portal.search.search_results.labelResultsRange}'?lower_case}</@cInline> #i18n{portal.search.search_results.labelResultsFor}</@cInline> <@cBadge label='${query}' />
             </@cBlock>
@@ -34,10 +34,8 @@
   </@cContainer>
 </@cSection>
 <#-- ============ CONTENT ============ -->
-<@cContainer class='section'>
-    <@cBlock class='search-body'>
-      <@cBlock class='container'>
-        <@cBlock class='layout'>
+<@cContainer class='search-body'>
+     <@cBlock class='layout'>
         <#-- ====== FILTERS ====== -->
             <@cBlock type='aside' class='filter-panel' params='aria-label="Filtres"'>
                 <@cBlock class='filter-panel__head'>
@@ -189,8 +187,6 @@
             </#if>
         </#if>
         </@cSection>
-        </@cBlock>
-      </@cBlock>
     </@cBlock>
 </@cContainer>
 </@cForm>

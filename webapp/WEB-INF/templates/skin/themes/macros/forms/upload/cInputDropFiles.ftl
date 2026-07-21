@@ -49,7 +49,7 @@ Snippet:
     </@cInputDropFiles>
 
 -->
-<#macro cInputDropFiles name handler={} type='dropzone' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{portal.theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{portal.theme.labelSelect}' labelSubmit='#i18n{portal.theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
+<#macro cInputDropFiles name handler={} type='dropzone' icon='upload' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{portal.theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{portal.theme.labelSelect}' labelSubmit='#i18n{portal.theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id!=''>${id!}<#else>${name!}</#if></#local>
 <#local nbFiles = nbFiles?number >
@@ -66,7 +66,7 @@ Snippet:
         <#if type="dropzone">
             <div id="group-${cId!}" class="d-flex align-items-center file-input">
                 <input type="file" class="form-control my-xs ${cssClass!}<#if required> is-required</#if><#if handler?has_content> ${handler.handlerName}</#if><#if class!=''> ${class}</#if>"<#if required>aria-required="true"</#if><#if helpMsg!=''> aria-describedby="help_${cId}"</#if><#if errorMsg !=''> aria-invalid="true" aria-describedby="error_${idMsg!}"</#if> data-nbuploadedfiles="${nbUplodadedFiles}" name="${name}" id="${cId!}" <#if multiple>multiple="multiple"</#if><#if nbFiles gt 0> data-nof="${nbFiles}"</#if><#if maxFileSize gt 0> data-mfs="${maxFileSize}"</#if><#if accept !=''> accept="${accept}" data-atf="${accept}"</#if><#if params!=''> ${params}</#if>>
-                 <@cIcon name='upload' class='white-color' params='aria-hidden="true"' />
+                 <@cIcon name=icon params='aria-hidden="true"' />
                 <p class="flex-1 text-start ms-xs my-0">#i18n{portal.theme.labelDropFiles} <span class="main-info-color text-underline">#i18n{asynchronousupload.action.browse.name}</span></p>
             </div>
         <#elseif type="button">

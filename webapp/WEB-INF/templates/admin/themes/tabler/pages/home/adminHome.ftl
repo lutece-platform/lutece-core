@@ -9,6 +9,11 @@ Snippet:
 
 -->
 <#macro adminHome>
+<#-- Dashboard widget management (reorder / collapse / hide) is enabled only when the
+     'portal.site.site_property.bo.widget.checkbox' site property is set to '1'. When it is
+     off, the management button and scripts are not rendered and any layout persisted in the
+     browser localStorage is cleared. -->
+<#assign manageDashboardWidgets = dskey('portal.site.site_property.bo.widget.checkbox') == '1'>
 <#assign head = .get_optional_template('../../../../../admin/user/adminHeader.html')>
 <#if head.exists><@head.include /></#if>
 <div class="page-header d-print-none" aria-label="Page header">
@@ -20,6 +25,10 @@ Snippet:
 				<h2 class="page-title">#i18n{portal.admin.admin_home.welcome}</h2>
 			</div>
 			<div class="page-header-buttons col-auto ms-auto d-print-none">
+				<!-- Mount point for the admin-user-preferences plugin dashboard tools (restore hidden widgets / reset layout) -->
+				<#if manageDashboardWidgets>
+				<div id="dashboard-widgets-tools" class="d-inline-flex align-items-center"></div>
+				</#if>
 				<@adminHeaderDocumentationLink />
 			</div>
 		</div>
@@ -27,44 +36,67 @@ Snippet:
 </div>
 <!-- END PAGE HEADER -->
 <@pageWrapper>
-<@div id="dashboard-widgets" class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-xl-3 dashboard-widgets">
-<#--  <div id="dashboard-widgets" class="row dashboard-widgets" data-masonry='{"percentPosition": true }'>  -->
-<@columns sm=4 class='widget-col' id='zone-1'>
-${dashboard_zone_1!}
-</@columns>
-<@columns sm=4	class='widget-col' id='zone-2'>
-${dashboard_zone_2!}
-</@columns>
-<@columns sm=4 class='widget-col' id='zone-3'>
-${dashboard_zone_3!}
-</@columns>
+<@div id="dashboard-widgets" class="dashboard-widgets">
+	<@div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-xl-3">
+		<@columns sm=4 class='widget-col' id='zone-1'>
+		${dashboard_zone_1!}
+		</@columns>
+		<@columns sm=4	class='widget-col' id='zone-2'>
+		${dashboard_zone_2!}
+		</@columns>
+		<@columns sm=4 class='widget-col' id='zone-3'>
+		${dashboard_zone_3!}
+		</@columns>
+	</@div>
+	<@div class="row">
+		<@columns class='widget-col' id='zone-4'></@columns>
+		<@columns class='widget-col' id='zone-5'></@columns>
+	</@div>
+	<@div class="row">
+		<@columns class='widget-col' id='zone-6'></@columns>
+	</@div>
 </@div>
 </@pageWrapper>
 <#assign foot = .get_optional_template('../../../../../admin/user/adminFooter.html')>
 <#if foot.exists><@foot.include /></#if>
-<#--  <script src="themes/admin/shared/js/lib/bootstrap/masonry.pkgd.min.js"></script>  -->
-<script type="module">
-import {
-	LuteceDraggable
-} from './themes/shared/modules/luteceDraggable.js';
-
-// Dragging is disabled below this breakpoint (Bootstrap md): on touch devices it
-// captures touch events and prevents the page from being scrolled.
-const DASHBOARD_DRAG_BREAKPOINT = 768;
-const isDashboardDragEnabled = () => window.innerWidth >= DASHBOARD_DRAG_BREAKPOINT;
-
-const containers = document.querySelectorAll('#dashboard-widgets .widget-col');
-const draggables = Array.from(containers).flatMap(container => [...container.children]);
-
-const AdminHomeDraggable = new LuteceDraggable(draggables, containers);
-
-AdminHomeDraggable.on('dragged', (event) => {
-	// should be make a call to user preference to save the position of the widget
-});
-
-// Elements that get a "move" cursor when dragging is enabled
-const moveCursorElements = document.querySelectorAll('#dashboard-widgets .widget-col > .card > .card-header, #dashboard-widgets .widget-col > .card .avatar, #dashboard-widgets .widget-col > .card .info-box-icon');
-
+<#--
+	Widget drag & drop reordering, collapse, hide and per-browser persistence of the
+	dashboard layout (mount point: #dashboard-widgets-tools). Menu labels are passed to
+	the script through a global, localized from the admin i18n bundle.
+-->
+<#if manageDashboardWidgets>
+<link rel="stylesheet" href="themes/admin/shared/css/dashboard-widgets.css">
+<script>
+window.LuteceDashboardWidgetsLabels = {
+	title: "#i18n{portal.admin.admin_home.dashboard.tools.title}",
+	hidden: "#i18n{portal.admin.admin_home.dashboard.tools.hidden}",
+	noHidden: "#i18n{portal.admin.admin_home.dashboard.tools.noHidden}",
+	showAll: "#i18n{portal.admin.admin_home.dashboard.tools.showAll}",
+	reset: "#i18n{portal.admin.admin_home.dashboard.tools.reset}",
+	collapse: "#i18n{portal.admin.admin_home.dashboard.widget.collapse}",
+	expand: "#i18n{portal.admin.admin_home.dashboard.widget.expand}"
+};
+</script>
+<script src="themes/admin/shared/js/dashboard-widgets.js"></script>
+<#else>
+<#-- Widget management is disabled: purge any dashboard layout kept in this browser.
+     The key mirrors STORAGE_KEY_BASE in dashboard-widgets.js (base, optionally suffixed
+     per user with '.<accessCode>'), so every matching entry is removed. -->
+<script>
+(function () {
+	try {
+		var base = 'lutece.admin.dashboard.widgets.v1';
+		for (var i = window.localStorage.length - 1; i >= 0; i--) {
+			var key = window.localStorage.key(i);
+			if (key && key.indexOf(base) === 0) {
+				window.localStorage.removeItem(key);
+			}
+		}
+	} catch (e) { /* storage unavailable : nothing to clear */ }
+})();
+</script>
+</#if>
+<script>
 function setCounters( speed, counters  ){
 	counters.forEach( counter => {
 		const animate = () => {
@@ -88,48 +120,6 @@ function setCounters( speed, counters  ){
 		animate();
 	});
 }
-
-const dashSortables = [].slice.call(document.querySelectorAll('.dashboard-widgets .widget-col'));
-const sortableInstances = [];
-// Loop through each nested sortable element
-for ( var i = 0; i < dashSortables.length; i++) {
-	var sortableDash = new Sortable( dashSortables[i], {
-		group: 'widget-dashboard',
-		swapThreshold: 0.65,
-		draggable: '.box-widget',
-		store: {
-			get: function (sortable) {
-				var order = localStorage.getItem(sortable.options.group.name);
-				return order ? order.split('|') : [];
-			},
-			set: function (sortable) {
-				var order = sortable.toArray();
-				localStorage.setItem(sortable.options.group.name, order.join('|'));
-			}
-		}
-	});
-	sortableInstances.push(sortableDash);
-}
-
-// Enable/disable widget dragging depending on the viewport width.
-function updateDashboardDragState() {
-	const enabled = isDashboardDragEnabled();
-	// Native HTML5 drag used by LuteceDraggable
-	draggables.forEach((draggable) => {
-		draggable.setAttribute('draggable', enabled ? 'true' : 'false');
-	});
-	// SortableJS (also handles touch dragging)
-	sortableInstances.forEach((sortable) => {
-		sortable.option('disabled', !enabled);
-	});
-	// "move" cursor only when dragging is possible
-	moveCursorElements.forEach((element) => {
-		element.style.cursor = enabled ? 'move' : '';
-	});
-}
-
-updateDashboardDragState();
-window.addEventListener('resize', updateDashboardDragState);
 
 const boxCount = document.querySelectorAll('.box-widget .counter')
 setCounters( 200, boxCount );

@@ -30,9 +30,9 @@ Snippet:
  -->
 <#macro cConsentOrejime title='#i18n{portal.theme.consentTitle}' services=[] lang='"privacyUrl":"#i18n{portal.theme.consentPrivacyUrl}","alertBigPrivacy": "#i18n{portal.theme.consentAlertBigPrivacy}"' privacyLink='#i18n{portal.theme.consentPrivacyLink}' showIcon=true iconPosition='bottomRight' cookieMenu='#i18n{portal.theme.consentCookieMenu}' cookiePolicyLink='#i18n{portal.theme.consentCookiePolicyLink}' alertConfidentialityLabel='#i18n{portal.theme.consentAlertConfidentialityLabel}' alertConfidentialityLink='#i18n{portal.theme.consentAlertConfidentialityLink}' hashtag='cookiepolicycitelibre' cookiename='parisfr' nocredit=false deprecated...>
 <@deprecatedWarning args=deprecated />
-<link rel="stylesheet" href="${commonsSiteThemePath}${commonsSiteJsPath}vendor/orejime/orejime-standard.css" >
-<link rel="stylesheet" href="${commonsSiteThemePath}${commonsSiteJsPath}vendor/orejime/orejime-parisfr.css" >
-<script src="${commonsSiteThemePath}${commonsSiteJsPath}vendor/orejime/orejime-standard-fr.js"></script>
+<link rel="stylesheet" href="${commonsSharedThemePath}${commonsSiteJsPath}vendor/orejime/orejime-standard.css" >
+<link rel="stylesheet" href="${commonsSharedThemePath}${commonsSiteJsPath}vendor/orejime/orejime-parisfr.css" >
+<script src="${commonsSharedThemePath}${commonsSiteJsPath}vendor/orejime/orejime-standard-fr.js"></script>
 <#--  
 -->
 <script>
