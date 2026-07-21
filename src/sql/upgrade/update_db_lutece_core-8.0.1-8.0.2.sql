@@ -105,3 +105,8 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title', ''
 -- LUT : Add site property to enable/disable admin home dashboard widget management
 DELETE FROM core_datastore WHERE entity_key='portal.site.site_property.bo.widget.checkbox';
 INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.widget.checkbox', '1');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev7.sql
+-- LUT : Add site property to enable/disable admin home dashboard widget management
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.banner.showSiteImgEverywhere.checkbox';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.onlyhome.checkbox', '0');

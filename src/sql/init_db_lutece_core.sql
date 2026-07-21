@@ -266,7 +266,7 @@ INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.internal.c
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.image.positionx', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.image.positiony', '');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.showSiteImg.checkbox', '0');
-INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.showSiteImgEverywhere.checkbox', '0');
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.onlyhome.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.shown.checkbox', '0');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title.checkbox', '1');
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.title', '');
