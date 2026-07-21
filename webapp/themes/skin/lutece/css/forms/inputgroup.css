@@ -7,6 +7,7 @@
 	align-items: center;
 	outline: transparent solid 1px;
 	margin-block-start: 0;
+	/* Required to keep the group left border visible in light mode; the inner field padding is reduced to compensate */
 	padding-inline-start: var(--lutece-ds-sp-xs);
 	border: 1px solid var(--lutece-ds-border);
 	border-radius: var(--lutece-ds-radius-sm);
@@ -20,9 +21,10 @@
 .input-group > :is( input, select, textarea, .btn),
 .input-group:hover > :is( input, select, textarea, .btn) {
     border: 0;
-    padding-inline-start: 1.5rem;
     outline: 0;
 	padding: var(--lutece-ds-sp-xs) var(--lutece-ds-sp-sm);
+	/* The container already pads the start: total start inset matches standalone fields (~16px vs 14px) */
+	padding-inline-start: var(--lutece-ds-sp-xs);
 }
 
 .input-group:hover{

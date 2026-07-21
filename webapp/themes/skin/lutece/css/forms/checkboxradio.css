@@ -29,9 +29,8 @@
  	accent-color: var(--lutece-ds-primary);
 }
 
-.form-check:active,
-.form-check:focus,
-.form-check:focus-within {
+/* Keyboard focus indicator only (:focus-visible): mouse selection should not paint the outline */
+.form-check:has(:focus-visible) {
 	outline: .15rem solid var( --lutece-ds-text ) !important;
 	outline-offset: .25rem !important;
 }
