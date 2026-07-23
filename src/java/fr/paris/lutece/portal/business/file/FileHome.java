@@ -35,6 +35,9 @@ package fr.paris.lutece.portal.business.file;
 
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.util.sql.TransactionManager;
+
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
  * This class provides instances management methods (create, find, ...) for file objects
@@ -55,11 +58,35 @@ public final class FileHome
      * Creation of an instance of record file
      *
      * @param file
-     *            The instance of the file which contains the informations to store
+     *            The instance of the file which contains the information to store
      * @return the id of the file after creation
      *
      */
     public static int create( File file )
+    {
+        if ( isJoiningExistingTransaction( ) )
+        {
+            return doCreate( file );
+        }
+
+        TransactionManager.beginTransaction( null );
+
+        try
+        {
+            int nIdFile = doCreate( file );
+
+            TransactionManager.commitTransaction( null );
+
+            return nIdFile;
+        }
+        catch( RuntimeException e )
+        {
+            TransactionManager.rollBack( null, e );
+            throw e;
+        }
+    }
+
+    private static int doCreate( File file )
     {
         if ( file.getPhysicalFile( ) != null )
         {
@@ -76,6 +103,28 @@ public final class FileHome
      *            The instance of the record file which contains the informations to update
      */
     public static void update( File file )
+    {
+        if ( isJoiningExistingTransaction( ) )
+        {
+            doUpdate( file );
+            return;
+        }
+
+        TransactionManager.beginTransaction( null );
+
+        try
+        {
+            doUpdate( file );
+            TransactionManager.commitTransaction( null );
+        }
+        catch( RuntimeException e )
+        {
+            TransactionManager.rollBack( null, e );
+            throw e;
+        }
+    }
+
+    private static void doUpdate( File file )
     {
         if ( file.getPhysicalFile( ) != null )
         {
@@ -95,12 +144,52 @@ public final class FileHome
     {
         File file = FileHome.findByPrimaryKey( nIdFile );
 
+        if ( file == null )
+        {
+            return;
+        }
+
+        if ( isJoiningExistingTransaction( ) )
+        {
+            doRemove( file, nIdFile );
+            return;
+        }
+
+        TransactionManager.beginTransaction( null );
+
+        try
+        {
+            doRemove( file, nIdFile );
+            TransactionManager.commitTransaction( null );
+        }
+        catch( RuntimeException e )
+        {
+            TransactionManager.rollBack( null, e );
+            throw e;
+        }
+    }
+
+    private static void doRemove( File file, int nIdFile )
+    {
         if ( file.getPhysicalFile( ) != null )
         {
             PhysicalFileHome.remove( file.getPhysicalFile( ).getIdPhysicalFile( ) );
         }
 
         _dao.delete( nIdFile );
+    }
+
+    /**
+     * Check if the current thread already runs inside an open Spring-managed
+     * {@link TransactionSynchronizationManager} or a Lutece {@link TransactionManager} transaction.
+     * When true, the file operations join that transaction and must neither commit nor roll it back : the caller owns its lifecycle.
+     *
+     * @return true if a caller transaction is already active
+     */
+    private static boolean isJoiningExistingTransaction( )
+    {
+        return TransactionSynchronizationManager.isSynchronizationActive( )
+                || TransactionManager.getCurrentTransaction( null ) != null;
     }
 
     // /////////////////////////////////////////////////////////////////////////

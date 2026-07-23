@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.physicalfile;
 
 import java.sql.Statement;
 
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 /**
@@ -59,11 +60,19 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
             daoUtil.setBytes( 1, physicalFile.getValue( ) );
             daoUtil.executeUpdate( );
 
-            if ( daoUtil.nextGeneratedKey( ) )
+            if ( !daoUtil.nextGeneratedKey( ) )
             {
-                physicalFile.setIdPhysicalFile( daoUtil.getGeneratedKeyInt( 1 ) );
+                throw new AppException( "No generated key returned while inserting a physical file : the file content has not been stored." );
             }
+
+            physicalFile.setIdPhysicalFile( daoUtil.getGeneratedKeyInt( 1 ) );
         }
+
+        if ( physicalFile.getIdPhysicalFile( ) <= 0 )
+        {
+            throw new AppException( "Invalid generated key " + physicalFile.getIdPhysicalFile( ) + " returned while inserting a physical file." );
+        }
+
         return physicalFile.getIdPhysicalFile( );
     }
 
@@ -111,6 +120,12 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     @Override
     public void store( PhysicalFile physicalFile )
     {
+        if ( physicalFile.getValue( ) == null )
+        {
+            throw new AppException( "Cannot update the physical file " + physicalFile.getIdPhysicalFile( )
+                    + " with a null content : it would erase the stored file content." );
+        }
+
         int nIndex = 1;
         try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
