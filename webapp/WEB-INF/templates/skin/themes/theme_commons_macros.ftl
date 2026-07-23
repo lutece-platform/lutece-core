@@ -118,6 +118,7 @@
 <@cMacro name='cSessionTimeout' group='components/javascript' />
 <@cMacro name='cToast' group='components/javascript' />
 <@cMacro name='scrollTopBtn' group='components/javascript' />
+<@cMacro name='noScriptMessage' group='components/javascript' />
 <@cMacro name='translation' group='components/javascript' />
 <@cMacro name='deprecatedWarning' group='utilities/functions'  />
 <@cMacro name='rand' group='utilities/functions'  />    
