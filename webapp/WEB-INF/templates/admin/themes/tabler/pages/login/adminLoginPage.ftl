@@ -89,8 +89,8 @@ const password = new LutecePassword();
 
 document.addEventListener( "DOMContentLoaded", function(){
 	/* backGround image random */
-	const aImages = '#dskey{portal.site.site_property.layout.login.image}'.split(',');
-	const backImages = '#dskey{portal.site.site_property.back_images}'.split(',');
+	const aImages = '${dskey('portal.site.site_property.layout.login.image')?js_string}'.split(',');
+	const backImages = '${dskey('portal.site.site_property.back_images')?js_string}'.split(',');
 	login.randomImages = aImages;
 	login.randomBgImages = backImages;
 	<#if loginLayoutImg != '' >
