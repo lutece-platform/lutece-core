@@ -14,6 +14,10 @@
 	background-color: var(--lutece-ds-white);
 }
 
+.input-group.lutece-datepicker > .form-control.lutece-datepicker{
+	border: none;
+}
+
 :is( .form-text, label ) + .input-group{
 	margin-block-start: var(--lutece-ds-sp-2xs);
 }

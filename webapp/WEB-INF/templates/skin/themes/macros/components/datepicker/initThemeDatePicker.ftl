@@ -135,6 +135,9 @@ if (typeof themeDatepicker === 'undefined') { window.themeDatepicker = window.th
     var msg = buildMessage(fmt, input.getAttribute('data-date-error'));
     var touched = false;
 
+    input.classList.add('lutece-datepicker');
+    input.closest('.input-group').classList.add('lutece-datepicker');
+
     var run = function () {
       var v = (input.value || '').trim();
       if (v === '' || isValidDate(v, fmt)) { clearError(input); return true; }

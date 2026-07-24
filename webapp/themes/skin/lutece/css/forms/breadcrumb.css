@@ -1,35 +1,52 @@
-.grid-forms-breadcrumb { grid-template-columns: 320px 2fr; }
+.grid-forms-breadcrumb {
+    grid-template-columns: 320px 2fr;
+}
 
-.breadcrumb-forms-vertical{ padding: 30px 0 0 30px;}
+.breadcrumb-forms-vertical {
+    padding: 30px 0 0 30px;
+}
 
-.breadcrumb-forms-stepper__list { list-style: none; margin: 0; padding: 0; display: flex }
-.breadcrumb-forms-vertical .breadcrumb-forms-stepper__list { display: block }
+.breadcrumb-forms-stepper__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex
+}
 
-.breadcrumb-forms-step { position: relative; }
+.breadcrumb-forms-vertical .breadcrumb-forms-stepper__list {
+    display: block
+}
+
+.breadcrumb-forms-step {
+    position: relative;
+}
 
 .breadcrumb-forms-step__row {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--lutece-ds-sp-s, 2rem);
-    width: 100%;
-    padding: var(--lutece-ds-sp-s, 1.2rem) 3rem 0 0;
+    gap: var( --lutece-ds-sp-md-loose, 3.2rem);
+    padding: var( --lutece-ds-sp-xs-high, 1.2rem) 3rem 0 0;
     background: transparent;
     border: 0;
-    text-align: right;
     color: inherit;
     text-decoration: none;
 }
 
 .breadcrumb-forms-vertical .breadcrumb-forms-step__row {
-    gap: var(--lutece-ds-sp-s, 1.2rem);
-    padding: var(--lutece-ds-sp-s, 1.2rem) 0;
+    gap: var(--lutece-ds-sp-xs-high, 1.2rem);
+    padding: var(--lutece-ds-sp-xs-high, 1.2rem) 0;
 }
 
-button.breadcrumb-forms-step__row { cursor: pointer; font: inherit; }
+button.breadcrumb-forms-step__row {
+    cursor: pointer;
+    font: inherit;
+}
 
 button.breadcrumb-forms-step__row:hover .breadcrumb-forms-step__label,
-button.breadcrumb-forms-step__row:focus-visible .breadcrumb-forms-step__label { text-decoration: underline; }
+button.breadcrumb-forms-step__row:focus-visible .breadcrumb-forms-step__label {
+    text-decoration: underline;
+}
 
 .breadcrumb-forms-horizontal .breadcrumb-forms-step.breadcrumb-forms-step--current {
     display: flex;
@@ -37,15 +54,14 @@ button.breadcrumb-forms-step__row:focus-visible .breadcrumb-forms-step__label { 
 }
 
 .breadcrumb-forms-step__label {
-    text-align: right;
+    text-align: center;
     font-weight: 600;
-    line-height: 1.2;
+    line-height: 1.3;
     color: var(--lutece-ds-primary, #071F32);
-    padding-inline-end: 12px;
 }
 
 
-.breadcrumb-forms-horizontal .breadcrumb-forms-step.breadcrumb-forms-step--current .breadcrumb-forms-step__label{
+.breadcrumb-forms-horizontal .breadcrumb-forms-step.breadcrumb-forms-step--current .breadcrumb-forms-step__label {
     font-weight: 400;
     text-decoration: underline;
     text-decoration-thickness: 2px;
@@ -70,14 +86,14 @@ button.breadcrumb-forms-step__row:focus-visible .breadcrumb-forms-step__label { 
     color: var(--blue-darker-color, #6B7F9E);
 }
 
-.breadcrumb-forms-horizontal .breadcrumb-forms-step:not(:last-child) .breadcrumb-forms-step__marker::before{
+.breadcrumb-forms-horizontal .breadcrumb-forms-step:not(:last-child) .breadcrumb-forms-step__marker::before {
     content: "";
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translate(-50px,-22.5px);
+    transform: translate(-50px, -22.5px);
     height: 2px;
-    width: calc(var(--lutece-ds-sp-s, 1.2rem) * 2);
+    width: calc(var( --lutece-ds-sp-xs-high, 1.2rem) * 2);
     background: var(--blue-light, #CFD7E3);
     z-index: -1;
 }
@@ -87,9 +103,9 @@ button.breadcrumb-forms-step__row:focus-visible .breadcrumb-forms-step__label { 
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translate(26px,-22.5px);
+    transform: translate(26px, -22.5px);
     height: 2px;
-    width: calc(var(--lutece-ds-sp-s, 1.2rem) * 2);
+    width: calc(var( --lutece-ds-sp-xs-high, 1.2rem) * 2);
     background: var(--blue-light, #CFD7E3);
     z-index: -1;
 }
@@ -97,7 +113,7 @@ button.breadcrumb-forms-step__row:focus-visible .breadcrumb-forms-step__label { 
 .breadcrumb-forms-vertical .breadcrumb-forms-step:not(:last-child) .breadcrumb-forms-step__marker::after {
     transform: translateX(-50%);
     width: 2px;
-    height: calc(var(--lutece-ds-sp-s, 1.2rem) * 2);
+    height: calc(var( --lutece-ds-sp-xs-high, 1.2rem) * 2);
 }
 
 .breadcrumb-forms-step--done .breadcrumb-forms-step__marker {
