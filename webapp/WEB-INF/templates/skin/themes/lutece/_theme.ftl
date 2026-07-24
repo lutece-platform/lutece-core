@@ -17,7 +17,8 @@
 <!-- Theme CSS include                  -->
 <link href="${commonsSiteThemePath}${commonsSiteCssPath}theme<#if isRtl?boolean>.rtl</#if>.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <link href="${commonsSharedThemePath}${commonsSiteCssPath}shared.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
-<script src="${commonsSiteSharedPath}${commonsSiteCssPath}tabler-icons.min.css?version=${commonsGlobalThemeVersion}"></script>
+<link href="${commonsSiteSharedPath}${commonsSiteCssPath}tabler-icons-filled.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${commonsSiteSharedPath}${commonsSiteCssPath}tabler-icons.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <!-- Site CSS include                  -->
 <link href="${commonsSiteCssPath}site.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 </#macro>
