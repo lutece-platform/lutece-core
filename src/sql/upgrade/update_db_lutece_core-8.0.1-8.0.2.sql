@@ -110,3 +110,24 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.bo.widget.checkbox
 -- LUT : Add site property to enable/disable admin home dashboard widget management
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.banner.showSiteImgEverywhere.checkbox';
 INSERT INTO core_datastore VALUES ('portal.theme.site_property.banner.onlyhome.checkbox', '0');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev8.sql
+-- Fix misspelled user theme menu keys inserted by rev2 (theme/themes, color/colors),
+-- realigning them with the keys read by global_theme_commons.ftl
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.user.theme.switch.checkbox';
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.user.themes.switch.checkbox';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.switch.checkbox', '0');
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.user.themes.color.checkbox';
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.user.themes.colors.checkbox';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.user.themes.colors.checkbox', '0');
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev9.sql
+-- Databases upgraded from 7.x still reference skin/site/page_home_demo.html (7.0.9/7.0.10 scripts),
+-- renamed to page_demo.html in 8.x: realign the page template reference
+UPDATE core_page_template SET file_name = 'skin/site/page_demo.html' WHERE file_name = 'skin/site/page_home_demo.html';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev10.sql
+-- The consent platform options key was misnamed (rev2): the site properties page builds the
+-- options key as '<select key>.options', so the consent platform select was rendered empty
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.consent.platform.select.options';
+UPDATE core_datastore SET entity_key='portal.theme.site_property.consent.platform.select.options' WHERE entity_key='portal.theme.site_property.consent.select.options';

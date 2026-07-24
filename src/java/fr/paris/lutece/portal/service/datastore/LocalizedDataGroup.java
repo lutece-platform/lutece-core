@@ -77,13 +77,37 @@ public class LocalizedDataGroup
             LocalizedData property = new LocalizedData( );
             property.setKey( item.getCode( ) );
             property.setValue( item.getName( ) );
-            property.setLabel( I18nService.getLocalizedString( item.getCode( ), locale ) );
-            property.setHelp( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_HELP, locale ) );
-            property.setGroup( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_GROUP, locale ) );
-            property.setOrder( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_ORDER, locale ) );
+            if ( isTechnicalKey( item.getCode( ) ) )
+            {
+                // Option-list companion keys are rendered as hidden inputs and have no i18n resources
+                property.setLabel( "" );
+                property.setHelp( "" );
+                property.setGroup( "" );
+                property.setOrder( "" );
+            }
+            else
+            {
+                property.setLabel( I18nService.getLocalizedString( item.getCode( ), locale ) );
+                property.setHelp( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_HELP, locale ) );
+                property.setGroup( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_GROUP, locale ) );
+                property.setOrder( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_ORDER, locale ) );
+            }
             _listLocalizedData.add( property );
         }
         Collections.sort( _listLocalizedData );
+    }
+
+    /**
+     * Whether the key is a technical companion key (an option list for a select or radio
+     * property, rendered as a hidden input) that carries no i18n resources
+     *
+     * @param strKey
+     *            The datastore key
+     * @return true if the key is technical
+     */
+    private static boolean isTechnicalKey( String strKey )
+    {
+        return strKey.endsWith( ".select.options" ) || strKey.endsWith( ".radio.options" );
     }
 
     /**
