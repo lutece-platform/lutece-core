@@ -47,6 +47,7 @@ import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
 import fr.paris.lutece.portal.service.file.IFileStoreService;
 import fr.paris.lutece.portal.service.upload.MultipartItem;
 import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Named;
 
@@ -114,11 +115,25 @@ public class LocalDatabaseFileService implements IFileStoreService
                 return null;
             }
 
-            if ( withPhysicalFile )
+            if ( file.getPhysicalFile( ) == null )
             {
-                // get file content
-                file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) ) );
+                AppLogService.error( "Physical file is null for file ID: {}, but is expected to exist. File might be corrupted or deleted.",
+                        file.getFileKey( ) );
             }
+            else
+                if ( withPhysicalFile )
+                {
+                    int nIdPhysicalFile = file.getPhysicalFile( ).getIdPhysicalFile( );
+
+                    // get file content
+                    file.setPhysicalFile( PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile ) );
+
+                    if ( file.getPhysicalFile( ) == null )
+                    {
+                        AppLogService.error( "File ID: {} references the physical file {} which does not exist. File content is definitively lost.",
+                                file.getFileKey( ), nIdPhysicalFile );
+                    }
+                }
 
             return file;
         }
@@ -132,6 +147,11 @@ public class LocalDatabaseFileService implements IFileStoreService
     @Override
     public String storeBytes( byte [ ] blob, String strProviderName )
     {
+        if ( blob == null )
+        {
+            throw new AppException( "Cannot store a file with a null content." );
+        }
+
         File file = new File( );
         PhysicalFile physicalFile = new PhysicalFile( );
         physicalFile.setValue( blob );
@@ -156,15 +176,16 @@ public class LocalDatabaseFileService implements IFileStoreService
 
         try
         {
-            buffer = new byte [ inputStream.available( )];
+            buffer = IOUtils.toByteArray( inputStream );
         }
         catch( IOException ex )
         {
-            throw new AppException( ex.getMessage( ), ex );
+            throw new AppException( "Unable to read the content of the file to store : " + ex.getMessage( ), ex );
         }
 
         physicalFile.setValue( buffer );
         file.setPhysicalFile( physicalFile );
+        file.setSize( buffer.length );
 
         file.setOrigin( strProviderName );
 
@@ -197,7 +218,14 @@ public class LocalDatabaseFileService implements IFileStoreService
         }
         catch( IOException ex )
         {
-            throw new AppException( ex.getMessage( ), ex );
+            throw new AppException( "Unable to read the content of the uploaded file '" + fileItem.getName( ) + "' : " + ex.getMessage( ), ex );
+        }
+
+        // A partial read would silently store a truncated content under the name of the uploaded file
+        if ( byteArray.length != fileItem.getSize( ) )
+        {
+            throw new AppException( "The content read for the uploaded file '" + fileItem.getName( ) + "' is " + byteArray.length + " bytes long whereas "
+                    + fileItem.getSize( ) + " bytes were expected." );
         }
 
         physicalFile.setValue( byteArray );
@@ -214,6 +242,13 @@ public class LocalDatabaseFileService implements IFileStoreService
     @Override
     public String storeFile( File file, String strProviderName )
     {
+        // This provider stores the content in the database : without a physical file, the resulting
+        // record would show a title and a download link pointing at nothing.
+        if ( file.getPhysicalFile( ) == null || file.getPhysicalFile( ).getValue( ) == null )
+        {
+            throw new AppException( "Cannot store the file '" + file.getTitle( ) + "' with the provider '" + strProviderName + "' : it carries no content." );
+        }
+
         file.setOrigin( strProviderName );
 
         int nFileId = FileHome.create( file );
