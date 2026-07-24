@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.file;
 
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.util.sql.DAOUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -72,6 +73,12 @@ public final class FileDAO implements IFileDAO
 
             if ( file.getPhysicalFile( ) != null )
             {
+                if ( file.getPhysicalFile( ).getIdPhysicalFile( ) <= 0 )
+                {
+                    throw new AppException( "Cannot store the file '" + file.getTitle( ) + "' : its physical file has no valid identifier ("
+                            + file.getPhysicalFile( ).getIdPhysicalFile( ) + ")." );
+                }
+
                 daoUtil.setInt( nIndex++, file.getPhysicalFile( ).getIdPhysicalFile( ) );
             }
             else
@@ -85,11 +92,12 @@ public final class FileDAO implements IFileDAO
             daoUtil.setString( nIndex, file.getOrigin( ) );
             daoUtil.executeUpdate( );
 
-            if ( daoUtil.nextGeneratedKey( ) )
+            if ( !daoUtil.nextGeneratedKey( ) )
             {
-            	file.setFileKey( String.valueOf( daoUtil.getGeneratedKeyInt( 1 ) ) );
+                throw new AppException( "No generated key returned while inserting the file '" + file.getTitle( ) + "'." );
             }
 
+            file.setFileKey( String.valueOf( daoUtil.getGeneratedKeyInt( 1 ) ) );
         }
 
         return Integer.parseInt( file.getFileKey( ) );
@@ -169,6 +177,12 @@ public final class FileDAO implements IFileDAO
 
             if ( file.getPhysicalFile( ) != null )
             {
+                if ( file.getPhysicalFile( ).getIdPhysicalFile( ) <= 0 )
+                {
+                    throw new AppException( "Cannot update the file " + file.getFileKey( ) + " : its physical file has no valid identifier ("
+                            + file.getPhysicalFile( ).getIdPhysicalFile( ) + ")." );
+                }
+
                 daoUtil.setInt( 3, file.getPhysicalFile( ).getIdPhysicalFile( ) );
             }
             else
