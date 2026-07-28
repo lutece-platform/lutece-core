@@ -260,7 +260,7 @@
 }
 
 [data-bs-theme=dark] .card-body label {
-	color: var(--white-color) !important;
+	color: var(--lutece-ds-white) !important;
 }
 
 [data-bs-theme=dark] .card-footer {

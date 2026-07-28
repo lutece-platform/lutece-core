@@ -30,8 +30,8 @@
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	font-weight: 800;
-	color: var(--cl-primary);
-	background: var(--cl-primary-soft);
+	color: var(--lutece-ds-primary);
+	background: var(--lutece-ds-blue-100);
 	padding: 5px 11px;
 	border-radius: 999px;
 	margin-bottom: 18px;
@@ -42,7 +42,7 @@
 	width: 6px;
 	height: 6px;
 	border-radius: 999px;
-	background: var(--cl-primary);
+	background: var(--lutece-ds-primary);
 }
 
 .login-card h1 {
@@ -55,7 +55,7 @@
 
 .login-card__sub {
 	font-size: 15px;
-	color: var(--cl-text-muted);
+	color: var(--lutece-ds-text-muted);
 	line-height: 1.55;
 	margin-bottom: 28px;
 }
@@ -79,23 +79,23 @@
 .signup-row {
 	margin-top: 22px;
 	padding: 16px 18px;
-	border: 1px dashed var(--cl-border-strong);
+	border: 1px dashed var(--lutece-ds-border);
 	border-radius: 12px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	gap: 12px;
 	flex-wrap: wrap;
-	background: var(--cl-surface-muted);
+	background: var(--lutece-ds-surface-muted);
 }
 
 .signup-row__txt {
 	font-size: 14px;
-	color: var(--cl-text-muted);
+	color: var(--lutece-ds-text-muted);
 }
 
 .signup-row__txt strong {
-	color: var(--cl-text);
+	color: var(--lutece-ds-text);
 	font-weight: 800;
 }
 

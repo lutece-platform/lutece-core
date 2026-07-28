@@ -79,11 +79,11 @@ button.breadcrumb-forms-step__row:focus-visible .breadcrumb-forms-step__label {
     justify-content: center;
     position: relative;
     z-index: 1;
-    background: var(--white-color, #fff);
-    border: 2px solid var(--blue-light, #CFD7E3);
+    background: var(--lutece-ds-white, #fff);
+    border: 2px solid var(--lutece-ds-blue-300, #CFD7E3);
     font-weight: 600;
     font-size: var(--lutece-ds-font-m, 1.5rem);
-    color: var(--blue-darker-color, #6B7F9E);
+    color: var(--lutece-ds-blue-700, #6B7F9E);
 }
 
 .breadcrumb-forms-horizontal .breadcrumb-forms-step:not(:last-child) .breadcrumb-forms-step__marker::before {
@@ -94,7 +94,7 @@ button.breadcrumb-forms-step__row:focus-visible .breadcrumb-forms-step__label {
     transform: translate(-50px, -22.5px);
     height: 2px;
     width: calc(var( --lutece-ds-sp-xs-high, 1.2rem) * 2);
-    background: var(--blue-light, #CFD7E3);
+    background: var(--lutece-ds-blue-300, #CFD7E3);
     z-index: -1;
 }
 
@@ -106,7 +106,7 @@ button.breadcrumb-forms-step__row:focus-visible .breadcrumb-forms-step__label {
     transform: translate(26px, -22.5px);
     height: 2px;
     width: calc(var( --lutece-ds-sp-xs-high, 1.2rem) * 2);
-    background: var(--blue-light, #CFD7E3);
+    background: var(--lutece-ds-blue-300, #CFD7E3);
     z-index: -1;
 }
 
@@ -124,5 +124,5 @@ button.breadcrumb-forms-step__row:focus-visible .breadcrumb-forms-step__label {
 .breadcrumb-forms-step--current .breadcrumb-forms-step__marker {
     background: var(--lutece-ds-secondary, #354BCF);
     border-color: var(--lutece-ds-secondary, #354BCF);
-    color: var(--white-color, #fff);
+    color: var(--lutece-ds-white, #fff);
 }

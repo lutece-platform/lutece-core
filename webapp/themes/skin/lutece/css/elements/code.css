@@ -35,7 +35,7 @@ pre .copy-to-clipboard {
 .sample-code {
 	background: var(--lutece-ds-text, #0A1A2B);  /* --cl-ink-900 */
 	color: var(--lutece-ds-white);
-	border-radius: var(--lutece-ds-border-radius-lg);
+	border-radius: var(--lutece-ds-radius-lg);
 	padding: var(--lutece-ds-sp-lg);
 	display: grid;
 	grid-template-columns: 1fr 1fr;
@@ -50,7 +50,7 @@ pre .copy-to-clipboard {
 .sample-code pre {
 	background: var(--lutece-ds-bg-color-pre);
 	border: 1px solid var(--lutece-ds-border, rgba(255, 255, 255, 0.1))	;
-	border-radius: var(--lutece-ds-border-radius-lg);
+	border-radius: var(--lutece-ds-radius-lg);
 	padding: var(--lutece-ds-sp-lg);
 	margin: 0;
 	font-family: var(--lutece-ds-font-family-mono);

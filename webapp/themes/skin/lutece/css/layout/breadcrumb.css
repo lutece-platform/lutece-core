@@ -23,14 +23,14 @@
 	font-weight: 400;
 	font-size: var(--lutece-ds-fs-lg); 
 	line-height: var( --lutece-ds-sp-md );
-	color: var( ---lutece-ds-blue-700 );
+	color: var(--lutece-ds-blue-700 );
 	text-decoration: none;
 	padding-inline-end: var(--lutece-ds-sp-2xs);
 	margin-block-start: 0;
 }
 
 .breadcrumb-item a {
-	color: var( ---lutece-ds-blue-700 );
+	color: var(--lutece-ds-blue-700 );
 	text-decoration: none;
 	padding-inline-end:var(--lutece-ds-blue-700);
 	margin-block-start: 0;
@@ -48,7 +48,7 @@
 
 .breadcrumb-item a:hover,
 .breadcrumb-item a:focus {
-	color: var(--text-primary );
+	color: var(--lutece-ds-text );
 	text-decoration: underline;
 	text-underline-offset: 3px;
 }

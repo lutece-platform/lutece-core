@@ -41,7 +41,7 @@
 
 /* Date Picker */
 .input-group .datepicker  + .ti{
-	margin-inline: var(--spacing-xs);
+	margin-inline: var(--lutece-ds-sp-xs);
 }
 
 .input-group .input-group-text {

@@ -355,6 +355,6 @@ a[name^="last_"]:before {
 @media (min-width: 992px) {
 	.step-current .step-title,
 	.step-current .step-footer {
-		padding-inline: var(--spacing-l);
+		padding-inline: var(--lutece-ds-sp-lg);
 	}
 }

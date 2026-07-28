@@ -7,7 +7,7 @@
 
 .form-control {
     line-height: 3 !important;
-    font-size: var(----bs-body-font-size);
+    font-size: var(--bs-body-font-size);
 }
 
 /* Autocomplete */

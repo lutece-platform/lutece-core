@@ -50,7 +50,7 @@
 }
 
 .bl-cat--teal {
-    background: var(--lutece-ds-teal100);
+    background: var(--lutece-ds-teal-100);
     color: var(--lutece-ds-teal);
 }
 
