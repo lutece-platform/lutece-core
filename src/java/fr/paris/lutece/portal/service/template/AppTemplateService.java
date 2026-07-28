@@ -34,6 +34,8 @@
 package fr.paris.lutece.portal.service.template;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.editor.RichTextEditorBackOfficeMethod;
+import fr.paris.lutece.portal.service.editor.RichTextEditorFrontOfficeMethod;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.i18n.I18nTemplateMethod;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -75,6 +77,8 @@ public final class AppTemplateService
     	_context= context;
         _strTemplateDefaultPath = strTemplatePath;
         getFreeMarkerTemplateService(  ).setSharedVariable( "i18n", new I18nTemplateMethod( ) );
+        getFreeMarkerTemplateService(  ).setSharedVariable( "getFrontOfficeDefaultEditor", new RichTextEditorFrontOfficeMethod( ) );
+        getFreeMarkerTemplateService(  ).setSharedVariable( "getBackOfficeDefaultEditor", new RichTextEditorBackOfficeMethod( ) );
     }
 
     /**

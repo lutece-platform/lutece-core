@@ -1,4 +1,4 @@
-<#assign textEditorName = "fr.paris.lutece.portal.service.editor.RichTextEditorBackOfficeMethod"?new()() >
+<#assign textEditorName = getBackOfficeDefaultEditor() >
 <#if textEditorName?has_content>
 	<#assign importUrl = "/admin/util/editor/editor_" + textEditorName + ".html">
 	<#include importUrl />
