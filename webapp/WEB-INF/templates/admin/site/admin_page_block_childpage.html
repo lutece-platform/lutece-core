@@ -47,12 +47,12 @@
 				<@formGroup labelFor='parent_id' labelKey='#i18n{portal.site.admin_page.labelParentPageId}' rows=2>
 				<@row>
 					<@columns sm=4>
-						<@input type='text' name='parent_id' value='${page.parentPageId}' />
+						<@input type='text' name='parent_id' value='${page.id}' />
 					</@columns>
 				</@row>
 				</@formGroup>
 			<#else>	
-				<@input type='hidden' name='parent_id' value='${page.parentPageId}' />
+				<@input type='hidden' name='parent_id' value='${page.id}' />
 			</#if>
 			</@columns>
 		</@row>
