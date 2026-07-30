@@ -285,7 +285,7 @@ separator : boolean default true, séparateur auto-inséré lors de la saisie (v
             <#if icon>
             <@cInputGroupAddon>
                 <@cInputGroupAddonText tag='div'>
-                    <@parisIcon 'agenda' '${idLocal}' />
+                    <@cIcon 'agenda' '${idLocal}' />
                 </@cInputGroupAddonText>   
             </@cInputGroupAddon> 
             </#if>

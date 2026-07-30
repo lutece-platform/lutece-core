@@ -49,7 +49,7 @@ Snippet:
     </@cAlert>
 
 -->
-<#macro cAlert id='' title='' type='primary' class='' classText='' dismissible=false params='' deprecated...>
+<#macro cAlert id='' title='' isHtmlTitle=false htmlTitleLevel=3 type='primary' iconType='informative' class='' classText='' dismissible=false params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local type=type! /> 
 <#local hasClass=false /> 
@@ -62,22 +62,29 @@ Snippet:
 <#local ariaRole='status' />
 <#if type?starts_with('danger')>
 <#local alertIconTitle='#i18n{portal.theme.labelError}' />
-<#local alertIconName='alert-ban' /> 
+<#local alertIconName='ban' /> 
 <#local ariaRole='alert' />
 <#elseif type?starts_with('warning')>
 <#local alertIconTitle='#i18n{portal.theme.labelWarning}' />
-<#local alertIconName='alert-triangle' />
+<#local alertIconName='alert-triangle ' />
 <#local ariaRole='alert' />
 <#elseif type?starts_with('success')>
 <#local alertIconTitle='#i18n{portal.theme.labelSuccess}' />
-<#local alertIconName='alert-check' />
+<#local alertIconName='alert-check ' />
 <#local ariaRole='status' />
 </#if>
-<#local alertClass>alert alert-outline alert-${type} d-flex align-items-center<#if dismissible> alert-dismissible</#if><#if allClass?size gt 0><#list allClass as x> ${x}</#list></#if></#local>
+<#local alertClass>alert alert-outline alert-${type}<#if dismissible> dismissible fade show</#if><#if  allClass?size gt 0><#list allClass as x> ${x}</#list></#if></#local>
 <@cBlock class=alertClass! params='role="${ariaRole!}" ${params!}' id=id!>
-    <@cIcon name=alertIconName! class='flex-shrink-0 me-2' params='aria-label="${alertIconTitle!}"' />
-    <#if title !=''><@cText class="alert-title">${title!}</@cText></#if>
-    <#nested />
-    <#if dismissible><@cBtn type='button' label='' class='close py-xs px-xs' params='data-bs-dismiss="alert" aria-label="#i18n{portal.theme.labelClose}"' /></#if>
+    <@cBlock class='alert-header'>
+        <@cBlock class='alert-icon'><@cIcon name=alertIconName! type=iconType title=alertIconTitle! /></@cBlock>
+        <@cBlock class='alert-text ${classText!}'><#if title !=''><#if isHtmlTitle><@cTitle class="alert-title mt-0" level=htmlTitleLevel>${title!}</@cTitle><#else><@cText class="alert-title">${title!}</@cText></#if></#if></@cBlock>
+        <#if dismissible>
+        <@cBlock class="alert-dismiss">
+            <@cBtn type='button' label='' class='close py-xs px-xs' params='data-bs-dismiss="alert" aria-label="#i18n{portal.theme.labelClose}"' />
+        </@cBlock>
+        </#if>
+    </@cBlock>
+    <#local _nested><#nested /></#local>
+    <#if _nested?? && _nested !=''><@cBlock class='alert-content'>${_nested}</@cBlock></#if>
 </@cBlock>
 </#macro>
