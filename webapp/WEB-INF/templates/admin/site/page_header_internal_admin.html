@@ -1,29 +1,34 @@
-<div class="navbar navbar-default navbar-fixed-top navbar-transparent">
+<div class="navbar-main">
   <div class="container">
-      <div class="navbar-header">
-          <a href="./" class="navbar-brand"><img src="images/logo-header-icon.png">LUTECE</a>
-          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-          </button>
+    <div class="row align-items-center">
+      <div class="col-lg-12">
+        <nav class="navbar navbar-expand-lg bg-transparent">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+              <img src="images/lutece-logo-dark.svg" alt="Logo" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul id="nav" class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="page-scroll" href="#home">#i18n{portal.site.page_home.label}</a>
+                  </li>
+                  <#assign menu=page_main_menu!>
+                  ${page_main_menu_html!menu}
+                  <li class="nav-item">
+                    <a target="_blank" title="Source code [Open in new window]" href="https://github.com/lutece-platform" class="nav-link">Source code</a>
+                  </li>
+                  <li class="nav-item">
+                    <a target="_blank" title="Documentation [Open in new window]" href="https://lutece.paris.fr/support/jsp/site/Portal.jsp?page=wiki&view=page&page_name=home&language=en" class="nav-link">Documentation</a>
+                  </li>
+                  ${pageinclude_userlogin?default("<!-- No myLutece Authentication plugin installed -->")}
+              </ul>    
+            </div>
+          </div>
+        </nav>
       </div>
-      <div class="navbar-collapse collapse" id="navbar-main">
-          <ul class="nav navbar-nav">
-              <#assign menu=page_main_menu!>
-              ${page_main_menu_html!menu}
-              <li>
-                  <a target="_blank" href="https://github.com/lutece-platform">Source code</a>
-              </li>
-              <li>
-                  <a target="_blank" href="http://wiki.lutece.paris.fr/">Documentation</a>
-              </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-              <li>
-                  ${pageinclude_userlogin?default("<!-- no myLutece plugin installed -->")}
-              </li>
-          </ul>
-      </div>
+    </div>
   </div>
 </div>
