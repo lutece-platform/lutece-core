@@ -172,6 +172,16 @@
 	color: var(--lutece-ds-neutral-300);
 }
 
+/* The base input rule in inputs.css uses a high-specificity :not() chain with a static white
+   background: the dark override must match every input type it covers, with higher specificity */
+[data-bs-theme=dark] input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+[data-bs-theme=dark] select,
+[data-bs-theme=dark] textarea {
+	background-color: var(--bs-tertiary-bg);
+	color: var(--lutece-ds-white);
+}
+
+
 /* Input group (datepicker, password...): align the container surface with the inputs and give it a visible border */
 [data-bs-theme=dark] .input-group {
 	background-color: var(--bs-tertiary-bg);
