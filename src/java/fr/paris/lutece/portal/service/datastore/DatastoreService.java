@@ -63,8 +63,77 @@ public final class DatastoreService
     private static final String DATASTORE_KEY = "dskey";
     private static final Pattern PATTERN_DATASTORE_KEY = Pattern.compile( "#" + DATASTORE_KEY + "\\{(.*?)\\}" );
     static final String VALUE_MISSING = "DS Value Missing";
+    private static final DataEntity ENTITY_MISSING = new DataEntity( null, null );
     public static Lutece107Cache<String,DataEntity> _cache;
     private static boolean _bDatabase = true;
+
+    /**
+     * Tells whether the cache can be used
+     *
+     * @return true when the cache exists and is open
+     */
+    private static boolean isCacheUsable( )
+    {
+        return _cache != null && _cache.isCacheEnable( ) && !_cache.isClosed( );
+    }
+
+    /**
+     * Get an entity from the cache
+     *
+     * @param strKey
+     *            The entity's key
+     * @return The cached entity, the missing marker for a key known not to exist, null when the key
+     *         has not been looked up yet
+     */
+    private static DataEntity getCachedEntity( String strKey )
+    {
+        return isCacheUsable( ) ? _cache.get( strKey ) : null;
+    }
+
+    /**
+     * Put an entity in the cache
+     *
+     * @param strKey
+     *            The entity's key
+     * @param entity
+     *            The entity to cache, or the missing marker
+     */
+    private static void cacheEntity( String strKey, DataEntity entity )
+    {
+        if ( isCacheUsable( ) )
+        {
+            _cache.put( strKey, entity );
+        }
+    }
+
+    /**
+     * Drop a key from the cache, whether it held a value or the missing marker
+     *
+     * Called by DataEntityHome on every write so a caller that stores an entity through the home
+     * rather than through this service does not leave a stale entry behind.
+     *
+     * @param strKey
+     *            The entity's key
+     */
+    public static void evictCachedKey( String strKey )
+    {
+        if ( isCacheUsable( ) )
+        {
+            _cache.remove( strKey );
+        }
+    }
+
+    /**
+     * Tells whether a cached entity is the marker of a key known not to exist
+     *
+     * @param entity
+     *            The cached entity
+     * @return true for the missing marker, whose key is null while a stored row always has one
+     */
+    private static boolean isMissing( DataEntity entity )
+    {
+        return entity != null && entity.getKey( ) == null;
+    }
     
 
     /**
@@ -97,12 +166,7 @@ public final class DatastoreService
         {
             if ( _bDatabase )
             {
-                DataEntity entity = null;
-
-                if ( _cache != null && _cache.isCacheEnable() && !_cache.isClosed( ))
-                {
-                    entity =  _cache.get( strKey );
-                }
+                DataEntity entity = getCachedEntity( strKey );
 
                 if ( entity == null )
                 {
@@ -110,16 +174,13 @@ public final class DatastoreService
 
                     if ( entity == null )
                     {
-                        return strDefault;
+                        entity = ENTITY_MISSING;
                     }
 
-                    if ( _cache != null && _cache.isCacheEnable() && !_cache.isClosed( ))
-                    {
-                        _cache.put( strKey, entity );
-                    }
+                    cacheEntity( strKey, entity );
                 }
 
-                return entity.getValue( );
+                return isMissing( entity ) ? strDefault : entity.getValue( );
             }
         }
         catch( NoDatabaseException e )
@@ -166,11 +227,6 @@ public final class DatastoreService
                 if ( entity != null )
                 {
                     DataEntityHome.update( p );
-
-                    if ( _cache != null && _cache.isCacheEnable() && !_cache.isClosed( ))
-                    {
-                        _cache.remove( strKey );
-                    }
                 }
                 else
                 {
@@ -248,11 +304,6 @@ public final class DatastoreService
             if ( _bDatabase )
             {
                 DataEntityHome.remove( strKey );
-
-                if ( _cache != null && _cache.isCacheEnable() && !_cache.isClosed( ))
-                {
-                    _cache.remove( strKey );
-                }
             }
         }
         catch( NoDatabaseException e )
@@ -410,12 +461,7 @@ public final class DatastoreService
         {
             if ( _bDatabase )
             {
-                DataEntity entity = null;
-
-                if ( _cache != null && _cache.isCacheEnable() && !_cache.isClosed( ))
-                {
-                    entity =  _cache.get( strKey );
-                }
+                DataEntity entity = getCachedEntity( strKey );
 
                 if ( entity == null )
                 {
@@ -423,11 +469,13 @@ public final class DatastoreService
 
                     if ( entity == null )
                     {
-                        return false;
+                        entity = ENTITY_MISSING;
                     }
+
+                    cacheEntity( strKey, entity );
                 }
 
-                return true;
+                return !isMissing( entity );
             }
         }
         catch( NoDatabaseException e )
