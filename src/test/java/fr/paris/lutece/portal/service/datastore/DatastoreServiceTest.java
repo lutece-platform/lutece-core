@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.service.datastore;
 
 import org.junit.jupiter.api.Test;
 
+import fr.paris.lutece.portal.business.datastore.DataEntity;
+import fr.paris.lutece.portal.business.datastore.DataEntityHome;
 import fr.paris.lutece.test.LuteceTestCase;
 
 /**
@@ -43,8 +45,10 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class DatastoreServiceTest extends LuteceTestCase
 {
     private static final String KEY1 = "key1";
+    private static final String KEY2 = "key2";
     private static final String VALUE_DEFAULT = "default";
     private static final String VALUE1 = "value1";
+    private static final String VALUE2 = "value2";
     @Test
     public void test( )
     {
@@ -54,5 +58,60 @@ public class DatastoreServiceTest extends LuteceTestCase
         strValue = DatastoreService.getDataValue( KEY1, VALUE_DEFAULT );
         assertEquals( strValue, VALUE1 );
         DatastoreService.removeData( KEY1 );
+    }
+
+    /**
+     * A key looked up while absent must still be seen once it is created, then once it is removed :
+     * the absent state is cached, so every write has to drop it.
+     */
+    @Test
+    public void testAbsentThenCreatedThenRemoved( )
+    {
+        assertEquals( VALUE_DEFAULT, DatastoreService.getDataValue( KEY2, VALUE_DEFAULT ) );
+        assertFalse( DatastoreService.existsKey( KEY2 ) );
+
+        DatastoreService.setDataValue( KEY2, VALUE2 );
+        assertTrue( DatastoreService.existsKey( KEY2 ) );
+        assertEquals( VALUE2, DatastoreService.getDataValue( KEY2, VALUE_DEFAULT ) );
+
+        DatastoreService.removeData( KEY2 );
+        assertFalse( DatastoreService.existsKey( KEY2 ) );
+        assertEquals( VALUE_DEFAULT, DatastoreService.getDataValue( KEY2, VALUE_DEFAULT ) );
+    }
+
+    /**
+     * A key stored through the home rather than through this service must still become visible,
+     * even when it was looked up while missing beforehand : the home drops the cached marker.
+     */
+    @Test
+    public void testCreatedThroughHomeAfterMiss( )
+    {
+        String strKey = "key4";
+        assertEquals( VALUE_DEFAULT, DatastoreService.getDataValue( strKey, VALUE_DEFAULT ) );
+
+        DataEntityHome.create( new DataEntity( strKey, VALUE1 ) );
+        assertEquals( VALUE1, DatastoreService.getDataValue( strKey, VALUE_DEFAULT ) );
+
+        DataEntityHome.update( new DataEntity( strKey, VALUE2 ) );
+        assertEquals( VALUE2, DatastoreService.getDataValue( strKey, VALUE_DEFAULT ) );
+
+        DataEntityHome.remove( strKey );
+        assertEquals( VALUE_DEFAULT, DatastoreService.getDataValue( strKey, VALUE_DEFAULT ) );
+    }
+
+    /**
+     * insertDataValueIfAbsent must expose the value it stored, even when the key was looked up and
+     * cached as absent beforehand.
+     */
+    @Test
+    public void testInsertIfAbsentAfterMiss( )
+    {
+        String strKey = "key3";
+        assertEquals( VALUE_DEFAULT, DatastoreService.getDataValue( strKey, VALUE_DEFAULT ) );
+        assertTrue( DatastoreService.insertDataValueIfAbsent( strKey, VALUE1 ) );
+        assertEquals( VALUE1, DatastoreService.getDataValue( strKey, VALUE_DEFAULT ) );
+        assertFalse( DatastoreService.insertDataValueIfAbsent( strKey, VALUE2 ) );
+        assertEquals( VALUE1, DatastoreService.getDataValue( strKey, VALUE_DEFAULT ) );
+        DatastoreService.removeData( strKey );
     }
 }

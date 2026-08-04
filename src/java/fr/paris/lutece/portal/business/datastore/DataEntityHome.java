@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.datastore;
 
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import java.util.List;
 
 /**
@@ -60,6 +61,7 @@ public final class DataEntityHome
     public static DataEntity create( DataEntity entity )
     {
         _dao.insert( entity );
+        DatastoreService.evictCachedKey( entity.getKey( ) );
 
         return entity;
     }
@@ -76,7 +78,10 @@ public final class DataEntityHome
      */
     public static boolean createIfAbsent( DataEntity entity )
     {
-        return _dao.insertIfAbsent( entity );
+        boolean bCreated = _dao.insertIfAbsent( entity );
+        DatastoreService.evictCachedKey( entity.getKey( ) );
+
+        return bCreated;
     }
 
     /**
@@ -89,6 +94,7 @@ public final class DataEntityHome
     public static DataEntity update( DataEntity entity )
     {
         _dao.store( entity );
+        DatastoreService.evictCachedKey( entity.getKey( ) );
 
         return entity;
     }
@@ -102,6 +108,7 @@ public final class DataEntityHome
     public static void remove( String strKey )
     {
         _dao.delete( strKey );
+        DatastoreService.evictCachedKey( strKey );
     }
 
     // /////////////////////////////////////////////////////////////////////////
