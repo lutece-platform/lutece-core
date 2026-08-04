@@ -100,6 +100,7 @@
         weekStart: loc.weekStart != null ? loc.weekStart : 1,
         minDate: null,
         maxDate: null,
+        daysOfWeekDisabled: [],
         todayHighlight: true,
         autohide: true,
         clearButton: true,
@@ -119,6 +120,12 @@
         labelOk: loc.ok,
         labelKeyboardHelp: loc.keyboardHelp,
       }, options);
+
+      // Normalise daysOfWeekDisabled: accept a single number or an array,
+      // values coerced to numbers (0 = Sunday … 6 = Saturday)
+      const dow = this.options.daysOfWeekDisabled;
+      this.options.daysOfWeekDisabled = (Array.isArray(dow) ? dow : (dow == null ? [] : [dow]))
+        .map(Number).filter(function (n) { return !isNaN(n); });
 
       // Use locale day/month names if available, otherwise fallback to Intl
       this.locale = (loc.days && loc.months)
@@ -482,8 +489,14 @@
     }
 
     _moveFocus(days) {
+      const step = days > 0 ? 1 : -1;
       const d = new Date(this.focusedDate);
       d.setDate(d.getDate() + days);
+      // Skip over week days disabled by daysOfWeekDisabled, in the direction of travel
+      let guard = 0;
+      while (this._isDayOfWeekDisabled(d) && guard++ < 7) {
+        d.setDate(d.getDate() + step);
+      }
       if (this._isDisabled(d)) return;
       this.focusedDate = d;
       this._updateGrid();
@@ -500,6 +513,12 @@
       } else {
         const diff = (6 - (day - ws + 7) % 7);
         d.setDate(d.getDate() + diff);
+      }
+      // If the week edge is a disabled week day, step back inside the week
+      const inward = start ? 1 : -1;
+      let guard = 0;
+      while (this._isDayOfWeekDisabled(d) && guard++ < 6) {
+        d.setDate(d.getDate() + inward);
       }
       if (!this._isDisabled(d)) {
         this.focusedDate = d;
@@ -519,7 +538,7 @@
       const targetDay = keepDay ? this.lastDayOfMonth : d.getDate();
       const maxDay = daysInMonth(newDate.getFullYear(), newDate.getMonth());
       newDate.setDate(Math.min(targetDay, maxDay));
-      this.focusedDate = newDate;
+      this.focusedDate = this._nearestEnabledDay(newDate);
       this._updateGrid();
       if (keepDay) this._setGridFocus();
     }
@@ -585,11 +604,15 @@
           cell.setAttribute('tabindex', '-1');
         }
 
-        // Disabled (min/max)
+        // Disabled (min/max or day of week)
         const disabled = (minDate && cellDate < minDate && !sameDay(cellDate, minDate))
-                      || (maxDate && cellDate > maxDate && !sameDay(cellDate, maxDate));
+                      || (maxDate && cellDate > maxDate && !sameDay(cellDate, maxDate))
+                      || this._isDayOfWeekDisabled(cellDate);
         if (disabled) {
           cell.classList.add('disabled');
+          cell.setAttribute('aria-disabled', 'true');
+        } else {
+          cell.removeAttribute('aria-disabled');
         }
 
         // Check if 6th row needed
@@ -626,7 +649,24 @@
       const max = this.options.maxDate ? new Date(this.options.maxDate) : null;
       if (min && d < min && !sameDay(d, min)) return true;
       if (max && d > max && !sameDay(d, max)) return true;
+      if (this._isDayOfWeekDisabled(d)) return true;
       return false;
+    }
+
+    _isDayOfWeekDisabled(d) {
+      return this.options.daysOfWeekDisabled.indexOf(d.getDay()) !== -1;
+    }
+
+    /** Nearest enabled day (day-of-week wise), scanning forward then backward */
+    _nearestEnabledDay(d) {
+      if (!this._isDayOfWeekDisabled(d)) return d;
+      for (let i = 1; i < 7; i++) {
+        const fwd = new Date(d); fwd.setDate(d.getDate() + i);
+        if (!this._isDisabled(fwd)) return fwd;
+        const bwd = new Date(d); bwd.setDate(d.getDate() - i);
+        if (!this._isDisabled(bwd)) return bwd;
+      }
+      return d;
     }
 
     /* ---- Selection ---- */
@@ -671,6 +711,8 @@
       if (!this.focusedDate || isNaN(this.focusedDate.getTime())) {
         this.focusedDate = new Date();
       }
+      // Never open with the focus on a disabled week day (e.g. today is a weekend)
+      this.focusedDate = this._nearestEnabledDay(this.focusedDate);
       this.lastDayOfMonth = 0;
 
       this._updateGrid();
