@@ -6,6 +6,7 @@
 	/* Main Theme Colors 														*/
 	/* Default styles init 														*/
 	--lutece-ds-surface-page: #071F32 !important;
+	--lutece-ds-surface: var(--lutece-ds-surface-page);
 	--lutece-ds-surface-muted: #F7F9FC;
 	--lutece-ds-text: #fff;
 
