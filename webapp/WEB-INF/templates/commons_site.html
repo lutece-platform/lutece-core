@@ -402,7 +402,6 @@ Description: Generates a warning message when JavaScript is disabled in the user
 Parameters:
 - id (string, required): The ID of the main element to hide when JavaScript is disabled.
 - styles (string, optional): Additional CSS styles for the noscript wrapper.
-- wrapperClass (string, optional): The CSS class for the noscript wrapper (default is 'd-flex justify-content-center align-items-center').
 - alertType (string, optional): The type of alert to display (default is 'warning').
 - alertTitle (string, optional): The title of the alert message.
 - linkUrl (string, optional): The URL for the link to reload the page (default is '.').
@@ -410,10 +409,10 @@ Parameters:
 - linkLabel (string, optional): The label for the link button (default is 'Reload the page').
 - linkIcon (string, optional): The HTML for the icon to display in the link button.
 -->
-<#macro noScriptMessage id='main' styles='' wrapperClass='d-flex justify-content-center align-items-center' alertType='warning' alertTitle='#i18n{portal.util.noscript.alert.message}' linkUrl='.' linkClass='btn btn-primary' linkLabel='#i18n{portal.util.noscript.link.label}' linkIcon='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-reload ms-2"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" /><path d="M20 4v5h-5" /></svg> '>
+<#macro noScriptMessage id='main' styles='' alertType='warning' alertTitle='Vous devez activer le JavaScript pour pouvoir bénéficier des fonctionnalités complètes du formulaire.' linkUrl='.' linkClass='btn btn-primary' linkLabel='Recharge la page' linkIcon='<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-reload ms-2"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M19.933 13.041a8 8 0 1 1 -9.925 -8.788c3.899 -1 7.935 1.007 9.425 4.747" /><path d="M20 4v5h-5" /></svg> '>
 <noscript>
 <style>#${id}{ display : none };</style>
-<@cBlock id='no-script-wrapper' class=wrapperClass params='style="height: 100vh;width: 100vw;${styles}"' >
+<@cBlock id="no-script-wrapper" class="d-flex justify-content-center align-items-center" params='style="height: 100vh;width: 100vw;${styles}"' >
     <@cAlert type=alertType title=alertTitle >
 		<@cText class='text-center'><@cLink href=linkUrl class=linkClass label=linkLabel >${linkIcon}</@cLink></@cText>
 	</@cAlert> 
