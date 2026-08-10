@@ -45,6 +45,14 @@ input:disabled + .btn:hover {
     opacity: .5
 }
 
+/* Hover accent, mirroring .input-group:hover. The :not() chain matches the base rule above
+   so this declaration outranks it; disabled fields must not react. */
+select:not(:disabled):hover,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not(:disabled):hover,
+textarea:not(:disabled):hover {
+  border-color: var(--lutece-ds-blue-600);
+}
+
 /* BS Overrides */
 label {
 	font-size: var(--lutece-ds-fs-lg);

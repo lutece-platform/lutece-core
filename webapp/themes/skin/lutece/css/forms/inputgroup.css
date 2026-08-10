@@ -22,8 +22,10 @@
 	margin-block-start: var(--lutece-ds-sp-2xs);
 }
 
-.input-group > :is( input, select, textarea, .btn),
-.input-group:hover > :is( input, select, textarea, .btn) {
+/* The base rule in inputs.css uses a :not() chain worth (0,3,1): the reset must outrank it,
+   otherwise the field keeps its own border on top of the group border */
+.input-group > :is( input, select, textarea, .btn):not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.input-group:hover > :is( input, select, textarea, .btn):not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
     border: 0;
     outline: 0;
 	padding: var(--lutece-ds-sp-xs) var(--lutece-ds-sp-sm);
@@ -31,8 +33,14 @@
 	padding-inline-start: var(--lutece-ds-sp-xs);
 }
 
+/* Hover and focus recolor the border, not the outline: the outline is drawn outside the
+   border and would add up to a 2px ring, thicker than on plain fields. */
 .input-group:hover{
-	outline-color: var(--lutece-ds-blue-600);
+	border-color: var(--lutece-ds-blue-600);
+}
+
+.input-group:focus-within{
+	border-color: var(--lutece-ds-primary);
 }
 
 .input-group > .form-control-alternate {
