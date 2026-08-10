@@ -144,6 +144,10 @@ public class PortletContentService
             strPortletContent = ADMIN_PORTLET_OPEN_TAG + addAdminButtons( request, portlet );
         }
 
+        if(portlet.getDisplayPortletTitle() == 1){
+            portlet.setName(null);
+        }
+
         String strKey = StringUtils.EMPTY;
 
         LuteceUser user = null;
