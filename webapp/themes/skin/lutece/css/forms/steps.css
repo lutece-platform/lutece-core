@@ -275,13 +275,13 @@ a[name^="last_"]:before {
 	}
 
 	.step-title .title {
-		font-size: 1rem;
+		font-size: 2rem;
 		margin-block-start: 0;
 		margin-inline-start: 0;
 	}
 
 	.step-title .title span {
-		font-size: 1rem;
+		font-size: 2rem;
 	}
 
 	.step-title.current h2::after {
@@ -313,7 +313,7 @@ a[name^="last_"]:before {
 
 @media (max-width: 767.98px) {
 	header+main form .step {
-		margin-block-start: calc( var(--lutece-ds-size-base, .4rem ) * 20 );
+		margin-block-start: 0;
 	}
 	
 	.step-current .step-content {
