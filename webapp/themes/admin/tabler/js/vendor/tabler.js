@@ -6269,4 +6269,3 @@
 	Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 
 }));
-//# sourceMappingURL=tabler.js.map

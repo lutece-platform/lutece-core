@@ -6246,4 +6246,3 @@ const tabler = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
 }, Symbol.toStringTag, { value: 'Module' }));
 
 export { Alert, Button, Carousel, Collapse, Dropdown, Modal, Offcanvas, Popover, ScrollSpy, Tab, Toast, Tooltip, bootstrap_esm as bootstrap, tabler };
-//# sourceMappingURL=tabler.esm.js.map
