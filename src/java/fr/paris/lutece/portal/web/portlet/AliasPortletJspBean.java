@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -115,6 +116,10 @@ public class AliasPortletJspBean extends PortletJspBean
         aliasPortlet.setColumn( nColumn );
         aliasPortlet.setAcceptAlias( nAcceptAlias );
 
+        String strDisplayPortletTitle = request.getParameter(Parameters.DISPLAY_PORTLET_TITLE);
+        int nDisplayPortletTitle= Integer.parseInt( strDisplayPortletTitle );
+        aliasPortlet.setDisplayPortletTitle(nDisplayPortletTitle);
+
         String strPageId = request.getParameter( PARAMETER_PAGE_ID );
         int nPageId = Integer.parseInt( strPageId );
         int nAliasId = Integer.parseInt( strAliasId );
@@ -167,6 +172,11 @@ public class AliasPortletJspBean extends PortletJspBean
         String strIdAlias = request.getParameter( PARAM_ALIAS_ID );
         int nIdAlias = Integer.parseInt( strIdAlias );
         portlet.setAliasId( nIdAlias );
+
+        String strDisplayPortletTitle = request.getParameter(Parameters.DISPLAY_PORTLET_TITLE);
+        int nDisplayPortletTitle= Integer.parseInt( strDisplayPortletTitle );
+        portlet.setDisplayPortletTitle(nDisplayPortletTitle);
+
 
         Portlet rub = PortletHome.findByPrimaryKey( nIdAlias );
         portlet.setStyleId( rub.getStyleId( ) );
