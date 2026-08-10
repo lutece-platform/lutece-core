@@ -4,6 +4,12 @@
 }
 
 .datepicker {
+  /* Cell size drives the whole calendar: width also rules the view and panel widths (x7 columns) */
+  --dp-cell-width: calc(var(--lutece-ds-size-base, .4rem) * 16);
+  --dp-cell-height: calc(var(--lutece-ds-size-base, .4rem) * 13);
+  /* Corner rounding: panel and day cells can be tuned independently */
+  --dp-radius: var(--lutece-ds-radius-lg, 14px);
+  --dp-cell-radius: var(--lutece-ds-radius-md, 10px);
   --lutece-ds-white: var(--lutece-ds-white, #fff);
   width: -moz-max-content;
   width: max-content;
@@ -75,6 +81,7 @@
 
 .datepicker .days-of-week {
   display: flex;
+  margin-block-end: var(--lutece-ds-sp-sm, 1.6rem);
 }
 
 .datepicker .days .dow,
@@ -103,16 +110,15 @@
 
 /* ---- Theme overrides ---- */
 .datepicker-dropdown .datepicker-picker {
-  border-radius: 0;
+  border-radius: var(--dp-radius);
   padding: var(--lutece-ds-sp-xxs, var(--lutece-ds-sp-2xs, .4rem));
-  border: 1px solid var(--lutece-ds-neutral-200, #CFD7E3);
-  box-shadow: none;
-  width: calc((var(--lutece-ds-size-base, .4rem) * 9.5) * 8);
+  border: 0;
+  box-shadow: var(--lutece-ds-shadow-md);
+  width: max-content;
 }
 
 .datepicker-header .datepicker-controls {
   padding-block-end: var(--lutece-ds-sp-xxs, var(--lutece-ds-sp-2xs, .4rem));
-  border-block-end: 1px solid var(--lutece-ds-surface-muted, var(--lutece-ds-neutral-50, #EFF2F6));
 }
 
 .datepicker-header .datepicker-controls .btn {
@@ -129,67 +135,81 @@
 
 .datepicker-header .datepicker-controls .btn:not(.view-switch):focus,
 .datepicker-header .datepicker-controls .btn:not(.view-switch):hover {
-  background-color: var(--lutece-ds-white, #fff);
-  border-color: var(--lutece-ds-primary, #071F32);
-  color: var(--lutece-ds-primary, #071F32);
+  background-color: var(--lutece-ds-primary, #071F32);
+  border-color: transparent;
+  color: var(--lutece-ds-white, #fff);
 }
 
+/* Month/year chevrons: plain background at rest, filled in primary on hover/focus */
 .datepicker-controls .prev-button,
 .datepicker-controls .next-button {
-  border: 1px solid var(--lutece-ds-primary, #071F32);
+  border: 0;
+  background-color: var(--lutece-ds-white, #fff);
   color: var(--lutece-ds-primary, #071F32);
+  border-radius: var(--dp-cell-radius);
 }
 
-.datepicker-controls .prev-button:hover,
-.datepicker-controls .next-button:hover {
-  color: var(--lutece-ds-secondary, var(--lutece-ds-primary, #354bcf));
+/* The arrow SVG carries a hardcoded dark fill: follow the button color instead */
+.datepicker-controls .prev-button svg path,
+.datepicker-controls .next-button svg path {
+  fill: currentColor;
 }
 
 .datepicker-main .datepicker-view .days .days-of-week .dow {
   font-size: var(--lutece-ds-font-m, 1.5rem);
-  font-weight: 700;
+  font-weight: 400;
   padding: var(--lutece-ds-sp-xs, .8rem);
-  width: calc(var(--lutece-ds-size-base, .4rem) * 9.5);
-  height: calc(var(--lutece-ds-size-base, .4rem) * 9.5);
+  width: var(--dp-cell-width);
+  height: var(--dp-cell-height);
+}
+
+.datepicker-main .datepicker-view {
+  width: calc(var(--dp-cell-width) * 7);
+}
+
+/* Fixed flex-basis so the cell size no longer depends on how the legacy vendor DOM propagates widths */
+.datepicker-main .days .dow,
+.datepicker-main .datepicker-cell {
+  flex-basis: var(--dp-cell-width);
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .datepicker-main .datepicker-view.datepicker-grid {
-  width: auto
+  width: calc(var(--dp-cell-width) * 7);
 }
 
 .datepicker-main .datepicker-grid .datepicker-cell {
   background: transparent;
-  border: 4px solid var(--lutece-ds-white, #fff);
-  border-radius: .1px;
+  /* Transparent border acts as the gap between cells; padding-box keeps backgrounds inside it */
+  border: 4px solid transparent;
+  background-clip: padding-box;
+  border-radius: var(--dp-cell-radius);
   color: var(--lutece-ds-primary, #071F32);
   cursor: pointer;
   font-size: var(--lutece-ds-font-m, 1.5rem);
-  font-weight: 700;
+  font-weight: 400;
   padding: var(--lutece-ds-sp-xs, .8rem);
-  width: calc(var(--lutece-ds-size-base, .4rem) * 9.5);
-  height: calc(var(--lutece-ds-size-base, .4rem) * 9.5);
+  width: var(--dp-cell-width);
+  height: var(--dp-cell-height);
   margin: 0;
   box-shadow: none;
 }
 
+/* Hover and selection are shown by a rounded filled cell, not by a border ring */
 .datepicker-main .datepicker-grid .datepicker-cell.focused,
-.datepicker-main .datepicker-grid .datepicker-cell:hover {
-  border-color: var(--lutece-ds-secondary, var(--lutece-ds-primary, #354bcf));
+.datepicker-main .datepicker-grid .datepicker-cell:hover,
+.datepicker-main .datepicker-grid .datepicker-cell.selected,
+.datepicker-main .datepicker-grid .datepicker-cell.selected.focused {
+  border-color: transparent;
+  background-color: var(--lutece-ds-primary, #071F32);
+  color: var(--lutece-ds-white, #fff);
 }
 
-.datepicker-main .datepicker-grid .datepicker-cell.today {
+.datepicker-main .datepicker-grid .datepicker-cell.today:not(.selected):not(.focused):not(:hover) {
   border-color: var(--lutece-ds-secondary, var(--lutece-ds-primary, #354bcf));
   background-color: var(--lutece-ds-white, #fff);
   color: var(--lutece-ds-secondary, var(--lutece-ds-primary, #354bcf));
-}
-
-.datepicker-main .datepicker-grid .datepicker-cell.selected {
-  background-color: var(--lutece-ds-secondary, var(--lutece-ds-primary, #354bcf));
-  color: var(--lutece-ds-white, #fff) !important;
-}
-
-.datepicker-main .datepicker-grid .datepicker-cell.selected.focused {
-  border-color: var(--lutece-ds-white, #fff);
 }
 
 .datepicker-main .datepicker-grid .datepicker-cell.disabled {
@@ -205,7 +225,7 @@
 
 .datepicker-main .datepicker-view .days .datepicker-grid .datepicker-cell.day.next,
 .datepicker-main .datepicker-view .days .datepicker-grid .datepicker-cell.day.prev {
-  font-weight: 400;
+  font-weight: 300;
 }
 
 .datepicker-main .datepicker-grid .datepicker-cell.month:not(.focused),
@@ -219,9 +239,6 @@
   box-shadow: none;
 }
 
-.datepicker-footer .datepicker-controls:has(.btn:not([style])) {
-  border-block-start: 1px solid var(--lutece-ds-neutral-200, #CFD7E3);
-}
 
 .datepicker-footer .datepicker-controls .btn {
   font-size: var(--lutece-ds-font-m, 1.5rem);
@@ -251,7 +268,6 @@
   line-height: 1.4;
   margin: 0;
   padding-block-start: var(--lutece-ds-sp-xxs, var(--lutece-ds-sp-2xs, .25rem));
-  border-block-start: 1px solid var(--lutece-ds-neutral-200, #CFD7E3);
 }
 
 .datepicker .days-of-week {
@@ -348,4 +364,22 @@
 
 .datepicker-cell.range-start.range-end {
   border-radius: 4px;
+}
+/* Small screens: the panel must fit the viewport. Resizing the cell variable is enough,
+   since the view and grid widths are both derived from it (7 columns). */
+@media (max-width: 575.98px) {
+  .datepicker {
+    --dp-cell-width: calc(94vw / 7);
+  }
+
+  .datepicker-dropdown .datepicker-picker {
+    max-width: 98vw;
+  }
+
+  /* The vendor JS writes left/top inline, so the override needs !important */
+  .datepicker-dropdown {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%);
+  }
 }

@@ -62,7 +62,10 @@
 	filter: invert(1)
 }
 
-[data-bs-theme=dark] svg path {
+/* Recolor filled icons only: outline icons (Tabler & co) declare fill="none" and are drawn
+   with stroke:currentColor, so filling their paths would turn them into opaque blocks */
+[data-bs-theme=dark] svg path[fill]:not([fill="none"]),
+[data-bs-theme=dark] svg:not([fill="none"]) path:not([fill="none"]) {
 	fill: var(--lutece-ds-text)
 }
 
@@ -190,12 +193,15 @@
 }
 
 /** Datepicker: the vendor css hardcodes a white panel, and the theme css draws white grid borders and light surfaces **/
+/* Panel sits above the page: one step lighter than the page, and distinct from the input surface */
 [data-bs-theme=dark] .datepicker-picker {
-	background-color: var(--bs-gray-900);
+	background-color: var(--bs-gray-800);
 }
 
+/* Dark surfaces swallow the light shadow token: use a heavier one so the panel still detaches */
 [data-bs-theme=dark] .datepicker-dropdown .datepicker-picker {
 	border-color: var(--bs-border-color-translucent);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, .6);
 }
 
 [data-bs-theme=dark] .datepicker-header .datepicker-controls,
@@ -210,11 +216,22 @@
 	color: var(--lutece-ds-text);
 }
 
+/* The month/year switch has a dark blue fallback color with equal specificity: outrank it */
+[data-bs-theme=dark] .datepicker-header .datepicker-controls .btn.view-switch {
+	color: var(--lutece-ds-text);
+}
+
+[data-bs-theme=dark] .datepicker-header .datepicker-controls .btn:not(.view-switch):focus,
+[data-bs-theme=dark] .datepicker-header .datepicker-controls .btn:not(.view-switch):hover,
 [data-bs-theme=dark] .datepicker-controls .btn:focus,
 [data-bs-theme=dark] .datepicker-controls .btn:hover,
-[data-bs-theme=dark] .datepicker-controls .btn:not(:disabled):active {
-	background-color: var(--bs-gray-800);
-	border-color: var(--bs-gray-700);
+[data-bs-theme=dark] .datepicker-controls .btn:not(:disabled):active,
+[data-bs-theme=dark] .datepicker-controls .prev-button:focus,
+[data-bs-theme=dark] .datepicker-controls .prev-button:hover,
+[data-bs-theme=dark] .datepicker-controls .next-button:focus,
+[data-bs-theme=dark] .datepicker-controls .next-button:hover {
+	background-color: var(--bs-gray-900);
+	border-color: transparent;
 	color: var(--lutece-ds-text);
 }
 
@@ -224,18 +241,27 @@
 	color: var(--bs-gray-700);
 }
 
+/* The arrows are text glyphs carrying prev-btn/next-btn, not .btn: they need their own selector */
 [data-bs-theme=dark] .datepicker-controls .prev-button,
 [data-bs-theme=dark] .datepicker-controls .next-button {
-	border-color: var(--lutece-ds-text);
+	border-color: transparent;
+	background-color: transparent;
+	color: var(--lutece-ds-text);
 }
 
 /* Grid lines follow the panel background (white on white in light mode) */
 [data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell {
-	border-color: var(--bs-gray-900);
+	border-color: transparent;
+	color: var(--lutece-ds-text);
+}
+
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.day.prev,
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.day.next {
+	color: var(--lutece-ds-neutral-300);
 }
 
 [data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.today {
-	background-color: var(--bs-gray-800);
+	background-color: var(--bs-gray-700);
 	color: var(--lutece-ds-text);
 }
 
@@ -245,7 +271,7 @@
 }
 
 [data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.disabled:hover {
-	border-color: var(--bs-gray-900);
+	border-color: transparent;
 }
 
 [data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.month:not(.focused),
@@ -255,14 +281,14 @@
 }
 
 [data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range {
-	background-color: var(--bs-gray-800);
-	border-color: var(--bs-gray-900);
+	background-color: var(--bs-gray-700);
+	border-color: transparent;
 	color: var(--lutece-ds-text);
 }
 
 [data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range-start,
 [data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.range-end {
-	border-color: var(--bs-gray-900);
+	border-color: transparent;
 }
 
 [data-bs-theme=dark] .card {
@@ -344,3 +370,16 @@
 [data-theme="dark"] .value p {
 	color: rgba(255, 255, 255, 0.7);
 }
+
+/* Datepicker: in dark mode the active cell is a light chip with dark text */
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.focused,
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell:hover,
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.selected,
+[data-bs-theme=dark] .datepicker-main .datepicker-grid .datepicker-cell.selected.focused {
+	background-color: var(--bs-gray-900);
+	color: var(--lutece-ds-text);
+	border-color: transparent;
+	outline: 0;
+	box-shadow: none;
+}
+
