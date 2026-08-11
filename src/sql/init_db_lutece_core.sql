@@ -30,6 +30,8 @@ INSERT INTO core_admin_right VALUES ('CORE_USERS_MANAGEMENT', 'portal.users.admi
 INSERT INTO core_admin_right VALUES ('CORE_WORKGROUPS_MANAGEMENT', 'portal.workgroup.adminFeature.workgroups_management.name', 2, 'jsp/admin/workgroup/ManageWorkgroups.jsp', 'portal.workgroup.adminFeature.workgroups_management.description', 0, '', 'MANAGERS', 'ti ti-users-group', NULL, 3, 0);
 INSERT INTO core_admin_right VALUES ('CORE_SECURITY_HEADER_MANAGEMENT', 'portal.system.adminFeature.security_header_management.name', 0, 'jsp/admin/system/ManageSecurityHeaders.jsp', 'portal.system.adminFeature.security_header_management.description', 1, '', 'SYSTEM', 'ti ti-box-align-top', NULL, 12, 0);
 INSERT INTO core_admin_right VALUES ('CORE_THEME_MANAGEMENT','portal.theme.adminFeature.theme_management.name',0,'jsp/admin/theme/ManageThemes.jsp','portal.theme.adminFeature.theme_management.description',1,'','STYLE','ti ti-palette', NULL, 1, 0);
+INSERT INTO core_admin_right VALUES ('CORE_LEVEL_MANAGEMENT', 'portal.level.adminFeature.level_management.name', 0, NULL, 'portal.level.adminFeature.level_management.description', 1, '', 'SYSTEM', 'ti ti-gavel', NULL, 11, 0);
+
 
 INSERT INTO core_admin_role VALUES ('all_site_manager','Site Manager');
 INSERT INTO core_admin_role VALUES ('super_admin','Super Administrateur');
@@ -115,6 +117,7 @@ INSERT INTO core_user_right VALUES ('CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT', 1
 INSERT INTO core_user_right VALUES ('CORE_EDITORS_MANAGEMENT', 1);
 INSERT INTO core_user_right VALUES ('CORE_SECURITY_HEADER_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_THEME_MANAGEMENT',1);
+INSERT INTO core_user_right VALUES ('CORE_LEVEL_MANAGEMENT',1);
 
 INSERT INTO core_user_role VALUES ('all_site_manager',1);
 INSERT INTO core_user_role VALUES ('super_admin',1);
