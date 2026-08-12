@@ -233,6 +233,20 @@ public final class AppDaemonService
     }
 
     /**
+     * Tells whether a daemon is running, i.e. scheduled for execution.
+     *
+     * @param strDaemonKey
+     *            The daemon key
+     * @return <code>true</code> if the daemon is registered and scheduled, <code>false</code> otherwise
+     */
+    public static boolean isDaemonRunning( String strDaemonKey )
+    {
+        DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
+
+        return entry != null && entry.isRunning( );
+    }
+
+    /**
      * Signal a daemon for execution in the immediate future.
      * <p>
      * This can fail is resources are limited, which should be exceptional.
