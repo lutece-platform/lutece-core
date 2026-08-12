@@ -81,7 +81,7 @@ Snippet:
                     <div id="auth-favs" class="d-flex flex-wrap justify-content-center align-items-center"></div>
                     <div id="auth-apps" class="d-flex flex-wrap justify-content-center align-items-center"></div>
                     <p class="show">
-                        <a class="btn btn-link-primary" href="${urlConnect!}" title="#i18n{portal.theme.titleDisconnect}">
+                        <a id="main-nav-user-disconnect-button" class="btn btn-link-primary" href="${urlConnect!}" title="#i18n{portal.theme.titleDisconnect}">
                             <span>#i18n{portal.theme.labelDisconnect}</span>  
                         </a>
                     </p>
