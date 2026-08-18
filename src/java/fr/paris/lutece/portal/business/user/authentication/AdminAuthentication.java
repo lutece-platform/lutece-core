@@ -100,6 +100,16 @@ public interface AdminAuthentication
     boolean isExternalAuthentication( );
 
     /**
+     * Indicates whether the user's identity can be modified.
+     *
+     * @return true when the user is editable.
+     */
+    default boolean isUserIdentityEditable( )
+    {
+        return true;
+    }
+
+    /**
      * Returns a Lutece user object if the user is already authenticated in the Http request. This method should return null if the user is not authenticated or
      * if the authentication service is not based on Http authentication.
      * 
