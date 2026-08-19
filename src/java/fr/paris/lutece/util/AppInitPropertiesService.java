@@ -102,25 +102,6 @@ public final class AppInitPropertiesService
         return _propertiesService.getProperty( strProperty );
     }
     /**
-     * Reloads all the properties files
-     */
-    public static void reloadAll( )
-    {
-        _propertiesService.reloadAll( );
-    }
-
-    /**
-     * Reloads a given properties file
-     * 
-     * @param strFilename
-     *            The file name
-     */
-    public static void reload( String strFilename )
-    {
-        _propertiesService.reload( strFilename );
-    }
-
-    /**
      * Gets properties
      * 
      * @return All properties

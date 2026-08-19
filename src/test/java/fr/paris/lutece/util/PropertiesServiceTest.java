@@ -36,7 +36,6 @@ package fr.paris.lutece.util;
 import fr.paris.lutece.test.LuteceTestCase;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -68,9 +67,6 @@ public class PropertiesServiceTest extends LuteceTestCase
 
         instance.addPropertiesFile( PATH_CONF, FILE_CONFIG );
         instance.getProperty( PROPERTY_PROD_URL );
-
-        // Test reloading
-        instance.reload( FILE_CONFIG );
     }
 
     /**
@@ -85,47 +81,13 @@ public class PropertiesServiceTest extends LuteceTestCase
         PropertiesService instance = new PropertiesService( );
 
         instance.addPropertiesDirectory( strRelativePath );
-
-        // Test reloading
-        instance.reloadAll( );
     }
 
-    public void testReloadAll( ) throws FileNotFoundException, IOException
-    {
-    	File targetDir = new File("target/lutece/"+PATH_CONF);
-        File propsFile = File.createTempFile( "junit", ".properties", targetDir );
-        propsFile.deleteOnExit( );
-
-        Properties props = new Properties( );
-        props.put( "test1", "test1" );
-        props.put( "test2", "test2" );
-
-        OutputStream os = new FileOutputStream( propsFile );
-        props.store( os, this.getClass( ).getName( ) );
-        os.close( );
-
-        PropertiesService instance = new PropertiesService(  );
-        instance.addPropertiesFile( PATH_CONF, propsFile.getName( ) );
-
-        for ( String key : props.stringPropertyNames( ) )
-        {
-            assertNotNull( instance.getProperty( key ) );
-            assertEquals( props.getProperty( key ), instance.getProperty( key ) );
-        }
-
-        props.setProperty( "test1", "test1_mod" );
-        props.remove( "test2" );
-        os = new FileOutputStream( propsFile );
-        props.store( os, this.getClass( ).getName( ) );
-        os.close( );
-
-        instance.reloadAll( );
-        assertEquals( props.getProperty( "test1" ), instance.getProperty( "test1" ) );
-        assertNull( instance.getProperty( "test2" ) );
-    }
-   
-       @Test
-    public void testReloadAllOrder( ) throws IOException
+    /**
+     * Test that the last registered properties file takes precedence over the previous ones.
+     */
+    @Test
+    public void testAddPropertiesFileOrder( ) throws IOException
     { 
     	File targetDir = new File("target/lutece/"+PATH_CONF);
         File propsFile = File.createTempFile( "junit", ".properties", targetDir );
@@ -155,10 +117,6 @@ public class PropertiesServiceTest extends LuteceTestCase
             os.close( );
 
             instance.addPropertiesFile( PATH_CONF, propsFile.getName( ) );
-
-            assertEquals( Integer.toString( i ), instance.getProperty( "key" ) );
-
-            instance.reloadAll( );
 
             assertEquals( Integer.toString( i ), instance.getProperty( "key" ) );
         }

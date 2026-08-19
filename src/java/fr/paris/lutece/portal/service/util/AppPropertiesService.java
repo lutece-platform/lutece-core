@@ -155,27 +155,6 @@ public final class AppPropertiesService
     	return _config.getOptionalValue(name, aClass );
     }
     /**
-     * Reloads all the properties files
-     */
-    @Deprecated
-    public static void reloadAll( )
-    {
-    	AppInitPropertiesService.reloadAll( );
-    }
-
-    /**
-     * Reloads a given properties file
-     * 
-     * @param strFilename
-     *            The file name
-     */
-    @Deprecated
-    public static void reload( String strFilename )
-    {
-    	AppInitPropertiesService.reload( strFilename );
-    }
-
-    /**
      * Gets properties
      * 
      * @return All properties
