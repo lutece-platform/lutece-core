@@ -28,6 +28,7 @@ Snippet:
 			</#if>
 			<@offcanvas id="page-properties" redirectForm=false title="#i18n{portal.site.admin_page.titlePageProperties}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' targetElement='#properties' btnColor="portet" btnIcon="wrench mx-1" btnTitle="#i18n{portal.site.admin_page.titlePageProperties}" hideTitle=['all'] size="" />
 			<@offcanvas id="childpage-properties" title="#i18n{portal.site.admin_page.titleAddChildPage}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5' targetElement='#childpage' btnColor="portet" btnIcon="file-plus me-1" btnTitle="#i18n{portal.site.admin_page.titleAddChildPage}" hideTitle=['all'] size=""  redirectForm=false/>
+			<@offcanvas id="page-portlets" title="#i18n{portal.site.admin_page.titleManagePortlets}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=6' targetElement='#portlets' btnColor="portet" btnIcon="list" btnTitle="#i18n{portal.site.admin_page.titleManagePortlets}" hideTitle=['all'] size="" redirectForm=false />
 			<@offcanvas id="portlet-type-wrapper" title="#i18n{portal.site.admin_page.labelPortletPage}" btnColor="portet" btnIcon="apps" btnTitle="#i18n{portal.site.admin_page.labelPortletPage}" hideTitle=['all'] >
 			<@listGroup>
 				<#list portlet_types_list?sort_by("name") as portlet_type>
