@@ -37,9 +37,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -54,8 +56,8 @@ public class PropertiesService
 {
     // Static variables
     private String _strRootPath;
-    private Properties _properties = new Properties( );
-    private Map<String, String> _mapPropertiesFiles = new LinkedHashMap<>( );
+    private volatile Properties _properties = new Properties( );
+    private Set<String> _setPropertiesFiles = new LinkedHashSet<>( );
 
     public final String RSA_KEY_PREFIX = "PROTECTED::RSA::";
     private final String MESSAGE_CIPHERED_PROPERTY_SECURITY_EXCEPTION = "A ciphered property security exception occured." ;
@@ -82,7 +84,7 @@ public class PropertiesService
     public void addPropertiesFile( String strRelativePath, String strFilename )
     {
         String strFullPath = _strRootPath + ( ( strRelativePath.endsWith( "/" ) ) ? strRelativePath : ( strRelativePath + "/" ) ) + strFilename;
-        _mapPropertiesFiles.put( strFilename, strFullPath );
+        _setPropertiesFiles.add( strFullPath );
         loadFile( strFullPath );
     }
 
@@ -107,7 +109,7 @@ public class PropertiesService
                     if ( file.getName( ).endsWith( ".properties" ) )
                     {
                         String strFullPath = file.getAbsolutePath( );
-                        _mapPropertiesFiles.put( file.getName( ), strFullPath );
+                        _setPropertiesFiles.add( strFullPath );
                         loadFile( strFullPath );
                     }
                 }
@@ -156,19 +158,43 @@ public class PropertiesService
      */
     public void reload( String strFilename )
     {
-        String strFullPath = _mapPropertiesFiles.get( strFilename );
-        loadFile( strFullPath );
+        List<String> listFullPaths = getFullPaths( strFilename );
+
+        if ( listFullPaths.isEmpty( ) )
+        {
+            AppLogService.error( "Unable to reload the properties file {} : this file has not been registered", strFilename );
+
+            return;
+        }
+
+        for ( String strFullPath : listFullPaths )
+        {
+            loadFile( strFullPath );
+        }
+    }
+
+    /**
+     * Returns the full paths of all the registered properties files having the given filename, in the order they have been registered. Several files may share
+     * the same filename, typically a plugin properties file and its counterpart in the override directory.
+     *
+     * @param strFilename
+     *            The filename of the properties file (ie: config.properties)
+     * @return The list of matching full paths, empty if none has been registered
+     */
+    private List<String> getFullPaths( String strFilename )
+    {
+        return _setPropertiesFiles.stream( ).filter( strFullPath -> new File( strFullPath ).getName( ).equals( strFilename ) ).collect( Collectors.toList( ) );
     }
 
     /**
      * Reload all properties files
-     * 
+     *
      */
     public void reloadAll( )
     {
         Properties newProperties = new Properties( );
 
-        for ( String strFullPath : _mapPropertiesFiles.values( ) )
+        for ( String strFullPath : _setPropertiesFiles )
         {
             loadFile( strFullPath, newProperties );
         }

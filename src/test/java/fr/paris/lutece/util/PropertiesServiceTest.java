@@ -42,6 +42,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import java.util.Properties;
 
 /**
@@ -54,6 +57,16 @@ public class PropertiesServiceTest extends LuteceTestCase
     private static final String PATH_CONF_PLUGINS = "WEB-INF/conf/plugins";
     private static final String FILE_CONFIG = "config.properties";
     private static final String PROPERTY_PROD_URL = "lutece.prod.url";
+    private static final String DIR_PLUGINS = "plugins";
+    private static final String DIR_OVERRIDE_PLUGINS = "plugins/override";
+    private static final String FILE_PLUGIN = "myplugin.properties";
+    private static final String KEY_1 = "myplugin.key1";
+    private static final String KEY_2 = "myplugin.key2";
+    private static final String KEY_3 = "myplugin.key3";
+    private static final String VALUE_BASE_1 = "base1";
+    private static final String VALUE_BASE_2 = "base2";
+    private static final String VALUE_BASE_3 = "base3";
+    private static final String VALUE_OVERRIDE_2 = "override2";
 
     /**
      * Test of addPropertiesFile method, of class fr.paris.lutece.util.PropertiesService.
@@ -155,6 +168,116 @@ public class PropertiesServiceTest extends LuteceTestCase
             instance.reloadAll( );
 
             assertEquals( Integer.toString( i ), instance.getProperty( "key" ) );
+        }
+    }
+
+    /**
+     * Test that reloadAll does not lose the properties of a file sharing its filename with another registered file, which is the case of a plugin properties
+     * file having a counterpart in the override directory.
+     *
+     * @throws IOException
+     *             If an error occurs writing the temporary properties files
+     */
+    public void testReloadAllWithOverriddenFilename( ) throws IOException
+    {
+        PropertiesService instance = buildServiceWithOverriddenFilename( );
+
+        assertEquals( VALUE_BASE_1, instance.getProperty( KEY_1 ) );
+        assertEquals( VALUE_OVERRIDE_2, instance.getProperty( KEY_2 ) );
+        assertEquals( VALUE_BASE_3, instance.getProperty( KEY_3 ) );
+
+        instance.reloadAll( );
+
+        assertEquals( VALUE_BASE_1, instance.getProperty( KEY_1 ) );
+        assertEquals( VALUE_OVERRIDE_2, instance.getProperty( KEY_2 ) );
+        assertEquals( VALUE_BASE_3, instance.getProperty( KEY_3 ) );
+    }
+
+    /**
+     * Test that reload reloads every registered file sharing the given filename, so that the override file keeps precedence over the base file.
+     *
+     * @throws IOException
+     *             If an error occurs writing the temporary properties files
+     */
+    public void testReloadWithOverriddenFilename( ) throws IOException
+    {
+        PropertiesService instance = buildServiceWithOverriddenFilename( );
+
+        instance.reload( FILE_PLUGIN );
+
+        assertEquals( VALUE_BASE_1, instance.getProperty( KEY_1 ) );
+        assertEquals( VALUE_OVERRIDE_2, instance.getProperty( KEY_2 ) );
+        assertEquals( VALUE_BASE_3, instance.getProperty( KEY_3 ) );
+    }
+
+    /**
+     * Test that reloading an unregistered filename does not throw.
+     *
+     * @throws IOException
+     *             If an error occurs writing the temporary properties files
+     */
+    public void testReloadUnknownFile( ) throws IOException
+    {
+        PropertiesService instance = buildServiceWithOverriddenFilename( );
+
+        instance.reload( "unknown.properties" );
+
+        assertEquals( VALUE_BASE_1, instance.getProperty( KEY_1 ) );
+    }
+
+    /**
+     * Builds a PropertiesService holding two registered properties files sharing the same filename : a base one declaring three keys and an override one
+     * redefining the second key.
+     *
+     * @return The PropertiesService to test
+     * @throws IOException
+     *             If an error occurs writing the temporary properties files
+     */
+    private PropertiesService buildServiceWithOverriddenFilename( ) throws IOException
+    {
+        Path pathRoot = Files.createTempDirectory( "junit" );
+        pathRoot.toFile( ).deleteOnExit( );
+
+        File fileDirPlugins = new File( pathRoot.toFile( ), DIR_PLUGINS );
+        File fileDirOverride = new File( pathRoot.toFile( ), DIR_OVERRIDE_PLUGINS );
+        assertTrue( fileDirOverride.mkdirs( ) );
+        fileDirPlugins.deleteOnExit( );
+        fileDirOverride.deleteOnExit( );
+
+        Properties propertiesBase = new Properties( );
+        propertiesBase.put( KEY_1, VALUE_BASE_1 );
+        propertiesBase.put( KEY_2, VALUE_BASE_2 );
+        propertiesBase.put( KEY_3, VALUE_BASE_3 );
+        storeProperties( new File( fileDirPlugins, FILE_PLUGIN ), propertiesBase );
+
+        Properties propertiesOverride = new Properties( );
+        propertiesOverride.put( KEY_2, VALUE_OVERRIDE_2 );
+        storeProperties( new File( fileDirOverride, FILE_PLUGIN ), propertiesOverride );
+
+        PropertiesService instance = new PropertiesService( pathRoot.toString( ) );
+        instance.addPropertiesDirectory( DIR_PLUGINS );
+        instance.addPropertiesDirectory( DIR_OVERRIDE_PLUGINS );
+
+        return instance;
+    }
+
+    /**
+     * Writes the given properties into the given file, which is deleted on exit.
+     *
+     * @param file
+     *            The file to write
+     * @param properties
+     *            The properties to store
+     * @throws IOException
+     *             If an error occurs writing the file
+     */
+    private void storeProperties( File file, Properties properties ) throws IOException
+    {
+        file.deleteOnExit( );
+
+        try ( OutputStream os = new FileOutputStream( file ) )
+        {
+            properties.store( os, this.getClass( ).getName( ) );
         }
     }
 }
