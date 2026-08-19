@@ -18,6 +18,7 @@ Description: Generates a toolbar for use in the site admin panel. It generates a
 		<@offcanvas id="page-properties" title="#i18n{portal.site.admin_page.titlePageProperties}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' targetElement='#properties' btnColor="primary btn-portet" btnIcon="wrench mx-1" btnTitle="#i18n{portal.site.admin_page.titlePageProperties}" size="" />
 		<#--  <@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus me-1' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['md'] />  -->
 		<@offcanvas id="childpage-properties" title="#i18n{portal.site.admin_page.titleAddChildPage}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5' targetElement='#childpage' btnColor="primary btn-portet" btnIcon="file-plus me-1" btnTitle="#i18n{portal.site.admin_page.titleAddChildPage}" size=""  redirectForm=false/>
+		<@offcanvas id="page-portlets" title="#i18n{portal.site.admin_page.titleManagePortlets}" targetUrl='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=6' targetElement='#portlets' btnColor="primary btn-portet" btnIcon="list" btnTitle="#i18n{portal.site.admin_page.titleManagePortlets}" size="" redirectForm=false/>
 		<@offcanvas id="portlet-type-wrapper" title="#i18n{portal.site.admin_page.labelPortletPage}" btnColor="primary btn-portet" btnIcon="text-plus" btnTitle="#i18n{portal.site.admin_page.labelPortletPage}" >
 		<@listGroup>
 			<#list portlet_types_list?sort_by("name") as portlet_type>

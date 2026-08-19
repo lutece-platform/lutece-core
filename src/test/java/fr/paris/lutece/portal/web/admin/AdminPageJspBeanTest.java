@@ -636,6 +636,16 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( html );
     }
 
+    public void testGetAdminPageBlockPortlets( ) throws PasswordResetException, AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        request.addParameter( "param_block", "6" );
+        String html = _bean.getAdminPage( request );
+        assertNotNull( html );
+    }
+
     public void testDoCreateChildPage( ) throws AccessDeniedException, SizeLimitExceededException, FileUploadException, IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
