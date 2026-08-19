@@ -1,0 +1,22 @@
+<@div id='portlets'>
+    <#if portlets_list?has_content>
+        <@listGroup>
+            <#list portlets_list?sort_by("name") as portlet>
+                <@listGroupItem class='p-2'>
+                    <@div class='d-flex justify-content-between align-items-center w-100'>
+                        <@span>${portlet.name} <small class='text-muted'>(#i18n{portal.site.admin_page.labelPortletColumn} ${portlet.column})</small></@span>
+                        <@div class='d-flex'>
+                            <@tform action='jsp/admin/DoModifyPortlet.jsp' type='' params='target="preview"'>
+                                <@input type='hidden' name='portlet_id' value=portlet.id />
+                                <@button params='data-bs-dismiss="offcanvas"' type='submit' color='default' buttonIcon='edit' size='xs' title='#i18n{portal.site.util.labelModify}' hideTitle=['all'] />
+                            </@tform>
+                            <@aButton href='jsp/admin/site/RemovePortlet.jsp?portlet_id=${portlet.id}' color='danger' buttonIcon='trash' size='xs' title='#i18n{portal.site.util.labelRemove}' hideTitle=['all'] />
+                        </@div>
+                    </@div>
+                </@listGroupItem>
+            </#list>
+        </@listGroup>
+    <#else>
+        <@p>#i18n{portal.site.admin_page.labelNoPortlet}</@p>
+    </#if>
+</@div>
