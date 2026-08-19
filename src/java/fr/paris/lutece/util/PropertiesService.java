@@ -38,8 +38,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -59,8 +57,7 @@ public class PropertiesService
 {
     // Static variables
    // private String _strRootPath;
-    private Properties _properties = new Properties( );
-    private Map<String, String> _mapPropertiesFiles = new LinkedHashMap<>( );
+    private final Properties _properties = new Properties( );
 
     private final String RSA_KEY_PREFIX = "PROTECTED::RSA::";
     private final String MESSAGE_CIPHERED_PROPERTY_SECURITY_EXCEPTION = "A ciphered property security exception occured." ;
@@ -87,7 +84,6 @@ public class PropertiesService
     public void addPropertiesFile( String strRelativePath, String strFilename )
     {
         String strPath =  ( ( strRelativePath.endsWith( "/" ) ) ? strRelativePath : ( strRelativePath + "/" ) ) + strFilename;
-        _mapPropertiesFiles.put( strFilename, strPath );
         loadFile( strPath );
     }
 
@@ -112,23 +108,19 @@ public class PropertiesService
         loadProperties( setPaths );
     }
 
+	/**
+	 * Load the properties of every given resource path, in the given order
+	 * 
+	 * @param listPath
+	 *            The resource paths of the properties files to load
+	 */
 	private void loadProperties( Set<String> listPath) {
 		
 		listPath.forEach(pathResource -> {
-			_mapPropertiesFiles.put( getFileName( pathResource), pathResource );
 			loadFile( pathResource, _properties );
 		}
 		);
 	}
-	
-	private String getFileName(String filePath) {
-        int lastSeparatorIndex = filePath.lastIndexOf('/');
-        if (lastSeparatorIndex >= 0) {
-            return filePath.substring(lastSeparatorIndex + 1);
-        } else {
-            return filePath;
-        }
-    }
 
     /**
      * Load properties of a file
@@ -163,37 +155,6 @@ public class PropertiesService
         	LOGGER.error( "Error loading property file, path: {}", strRelatvePath, ex );
 		} 
       
-    }
-
-    /**
-     * Reload a properties file .
-     * 
-     * @param strFilename
-     *            The filename of the properties file
-     */
-    public void reload( String strFilename )
-    {
-        String strFullPath = _mapPropertiesFiles.get( strFilename );
-        if ( strFullPath != null )
-        {
-            loadFile( strFullPath );
-        }
-    }
-
-    /**
-     * Reload all properties files
-     * 
-     */
-    public void reloadAll( )
-    {
-        Properties newProperties = new Properties( );
-
-        for ( String strFullPath : _mapPropertiesFiles.values( ) )
-        {
-            loadFile( strFullPath, newProperties );
-        }
-
-        _properties = newProperties;
     }
 
     /**
