@@ -342,6 +342,16 @@ public final class AdminAuthenticationService
     }
 
     /**
+     * Indicates whether the user's identity can be modified.
+     *
+     * @return true when the user is editable.
+     */
+    public boolean isUserIdentityEditable( )
+    {
+        return _authentication.isUserIdentityEditable( );
+    }
+
+    /**
      * Returns the Login page URL of the Authentication Service
      * 
      * @return The URL
