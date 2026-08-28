@@ -17,7 +17,8 @@
 <!-- Theme CSS include                  -->
 <link href="${commonsSiteThemePath}${commonsSiteCssPath}theme<#if isRtl?boolean>.rtl</#if>.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <link href="${commonsSharedThemePath}${commonsSiteCssPath}shared.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
-<script src="${commonsSiteSharedPath}${commonsSiteCssPath}tabler-icons.min.css?version=${commonsGlobalThemeVersion}"></script>
+<link href="${commonsSiteSharedPath}${commonsSiteCssPath}tabler-icons-filled.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
+<link href="${commonsSiteSharedPath}${commonsSiteCssPath}tabler-icons.min.css?version=${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 <!-- Site CSS include                  -->
 <link href="${commonsSiteCssPath}site.css?theme=${commonsGlobalThemeCode!}${commonsGlobalThemeVersion}" crossorigin="anonymous" rel="stylesheet">
 </#macro>
@@ -32,6 +33,7 @@
 </#macro>
 <#-- MAIN VARS MANAGEMENT               -->
 <#assign mainSite>Lutece</#assign>
+<#assign iconDefaultPrefixSelector>.ti</#assign>
 <#-- LINKS MANAGEMENT                   -->
 <#assign hasSiteMap><#if !dskey('portal.theme.site_property.menu.siteMapMenu.checkbox')?starts_with('DS') &&  dskey('portal.theme.site_property.menu.siteMapMenu.checkbox') =='1'>true<#else>false</#if></#assign>
 <#assign urlMainSite>https://${mainSite?lower_case}.paris.fr</#assign>

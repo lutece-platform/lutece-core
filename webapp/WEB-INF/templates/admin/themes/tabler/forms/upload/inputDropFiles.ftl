@@ -17,7 +17,7 @@ Parameters:
 @param - labelSelect - string - optional - label associated to the upload input default '#i18n{theme.labelSelect}' - deprecated
 @param - labelSubmit - string - optional - label associated to the upload input default '#i18n{theme.labelSubmit}' - deprecated
 @param - formSubmitButtonName - string - optional - name of the submit "button" of the parent form, used in js to prevent validation of mandatory fields, default 'action_doSaveStep' 
-@param - labelDelete - string - optional - label of the label button default '#i18n{theme.labelDelete}' - deprecated
+@param - labelDelete - string - optional - label of the label button default '#i18n{portal.theme.labelDelete}' - deprecated
 @param - required - boolean - optional - Set element as required, default false
 @param - disabled - boolean - optional - Disable element, default false
 @param - multiple - boolean - optional - Set multiple attribute to select default false
@@ -49,7 +49,7 @@ Snippet:
     </@inputDropFiles>
 
 -->
-<#macro inputDropFiles name handler={} type='dropzone' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{theme.labelSelect}' labelSubmit='#i18n{theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
+<#macro inputDropFiles name handler={} type='dropzone' image=false nbFiles=0 nbUplodadedFiles=0 maxFileSize=0 unit='' accept='' label='#i18n{theme.labelUploadFiles}' showLabel=1 labelPos=1 labelSelect='#i18n{theme.labelSelect}' labelSubmit='#i18n{theme.labelSubmit}' formSubmitButtonName='action_doSaveStep' labelDelete='#i18n{portal.theme.labelDelete}' required=false disabled=false multiple=true noJs=false helpMsg='' hasFiles=false errorMsg='' class='' id='' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local cId><#if id!=''>${id!}<#else>${name!}</#if></#local>
 <#local nbFiles = nbFiles?number >

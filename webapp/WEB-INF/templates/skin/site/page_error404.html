@@ -1,58 +1,7 @@
 <#include "minimal_header.html" />
 <@cTpl>
-<@cContainer class='vh-80 pt-5'>
-    <@cRow class='pt-5 mt-5'>
-        <@cCol cols='12 col-md-3'  class='pt-5 mt-5'>
-            <@cImg src='themes/skin/shared/images/404.png' alt='#i18n{portal.util.error404.title}' id='error404-img' />
-        </@cCol>
-        <@cCol cols='12 col-md-6' class='pt-5 mt-5'>
-            <@cCard class='border border-warning mt-5' titleLevel=1 header='Error 404' headerLevel=1 headerLabelClass='text-warning fw-bold h2' title='#i18n{portal.util.error404.title}' titleClass='h2' titleLevel=2>
-                <@cText class='my-5 fs-2 '>#i18n{portal.util.error404.text}</@cText>
-                <#if error_cause??><@cAlert type='warning' class='fs-3' title='${error_cause}' /></#if>
-                <@cText class='text-center mt-5'>
-                     <@cBtn href='./' label='#i18n{portal.util.labelBackHome}'>
-                        <@cInline type='i' class='ti ti-home' />
-                    </@cBtn>
-                </@cText>
-            </@cCard>
-        </@cCol>
-    </@cRow>
-</@cContainer>
+<#assign errorTitle>#i18n{portal.theme.error404.title}</#assign>
+<#assign errorText>#i18n{portal.theme.error404.text}</#assign>
+<@cErrorMessage title=errorTitle text=errorText linkUrl='.' />
 </@cTpl>
 <#include "minimal_footer.html" />
-<style>
-@keyframes slideTop {
-    0% {
-        transform: translateY(-100vh);
-        opacity: 0;
-    }
-    20% {
-        opacity: 1;
-    }
-    30% {
-        transform: translateY(0);
-    }
-    35% {
-        transform: translateY(-10px);
-    }
-    40% {
-        transform: translateY(10px);
-    }
-    45% {
-        transform: translateY(-10px);
-    }
-    50% {
-        transform: translateY(10px);
-    }
-    55% {
-        transform: translateY(-10px);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
-
-#error404-img {
-    animation: slideTop 4s ease-in-out forwards;
-}
-</style>

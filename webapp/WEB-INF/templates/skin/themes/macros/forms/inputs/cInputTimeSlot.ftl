@@ -42,7 +42,7 @@ Snippet:
     <@cInputTimeSlot name='slot' beginHour='09:00' endHour='17:00' />
 
 -->
-<#macro cInputTimeSlot name legend='' legendClass='' labelFrom='#i18n{themeparisfr.labelFrom}' labelTo='#i18n{themeparisfr.labelTo}' showLabel=false beginHour='00:00' endHour='23:59' step=0 btnAction='[name="action_doSaveStep"]' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' hideErrorMsg=true id='' class='form-control' params='' deprecated...>
+<#macro cInputTimeSlot name legend='' legendClass='' labelFrom='#i18n{portal.theme.labelFrom}' labelTo='#i18n{portal.theme.labelTo}' showLabel=false beginHour='00:00' endHour='23:59' step=0 btnAction='[name="action_doSaveStep"]' autocomplete='' html5Required=false required=false disabled=false readonly=false helpMsg='' errorMsg='' hideErrorMsg=true id='' class='form-control' params='' deprecated...>
 <@deprecatedWarning args=deprecated />
 <#local idLocal><#if id!=''>${id}<#else>${name!}</#if></#local>
 <#local inputParams>min="${beginHour!}" max="${endHour!}"</#local>
