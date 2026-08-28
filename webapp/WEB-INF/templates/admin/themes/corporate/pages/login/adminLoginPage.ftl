@@ -21,7 +21,7 @@ Parameters:
 					<@div class="card-body p-5 fs-6">
 						<@div class="text-center mb-4">
 							<@link href='/' target='_blank'>
-								<img src="${dskey('portal.site.site_property.logo_url')}" height="40" alt="Logo" aria-hidden="true" >
+								<img src="${logoUrl}" height="40" alt="Logo" aria-hidden="true" >
 								<span class="visually-hidden">${site_name!'Lutece'}</span>
 							</@link>
 						</@div>
