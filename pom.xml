@@ -2,7 +2,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>7.0.8-SNAPSHOT</version>
+        <version>7.0.8</version>
         <relativePath />
     </parent>
 
@@ -326,7 +326,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-user-api</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
             <type>jar</type> 
         </dependency>
 
@@ -334,7 +334,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-rbac-api</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
             <type>jar</type> 
         </dependency>
         
@@ -342,13 +342,13 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workflow-core</artifactId>
-	        <version>3.0.8-SNAPSHOT</version>
+	        <version>3.0.8-beta-02</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workgroup-api</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
             <type>jar</type> 
         </dependency>
         
@@ -371,7 +371,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-jmx-api</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>        
         <!-- microprofile config api  -->
         <dependency>
