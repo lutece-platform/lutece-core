@@ -158,7 +158,7 @@ public final class AdminAuthenticationService
                     {
                         unregisterUser( request );
                         registerUser( request, newUser );
-                        AdminUserService.updateDateLastLogin( user.getUserId( ) );
+                        AdminUserService.updateDateLastLogin( newUser.getUserId( ) );
 
                         // Start a new session
                         throw new UserNotSignedException( );

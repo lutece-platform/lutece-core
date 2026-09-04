@@ -995,6 +995,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             user.setAccessibilityMode( strAccessibilityMode != null );
 
             AdminUserHome.update( user, PasswordUpdateMode.IGNORE );
+            renewLifeTimeOfReactivatedAccount( userToModify, nStatus );
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
 
@@ -1023,6 +1024,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
 
             AdminUserHome.update( user );
+            renewLifeTimeOfReactivatedAccount( userToModify, user.getStatus( ) );
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
 
@@ -1031,6 +1033,23 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         return JSP_MANAGE_USER;
+    }
+
+    /**
+     * Renew the account life time of a user that an administrator reactivates after the account has expired. Without it, the account max valid date would
+     * remain in the past and the account life time daemon would expire the account again on its next run.
+     * 
+     * @param userBeforeModification
+     *            The user as it was before the modification
+     * @param nNewStatus
+     *            The new status of the user
+     */
+    private void renewLifeTimeOfReactivatedAccount( AdminUser userBeforeModification, int nNewStatus )
+    {
+        if ( ( userBeforeModification.getRealStatus( ) == AdminUser.EXPIRED_CODE ) && ( nNewStatus == AdminUser.ACTIVE_CODE ) )
+        {
+            AdminUserHome.updateUserExpirationDate( userBeforeModification.getUserId( ), AdminUserService.getAccountMaxValidDate( ) );
+        }
     }
 
     /**
