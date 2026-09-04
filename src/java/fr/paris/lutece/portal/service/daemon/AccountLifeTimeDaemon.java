@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.daemon;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +68,8 @@ public class AccountLifeTimeDaemon extends Daemon
     private static final String MESSAGE_EXPIRED = "No expired passwords";
     private static final String MESSAGE_NO_NOTIF = "Expired passwords notification deactivated, skipping";
     private static final String MESSAGE_EXPIRED_USER = "No expired admin user found";
+    private static final String MESSAGE_NO_RESYNC = "No account life time to resynchronize from last login";
+    private static final String MESSAGE_RESYNC_DISABLED = "Account life time not set, skipping resynchronization from last login";
     private static final String PARAMETER_TIME_BEFORE_ALERT_ACCOUNT = "time_before_alert_account";
     private static final String PARAMETER_NB_ALERT_ACCOUNT = "nb_alert_account";
     private static final String PARAMETER_TIME_BETWEEN_ALERTS_ACCOUNT = "time_between_alerts_account";
@@ -99,7 +102,10 @@ public class AccountLifeTimeDaemon extends Daemon
         StringBuilder sbResult = new StringBuilder( );
         Timestamp currentTimestamp = new Timestamp( new java.util.Date( ).getTime( ) );
 
-        // We first set as expirated user that have reached their life time limit
+        // We first resynchronize the life time of the accounts whose expiration date is reached or close, from their last login date
+        runResyncAccountLifeTime( currentTimestamp, sbResult );
+
+        // We then set as expirated user that have reached their life time limit
         runSetExpiredUser( currentTimestamp, sbResult );
 
         // We send first alert to users
@@ -112,6 +118,76 @@ public class AccountLifeTimeDaemon extends Daemon
         runExpiredPassword( currentTimestamp, sbResult );
 
         setLastRunLogs( sbResult.toString( ) );
+    }
+
+    /**
+     * Resynchronize the account max valid date of the users from their last login date. The max valid date stored in database is only extended by the
+     * default authentication module : with an external authentication module (SSO, LDAP...) only the last login date is updated, so active users would
+     * expire. For each user whose stored max valid date is reached or will be reached before the first alert is sent, the max valid date is recomputed as
+     * last login date + account life time. If this new date is in the future, it is stored, the alerts counter is reset and the user is reactivated if
+     * the daemon had expired it. Users that never logged in or that did not log in for more than the account life time are not modified and expire
+     * normally.
+     * 
+     * @param currentTimestamp
+     *            The current time
+     * @param sbResult
+     *            The daemon logs
+     */
+    private void runResyncAccountLifeTime( Timestamp currentTimestamp, StringBuilder sbResult )
+    {
+        int nbMonthsAccountValid = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME );
+
+        if ( nbMonthsAccountValid <= 0 )
+        {
+            AppLogService.info( MESSAGE_LOG_DAEMON_NAME, MESSAGE_RESYNC_DISABLED );
+            sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_RESYNC_DISABLED + "\n" );
+            return;
+        }
+
+        long nbDaysBeforeFirstAlert = Math.max( 0L, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT ) );
+        Timestamp maxValidDate = new Timestamp( currentTimestamp.getTime( ) + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
+        List<AdminUser> listUsers = AdminUserHome.getUsersWithLifeTimeToResync( maxValidDate );
+        List<Integer> listIdReactivatedUsers = new ArrayList<>( );
+        int nbResyncedUsers = 0;
+
+        for ( AdminUser user : listUsers )
+        {
+            Timestamp newMaxValidDate = AdminUserService.getAccountMaxValidDate( user.getDateLastLogin( ) );
+
+            if ( ( newMaxValidDate != null ) && newMaxValidDate.after( currentTimestamp ) && newMaxValidDate.after( user.getAccountMaxValidDate( ) ) )
+            {
+                AdminUserHome.updateUserExpirationDate( user.getUserId( ), newMaxValidDate );
+                nbResyncedUsers++;
+
+                if ( user.getRealStatus( ) == AdminUser.EXPIRED_CODE )
+                {
+                    listIdReactivatedUsers.add( user.getUserId( ) );
+                }
+            }
+        }
+
+        if ( !listIdReactivatedUsers.isEmpty( ) )
+        {
+            AdminUserHome.updateUserStatus( listIdReactivatedUsers, AdminUser.ACTIVE_CODE );
+        }
+
+        if ( nbResyncedUsers > 0 )
+        {
+            StringBuilder sbLogs = new StringBuilder( );
+            sbLogs.append( MESSAGE_DAEMON_NAME );
+            sbLogs.append( nbResyncedUsers );
+            sbLogs.append( " account(s) life time resynchronized from last login, " );
+            sbLogs.append( listIdReactivatedUsers.size( ) );
+            sbLogs.append( " expired account(s) reactivated" );
+            AppLogService.info( "runResyncAccountLifeTime: {}", sbLogs );
+            sbResult.append( sbLogs.toString( ) );
+            sbResult.append( "\n" );
+        }
+        else
+        {
+            AppLogService.info( MESSAGE_LOG_DAEMON_NAME, MESSAGE_NO_RESYNC );
+            sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_NO_RESYNC + "\n" );
+        }
     }
 
     private void runSetExpiredUser( Timestamp currentTimestamp, StringBuilder sbResult )

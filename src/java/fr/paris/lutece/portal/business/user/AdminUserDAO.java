@@ -108,6 +108,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_UPDATE_ANONYMIZATION_STATUS_USER_FILED = "UPDATE core_admin_user_anonymize_field  SET anonymize = ? WHERE field_name = ? ";
     private static final String SQL_QUERY_SELECT_EXPIRED_USER_ID = "SELECT id_user FROM core_admin_user WHERE status = ?";
     private static final String SQL_QUERY_SELECT_EXPIRED_LIFE_TIME_USER_ID = "SELECT id_user FROM core_admin_user WHERE account_max_valid_date < ? and status < ? ";
+    private static final String SQL_QUERY_SELECT_USERS_LIFE_TIME_TO_RESYNC = "SELECT id_user, status, account_max_valid_date, last_login FROM core_admin_user WHERE account_max_valid_date IS NOT NULL AND account_max_valid_date < ? AND status <= ? ";
     private static final String SQL_QUERY_SELECT_USER_ID_FIRST_ALERT = "SELECT id_user FROM core_admin_user WHERE nb_alerts_sent = 0 and status < ? and account_max_valid_date < ? ";
     private static final String SQL_QUERY_SELECT_USER_ID_OTHER_ALERT = "SELECT id_user FROM core_admin_user "
             + "WHERE nb_alerts_sent > 0 and nb_alerts_sent <= ? and status < ? and (account_max_valid_date + nb_alerts_sent * ?) < ? ";
@@ -1176,6 +1177,34 @@ public class AdminUserDAO implements IAdminUserDAO
         }
 
         return listIdExpiredUser;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<AdminUser> getUsersWithLifeTimeToResync( Timestamp maxValidDate )
+    {
+        List<AdminUser> listUsers = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_LIFE_TIME_TO_RESYNC ) )
+        {
+            daoUtil.setLong( 1, maxValidDate.getTime( ) );
+            daoUtil.setInt( 2, AdminUser.EXPIRED_CODE );
+
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                AdminUser user = new AdminUser( );
+                user.setUserId( daoUtil.getInt( 1 ) );
+                user.setStatus( daoUtil.getInt( 2 ) );
+                user.setAccountMaxValidDate( new Timestamp( daoUtil.getLong( 3 ) ) );
+                user.setDateLastLogin( daoUtil.getTimestamp( 4 ) );
+                listUsers.add( user );
+            }
+        }
+
+        return listUsers;
     }
 
     /**
