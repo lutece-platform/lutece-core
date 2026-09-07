@@ -1132,14 +1132,27 @@ public final class AdminUserService
      */
     public static Timestamp getAccountMaxValidDate( )
     {
+        return getAccountMaxValidDate( new Timestamp( new Date( ).getTime( ) ) );
+    }
+
+    /**
+     * Compute the maximum valid date of an account from a given date and the parameters in the database.
+     * 
+     * @param dateFrom
+     *            The date from which the account life time is counted (for example the last login date of the user)
+     * @return The maximum valid date of an account, or null if the account life time is not set or if dateFrom is null
+     */
+    public static Timestamp getAccountMaxValidDate( Timestamp dateFrom )
+    {
         int nbMonthsAccountValid = getIntegerSecurityParameter( DSKEY_ACCOUNT_LIFE_TIME );
 
-        if ( nbMonthsAccountValid <= 0 )
+        if ( ( nbMonthsAccountValid <= 0 ) || ( dateFrom == null ) )
         {
             return null;
         }
 
         Calendar calendar = new GregorianCalendar( LocaleService.getDefault( ) );
+        calendar.setTimeInMillis( dateFrom.getTime( ) );
         calendar.add( Calendar.MONTH, nbMonthsAccountValid );
 
         return new Timestamp( calendar.getTimeInMillis( ) );

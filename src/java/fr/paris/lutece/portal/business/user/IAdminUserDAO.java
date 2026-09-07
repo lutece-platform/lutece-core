@@ -405,6 +405,17 @@ public interface IAdminUserDAO
     List<Integer> getIdUsersWithExpiredLifeTimeList( Timestamp currentTimestamp );
 
     /**
+     * Get the users whose account life time may have to be resynchronized from their last login date : users with a not null account max valid date lower
+     * than the given date, and whose status is active, not active or expired (anonymized users are ignored). Only the id, the status, the account max valid
+     * date and the last login date of the returned users are set.
+     * 
+     * @param maxValidDate
+     *            The maximum account valid date of the users to return
+     * @return the list of users, with only their id, status, account max valid date and last login date set
+     */
+    List<AdminUser> getUsersWithLifeTimeToResync( Timestamp maxValidDate );
+
+    /**
      * Get the list of id of users that need to receive their first alert
      * 
      * @param alertMaxDate
