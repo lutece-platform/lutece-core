@@ -2,7 +2,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>8.0.1</version>
+        <version>8.0.2-SNAPSHOT</version>
         <relativePath />
     </parent>
 
@@ -165,7 +165,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.23.1</version>
+            <version>1.23.2</version>
         </dependency>
         <!--  Apache Commons Codec (TM) software provides implementations of 
         	  common encoders and decoders such as Base64, Hex, Phonetic and URLs.
@@ -173,7 +173,7 @@
         <dependency>
 		    <groupId>commons-codec</groupId>
 		    <artifactId>commons-codec</artifactId>
-		    <version>1.21.0</version>
+		    <version>1.22.1</version>
 		</dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
@@ -206,7 +206,7 @@
 		<dependency>
 		    <groupId>io.github.classgraph</groupId>
 		    <artifactId>classgraph</artifactId>
-		    <version>4.8.184</version>
+		    <version>4.8.195</version>
 		</dependency>	
         <!-- LUTECE DEPENDENCIES -->
        
@@ -305,8 +305,8 @@
 		</dependency>
 		<!-- the validation above needs some EL impl -->
 		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>jakarta.el</artifactId>
+			<groupId>org.glassfish.expressly</groupId>
+			<artifactId>expressly</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
