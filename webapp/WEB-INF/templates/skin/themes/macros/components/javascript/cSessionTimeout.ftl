@@ -70,22 +70,22 @@ Snippet:
         position: "${sessionPosition?js_string}"
     }, pluginConfig, {
         messages: Object.assign({
-            warningTitle: "#i18n{portal.theme.sessiontimeout.warningTitle}",
-            warningMessage: "#i18n{portal.theme.sessiontimeout.warningMessage}",
-            btnExtend: "#i18n{portal.theme.sessiontimeout.btnExtend}",
-            btnSave: "#i18n{portal.theme.sessiontimeout.btnSave}",
-            saveSuccess: "#i18n{portal.theme.sessiontimeout.saveSuccess}",
-            saveError: "#i18n{portal.theme.sessiontimeout.saveError}",
-            expiredTitle: "#i18n{portal.theme.sessiontimeout.expiredTitle}",
-            expiredMessage: "#i18n{portal.theme.sessiontimeout.expiredMessage}",
-            btnLogin: "#i18n{portal.theme.sessiontimeout.btnLogin}",
-            labelClose: "#i18n{portal.util.labelClose}",
-            srCountdown: "#i18n{portal.theme.sessiontimeout.srCountdown}",
-            maxExtensionsReached: "#i18n{portal.theme.sessiontimeout.maxExtensionsReached}",
-            processWarningTitle: "#i18n{portal.theme.sessiontimeout.processWarningTitle}",
-            processWarningMessage: "#i18n{portal.theme.sessiontimeout.processWarningMessage}",
-            processExpiredTitle: "#i18n{portal.theme.sessiontimeout.processExpiredTitle}",
-            processExpiredMessage: "#i18n{portal.theme.sessiontimeout.processExpiredMessage}"
+            warningTitle: "${i18n('portal.theme.sessiontimeout.warningTitle')?js_string}",
+            warningMessage: "${i18n('portal.theme.sessiontimeout.warningMessage')?js_string}",
+            btnExtend: "${i18n('portal.theme.sessiontimeout.btnExtend')?js_string}",
+            btnSave: "${i18n('portal.theme.sessiontimeout.btnSave')?js_string}",
+            saveSuccess: "${i18n('portal.theme.sessiontimeout.saveSuccess')?js_string}",
+            saveError: "${i18n('portal.theme.sessiontimeout.saveError')?js_string}",
+            expiredTitle: "${i18n('portal.theme.sessiontimeout.expiredTitle')?js_string}",
+            expiredMessage: "${i18n('portal.theme.sessiontimeout.expiredMessage')?js_string}",
+            btnLogin: "${i18n('portal.theme.sessiontimeout.btnLogin')?js_string}",
+            labelClose: "${i18n('portal.util.labelClose')?js_string}",
+            srCountdown: "${i18n('portal.theme.sessiontimeout.srCountdown')?js_string}",
+            maxExtensionsReached: "${i18n('portal.theme.sessiontimeout.maxExtensionsReached')?js_string}",
+            processWarningTitle: "${i18n('portal.theme.sessiontimeout.processWarningTitle')?js_string}",
+            processWarningMessage: "${i18n('portal.theme.sessiontimeout.processWarningMessage')?js_string}",
+            processExpiredTitle: "${i18n('portal.theme.sessiontimeout.processExpiredTitle')?js_string}",
+            processExpiredMessage: "${i18n('portal.theme.sessiontimeout.processExpiredMessage')?js_string}"
         }, pluginMessages)
     });
 })();
