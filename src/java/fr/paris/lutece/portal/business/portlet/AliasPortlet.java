@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.portlet;
 
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.util.xml.XmlUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
@@ -99,6 +100,9 @@ public class AliasPortlet extends Portlet
     public String getHtmlContent( HttpServletRequest request )
     {
         Portlet portlet = PortletHome.findByPrimaryKey( getAliasId( ) );
+        if(this.getDisplayPortletTitle() == 1){
+            portlet.setName(StringUtils.EMPTY);
+        }
         return portlet.getHtmlContent( request );
     }
 

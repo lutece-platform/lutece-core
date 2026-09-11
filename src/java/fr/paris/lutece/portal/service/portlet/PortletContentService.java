@@ -162,7 +162,7 @@ public class PortletContentService
         }
 
         if(portlet.getDisplayPortletTitle() == 1){
-            portlet.setName(null);
+            portlet.setName(StringUtils.EMPTY);
         }
 
         String strKey = StringUtils.EMPTY;
