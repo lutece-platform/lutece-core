@@ -7,7 +7,6 @@
 /*********************************************/
 .breadcrumb-nav {
 	margin: 0;
-	padding-block-start: var(--lutece-ds-sp-md-loose);
 }
 
 .breadcrumb-nav .breadcrumb {

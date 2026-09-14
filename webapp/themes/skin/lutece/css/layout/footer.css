@@ -2,7 +2,7 @@
 /*** 	Footer 								***/
 /*** 										***/
 footer {
-  background: var(--lutece-ds-blue-900);
+  background: var(--lutece-ds-primary);
   color: var(--lutece-ds-white);
   padding: 64px 0 32px;
 }
@@ -10,7 +10,7 @@ footer {
 .foot__grid {
   display: grid;
   grid-template-columns: 1fr .5fr .5fr 1fr;
-  gap: 48px;
+  gap: 24px;
 }
 
 footer h4 {
