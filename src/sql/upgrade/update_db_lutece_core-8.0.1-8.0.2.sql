@@ -131,3 +131,8 @@ UPDATE core_page_template SET file_name = 'skin/site/page_demo.html' WHERE file_
 -- options key as '<select key>.options', so the consent platform select was rendered empty
 DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.consent.platform.select.options';
 UPDATE core_datastore SET entity_key='portal.theme.site_property.consent.platform.select.options' WHERE entity_key='portal.theme.site_property.consent.select.options';
+
+-- changeset core:update_db_lutece_core-8.0.1-8.0.2-rev11.sql
+-- Add default value for the active user's favorites menu checkbox
+DELETE FROM core_datastore WHERE entity_key='portal.theme.site_property.menu.activeUserFavs.checkbox';
+INSERT INTO core_datastore VALUES ('portal.theme.site_property.menu.activeUserFavs.checkbox', '0');
