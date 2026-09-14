@@ -82,6 +82,12 @@ public final class AppTemplateService
      */
     public static void initMacros( )
     {
+        // Drop any Configuration built before this point : auto-includes are only
+        // copied into a Configuration when it is built, so a template processed
+        // earlier in the startup sequence would leave a Configuration without the
+        // plugin macros (cTpl & co) for the whole application lifetime
+        resetConfiguration( );
+
         // register core (commons declared in core.xml)
         Plugin corePlugin = PluginService.getCore( );
         addPluginAutoIncludes( corePlugin );
