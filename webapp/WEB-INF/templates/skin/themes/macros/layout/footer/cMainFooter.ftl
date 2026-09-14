@@ -52,12 +52,12 @@ Snippet:
       <div class="col-lg-4">
         <ul class="list-inline social-icons text-lg-end text-center">
             <li class="list-inline-item">
-                <a target="_blank" aria-label="#i18n{portal.theme.labelGoToSite} ${footerSocialTitleTw}" href="${footerSocialLinkTw}" class="hide-icon-target">        
-                    <i class="ti ti-brand-x"></i>
+                <a target="_blank" aria-label="#i18n{portal.theme.labelGoToSite} ${footerSocialTitleTw}" href="http://www.youtube.com/@luteceplatform" class="hide-icon-target">        
+                    <i class="ti ti-brand-youtube"></i>
                 </a>
             </li>
             <li class="list-inline-item">
-                <a target="_blank" href="#" aria-label="#i18n{portal.theme.labelGoToSite} ${footerSocialTitleGithub}" href="${footerSocialLinkGithub}" class="hide-icon-target">
+                <a target="_blank" href="https://github.com/lutece-platform/lutece-core" aria-label="#i18n{portal.theme.labelGoToSite} ${footerSocialTitleGithub}" href="${footerSocialLinkGithub}" class="hide-icon-target">
                     <i class="ti ti-brand-github"></i>
                 </a>
             </li>

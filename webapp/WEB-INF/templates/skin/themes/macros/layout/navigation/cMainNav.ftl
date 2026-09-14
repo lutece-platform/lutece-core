@@ -187,22 +187,8 @@ Snippet:
                 </ul>
             </nav>
         </div>
-        <#if hasBanner?? && hasBanner?boolean>
-        <!--  Set banner config in BO Site Properties -->
-        <#assign optMainBanner=.get_optional_template('../../../../site/theme_frameset_main_banner.html')>
-        <#if optMainBanner.exists><@optMainBanner.include /></#if>
-        <#else>
-        <!-- No banner ! Set in BO Properties -->
-        </#if>
     </header>
 <#else>
-    <#if hasBanner?? && hasBanner?boolean>
-    <!--  Set banner config in BO Site Properties -->
-    <#assign optMainBanner=.get_optional_template('../../../../site/theme_frameset_main_banner.html')>
-    <#if optMainBanner.exists><@optMainBanner.include /></#if>
-    <#else>
-    <!-- No banner ! Set in BO Properties -->
-    </#if>
     </header>
 </#if>
 </#macro>

@@ -26,7 +26,7 @@ Snippet:
 -->
 <#macro cGoToTop scrollLabel='#i18n{portal.theme.gohome}' scrollClass='primary fadein' scrollBtnClass='btn-gototop' scrollTop=100 deprecated...>
 <@deprecatedWarning args=deprecated />
-<@cBtn type='button' class='${scrollClass!} ${scrollBtnClass!}' label=scrollLabel nestedPos='before'><@cInline class='position-relative white fw-bold'>&#8593;</@cInline></@cBtn>
+<@cBtn type='button' class='${scrollClass!} ${scrollBtnClass!} z-2' label=scrollLabel nestedPos='before'><@cInline class='position-relative white fw-bold'>&#8593;</@cInline></@cBtn>
 <script>
 const gototop = document.querySelector('.${scrollBtnClass!}');
 document.addEventListener( "DOMContentLoaded", () => {

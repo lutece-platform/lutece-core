@@ -78,7 +78,7 @@ Snippet:
 	<#if imgName!=''>
 	<@cBlock class='tile-header'>
 		<@cBlock class='tile-img'>
-			<@parisIcon name=imgName />
+			<@cIcon name=imgName />
 		</@cBlock>
 	</@cBlock>
 	</#if>

@@ -247,7 +247,7 @@ function togglePasswordIcon(field, show = false) {
   const input = document.querySelector(field);
   if (!input) return;
   const btnToggle = input.parentElement.querySelector('.toggle-password');
-  const icon = btnToggle ? btnToggle.querySelector('.ti') : null;
+  const icon = btnToggle ? btnToggle.querySelector('${iconDefaultPrefixSelector!}') : null;
   if (!icon) return;
 
   const reveal = () => {
