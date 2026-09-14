@@ -1,14 +1,16 @@
-<@cTpl>
-<div class="main-content container">
-    <div class="row">
-        <div class="col">
-            <h1>${portal_domain}</h1>
-            <h2>#i18n{portal.site.popup_legal_info.pageTitle}</h2>
-            <h3>#i18n{portal.site.popup_legal_info.copyright}</h3>
-            <div>#dskey{portal.site.site_property.popup_legal_info.copyright.textblock}</div>
-            <h3>#i18n{portal.site.popup_legal_info.privacy}</h3>
-            <div>#dskey{portal.site.site_property.popup_legal_info.privacy.textblock}</div>
-        </div>
-    </div>
-</div>
-</@cTpl>
+<#include "minimal_header.html" />
+<@cContainer class="my-l" hasHeader=false>
+    <@cRow>
+        <@cCol>
+            <@cTitle class='py-m'>${portal_domain}</@cTitle>
+           	<@cTitle level=3 class='py-m'>#i18n{portal.theme.popup_legal_info.copyright}</@cTitle>
+			<@cSection class='py-m'>#dskey{portal.site.site_property.popup_legal_info.copyright.textblock}</@cSection>
+			<@cTitle level=3 class='py-m'>#i18n{portal.theme.popup_legal_info.privacy}</@cTitle>
+            <@cSection class='py-m'>#dskey{portal.site.site_property.popup_legal_info.privacy.textblock}</@cSection>
+            <@cText class='mt-m'>
+             <@cLink class='btn btn-primary' label='#i18n{portal.util.labelBack}' href="." />
+            </@cText>
+        </@cCol>
+    </@cRow>
+</@cContainer>
+<#include "minimal_footer.html" />

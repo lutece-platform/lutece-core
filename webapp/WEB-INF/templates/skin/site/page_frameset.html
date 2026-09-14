@@ -6,7 +6,7 @@
 <@themeFrameset.include />
 <#else>
 <!DOCTYPE html>
-<html lang="${user_context_language}" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>" data-lutece-ds-primary="blue" data-lutece-ds-density="">
+<html lang="${user_context_language}" data-lutece-theme="${commonsGlobalThemeCode!}" data-bs-theme="<#if isDark?? && isDark?boolean>dark<#else>light</#if>" data-lutece-ds-primary="blue" data-lutece-ds-density="">
 <head>
 <base href="${base_url}">
 <title>${favourite!} - ${page_name!}</title>
@@ -87,6 +87,10 @@ ${page_path}
 <#assign optMainContentHeader=.get_optional_template('${commonsGlobalThemeCode}theme_frameset_content_header.html')>
 <#if optMainContentHeader.exists><@optMainContentHeader.include /></#if>
 <main id="main"<#if mainNavClass !=''> class="${mainNavClass!}"</#if> role="main">
+<#if hasBanner?boolean>
+	<#assign optMainBanner=.get_optional_template('theme_frameset_main_banner.html')>
+	<#if optMainBanner.exists><@optMainBanner.include /></#if>
+</#if>
 <div class="main-content">
 ${page_content}
 <#if display_last_modified?? && display_last_modified><@cText class='text-right pt-3 pr-5'><@cIcon name='clock' title='' class='main-danger-color' /> #i18n{portal.site.site_property.page.lastModified} ${last_modified!}</@cText></#if>
