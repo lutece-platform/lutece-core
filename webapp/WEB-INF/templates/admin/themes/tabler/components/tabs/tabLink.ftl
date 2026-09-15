@@ -36,10 +36,11 @@ Snippet:
 <li class="nav-item<#if tabClass?has_content> ${tabClass}</#if>"<#if id?has_content> id="${id}"</#if><#if params?has_content> ${params}</#if>>
 <#local tabLinkClass = class + ' nav-link' />
 <#if active><#local tabLinkClass += ' active' /></#if>
-<#local tabLinkSettingsAttr1>role="tab" aria-selected="${active?c}" aria-controls="${href?remove_beginning("#")}"</#local>
-<#local tabLinkSettings=tabLinkSettingsAttr1 />
-<#if href?contains('#') && href?contains('.jsp') == false>
-	<#local tabLinkSettings += ' data-bs-toggle="tab"' />
+<#local isTabTarget = href?contains('#') && href?contains('.jsp') == false />
+<#-- built in one capture: concatenating onto it would turn the markup value back into a String
+     and its delimiting quotes would then be escaped -->
+<#local tabLinkSettings>role="tab" aria-selected="${active?c}" aria-controls="${href?remove_beginning("#")}"<#if isTabTarget> data-bs-toggle="tab"</#if></#local>
+<#if isTabTarget>
 	<#local tabLinkId = '${href?remove_beginning("#")}-tab' />
 <#else>
 	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
